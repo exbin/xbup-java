@@ -1,0 +1,19 @@
+rootProject.name = 'xbpeditor'
+include ":modules:xbup-core"
+include ":modules:xbup-plugin"
+include ":modules:xbup-visual"
+include ":modules:xbup-editor-base"
+include ":modules:xbup-editor-base-api"
+include ":modules:xbup-editor-module-frame"
+include ":modules:xbup-editor-module-picture_editor"
+
+if (rootProject.path == ':') {
+    def rootProjectDir = rootProject.projectDir.path + "/../../.."
+    project(':modules:xbup-core').projectDir = new File(rootProjectDir + "/modules/xbup-core")
+    project(':modules:xbup-plugin').projectDir = new File(rootProjectDir + "/modules/xbup-plugin")
+    project(':modules:xbup-visual').projectDir = new File(rootProjectDir + "/modules/xbup-visual")
+    project(':modules:xbup-editor-base').projectDir = new File(rootProjectDir + "/modules/xbup-editor-base")
+    project(':modules:xbup-editor-base-api').projectDir = new File(rootProjectDir + "/modules/xbup-editor-base-api")
+    project(':modules:xbup-editor-module-frame').projectDir = new File(rootProjectDir + "/modules/xbup-editor-module-frame")
+    project(':modules:xbup-editor-module-picture_editor').projectDir = new File(rootProjectDir + "/modules/xbup-editor-module-picture_editor")
+}

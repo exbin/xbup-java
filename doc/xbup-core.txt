@@ -1,0 +1,11 @@
+XBUP core library provides standalone support for XBUP-encoded data processing.
+
+ * Parsers
+   * Event/Pull parser using interface
+   * Event/Pull parser using token objects
+   * Object model parser (DOM)
+   * Command parser
+ * Serialization
+ * Catalog access interface
+ * Basic data types
+

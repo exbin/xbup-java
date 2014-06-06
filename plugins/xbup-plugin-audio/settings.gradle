@@ -1,0 +1,9 @@
+rootProject.name = 'xbup-plugin-audio'
+include ":modules:xbup-core"
+include ":modules:xbup-plugin"
+
+if (rootProject.path == ':') {
+    def rootProjectDir = rootProject.projectDir.path + "/../.."
+    project(':modules:xbup-core').projectDir = new File(rootProjectDir + "/modules/xbup-core")
+    project(':modules:xbup-plugin').projectDir = new File(rootProjectDir + "/modules/xbup-plugin")
+}

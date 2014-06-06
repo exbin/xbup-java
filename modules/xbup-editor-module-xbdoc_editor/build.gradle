@@ -1,0 +1,28 @@
+apply plugin: 'java'
+
+sourceCompatibility = '1.7'
+version = '0.1.24-SNAPSHOT'
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+if (!hasProperty('mainClass')) {
+    ext.mainClass = ''
+}
+
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs "../../lib"
+    }
+}
+
+dependencies {
+    compile(project(":modules:xbup-core"))
+    compile(project(":modules:xbup-catalog"))
+    compile(project(":modules:xbup-editor-base-api"))
+    compile(project(":modules:xbup-editor-module-text_editor"))
+    compile(project(":modules:xbup-editor-module-service_manager"))
+    compile(project(":modules:xbup-plugin"))
+    compile(project(":modules:xbup-operation"))
+    compile(project(":modules:hexedit"))
+    testCompile group: 'junit', name: 'junit', version: '4.10'
+}

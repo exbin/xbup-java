@@ -1,0 +1,31 @@
+Work Release 23 (2014-06-01)
+- Added java web catalog (XBCatalogWeb)
+
+Work Release 22 (2013-09-01)
+- Added testing import/export to yaml
+- Added some editing capabilities to XBManager
+
+Work Release 21 (2012-05-12)
+- Code separated to editor modules
+- Added pencil tool and zoom to XBSEditor
+- Direct access to catalog's DB in XBManager
+- Documentation moved to dokuwiki
+- Added C++ library with basic tests (thanks to pkrasnop)
+
+Work Release 20 (2011-05-05)
+- Added audio editor (XBSEditor)
+- Testing support for parameters (XBEditor)
+
+Work Release 19 (2010-08-07)
+- Added property panel (XBEditor)
+- Support for drag&drop (XBEditor)
+- Support for plugins (XBService, XBCatalog)
+- Support for panel plugins (XBEditor)
+
+Work Release 18 (2010-01-10)
+- Added HexEditPanel (Java)
+- Basic support for icons
+
+Work Release 17 (2009-07-14)
+- Added XBTEditor (Java)
+- Altered level 1

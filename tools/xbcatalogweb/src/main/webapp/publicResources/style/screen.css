@@ -1,0 +1,77 @@
+@charset "utf-8";
+html,body { background:#ffffff; margin:0; padding:0; width: 100%; height: 100%; }
+
+#content { position: absolute; top: 0; right: 0; left: 0; bottom: 0; }
+#content-head { position:relative; height: 30px; width: 100%; background-color: #e0e0ff; display:block; }
+#content-main { position:relative; margin-left: 210px; padding: 10px; }
+#navigation { position:absolute; top: 30px; bottom: 0; padding: 5px; background-color: #f0f0ff; width: 200px; }
+
+.full-panel { width: 100%; height: 100%; }
+
+#browse { width: 100%; height: 400px; max-height:100%; padding:0; margin:0; }
+#browse-left { float:left; width: 300px; height: 100%; }
+#browse-packagelist { float: top; display:block; width: 100%; max-height: 50%; overflow:auto; }
+#browse-itemlist { float: bottom; padding-top: 5px; display:block; width: 100%; max-height: 50%; overflow:auto; }
+#browse-main { height: 100%; overflow:auto; padding: 0px 10px 0px 10px; }
+
+button.green-button, input[type="reset"].green-button, input[type="submit"].green-button, input[type="button"].green-button {
+    background-color: #2AA545;
+    background-image: url(../images/button-green-bg.png);
+}
+button:hover.green-button, input[type="reset"].green-button:hover, input[type="submit"].green-button:hover, input[type="button"].green-button:hover {
+    background-color: #2AA555;
+    background-image: url(../images/button-green-hv.png);
+}
+button[disabled].green-button, input[type="reset"][disabled].green-button, input[type="submit"][disabled].green-button, input[type="button"][disabled].green-button {
+    color: #6A92CF;
+    border-color: #cccccc;
+    background-color: #cccccc;
+    background-image: none;
+    background-position: top left;
+}
+
+button.red-button, input[type="reset"].red-button, input[type="submit"].red-button, input[type="button"].red-button {
+    background-color: #B54A75;
+    background-image: url(../images/button-red-bg.png);
+}
+button:hover.red-button, input[type="reset"].red-button:hover, input[type="submit"].red-button:hover, input[type="button"].red-button:hover {
+    background-repeat: repeat-x;
+    background-image: url(../images/button-red-hv.png);
+}
+button[disabled].red-button, input[type="reset"][disabled].red-button, input[type="submit"][disabled].red-button, input[type="button"][disabled].red-button {
+    color: #6A92CF;
+    border-color: #cccccc;
+    background-color: #cccccc;
+    background-image: url(/Efficiency_DB_External/rfRes/buttonDisabledBackgroundImage.png.xhtml?v=4.1.0.Final&db=eAFjZGBkZOBm!P-f8f!Hjx8Z!585c4aBCQBP8glH&ln=org.richfaces.images);
+    background-position: top left;
+}
+
+button.yellow-button, input[type="reset"].yellow-button, input[type="submit"].yellow-button, input[type="button"].yellow-button {
+    background-color: #B5B54A;
+    background-image: url(../images/button-yellow-bg.png);
+}
+button:hover.yellow-button, input[type="reset"].yellow-button:hover, input[type="submit"].yellow-button:hover, input[type="button"].yellow-button:hover {
+    background-repeat: repeat-x;
+    background-image: url(../images/button-yellow-hv.png);
+}
+button[disabled].yellow-button, input[type="reset"][disabled].yellow-button, input[type="submit"][disabled].yellow-button, input[type="button"][disabled].yellow-button {
+    color: #6A92CF;
+    border-color: #cccccc;
+    background-color: #cccccc;
+    background-image: url(/Efficiency_DB_External/rfRes/buttonDisabledBackgroundImage.png.xhtml?v=4.1.0.Final&db=eAFjZGBkZOBm!P-f8f!Hjx8Z!585c4aBCQBP8glH&ln=org.richfaces.images);
+    background-position: top left;
+}
+
+.even-row {
+    background-color: #FCFFFE;
+}
+
+.odd-row {
+    background-color: #ECF3FE;
+}
+
+.active-row {
+    background-color: #DAEBFF !important;
+    cursor: pointer;
+}
+

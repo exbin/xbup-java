@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+  <persistence-unit name="XBMathLibPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>org.xbup.catalog.base.entity.XBEBind</class>
+    <class>org.xbup.catalog.base.entity.XBEBlockCons</class>
+    <class>org.xbup.catalog.base.entity.XBEBlockJoin</class>
+    <class>org.xbup.catalog.base.entity.XBEBlockListCons</class>
+    <class>org.xbup.catalog.base.entity.XBEBlockListJoin</class>
+    <class>org.xbup.catalog.base.entity.XBEBlockRev</class>
+    <class>org.xbup.catalog.base.entity.XBEBlockSpec</class>
+    <class>org.xbup.catalog.base.entity.XBEConsBind</class>
+    <class>org.xbup.catalog.base.entity.XBEFormatCons</class>
+    <class>org.xbup.catalog.base.entity.XBEFormatJoin</class>
+    <class>org.xbup.catalog.base.entity.XBEFormatRev</class>
+    <class>org.xbup.catalog.base.entity.XBEFormatSpec</class>
+    <class>org.xbup.catalog.base.entity.XBEGroupCons</class>
+    <class>org.xbup.catalog.base.entity.XBEGroupJoin</class>
+    <class>org.xbup.catalog.base.entity.XBEGroupRev</class>
+    <class>org.xbup.catalog.base.entity.XBEGroupSpec</class>
+    <class>org.xbup.catalog.base.entity.XBEItem</class>
+    <class>org.xbup.catalog.base.entity.XBEItemInfo</class>
+    <class>org.xbup.catalog.base.entity.XBEItemLimi</class>
+    <class>org.xbup.catalog.base.entity.XBEJoinBind</class>
+    <class>org.xbup.catalog.base.entity.XBELimitSpec</class>
+    <class>org.xbup.catalog.base.entity.XBENode</class>
+    <class>org.xbup.catalog.base.entity.XBERev</class>
+    <class>org.xbup.catalog.base.entity.XBESpec</class>
+    <class>org.xbup.catalog.base.entity.XBETran</class>
+    <class>org.xbup.catalog.base.entity.XBEXComm</class>
+    <class>org.xbup.catalog.base.entity.XBEXDesc</class>
+    <class>org.xbup.catalog.base.entity.XBEXFile</class>
+    <class>org.xbup.catalog.base.entity.XBEXIcon</class>
+    <class>org.xbup.catalog.base.entity.XBEXIconMode</class>
+    <class>org.xbup.catalog.base.entity.XBEXLanguage</class>
+    <class>org.xbup.catalog.base.entity.XBEXName</class>
+    <properties>
+      <property name="eclipselink.jdbc.password" value="app"/>
+      <property name="eclipselink.jdbc.user" value="app"/>
+      <property name="eclipselink.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
+      <property name="eclipselink.jdbc.url" value="jdbc:derby://localhost:1527/sample"/>
+      <property name="eclipselink.ddl-generation" value="create-tables"/>
+    </properties>
+  </persistence-unit>
+  <persistence-unit name="XBMathLibDerbyPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>org.xbup.catalog.base.entity.XBEBind</class>
+    <class>org.xbup.catalog.base.entity.XBEBlockCons</class>
+    <class>org.xbup.catalog.base.entity.XBEBlockJoin</class>
+    <class>org.xbup.catalog.base.entity.XBEBlockListCons</class>
+    <class>org.xbup.catalog.base.entity.XBEBlockListJoin</class>
+    <class>org.xbup.catalog.base.entity.XBEBlockRev</class>
+    <class>org.xbup.catalog.base.entity.XBEBlockSpec</class>
+    <class>org.xbup.catalog.base.entity.XBEConsBind</class>
+    <class>org.xbup.catalog.base.entity.XBEFormatCons</class>
+    <class>org.xbup.catalog.base.entity.XBEFormatJoin</class>
+    <class>org.xbup.catalog.base.entity.XBEFormatRev</class>
+    <class>org.xbup.catalog.base.entity.XBEFormatSpec</class>
+    <class>org.xbup.catalog.base.entity.XBEGroupCons</class>
+    <class>org.xbup.catalog.base.entity.XBEGroupJoin</class>
+    <class>org.xbup.catalog.base.entity.XBEGroupRev</class>
+    <class>org.xbup.catalog.base.entity.XBEGroupSpec</class>
+    <class>org.xbup.catalog.base.entity.XBEItem</class>
+    <class>org.xbup.catalog.base.entity.XBEItemInfo</class>
+    <class>org.xbup.catalog.base.entity.XBEItemLimi</class>
+    <class>org.xbup.catalog.base.entity.XBEJoinBind</class>
+    <class>org.xbup.catalog.base.entity.XBELimitSpec</class>
+    <class>org.xbup.catalog.base.entity.XBENode</class>
+    <class>org.xbup.catalog.base.entity.XBERev</class>
+    <class>org.xbup.catalog.base.entity.XBESpec</class>
+    <class>org.xbup.catalog.base.entity.XBETran</class>
+    <class>org.xbup.catalog.base.entity.XBEXComm</class>
+    <class>org.xbup.catalog.base.entity.XBEXDesc</class>
+    <class>org.xbup.catalog.base.entity.XBEXFile</class>
+    <class>org.xbup.catalog.base.entity.XBEXIcon</class>
+    <class>org.xbup.catalog.base.entity.XBEXIconMode</class>
+    <class>org.xbup.catalog.base.entity.XBEXLanguage</class>
+    <class>org.xbup.catalog.base.entity.XBEXName</class>
+    <properties>
+      <property name="eclipselink.jdbc.password" value="app"/>
+      <property name="eclipselink.jdbc.user" value="app"/>
+      <property name="eclipselink.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
+      <property name="eclipselink.jdbc.url" value="jdbc:derby:xbcatalog;create=true"/>
+      <property name="eclipselink.ddl-generation" value="create-tables"/>
+    </properties>
+  </persistence-unit>
+</persistence>

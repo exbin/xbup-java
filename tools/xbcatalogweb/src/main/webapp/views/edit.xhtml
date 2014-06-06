@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a4j="http://richfaces.org/a4j">
+    <ui:composition template="/WEB-INF/faces/templates/default.xhtml">
+        <ui:define name="title">XBCatalog - Edit Items</ui:define>
+        <ui:define name="contentBody">
+            <a4j:status onstart="#{rich:component('statPane')}.show()"
+                        onstop="#{rich:component('statPane')}.hide()" />
+            <rich:panel id="panel">
+                <f:facet name="header">
+                    <h:outputText value="Catalog - Edit" />
+                </f:facet>
+                <h:form id="searchForm">
+                    <a4j:outputPanel id="searchWrapper">
+                        <table width="100%">
+                            <tr>
+                                <th width="10%">ID</th>
+                                <th width="15%">String ID</th>
+                                <th width="15%">XB Index</th>
+                                <th width="15%">Type</th>
+                                <th width="20%">Name</th>
+                                <th width="20%">Description</th>
+                                <th width="5%">Action</th>
+                            </tr>
+                            <tr>
+                                <td align="left"><h:inputText
+                                        value="#{editBacking.searchId}"
+                                        style="width:100%" /></td>
+                                <td align="left"><h:inputText
+                                        value="#{editBacking.searchStringId}" style="width:100%" />
+                                </td>
+                                <td align="left"><h:inputText
+                                        value="#{editBacking.searchXbIndex}" style="width:100%" />
+                                </td>
+                                <td align="left"><h:inputText
+                                        value="#{editBacking.searchType}" style="width:100%" />
+                                </td>
+                                <td align="left"><h:inputText
+                                        value="#{editBacking.searchName}" style="width:100%" />
+                                </td>
+                                <td align="left"><h:inputText
+                                        value="#{editBacking.searchDescription}" style="width:100%" />
+                                </td>
+                                <td align="center"><a4j:commandButton value="search"
+                                                                      action="#{editBacking.search}"
+                                                                      render="tableForm:tableWrapper" /></td>
+                            </tr>
+                        </table>
+                    </a4j:outputPanel>
+                </h:form>
+                <br /><br />
+                <h:form>
+                    <rich:toolbar height="26px">
+                        <rich:menuItem label="New (TBD)" title="Create New Item" />
+                    </rich:toolbar>
+                </h:form>
+                <br/><br/>
+                <h:form id="tableForm">
+                    <a4j:outputPanel id="tableWrapper">
+                        <rich:dataTable id="table" value="#{editBacking.items}" rows="#{editBacking.dataRowsPerPage}" var="record"
+                                        iterationStatusVar="index" style="width: 100%;" rowClasses="odd-row, even-row">
+                            <rich:column>
+                                <f:facet name="header">
+                                    <a4j:commandLink style="color:#FFFFFF;" immediate="true"
+                                                     value="ID" render="tableWrapper"
+                                                     action="#{editBacking.sortById}" />
+                                </f:facet>
+                                #{record.item.id}
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">
+                                    <a4j:commandLink style="color:#FFFFFF;" immediate="true"
+                                                     value="String ID" render="tableWrapper"
+                                                     action="#{editBacking.sortByStringId}" />
+                                </f:facet>
+                                #{record.stri.text}
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">
+                                    <a4j:commandLink style="color:#FFFFFF;" immediate="true"
+                                                     value="XB Index" render="tableWrapper"
+                                                     action="#{editBacking.sortByXbIndex}" />
+                                </f:facet>
+                                #{record.item.XBIndex}
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Type" />
+                                </f:facet>
+                                #{record.itemType}
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">
+                                    <a4j:commandLink style="color:#FFFFFF;" immediate="true"
+                                                     value="Name" render="tableWrapper"
+                                                     action="#{editBacking.sortByName}" />
+                                </f:facet>
+                                #{record.name.text}
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">
+                                    <a4j:commandLink style="color:#FFFFFF;" immediate="true"
+                                                     value="Description" render="tableWrapper"
+                                                     action="#{editBacking.sortByDescription}" />
+                                </f:facet>
+                                #{record.desc.text}
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Action" />
+                                </f:facet>
+                                <a4j:commandButton value="Edit"
+                                                   action="#{editBacking.editItem}"
+                                                   render="editItemForm:editItemWrapper,editItemPopup:editItemHeader"
+                                                   disabled="#{!authBacking.authenticated}"
+                                                   oncomplete="if(#{editBacking.lastActionSuccess})#{rich:component('editItemPopup')}.show();return false;">
+                                    <a4j:param value="#{record.item.id}" assignTo="#{editBacking.selectedItemId}"/>
+                                </a4j:commandButton>
+                            </rich:column>
+                        </rich:dataTable>
+                        <h:panelGrid>
+                            <h:panelGroup>
+                                #{editBacking.dataInfo}&nbsp;<rich:dataScroller
+                                    for="table" fastStep="10"
+                                    page="#{editBacking.dataPage}"
+                                    render="tableWrapper" />
+                                <h:selectOneMenu value="#{editBacking.dataRowsPerPage}"
+                                                 title="Rows per page">
+                                    <f:selectItems value="#{editBacking.rowsPerPage}"
+                                                   var="rowCount" itemValue="#{rowCount}" itemLabel="#{rowCount}" />
+                                    <a4j:ajax event="change" render="tableWrapper" />
+                                </h:selectOneMenu>
+                                &nbsp;<h:inputText value="#{editBacking.pageJump}" id="sc1"
+                                                   size="1" />
+                                <a4j:commandButton value="Jump" title="Jump to table page according to value you entered" render="tableWrapper"/>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </a4j:outputPanel>
+                </h:form>
+            </rich:panel>
+        </ui:define>
+        <ui:define name="dialogs">
+            <ui:include src="/WEB-INF/faces/components/itemEdit.xhtml" >
+                <ui:param name="afterChangeBean" value="#{editBacking}" />
+            </ui:include>
+
+            <rich:popupPanel id="statPane" autosized="true">
+                Please wait...<br /><br />
+                <h:graphicImage value="/publicResources/images/ajax-loader.gif"
+                                alt="ai" />
+            </rich:popupPanel>
+        </ui:define>
+    </ui:composition>
+</html>

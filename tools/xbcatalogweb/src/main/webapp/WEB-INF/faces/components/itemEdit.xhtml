@@ -1,0 +1,82 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich">
+    <rich:popupPanel id="editItemPopup" modal="true"
+                     resizeable="false" minWidth="600" minHeight="400"
+                     onmaskclick="#{rich:component('editItemPopup')}.hide()">
+        <f:facet id="editItemHeader" name="header">
+            <h:outputText value="Edit Item #{itemEditBacking.editedItem.id}" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:button value="X" styleClass="red-button" style="padding:0px 2px 0px 2px; font-weight: bold;"
+                      onclick="#{rich:component('editItemPopup')}.hide();
+                              return false;" />
+        </f:facet>
+        <h:form id="editItemForm">
+            <a4j:outputPanel id="editItemWrapper">
+                <rich:tabPanel switchType="client" style="height: 320px;">
+                    <rich:tab header="Basic" style="height: 300px;">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td width="140"><strong><h:outputText value="String ID:" /></strong></td>
+                                    <td><h:inputText id="stringId" size="50"
+                                                     value="#{itemEditBacking.editedItem.stringId}"
+                                                     validatorMessage="StringId can have only up to 200 characters">
+                                            <f:validateLength maximum="200" />
+                                        </h:inputText>
+                                        <rich:message for="stringId" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="140"><strong><h:outputText value="Parent Node:" /></strong></td>
+                                    <td><h:inputText id="parentNode" size="50"
+                                                     value="#{itemEditBacking.editedItem.parentNode}"
+                                                     validatorMessage="StringId can have only up to 200 characters">
+                                            <f:validateLength maximum="200" />
+                                        </h:inputText>
+                                        <rich:message for="parentNode" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="140"><b><h:outputText value="Name: " /></b></td>
+                                    <td><h:inputText id="name" size="50"
+                                                     value="#{itemEditBacking.editedItem.itemName}"
+                                                     validatorMessage="Name can have only up to 200 characters">
+                                            <f:validateLength maximum="200" />
+                                        </h:inputText>
+                                        <rich:message for="name" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="140"><b><h:outputText value="Description: " /></b></td>
+                                    <td><h:inputText id="description" size="50"
+                                                     value="#{itemEditBacking.editedItem.description}"
+                                                     validatorMessage="Name can have only up to 200 characters">
+                                            <f:validateLength maximum="200" />
+                                        </h:inputText>
+                                        <rich:message for="description" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </rich:tab>
+                    <rich:tab header="Documentation">
+                        <rich:editor value="#{itemEditBacking.editedItem.hdocText}" toolbar="full" />
+                    </rich:tab>
+                    <rich:tab header="Definition">
+                        TBD
+                    </rich:tab>
+                </rich:tabPanel>
+                <br/>
+                <a4j:commandButton value="Set" styleClass="green-button" action="#{afterChangeBean.itemEdited}"
+                                   render="editItemForm:editItemWrapper"
+                                   oncomplete="if(#{itemEditBacking.lastActionSuccess})#{rich:component('editItemPopup')}.hide();return false;" /><h:outputText value="&#160;" />
+                <h:commandButton value="Cancel" onclick="#{rich:component('editItemPopup')}.hide()"/>
+            </a4j:outputPanel>
+        </h:form>
+    </rich:popupPanel>
+</ui:composition>

@@ -1,0 +1,13 @@
+apply plugin: 'base'
+apply plugin: 'application'
+version = '0.1.24-SNAPSHOT'
+
+task wrapper(type: Wrapper, description: 'Creates and deploys the Gradle wrapper to the current directory.') {
+    gradleVersion = '1.11'
+}
+
+task zip(type:Zip) {
+   baseName project.name
+   from project.rootDir
+   include 'readme.txt', 'lgpl-3.0.txt', 'gpl-3.0.txt'
+}

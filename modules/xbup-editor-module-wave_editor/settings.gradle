@@ -1,0 +1,11 @@
+rootProject.name = 'xbup-editor-module-wave_editor'
+include ":modules:xbup-editor-base-api"
+include ":modules:xbup-core"
+include ":modules:xbup-audio"
+
+if (rootProject.path == ':') {
+    def rootProjectDir = rootProject.projectDir.path + "/../.."
+    project(':modules:xbup-editor-base-api').projectDir = new File(rootProjectDir + "/modules/xbup-editor-base-api")
+    project(':modules:xbup-core').projectDir = new File(rootProjectDir + "/modules/xbup-core")
+    project(':modules:xbup-audio').projectDir = new File(rootProjectDir + "/modules/xbup-audio")
+}

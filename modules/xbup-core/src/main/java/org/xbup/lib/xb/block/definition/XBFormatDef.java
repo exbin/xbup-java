@@ -1,0 +1,96 @@
+/*
+ * Copyright (C) XBUP Project
+ *
+ * This application or library is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ *
+ * This application or library is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along this application.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package org.xbup.lib.xb.block.definition;
+
+import java.io.IOException;
+import java.util.List;
+import org.xbup.lib.xb.block.declaration.XBFormatDecl;
+import org.xbup.lib.xb.parser.XBProcessingException;
+import org.xbup.lib.xb.serial.XBSerialHandler;
+import org.xbup.lib.xb.serial.XBSerialMethod;
+import org.xbup.lib.xb.serial.XBSerializable;
+import org.xbup.lib.xb.serial.XBSerializationType;
+import org.xbup.lib.xb.ubnumber.UBNatural;
+import org.xbup.lib.xb.ubnumber.type.UBNat32;
+
+/**
+ * XBUP level 1 format definition.
+ *
+ * @version 0.1 wr21.0 2011/12/02
+ * @author XBUP Project (http://xbup.org)
+ */
+public class XBFormatDef implements XBSerializable {
+
+    private UBNatural consistSkip = new UBNat32(0);
+    private UBNatural joinCount = new UBNat32(0);
+    private List<XBFormatDecl> formats;
+
+    public XBFormatDef() {
+    }
+
+    /**
+     * @return the consistSkip
+     */
+    public UBNatural getConsistSkip() {
+        return consistSkip;
+    }
+
+    /**
+     * @param consistSkip the consistSkip to set
+     */
+    public void setConsistSkip(UBNatural consistSkip) {
+        this.consistSkip = consistSkip;
+    }
+
+    /**
+     * @return the joinCount
+     */
+    public UBNatural getJoinCount() {
+        return joinCount;
+    }
+
+    /**
+     * @param joinCount the joinCount to set
+     */
+    public void setJoinCount(UBNatural joinCount) {
+        this.joinCount = joinCount;
+    }
+
+    /**
+     * @return the formats
+     */
+    public List<XBFormatDecl> getFormats() {
+        return formats;
+    }
+
+    /**
+     * @param formats the formats to set
+     */
+    public void setFormats(List<XBFormatDecl> formats) {
+        this.formats = formats;
+    }
+
+    @Override
+    public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+}

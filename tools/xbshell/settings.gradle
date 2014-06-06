@@ -1,0 +1,19 @@
+rootProject.name = 'xbshell'
+include ":modules:xbup-core"
+include ":modules:xbup-catalog"
+include ":modules:xbup-plugin"
+include ":modules:xbup-editor-base"
+include ":modules:xbup-editor-base-api"
+include ":modules:xbup-editor-module-frame"
+include ":modules:xbup-editor-module-service_manager"
+
+if (rootProject.path == ':') {
+    def rootProjectDir = rootProject.projectDir.path + "/../.."
+    project(':modules:xbup-core').projectDir = new File(rootProjectDir + "/modules/xbup-core")
+    project(':modules:xbup-catalog').projectDir = new File(rootProjectDir + "/modules/xbup-catalog")
+    project(':modules:xbup-plugin').projectDir = new File(rootProjectDir + "/modules/xbup-plugin")
+    project(':modules:xbup-editor-base').projectDir = new File(rootProjectDir + "/modules/xbup-editor-base")
+    project(':modules:xbup-editor-base-api').projectDir = new File(rootProjectDir + "/modules/xbup-editor-base-api")
+    project(':modules:xbup-editor-module-frame').projectDir = new File(rootProjectDir + "/modules/xbup-editor-module-frame")
+    project(':modules:xbup-editor-module-service_manager').projectDir = new File(rootProjectDir + "/modules/xbup-editor-module-service_manager")
+}

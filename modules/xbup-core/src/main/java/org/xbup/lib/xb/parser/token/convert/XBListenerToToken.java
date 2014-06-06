@@ -1,0 +1,96 @@
+/*
+ * Copyright (C) XBUP Project
+ *
+ * This application or library is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ *
+ * This application or library is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along this application.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package org.xbup.lib.xb.parser.token.convert;
+
+import java.io.IOException;
+import java.io.InputStream;
+import org.xbup.lib.xb.parser.XBProcessingException;
+import org.xbup.lib.xb.parser.basic.XBListener;
+import org.xbup.lib.xb.parser.token.XBAttributeToken;
+import org.xbup.lib.xb.parser.token.XBBeginToken;
+import org.xbup.lib.xb.block.XBBlockTerminationMode;
+import org.xbup.lib.xb.parser.token.XBDataToken;
+import org.xbup.lib.xb.parser.token.XBEndToken;
+import org.xbup.lib.xb.parser.token.XBToken;
+import org.xbup.lib.xb.ubnumber.UBNatural;
+
+/**
+ * XBUP level 0 listener to single token convertor.
+ *
+ * @version 0.1 wr23.0 2014/02/07
+ * @author XBUP Project (http://xbup.org)
+ */
+public class XBListenerToToken implements XBListener {
+
+    private XBToken token;
+
+    public XBListenerToToken() {
+        token = null;
+    }
+
+    public XBToken getToken() {
+        return token;
+    }
+
+    public void setToken(XBToken token) {
+        this.token = token;
+    }
+    
+    @Override
+    public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+        token = new XBBeginToken(terminationMode);
+    }
+
+    @Override
+    public void attribXB(UBNatural value) throws XBProcessingException, IOException {
+        token = new XBAttributeToken(value);
+    }
+
+    @Override
+    public void dataXB(InputStream data) throws XBProcessingException, IOException {
+        token = new XBDataToken(data);
+    }
+
+    @Override
+    public void endXB() throws XBProcessingException, IOException {
+        token = new XBEndToken();
+    }
+
+    public static void tokenToListener(XBToken token, XBListener listener) throws XBProcessingException, IOException {
+        switch (token.getTokenType()) {
+            case BEGIN: {
+                listener.beginXB(((XBBeginToken) token).getTerminationMode());
+                break;
+            }
+
+            case ATTRIBUTE: {
+                listener.attribXB(((XBAttributeToken) token).getAttribute());
+                break;
+            }
+
+            case DATA: {
+                listener.dataXB(((XBDataToken) token).getData());
+                break;
+            }
+
+            case END: {
+                listener.endXB();
+                break;
+            }
+        }
+    }
+}

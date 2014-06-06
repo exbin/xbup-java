@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:view>
+        <h:head>
+            <title><ui:insert name="title">XBCatalog</ui:insert></title>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <meta name="author" content="XBUP Project http://xbup.org"/>
+            <meta name="copyright" content="(C) XBUP Project, GNU LGPL"/>
+            <meta name="description" content="XBUP Catalog Web Service" />
+            <meta name="keywords" content="xbup, xbuf, extensible, binary, protocol, format, universal, catalog" />
+            <meta name="owner" content="hajdam@users.sf.net" />
+            <meta name="robots" content="index,follow" />
+
+            <style type="text/css" media="all">
+            <!-- @import url("${facesContext.externalContext.requestContextPath}/publicResources/style/screen.css"); -->
+            </style>
+            <link rel="shortcut icon" href="favicon.ico"/>
+            <link rel="stylesheet" type="text/css" media="print" href="${facesContext.externalContext.requestContextPath}/publicResources/style/print.css" />
+            <ui:insert name="header" />
+        </h:head>
+        <h:body>
+            <div id="content">
+                <div id="content-head">
+                    <ui:insert name="contentHeader"><ui:include src="/WEB-INF/faces/fragments/contentHeader.xhtml"/></ui:insert>
+                </div>
+                <div id="content-main">
+                    <ui:insert name="contentBody" />
+                </div>
+
+                <div id="navigation">
+                    <ui:insert name="mainMenu"><ui:include src="/WEB-INF/faces/fragments/mainMenu.xhtml"/></ui:insert>
+                </div>
+            </div>
+
+            <ui:insert name="authentication"><ui:include src="/WEB-INF/faces/fragments/authentication.xhtml"/></ui:insert>
+            <ui:insert name="dialogs" />
+        </h:body>
+    </f:view>
+</html>

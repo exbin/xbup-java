@@ -1,0 +1,14 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich">
+    <h1><h:outputLabel value="#{browseBacking.selectedItem.itemType}: #{browseBacking.selectedItem.nameOrId}" /></h1>
+    Id: <h:outputLabel value="#{browseBacking.selectedItemId}" /><br/>
+    String ID: <h:outputLabel value="#{browseBacking.selectedItem.stri.nodePath}/#{browseBacking.selectedItem.stri.text}" /><br/>
+    Name: <h:outputLabel value="#{browseBacking.selectedItem.name.text}" /><br/>
+    Description: <h:outputLabel value="#{browseBacking.selectedItem.name.text}" /><br/><br/>
+    <h2>Documentation</h2>
+    <h:outputText value="#{browseBacking.selectedItemDocText}" escape="false" />
+</ui:composition>

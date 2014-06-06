@@ -1,0 +1,21 @@
+rootProject.name = 'xbup-editor-module-xbdoc_editor'
+include ":modules:xbup-editor-base-api"
+include ":modules:xbup-core"
+include ":modules:xbup-catalog"
+include ":modules:xbup-plugin"
+include ":modules:xbup-editor-module-text_editor"
+include ":modules:xbup-editor-module-service_manager"
+include ":modules:xbup-operation"
+include ":modules:hexedit"
+
+if (rootProject.path == ':') {
+    def rootProjectDir = rootProject.projectDir.path + "/../.."
+    project(':modules:xbup-editor-base-api').projectDir = new File(rootProjectDir + "/modules/xbup-editor-base-api")
+    project(':modules:xbup-core').projectDir = new File(rootProjectDir + "/modules/xbup-core")
+    project(':modules:xbup-catalog').projectDir = new File(rootProjectDir + "/modules/xbup-catalog")
+    project(':modules:xbup-plugin').projectDir = new File(rootProjectDir + "/modules/xbup-plugin")
+    project(':modules:xbup-editor-module-text_editor').projectDir = new File(rootProjectDir + "/modules/xbup-editor-module-text_editor")
+    project(':modules:xbup-editor-module-service_manager').projectDir = new File(rootProjectDir + "/modules/xbup-editor-module-service_manager")
+    project(':modules:xbup-operation').projectDir = new File(rootProjectDir + "/modules/xbup-operation")
+    project(':modules:hexedit').projectDir = new File(rootProjectDir + "/modules/hexedit")
+}

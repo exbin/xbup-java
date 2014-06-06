@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a4j="http://richfaces.org/a4j">
+    <ui:composition template="/WEB-INF/faces/templates/default.xhtml">
+        <ui:define name="title">XBCatalog - Manage Users</ui:define>
+        <ui:define name="contentBody">
+            <a4j:status onstart="#{rich:component('statPane')}.show()"
+                        onstop="#{rich:component('statPane')}.hide()" />
+            <rich:panel id="panel">
+                <f:facet name="header">
+                    <h:outputText value="Catalog - Manage Users" />
+                </f:facet>
+                <h:form id="searchForm">
+                    <a4j:outputPanel id="searchWrapper">
+                        <table width="100%">
+                            <tr>
+                                <th width="10%">ID</th>
+                                <th width="15%">Login</th>
+                                <th width="15%">Email</th>
+                                <th width="15%">Full Name</th>
+                                <th width="5%">Action</th>
+                            </tr>
+                            <tr>
+                                <td align="left"><h:inputText
+                                        value="#{userBacking.searchId}"
+                                        style="width:100%" /></td>
+                                <td align="left"><h:inputText
+                                        value="#{userBacking.searchLogin}" style="width:100%" />
+                                </td>
+                                <td align="left"><h:inputText
+                                        value="#{userBacking.searchEmail}" style="width:100%" />
+                                </td>
+                                <td align="left"><h:inputText
+                                        value="#{userBacking.searchName}" style="width:100%" />
+                                </td>
+                                <td align="center"><a4j:commandButton value="search"
+                                                                      action="#{userBacking.search}"
+                                                                      render="tableForm:tableWrapper" /></td>
+                            </tr>
+                        </table>
+                    </a4j:outputPanel>
+                </h:form>
+                <br /><br />
+                <h:form id="actionForm">
+                    <rich:toolbar height="26px">
+                        <rich:menuItem label="New" title="Create New User" action="#{userBacking.createItem}" render="editItemForm:editItemWrapper,editItemPopupHeader"
+                                       oncomplete="if(#{userBacking.lastActionSuccess})#{rich:component('editItemPopup')}.show();return false;" mode="ajax"/>
+                    </rich:toolbar>
+                </h:form>
+                <br /><br />
+                <h:form id="tableForm">
+                    <a4j:outputPanel id="tableWrapper">
+                        <rich:dataTable id="table" value="#{userBacking.items}" rows="#{userBacking.dataRowsPerPage}" var="record"
+                                        iterationStatusVar="index" style="width: 100%;" rowClasses="odd-row, even-row">
+                            <rich:column>
+                                <f:facet name="header">
+                                    <a4j:commandLink style="color:#FFFFFF;" immediate="true"
+                                                     value="ID" render="tableWrapper"
+                                                     action="#{userBacking.sortById}" />
+                                </f:facet>
+                                #{record.user.id}
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">
+                                    <a4j:commandLink style="color:#FFFFFF;" immediate="true"
+                                                     value="Login" render="tableWrapper"
+                                                     action="#{userBacking.sortByLogin}" />
+                                </f:facet>
+                                #{record.user.login}
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">
+                                    <a4j:commandLink style="color:#FFFFFF;" immediate="true"
+                                                     value="Email" render="tableWrapper"
+                                                     action="#{userBacking.sortByEmail}" />
+                                </f:facet>
+                                #{record.user.email}
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">
+                                    <a4j:commandLink style="color:#FFFFFF;" immediate="true"
+                                                     value="Full Name" render="tableWrapper"
+                                                     action="#{userBacking.sortByName}" />
+                                </f:facet>
+                                #{record.user.fullName}
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">
+                                    <a4j:commandLink style="color:#FFFFFF;" immediate="true"
+                                                     value="Last Access" render="tableWrapper"
+                                                     action="#{userBacking.sortByLastAccess}" />
+                                </f:facet>
+                                TBD
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Action" />
+                                </f:facet>
+                                <a4j:commandButton value="Edit"
+                                                   action="#{userBacking.editItem}"
+                                                   render="editItemForm:editItemWrapper,editItemPopupHeader"
+                                                   oncomplete="if(#{userBacking.lastActionSuccess})#{rich:component('editItemPopup')}.show();return false;">
+                                    <a4j:param value="#{record.user.id}" assignTo="#{userBacking.selectedItemId}"/>
+                                </a4j:commandButton>
+                                <a4j:commandButton value="Delete"
+                                                   action="#{userBacking.deleteItem}"
+                                                   render="deleteItemForm:deleteItemWrapper"
+                                                   oncomplete="if(#{userBacking.lastActionSuccess})#{rich:component('deleteItemPopup')}.show();return false;">
+                                    <a4j:param value="#{record.user.id}" assignTo="#{userBacking.selectedItemId}"/>
+                                </a4j:commandButton>
+                            </rich:column>
+                        </rich:dataTable>
+                        <h:panelGrid>
+                            <h:panelGroup>
+                                #{userBacking.dataInfo}&nbsp;<rich:dataScroller
+                                    for="table" fastStep="10"
+                                    page="#{userBacking.dataPage}"
+                                    render="tableWrapper" />
+                                <h:selectOneMenu value="#{userBacking.dataRowsPerPage}"
+                                                 title="Rows per page">
+                                    <f:selectItems value="#{userBacking.rowsPerPage}"
+                                                   var="rowCount" itemValue="#{rowCount}" itemLabel="#{rowCount}" />
+                                    <a4j:ajax event="change" render="tableWrapper" />
+                                </h:selectOneMenu>
+                                &nbsp;<h:inputText value="#{userBacking.pageJump}" id="sc1"
+                                                   size="1" />
+                                <a4j:commandButton value="Jump" title="Jump to table page according to value you entered" render="tableWrapper"/>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </a4j:outputPanel>
+                </h:form>
+            </rich:panel>
+        </ui:define>
+        <ui:define name="dialogs">
+            <rich:popupPanel id="editItemPopup" modal="true"
+                             resizeable="false" minWidth="400" minHeight="200" height="200"
+                             onmaskclick="#{rich:component('editItemPopup')}.hide()">
+                <f:facet name="header">
+                    <h:outputText id="editItemPopupHeader" value="#{userBacking.selectedUser.user.id == null ? 'Create New User' : 'Edit User'}" />
+                </f:facet>
+                <f:facet name="controls">
+                    <h:button value="X" styleClass="red-button" style="padding:0px 2px 0px 2px; font-weight: bold;"
+                              onclick="#{rich:component('editItemPopup')}.hide();
+                                      return false;" />
+                </f:facet>
+                <h:form id="editItemForm">
+                    <a4j:outputPanel id="editItemWrapper">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td width="140"><strong><h:outputText value="Login:" /></strong></td>
+                                    <td><h:inputText id="login" size="30"
+                                                     value="#{userBacking.selectedUser.user.login}"
+                                                     required="true" requiredMessage="User login is required">
+                                            <f:validateLength maximum="64" />
+                                        </h:inputText>
+                                        <rich:message for="login" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="140"><strong><h:outputText value="Email:" /></strong></td>
+                                    <td><h:inputText id="email" size="30"
+                                                     value="#{userBacking.selectedUser.user.email}"
+                                                     required="true" requiredMessage="User email is required">
+                                            <f:validateLength maximum="128" />
+                                        </h:inputText>
+                                        <rich:message for="email" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="140"><strong><h:outputText value="Full Name:" /></strong></td>
+                                    <td><h:inputText id="fullName" size="30"
+                                                     value="#{userBacking.selectedUser.user.fullName}"
+                                                     required="true" requiredMessage="User name is required">
+                                            <f:validateLength maximum="128" />
+                                        </h:inputText>
+                                        <rich:message for="fullName" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="140"><strong><h:outputText value="Reset password" /></strong></td>
+                                    <td><h:selectBooleanCheckbox id="resetPassword" value="#{userBacking.resetPassword}"
+                                                                 disabled="#{userBacking.selectedUser.user.id == null}">
+                                            <a4j:ajax event="change" render="password,repeatedPassword" />
+                                        </h:selectBooleanCheckbox>
+                                        <rich:message for="resetPassword" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="140"><strong><h:outputText value="Password:" /></strong></td>
+                                    <td><h:inputSecret id="password" size="30" 
+                                                       value="#{userBacking.password}"
+                                                       required="true" requiredMessage="Password is required"
+                                                       disabled="#{!userBacking.resetPassword}">
+                                            <f:validateLength maximum="200" />
+                                        </h:inputSecret>
+                                        <rich:message for="password" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="140"><strong><h:outputText value="Repeat password:"/></strong></td>
+                                    <td><h:inputSecret id="repeatedPassword" size="30" 
+                                                       value="#{userBacking.repeatedPassword}"
+                                                       required="true" requiredMessage="Password is required"
+                                                       disabled="#{!userBacking.resetPassword}">
+                                            <f:validateLength maximum="200" />
+                                        </h:inputSecret>
+                                        <rich:message for="repeatedPassword" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br />
+                        <a4j:commandButton value="#{userBacking.selectedUser.user.id == null ? 'Create' : 'Update'}" styleClass="green-button" action="#{userBacking.updateUser}" render="tableForm:tableWrapper"
+                                           oncomplete="if(#{userBacking.lastActionSuccess}) #{rich:component('editItemPopup')}.hide();" />&nbsp;
+                        <a4j:commandButton value="Cancel" onclick="#{rich:component('editItemPopup')}.hide()"/>
+                    </a4j:outputPanel>
+                </h:form>
+            </rich:popupPanel>
+
+            <rich:popupPanel id="deleteItemPopup" modal="true"
+                             resizeable="false" minWidth="300" minHeight="80" height="80"
+                             onmaskclick="#{rich:component('deleteItemPopup')}.hide()">
+                <f:facet name="header">
+                    <h:outputText value="Delete Item" />
+                </f:facet>
+                <f:facet name="controls">
+                    <h:button value="X" styleClass="red-button" style="padding:0px 2px 0px 2px; font-weight: bold;"
+                              onclick="#{rich:component('deleteItemPopup')}.hide();
+                                      return false;" />
+                </f:facet>
+                <h:form id="deleteItemForm">
+                    <a4j:outputPanel id="deleteItemWrapper">
+                        <strong><h:outputText value="Are you sure you want to delete item with ID: #{userBacking.selectedUser.id}" /></strong>
+                    </a4j:outputPanel>
+                    <br /><br />
+                    <a4j:commandButton value="Delete" styleClass="red-button" action="#{userBacking.deleteUser}" render="tableForm:tableWrapper"
+                                       oncomplete="if(#{userBacking.lastActionSuccess}) #{rich:component('deleteItemPopup')}.hide();" />&nbsp;
+                    <a4j:commandButton value="Cancel" onclick="#{rich:component('deleteItemPopup')}.hide()"/>
+                </h:form>
+            </rich:popupPanel>
+
+            <rich:popupPanel id="statPane" autosized="true">
+                Please wait...<br /><br />
+                <h:graphicImage value="/publicResources/images/ajax-loader.gif"
+                                alt="ai" />
+            </rich:popupPanel>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,9 @@
+rootProject.name = 'xbup-service'
+include ":modules:xbup-core"
+include ":modules:xbup-catalog"
+
+if (rootProject.path == ':') {
+    def rootProjectDir = rootProject.projectDir.path + "/../.."
+    project(':modules:xbup-core').projectDir = new File(rootProjectDir + "/modules/xbup-core")
+    project(':modules:xbup-catalog').projectDir = new File(rootProjectDir + "/modules/xbup-catalog")
+}

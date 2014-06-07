@@ -10,8 +10,8 @@ This should provide following advantages:
  * Flexibility - General framework should provide data transformations/processing and compatibility issues solving capability
  * Comprehensibility - Catalog of data types, metadata, relations and abstraction should allow better understanding of data
 
-Homepage: http://xbup.org
-Project page: http://sourceforge.net/projects/xbup
+Homepage: http://xbup.org  
+Project page: http://sourceforge.net/projects/xbup  
 
 Structure
 ---------
@@ -51,5 +51,5 @@ License
 
 Project uses various libraries with specific licenses and some tools are licensed with multiple licenses with exceptions for specific modules to cover license requirements for used libraries.
 
-Main license is: GNU/LGPL (see gpl-3.0.txt AND lgpl-3.0.txt)
-License for documentation: GNU/FDL (see doc/fdl-1.3.txt)
+Main license is: GNU/LGPL (see gpl-3.0.txt AND lgpl-3.0.txt)  
+License for documentation: GNU/FDL (see doc/fdl-1.3.txt)  

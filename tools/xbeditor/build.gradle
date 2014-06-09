@@ -7,6 +7,12 @@ if (!hasProperty('mainClass')) {
     ext.mainClass = 'org.xbup.tool.xbeditor.XBEditor'
 }
 
+//task run(type: JavaExec) {
+//    main = 'org.xbup.tool.xbeditor.XBEditor'
+//  classpath = ''
+//    args = ['-dev']
+//}
+
 repositories {
     mavenCentral()
     flatDir {

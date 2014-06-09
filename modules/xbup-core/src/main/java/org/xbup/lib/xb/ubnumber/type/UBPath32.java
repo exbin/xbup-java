@@ -21,27 +21,27 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
-import org.xbup.lib.xb.parser.XBProcessingException;
 import org.xbup.lib.xb.block.XBBlockTerminationMode;
+import org.xbup.lib.xb.parser.XBProcessingException;
 import org.xbup.lib.xb.serial.XBSerialHandler;
 import org.xbup.lib.xb.serial.XBSerialMethod;
+import org.xbup.lib.xb.serial.XBSerializable;
 import org.xbup.lib.xb.serial.XBSerializationType;
 import org.xbup.lib.xb.serial.child.XBTChildListener;
 import org.xbup.lib.xb.serial.child.XBTChildListenerSerialMethod;
 import org.xbup.lib.xb.serial.child.XBTChildProvider;
 import org.xbup.lib.xb.serial.child.XBTChildProviderSerialMethod;
-import org.xbup.lib.xb.ubnumber.UBList;
 import org.xbup.lib.xb.ubnumber.UBNatural;
-import org.xbup.lib.xb.ubnumber.UBNumber;
+import org.xbup.lib.xb.ubnumber.UBStreamable;
 import org.xbup.lib.xb.ubnumber.exception.UBOverFlowException;
 
 /**
- * UBPath with 32bit long items.
+ * UBPath with 32bit long items. TODO: move to types
  *
- * @version 0.1 wr21.0 2011/12/01
+ * @version 0.1 wr24.0 2014/06/07
  * @author XBUP Project (http://xbup.org)
  */
-public class UBPath32 extends UBList {
+public class UBPath32 implements UBStreamable, XBSerializable {
 
     private long[] path;
 
@@ -112,36 +112,6 @@ public class UBPath32 extends UBList {
     }
 
     @Override
-    public long getValueSize() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<UBNatural> getValues() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public UBNatural toNatural() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public UBNumber clone() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int toInt() throws UBOverFlowException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long toLong() throws UBOverFlowException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
         return serialType == XBSerializationType.FROM_XB
                 ? Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()})
@@ -169,4 +139,5 @@ public class UBPath32 extends UBList {
             serial.end();
         }
     }
+
 }

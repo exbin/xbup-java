@@ -33,6 +33,8 @@ import org.xbup.lib.xb.serial.child.XBTChildProvider;
 import org.xbup.lib.xb.serial.child.XBTChildProviderSerialMethod;
 import org.xbup.lib.xb.ubnumber.UBENatural;
 import org.xbup.lib.xb.ubnumber.UBNatural;
+import org.xbup.lib.xb.ubnumber.type.UBENat32;
+import org.xbup.lib.xb.ubnumber.type.UBNat32;
 
 /**
  * XBUP level 1 serialization sequence.
@@ -176,16 +178,16 @@ public class XBSerialSequence {
             if (serialType == XBSerializationType.FROM_XB) {
                 XBTChildProvider serial = (XBTChildProvider) serializationHandler;
                 UBNatural count = getSize();
-                while (!count.isZero()) {
+                while (count.getLong() != 0) {
                     serial.nextChild(next(), 0);
-                    count.dec();
+                    count = new UBNat32(count.getLong() - 1);
                 }
             } else {
                 XBTChildListener serial = (XBTChildListener) serializationHandler;
                 UBNatural count = getSize();
-                while (!count.isZero()) {
+                while (count.getLong() != 0) {
                     serial.addChild(next(), 0);
-                    count.dec();
+                    count = new UBNat32(count.getLong() - 1);
                 }
             }
         }
@@ -239,9 +241,9 @@ public class XBSerialSequence {
                         serial.nextChild(next(), 0);
                     } while (block != null);
                 } else {
-                    while (!count.isZero()) {
+                    while (count.getLong() != 0) {
                         serial.nextChild(next(), 0);
-                        count.dec();
+                        count = new UBENat32(count.getLong() - 1);
                     }
                 }
             } else {
@@ -258,9 +260,9 @@ public class XBSerialSequence {
                         }
                     } while (block != null);
                 } else {
-                    while (!count.isZero()) {
+                    while (count.getLong() != 0) {
                         serial.addChild(next(), 0);
-                        count.dec();
+                        count = new UBENat32(count.getLong() - 1);
                     }
                 }
             }

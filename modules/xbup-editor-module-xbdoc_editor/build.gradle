@@ -22,6 +22,7 @@ dependencies {
     compile(project(":modules:xbup-editor-module-text_editor"))
     compile(project(":modules:xbup-editor-module-service_manager"))
     compile(project(":modules:xbup-plugin"))
+    compile(project(":modules:xbup-parser-tree"))
     compile(project(":modules:xbup-operation"))
     compile(project(":modules:hexedit"))
     testCompile group: 'junit', name: 'junit', version: '4.10'

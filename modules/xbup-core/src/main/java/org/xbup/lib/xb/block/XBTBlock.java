@@ -23,7 +23,7 @@ import org.xbup.lib.xb.ubnumber.UBNatural;
 /**
  * XBUP level 1 block interface.
  *
- * @version 0.1 wr23.0 2014/02/20
+ * @version 0.1 wr24.0 2014/06/08
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTBlock {
@@ -65,7 +65,8 @@ public interface XBTBlock {
     public List<UBNatural> getAttributes();
 
     /**
-     * Gets attribute of given index.
+     * Gets attribute of given index. Returns zero if attribute index greater
+     * than attributes count.
      *
      * @param index index of attribute
      * @return attribute value

@@ -46,7 +46,9 @@ public class XBListDef implements XBSerializable {
 
     private UBNatural consistSkip = new UBNat32(0);
 
-    /** Creates a new instance of XBL1BlockDecl */
+    /**
+     * Creates a new instance of XBL1BlockDecl
+     */
     public XBListDef() {
     }
 
@@ -80,10 +82,10 @@ public class XBListDef implements XBSerializable {
 
             @Override
             public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                long[] xbGroupLimitBlockType = {1,5};
-                long[] xbRevisionBlockType = {1,5};
-                XBSerialSequence subSequence = new XBSerialSequence(new XBDBlockType(new XBCPBlockDecl(xbGroupLimitBlockType)), consistSkip);                
-                
+                long[] xbGroupLimitBlockType = {1, 5};
+                long[] xbRevisionBlockType = {1, 5};
+                XBSerialSequence subSequence = new XBSerialSequence(new XBDBlockType(new XBCPBlockDecl(xbGroupLimitBlockType)), new UBNat32(consistSkip));
+
                 XBTSerialSequence serial = (XBTSerialSequence) serializationHandler;
                 serial.sequenceXB(subSequence);
             }

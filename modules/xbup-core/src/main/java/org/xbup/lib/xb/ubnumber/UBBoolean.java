@@ -16,60 +16,27 @@
  */
 package org.xbup.lib.xb.ubnumber;
 
-import org.xbup.lib.xb.block.XBBlockType;
 import org.xbup.lib.xb.ubnumber.exception.UBOverFlowException;
 
 /**
- * Abstract class for UB form boolean value.
+ * Interface for LRUB-encoded boolean value.
  *
- * @version 0.1 wr18.0 2009/08/24
+ * @version 0.1 wr24.0 2014/06/07
  * @author XBUP Project (http://xbup.org)
  */
-public abstract class UBBoolean extends UBNumber {
-
-//    static UBNatural ZERO;
-
-    /** Setting boolean value */
-    public abstract void setValue(boolean value) throws UBOverFlowException;
-
-    /** Setting Integer class value */
-    public abstract void setValue(Boolean value) throws UBOverFlowException;
-
-    /** Getting short integer value */
-    public abstract int getInt() throws UBOverFlowException;
-
-    /** Getting long integer value */
-    public abstract int getLong() throws UBOverFlowException;
-
-    /** Getting short boolean value */
-    public abstract boolean getBool() throws UBOverFlowException;
-
-    // Basic Predicates
-
-    /** Zero predicate */
-    public abstract boolean isFalse();
-
-    /** Equal predicate */
-    public abstract boolean isEqual(UBBoolean val);
-
-    // Logical Mathematical Functions
-
-    /** Logical addition */
-    public abstract void doOr(UBBoolean val) throws UBOverFlowException;
-
-    /** Logical multiplication */
-    public abstract void doAnd(UBBoolean val) throws UBOverFlowException;
-
-    /** Exclusive Logical addition */
-    public abstract void doXor(UBBoolean val) throws UBOverFlowException;
+public interface UBBoolean {
 
     /**
-     * Exclusive Negation
-     * @param val of bits to negate
+     * Getting boolean value.
+     *
+     * @return value
      */
-    public abstract void doNot(UBBoolean val) throws UBOverFlowException;
+    public boolean getBoolean() throws UBOverFlowException;
 
-    public XBBlockType getXBBlockType() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    /**
+     * Setting boolean value.
+     *
+     * @param value
+     */
+    public void setValue(boolean value) throws UBOverFlowException;
 }

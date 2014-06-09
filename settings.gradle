@@ -1,6 +1,7 @@
 rootProject.name = 'xbup-full'
 include ":modules:xbup-core"
-include ":modules:xbup-catalog"
+include ":modules:xbup-parser-tree"
+include ":modules:xbup-parser-command"
 include ":modules:xbup-catalog"
 include ":modules:xbup-service"
 include ":modules:xbup-audio"

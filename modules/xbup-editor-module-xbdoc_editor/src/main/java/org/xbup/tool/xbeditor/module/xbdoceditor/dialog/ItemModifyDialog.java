@@ -394,7 +394,7 @@ public class ItemModifyDialog extends javax.swing.JDialog {
                     node.addAttribute(srcNode.getBlockType().getBlockID()); // TODO: This is ugly code, should be fixed later
                 }
                 for (Iterator it = srcNode.getAttributes().iterator(); it.hasNext();) {
-                    node.addAttribute((UBNatural) ((UBNat32) it.next()).clone());
+                    node.addAttribute(new UBNat32((UBNat32) it.next()));
                 }
                 tableModel.setAttribs(node.getAttributes());
 //                if (srcNode.getTypeSpec() instanceof XBCPContextSpec) tableModel.setTypeSpec((XBCPContextSpec) srcNode.getTypeSpec());

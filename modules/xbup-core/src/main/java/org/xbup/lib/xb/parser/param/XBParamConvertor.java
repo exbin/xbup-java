@@ -33,6 +33,7 @@ import org.xbup.lib.xb.catalog.declaration.XBCBlockDef;
 import org.xbup.lib.xb.parser.XBProcessingException;
 import org.xbup.lib.xb.parser.basic.XBTListener;
 import org.xbup.lib.xb.block.XBBlockTerminationMode;
+import org.xbup.lib.xb.parser.XBProcessingExceptionType;
 import org.xbup.lib.xb.ubnumber.UBNatural;
 import org.xbup.lib.xb.ubnumber.type.UBENat32;
 
@@ -173,14 +174,14 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
 
             if ((position == 0)&&(paramDecl.isListFlag())) {
                 if (paramDecl.isJoinFlag()) {
-                    listCount = new UBENat32(value.toLong());
-                    while ((childProcessor == null)&&(listCount.isZero())) {
+                    listCount = new UBENat32(value.getLong());
+                    while ((childProcessor == null)&&(listCount.getLong() == 0)) {
                         childProcessor = new XBParamProcessor(paramDecl.convertToNonList());
                         childProcessor.attachXBParamListener(new XBParamHandler(this));
-                        listCount.dec();
+                        listCount = new UBENat32(listCount.getLong() - 1);
                     }
 
-                    if (listCount.isZero()) {
+                    if (listCount.getLong() == 0) {
                         listener.endXBParam();
                         this.paramDecl = null;
                         return;
@@ -192,9 +193,9 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
                     if (listCount.isInfinity()) {
                         listener.listXBParam();
                     } else {
-                        while (!listCount.isZero()) {
+                        while (listCount.getLong() != 0) {
                             listener.blockXBParam();
-                            listCount.dec();
+                            listCount = new UBENat32(listCount.getLong() - 1);
                         }
                     }
 
@@ -206,16 +207,16 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
 
             if (paramDecl.isListFlag()) {
                 if (paramDecl.isJoinFlag()) {
-                    throw new XBProcessingException("Internal error");
+                    throw new XBProcessingException("Internal error", XBProcessingExceptionType.UNKNOWN);
                 }
 
-                while ((childProcessor == null)&&(listCount.isZero())) {
+                while ((childProcessor == null)&&(listCount.getLong() == 0)) {
                     childProcessor = new XBParamProcessor(paramDecl.convertToNonList());
                     childProcessor.attachXBParamListener(new XBParamHandler(this));
-                    listCount.dec();
+                    listCount = new UBENat32(listCount.getLong() - 1);
                 }
 
-                if (listCount.isZero()) {
+                if (listCount.getLong() == 0) {
                     listener.endXBParam();
                     this.paramDecl = null;
                 } else {

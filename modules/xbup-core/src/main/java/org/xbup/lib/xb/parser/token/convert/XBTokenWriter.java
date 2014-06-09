@@ -37,7 +37,7 @@ import org.xbup.lib.xb.util.CopyStreamUtils;
 /**
  * Token writer to convert passed tokens into data stream.
  *
- * @version 0.1 wr23.0 2014/02/18
+ * @version 0.1 wr24.0 2014/06/08
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTokenWriter implements XBEventListener {
@@ -49,11 +49,11 @@ public class XBTokenWriter implements XBEventListener {
         tokenList = new ArrayList<>();
         blockSizes = new LinkedList<>();
     }
-    
+
     /**
-     * Write content of passed tokens into data stream.
-     * In the end tokens are released.
-     * 
+     * Write content of passed tokens into data stream. In the end tokens are
+     * released.
+     *
      * @param stream output stream to write to
      * @throws IOException if writing in stream throws it
      */
@@ -62,7 +62,10 @@ public class XBTokenWriter implements XBEventListener {
         writePrecomputedBlocks(stream);
     }
 
-    /** Precompute sizes of attribute and data parts for each block into blockSizes list. */
+    /**
+     * Precompute sizes of attribute and data parts for each block into
+     * blockSizes list.
+     */
     private void precomputeBufferBlockSizes() throws IOException {
         int countingLevel = 0;
         List<BlockSize> bufferLevelSizes = new ArrayList<>();
@@ -90,10 +93,10 @@ public class XBTokenWriter implements XBEventListener {
                     XBBlockTerminationMode terminationMode = bufferLevelType.get(countingLevel - 1);
                     int dataPartSize = 0;
                     int zeroCount = 0;
-                    
-                    while (((XBDataToken)bufferToken).getData().available() > 0) {
+
+                    while (((XBDataToken) bufferToken).getData().available() > 0) {
                         // TODO: use buffer
-                        int data = ((XBDataToken)bufferToken).getData().read();
+                        int data = ((XBDataToken) bufferToken).getData().read();
                         dataStream.write(data);
                         if (terminationMode == XBBlockTerminationMode.ZERO_TERMINATED) {
                             if (data == 0) {
@@ -158,7 +161,7 @@ public class XBTokenWriter implements XBEventListener {
 
     /**
      * Write and delete all buffered tokens using precompute sizes.
-     * 
+     *
      * @param stream output stream
      */
     private void writePrecomputedBlocks(OutputStream stream) throws IOException {
@@ -190,21 +193,21 @@ public class XBTokenWriter implements XBEventListener {
                 }
 
                 case DATA: {
-                    XBBlockTerminationMode terminationMode = bufferLevelType.get(bufferLevelType.size()-1);
+                    XBBlockTerminationMode terminationMode = bufferLevelType.get(bufferLevelType.size() - 1);
                     OutputStream streamWrapper;
                     if (terminationMode == XBBlockTerminationMode.ZERO_TERMINATED) {
-                        bufferLevelType.set(bufferLevelType.size()-1, XBBlockTerminationMode.SIZE_SPECIFIED);
+                        bufferLevelType.set(bufferLevelType.size() - 1, XBBlockTerminationMode.SIZE_SPECIFIED);
                         streamWrapper = new TerminatedDataOutputStreamWrapper(stream);
                     } else {
                         streamWrapper = stream;
                     }
 
-                    CopyStreamUtils.copyInputStreamToOutputStream(((XBDataToken)bufferToken).getData(), streamWrapper);
+                    CopyStreamUtils.copyInputStreamToOutputStream(((XBDataToken) bufferToken).getData(), streamWrapper);
                     break;
                 }
 
                 case END: {
-                    XBBlockTerminationMode terminationMode = bufferLevelType.remove(bufferLevelType.size()-1);
+                    XBBlockTerminationMode terminationMode = bufferLevelType.remove(bufferLevelType.size() - 1);
                     if (terminationMode == XBBlockTerminationMode.ZERO_TERMINATED) {
                         stream.write(0);
                     }
@@ -221,17 +224,17 @@ public class XBTokenWriter implements XBEventListener {
 
     /**
      * Store passed token into token buffer list.
-     * 
+     *
      * @param token passed tokken
      */
     @Override
     public void putXBToken(XBToken token) {
         tokenList.add(token);
     }
-    
+
     /**
      * Method to add value to block sizes accross all depths.
-     * 
+     *
      * @param blockSizes list of block sizes
      * @param attributeSize Value to add to all block sizes
      */
@@ -248,7 +251,7 @@ public class XBTokenWriter implements XBEventListener {
 
     /**
      * Method to add value to block sizes accross all depths.
-     * 
+     *
      * @param blockSizes list of block sizes
      * @param dataSize Value to add to all block sizes
      */
@@ -258,8 +261,11 @@ public class XBTokenWriter implements XBEventListener {
         }
     }
 
-    /** Internal structure for block sizes. */
+    /**
+     * Internal structure for block sizes.
+     */
     private class BlockSize {
+
         public int attributePartSize = 0;
         public int dataPartSize = 0;
     }

@@ -17,17 +17,27 @@
 package org.xbup.lib.xb.ubnumber.exception;
 
 /**
+ * Runtime exception related to LRUB-encoded values processing overflowing
+ * operations.
  *
- * @version 0.1 wr13.0 2007/02/04
+ * @version 0.1 wr24.0 2014/06/07
  * @author XBUP Project (http://xbup.org)
  */
 public class UBOverFlowException extends UBException {
 
-    /** Creates a new instance of UBOverFlowException */
+    /**
+     * Creates a new instance of UBOverFlowException.
+     */
     public UBOverFlowException() {
+        super();
     }
 
+    /**
+     * Creates a new instance of UBOverFlowException.
+     *
+     * @param comment exception comment
+     */
     public UBOverFlowException(String comment) {
+        super(comment);
     }
-
 }

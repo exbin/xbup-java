@@ -106,7 +106,7 @@ public class XBProducerReader implements XBProducer {
             UBNat32 attrPartSize = new UBNat32();
             int headSize = attrPartSize.fromStreamUB(source);
             shrinkStatus(sizeLimits, headSize);
-            if (attrPartSize.isZero()) {
+            if (attrPartSize.getLong() == 0) {
                 // Process terminator
                 if (sizeLimits.isEmpty() || sizeLimits.get(sizeLimits.size()-1) != null) {
                     throw new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR);

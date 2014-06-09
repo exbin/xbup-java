@@ -16,24 +16,74 @@
  */
 package org.xbup.lib.xb.ubnumber;
 
-import org.xbup.lib.xb.block.XBBlockType;
+import java.io.Serializable;
+import org.xbup.lib.xb.ubnumber.exception.UBOverFlowException;
 
 /**
- * Abstract class for UB form natural value.
+ * Interface for LRUB-encoded natural value with infinity constant.
  *
- * @version 0.1 wr23.0 2014/02/01
+ * @version 0.1 wr24.0 2014/06/09
  * @author XBUP Project (http://xbup.org)
  */
-public abstract class UBENatural extends UBNatural {
+public interface UBENatural extends Serializable, UBStreamable {
 
+    // Size of infinity constant in byte stream
     public static int INFINITY_SIZE_UB = 1;
 
-    public abstract boolean isInfinity();
+    /**
+     * Getting short integer value.
+     *
+     * @return integer value
+     * @throws UBOverFlowException if value is out of range
+     */
+    public int getInt() throws UBOverFlowException;
 
-    public abstract void setInfinity();
+    /**
+     * Getting long integer value.
+     *
+     * @return long integer value
+     * @throws UBOverFlowException if value is out of range
+     */
+    public long getLong() throws UBOverFlowException;
 
-    @Override
-    public XBBlockType getXBBlockType() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    /**
+     * Setting integer value.
+     *
+     * @param value integer value
+     */
+    public void setValue(int value) throws UBOverFlowException;
+
+    /**
+     * Setting long integer value.
+     *
+     * @param value long integer value
+     */
+    public void setValue(long value) throws UBOverFlowException;
+
+    /**
+     * Get count of long value segments.
+     *
+     * @return count of long segments
+     */
+    public long getSegmentCount();
+
+    /**
+     * Get long integer segment of value.
+     *
+     * @param segmentIndex index of segment, 0 for lowest value
+     * @return long integer
+     */
+    public long getValueSegment(long segmentIndex);
+
+    /**
+     * Read infinity flag.
+     *
+     * @return true if value represents infinity
+     */
+    public boolean isInfinity();
+
+    /**
+     * Set value to infinity constant.
+     */
+    public void setInfinity();
 }

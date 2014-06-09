@@ -695,7 +695,7 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
                 return nameService.getDefaultCaption(blockSpec);
             }
         }
-        return "Unknown" + " (" + Integer.toString(blockType.getGroupID().toInt()) + ", "+ Integer.toString(blockType.getBlockID().toInt())+")";
+        return "Unknown" + " (" + Integer.toString(blockType.getGroupID().getInt()) + ", "+ Integer.toString(blockType.getBlockID().getInt())+")";
     }
 
     private Frame getFrame() {

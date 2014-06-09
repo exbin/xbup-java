@@ -82,7 +82,7 @@ public class XBNatural implements XBSerializable {
         if (serialType == XBSerializationType.FROM_XB) {
             XBTChildProvider serial = (XBTChildProvider) serializationHandler;
             serial.begin();
-            value = serial.nextAttribute().toNatural();
+            value = serial.nextAttribute();
             serial.end();
         } else {
             XBTChildListener serial = (XBTChildListener) serializationHandler;

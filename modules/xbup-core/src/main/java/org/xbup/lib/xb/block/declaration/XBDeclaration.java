@@ -49,8 +49,8 @@ import org.xbup.lib.xb.ubnumber.type.UBNat32;
 public class XBDeclaration implements XBSerializable {
 
     private XBFormatDecl format;
-    private int groupsReserved = 0;
-    private int preserveCount = 0;
+    private long groupsReserved = 0;
+    private long preserveCount = 0;
     private XBSerializationFromXB rootNode;
 
     /** Try to transform given type to static */
@@ -89,7 +89,7 @@ public class XBDeclaration implements XBSerializable {
         return preserveCount + groupsReserved + 1;
     }
 
-    public XBGroupDecl getGroup(int group) {
+    public XBGroupDecl getGroup(long group) {
         if (group == 0) {
             return null;
         }
@@ -98,7 +98,7 @@ public class XBDeclaration implements XBSerializable {
             if (group - preserveCount - 1 >= format.getGroups().size()) {
                 return null;
             }
-            return format.getGroups().get(group - preserveCount - 1);
+            return format.getGroups().get((int) (group - preserveCount - 1));
         }
         return null;
     }
@@ -145,19 +145,19 @@ public class XBDeclaration implements XBSerializable {
         this.format = format;
     }
 
-    public int getGroupsReserved() {
+    public long getGroupsReserved() {
         return groupsReserved;
     }
 
-    public void setGroupsReserved(int groupsReserved) {
+    public void setGroupsReserved(long groupsReserved) {
         this.groupsReserved = groupsReserved;
     }
 
-    public int getPreserveCount() {
+    public long getPreserveCount() {
         return preserveCount;
     }
 
-    public void setPreserveCount(int preserveCount) {
+    public void setPreserveCount(long preserveCount) {
         this.preserveCount = preserveCount;
     }
 

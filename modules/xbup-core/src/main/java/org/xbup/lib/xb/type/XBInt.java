@@ -29,7 +29,6 @@ import org.xbup.lib.xb.catalog.declaration.XBCDeclaration;
 import org.xbup.lib.xb.catalog.declaration.XBCPBlockDecl;
 import org.xbup.lib.xb.parser.XBProcessingException;
 import org.xbup.lib.xb.block.XBBlockTerminationMode;
-import org.xbup.lib.xb.parser.tree.XBTreeNode;
 import org.xbup.lib.xb.serial.XBSerialHandler;
 import org.xbup.lib.xb.serial.XBSerialMethod;
 import org.xbup.lib.xb.serial.XBSerializable;
@@ -111,7 +110,7 @@ public class XBInt implements XBSerializable, XBDeclared {
                     try {
                         CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
                     } catch (IOException ex) {
-                        Logger.getLogger(XBTreeNode.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(XBInt.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     //                setValue(new String(stream.toByteArray()));
                     serial.end();

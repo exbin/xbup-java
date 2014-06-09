@@ -30,7 +30,6 @@ import org.xbup.lib.xb.catalog.declaration.XBCDeclaration;
 import org.xbup.lib.xb.catalog.declaration.XBCPBlockDecl;
 import org.xbup.lib.xb.parser.XBProcessingException;
 import org.xbup.lib.xb.block.XBBlockTerminationMode;
-import org.xbup.lib.xb.parser.tree.XBTreeNode;
 import org.xbup.lib.xb.serial.XBSerialHandler;
 import org.xbup.lib.xb.serial.XBSerialMethod;
 import org.xbup.lib.xb.serial.XBSerializable;
@@ -79,7 +78,7 @@ public class XBByte implements XBSerializable, XBDeclared {
     }
 
     public void setValue(UBNatural value) throws XBProcessingException {
-        int newValue = value.toInt();
+        int newValue = value.getInt();
         if (newValue > maxValue) {
             throw new UBOverFlowException("Value is too big");
         }
@@ -118,7 +117,7 @@ public class XBByte implements XBSerializable, XBDeclared {
                     try {
                         CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
                     } catch (IOException ex) {
-                        Logger.getLogger(XBTreeNode.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(XBByte.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     byte[] newValue = stream.toByteArray();
                     setValue(newValue[0]);

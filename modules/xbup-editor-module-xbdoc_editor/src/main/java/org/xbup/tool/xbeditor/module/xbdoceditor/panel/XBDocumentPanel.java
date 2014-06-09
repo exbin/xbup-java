@@ -707,7 +707,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
                 }
             }
         }
-        return "Unknown" + " (" + Integer.toString(blockType.getGroupID().toInt()) + ", "+ Integer.toString(blockType.getBlockID().toInt())+")";
+        return "Unknown" + " (" + Integer.toString(blockType.getGroupID().getInt()) + ", "+ Integer.toString(blockType.getBlockID().getInt())+")";
     }
 
     public void testParamList() {

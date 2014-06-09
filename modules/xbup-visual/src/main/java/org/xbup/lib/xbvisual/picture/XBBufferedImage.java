@@ -38,7 +38,7 @@ import org.xbup.lib.xb.serial.child.XBTChildListener;
 import org.xbup.lib.xb.serial.child.XBTChildListenerSerialMethod;
 import org.xbup.lib.xb.serial.child.XBTChildProvider;
 import org.xbup.lib.xb.serial.child.XBTChildProviderSerialMethod;
-import org.xbup.lib.xb.ubnumber.UBNumber;
+import org.xbup.lib.xb.ubnumber.UBNatural;
 import org.xbup.lib.xb.ubnumber.type.UBNat32;
 
 /**
@@ -101,9 +101,9 @@ public class XBBufferedImage implements XBSerializable {
         if (serialType == XBSerializationType.FROM_XB) {
             XBTChildProvider serial = (XBTChildProvider) serializationHandler;
             serial.getType(); //setType(new XBCBlockDecl(xbBlockPath));
-            UBNumber width = serial.nextAttribute();
-            UBNumber height = serial.nextAttribute();
-            BufferedImage result = new BufferedImage(width.toInt(), height.toInt(), BufferedImage.TYPE_INT_RGB);
+            UBNatural width = serial.nextAttribute();
+            UBNatural height = serial.nextAttribute();
+            BufferedImage result = new BufferedImage(width.getInt(), height.getInt(), BufferedImage.TYPE_INT_RGB);
             serial.nextChild(XBWritableRaster.getXBWritableRasterSerializator(result.getRaster()), 0);
             setImage(result);
             serial.end();

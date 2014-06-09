@@ -37,7 +37,6 @@ import org.xbup.lib.xb.serial.sequence.XBTSerialSequence;
 import org.xbup.lib.xb.serial.sequence.XBTSerialSequenceListenerMethod;
 import org.xbup.lib.xb.serial.sequence.XBTSerialSequenceProviderMethod;
 import org.xbup.lib.xb.ubnumber.UBENatural;
-import org.xbup.lib.xb.ubnumber.UBNatural;
 import org.xbup.lib.xb.ubnumber.type.UBENat32;
 import org.xbup.lib.xb.ubnumber.type.UBNat32;
 import org.xbup.lib.xb.ubnumber.type.UBPath32;
@@ -51,9 +50,9 @@ import org.xbup.lib.xb.ubnumber.type.UBPath32;
 public class XBGroupDecl implements XBSerializable {
 
     private Long[] catalogPath = new Long[0];
-    private UBNatural revision = new UBNat32(0);
+    private UBNat32 revision = new UBNat32(0);
     private List<XBBlockDecl> blocks = new ArrayList<XBBlockDecl>();
-    private UBNatural blocksLimit = new UBNat32(0);
+    private UBNat32 blocksLimit = new UBNat32(0);
     private List<XBGroupDef> groupDefs;
     private List<XBRevisionDef> revisionDefs;
 

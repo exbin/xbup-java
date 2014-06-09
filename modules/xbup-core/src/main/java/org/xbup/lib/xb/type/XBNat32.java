@@ -30,7 +30,6 @@ import org.xbup.lib.xb.catalog.declaration.XBCDeclaration;
 import org.xbup.lib.xb.catalog.declaration.XBCPBlockDecl;
 import org.xbup.lib.xb.parser.XBProcessingException;
 import org.xbup.lib.xb.block.XBBlockTerminationMode;
-import org.xbup.lib.xb.parser.tree.XBTreeNode;
 import org.xbup.lib.xb.serial.XBSerialHandler;
 import org.xbup.lib.xb.serial.XBSerialMethod;
 import org.xbup.lib.xb.serial.XBSerializable;
@@ -78,7 +77,7 @@ public class XBNat32 implements XBSerializable, XBDeclared { // XBCL2Streamable
     }
 
     public void setValue(UBNatural value) throws XBProcessingException {
-        int newValue = value.toInt();
+        int newValue = value.getInt();
         if (newValue > maxValue) {
             throw new XBProcessingException("Value too big");
         }
@@ -118,7 +117,7 @@ public class XBNat32 implements XBSerializable, XBDeclared { // XBCL2Streamable
                     try {
                         CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
                     } catch (IOException ex) {
-                        Logger.getLogger(XBTreeNode.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(XBNat32.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     byte[] newValue = stream.toByteArray();
                     setValue(newValue[1] >> 8 + newValue[0]);

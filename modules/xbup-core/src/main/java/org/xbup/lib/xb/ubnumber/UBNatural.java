@@ -16,128 +16,64 @@
  */
 package org.xbup.lib.xb.ubnumber;
 
-import org.xbup.lib.xb.block.XBBlockType;
-import org.xbup.lib.xb.block.declaration.XBDBlockType;
-import org.xbup.lib.xb.catalog.declaration.XBCPBlockDecl;
+import java.io.Serializable;
 import org.xbup.lib.xb.ubnumber.exception.UBOverFlowException;
 
 /**
- * Abstract class for UBNatural attribute.
+ * Interface for UBNatural attribute.
  *
- * @version 0.1 wr18.0 2009/07/26
+ * @version 0.1 wr24.0 2014/06/07
  * @author XBUP Project (http://xbup.org)
  */
-public abstract class UBNatural extends UBNumber {
+public interface UBNatural extends Serializable, UBStreamable {
 
-    public static long[] xbBlockType = {0, 12, 0};
-//    static UBNatural ZERO;
-
-    /** Setting integer value */
-    public abstract void setValue(int value) throws UBOverFlowException;
-
-    /** Setting long integer value */
-    public abstract void setValue(long value) throws UBOverFlowException;
-
-    /** Setting Integer class value */
-    public abstract void setValue(Integer value) throws UBOverFlowException;
-
-    /** Getting short integer value */
-    public abstract int getInt() throws UBOverFlowException;
-
-    /** Getting long integer value */
-    public abstract long getLong() throws UBOverFlowException;
-
-    // Basic Predicates
-
-    /** Zero predicate */
-    public abstract boolean isZero();
-
-    /** Equal predicate */
-    public abstract boolean isEqual(UBNatural val);
-
-    /** Value comparison predicate */
-    public abstract boolean isGreater(UBNatural val);
-
-    /** Short integer form indicator */
-    public abstract boolean isShort();
-
-    /** Long integer form indicator */
-    public abstract boolean isLong();
-
-    // Basic mathematical operators
-
-    /** incrementation */
-    public abstract void inc() throws UBOverFlowException;
-
-    /** decrementation */
-    public abstract void dec() throws UBOverFlowException;
-
-    /** additing */
-    public abstract void add(UBNatural val) throws UBOverFlowException;
-
-    public abstract void sub(UBNatural val) throws UBOverFlowException;
-
-    public abstract void shiftLeft(UBNatural val);
-
-    public abstract void shiftRight(UBNatural val);
-
-    public abstract void multiply(UBNatural val);
-
-    public abstract void divide(UBNatural val);
-
-    public abstract void divMod(UBNatural val, UBNatural rest);
-
-    public abstract void modDiv(UBNatural val, UBNatural quot);
-
-    public abstract void modulate(UBNatural val);
-
-    public abstract void power(UBNatural val);
-
-    public abstract void sqrt();
-
-    // Basic Mathematical Functions
-
-    public abstract void sum(UBNatural op1, UBNatural op2);
-
-    public abstract void dif(UBNatural op1, UBNatural op2);
-
-    public abstract void product(UBNatural op1, UBNatural op2);
-
-    public abstract void quot(UBNatural op1, UBNatural op2);
-
-    public abstract void quotRest(UBNatural op1, UBNatural op2, UBNatural rest);
-
-    public abstract void restQuot(UBNatural op1, UBNatural op2, UBNatural quot);
-
-    public abstract void rest(UBNatural op1, UBNatural op2);
-
-    public abstract void invol(UBNatural op1, UBNatural op2);
-
-    // Logical Mathematical Functions
-
-    /** Logical addition */
-    public abstract void doOr(UBNatural val) throws UBOverFlowException;
-
-    /** Logical multiplication */
-    public abstract void doAnd(UBNatural val) throws UBOverFlowException;
-
-    /** Exclusive Logical addition */
-    public abstract void doXor(UBNatural val) throws UBOverFlowException;
-
-    /** Exclusive Negation
-     * @param val of bits to negate
+    /**
+     * Getting short integer value.
+     *
+     * @return integer value
+     * @throws UBOverFlowException if value is out of range
      */
-    public abstract void doNot(UBNatural val) throws UBOverFlowException;
+    public int getInt() throws UBOverFlowException;
 
-    @Override
-    public UBNatural toNatural() {
-        return this;
-    }
+    /**
+     * Getting long integer value.
+     *
+     * @return long integer value
+     * @throws UBOverFlowException if value is out of range
+     */
+    public long getLong() throws UBOverFlowException;
 
-    public XBBlockType getXBBlockType() {
-        return new XBDBlockType(new XBCPBlockDecl(xbBlockType));
-    }
+    /**
+     * Setting integer value.
+     *
+     * @param value integer value
+     */
+    public void setValue(int value) throws UBOverFlowException;
 
-    @Override
-    public abstract UBNatural clone();
+    /**
+     * Setting long integer value.
+     *
+     * @param value long integer value
+     */
+    public void setValue(long value) throws UBOverFlowException;
+
+    /**
+     * Get count of long value segments.
+     *
+     * @return count of long segments
+     */
+    public long getSegmentCount();
+
+    /**
+     * Get long integer segment of value.
+     *
+     * @param segmentIndex index of segment, 0 for lowest value
+     * @return long integer
+     */
+    public long getValueSegment(long segmentIndex);
+
+    // TODO
+//    public XBBlockType getXBBlockType() {
+//        return new XBDBlockType(new XBCPBlockDecl(xbBlockType));
+//    }
 }

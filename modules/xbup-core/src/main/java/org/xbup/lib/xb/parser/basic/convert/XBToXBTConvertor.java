@@ -25,6 +25,7 @@ import org.xbup.lib.xb.parser.basic.XBTListener;
 import org.xbup.lib.xb.parser.basic.XBTProducer;
 import org.xbup.lib.xb.block.XBBlockTerminationMode;
 import org.xbup.lib.xb.ubnumber.UBNatural;
+import org.xbup.lib.xb.ubnumber.type.UBNat32;
 
 /**
  * XBUP level 1 To level 0 convertor.
@@ -56,7 +57,7 @@ public class XBToXBTConvertor implements XBListener, XBTProducer {
                 target.typeXBT(new XBFixedBlockType(group.getLong(),value.getLong()));
                 expectType = false;
             } else {
-                group = (UBNatural) value.clone();
+                group = new UBNat32(value.getLong());
             }
         } else {
             target.attribXBT(value);

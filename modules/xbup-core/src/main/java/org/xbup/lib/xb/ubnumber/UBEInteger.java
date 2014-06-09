@@ -16,14 +16,89 @@
  */
 package org.xbup.lib.xb.ubnumber;
 
+import org.xbup.lib.xb.ubnumber.exception.UBOverFlowException;
+
 /**
+ * Interface for LRUB-encoded integer value with infinity constants.
  *
- * @version 0.1 wr16.0 2008/04/02
+ * @version 0.1 wr24.0 2014/06/07
  * @author XBUP Project (http://xbup.org)
  */
-public abstract class UBEInteger extends UBInteger {
+public interface UBEInteger {
 
-    public abstract boolean isInfinity();
-    public abstract void setInfinity();
+    /**
+     * Getting short integer value.
+     *
+     * @return integer value
+     * @throws UBOverFlowException if value is out of range
+     */
+    public int getInt() throws UBOverFlowException;
 
+    /**
+     * Getting long integer value.
+     *
+     * @return long integer value
+     * @throws UBOverFlowException if value is out of range
+     */
+    public long getLong() throws UBOverFlowException;
+
+    /**
+     * Setting integer value.
+     *
+     * @param value integer value
+     */
+    public void setValue(int value) throws UBOverFlowException;
+
+    /**
+     * Setting long integer value.
+     *
+     * @param value long integer value
+     */
+    public void setValue(long value) throws UBOverFlowException;
+
+    /**
+     * Get count of long value segments.
+     *
+     * @return count of long segments
+     */
+    public long getSegmentCount();
+
+    /**
+     * Get long integer segment of value.
+     *
+     * @param segmentIndex index of segment, 0 for lowest value
+     * @return long integer
+     */
+    public long getValueSegment(long segmentIndex);
+
+    /**
+     * Read positive or negative infinity flag.
+     *
+     * @return true if value represents infinity
+     */
+    public boolean isInfinity();
+
+    /**
+     * Read positive infinity flag.
+     *
+     * @return true if value represents infinity
+     */
+    public boolean isPositiveInfinity();
+
+    /**
+     * Read negative infinity flag.
+     *
+     * @return true if value represents infinity
+     */
+    public boolean isNegativeInfinity();
+
+    /**
+     * Set value to positive infinity constant.
+     */
+    public void setPositiveInfinity();
+
+    /**
+     * Set value to negative infinity constant.
+     */
+    public void setNegativeInfinity();
 }

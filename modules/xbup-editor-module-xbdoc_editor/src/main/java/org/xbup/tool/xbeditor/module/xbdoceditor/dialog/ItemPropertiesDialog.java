@@ -349,7 +349,7 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
         if (blockType == null) {
             return "Unknown";
         }
-        return "Unknown" + " (" + Integer.toString(blockType.getGroupID().toInt()) + ", "+ Integer.toString(blockType.getBlockID().toInt())+")";
+        return "Unknown" + " (" + Integer.toString(blockType.getGroupID().getInt()) + ", "+ Integer.toString(blockType.getBlockID().getInt())+")";
     }
 
     private void assignGlobalKeyListener() {

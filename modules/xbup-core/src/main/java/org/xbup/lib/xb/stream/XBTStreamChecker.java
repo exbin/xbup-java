@@ -105,7 +105,7 @@ public class XBTStreamChecker implements XBTListener {
     @Override
     public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
         XBTToken token = getStream().pullXBTToken();
-        if (token.getTokenType() != XBTTokenType.ATTRIBUTE || ((XBTAttributeToken)token).getAttribute().toLong() != value.toLong()) {
+        if (token.getTokenType() != XBTTokenType.ATTRIBUTE || ((XBTAttributeToken)token).getAttribute().getLong() != value.getLong()) {
             throw new XBParseException("Unexpected event order");
         }
     }

@@ -17,18 +17,24 @@
 package org.xbup.lib.xb.ubnumber.exception;
 
 /**
- * Runtime exception related to 
+ * Runtime exception related to LRUB-encoded values processing.
  *
- * @version 0.1 wr13.0 2007/02/04
+ * @version 0.1 wr24.0 2014/06/07
  * @author XBUP Project (http://xbup.org)
  */
 public class UBException extends RuntimeException {
 
-    /** Creates a new instance of UBException */
+    /**
+     * Creates a new instance of UBException.
+     */
     public UBException() {
     }
 
+    /**
+     * Creates a new instance of UBException.
+     *
+     * @param comment exception comment
+     */
     public UBException(String comment) {
     }
-
 }

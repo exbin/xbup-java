@@ -30,7 +30,6 @@ import org.xbup.lib.xb.catalog.declaration.XBCDeclaration;
 import org.xbup.lib.xb.catalog.declaration.XBCPBlockDecl;
 import org.xbup.lib.xb.parser.XBProcessingException;
 import org.xbup.lib.xb.block.XBBlockTerminationMode;
-import org.xbup.lib.xb.parser.tree.XBTreeNode;
 import org.xbup.lib.xb.serial.XBSerialHandler;
 import org.xbup.lib.xb.serial.XBSerialMethod;
 import org.xbup.lib.xb.serial.XBSerializable;
@@ -113,7 +112,7 @@ public class XBTime implements XBSerializable, XBDeclared { // XBCL2Streamable
                     try {
                         CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
                     } catch (IOException ex) {
-                        Logger.getLogger(XBTreeNode.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(XBTime.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     byte[] newValue = stream.toByteArray();
                     setValue(newValue[1] >> 8 + newValue[0]);

@@ -78,7 +78,7 @@ public class XBStreamChecker implements XBListener {
     @Override
     public void attribXB(UBNatural value) throws XBProcessingException, IOException {
         XBToken token = stream.pullXBToken();
-        if (token.getTokenType() != XBTokenType.ATTRIBUTE || ((XBAttributeToken)token).getAttribute().toLong() != value.toLong()) {
+        if (token.getTokenType() != XBTokenType.ATTRIBUTE || ((XBAttributeToken)token).getAttribute().getLong() != value.getLong()) {
             throw new XBParseException("Unexpected event order");
         }
     }

@@ -21,18 +21,18 @@ import org.xbup.lib.xb.block.XBBasicBlockType;
 import org.xbup.lib.xb.block.XBBlockDataMode;
 import org.xbup.lib.xb.block.XBBlockType;
 import org.xbup.lib.xb.block.XBFixedBlockType;
+import org.xbup.lib.xb.block.XBTBlock;
 import org.xbup.lib.xb.catalog.XBCatalog;
 import org.xbup.lib.xb.catalog.declaration.XBCDeclaration;
 import org.xbup.lib.xb.catalog.declaration.XBCFormatDecl;
 import org.xbup.lib.xb.catalog.declaration.XBCGroupDecl;
-import org.xbup.lib.xb.parser.tree.XBTTreeNode;
 
 /**
  * Class representing current context for block type processing.
  *
  * Context include groups, blocks and their current numbers in current block.
  *
- * @version 0.1 wr23.0 2013/11/07
+ * @version 0.1 wr24.0 2014/06/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBContext {
@@ -107,16 +107,16 @@ public class XBContext {
          return null; */
     }
 
-    public static XBContext processDeclaration(XBCatalog catalog, XBContext parent, XBTTreeNode specBlock) {
+    public static XBContext processDeclaration(XBCatalog catalog, XBContext parent, XBTBlock specBlock) {
         if (specBlock.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
             if (specBlock.getAttributesCount() > 1) {
-                if ((specBlock.getAttributeValue(0) == 0) && (specBlock.getAttributeValue(1) == XBBasicBlockType.DECLARATION.ordinal())) {
+                if ((specBlock.getBlockType().getGroupID().getLong() == 0) && (specBlock.getBlockType().getBlockID().getLong() == XBBasicBlockType.DECLARATION.ordinal())) {
                     XBContext context = new XBContext(catalog);
                     context.setParent(parent);
-                    context.getDeclaration().setGroupsReserved(specBlock.getAttributeValue(2));
-                    context.getDeclaration().setPreserveCount(specBlock.getAttributeValue(3));
+                    context.getDeclaration().setGroupsReserved(specBlock.getAttribute(0).getLong());
+                    context.getDeclaration().setPreserveCount(specBlock.getAttribute(1).getLong());
                     if (specBlock.getChildCount() > 0) {
-                        context.getDeclaration().setFormat(XBCFormatDecl.processFormatSpec(catalog, (XBTTreeNode) specBlock.getChildAt(0)));
+                        context.getDeclaration().setFormat(XBCFormatDecl.processFormatSpec(catalog, specBlock.getChildAt(0)));
                     }
                     return context;
                 }

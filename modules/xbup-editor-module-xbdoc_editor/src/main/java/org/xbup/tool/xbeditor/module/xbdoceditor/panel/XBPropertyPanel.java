@@ -443,7 +443,7 @@ public class XBPropertyPanel extends javax.swing.JPanel {
         if (blockType == null) {
             return "Unknown";
         }
-        return "Unknown" + " (" + Integer.toString(blockType.getGroupID().toInt()) + ", "+ Integer.toString(blockType.getBlockID().toInt())+")";
+        return "Unknown" + " (" + Integer.toString(blockType.getGroupID().getInt()) + ", "+ Integer.toString(blockType.getBlockID().getInt())+")";
     }
 
     public void actionItemProperties() {

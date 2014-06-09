@@ -40,6 +40,7 @@ import org.xbup.lib.xb.serial.child.XBTChildProviderSerialMethod;
 import org.xbup.lib.xb.ubnumber.UBENatural;
 import org.xbup.lib.xb.ubnumber.UBNatural;
 import org.xbup.lib.xb.ubnumber.type.UBENat32;
+import org.xbup.lib.xb.ubnumber.type.UBNat32;
 
 /**
  * XBUP level 1 XBTChildListener handler.
@@ -48,7 +49,7 @@ import org.xbup.lib.xb.ubnumber.type.UBENat32;
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTSerialSequenceProviderHandler implements XBTSerialSequence, XBTInputTokenSerialHandler {
-    
+
     private XBTPullProvider pullProvider;
     private XBSerialState state;
 
@@ -85,14 +86,14 @@ public class XBTSerialSequenceProviderHandler implements XBTSerialSequence, XBTI
                     } else {
                         // TODO Process method
                         /*
-                        XBTSerialMethod serialMethod = item.getItem().getXBTSerializationMethod();
-                        if (serialMethod instanceof XBTSerialMethodStream) {
-                            ((XBTSerialMethodStream) serialMethod).serializeFromXBT(new XBSerialSequence.XBJoinInputStream(serial, params));
-                        } else if (serialMethod instanceof XBTSerialSequenceListenerMethod) {
-                            throw new UnsupportedOperationException("Not supported yet.");
-                        } else {
-                            throw new XBProcessingException("Unknown serialization object");
-                        } */
+                         XBTSerialMethod serialMethod = item.getItem().getXBTSerializationMethod();
+                         if (serialMethod instanceof XBTSerialMethodStream) {
+                         ((XBTSerialMethodStream) serialMethod).serializeFromXBT(new XBSerialSequence.XBJoinInputStream(serial, params));
+                         } else if (serialMethod instanceof XBTSerialSequenceListenerMethod) {
+                         throw new UnsupportedOperationException("Not supported yet.");
+                         } else {
+                         throw new XBProcessingException("Unknown serialization object");
+                         } */
                         XBJoinInputStream joinSerial = new XBJoinInputStream(serial, params);
                         joinSerial.attachXBTPullProvider(pullProvider);
                         item.getItem().serializeXB(XBSerializationType.FROM_XB, 0, joinSerial);
@@ -162,16 +163,16 @@ public class XBTSerialSequenceProviderHandler implements XBTSerialSequence, XBTI
             if (serialType == XBSerializationType.FROM_XB) {
                 XBTChildProvider serial = (XBTChildProvider) serializationHandler;
                 UBNatural count = getSize();
-                while (!count.isZero()) {
+                while (count.getLong() != 0) {
                     serial.nextChild(next(), 0);
-                    count.dec();
+                    count = new UBNat32(count.getLong() - 1);
                 }
             } else {
                 XBTChildListener serial = (XBTChildListener) serializationHandler;
                 UBNatural count = getSize();
-                while (!count.isZero()) {
+                while (count.getLong() != 0) {
                     serial.addChild(next(), 0);
-                    count.dec();
+                    count = new UBNat32(count.getLong() - 1);
                 }
             }
         }
@@ -225,9 +226,9 @@ public class XBTSerialSequenceProviderHandler implements XBTSerialSequence, XBTI
                         serial.nextChild(next(), 0);
                     } while (block != null);
                 } else {
-                    while (!count.isZero()) {
+                    while (count.getLong() != 0) {
                         serial.nextChild(next(), 0);
-                        count.dec();
+                        count = new UBENat32(count.getLong() - 1);
                     }
                 }
             } else {
@@ -244,9 +245,9 @@ public class XBTSerialSequenceProviderHandler implements XBTSerialSequence, XBTI
                         }
                     } while (block != null);
                 } else {
-                    while (!count.isZero()) {
+                    while (count.getLong() != 0) {
                         serial.addChild(next(), 0);
-                        count.dec();
+                        count = new UBENat32(count.getLong() - 1);
                     }
                 }
             }
@@ -269,7 +270,7 @@ public class XBTSerialSequenceProviderHandler implements XBTSerialSequence, XBTI
             pullProvider = provider;
             // TODO: Unused?
         }
-        
+
         @Override
         public XBBlockTerminationMode begin() throws XBProcessingException, IOException {
             throw new XBProcessingException("Unexpected serial begin event");

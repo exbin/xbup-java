@@ -20,7 +20,7 @@ import org.xbup.lib.xb.block.XBBlockType;
 import org.xbup.lib.xb.block.declaration.XBDeclaration;
 import org.xbup.lib.xb.parser.basic.XBTListener;
 import org.xbup.lib.xb.parser.basic.XBTProvider;
-import org.xbup.lib.xb.parser.basic.XBTPullFilter;
+import org.xbup.lib.xb.parser.basic.XBTProviderFilter;
 
 /**
  * Decode specifications head for events and links relevant block types to it.
@@ -28,7 +28,7 @@ import org.xbup.lib.xb.parser.basic.XBTPullFilter;
  * @version 0.1 wr23.0 2013/11/18
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTPullDecapsulator implements XBTPullFilter {
+public class XBTPullDecapsulator implements XBTProviderFilter {
 
     private XBTProvider provider;
     private XBTListener listener;

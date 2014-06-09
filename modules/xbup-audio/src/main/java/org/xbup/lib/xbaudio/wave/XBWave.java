@@ -42,7 +42,7 @@ import org.xbup.lib.xb.serial.child.XBTChildListener;
 import org.xbup.lib.xb.serial.child.XBTChildListenerSerialMethod;
 import org.xbup.lib.xb.serial.child.XBTChildProvider;
 import org.xbup.lib.xb.serial.child.XBTChildProviderSerialMethod;
-import org.xbup.lib.xb.ubnumber.UBNumber;
+import org.xbup.lib.xb.ubnumber.UBNatural;
 import org.xbup.lib.xb.ubnumber.type.UBNat32;
 
 /**
@@ -145,12 +145,12 @@ public class XBWave implements XBSerializable {
         if (serialType == XBSerializationType.FROM_XB) {
             XBTChildProvider serial = (XBTChildProvider) serializationHandler;
             serial.getType(); //setType(new XBCBlockDecl(xbBlockPath));
-            UBNumber sampleRate = serial.nextAttribute();
-            UBNumber sampleSizeInBits = serial.nextAttribute();
-            UBNumber channels = serial.nextAttribute();
-            UBNumber signed = serial.nextAttribute();
-            UBNumber bigEndian = serial.nextAttribute();
-            audioFormat = new AudioFormat(sampleRate.toInt(), sampleSizeInBits.toInt(), channels.toInt(), signed.toInt() == 1, bigEndian.toInt() == 1);
+            UBNatural sampleRate = serial.nextAttribute();
+            UBNatural sampleSizeInBits = serial.nextAttribute();
+            UBNatural channels = serial.nextAttribute();
+            UBNatural signed = serial.nextAttribute();
+            UBNatural bigEndian = serial.nextAttribute();
+            audioFormat = new AudioFormat(sampleRate.getInt(), sampleSizeInBits.getInt(), channels.getInt(), signed.getInt() == 1, bigEndian.getInt() == 1);
             serial.nextChild(new XBSerializable() {
                 @Override
                 public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {

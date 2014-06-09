@@ -22,6 +22,7 @@ import org.xbup.lib.xb.block.XBBasicBlockType;
 import org.xbup.lib.xb.block.XBBlockDataMode;
 import org.xbup.lib.xb.block.XBBlockType;
 import org.xbup.lib.xb.block.XBFixedBlockType;
+import org.xbup.lib.xb.block.XBTBlock;
 import org.xbup.lib.xb.block.declaration.XBFormatDecl;
 import org.xbup.lib.xb.block.declaration.XBGroupDecl;
 import org.xbup.lib.xb.catalog.XBCatalog;
@@ -34,7 +35,6 @@ import org.xbup.lib.xb.catalog.base.service.XBCNodeService;
 import org.xbup.lib.xb.catalog.base.service.XBCRevService;
 import org.xbup.lib.xb.catalog.base.service.XBCSpecService;
 import org.xbup.lib.xb.parser.basic.XBTListener;
-import org.xbup.lib.xb.parser.tree.XBTTreeNode;
 import org.xbup.lib.xb.ubnumber.type.UBPath32;
 
 /**
@@ -60,40 +60,40 @@ public class XBCFormatDecl extends XBFormatDecl {
 
     public boolean produceXBT() {
         throw new UnsupportedOperationException("Not supported yet.");
-/*        try {
-            eventListener.beginXBL1(false);
-            eventListener.typeXBL1(new XBL1SBBlockDecl(XBBasicBlockType.GROUP_CATALOG_LINK));
-            eventListener.attribXBL1(new UBNat32(path.length-1));
-            for (int i = 0; i < path.length; i++) {
-                eventListener.attribXBL1(new UBNat32(path[i]));
-            }
-            eventListener.endXBL1();
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBCFormatDecl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBCFormatDecl.class.getName()).log(Level.SEVERE, null, ex);
-        } */
+        /*        try {
+         eventListener.beginXBL1(false);
+         eventListener.typeXBL1(new XBL1SBBlockDecl(XBBasicBlockType.GROUP_CATALOG_LINK));
+         eventListener.attribXBL1(new UBNat32(path.length-1));
+         for (int i = 0; i < path.length; i++) {
+         eventListener.attribXBL1(new UBNat32(path[i]));
+         }
+         eventListener.endXBL1();
+         } catch (XBProcessingException ex) {
+         Logger.getLogger(XBCFormatDecl.class.getName()).log(Level.SEVERE, null, ex);
+         } catch (IOException ex) {
+         Logger.getLogger(XBCFormatDecl.class.getName()).log(Level.SEVERE, null, ex);
+         } */
     }
 
-    public static XBFormatDecl processFormatSpec(XBCatalog catalog, XBTTreeNode specBlock) {
+    public static XBFormatDecl processFormatSpec(XBCatalog catalog, XBTBlock specBlock) {
         // TODO: Provide nonstatic method to call super
         XBCNodeService nodeService = (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
         if (specBlock.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
-            if (specBlock.getAttributesCount()>1) {
-                if ((specBlock.getAttributeValue(0)==0)&&(specBlock.getAttributeValue(1)==XBBasicBlockType.FORMAT_DECLARATION.ordinal())) {
+            if (specBlock.getAttributesCount() > 1) {
+                if ((specBlock.getBlockType().getGroupID().getLong() == 0) && (specBlock.getBlockType().getBlockID().getLong() == XBBasicBlockType.FORMAT_DECLARATION.ordinal())) {
                     XBCFormatDecl decl = new XBCFormatDecl(catalog);
-                    decl.setGroupsLimit(specBlock.getAttributeValue(2));
-                    Long[] catalogPath = new Long[specBlock.getAttributeValue(3)];
+                    decl.setGroupsLimit(specBlock.getAttribute(0).getLong());
+                    Long[] catalogPath = new Long[specBlock.getAttribute(1).getInt()];
                     int i;
                     for (i = 0; i < catalogPath.length; i++) {
-                        catalogPath[i] = new Long(specBlock.getAttributeValue(i+4));
+                        catalogPath[i] = specBlock.getAttribute(i + 2).getLong();
                     }
                     XBCNode node = nodeService.findParentByXBPath(catalogPath);
                     if (node != null) {
-                        decl.setFormatSpec(specService.findFormatSpecByXB(node, catalogPath[catalogPath.length-1]));
+                        decl.setFormatSpec(specService.findFormatSpecByXB(node, catalogPath[catalogPath.length - 1]));
                     }
-                    decl.setRevision(specBlock.getAttributeValue(i+4));
+                    decl.setRevision(specBlock.getAttribute(i + 2).getLong());
                     return decl;
                 }
             }
@@ -162,49 +162,49 @@ public class XBCFormatDecl extends XBFormatDecl {
         setGroups(groups);
     }
 
-/*
-    public long getGroupsCount() {
-        Long count = catalog.getSpecManager().getSpecDefsCount(spec);
-        if (count==0) return 0;
-        return count.longValue();
-    }
+    /*
+     public long getGroupsCount() {
+     Long count = catalog.getSpecManager().getSpecDefsCount(spec);
+     if (count==0) return 0;
+     return count.longValue();
+     }
 
-    public XBL1BlockDecl getBlockType(int group, int block) {
-        if ((spec.getXBIndex().intValue()>0)||(spec.getParent().getParent()!=null)) { // Not root context
-            if (group==0) return catalog.getRootContext().getBlockType(group,block);
-            group--;
-        }
-        XBCSpecDef formatBind = (XBCSpecDef) catalog.getSpecManager().findSpecDefByXB(spec,group);
-        if (formatBind == null) return null;
-        XBCSpec groupSpec = (XBCSpec) formatBind.getTarget();
-        if (groupSpec == null) return null;
-        XBCSpecDef groupBind = (XBCSpecDef) catalog.getSpecManager().findSpecDefByXB(groupSpec,block);
-        if (groupBind == null) return null;
-        XBCSpec blockSpec = (XBCSpec) groupBind.getTarget();
-        if (blockSpec == null) return null;
-        return new XBL1CSBlockDecl(catalog, (XBCBlockSpec) blockSpec);
-    }
+     public XBL1BlockDecl getBlockType(int group, int block) {
+     if ((spec.getXBIndex().intValue()>0)||(spec.getParent().getParent()!=null)) { // Not root context
+     if (group==0) return catalog.getRootContext().getBlockType(group,block);
+     group--;
+     }
+     XBCSpecDef formatBind = (XBCSpecDef) catalog.getSpecManager().findSpecDefByXB(spec,group);
+     if (formatBind == null) return null;
+     XBCSpec groupSpec = (XBCSpec) formatBind.getTarget();
+     if (groupSpec == null) return null;
+     XBCSpecDef groupBind = (XBCSpecDef) catalog.getSpecManager().findSpecDefByXB(groupSpec,block);
+     if (groupBind == null) return null;
+     XBCSpec blockSpec = (XBCSpec) groupBind.getTarget();
+     if (blockSpec == null) return null;
+     return new XBL1CSBlockDecl(catalog, (XBCBlockSpec) blockSpec);
+     }
 
-    public void toXB(XBL0Listener target) throws XBProcessingException, IOException {
-        target.beginXBL0(false);
-        // TODO: DocumentSpecification - replace with relevant code later
-        target.attribXBL0(new UBNat32(0));
-        target.attribXBL0(new UBNat32(0));
-        target.attribXBL0(new UBNat32(getGroupsCount()));
-        target.attribXBL0(new UBNat32(1));
-        target.attribXBL0(new UBNat32(2));
-        target.beginXBL0(true);
-        // TODO: Format Specification in catalog
-        target.attribXBL0(new UBNat32(0));
-        target.attribXBL0(new UBNat32(6));
-        // TODO: UBPath type
-        Long[] path = catalog.getNodeManager().getNodeXBPath(spec.getParent());
-        target.attribXBL0(new UBNat32(path.length));
-        for (int i = 0; i < path.length; i++) {
-            target.attribXBL0(new UBNat32(path[i]));
-        }
-        target.attribXBL0(new UBNat32(spec.getXBIndex()));
-        target.endXBL0();
-    }
-*/
+     public void toXB(XBL0Listener target) throws XBProcessingException, IOException {
+     target.beginXBL0(false);
+     // TODO: DocumentSpecification - replace with relevant code later
+     target.attribXBL0(new UBNat32(0));
+     target.attribXBL0(new UBNat32(0));
+     target.attribXBL0(new UBNat32(getGroupsCount()));
+     target.attribXBL0(new UBNat32(1));
+     target.attribXBL0(new UBNat32(2));
+     target.beginXBL0(true);
+     // TODO: Format Specification in catalog
+     target.attribXBL0(new UBNat32(0));
+     target.attribXBL0(new UBNat32(6));
+     // TODO: UBPath type
+     Long[] path = catalog.getNodeManager().getNodeXBPath(spec.getParent());
+     target.attribXBL0(new UBNat32(path.length));
+     for (int i = 0; i < path.length; i++) {
+     target.attribXBL0(new UBNat32(path[i]));
+     }
+     target.attribXBL0(new UBNat32(spec.getXBIndex()));
+     target.endXBL0();
+     }
+     */
 }

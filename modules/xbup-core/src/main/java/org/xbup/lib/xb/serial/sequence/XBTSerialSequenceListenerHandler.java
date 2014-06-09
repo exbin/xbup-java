@@ -39,6 +39,8 @@ import org.xbup.lib.xb.serial.XBSerializationType;
 import org.xbup.lib.xb.serial.XBTOutputTokenSerialHandler;
 import org.xbup.lib.xb.ubnumber.UBENatural;
 import org.xbup.lib.xb.ubnumber.UBNatural;
+import org.xbup.lib.xb.ubnumber.type.UBENat32;
+import org.xbup.lib.xb.ubnumber.type.UBNat32;
 
 /**
  * XBUP level 1 XBTChildListener handler.
@@ -87,9 +89,9 @@ public class XBTSerialSequenceListenerHandler implements XBTSerialSequence, XBTO
                         // TODO process serial methods
                         // XBSerialMethod serialMethod = item.getItem().getSerializationMethods(XBSerializationType.TO_XB);
                         //if (serialMethod instanceof XBTSerialMethodStream) {
-                            XBJoinOutputSerial joinSerial = new XBJoinOutputSerial(serial, params);
-                            joinSerial.attachXBTEventListener(eventListener);
-                            item.getItem().serializeXB(XBSerializationType.TO_XB, 0, joinSerial);
+                        XBJoinOutputSerial joinSerial = new XBJoinOutputSerial(serial, params);
+                        joinSerial.attachXBTEventListener(eventListener);
+                        item.getItem().serializeXB(XBSerializationType.TO_XB, 0, joinSerial);
                         //} else if (serialMethod instanceof XBTSerialSequenceListenerMethod) {
                         //    throw new UnsupportedOperationException("Not supported yet.");
                         //} else {
@@ -112,7 +114,7 @@ public class XBTSerialSequenceListenerHandler implements XBTSerialSequence, XBTO
                 case LIST_CONSIST: {
                     XBSerialSequenceIList list = (XBSerialSequenceIList) item.getItem();
                     UBENatural count = list.getSize();
-                    serial.addAttribute(count);
+                    serial.addAttribute(new UBNat32(count.getLong()));
                     params.add(new XBSequenceSerializableIList(list));
                     break;
                 }
@@ -160,16 +162,16 @@ public class XBTSerialSequenceListenerHandler implements XBTSerialSequence, XBTO
             if (serialType == XBSerializationType.FROM_XB) {
                 XBTChildProvider serial = (XBTChildProvider) serializationHandler;
                 UBNatural count = getSize();
-                while (!count.isZero()) {
+                while (count.getLong() != 0) {
                     serial.nextChild(next(), 0);
-                    count.dec();
+                    count = new UBNat32(count.getLong() - 1);
                 }
             } else {
                 XBTChildListener serial = (XBTChildListener) serializationHandler;
                 UBNatural count = getSize();
-                while (!count.isZero()) {
+                while (count.getLong() != 0) {
                     serial.addChild(next(), 0);
-                    count.dec();
+                    count = new UBNat32(count.getLong() - 1);
                 }
             }
         }
@@ -223,9 +225,9 @@ public class XBTSerialSequenceListenerHandler implements XBTSerialSequence, XBTO
                         serial.nextChild(next(), 0);
                     } while (block != null);
                 } else {
-                    while (!count.isZero()) {
+                    while (count.getLong() != 0) {
                         serial.nextChild(next(), 0);
-                        count.dec();
+                        count = new UBENat32(count.getLong() - 1);
                     }
                 }
             } else {
@@ -242,9 +244,9 @@ public class XBTSerialSequenceListenerHandler implements XBTSerialSequence, XBTO
                         }
                     } while (block != null);
                 } else {
-                    while (!count.isZero()) {
+                    while (count.getLong() != 0) {
                         serial.addChild(next(), 0);
-                        count.dec();
+                        count = new UBENat32(count.getLong() - 1);
                     }
                 }
             }
@@ -267,7 +269,7 @@ public class XBTSerialSequenceListenerHandler implements XBTSerialSequence, XBTO
             eventListener = listener;
             // TODO: Unused?
         }
-        
+
         @Override
         public void begin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         }

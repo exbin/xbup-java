@@ -3,7 +3,7 @@ apply plugin: 'application'
 version = '0.1.24-SNAPSHOT'
 
 task wrapper(type: Wrapper, description: 'Creates and deploys the Gradle wrapper to the current directory.') {
-    gradleVersion = '1.11'
+    gradleVersion = '2.0'
 }
 
 task zip(type:Zip) {

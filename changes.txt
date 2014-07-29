@@ -1,3 +1,6 @@
+Work Release 24
+- Build system changed to Gradle
+
 Work Release 23 (2014-06-01)
 - Added java web catalog (XBCatalogWeb)
 

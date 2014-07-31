@@ -1,11 +1,13 @@
 rootProject.name = 'xbup-plugin-picture'
 include ":modules:xbup-core"
+include ":modules:xbup-catalog"
 include ":modules:xbup-plugin"
 include ":modules:xbup-visual"
 
 if (rootProject.path == ':') {
     def rootProjectDir = rootProject.projectDir.path + "/../.."
     project(':modules:xbup-core').projectDir = new File(rootProjectDir + "/modules/xbup-core")
+    project(':modules:xbup-catalog').projectDir = new File(rootProjectDir + "/modules/xbup-catalog")
     project(':modules:xbup-plugin').projectDir = new File(rootProjectDir + "/modules/xbup-plugin")
     project(':modules:xbup-visual').projectDir = new File(rootProjectDir + "/modules/xbup-visual")
 }

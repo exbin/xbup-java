@@ -16,6 +16,8 @@
  */
 package org.xbup.lib.xb.parser.tree;
 
+import org.xbup.lib.parser_tree.XBTreeDocument;
+import org.xbup.lib.parser_tree.XBTreeNode;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -23,10 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 import junit.framework.TestCase;
 import org.junit.Test;
-import org.xbup.lib.xb.block.XBBlock;
-import org.xbup.lib.xb.parser.XBProcessingException;
-import org.xbup.lib.xb.ubnumber.UBNatural;
-import org.xbup.lib.xb.ubnumber.type.UBNat32;
+import org.xbup.lib.core.block.XBBlock;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * Test class for XBTreeDocument.

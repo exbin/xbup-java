@@ -18,10 +18,10 @@ package org.xbup.plugin.audio;
  */
 import javax.swing.JPanel;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
-import org.xbup.lib.xbplugin.XBLineEditor;
-import org.xbup.lib.xbplugin.XBPanelEditor;
-import org.xbup.lib.xbplugin.XBPlugin;
-import org.xbup.lib.xbplugin.XBTransformation;
+import org.xbup.lib.plugin.XBLineEditor;
+import org.xbup.lib.plugin.XBPanelEditor;
+import org.xbup.lib.plugin.XBPlugin;
+import org.xbup.lib.plugin.XBTransformation;
 
 /**
  * XBUP Editor plugin - provides editing panel for XBUP data.

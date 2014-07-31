@@ -16,6 +16,8 @@
  */
 package org.xbup.lib.xb.parser.token.event;
 
+import org.xbup.lib.core.parser.token.event.XBEventListener;
+import org.xbup.lib.core.parser.token.event.XBEventReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,17 +28,17 @@ import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 import junit.framework.TestCase;
 import org.junit.Test;
-import org.xbup.lib.xb.block.XBBlockTerminationMode;
-import org.xbup.lib.xb.parser.XBParseException;
-import org.xbup.lib.xb.parser.XBProcessingException;
-import org.xbup.lib.xb.parser.XBProcessingExceptionType;
-import org.xbup.lib.xb.parser.token.XBAttributeToken;
-import org.xbup.lib.xb.parser.token.XBBeginToken;
-import org.xbup.lib.xb.parser.token.XBDataToken;
-import org.xbup.lib.xb.parser.token.XBEndToken;
-import org.xbup.lib.xb.parser.token.XBToken;
-import org.xbup.lib.xb.parser.token.XBTokenType;
-import org.xbup.lib.xb.ubnumber.type.UBNat32;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.XBParseException;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.parser.token.XBAttributeToken;
+import org.xbup.lib.core.parser.token.XBBeginToken;
+import org.xbup.lib.core.parser.token.XBDataToken;
+import org.xbup.lib.core.parser.token.XBEndToken;
+import org.xbup.lib.core.parser.token.XBToken;
+import org.xbup.lib.core.parser.token.XBTokenType;
+import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * Test class for XBEventReader.

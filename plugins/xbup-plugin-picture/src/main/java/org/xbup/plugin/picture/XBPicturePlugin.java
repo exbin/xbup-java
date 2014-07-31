@@ -18,11 +18,11 @@ package org.xbup.plugin.picture;
  */
 import javax.swing.JPanel;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
-import org.xbup.lib.xbplugin.XBLineEditor;
-import org.xbup.lib.xbplugin.XBPanelEditor;
-import org.xbup.lib.xbplugin.XBPlugin;
-import org.xbup.lib.xbplugin.XBTransformation;
-import org.xbup.lib.xbvisual.xbplugins.XBPicturePanel;
+import org.xbup.lib.plugin.XBLineEditor;
+import org.xbup.lib.plugin.XBPanelEditor;
+import org.xbup.lib.plugin.XBPlugin;
+import org.xbup.lib.plugin.XBTransformation;
+import org.xbup.lib.visual.xbplugins.XBPicturePanel;
 
 /**
  * XBUP Editor plugin - provides editing panel for XBUP data.

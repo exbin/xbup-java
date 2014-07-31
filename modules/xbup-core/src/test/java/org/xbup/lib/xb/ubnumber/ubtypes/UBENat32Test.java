@@ -23,8 +23,8 @@ import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
-import org.xbup.lib.xb.parser.XBProcessingException;
-import org.xbup.lib.xb.ubnumber.type.UBENat32;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.ubnumber.type.UBENat32;
 
 /**
  * Test class for UBENat32.

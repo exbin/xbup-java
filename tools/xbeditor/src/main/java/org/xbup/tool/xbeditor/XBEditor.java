@@ -29,14 +29,14 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.xbup.lib.xb.parser.basic.XBHead;
-import org.xbup.tool.xbeditor.module.javahelp.JavaHelpModule;
-import org.xbup.tool.xbeditor.module.onlinehelp.OnlineHelpModule;
-import org.xbup.tool.xbeditor.module.xbdoceditor.XBDocEditorModule;
-import org.xbup.tool.xbeditorbase.base.XBEditorApplication;
-import org.xbup.tool.xbeditorbase.base.XBEditorApplication.XBAppCommand;
-import org.xbup.tool.xbeditorbase.base.XBEditorBase;
-import org.xbup.tool.xbeditorbase.base.api.ApplicationModule;
+import org.xbup.lib.core.parser.basic.XBHead;
+import org.xbup.tool.editor.module.java_help.JavaHelpModule;
+import org.xbup.tool.editor.module.online_help.OnlineHelpModule;
+import org.xbup.tool.editor.module.xbdoc_editor.XBDocEditorModule;
+import org.xbup.tool.editor.base.XBEditorApplication;
+import org.xbup.tool.editor.base.XBEditorApplication.XBAppCommand;
+import org.xbup.tool.editor.base.XBEditorBase;
+import org.xbup.tool.editor.base.api.ApplicationModule;
 
 /**
  * The main class of the XBEditor application.

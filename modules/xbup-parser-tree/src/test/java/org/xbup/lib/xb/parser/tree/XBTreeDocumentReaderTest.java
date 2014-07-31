@@ -16,6 +16,8 @@
  */
 package org.xbup.lib.xb.parser.tree;
 
+import org.xbup.lib.parser_tree.XBTreeDocument;
+import org.xbup.lib.parser_tree.XBTreeNode;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,11 +26,11 @@ import java.util.logging.Logger;
 import static junit.framework.Assert.assertEquals;
 import junit.framework.TestCase;
 import org.junit.Test;
-import org.xbup.lib.xb.block.XBBlockDataMode;
-import org.xbup.lib.xb.block.XBBlockTerminationMode;
-import org.xbup.lib.xb.parser.XBParseException;
-import org.xbup.lib.xb.parser.XBProcessingException;
-import org.xbup.lib.xb.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.block.XBBlockDataMode;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.XBParseException;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
 
 /**
  * Test class for XBTreeDocument.

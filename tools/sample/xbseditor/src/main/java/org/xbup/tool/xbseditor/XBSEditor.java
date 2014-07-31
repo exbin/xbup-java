@@ -27,10 +27,10 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.xbup.lib.xb.parser.basic.XBHead;
-import org.xbup.tool.xbeditor.module.xbwaveeditor.XBWaveEditorModule;
-import org.xbup.tool.xbeditorbase.base.XBEditorApplication;
-import org.xbup.tool.xbeditorbase.base.XBEditorBase;
+import org.xbup.lib.core.parser.basic.XBHead;
+import org.xbup.tool.editor.module.wave_editor.XBWaveEditorModule;
+import org.xbup.tool.editor.base.XBEditorApplication;
+import org.xbup.tool.editor.base.XBEditorBase;
 
 /**
  * The main class of the XBSEditor application.

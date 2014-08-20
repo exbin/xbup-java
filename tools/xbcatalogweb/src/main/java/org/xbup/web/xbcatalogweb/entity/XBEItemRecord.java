@@ -18,24 +18,24 @@ package org.xbup.web.xbcatalogweb.entity;
 
 import org.xbup.web.xbcatalogweb.base.XBCItemRecord;
 import java.io.Serializable;
-import org.xbup.lib.xbcatalog.entity.XBEBlockCons;
-import org.xbup.lib.xbcatalog.entity.XBEBlockJoin;
-import org.xbup.lib.xbcatalog.entity.XBEBlockRev;
-import org.xbup.lib.xbcatalog.entity.XBEBlockSpec;
-import org.xbup.lib.xbcatalog.entity.XBEFormatCons;
-import org.xbup.lib.xbcatalog.entity.XBEFormatJoin;
-import org.xbup.lib.xbcatalog.entity.XBEFormatRev;
-import org.xbup.lib.xbcatalog.entity.XBEFormatSpec;
-import org.xbup.lib.xbcatalog.entity.XBEGroupCons;
-import org.xbup.lib.xbcatalog.entity.XBEGroupJoin;
-import org.xbup.lib.xbcatalog.entity.XBEGroupRev;
-import org.xbup.lib.xbcatalog.entity.XBEGroupSpec;
-import org.xbup.lib.xbcatalog.entity.XBEItem;
-import org.xbup.lib.xbcatalog.entity.XBENode;
-import org.xbup.lib.xbcatalog.entity.XBESpecDef;
-import org.xbup.lib.xbcatalog.entity.XBEXDesc;
-import org.xbup.lib.xbcatalog.entity.XBEXName;
-import org.xbup.lib.xbcatalog.entity.XBEXStri;
+import org.xbup.lib.catalog.entity.XBEBlockCons;
+import org.xbup.lib.catalog.entity.XBEBlockJoin;
+import org.xbup.lib.catalog.entity.XBEBlockRev;
+import org.xbup.lib.catalog.entity.XBEBlockSpec;
+import org.xbup.lib.catalog.entity.XBEFormatCons;
+import org.xbup.lib.catalog.entity.XBEFormatJoin;
+import org.xbup.lib.catalog.entity.XBEFormatRev;
+import org.xbup.lib.catalog.entity.XBEFormatSpec;
+import org.xbup.lib.catalog.entity.XBEGroupCons;
+import org.xbup.lib.catalog.entity.XBEGroupJoin;
+import org.xbup.lib.catalog.entity.XBEGroupRev;
+import org.xbup.lib.catalog.entity.XBEGroupSpec;
+import org.xbup.lib.catalog.entity.XBEItem;
+import org.xbup.lib.catalog.entity.XBENode;
+import org.xbup.lib.catalog.entity.XBESpecDef;
+import org.xbup.lib.catalog.entity.XBEXDesc;
+import org.xbup.lib.catalog.entity.XBEXName;
+import org.xbup.lib.catalog.entity.XBEXStri;
 
 /**
  * Item record entity.

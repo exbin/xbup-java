@@ -20,7 +20,7 @@ import org.xbup.web.xbcatalogweb.base.service.XBCUserRecordService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xbup.lib.xbcatalog.entity.XBEXUser;
+import org.xbup.lib.catalog.entity.XBEXUser;
 import org.xbup.web.xbcatalogweb.base.XBCUserRecord;
 import org.xbup.web.xbcatalogweb.base.manager.XBCUserRecordManager;
 

@@ -18,7 +18,7 @@ package org.xbup.web.xbcatalogweb.base.service;
 
 import java.io.Serializable;
 import java.util.List;
-import org.xbup.lib.xb.catalog.base.service.XBCService;
+import org.xbup.lib.core.catalog.base.service.XBCService;
 import org.xbup.web.xbcatalogweb.base.XBCPackageRecord;
 
 /**

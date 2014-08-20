@@ -13,10 +13,10 @@
     <!-- Import persistence context -->
     <import resource="persistenceContext.xml" />
     
-    <bean class="org.xbup.lib.xbcatalog.XBAECatalog" />
+    <bean class="org.xbup.lib.catalog.XBAECatalog" />
         
-    <context:component-scan base-package="org.xbup.lib.xbcatalog.entity.manager" />
-    <context:component-scan base-package="org.xbup.lib.xbcatalog.entity.service" />
+    <context:component-scan base-package="org.xbup.lib.catalog.entity.manager" />
+    <context:component-scan base-package="org.xbup.lib.catalog.entity.service" />
     <context:component-scan base-package="org.xbup.web.xbcatalogweb" />
         
     <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">

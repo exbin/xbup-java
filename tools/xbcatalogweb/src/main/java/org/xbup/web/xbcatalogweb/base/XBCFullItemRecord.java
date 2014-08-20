@@ -16,8 +16,8 @@
  */
 package org.xbup.web.xbcatalogweb.base;
 
-import org.xbup.lib.xbcatalog.entity.XBEXHDoc;
-import org.xbup.lib.xbcatalog.entity.XBEXLanguage;
+import org.xbup.lib.catalog.entity.XBEXHDoc;
+import org.xbup.lib.catalog.entity.XBEXLanguage;
 
 /**
  * Full item record entity interface.

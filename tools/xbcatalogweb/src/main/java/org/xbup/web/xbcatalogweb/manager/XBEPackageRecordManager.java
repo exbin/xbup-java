@@ -25,11 +25,11 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.xbup.lib.xbcatalog.entity.XBENode;
-import org.xbup.lib.xbcatalog.entity.XBEXName;
-import org.xbup.lib.xbcatalog.entity.XBEXStri;
-import org.xbup.lib.xbcatalog.entity.manager.XBENodeManager;
-import org.xbup.lib.xbcatalog.entity.manager.XBEXLangManager;
+import org.xbup.lib.catalog.entity.XBENode;
+import org.xbup.lib.catalog.entity.XBEXName;
+import org.xbup.lib.catalog.entity.XBEXStri;
+import org.xbup.lib.catalog.entity.manager.XBENodeManager;
+import org.xbup.lib.catalog.entity.manager.XBEXLangManager;
 import org.xbup.web.xbcatalogweb.base.XBCPackageRecord;
 import org.xbup.web.xbcatalogweb.entity.XBEPackageRecord;
 

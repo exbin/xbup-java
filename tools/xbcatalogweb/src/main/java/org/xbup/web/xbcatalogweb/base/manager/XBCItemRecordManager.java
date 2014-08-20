@@ -18,8 +18,8 @@ package org.xbup.web.xbcatalogweb.base.manager;
 
 import java.io.Serializable;
 import java.util.List;
-import org.xbup.lib.xb.catalog.base.manager.XBCManager;
-import org.xbup.lib.xbcatalog.entity.XBEXHDoc;
+import org.xbup.lib.core.catalog.base.manager.XBCManager;
+import org.xbup.lib.catalog.entity.XBEXHDoc;
 import org.xbup.web.xbcatalogweb.base.XBCFullItemRecord;
 import org.xbup.web.xbcatalogweb.base.XBCItemRecord;
 import org.xbup.web.xbcatalogweb.entity.XBEItemRecord;

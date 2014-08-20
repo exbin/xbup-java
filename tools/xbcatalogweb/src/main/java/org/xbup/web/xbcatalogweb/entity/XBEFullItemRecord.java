@@ -19,11 +19,11 @@ package org.xbup.web.xbcatalogweb.entity;
 import org.xbup.web.xbcatalogweb.base.XBCFullItemRecord;
 import java.io.Serializable;
 import java.nio.charset.Charset;
-import org.xbup.lib.xbcatalog.entity.XBEXDesc;
-import org.xbup.lib.xbcatalog.entity.XBEXFile;
-import org.xbup.lib.xbcatalog.entity.XBEXHDoc;
-import org.xbup.lib.xbcatalog.entity.XBEXLanguage;
-import org.xbup.lib.xbcatalog.entity.XBEXName;
+import org.xbup.lib.catalog.entity.XBEXDesc;
+import org.xbup.lib.catalog.entity.XBEXFile;
+import org.xbup.lib.catalog.entity.XBEXHDoc;
+import org.xbup.lib.catalog.entity.XBEXLanguage;
+import org.xbup.lib.catalog.entity.XBEXName;
 
 /**
  * Full item record entity.

@@ -29,7 +29,7 @@ import org.xbup.web.xbcatalogweb.entity.XBEItemRecord;
 /**
  * XBEItemRecord service.
  *
- * @version 0.1 wr23.0 2014/05/13
+ * @version 0.1 wr24.0 2014/08/20
  * @author XBUP Project (http://xbup.org)
  */
 @Service
@@ -85,6 +85,10 @@ public class XBEItemRecordService implements XBCItemRecordService {
     @Override
     public XBCFullItemRecord findForEditById(Long selectedItemId) {
         return manager.findForEditById(selectedItemId);
+    }
+
+    public XBCFullItemRecord createForEdit() {
+        return manager.createForEdit();
     }
 
     @Override

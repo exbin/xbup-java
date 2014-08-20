@@ -38,7 +38,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * UBNatural stored as long value (limited value capacity to 32 bits).
  *
- * @version 0.1 wr24.0 2014/06/09
+ * @version 0.1 wr24.0 2014/08/12
  * @author XBUP Project (http://xbup.org)
  */
 public class UBNat32 implements UBNatural, XBSerializable {
@@ -46,9 +46,6 @@ public class UBNat32 implements UBNatural, XBSerializable {
     private static long MAX_VALUE = 4294967295l;
     private long value;
 
-    /**
-     * Creates a new instance of UBNat32.
-     */
     public UBNat32() {
         value = 0;
     }
@@ -175,7 +172,7 @@ public class UBNat32 implements UBNatural, XBSerializable {
             }
         }
 
-        throw new XBProcessingException("Value too big", XBProcessingExceptionType.UNSUPPORTED);
+        throw new XBProcessingException("Value is too big for 32-bit value", XBProcessingExceptionType.UNSUPPORTED);
     }
 
     @Override

@@ -54,9 +54,11 @@
                     </a4j:outputPanel>
                 </h:form>
                 <br /><br />
-                <h:form>
+                <h:form id="actionForm">
                     <rich:toolbar height="26px">
-                        <rich:menuItem label="New (TBD)" title="Create New Item" />
+                        <rich:menuItem label="New" title="Create New Item" disabled="#{!authBacking.authenticated}"
+                                       action="#{editBacking.createItem}" mode="ajax"
+                                       oncomplete="if(#{editBacking.lastActionSuccess})#{rich:component('editItemPopup')}.show();return false;" render="editItemPopup:editItemHeader" />
                     </rich:toolbar>
                 </h:form>
                 <br/><br/>

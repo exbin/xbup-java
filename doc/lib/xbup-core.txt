@@ -1,0 +1,47 @@
+====== XBUP Core Library ======
+
+Core library provides set of interfaces and functions to support XBUP-encoded document's handling. It provides basic parsers, declarations and catalog access, basic types and support for serialization, streaming and access to framework service.
+
+===== Basic Interfaces =====
+
+===== Declarations and Basic Types =====
+
+
+===== Parsers =====
+
+Implementation of pull, event and tree parser is included in core library.
+
+=== Event Interfaces ===
+
+Base of the parsers the transformation of the stream to the stream of recognized events, which are then processed. The reverse procedure is also possible to generate the document. For access to different types of events the XBEventHandler interface is defined:
+
+public void begin(boolean term) throws XBParseException;\\
+public void attrib(XBAttribute value) throws XBParseException;\\
+public void data(byte[] data) throws XBParseException;\\
+public void end() throws XBParseException;\\
+
+Similarly, there are methods defined for the interfaces at higher levels.
+
+===== Serialization and Streaming =====
+
+=== Stream Event Processing ===
+
+Defined interfaces are XBEventReader, XBEventWriter and XBFilter which allow the transmission of events and their modifications. With a combination of filters, it is possible to build a process for event stream processing.
+
+Read(Source: TXBEventHandler)\\
+Write: TXBEventHandler\\
+
+XBStream abstract class is also available and it defines the sequence of events and allows to perform operations with this stream. Class has features such as jump to another position in the stream and similar.
+
+XBStreamable interface indicates whether class is transferable to XBStream:
+
+public void ReadFromXB(XBStream stream);\\
+public void WriteToXB(XBStream stream);
+
+If you can get from the class the sequence of events, class should implement XBEventHandler interface:
+
+For each parser it's possible to obtain class using specific methods, which provides access to internal state of parser and transformation to the event processing.
+
+
+===== Framework and Catalog Access =====
+

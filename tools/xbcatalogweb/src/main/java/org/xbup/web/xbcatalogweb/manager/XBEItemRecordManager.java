@@ -38,6 +38,7 @@ import org.xbup.lib.xbcatalog.entity.manager.XBEXHDocManager;
 import org.xbup.lib.xbcatalog.entity.manager.XBEXLangManager;
 import org.xbup.lib.xbcatalog.entity.manager.XBEXNameManager;
 import org.xbup.lib.xbcatalog.entity.manager.XBEXStriManager;
+import org.xbup.web.xbcatalogweb.base.XBCFullItemRecord;
 import org.xbup.web.xbcatalogweb.base.XBCItemRecord;
 import org.xbup.web.xbcatalogweb.entity.XBEFullItemRecord;
 import org.xbup.web.xbcatalogweb.entity.XBEItemRecord;
@@ -45,7 +46,7 @@ import org.xbup.web.xbcatalogweb.entity.XBEItemRecord;
 /**
  * XBUP catalog XBEItemRecord manager.
  *
- * @version 0.1 wr23.0 2014/05/30
+ * @version 0.1 wr24.0 2014/08/20
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -74,7 +75,7 @@ public class XBEItemRecordManager implements XBCItemRecordManager {
 
     @Override
     public XBCItemRecord createItem() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new XBEItemRecord();
     }
 
     @Transactional
@@ -327,6 +328,29 @@ public class XBEItemRecordManager implements XBCItemRecordManager {
         return itemRecord;
     }
 
+    public XBCFullItemRecord createForEdit() {
+        XBEFullItemRecord itemRecord = new XBEFullItemRecord();
+        itemRecord.setLanguage(langManager.getDefaultLang());
+        XBEItem item = new XBEItem();
+        itemRecord.setItem(item);
+        XBEXName name = new XBEXName();
+        name.setItem(item);
+        itemRecord.setName(name);
+        XBEXDesc desc = new XBEXDesc();
+        desc.setItem(item);
+        itemRecord.setDesc(desc);
+        XBEXStri stri = new XBEXStri();
+        stri.setItem(item);
+        itemRecord.setStri(stri);
+        XBEXHDoc hdoc = new XBEXHDoc();
+        hdoc.setItem(item);
+        hdoc.setLang(langManager.getDefaultLang());
+        hdoc.setDocFile(new XBEXFile());
+        itemRecord.setHdoc(hdoc);
+        
+        return itemRecord;
+    }
+    
     @Override
     public List<XBCItemRecord> findAllByParent(Long selectedPackageId) {
         long languageId = langManager.getDefaultLang().getId();

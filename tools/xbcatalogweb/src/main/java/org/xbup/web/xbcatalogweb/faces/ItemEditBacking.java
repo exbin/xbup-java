@@ -60,6 +60,10 @@ public final class ItemEditBacking implements Serializable {
         editedItem = itemRecordService.findForEditById(editedItemId);
     }
 
+    public void createItem() {
+        editedItem = itemRecordService.createForEdit();
+    }
+
     public XBCFullItemRecord getEditedItem() {
         return editedItem;
     }

@@ -16,8 +16,6 @@
  */
 package org.xbup.lib.core.catalog;
 
-import javax.swing.ImageIcon;
-import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.catalog.base.service.XBCLimiService;
 import org.xbup.lib.core.catalog.base.service.XBCTranService;
 import org.xbup.lib.core.catalog.client.XBCatalogServiceClient;
@@ -41,13 +39,5 @@ public class XBARCatalog extends XBRCatalog implements XBACatalog {
         super(client);
         catalogServices.put(XBCLimiService.class, new XBRLimiService(this));
         catalogServices.put(XBCTranService.class, new XBRTranService(this));
-    }
-
-    public String getCaption(XBBlockType blockType) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public ImageIcon getDefaultIcon(XBBlockType blockType) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

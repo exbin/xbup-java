@@ -80,7 +80,7 @@ public class XBHead {
      * @param stream
      * @return count of processed bytes
      * @throws IOException and ParseException
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
+     * @throws XBProcessingException if header doesn't match correct format
      */
     public static int checkXBUPHead(InputStream stream) throws IOException, XBProcessingException {
         byte[] head = new byte[XB_HEADER.length];

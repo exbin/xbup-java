@@ -63,14 +63,16 @@ public class XBEventReader implements XBEventProducer {
         openStream(inputStream);
     }
 
-    /** Open input byte-stream. */
+    /**
+     * Open input byte-stream.
+     */
     private void openStream(InputStream stream) throws IOException {
         source = stream;
     }
 
     /**
      * Open input byte-stream.
-     * 
+     *
      * @param stream input stream
      * @throws java.io.IOException
      */
@@ -80,8 +82,8 @@ public class XBEventReader implements XBEventProducer {
 
     /**
      * Process all events and send them to target.
-     * 
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
+     *
+     * @throws XBProcessingException
      * @throws java.io.IOException
      */
     public void read() throws XBProcessingException, IOException {
@@ -93,7 +95,7 @@ public class XBEventReader implements XBEventProducer {
         // Process single node
         readNode();
     }
-    
+
     /**
      * Read single node and all its child nodes.
      *
@@ -111,11 +113,11 @@ public class XBEventReader implements XBEventProducer {
             shrinkStatus(sizeLimits, headSize);
             if (attrPartSize.getLong() == 0) {
                 // Process terminator
-                if (sizeLimits.isEmpty() || sizeLimits.get(sizeLimits.size()-1) != null) {
+                if (sizeLimits.isEmpty() || sizeLimits.get(sizeLimits.size() - 1) != null) {
                     throw new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR);
                 }
 
-                sizeLimits.remove(sizeLimits.size()-1);
+                sizeLimits.remove(sizeLimits.size() - 1);
                 listener.putXBToken(new XBEndToken());
             } else {
                 // Process regular block
@@ -130,9 +132,9 @@ public class XBEventReader implements XBEventProducer {
 
                 if (attrPartSizeValue == dataPartSizeLength) {
                     // Process data block
-                    InputStreamWrapper dataWrapper = (dataPartSizeValue == null) ?
-                            new TerminatedDataInputStreamWrapper(source):
-                            new FixedDataInputStreamWrapper(source, dataPartSizeValue);
+                    InputStreamWrapper dataWrapper = (dataPartSizeValue == null)
+                            ? new TerminatedDataInputStreamWrapper(source)
+                            : new FixedDataInputStreamWrapper(source, dataPartSizeValue);
                     listener.putXBToken(new XBDataToken((InputStream) dataWrapper));
                     dataWrapper.finish();
                     shrinkStatus(sizeLimits, dataWrapper.getLength());
@@ -158,8 +160,8 @@ public class XBEventReader implements XBEventProducer {
             }
 
             // Enclose all completed blocks
-            while (sizeLimits.size()>0 && sizeLimits.get(sizeLimits.size()-1) != null && sizeLimits.get(sizeLimits.size()-1) == 0) {
-                sizeLimits.remove(sizeLimits.size()-1);
+            while (sizeLimits.size() > 0 && sizeLimits.get(sizeLimits.size() - 1) != null && sizeLimits.get(sizeLimits.size() - 1) == 0) {
+                sizeLimits.remove(sizeLimits.size() - 1);
 
                 if (sizeLimits.isEmpty()) {
                     // Process extended area
@@ -176,7 +178,7 @@ public class XBEventReader implements XBEventProducer {
 
     /**
      * Close input stream.
-     * 
+     *
      * @throws java.io.IOException
      */
     public void close() throws IOException {
@@ -185,7 +187,7 @@ public class XBEventReader implements XBEventProducer {
 
     /**
      * Method to shrink limits accross all depths.
-     * 
+     *
      * @param length Value to shrink all limits off
      * @throws XBParseException If limits are breached
      */
@@ -197,7 +199,7 @@ public class XBEventReader implements XBEventProducer {
                     throw new XBParseException("Block Overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
                 }
 
-                sizeLimits.set(depth,limit-length);
+                sizeLimits.set(depth, limit - length);
             }
         }
     }

@@ -35,7 +35,7 @@ public interface XBChildProvider {
      * Get beggining of block.
      * 
      * @return terminated block flag
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
+     * @throws XBProcessingException
      * @throws java.io.IOException
      */
     public XBBlockTerminationMode begin() throws XBProcessingException, IOException;
@@ -44,7 +44,7 @@ public interface XBChildProvider {
      * Get block attribute.
      * 
      * @return attribute value
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
+     * @throws XBProcessingException
      * @throws java.io.IOException
      */
     public UBNatural nextAttribute() throws XBProcessingException, IOException;
@@ -54,7 +54,7 @@ public interface XBChildProvider {
      * 
      * @param child serializable block
      * @param methodIndex method index
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
+     * @throws XBProcessingException
      * @throws java.io.IOException
      */
     public void nextChild(XBSerializable child, int methodIndex) throws XBProcessingException, IOException;
@@ -63,7 +63,7 @@ public interface XBChildProvider {
      * Get block data.
      * 
      * @return block data stream
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
+     * @throws XBProcessingException
      * @throws java.io.IOException
      */
     public InputStream nextData() throws XBProcessingException, IOException;
@@ -71,7 +71,7 @@ public interface XBChildProvider {
     /**
      * Get end of block.
      * 
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
+     * @throws XBProcessingException
      * @throws java.io.IOException
      */
     public void end() throws XBProcessingException, IOException;

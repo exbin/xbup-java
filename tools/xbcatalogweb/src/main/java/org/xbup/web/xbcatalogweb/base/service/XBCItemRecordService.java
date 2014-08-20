@@ -27,7 +27,7 @@ import org.xbup.web.xbcatalogweb.entity.XBEItemRecord;
 /**
  * XBEItemRecord service interface.
  *
- * @version 0.1 wr23.0 2014/05/25
+ * @version 0.1 wr24.0 2014/08/20
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCItemRecordService extends XBCService<XBCItemRecord>, Serializable {
@@ -39,6 +39,8 @@ public interface XBCItemRecordService extends XBCService<XBCItemRecord>, Seriali
     int findAllPagedCount(String filterCondition);
 
     XBCFullItemRecord findForEditById(Long selectedItemId);
+    
+    XBCFullItemRecord createForEdit();
 
     public XBEXHDoc getItemDoc(XBEItemRecord selectedItem);
     

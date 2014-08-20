@@ -142,6 +142,12 @@ public final class EditBacking implements Serializable {
         lastActionSuccess = true;
     }
 
+    public void createItem() {
+        itemEditBacking.setEditedItemId(new Long(0));
+        itemEditBacking.createItem();
+        lastActionSuccess = true;
+    }
+
     public String getDataInfo() {
         int rows = items.size();
         return "(Entries: "

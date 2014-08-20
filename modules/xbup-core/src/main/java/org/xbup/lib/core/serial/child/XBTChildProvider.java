@@ -36,7 +36,7 @@ public interface XBTChildProvider {
      * Get beggining of block.
      * 
      * @return terminated block flag
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
+     * @throws XBProcessingException
      * @throws java.io.IOException
      */
     public XBBlockTerminationMode begin() throws XBProcessingException, IOException;
@@ -45,7 +45,7 @@ public interface XBTChildProvider {
      * Get block type.
      * 
      * @return block type
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
+     * @throws XBProcessingException
      * @throws java.io.IOException
      */
     public XBBlockType getType() throws XBProcessingException, IOException;
@@ -54,7 +54,7 @@ public interface XBTChildProvider {
      * Get block attribute.
      * 
      * @return attribute value
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
+     * @throws XBProcessingException
      * @throws java.io.IOException
      */
     public UBNatural nextAttribute() throws XBProcessingException, IOException;
@@ -64,7 +64,7 @@ public interface XBTChildProvider {
      * 
      * @param child serializable block
      * @param methodIndex method index
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
+     * @throws XBProcessingException
      * @throws java.io.IOException
      */
     public void nextChild(XBSerializable child, int methodIndex) throws XBProcessingException, IOException;
@@ -73,7 +73,7 @@ public interface XBTChildProvider {
      * Get block data.
      * 
      * @return block data stream
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
+     * @throws XBProcessingException
      * @throws java.io.IOException
      */
     public InputStream nextData() throws XBProcessingException, IOException;
@@ -81,7 +81,7 @@ public interface XBTChildProvider {
     /**
      * Get end of block.
      * 
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
+     * @throws XBProcessingException
      * @throws java.io.IOException
      */
     public void end() throws XBProcessingException, IOException;

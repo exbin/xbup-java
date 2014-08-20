@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.xb.ubnumber.ubtypes;
+package org.xbup.lib.core.ubnumber.ubtypes;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -24,17 +24,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.core.ubnumber.type.UBENat32;
 
 /**
- * Test class for UBNat32.
+ * Test class for UBENat32.
  *
  * @version 0.1 wr23.0 2013/11/07
  * @author XBUP Project (http://xbup.org)
  */
-public class UBNat32Test extends TestCase {
+public class UBENat32Test extends TestCase {
 
-    public UBNat32Test(String testName) {
+    public UBENat32Test(String testName) {
         super(testName);
     }
 
@@ -49,13 +49,13 @@ public class UBNat32Test extends TestCase {
     }
 
     /**
-     * Test of fromStreamUB method, of class UBNat32.
+     * Test of fromStreamUB method, of class UBENat32.
      * 
      * @throws java.lang.Exception
      */
     public void testFromStreamUB() throws Exception {
         System.out.println("fromStreamUB");
-        UBNat32 instance = new UBNat32();
+        UBENat32 instance = new UBENat32();
         InputStream stream;
         int result;
 
@@ -67,61 +67,66 @@ public class UBNat32Test extends TestCase {
         stream = new ByteArrayInputStream(new byte[] { -0x80, 0 } );
         result = instance.fromStreamUB(stream);
         assertEquals(2, result);
-        assertEquals(128, instance.getInt());
+        assertEquals(127, instance.getInt());
     }
 
     /**
-     * Test of toStreamUB and fromStreamUB method, of class UBNat32.
+     * Test of toStreamUB and fromStreamUB method, of class UBENat32.
      */
     public void testReadWrite() {
         ByteArrayOutputStream oStream = new ByteArrayOutputStream();
         try {
-            assertEquals(1,new UBNat32(0x7F).toStreamUB(oStream));
-            assertEquals(2,new UBNat32(0x80).toStreamUB(oStream));
-            assertEquals(2,new UBNat32(0x407F).toStreamUB(oStream));
-            assertEquals(3,new UBNat32(0x4080).toStreamUB(oStream));
-            assertEquals(3,new UBNat32(0x20407F).toStreamUB(oStream));
-            assertEquals(4,new UBNat32(0x204080).toStreamUB(oStream));
-            assertEquals(4,new UBNat32(0x1020407F).toStreamUB(oStream));
-            assertEquals(5,new UBNat32(0x10204080).toStreamUB(oStream));
+            assertEquals(1,new UBENat32(0x7E).toStreamUB(oStream));
+            assertEquals(2,new UBENat32(0x7F).toStreamUB(oStream));
+            assertEquals(2,new UBENat32(0x407E).toStreamUB(oStream));
+            assertEquals(3,new UBENat32(0x407F).toStreamUB(oStream));
+            assertEquals(3,new UBENat32(0x20407E).toStreamUB(oStream));
+            assertEquals(4,new UBENat32(0x20407F).toStreamUB(oStream));
+            assertEquals(4,new UBENat32(0x1020407E).toStreamUB(oStream));
+            assertEquals(5,new UBENat32(0x1020407F).toStreamUB(oStream));
+            UBENat32 infinity = new UBENat32();
+            infinity.setInfinity();
+            assertEquals(infinity.toStreamUB(oStream),1);
             oStream.flush();
             oStream.close();
         } catch (IOException ex) {
-            Logger.getLogger(UBNat32Test.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UBENat32Test.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         ByteArrayInputStream iStream;
         try {
             iStream = new ByteArrayInputStream(oStream.toByteArray());
-            UBNat32 value = new UBNat32();
+            UBENat32 value = new UBENat32();
             assertEquals(1,value.fromStreamUB(iStream));
+            assertEquals(0x7E, value.getInt());
+            assertEquals(2,value.fromStreamUB(iStream));
             assertEquals(0x7F, value.getInt());
             assertEquals(2,value.fromStreamUB(iStream));
-            assertEquals(0x80, value.getInt());
-            assertEquals(2,value.fromStreamUB(iStream));
+            assertEquals(0x407E, value.getInt());
+            assertEquals(3,value.fromStreamUB(iStream));
             assertEquals(0x407F, value.getInt());
             assertEquals(3,value.fromStreamUB(iStream));
-            assertEquals(0x4080, value.getInt());
-            assertEquals(3,value.fromStreamUB(iStream));
+            assertEquals(0x20407E, value.getInt());
+            assertEquals(4,value.fromStreamUB(iStream));
             assertEquals(0x20407F, value.getInt());
             assertEquals(4,value.fromStreamUB(iStream));
-            assertEquals(0x204080, value.getInt());
-            assertEquals(4,value.fromStreamUB(iStream));
-            assertEquals(0x1020407F, value.getInt());
+            assertEquals(0x1020407E, value.getInt());
             assertEquals(5,value.fromStreamUB(iStream));
-            assertEquals(0x10204080, value.getInt());
+            assertEquals(0x1020407F, value.getInt());
+            value.fromStreamUB(iStream);
+            assertTrue(value.isInfinity());
             iStream.close();
         } catch (IOException | XBProcessingException ex) {
-            Logger.getLogger(UBNat32Test.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UBENat32Test.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     /**
-     * Test of getInt method, of class UBNat32.
+     * Test of getInt method, of class UBENat32.
      */
     public void testGetInt() {
         System.out.println("getInt");
-        UBNat32 instance = new UBNat32(Integer.MAX_VALUE);
+        UBENat32 instance = new UBENat32(Integer.MAX_VALUE);
         int expResult = Integer.MAX_VALUE;
         int result = instance.getInt();
         assertEquals(expResult, result);

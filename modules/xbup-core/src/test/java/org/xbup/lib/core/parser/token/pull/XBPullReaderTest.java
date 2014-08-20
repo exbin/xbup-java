@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.xb.parser.token.pull;
+package org.xbup.lib.core.parser.token.pull;
 
 import org.xbup.lib.core.parser.token.pull.XBPullConsumer;
 import org.xbup.lib.core.parser.token.pull.XBPullProvider;

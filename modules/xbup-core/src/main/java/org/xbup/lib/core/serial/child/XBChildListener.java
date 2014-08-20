@@ -35,7 +35,7 @@ public interface XBChildListener {
      * Put beggining of block.
      * 
      * @param terminationMode flag
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
+     * @throws XBProcessingException
      * @throws java.io.IOException
      */
     public void begin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
@@ -44,7 +44,7 @@ public interface XBChildListener {
      * Put block attribute.
      * 
      * @param attribute attribute value
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
+     * @throws XBProcessingException
      * @throws java.io.IOException
      */
     public void addAttribute(UBNatural attribute) throws XBProcessingException, IOException;
@@ -54,7 +54,7 @@ public interface XBChildListener {
      * 
      * @param node serializable block
      * @param methodIndex method index
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
+     * @throws XBProcessingException
      * @throws java.io.IOException
      */
     public void addChild(XBSerializable node, int methodIndex) throws XBProcessingException, IOException;
@@ -63,7 +63,7 @@ public interface XBChildListener {
      * Put block data.
      * 
      * @param data data stream
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
+     * @throws XBProcessingException
      * @throws java.io.IOException
      */
     public void addData(InputStream data) throws XBProcessingException, IOException;
@@ -71,7 +71,7 @@ public interface XBChildListener {
     /**
      * Put end of block.
      * 
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
+     * @throws XBProcessingException
      * @throws java.io.IOException
      */
     public void end() throws XBProcessingException, IOException;

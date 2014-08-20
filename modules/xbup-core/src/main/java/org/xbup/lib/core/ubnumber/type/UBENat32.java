@@ -194,7 +194,7 @@ public class UBENat32 implements UBENatural {
             }
         }
 
-        throw new XBProcessingException("Value is too big", XBProcessingExceptionType.UNSUPPORTED);
+        throw new XBProcessingException("Value is too big for 32-bit value", XBProcessingExceptionType.UNSUPPORTED);
     }
 
     @Override

@@ -19,7 +19,7 @@ package org.xbup.demo.slrub1;
 /**
  * The main class of the XBPEditor application.
  *
- * @version 0.1 wr20.0 2011/01/16
+ * @version 0.1.20 2011/01/16
  * @author XBUP Project (http://xbup.org)
  */
 public class LRUB1DemoForm extends javax.swing.JFrame {

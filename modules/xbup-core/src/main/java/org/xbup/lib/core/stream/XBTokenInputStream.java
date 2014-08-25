@@ -24,7 +24,7 @@ import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 /**
  * XBUP level 0 token input stream abstract class.
  *
- * @version 0.1 wr23.0 2014/02/25
+ * @version 0.1.23 2014/02/25
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class XBTokenInputStream implements Closeable, XBPullProvider {

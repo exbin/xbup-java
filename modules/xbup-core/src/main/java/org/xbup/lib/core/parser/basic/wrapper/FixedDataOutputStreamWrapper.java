@@ -22,7 +22,7 @@ import java.io.OutputStream;
 /**
  * Output stream wrapper for fixed length data block.
  *
- * @version 0.1 wr23.0 2014/03/06
+ * @version 0.1.23 2014/03/06
  * @author XBUP Project (http://xbup.org)
  */
 public class FixedDataOutputStreamWrapper extends OutputStream implements OutputStreamWrapper {

@@ -19,7 +19,7 @@ package org.xbup.tool.editor.module.text_editor.panel;
 /**
  * XB Word Wrapping Interface.
  *
- * @version 0.1 wr22.0 2013/03/24
+ * @version 0.1.22 2013/03/24
  * @author XBUP Project (http://xbup.org)
  */
 public interface TextAppearancePanelFrame {

@@ -25,7 +25,7 @@ import org.xbup.tool.editor.module.wave_editor.panel.AudioPanel;
 /**
  * File Properties Dialog.
  *
- * @version 0.1 wr19.0 2010/01/23
+ * @version 0.1.19 2010/01/23
  * @author XBUP Project (http://xbup.org)
  */
 public class PropertiesDialog extends javax.swing.JDialog {

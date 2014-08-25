@@ -19,7 +19,7 @@ package org.xbup.lib.core.serial.sequence;
 /**
  * XBUP level 1 serialization sequence operation types enumeration.
  *
- * @version 0.1 wr23.0 2014/02/07
+ * @version 0.1.23 2014/02/07
  * @author XBUP Project (http://xbup.org)
  */
 public enum XBSerialSequenceOp {

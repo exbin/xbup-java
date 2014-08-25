@@ -21,7 +21,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * Interface for LRUB-encoded real value limited to range [0, 1].
  *
- * @version 0.1 wr24.0 2014/06/07
+ * @version 0.1.24 2014/06/07
  * @author XBUP Project (http://xbup.org)
  */
 public interface UBRatio {

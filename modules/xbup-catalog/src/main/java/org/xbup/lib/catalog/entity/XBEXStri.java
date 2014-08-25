@@ -28,7 +28,7 @@ import org.xbup.lib.core.catalog.base.XBCXStri;
 /**
  * Item string identification keys database entity.
  *
- * @version 0.1 wr21.0 2012/04/18
+ * @version 0.1.21 2012/04/18
  * @author XBUP Project (http://xbup.org)
  */
 @Entity(name="XBXStri")

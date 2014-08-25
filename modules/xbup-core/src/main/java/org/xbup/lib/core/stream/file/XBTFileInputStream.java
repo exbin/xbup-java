@@ -34,7 +34,7 @@ import org.xbup.lib.core.stream.XBTInputTokenStream;
 
 /**
  *
- * @version 0.1 wr23.0 2013/11/25
+ * @version 0.1.23 2013/11/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTFileInputStream extends XBTInputTokenStream {

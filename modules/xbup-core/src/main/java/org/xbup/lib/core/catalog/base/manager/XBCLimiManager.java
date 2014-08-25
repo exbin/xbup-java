@@ -21,7 +21,7 @@ import org.xbup.lib.core.catalog.base.XBCItemLimi;
 /**
  * Interface for XBCItemLimi catalog manager.
  *
- * @version 0.1 wr21.0 2011/12/29
+ * @version 0.1.21 2011/12/29
  * @author XBUP Project (http://xbup.org)
  * @param <T> item limitation entity
  */

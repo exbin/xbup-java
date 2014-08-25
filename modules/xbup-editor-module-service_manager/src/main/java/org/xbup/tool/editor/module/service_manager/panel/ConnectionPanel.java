@@ -29,7 +29,7 @@ import org.xbup.tool.editor.module.service_manager.dialog.AddConnectionDialog;
 /**
  * Connection Management Panel.
  *
- * @version 0.1 wr22.0 2012/11/29
+ * @version 0.1.22 2012/11/29
  * @author XBUP Project (http://xbup.org)
  */
 public class ConnectionPanel extends javax.swing.JPanel {

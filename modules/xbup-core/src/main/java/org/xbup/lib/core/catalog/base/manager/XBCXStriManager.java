@@ -25,7 +25,7 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 /**
  * Interface for XBCXStri catalog manager.
  *
- * @version 0.1 wr21.0 2012/04/18
+ * @version 0.1.21 2012/04/18
  * @author XBUP Project (http://xbup.org)
  * @param <T> string index entity
  */

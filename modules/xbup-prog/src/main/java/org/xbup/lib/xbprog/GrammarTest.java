@@ -55,7 +55,7 @@ import org.xbup.lib.xbprog.grammar.XBRegularGrammarRule;
 /**
  * Testing application for Grammars.
  *
- * @version 0.1 wr19.0 2010/02/12
+ * @version 0.1.19 2010/02/12
  * @author XBUP Project (http://xbup.org)
  */
 public class GrammarTest {

@@ -29,7 +29,7 @@ import org.xbup.lib.catalog.entity.manager.XBEXUserManager;
 /**
  * Interface for XBEXUser items service.
  *
- * @version 0.1 wr21.0 2014/03/16
+ * @version 0.1.21 2014/03/16
  * @author XBUP Project (http://xbup.org)
  */
 @Service

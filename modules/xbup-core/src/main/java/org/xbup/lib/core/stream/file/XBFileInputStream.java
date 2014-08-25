@@ -31,7 +31,7 @@ import org.xbup.lib.core.stream.XBTokenInputStream;
 
 /**
  *
- * @version 0.1 wr17.0 2009/07/13
+ * @version 0.1.17 2009/07/13
  * @author XBUP Project (http://xbup.org)
  */
 public class XBFileInputStream extends XBTokenInputStream {

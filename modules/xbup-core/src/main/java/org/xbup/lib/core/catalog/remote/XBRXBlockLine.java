@@ -33,7 +33,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Catalog remote block line editor entity.
  *
- * @version 0.1 wr19.0 2010/06/19
+ * @version 0.1.19 2010/06/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXBlockLine implements XBCXBlockLine {

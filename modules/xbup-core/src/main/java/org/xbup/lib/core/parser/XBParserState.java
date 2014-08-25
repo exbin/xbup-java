@@ -19,7 +19,7 @@ package org.xbup.lib.core.parser;
 /**
  * Enumeration of possible parsing states.
  *
- * @version 0.1 wr23.0 2013/02/05
+ * @version 0.1.23 2013/02/05
  * @author XBUP Project (http://xbup.org)
  */
 public enum XBParserState {

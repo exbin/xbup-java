@@ -36,7 +36,7 @@ import org.xbup.lib.catalog.entity.XBEXStri;
 /**
  * XBUP catalog string ID manager.
  *
- * @version 0.1 wr22.0 2013/01/13
+ * @version 0.1.22 2013/01/13
  * @author XBUP Project (http://xbup.org)
  */
 @Repository

@@ -23,7 +23,7 @@ import java.io.OutputStream;
 /**
  * Utilities for copying stream data.
  *
- * @version 0.1 wr23.0 2014/03/09
+ * @version 0.1.23 2014/03/09
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class CopyStreamUtils {

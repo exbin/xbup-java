@@ -57,7 +57,7 @@ import org.xbup.tool.editor.base.api.MainFrameManagement;
 /**
  * XBTEditor Main Frame.
  *
- * @version 0.1 wr22.0 2013/03/24
+ * @version 0.1.22 2013/03/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPanelFrame, TextFontPanelFrame, TextEncodingPanelFrame, TextAppearancePanelFrame {

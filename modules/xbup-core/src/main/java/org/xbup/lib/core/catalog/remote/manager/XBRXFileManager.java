@@ -42,7 +42,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Manager class for XBRXFile catalog items.
  *
- * @version 0.1 wr22.0 2013/07/28
+ * @version 0.1.22 2013/07/28
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXFileManager extends XBRDefaultManager<XBRXFile> implements XBCXFileManager<XBRXFile> {

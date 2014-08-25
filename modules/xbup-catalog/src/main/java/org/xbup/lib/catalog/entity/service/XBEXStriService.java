@@ -35,7 +35,7 @@ import org.xbup.lib.catalog.entity.manager.XBEXStriManager;
 /**
  * Interface for XBEXStri items service.
  *
- * @version 0.1 wr22.0 2013/01/13
+ * @version 0.1.22 2013/01/13
  * @author XBUP Project (http://xbup.org)
  */
 @Service

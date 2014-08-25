@@ -19,7 +19,7 @@ package org.xbup.lib.core.stream;
 /**
  * XBUP level 1 output stream filter abstract class.
  *
- * @version 0.1 wr15.0 2008/01/25
+ * @version 0.1.15 2008/01/25
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class XBTOutputStreamFilter extends XBTOutputStream {

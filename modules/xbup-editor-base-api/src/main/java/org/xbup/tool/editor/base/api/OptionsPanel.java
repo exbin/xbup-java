@@ -22,7 +22,7 @@ import java.util.prefs.Preferences;
 /**
  * Interface for basic options panels.
  *
- * @version 0.1 wr22.0 2013/03/18
+ * @version 0.1.22 2013/03/18
  * @author XBUP Project (http://xbup.org)
  */
 public interface OptionsPanel {

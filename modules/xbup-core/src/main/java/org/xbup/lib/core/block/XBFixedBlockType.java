@@ -22,7 +22,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Block type defined as fixed group and block indexes.
  *
- * @version 0.1 wr23.0 2013/11/04
+ * @version 0.1.23 2013/11/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBFixedBlockType implements XBBlockType {

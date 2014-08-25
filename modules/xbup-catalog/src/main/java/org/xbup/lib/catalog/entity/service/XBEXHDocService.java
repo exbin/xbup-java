@@ -33,7 +33,7 @@ import org.xbup.lib.catalog.entity.manager.XBEXHDocManager;
 /**
  * Interface for XBEXHDoc items service.
  *
- * @version 0.1 wr21.0 2011/02/05
+ * @version 0.1.21 2011/02/05
  * @author XBUP Project (http://xbup.org)
  */
 @Service

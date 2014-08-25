@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.base;
 /**
  * Interface for catalog icon mode entity.
  *
- * @version 0.1 wr21.0 2012/05/01
+ * @version 0.1.21 2012/05/01
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCXIconMode extends XBCBase {

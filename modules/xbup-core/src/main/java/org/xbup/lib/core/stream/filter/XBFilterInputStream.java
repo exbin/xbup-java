@@ -29,7 +29,7 @@ import org.xbup.lib.core.stream.XBTokenInputStream;
 /**
  * Standard filter stream for XBUP level 0.
  *
- * @version 0.1 wr16.0 2008/08/03
+ * @version 0.1.16 2008/08/03
  * @author XBUP Project (http://xbup.org)
  */
 @Deprecated

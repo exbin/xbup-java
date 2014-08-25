@@ -36,7 +36,7 @@ import org.xbup.lib.catalog.entity.manager.XBEXFileManager;
 /**
  * Interface for XBEXFile items service.
  *
- * @version 0.1 wr22.0 2013/07/28
+ * @version 0.1.22 2013/07/28
  * @author XBUP Project (http://xbup.org)
  */
 @Service

@@ -38,7 +38,7 @@ import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 /**
  * XBUP level 0 to level 1 pull convertor.
  *
- * @version 0.1 wr23.0 2014/02/06
+ * @version 0.1.23 2014/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBToXBTPullConvertor implements XBPullConsumer, XBTPullProvider {

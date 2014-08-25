@@ -37,7 +37,7 @@ import org.xbup.lib.catalog.entity.manager.XBEXNameManager;
 /**
  * Interface for XBEXName items service.
  *
- * @version 0.1 wr21.0 2012/01/22
+ * @version 0.1.21 2012/01/22
  * @author XBUP Project (http://xbup.org)
  */
 @Service

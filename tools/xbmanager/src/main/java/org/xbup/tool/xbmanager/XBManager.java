@@ -37,7 +37,7 @@ import org.xbup.tool.editor.base.api.ApplicationModule;
 /**
  * The main class of the XBManager application.
  *
- * @version 0.1 wr22.0 2012/11/15
+ * @version 0.1.22 2012/11/15
  * @author XBUP Project (http://xbup.org)
  */
 public class XBManager extends XBEditorBase {

@@ -24,7 +24,7 @@ import org.xbup.lib.core.parser.token.TypedToken;
 /**
  * XBUP token operator filter.
  *
- * @version 0.1 wr23.0 2014/02/07
+ * @version 0.1.23 2014/02/07
  * @author XBUP Project (http://xbup.org)
  * @param <T> source token generic type
  * @param <U> target token generic type

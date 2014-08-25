@@ -29,7 +29,7 @@ import org.xbup.lib.core.stream.XBTInputTokenStream;
 /**
  * XBUP level 0 to level 1 stream convertor.
  *
- * @version 0.1 wr19.0 2010/06/04
+ * @version 0.1.19 2010/06/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBToXBTStreamConvertor extends XBTInputTokenStream {

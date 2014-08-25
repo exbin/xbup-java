@@ -37,7 +37,7 @@ import org.xbup.lib.core.catalog.remote.manager.XBRSpecManager;
 /**
  * Interface for XBRSpec items service.
  *
- * @version 0.1 wr22.0 2013/01/11
+ * @version 0.1.22 2013/01/11
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRSpecService extends XBRDefaultService<XBRSpec> implements XBCSpecService<XBRSpec> {

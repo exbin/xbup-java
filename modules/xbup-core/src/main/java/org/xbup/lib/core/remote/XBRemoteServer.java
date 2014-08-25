@@ -19,7 +19,7 @@ package org.xbup.lib.core.remote;
 /**
  * XBUP level 1 RPC server interface.
  *
- * @version 0.1 wr19.0 2010/06/04
+ * @version 0.1.19 2010/06/04
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBRemoteServer {

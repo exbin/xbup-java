@@ -27,7 +27,7 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
  * Terminator is 0x0000. Sequence 0x00XX for XX &gt; 0 is interpreted as sequence
  * of zeros XX bytes long.
  *
- * @version 0.1 wr23.0 2014/01/10
+ * @version 0.1.23 2014/01/10
  * @author XBUP Project (http://xbup.org)
  */
 public class TerminatedDataInputStreamWrapper extends InputStream implements InputStreamWrapper {

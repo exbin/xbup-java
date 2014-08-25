@@ -19,7 +19,7 @@ package org.xbup.lib.core.stream;
 /**
  * XBUP level 0 input stream filter abstract class.
  *
- * @version 0.1 wr19.0 2010/05/30
+ * @version 0.1.19 2010/05/30
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class XBTokenInputStreamFilter extends XBTokenInputStream {

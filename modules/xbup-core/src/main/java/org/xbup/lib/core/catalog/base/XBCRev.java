@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.base;
 /**
  * Interface for catalog revision entity.
  *
- * @version 0.1 wr21.0 2012/01/28
+ * @version 0.1.21 2012/01/28
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCRev extends XBCItem {

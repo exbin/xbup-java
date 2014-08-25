@@ -29,7 +29,7 @@ import org.xbup.lib.core.catalog.base.XBCXPlugin;
 /**
  * Plugin database entity.
  *
- * @version 0.1 wr21.0 2011/08/21
+ * @version 0.1.21 2011/08/21
  * @author XBUP Project (http://xbup.org)
  */
 @Entity(name="XBXPlugin")

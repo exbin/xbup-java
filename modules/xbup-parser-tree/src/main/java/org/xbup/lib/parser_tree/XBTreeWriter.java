@@ -33,7 +33,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Basic object model parser XBUP level 0 document block / tree node.
  *
- * @version 0.1 wr23.0 2014/02/11
+ * @version 0.1.23 2014/02/11
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeWriter implements XBProvider {

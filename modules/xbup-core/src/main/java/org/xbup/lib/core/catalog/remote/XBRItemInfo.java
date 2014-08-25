@@ -25,7 +25,7 @@ import org.xbup.lib.core.catalog.client.XBCatalogServiceClient;
 /**
  * Remote catalog item info.
  *
- * @version 0.1 wr21.0 2012/01/28
+ * @version 0.1.21 2012/01/28
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRItemInfo implements XBCXItemInfo {

@@ -29,7 +29,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 /**
  * Table Model for Catalog Tree.
  *
- * @version 0.1 wr23.0 2013/09/30
+ * @version 0.1.23 2013/09/30
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogNodesTreeModel implements TreeModel {

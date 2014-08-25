@@ -21,7 +21,7 @@ import org.xbup.lib.core.catalog.base.XBCXUser;
 /**
  * Interface for XBCXUser items service.
  *
- * @version 0.1 wr23.0 2014/03/16
+ * @version 0.1.23 2014/03/16
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCXUserService<T extends XBCXUser> extends XBCService<T> {

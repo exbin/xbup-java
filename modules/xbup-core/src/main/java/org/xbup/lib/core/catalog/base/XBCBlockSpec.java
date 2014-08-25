@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.base;
 /**
  * Interface for level 2 block specification entity.
  *
- * @version 0.1 wr17.0 2009/02/01
+ * @version 0.1.17 2009/02/01
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCBlockSpec extends XBCSpec {

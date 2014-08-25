@@ -19,7 +19,7 @@ package org.xbup.lib.core.block.declaration;
 /**
  * Interface providing declaration of the class.
  *
- * @version 0.1 wr19.0 2010/06/04
+ * @version 0.1.19 2010/06/04
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBDeclared {

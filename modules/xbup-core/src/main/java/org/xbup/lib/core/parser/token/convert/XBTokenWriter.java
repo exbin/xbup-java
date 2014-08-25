@@ -37,7 +37,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Token writer to convert passed tokens into data stream.
  *
- * @version 0.1 wr24.0 2014/06/08
+ * @version 0.1.24 2014/06/08
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTokenWriter implements XBEventListener {

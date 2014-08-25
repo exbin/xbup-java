@@ -30,7 +30,7 @@ import org.xbup.lib.catalog.entity.service.XBETranService;
 /**
  * Basic level 2 catalog class using Java persistence.
  *
- * @version 0.1 wr23.0 2014/03/27
+ * @version 0.1.23 2014/03/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBAECatalog extends XBECatalog implements XBACatalog {

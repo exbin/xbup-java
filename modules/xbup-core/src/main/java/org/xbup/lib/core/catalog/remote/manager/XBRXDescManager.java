@@ -39,7 +39,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Manager class for XBRXDesc catalog items.
  *
- * @version 0.1 wr21.0 2011/12/31
+ * @version 0.1.21 2011/12/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXDescManager extends XBRDefaultManager<XBRXDesc> implements XBCXDescManager<XBRXDesc> {

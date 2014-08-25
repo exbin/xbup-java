@@ -28,7 +28,7 @@ import javax.swing.table.TableCellRenderer;
 /**
  * Properties panel custom renderer.
  *
- * @version 0.1 wr22.0 2013/02/27
+ * @version 0.1.22 2013/02/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyTableCellEditor extends javax.swing.JPanel implements TableCellRenderer, TableCellEditor {

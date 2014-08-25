@@ -43,7 +43,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 /**
  * Panel for basic XBItem viewing/editation.
  *
- * @version 0.1 wr23.0 2013/09/22
+ * @version 0.1.23 2013/09/22
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemPanel extends javax.swing.JPanel {

@@ -42,7 +42,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Simple panel audio wave.
  *
- * @version 0.1 wr23.0 2014/03/04
+ * @version 0.1.23 2014/03/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWave implements XBTChildSerializable {

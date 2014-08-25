@@ -28,7 +28,7 @@ import org.xbup.lib.catalog.entity.XBEXName;
 /**
  * Full item record entity.
  *
- * @version 0.1 wr23.0 2014/04/08
+ * @version 0.1.23 2014/04/08
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEFullItemRecord extends XBEItemRecord implements Serializable, XBCFullItemRecord {

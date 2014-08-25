@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.base;
 /**
  * Interface for format specification entity.
  *
- * @version 0.1 wr16.0 2008/07/09
+ * @version 0.1.16 2008/07/09
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCFormatSpec extends XBCSpec {

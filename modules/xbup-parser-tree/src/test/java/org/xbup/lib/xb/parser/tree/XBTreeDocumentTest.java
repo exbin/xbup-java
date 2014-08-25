@@ -33,7 +33,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Test class for XBTreeDocument.
  *
- * @version 0.1 wr23.0 2013/11/07
+ * @version 0.1.23 2013/11/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeDocumentTest extends TestCase {

@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.base;
 /**
  * Interface for catalog item icon entity.
  *
- * @version 0.1 wr21.0 2011/12/29
+ * @version 0.1.21 2011/12/29
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCXIcon extends XBCBase {

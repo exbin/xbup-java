@@ -26,7 +26,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * Context group type specified by format path and group and block indexes.
  *
- * @version 0.1 wr21.0 2011/12/03
+ * @version 0.1.21 2011/12/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCPFBlockDecl implements XBBlockDecl {

@@ -62,7 +62,7 @@ import javax.swing.text.StyleConstants;
  * Font Chooser Dialog based on the following source:
  * http://www.java2s.com/Code/Java/Tiny-Application/AdvancedFontChooserrevisedbypole.htm
  *
- * @version 0.1 wr21.0 2012/04/04
+ * @version 0.1.21 2012/04/04
  * @author XBUP Project (http://xbup.org)
  */
 public class FontDialog extends JDialog {

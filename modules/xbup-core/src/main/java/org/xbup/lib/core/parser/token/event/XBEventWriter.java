@@ -47,7 +47,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Basic XBUP level 0 event writer - listener.
  *
- * @version 0.1 wr23.0 2014/02/19
+ * @version 0.1.23 2014/02/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBEventListener {

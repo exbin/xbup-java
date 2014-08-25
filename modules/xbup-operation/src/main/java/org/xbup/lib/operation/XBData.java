@@ -19,7 +19,7 @@ package org.xbup.lib.operation;
 /**
  * XB level 0 interface for XBUP linear data reading.
  *
- * @version 0.1 wr19.0 2010/06/08
+ * @version 0.1.19 2010/06/08
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBData {

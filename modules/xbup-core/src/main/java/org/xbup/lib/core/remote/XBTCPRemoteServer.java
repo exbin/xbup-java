@@ -55,7 +55,7 @@ import org.xbup.lib.core.stream.XBTStreamChecker;
 /**
  * XBUP level 1 RPC server using TCP/IP networking.
  *
- * @version 0.1 wr21.0 2011/12/31
+ * @version 0.1.21 2011/12/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPRemoteServer implements XBRemoteServer {

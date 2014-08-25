@@ -52,7 +52,7 @@ import org.yaml.snakeyaml.Yaml;
 /**
  * XB Catalog import and export to yaml.
  *
- * @version 0.1 wr22.0 2013/02/10
+ * @version 0.1.22 2013/02/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCatalogYaml {

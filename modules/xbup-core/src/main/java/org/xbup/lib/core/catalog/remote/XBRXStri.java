@@ -36,7 +36,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Catalog remote item string identificator entity.
  *
- * @version 0.1 wr21.0 2012/04/18
+ * @version 0.1.21 2012/04/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXStri implements XBCXStri {

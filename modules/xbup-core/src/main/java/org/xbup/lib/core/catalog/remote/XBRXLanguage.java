@@ -35,7 +35,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Interface for remote catalog language entity.
  *
- * @version 0.1 wr21.0 2012/04/15
+ * @version 0.1.21 2012/04/15
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXLanguage implements XBCXLanguage {

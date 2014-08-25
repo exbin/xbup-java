@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.base;
 /**
  * Interface for catalog specification definition entity.
  *
- * @version 0.1 wr22.0 2013/01/11
+ * @version 0.1.22 2013/01/11
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCSpecDef extends XBCItem {

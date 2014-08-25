@@ -21,7 +21,7 @@ import org.xbup.lib.core.catalog.base.XBCSpecDef;
 /**
  * Table model for catalog bindings.
  *
- * @version 0.1 wr22.0 2013/05/17
+ * @version 0.1.22 2013/05/17
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogBindsTableItem {

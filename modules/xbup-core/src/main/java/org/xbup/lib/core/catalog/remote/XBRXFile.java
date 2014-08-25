@@ -34,7 +34,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  *
- * @version 0.1 wr22.0 2013/07/28
+ * @version 0.1.22 2013/07/28
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXFile implements XBCXFile {

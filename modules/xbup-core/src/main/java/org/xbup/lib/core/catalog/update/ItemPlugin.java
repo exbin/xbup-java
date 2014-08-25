@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.update;
 /**
  * Catalog plugin information record.
  *
- * @version 0.1 wr19.0 2010/07/17
+ * @version 0.1.19 2010/07/17
  * @author XBUP Project (http://xbup.org)
  */
 public class ItemPlugin {

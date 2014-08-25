@@ -73,7 +73,7 @@ import org.xbup.tool.editor.base.api.MenuManagement;
 /**
  * XBManager Service Management Panel.
  *
- * @version 0.1 wr23.0 2013/09/26
+ * @version 0.1.23 2013/09/26
  * @author XBUP Project (http://xbup.org)
  */
 public class ServiceManagerPanel extends javax.swing.JPanel implements ApplicationPanel, ActivePanelActionHandling {

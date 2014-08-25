@@ -19,7 +19,7 @@ package org.xbup.lib.core.parser;
 /**
  * Exception for XBUP protocol parsing.
  *
- * @version 0.1 wr23.0 2013/11/30
+ * @version 0.1.23 2013/11/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBParseException extends XBProcessingException {

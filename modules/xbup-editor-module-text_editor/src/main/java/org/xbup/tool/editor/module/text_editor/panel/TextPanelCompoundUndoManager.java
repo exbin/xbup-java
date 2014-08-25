@@ -29,7 +29,7 @@ import javax.swing.undo.UndoableEdit;
 /**
  * Undo Manager with compound operations.
  *
- * @version 0.1 wr22.0 2013/03/14
+ * @version 0.1.22 2013/03/14
  * @author XBUP Project (http://xbup.org)
  */
 public class TextPanelCompoundUndoManager extends AbstractUndoableEdit implements UndoableEditListener {

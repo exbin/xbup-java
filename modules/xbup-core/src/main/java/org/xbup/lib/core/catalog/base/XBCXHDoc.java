@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.base;
 /**
  * Interface for catalog item HTML documentation entity.
  *
- * @version 0.1 wr21.0 2012/01/27
+ * @version 0.1.21 2012/01/27
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCXHDoc extends XBCBase {

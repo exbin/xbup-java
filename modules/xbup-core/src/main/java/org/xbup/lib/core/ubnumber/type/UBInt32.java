@@ -22,7 +22,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * UBInteger stored as int value (limited value capacity to 32 bits).
  *
- * @version 0.1 wr24.0 2014/06/07
+ * @version 0.1.24 2014/06/07
  * @author XBUP Project (http://xbup.org)
  */
 public class UBInt32 implements UBInteger {

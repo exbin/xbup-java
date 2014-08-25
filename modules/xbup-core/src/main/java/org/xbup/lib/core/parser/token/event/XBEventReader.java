@@ -40,7 +40,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Basic XBUP level 0 event reader - producer.
  *
- * @version 0.1 wr23.0 2014/02/19
+ * @version 0.1.23 2014/02/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEventReader implements XBEventProducer {

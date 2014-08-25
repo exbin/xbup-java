@@ -29,7 +29,7 @@ import org.xbup.lib.core.catalog.base.XBCXFile;
 /**
  * Item assesory file database entity.
  *
- * @version 0.1 wr22.0 2013/07/28
+ * @version 0.1.22 2013/07/28
  * @author XBUP Project (http://xbup.org)
  */
 @Entity(name="XBXFile")

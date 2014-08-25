@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.base;
 /**
  * Interface for level 2 type block join entity.
  *
- * @version 0.1 wr21.0 2012/03/26
+ * @version 0.1.21 2012/03/26
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCBlockJoin extends XBCJoinDef {

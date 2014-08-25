@@ -19,7 +19,7 @@ package org.xbup.tool.editor.base.api;
 /**
  * Interface for application's panel.
  *
- * @version 0.1 wr21.0 2012/05/10
+ * @version 0.1.21 2012/05/10
  * @author XBUP Project (http://xbup.org)
  */
 public interface ActivePanelUndoable {

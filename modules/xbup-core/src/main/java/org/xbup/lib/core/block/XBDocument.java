@@ -21,7 +21,7 @@ import java.io.InputStream;
 /**
  * Basic interface for XBUP level 0 document.
  *
- * @version 0.1 wr23.0 2013/11/03
+ * @version 0.1.23 2013/11/03
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBDocument {

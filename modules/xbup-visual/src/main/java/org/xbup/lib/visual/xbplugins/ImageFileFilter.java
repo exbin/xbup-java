@@ -22,7 +22,7 @@ import javax.swing.filechooser.FileFilter;
 /**
  *
  *
- * @version 0.1 wr16.0 2008/10/02
+ * @version 0.1.16 2008/10/02
  * @author XBUP Project (http://xbup.org)
  */
 public class ImageFileFilter extends FileFilter {

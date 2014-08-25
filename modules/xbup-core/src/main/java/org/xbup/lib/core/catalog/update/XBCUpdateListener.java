@@ -22,7 +22,7 @@ import java.util.EventListener;
  * Listener interface for processing web service handler starting communication
  * with WS service.
  *
- * @version 0.1 wr15.0 2007/05/30
+ * @version 0.1.15 2007/05/30
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCUpdateListener extends EventListener {

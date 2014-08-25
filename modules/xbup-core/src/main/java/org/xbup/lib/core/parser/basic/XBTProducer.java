@@ -19,7 +19,7 @@ package org.xbup.lib.core.parser.basic;
 /**
  * XBUP level 1 data producer.
  *
- * @version 0.1 wr23.0 2013/11/15
+ * @version 0.1.23 2013/11/15
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTProducer {

@@ -41,7 +41,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 serialization handler using serialization sequence parser mapping to token provider.
  *
- * @version 0.1 wr24.0 2014/08/24
+ * @version 0.1.24 2014/08/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTSequenceProviderSerialHandler implements XBTSequenceSerialHandler, XBTSequenceInputSerialHandler, XBTSerialSequence, XBTTokenInputSerialHandler {

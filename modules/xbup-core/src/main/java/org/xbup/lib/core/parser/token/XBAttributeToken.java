@@ -23,7 +23,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  * 
  * This class carry single UBNatural value.
  *
- * @version 0.1 wr23.0 2013/11/01
+ * @version 0.1.23 2013/11/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBAttributeToken extends XBToken {

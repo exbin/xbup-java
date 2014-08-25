@@ -36,7 +36,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * BufferedImage XBUP level 2 testing serializer.
  *
- * @version 0.1 wr24.0 2014/08/24
+ * @version 0.1.24 2014/08/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBBufferedImage implements XBTChildSerializable {

@@ -23,7 +23,7 @@ import org.xbup.lib.core.catalog.base.XBCRoot;
 /**
  * Interface for XBCNode catalog manager.
  *
- * @version 0.1 wr22.0 2013/08/17
+ * @version 0.1.22 2013/08/17
  * @author XBUP Project (http://xbup.org)
  * @param <T> node entity
  */

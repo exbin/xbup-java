@@ -22,7 +22,7 @@ import org.xbup.lib.xb.ubnumber.UBENatural;
 /**
  * A collection that contains no duplicate elements.
  *
- * @version 0.1 wr19.0 2010/01/19
+ * @version 0.1.19 2010/01/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBSet<E> {

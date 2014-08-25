@@ -27,7 +27,7 @@ import org.apache.commons.cli.ParseException;
 /**
  * XBUP Protocol Shell Browser Tool
  *
- * @version 0.1 wr18.0 2009/08/02
+ * @version 0.1.18 2009/08/02
  * @author XBUP Project (http://xbup.org)
  */
 public class Main {

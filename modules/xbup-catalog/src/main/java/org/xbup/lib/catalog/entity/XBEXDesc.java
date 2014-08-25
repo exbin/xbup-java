@@ -29,7 +29,7 @@ import org.xbup.lib.core.catalog.base.XBCXLanguage;
 /**
  * Item description database entity.
  *
- * @version 0.1 wr21.0 2011/11/16
+ * @version 0.1.21 2011/11/16
  * @author XBUP Project (http://xbup.org)
  */
 @Entity(name="XBXDesc")

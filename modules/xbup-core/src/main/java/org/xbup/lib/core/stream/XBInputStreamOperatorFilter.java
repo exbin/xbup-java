@@ -30,7 +30,7 @@ import org.xbup.lib.core.parser.token.operation.XBTokenOperator;
 /**
  * XBUP level 0 input stream filter using operators.
  *
- * @version 0.1 wr19.0 2010/05/30
+ * @version 0.1.19 2010/05/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBInputStreamOperatorFilter extends XBTokenInputStreamFilter {

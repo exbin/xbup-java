@@ -27,7 +27,7 @@ import org.xbup.lib.core.catalog.base.XBCSpecDefType;
 /**
  * Consist database entity.
  *
- * @version 0.1 wr22.0 2013/01/11
+ * @version 0.1.22 2013/01/11
  * @author XBUP Project (http://xbup.org)
  */
 @Entity(name="XBConsDef")

@@ -27,7 +27,7 @@ import org.xbup.lib.core.parser.basic.XBTProvider;
 /**
  * XBUP level 1 listener to consumer convertor.
  *
- * @version 0.1 wr23.0 2014/02/20
+ * @version 0.1.23 2014/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTListenerToConsumer implements XBTConsumer {

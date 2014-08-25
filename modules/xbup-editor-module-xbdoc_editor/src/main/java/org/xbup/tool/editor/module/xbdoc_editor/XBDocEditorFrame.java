@@ -131,7 +131,7 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
 /**
  * XBDocEditor Main Frame.
  *
- * @version 0.1 wr23.0 2014/05/31
+ * @version 0.1.23 2014/05/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFrame, TextColorPanelFrame, TextFontPanelFrame {

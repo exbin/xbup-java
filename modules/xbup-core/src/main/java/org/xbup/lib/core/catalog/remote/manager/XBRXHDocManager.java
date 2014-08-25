@@ -34,7 +34,7 @@ import org.xbup.lib.core.catalog.remote.XBRXHDoc;
 /**
  * Manager class for XBRXHDoc catalog items.
  *
- * @version 0.1 wr21.0 2011/12/31
+ * @version 0.1.21 2011/12/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXHDocManager extends XBRDefaultManager<XBRXHDoc> implements XBCXHDocManager<XBRXHDoc> {

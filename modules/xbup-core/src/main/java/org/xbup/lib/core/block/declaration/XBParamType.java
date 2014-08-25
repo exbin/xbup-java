@@ -19,7 +19,7 @@ package org.xbup.lib.core.block.declaration;
 /**
  * XBUP level 1 parameter type enumeration.
  *
- * @version 0.1 wr23.0 2013/11/06
+ * @version 0.1.23 2013/11/06
  * @author XBUP Project (http://xbup.org)
  */
 public enum XBParamType {

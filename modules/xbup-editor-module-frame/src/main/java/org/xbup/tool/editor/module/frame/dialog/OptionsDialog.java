@@ -48,7 +48,7 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
 /**
  * Dialog for application options and preferences setting.
  *
- * @version 0.1 wr22.0 2013/03/25
+ * @version 0.1.22 2013/03/25
  * @author XBUP Project (http://xbup.org)
  */
 public class OptionsDialog extends javax.swing.JDialog {

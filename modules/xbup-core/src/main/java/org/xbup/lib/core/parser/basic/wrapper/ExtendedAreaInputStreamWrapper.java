@@ -22,7 +22,7 @@ import java.io.InputStream;
 /**
  * Input stream wrapper for extended area.
  *
- * @version 0.1 wr23.0 2014/01/06
+ * @version 0.1.23 2014/01/06
  * @author XBUP Project (http://xbup.org)
  */
 public class ExtendedAreaInputStreamWrapper extends InputStream {

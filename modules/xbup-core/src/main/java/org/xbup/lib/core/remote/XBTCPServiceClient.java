@@ -51,7 +51,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBService client connection handler using TCP/IP protocol.
  *
- * @version 0.1 wr21.0 2011/12/10
+ * @version 0.1.21 2011/12/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPServiceClient implements XBServiceClient {

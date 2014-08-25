@@ -24,7 +24,7 @@ import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 
 /**
  *
- * @version 0.1 wr19.0 2010/06/02
+ * @version 0.1.19 2010/06/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCPGroupDecl extends XBGroupDecl {

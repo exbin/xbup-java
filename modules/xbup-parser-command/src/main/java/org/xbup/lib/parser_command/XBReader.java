@@ -29,7 +29,7 @@ import org.xbup.lib.core.block.XBBlock;
  * This reader expects data not to be changed, so exclusive lock on source data
  * is recommended.
  *
- * @version 0.1 wr23.0 2014/04/14
+ * @version 0.1.23 2014/04/14
  * @author XBUP Project (http://xbup.org)
  */
 public class XBReader implements Closeable {

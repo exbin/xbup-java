@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Library for simple conversion of UBNumber encoding schemes.
  *
- * @version 0.1 wr20.0 2011/01/16
+ * @version 0.1.20 2011/01/16
  * @author XBUP Project (http://xbup.org)
  */
 public class LRUB1 {

@@ -21,7 +21,7 @@ import org.xbup.lib.core.serial.XBSerialHandler;
 /**
  * Interface for XBUP level 1 serialization handler using serialization sequence.
  *
- * @version 0.1 wr24.0 2014/08/24
+ * @version 0.1.24 2014/08/24
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTSequenceSerialHandler extends XBTSerialSequence, XBSerialHandler {

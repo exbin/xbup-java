@@ -23,7 +23,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Context-based block type with cached block declaration.
  *
- * @version 0.1 wr20.0 2010/12/31
+ * @version 0.1.20 2010/12/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBContextBlockType implements XBDeclBlockType {

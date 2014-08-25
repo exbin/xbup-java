@@ -34,7 +34,7 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
  * TODO: This dialog should be later replaced by dialog based on properties
  * defined by the protocol definition.
  *
- * @version 0.1 wr23.0 2013/09/22
+ * @version 0.1.23 2013/09/22
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemEditDialog extends javax.swing.JDialog {

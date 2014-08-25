@@ -22,7 +22,7 @@ import org.xbup.lib.core.serial.XBOutputSerialHandler;
 /**
  * Interface for XBUP level 0 serialization output handler.
  *
- * @version 0.1 wr23.0 2014/03/01
+ * @version 0.1.23 2014/03/01
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTokenOutputSerialHandler extends XBOutputSerialHandler {

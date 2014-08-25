@@ -27,7 +27,7 @@ import org.xbup.lib.core.parser.basic.XBProvider;
 /**
  * XBUP level 0 provider to producer convertor.
  *
- * @version 0.1 wr23.0 2014/02/16
+ * @version 0.1.23 2014/02/16
  * @author XBUP Project (http://xbup.org)
  */
 public class XBProviderToProducer implements XBProducer {

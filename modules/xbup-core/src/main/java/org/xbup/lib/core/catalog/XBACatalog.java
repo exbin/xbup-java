@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog;
 /**
  * XBUP level 2 catalog interface.
  *
- * @version 0.1 wr21.0 2011/12/30
+ * @version 0.1.21 2011/12/30
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBACatalog extends XBCatalog {

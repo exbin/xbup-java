@@ -33,7 +33,7 @@ import org.xbup.web.xbcatalogweb.entity.XBEItemRecord;
 /**
  * Browse controller.
  *
- * @version 0.1 wr23.0 2014/05/30
+ * @version 0.1.23 2014/05/30
  * @author XBUP Project (http://xbup.org)
  */
 @Controller

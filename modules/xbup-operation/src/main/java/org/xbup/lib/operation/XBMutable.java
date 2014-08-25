@@ -21,7 +21,7 @@ import org.xbup.lib.core.block.XBBlock;
 /**
  * XB Level 0 interface for mutable data interface.
  *
- * @version 0.1 wr19.0 2010/06/08
+ * @version 0.1.19 2010/06/08
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBMutable {

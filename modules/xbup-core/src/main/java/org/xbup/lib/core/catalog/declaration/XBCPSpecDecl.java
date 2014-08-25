@@ -21,7 +21,7 @@ import org.xbup.lib.core.catalog.XBCatalog;
 
 /**
  *
- * @version 0.1 wr19.0 2010/06/02
+ * @version 0.1.19 2010/06/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCPSpecDecl extends XBContext {

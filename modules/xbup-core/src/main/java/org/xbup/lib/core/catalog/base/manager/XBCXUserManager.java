@@ -21,7 +21,7 @@ import org.xbup.lib.core.catalog.base.XBCXUser;
 /**
  * Interface for XBCXUser catalog manager.
  *
- * @version 0.1 wr23.0 2014/03/17
+ * @version 0.1.23 2014/03/17
  * @author XBUP Project (http://xbup.org)
  * @param <T> item limitation entity
  */

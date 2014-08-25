@@ -25,7 +25,7 @@ import org.xbup.lib.core.catalog.base.XBCXLanguage;
 /**
  * Language database entity.
  *
- * @version 0.1 wr21.0 2012/04/15
+ * @version 0.1.21 2012/04/15
  * @author XBUP Project (http://xbup.org)
  */
 @Entity(name="XBXLanguage")

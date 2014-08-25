@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.base;
 /**
  * Interface for level 2 revision of block specification entity.
  *
- * @version 0.1 wr17.0 2009/05/14
+ * @version 0.1.17 2009/05/14
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCBlockRev extends XBCRev {

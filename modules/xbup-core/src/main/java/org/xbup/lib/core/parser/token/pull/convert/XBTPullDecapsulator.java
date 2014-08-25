@@ -25,7 +25,7 @@ import org.xbup.lib.core.parser.basic.XBTProviderFilter;
 /**
  * Decode specifications head for events and links relevant block types to it.
  *
- * @version 0.1 wr23.0 2013/11/18
+ * @version 0.1.23 2013/11/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTPullDecapsulator implements XBTProviderFilter {

@@ -21,7 +21,7 @@ import net.xeoh.plugins.base.Plugin;
 /**
  * XBUP Editor plugin - provides editing panel for XBUP data.
  *
- * @version 0.1 wr19.0 2010/08/02
+ * @version 0.1.19 2010/08/02
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBPlugin extends Plugin {

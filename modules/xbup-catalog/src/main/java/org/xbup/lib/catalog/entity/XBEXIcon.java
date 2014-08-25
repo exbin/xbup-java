@@ -28,7 +28,7 @@ import org.xbup.lib.core.catalog.base.XBCXIcon;
 /**
  * Item icon database entity.
  *
- * @version 0.1 wr23.0 2014/05/19
+ * @version 0.1.23 2014/05/19
  * @author XBUP Project (http://xbup.org)
  */
 @Entity(name="XBXIcon")

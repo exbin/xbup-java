@@ -47,7 +47,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Basic object model parser XBUP level 0 document block / tree node.
  *
- * @version 0.1 wr23.0 2014/02/20
+ * @version 0.1.23 2014/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {

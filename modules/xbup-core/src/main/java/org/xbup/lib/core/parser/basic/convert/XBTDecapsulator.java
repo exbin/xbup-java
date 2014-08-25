@@ -30,7 +30,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * Decode specifications head for events and links relevant block types to it.
  *
- * @version 0.1 wr23.0 2013/11/19
+ * @version 0.1.23 2013/11/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTDecapsulator implements XBTFilter {

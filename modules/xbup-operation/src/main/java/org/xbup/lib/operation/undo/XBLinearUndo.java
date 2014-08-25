@@ -25,7 +25,7 @@ import org.xbup.lib.operation.XBCommand;
  * Class for keeping undo command sequence.
  * TODO: Incomplete
  *
- * @version 0.1 wr20.0 2010/11/08
+ * @version 0.1.20 2010/11/08
  * @author XBUP Project (http://xbup.org)
  */
 public class XBLinearUndo {

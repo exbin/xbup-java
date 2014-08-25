@@ -35,7 +35,7 @@ import org.xbup.tool.editor.base.api.MenuPositionMode;
 /**
  * Manager for menus.
  *
- * @version 0.1 wr22.0 2013/03/16
+ * @version 0.1.22 2013/03/16
  * @author XBUP Project (http://xbup.org)
  */
 public class MenuManager implements MenuManagement {

@@ -42,7 +42,7 @@ import org.xbup.lib.visual.picture.XBBufferedImage;
 /**
  * Preview panel allowing replacing image.
  *
- * @version 0.1 wr23.0 2014/03/04
+ * @version 0.1.23 2014/03/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPicturePanel extends javax.swing.JPanel implements XBTChildSerializable {

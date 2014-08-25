@@ -23,7 +23,7 @@ import org.xbup.lib.core.parser.token.event.XBEventProducer;
 /**
  * Producer to event producer convertor for XBUP protocol level 0.
  *
- * @version 0.1 wr23.0 2014/02/06
+ * @version 0.1.23 2014/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBProducerToEventProducer implements XBEventProducer {

@@ -29,7 +29,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 /**
  * XBManager Catalog Specification Selection Panel.
  *
- * @version 0.1 wr22.0 2013/05/19
+ * @version 0.1.22 2013/05/19
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSelectSpecPanel extends javax.swing.JPanel {

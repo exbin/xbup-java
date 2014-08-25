@@ -28,7 +28,7 @@ import org.xbup.tool.editor.module.text_editor.panel.TextEncodingPanelFrame;
 /**
  * Text Editor Encoding Selection Dialog.
  *
- * @version 0.1 wr22.0 2013/03/17
+ * @version 0.1.22 2013/03/17
  * @author XBUP Project (http://xbup.org)
  */
 public class EncodingDialog extends javax.swing.JDialog {

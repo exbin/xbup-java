@@ -21,7 +21,7 @@ import javax.swing.JFileChooser;
 /**
  * Interface for file types management.
  *
- * @version 0.1 wr22.0 2013/03/04
+ * @version 0.1.22 2013/03/04
  * @author XBUP Project (http://xbup.org)
  */
 public interface FileTypeManagement {

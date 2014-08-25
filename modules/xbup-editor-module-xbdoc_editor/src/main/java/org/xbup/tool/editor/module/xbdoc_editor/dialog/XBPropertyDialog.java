@@ -24,7 +24,7 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
 /**
  * Property dialog.
  *
- * @version 0.1 wr23.0 2013/09/23
+ * @version 0.1.23 2013/09/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyDialog extends javax.swing.JDialog {

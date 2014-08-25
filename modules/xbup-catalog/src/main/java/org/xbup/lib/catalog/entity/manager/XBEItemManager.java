@@ -25,7 +25,7 @@ import org.xbup.lib.catalog.entity.XBEItem;
 /**
  * XBUP catalog item manager.
  *
- * @version 0.1 wr21.0 2011/12/29
+ * @version 0.1.21 2011/12/29
  * @author XBUP Project (http://xbup.org)
  */
 @Repository

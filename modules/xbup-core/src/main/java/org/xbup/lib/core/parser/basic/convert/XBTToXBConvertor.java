@@ -34,7 +34,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 1 to level 0 convertor.
  *
- * @version 0.1 wr23.0 2013/11/20
+ * @version 0.1.23 2013/11/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTToXBConvertor implements XBTListener, XBProducer {

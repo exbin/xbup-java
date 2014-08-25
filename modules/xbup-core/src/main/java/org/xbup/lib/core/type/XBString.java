@@ -40,7 +40,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Encapsulation class for String. TODO: Encoding support
  *
- * @version 0.1 wr24.0 2014/08/23
+ * @version 0.1.24 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBString implements XBTChildSerializable, XBDeclared {

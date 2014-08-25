@@ -19,7 +19,7 @@ package org.xbup.lib.core.parser.token.event;
 /**
  * XBUP level 1 event producer.
  *
- * @version 0.1 wr23.0 2013/11/22
+ * @version 0.1.23 2013/11/22
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTEventProducer {

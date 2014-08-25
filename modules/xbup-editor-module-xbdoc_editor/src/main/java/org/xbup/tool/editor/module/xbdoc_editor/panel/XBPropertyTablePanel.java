@@ -45,7 +45,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemPropertiesDialog;
 /**
  * Panel for properties of the actual panel.
  *
- * @version 0.1 wr22.0 2013/02/27
+ * @version 0.1.22 2013/02/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyTablePanel extends javax.swing.JPanel {

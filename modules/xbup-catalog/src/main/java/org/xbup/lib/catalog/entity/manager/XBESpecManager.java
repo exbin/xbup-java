@@ -51,7 +51,7 @@ import org.xbup.lib.catalog.entity.XBESpecDef;
 /**
  * XBUP catalog specification manager.
  *
- * @version 0.1 wr23.0 2014/05/19
+ * @version 0.1.23 2014/05/19
  * @author XBUP Project (http://xbup.org)
  */
 @Repository

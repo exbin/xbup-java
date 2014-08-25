@@ -26,7 +26,7 @@ import org.xbup.lib.core.stream.XBTokenOutputStream;
 /**
  * Buffer for XBUP protocol stream.
  *
- * @version 0.1 wr19.0 2010/05/30
+ * @version 0.1.19 2010/05/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBStreamBuffer extends XBTokenOutputStream {

@@ -38,7 +38,7 @@ import org.xbup.lib.catalog.entity.XBEXFile;
 /**
  * XBUP catalog accessory files manager.
  *
- * @version 0.1 wr22.0 2013/07/28
+ * @version 0.1.22 2013/07/28
  * @author XBUP Project (http://xbup.org)
  */
 @Repository

@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.update;
 /**
  * Path to revision structure.
  *
- * @version 0.1 wr16.0 2009/06/14
+ * @version 0.1.16 2009/06/14
  * @author XBUP Project (http://xbup.org)
  */
 public class RevisionPath {

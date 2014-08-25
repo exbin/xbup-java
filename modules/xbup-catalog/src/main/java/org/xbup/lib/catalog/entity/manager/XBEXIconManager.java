@@ -36,7 +36,7 @@ import org.xbup.lib.catalog.entity.XBEXIconMode;
 /**
  * XBUP catalog icon manager.
  *
- * @version 0.1 wr21.0 2012/01/01
+ * @version 0.1.21 2012/01/01
  * @author XBUP Project (http://xbup.org)
  */
 @Repository

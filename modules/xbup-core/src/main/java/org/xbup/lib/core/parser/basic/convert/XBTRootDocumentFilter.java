@@ -25,7 +25,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * TODO: Filter primary document content - process/skip all basic blocks and extensions.
  *
- * @version 0.1 wr23.0 2013/11/06
+ * @version 0.1.23 2013/11/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTRootDocumentFilter implements XBTListener {

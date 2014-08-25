@@ -23,7 +23,7 @@ import org.xbup.tool.editor.base.api.FileType;
 /**
  * Image File Filter.
  *
- * @version 0.1 wr21.0 2012/05/11
+ * @version 0.1.21 2012/05/11
  * @author XBUP Project (http://xbup.org)
  */
 public class PictureFileType extends FileFilter implements FileType {

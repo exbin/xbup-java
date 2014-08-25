@@ -26,7 +26,7 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 /**
  * Interface for XBCXStri items service.
  *
- * @version 0.1 wr22.0 2013/01/13
+ * @version 0.1.22 2013/01/13
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCExtension {

@@ -21,7 +21,7 @@ package org.xbup.lib.core.block;
  *
  * Standard block can be either data block or node block.
  *
- * @version 0.1 wr23.0 2014/02/18
+ * @version 0.1.23 2014/02/18
  * @author XBUP Project (http://xbup.org)
  */
 public enum XBBlockDataMode {

@@ -26,7 +26,7 @@ import org.xbup.lib.plugin.XBTransformation;
 /**
  * XBUP Editor plugin - provides editing panel for XBUP data.
  *
- * @version 0.1 wr19.0 2010/08/03
+ * @version 0.1.19 2010/08/03
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation

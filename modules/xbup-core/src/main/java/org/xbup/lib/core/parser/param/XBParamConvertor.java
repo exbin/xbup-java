@@ -40,7 +40,7 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
 /**
  * Basic filter providing parameter sequence from typed tokens.
  *
- * @version 0.1 wr23.0 2013/11/25
+ * @version 0.1.23 2013/11/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBParamConvertor implements XBTListener, XBParamProducer {

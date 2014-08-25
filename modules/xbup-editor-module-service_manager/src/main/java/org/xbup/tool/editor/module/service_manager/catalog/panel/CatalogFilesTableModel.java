@@ -28,7 +28,7 @@ import org.xbup.lib.catalog.entity.XBEXFile;
 /**
  * Table model for catalog specifications.
  *
- * @version 0.1 wr22.0 2013/07/28
+ * @version 0.1.22 2013/07/28
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogFilesTableModel extends AbstractTableModel {

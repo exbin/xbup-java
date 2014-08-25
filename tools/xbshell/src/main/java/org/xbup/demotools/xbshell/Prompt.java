@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 /**
  * XBUP Protocol Shell Browser Tool
  *
- * @version 0.1 wr16.0 2008/04/14
+ * @version 0.1.16 2008/04/14
  * @author XBUP Project (http://xbup.org)
  */
 public class Prompt {

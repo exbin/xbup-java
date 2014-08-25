@@ -21,7 +21,7 @@ import org.xbup.lib.core.catalog.client.XBCatalogServiceClient;
 
 /**
  *
- * @version 0.1 wr15.0 2008/01/13
+ * @version 0.1.15 2008/01/13
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRFormatSpec extends XBRSpec implements XBCFormatSpec {

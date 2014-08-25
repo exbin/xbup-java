@@ -32,7 +32,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 /**
  * Table model for catalog specifications.
  *
- * @version 0.1 wr22.0 2013/04/10
+ * @version 0.1.22 2013/04/10
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSpecsTableModel extends AbstractTableModel {

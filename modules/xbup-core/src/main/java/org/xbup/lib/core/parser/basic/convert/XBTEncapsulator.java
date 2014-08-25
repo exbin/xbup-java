@@ -32,7 +32,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 1 encapsulation filter.
  *
- * @version 0.1 wr23.0 2014/03/05
+ * @version 0.1.23 2014/03/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTEncapsulator implements XBTFilter {

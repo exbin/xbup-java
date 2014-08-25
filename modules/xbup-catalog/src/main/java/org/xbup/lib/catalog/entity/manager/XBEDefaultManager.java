@@ -33,7 +33,7 @@ import org.xbup.lib.catalog.XBECatalog;
 /**
  * Default manager for catalog items.
  *
- * @version 0.1 wr23.0 2014/03/25
+ * @version 0.1.23 2014/03/25
  * @author XBUP Project (http://xbup.org)
  * @param <T> entity class
  */

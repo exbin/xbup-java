@@ -25,7 +25,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  * XBUP protocol level 0 size precomputed data listener.
  * Execution is sender side controlled (push).
  *
- * @version 0.1 wr23.0 2013/12/14
+ * @version 0.1.23 2013/12/14
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBSListener extends XBListener {

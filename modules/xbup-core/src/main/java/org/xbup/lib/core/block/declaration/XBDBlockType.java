@@ -22,7 +22,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Block type defined with block declaration.
  *
- * @version 0.1 wr20.0 2010/09/28
+ * @version 0.1.20 2010/09/28
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDBlockType implements XBDeclBlockType {

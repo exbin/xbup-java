@@ -25,7 +25,7 @@ import org.xbup.lib.core.catalog.base.service.XBCRevService;
 /**
  * Table model for catalog revisions.
  *
- * @version 0.1 wr21.0 2011/12/31
+ * @version 0.1.21 2011/12/31
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogRevsTableModel extends AbstractTableModel {

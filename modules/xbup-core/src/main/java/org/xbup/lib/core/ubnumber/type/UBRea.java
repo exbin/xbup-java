@@ -23,7 +23,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * TODO: UBReal stored as two UBInteger values.
  *
- * @version 0.1 wr24.0 2014/06/08
+ * @version 0.1.24 2014/06/08
  * @author XBUP Project (http://xbup.org)
  */
 public class UBRea implements UBReal {

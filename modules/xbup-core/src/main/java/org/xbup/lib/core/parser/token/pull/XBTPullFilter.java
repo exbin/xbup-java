@@ -19,7 +19,7 @@ package org.xbup.lib.core.parser.token.pull;
 /**
  * XBUP protocol level 1 pull filter.
  *
- * @version 0.1 wr23.0 2013/11/22
+ * @version 0.1.23 2013/11/22
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTPullFilter extends XBTPullConsumer, XBTPullProvider {

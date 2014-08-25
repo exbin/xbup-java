@@ -21,7 +21,7 @@ import org.xbup.lib.core.catalog.client.XBCatalogServiceClient;
 
 /**
  *
- * @version 0.1 wr17.0 2009/02/01
+ * @version 0.1.17 2009/02/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRBlockSpec extends XBRSpec implements XBCBlockSpec {

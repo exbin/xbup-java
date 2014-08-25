@@ -28,7 +28,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * UBENatural stored as long value (limited value capacity to 32 bits).
  *
- * @version 0.1 wr24.0 2014/06/09
+ * @version 0.1.24 2014/06/09
  * @author XBUP Project (http://xbup.org)
  */
 public class UBENat32 implements UBENatural {

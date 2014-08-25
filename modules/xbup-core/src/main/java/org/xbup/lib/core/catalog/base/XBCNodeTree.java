@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.base;
 /**
  * Interface for catalog node tree entity.
  *
- * @version 0.1 wr23.0 2013/10/06
+ * @version 0.1.23 2013/10/06
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCNodeTree {

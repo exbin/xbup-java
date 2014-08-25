@@ -27,7 +27,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  * 
  * Additional blockSize represents precomputed size of block if available.
  *
- * @version 0.1 wr23.0 2014/02/01
+ * @version 0.1.23 2014/02/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTSBeginToken extends XBTBeginToken {

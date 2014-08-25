@@ -27,7 +27,7 @@ import org.xbup.tool.editor.base.api.OptionsPanel;
 /**
  * XBTEditor Color Selection panel.
  *
- * @version 0.1 wr22.0 2013/03/10
+ * @version 0.1.22 2013/03/10
  * @author XBUP Project (http://xbup.org)
  */
 public class WaveColorOptionsPanel extends javax.swing.JPanel implements OptionsPanel {

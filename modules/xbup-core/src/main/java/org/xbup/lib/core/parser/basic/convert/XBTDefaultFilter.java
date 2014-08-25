@@ -30,7 +30,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  *
  * This filter doesn't change data which are passing thru.
  * 
- * @version 0.1 wr23.0 2013/11/15
+ * @version 0.1.23 2013/11/15
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTDefaultFilter implements XBTFilter {

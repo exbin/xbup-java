@@ -32,7 +32,7 @@ import static org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogS
 /**
  * Table Model for Catalog Tree.
  *
- * @version 0.1 wr22.0 2013/05/19
+ * @version 0.1.22 2013/05/19
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSelectSpecTreeModel implements TreeModel {

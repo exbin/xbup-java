@@ -29,7 +29,7 @@ import org.xbup.tool.editor.base.api.OptionsPanel;
 /**
  * Panel for choosing input and output audio devices.
  *
- * @version 0.1 wr22.0 2013/09/01
+ * @version 0.1.22 2013/09/01
  * @author XBUP Project (http://xbup.org)
  */
 public class AudioDevicesPanel extends javax.swing.JPanel implements OptionsPanel {

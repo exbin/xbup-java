@@ -25,7 +25,7 @@ import java.io.OutputStream;
  * Terminator is 0x0000. Sequence 0x00XX for XX &gt; 0 is interpreted as sequence
  * of zeros XX bytes long.
  *
- * @version 0.1 wr23.0 2014/04/14
+ * @version 0.1.23 2014/04/14
  * @author XBUP Project (http://xbup.org)
  */
 public class TerminatedDataOutputStreamWrapper extends OutputStream implements OutputStreamWrapper {

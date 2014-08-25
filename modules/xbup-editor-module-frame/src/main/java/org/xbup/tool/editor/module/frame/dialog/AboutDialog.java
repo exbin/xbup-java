@@ -43,7 +43,7 @@ import org.xbup.tool.editor.base.api.XBEditorApp;
 /**
  * MainFrame About Dialog.
  *
- * @version 0.1 wr22.0 2013/04/14
+ * @version 0.1.22 2013/04/14
  * @author XBUP Project (http://xbup.org)
  */
 public class AboutDialog extends javax.swing.JDialog implements HyperlinkListener {

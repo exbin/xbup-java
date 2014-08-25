@@ -26,7 +26,7 @@ import org.xbup.lib.core.catalog.base.XBCRev;
 /**
  * Block type context defined by catalog specification.
  *
- * @version 0.1 wr21.0 2011/12/03
+ * @version 0.1.21 2011/12/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCSBlockDecl implements XBCBlockDecl {

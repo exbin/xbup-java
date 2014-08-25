@@ -29,7 +29,7 @@ import org.xbup.lib.core.catalog.base.XBCXItemInfo;
 /**
  * Item information database entity.
  *
- * @version 0.1 wr21.0 2012/01/28
+ * @version 0.1.21 2012/01/28
  * @author XBUP Project (http://xbup.org)
  */
 @Entity(name="XBItemInfo")

@@ -32,7 +32,7 @@ import javax.swing.JOptionPane;
 /**
  * Encoding Selection Panel.
  *
- * @version 0.1 wr22.0 2013/03/09
+ * @version 0.1.22 2013/03/09
  * @author XBUP Project (http://xbup.org)
  */
 public class AddEncodingDialog extends javax.swing.JDialog {

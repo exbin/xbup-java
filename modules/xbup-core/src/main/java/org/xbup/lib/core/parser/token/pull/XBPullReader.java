@@ -44,7 +44,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 0 pull reader.
  *
- * @version 0.1 wr23.0 2014/02/20
+ * @version 0.1.23 2014/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPullReader extends XBTokenInputStream implements Closeable, XBPullProvider {

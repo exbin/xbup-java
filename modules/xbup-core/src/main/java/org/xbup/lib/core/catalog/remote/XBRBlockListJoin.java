@@ -22,7 +22,7 @@ import org.xbup.lib.core.catalog.client.XBCatalogServiceClient;
 
 /**
  *
- * @version 0.1 wr22.0 2013/01/11
+ * @version 0.1.22 2013/01/11
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRBlockListJoin extends XBRSpecDef implements XBCBlockListJoin {

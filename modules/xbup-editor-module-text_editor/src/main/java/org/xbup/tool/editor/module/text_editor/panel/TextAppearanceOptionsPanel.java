@@ -24,7 +24,7 @@ import org.xbup.tool.editor.base.api.OptionsPanel;
 /**
  * XBTEditor Text Encoding Options panel.
  *
- * @version 0.1 wr22.0 2013/03/24
+ * @version 0.1.22 2013/03/24
  * @author XBUP Project (http://xbup.org)
  */
 public class TextAppearanceOptionsPanel extends javax.swing.JPanel implements OptionsPanel {

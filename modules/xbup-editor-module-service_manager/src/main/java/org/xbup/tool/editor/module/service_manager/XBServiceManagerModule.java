@@ -28,7 +28,7 @@ import org.xbup.tool.editor.base.api.StatusManagement;
 /**
  * Picture Editor Module.
  *
- * @version 0.1 wr23.0 2013/09/26
+ * @version 0.1.23 2013/09/26
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation

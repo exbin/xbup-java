@@ -31,7 +31,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 0 listener to single token convertor.
  *
- * @version 0.1 wr23.0 2014/02/07
+ * @version 0.1.23 2014/02/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBListenerToToken implements XBListener {

@@ -25,7 +25,7 @@ import org.xbup.lib.core.catalog.base.XBCNode;
 /**
  * Node database entity.
  *
- * @version 0.1 wr21.0 2011/10/22
+ * @version 0.1.21 2011/10/22
  * @author XBUP Project (http://xbup.org)
  */
 @Entity(name = "XBNode")

@@ -19,7 +19,7 @@ package org.xbup.lib.core.parser.token;
 /**
  * Enumeration of XBUP level 0 token types.
  *
- * @version 0.1 wr23.0 2014/02/06
+ * @version 0.1.23 2014/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public enum XBTokenType {

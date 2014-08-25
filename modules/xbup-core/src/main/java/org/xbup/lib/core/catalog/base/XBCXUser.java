@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.base;
 /**
  * Interface for catalog user entity.
  *
- * @version 0.1 wr22.0 2012/09/09
+ * @version 0.1.22 2012/09/09
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCXUser extends XBCBase {

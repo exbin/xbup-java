@@ -32,7 +32,7 @@ import org.xbup.tool.editor.base.manager.BaseModuleRepository;
 /**
  * Main class for XBEditors.
  *
- * @version 0.1 wr23.0 2013/12/12
+ * @version 0.1.23 2013/12/12
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEditorApplication implements XBEditorApp {

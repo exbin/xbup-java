@@ -33,7 +33,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Extracting specified parameters from XBUP level 1 blocks.
  *
- * @version 0.1 wr23.0 2014/02/20
+ * @version 0.1.23 2014/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeParamExtractor implements XBParamListener {

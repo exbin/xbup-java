@@ -26,7 +26,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
  * This interface provides methods for object conversion from and to stream in
  * XBUP protocol stack in its native form.
  *
- * @version 0.1 wr23.0 2014/01/27
+ * @version 0.1.23 2014/01/27
  * @author XBUP Project (http://xbup.org)
  */
 public interface UBStreamable extends Serializable {

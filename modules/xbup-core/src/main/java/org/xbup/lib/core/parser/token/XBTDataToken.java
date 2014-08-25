@@ -24,7 +24,7 @@ import java.io.InputStream;
  * Class carry data represented as byte stream available via InputStream class.
  * You have to process data before processing next event.
  *
- * @version 0.1 wr23.0 2013/11/01
+ * @version 0.1.23 2013/11/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTDataToken extends XBTToken {

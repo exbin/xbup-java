@@ -24,7 +24,7 @@ import org.xbup.lib.core.catalog.XBCatalog;
 /**
  * Context group type specified by format path and group index.
  *
- * @version 0.1 wr16.0 2008/09/03
+ * @version 0.1.16 2008/09/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCPFGroupDecl extends XBGroupDecl {

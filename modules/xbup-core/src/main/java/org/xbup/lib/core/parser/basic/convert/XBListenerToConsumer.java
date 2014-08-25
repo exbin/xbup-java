@@ -27,7 +27,7 @@ import org.xbup.lib.core.parser.basic.XBProvider;
 /**
  * XBUP level 0 listener to consumer convertor.
  *
- * @version 0.1 wr23.0 2014/02/16
+ * @version 0.1.23 2014/02/16
  * @author XBUP Project (http://xbup.org)
  */
 public class XBListenerToConsumer implements XBConsumer {

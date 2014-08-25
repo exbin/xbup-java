@@ -24,7 +24,7 @@ import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 /**
  * XBUP level 0 serialization token handler using token parser mapping to provider.
  *
- * @version 0.1 wr24.0 2014/08/23
+ * @version 0.1.24 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPullProviderSerialHandler implements XBPullProvider, XBTokenInputSerialHandler {

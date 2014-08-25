@@ -33,7 +33,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 1 listener to token convertor.
  *
- * @version 0.1 wr23.0 2014/02/07
+ * @version 0.1.23 2014/02/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTListenerToToken implements XBTListener {

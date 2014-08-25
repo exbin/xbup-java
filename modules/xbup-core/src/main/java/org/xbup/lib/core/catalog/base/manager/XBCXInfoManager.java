@@ -22,7 +22,7 @@ import org.xbup.lib.core.catalog.base.XBCNode;
 /**
  * Interface for XBCXItemInfo catalog manager.
  *
- * @version 0.1 wr21.0 2011/12/29
+ * @version 0.1.21 2011/12/29
  * @author XBUP Project (http://xbup.org)
  * @param <T> item information entity
  */

@@ -25,7 +25,7 @@ import org.xbup.lib.core.stream.XBTOutputStream;
 /**
  * Object model level 1 parser stream receiver.
  *
- * @version 0.1 wr15.0 2007/07/09
+ * @version 0.1.15 2007/07/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTOMOutputStream extends XBTOutputStream {

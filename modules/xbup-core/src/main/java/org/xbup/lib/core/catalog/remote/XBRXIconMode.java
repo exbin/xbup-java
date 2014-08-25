@@ -21,7 +21,7 @@ import org.xbup.lib.core.catalog.client.XBCatalogServiceClient;
 
 /**
  *
- * @version 0.1 wr18.0 2009/12/20
+ * @version 0.1.18 2009/12/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXIconMode implements XBCXIconMode {

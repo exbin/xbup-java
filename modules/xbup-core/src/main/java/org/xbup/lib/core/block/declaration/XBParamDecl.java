@@ -23,7 +23,7 @@ package org.xbup.lib.core.block.declaration;
  * Without declaration (blockDecl) it means single atribute for join and data
  * block for consist mode and their lists respectively.
  *
- * @version 0.1 wr20.0 2010/12/18
+ * @version 0.1.20 2010/12/18
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBParamDecl {

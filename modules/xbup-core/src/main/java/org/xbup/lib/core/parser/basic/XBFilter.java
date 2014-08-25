@@ -22,7 +22,7 @@ package org.xbup.lib.core.parser.basic;
  * Object implementing this interface provides methods for filtering XBUP
  * protocol data.
  *
- * @version 0.1 wr23.0 2013/11/15
+ * @version 0.1.23 2013/11/15
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBFilter extends XBListener, XBProducer {

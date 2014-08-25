@@ -22,7 +22,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 1 serialization list for finite list.
  *
- * @version 0.1 wr23.0 2014/03/04
+ * @version 0.1.23 2014/03/04
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBSerialSequenceList {

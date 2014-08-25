@@ -23,7 +23,7 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 /**
  * Interface for XBCXHDoc items service.
  *
- * @version 0.1 wr21.0 2011/02/05
+ * @version 0.1.21 2011/02/05
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCXHDocService<T extends XBCXHDoc> extends XBCService<T>, XBCExtension {

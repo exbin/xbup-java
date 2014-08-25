@@ -24,7 +24,7 @@ import org.xbup.lib.core.parser.basic.XBTProvider;
 /**
  * XBUP level 1 serialization handler using basic parser mapping to provider.
  *
- * @version 0.1 wr24.0 2014/08/23
+ * @version 0.1.24 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTProviderSerialHandler implements XBTProvider, XBTBasicInputSerialHandler {

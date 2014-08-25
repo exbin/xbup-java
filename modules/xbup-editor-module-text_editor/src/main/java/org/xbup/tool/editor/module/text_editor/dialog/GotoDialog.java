@@ -32,7 +32,7 @@ import javax.swing.text.JTextComponent;
 /**
  * Goto line dialog.
  *
- * @version 0.1 wr22.0 2013/02/26
+ * @version 0.1.22 2013/02/26
  * @author XBUP Project (http://xbup.org)
  */
 public class GotoDialog extends javax.swing.JDialog {

@@ -22,7 +22,7 @@ import org.xbup.lib.core.catalog.base.XBCBase;
 /**
  * Generic interface for persistence item management classes.
  *
- * @version 0.1 wr21.0 2011/12/12
+ * @version 0.1.21 2011/12/12
  * @author XBUP Project (http://xbup.org)
  * @param <T> base entity
  */

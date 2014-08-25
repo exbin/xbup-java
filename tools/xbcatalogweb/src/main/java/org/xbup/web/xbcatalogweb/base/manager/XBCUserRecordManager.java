@@ -25,7 +25,7 @@ import org.xbup.web.xbcatalogweb.base.XBCUserRecord;
 /**
  * XBUP catalog XBEUserRecord manager interface.
  *
- * @version 0.1 wr23.0 2014/05/23
+ * @version 0.1.23 2014/05/23
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCUserRecordManager extends XBCManager<XBCUserRecord>, Serializable {

@@ -38,7 +38,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 /**
  * Table model for catalog bindings.
  *
- * @version 0.1 wr23.0 2013/09/22
+ * @version 0.1.23 2013/09/22
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogBindsTableModel extends AbstractTableModel {

@@ -25,7 +25,7 @@ import org.xbup.lib.core.catalog.remote.service.XBRTranService;
 /**
  * XBUP level 2 remote catalog.
  *
- * @version 0.1 wr21.0 2012/01/01
+ * @version 0.1.21 2012/01/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBARCatalog extends XBRCatalog implements XBACatalog {

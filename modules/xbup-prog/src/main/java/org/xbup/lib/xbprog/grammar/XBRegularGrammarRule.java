@@ -52,7 +52,7 @@ import org.xbup.lib.xb.ubnumber.type.UBNat32;
 /**
  * Regular Grammar single rule. A -&gt; bC
  *
- * @version 0.1 wr22.0 2013/04/05
+ * @version 0.1.22 2013/04/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRegularGrammarRule implements XBSerializable {

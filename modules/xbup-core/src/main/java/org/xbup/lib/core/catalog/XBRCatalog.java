@@ -58,7 +58,7 @@ import org.xbup.lib.core.catalog.remote.service.XBRSpecService;
  *
  * Catalog is accesed using XBService RPC network interface.
  *
- * @version 0.1 wr21.0 2012/04/01
+ * @version 0.1.21 2012/04/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRCatalog implements XBCatalog {

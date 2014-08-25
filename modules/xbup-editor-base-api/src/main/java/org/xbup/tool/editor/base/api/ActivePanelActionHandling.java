@@ -23,7 +23,7 @@ import java.util.EventListener;
 /**
  * Interface for application's panel.
  *
- * @version 0.1 wr22.0 2013/03/09
+ * @version 0.1.22 2013/03/09
  * @author XBUP Project (http://xbup.org)
  */
 public interface ActivePanelActionHandling extends EventListener {

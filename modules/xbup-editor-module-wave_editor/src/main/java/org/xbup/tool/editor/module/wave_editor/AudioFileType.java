@@ -23,7 +23,7 @@ import org.xbup.tool.editor.base.api.FileType;
 /**
  * File Filter for audio files.
  *
- * @version 0.1 wr21.0 2012/05/10
+ * @version 0.1.21 2012/05/10
  * @author XBUP Project (http://xbup.org)
  */
 public class AudioFileType extends FileFilter implements FileType {

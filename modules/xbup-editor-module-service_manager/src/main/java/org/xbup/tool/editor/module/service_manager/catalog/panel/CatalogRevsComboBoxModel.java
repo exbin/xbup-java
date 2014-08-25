@@ -25,7 +25,7 @@ import org.xbup.lib.core.catalog.base.XBCRev;
 /**
  * Catalog Revisions Combo Box Model.
  *
- * @version 0.1 wr22.0 2013/05/24
+ * @version 0.1.22 2013/05/24
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogRevsComboBoxModel extends AbstractListModel<XBCRev> implements ComboBoxModel<XBCRev> {

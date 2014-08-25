@@ -21,7 +21,7 @@ import org.xbup.lib.core.catalog.base.XBCTran;
 /**
  * Interface for XBCTran items service.
  *
- * @version 0.1 wr21.0 2011/12/30
+ * @version 0.1.21 2011/12/30
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCTranService<T extends XBCTran> extends XBCService<T> {

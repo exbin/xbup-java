@@ -27,7 +27,7 @@ import org.xbup.lib.visual.xbplugins.XBPicturePanel;
 /**
  * XBUP Editor plugin - provides editing panel for XBUP data.
  *
- * @version 0.1 wr22.0 2013/08/31
+ * @version 0.1.22 2013/08/31
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation

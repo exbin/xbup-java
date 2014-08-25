@@ -24,7 +24,7 @@ import org.xbup.lib.core.block.declaration.XBParamDecl;
 /**
  * XBUP level 1 block definition interface.
  *
- * @version 0.1 wr20.0 2011/01/02
+ * @version 0.1.20 2011/01/02
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBBlockDef {

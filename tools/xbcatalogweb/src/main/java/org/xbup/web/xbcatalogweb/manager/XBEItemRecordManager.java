@@ -46,7 +46,7 @@ import org.xbup.web.xbcatalogweb.entity.XBEItemRecord;
 /**
  * XBUP catalog XBEItemRecord manager.
  *
- * @version 0.1 wr24.0 2014/08/20
+ * @version 0.1.24 2014/08/20
  * @author XBUP Project (http://xbup.org)
  */
 @Repository

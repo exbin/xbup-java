@@ -31,7 +31,7 @@ import org.xbup.web.xbcatalogweb.utils.PagedList;
 /**
  * Browse controller.
  *
- * @version 0.1 wr23.0 2014/04/10
+ * @version 0.1.23 2014/04/10
  * @author XBUP Project (http://xbup.org)
  */
 @Controller

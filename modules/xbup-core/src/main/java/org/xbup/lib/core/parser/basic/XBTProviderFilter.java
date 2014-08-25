@@ -19,7 +19,7 @@ package org.xbup.lib.core.parser.basic;
 /**
  * XBUP protocol level 1 filter interface.
  *
- * @version 0.1 wr24.0 2014/06/08
+ * @version 0.1.24 2014/06/08
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTProviderFilter extends XBTProvider, XBTConsumer {

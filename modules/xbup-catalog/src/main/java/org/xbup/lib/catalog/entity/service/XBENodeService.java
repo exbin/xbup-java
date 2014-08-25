@@ -32,7 +32,7 @@ import org.xbup.lib.catalog.entity.manager.XBENodeManager;
 /**
  * Interface for XBENode items service.
  *
- * @version 0.1 wr22.0 2013/08/17
+ * @version 0.1.22 2013/08/17
  * @author XBUP Project (http://xbup.org)
  */
 @Service

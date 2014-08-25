@@ -24,7 +24,7 @@ import org.xbup.lib.core.stream.XBStreamChecker;
 /**
  * Catalog service message interface.
  *
- * @version 0.1 wr17.0 2009/06/07
+ * @version 0.1.17 2009/06/07
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCatalogServiceMessage {

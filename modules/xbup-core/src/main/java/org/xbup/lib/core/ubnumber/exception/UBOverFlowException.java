@@ -20,7 +20,7 @@ package org.xbup.lib.core.ubnumber.exception;
  * Runtime exception related to LRUB-encoded values processing overflowing
  * operations.
  *
- * @version 0.1 wr24.0 2014/06/07
+ * @version 0.1.24 2014/06/07
  * @author XBUP Project (http://xbup.org)
  */
 public class UBOverFlowException extends UBException {

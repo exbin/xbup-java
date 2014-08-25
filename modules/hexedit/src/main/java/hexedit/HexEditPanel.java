@@ -72,7 +72,7 @@ import javax.swing.event.ChangeListener;
  * Released: Monday, 27 October 2008
  * Copyrighted as: GNU General Public License (GPL) version 3 or latter
  *
- * @version 0.1 wr18.0 2009/11/07
+ * @version 0.1.18 2009/11/07
  * @author XBUP Project (http://xbup.org)
  */
 public class HexEditPanel extends javax.swing.JPanel {

@@ -46,7 +46,7 @@ import org.xbup.lib.visual.xbplugins.XBPicturePanel;
 /**
  * Testing Visual
  *
- * @version 0.1 wr23.0 2013/11/21
+ * @version 0.1.23 2013/11/21
  * @author XBUP Project (http://xbup.org)
  */
 public class Test1 {

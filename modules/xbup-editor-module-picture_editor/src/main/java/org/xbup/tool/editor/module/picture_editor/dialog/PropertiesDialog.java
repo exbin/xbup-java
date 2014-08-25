@@ -25,7 +25,7 @@ import org.xbup.tool.editor.module.picture_editor.panel.ImagePanel;
 /**
  * File Properties Dialog.
  *
- * @version 0.1 wr21.0 2012/05/10
+ * @version 0.1.21 2012/05/10
  * @author XBUP Project (http://xbup.org)
  */
 public class PropertiesDialog extends javax.swing.JDialog {

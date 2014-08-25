@@ -23,7 +23,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 0 editable block interface.
  *
- * @version 0.1 wr23.0 2014/02/18
+ * @version 0.1.23 2014/02/18
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBEditableBlock extends XBBlock {

@@ -26,7 +26,7 @@ import org.xbup.lib.core.parser.token.event.XBTEventListener;
 /**
  * Listener to event listener convertor for XBUP protocol level 1.
  *
- * @version 0.1 wr23.0 2014/02/07
+ * @version 0.1.23 2014/02/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTListenerToEventListener implements XBTEventListener {

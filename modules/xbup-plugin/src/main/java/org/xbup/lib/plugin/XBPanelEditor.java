@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 /**
  * XBUP Panel Editor Plugin Base Interface.
  *
- * @version 0.1 wr19.0 2010/08/01
+ * @version 0.1.19 2010/08/01
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBPanelEditor {

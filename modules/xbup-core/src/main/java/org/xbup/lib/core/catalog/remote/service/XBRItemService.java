@@ -25,7 +25,7 @@ import org.xbup.lib.core.catalog.remote.manager.XBRItemManager;
 /**
  * Interface for XBRItem items service.
  *
- * @version 0.1 wr21.0 2012/01/01
+ * @version 0.1.21 2012/01/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRItemService extends XBRDefaultService<XBRItem> implements XBCItemService<XBRItem> {

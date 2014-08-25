@@ -34,7 +34,7 @@ import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 /**
  * XBUP level 1 group specification.
  *
- * @version 0.1 wr22.0 2013/08/19
+ * @version 0.1.22 2013/08/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCGroupDecl extends XBGroupDecl {

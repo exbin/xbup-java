@@ -23,7 +23,7 @@ import org.xbup.lib.core.parser.basic.XBTProducer;
 /**
  * Status context representation.
  *
- * @version 0.1 wr19.0 2010/06/02
+ * @version 0.1.19 2010/06/02
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBStatusContext extends XBTProducer, XBTConsumer { // extends XBContext

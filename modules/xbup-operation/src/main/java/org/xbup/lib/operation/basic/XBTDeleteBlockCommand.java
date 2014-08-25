@@ -32,7 +32,7 @@ import org.xbup.lib.operation.undo.XBTLinearUndo;
 /**
  * Command for deleting block.
  *
- * @version 0.1 wr20.0 2010/09/15
+ * @version 0.1.20 2010/09/15
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTDeleteBlockCommand implements XBTCommand {

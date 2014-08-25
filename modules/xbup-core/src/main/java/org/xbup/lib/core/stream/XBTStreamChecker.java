@@ -34,7 +34,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 1 stream checker.
  *
- * @version 0.1 wr21.0 2011/08/21
+ * @version 0.1.21 2011/08/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTStreamChecker implements XBTListener {

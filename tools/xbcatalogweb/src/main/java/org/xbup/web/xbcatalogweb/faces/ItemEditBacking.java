@@ -28,7 +28,7 @@ import org.xbup.web.xbcatalogweb.base.service.XBCItemRecordService;
 /**
  * Item edit controller.
  *
- * @version 0.1 wr23.0 2014/04/20
+ * @version 0.1.23 2014/04/20
  * @author XBUP Project (http://xbup.org)
  */
 @Controller

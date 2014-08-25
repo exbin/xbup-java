@@ -28,7 +28,7 @@ import org.xbup.tool.editor.base.api.StatusManagement;
 /**
  * Manager for modules.
  *
- * @version 0.1 wr22.0 2013/03/01
+ * @version 0.1.22 2013/03/01
  * @author XBUP Project (http://xbup.org)
  */
 public class ModuleManager implements ModuleManagement {

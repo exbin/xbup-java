@@ -69,7 +69,7 @@ import org.xbup.tool.editor.base.api.MainFrameManagement;
 /**
  * Text editor panel.
  *
- * @version 0.1 wr23.0 2014/03/06
+ * @version 0.1.23 2014/03/06
  * @author XBUP Project (http://xbup.org)
  */
 public class TextPanel extends javax.swing.JPanel implements ApplicationFilePanel, ActivePanelUndoable {

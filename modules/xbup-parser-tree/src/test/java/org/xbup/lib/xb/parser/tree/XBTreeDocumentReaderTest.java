@@ -35,7 +35,7 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
 /**
  * Test class for XBTreeDocument.
  *
- * @version 0.1 wr23.0 2014/02/17
+ * @version 0.1.23 2014/02/17
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeDocumentReaderTest extends TestCase {

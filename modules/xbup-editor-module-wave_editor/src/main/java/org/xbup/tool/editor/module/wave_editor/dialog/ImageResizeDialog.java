@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
 /**
  * XBSEditor Color Selection Dialog.
  *
- * @version 0.1 wr22.0 2013/02/26
+ * @version 0.1.22 2013/02/26
  * @author XBUP Project (http://xbup.org)
  */
 public class ImageResizeDialog extends javax.swing.JDialog {

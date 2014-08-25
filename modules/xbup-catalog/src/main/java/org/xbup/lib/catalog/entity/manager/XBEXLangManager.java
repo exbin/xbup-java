@@ -33,7 +33,7 @@ import org.xbup.lib.catalog.entity.XBEXLanguage;
 /**
  * XBUP catalog language manager.
  *
- * @version 0.1 wr23.0 2013/09/30
+ * @version 0.1.23 2013/09/30
  * @author XBUP Project (http://xbup.org)
  */
 @Repository

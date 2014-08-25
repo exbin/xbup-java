@@ -19,7 +19,7 @@ package org.xbup.tool.editor.base.api;
 /**
  * Interface for application's panel.
  *
- * @version 0.1 wr21.0 2011/09/11
+ * @version 0.1.21 2011/09/11
  * @author XBUP Project (http://xbup.org)
  */
 public interface ApplicationPanel {

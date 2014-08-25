@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.base;
 /**
  * Interface for group revision entity.
  *
- * @version 0.1 wr17.0 2009/05/19
+ * @version 0.1.17 2009/05/19
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCGroupRev extends XBCRev {

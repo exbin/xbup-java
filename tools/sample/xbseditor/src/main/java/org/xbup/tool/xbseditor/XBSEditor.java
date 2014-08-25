@@ -35,7 +35,7 @@ import org.xbup.tool.editor.base.XBEditorBase;
 /**
  * The main class of the XBSEditor application.
  *
- * @version 0.1 wr23.0 2013/12/09
+ * @version 0.1.23 2013/12/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBSEditor extends XBEditorBase {

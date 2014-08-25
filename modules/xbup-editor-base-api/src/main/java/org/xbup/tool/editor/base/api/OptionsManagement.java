@@ -21,7 +21,7 @@ import java.util.prefs.Preferences;
 /**
  * Interface for application options panels management.
  *
- * @version 0.1 wr22.0 2013/03/24
+ * @version 0.1.22 2013/03/24
  * @author XBUP Project (http://xbup.org)
  */
 public interface OptionsManagement {

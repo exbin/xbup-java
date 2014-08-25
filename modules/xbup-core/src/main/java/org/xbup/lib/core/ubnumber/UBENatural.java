@@ -22,7 +22,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * Interface for LRUB-encoded natural value with infinity constant.
  *
- * @version 0.1 wr24.0 2014/06/09
+ * @version 0.1.24 2014/06/09
  * @author XBUP Project (http://xbup.org)
  */
 public interface UBENatural extends Serializable, UBStreamable {

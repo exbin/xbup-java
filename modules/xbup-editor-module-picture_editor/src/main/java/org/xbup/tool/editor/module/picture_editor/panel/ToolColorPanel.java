@@ -25,7 +25,7 @@ import javax.swing.JDialog;
 /**
  * XBPEditor Color Selection panel.
  *
- * @version 0.1 wr22.0 2013/03/16
+ * @version 0.1.22 2013/03/16
  * @author XBUP Project (http://xbup.org)
  */
 public class ToolColorPanel extends javax.swing.JPanel {

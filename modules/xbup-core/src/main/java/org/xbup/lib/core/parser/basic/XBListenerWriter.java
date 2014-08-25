@@ -45,7 +45,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * XBUP level 0 listener writer.
  *
- * @version 0.1 wr23.0 2014/02/19
+ * @version 0.1.23 2014/02/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBListenerWriter implements Closeable, XBListener {

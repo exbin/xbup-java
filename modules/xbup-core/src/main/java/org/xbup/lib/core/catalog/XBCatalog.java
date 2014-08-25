@@ -30,7 +30,7 @@ import org.xbup.lib.core.catalog.base.service.XBCService;
 /**
  * Interface for XBUP level 1 catalog.
  *
- * @version 0.1 wr23.0 2014/03/17
+ * @version 0.1.23 2014/03/17
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCatalog {

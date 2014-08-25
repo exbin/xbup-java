@@ -19,7 +19,7 @@ package org.xbup.lib.core.parser.token;
 /**
  * XBUP protocol level 0 token.
  *
- * @version 0.1 wr23.0 2013/11/01
+ * @version 0.1.23 2013/11/01
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class XBToken extends TypedToken {

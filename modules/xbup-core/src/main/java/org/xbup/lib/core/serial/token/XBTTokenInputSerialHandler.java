@@ -22,7 +22,7 @@ import org.xbup.lib.core.serial.XBInputSerialHandler;
 /**
  * Interface for XBUP level 1 serialization input handler using token parser.
  *
- * @version 0.1 wr24.0 2014/08/23
+ * @version 0.1.24 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTTokenInputSerialHandler extends XBInputSerialHandler {

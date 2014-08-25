@@ -40,7 +40,7 @@ import org.xbup.lib.core.stream.XBTokenInputStream;
 /**
  * XBUP level 1 pull reader.
  *
- * @version 0.1 wr23.0 2014/02/22
+ * @version 0.1.23 2014/02/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTPullProvider {

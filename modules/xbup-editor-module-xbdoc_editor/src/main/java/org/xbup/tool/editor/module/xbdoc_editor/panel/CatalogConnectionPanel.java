@@ -24,7 +24,7 @@ import org.xbup.tool.editor.base.api.OptionsPanel;
 /**
  * XB Catalog Connection Options Panel.
  *
- * @version 0.1 wr22.0 2013/08/17
+ * @version 0.1.22 2013/08/17
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogConnectionPanel extends javax.swing.JPanel implements OptionsPanel {

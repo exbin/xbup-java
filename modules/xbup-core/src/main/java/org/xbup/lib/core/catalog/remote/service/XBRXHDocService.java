@@ -29,7 +29,7 @@ import org.xbup.lib.core.catalog.remote.manager.XBRXHDocManager;
 /**
  * Interface for XBRXHDoc items service.
  *
- * @version 0.1 wr21.0 2011/02/05
+ * @version 0.1.21 2011/02/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXHDocService extends XBRDefaultService<XBRXHDoc> implements XBCXHDocService<XBRXHDoc> {

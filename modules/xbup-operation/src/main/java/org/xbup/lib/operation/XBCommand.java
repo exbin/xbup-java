@@ -22,7 +22,7 @@ import org.xbup.lib.operation.basic.XBBasicCommandType;
 /**
  * Interface for XBUP document command.
  *
- * @version 0.1 wr20.0 2010/09/12
+ * @version 0.1.20 2010/09/12
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCommand {

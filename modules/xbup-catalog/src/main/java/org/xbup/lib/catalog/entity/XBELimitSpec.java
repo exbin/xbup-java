@@ -25,7 +25,7 @@ import org.xbup.lib.core.catalog.base.XBCLimitSpec;
 /**
  * Limitation database entity.
  *
- * @version 0.1 wr22.0 2012/12/31
+ * @version 0.1.22 2012/12/31
  * @author XBUP Project (http://xbup.org)
  */
 @Entity(name="XBLimitSpec")

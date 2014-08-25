@@ -25,7 +25,7 @@ import org.xbup.lib.core.ubnumber.UBStreamable;
 /**
  * XBUP level 0 object model parser tree.
  *
- * @version 0.1 wr20.0 2010/09/12
+ * @version 0.1.20 2010/09/12
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTree implements UBStreamable {

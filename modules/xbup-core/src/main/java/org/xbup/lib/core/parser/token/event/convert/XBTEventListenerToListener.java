@@ -33,7 +33,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * Event listener to listener convertor for XBUP protocol level 1.
  *
- * @version 0.1 wr23.0 2014/02/06
+ * @version 0.1.23 2014/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTEventListenerToListener implements XBTListener {

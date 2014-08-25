@@ -28,7 +28,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  * Level 0 Skip XBUP Tree Events.
  * It doesn't validate correct order.
  *
- * @version 0.1 wr23.0 2013/11/25
+ * @version 0.1.23 2013/11/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEventSkipNode implements XBListener {

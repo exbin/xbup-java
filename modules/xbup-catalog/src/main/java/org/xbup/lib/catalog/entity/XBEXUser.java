@@ -27,7 +27,7 @@ import org.xbup.lib.core.catalog.base.XBCXUser;
 /**
  * User database entity.
  *
- * @version 0.1 wr23.0 2014/05/29
+ * @version 0.1.23 2014/05/29
  * @author XBUP Project (http://xbup.org)
  */
 @Entity(name = "XBXUser")

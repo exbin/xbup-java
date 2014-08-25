@@ -24,7 +24,7 @@ import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 /**
  * XBUP level 0 prefix pull provider.
  *
- * @version 0.1 wr23.0 2014/03/05
+ * @version 0.1.23 2014/03/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTPrefixPullProvider implements XBTPullProvider {

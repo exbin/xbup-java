@@ -42,7 +42,7 @@ import org.xbup.lib.core.stream.XBTStreamChecker;
 /**
  * Fake XBService client using localhost database.
  *
- * @version 0.1 wr21.0 2012/01/23
+ * @version 0.1.21 2012/01/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDbServiceClient implements XBServiceClient {

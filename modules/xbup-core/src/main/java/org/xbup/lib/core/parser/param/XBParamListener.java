@@ -26,7 +26,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
  * Use this listener along-side XBTListener to process sequence of parameters
  * reported during attributes processing (non-recursive).
  *
- * @version 0.1 wr23.0 2013/11/25
+ * @version 0.1.23 2013/11/25
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBParamListener {

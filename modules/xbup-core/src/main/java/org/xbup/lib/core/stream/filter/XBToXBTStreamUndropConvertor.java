@@ -32,7 +32,7 @@ import org.xbup.lib.core.stream.XBTInputTokenStream;
  *
  * TODO: Fill type instead of attributes
  * 
- * @version 0.1 wr18.0 2009/07/21
+ * @version 0.1.18 2009/07/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBToXBTStreamUndropConvertor extends XBTInputTokenStream {

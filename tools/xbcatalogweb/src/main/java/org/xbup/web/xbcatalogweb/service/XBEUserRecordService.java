@@ -27,7 +27,7 @@ import org.xbup.web.xbcatalogweb.base.manager.XBCUserRecordManager;
 /**
  * XBEUserRecord service.
  *
- * @version 0.1 wr23.0 2014/04/12
+ * @version 0.1.23 2014/04/12
  * @author XBUP Project (http://xbup.org)
  */
 @Service

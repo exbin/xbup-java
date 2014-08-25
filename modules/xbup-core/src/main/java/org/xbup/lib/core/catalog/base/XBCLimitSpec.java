@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.base;
 /**
  * Interface for specification limitation entity.
  *
- * @version 0.1 wr18.0 2009/12/19
+ * @version 0.1.18 2009/12/19
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCLimitSpec extends XBCSpec {

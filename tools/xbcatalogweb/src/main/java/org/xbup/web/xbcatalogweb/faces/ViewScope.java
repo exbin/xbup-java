@@ -10,7 +10,7 @@ import org.springframework.beans.factory.config.Scope;
 /**
  * Spring JSF view scope.
  *
- * @version 0.1 wr23.0 2014/04/26
+ * @version 0.1.23 2014/04/26
  * @author XBUP Project (http://xbup.org)
  */
 public class ViewScope implements Scope {

@@ -22,7 +22,7 @@ import org.xbup.tool.editor.base.api.StatusManagement;
 /**
  * Manager for status bars.
  *
- * @version 0.1 wr21.0 2011/06/15
+ * @version 0.1.21 2011/06/15
  * @author XBUP Project (http://xbup.org)
  */
 public class StatusManager implements StatusManagement {

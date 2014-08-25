@@ -39,7 +39,7 @@ package org.xbup.lib.core.serial;
  * public void serializeXB(XBSerialHandler serializationHandler) throws
  * XBProcessingException, IOException;
  *
- * @version 0.1 wr24.0 2014/08/24
+ * @version 0.1.24 2014/08/24
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBSerializable {

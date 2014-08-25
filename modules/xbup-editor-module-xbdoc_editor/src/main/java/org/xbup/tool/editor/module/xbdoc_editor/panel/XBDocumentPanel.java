@@ -73,7 +73,7 @@ import org.xbup.tool.editor.base.api.FileType;
 /**
  * Panel with XBUP document visualization.
  *
- * @version 0.1 wr23.0 2013/09/23
+ * @version 0.1.23 2013/09/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFilePanel, ActivePanelUndoable, ActivePanelActionHandling {

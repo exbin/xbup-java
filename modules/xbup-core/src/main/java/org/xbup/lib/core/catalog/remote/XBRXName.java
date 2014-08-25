@@ -37,7 +37,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Catalog remote item name entity.
  *
- * @version 0.1 wr21.0 2011/12/16
+ * @version 0.1.21 2011/12/16
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXName implements XBCXName {

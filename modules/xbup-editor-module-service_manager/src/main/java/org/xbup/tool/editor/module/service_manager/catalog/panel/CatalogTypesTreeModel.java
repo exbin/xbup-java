@@ -26,7 +26,7 @@ import org.xbup.lib.core.catalog.XBACatalog;
 /**
  * Table Model for Catalog Tree
  *
- * @version 0.1 wr19.0 2010/05/30
+ * @version 0.1.19 2010/05/30
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogTypesTreeModel implements TreeModel {

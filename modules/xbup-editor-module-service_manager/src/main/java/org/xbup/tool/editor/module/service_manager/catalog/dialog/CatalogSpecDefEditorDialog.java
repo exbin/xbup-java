@@ -44,7 +44,7 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
 /**
  * XBManager Catalog Specification Selection Dialog.
  *
- * @version 0.1 wr23.0 2013/09/22
+ * @version 0.1.23 2013/09/22
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {

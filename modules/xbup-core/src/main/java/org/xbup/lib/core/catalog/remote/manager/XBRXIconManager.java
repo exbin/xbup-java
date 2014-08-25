@@ -43,7 +43,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Manager class for XBRXIcon catalog items.
  *
- * @version 0.1 wr21.0 2012/01/01
+ * @version 0.1.21 2012/01/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXIconManager extends XBRDefaultManager<XBRXIcon> implements XBCXIconManager<XBRXIcon> {

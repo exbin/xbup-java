@@ -31,7 +31,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  *
- * @version 0.1 wr18.0 2009/12/23
+ * @version 0.1.18 2009/12/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRItemLimi implements XBCItemLimi {

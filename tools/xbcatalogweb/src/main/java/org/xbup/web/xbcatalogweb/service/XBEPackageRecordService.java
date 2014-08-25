@@ -26,7 +26,7 @@ import org.xbup.web.xbcatalogweb.base.manager.XBCPackageRecordManager;
 /**
  * XBEPackageRecord service.
  *
- * @version 0.1 wr23.0 2014/05/08
+ * @version 0.1.23 2014/05/08
  * @author XBUP Project (http://xbup.org)
  */
 @Service

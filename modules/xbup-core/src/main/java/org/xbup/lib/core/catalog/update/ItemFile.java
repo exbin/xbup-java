@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.update;
 /**
  * Catalog item file information record.
  *
- * @version 0.1 wr18.0 2009/12/29
+ * @version 0.1.18 2009/12/29
  * @author XBUP Project (http://xbup.org)
  */
 public class ItemFile {

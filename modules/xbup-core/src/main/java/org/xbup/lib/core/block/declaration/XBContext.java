@@ -32,7 +32,7 @@ import org.xbup.lib.core.catalog.declaration.XBCGroupDecl;
  *
  * Context include groups, blocks and their current numbers in current block.
  *
- * @version 0.1 wr24.0 2014/06/07
+ * @version 0.1.24 2014/06/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBContext {

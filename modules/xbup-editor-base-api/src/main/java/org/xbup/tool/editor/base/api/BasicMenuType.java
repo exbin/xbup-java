@@ -19,7 +19,7 @@ package org.xbup.tool.editor.base.api;
 /**
  * Enumeration of basic menus.
  *
- * @version 0.1 wr21.0 2011/06/15
+ * @version 0.1.21 2011/06/15
  * @author XBUP Project (http://xbup.org)
  */
 public enum BasicMenuType {

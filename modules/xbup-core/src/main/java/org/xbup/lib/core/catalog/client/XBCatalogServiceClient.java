@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.client;
 /**
  * Connection client handler for remote catalogs.
  *
- * @version 0.1 wr18.0 2009/10/31
+ * @version 0.1.18 2009/10/31
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCatalogServiceClient {

@@ -103,7 +103,7 @@ import org.xbup.lib.catalog.entity.service.XBEXStriService;
 /**
  * Handler for processing Web Service Calls with PHP Catalog interface.
  *
- * @version 0.1 wr22.0 2013/08/18
+ * @version 0.1.22 2013/08/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCUpdatePHPHandler implements XBCUpdateHandler {

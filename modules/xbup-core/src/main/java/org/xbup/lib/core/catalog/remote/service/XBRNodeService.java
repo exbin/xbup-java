@@ -28,7 +28,7 @@ import org.xbup.lib.core.catalog.remote.manager.XBRNodeManager;
 /**
  * Interface for XBRNode items service.
  *
- * @version 0.1 wr22.0 2013/08/17
+ * @version 0.1.22 2013/08/17
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRNodeService extends XBRDefaultService<XBRNode> implements XBCNodeService<XBRNode> {

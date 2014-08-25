@@ -31,7 +31,7 @@ import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
  * Without declaration (blockDef) it means single atribute for join and data
  * block for consist mode and their lists respectively.
  *
- * @version 0.1 wr24.0 2014/08/24
+ * @version 0.1.24 2014/08/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDParamDecl implements XBParamDecl, XBTSequenceSerializable {

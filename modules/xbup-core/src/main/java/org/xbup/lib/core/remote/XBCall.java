@@ -24,7 +24,7 @@ import org.xbup.lib.core.stream.XBTStreamChecker;
 /**
  * XBUP level 1 RPC procedure call interface.
  *
- * @version 0.1 wr21.0 2011/10/30
+ * @version 0.1.21 2011/10/30
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCall {

@@ -19,7 +19,7 @@ package org.xbup.tool.editor.module.service_manager.panel;
 /**
  * Catalog update panel.
  *
- * @version 0.1 wr22.0 2012/11/29
+ * @version 0.1.22 2012/11/29
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogUpdatePanel extends javax.swing.JPanel {

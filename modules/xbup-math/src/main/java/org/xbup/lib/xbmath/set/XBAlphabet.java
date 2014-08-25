@@ -22,7 +22,7 @@ import org.xbup.lib.xb.ubnumber.UBENatural;
 /**
  * Encapsulation class for natural numbers.
  *
- * @version 0.1 wr19.0 2010/01/19
+ * @version 0.1.19 2010/01/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBAlphabet {

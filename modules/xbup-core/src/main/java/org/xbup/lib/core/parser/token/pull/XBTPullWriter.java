@@ -30,7 +30,7 @@ import org.xbup.lib.core.parser.token.pull.convert.XBTToXBPullConvertor;
 /**
  * XBUP level 1 pull writer.
  *
- * @version 0.1 wr23.0 2014/02/22
+ * @version 0.1.23 2014/02/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTPullWriter implements Closeable, XBTPullConsumer {

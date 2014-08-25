@@ -33,7 +33,7 @@ import org.xbup.lib.parser_tree.XBTTreeNode;
 /**
  * Panel with document tree visualization.
  *
- * @version 0.1 wr21.0 2011/07/28
+ * @version 0.1.21 2011/07/28
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocHexPanel extends javax.swing.JPanel {

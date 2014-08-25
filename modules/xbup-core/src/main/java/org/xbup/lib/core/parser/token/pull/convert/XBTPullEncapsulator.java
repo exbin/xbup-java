@@ -34,7 +34,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  * XB Event Stream Encapsulation Filter
  * TODO: Upgrade for pull processing
  *
- * @version 0.1 wr19.0 2010/06/01
+ * @version 0.1.19 2010/06/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTPullEncapsulator implements XBTFilter, XBTProducer, XBTConsumer {

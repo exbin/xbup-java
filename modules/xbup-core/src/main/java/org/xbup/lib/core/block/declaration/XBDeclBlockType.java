@@ -21,7 +21,7 @@ import org.xbup.lib.core.block.XBBlockType;
 /**
  * Interface for declared block type.
  *
- * @version 0.1 wr20.0 2010/11/13
+ * @version 0.1.20 2010/11/13
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBDeclBlockType extends XBBlockType {

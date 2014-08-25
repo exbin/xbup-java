@@ -24,7 +24,7 @@ import java.util.ListIterator;
 /**
  * Abstract class for paging.
  *
- * @version 0.1 wr23.0 2014/04/04
+ * @version 0.1.23 2014/04/04
  * @author XBUP Project (http://xbup.org)
  * @param <T> entity class
  */

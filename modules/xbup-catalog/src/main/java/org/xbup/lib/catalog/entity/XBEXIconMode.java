@@ -26,7 +26,7 @@ import org.xbup.lib.core.catalog.base.XBCXIconMode;
 /**
  * Item Icon mode database entity.
  *
- * @version 0.1 wr21.0 2011/08/21
+ * @version 0.1.21 2011/08/21
  * @author XBUP Project (http://xbup.org)
  */
 @Entity(name="XBXIconMode")

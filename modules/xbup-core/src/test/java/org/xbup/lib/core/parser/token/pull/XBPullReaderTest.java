@@ -37,7 +37,7 @@ import org.xbup.lib.core.parser.token.XBTokenType;
 /**
  * Test class for XBPullReader.
  *
- * @version 0.1 wr23.0 2014/01/12
+ * @version 0.1.23 2014/01/12
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPullReaderTest extends TestCase {

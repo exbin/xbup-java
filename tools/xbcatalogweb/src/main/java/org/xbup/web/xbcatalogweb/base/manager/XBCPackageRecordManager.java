@@ -24,7 +24,7 @@ import org.xbup.web.xbcatalogweb.base.XBCPackageRecord;
 /**
  * XBUP catalog XBEPackageRecord manager.
  *
- * @version 0.1 wr23.0 2014/05/23
+ * @version 0.1.23 2014/05/23
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCPackageRecordManager extends XBCManager<XBCPackageRecord>, Serializable {

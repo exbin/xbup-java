@@ -31,7 +31,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * UBPath with 32bit long items.
  *
- * @version 0.1 wr24.0 2014/08/23
+ * @version 0.1.24 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
 public class UBPath32 implements UBStreamable, XBTChildSerializable {

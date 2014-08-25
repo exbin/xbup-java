@@ -35,7 +35,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Basic object model parser XBUP level 0 document representation.
  *
- * @version 0.1 wr20.0 2010/09/26
+ * @version 0.1.20 2010/09/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStreamable {

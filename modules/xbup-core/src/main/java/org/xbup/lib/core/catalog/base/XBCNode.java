@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.base;
 /**
  * Interface for catalog node entity.
  *
- * @version 0.1 wr21.0 2011/12/11
+ * @version 0.1.21 2011/12/11
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCNode extends XBCItem {

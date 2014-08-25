@@ -23,7 +23,7 @@ import java.util.prefs.Preferences;
 /**
  * Interface for application module management.
  *
- * @version 0.1 wr22.0 2013/03/25
+ * @version 0.1.22 2013/03/25
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBEditorApp {

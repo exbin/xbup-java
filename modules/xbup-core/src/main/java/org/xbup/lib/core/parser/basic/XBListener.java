@@ -27,7 +27,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  *
  * Execution is sender side controlled (push).
  *
- * @version 0.1 wr23.0 2014/01/27
+ * @version 0.1.23 2014/01/27
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBListener {

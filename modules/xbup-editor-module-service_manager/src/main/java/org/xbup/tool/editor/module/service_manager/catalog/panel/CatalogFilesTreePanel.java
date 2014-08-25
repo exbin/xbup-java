@@ -49,7 +49,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogNodesTre
 /**
  * Catalog Specification Panel.
  *
- * @version 0.1 wr23.0 2013/09/30
+ * @version 0.1.23 2013/09/30
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogFilesTreePanel extends javax.swing.JPanel {

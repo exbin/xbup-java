@@ -36,7 +36,7 @@ import org.xbup.lib.xb.type.XBArrayList;
 /**
  * XBUP String-BNF Context-Free Grammar Rule
  *
- * @version 0.1 wr19.0 2010/06/04
+ * @version 0.1.19 2010/06/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBBNFGrammar implements XBSerializable {

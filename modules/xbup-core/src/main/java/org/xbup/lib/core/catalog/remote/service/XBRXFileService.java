@@ -31,7 +31,7 @@ import org.xbup.lib.core.catalog.remote.manager.XBRXFileManager;
 /**
  * Interface for XBRXFile items service.
  *
- * @version 0.1 wr22.0 2013/07/28
+ * @version 0.1.22 2013/07/28
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXFileService extends XBRDefaultService<XBRXFile> implements XBCXFileService<XBRXFile> {

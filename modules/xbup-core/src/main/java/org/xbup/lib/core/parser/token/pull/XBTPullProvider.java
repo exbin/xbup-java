@@ -23,7 +23,7 @@ import org.xbup.lib.core.parser.token.XBTToken;
 /**
  * XBUB level 1 pull provider interface.
  *
- * @version 0.1 wr23.0 2013/11/21
+ * @version 0.1.23 2013/11/21
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTPullProvider {

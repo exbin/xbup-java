@@ -28,7 +28,7 @@ import org.xbup.tool.editor.module.wave_editor.panel.WaveColorPanelFrame;
 /**
  * XBSEditor Color Selection Dialog.
  *
- * @version 0.1 wr22.0 2013/03/09
+ * @version 0.1.22 2013/03/09
  * @author XBUP Project (http://xbup.org)
  */
 public class WaveColorDialog extends javax.swing.JDialog {

@@ -38,7 +38,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecDef
 /**
  * XBManager Catalog Item Edit Documentation Panel.
  *
- * @version 0.1 wr23.0 2013/09/23
+ * @version 0.1.23 2013/09/23
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {

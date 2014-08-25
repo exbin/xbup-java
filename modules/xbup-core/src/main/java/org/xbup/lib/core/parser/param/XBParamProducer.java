@@ -19,7 +19,7 @@ package org.xbup.lib.core.parser.param;
 /**
  * XBUP protocol level 1 parameter producer.
  *
- * @version 0.1 wr23.0 2013/11/25
+ * @version 0.1.23 2013/11/25
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBParamProducer {

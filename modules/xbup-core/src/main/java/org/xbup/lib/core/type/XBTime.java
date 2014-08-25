@@ -39,7 +39,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Time in seconds as real timestamp.
  *
- * @version 0.1 wr24.0 2014/08/23
+ * @version 0.1.24 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTime implements XBTChildSerializable, XBDeclared { // XBCL2Streamable

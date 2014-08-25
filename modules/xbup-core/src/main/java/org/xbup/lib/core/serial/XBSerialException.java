@@ -22,7 +22,7 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
 /**
  * Exception for XBUP protocol serialization errors.
  *
- * @version 0.1 wr23.0 2014/03/01
+ * @version 0.1.23 2014/03/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBSerialException extends XBProcessingException {

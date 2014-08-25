@@ -21,7 +21,7 @@ import org.xbup.lib.core.catalog.client.XBCatalogServiceClient;
 
 /**
  *
- * @version 0.1 wr22.0 2012/12/12
+ * @version 0.1.22 2012/12/12
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRSpec extends XBRItem implements XBCSpec {

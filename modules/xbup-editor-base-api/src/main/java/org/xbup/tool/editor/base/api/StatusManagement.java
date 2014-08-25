@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 /**
  * Interface for application statusbar management.
  *
- * @version 0.1 wr21.0 2011/06/15
+ * @version 0.1.21 2011/06/15
  * @author XBUP Project (http://xbup.org)
  */
 public interface StatusManagement {

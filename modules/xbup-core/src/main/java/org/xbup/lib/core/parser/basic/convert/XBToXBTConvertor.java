@@ -30,7 +30,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 To level 0 convertor.
  *
- * @version 0.1 wr23.0 2013/11/21
+ * @version 0.1.23 2013/11/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBToXBTConvertor implements XBListener, XBTProducer {

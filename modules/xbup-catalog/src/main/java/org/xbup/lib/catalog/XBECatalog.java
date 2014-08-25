@@ -65,7 +65,7 @@ import org.xbup.lib.catalog.entity.service.XBESpecService;
 /**
  * Basic level 1 catalog class using Java persistence.
  *
- * @version 0.1 wr23.0 2014/03/25
+ * @version 0.1.23 2014/03/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBECatalog implements XBCatalog {

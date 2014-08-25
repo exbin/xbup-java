@@ -24,7 +24,7 @@ import javax.swing.JToolBar;
 /**
  * Interface for application's menus.
  *
- * @version 0.1 wr22.0 2013/03/01
+ * @version 0.1.22 2013/03/01
  * @author XBUP Project (http://xbup.org)
  */
 public interface MenuManagement {

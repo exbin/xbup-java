@@ -19,7 +19,7 @@ package org.xbup.lib.plugin;
 /**
  * XBUP Transformation Plugin Base Interface.
  *
- * @version 0.1 wr19.0 2010/06/19
+ * @version 0.1.19 2010/06/19
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBLineEditor {

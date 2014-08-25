@@ -24,7 +24,7 @@ import org.xbup.lib.core.serial.XBSerializable;
  * Interface is providing serialization method for serialization from and into
  * XBUP level 1 protocol using serialization sequence.
  *
- * @version 0.1 wr24.0 2014/08/24
+ * @version 0.1.24 2014/08/24
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTSequenceSerializable extends XBSerializable {

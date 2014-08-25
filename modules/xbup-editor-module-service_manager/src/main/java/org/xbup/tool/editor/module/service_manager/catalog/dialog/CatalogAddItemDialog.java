@@ -28,7 +28,7 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
 /**
  * XBManager Catalog Specification Selection Dialog.
  *
- * @version 0.1 wr23.0 2013/09/24
+ * @version 0.1.23 2013/09/24
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogAddItemDialog extends javax.swing.JDialog {

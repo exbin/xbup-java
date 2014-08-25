@@ -37,7 +37,7 @@ import org.xbup.tool.editor.base.api.ModuleManagement;
 /**
  * JavaHelp module.
  *
- * @version 0.1 wr22.0 2013/03/10
+ * @version 0.1.22 2013/03/10
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation

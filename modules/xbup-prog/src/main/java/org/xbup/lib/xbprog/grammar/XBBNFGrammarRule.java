@@ -42,7 +42,7 @@ import org.xbup.lib.xb.stream.XBTOutputStream;
  * Variant 3: ruleName ::= terminal (Terminal string)
  * Variant 4: ruleName ::= charA1 .. charAN | charB1 .. char BN | .. | charZ1 .. char ZN (Char ranges)
  *
- * @version 0.1 wr19.0 2010/06/04
+ * @version 0.1.19 2010/06/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBBNFGrammarRule implements XBSerializable {

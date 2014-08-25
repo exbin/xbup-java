@@ -67,7 +67,7 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
 /**
  * Catalog Specification Panel.
  *
- * @version 0.1 wr23.0 2013/09/26
+ * @version 0.1.23 2013/09/26
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActivePanelActionHandling {

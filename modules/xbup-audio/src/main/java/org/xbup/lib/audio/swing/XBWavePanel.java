@@ -29,7 +29,7 @@ import org.xbup.lib.audio.wave.XBWave;
 /**
  * Simple panel audio wave.
  *
- * @version 0.1 wr23.0 2013/12/05
+ * @version 0.1.23 2013/12/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWavePanel extends JPanel implements MouseListener, MouseMotionListener {

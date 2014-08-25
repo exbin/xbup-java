@@ -19,7 +19,7 @@ package org.xbup.lib.core.serial.child;
 /**
  * Enumeration of possible child serialization states.
  *
- * @version 0.1 wr24.0 2014/08/23
+ * @version 0.1.24 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
 public enum XBChildSerialState {

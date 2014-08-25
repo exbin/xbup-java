@@ -38,7 +38,7 @@ import org.xbup.web.xbcatalogweb.utils.PagedList;
 /**
  * Persistence manager for XBCXUser items.
  *
- * @version 0.1 wr23.0 2014/05/29
+ * @version 0.1.23 2014/05/29
  * @author XBUP Project (http://xbup.org)
  */
 @Controller

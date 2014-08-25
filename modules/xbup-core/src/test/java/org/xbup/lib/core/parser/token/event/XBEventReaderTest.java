@@ -43,7 +43,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Test class for XBEventReader.
  *
- * @version 0.1 wr23.0 2013/12/21
+ * @version 0.1.23 2013/12/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEventReaderTest extends TestCase {

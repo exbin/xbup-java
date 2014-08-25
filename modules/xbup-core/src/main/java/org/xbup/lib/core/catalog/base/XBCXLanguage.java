@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.base;
 /**
  * Interface for catalog language entity.
  *
- * @version 0.1 wr21.0 2012/04/15
+ * @version 0.1.21 2012/04/15
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCXLanguage extends XBCBase {

@@ -24,7 +24,7 @@ import net.xeoh.plugins.base.PluginManager;
 /**
  * Interface for application module's repository.
  *
- * @version 0.1 wr21.0 2012/05/11
+ * @version 0.1.21 2012/05/11
  * @author XBUP Project (http://xbup.org)
  */
 public interface ModuleRepository {

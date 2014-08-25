@@ -25,7 +25,7 @@ import org.xbup.lib.core.catalog.remote.manager.XBRLimiManager;
 /**
  * Interface for XBRItemLimi items service.
  *
- * @version 0.1 wr21.0 2012/01/01
+ * @version 0.1.21 2012/01/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRLimiService extends XBRDefaultService<XBRItemLimi> implements XBCLimiService<XBRItemLimi> {

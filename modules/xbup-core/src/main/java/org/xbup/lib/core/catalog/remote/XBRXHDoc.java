@@ -33,7 +33,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Catalog remote item HTML documentation entity.
  *
- * @version 0.1 wr21.0 2012/01/27
+ * @version 0.1.21 2012/01/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXHDoc implements XBCXHDoc {

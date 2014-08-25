@@ -33,7 +33,7 @@ import org.xbup.lib.catalog.entity.XBERoot;
 /**
  * XBUP catalog node manager.
  *
- * @version 0.1 wr22.0 2013/08/17
+ * @version 0.1.22 2013/08/17
  * @author XBUP Project (http://xbup.org)
  */
 @Repository

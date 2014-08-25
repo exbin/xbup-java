@@ -24,7 +24,7 @@ import org.xbup.lib.core.parser.token.XBTToken;
 /**
  * Interface for receiving XBUP protocol level 1 events.
  *
- * @version 0.1 wr23.0 2013/11/22
+ * @version 0.1.23 2013/11/22
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTEventListener extends EventListener {

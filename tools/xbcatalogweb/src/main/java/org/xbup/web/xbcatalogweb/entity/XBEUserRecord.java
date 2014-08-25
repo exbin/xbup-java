@@ -24,7 +24,7 @@ import org.xbup.lib.catalog.entity.XBEXUserInfo;
 /**
  * User record entity.
  *
- * @version 0.1 wr23.0 2014/04/10
+ * @version 0.1.23 2014/04/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEUserRecord implements  Serializable, XBCUserRecord {

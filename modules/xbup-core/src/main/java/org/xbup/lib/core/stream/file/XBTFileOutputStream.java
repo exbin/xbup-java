@@ -29,7 +29,7 @@ import org.xbup.lib.core.stream.XBTOutputStream;
 
 /**
  *
- * @version 0.1 wr16.0 2008/08/02
+ * @version 0.1.16 2008/08/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTFileOutputStream extends XBTOutputStream {

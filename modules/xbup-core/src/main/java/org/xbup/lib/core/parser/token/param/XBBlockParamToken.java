@@ -19,7 +19,7 @@ package org.xbup.lib.core.parser.token.param;
 /**
  * XBUP protocol level 1 parameter end token.
  *
- * @version 0.1 wr23.0 2013/11/29
+ * @version 0.1.23 2013/11/29
  * @author XBUP Project (http://xbup.org)
  */
 public class XBBlockParamToken extends XBParamToken {

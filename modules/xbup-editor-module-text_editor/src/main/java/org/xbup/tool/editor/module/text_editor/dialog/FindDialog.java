@@ -26,7 +26,7 @@ import javax.swing.JOptionPane;
 /**
  * Find text dialog.
  *
- * @version 0.1 wr22.0 2013/03/14
+ * @version 0.1.22 2013/03/14
  * @author XBUP Project (http://xbup.org)
  */
 public class FindDialog extends javax.swing.JDialog {

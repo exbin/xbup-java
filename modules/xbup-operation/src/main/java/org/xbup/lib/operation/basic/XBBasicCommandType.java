@@ -19,7 +19,7 @@ package org.xbup.lib.operation.basic;
 /**
  * Undo operation type enumeration
  *
- * @version 0.1 wr16.0 2008/09/14
+ * @version 0.1.16 2008/09/14
  * @author XBUP Project (http://xbup.org)
  */
 public enum XBBasicCommandType {

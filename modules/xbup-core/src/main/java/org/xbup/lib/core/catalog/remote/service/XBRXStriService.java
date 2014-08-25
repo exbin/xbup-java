@@ -31,7 +31,7 @@ import org.xbup.lib.core.catalog.remote.manager.XBRXStriManager;
 /**
  * Interface for XBRXStri items service.
  *
- * @version 0.1 wr22.0 2013/01/13
+ * @version 0.1.22 2013/01/13
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXStriService extends XBRDefaultService<XBRXStri> implements XBCXStriService<XBRXStri> {

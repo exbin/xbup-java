@@ -23,7 +23,7 @@ import org.xbup.lib.core.catalog.base.manager.XBCManager;
 /**
  * Persistence manager for catalog items.
  *
- * @version 0.1 wr21.0 2011/12/27
+ * @version 0.1.21 2011/12/27
  * @author XBUP Project (http://xbup.org)
  * @param <T> entity class
  */

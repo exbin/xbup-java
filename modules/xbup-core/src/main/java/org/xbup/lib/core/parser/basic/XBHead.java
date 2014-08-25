@@ -30,7 +30,7 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
 /**
  * XBUP document header validator/provider.
  *
- * @version 0.1 wr23.0 2013/12/15
+ * @version 0.1.23 2013/12/15
  * @author XBUP Project (http://xbup.org)
  */
 public class XBHead {

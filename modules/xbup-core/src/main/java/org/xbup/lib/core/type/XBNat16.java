@@ -41,7 +41,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Encapsulation class for natural numbers.
  *
- * @version 0.1 wr24.0 2014/08/23
+ * @version 0.1.24 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBNat16 implements XBTChildSerializable, XBDeclared { // XBCL2Streamable

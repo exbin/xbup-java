@@ -38,7 +38,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  * 
  * Uses token buffer stored in memory.
  *
- * @version 0.1 wr23.0 2013/11/21
+ * @version 0.1.23 2013/11/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBConsumerToListener implements XBListener {

@@ -27,7 +27,7 @@ import org.xbup.lib.core.catalog.base.XBCNodeTree;
 /**
  * Node tree database entity.
  *
- * @version 0.1 wr23.0 2013/10/06
+ * @version 0.1.23 2013/10/06
  * @author XBUP Project (http://xbup.org)
  */
 @Entity(name="XBNodeTree")

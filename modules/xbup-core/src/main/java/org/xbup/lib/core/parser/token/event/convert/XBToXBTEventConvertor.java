@@ -37,7 +37,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 0 to level 1 event convertor.
  *
- * @version 0.1 wr21.0 2011/08/21
+ * @version 0.1.21 2011/08/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBToXBTEventConvertor implements XBEventListener, XBTEventProducer {

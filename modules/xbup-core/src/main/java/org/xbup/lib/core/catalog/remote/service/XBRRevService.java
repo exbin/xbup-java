@@ -28,7 +28,7 @@ import org.xbup.lib.core.catalog.remote.manager.XBRRevManager;
 /**
  * Interface for XBRRev items service.
  *
- * @version 0.1 wr21.0 2012/01/01
+ * @version 0.1.21 2012/01/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRRevService extends XBRDefaultService<XBRRev> implements XBCRevService<XBRRev> {

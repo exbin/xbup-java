@@ -34,7 +34,7 @@ import org.xbup.tool.editor.base.api.StatusManagement;
 /**
  * XB Text Editor Module.
  *
- * @version 0.1 wr22.0 2013/03/17
+ * @version 0.1.22 2013/03/17
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation

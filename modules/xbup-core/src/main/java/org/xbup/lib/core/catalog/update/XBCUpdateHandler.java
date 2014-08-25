@@ -26,7 +26,7 @@ import org.xbup.lib.core.catalog.base.XBCNode;
  * Interface for XB catalog update handler.
  * Provides methods for updating catalog database.
  *
- * @version 0.1 wr17.0 2009/02/09
+ * @version 0.1.17 2009/02/09
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCUpdateHandler {

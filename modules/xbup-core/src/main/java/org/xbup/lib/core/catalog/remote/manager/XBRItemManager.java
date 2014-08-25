@@ -31,7 +31,7 @@ import org.xbup.lib.core.stream.XBStreamChecker;
 /**
  * Manager class for XBRItem catalog items.
  *
- * @version 0.1 wr21.0 2011/12/30
+ * @version 0.1.21 2011/12/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRItemManager extends XBRDefaultManager<XBRItem> implements XBCItemManager<XBRItem> {

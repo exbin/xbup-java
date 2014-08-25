@@ -38,7 +38,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * 
  * TODO: This is stub only
  *
- * @version 0.1 wr21.0 2011/08/21
+ * @version 0.1.21 2011/08/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBToXBTOperation extends XBOperation<XBToken, XBTToken> {

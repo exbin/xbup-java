@@ -37,7 +37,7 @@ import org.xbup.lib.parser_tree.XBTTreeNode;
 /**
  * Tree Cell Renderer for XBUP Document Tree.
  *
- * @version 0.1 wr22.0 2013/08/31
+ * @version 0.1.22 2013/08/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {

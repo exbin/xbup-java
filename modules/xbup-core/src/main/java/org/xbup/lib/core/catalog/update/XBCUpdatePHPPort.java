@@ -42,7 +42,7 @@ import org.xbup.lib.core.parser.basic.XBHead;
  * 
  * TODO: This is really horrible temporary stub for dummy PHP XBCatalog.
  *
- * @version 0.1 wr22.0 2013/08/20
+ * @version 0.1.22 2013/08/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCUpdatePHPPort {

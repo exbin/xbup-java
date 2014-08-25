@@ -22,7 +22,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 /**
  * XBUP level 1 serialization sequence access interface.
  *
- * @version 0.1 wr23.0 2014/03/03
+ * @version 0.1.23 2014/03/03
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTSerialSequence {

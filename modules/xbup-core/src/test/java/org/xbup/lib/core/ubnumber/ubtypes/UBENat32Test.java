@@ -29,7 +29,7 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
 /**
  * Test class for UBENat32.
  *
- * @version 0.1 wr23.0 2013/11/07
+ * @version 0.1.23 2013/11/07
  * @author XBUP Project (http://xbup.org)
  */
 public class UBENat32Test extends TestCase {

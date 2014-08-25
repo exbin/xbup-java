@@ -23,7 +23,7 @@ import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 /**
  * XBUP level 1 block declaration using catalog path.
  *
- * @version 0.1 wr21.0 2011/12/03
+ * @version 0.1.21 2011/12/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCPBlockDecl implements XBCBlockDecl {

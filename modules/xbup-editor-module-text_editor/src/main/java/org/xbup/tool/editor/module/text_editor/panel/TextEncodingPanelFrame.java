@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * XB Text Editor Module.
  *
- * @version 0.1 wr22.0 2013/03/17
+ * @version 0.1.22 2013/03/17
  * @author XBUP Project (http://xbup.org)
  */
 public interface TextEncodingPanelFrame {

@@ -44,7 +44,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * XBUP level 0 consumer writer.
  *
- * @version 0.1 wr23.0 2014/02/19
+ * @version 0.1.23 2014/02/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBConsumerWriter implements Closeable, XBConsumer {

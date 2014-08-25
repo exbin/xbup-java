@@ -26,7 +26,7 @@ import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 /**
  * Panel for catalog status.
  *
- * @version 0.1 wr22.0 2012/12/31
+ * @version 0.1.22 2012/12/31
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogStatusPanel extends javax.swing.JPanel {

@@ -16,40 +16,25 @@
  */
 package org.xbup.lib.core.serial.sequence;
 
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
+import java.io.IOException;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.serial.XBSerializable;
 
 /**
- * Interface for serialization methods for serialization into XBUP level 1
- * protocol using sequence definition.
+ * Interface is providing serialization method for serialization from and into
+ * XBUP level 1 protocol using serialization sequence.
  *
- * @version 0.1 wr23.0 2014/03/03
+ * @version 0.1 wr24.0 2014/08/24
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTSerialSequenceListenerMethod implements XBSerialMethod {
+public interface XBTSequenceSerializable extends XBSerializable {
 
-    private int methodIndex = 0;
-
-    public XBTSerialSequenceListenerMethod() {
-    }
-
-    public XBTSerialSequenceListenerMethod(int methodIndex) {
-        this();
-        this.methodIndex = methodIndex;
-    }
-    
     /**
-     * Get serialization method index.
+     * Method to peform dual-way serialization to XBUP protocol
      *
-     * @return method index
+     * @param serializationHandler serialization resource
+     * @throws XBProcessingException if proccesing problem encountered
+     * @throws java.io.IOException if input/output problem encountered
      */
-    @Override
-    public int getMethodIndex() {
-        return methodIndex;
-    }
-
-    @Override
-    public Class<? extends XBSerialHandler> getHandlerClass() {
-        return XBTSerialSequenceListenerHandler.class;
-    }
+    public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException;
 }

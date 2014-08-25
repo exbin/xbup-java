@@ -14,22 +14,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.serial;
+package org.xbup.lib.core.serial.child;
 
-import org.xbup.lib.core.parser.token.pull.XBPullProvider;
+import org.xbup.lib.core.serial.XBInputSerialHandler;
+import org.xbup.lib.core.serial.token.XBTokenInputSerialHandler;
 
 /**
- * Interface for XBUP level 0 serialization input handler.
+ * Interface for XBUP level 0 serialization input handler using basic child serialization.
  *
- * @version 0.1 wr23.0 2014/03/01
+ * @version 0.1 wr24.0 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBInputTokenSerialHandler extends XBSerialHandler {
-
-    /**
-     * Attach pull provider to be used as source for serialization.
-     *
-     * @param provider
-     */
-    public void attachXBPullProvider(XBPullProvider provider);
+public interface XBChildInputSerialHandler extends XBInputSerialHandler, XBChildProvider, XBTokenInputSerialHandler {
 }

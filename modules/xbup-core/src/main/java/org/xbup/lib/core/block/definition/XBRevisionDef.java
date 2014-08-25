@@ -16,13 +16,7 @@
  */
 package org.xbup.lib.core.block.definition;
 
-import java.io.IOException;
-import java.util.List;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationType;
 
 /**
  * XBUP level 1 revision definition.
@@ -54,15 +48,5 @@ public class XBRevisionDef implements XBSerializable {
      */
     public void setRevision(long revision) {
         this.revision = revision;
-    }
-
-    @Override
-    public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

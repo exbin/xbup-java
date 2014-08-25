@@ -43,8 +43,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -71,21 +69,15 @@ import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationFromXB;
-import org.xbup.lib.core.serial.XBSerializationType;
-import org.xbup.lib.core.serial.child.XBTChildListener;
+import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildListenerSerialMethod;
-import org.xbup.lib.core.serial.child.XBTChildProvider;
-import org.xbup.lib.core.serial.sequence.XBSerialSequence;
 import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildProviderSerialMethod;
-import org.xbup.lib.core.serial.sequence.XBTSerialSequence;
-import org.xbup.lib.core.serial.sequence.XBTSerialSequenceListenerMethod;
-import org.xbup.lib.core.serial.sequence.XBTSerialSequenceProviderMethod;
+import org.xbup.lib.core.serial.child.XBTChildSerializable;
+import org.xbup.lib.core.serial.sequence.XBSerialSequence;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 import org.xbup.lib.core.stream.file.XBFileOutputStream;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -395,13 +387,11 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
     @Override
     public void loadFromFile() {
         if (XBPictureEditorFrame.XBPFILETYPE.equals(fileType.getFileTypeId())) {
-            XBTChildProviderSerialHandler handler = new XBTChildProviderSerialHandler();
+            XBTChildInputSerialHandler handler = new XBTChildProviderSerialHandler();
             try {
                 handler.attachXBTPullProvider(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName()))));
-                getStubXBTDataSerializator().serializeXB(XBSerializationType.FROM_XB, 0, handler);
-            } catch (XBProcessingException ex) {
-                Logger.getLogger(ImagePanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
+                getStubXBTDataSerializator().serializeFromXB(handler);
+            } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(ImagePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
@@ -420,12 +410,12 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         if (XBPictureEditorFrame.XBPFILETYPE.equals(fileType.getFileTypeId())) {
             try {
                 XBFileOutputStream output = new XBFileOutputStream(file);
-                XBTChildListenerSerialHandler handler = new XBTChildListenerSerialHandler();
+                XBTChildOutputSerialHandler handler = new XBTChildListenerSerialHandler();
                 handler.attachXBTEventListener(null);
                 XBTEncapsulator encapsulator = new XBTEncapsulator(new StubContext(getStubXBTDataSerializator()));
                 encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
                 handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));
-                getStubXBTDataSerializator().serializeXB(XBSerializationType.TO_XB, 0, handler);
+                getStubXBTDataSerializator().serializeToXB(handler);
                 output.close();
             } catch (XBProcessingException ex) {
                 Logger.getLogger(ImagePanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -632,100 +622,82 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         }
     }
 
-    public XBSerializable getXBTDataSerializator() {
-        return new XBSerializable() {
+    public XBTChildSerializable getXBTDataSerializator() {
+        return new XBTChildSerializable() {
             @Override
-            public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-                return serialType == XBSerializationType.FROM_XB
-                        ? Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()})
-                        : Arrays.asList(new XBSerialMethod[]{new XBTChildListenerSerialMethod()});
+            public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+                XBBufferedImage srcImage = new XBBufferedImage();
+                srcImage.serializeFromXB(serial);
+                image = toBufferedImage(srcImage.getImage());
+                scaledImage = image;
+                grph = image.getGraphics();
+                grph.setColor(toolColor);
+                imageArea.setIcon(new ImageIcon(image));
+                scale(scaleRatio);
             }
 
             @Override
-            public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                if (serialType == XBSerializationType.FROM_XB) {
-                    XBTChildProvider serial = (XBTChildProvider) serializationHandler;
-                    XBBufferedImage srcImage = new XBBufferedImage();
-                    srcImage.serializeXB(XBSerializationType.FROM_XB, 0, serializationHandler);
-                    image = toBufferedImage(srcImage.getImage());
-                    scaledImage = image;
-                    grph = image.getGraphics();
-                    grph.setColor(toolColor);
-                    imageArea.setIcon(new ImageIcon(image));
-                    scale(scaleRatio);
-                } else {
-                    XBTChildListener serial = (XBTChildListener) serializationHandler;
-                    XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(image));
-                    bufferedImage.serializeXB(XBSerializationType.TO_XB, 0, serializationHandler);
-                }
-
+            public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+                XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(image));
+                bufferedImage.serializeToXB(serial);
             }
         };
     }
 
     // TODO: This is ugly stub for loaging files skipping definition
-    public XBSerializable getStubXBTDataSerializator() {
-        return new XBSerializable() {
+    public XBTChildSerializable getStubXBTDataSerializator() {
+        return new XBTChildSerializable() {
             @Override
-            public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-                return serialType == XBSerializationType.FROM_XB
-                        ? Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()})
-                        : Arrays.asList(new XBSerialMethod[]{new XBTChildListenerSerialMethod()});
+            public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+                serial.getType();
+                serial.nextAttribute();
+                serial.nextAttribute();
+                serial.nextAttribute();
+                serial.nextChild(new XBTChildSerializable() {
+                    @Override
+                    public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+                        serial.getType();
+                        serial.nextAttribute();
+                        serial.nextAttribute();
+                        serial.nextAttribute();
+                        serial.nextAttribute();
+                        serial.nextAttribute();
+                        serial.nextAttribute();
+                        serial.end();
+                    }
+
+                    @Override
+                    public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                        throw new IllegalStateException();
+                    }
+                });
+
+                serial.nextChild(new XBTChildSerializable() {
+                    @Override
+                    public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                        XBBufferedImage srcImage = new XBBufferedImage();
+                        srcImage.serializeFromXB(serializationHandler);
+                        image = toBufferedImage(srcImage.getImage());
+                        scaledImage = image;
+                        grph = image.getGraphics();
+                        grph.setColor(toolColor);
+                        imageArea.setIcon(new ImageIcon(image));
+                        scale(scaleRatio);
+                    }
+
+                    @Override
+                    public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+                        throw new IllegalStateException();
+                    }
+                });
+
+                serial.end();
             }
 
             @Override
-            public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                if (serialType == XBSerializationType.FROM_XB) {
-                    XBTChildProvider serial = (XBTChildProvider) serializationHandler;
-                    serial.getType();
-                    serial.nextAttribute();
-                    serial.nextAttribute();
-                    serial.nextAttribute();
-                    serial.nextChild(new XBSerializable() {
-                        @Override
-                        public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-                            return Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()});
-                        }
-
-                        @Override
-                        public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                            XBTChildProvider serial = (XBTChildProvider) serializationHandler;
-                            serial.getType();
-                            serial.nextAttribute();
-                            serial.nextAttribute();
-                            serial.nextAttribute();
-                            serial.nextAttribute();
-                            serial.nextAttribute();
-                            serial.nextAttribute();
-                            serial.end();
-                        }
-                    }, 0);
-                    serial.nextChild(new XBSerializable() {
-
-                        @Override
-                        public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-                            return Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()});
-                        }
-
-                        @Override
-                        public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                            XBTChildProvider serial = (XBTChildProvider) serializationHandler;
-                            XBBufferedImage srcImage = new XBBufferedImage();
-                            srcImage.serializeXB(XBSerializationType.FROM_XB, 0, serializationHandler);
-                            image = toBufferedImage(srcImage.getImage());
-                            scaledImage = image;
-                            grph = image.getGraphics();
-                            grph.setColor(toolColor);
-                            imageArea.setIcon(new ImageIcon(image));
-                            scale(scaleRatio);
-                        }
-                    }, 0);
-                    serial.end();
-                } else {
-                    XBTChildListener serial = (XBTChildListener) serializationHandler;
-                    XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(image));
-                    bufferedImage.serializeXB(XBSerializationType.TO_XB, 0, serializationHandler);
-                }
+            public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+                XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(image));
+                bufferedImage.serializeToXB(serial);
             }
         };
     }
@@ -762,7 +734,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
 
     private static class StubContext extends XBContext {
 
-        private XBSerializable source;
+        private final XBSerializable source;
 
         public StubContext(XBSerializable source) {
             this.source = source;
@@ -772,7 +744,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         public XBDeclaration getDeclaration() {
             XBDeclaration decl = new StubDeclaration();
             decl.setGroupsReserved(3);
-            decl.setRootNode(new XBSerializationFromXB(source));
+            decl.setRootNode(source);
 
             return decl;
         }
@@ -806,26 +778,19 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         }
     }
 
-    private static class StubXBFormatDecl extends XBFormatDecl {
+    private static class StubXBFormatDecl extends XBFormatDecl implements XBTSequenceSerializable {
 
         public StubXBFormatDecl(long[] path) {
             super(path);
         }
 
         @Override
-        public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-            return serialType == XBSerializationType.FROM_XB
-                    ? Arrays.asList(new XBSerialMethod[]{new XBTSerialSequenceProviderMethod()})
-                    : Arrays.asList(new XBSerialMethod[]{new XBTSerialSequenceListenerMethod()});
-        }
-
-        @Override
-        public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
             XBSerialSequence seq = new XBSerialSequence(new XBFixedBlockType(XBBasicBlockType.FORMAT_DECLARATION));
             seq.join(new UBNat32(2));
             seq.join(getCatalogPath());
-            XBTSerialSequence serial = (XBTSerialSequence) serializationHandler;
-            serial.sequenceXB(seq);
+
+            serializationHandler.sequenceXB(seq);
         }
     }
 }

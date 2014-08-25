@@ -29,26 +29,24 @@ import org.xbup.lib.core.parser.token.XBTokenType;
 import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBPrefixPullProvider;
 import org.xbup.lib.core.serial.XBSerialException;
-import org.xbup.lib.core.serial.XBInputTokenSerialHandler;
-import org.xbup.lib.core.serial.XBSerialState;
+import org.xbup.lib.core.serial.token.XBTokenInputSerialHandler;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationType;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * XBUP level 0 XBChildProvider handler.
+ * XBUP level 0 serialization handler using basic parser mapping to provider.
  *
- * @version 0.1 wr23.0 2014/03/05
+ * @version 0.1 wr24.0 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
-public class XBChildProviderSerialHandler implements XBChildProvider, XBInputTokenSerialHandler {
+public class XBChildProviderSerialHandler implements XBChildInputSerialHandler, XBTokenInputSerialHandler {
 
     private XBPullProvider pullProvider;
-    private XBSerialState state;
+    private XBChildSerialState state;
 
     public XBChildProviderSerialHandler() {
-        state = XBSerialState.BLOCK_BEGIN;
+        state = XBChildSerialState.BLOCK_BEGIN;
     }
 
     @Override
@@ -58,7 +56,7 @@ public class XBChildProviderSerialHandler implements XBChildProvider, XBInputTok
 
     @Override
     public XBBlockTerminationMode begin() throws XBProcessingException, IOException {
-        if (state == XBSerialState.EOF) {
+        if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
@@ -67,22 +65,22 @@ public class XBChildProviderSerialHandler implements XBChildProvider, XBInputTok
             throw new XBSerialException("Block must start with block begin", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
-        state = XBSerialState.ATTRIBUTE_PART;
+        state = XBChildSerialState.ATTRIBUTE_PART;
         return ((XBBeginToken) token).getTerminationMode();
     }
 
     @Override
     public UBNatural nextAttribute() throws XBProcessingException, IOException {
-        if (state == XBSerialState.EOF) {
+        if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
-        if (state == XBSerialState.DATA) {
+        if (state == XBChildSerialState.DATA) {
             throw new XBSerialException("Unable to get attribute after data", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
-        if (state == XBSerialState.CHILDREN) {
+        if (state == XBChildSerialState.CHILDREN) {
             throw new XBSerialException("Unable to get attribute after children", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
-        if (state == XBSerialState.BLOCK_BEGIN) {
+        if (state == XBChildSerialState.BLOCK_BEGIN) {
             if (pullProvider.pullXBToken().getTokenType() != XBTokenType.BEGIN) {
                 throw new XBSerialException("Block must start with block begin", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
@@ -91,51 +89,51 @@ public class XBChildProviderSerialHandler implements XBChildProvider, XBInputTok
         XBToken token = pullProvider.pullXBToken();
         switch (token.getTokenType()) {
             case BEGIN: {
-                state = XBSerialState.CHILDREN;
+                state = XBChildSerialState.CHILDREN;
                 break;
             }
             case ATTRIBUTE: {
-                state = XBSerialState.ATTRIBUTES;
+                state = XBChildSerialState.ATTRIBUTES;
                 return ((XBAttributeToken) token).getAttribute();
             }
             case DATA: {
-                if (state == XBSerialState.ATTRIBUTES) {
+                if (state == XBChildSerialState.ATTRIBUTES) {
                     throw new XBSerialException("Unexpected data after attributes", XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
 
                 throw new XBSerialException("Reading attributes of data block", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
             case END: {
-                if (state != XBSerialState.BLOCK_END) {
+                if (state != XBChildSerialState.BLOCK_END) {
                     throw new XBSerialException("Block without data or attributes not allowed", XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
-                state = XBSerialState.EOF;
+                state = XBChildSerialState.EOF;
             }
         }
 
-        state = XBSerialState.ATTRIBUTES;
+        state = XBChildSerialState.ATTRIBUTES;
         return new UBNat32();
     }
 
     @Override
-    public void nextChild(XBSerializable child, int methodIndex) throws XBProcessingException, IOException {
-        if (state == XBSerialState.EOF) {
+    public void nextChild(XBSerializable child) throws XBProcessingException, IOException {
+        if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
-        if (state == XBSerialState.BLOCK_END) {
+        if (state == XBChildSerialState.BLOCK_END) {
             throw new XBSerialException("No more children available", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
-        if (state == XBSerialState.DATA) {
+        if (state == XBChildSerialState.DATA) {
             throw new XBSerialException("No children after data allowed", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
-        if (state == XBSerialState.BLOCK_BEGIN) {
+        if (state == XBChildSerialState.BLOCK_BEGIN) {
             if (pullProvider.pullXBToken().getTokenType() != XBTokenType.BEGIN) {
                 throw new XBSerialException("Block must start with block begin", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
         }
 
         XBToken prefix = null;
-        if (state == XBSerialState.ATTRIBUTES) {
+        if (state == XBChildSerialState.ATTRIBUTES) {
             // TODO: Skip attributes
             prefix = pullProvider.pullXBToken();
             while (prefix.getTokenType() == XBTokenType.ATTRIBUTE) {
@@ -146,25 +144,29 @@ public class XBChildProviderSerialHandler implements XBChildProvider, XBInputTok
             }
         }
 
-        // TODO support for other serialization types
-        state = XBSerialState.CHILDREN;
-        XBChildProviderSerialHandler childHandler = new XBChildProviderSerialHandler();
-        childHandler.attachXBPullProvider(new XBPrefixPullProvider(pullProvider, prefix));
-        child.serializeXB(XBSerializationType.FROM_XB, 0, childHandler);
+        if (child instanceof XBChildSerializable) {
+            state = XBChildSerialState.CHILDREN;
+            XBChildProviderSerialHandler childHandler = new XBChildProviderSerialHandler();
+            childHandler.attachXBPullProvider(new XBPrefixPullProvider(pullProvider, prefix));
+            ((XBChildSerializable) child).serializeFromXB(childHandler);
+        } else {
+            // TODO support for other serialization types
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Override
     public InputStream nextData() throws XBProcessingException, IOException {
-        if (state == XBSerialState.EOF) {
+        if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
-        if (state == XBSerialState.ATTRIBUTES) {
+        if (state == XBChildSerialState.ATTRIBUTES) {
             throw new XBSerialException("No data block allowed after attributes", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
-        if (state == XBSerialState.DATA) {
+        if (state == XBChildSerialState.DATA) {
             throw new XBSerialException("No data block allowed after data", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
-        if (state == XBSerialState.BLOCK_BEGIN) {
+        if (state == XBChildSerialState.BLOCK_BEGIN) {
             if (pullProvider.pullXBToken().getTokenType() != XBTokenType.BEGIN) {
                 throw new XBSerialException("Block must start with block begin", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
@@ -175,13 +177,13 @@ public class XBChildProviderSerialHandler implements XBChildProvider, XBInputTok
             throw new XBSerialException("Data block missing", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
-        state = XBSerialState.DATA;
+        state = XBChildSerialState.DATA;
         return ((XBDataToken) token).getData();
     }
 
     @Override
     public void end() throws XBProcessingException, IOException {
-        if (state == XBSerialState.EOF) {
+        if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
@@ -192,6 +194,6 @@ public class XBChildProviderSerialHandler implements XBChildProvider, XBInputTok
             throw new XBSerialException("End method was expected but not received", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
-        state = XBSerialState.EOF;
+        state = XBChildSerialState.EOF;
     }
 }

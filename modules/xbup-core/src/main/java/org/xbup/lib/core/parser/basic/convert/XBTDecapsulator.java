@@ -18,18 +18,13 @@ package org.xbup.lib.core.parser.basic.convert;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTFilter;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationFromXB;
-import org.xbup.lib.core.serial.XBSerializationType;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
@@ -47,21 +42,11 @@ public class XBTDecapsulator implements XBTFilter {
     private long depth;
     private int mode;
     private XBBlockTerminationMode beginTerm;
-    
+
     public XBTDecapsulator() {
         declaration = new XBDeclaration();
-        declaration.setRootNode(new XBSerializationFromXB(new XBSerializable() {
-
-            @Override
-            public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-
-            @Override
-            public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-        }, 0));
+        declaration.setRootNode(new XBSerializable() {
+        });
 
         declListener = declaration.convertFromXBT();
         mode = 0;
@@ -87,7 +72,7 @@ public class XBTDecapsulator implements XBTFilter {
             return;
         }
 
-        if ((type.getGroupID().getInt() == 0)&&(type.getBlockID().getInt() == 1)) {
+        if ((type.getGroupID().getInt() == 0) && (type.getBlockID().getInt() == 1)) {
             depth++;
             mode = 2;
             declListener.beginXBT(beginTerm);

@@ -57,7 +57,7 @@ import org.xbup.lib.xb.ubnumber.type.UBNat32;
  */
 public class XBRegularGrammarRule implements XBSerializable {
 
-    public static long[] xbBlockPath = { 0,1,1,2 }; // Testing only
+    public static long[] XB_BLOCK_PATH = { 0,1,1,2 }; // Testing only
     public static long xbGroupIndex = 1;
     public static long xbBlockIndex = 2;
 
@@ -208,7 +208,7 @@ public class XBRegularGrammarRule implements XBSerializable {
                     XBTListener serial = (XBTListener) serializationHandler;
                     try {
                         serial.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                        serial.typeXBT(new XBDBlockType(new XBCPBlockDecl(xbBlockPath)));
+                        serial.typeXBT(new XBDBlockType(new XBCPBlockDecl(XB_BLOCK_PATH)));
                         serial.attribXBT(new UBNat32(leftNonterminal)); // TODO: Might spare if zero
                         serial.attribXBT(new UBNat32(rightTerminal));
                         serial.attribXBT(new UBNat32(rightNonterminal));

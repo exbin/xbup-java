@@ -19,7 +19,6 @@ package org.xbup.lib.core.block.declaration;
 import java.io.IOException;
 import org.xbup.lib.core.block.definition.XBFormatDef;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockDataMode;
@@ -29,15 +28,11 @@ import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
 import org.xbup.lib.core.catalog.declaration.XBCPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationType;
 import org.xbup.lib.core.serial.sequence.XBSerialSequence;
 import org.xbup.lib.core.serial.sequence.XBSerialSequenceIList;
-import org.xbup.lib.core.serial.sequence.XBTSerialSequence;
-import org.xbup.lib.core.serial.sequence.XBTSerialSequenceListenerMethod;
-import org.xbup.lib.core.serial.sequence.XBTSerialSequenceProviderMethod;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 import org.xbup.lib.core.ubnumber.UBENatural;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -46,14 +41,14 @@ import org.xbup.lib.core.ubnumber.type.UBPath32;
 /**
  * XBUP level 1 format declaration.
  *
- * @version 0.1 wr23.0 2014/03/04
+ * @version 0.1 wr24.0 2014/08/24
  * @author XBUP Project (http://xbup.org)
  */
-public class XBFormatDecl implements XBSerializable {
+public class XBFormatDecl implements XBTSequenceSerializable {
 
     private UBPath32 catalogPath = new UBPath32();
     private UBNat32 revision = new UBNat32(0);
-    private List<XBGroupDecl> groups = new ArrayList<XBGroupDecl>();
+    private List<XBGroupDecl> groups = new ArrayList<>();
     private UBNat32 groupsLimit = new UBNat32(0);
     private List<XBFormatDef> formatDefs;
     private List<XBRevisionDef> revisionDefs;
@@ -68,10 +63,11 @@ public class XBFormatDecl implements XBSerializable {
     }
 
     public XBFormatDecl(long[] xbFormatPath) {
-        List<Long> path = new ArrayList<Long>();
+        List<Long> path = new ArrayList<>();
         for (int i = 0; i < xbFormatPath.length; i++) {
             path.add(xbFormatPath[i]);
         }
+
         setCatalogPath(new UBPath32(path.toArray(new Long[0])));
     }
 
@@ -105,12 +101,14 @@ public class XBFormatDecl implements XBSerializable {
         if (groups == null) {
             return null;
         }
+
         for (int groupId = 0; groupId < groups.size(); groupId++) {
             Integer blockId = groups.get(groupId).matchType(type);
             if (blockId != null) {
                 return new XBFixedBlockType(groupId, blockId);
             }
         }
+
         return null;
     }
 
@@ -159,51 +157,35 @@ public class XBFormatDecl implements XBSerializable {
     }
 
     @Override
-    public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-        return serialType == XBSerializationType.FROM_XB
-                ? Arrays.asList(new XBSerialMethod[]{new XBTSerialSequenceProviderMethod()})
-                : Arrays.asList(new XBSerialMethod[]{new XBTSerialSequenceListenerMethod()});
-    }
-
-    @Override
-    public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
         XBSerialSequence seq = new XBSerialSequence(new XBFixedBlockType(XBBasicBlockType.FORMAT_DECLARATION));
+
         // Join GroupsLimit (UBNatural)
-        seq.join(new XBSerializable() {
-            @Override
-            public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-                return serialType == XBSerializationType.FROM_XB
-                        ? Arrays.asList(new XBSerialMethod[]{new XBTSerialSequenceProviderMethod()})
-                        : Arrays.asList(new XBSerialMethod[]{new XBTSerialSequenceListenerMethod()});
-            }
+        seq.join(new XBTSequenceSerializable() {
 
             @Override
-            public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
+            public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
                 long[] xbGroupLimitBlockType = {1, 5};
                 XBSerialSequence subSequence = new XBSerialSequence(new XBDBlockType(new XBCPBlockDecl(xbGroupLimitBlockType)), groupsLimit);
-                XBTSerialSequence serial = (XBTSerialSequence) serializationHandler;
-                serial.sequenceXB(subSequence);
+
+                serializationHandler.sequenceXB(subSequence);
             }
         });
+
         // Join FormatSpecCatalogPath (UBPath)
         seq.join(catalogPath);
         // Join Revision (UBNatural)
-        seq.join(new XBSerializable() {
-            @Override
-            public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-                return serialType == XBSerializationType.FROM_XB
-                        ? Arrays.asList(new XBSerialMethod[]{new XBTSerialSequenceProviderMethod()})
-                        : Arrays.asList(new XBSerialMethod[]{new XBTSerialSequenceListenerMethod()});
-            }
+        seq.join(new XBTSequenceSerializable() {
 
             @Override
-            public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
+            public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
                 long[] xbRevisionBlockType = {1, 5};
                 XBSerialSequence subSequence = new XBSerialSequence(new XBDBlockType(new XBCPBlockDecl(xbRevisionBlockType)), revision);
-                XBTSerialSequence serial = (XBTSerialSequence) serializationHandler;
-                serial.sequenceXB(subSequence);
+
+                serializationHandler.sequenceXB(subSequence);
             }
         });
+
         // List GroupSpecification
         seq.listConsist(new XBSerialSequenceIList() {
 
@@ -254,6 +236,7 @@ public class XBFormatDecl implements XBSerializable {
                 position = 0;
             }
         });
+
         // List FormatConstructor
         seq.listConsist(new XBSerialSequenceIList() {
 
@@ -263,7 +246,7 @@ public class XBFormatDecl implements XBSerializable {
             public void setSize(UBENatural count) {
                 int i = count.getInt() - formatDefs.size();
                 if ((i > 0) && (formatDefs == null)) {
-                    formatDefs = new ArrayList<XBFormatDef>();
+                    formatDefs = new ArrayList<>();
                 }
                 if (i > 0) {
                     while (i > 0) {
@@ -313,7 +296,7 @@ public class XBFormatDecl implements XBSerializable {
             public void setSize(UBENatural count) {
                 int i = count.getInt() - revisionDefs.size();
                 if ((i > 0) && (revisionDefs == null)) {
-                    revisionDefs = new ArrayList<XBRevisionDef>();
+                    revisionDefs = new ArrayList<>();
                 }
                 if (i > 0) {
                     while (i > 0) {
@@ -355,7 +338,6 @@ public class XBFormatDecl implements XBSerializable {
             }
         });
 
-        XBTSerialSequence serial = (XBTSerialSequence) serializationHandler;
-        serial.sequenceXB(seq);
+        serializationHandler.sequenceXB(seq);
     }
 }

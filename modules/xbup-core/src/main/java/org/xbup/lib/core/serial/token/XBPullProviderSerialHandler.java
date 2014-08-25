@@ -20,15 +20,14 @@ import java.io.IOException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.pull.XBPullProvider;
-import org.xbup.lib.core.serial.XBInputTokenSerialHandler;
 
 /**
- * XBUP level 0 XBPullProvider handler.
+ * XBUP level 0 serialization token handler using token parser mapping to provider.
  *
- * @version 0.1 wr23.0 2014/03/08
+ * @version 0.1 wr24.0 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPullProviderSerialHandler implements XBPullProvider, XBInputTokenSerialHandler {
+public class XBPullProviderSerialHandler implements XBPullProvider, XBTokenInputSerialHandler {
 
     private XBPullProvider provider;
 

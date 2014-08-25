@@ -62,8 +62,8 @@ import org.xbup.lib.xb.ubnumber.type.UBNat32;
  */
 public class XBRegularGrammar implements XBSerializable {
 
-    public static long[] xbFormatPath = {0, 1, 1, 1}; // Testing only
-    public static long[] xbBlockPath = {0, 1, 1, 1}; // Testing only
+    public static long[] XB_FORMAT_PATH = {0, 1, 1, 1}; // Testing only
+    public static long[] XB_BLOCK_PATH = {0, 1, 1, 1}; // Testing only
     private XBArrayList<XBRegularGrammarRule> rules;
     private long nonterminalCount;
     private long terminalCount;
@@ -194,7 +194,7 @@ public class XBRegularGrammar implements XBSerializable {
                     XBTListener listener = (XBTListener) serializationHandler;
                     try {
                         listener.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                        listener.typeXBT(new XBDBlockType(new XBCPBlockDecl(xbBlockPath)));
+                        listener.typeXBT(new XBDBlockType(new XBCPBlockDecl(XB_BLOCK_PATH)));
                         listener.attribXBT(new UBNat32(nonterminalCount));
                         listener.attribXBT(new UBNat32(terminalCount));
                         // TODO: pass UBList

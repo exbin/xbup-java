@@ -34,7 +34,8 @@ import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
-import org.xbup.lib.core.serial.XBSerializationType;
+import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
 import org.xbup.lib.core.stream.file.XBFileInputStream;
@@ -66,25 +67,25 @@ public class Test1 {
             };
             XBBufferedImage image = new XBBufferedImage(ImageIO.read(f));
             XBFileOutputStream output = new XBFileOutputStream("picture.dat");
-            XBTChildListenerSerialHandler handler = new XBTChildListenerSerialHandler();
+            XBTChildOutputSerialHandler handler = new XBTChildListenerSerialHandler();
             XBTEncapsulator encapsulator = new XBTEncapsulator(new XBContext(null, image.getXBDeclaration()));
             encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
             handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));
-            image.serializeXB(XBSerializationType.TO_XB, 0, handler);
+            image.serializeToXB(handler);
 //            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
             output.close();
             image.setImage(null);
             XBFileInputStream input = new XBFileInputStream("picture.dat");
-            XBTChildProviderSerialHandler providerHandler = new XBTChildProviderSerialHandler();
+            XBTChildInputSerialHandler providerHandler = new XBTChildProviderSerialHandler();
             providerHandler.attachXBTPullProvider(new XBToXBTPullConvertor(input));
-            image.serializeXB(XBSerializationType.FROM_XB, 0, providerHandler);
+            image.serializeFromXB(providerHandler);
 
             output = new XBFileOutputStream("picture2.dat");
-            XBTChildListenerSerialHandler listenerHandler = new XBTChildListenerSerialHandler();
+            XBTChildOutputSerialHandler listenerHandler = new XBTChildListenerSerialHandler();
             XBTEncapsulator encapsulator1 = new XBTEncapsulator(new XBContext(null, image.getXBDeclaration()));
             encapsulator1.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
             listenerHandler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator1));
-            image.serializeXB(XBSerializationType.TO_XB, 0, listenerHandler);
+            image.serializeToXB(listenerHandler);
 //            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
             output.close();
         } catch (XBProcessingException ex) {
@@ -98,7 +99,7 @@ public class Test1 {
 
     private static void test2() {
         JFrame panel = new JFrame();
-        panel.setSize(600,400);
+        panel.setSize(600, 400);
         panel.add(new XBPicturePanel());
         panel.setVisible(true);
         panel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

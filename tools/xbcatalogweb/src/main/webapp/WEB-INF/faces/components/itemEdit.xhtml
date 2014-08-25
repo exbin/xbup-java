@@ -5,7 +5,7 @@
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:rich="http://richfaces.org/rich">
     <rich:popupPanel id="editItemPopup" modal="true"
-                     resizeable="false" minWidth="600" minHeight="400"
+                     resizeable="false" minWidth="700" minHeight="500"
                      onmaskclick="#{rich:component('editItemPopup')}.hide()">
         <f:facet id="editItemHeader" name="header">
             <h:outputText value="Edit Item #{itemEditBacking.editedItem.id}" />
@@ -17,8 +17,8 @@
         </f:facet>
         <h:form id="editItemForm">
             <a4j:outputPanel id="editItemWrapper">
-                <rich:tabPanel switchType="client" style="height: 320px;">
-                    <rich:tab header="Basic" style="height: 300px;">
+                <rich:tabPanel switchType="client" style="height: 430px;">
+                    <rich:tab header="Basic" style="min-height: 380px; height: 380px;">
                         <table>
                             <tbody>
                                 <tr>

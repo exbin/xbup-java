@@ -26,7 +26,7 @@ import org.xbup.lib.core.catalog.client.XBCatalogServiceMessage;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.serial.XBSerializationType;
+import org.xbup.lib.core.serial.child.XBChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBChildProviderSerialHandler;
 import org.xbup.lib.core.stream.XBTokenInputStream;
 import org.xbup.lib.core.stream.XBStreamChecker;
@@ -63,9 +63,7 @@ public class XBRXPlugin implements XBCXPlugin {
                 return null;
             }
             return new XBRNode(client, ownerId);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -89,17 +87,15 @@ public class XBRXPlugin implements XBCXPlugin {
             checker.attribXB();
             checker.attribXB();
             XBString text = new XBString();
-            XBChildProviderSerialHandler handler = new XBChildProviderSerialHandler();
+            XBChildInputSerialHandler handler = new XBChildProviderSerialHandler();
             handler.attachXBPullProvider(input);
-            text.serializeXB(XBSerializationType.FROM_XB, 0, handler);
+            text.new ChildSerializer().serializeFromXB(handler);
 //            new XBL1ToL0DefaultStreamConvertor(new XBL2ToL1DefaultStreamConvertor(text)).readXBStream(input);
             checker.endXB();
             checker.endXB();
             message.close();
             return text.getValue();
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXDesc.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBRXDesc.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -117,9 +113,7 @@ public class XBRXPlugin implements XBCXPlugin {
             checker.endXB();
             message.close();
             return new XBRXFile(client, index);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXDesc.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBRXDesc.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -137,9 +131,7 @@ public class XBRXPlugin implements XBCXPlugin {
             checker.endXB();
             message.close();
             return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;

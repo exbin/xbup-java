@@ -17,12 +17,9 @@
 package org.xbup.lib.visual.picture;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
 import java.awt.image.IndexColorModel;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Hashtable;
 import java.util.List;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.declaration.XBDBlockType;
@@ -30,28 +27,23 @@ import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.catalog.declaration.XBCDeclaration;
 import org.xbup.lib.core.catalog.declaration.XBCPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
-import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationType;
-import org.xbup.lib.core.serial.child.XBTChildListener;
-import org.xbup.lib.core.serial.child.XBTChildListenerSerialMethod;
-import org.xbup.lib.core.serial.child.XBTChildProvider;
-import org.xbup.lib.core.serial.child.XBTChildProviderSerialMethod;
+import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * BufferedImage XBUP level 2 testing serializer.
  *
- * @version 0.1 wr23.0 2014/03/04
+ * @version 0.1 wr24.0 2014/08/24
  * @author XBUP Project (http://xbup.org)
  */
-public class XBBufferedImage implements XBSerializable {
+public class XBBufferedImage implements XBTChildSerializable {
 
     private BufferedImage image;
 
-    public static long[] xbBlockPath = {0, 4, 0, 0}; // Testing only
+    public static long[] XB_BLOCK_PATH = {0, 4, 0, 0}; // Testing only
 
     public XBBufferedImage() {
         image = null;
@@ -59,10 +51,6 @@ public class XBBufferedImage implements XBSerializable {
 
     public XBBufferedImage(BufferedImage image) {
         this.image = image;
-    }
-
-    public XBBufferedImage(ColorModel cm, WritableRaster raster, boolean isRasterPremultiplied, Hashtable<?, ?> properties) {
-        image = new BufferedImage(cm, raster, isRasterPremultiplied, properties);
     }
 
     public XBBufferedImage(int width, int height, int imageType, IndexColorModel cm) {
@@ -74,7 +62,7 @@ public class XBBufferedImage implements XBSerializable {
     }
 
     public XBDeclaration getXBDeclaration() {
-        return new XBCDeclaration(new XBCPBlockDecl(xbBlockPath));
+        return new XBCDeclaration(new XBCPBlockDecl(XB_BLOCK_PATH));
     }
 
     public BufferedImage getImage() {
@@ -90,31 +78,23 @@ public class XBBufferedImage implements XBSerializable {
     }
 
     @Override
-    public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-        return serialType == XBSerializationType.FROM_XB
-                ? Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()})
-                : Arrays.asList(new XBSerialMethod[]{new XBTChildListenerSerialMethod()});
+    public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+        serial.getType(); //setType(new XBCBlockDecl(xbBlockPath));
+        UBNatural width = serial.nextAttribute();
+        UBNatural height = serial.nextAttribute();
+        BufferedImage result = new BufferedImage(width.getInt(), height.getInt(), BufferedImage.TYPE_INT_RGB);
+        serial.nextChild(XBWritableRaster.getXBWritableRasterSerializator(result.getRaster()));
+        setImage(result);
+        serial.end();
     }
 
     @Override
-    public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        if (serialType == XBSerializationType.FROM_XB) {
-            XBTChildProvider serial = (XBTChildProvider) serializationHandler;
-            serial.getType(); //setType(new XBCBlockDecl(xbBlockPath));
-            UBNatural width = serial.nextAttribute();
-            UBNatural height = serial.nextAttribute();
-            BufferedImage result = new BufferedImage(width.getInt(), height.getInt(), BufferedImage.TYPE_INT_RGB);
-            serial.nextChild(XBWritableRaster.getXBWritableRasterSerializator(result.getRaster()), 0);
-            setImage(result);
-            serial.end();
-        } else {
-            XBTChildListener serial = (XBTChildListener) serializationHandler;
-            serial.setType(new XBDBlockType(new XBCPBlockDecl(xbBlockPath)));
-            WritableRaster raster = image.getRaster();
-            serial.addAttribute(new UBNat32(raster.getWidth()));
-            serial.addAttribute(new UBNat32(raster.getHeight()));
-            serial.addChild(XBWritableRaster.getXBWritableRasterSerializator(raster), 0);
-            serial.end();
-        }
+    public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+        serial.setType(new XBDBlockType(new XBCPBlockDecl(XB_BLOCK_PATH)));
+        WritableRaster raster = image.getRaster();
+        serial.addAttribute(new UBNat32(raster.getWidth()));
+        serial.addAttribute(new UBNat32(raster.getHeight()));
+        serial.addChild(XBWritableRaster.getXBWritableRasterSerializator(raster));
+        serial.end();
     }
 }

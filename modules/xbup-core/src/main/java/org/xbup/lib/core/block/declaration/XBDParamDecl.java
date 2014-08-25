@@ -17,31 +17,24 @@
 package org.xbup.lib.core.block.declaration;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
-import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationType;
 import org.xbup.lib.core.serial.sequence.XBSerialSequence;
-import org.xbup.lib.core.serial.sequence.XBTSerialSequence;
-import org.xbup.lib.core.serial.sequence.XBTSerialSequenceListenerMethod;
-import org.xbup.lib.core.serial.sequence.XBTSerialSequenceProviderMethod;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 
 /**
  * XBUP level 1 parameter declaration.
- * 
+ *
  * Parameter is one of four modes: Join, Consist, Join List, Consist List.
  * Without declaration (blockDef) it means single atribute for join and data
  * block for consist mode and their lists respectively.
  *
- * @version 0.1 wr23.0 2014/03/04
+ * @version 0.1 wr24.0 2014/08/24
  * @author XBUP Project (http://xbup.org)
  */
-public class XBDParamDecl implements XBParamDecl, XBSerializable {
+public class XBDParamDecl implements XBParamDecl, XBTSequenceSerializable {
 
     private XBBlockDecl blockDecl;
     private boolean listFlag;
@@ -49,7 +42,7 @@ public class XBDParamDecl implements XBParamDecl, XBSerializable {
 
     /**
      * Creates a new instance of XBDParamDecl.
-     * 
+     *
      * @param blockDecl block declaration
      */
     public XBDParamDecl(XBBlockDecl blockDecl) {
@@ -83,11 +76,15 @@ public class XBDParamDecl implements XBParamDecl, XBSerializable {
      */
     public static XBParamType convertParamType(boolean joinFlag, boolean listFlag) {
         if (joinFlag) {
-            if (listFlag) { return XBParamType.LIST_JOIN; } else {
+            if (listFlag) {
+                return XBParamType.LIST_JOIN;
+            } else {
                 return XBParamType.JOIN;
             }
         } else {
-            if (listFlag) { return XBParamType.LIST_CONSIST; } else {
+            if (listFlag) {
+                return XBParamType.LIST_CONSIST;
+            } else {
                 return XBParamType.CONSIST;
             }
         }
@@ -106,22 +103,15 @@ public class XBDParamDecl implements XBParamDecl, XBSerializable {
     }
 
     @Override
-    public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-        return serialType == XBSerializationType.FROM_XB
-                ? Arrays.asList(new XBSerialMethod[]{new XBTSerialSequenceProviderMethod()})
-                : Arrays.asList(new XBSerialMethod[]{new XBTSerialSequenceListenerMethod()});
-    }
+    public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        long[] xbGroupLimitBlockType = {1, 5};
+        long[] xbRevisionBlockType = {1, 5};
 
-    @Override
-    public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        long[] xbGroupLimitBlockType = {1,5};
-        long[] xbRevisionBlockType = {1,5};
         XBSerialSequence seq = new XBSerialSequence(new XBFixedBlockType(XBBasicBlockType.GROUP_DECLARATION));
         // Join ConsistSkip (UBNatural)
         // seq.join(new XBSequence(new XBDBlockType(new XBCPBlockDecl(xbGroupLimitBlockType)), consistSkip));
 
-        XBTSerialSequence serial = (XBTSerialSequence) serializationHandler;
-        serial.sequenceXB(seq);
+        serializationHandler.sequenceXB(seq);
     }
 
     @Override

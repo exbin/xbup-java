@@ -20,15 +20,14 @@ import java.io.IOException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.event.XBEventListener;
-import org.xbup.lib.core.serial.XBOutputTokenSerialHandler;
 
 /**
- * XBUP level 0 XBEventListener handler.
+ * XBUP level 0 serialization token handler using token parser mapping to listener.
  *
  * @version 0.1 wr23.0 2014/03/08
  * @author XBUP Project (http://xbup.org)
  */
-public class XBEventListenerSerialHandler implements XBEventListener, XBOutputTokenSerialHandler {
+public class XBEventListenerSerialHandler implements XBEventListener, XBTokenOutputSerialHandler {
 
     private XBEventListener listener;
 

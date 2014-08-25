@@ -23,20 +23,16 @@ import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.catalog.declaration.XBCDeclaration;
 import org.xbup.lib.core.catalog.declaration.XBCPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationType;
+import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildListener;
-import org.xbup.lib.core.serial.child.XBTChildListenerSerialMethod;
+import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildProvider;
-import org.xbup.lib.core.serial.child.XBTChildProviderSerialMethod;
+import org.xbup.lib.core.serial.child.XBTChildSerializable;
 
 /**
  * Bitmap Picture Raster (Testing only).
@@ -44,9 +40,9 @@ import org.xbup.lib.core.serial.child.XBTChildProviderSerialMethod;
  * @version 0.1 wr23.0 2014/03/04
  * @author XBUP Project (http://xbup.org)
  */
-public class XBWritableRaster extends WritableRaster implements XBSerializable {
+public class XBWritableRaster extends WritableRaster implements XBTChildSerializable {
 
-    public static long[] xbBlockPath = {0, 4, 0, 0}; // Testing only
+    public static long[] XB_BLOCK_PATH = {0, 4, 0, 0}; // Testing only
 
     public XBWritableRaster(SampleModel sampleModel, DataBuffer dataBuffer, Rectangle aRegion, Point sampleModelTranslate, WritableRaster parent) {
         super(sampleModel, dataBuffer, aRegion, sampleModelTranslate, parent);
@@ -61,7 +57,7 @@ public class XBWritableRaster extends WritableRaster implements XBSerializable {
     }
 
     public static XBDeclaration getXBWritableRasterXBDeclaration() {
-        return new XBCDeclaration(new XBCPBlockDecl(xbBlockPath));
+        return new XBCDeclaration(new XBCPBlockDecl(XB_BLOCK_PATH));
     }
 
     public static void serializeXBWritableRasterToXBT(final WritableRaster source, XBTChildListener serial) throws XBProcessingException, IOException {
@@ -153,24 +149,16 @@ public class XBWritableRaster extends WritableRaster implements XBSerializable {
     }
 
     @Override
-    public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-        return serialType == XBSerializationType.FROM_XB
-                ? Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()})
-                : Arrays.asList(new XBSerialMethod[]{new XBTChildListenerSerialMethod()});
+    public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        serializeXBWritableRasterFromXBT(this, serializationHandler);
     }
 
     @Override
-    public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        if (serialType == XBSerializationType.FROM_XB) {
-            XBTChildProvider serial = (XBTChildProvider) serializationHandler;
-            serializeXBWritableRasterFromXBT(this, serial);
-        } else {
-            XBTChildListener serial = (XBTChildListener) serializationHandler;
-            serializeXBWritableRasterToXBT(this, serial);
-        }
+    public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        serializeXBWritableRasterToXBT(this, serializationHandler);
     }
 
-    private static class XBTSerializator implements XBSerializable {
+    private static class XBTSerializator implements XBTChildSerializable {
 
         private final WritableRaster source;
 
@@ -183,21 +171,13 @@ public class XBWritableRaster extends WritableRaster implements XBSerializable {
         }
 
         @Override
-        public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-            return serialType == XBSerializationType.FROM_XB
-                    ? Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()})
-                    : Arrays.asList(new XBSerialMethod[]{new XBTChildListenerSerialMethod()});
+        public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+            serializeXBWritableRasterFromXBT(source, serializationHandler);
         }
 
         @Override
-        public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-            if (serialType == XBSerializationType.FROM_XB) {
-                XBTChildProvider serial = (XBTChildProvider) serializationHandler;
-                serializeXBWritableRasterFromXBT(source, serial);
-            } else {
-                XBTChildListener serial = (XBTChildListener) serializationHandler;
-                serializeXBWritableRasterToXBT(source, serial);
-            }
+        public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+            serializeXBWritableRasterToXBT(source, serializationHandler);
         }
     }
 }

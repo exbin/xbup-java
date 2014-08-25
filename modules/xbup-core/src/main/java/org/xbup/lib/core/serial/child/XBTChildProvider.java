@@ -25,16 +25,16 @@ import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * XBUP level 1 serialization structure access interface.
+ * XBUP level 1 child serialization provider interface.
  *
- * @version 0.1 wr23.0 2014/01/27
+ * @version 0.1 wr24.0 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTChildProvider {
 
     /**
      * Get beggining of block.
-     * 
+     *
      * @return terminated block flag
      * @throws XBProcessingException
      * @throws java.io.IOException
@@ -43,7 +43,7 @@ public interface XBTChildProvider {
 
     /**
      * Get block type.
-     * 
+     *
      * @return block type
      * @throws XBProcessingException
      * @throws java.io.IOException
@@ -52,7 +52,7 @@ public interface XBTChildProvider {
 
     /**
      * Get block attribute.
-     * 
+     *
      * @return attribute value
      * @throws XBProcessingException
      * @throws java.io.IOException
@@ -61,17 +61,16 @@ public interface XBTChildProvider {
 
     /**
      * Get block child.
-     * 
+     *
      * @param child serializable block
-     * @param methodIndex method index
      * @throws XBProcessingException
      * @throws java.io.IOException
      */
-    public void nextChild(XBSerializable child, int methodIndex) throws XBProcessingException, IOException;
+    public void nextChild(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
      * Get block data.
-     * 
+     *
      * @return block data stream
      * @throws XBProcessingException
      * @throws java.io.IOException
@@ -80,7 +79,7 @@ public interface XBTChildProvider {
 
     /**
      * Get end of block.
-     * 
+     *
      * @throws XBProcessingException
      * @throws java.io.IOException
      */

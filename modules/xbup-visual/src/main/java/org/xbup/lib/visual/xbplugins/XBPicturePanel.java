@@ -28,20 +28,15 @@ import java.awt.image.ColorModel;
 import java.awt.image.PixelGrabber;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
-import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationType;
-import org.xbup.lib.core.serial.child.XBTChildListenerSerialMethod;
-import org.xbup.lib.core.serial.child.XBTChildProviderSerialMethod;
+import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.visual.picture.XBBufferedImage;
 
 /**
@@ -50,9 +45,9 @@ import org.xbup.lib.visual.picture.XBBufferedImage;
  * @version 0.1 wr23.0 2014/03/04
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPicturePanel extends javax.swing.JPanel implements XBSerializable {
+public class XBPicturePanel extends javax.swing.JPanel implements XBTChildSerializable {
 
-    private JFileChooser openFC, saveFC;
+    private final JFileChooser openFC, saveFC;
 
     /**
      * Creates new form XBPicturePanel
@@ -64,8 +59,7 @@ public class XBPicturePanel extends javax.swing.JPanel implements XBSerializable
         openFC = new JFileChooser();
         saveFC = new JFileChooser();
         String[] formats = ImageIO.getReaderFormatNames();
-        for (int i = 0; i < formats.length; i++) {
-            String ext = formats[i];
+        for (String ext : formats) {
             if (ext.toLowerCase().equals(ext)) {
                 ImageFileFilter filter = new ImageFileFilter(ext);
                 openFC.addChoosableFileFilter(filter);
@@ -240,21 +234,15 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     }
 
     @Override
-    public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-        return serialType == XBSerializationType.FROM_XB
-                ? Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()})
-                : Arrays.asList(new XBSerialMethod[]{new XBTChildListenerSerialMethod()});
+    public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        XBBufferedImage image = new XBBufferedImage();
+        image.serializeFromXB(serializationHandler);
+        ((ImageIcon) jLabel1.getIcon()).setImage(image.getImage());
     }
 
     @Override
-    public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        if (serialType == XBSerializationType.FROM_XB) {
-            XBBufferedImage image = new XBBufferedImage();
-            image.serializeXB(XBSerializationType.FROM_XB, 0, serializationHandler);
-            ((ImageIcon) jLabel1.getIcon()).setImage(image.getImage());
-        } else {
-            XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(((ImageIcon) jLabel1.getIcon()).getImage()));
-            bufferedImage.serializeXB(XBSerializationType.TO_XB, 0, serializationHandler);
-        }
+    public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(((ImageIcon) jLabel1.getIcon()).getImage()));
+        bufferedImage.serializeToXB(serializationHandler);
     }
 }

@@ -14,22 +14,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.serial;
+package org.xbup.lib.core.serial.child;
 
-import org.xbup.lib.core.parser.basic.XBTListener;
+import org.xbup.lib.core.serial.token.XBTTokenOutputSerialHandler;
 
 /**
- * Interface for XBUP level 1 serialization output handler.
+ * Interface for XBUP level 1 serialization output handler using basic child serialization.
  *
- * @version 0.1 wr23.0 2014/03/02
+ * @version 0.1 wr24.0 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBTOutputSerialHandler extends XBSerialHandler {
-
-    /**
-     * Attach listener to be used as target for serialization.
-     *
-     * @param listener
-     */
-    public void attachXBTListener(XBTListener listener);
+public interface XBTChildOutputSerialHandler extends XBTChildListener, XBTTokenOutputSerialHandler {
 }

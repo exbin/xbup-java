@@ -47,7 +47,7 @@ import org.xbup.lib.xb.stream.XBTOutputStream;
  */
 public class XBBNFGrammarRule implements XBSerializable {
 
-    public static long[] xbBlockPath = { 0,1,1,2 }; // Testing only
+    public static long[] XB_BLOCK_PATH = { 0,1,1,2 }; // Testing only
 
     private String ruleName;
     private List<String> rules;

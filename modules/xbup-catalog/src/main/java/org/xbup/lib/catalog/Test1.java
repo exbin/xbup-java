@@ -46,15 +46,16 @@ import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.convert.XBTProviderToPullProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullProviderToProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
-import org.xbup.lib.core.serial.XBSerializationType;
-import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.stream.file.XBFileInputStream;
 import org.xbup.lib.core.stream.file.XBFileOutputStream;
 import org.xbup.lib.core.type.XBString;
 import org.xbup.lib.catalog.entity.service.XBEXDescService;
 import org.xbup.lib.catalog.entity.service.XBEXLangService;
 import org.xbup.lib.catalog.entity.service.XBEXNameService;
+import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
 
 /**
  * Test operations, should be test clases later
@@ -114,11 +115,11 @@ public class Test1 {
             }
             XBString text = new XBString("Test");
             XBFileOutputStream output = new XBFileOutputStream("string.xb");
-            XBTChildListenerSerialHandler handler = new XBTChildListenerSerialHandler();
+            XBTChildOutputSerialHandler handler = new XBTChildListenerSerialHandler();
             XBTEncapsulator encapsulator = new XBTEncapsulator(new XBContext(catalog, text.getXBDeclaration()));
             encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
             handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));
-            text.serializeXB(XBSerializationType.TO_XB, 0, handler);
+            text.serializeToXB(handler);
 //            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
             output.close();
         } catch (FileNotFoundException ex) {
@@ -129,13 +130,13 @@ public class Test1 {
         try {
             XBString text2 = new XBString();
             XBFileInputStream input = new XBFileInputStream("string.xb");
-            XBTChildProviderSerialHandler handler = new XBTChildProviderSerialHandler();
+            XBTChildInputSerialHandler handler = new XBTChildProviderSerialHandler();
             // TODO optimalization
             XBTDecapsulator decapsulator = new XBTDecapsulator();
             XBTProducer producer = new XBTProviderToProducer(new XBTPullProviderToProvider(new XBToXBTPullConvertor(input)));
             producer.attachXBTListener(decapsulator);
             handler.attachXBTPullProvider(new XBTProviderToPullProvider(new XBTProducerToProvider(decapsulator)));
-            text2.serializeXB(XBSerializationType.FROM_XB, 0, handler);
+            text2.serializeFromXB(handler);
 //            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text2)).readXBStream(input);
             input.close();
             System.out.println("XBString test result (should be Test): " + text2.getValue());

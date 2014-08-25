@@ -25,9 +25,9 @@ import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * XBUP level 1 serialization structure access interface.
+ * XBUP level 1 child serialization listener interface.
  *
- * @version 0.1 wr23.0 2014/02/06
+ * @version 0.1 wr24.0 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTChildListener {
@@ -63,11 +63,10 @@ public interface XBTChildListener {
      * Put block's child.
      *
      * @param child serializable block
-     * @param methodIndex method index
      * @throws XBProcessingException
      * @throws java.io.IOException
      */
-    public void addChild(XBSerializable child, int methodIndex) throws XBProcessingException, IOException;
+    public void addChild(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
      * Put block data.

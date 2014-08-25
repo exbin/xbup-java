@@ -14,41 +14,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.serial.token;
+package org.xbup.lib.core.serial.basic;
 
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
+import org.xbup.lib.core.parser.basic.XBTListener;
+import org.xbup.lib.core.serial.XBOutputSerialHandler;
 
 /**
- * XBUP level 1 serialization method using XBTPullProvider.
+ * Interface for XBUP level 1 serialization output handler using basic parser.
  *
- * @version 0.1 wr23.0 2014/03/08
+ * @version 0.1 wr24.0 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTPullProviderSerialMethod implements XBSerialMethod {
-    
-    private int methodIndex = 0;
+public interface XBTBasicOutputSerialHandler extends XBOutputSerialHandler {
 
-    public XBTPullProviderSerialMethod() {
-    }
-
-    public XBTPullProviderSerialMethod(int methodIndex) {
-        this();
-        this.methodIndex = methodIndex;
-    }
-    
     /**
-     * Get serialization method index.
+     * Attach listener to be used as target for serialization.
      *
-     * @return method index
+     * @param listener
      */
-    @Override
-    public int getMethodIndex() {
-        return methodIndex;
-    }
-
-    @Override
-    public Class<? extends XBSerialHandler> getHandlerClass() {
-        return XBTPullProviderSerialHandler.class;
-    }
+    public void attachXBTListener(XBTListener listener);
 }

@@ -36,7 +36,7 @@ import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.remote.XBServiceClient;
 import static org.xbup.lib.core.remote.XBServiceClient.XBSERVICE_FORMAT;
-import org.xbup.lib.core.serial.XBSerializationFromXB;
+import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.stream.XBTStreamChecker;
 
 /**
@@ -213,7 +213,7 @@ public class XBDbServiceClient implements XBServiceClient {
             this(null);
         }
 
-        public XBServiceContext(XBSerializationFromXB rootNode) {
+        public XBServiceContext(XBSerializable rootNode) {
             super(null);
             XBDeclaration decl = new XBDeclaration();
             decl.setRootNode(rootNode);

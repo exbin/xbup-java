@@ -22,16 +22,15 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.serial.XBTOutputSerialHandler;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * XBUP level 1 XBTListener handler.
+ * XBUP level 1 serialization handler using basic parser mapping to listener.
  *
- * @version 0.1 wr23.0 2014/03/08
+ * @version 0.1 wr24.0 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTListenerSerialHandler implements XBTListener, XBTOutputSerialHandler {
+public class XBTListenerSerialHandler implements XBTListener, XBTBasicOutputSerialHandler {
 
     private XBTListener listener;
 
@@ -67,5 +66,4 @@ public class XBTListenerSerialHandler implements XBTListener, XBTOutputSerialHan
     public void endXBT() throws XBProcessingException, IOException {
         listener.endXBT();
     }
-
 }

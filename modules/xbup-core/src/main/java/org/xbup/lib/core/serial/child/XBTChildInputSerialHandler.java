@@ -16,39 +16,13 @@
  */
 package org.xbup.lib.core.serial.child;
 
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
+import org.xbup.lib.core.serial.token.XBTTokenInputSerialHandler;
 
 /**
- * XBUP level 0 serialization method using XBChildListener.
+ * Interface for XBUP level 1 serialization input handler using basic child serialization.
  *
- * @version 0.1 wr23.0 2014/02/28
+ * @version 0.1 wr24.0 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
-public class XBChildListenerSerialMethod implements XBSerialMethod {
-    
-    private int methodIndex = 0;
-
-    public XBChildListenerSerialMethod() {
-    }
-
-    public XBChildListenerSerialMethod(int methodIndex) {
-        this();
-        this.methodIndex = methodIndex;
-    }
-    
-    /**
-     * Get serialization method index.
-     *
-     * @return method index
-     */
-    @Override
-    public int getMethodIndex() {
-        return methodIndex;
-    }
-
-    @Override
-    public Class<? extends XBSerialHandler> getHandlerClass() {
-        return XBChildListenerSerialHandler.class;
-    }
+public interface XBTChildInputSerialHandler extends XBTChildProvider, XBTTokenInputSerialHandler {
 }

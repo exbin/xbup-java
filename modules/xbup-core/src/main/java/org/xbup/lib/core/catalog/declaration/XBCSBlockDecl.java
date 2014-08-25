@@ -16,18 +16,12 @@
  */
 package org.xbup.lib.core.catalog.declaration;
 
-import java.io.IOException;
-import java.util.List;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBDBlockType;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCRev;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
-import org.xbup.lib.core.serial.XBSerializationType;
 
 /**
  * Block type context defined by catalog specification.
@@ -161,15 +155,5 @@ public class XBCSBlockDecl implements XBCBlockDecl {
      */
     public void setRevision(int revision) {
         this.revision = revision;
-    }
-
-    @Override
-    public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

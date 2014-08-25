@@ -14,46 +14,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.serial;
+package org.xbup.lib.core.serial.basic;
+
+import org.xbup.lib.core.parser.basic.XBTProvider;
+import org.xbup.lib.core.serial.XBInputSerialHandler;
 
 /**
- * Enumeration of possible serial parsing states.
+ * Interface for XBUP level 1 serialization input handler using basic parser.
  *
- * @version 0.1 wr23.0 2014/02/25
+ * @version 0.1 wr24.0 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
-public enum XBSerialState {
+public interface XBTBasicInputSerialHandler extends XBInputSerialHandler {
 
     /**
-     * Start of the block.
+     * Attach provider to be used as source for serialization.
+     *
+     * @param provider
      */
-    BLOCK_BEGIN,
-    /**
-     * Inside or at the end of atribute part.
-     */
-    ATTRIBUTE_PART,
-    /**
-     * Type processing.
-     */
-    TYPE,
-    /**
-     * After first and before last attribute.
-     */
-    ATTRIBUTES,
-    /**
-     * Inside or at the end of data part.
-     */
-    DATA,
-    /**
-     * Children data processed.
-     */
-    CHILDREN,
-    /**
-     * End of block.
-     */
-    BLOCK_END,
-    /**
-     * End of parsing.
-     */
-    EOF,
+    public void attachXBTProvider(XBTProvider provider);
 }

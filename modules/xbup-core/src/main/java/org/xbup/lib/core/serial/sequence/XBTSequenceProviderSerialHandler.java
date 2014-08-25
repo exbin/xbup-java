@@ -19,42 +19,38 @@ package org.xbup.lib.core.serial.sequence;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
-import org.xbup.lib.core.serial.XBSerialState;
+import org.xbup.lib.core.serial.child.XBChildSerialState;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationType;
-import org.xbup.lib.core.serial.XBTInputTokenSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildListener;
-import org.xbup.lib.core.serial.child.XBTChildListenerSerialMethod;
+import org.xbup.lib.core.serial.token.XBTTokenInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildProvider;
+import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildProviderSerialMethod;
+import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.core.ubnumber.UBENatural;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * XBUP level 1 XBTChildListener handler.
+ * XBUP level 1 serialization handler using serialization sequence parser mapping to token provider.
  *
- * @version 0.1 wr23.0 2014/03/04
+ * @version 0.1 wr24.0 2014/08/24
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTSerialSequenceProviderHandler implements XBTSerialSequence, XBTInputTokenSerialHandler {
+public class XBTSequenceProviderSerialHandler implements XBTSequenceSerialHandler, XBTSequenceInputSerialHandler, XBTSerialSequence, XBTTokenInputSerialHandler {
 
     private XBTPullProvider pullProvider;
-    private XBSerialState state;
+    private final XBChildSerialState state;
 
-    public XBTSerialSequenceProviderHandler() {
-        state = XBSerialState.BLOCK_BEGIN;
+    public XBTSequenceProviderSerialHandler() {
+        state = XBChildSerialState.BLOCK_BEGIN;
     }
 
     @Override
@@ -64,21 +60,20 @@ public class XBTSerialSequenceProviderHandler implements XBTSerialSequence, XBTI
 
     @Override
     public void sequenceXB(XBSerialSequence sequence) throws XBProcessingException, IOException {
-        XBTChildProviderSerialHandler handler = new XBTChildProviderSerialHandler();
+        XBTChildInputSerialHandler handler = new XBTChildProviderSerialHandler();
         handler.attachXBTPullProvider(pullProvider);
 
         handler.begin();
         List<XBSerializable> params = new ArrayList<>();
         serializeFromXBSequence(sequence, handler, params);
         for (Iterator<XBSerializable> it = params.iterator(); it.hasNext();) {
-            handler.nextChild(it.next(), 0);
+            handler.nextChild(it.next());
         }
         handler.end();
     }
 
     public void serializeFromXBSequence(XBSerialSequence sequence, XBTChildProvider serial, List<XBSerializable> params) throws XBProcessingException, IOException {
-        for (Iterator<XBSerialSequenceItem> it = sequence.getItems().iterator(); it.hasNext();) {
-            XBSerialSequenceItem item = it.next();
+        for (XBSerialSequenceItem item : sequence.getItems()) {
             switch (item.getSequenceOp()) {
                 case JOIN: {
                     if (item.getItem() instanceof XBSerialSequence) {
@@ -94,9 +89,13 @@ public class XBTSerialSequenceProviderHandler implements XBTSerialSequence, XBTI
                          } else {
                          throw new XBProcessingException("Unknown serialization object");
                          } */
-                        XBJoinInputStream joinSerial = new XBJoinInputStream(serial, params);
-                        joinSerial.attachXBTPullProvider(pullProvider);
-                        item.getItem().serializeXB(XBSerializationType.FROM_XB, 0, joinSerial);
+                        if (item.getItem() instanceof XBTChildSerializable) {
+                            XBJoinInputStream joinSerial = new XBJoinInputStream(serial, params);
+                            joinSerial.attachXBTPullProvider(pullProvider);
+                            ((XBTChildSerializable) item.getItem()).serializeFromXB(joinSerial);
+                        } else {
+                            throw new UnsupportedOperationException("Not supported yet.");
+                        }
 
                     }
                     break;
@@ -123,9 +122,9 @@ public class XBTSerialSequenceProviderHandler implements XBTSerialSequence, XBTI
         }
     }
 
-    private class XBSequenceSerializableList implements XBSerialSequenceList, XBSerializable {
+    private class XBSequenceSerializableList implements XBSerialSequenceList, XBTChildSerializable {
 
-        private XBSerialSequenceList list;
+        private final XBSerialSequenceList list;
 
         public XBSequenceSerializableList(XBSerialSequenceList list) {
             this.list = list;
@@ -152,35 +151,27 @@ public class XBTSerialSequenceProviderHandler implements XBTSerialSequence, XBTI
         }
 
         @Override
-        public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-            return serialType == XBSerializationType.FROM_XB
-                    ? Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()})
-                    : Arrays.asList(new XBSerialMethod[]{new XBTChildListenerSerialMethod()});
+        public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+            UBNatural count = getSize();
+            while (count.getLong() != 0) {
+                serial.nextChild(next());
+                count = new UBNat32(count.getLong() - 1);
+            }
         }
 
         @Override
-        public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-            if (serialType == XBSerializationType.FROM_XB) {
-                XBTChildProvider serial = (XBTChildProvider) serializationHandler;
-                UBNatural count = getSize();
-                while (count.getLong() != 0) {
-                    serial.nextChild(next(), 0);
-                    count = new UBNat32(count.getLong() - 1);
-                }
-            } else {
-                XBTChildListener serial = (XBTChildListener) serializationHandler;
-                UBNatural count = getSize();
-                while (count.getLong() != 0) {
-                    serial.addChild(next(), 0);
-                    count = new UBNat32(count.getLong() - 1);
-                }
+        public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+            UBNatural count = getSize();
+            while (count.getLong() != 0) {
+                serial.addChild(next());
+                count = new UBNat32(count.getLong() - 1);
             }
         }
     }
 
-    private class XBSequenceSerializableIList implements XBSerialSequenceIList, XBSerializable {
+    private class XBSequenceSerializableIList implements XBSerialSequenceIList, XBTChildSerializable {
 
-        private XBSerialSequenceIList list;
+        private final XBSerialSequenceIList list;
 
         public XBSequenceSerializableIList(XBSerialSequenceIList list) {
             this.list = list;
@@ -207,58 +198,50 @@ public class XBTSerialSequenceProviderHandler implements XBTSerialSequence, XBTI
         }
 
         @Override
-        public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-            return serialType == XBSerializationType.FROM_XB
-                    ? Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()})
-                    : Arrays.asList(new XBSerialMethod[]{new XBTChildListenerSerialMethod()});
+        public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+            UBENatural count = getSize();
+            if (count.isInfinity()) {
+                XBSerializable block;
+                do {
+                    block = next();
+                    // TODO: Handle infinite lists (Process termination by empty data block)
+                    serial.nextChild(next());
+                } while (block != null);
+            } else {
+                while (count.getLong() != 0) {
+                    serial.nextChild(next());
+                    count = new UBENat32(count.getLong() - 1);
+                }
+            }
         }
 
         @Override
-        public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-            if (serialType == XBSerializationType.FROM_XB) {
-                XBTChildProvider serial = (XBTChildProvider) serializationHandler;
-                UBENatural count = getSize();
-                if (count.isInfinity()) {
-                    XBSerializable block;
-                    do {
-                        block = next();
-                        // TODO: Handle infinite lists (Process termination by empty data block)
-                        serial.nextChild(next(), 0);
-                    } while (block != null);
-                } else {
-                    while (count.getLong() != 0) {
-                        serial.nextChild(next(), 0);
-                        count = new UBENat32(count.getLong() - 1);
+        public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+            UBENatural count = getSize();
+            if (count.isInfinity()) {
+                XBSerializable block;
+                do {
+                    block = next();
+                    if (block == null) {
+                        serial.addChild(block);
+                    } else {
+                        serial.addChild(null); // TODO: Add empty block as terminator
                     }
-                }
+                } while (block != null);
             } else {
-                XBTChildListener serial = (XBTChildListener) serializationHandler;
-                UBENatural count = getSize();
-                if (count.isInfinity()) {
-                    XBSerializable block;
-                    do {
-                        block = next();
-                        if (block == null) {
-                            serial.addChild(block, 0);
-                        } else {
-                            serial.addChild(null, 0); // TODO: Add empty block as terminator
-                        }
-                    } while (block != null);
-                } else {
-                    while (count.getLong() != 0) {
-                        serial.addChild(next(), 0);
-                        count = new UBENat32(count.getLong() - 1);
-                    }
+                while (count.getLong() != 0) {
+                    serial.addChild(next());
+                    count = new UBENat32(count.getLong() - 1);
                 }
             }
         }
     }
 
-    private class XBJoinInputStream implements XBTChildProvider, XBTInputTokenSerialHandler {
+    private class XBJoinInputStream implements XBTChildInputSerialHandler, XBTChildProvider, XBTTokenInputSerialHandler {
 
         private XBTPullProvider pullProvider;
-        private XBTChildProvider serial;
-        private List<XBSerializable> params;
+        private final XBTChildProvider serial;
+        private final List<XBSerializable> params;
 
         public XBJoinInputStream(XBTChildProvider serial, List<XBSerializable> params) {
             this.serial = serial;
@@ -287,7 +270,7 @@ public class XBTSerialSequenceProviderHandler implements XBTSerialSequence, XBTI
         }
 
         @Override
-        public void nextChild(XBSerializable child, int methodIndex) throws XBProcessingException, IOException {
+        public void nextChild(XBSerializable child) throws XBProcessingException, IOException {
             params.add(child);
         }
 

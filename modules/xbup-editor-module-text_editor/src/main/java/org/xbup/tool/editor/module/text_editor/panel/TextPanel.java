@@ -35,8 +35,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -52,16 +50,11 @@ import javax.swing.text.Document;
 import javax.swing.text.Highlighter.Highlight;
 import javax.swing.undo.UndoableEdit;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
-import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationType;
-import org.xbup.lib.core.serial.child.XBChildListener;
+import org.xbup.lib.core.serial.child.XBChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBChildListenerSerialHandler;
-import org.xbup.lib.core.serial.child.XBChildListenerSerialMethod;
-import org.xbup.lib.core.serial.child.XBChildProvider;
+import org.xbup.lib.core.serial.child.XBChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBChildProviderSerialHandler;
-import org.xbup.lib.core.serial.child.XBChildProviderSerialMethod;
+import org.xbup.lib.core.serial.child.XBChildSerializable;
 import org.xbup.lib.core.stream.file.XBFileInputStream;
 import org.xbup.lib.core.stream.file.XBFileOutputStream;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -359,9 +352,9 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
         try {
             XBFileInputStream fileStream = new XBFileInputStream(file);
             if (XBTextEditorFrame.XBTFILETYPE.equals(fileType.getFileTypeId())) { // Process XB header
-                XBChildProviderSerialHandler handler = new XBChildProviderSerialHandler();
+                XBChildInputSerialHandler handler = new XBChildProviderSerialHandler();
                 handler.attachXBPullProvider(fileStream);
-                new XBL0TextPanelSerializable().serializeXB(XBSerializationType.FROM_XB, 0, handler);
+                new XBL0TextPanelSerializable().serializeFromXB(handler);
             }
             setModified(false);
         } catch (XBProcessingException ex) {
@@ -381,7 +374,7 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
             if (XBTextEditorFrame.XBTFILETYPE.equals(fileType.getFileTypeId())) { // Process XB header
                 XBChildListenerSerialHandler handler = new XBChildListenerSerialHandler();
                 handler.attachXBEventListener(fileStream);
-                new XBL0TextPanelSerializable().serializeXB(XBSerializationType.TO_XB, 0, handler);
+                new XBL0TextPanelSerializable().serializeToXB(handler);
             }
             setModified(false);
         } catch (XBProcessingException ex) {
@@ -519,155 +512,131 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
         return frameTitle;
     }
 
-    private class XBL0TextPanelSerializable implements XBSerializable {
+    private class XBL0TextPanelSerializable implements XBChildSerializable {
 
         @Override
-        public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-            return serialType == XBSerializationType.FROM_XB
-                    ? Arrays.asList(new XBSerialMethod[]{new XBChildProviderSerialMethod()})
-                    : Arrays.asList(new XBSerialMethod[]{new XBChildListenerSerialMethod()});
+        public void serializeFromXB(XBChildInputSerialHandler serial) throws XBProcessingException, IOException {
+            // TODO: Check it later
+            serial.nextAttribute();
+            serial.nextAttribute();
+            serial.nextAttribute();
+            serial.nextAttribute();
+            serial.nextChild(new XBL0TextPanelSerializableH1());
+            serial.nextChild(new XBL0TextPanelSerializableEnc());
+
+            InputStream data = serial.nextData();
+            int gotChars;
+            char[] buffer = new char[32];
+            StringBuilder dataBuilder = new StringBuilder();
+            BufferedReader rdr = new BufferedReader(new InputStreamReader(data, charset));
+            while ((gotChars = rdr.read(buffer)) != -1) {
+                dataBuilder.append(buffer, 0, gotChars);
+            }
+            textArea.setText(dataBuilder.toString());
+
+            serial.end();
         }
 
         @Override
-        public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-            if (serialType == XBSerializationType.FROM_XB) {
-                XBChildProvider serial = (XBChildProvider) serializationHandler;
-                // TODO: Check it later
-                serial.nextAttribute();
-                serial.nextAttribute();
-                serial.nextAttribute();
-                serial.nextAttribute();
-                serial.nextChild(new XBL0TextPanelSerializableH1(), 0);
-                serial.nextChild(new XBL0TextPanelSerializableEnc(), 0);
-                
-                InputStream data = serial.nextData();
-                int gotChars;
-                char[] buffer = new char[32];
-                StringBuilder dataBuilder = new StringBuilder();
-                BufferedReader rdr = new BufferedReader(new InputStreamReader(data, charset));
-                while ((gotChars = rdr.read(buffer)) != -1) {
-                    dataBuilder.append(buffer, 0, gotChars);
-                }
-                textArea.setText(dataBuilder.toString());
-                
-                serial.end();
-            } else {
-                XBChildListener serial = (XBChildListener) serializationHandler;
-                serial.addAttribute(new UBNat32(0));
-                serial.addAttribute(new UBNat32(1));
-                serial.addAttribute(new UBNat32(1));
-                serial.addAttribute(new UBNat32(0));
-                serial.addChild(new XBL0TextPanelSerializableH1(), 0);
-                serial.addChild(new XBL0TextPanelSerializableEnc(), 0);
-                
-                // TODO optimalize
-                ByteArrayOutputStream data = new ByteArrayOutputStream();
-                String text = textArea.getText();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(data, charset));
-                int fileLength = text.length();
-                int offset = 0;
-                while (offset < fileLength) {
-                    int length = Math.min(1024, fileLength - offset);
-                    writer.write(text, offset, length);
-                    offset += length;
-                }
-                writer.close();
+        public void serializeToXB(XBChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+            serial.addAttribute(new UBNat32(0));
+            serial.addAttribute(new UBNat32(1));
+            serial.addAttribute(new UBNat32(1));
+            serial.addAttribute(new UBNat32(0));
+            serial.addChild(new XBL0TextPanelSerializableH1());
+            serial.addChild(new XBL0TextPanelSerializableEnc());
 
-                serial.addData(new ByteArrayInputStream(data.toByteArray()));
-                serial.end();
+            // TODO optimalize
+            ByteArrayOutputStream data = new ByteArrayOutputStream();
+            String text = textArea.getText();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(data, charset));
+            int fileLength = text.length();
+            int offset = 0;
+            while (offset < fileLength) {
+                int length = Math.min(1024, fileLength - offset);
+                writer.write(text, offset, length);
+                offset += length;
             }
+            writer.close();
+
+            serial.addData(new ByteArrayInputStream(data.toByteArray()));
+            serial.end();
         }
     }
 
-    private class XBL0TextPanelSerializableH1 implements XBSerializable {
+    private class XBL0TextPanelSerializableH1 implements XBChildSerializable {
 
         @Override
-        public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-            return serialType == XBSerializationType.FROM_XB
-                    ? Arrays.asList(new XBSerialMethod[]{new XBChildProviderSerialMethod()})
-                    : Arrays.asList(new XBSerialMethod[]{new XBChildListenerSerialMethod()});
+        public void serializeFromXB(XBChildInputSerialHandler serial) throws XBProcessingException, IOException {
+            if (serial.nextAttribute().getInt() != 0) {
+                throw new XBProcessingException("Unexpected attribute value");
+            }
+            if (serial.nextAttribute().getInt() != 2) {
+                throw new XBProcessingException("Unexpected attribute value");
+            }
+            if (serial.nextAttribute().getInt() != 2) {
+                throw new XBProcessingException("Unexpected attribute value");
+            }
+
+            if (serial.nextAttribute().getInt() != 5) {
+                throw new XBProcessingException("Unexpected attribute value");
+            }
+            if (serial.nextAttribute().getInt() != 1) {
+                throw new XBProcessingException("Unexpected attribute value");
+            }
+            if (serial.nextAttribute().getInt() != 3) {
+                throw new XBProcessingException("Unexpected attribute value");
+            }
+            if (serial.nextAttribute().getInt() != 1) {
+                throw new XBProcessingException("Unexpected attribute value");
+            }
+            if (serial.nextAttribute().getInt() != 2) {
+                throw new XBProcessingException("Unexpected attribute value");
+            }
+            if (serial.nextAttribute().getInt() != 0) {
+                throw new XBProcessingException("Unexpected attribute value");
+            }
+
+            if (serial.nextAttribute().getInt() != 0) {
+                throw new XBProcessingException("Unexpected attribute value");
+            }
+            serial.end();
         }
 
         @Override
-        public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-            if (serialType == XBSerializationType.FROM_XB) {
-                XBChildProvider serial = (XBChildProvider) serializationHandler;
-                if (serial.nextAttribute().getInt() != 0) {
-                    throw new XBProcessingException("Unexpected attribute value");
-                }
-                if (serial.nextAttribute().getInt() != 2) {
-                    throw new XBProcessingException("Unexpected attribute value");
-                }
-                if (serial.nextAttribute().getInt() != 2) {
-                    throw new XBProcessingException("Unexpected attribute value");
-                }
+        public void serializeToXB(XBChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+            serial.addAttribute(new UBNat32(0));
+            serial.addAttribute(new UBNat32(2));
+            serial.addAttribute(new UBNat32(2));
 
-                if (serial.nextAttribute().getInt() != 5) {
-                    throw new XBProcessingException("Unexpected attribute value");
-                }
-                if (serial.nextAttribute().getInt() != 1) {
-                    throw new XBProcessingException("Unexpected attribute value");
-                }
-                if (serial.nextAttribute().getInt() != 3) {
-                    throw new XBProcessingException("Unexpected attribute value");
-                }
-                if (serial.nextAttribute().getInt() != 1) {
-                    throw new XBProcessingException("Unexpected attribute value");
-                }
-                if (serial.nextAttribute().getInt() != 2) {
-                    throw new XBProcessingException("Unexpected attribute value");
-                }
-                if (serial.nextAttribute().getInt() != 0) {
-                    throw new XBProcessingException("Unexpected attribute value");
-                }
+            serial.addAttribute(new UBNat32(5));
+            serial.addAttribute(new UBNat32(1));
+            serial.addAttribute(new UBNat32(3));
+            serial.addAttribute(new UBNat32(1));
+            serial.addAttribute(new UBNat32(2));
+            serial.addAttribute(new UBNat32(0));
 
-                if (serial.nextAttribute().getInt() != 0) {
-                    throw new XBProcessingException("Unexpected attribute value");
-                }
-                serial.end();
-            } else {
-                XBChildListener serial = (XBChildListener) serializationHandler;
-                serial.addAttribute(new UBNat32(0));
-                serial.addAttribute(new UBNat32(2));
-                serial.addAttribute(new UBNat32(2));
-
-                serial.addAttribute(new UBNat32(5));
-                serial.addAttribute(new UBNat32(1));
-                serial.addAttribute(new UBNat32(3));
-                serial.addAttribute(new UBNat32(1));
-                serial.addAttribute(new UBNat32(2));
-                serial.addAttribute(new UBNat32(0));
-
-                serial.addAttribute(new UBNat32(0));
-                serial.end();
-            }
+            serial.addAttribute(new UBNat32(0));
+            serial.end();
         }
     }
 
-    private class XBL0TextPanelSerializableEnc implements XBSerializable {
+    private class XBL0TextPanelSerializableEnc implements XBChildSerializable {
 
         @Override
-        public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-            return serialType == XBSerializationType.FROM_XB
-                    ? Arrays.asList(new XBSerialMethod[]{new XBChildProviderSerialMethod()})
-                    : Arrays.asList(new XBSerialMethod[]{new XBChildListenerSerialMethod()});
+        public void serializeFromXB(XBChildInputSerialHandler serial) throws XBProcessingException, IOException {
+            serial.nextAttribute();
+            serial.nextAttribute();
+            serial.nextAttribute();
+            serial.end();
         }
 
         @Override
-        public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-            if (serialType == XBSerializationType.FROM_XB) {
-                XBChildProvider serial = (XBChildProvider) serializationHandler;
-                serial.nextAttribute();
-                serial.nextAttribute();
-                serial.nextAttribute();
-                serial.end();
-            } else {
-                XBChildListener serial = (XBChildListener) serializationHandler;
-                serial.addAttribute(new UBNat32(1));
-                serial.addAttribute(new UBNat32(0));
-                serial.addAttribute(new UBNat32(2));
-                serial.end();
-            }
+        public void serializeToXB(XBChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+            serial.addAttribute(new UBNat32(1));
+            serial.addAttribute(new UBNat32(0));
+            serial.addAttribute(new UBNat32(2));
+            serial.end();
         }
     }
 }

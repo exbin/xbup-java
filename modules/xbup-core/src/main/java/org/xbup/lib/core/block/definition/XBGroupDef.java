@@ -16,14 +16,9 @@
  */
 package org.xbup.lib.core.block.definition;
 
-import java.io.IOException;
 import java.util.List;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationType;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
@@ -82,15 +77,5 @@ public class XBGroupDef implements XBSerializable {
      */
     public void setGroups(List<XBGroupDecl> groups) {
         this.groups = groups;
-    }
-
-    @Override
-    public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -34,7 +34,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.EventListener;
 import java.util.List;
 import java.util.logging.Level;
@@ -66,26 +65,19 @@ import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationFromXB;
-import org.xbup.lib.core.serial.XBSerializationType;
-import org.xbup.lib.core.serial.child.XBTChildListener;
-import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildListenerSerialMethod;
-import org.xbup.lib.core.serial.child.XBTChildProvider;
+import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBSerialSequence;
-import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildProviderSerialMethod;
-import org.xbup.lib.core.serial.sequence.XBTSerialSequence;
-import org.xbup.lib.core.serial.sequence.XBTSerialSequenceListenerMethod;
-import org.xbup.lib.core.serial.sequence.XBTSerialSequenceProviderMethod;
+import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.stream.file.XBFileOutputStream;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.audio.swing.XBWavePanel;
 import org.xbup.lib.audio.wave.XBWave;
+import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildSerializable;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
 import org.xbup.tool.editor.module.wave_editor.XBWaveEditorFrame;
 import org.xbup.tool.editor.module.wave_editor.dialog.ImageResizeDialog;
 import org.xbup.tool.editor.base.api.ApplicationFilePanel;
@@ -215,8 +207,8 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         targetDataLineInfo = null;
         audioInputStream = null;
 
-        statusChangeListeners = new ArrayList<StatusChangeListener>();
-        waveRepaintListeners = new ArrayList<WaveRepaintListener>();
+        statusChangeListeners = new ArrayList<>();
+        waveRepaintListeners = new ArrayList<>();
 //        if ( !AudioSystem.isLineSupported( info ) )
     }
 
@@ -468,13 +460,11 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
     @Override
     public void loadFromFile() {
         if (XBWaveEditorFrame.XBSFILETYPE.equals(fileType.getFileTypeId())) {
-            XBTChildProviderSerialHandler handler = new XBTChildProviderSerialHandler();
+            XBTChildInputSerialHandler handler = new XBTChildProviderSerialHandler();
             try {
                 handler.attachXBTPullProvider(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName()))));
-                getStubXBTDataSerializator().serializeXB(XBSerializationType.FROM_XB, 0, handler);
-            } catch (XBProcessingException ex) {
-                Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
+                getStubXBTDataSerializator().serializeFromXB(handler);
+            } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
@@ -521,12 +511,12 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         if (XBWaveEditorFrame.XBSFILETYPE.equals(fileType.getFileTypeId())) {
             try {
                 XBFileOutputStream output = new XBFileOutputStream(file);
-                XBTChildListenerSerialHandler handler = new XBTChildListenerSerialHandler();
-                
+                XBTChildOutputSerialHandler handler = new XBTChildListenerSerialHandler();
+
                 XBTEncapsulator encapsulator = new XBTEncapsulator(new StubContext(getStubXBTDataSerializator()));
                 encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
                 handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));
-                getStubXBTDataSerializator().serializeXB(XBSerializationType.TO_XB, 0, handler);
+                getStubXBTDataSerializator().serializeToXB(handler);
                 output.close();
             } catch (XBProcessingException ex) {
                 Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -617,93 +607,77 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         }
     }
 
-    public XBSerializable getXBTDataSerializator() {
-        return new XBSerializable() {
+    public XBTChildSerializable getXBTDataSerializator() {
+        return new XBTChildSerializable() {
             @Override
-            public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-                return serialType == XBSerializationType.FROM_XB
-                        ? Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()})
-                        : Arrays.asList(new XBSerialMethod[]{new XBTChildListenerSerialMethod()});
+            public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                /* TODO                XBBufferedImage srcImage = new XBBufferedImage();
+                 srcImage.serializeFromXBT(serial);
+                 image = toBufferedImage(srcImage.getImage());
+                 scaledImage = image;
+                 grph = image.getGraphics();
+                 grph.setColor(toolColor);
+                 imageArea.setIcon(new ImageIcon(image));
+                 scale(scaleRatio); */
+                throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
-            public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                if (serialType == XBSerializationType.FROM_XB) {
-                    XBTChildProvider serial = (XBTChildProvider) serializationHandler;
-                    /* TODO                XBBufferedImage srcImage = new XBBufferedImage();
-                     srcImage.serializeFromXBT(serial);
-                     image = toBufferedImage(srcImage.getImage());
-                     scaledImage = image;
-                     grph = image.getGraphics();
-                     grph.setColor(toolColor);
-                     imageArea.setIcon(new ImageIcon(image));
-                     scale(scaleRatio); */
-                    throw new UnsupportedOperationException("Not supported yet.");
-                } else {
-                    XBTChildListener serial = (XBTChildListener) serializationHandler;
-                    // TODO                new XBBufferedImage(toBufferedImage(image)).serializeToXBT(serial);
-                    throw new UnsupportedOperationException("Not supported yet.");
-                }
+            public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                // TODO                new XBBufferedImage(toBufferedImage(image)).serializeToXBT(serial);
+                throw new UnsupportedOperationException("Not supported yet.");
             }
         };
     }
 
     // TODO: This is ugly stub for loading files skipping definition
-    public XBSerializable getStubXBTDataSerializator() {
-        return new XBSerializable() {
+    public XBTChildSerializable getStubXBTDataSerializator() {
+        return new XBTChildSerializable() {
             @Override
-            public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-                return serialType == XBSerializationType.FROM_XB
-                        ? Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()})
-                        : Arrays.asList(new XBSerialMethod[]{new XBTChildListenerSerialMethod()});
+            public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+                serial.getType();
+                serial.nextAttribute();
+                serial.nextAttribute();
+                serial.nextChild(new XBTChildSerializable() {
+                    @Override
+                    public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+                        serial.getType();
+                        serial.nextAttribute();
+                        serial.nextAttribute();
+                        serial.nextAttribute();
+                        serial.nextAttribute();
+                        serial.nextAttribute();
+                        serial.nextAttribute();
+                        serial.end();
+                    }
+
+                    @Override
+                    public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                        throw new UnsupportedOperationException("Not supported yet.");
+                    }
+                });
+
+                serial.nextChild(new XBTChildSerializable() {
+                    @Override
+                    public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                        XBWave srcWave = new XBWave();
+                        srcWave.serializeFromXB(serializationHandler);
+                        wavePanel.setWave(srcWave);
+                        scrollBar.setMaximum(wavePanel.getWaveWidth());
+                    }
+
+                    @Override
+                    public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                        throw new UnsupportedOperationException("Not supported yet.");
+                    }
+                });
+
+                serial.end();
             }
 
             @Override
-            public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                if (serialType == XBSerializationType.FROM_XB) {
-                    XBTChildProvider serial = (XBTChildProvider) serializationHandler;
-                    serial.getType();
-                    serial.nextAttribute();
-                    serial.nextAttribute();
-                    serial.nextChild(new XBSerializable() {
-                        @Override
-                        public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-                            return Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()});
-                        }
-
-                        @Override
-                        public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                            XBTChildProvider serial = (XBTChildProvider) serializationHandler;
-                            serial.getType();
-                            serial.nextAttribute();
-                            serial.nextAttribute();
-                            serial.nextAttribute();
-                            serial.nextAttribute();
-                            serial.nextAttribute();
-                            serial.nextAttribute();
-                            serial.end();
-                        }
-                    }, 0);
-                    serial.nextChild(new XBSerializable() {
-                        @Override
-                        public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-                            return Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()});
-                        }
-
-                        @Override
-                        public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                            XBTChildProviderSerialHandler childSerial = (XBTChildProviderSerialHandler) serializationHandler;
-                            XBWave srcWave = new XBWave();
-                            srcWave.serializeXB(XBSerializationType.FROM_XB, 0, childSerial);
-                            wavePanel.setWave(srcWave);
-                            scrollBar.setMaximum(wavePanel.getWaveWidth());
-                        }
-                    }, 0);
-                    serial.end();
-                } else {
-                    XBTChildListener serial = (XBTChildListener) serializationHandler;
-                    wavePanel.getWave().serializeXB(XBSerializationType.TO_XB, 0, serializationHandler);
-                }
+            public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                wavePanel.getWave().serializeToXB(serializationHandler);
             }
         };
     }
@@ -810,7 +784,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         public XBDeclaration getDeclaration() {
             XBDeclaration decl = new StubDeclaration();
             decl.setGroupsReserved(3);
-            decl.setRootNode(new XBSerializationFromXB(source));
+            decl.setRootNode(source);
 
             return decl;
         }
@@ -851,19 +825,12 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         }
 
         @Override
-        public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-            return serialType == XBSerializationType.FROM_XB
-                    ? Arrays.asList(new XBSerialMethod[]{new XBTSerialSequenceProviderMethod()})
-                    : Arrays.asList(new XBSerialMethod[]{new XBTSerialSequenceListenerMethod()});
-        }
-
-        @Override
-        public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
             XBSerialSequence seq = new XBSerialSequence(new XBFixedBlockType(XBBasicBlockType.FORMAT_DECLARATION));
             seq.join(new UBNat32(2));
             seq.join(getCatalogPath());
-            XBTSerialSequence serial = (XBTSerialSequence) serializationHandler;
-            serial.sequenceXB(seq);
+
+            serializationHandler.sequenceXB(seq);
         }
     }
 
@@ -935,9 +902,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
                             wavePanel.setCursorPosition(wavePanel.getWaveLength());
                             notifyStatusChangeListeners();
                         }
-                    } catch (IOException ex) {
-                        Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (LineUnavailableException ex) {
+                    } catch (IOException | LineUnavailableException ex) {
                         Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } catch (InterruptedException ex) {

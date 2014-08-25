@@ -16,18 +16,12 @@
  */
 package org.xbup.lib.core.type;
 
-import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.List;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.block.declaration.XBDeclared;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.catalog.declaration.XBCDeclaration;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationType;
 
 /**
  * Encapsulation class for charset.
@@ -38,12 +32,8 @@ import org.xbup.lib.core.serial.XBSerializationType;
 public class XBCharset implements XBSerializable, XBDeclared {
 
     private Charset charset;
-    public static long[] xbBlockPath = {1, 2, 3}; // Testing only
+    public static long[] XB_BLOCK_PATH = {1, 2, 3}; // Testing only
 
-    // TODO: Encoding support
-    /**
-     * Creates a new instance of XBString
-     */
     public XBCharset() {
         charset = Charset.defaultCharset();
     }
@@ -54,7 +44,7 @@ public class XBCharset implements XBSerializable, XBDeclared {
 
     @Override
     public XBDeclaration getXBDeclaration() {
-        return new XBCDeclaration(new XBFormatDecl(xbBlockPath));
+        return new XBCDeclaration(new XBFormatDecl(XB_BLOCK_PATH));
     }
 
     public Charset getCharset() {
@@ -64,14 +54,6 @@ public class XBCharset implements XBSerializable, XBDeclared {
     public void setCharset(Charset charset) {
         this.charset = charset;
     }
-
-    @Override
-    public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    
+    // TODO Serialization
 }

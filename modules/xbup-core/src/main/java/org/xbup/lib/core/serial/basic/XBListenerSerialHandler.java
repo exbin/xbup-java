@@ -25,9 +25,9 @@ import org.xbup.lib.core.serial.XBOutputSerialHandler;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * XBUP level 0 XBListener handler.
+ * XBUP level 0 serialization handler using basic parser mapping to listener.
  *
- * @version 0.1 wr23.0 2014/03/08
+ * @version 0.1 wr24.0 2014/08/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBListenerSerialHandler implements XBListener, XBOutputSerialHandler {
@@ -37,7 +37,6 @@ public class XBListenerSerialHandler implements XBListener, XBOutputSerialHandle
     public XBListenerSerialHandler() {
     }
 
-    @Override
     public void attachXBListener(XBListener listener) {
         this.listener = listener;
     }

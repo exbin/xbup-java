@@ -19,29 +19,22 @@ package org.xbup.lib.core.ubnumber.type;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Arrays;
-import java.util.List;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
-import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationType;
-import org.xbup.lib.core.serial.child.XBTChildListener;
-import org.xbup.lib.core.serial.child.XBTChildListenerSerialMethod;
-import org.xbup.lib.core.serial.child.XBTChildProvider;
-import org.xbup.lib.core.serial.child.XBTChildProviderSerialMethod;
+import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 
 /**
  * UBNatural stored as long value (limited value capacity to 32 bits).
  *
- * @version 0.1 wr24.0 2014/08/12
+ * @version 0.1 wr24.0 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
-public class UBNat32 implements UBNatural, XBSerializable {
+public class UBNat32 implements UBNatural, XBTChildSerializable {
 
     private static long MAX_VALUE = 4294967295l;
     private long value;
@@ -233,50 +226,17 @@ public class UBNat32 implements UBNatural, XBSerializable {
     }
 
     @Override
-    public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-        return serialType == XBSerializationType.FROM_XB
-                ? Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()})
-                : Arrays.asList(new XBSerialMethod[]{new XBTChildListenerSerialMethod()});
+    public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+        serial.begin();
+        UBNatural newValue = serial.nextAttribute();
+        setValue(newValue.getLong());
+        serial.end();
     }
 
     @Override
-    public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        if (serialType == XBSerializationType.FROM_XB) {
-            XBTChildProvider serial = (XBTChildProvider) serializationHandler;
-            serial.begin();
-            UBNatural newValue = serial.nextAttribute();
-            setValue(newValue.getLong());
-            serial.end();
-        } else {
-            XBTChildListener serial = (XBTChildListener) serializationHandler;
-            serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
-            serial.addAttribute(this);
-            serial.end();
-        }
+    public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+        serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
+        serial.addAttribute(this);
+        serial.end();
     }
-
-    // TODO Create XBNatural
-    /*
-     public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-     return serialType == XBSerializationType.FROM_XB
-     ? Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()})
-     : Arrays.asList(new XBSerialMethod[]{new XBTChildListenerSerialMethod()});
-     }
-
-     @Override
-     public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-     if (serialType == XBSerializationType.FROM_XB) {
-     XBTChildProvider serial = (XBTChildProvider) serializationHandler;
-     serial.begin();
-     UBNatural newValue = serial.nextAttribute();
-     setValue(newValue.getLong());
-     serial.end();
-     } else {
-     XBTChildListener serial = (XBTChildListener) serializationHandler;
-     serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
-     serial.addAttribute(this);
-     serial.end();
-     }
-     }
-     */
 }

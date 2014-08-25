@@ -22,8 +22,6 @@ import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -41,12 +39,9 @@ import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.remote.XBServiceClient;
 import org.xbup.lib.core.remote.XBTCPServiceClient;
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
-import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationType;
-import org.xbup.lib.core.serial.basic.XBTListenerSerialHandler;
-import org.xbup.lib.core.serial.basic.XBTListenerSerialMethod;
+import org.xbup.lib.core.serial.basic.XBTBasicInputSerialHandler;
+import org.xbup.lib.core.serial.basic.XBTBasicOutputSerialHandler;
+import org.xbup.lib.core.serial.basic.XBTBasicSerializable;
 import org.xbup.lib.core.stream.XBTokenInputStream;
 import org.xbup.lib.core.stream.XBTokenOutputStream;
 import org.xbup.lib.core.stream.XBStreamChecker;
@@ -198,16 +193,15 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
 //            XBL1Declaration decl = new XBL1Declaration();
 //            decl.setFormat(new XBL1FormatDecl(XBServiceClient.XBSERVICE_FORMAT));
 //            decl.setRootNode(new MyXBL1Conversible(procedureId));
-            XBTEncapsulator encapsulator = new XBTEncapsulator(new XBServiceContext(new XBSerializable() {
+            XBTEncapsulator encapsulator = new XBTEncapsulator(new XBServiceContext(new XBTBasicSerializable() {
 
                 @Override
-                public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-                    return Arrays.asList(new XBSerialMethod[]{new XBTListenerSerialMethod()});
+                public void serializeFromXB(XBTBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                    throw new UnsupportedOperationException("Not supported yet.");
                 }
 
                 @Override
-                public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                    XBTListenerSerialHandler handler = (XBTListenerSerialHandler) serializationHandler;
+                public void serializeToXB(XBTBasicOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
                     throw new UnsupportedOperationException("Not supported yet.");
                 }
             }));
@@ -341,7 +335,7 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
     /** TODO: This is class skiping some end events (except first) as temporary patch for improper implementation */
     private class MyXBOutputStream extends XBTokenOutputStream {
 
-        private XBEventListener listener;
+        private final XBEventListener listener;
         private long depth;
         private long counter;
 

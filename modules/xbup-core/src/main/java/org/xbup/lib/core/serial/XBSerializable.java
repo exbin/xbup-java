@@ -16,36 +16,31 @@
  */
 package org.xbup.lib.core.serial;
 
-import java.io.IOException;
-import java.util.List;
-import org.xbup.lib.core.parser.XBProcessingException;
-
 /**
- * Interface is providing serialization methods for serialization into XBUP
- * protocol.
+ * This is parent interface for interfaces providing serialization methods for
+ * serialization from and into XBUP protocol.
  *
- * @version 0.1 wr23.0 2014/03/03
+ * Child interfaces should implement at either two methods with arguments using
+ * child interfaces of given interfaces or single method performing both
+ * operations:
+ *
+ * Method to perform serialization from XBUP protocol:
+ *
+ * public void serializeFromXB(XBInputSerialHandler serializationHandler) throws
+ * XBProcessingException, IOException;
+ *
+ * Method to perform serialization to XBUP protocol:
+ *
+ * public void serializeToXB(XBOutputSerialHandler serializationHandler) throws
+ * XBProcessingException, IOException;
+ *
+ * Method to peform dual-way serialization to XBUP protocol:
+ *
+ * public void serializeXB(XBSerialHandler serializationHandler) throws
+ * XBProcessingException, IOException;
+ *
+ * @version 0.1 wr24.0 2014/08/24
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBSerializable {
-
-    /**
-     * Serialization methods for serialization from and to XBUP level 0
-     * protocol.
-     *
-     * @param serialType serialization type
-     * @return list of serialization methods
-     */
-    public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType);
-
-    /**
-     * Perform serialization using particular method.
-     *
-     * @param serialType serialization type
-     * @param methodIndex index of method
-     * @param serializationHandler serialization resource
-     * @throws XBProcessingException
-     * @throws java.io.IOException
-     */
-    public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException;
 }

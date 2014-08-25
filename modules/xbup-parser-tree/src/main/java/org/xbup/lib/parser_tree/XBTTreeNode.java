@@ -48,10 +48,7 @@ import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTProvider;
 import org.xbup.lib.core.parser.param.XBParamPosition;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationType;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.UBStreamable;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
@@ -611,9 +608,11 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         if (data != null) {
             node.data = data.clone();
         }
-        for (int i = 0; i < attributes.size(); i++) {
-            node.addAttribute(new UBNat32(attributes.get(i)));
+
+        for (UBNatural attribute : attributes) {
+            node.addAttribute(new UBNat32(attribute));
         }
+
         if (children != null) {
             children = new ArrayList<>();
             for (int i = 0; i < children.size(); i++) {
@@ -761,31 +760,10 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             XBBlockDecl blockDecl = ((XBDeclBlockType) blockType).getBlockDecl();
             if (blockDecl instanceof XBDBlockDecl) {
                 XBParamPosition paramPos = ((XBDBlockDecl) blockDecl).getParamPosition(new XBSerializable() {
-
-                    @Override
-                    public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-                        throw new UnsupportedOperationException("Not supported yet.");
-                    }
-
-                    @Override
-                    public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                        throw new UnsupportedOperationException("Not supported yet.");
-                    }
+                    // TODO
                 }, index);
                 return new XBSerializable() {
-
-                    @Override
-                    public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-                        throw new UnsupportedOperationException("Not supported yet.");
-                    }
-
-                    @Override
-                    public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                        throw new UnsupportedOperationException("Not supported yet.");
-                        /* XBTProvider provider = this.convertToXBT();
-                         //provider.
-                         return provider; */
-                    }
+                    // TODO
                 };
             }
         }

@@ -4,44 +4,35 @@ Core library provides set of interfaces and functions to support XBUP-encoded do
 
 ===== Basic Interfaces =====
 
-===== Declarations and Basic Types =====
+Library contains interfaces for document, block and type declarations.
+
+==== Declarations and Basic Types ====
 
 
 ===== Parsers =====
 
-Implementation of pull, event and tree parser is included in core library.
+Implementation of pull and event parsers is included in core library.
 
-=== Event Interfaces ===
+[[en:doc:protocol:parsers|See more about protocol parser.]]
 
-Base of the parsers the transformation of the stream to the stream of recognized events, which are then processed. The reverse procedure is also possible to generate the document. For access to different types of events the XBEventHandler interface is defined:
+Java implementation provides two ways how to process tokens. One way is via wide interface XBListener (and XBTListener) which provides single method for each token type.
 
-public void begin(boolean term) throws XBParseException;\\
-public void attrib(XBAttribute value) throws XBParseException;\\
-public void data(byte[] data) throws XBParseException;\\
+public void begin(XBBlockTerminationMode terminationMode) throws XBParseException;\\
+public void attrib(UBNatural attribute) throws XBParseException;\\
+public void data(InputStream data) throws XBParseException;\\
 public void end() throws XBParseException;\\
 
-Similarly, there are methods defined for the interfaces at higher levels.
+Other way uses token classes as defined in "org.xbup.lib.core.parser.token" package and interfaces with single method.
 
-===== Serialization and Streaming =====
+You have to process content of data token (read InputStream) before receiving next token.
 
-=== Stream Event Processing ===
+===== Serialization =====
 
-Defined interfaces are XBEventReader, XBEventWriter and XBFilter which allow the transmission of events and their modifications. With a combination of filters, it is possible to build a process for event stream processing.
 
-Read(Source: TXBEventHandler)\\
-Write: TXBEventHandler\\
 
-XBStream abstract class is also available and it defines the sequence of events and allows to perform operations with this stream. Class has features such as jump to another position in the stream and similar.
+===== Streaming =====
 
-XBStreamable interface indicates whether class is transferable to XBStream:
-
-public void ReadFromXB(XBStream stream);\\
-public void WriteToXB(XBStream stream);
-
-If you can get from the class the sequence of events, class should implement XBEventHandler interface:
-
-For each parser it's possible to obtain class using specific methods, which provides access to internal state of parser and transformation to the event processing.
-
+==== Stream Event Processing ====
 
 ===== Framework and Catalog Access =====
 

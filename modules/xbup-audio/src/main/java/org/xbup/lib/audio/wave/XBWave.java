@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,14 +33,9 @@ import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.catalog.declaration.XBCDeclaration;
 import org.xbup.lib.core.catalog.declaration.XBCPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.XBSerialHandler;
-import org.xbup.lib.core.serial.XBSerialMethod;
-import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationType;
-import org.xbup.lib.core.serial.child.XBTChildListener;
-import org.xbup.lib.core.serial.child.XBTChildListenerSerialMethod;
-import org.xbup.lib.core.serial.child.XBTChildProvider;
-import org.xbup.lib.core.serial.child.XBTChildProviderSerialMethod;
+import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
@@ -51,9 +45,9 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * @version 0.1 wr23.0 2014/03/04
  * @author XBUP Project (http://xbup.org)
  */
-public class XBWave implements XBSerializable {
+public class XBWave implements XBTChildSerializable {
 
-    public static long[] xbBlockPath = {0, 1000, 0, 0}; // Testing only
+    public static long[] XB_BLOCK_PATH = {0, 1000, 0, 0}; // Testing only
     private AudioFormat audioFormat;
     private List<byte[]> data;
     public int chunkSize;
@@ -61,7 +55,7 @@ public class XBWave implements XBSerializable {
     public XBWave() {
         audioFormat = null;
         chunkSize = 65520;
-        data = new ArrayList<byte[]>();
+        data = new ArrayList<>();
     }
 
     public void loadFromFile(File soundFile) {
@@ -84,16 +78,14 @@ public class XBWave implements XBSerializable {
             loadRawFromStream(audioInputStream);
 //        } catch (LineUnavailableException ex) {
 //            Logger.getLogger(XBWave.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(XBWave.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (UnsupportedAudioFileException | IOException ex) {
             Logger.getLogger(XBWave.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public void loadRawFromStream(InputStream inputStream) {
         try {
-            data = new ArrayList<byte[]>();
+            data = new ArrayList<>();
             byte[] buffer = new byte[chunkSize];
             int cnt;
             int offset = 0;
@@ -130,64 +122,55 @@ public class XBWave implements XBSerializable {
     }
 
     public XBDeclaration getXBDeclaration() {
-        return new XBCDeclaration(new XBCPBlockDecl(xbBlockPath));
+        return new XBCDeclaration(new XBCPBlockDecl(XB_BLOCK_PATH));
     }
 
     @Override
-    public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-        return serialType == XBSerializationType.FROM_XB
-                ? Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()})
-                : Arrays.asList(new XBSerialMethod[]{new XBTChildListenerSerialMethod()});
+    public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+        serial.getType(); //setType(new XBCBlockDecl(xbBlockPath));
+        UBNatural sampleRate = serial.nextAttribute();
+        UBNatural sampleSizeInBits = serial.nextAttribute();
+        UBNatural channels = serial.nextAttribute();
+        UBNatural signed = serial.nextAttribute();
+        UBNatural bigEndian = serial.nextAttribute();
+        audioFormat = new AudioFormat(sampleRate.getInt(), sampleSizeInBits.getInt(), channels.getInt(), signed.getInt() == 1, bigEndian.getInt() == 1);
+        serial.nextChild(new XBTChildSerializable() {
+            @Override
+            public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+                loadRawFromStream(serial.nextData());
+                serial.end();
+            }
+
+            @Override
+            public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                throw new IllegalStateException();
+            }
+        });
+        serial.end();
     }
 
     @Override
-    public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        if (serialType == XBSerializationType.FROM_XB) {
-            XBTChildProvider serial = (XBTChildProvider) serializationHandler;
-            serial.getType(); //setType(new XBCBlockDecl(xbBlockPath));
-            UBNatural sampleRate = serial.nextAttribute();
-            UBNatural sampleSizeInBits = serial.nextAttribute();
-            UBNatural channels = serial.nextAttribute();
-            UBNatural signed = serial.nextAttribute();
-            UBNatural bigEndian = serial.nextAttribute();
-            audioFormat = new AudioFormat(sampleRate.getInt(), sampleSizeInBits.getInt(), channels.getInt(), signed.getInt() == 1, bigEndian.getInt() == 1);
-            serial.nextChild(new XBSerializable() {
-                @Override
-                public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-                    return Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()});
-                }
+    public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+        serial.setType(new XBDBlockType(new XBCPBlockDecl(XB_BLOCK_PATH)));
+        serial.addAttribute(new UBNat32((long) audioFormat.getSampleRate()));
+        serial.addAttribute(new UBNat32(audioFormat.getSampleSizeInBits()));
+        serial.addAttribute(new UBNat32(audioFormat.getChannels()));
+        serial.addAttribute(new UBNat32(audioFormat.getEncoding() == AudioFormat.Encoding.PCM_SIGNED ? 1 : 0));
+        serial.addAttribute(new UBNat32(audioFormat.isBigEndian() ? 1 : 0));
+        serial.addChild(new XBTChildSerializable() {
+            @Override
+            public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                throw new IllegalStateException();
+            }
 
-                @Override
-                public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                    XBTChildProvider serial = (XBTChildProvider) serializationHandler;
-                    loadRawFromStream(serial.nextData());
-                    serial.end();
-                }
-            }, 0);
-            serial.end();
-        } else {
-            XBTChildListener serial = (XBTChildListener) serializationHandler;
-            serial.setType(new XBDBlockType(new XBCPBlockDecl(xbBlockPath)));
-            serial.addAttribute(new UBNat32((long) audioFormat.getSampleRate()));
-            serial.addAttribute(new UBNat32(audioFormat.getSampleSizeInBits()));
-            serial.addAttribute(new UBNat32(audioFormat.getChannels()));
-            serial.addAttribute(new UBNat32(audioFormat.getEncoding() == AudioFormat.Encoding.PCM_SIGNED ? 1 : 0));
-            serial.addAttribute(new UBNat32(audioFormat.isBigEndian() ? 1 : 0));
-            serial.addChild(new XBSerializable() {
-                @Override
-                public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-                    return Arrays.asList(new XBSerialMethod[]{new XBTChildListenerSerialMethod()});
-                }
+            @Override
+            public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+                serial.addData(new WaveInputStream());
+                serial.end();
+            }
+        });
 
-                @Override
-                public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                    XBTChildListener serial = (XBTChildListener) serializationHandler;
-                    serial.addData(new WaveInputStream());
-                    serial.end();
-                }
-            }, 0);
-            serial.end();
-        }
+        serial.end();
     }
 
     private class WaveInputStream extends InputStream {

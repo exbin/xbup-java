@@ -51,10 +51,11 @@ import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.parser_tree.XBTTreeDocument;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationType;
+import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
-import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.plugin.XBPanelEditor;
 import org.xbup.lib.plugin.XBPlugin;
@@ -317,9 +318,9 @@ public class ItemModifyDialog extends javax.swing.JDialog {
             XBTTreeDocument doc = new XBTTreeDocument(catalog);
             try {
                 // TODO: Do proper loading later
-                XBTChildListenerSerialHandler handler = new XBTChildListenerSerialHandler();
+                XBTChildOutputSerialHandler handler = new XBTChildListenerSerialHandler();
                 handler.attachXBTEventListener(new XBTToXBEventConvertor(new XBEventWriter(stream)));
-                ((XBSerializable) customPanel).serializeXB(XBSerializationType.TO_XB, 0, handler);
+                ((XBTChildSerializable) customPanel).serializeToXB(handler);
                 doc.fromStreamUB(new ByteArrayInputStream(stream.toByteArray()));
                 node = (XBTTreeNode) doc.getRootBlock();
                 // TODO: Patching node type, should be handled by context later
@@ -373,9 +374,9 @@ public class ItemModifyDialog extends javax.swing.JDialog {
                     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
                     srcNode.toStreamUB(ostream);
                     ByteArrayInputStream stream = new ByteArrayInputStream(ostream.toByteArray());
-                    XBTChildProviderSerialHandler handler = new XBTChildProviderSerialHandler();
+                    XBTChildInputSerialHandler handler = new XBTChildProviderSerialHandler();
                     handler.attachXBTPullProvider(new XBToXBTPullConvertor(new XBPullReader(stream, XBParserMode.SINGLE_BLOCK)));
-                    ((XBSerializable) customPanel).serializeXB(XBSerializationType.FROM_XB, 0, handler);
+                    ((XBTChildSerializable) customPanel).serializeFromXB(handler);
                     node = null;
                     mainPanel.add(customPanel,"custom");
                     ((CardLayout) mainPanel.getLayout()).show(mainPanel, "custom");

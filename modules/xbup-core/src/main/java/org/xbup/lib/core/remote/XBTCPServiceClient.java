@@ -44,7 +44,6 @@ import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBSerializationFromXB;
 import org.xbup.lib.core.stream.XBTStreamChecker;
 import org.xbup.lib.core.stream.filter.XBToXBTStreamConvertor;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -301,7 +300,7 @@ public class XBTCPServiceClient implements XBServiceClient {
         public XBServiceContext(XBSerializable rootNode) {
             super(null);
             XBDeclaration decl = new XBDeclaration();
-            decl.setRootNode(new XBSerializationFromXB(rootNode, 0));
+            decl.setRootNode(rootNode);
             decl.setFormat(new XBFormatDecl(XBSERVICE_FORMAT));
             setDeclaration(decl);
         }

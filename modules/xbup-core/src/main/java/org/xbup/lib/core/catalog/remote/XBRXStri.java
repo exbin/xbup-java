@@ -26,7 +26,7 @@ import org.xbup.lib.core.catalog.client.XBCatalogServiceMessage;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.serial.XBSerializationType;
+import org.xbup.lib.core.serial.child.XBChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBChildProviderSerialHandler;
 import org.xbup.lib.core.stream.XBTokenInputStream;
 import org.xbup.lib.core.stream.XBStreamChecker;
@@ -61,9 +61,7 @@ public class XBRXStri implements XBCXStri {
             checker.endXB();
             message.close();
             return new XBRItem(client, ownerId);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXStri.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBRXStri.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -83,16 +81,14 @@ public class XBRXStri implements XBCXStri {
             checker.attribXB();
             checker.attribXB();
             XBString text = new XBString();
-            XBChildProviderSerialHandler handler = new XBChildProviderSerialHandler();
+            XBChildInputSerialHandler handler = new XBChildProviderSerialHandler();
             handler.attachXBPullProvider(input);
-            text.serializeXB(XBSerializationType.FROM_XB, 0, handler);
+            text.new ChildSerializer().serializeFromXB(handler);
             checker.endXB();
             checker.endXB();
             message.close();
             return text.getValue();
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXName.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBRXName.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -137,16 +133,14 @@ public class XBRXStri implements XBCXStri {
             checker.attribXB();
             checker.attribXB();
             XBString text = new XBString();
-            XBChildProviderSerialHandler handler = new XBChildProviderSerialHandler();
+            XBChildInputSerialHandler handler = new XBChildProviderSerialHandler();
             handler.attachXBPullProvider(input);
-            text.serializeXB(XBSerializationType.FROM_XB, 0, handler);
+            text.new ChildSerializer().serializeFromXB(handler);
             checker.endXB();
             checker.endXB();
             message.close();
             return text.getValue();
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXName.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBRXName.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;

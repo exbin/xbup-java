@@ -14,27 +14,46 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.serial;
+package org.xbup.lib.core.serial.child;
 
 /**
- * Method describing serialization process for specific object.
+ * Enumeration of possible child serialization states.
  *
- * @version 0.1 wr23.0 2014/03/02
+ * @version 0.1 wr24.0 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBSerialMethod {
+public enum XBChildSerialState {
 
     /**
-     * Get serialization method index.
-     *
-     * @return method index
+     * Start of the block.
      */
-    public int getMethodIndex();
-
+    BLOCK_BEGIN,
     /**
-     * Get handler class.
-     *
-     * @return handler class
+     * Inside or at the end of atribute part.
      */
-    public Class<? extends XBSerialHandler> getHandlerClass();
+    ATTRIBUTE_PART,
+    /**
+     * Type processing.
+     */
+    TYPE,
+    /**
+     * After first and before last attribute.
+     */
+    ATTRIBUTES,
+    /**
+     * Inside or at the end of data part.
+     */
+    DATA,
+    /**
+     * Children data processed.
+     */
+    CHILDREN,
+    /**
+     * End of block.
+     */
+    BLOCK_END,
+    /**
+     * End of parsing.
+     */
+    EOF,
 }

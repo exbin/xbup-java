@@ -23,7 +23,7 @@ import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
 import org.xbup.lib.core.catalog.XBCatalog;
-import org.xbup.lib.core.serial.XBSerializationFromXB;
+import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * Specification header declaration using catalog link.
@@ -36,7 +36,6 @@ public class XBCDeclaration extends XBDeclaration {
     private XBCatalog catalog;
 //    private XBL1CTransNode transNode;
 
-    /** Creates a new instance of XBCL1Declaration */
     public XBCDeclaration(XBFormatDecl format, XBCatalog catalog) {
         this.catalog = catalog;
         setContextFormat(format);
@@ -46,7 +45,7 @@ public class XBCDeclaration extends XBDeclaration {
         setFormat(format);
     }
 
-    public XBCDeclaration(XBFormatDecl format, XBSerializationFromXB rootNode) {
+    public XBCDeclaration(XBFormatDecl format, XBSerializable rootNode) {
         setFormat(format);
         setRootNode(rootNode);
     }

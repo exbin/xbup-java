@@ -41,8 +41,8 @@ import org.xbup.lib.xb.type.XBArrayList;
  */
 public class XBBNFGrammar implements XBSerializable {
 
-    public static long[] xbFormatPath = {0, 1, 1, 1}; // Testing only
-    public static long[] xbBlockPath = {0, 1, 1, 1}; // Testing only
+    public static long[] XB_FORMAT_PATH = {0, 1, 1, 1}; // Testing only
+    public static long[] XB_BLOCK_PATH = {0, 1, 1, 1}; // Testing only
     private XBArrayList<XBBNFGrammarRule> rules;
     private Map<String,XBBNFGrammarRule> nameMap; // Cache
 

@@ -14,22 +14,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.serial;
+package org.xbup.lib.core.serial.basic;
+
+import org.xbup.lib.core.parser.basic.XBListener;
+import org.xbup.lib.core.serial.XBOutputSerialHandler;
 
 /**
- * Enumeration of serialization types.
+ * Interface for XBUP level 0 serialization output handler using basic parser.
  *
- * @version 0.1 wr23.0 2014/02/28
+ * @version 0.1 wr24.0 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
-public enum XBSerializationType {
+public interface XBBasicOutputSerialHandler extends XBOutputSerialHandler {
 
     /**
-     * Serialize to XBUP protocol.
+     * Attach listener to be used as target for serialization.
+     *
+     * @param listener
      */
-    TO_XB,
-    /**
-     * Serialize from XBUP protocol.
-     */
-    FROM_XB
+    public void attachXBListener(XBListener listener);
 }

@@ -20,15 +20,14 @@ import java.io.IOException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTProvider;
-import org.xbup.lib.core.serial.XBTInputSerialHandler;
 
 /**
- * XBUP level 1 XBTProvider handler.
+ * XBUP level 1 serialization handler using basic parser mapping to provider.
  *
- * @version 0.1 wr23.0 2014/03/08
+ * @version 0.1 wr24.0 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTProviderSerialHandler implements XBTProvider, XBTInputSerialHandler {
+public class XBTProviderSerialHandler implements XBTProvider, XBTBasicInputSerialHandler {
 
     private XBTProvider provider;
 

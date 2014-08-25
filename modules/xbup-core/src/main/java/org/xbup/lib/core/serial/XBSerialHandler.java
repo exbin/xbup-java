@@ -17,9 +17,9 @@
 package org.xbup.lib.core.serial;
 
 /**
- * Interface for serialization handler.
+ * Interface for XBUP serialization handler.
  *
- * @version 0.1 wr23.0 2014/02/28
+ * @version 0.1 wr24.0 2014/08/24
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBSerialHandler {

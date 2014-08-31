@@ -26,8 +26,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.block.declaration.XBContextBlockType;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCRev;
@@ -38,7 +39,6 @@ import org.xbup.lib.core.catalog.base.XBCXName;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXDescService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.core.catalog.declaration.XBCBlockDecl;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemPropertiesDialog;
 
@@ -76,7 +76,7 @@ public class XBPropertyPanel extends javax.swing.JPanel {
 
         propertyThread = null;
         valueFillingSemaphore = new Semaphore(1);
-        specList = new ArrayList<XBCBlockSpec>();
+        specList = new ArrayList<>();
     }
 
     /** This method is called from within the constructor to
@@ -364,18 +364,15 @@ public class XBPropertyPanel extends javax.swing.JPanel {
                 return;
             }
             XBBlockType type = node.getBlockType();
-            if (!(type instanceof XBContextBlockType)) {
-                return;
-            }
-            XBBlockDecl decl = ((XBContextBlockType) type).getBlockDecl();
             if (propertyThread != this) {
                 return;
             }
             XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+            XBBlockDecl decl = node.getBlockDecl();
             if (decl instanceof XBCBlockDecl) {
                 XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
                 XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
-                XBCBlockSpec spec = ((XBCBlockDecl) decl).getBlockSpec(catalog);
+                XBCBlockSpec spec = ((XBCBlockDecl) decl).getBlockSpec().getParent();
                 if (propertyThread != this) {
                     return;
                 }
@@ -422,18 +419,9 @@ public class XBPropertyPanel extends javax.swing.JPanel {
             return "Data Block";
         }
         XBBlockType blockType = node.getBlockType();
-        if (blockType instanceof XBContextBlockType) {
-            XBBlockDecl blockDecl = ((XBContextBlockType) blockType).getBlockDecl();
-            if (blockDecl instanceof XBCBlockDecl) {
-                XBCBlockSpec blockSpec = ((XBCBlockDecl) blockDecl).getBlockSpec(catalog);
-                if (catalog != null) {
-                    XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-                    return nameService.getDefaultCaption(blockSpec);
-                }
-            }
-        } else if (blockType instanceof XBContextBlockType) {
-            XBCBlockDecl blockDecl = (XBCBlockDecl) ((XBContextBlockType) blockType).getBlockDecl();
-            XBCBlockSpec blockSpec = blockDecl.getBlockSpec(catalog);
+        XBCBlockDecl blockDecl = (XBCBlockDecl) node.getBlockDecl();
+        if (blockDecl instanceof XBCBlockDecl) {
+            XBCBlockSpec blockSpec = ((XBCBlockDecl) blockDecl).getBlockSpec().getParent();
             if (catalog != null) {
                 XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
                 return nameService.getDefaultCaption(blockSpec);
@@ -443,7 +431,7 @@ public class XBPropertyPanel extends javax.swing.JPanel {
         if (blockType == null) {
             return "Unknown";
         }
-        return "Unknown" + " (" + Integer.toString(blockType.getGroupID().getInt()) + ", "+ Integer.toString(blockType.getBlockID().getInt())+")";
+        return "Unknown" + " (" + Integer.toString(((XBFBlockType) blockType).getGroupID().getInt()) + ", "+ Integer.toString(((XBFBlockType) blockType).getBlockID().getInt())+")";
     }
 
     public void actionItemProperties() {

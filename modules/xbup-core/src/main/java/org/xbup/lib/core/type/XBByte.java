@@ -22,13 +22,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.xbup.lib.core.block.declaration.XBDeclaration;
-import org.xbup.lib.core.block.declaration.XBDeclared;
-import org.xbup.lib.core.catalog.declaration.XBCDeclaration;
-import org.xbup.lib.core.catalog.declaration.XBCPBlockDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.block.declaration.XBDBlockType;
+import org.xbup.lib.core.block.declaration.local.XBDBlockType;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
@@ -43,7 +41,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
  * @version 0.1.24 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
-public class XBByte implements XBTChildSerializable, XBDeclared {
+public class XBByte implements XBTChildSerializable {
 
     private byte value;
 
@@ -57,11 +55,6 @@ public class XBByte implements XBTChildSerializable, XBDeclared {
 
     public XBByte(byte value) {
         this.value = value;
-    }
-
-    @Override
-    public XBDeclaration getXBDeclaration() {
-        return new XBCDeclaration(new XBCPBlockDecl(XB_BLOCK_PATH));
     }
 
     public UBNatural getValue() {
@@ -84,7 +77,10 @@ public class XBByte implements XBTChildSerializable, XBDeclared {
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
-        // TODO type
+        if (!serial.getType().equals(new XBDBlockType(new XBPBlockDecl(XB_BLOCK_PATH)))) {
+            throw new XBProcessingException("Unexpected type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
+        }
+
         serial.nextChild(new DataBlockSerializator());
         serial.end();
     }
@@ -92,7 +88,7 @@ public class XBByte implements XBTChildSerializable, XBDeclared {
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serial.setType(new XBDBlockType(new XBCPBlockDecl(XB_BLOCK_PATH)));
+        serial.setType(new XBDBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
         serial.addChild(new DataBlockSerializator());
         serial.end();
     }

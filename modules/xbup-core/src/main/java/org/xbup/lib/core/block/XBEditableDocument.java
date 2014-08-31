@@ -19,9 +19,9 @@ package org.xbup.lib.core.block;
 import java.io.InputStream;
 
 /**
- * Basic interface for editable XBUP level 0 document.
+ * Interface for editable XBUP level 0 document.
  *
- * @version 0.1.23 2013/11/25
+ * @version 0.1.24 2014/08/26
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBEditableDocument extends XBDocument {
@@ -38,7 +38,7 @@ public interface XBEditableDocument extends XBDocument {
      *
      * @param source data stream
      */
-    public void setExtended(InputStream source);
+    public void setExtendedArea(InputStream source);
 
     /**
      * Clear all data in this document.

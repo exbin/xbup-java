@@ -240,7 +240,7 @@ public class XBPullReaderTest extends TestCase {
 
             XBToken token = provider.pullXBToken();
             assertEquals(XBTokenType.BEGIN, token.getTokenType());
-            assertEquals(XBBlockTerminationMode.ZERO_TERMINATED, ((XBBeginToken) token).getTerminationMode());
+            assertEquals(XBBlockTerminationMode.TERMINATED_BY_ZERO, ((XBBeginToken) token).getTerminationMode());
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());

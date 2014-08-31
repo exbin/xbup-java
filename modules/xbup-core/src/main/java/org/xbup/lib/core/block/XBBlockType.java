@@ -16,27 +16,21 @@
  */
 package org.xbup.lib.core.block;
 
-import org.xbup.lib.core.ubnumber.UBNatural;
-
 /**
- * Interface for block type represented by group id and block id.
+ * Interface for block type.
  *
- * @version 0.1.23 2013/11/01
+ * Block type can be represented in either as particular type from current
+ * context or specific block type defined in catalog or local definition.
+ *
+ * @version 0.1.24 2014/08/27
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBBlockType {
 
     /**
-     * Get group ID of this block.
-     * 
-     * @return value of group index
+     * Return this type as basic type if it is matching or null.
+     *
+     * @return basic block type or null
      */
-    public UBNatural getGroupID();
-
-    /**
-     * Get block ID of this block.
-     * 
-     * @return value of block index
-     */
-    public UBNatural getBlockID();
+    public XBBasicBlockType getAsBasicType();
 }

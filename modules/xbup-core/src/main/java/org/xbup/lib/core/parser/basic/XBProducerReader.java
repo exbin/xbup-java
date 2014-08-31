@@ -123,7 +123,7 @@ public class XBProducerReader implements XBProducer {
                 int dataPartSizeLength = dataPartSize.fromStreamUB(source);
                 Integer dataPartSizeValue = dataPartSize.isInfinity() ? null : dataPartSize.getInt();
 
-                listener.beginXB(dataPartSizeValue == null ? XBBlockTerminationMode.ZERO_TERMINATED : XBBlockTerminationMode.SIZE_SPECIFIED);
+                listener.beginXB(dataPartSizeValue == null ? XBBlockTerminationMode.TERMINATED_BY_ZERO : XBBlockTerminationMode.SIZE_SPECIFIED);
 
                 if (attrPartSizeValue == dataPartSizeLength) {
                     // Process data block

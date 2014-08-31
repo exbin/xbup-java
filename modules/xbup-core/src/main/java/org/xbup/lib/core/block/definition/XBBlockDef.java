@@ -19,7 +19,7 @@ package org.xbup.lib.core.block.definition;
 import java.util.List;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
-import org.xbup.lib.core.block.declaration.XBParamDecl;
+import org.xbup.lib.core.block.param.XBParamDecl;
 
 /**
  * XBUP level 1 block definition interface.

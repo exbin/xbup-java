@@ -17,24 +17,10 @@
 package org.xbup.lib.core.catalog.base;
 
 /**
- * Interface for level 2 block specification entity.
+ * Interface for level 1 block specification entity.
  *
- * @version 0.1.17 2009/02/01
+ * @version 0.1.24 2014/08/29
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCBlockSpec extends XBCSpec {
-
-    /**
-     * Returns allowed count of attributes.
-     *
-     * @return count of attributes
-     */
-    public long getAttrCount();
-
-    /**
-     * Returns allowed count of parameters.
-     *
-     * @return count of parameters
-     */
-    public long getParamCount();
 }

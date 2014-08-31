@@ -18,13 +18,12 @@ package org.xbup.lib.core.parser.basic.convert;
 
 import java.io.IOException;
 import java.io.InputStream;
+import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTFilter;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
@@ -37,18 +36,13 @@ public class XBTDecapsulator implements XBTFilter {
 
     private XBTListener listener;
     private final XBTListener declListener;
-    private XBDeclaration declaration;
 
     private long depth;
     private int mode;
     private XBBlockTerminationMode beginTerm;
 
-    public XBTDecapsulator() {
-        declaration = new XBDeclaration();
-        declaration.setRootNode(new XBSerializable() {
-        });
-
-        declListener = declaration.convertFromXBT();
+    public XBTDecapsulator(XBTListener declListener) {
+        this.declListener = declListener;
         mode = 0;
         depth = 0;
     }
@@ -72,7 +66,7 @@ public class XBTDecapsulator implements XBTFilter {
             return;
         }
 
-        if ((type.getGroupID().getInt() == 0) && (type.getBlockID().getInt() == 1)) {
+        if (type.getAsBasicType() == XBBasicBlockType.DECLARATION) {
             depth++;
             mode = 2;
             declListener.beginXBT(beginTerm);
@@ -127,9 +121,5 @@ public class XBTDecapsulator implements XBTFilter {
     @Override
     public void attachXBTListener(XBTListener listener) {
         this.listener = listener;
-    }
-
-    public XBDeclaration getDeclaration() {
-        return declaration;
     }
 }

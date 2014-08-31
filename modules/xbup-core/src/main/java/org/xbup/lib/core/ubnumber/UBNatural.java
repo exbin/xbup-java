@@ -71,9 +71,4 @@ public interface UBNatural extends Serializable, UBStreamable {
      * @return long integer
      */
     public long getValueSegment(long segmentIndex);
-
-    // TODO
-//    public XBBlockType getXBBlockType() {
-//        return new XBDBlockType(new XBCPBlockDecl(xbBlockType));
-//    }
 }

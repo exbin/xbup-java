@@ -23,11 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import org.xbup.lib.core.block.XBBasicBlockType;
-import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBContext;
-import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.convert.XBTEncapsulator;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
@@ -58,17 +54,12 @@ public class Test1 {
     private static void test1() {
         try {
             File f = new File("samples/standby.png");
-            XBDeclaration declaration = new XBDeclaration() {
-
-                @Override
-                public XBFixedBlockType toStaticType(XBBlockType type) {
-                    return new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION);
-                }
-            };
             XBBufferedImage image = new XBBufferedImage(ImageIO.read(f));
             XBFileOutputStream output = new XBFileOutputStream("picture.dat");
             XBTChildOutputSerialHandler handler = new XBTChildListenerSerialHandler();
-            XBTEncapsulator encapsulator = new XBTEncapsulator(new XBContext(null, image.getXBDeclaration()));
+            XBContext context = new XBContext();
+            // TODO new XBContext(null, image.XB_BLOCK_PATH getXBDeclaration())
+            XBTEncapsulator encapsulator = new XBTEncapsulator(context, null);
             encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
             handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));
             image.serializeToXB(handler);
@@ -82,7 +73,9 @@ public class Test1 {
 
             output = new XBFileOutputStream("picture2.dat");
             XBTChildOutputSerialHandler listenerHandler = new XBTChildListenerSerialHandler();
-            XBTEncapsulator encapsulator1 = new XBTEncapsulator(new XBContext(null, image.getXBDeclaration()));
+            XBContext context1 = new XBContext();
+            // TODO new XBContext(null, image.getXBDeclaration())
+            XBTEncapsulator encapsulator1 = new XBTEncapsulator(context1, null);
             encapsulator1.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
             listenerHandler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator1));
             image.serializeToXB(listenerHandler);

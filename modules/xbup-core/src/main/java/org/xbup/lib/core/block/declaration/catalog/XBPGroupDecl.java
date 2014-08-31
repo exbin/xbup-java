@@ -14,52 +14,64 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.catalog.declaration;
+package org.xbup.lib.core.block.declaration.catalog;
 
-import java.util.List;
-import org.xbup.lib.core.block.declaration.XBBlockDecl;
+import java.util.Arrays;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
-import org.xbup.lib.core.catalog.XBCatalog;
 
 /**
- * Context group type specified by format path and group index.
+ * XBUP level 1 group declaration using catalog path.
  *
- * @version 0.1.16 2008/09/03
+ * @version 0.1.24 2014/08/29
  * @author XBUP Project (http://xbup.org)
  */
-public class XBCPFGroupDecl extends XBGroupDecl {
+public class XBPGroupDecl implements XBGroupDecl {
 
-    private XBCatalog catalog;
-    private long[] formatPath;
-    private long groupIndex;
+    private long[] catalogPath;
+    private int revision;
 
-    public XBCPFGroupDecl() {
-        catalog = null;
+    public XBPGroupDecl() {
+        catalogPath = null;
     }
 
-    /** Creates a new instance of XBCTypeFormat */
-    public XBCPFGroupDecl(XBCatalog catalog, long groupIndex) {
-        this.catalog = catalog;
+    public XBPGroupDecl(long[] path) {
+        this.catalogPath = path;
     }
 
-    public boolean equals(XBGroupDecl type) {
-        if (type instanceof XBCPGroupDecl) {
-//            return (((XBCPContextGroup) type).getCatalog() == getCatalog())&&(((XBCPContextGroup) type).getSpec() == getSpec());
-            throw new UnsupportedOperationException("Not yet implemented");
+    public XBPGroupDecl(Long[] path) {
+        setCatalogPath(path);
+    }
 
-        } else {
-            return false;
+    public void setCatalogPath(Long[] path) {
+        setCatalogPath(new long[path.length]);
+        for (int i = 0; i < path.length; i++) {
+            getCatalogPath()[i] = path[i];
         }
     }
 
     @Override
-    public List<XBBlockDecl> getBlocks() {
-//       return getCatalog().getBlocks(getSpec());
-       throw new UnsupportedOperationException("Not yet implemented");
+    public int hashCode() {
+        int hash = 7;
+        hash = 47 * hash + Arrays.hashCode(this.catalogPath);
+        hash = 47 * hash + this.revision;
+        return hash;
     }
 
-    public int compareTo(Object o) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof XBPGroupDecl) {
+            return Arrays.equals(((XBPGroupDecl) obj).catalogPath, catalogPath) && (((XBPGroupDecl) obj).revision == revision);
+        }
+
+        return super.equals(obj);
+    }
+
+    public long[] getCatalogPath() {
+        return catalogPath;
+    }
+
+    public void setCatalogPath(long[] catalogPath) {
+        this.catalogPath = catalogPath;
     }
 
 /*
@@ -82,16 +94,4 @@ public class XBCPFGroupDecl extends XBGroupDecl {
         processSpec();
     }
 */
-
-    public XBCatalog getCatalog() {
-        return catalog;
-    }
-
-    public void setCatalog(XBCatalog catalog) {
-        this.catalog = catalog;
-    }
-
-    public boolean isClosed() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }

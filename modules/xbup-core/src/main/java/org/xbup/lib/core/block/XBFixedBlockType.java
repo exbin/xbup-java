@@ -22,10 +22,10 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Block type defined as fixed group and block indexes.
  *
- * @version 0.1.23 2013/11/04
+ * @version 0.1.24 2014/08/27
  * @author XBUP Project (http://xbup.org)
  */
-public class XBFixedBlockType implements XBBlockType {
+public class XBFixedBlockType implements XBFBlockType {
 
     private final UBNatural groupID;
     private final UBNatural blockID;
@@ -56,6 +56,15 @@ public class XBFixedBlockType implements XBBlockType {
     }
 
     @Override
+    public XBBasicBlockType getAsBasicType() {
+        if (groupID.getLong() == 0) {
+            return XBBasicBlockType.valueOf((int) blockID.getLong());
+        }
+
+        return null;
+    }
+
+    @Override
     public UBNatural getGroupID() {
         return groupID;
     }
@@ -67,8 +76,8 @@ public class XBFixedBlockType implements XBBlockType {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof XBBlockType) {
-            return (((XBBlockType) obj).getGroupID().getLong() == groupID.getLong()) && (((XBBlockType) obj).getBlockID().getLong() == blockID.getLong());
+        if (obj instanceof XBFBlockType) {
+            return (((XBFBlockType) obj).getGroupID().getLong() == groupID.getLong()) && (((XBFBlockType) obj).getBlockID().getLong() == blockID.getLong());
         }
 
         return super.equals(obj);

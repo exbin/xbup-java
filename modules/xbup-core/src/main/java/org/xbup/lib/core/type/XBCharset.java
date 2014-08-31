@@ -17,10 +17,6 @@
 package org.xbup.lib.core.type;
 
 import java.nio.charset.Charset;
-import org.xbup.lib.core.block.declaration.XBDeclaration;
-import org.xbup.lib.core.block.declaration.XBDeclared;
-import org.xbup.lib.core.block.declaration.XBFormatDecl;
-import org.xbup.lib.core.catalog.declaration.XBCDeclaration;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**
@@ -29,7 +25,7 @@ import org.xbup.lib.core.serial.XBSerializable;
  * @version 0.1.23 2014/03/03
  * @author XBUP Project (http://xbup.org)
  */
-public class XBCharset implements XBSerializable, XBDeclared {
+public class XBCharset implements XBSerializable {
 
     private Charset charset;
     public static long[] XB_BLOCK_PATH = {1, 2, 3}; // Testing only
@@ -40,11 +36,6 @@ public class XBCharset implements XBSerializable, XBDeclared {
 
     public XBCharset(Charset charset) {
         this.charset = charset;
-    }
-
-    @Override
-    public XBDeclaration getXBDeclaration() {
-        return new XBCDeclaration(new XBFormatDecl(XB_BLOCK_PATH));
     }
 
     public Charset getCharset() {

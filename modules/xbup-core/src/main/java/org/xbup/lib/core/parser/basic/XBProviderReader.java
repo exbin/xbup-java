@@ -214,7 +214,7 @@ public class XBProviderReader implements XBProvider {
                         }
                     }
 
-                    listener.beginXB(dataPartSizeValue == null ? XBBlockTerminationMode.ZERO_TERMINATED : XBBlockTerminationMode.SIZE_SPECIFIED);
+                    listener.beginXB(dataPartSizeValue == null ? XBBlockTerminationMode.TERMINATED_BY_ZERO : XBBlockTerminationMode.SIZE_SPECIFIED);
                     break;
                 }
             }

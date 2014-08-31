@@ -17,7 +17,7 @@
 package org.xbup.lib.core.block.definition;
 
 import java.util.List;
-import org.xbup.lib.core.block.declaration.XBGroupDecl;
+import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -32,7 +32,7 @@ public class XBGroupDef implements XBSerializable {
 
     private UBNatural consistSkip = new UBNat32(0);
     private UBNatural joinCount = new UBNat32(0);
-    private List<XBGroupDecl> groups;
+    private List<XBDGroupDecl> groups;
 
     public XBGroupDef() {
     }
@@ -68,14 +68,14 @@ public class XBGroupDef implements XBSerializable {
     /**
      * @return the groups
      */
-    public List<XBGroupDecl> getGroups() {
+    public List<XBDGroupDecl> getGroups() {
         return groups;
     }
 
     /**
      * @param groups the groups to set
      */
-    public void setGroups(List<XBGroupDecl> groups) {
+    public void setGroups(List<XBDGroupDecl> groups) {
         this.groups = groups;
     }
 }

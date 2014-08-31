@@ -21,7 +21,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.declaration.XBContext;
-import org.xbup.lib.core.block.declaration.XBContextBlockType;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.ubnumber.UBStreamable;
@@ -52,9 +51,10 @@ public class XBTTree implements UBStreamable {
     public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
         clear();
         XBTTreeNode newRoot = new XBTTreeNode();
+        /* TODO
         if (newRoot.getBlockType() instanceof XBContextBlockType) {
             ((XBContextBlockType) newRoot.getBlockType()).setContext(rootContext);
-        }
+        } */
 
         setRootBlock(newRoot);
         return newRoot.fromStreamUB(stream);

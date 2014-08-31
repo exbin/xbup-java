@@ -47,7 +47,6 @@ import org.xbup.lib.core.catalog.base.service.XBCXLineService;
 import org.xbup.lib.core.catalog.base.service.XBCXPaneService;
 import org.xbup.lib.core.catalog.base.service.XBCXPlugService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
-import org.xbup.lib.core.catalog.declaration.XBCPContext;
 import org.xbup.lib.core.catalog.update.ItemFile;
 import org.xbup.lib.core.catalog.update.ItemInfo;
 import org.xbup.lib.core.catalog.update.ItemPlugin;
@@ -206,7 +205,9 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                 return null;
             }
 //            return new XBContext(new XBCPContextFormat(catalog,spec));
-            return new XBCPContext(catalog, spec);
+            XBContext context = new XBContext();
+            // TODO new XBContext(catalog, spec)
+            return context;
         } catch (Exception ex) {
             // TODO
             Logger.getLogger(XBCUpdatePHPHandler.class.getName()).log(Level.SEVERE, null, ex);

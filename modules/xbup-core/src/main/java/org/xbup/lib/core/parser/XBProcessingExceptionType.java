@@ -61,6 +61,10 @@ public enum XBProcessingExceptionType {
      */
     UNEXPECTED_ORDER,
     /**
+     * Item was received a block of type which is not supported.
+     */
+    BLOCK_TYPE_MISMATCH,
+    /**
      * Currently unsupported feature.
      */
     UNSUPPORTED

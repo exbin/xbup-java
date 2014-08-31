@@ -48,11 +48,11 @@ import javax.swing.text.DefaultEditorKit;
 import javax.swing.tree.TreePath;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.declaration.XBContextBlockType;
+import org.xbup.lib.core.block.XBFBlockType;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockType;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.core.catalog.declaration.XBCBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.parser_tree.XBTTreeDocument;
@@ -88,12 +88,9 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
     private static DataFlavor xbFlavor = new DataFlavor(XBHead.MIME_XBUP,"XBUP Document");;
 
     private Component lastFocusedComponent = null;
-    private Map<String,ActionListener> actionListenerMap = new HashMap<String,ActionListener>();
+    private Map<String,ActionListener> actionListenerMap = new HashMap<>();
     private final XBDocEditorFrame mainFrame;
 
-    /**
-     * Creates new form XBDocTreePanel
-     */
     public XBDocTreePanel(XBDocEditorFrame mainFrame, XBTTreeDocument mainDoc, XBACatalog catalog, JPopupMenu popupMenu) {
         this.mainFrame = mainFrame;
         this.mainDoc = mainDoc;
@@ -689,13 +686,13 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
         XBBlockType blockType = node.getBlockType();
         if (catalog != null) {
             XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-            if (blockType instanceof XBContextBlockType) {
-                XBCBlockDecl blockDecl = (XBCBlockDecl) ((XBContextBlockType) blockType).getBlockDecl();
-                XBCBlockSpec blockSpec = blockDecl.getBlockSpec(catalog);
+            if (blockType instanceof XBCBlockType) {
+                XBCBlockSpec blockSpec = (XBCBlockSpec) ((XBCBlockType) blockType).getBlockSpec().getParent();
                 return nameService.getDefaultCaption(blockSpec);
             }
         }
-        return "Unknown" + " (" + Integer.toString(blockType.getGroupID().getInt()) + ", "+ Integer.toString(blockType.getBlockID().getInt())+")";
+
+        return "Unknown" + " (" + Integer.toString(((XBFBlockType) blockType).getGroupID().getInt()) + ", "+ Integer.toString(((XBFBlockType) blockType).getBlockID().getInt())+")";
     }
 
     private Frame getFrame() {

@@ -236,7 +236,7 @@ public class XBProviderReaderTest extends TestCase {
         XBProviderReader instance = new XBProviderReader(stream);
         AssertListener assertListener;
 
-        assertListener = new AssertListener(new XBBeginToken(XBBlockTerminationMode.ZERO_TERMINATED));
+        assertListener = new AssertListener(new XBBeginToken(XBBlockTerminationMode.TERMINATED_BY_ZERO));
         instance.produceXB(assertListener);
         assertTrue(assertListener.isCorrect());
 

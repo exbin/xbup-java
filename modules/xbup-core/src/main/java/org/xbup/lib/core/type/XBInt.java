@@ -21,13 +21,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.xbup.lib.core.block.declaration.XBDeclaration;
-import org.xbup.lib.core.block.declaration.XBDeclared;
-import org.xbup.lib.core.catalog.declaration.XBCDeclaration;
-import org.xbup.lib.core.catalog.declaration.XBCPBlockDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.block.declaration.XBDBlockType;
+import org.xbup.lib.core.block.declaration.local.XBDBlockType;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
@@ -43,17 +40,13 @@ import org.xbup.lib.core.util.CopyStreamUtils;
  * @version 0.1.24 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
-public class XBInt implements XBTChildSerializable, XBDeclared {
+public class XBInt implements XBTChildSerializable {
 
     private UBInteger value;
     private UBNatural bitSize;
     public static long[] XB_BLOCK_PATH = {1, 1, 1, 1}; // Testing only
     public static long[] XB_FORMAT_PATH = {0, 1, 3, 1, 2, 0}; // Testing only
 
-    // TODO: Encoding support
-    /**
-     * Creates a new instance of XBInt
-     */
     public XBInt() {
         this.value = new UBInt32();
         this.bitSize = new UBNat32(16);
@@ -61,11 +54,6 @@ public class XBInt implements XBTChildSerializable, XBDeclared {
 
     public XBInt(UBInteger value) {
         this.value = value;
-    }
-
-    @Override
-    public XBDeclaration getXBDeclaration() {
-        return new XBCDeclaration(new XBCPBlockDecl(XB_BLOCK_PATH));
     }
 
     public UBInteger getValue() {
@@ -86,7 +74,7 @@ public class XBInt implements XBTChildSerializable, XBDeclared {
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serial.setType(new XBDBlockType(new XBCPBlockDecl(XB_BLOCK_PATH)));
+        serial.setType(new XBDBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
         serial.addChild(new DataBlockSerializator());
         serial.end();
     }

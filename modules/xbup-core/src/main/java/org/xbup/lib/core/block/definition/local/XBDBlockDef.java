@@ -14,12 +14,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.block.definition;
+package org.xbup.lib.core.block.definition.local;
 
 import java.util.List;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
-import org.xbup.lib.core.block.declaration.XBParamDecl;
+import org.xbup.lib.core.block.definition.XBBlockDef;
+import org.xbup.lib.core.block.definition.XBRevisionDef;
+import org.xbup.lib.core.block.param.XBParamDecl;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**

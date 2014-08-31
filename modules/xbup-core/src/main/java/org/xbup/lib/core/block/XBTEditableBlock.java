@@ -21,9 +21,9 @@ import java.util.List;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * XBUP level 1 editable block interface.
+ * Interface for editable XBUP level 1 block.
  *
- * @version 0.1.23 2014/02/20
+ * @version 0.1.24 2014/08/24
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTEditableBlock extends XBTBlock {

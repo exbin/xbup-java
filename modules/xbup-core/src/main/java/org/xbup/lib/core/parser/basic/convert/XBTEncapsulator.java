@@ -25,8 +25,8 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBTFilter;
 import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.parser.basic.XBTProvider;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
@@ -38,17 +38,19 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 public class XBTEncapsulator implements XBTFilter {
 
     private XBTListener listener;
-    private final XBTProvider declProvider;
+    private final XBCatalog catalog;
     private XBContext context;
     private long counter;
 
     /**
      * Creates a new instance of XBTEncapsulator.
-     * @param context primary context
+     * 
+     * @param context
+     * @param catalog 
      */
-    public XBTEncapsulator(XBContext context) {
+    public XBTEncapsulator(XBContext context, XBCatalog catalog) {
         this.context = context;
-        declProvider = context.getDeclaration().convertToXBT();
+        this.catalog = catalog;
         listener = null;
         counter = 0;
     }
@@ -58,7 +60,7 @@ public class XBTEncapsulator implements XBTFilter {
         if (counter == 0) {
             XBTStubCountingListener countingListener = new XBTStubCountingListener(listener);
             do {
-                declProvider.produceXBT(countingListener);
+                // TODO declProvider.produceXBT(countingListener);
             } while (!countingListener.isFinished());
         }
         
@@ -68,7 +70,7 @@ public class XBTEncapsulator implements XBTFilter {
 
     @Override
     public void typeXBT(XBBlockType type) throws XBProcessingException, IOException {
-        XBFixedBlockType result = getContext().toStaticType(type);
+        XBFixedBlockType result = catalog.findFixedType(context, type);
         if (result == null) {
             result = new XBFixedBlockType();
         }

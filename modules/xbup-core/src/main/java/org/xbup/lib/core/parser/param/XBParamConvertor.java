@@ -23,13 +23,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.block.declaration.XBDBlockDecl;
-import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.block.declaration.XBParamDecl;
+import org.xbup.lib.core.block.declaration.local.XBDBlockDecl;
+import org.xbup.lib.core.block.declaration.local.XBDBlockType;
+import org.xbup.lib.core.block.param.XBParamDecl;
 import org.xbup.lib.core.block.definition.XBBlockDef;
 import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.declaration.XBCBlockDecl;
-import org.xbup.lib.core.catalog.declaration.XBCBlockDef;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
@@ -75,11 +73,9 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
             return;
         }
 
-        if (type instanceof XBDeclBlockType) {
-            XBBlockDecl decl = ((XBDeclBlockType) type).getBlockDecl();
-            if (decl instanceof XBCBlockDecl) {
-                blockDef = new XBCBlockDef(catalog, ((XBCBlockDecl) decl).getBlockSpec(catalog));
-            } else if (decl instanceof XBDBlockDecl) {
+        if (type instanceof XBDBlockType) {
+            XBBlockDecl decl = ((XBDBlockType) type).getBlockDecl();
+            if (decl instanceof XBDBlockDecl) {
                 blockDef = ((XBDBlockDecl) decl).getBlockDef();
             }
 

@@ -56,8 +56,7 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
-import org.xbup.lib.core.block.declaration.XBDeclaration;
-import org.xbup.lib.core.block.declaration.XBFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.convert.XBTEncapsulator;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
@@ -70,10 +69,10 @@ import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBSerialSequence;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.stream.file.XBFileOutputStream;
-import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.audio.swing.XBWavePanel;
 import org.xbup.lib.audio.wave.XBWave;
+import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
@@ -513,7 +512,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
                 XBFileOutputStream output = new XBFileOutputStream(file);
                 XBTChildOutputSerialHandler handler = new XBTChildListenerSerialHandler();
 
-                XBTEncapsulator encapsulator = new XBTEncapsulator(new StubContext(getStubXBTDataSerializator()));
+                XBTEncapsulator encapsulator = new XBTEncapsulator(new StubContext(getStubXBTDataSerializator()), null); // TODO catalog
                 encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
                 handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));
                 getStubXBTDataSerializator().serializeToXB(handler);
@@ -780,7 +779,6 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
             this.source = source;
         }
 
-        @Override
         public XBDeclaration getDeclaration() {
             XBDeclaration decl = new StubDeclaration();
             decl.setGroupsReserved(3);
@@ -789,20 +787,8 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
             return decl;
         }
 
-        @Override
         public XBBlockType getBlockType(XBBlockDecl type) {
-            return new XBBlockType() {
-
-                @Override
-                public UBNatural getGroupID() {
-                    return new UBNat32(1);
-                }
-
-                @Override
-                public UBNatural getBlockID() {
-                    return new UBNat32(0);
-                }
-            };
+            throw new UnsupportedOperationException("Not supported yet.");
         }
     }
 
@@ -812,13 +798,13 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         }
 
         @Override
-        public XBFormatDecl getFormat() {
+        public XBDFormatDecl getFormat() {
             long[] path = {1, 4, 0, 1};
             return new StubXBFormatDecl(path);
         }
     }
 
-    private static class StubXBFormatDecl extends XBFormatDecl {
+    private static class StubXBFormatDecl extends XBDFormatDecl {
 
         public StubXBFormatDecl(long[] path) {
             super(path);

@@ -28,12 +28,10 @@ import javax.swing.SwingUtilities;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
-import org.xbup.lib.core.block.declaration.XBContextBlockType;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.core.catalog.declaration.XBCBlockDecl;
-import org.xbup.lib.core.catalog.declaration.XBCGroupDecl;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSelectSpecDialog;
@@ -69,14 +67,14 @@ public class ItemAddDialog extends javax.swing.JDialog {
         initComponents();
 
         if (catalog != null) {
-            long[] basicGroupPath = { 0, 0 };
-            List<XBBlockDecl> list = new XBCGroupDecl(catalog, basicGroupPath).getBlocks();
+            Long[] basicGroupPath = { new Long(0), new Long(0) };
+            List<XBBlockDecl> list = catalog.getBlocks((XBCGroupSpec) catalog.findGroupTypeByPath(basicGroupPath, 0));
 
             XBCXNameService nameExtension = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
             for (int i = 1; i < list.size(); i++) {
                 XBBlockDecl decl = list.get(i);
-                if (decl instanceof XBCBlockDecl) {
-                    basicTypeComboBox.addItem(nameExtension.getDefaultCaption(((XBCBlockDecl) decl).getBlockSpec(catalog)));
+                if (decl instanceof XBCBlockSpec) {
+                    basicTypeComboBox.addItem(nameExtension.getDefaultCaption((XBCBlockSpec) decl));
                 }
             }
         }
@@ -298,6 +296,9 @@ public class ItemAddDialog extends javax.swing.JDialog {
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         workNode = new XBTTreeNode();
+        
+        // TODO
+        /*
         if (basicTypeRadioButton.isSelected()) {
             workNode.clearAttributes();
             workNode.setBlockType(new XBContextBlockType(0, basicTypeComboBox.getSelectedIndex()));
@@ -317,7 +318,8 @@ public class ItemAddDialog extends javax.swing.JDialog {
             workNode.setDataMode(XBBlockDataMode.DATA_BLOCK);
         } else {
             workNode.setDataMode(XBBlockDataMode.NODE_BLOCK);
-        }
+        } */
+
         setVisible(false);
         dispose();
     }//GEN-LAST:event_okButtonActionPerformed

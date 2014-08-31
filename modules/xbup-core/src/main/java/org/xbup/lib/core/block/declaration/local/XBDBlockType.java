@@ -14,18 +14,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.block.declaration;
+package org.xbup.lib.core.block.declaration.local;
 
-import org.xbup.lib.core.ubnumber.UBNatural;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.declaration.XBBlockDecl;
 
 /**
  * Block type defined with block declaration.
  *
- * @version 0.1.20 2010/09/28
+ * @version 0.1.24 2014/08/28
  * @author XBUP Project (http://xbup.org)
  */
-public class XBDBlockType implements XBDeclBlockType {
+public class XBDBlockType implements XBBlockType {
 
     private XBBlockDecl blockDecl;
 
@@ -33,31 +34,9 @@ public class XBDBlockType implements XBDeclBlockType {
         this.blockDecl = blockDecl;
     }
 
-    /** Returns 0 - Claims to be unknown */
     @Override
-    public UBNatural getGroupID() {
-        return new UBNat32();
-    }
-
-    /** Returns 0 - Claims to be unknown */
-    @Override
-    public UBNatural getBlockID() {
-        return new UBNat32();
-    }
-
-    /**
-     * @return the blockDecl
-     */
-    @Override
-    public XBBlockDecl getBlockDecl() {
-        return blockDecl;
-    }
-
-    /**
-     * @param blockDecl the blockDecl to set
-     */
-    public void setBlockDecl(XBBlockDecl blockDecl) {
-        this.blockDecl = blockDecl;
+    public XBBasicBlockType getAsBasicType() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -65,11 +44,20 @@ public class XBDBlockType implements XBDeclBlockType {
         if (obj instanceof XBDBlockType) {
             return ((XBDBlockType) obj).blockDecl.equals(blockDecl);
         }
+
         return super.equals(obj);
     }
 
     @Override
     public int hashCode() {
         return blockDecl.hashCode();
+    }
+
+    public XBBlockDecl getBlockDecl() {
+        return blockDecl;
+    }
+
+    public void setBlockDecl(XBBlockDecl blockDecl) {
+        this.blockDecl = blockDecl;
     }
 }

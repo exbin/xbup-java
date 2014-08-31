@@ -38,7 +38,7 @@ public interface XBTEditableDocument extends XBTDocument {
      *
      * @param source data stream
      */
-    public void setExtended(InputStream source);
+    public void setExtendedArea(InputStream source);
 
     /**
      * Clear all data in this document.

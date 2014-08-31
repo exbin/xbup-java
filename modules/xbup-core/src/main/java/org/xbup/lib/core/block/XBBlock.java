@@ -21,9 +21,9 @@ import java.util.List;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * XBUP level 0 block interface.
+ * Interface for read access to XBUP level 0 block.
  *
- * @version 0.1.23 2014/02/18
+ * @version 0.1.24 2014/08/24
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBBlock {

@@ -28,10 +28,8 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import org.xbup.lib.core.block.declaration.XBDBlockType;
-import org.xbup.lib.core.block.declaration.XBDeclaration;
-import org.xbup.lib.core.catalog.declaration.XBCDeclaration;
-import org.xbup.lib.core.catalog.declaration.XBCPBlockDecl;
+import org.xbup.lib.core.block.declaration.local.XBDBlockType;
+import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
@@ -121,10 +119,6 @@ public class XBWave implements XBTChildSerializable {
         }
     }
 
-    public XBDeclaration getXBDeclaration() {
-        return new XBCDeclaration(new XBCPBlockDecl(XB_BLOCK_PATH));
-    }
-
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
         serial.getType(); //setType(new XBCBlockDecl(xbBlockPath));
@@ -151,7 +145,7 @@ public class XBWave implements XBTChildSerializable {
 
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.setType(new XBDBlockType(new XBCPBlockDecl(XB_BLOCK_PATH)));
+        serial.setType(new XBDBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
         serial.addAttribute(new UBNat32((long) audioFormat.getSampleRate()));
         serial.addAttribute(new UBNat32(audioFormat.getSampleSizeInBits()));
         serial.addAttribute(new UBNat32(audioFormat.getChannels()));

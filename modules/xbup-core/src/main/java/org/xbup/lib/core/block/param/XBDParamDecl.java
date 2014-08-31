@@ -14,11 +14,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.block.declaration;
+package org.xbup.lib.core.block.param;
 
 import java.io.IOException;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
+import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.sequence.XBSerialSequence;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;

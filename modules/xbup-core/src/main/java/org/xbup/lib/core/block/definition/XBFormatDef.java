@@ -17,7 +17,7 @@
 package org.xbup.lib.core.block.definition;
 
 import java.util.List;
-import org.xbup.lib.core.block.declaration.XBFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -32,7 +32,7 @@ public class XBFormatDef implements XBSerializable {
 
     private UBNatural consistSkip = new UBNat32(0);
     private UBNatural joinCount = new UBNat32(0);
-    private List<XBFormatDecl> formats;
+    private List<XBDFormatDecl> formats;
 
     public XBFormatDef() {
     }
@@ -68,14 +68,14 @@ public class XBFormatDef implements XBSerializable {
     /**
      * @return the formats
      */
-    public List<XBFormatDecl> getFormats() {
+    public List<XBDFormatDecl> getFormats() {
         return formats;
     }
 
     /**
      * @param formats the formats to set
      */
-    public void setFormats(List<XBFormatDecl> formats) {
+    public void setFormats(List<XBDFormatDecl> formats) {
         this.formats = formats;
     }
 }

@@ -40,12 +40,12 @@ import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.declaration.XBContextBlockType;
-import org.xbup.lib.core.block.declaration.XBParamDecl;
+import org.xbup.lib.core.block.XBFBlockType;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
+import org.xbup.lib.core.block.param.XBParamDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.core.catalog.declaration.XBCBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.param.XBParamConvertor;
 import org.xbup.lib.core.parser.param.XBParamListener;
@@ -699,15 +699,13 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         XBBlockType blockType = node.getBlockType();
         if (catalog != null) {
             XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-            if (blockType instanceof XBContextBlockType) {
-                XBCBlockDecl blockDecl = (XBCBlockDecl) ((XBContextBlockType) blockType).getBlockDecl();
-                if (blockDecl != null) {
-                    XBCBlockSpec blockSpec = blockDecl.getBlockSpec(catalog);
-                    return nameService.getDefaultCaption(blockSpec);
-                }
+            XBCBlockDecl blockDecl = (XBCBlockDecl) node.getBlockDecl();
+            if (blockDecl != null) {
+                XBCBlockSpec blockSpec = blockDecl.getBlockSpec().getParent();
+                return nameService.getDefaultCaption(blockSpec);
             }
         }
-        return "Unknown" + " (" + Integer.toString(blockType.getGroupID().getInt()) + ", "+ Integer.toString(blockType.getBlockID().getInt())+")";
+        return "Unknown" + " (" + Integer.toString(((XBFBlockType) blockType).getGroupID().getInt()) + ", "+ Integer.toString(((XBFBlockType) blockType).getBlockID().getInt())+")";
     }
 
     public void testParamList() {

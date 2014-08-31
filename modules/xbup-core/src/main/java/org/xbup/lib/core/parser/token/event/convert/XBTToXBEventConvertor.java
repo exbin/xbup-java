@@ -17,7 +17,9 @@
 package org.xbup.lib.core.parser.token.event.convert;
 
 import java.io.IOException;
+import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.parser.token.XBDataToken;
@@ -35,7 +37,7 @@ import org.xbup.lib.core.parser.token.event.XBTEventListener;
 /**
  * XBUP level 1 to level 0 event convertor.
  *
- * @version 0.1.23 2013/11/22
+ * @version 0.1.24 2014/08/28
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTToXBEventConvertor implements XBTEventListener, XBEventProducer {
@@ -54,8 +56,12 @@ public class XBTToXBEventConvertor implements XBTEventListener, XBEventProducer 
     @Override
     public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
         if (token.getTokenType() == XBTTokenType.TYPE) {
-            target.putXBToken(new XBAttributeToken(((XBTTypeToken) token).getBlockType().getGroupID()));
-            target.putXBToken(new XBAttributeToken(((XBTTypeToken) token).getBlockType().getBlockID()));
+            if (((XBTTypeToken) token).getBlockType() instanceof XBFBlockType) {
+                target.putXBToken(new XBAttributeToken(((XBFBlockType) ((XBTTypeToken) token).getBlockType()).getGroupID()));
+                target.putXBToken(new XBAttributeToken(((XBFBlockType) ((XBTTypeToken) token).getBlockType()).getBlockID()));
+            } else {
+                throw new XBProcessingException("Unexpected block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
+            }
         } else {
             switch (token.getTokenType()) {
                 case BEGIN: {

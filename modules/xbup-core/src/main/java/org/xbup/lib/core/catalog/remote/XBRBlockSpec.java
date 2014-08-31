@@ -29,14 +29,4 @@ public class XBRBlockSpec extends XBRSpec implements XBCBlockSpec {
     public XBRBlockSpec(XBCatalogServiceClient client, long id) {
         super(client,id);
     }
-
-    @Override
-    public long getAttrCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long getParamCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }

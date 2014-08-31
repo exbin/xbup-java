@@ -222,7 +222,7 @@ public class XBPullReader extends XBTokenInputStream implements Closeable, XBPul
                         }
                     }
 
-                    return new XBBeginToken(dataPartSizeValue == null ? XBBlockTerminationMode.ZERO_TERMINATED : XBBlockTerminationMode.SIZE_SPECIFIED);
+                    return new XBBeginToken(dataPartSizeValue == null ? XBBlockTerminationMode.TERMINATED_BY_ZERO : XBBlockTerminationMode.SIZE_SPECIFIED);
                 }
             }
 

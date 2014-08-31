@@ -17,6 +17,7 @@
 package org.xbup.lib.core.parser.token.pull.convert;
 
 import java.io.IOException;
+import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
@@ -36,7 +37,7 @@ import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 /**
  * XBUP level 1 to level 0 pull convertor.
  *
- * @version 0.1.23 2014/02/06
+ * @version 0.1.24 2014/08/28
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTToXBPullConvertor implements XBTPullConsumer, XBPullProvider {
@@ -64,8 +65,12 @@ public class XBTToXBPullConvertor implements XBTPullConsumer, XBPullProvider {
                 return new XBBeginToken(((XBTBeginToken) token).getTerminationMode());
 
             case TYPE: {
-                buffer = new XBAttributeToken(((XBTTypeToken) token).getBlockType().getBlockID());
-                return new XBAttributeToken(((XBTTypeToken) token).getBlockType().getGroupID());
+                if (((XBTTypeToken) token).getBlockType() instanceof XBFBlockType) {
+                    buffer = new XBAttributeToken(((XBFBlockType) ((XBTTypeToken) token).getBlockType()).getBlockID());
+                    return new XBAttributeToken(((XBFBlockType) ((XBTTypeToken) token).getBlockType()).getGroupID());
+                }
+
+                throw new XBProcessingException("Unexpected block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
             }
 
             case ATTRIBUTE:

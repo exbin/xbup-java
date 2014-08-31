@@ -27,9 +27,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.declaration.XBDBlockType;
+import org.xbup.lib.core.block.XBFBlockType;
+import org.xbup.lib.core.block.declaration.local.XBDBlockType;
 import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.declaration.XBCPBlockDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
@@ -65,11 +66,13 @@ public class XBTCPRemoteServer implements XBRemoteServer {
     private boolean stop;
     private Map<XBBlockType, XBProcedure> procMap;
 
-    /** Creates a new instance of XBServiceHandler */
+    /**
+     * Creates a new instance of XBServiceHandler
+     */
     public XBTCPRemoteServer(XBACatalog catalog) {
         this.catalog = catalog;
         stop = false;
-        procMap = new HashMap<XBBlockType, XBProcedure>();
+        procMap = new HashMap<>();
     }
 
     @Override
@@ -103,13 +106,15 @@ public class XBTCPRemoteServer implements XBRemoteServer {
         xbService = new ServerSocket(port, 50, bindAddr);
     }
 
-    /** Providing main loop */
+    /**
+     * Providing main loop
+     */
     public void run() throws XBProcessingException {
         Socket socket;
         while (!isStop()) {
             try {
                 socket = getXbService().accept();
-                Logger.getLogger(XBTCPRemoteServer.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("Request from: "+socket.getInetAddress().getHostAddress()));
+                Logger.getLogger(XBTCPRemoteServer.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("Request from: " + socket.getInetAddress().getHostAddress()));
                 InputStream input = socket.getInputStream();
                 OutputStream output = socket.getOutputStream();
                 XBHead.checkXBUPHead(input);
@@ -136,7 +141,7 @@ public class XBTCPRemoteServer implements XBRemoteServer {
     }
 
     public void respondMessage(XBTokenInputStream input, XBEventListener output) throws IOException, XBProcessingException {
-        XBTDecapsulator decapsulator = new XBTDecapsulator();
+        XBTDecapsulator decapsulator = new XBTDecapsulator(null);
         // TODO Optimalization should be done here
         XBTProducer producer = new XBTProviderToProducer(new XBTPullProviderToProvider(new XBToXBTPullConvertor(input)));
         producer.attachXBTListener(decapsulator);
@@ -147,9 +152,9 @@ public class XBTCPRemoteServer implements XBRemoteServer {
         // TODO: Temporary patch
         long[] path = new long[5];
         path[1] = 2;
-        path[2] = blockType.getGroupID().getLong() - 1;
-        path[3] = blockType.getBlockID().getLong();
-        blockType = new XBDBlockType(new XBCPBlockDecl(path));
+        path[2] = ((XBFBlockType) blockType).getGroupID().getLong() - 1;
+        path[3] = ((XBFBlockType) blockType).getBlockID().getLong();
+        blockType = new XBDBlockType(new XBPBlockDecl(path));
         XBProcedure proc = getProcMap().get(blockType);
         if (proc == null) {
             // TODO: Return NOT FOUND
@@ -160,11 +165,11 @@ public class XBTCPRemoteServer implements XBRemoteServer {
                 }
                 handler += String.valueOf(path[i]);
             }
-            throw new XBParseException("Missing procedure handler: "+handler);
+            throw new XBParseException("Missing procedure handler: " + handler);
         } else {
             // XBFormatDecl decl = proc.getResultDecl();
             // target = new XBTEncapsulator(new XBContext(getCatalog(), new XBCDeclaration(decl,getCatalog())), XBTDefaultEventListener.toXBTListener(new XBTToXBEventConvertor(output)));
-            proc.execute(source,target);
+            proc.execute(source, target);
         }
     }
 

@@ -18,157 +18,72 @@ package org.xbup.lib.core.block.declaration;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
-import org.xbup.lib.core.catalog.declaration.XBCBlockDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTProvider;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.sequence.XBTSequenceListenerSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBTSequenceProviderSerialHandler;
-import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * XBUP level 1 document head declaration.
+ * Representation of declaration block.
  *
- * @version 0.1.24 2014/08/24
+ * @version 0.1 wr24.0 2014/08/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDeclaration implements XBSerializable {
 
     private XBFormatDecl format;
-    private long groupsReserved = 0;
-    private long preserveCount = 0;
     private XBSerializable rootNode;
 
-    /**
-     * Try to transform given type to static
-     */
-    public XBFixedBlockType toStaticType(XBBlockType type) {
-        if (type instanceof XBFixedBlockType) {
-            return (XBFixedBlockType) type;
-        }
-        if (type instanceof XBCBlockDecl) {
-            /*            Long[] myPath = new Long[((XBCBlockDecl) type).getCatalogPath().length];
-             for (int i = 0; i < ((XBCBlockDecl) type).getCatalogPath().length; i++) {
-             myPath[i] = new Long(((XBCBlockDecl) type).getCatalogPath()[i]);
-             }
-             XBFixedBlockType newType = new XBL1DBlockType(myPath);
-             if (newType != null) {
-             return newType;
-             } else {
-             return type;
-             } */
-//        } else {
-//            return type;
-        } else if (type instanceof XBBlockType) { // TODO: Replace dumb search for Maps
-            if (format == null) {
-                return null;
-            }
-            return ((XBFormatDecl) format).toStaticType(type);
-        }
-        return null;
-    }
+    private int groupsReserved = 0;
+    private int preserveCount = 0;
 
     /**
      * Returns count of currently allowed groups.
      *
-     * return maximal group ID
+     * @return count of groups
      */
     public long getGroupsCount() {
         return preserveCount + groupsReserved + 1;
     }
 
-    public XBGroupDecl getGroup(long group) {
+    /* public XBGroupDecl getGroup(int group) {
         if (group == 0) {
             return null;
         }
 //        if ((group <= preserveCount)&&(parent != null)) return parent.getGroup(group);
         if ((group > preserveCount) && (group < preserveCount + groupsReserved + 1) && (format != null)) {
-            if (group - preserveCount - 1 >= format.getGroups().size()) {
-                return null;
+            if (format instanceof XBDFormatDecl) {
+                if (group - preserveCount - 1 >= ((XBDFormatDecl) format).getGroups().size()) {
+                    return null;
+                }
+
+                return ((XBDFormatDecl) format).getGroups().get(group - preserveCount - 1);
+            } else if (format instanceof XBCFormatDecl) {
+                if (group - preserveCount - 1 >= ((XBCFormatDecl) format).getGroups().size()) {
+                    return null;
+                }
+
+                return ((XBCFormatDecl) format).getGroups().get(group - preserveCount - 1);
+            } else {
+                throw new UnsupportedOperationException("Not supported yet.");
             }
-            return format.getGroups().get((int) (group - preserveCount - 1));
         }
+
         return null;
-    }
-
-    /**
-     * Returns count of currently allowed blocks in group.
-     *
-     * return maximal block ID
-     */
-    public long getBlocksCount(int group) {
-        return getGroup(group).getBlocks().size();
-    }
-
-    /**
-     * Get Block Type for specification defined by IDs
-     */
-    public XBBlockDecl getBlockType(int group, int block) {
-        XBGroupDecl groupDecl = getGroup(group);
-        if (groupDecl == null) {
-            return null;
-        }
-        List<XBBlockDecl> blocks = groupDecl.getBlocks();
-        if (blocks == null) {
-            return null;
-        }
-        if (block >= blocks.size()) {
-            return null;
-        }
-        return blocks.get(block);
-        /*        for (Iterator<XBFormatDecl> it = formats.iterator(); it.hasNext();) {
-         XBFormatDecl formatDecl = ((XBFormatDecl) it.next());
-         if (formatDecl.getGroups().size() < group) {
-         group -= formatDecl.getGroups().size();
-         } else {
-         return formatDecl.getGroups().get((int) group).getBlocks().get(block);
-         }
-         }
-         return null; */
-    }
-
-    public XBFormatDecl getFormat() {
-        return format;
-    }
-
-    public void setFormat(XBFormatDecl format) {
-        this.format = format;
-    }
-
-    public long getGroupsReserved() {
-        return groupsReserved;
-    }
-
-    public void setGroupsReserved(long groupsReserved) {
-        this.groupsReserved = groupsReserved;
-    }
-
-    public long getPreserveCount() {
-        return preserveCount;
-    }
-
-    public void setPreserveCount(long preserveCount) {
-        this.preserveCount = preserveCount;
-    }
-
-    public XBSerializable getRootNode() {
-        return rootNode;
-    }
-
-    public void setRootNode(XBSerializable rootNode) {
-        this.rootNode = rootNode;
-    }
+    } */
 
     public XBTProvider convertToXBT() {
         return new XBTProvider() {
@@ -199,14 +114,21 @@ public class XBDeclaration implements XBSerializable {
                      } */
                     listener.attribXBT(new UBNat32(getGroupsReserved())); // GroupsReserver
                     listener.attribXBT(new UBNat32(getPreserveCount())); // PreserveCount
-                    XBFormatDecl format = getFormat();
-                    XBTSequenceListenerSerialHandler handler = new XBTSequenceListenerSerialHandler();
-                    // TODO detect serial method
-                    handler.attachXBTEventListener(new XBTListenerToEventListener(listener));
-                    format.serializeXB(handler);
-                    if (getRootNode() != null) {
+
+                    if (format instanceof XBDFormatDecl) {
+                        XBTSequenceListenerSerialHandler handler = new XBTSequenceListenerSerialHandler();
+                        handler.attachXBTEventListener(new XBTListenerToEventListener(listener));
+                        ((XBDFormatDecl) format).serializeXB(handler);
+                    } else if (format instanceof XBCFormatDecl) {
+                        throw new UnsupportedOperationException("Not supported yet.");
+                    } else {
+                        throw new UnsupportedOperationException("Not supported yet.");
+                    }
+
+                    if (rootNode != null) {
                         // TODO getRootNode().convertToXBT().attachXBTListener(listener);
                     }
+
                     listener.endXBT();
                 } catch (XBProcessingException | IOException ex) {
                     Logger.getLogger(XBDeclaration.class.getName()).log(Level.SEVERE, null, ex);
@@ -218,6 +140,7 @@ public class XBDeclaration implements XBSerializable {
     public XBTListener convertFromXBT() {
         return new XBTListener() {
 
+            // TODO remake to enumeration
             private int parseMode = 0;
             private int counter = 0;
             private XBTListener activeListener;
@@ -230,35 +153,36 @@ public class XBDeclaration implements XBSerializable {
                     activeListener.beginXBT(terminationMode);
                     return;
                 }
-
                 if (parseMode == 4) {
                     counter = 1;
                     activeListener = formatListener;
                     activeListener.beginXBT(terminationMode);
                     return;
                 }
-
                 if (parseMode == 5) {
                     counter = 1;
                     activeListener = rootListener;
                     activeListener.beginXBT(terminationMode);
                     return;
                 }
-
                 if (parseMode > 0) {
                     throw new XBProcessingException("Unexpected begin");
                 }
-
                 if (rootNode != null) {
                     throw new UnsupportedOperationException("Not supported yet.");
                     // rootListener = rootNode.convertFromXBT();
                 }
-
-                format = new XBFormatDecl();
-//                XBL1SerialPullConsumer consumer = new XBL1SerialPullConsumer(format.getXBSerialSequence());
-                XBTSequenceSerialHandler handler = new XBTSequenceProviderSerialHandler();
-                // TODO Pull provider missing
-                format.serializeXB(handler);
+                
+                if (format instanceof XBDFormatDecl) {
+                    XBTSequenceProviderSerialHandler handler = new XBTSequenceProviderSerialHandler();
+                    handler.attachXBTPullProvider(null);
+                    ((XBDFormatDecl) format).serializeXB(handler);
+                } else if (format instanceof XBCFormatDecl) {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                } else {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+                
                 parseMode = 1;
             }
 
@@ -269,9 +193,10 @@ public class XBDeclaration implements XBSerializable {
                     return;
                 }
                 if (parseMode == 1) {
-                    if (!((type.getGroupID().getInt() == 0) && (type.getBlockID().getInt() == 1))) {
+                    if (type.getAsBasicType() != XBBasicBlockType.DECLARATION) {
                         throw new XBProcessingException("Unexpected block type");
                     }
+
                     parseMode = 2;
                 } else {
                     throw new XBProcessingException("Unexpected type event");
@@ -284,11 +209,9 @@ public class XBDeclaration implements XBSerializable {
                     activeListener.attribXBT(value);
                     return;
                 }
-
                 if (parseMode < 2) {
                     throw new XBProcessingException("Unexpected event order");
                 }
-
                 switch (parseMode) {
                     case 2: {
                         preserveCount = 0;
@@ -296,7 +219,6 @@ public class XBDeclaration implements XBSerializable {
                         parseMode = 3;
                         break;
                     }
-
                     case 3: {
                         preserveCount = value.getInt();
                         parseMode = 4;
@@ -311,7 +233,6 @@ public class XBDeclaration implements XBSerializable {
                     activeListener.dataXBT(data);
                     return;
                 }
-
                 throw new XBProcessingException("Unexpected data block");
             }
 
@@ -323,16 +244,45 @@ public class XBDeclaration implements XBSerializable {
                     if (counter == 0) {
                         parseMode += 1;
                     }
-
                     return;
                 }
-
                 if (parseMode != 6) {
                     throw new XBProcessingException("Unexpected end of block");
                 }
-
                 parseMode = 7;
             }
         };
+    }
+
+    public XBFormatDecl getFormat() {
+        return format;
+    }
+
+    public void setFormat(XBFormatDecl format) {
+        this.format = format;
+    }
+
+    public int getGroupsReserved() {
+        return groupsReserved;
+    }
+
+    public void setGroupsReserved(int groupsReserved) {
+        this.groupsReserved = groupsReserved;
+    }
+
+    public int getPreserveCount() {
+        return preserveCount;
+    }
+
+    public void setPreserveCount(int preserveCount) {
+        this.preserveCount = preserveCount;
+    }
+
+    public XBSerializable getRootNode() {
+        return rootNode;
+    }
+
+    public void setRootNode(XBSerializable rootNode) {
+        this.rootNode = rootNode;
     }
 }

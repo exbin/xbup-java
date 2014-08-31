@@ -29,13 +29,13 @@ import javax.swing.JLabel;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.block.declaration.XBContextBlockType;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.core.catalog.declaration.XBCBlockDecl;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBFBlockType;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.tool.editor.module.xbdoc_editor.util.BareBonesBrowserLaunch;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
@@ -257,27 +257,27 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
         node = srcNode;
         jTextField1.setText(getCaption(node));
         jTextField2.setText(Integer.toString(node.getSizeUB()));
-        jCheckBox1.setSelected(node.getTerminationMode() == XBBlockTerminationMode.ZERO_TERMINATED);
+        jCheckBox1.setSelected(node.getTerminationMode() == XBBlockTerminationMode.TERMINATED_BY_ZERO);
         // TODO: Different link for dev mode
         String catalogLink = "http://catalog.xbup.org/";
         XBBlockType type = node.getBlockType();
-        if (type instanceof XBContextBlockType) {
-            XBBlockDecl decl = ((XBContextBlockType) type).getBlockDecl();
-            if (decl instanceof XBCBlockDecl) {
-                XBCBlockSpec spec = ((XBCBlockDecl) decl).getBlockSpec(catalog);
-                if (spec != null) {
-                    Long[] path = specService.getSpecXBPath(spec);
-                    StringBuilder builder = new StringBuilder();
-                    for (int i = 0; i < path.length; i++) {
-                        if (i>0) {
-                            builder.append("/");
-                        }
-                        builder.append(path[i]);
+
+        XBBlockDecl decl = node.getBlockDecl();
+        if (decl instanceof XBCBlockDecl) {
+            XBCBlockSpec spec = ((XBCBlockDecl) decl).getBlockSpec().getParent();
+            if (spec != null) {
+                Long[] path = specService.getSpecXBPath(spec);
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < path.length; i++) {
+                    if (i>0) {
+                        builder.append("/");
                     }
-                    catalogLink += "?spec=" + builder.toString();
+                    builder.append(path[i]);
                 }
+                catalogLink += "?spec=" + builder.toString();
             }
         }
+
         onlineSpecLinkLabel.setText(catalogLink);
         setVisible(true);
     }
@@ -337,19 +337,18 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
         XBBlockType blockType = node.getBlockType();
         if (catalog != null) {
             XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-            if (blockType instanceof XBContextBlockType) {
-                XBCBlockDecl blockDecl = (XBCBlockDecl) ((XBContextBlockType) blockType).getBlockDecl();
-                if (blockDecl == null) {
-                    return "Undefined";
-                }
-                XBCBlockSpec blockSpec = blockDecl.getBlockSpec(catalog);
-                return nameService.getDefaultCaption(blockSpec);
+
+            XBCBlockDecl blockDecl = (XBCBlockDecl) node.getBlockDecl();
+            if (blockDecl == null) {
+                return "Undefined";
             }
+            XBCBlockSpec blockSpec = blockDecl.getBlockSpec().getParent();
+            return nameService.getDefaultCaption(blockSpec);
         }
         if (blockType == null) {
             return "Unknown";
         }
-        return "Unknown" + " (" + Integer.toString(blockType.getGroupID().getInt()) + ", "+ Integer.toString(blockType.getBlockID().getInt())+")";
+        return "Unknown" + " (" + Integer.toString(((XBFBlockType) blockType).getGroupID().getInt()) + ", "+ Integer.toString(((XBFBlockType) blockType).getBlockID().getInt())+")";
     }
 
     private void assignGlobalKeyListener() {

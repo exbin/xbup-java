@@ -45,15 +45,14 @@ public class XBTPullEncapsulator implements XBTFilter, XBTProducer, XBTConsumer 
     private long counter;
 
     /** Creates a new instance of XBTEncapsulator */
-    public XBTPullEncapsulator(XBContext context) {
-        this.context = context;
-        declProvider = context.getDeclaration().convertToXBT();
+    public XBTPullEncapsulator(XBTProvider declProvider) {
+        this.declProvider = declProvider;
         listener = null;
         counter = 0;
     }
 
-    public XBTPullEncapsulator(XBContext context, XBTListener target) {
-        this(context);
+    public XBTPullEncapsulator(XBTProvider declProvider, XBTListener target) {
+        this(declProvider);
         attachXBTListener(target);
     }
 
@@ -65,7 +64,7 @@ public class XBTPullEncapsulator implements XBTFilter, XBTProducer, XBTConsumer 
 
     @Override
     public void typeXBT(XBBlockType type) throws XBProcessingException, IOException {
-        XBFixedBlockType result = getContext().toStaticType(type);
+        XBFixedBlockType result = null; // TODO = getContext().toStaticType(type);
         if (result == null) {
             result = new XBFixedBlockType();
         }
@@ -97,22 +96,16 @@ public class XBTPullEncapsulator implements XBTFilter, XBTProducer, XBTConsumer 
         this.listener = listener;
     }
 
-    /**
-     * @return the context
-     */
+    @Override
+    public void attachXBTProvider(XBTProvider provider) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     public XBContext getContext() {
         return context;
     }
 
-    /**
-     * @param context the context to set
-     */
     public void setContext(XBContext context) {
         this.context = context;
-    }
-
-    @Override
-    public void attachXBTProvider(XBTProvider provider) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

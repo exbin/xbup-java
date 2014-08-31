@@ -18,7 +18,7 @@ package org.xbup.lib.core.remote;
 
 import java.io.IOException;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.declaration.XBFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.stream.XBTStreamChecker;
@@ -37,7 +37,7 @@ public interface XBProcedure {
     /** Return required declaration for result
      * TODO: Should be joined declaration (for multiple formats, groups and blocks)
      */
-    public XBFormatDecl getResultDecl();
+    public XBDFormatDecl getResultDecl();
 
     /** Method for invocation of this procedure
      * Position in source is after block type

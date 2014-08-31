@@ -206,7 +206,7 @@ public class PropertiesDialog extends javax.swing.JDialog {
         } catch (IOException ex) {
             Logger.getLogger(PropertiesDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
-        doc.setExtended(new ByteArrayInputStream(buffer.toByteArray()));
+        doc.setExtendedArea(new ByteArrayInputStream(buffer.toByteArray()));
         dispose();
     }//GEN-LAST:event_okButtonActionPerformed
 
@@ -264,8 +264,8 @@ public class PropertiesDialog extends javax.swing.JDialog {
 //        jTextField1.setText(doc.getCaption());
         jTextField2.setText(Long.toString(doc.getDocumentSize()));
 
-        if (doc.getExtendedSize() > 0) {
-            HexEditPanel.loadFromStream(doc.getExtended(), doc.getExtendedSize());
+        if (doc.getExtendedAreaSize() > 0) {
+            HexEditPanel.loadFromStream(doc.getExtendedArea(), doc.getExtendedAreaSize());
 //            jTextArea1.setText(new String(extended));
         }
         setVisible(true);

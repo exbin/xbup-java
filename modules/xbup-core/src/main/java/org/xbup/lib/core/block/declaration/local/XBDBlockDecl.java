@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.block.declaration;
+package org.xbup.lib.core.block.declaration.local;
 
 import java.io.IOException;
 import org.xbup.lib.core.block.XBBasicBlockType;
@@ -22,6 +22,7 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
+import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.definition.XBBlockDef;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.param.XBParamPosition;
@@ -35,7 +36,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 block declaration using existing block definition.
  *
- * @version 0.1.24 2014/08/24
+ * @version 0.1.24 2014/08/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
@@ -70,7 +71,6 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
     /**
      * @return the revision
      */
-    @Override
     public int getRevision() {
         return revision.getInt();
     }
@@ -96,14 +96,12 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
         // TODO this.blocksLimit = new UBNat32(blocksLimit);
     }
 
-    /**
-     * TODO: Include definition
-     */
     @Override
     public boolean equals(Object obj) {
-        /*        if (obj instanceof XBDBlockDecl) {
-         return Arrays.equals(((XBDBlockDecl) obj).catalogPath,catalogPath);
-         } */
+        if (obj instanceof XBDBlockDecl) {
+            return obj == this;
+        }
+
         return super.equals(obj);
     }
 

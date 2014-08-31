@@ -14,26 +14,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.catalog.declaration;
+package org.xbup.lib.core.block;
 
-import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.catalog.XBCatalog;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * Block Type context defined by catalog specification.
+ * Interface for block type represented by group id and block id.
  *
- * @version 0.1.20 2010/09/30
+ * @version 0.1.24 2014/08/26
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBCBlockDecl extends XBBlockDecl {
+public interface XBFBlockType extends XBBlockType {
 
     /**
-     * Get definition of this declaration in given catalog.
-     *
-     * @param catalog the catalog to use
-     * @return catalog representation of relevant block definition
+     * Get group ID of this block.
+     * 
+     * @return value of group index
      */
-    public XBCBlockSpec getBlockSpec(XBCatalog catalog);
+    public UBNatural getGroupID();
 
+    /**
+     * Get block ID of this block.
+     * 
+     * @return value of block index
+     */
+    public UBNatural getBlockID();
 }

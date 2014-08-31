@@ -116,7 +116,7 @@ public class XBTreeDocumentWriterTest extends TestCase {
 
         byte[] data = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57};
         ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
-        document.setExtended(dataStream);
+        document.setExtendedArea(dataStream);
 
         document.toStreamUB(target);
         assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
@@ -158,7 +158,7 @@ public class XBTreeDocumentWriterTest extends TestCase {
         XBTreeDocument document = new XBTreeDocument();
 
         XBTreeNode node = new XBTreeNode();
-        node.setTerminationMode(XBBlockTerminationMode.ZERO_TERMINATED);
+        node.setTerminationMode(XBBlockTerminationMode.TERMINATED_BY_ZERO);
         node.getAttributes().add(new UBNat32(0));
         node.getAttributes().add(new UBNat32(0));
         node.getAttributes().add(new UBNat32(1));

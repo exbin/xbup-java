@@ -14,21 +14,34 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.block.declaration;
-
-import java.util.Map;
-import org.xbup.lib.core.parser.basic.XBTConsumer;
-import org.xbup.lib.core.parser.basic.XBTProducer;
+package org.xbup.lib.core.block.param;
 
 /**
- * Status context representation.
+ * XBUP level 1 parameter type enumeration.
  *
- * @version 0.1.19 2010/06/02
+ * @version 0.1.23 2013/11/06
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBStatusContext extends XBTProducer, XBTConsumer { // extends XBContext
+public enum XBParamType {
 
-    public Map<Integer,Integer> getLevelLimits();
-
-    public int getCurrentLevel();
+    /**
+     * Add given block as subblock or data block if unspecified.
+     */
+    CONSIST,
+    /**
+     * Append attributes and subblocks of given block or single attribute if
+     * unspecified.
+     */
+    JOIN,
+    /**
+     * List of given block starting with count of blocks as UBENatural
+     * (including infinity).
+     */
+    LIST_CONSIST,
+    /**
+     * Append finite list of attributes and subblocks of given block type or
+     * list of attributes.
+     */
+    LIST_JOIN
+    // TODO: Specifify parameter type for: If parameter not specified include single unspecified subblock
 }

@@ -17,7 +17,7 @@
 package org.xbup.lib.core.parser.param;
 
 import java.io.IOException;
-import org.xbup.lib.core.block.declaration.XBParamDecl;
+import org.xbup.lib.core.block.param.XBParamDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 
 /**

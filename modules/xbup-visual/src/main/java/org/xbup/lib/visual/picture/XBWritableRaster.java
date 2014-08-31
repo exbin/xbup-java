@@ -23,9 +23,6 @@ import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.io.InputStream;
-import org.xbup.lib.core.block.declaration.XBDeclaration;
-import org.xbup.lib.core.catalog.declaration.XBCDeclaration;
-import org.xbup.lib.core.catalog.declaration.XBCPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
@@ -54,10 +51,6 @@ public class XBWritableRaster extends WritableRaster implements XBTChildSerializ
 
     public XBWritableRaster(SampleModel sampleModel, Point origin) {
         super(sampleModel, origin);
-    }
-
-    public static XBDeclaration getXBWritableRasterXBDeclaration() {
-        return new XBCDeclaration(new XBCPBlockDecl(XB_BLOCK_PATH));
     }
 
     public static void serializeXBWritableRasterToXBT(final WritableRaster source, XBTChildListener serial) throws XBProcessingException, IOException {
@@ -139,11 +132,6 @@ public class XBWritableRaster extends WritableRaster implements XBTChildSerializ
         serial.end();
     }
 
-    // Additional classes because of lack of attribute programming in Java
-    public XBDeclaration getXBDeclaration() {
-        return getXBWritableRasterXBDeclaration();
-    }
-
     public static XBSerializable getXBWritableRasterSerializator(WritableRaster source) {
         return new XBTSerializator(source);
     }
@@ -164,10 +152,6 @@ public class XBWritableRaster extends WritableRaster implements XBTChildSerializ
 
         public XBTSerializator(WritableRaster source) {
             this.source = source;
-        }
-
-        public XBDeclaration getXBDeclaration() {
-            return getXBWritableRasterXBDeclaration();
         }
 
         @Override

@@ -21,27 +21,36 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBBlockDataMode;
+import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
+import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
+import org.xbup.lib.core.block.declaration.XBContext;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockType;
+import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
 import org.xbup.lib.core.catalog.base.XBCBase;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.core.catalog.base.XBCBlockRev;
+import org.xbup.lib.core.catalog.base.XBCExtension;
+import org.xbup.lib.core.catalog.base.XBCFormatRev;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
+import org.xbup.lib.core.catalog.base.XBCGroupRev;
 import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
 import org.xbup.lib.core.catalog.base.manager.XBCManager;
-import org.xbup.lib.core.catalog.base.service.XBCXInfoService;
 import org.xbup.lib.core.catalog.base.service.XBCItemService;
 import org.xbup.lib.core.catalog.base.service.XBCNodeService;
 import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.core.catalog.base.service.XBCService;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
+import org.xbup.lib.core.catalog.base.service.XBCXInfoService;
 import org.xbup.lib.core.catalog.client.XBCatalogServiceClient;
-import org.xbup.lib.core.catalog.declaration.XBCFormatDecl;
-import org.xbup.lib.core.catalog.declaration.XBCGroupDecl;
-import org.xbup.lib.core.catalog.declaration.XBCSBlockDecl;
-import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.core.catalog.remote.XBRBlockSpec;
 import org.xbup.lib.core.catalog.remote.XBRFormatSpec;
 import org.xbup.lib.core.catalog.remote.XBRGroupSpec;
@@ -58,7 +67,7 @@ import org.xbup.lib.core.catalog.remote.service.XBRSpecService;
  *
  * Catalog is accesed using XBService RPC network interface.
  *
- * @version 0.1.21 2012/04/01
+ * @version 0.1.24 2014/08/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRCatalog implements XBCatalog {
@@ -78,7 +87,7 @@ public class XBRCatalog implements XBCatalog {
         catalogManagers = new HashMap<>();
         catalogServices = new HashMap<>();
 
-        // Or maybe IoC would be better...
+        // TODO IoC might be better
         catalogServices.put(XBCItemService.class, new XBRItemService(this));
         catalogServices.put(XBCNodeService.class, new XBRNodeService(this));
         catalogServices.put(XBCSpecService.class, new XBRSpecService(this));
@@ -95,7 +104,7 @@ public class XBRCatalog implements XBCatalog {
         if (spec == null) {
             return null;
         }
-        return new XBContext(this);
+        return new XBContext();
 //        return new XBL1CPContext(this,spec);
     }
 
@@ -133,33 +142,51 @@ public class XBRCatalog implements XBCatalog {
     }
 
     @Override
-    public XBBlockDecl findBlockTypeByPath(Long[] xbCatalogPath) {
+    public XBBlockDecl findBlockTypeByPath(Long[] xbCatalogPath, int revision) {
+        XBRRevService revService = (XBRRevService) getCatalogService(XBCRevService.class);
         XBRBlockSpec spec = findBlockSpecByPath(xbCatalogPath);
         if (spec == null) {
             return null;
         }
 
-        return new XBCSBlockDecl(spec);
+        XBCBlockRev rev = (XBCBlockRev) revService.findRevByXB(spec, revision);
+        if (rev == null) {
+            return null;
+        }
+        
+        return new XBCBlockDecl(rev);
     }
 
     @Override
-    public XBGroupDecl findGroupTypeByPath(Long[] xbCatalogPath) {
+    public XBGroupDecl findGroupTypeByPath(Long[] xbCatalogPath, int revision) {
+        XBRRevService revService = (XBRRevService) getCatalogService(XBCRevService.class);
         XBRGroupSpec spec = findGroupSpecByPath(xbCatalogPath);
         if (spec == null) {
             return null;
         }
 
-        return new XBCGroupDecl(this, spec);
+        XBCGroupRev rev = (XBCGroupRev) revService.findRevByXB(spec, revision);
+        if (rev == null) {
+            return null;
+        }
+        
+        return new XBCGroupDecl(rev);
     }
 
     @Override
-    public XBFormatDecl findFormatTypeByPath(Long[] xbCatalogPath) {
+    public XBFormatDecl findFormatTypeByPath(Long[] xbCatalogPath, int revision) {
+        XBRRevService revService = (XBRRevService) getCatalogService(XBCRevService.class);
         XBRFormatSpec spec = findFormatSpecByPath(xbCatalogPath);
         if (spec == null) {
             return null;
         }
 
-        return new XBCFormatDecl(this, spec);
+        XBCFormatRev rev = (XBCFormatRev) revService.findRevByXB(spec, revision);
+        if (rev == null) {
+            return null;
+        }
+        
+        return new XBCFormatDecl(rev);
     }
 
     @Override
@@ -168,7 +195,7 @@ public class XBRCatalog implements XBCatalog {
         List<XBCSpecDef> binds = specService.getSpecDefs(spec);
         ArrayList<XBGroupDecl> result = new ArrayList<>();
         for (Iterator it = binds.iterator(); it.hasNext();) {
-            result.add(new XBCGroupDecl(this, (XBCGroupSpec) ((XBRSpecDef) it.next()).getTarget()));
+            result.add(new XBCGroupDecl((XBCGroupRev) ((XBRSpecDef) it.next()).getTarget()));
         }
 
         return result;
@@ -180,7 +207,7 @@ public class XBRCatalog implements XBCatalog {
         List<XBCSpecDef> binds = specService.getSpecDefs(spec);
         ArrayList<XBBlockDecl> result = new ArrayList<>();
         for (Iterator it = binds.iterator(); it.hasNext();) {
-            result.add(new XBCSBlockDecl((XBCBlockSpec) ((XBRSpecDef) it.next()).getTarget()));
+            result.add(new XBCBlockDecl((XBCBlockRev) ((XBRSpecDef) it.next()).getTarget()));
         }
 
         return result;
@@ -228,5 +255,97 @@ public class XBRCatalog implements XBCatalog {
     @Override
     public XBCService<? extends XBCBase> getCatalogService(Class type) {
         return (XBCService<? extends XBCBase>) catalogServices.get(type);
+    }
+
+    /**
+     * Provide fixed block type for given block declaration.
+     *
+     * @param context
+     * @param type block type
+     * @return static block type
+     */
+    @Override
+    public XBFixedBlockType findFixedType(XBContext context, XBBlockType type) {
+        if (type instanceof XBFixedBlockType) {
+            return (XBFixedBlockType) type;
+        } else if (type instanceof XBCBlockType) {
+            return findFixedType(context, new XBCBlockDecl((XBCBlockRev) ((XBCBlockType) type).getBlockSpec()));
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+    }
+
+    /**
+     * Provide fixed block type for given block declaration.
+     *
+     * @param context
+     * @param decl block declaration
+     * @return static block type
+     */
+    @Override
+    public XBFixedBlockType findFixedType(XBContext context, XBBlockDecl decl) {
+        XBFixedBlockType blockType = null;
+        if (context.getParent() != null) {
+            blockType = findFixedType(context.getParent(), decl);
+        }
+        
+        if (blockType == null) {
+            for (int groupId = 0; groupId < context.getGroups().size(); groupId++) {
+                XBGroupDecl groupDecl = context.getGroups().get(groupId);
+                Long blockId = findBlockIdForGroup(groupDecl, decl);
+                if (blockId != null) {
+                    return new XBFixedBlockType(groupId + context.getStartFrom(), blockId);
+                }
+            }
+        }
+
+        return blockType;
+    }
+    
+    public Long findBlockIdForGroup(XBGroupDecl group, XBBlockDecl decl) {
+        if (group instanceof XBDGroupDecl) {
+            List<XBBlockDecl> blocks = ((XBDGroupDecl) group).getBlocks();
+            for (int blockId = 0; blockId < blocks.size(); blockId++) {
+                XBBlockDecl block = blocks.get(blockId);
+                if (block.equals(decl)) {
+                    return (long) blockId;
+                }
+            }
+        } else if (group instanceof XBCGroupSpec) {
+            XBCGroupRev groupRev = ((XBCGroupDecl) group).getGroupSpec();
+            List<XBBlockDecl> blocks = getBlocks(groupRev.getParent());
+            Long limit = groupRev.getXBLimit();
+            for (int blockId = 0; blockId < blocks.size() && blockId < limit; blockId++) {
+                XBBlockDecl block = blocks.get(blockId);
+                if (block.equals(decl)) {
+                    return (long) blockId;
+                }
+            }
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+        
+        return null;
+    }
+
+    @Override
+    public XBContext processDeclaration(XBContext parent, XBTBlock specBlock) {
+        if (specBlock.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
+            if (specBlock.getAttributesCount() > 1) {
+                if (specBlock.getBlockType().getAsBasicType() == XBBasicBlockType.DECLARATION) {
+                    XBContext context = new XBContext();
+                    context.setParent(parent);
+                    /* TODO
+                    context.getDeclaration().setGroupsReserved(specBlock.getAttribute(0).getLong());
+                    context.getDeclaration().setPreserveCount(specBlock.getAttribute(1).getLong());
+                    if (specBlock.getChildCount() > 0) {
+                        context.getDeclaration().setFormat(processFormatSpec(catalog, specBlock.getChildAt(0)));
+                    } */
+                    return context;
+                }
+            }
+        }
+
+        return null;
     }
 }

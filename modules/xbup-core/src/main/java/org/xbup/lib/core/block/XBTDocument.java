@@ -19,9 +19,9 @@ package org.xbup.lib.core.block;
 import java.io.InputStream;
 
 /**
- * Basic interface for XBUP level 1 document.
+ * Interface for read access to XBUP level 1 document.
  *
- * @version 0.1.23 2013/11/25
+ * @version 0.1.24 2014/08/26
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTDocument {
@@ -48,12 +48,12 @@ public interface XBTDocument {
      *
      * @return data stream
      */
-    public InputStream getExtended();
+    public InputStream getExtendedArea();
 
     /**
      * Get size of extended data area.
      *
      * @return length of extended area in bytes
      */
-    public long getExtendedSize();
+    public long getExtendedAreaSize();
 }

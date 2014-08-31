@@ -17,7 +17,6 @@
 package org.xbup.lib.core.parser.token.pull.convert;
 
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTProvider;
 import org.xbup.lib.core.parser.basic.XBTProviderFilter;
@@ -33,7 +32,6 @@ public class XBTPullDecapsulator implements XBTProviderFilter {
     private XBTProvider provider;
     private XBTListener listener;
     private XBTListener declListener;
-    private XBDeclaration declaration;
 
     private long depth;
     private int mode;
@@ -41,24 +39,14 @@ public class XBTPullDecapsulator implements XBTProviderFilter {
     private boolean beginTerm;
     private XBBlockType type = null;
 
-    /** Creates a new instance of XBTDecapsulator */
-    public XBTPullDecapsulator() {
-        declaration = new XBDeclaration();
-
-        declListener = declaration.convertFromXBT();
+    public XBTPullDecapsulator(XBTListener declListener) {
+        this.declListener = declListener;
         mode = 0;
         depth = 0;
     }
 
     public void attachXBTListener(XBTListener listener) {
         this.listener = listener;
-    }
-
-    /**
-     * @return the declaration
-     */
-    public XBDeclaration getDeclaration() {
-        return declaration;
     }
 
     @Override

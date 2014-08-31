@@ -21,10 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.xbup.lib.core.block.declaration.XBDeclaration;
-import org.xbup.lib.core.block.declaration.XBDeclared;
-import org.xbup.lib.core.catalog.declaration.XBCDeclaration;
-import org.xbup.lib.core.catalog.declaration.XBCPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
@@ -40,7 +36,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
  * @version 0.1.24 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
-public class XBNat implements XBTChildSerializable, XBDeclared {
+public class XBNat implements XBTChildSerializable {
 
     private UBNatural value;
     private UBNatural bitSize;
@@ -54,11 +50,6 @@ public class XBNat implements XBTChildSerializable, XBDeclared {
 
     public XBNat(UBNatural value) {
         this.value = value;
-    }
-
-    @Override
-    public XBDeclaration getXBDeclaration() {
-        return new XBCDeclaration(new XBCPBlockDecl(XB_BLOCK_PATH));
     }
 
     public UBNatural getValue() {

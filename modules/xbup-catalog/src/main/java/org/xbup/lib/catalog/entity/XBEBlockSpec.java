@@ -24,36 +24,15 @@ import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 /**
  * Block specification entity.
  *
- * @version 0.1.22 2012/12/31
+ * @version 0.1.24 2014/08/30
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBBlockSpec")
+@Entity(name = "XBBlockSpec")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class XBEBlockSpec extends XBESpec implements XBCBlockSpec {
-
-//    private Long attrCount;
-//    private Long paramCount;
-
-    @Override
-    public long getAttrCount() {
-        return 0; // TODO
-    }
 
     @Override
     public XBENode getParent() {
         return (XBENode) super.getParent();
     }
-/*
-    public void setAttrCount(Long attrCount) {
-        attrCount = new Long(attrCount);
-    }
-*/
-    @Override
-    public long getParamCount() {
-        return 0; // TODO
-    }
-/*
-    public void setParamCount(Long paramCount) {
-        paramCount = new Long(paramCount);
-    } */
 }

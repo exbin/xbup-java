@@ -16,10 +16,13 @@
  */
 package org.xbup.lib.core.block;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * XBUP basic specification block types enumeration.
  *
- * @version 0.1.23 2014/02/07
+ * @version 0.1.24 2014/08/27
  * @author XBUP Project (http://xbup.org)
  */
 public enum XBBasicBlockType {
@@ -91,11 +94,23 @@ public enum XBBasicBlockType {
 
     private final int blockId;
 
+    private static final Map<Integer, XBBasicBlockType> map = new HashMap<>();
+
+    static {
+        for (XBBasicBlockType blockType : XBBasicBlockType.values()) {
+            map.put(blockType.blockId, blockType);
+        }
+    }
+
     private XBBasicBlockType(int blockId) {
         this.blockId = blockId;
     }
 
     public int getBlockId() {
         return blockId;
+    }
+
+    public static XBBasicBlockType valueOf(int blockId) {
+        return map.get(blockId);
     }
 }

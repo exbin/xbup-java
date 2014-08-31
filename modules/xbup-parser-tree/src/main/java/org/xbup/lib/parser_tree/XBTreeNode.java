@@ -61,9 +61,6 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
     private List<XBBlock> children;
     private byte[] data;
 
-    /**
-     * Creates a new instance of XBTreeNode.
-     */
     public XBTreeNode() {
         this(null);
     }
@@ -215,7 +212,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
                 size += childrenToStreamUB(stream);
             }
 
-            if (terminationMode == XBBlockTerminationMode.ZERO_TERMINATED) {
+            if (terminationMode == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
                 size += (new UBNat32()).toStreamUB(stream);
             }
 
@@ -262,7 +259,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
         } else {
             UBENat32 dataSize = new UBENat32();
             size += dataSize.fromStreamUB(stream);
-            terminationMode = dataSize.isInfinity() ? XBBlockTerminationMode.ZERO_TERMINATED : XBBlockTerminationMode.SIZE_SPECIFIED;
+            terminationMode = dataSize.isInfinity() ? XBBlockTerminationMode.TERMINATED_BY_ZERO : XBBlockTerminationMode.SIZE_SPECIFIED;
             if (attrSize.getInt() == dataSize.getSizeUB()) {
                 // Data Block
                 dataMode = XBBlockDataMode.DATA_BLOCK;
@@ -356,7 +353,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
                 }
             }
 
-            if (terminationMode == XBBlockTerminationMode.ZERO_TERMINATED) {
+            if (terminationMode == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
                 size++;
             } // size += (new UBNat32()).getSizeUB();
 

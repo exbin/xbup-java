@@ -22,10 +22,8 @@ import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.util.List;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.declaration.XBDBlockType;
-import org.xbup.lib.core.block.declaration.XBDeclaration;
-import org.xbup.lib.core.catalog.declaration.XBCDeclaration;
-import org.xbup.lib.core.catalog.declaration.XBCPBlockDecl;
+import org.xbup.lib.core.block.declaration.local.XBDBlockType;
+import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
@@ -61,10 +59,6 @@ public class XBBufferedImage implements XBTChildSerializable {
         image = new BufferedImage(width, height, imageType);
     }
 
-    public XBDeclaration getXBDeclaration() {
-        return new XBCDeclaration(new XBCPBlockDecl(XB_BLOCK_PATH));
-    }
-
     public BufferedImage getImage() {
         return image;
     }
@@ -90,7 +84,7 @@ public class XBBufferedImage implements XBTChildSerializable {
 
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.setType(new XBDBlockType(new XBCPBlockDecl(XB_BLOCK_PATH)));
+        serial.setType(new XBDBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
         WritableRaster raster = image.getRaster();
         serial.addAttribute(new UBNat32(raster.getWidth()));
         serial.addAttribute(new UBNat32(raster.getHeight()));

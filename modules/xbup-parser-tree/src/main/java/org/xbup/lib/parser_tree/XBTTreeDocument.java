@@ -74,22 +74,22 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
         int size = XBHead.checkXBUPHead(stream);
         clear();
         size += super.fromStreamUB(stream);
-        setExtended(stream);
-        return (int) (size + getExtendedSize());
+        setExtendedArea(stream);
+        return (int) (size + getExtendedAreaSize());
     }
 
     @Override
     public int getSizeUB() {
         int size = XBHead.getXBUPHeadSize();
         size += super.getSizeUB();
-        if (getExtended() != null) {
-            size += getExtendedSize();
+        if (getExtendedArea() != null) {
+            size += getExtendedAreaSize();
         }
         return size;
     }
 
     @Override
-    public InputStream getExtended() {
+    public InputStream getExtendedArea() {
         if (extendedAreaData == null) {
             return null;
         }
@@ -101,7 +101,7 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
     }
 
     @Override
-    public void setExtended(InputStream source) {
+    public void setExtendedArea(InputStream source) {
         if (source == null) {
             extendedAreaData = null;
         } else if (source instanceof ByteArrayInputStream) {
@@ -127,7 +127,7 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
     }
 
     @Override
-    public long getExtendedSize() {
+    public long getExtendedAreaSize() {
         if (extendedAreaData == null) {
             return 0;
         }
@@ -200,7 +200,7 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
 
     @Override
     public long getDocumentSize() {
-        long documentSize = getExtendedSize();
+        long documentSize = getExtendedAreaSize();
         if (getRootBlock() != null) {
             documentSize += getRootBlock().getBlockSize();
         }

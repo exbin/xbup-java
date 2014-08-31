@@ -111,7 +111,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
         assertEquals(1, instance.getRootBlock().getAttributesCount());
         assertEquals(0, instance.getRootBlock().getAttribute(0).getInt());
 
-        assertEquals(10, instance.getExtendedSize());
+        assertEquals(10, instance.getExtendedAreaSize());
     }
 
     /**
@@ -204,7 +204,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
         instance.fromStreamUB(stream);
 
         assertNotNull(instance.getRootBlock());
-        assertEquals(XBBlockTerminationMode.ZERO_TERMINATED, instance.getRootBlock().getTerminationMode());
+        assertEquals(XBBlockTerminationMode.TERMINATED_BY_ZERO, instance.getRootBlock().getTerminationMode());
 
         assertEquals(0, instance.getRootBlock().getChildCount());
         assertEquals(4, instance.getRootBlock().getAttributesCount());

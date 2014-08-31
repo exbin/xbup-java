@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.catalog.declaration;
+package org.xbup.lib.core.block.declaration;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -32,7 +32,7 @@ public class XBCTransNode {
     private XBBlockDecl block;
 
     public XBCTransNode() {
-        subNodes = new TreeMap<Integer, XBCTransNode>();
+        subNodes = new TreeMap<>();
         block = null;
     }
 

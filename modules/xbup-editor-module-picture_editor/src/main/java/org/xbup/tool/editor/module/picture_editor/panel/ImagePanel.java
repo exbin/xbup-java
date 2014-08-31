@@ -61,7 +61,7 @@ import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
-import org.xbup.lib.core.block.declaration.XBFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.convert.XBTEncapsulator;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
@@ -79,7 +79,6 @@ import org.xbup.lib.core.serial.sequence.XBSerialSequence;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 import org.xbup.lib.core.stream.file.XBFileOutputStream;
-import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.visual.picture.XBBufferedImage;
 import org.xbup.tool.editor.module.picture_editor.PictureFileType;
@@ -412,7 +411,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                 XBFileOutputStream output = new XBFileOutputStream(file);
                 XBTChildOutputSerialHandler handler = new XBTChildListenerSerialHandler();
                 handler.attachXBTEventListener(null);
-                XBTEncapsulator encapsulator = new XBTEncapsulator(new StubContext(getStubXBTDataSerializator()));
+                XBTEncapsulator encapsulator = new XBTEncapsulator(new StubContext(getStubXBTDataSerializator()), null); // TODO catalog
                 encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
                 handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));
                 getStubXBTDataSerializator().serializeToXB(handler);
@@ -740,7 +739,6 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
             this.source = source;
         }
 
-        @Override
         public XBDeclaration getDeclaration() {
             XBDeclaration decl = new StubDeclaration();
             decl.setGroupsReserved(3);
@@ -749,20 +747,8 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
             return decl;
         }
 
-        @Override
         public XBBlockType getBlockType(XBBlockDecl type) {
-            return new XBBlockType() {
-
-                @Override
-                public UBNatural getGroupID() {
-                    return new UBNat32(1);
-                }
-
-                @Override
-                public UBNatural getBlockID() {
-                    return new UBNat32(0);
-                }
-            };
+            return new XBFixedBlockType(1, 0);
         }
     }
 
@@ -772,13 +758,13 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         }
 
         @Override
-        public XBFormatDecl getFormat() {
+        public XBDFormatDecl getFormat() {
             long[] path = {1, 4, 0, 1};
             return new StubXBFormatDecl(path);
         }
     }
 
-    private static class StubXBFormatDecl extends XBFormatDecl implements XBTSequenceSerializable {
+    private static class StubXBFormatDecl extends XBDFormatDecl implements XBTSequenceSerializable {
 
         public StubXBFormatDecl(long[] path) {
             super(path);

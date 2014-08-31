@@ -211,7 +211,7 @@ public class XBEventWriterTest extends TestCase {
         try (XBEventWriter writer = new XBEventWriter(target)) {
             DebugListener listener = new DebugListener(writer);
 
-            listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.ZERO_TERMINATED));
+            listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.TERMINATED_BY_ZERO));
             listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
             listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
             listener.putXBToken(new XBAttributeToken(new UBNat32(1)));

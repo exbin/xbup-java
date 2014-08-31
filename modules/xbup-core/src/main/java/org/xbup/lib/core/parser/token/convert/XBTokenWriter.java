@@ -98,7 +98,7 @@ public class XBTokenWriter implements XBEventListener {
                         // TODO: use buffer
                         int data = ((XBDataToken) bufferToken).getData().read();
                         dataStream.write(data);
-                        if (terminationMode == XBBlockTerminationMode.ZERO_TERMINATED) {
+                        if (terminationMode == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
                             if (data == 0) {
                                 if (zeroCount < 254) {
                                     zeroCount++;
@@ -119,7 +119,7 @@ public class XBTokenWriter implements XBEventListener {
                         }
                     }
 
-                    if (terminationMode == XBBlockTerminationMode.ZERO_TERMINATED) {
+                    if (terminationMode == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
                         if (zeroCount > 0) {
                             dataPartSize += 1;
                         }
@@ -175,7 +175,7 @@ public class XBTokenWriter implements XBEventListener {
 
                     UBENat32 dataPartSize = new UBENat32();
                     bufferLevelType.add(((XBBeginToken) bufferToken).getTerminationMode());
-                    if (((XBBeginToken) bufferToken).getTerminationMode() == XBBlockTerminationMode.ZERO_TERMINATED) {
+                    if (((XBBeginToken) bufferToken).getTerminationMode() == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
                         dataPartSize.setInfinity();
                     } else {
                         dataPartSize.setValue(blockSize.dataPartSize);
@@ -195,7 +195,7 @@ public class XBTokenWriter implements XBEventListener {
                 case DATA: {
                     XBBlockTerminationMode terminationMode = bufferLevelType.get(bufferLevelType.size() - 1);
                     OutputStream streamWrapper;
-                    if (terminationMode == XBBlockTerminationMode.ZERO_TERMINATED) {
+                    if (terminationMode == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
                         bufferLevelType.set(bufferLevelType.size() - 1, XBBlockTerminationMode.SIZE_SPECIFIED);
                         streamWrapper = new TerminatedDataOutputStreamWrapper(stream);
                     } else {
@@ -208,7 +208,7 @@ public class XBTokenWriter implements XBEventListener {
 
                 case END: {
                     XBBlockTerminationMode terminationMode = bufferLevelType.remove(bufferLevelType.size() - 1);
-                    if (terminationMode == XBBlockTerminationMode.ZERO_TERMINATED) {
+                    if (terminationMode == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
                         stream.write(0);
                     }
 

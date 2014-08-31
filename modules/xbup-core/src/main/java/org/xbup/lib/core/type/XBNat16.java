@@ -22,18 +22,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.xbup.lib.core.block.declaration.XBDeclaration;
-import org.xbup.lib.core.catalog.declaration.XBCDeclaration;
-import org.xbup.lib.core.catalog.declaration.XBCPBlockDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.block.declaration.XBDBlockType;
-import org.xbup.lib.core.block.declaration.XBDeclared;
-import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.block.declaration.local.XBDBlockType;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
-import static org.xbup.lib.core.type.XBInt.XB_BLOCK_PATH;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.core.util.CopyStreamUtils;
@@ -44,7 +39,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
  * @version 0.1.24 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
-public class XBNat16 implements XBTChildSerializable, XBDeclared { // XBCL2Streamable
+public class XBNat16 implements XBTChildSerializable {
 
     private int value;
     public static int maxValue = 0xFFFFFFFF;
@@ -57,11 +52,6 @@ public class XBNat16 implements XBTChildSerializable, XBDeclared { // XBCL2Strea
 
     public XBNat16(int value) {
         this.value = value;
-    }
-
-    @Override
-    public XBDeclaration getXBDeclaration() {
-        return new XBCDeclaration(new XBCPBlockDecl(XB_BLOCK_PATH));
     }
 
     public UBNatural getValue() {
@@ -91,7 +81,7 @@ public class XBNat16 implements XBTChildSerializable, XBDeclared { // XBCL2Strea
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serial.setType(new XBDBlockType(new XBCPBlockDecl(XB_BLOCK_PATH)));
+        serial.setType(new XBDBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
         serial.addChild(new DataBlockSerializator());
         serial.end();
     }

@@ -54,6 +54,8 @@ import org.xbup.lib.core.type.XBString;
 import org.xbup.lib.catalog.entity.service.XBEXDescService;
 import org.xbup.lib.catalog.entity.service.XBEXLangService;
 import org.xbup.lib.catalog.entity.service.XBEXNameService;
+import org.xbup.lib.core.block.declaration.XBDeclaration;
+import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
 
@@ -116,7 +118,7 @@ public class Test1 {
             XBString text = new XBString("Test");
             XBFileOutputStream output = new XBFileOutputStream("string.xb");
             XBTChildOutputSerialHandler handler = new XBTChildListenerSerialHandler();
-            XBTEncapsulator encapsulator = new XBTEncapsulator(new XBContext(catalog, text.getXBDeclaration()));
+            XBTEncapsulator encapsulator = new XBTEncapsulator(new XBContext(new XBPBlockDecl(XBString.XB_FORMAT_PATH)), catalog);
             encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
             handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));
             text.serializeToXB(handler);
@@ -131,8 +133,8 @@ public class Test1 {
             XBString text2 = new XBString();
             XBFileInputStream input = new XBFileInputStream("string.xb");
             XBTChildInputSerialHandler handler = new XBTChildProviderSerialHandler();
-            // TODO optimalization
-            XBTDecapsulator decapsulator = new XBTDecapsulator();
+            // TODO decapsulation + optimalization
+            XBTDecapsulator decapsulator = new XBTDecapsulator(null);
             XBTProducer producer = new XBTProviderToProducer(new XBTPullProviderToProvider(new XBToXBTPullConvertor(input)));
             producer.attachXBTListener(decapsulator);
             handler.attachXBTPullProvider(new XBTProviderToPullProvider(new XBTProducerToProvider(decapsulator)));

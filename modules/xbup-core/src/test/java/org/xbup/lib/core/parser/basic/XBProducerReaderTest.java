@@ -232,7 +232,7 @@ public class XBProducerReaderTest extends TestCase {
         AssertListener assertListener;
 
         List<XBToken> tokenList = new ArrayList<>();
-        tokenList.add(new XBBeginToken(XBBlockTerminationMode.ZERO_TERMINATED));
+        tokenList.add(new XBBeginToken(XBBlockTerminationMode.TERMINATED_BY_ZERO));
         tokenList.add(new XBAttributeToken(new UBNat32(0)));
         tokenList.add(new XBAttributeToken(new UBNat32(0)));
         tokenList.add(new XBAttributeToken(new UBNat32(1)));

@@ -16,25 +16,11 @@
  */
 package org.xbup.lib.core.block.declaration;
 
-import org.xbup.lib.core.serial.XBSerializable;
-
 /**
- * XBUP level 1 block declaration interface.
+ * Block declaration interface, either for catalog or local definition.
  *
- * @version 0.1.23 2014/03/03
+ * @version 0.1.24 2014/08/26
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBBlockDecl extends XBSerializable {
-
-    /**
-     *
-     * @param type
-     * @return
-     */
-    //public abstract boolean matchType(XBBlockType type);
-
-    /**
-     * @return the revision
-     */
-    public int getRevision();
+public interface XBBlockDecl {
 }

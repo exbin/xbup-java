@@ -16,7 +16,7 @@
  */
 package org.xbup.lib.core.parser.token.param;
 
-import org.xbup.lib.core.block.declaration.XBParamDecl;
+import org.xbup.lib.core.block.param.XBParamDecl;
 
 /**
  * XBUP protocol level 1 parameter begin token.

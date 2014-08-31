@@ -25,10 +25,10 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
-import org.xbup.lib.core.block.declaration.XBDBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
-import org.xbup.lib.core.block.declaration.XBFormatDecl;
-import org.xbup.lib.core.catalog.declaration.XBCPBlockDecl;
+import org.xbup.lib.core.block.declaration.local.XBDBlockType;
+import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.token.XBTToken;
@@ -214,22 +214,21 @@ public class XBDbServiceClient implements XBServiceClient {
         }
 
         public XBServiceContext(XBSerializable rootNode) {
-            super(null);
+            super();
             XBDeclaration decl = new XBDeclaration();
             decl.setRootNode(rootNode);
-            decl.setFormat(new XBFormatDecl(XBSERVICE_FORMAT));
-            setDeclaration(decl);
+            decl.setFormat(new XBDFormatDecl(XBSERVICE_FORMAT));
+            // setDeclaration(decl);
         }
 
-        @Override
         public XBFixedBlockType toStaticType(XBBlockType type) {
             if (type instanceof XBFixedBlockType) {
                 return (XBFixedBlockType) type;
             }
             if (type instanceof XBDBlockType) {
                 XBBlockDecl blockDecl = ((XBDBlockType) type).getBlockDecl();
-                if (blockDecl instanceof XBCPBlockDecl) {
-                    Long[] path = ((XBCPBlockDecl) blockDecl).getCatalogObjectPath();
+                if (blockDecl instanceof XBPBlockDecl) {
+                    Long[] path = ((XBPBlockDecl) blockDecl).getCatalogObjectPath();
                     if (path.length != 5) {
                         return new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK);
                     } else {

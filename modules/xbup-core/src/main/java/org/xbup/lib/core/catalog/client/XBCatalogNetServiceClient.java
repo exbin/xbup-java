@@ -39,9 +39,6 @@ import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.remote.XBServiceClient;
 import org.xbup.lib.core.remote.XBTCPServiceClient;
-import org.xbup.lib.core.serial.basic.XBTBasicInputSerialHandler;
-import org.xbup.lib.core.serial.basic.XBTBasicOutputSerialHandler;
-import org.xbup.lib.core.serial.basic.XBTBasicSerializable;
 import org.xbup.lib.core.stream.XBTokenInputStream;
 import org.xbup.lib.core.stream.XBTokenOutputStream;
 import org.xbup.lib.core.stream.XBStreamChecker;
@@ -193,18 +190,8 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
 //            XBL1Declaration decl = new XBL1Declaration();
 //            decl.setFormat(new XBL1FormatDecl(XBServiceClient.XBSERVICE_FORMAT));
 //            decl.setRootNode(new MyXBL1Conversible(procedureId));
-            XBTEncapsulator encapsulator = new XBTEncapsulator(new XBServiceContext(new XBTBasicSerializable() {
-
-                @Override
-                public void serializeFromXB(XBTBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                    throw new UnsupportedOperationException("Not supported yet.");
-                }
-
-                @Override
-                public void serializeToXB(XBTBasicOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                    throw new UnsupportedOperationException("Not supported yet.");
-                }
-            }));
+            // TODO encapsulator
+            XBTEncapsulator encapsulator = new XBTEncapsulator(null, null);
             //new MyXBTConversible(procedureId)));
 //            XBTEncapsulator encapsulator = new XBTEncapsulator(new XBL1Context(getCatalog(),decl));
             encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output))); // new MyXBL0EventListener(new XBTToXBEventConvertor(

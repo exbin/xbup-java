@@ -31,8 +31,11 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockDataMode;
-import org.xbup.lib.core.block.declaration.XBContextBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
+import org.xbup.lib.core.block.declaration.XBBlockDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
@@ -41,22 +44,21 @@ import org.xbup.lib.core.catalog.base.XBCXPlugPane;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.core.catalog.base.service.XBCXPaneService;
-import org.xbup.lib.core.catalog.declaration.XBCBlockDecl;
 import org.xbup.lib.core.parser.XBParserMode;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.event.XBEventWriter;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
-import org.xbup.lib.parser_tree.XBTTreeDocument;
-import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.parser_tree.XBTTreeDocument;
+import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.plugin.XBPanelEditor;
 import org.xbup.lib.plugin.XBPlugin;
 import org.xbup.lib.plugin.XBPluginRepository;
@@ -389,10 +391,9 @@ public class ItemModifyDialog extends javax.swing.JDialog {
                 ((CardLayout) mainPanel.getLayout()).first(mainPanel);
                 node = new XBTTreeNode();
                 node.clearAttributes();
-                node.setBlockType(new XBContextBlockType(0, 0));
+                node.setBlockType(new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK));
                 if (srcNode.getBlockType() != null) {
-                    node.addAttribute(srcNode.getBlockType().getGroupID()); // TODO: This is ugly code, should be fixed later
-                    node.addAttribute(srcNode.getBlockType().getBlockID()); // TODO: This is ugly code, should be fixed later
+                    node.setBlockType(srcNode.getBlockType());
                 }
                 for (Iterator it = srcNode.getAttributes().iterator(); it.hasNext();) {
                     node.addAttribute(new UBNat32((UBNat32) it.next()));
@@ -495,21 +496,16 @@ public class ItemModifyDialog extends javax.swing.JDialog {
         if (srcNode.getBlockType() == null) {
             return null;
         }
-        if (((XBContextBlockType) srcNode.getBlockType()).getBlockDecl() == null) {
+        if (srcNode.getBlockDecl() == null) {
             return null;
         }
         XBCRevService revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
         XBCXPaneService paneService = (XBCXPaneService) catalog.getCatalogService(XBCXPaneService.class);
-        XBCBlockDecl decl = ((XBCBlockDecl) ((XBContextBlockType) srcNode.getBlockType()).getBlockDecl());
+        XBCBlockDecl decl = (XBCBlockDecl) srcNode.getBlockDecl();
         if (decl == null) {
             return null;
         }
-        XBCBlockSpec spec = decl.getBlockSpec(catalog);
-        if (spec == null) {
-            return null;
-        }
-        int revision = decl.getRevision();
-        XBCBlockRev rev = (XBCBlockRev) revService.getRev(spec, revision);
+        XBCBlockRev rev = decl.getBlockSpec();
         if (rev == null) {
             return null;
         }

@@ -36,9 +36,7 @@ import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
-import org.xbup.lib.core.block.declaration.XBContextBlockType;
-import org.xbup.lib.core.block.declaration.XBDBlockDecl;
-import org.xbup.lib.core.block.declaration.XBDeclBlockType;
+import org.xbup.lib.core.block.declaration.local.XBDBlockDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBParseException;
@@ -48,6 +46,7 @@ import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTProvider;
 import org.xbup.lib.core.parser.param.XBParamPosition;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.UBStreamable;
@@ -58,7 +57,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Basic object model parser XBUP level 1 document block / tree node.
  *
- * @version 0.1.23 2014/02/20
+ * @version 0.1.24 2014/08/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
@@ -68,16 +67,13 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     private XBBlockTerminationMode terminationMode;
     private XBBlockDataMode dataMode;
 
-    private XBBlockType blockType;
-    private int blockTypeLength;
-
     private List<UBNatural> attributes;
     private List<XBTBlock> children;
     private byte[] data;
 
-    /**
-     * Creates a new instance of XBTTreeNode.
-     */
+    private XBContext context;
+    private XBBlockDecl blockDecl;
+
     public XBTTreeNode() {
         this(null);
     }
@@ -98,14 +94,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         attributes = new ArrayList<>();
         data = null;
 
-        blockType = null;
-        if (parent != null) {
-            if (parent.getBlockType() instanceof XBContextBlockType) {
-                blockType = new XBContextBlockType(0, 0, ((XBContextBlockType) parent.getBlockType()).getContext());
-            }
-        }
-
-        blockTypeLength = 0;
+        blockDecl = null;
     }
 
     /**
@@ -115,16 +104,12 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
      * @param parentContext parent context
      */
     public void processSpec(XBCatalog catalog, XBContext parentContext) {
-        if (!(blockType instanceof XBContextBlockType)) {
-            return;
-        }
-
-        ((XBContextBlockType) blockType).setContext(parentContext);
+        context = parentContext;
         if (dataMode == XBBlockDataMode.NODE_BLOCK) {
             if (getAttributesCount() > 1) {
                 if ((getAttributeValue(0) == 0) && (getAttributeValue(1) == XBBasicBlockType.DECLARATION.ordinal())) {
                     // Process specification block
-                    XBContext childContext = XBContext.processDeclaration(catalog, parentContext, this);
+                    XBContext childContext = catalog.processDeclaration(parentContext, this);
                     long blockPos = 0;
                     if (getChildren() != null) {
                         for (Iterator it = getChildren().iterator(); it.hasNext();) {
@@ -133,6 +118,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                             item.processSpec(catalog, blockPos == 2 ? childContext : parentContext);
                         }
                     }
+
                     return;
                 }
             }
@@ -160,17 +146,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     public int getAttributeValue(int index) {
-        if (getAttributesCount() > index) {
-            if (index == 0) {
-                return getBlockType().getGroupID().getInt();
-            }
-            if (index == 1) {
-                return getBlockType().getBlockID().getInt();
-            }
-            return ((UBNat32) getAttributes().get(index - 2)).getInt();
-        } else {
-            return 0;
-        }
+        return (index + 2 < attributes.size()) ? attributes.get(index + 2).getInt() : 0;
     }
 
     /**
@@ -336,13 +312,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             UBNat32 attrSize = new UBNat32(childrenSize.getSizeUB() + attrSizeUB() + typeSizeUB());
             int size = attrSize.toStreamUB(stream);
             size += childrenSize.toStreamUB(stream);
-            if (blockTypeLength > 0) {
-                blockType.getGroupID().toStreamUB(stream);
-            }
-            if (blockTypeLength > 1) {
-                blockType.getBlockID().toStreamUB(stream);
-            }
-            if (getAttributesCount() > 2) {
+            if (getAttributesCount() > 0) {
                 Iterator<UBNatural> iter = getAttributes().iterator();
                 while (iter.hasNext()) {
                     size += iter.next().toStreamUB(stream);
@@ -351,7 +321,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             if (getChildren() != null) {
                 size += childrenToStreamUB(stream);
             }
-            if (terminationMode == XBBlockTerminationMode.ZERO_TERMINATED) {
+            if (terminationMode == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
                 size += (new UBNat32()).toStreamUB(stream);
             }
             return size;
@@ -408,14 +378,6 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                         throw new XBParseException("Attribute overreached");
                     }
                 } while (itemSize < attrSize.getInt());
-                if (attribs.size() > 1) {
-                    setBlockType(new XBContextBlockType(attribs.get(0).getInt(), attribs.get(1).getInt()));
-                    attribs.remove(1);
-                    attribs.remove(0);
-                } else if (attribs.size() == 1) {
-                    setBlockType(new XBContextBlockType(attribs.get(0).getInt(), 0));
-                    attribs.remove(0);
-                }
                 setAttributes(attribs);
                 if (dataSize.getInt() > 0) {
                     size += childrenFromStreamUB(stream, dataSize.getInt());
@@ -470,19 +432,14 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             UBNat32 attrSize = new UBNat32(childrenSize.getSizeUB() + attrSizeUB() + typeSizeUB());
             size += attrSize.getSizeUB();
             size += childrenSize.getSizeUB();
-            if (blockTypeLength > 0) {
-                size += blockType.getGroupID().getSizeUB();
-            }
-            if (blockTypeLength > 1) {
-                size += blockType.getBlockID().getSizeUB();
-            }
-            if (getAttributesCount() > 2) {
+            if (getAttributesCount() > 0) {
                 Iterator<UBNatural> iter = getAttributes().iterator();
                 while (iter.hasNext()) {
                     size += iter.next().getSizeUB();
                 }
             }
-            if (terminationMode == XBBlockTerminationMode.ZERO_TERMINATED) {
+
+            if (terminationMode == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
                 size++; // size += (new UBNat32()).getSizeUB();
             }
             return size;
@@ -522,21 +479,12 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
 
     @Override
     public int getAttributesCount() {
-        if (attributes.size() > 0) {
-            return attributes.size() + 2;
-        }
-        return blockTypeLength;
+        return attributes.size();
     }
 
     @Override
     public UBNatural getAttribute(int index) {
-        if (index == 0) {
-            return getBlockType().getGroupID();
-        }
-        if (index == 1) {
-            return getBlockType().getBlockID();
-        }
-        return attributes.get(index - 2);
+        return (index < attributes.size()) ? attributes.get(index) : null;
     }
 
     @Override
@@ -604,7 +552,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
      */
     public XBTTreeNode cloneNode(boolean recursive) {
         XBTTreeNode node = new XBTTreeNode();
-        node.setBlockType(blockType);
+        node.setBlockDecl(blockDecl);
         if (data != null) {
             node.data = data.clone();
         }
@@ -652,13 +600,9 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
 
     @Override
     public void setAttribute(UBNatural attribute, int index) {
-        if (index == 0) {
-            blockType = new XBContextBlockType(attribute.getInt(), getBlockType().getBlockID().getInt(), ((XBContextBlockType) getBlockType()).getContext());
-        } else if (index == 1) {
-            blockType = new XBContextBlockType(getBlockType().getGroupID().getInt(), attribute.getInt(), ((XBContextBlockType) getBlockType()).getContext());
-        } else {
-            attributes.set(index - 2, attribute);
-        }
+        // TODO fill zero attributes?
+        // TODO shrink zero attributes?
+        attributes.set(index, attribute);
     }
 
     @Override
@@ -687,64 +631,46 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     /**
-     * @param blockType the blockType to set
+     * @param blockType the declBlockType to set
      */
     public void setBlockType(XBBlockType blockType) {
-        this.blockType = blockType;
-        blockTypeLength = 2;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /* TODO
+    /* *
+     * @param blockDecl the blockDecl to set
+     * /
+    public void setBlockDecl(XBBlockDecl blockDecl) {
+        cachedBlockDecl = blockDecl;
+        if (getContext() == null) {
+            blockId = 0;
+            groupId = 0;
+        } else {
+            XBBlockType declBlockType = getContext().getBlockType(blockDecl);
+            if (declBlockType instanceof XBFBlockType) {
+                this.blockId = ((XBFBlockType) declBlockType).getBlockID().getInt();
+                this.groupId = ((XBFBlockType) declBlockType).getGroupID().getInt();
+            } else {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        }
+    } */
+    
     public void clearAttributes() {
         attributes = new ArrayList<>();
-        blockTypeLength = 0;
     }
 
     public void addAttribute(UBNatural attribute) {
-        if ((attributes.size() > 0) || (blockTypeLength == 2)) {
-            attributes.add(attribute);
-        } else {
-            setAttribute(attribute, blockTypeLength);
-            blockTypeLength++;
-        }
+        attributes.add(attribute);
     }
 
     public void removeAttribute(int index) {
-        if (index > 1) {
-            attributes.remove(index - 2);
-        } else {
-            if (blockTypeLength <= index) {
-                throw new NullPointerException();
-            }
-            if (attributes.size() > 0) {
-                if (index == 0) {
-                    blockType = new XBContextBlockType(getBlockType().getBlockID().getInt(), attributes.get(0).getInt(), ((XBContextBlockType) getBlockType()).getContext());
-                } else {
-                    blockType = new XBContextBlockType(getBlockType().getGroupID().getInt(), attributes.get(0).getInt(), ((XBContextBlockType) getBlockType()).getContext());
-                }
-                attributes.remove(0);
-            } else {
-                if ((index == 0) && (blockTypeLength > 1)) {
-                    blockType = new XBContextBlockType(getBlockType().getBlockID().getInt(), 0, ((XBContextBlockType) getBlockType()).getContext());
-                } else if (index == 1) {
-                    blockType = new XBContextBlockType(getBlockType().getGroupID().getInt(), 0, ((XBContextBlockType) getBlockType()).getContext());
-                } else {
-                    blockType = new XBContextBlockType(0, 0, ((XBContextBlockType) getBlockType()).getContext());
-                }
-                blockTypeLength--;
-            }
-        }
+        attributes.remove(index);
     }
 
     private int typeSizeUB() {
-        if (blockTypeLength > 1) {
-            return blockType.getGroupID().getSizeUB() + blockType.getBlockID().getSizeUB();
-        }
-
-        if (blockTypeLength == 1) {
-            return blockType.getGroupID().getSizeUB();
-        }
-
-        return 0;
+        return attributes.get(0).getSizeUB() + attributes.get(1).getSizeUB();
     }
 
     /**
@@ -755,19 +681,19 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
      */
     public XBSerializable getParameter(int index) {
 //        XBDeclaration decl = context.getDeclaration(); // Or from catalog?
-//        XBDeclaration paramDecl = context.getParamDecl(blockType, index);
-        if (blockType instanceof XBDeclBlockType) {
-            XBBlockDecl blockDecl = ((XBDeclBlockType) blockType).getBlockDecl();
-            if (blockDecl instanceof XBDBlockDecl) {
-                XBParamPosition paramPos = ((XBDBlockDecl) blockDecl).getParamPosition(new XBSerializable() {
-                    // TODO
-                }, index);
-                return new XBSerializable() {
-                    // TODO
-                };
-            }
+//        XBDeclaration paramDecl = context.getParamDecl(declBlockType, index);
+        if (blockDecl instanceof XBDBlockDecl) {
+            XBParamPosition paramPos = ((XBDBlockDecl) blockDecl).getParamPosition(new XBSerializable() {
+                // TODO
+            }, index);
+            return new XBSerializable() {
+                // TODO
+            };
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
         }
-        return null;
+
+        // return null;
     }
 
     public XBTBlock getParam(XBACatalog catalog, long paramId) {
@@ -858,6 +784,27 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
 
     @Override
     public XBBlockType getBlockType() {
+        XBFixedBlockType blockType = null;
+        if (attributes.size() > 1) {
+            blockType = new XBFixedBlockType(attributes.get(0), attributes.get(1));
+        } else if (attributes.size() == 1) {
+            blockType = new XBFixedBlockType(attributes.get(0).getInt(), 0);
+        } else {
+            blockType = new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK);
+        }
+        
         return blockType;
+    }
+
+    public XBContext getContext() {
+        return context;
+    }
+
+    public XBBlockDecl getBlockDecl() {
+        return blockDecl;
+    }
+
+    public void setBlockDecl(XBBlockDecl blockDecl) {
+        this.blockDecl = blockDecl;
     }
 }

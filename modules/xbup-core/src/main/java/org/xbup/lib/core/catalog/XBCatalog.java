@@ -17,10 +17,13 @@
 package org.xbup.lib.core.catalog;
 
 import java.util.List;
+import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
+import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
+import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.catalog.base.XBCBase;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
 import org.xbup.lib.core.catalog.base.XBCGroupSpec;
@@ -30,7 +33,7 @@ import org.xbup.lib.core.catalog.base.service.XBCService;
 /**
  * Interface for XBUP level 1 catalog.
  *
- * @version 0.1.23 2014/03/17
+ * @version 0.1.24 2014/08/31
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCatalog {
@@ -46,26 +49,29 @@ public interface XBCatalog {
      * Returns a type of block for given XB Path.
      *
      * @param xbCatalogPath a path in catalog using xbIndexes
+     * @param revision XB index of revision
      * @return block type declaration for given catalog or null if traversal
      * fails
      */
-    public XBBlockDecl findBlockTypeByPath(Long[] xbCatalogPath);
+    public XBBlockDecl findBlockTypeByPath(Long[] xbCatalogPath, int revision);
 
     /**
      * Returns a group type for given XB Path.
      *
      * @param xbCatalogPath a path in catalog using xbIndexes
+     * @param revision XB index of revision
      * @return group Type for given catalog or null if fails
      */
-    public XBGroupDecl findGroupTypeByPath(Long[] xbCatalogPath);
+    public XBGroupDecl findGroupTypeByPath(Long[] xbCatalogPath, int revision);
 
     /**
      * Returns a format type for given XB Path.
      *
      * @param xbCatalogPath a path in catalog using xbIndexes
+     * @param revision XB index of revision
      * @return format Type for given catalog or null if fails
      */
-    public XBFormatDecl findFormatTypeByPath(Long[] xbCatalogPath);
+    public XBFormatDecl findFormatTypeByPath(Long[] xbCatalogPath, int revision);
 
     /**
      * Returns list of binded specifications for given format specification for
@@ -132,4 +138,24 @@ public interface XBCatalog {
      * @param ext instance of extension, must implement XBCExtension
      */
     public void addCatalogService(Class type, XBCService<? extends XBCBase> ext);
+
+    /**
+     * Provide fixed block type for given block declaration.
+     *
+     * @param context
+     * @param decl block declaration
+     * @return static block type
+     */
+    public XBFixedBlockType findFixedType(XBContext context, XBBlockDecl decl);
+
+    /**
+     * Provide fixed block type for given block declaration.
+     *
+     * @param context
+     * @param type block type
+     * @return static block type
+     */
+    public XBFixedBlockType findFixedType(XBContext context, XBBlockType type);
+
+    public XBContext processDeclaration(XBContext parent, XBTBlock specBlock);
 }

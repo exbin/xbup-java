@@ -25,19 +25,19 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.declaration.XBContextBlockType;
-import org.xbup.lib.core.block.declaration.XBDBlockType;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockType;
+import org.xbup.lib.core.block.declaration.local.XBDBlockType;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.service.XBCXIconService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.core.catalog.declaration.XBCBlockDecl;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 
 /**
  * Tree Cell Renderer for XBUP Document Tree.
  *
- * @version 0.1.22 2013/08/31
+ * @version 0.1.24 2014/08/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
@@ -50,8 +50,8 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
     public XBDocTreeCellRenderer(XBACatalog catalog) {
         super();
         this.catalog = catalog;
-        captionCache = new HashMap<Long,String>();
-        iconCache = new HashMap<Long,ImageIcon>();
+        captionCache = new HashMap<>();
+        iconCache = new HashMap<>();
     }
 
     @Override
@@ -109,31 +109,31 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
      * @return caption
      */
     public String getCaption(XBBlockType blockType) {
-        if (blockType instanceof XBContextBlockType) {
-            XBCBlockDecl blockDecl = (XBCBlockDecl) ((XBContextBlockType) blockType).getBlockDecl();
-            if (blockDecl != null) {
-                XBCBlockSpec blockSpec = blockDecl.getBlockSpec(catalog);
-                if (captionCache.containsKey(blockSpec.getId())) {
-                    return captionCache.get(blockSpec.getId());
-                }
-                XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-                String caption = nameService.getDefaultCaption(blockSpec);
-                captionCache.put(blockSpec.getId(), caption);
-                return caption;
+        if (blockType instanceof XBCBlockType) {
+            XBCBlockSpec blockSpec = (XBCBlockSpec) ((XBCBlockType) blockType).getBlockSpec().getParent();
+            if (captionCache.containsKey(blockSpec.getId())) {
+                return captionCache.get(blockSpec.getId());
             }
+
+            XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+            String caption = nameService.getDefaultCaption(blockSpec);
+            captionCache.put(blockSpec.getId(), caption);
+            return caption;
         } else if (blockType instanceof XBDBlockType) {
             XBCBlockDecl blockDecl = (XBCBlockDecl) ((XBDBlockType) blockType).getBlockDecl();
             if (blockDecl != null) {
-                XBCBlockSpec blockSpec = blockDecl.getBlockSpec(catalog);
+                XBCBlockSpec blockSpec = blockDecl.getBlockSpec().getParent();
                 if (captionCache.containsKey(blockSpec.getId())) {
                     return captionCache.get(blockSpec.getId());
                 }
+
                 XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
                 String caption = nameService.getDefaultCaption(blockSpec);
                 captionCache.put(blockSpec.getId(), caption);
                 return caption;
             }
         }
+
         return null;
     }
 
@@ -144,30 +144,27 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
      * @return icon
      */
     public ImageIcon getIcon(XBBlockType blockType) {
-        if (blockType instanceof XBContextBlockType) {
-            XBCBlockDecl blockDecl = (XBCBlockDecl) ((XBContextBlockType) blockType).getBlockDecl();
-            if (blockDecl != null) {
-                XBCBlockSpec blockSpec = blockDecl.getBlockSpec(catalog);
-                if (iconCache.containsKey(blockSpec.getId())) {
-                    return iconCache.get(blockSpec.getId());
-                }
-                XBCXIconService iconService = (XBCXIconService) catalog.getCatalogService(XBCXIconService.class);
-                ImageIcon icon = iconService.getDefaultImageIcon(blockSpec);
-                if (icon == null) {
-                    iconCache.put(blockSpec.getId(), icon);
-                    return null;
-                }
-                if (icon.getImage() == null) {
-                    return null;
-                }
-                icon = new ImageIcon(icon.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
-                iconCache.put(blockSpec.getId(), icon);
-                return icon;
+        if (blockType instanceof XBCBlockType) {
+            XBCBlockSpec blockSpec = (XBCBlockSpec) ((XBCBlockType) blockType).getBlockSpec().getParent();
+            if (iconCache.containsKey(blockSpec.getId())) {
+                return iconCache.get(blockSpec.getId());
             }
+            XBCXIconService iconService = (XBCXIconService) catalog.getCatalogService(XBCXIconService.class);
+            ImageIcon icon = iconService.getDefaultImageIcon(blockSpec);
+            if (icon == null) {
+                iconCache.put(blockSpec.getId(), icon);
+                return null;
+            }
+            if (icon.getImage() == null) {
+                return null;
+            }
+            icon = new ImageIcon(icon.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
+            iconCache.put(blockSpec.getId(), icon);
+            return icon;
         } else if (blockType instanceof XBDBlockType) {
             XBCBlockDecl blockDecl = (XBCBlockDecl) ((XBDBlockType) blockType).getBlockDecl();
             if (blockDecl != null) {
-                XBCBlockSpec blockSpec = blockDecl.getBlockSpec(catalog);
+                XBCBlockSpec blockSpec = blockDecl.getBlockSpec().getParent();
                 if (iconCache.containsKey(blockSpec.getId())) {
                     return iconCache.get(blockSpec.getId());
                 }
@@ -182,6 +179,7 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
                 return icon;
             }
         }
+
         return null;
     }
 }

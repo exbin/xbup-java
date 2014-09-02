@@ -27,8 +27,8 @@ import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.block.declaration.local.XBDBlockType;
-import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBPFormatDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.token.XBTToken;
@@ -217,7 +217,7 @@ public class XBDbServiceClient implements XBServiceClient {
             super();
             XBDeclaration decl = new XBDeclaration();
             decl.setRootNode(rootNode);
-            decl.setFormat(new XBDFormatDecl(XBSERVICE_FORMAT));
+            decl.setFormat(new XBPFormatDecl(XBSERVICE_FORMAT));
             // setDeclaration(decl);
         }
 

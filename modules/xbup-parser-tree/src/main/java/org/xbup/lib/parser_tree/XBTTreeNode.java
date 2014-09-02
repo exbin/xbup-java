@@ -46,6 +46,7 @@ import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTProvider;
 import org.xbup.lib.core.parser.param.XBParamPosition;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
@@ -94,6 +95,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         attributes = new ArrayList<>();
         data = null;
 
+        context = null;
         blockDecl = null;
     }
 
@@ -172,6 +174,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                 throw new XBParseException("Block overreached", XBProcessingExceptionType.BLOCK_OVERFLOW);
             }
         } while (((maxSize == 0) && (childSize != 1)) || ((maxSize > 0) && (size < maxSize)));
+
         return size;
     }
 
@@ -217,13 +220,16 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                     result += ((XBTTreeNode) it.next()).getSubNodesCount();
                 }
             }
+
             return result;
         }
         return 0;
     }
 
     /**
-     * Get index in depth-first order
+     * Get block position in tree in depth-first scan.
+     *
+     * @return position index
      */
     @Override
     public int getBlockIndex() {
@@ -236,8 +242,10 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                 if (!it.hasNext()) {
                     return -1;// TODO: throw new Exception("Tree structure corrupted or internal error");
                 }
+
                 node = (XBTTreeNode) it.next();
             }
+
             return result;
         } else {
             return 0;
@@ -410,6 +418,8 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         if (attributes != null) {
             attributes.clear();
         }
+        
+        blockDecl = null;
     }
 
     @Override
@@ -453,6 +463,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             while (iter.hasNext()) {
                 size += ((XBTTreeNode) iter.next()).getSizeUB();
             }
+
             return size;
         } else {
             return 0;
@@ -461,11 +472,11 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
 
     public int attrSizeUB() {
         if (getAttributesCount() > 2) {
-            Iterator<UBNatural> iter = getAttributes().iterator();
             int size = 0;
-            while (iter.hasNext()) {
-                size += iter.next().getSizeUB();
+            for (int attributeId = 2; attributeId < attributes.size(); attributeId++) {
+                size += attributes.get(attributeId).getSizeUB();
             }
+
             return size;
         } else {
             return 0;
@@ -475,16 +486,6 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     @Override
     public String toString() {
         return "Item";
-    }
-
-    @Override
-    public int getAttributesCount() {
-        return attributes.size();
-    }
-
-    @Override
-    public UBNatural getAttribute(int index) {
-        return (index < attributes.size()) ? attributes.get(index) : null;
     }
 
     @Override
@@ -594,15 +595,27 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     @Override
-    public void setAttributesCount(int count) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public UBNatural getAttribute(int index) {
+        return (index < attributes.size() - 2) ? attributes.get(index + 2) : null;
     }
 
     @Override
     public void setAttribute(UBNatural attribute, int index) {
-        // TODO fill zero attributes?
-        // TODO shrink zero attributes?
-        attributes.set(index, attribute);
+        while (attributes.size() < index + 2) {
+            attributes.add(new UBNat32());
+        }
+
+        attributes.set(index + 2, attribute);
+    }
+
+    @Override
+    public int getAttributesCount() {
+        return (attributes.size() > 2) ? attributes.size() - 2 : 0;
+    }
+
+    @Override
+    public void setAttributesCount(int count) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -628,13 +641,6 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     @Override
     public long getBlockSize() {
         return getSizeUB();
-    }
-
-    /**
-     * @param blockType the declBlockType to set
-     */
-    public void setBlockType(XBBlockType blockType) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /* TODO
@@ -784,7 +790,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
 
     @Override
     public XBBlockType getBlockType() {
-        XBFixedBlockType blockType = null;
+        XBFixedBlockType blockType;
         if (attributes.size() > 1) {
             blockType = new XBFixedBlockType(attributes.get(0), attributes.get(1));
         } else if (attributes.size() == 1) {
@@ -794,6 +800,23 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         }
         
         return blockType;
+    }
+
+    public void setBlockType(XBBlockType blockType) {
+        if (blockType instanceof XBFixedBlockType) {
+            if (attributes.size() < 2) {
+                if (attributes.isEmpty()) {
+                    attributes.add(null);
+                }
+                
+                attributes.add(null);
+            }
+            
+            attributes.set(0, ((XBFBlockType) blockType).getGroupID());
+            attributes.set(1, ((XBFBlockType) blockType).getBlockID());
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     public XBContext getContext() {

@@ -16,49 +16,70 @@
  */
 package org.xbup.lib.core.block.declaration.catalog;
 
+import java.io.IOException;
+import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.local.XBDBlockType;
+import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildSerializable;
+import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * Block type context defined by catalog specification.
  *
- * @version 0.1.24 2014/08/29
+ * @version 0.1.24 2014/09/02
  * @author XBUP Project (http://xbup.org)
  */
-public class XBCBlockDecl implements XBBlockDecl {
+public class XBCBlockDecl implements XBBlockDecl, XBTChildSerializable {
 
     private XBCBlockRev blockSpec;
+    private final XBCatalog catalog;
 
-    public XBCBlockDecl(XBCBlockRev blockSpec) {
+    public XBCBlockDecl(XBCBlockRev blockSpec, XBCatalog catalog) {
         this.blockSpec = blockSpec;
+        this.catalog = catalog;
     }
 
-    /* public boolean produceXBT() {
-        throw new UnsupportedOperationException("Not supported yet.");
-        try {
-            eventListener.beginXBL1(false);
-            eventListener.typeXBL1(new XBL1SBBlockDecl(XBBasicBlockTypeEnum.BLOCK_CATALOG_LINK));
-            eventListener.attribXBL1(new UBNat32(path.length-1));
-            for (int i = 0; i < path.length; i++) {
-                eventListener.attribXBL1(new UBNat32(path[i]));
-            }
-            eventListener.endXBL1();
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBL1CFormatDecl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBL1CFormatDecl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    } */
-
-    public boolean matchType(XBBlockType type) {
-        if (type instanceof XBDBlockType) {
-            throw new UnsupportedOperationException("Not supported yet.");
-            // return this.equals(((XBDBlockType) type).getBlockDecl());
+    @Override
+    public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        serializationHandler.begin();
+        XBBlockType type = serializationHandler.getType();
+        if (type.getAsBasicType() != XBBasicBlockType.BLOCK_DECLARATION_LINK) {
+            throw new XBProcessingException("Unexpected block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
         }
 
-        return false;
+        UBNatural pathLength = serializationHandler.nextAttribute();
+        Long[] path = new Long[pathLength.getInt()];
+        for (int i = 0; i < pathLength.getInt(); i++) {
+            path[i] = serializationHandler.nextAttribute().getLong();
+        }
+
+        XBCBlockDecl block = (XBCBlockDecl) catalog.findBlockTypeByPath(path, 0);
+        blockSpec = block.getBlockSpec();
+        serializationHandler.end();
+    }
+
+    @Override
+    public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        serializationHandler.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
+        serializationHandler.setType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION_LINK));
+        Long[] path = catalog.getSpecPath(blockSpec.getParent());
+        serializationHandler.addAttribute(new UBNat32(path.length - 1));
+        for (Long pathIndex : path) {
+            serializationHandler.addAttribute(new UBNat32(pathIndex));
+        }
+
+        serializationHandler.addAttribute(new UBNat32(blockSpec.getXBIndex()));
+        serializationHandler.end();
     }
 
     @Override

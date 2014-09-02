@@ -60,6 +60,7 @@ import org.xbup.lib.core.catalog.base.XBCFormatSpec;
 import org.xbup.lib.core.catalog.base.XBCGroupRev;
 import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.XBCRev;
+import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
 import org.xbup.lib.core.catalog.base.manager.XBCManager;
 import org.xbup.lib.core.catalog.base.service.XBCItemService;
@@ -68,6 +69,7 @@ import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.core.catalog.base.service.XBCService;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXInfoService;
+import org.xbup.lib.core.catalog.remote.service.XBRSpecService;
 import org.xbup.lib.core.catalog.update.XBCUpdateHandler;
 
 /**
@@ -172,7 +174,7 @@ public class XBECatalog implements XBCatalog {
             return null;
         }
 
-        return new XBCFormatDecl((XBCFormatRev) rev);
+        return new XBCFormatDecl((XBCFormatRev) rev, this);
     }
 
     @Override
@@ -189,7 +191,7 @@ public class XBECatalog implements XBCatalog {
             return null;
         }
 
-        return new XBCGroupDecl((XBCGroupRev) rev);
+        return new XBCGroupDecl((XBCGroupRev) rev, this);
     }
 
     @Override
@@ -206,7 +208,7 @@ public class XBECatalog implements XBCatalog {
             return null;
         }
 
-        return new XBCBlockDecl((XBCBlockRev) rev);
+        return new XBCBlockDecl((XBCBlockRev) rev, this);
     }
 
     @Override
@@ -328,7 +330,7 @@ public class XBECatalog implements XBCatalog {
         List<XBCSpecDef> binds = specService.getSpecDefs(spec);
         ArrayList<XBGroupDecl> result = new ArrayList<>();
         for (Iterator it = binds.iterator(); it.hasNext();) {
-            result.add(new XBCGroupDecl((XBCGroupRev) ((XBCSpecDef) it.next()).getTarget()));
+            result.add(new XBCGroupDecl((XBCGroupRev) ((XBCSpecDef) it.next()).getTarget(), this));
         }
         return result;
     }
@@ -339,7 +341,7 @@ public class XBECatalog implements XBCatalog {
         List<XBCSpecDef> binds = specService.getSpecDefs(spec);
         ArrayList<XBBlockDecl> result = new ArrayList<>();
         for (Iterator it = binds.iterator(); it.hasNext();) {
-            result.add(new XBCBlockDecl((XBCBlockRev) ((XBCSpecDef) it.next()).getTarget()));
+            result.add(new XBCBlockDecl((XBCBlockRev) ((XBCSpecDef) it.next()).getTarget(), this));
         }
         return result;
     }
@@ -422,7 +424,7 @@ public class XBECatalog implements XBCatalog {
         if (type instanceof XBFixedBlockType) {
             return (XBFixedBlockType) type;
         } else if (type instanceof XBCBlockType) {
-            return findFixedType(context, new XBCBlockDecl((XBCBlockRev) ((XBCBlockType) type).getBlockSpec()));
+            return findFixedType(context, new XBCBlockDecl((XBCBlockRev) ((XBCBlockType) type).getBlockSpec(), this));
         } else {
             throw new UnsupportedOperationException("Not supported yet.");
         }
@@ -592,4 +594,9 @@ public class XBECatalog implements XBCatalog {
         }
     } */
 
+    @Override
+    public Long[] getSpecPath(XBCSpec spec) {
+        XBRSpecService specService = (XBRSpecService) getCatalogService(XBCSpecService.class);
+        return specService.getSpecXBPath(spec);
+    }
 }

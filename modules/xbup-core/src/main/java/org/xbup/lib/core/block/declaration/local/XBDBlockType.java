@@ -36,7 +36,7 @@ public class XBDBlockType implements XBBlockType {
 
     @Override
     public XBBasicBlockType getAsBasicType() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     @Override

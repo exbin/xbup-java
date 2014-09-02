@@ -55,13 +55,8 @@ import javax.swing.KeyStroke;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
-import org.xbup.lib.core.block.XBBasicBlockType;
-import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBFixedBlockType;
-import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
-import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBPFormatDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.convert.XBTEncapsulator;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
@@ -69,17 +64,12 @@ import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
-import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
-import org.xbup.lib.core.serial.sequence.XBSerialSequence;
-import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
-import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 import org.xbup.lib.core.stream.file.XBFileOutputStream;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.visual.picture.XBBufferedImage;
 import org.xbup.tool.editor.module.picture_editor.PictureFileType;
 import org.xbup.tool.editor.module.picture_editor.XBPictureEditorFrame;
@@ -411,7 +401,9 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                 XBFileOutputStream output = new XBFileOutputStream(file);
                 XBTChildOutputSerialHandler handler = new XBTChildListenerSerialHandler();
                 handler.attachXBTEventListener(null);
-                XBTEncapsulator encapsulator = new XBTEncapsulator(new StubContext(getStubXBTDataSerializator()), null); // TODO catalog
+                XBDeclaration declaration = new XBDeclaration(new XBPFormatDecl(new long[] {1, 4, 0, 1}));
+                // TODO catalog
+                XBTEncapsulator encapsulator = new XBTEncapsulator(declaration.generateContext(null), null); 
                 encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
                 handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));
                 getStubXBTDataSerializator().serializeToXB(handler);
@@ -729,54 +721,5 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         }
 
         return frameTitle;
-    }
-
-    private static class StubContext extends XBContext {
-
-        private final XBSerializable source;
-
-        public StubContext(XBSerializable source) {
-            this.source = source;
-        }
-
-        public XBDeclaration getDeclaration() {
-            XBDeclaration decl = new StubDeclaration();
-            decl.setGroupsReserved(3);
-            decl.setRootNode(source);
-
-            return decl;
-        }
-
-        public XBBlockType getBlockType(XBBlockDecl type) {
-            return new XBFixedBlockType(1, 0);
-        }
-    }
-
-    private static class StubDeclaration extends XBDeclaration {
-
-        public StubDeclaration() {
-        }
-
-        @Override
-        public XBDFormatDecl getFormat() {
-            long[] path = {1, 4, 0, 1};
-            return new StubXBFormatDecl(path);
-        }
-    }
-
-    private static class StubXBFormatDecl extends XBDFormatDecl implements XBTSequenceSerializable {
-
-        public StubXBFormatDecl(long[] path) {
-            super(path);
-        }
-
-        @Override
-        public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
-            XBSerialSequence seq = new XBSerialSequence(new XBFixedBlockType(XBBasicBlockType.FORMAT_DECLARATION));
-            seq.join(new UBNat32(2));
-            seq.join(getCatalogPath());
-
-            serializationHandler.sequenceXB(seq);
-        }
     }
 }

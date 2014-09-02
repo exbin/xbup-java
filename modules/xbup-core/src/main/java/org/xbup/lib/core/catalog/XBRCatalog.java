@@ -42,6 +42,7 @@ import org.xbup.lib.core.catalog.base.XBCFormatRev;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
 import org.xbup.lib.core.catalog.base.XBCGroupRev;
 import org.xbup.lib.core.catalog.base.XBCGroupSpec;
+import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
 import org.xbup.lib.core.catalog.base.manager.XBCManager;
 import org.xbup.lib.core.catalog.base.service.XBCItemService;
@@ -67,7 +68,7 @@ import org.xbup.lib.core.catalog.remote.service.XBRSpecService;
  *
  * Catalog is accesed using XBService RPC network interface.
  *
- * @version 0.1.24 2014/08/31
+ * @version 0.1.24 2014/09/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRCatalog implements XBCatalog {
@@ -154,7 +155,7 @@ public class XBRCatalog implements XBCatalog {
             return null;
         }
         
-        return new XBCBlockDecl(rev);
+        return new XBCBlockDecl(rev, this);
     }
 
     @Override
@@ -170,7 +171,7 @@ public class XBRCatalog implements XBCatalog {
             return null;
         }
         
-        return new XBCGroupDecl(rev);
+        return new XBCGroupDecl(rev, this);
     }
 
     @Override
@@ -186,7 +187,7 @@ public class XBRCatalog implements XBCatalog {
             return null;
         }
         
-        return new XBCFormatDecl(rev);
+        return new XBCFormatDecl(rev, this);
     }
 
     @Override
@@ -195,7 +196,7 @@ public class XBRCatalog implements XBCatalog {
         List<XBCSpecDef> binds = specService.getSpecDefs(spec);
         ArrayList<XBGroupDecl> result = new ArrayList<>();
         for (Iterator it = binds.iterator(); it.hasNext();) {
-            result.add(new XBCGroupDecl((XBCGroupRev) ((XBRSpecDef) it.next()).getTarget()));
+            result.add(new XBCGroupDecl((XBCGroupRev) ((XBRSpecDef) it.next()).getTarget(), this));
         }
 
         return result;
@@ -207,7 +208,7 @@ public class XBRCatalog implements XBCatalog {
         List<XBCSpecDef> binds = specService.getSpecDefs(spec);
         ArrayList<XBBlockDecl> result = new ArrayList<>();
         for (Iterator it = binds.iterator(); it.hasNext();) {
-            result.add(new XBCBlockDecl((XBCBlockRev) ((XBRSpecDef) it.next()).getTarget()));
+            result.add(new XBCBlockDecl((XBCBlockRev) ((XBRSpecDef) it.next()).getTarget(), this));
         }
 
         return result;
@@ -269,7 +270,7 @@ public class XBRCatalog implements XBCatalog {
         if (type instanceof XBFixedBlockType) {
             return (XBFixedBlockType) type;
         } else if (type instanceof XBCBlockType) {
-            return findFixedType(context, new XBCBlockDecl((XBCBlockRev) ((XBCBlockType) type).getBlockSpec()));
+            return findFixedType(context, new XBCBlockDecl((XBCBlockRev) ((XBCBlockType) type).getBlockSpec(), this));
         } else {
             throw new UnsupportedOperationException("Not supported yet.");
         }
@@ -347,5 +348,11 @@ public class XBRCatalog implements XBCatalog {
         }
 
         return null;
+    }
+
+    @Override
+    public Long[] getSpecPath(XBCSpec spec) {
+        XBRSpecService specService = (XBRSpecService) getCatalogService(XBCSpecService.class);
+        return specService.getSpecXBPath(spec);
     }
 }

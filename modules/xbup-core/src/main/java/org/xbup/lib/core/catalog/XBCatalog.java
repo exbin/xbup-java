@@ -27,6 +27,7 @@ import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.catalog.base.XBCBase;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
 import org.xbup.lib.core.catalog.base.XBCGroupSpec;
+import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.manager.XBCManager;
 import org.xbup.lib.core.catalog.base.service.XBCService;
 
@@ -158,4 +159,12 @@ public interface XBCatalog {
     public XBFixedBlockType findFixedType(XBContext context, XBBlockType type);
 
     public XBContext processDeclaration(XBContext parent, XBTBlock specBlock);
+
+    /**
+     * Get path for given specification.
+     *
+     * @param spec specification
+     * @return path
+     */
+    public Long[] getSpecPath(XBCSpec spec);
 }

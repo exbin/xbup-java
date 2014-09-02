@@ -18,14 +18,19 @@ package org.xbup.lib.core.block.declaration;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
 import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
+import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTProvider;
@@ -39,7 +44,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Representation of declaration block.
  *
- * @version 0.1 wr24.0 2014/08/31
+ * @version 0.1 wr24.0 2014/09/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDeclaration implements XBSerializable {
@@ -49,6 +54,83 @@ public class XBDeclaration implements XBSerializable {
 
     private int groupsReserved = 0;
     private int preserveCount = 0;
+
+    public XBDeclaration() {
+        format = null;
+        rootNode = null;
+    }
+
+    public XBDeclaration(XBFormatDecl format) {
+        this(format, null);
+    }
+
+    public XBDeclaration(XBFormatDecl format, XBSerializable rootNode) {
+        this.format = format;
+        this.rootNode = rootNode;
+    }
+
+    public XBDeclaration(XBGroupDecl group) {
+        this(group, null);
+    }
+
+    public XBDeclaration(XBGroupDecl group, XBSerializable rootNode) {
+        this(new XBDFormatDecl(), rootNode);
+        ((XBDFormatDecl) format).getGroups().add(group);
+    }
+
+    public XBDeclaration(XBBlockDecl block) {
+        this(block, null);
+    }
+
+    public XBDeclaration(XBBlockDecl block, XBSerializable rootNode) {
+        this(new XBDGroupDecl(), rootNode);
+        ((XBDGroupDecl) ((XBDFormatDecl) format).getGroups().get(0)).getBlocks().add(block);
+    }
+
+    public XBContext generateContext(XBCatalog catalog) {
+        return generateContext(null, catalog);
+    }
+
+    public XBContext generateContext(XBContext parentContext, XBCatalog catalog) {
+        XBContext context = new XBContext();
+        context.setParent(parentContext);
+        context.setStartFrom(preserveCount);
+        List<XBDGroupDecl> groups = context.getGroups();
+
+        if (format instanceof XBDFormatDecl) {
+            XBDFormatDecl formatDecl = (XBDFormatDecl) format;
+            for (int groupIndex = 0; groupIndex < formatDecl.getGroups().size() && groupIndex < formatDecl.getGroupsLimit() && groupIndex < groupsReserved; groupIndex++) {
+                XBGroupDecl group = formatDecl.getGroups().get(groupIndex);
+                if (group instanceof XBDGroupDecl) {
+                    groups.add((XBDGroupDecl) group);
+                } else if (group instanceof XBCGroupDecl) {
+                    groups.add(convertCatalogGroup((XBCGroupDecl) group, catalog));
+                }
+            }
+        } else if (format instanceof XBCFormatDecl) {
+            XBCFormatDecl formatDecl = (XBCFormatDecl) format;
+            List<XBGroupDecl> formatGroups = catalog.getGroups(formatDecl.getFormatSpec().getParent());
+            // TODO revision
+            for (int groupIndex = 0; groupIndex < formatGroups.size(); groupIndex++) {
+                XBCGroupDecl group = (XBCGroupDecl) formatGroups.get(groupIndex);
+                groups.add(convertCatalogGroup((XBCGroupDecl) group, catalog));
+            }
+        }
+
+        return context;
+    }
+
+    private XBDGroupDecl convertCatalogGroup(XBCGroupDecl group, XBCatalog catalog) {
+        XBDGroupDecl groupDecl = new XBDGroupDecl();
+        List<XBBlockDecl> blocks = catalog.getBlocks(((XBCGroupDecl) group).getGroupSpec().getParent());
+        // TODO revision
+        for (int blockIndex = 0; blockIndex < blocks.size(); blockIndex++) {
+            XBCBlockDecl block = (XBCBlockDecl) blocks.get(blockIndex);
+            groupDecl.getBlocks().add(block);
+        }
+
+        return groupDecl;
+    }
 
     /**
      * Returns count of currently allowed groups.

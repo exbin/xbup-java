@@ -41,12 +41,11 @@ import org.xbup.lib.core.ubnumber.type.UBPath32;
 /**
  * XBUP level 1 group declaration.
  *
- * @version 0.1.24 2014/08/24
+ * @version 0.1.24 2014/09/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDGroupDecl implements XBGroupDecl, XBTSequenceSerializable {
 
-    private Long[] catalogPath = new Long[0];
     private UBNat32 revision = new UBNat32(0);
     private List<XBBlockDecl> blocks = new ArrayList<>();
     private UBNat32 blocksLimit = new UBNat32(0);
@@ -54,19 +53,6 @@ public class XBDGroupDecl implements XBGroupDecl, XBTSequenceSerializable {
     private List<XBRevisionDef> revisionDefs;
 
     public XBDGroupDecl() {
-    }
-
-    public XBDGroupDecl(Long[] path) {
-        this();
-        this.catalogPath = path;
-    }
-
-    public XBDGroupDecl(long[] xbGroupPath) {
-        List<Long> path = new ArrayList<>();
-        for (int i = 0; i < xbGroupPath.length; i++) {
-            path.add(xbGroupPath[i]);
-        }
-        catalogPath = path.toArray(new Long[0]);
     }
 
     /**
@@ -89,14 +75,6 @@ public class XBDGroupDecl implements XBGroupDecl, XBTSequenceSerializable {
 
     public void setRevision(long revision) {
         this.revision = new UBNat32(revision);
-    }
-
-    public Long[] getCatalogPath() {
-        return catalogPath;
-    }
-
-    public void setCatalogPath(Long[] catalogPath) {
-        this.catalogPath = catalogPath;
     }
 
     public void setBlocks(List<XBBlockDecl> blocks) {
@@ -123,7 +101,7 @@ public class XBDGroupDecl implements XBGroupDecl, XBTSequenceSerializable {
                 long[] xbGroupLimitBlockType = {1, 5};
                 XBSerialSequence seq = new XBSerialSequence(new XBDBlockType(new XBPBlockDecl(xbGroupLimitBlockType)), blocksLimit);
                 // Join FormatSpecCatalogPath (UBPath)
-                seq.join(new UBPath32(getCatalogPath()));
+                // seq.join(new UBPath32(getCatalogPath()));
                 // Join Revision (UBNatural)
                 seq.join(new XBTSequenceSerializable() {
                     @Override

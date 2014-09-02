@@ -42,7 +42,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
     public Long getAllBlockSpecsCount();
 
     /** Returns Path of XBIndexes for given node */
-    public Long[] getSpecXBPath(XBCSpec node);
+    public Long[] getSpecXBPath(XBCSpec spec);
 
     /** Get list of specifications */
     public List<XBCSpec> getSpecs(XBCNode node);

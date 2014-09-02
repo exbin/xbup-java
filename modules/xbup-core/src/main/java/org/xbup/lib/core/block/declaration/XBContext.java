@@ -18,48 +18,34 @@ package org.xbup.lib.core.block.declaration;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
-import org.xbup.lib.core.block.declaration.catalog.XBPGroupDecl;
 import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
 
 /**
  * Representation of current declaration context for block types.
  *
- * @version 0.1.24 2014/08/31
+ * @version 0.1.24 2014/09/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBContext {
 
     private XBContext parent;
     private int startFrom = 1;
-    private List<XBGroupDecl> groups;
+    private List<XBDGroupDecl> groups;
 
     public XBContext() {
         parent = null;
         groups = new ArrayList<>();
     }
 
-    public XBContext(XBPGroupDecl groupDecl) {
-        this();
-        groups.add(groupDecl);
-    }
-
-    public XBContext(XBPBlockDecl blockDecl) {
-        this();
-        XBDGroupDecl groupDecl = new XBDGroupDecl();
-        groupDecl.getBlocks().add(blockDecl);
-        groups.add(groupDecl);
-    }
-
     public XBGroupDecl getGroupForId(int groupId) {
         if (groupId < startFrom) {
             return parent.getGroupForId(groupId);
         }
-        
+
         if (groupId - startFrom < groups.size()) {
             return groups.get(groupId - startFrom);
         }
-        
+
         return null;
     }
 
@@ -79,11 +65,11 @@ public class XBContext {
         this.startFrom = startFrom;
     }
 
-    public List<XBGroupDecl> getGroups() {
+    public List<XBDGroupDecl> getGroups() {
         return groups;
     }
 
-    public void setGroups(List<XBGroupDecl> groups) {
+    public void setGroups(List<XBDGroupDecl> groups) {
         this.groups = groups;
     }
 }

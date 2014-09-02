@@ -118,7 +118,8 @@ public class Test1 {
             XBString text = new XBString("Test");
             XBFileOutputStream output = new XBFileOutputStream("string.xb");
             XBTChildOutputSerialHandler handler = new XBTChildListenerSerialHandler();
-            XBTEncapsulator encapsulator = new XBTEncapsulator(new XBContext(new XBPBlockDecl(XBString.XB_FORMAT_PATH)), catalog);
+            XBDeclaration declaration = new XBDeclaration(new XBPBlockDecl(XBString.XB_FORMAT_PATH));
+            XBTEncapsulator encapsulator = new XBTEncapsulator(declaration.generateContext(catalog), catalog);
             encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
             handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));
             text.serializeToXB(handler);

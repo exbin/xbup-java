@@ -23,6 +23,7 @@ import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.block.definition.XBBlockDef;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.param.XBParamPosition;
@@ -36,7 +37,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 block declaration using existing block definition.
  *
- * @version 0.1.24 2014/08/26
+ * @version 0.1.24 2014/09/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
@@ -174,14 +175,31 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
     public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
         long[] xbGroupLimitBlockType = {1, 5};
         long[] xbRevisionBlockType = {1, 5};
-        XBSerialSequence seq = new XBSerialSequence(new XBFixedBlockType(XBBasicBlockType.GROUP_DECLARATION));
+        XBSerialSequence seq = new XBSerialSequence(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION));
+
         /*
         // Join GroupsLimit (UBNatural)
-        seq.join(new XBSerialSequence(new XBDBlockType(new XBCBlockDecl(null, xbGroupLimitBlockType)), new UBNat32(getBlocksLimit())));
+        seq.join(new XBTSequenceSerializable() {
+
+            @Override
+            public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                serializationHandler.sequenceXB(new XBSerialSequence(new XBDBlockType(new XBCBlockDecl(null, xbGroupLimitBlockType)), new UBNat32(getBlocksLimit())));
+            }
+        });
+
         // Join FormatSpecCatalogPath (UBPath)
-        seq.join(new UBPath32(getCatalogPath()));
+        // seq.join(new UBPath32(getCatalogPath()));
         // Join Revision (UBNatural)
-        seq.join(new XBSerialSequence(new XBDBlockType(new XBCBlockDecl(null, xbRevisionBlockType)), revision));
+        seq.join(new XBTSequenceSerializable() {
+
+            @Override
+            public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                XBSerialSequence subSequence = new XBSerialSequence(new XBDBlockType(new XBCBlockDecl(null, xbRevisionBlockType)), revision));
+                serializationHandler.sequenceXB(subSequence);
+            }
+        });
+        
+                
         if (blockDef != null) {
             // TODO: Move to format serialization
             // List GroupSpecification
@@ -216,7 +234,7 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
                     return new UBENat32(blocks.size());
                 }
 
-                public XBTSerializable get() {
+                public XBSerializable get() {
                     return blockDef.getBlocks().get(position++).getXBSerialSequence();
                 }
 
@@ -308,7 +326,7 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
                     position = 0;
                 }
             });
-        } */
+        }*/
 
         serializationHandler.sequenceXB(seq);
     }

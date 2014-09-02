@@ -166,8 +166,8 @@ public class XBESpecService extends XBEDefaultService<XBESpec> implements XBCSpe
     }
 
     @Override
-    public Long[] getSpecXBPath(XBCSpec node) {
-        return ((XBESpecManager)itemManager).getSpecXBPath(node);
+    public Long[] getSpecXBPath(XBCSpec spec) {
+        return ((XBESpecManager)itemManager).getSpecXBPath(spec);
     }
 
     @Override

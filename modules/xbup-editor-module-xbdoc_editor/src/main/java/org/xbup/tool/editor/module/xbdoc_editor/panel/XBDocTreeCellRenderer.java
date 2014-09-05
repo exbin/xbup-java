@@ -24,9 +24,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import org.xbup.lib.core.block.XBBlockDataMode;
-import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
-import org.xbup.lib.core.block.declaration.catalog.XBCBlockType;
+import org.xbup.lib.core.block.declaration.local.XBDBlockDecl;
 import org.xbup.lib.core.block.declaration.local.XBDBlockType;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
@@ -37,7 +37,7 @@ import org.xbup.lib.parser_tree.XBTTreeNode;
 /**
  * Tree Cell Renderer for XBUP Document Tree.
  *
- * @version 0.1.24 2014/08/31
+ * @version 0.1.24 2014/09/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
@@ -65,7 +65,7 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
             if (node.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
                 caption = "Data Block";
             } else if (catalog != null) {
-                caption = getCaption(node.getBlockType());
+                caption = getCaption(node.getBlockDecl());
             }
             if (caption != null) {
               setText(caption);
@@ -78,7 +78,7 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
                 //new ("/home/hajdam/Projekty/XBUP/imgs/xbup_logo2.png").getImage();
                 ImageIcon icon = null;
                 if (catalog != null) {
-                    icon = getIcon(node.getBlockType());
+                    icon = getIcon(node.getBlockDecl());
                 }
                 if (icon != null) {
                     setIcon(icon);
@@ -105,12 +105,12 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
     /**
      * Get caption for given block type. Use cache if available.
      *
-     * @param blockType
+     * @param blockDecl
      * @return caption
      */
-    public String getCaption(XBBlockType blockType) {
-        if (blockType instanceof XBCBlockType) {
-            XBCBlockSpec blockSpec = (XBCBlockSpec) ((XBCBlockType) blockType).getBlockSpec().getParent();
+    public String getCaption(XBBlockDecl blockDecl) {
+        if (blockDecl instanceof XBCBlockDecl) {
+            XBCBlockSpec blockSpec = (XBCBlockSpec) ((XBCBlockDecl) blockDecl).getBlockSpec().getParent();
             if (captionCache.containsKey(blockSpec.getId())) {
                 return captionCache.get(blockSpec.getId());
             }
@@ -119,8 +119,9 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
             String caption = nameService.getDefaultCaption(blockSpec);
             captionCache.put(blockSpec.getId(), caption);
             return caption;
-        } else if (blockType instanceof XBDBlockType) {
-            XBCBlockDecl blockDecl = (XBCBlockDecl) ((XBDBlockType) blockType).getBlockDecl();
+        } else if (blockDecl instanceof XBDBlockDecl) {
+            // TOOD
+            /* XBCBlockDecl blockDecl = (XBCBlockDecl) ((XBDBlockDecl) blockDecl).getBlockDecl();
             if (blockDecl != null) {
                 XBCBlockSpec blockSpec = blockDecl.getBlockSpec().getParent();
                 if (captionCache.containsKey(blockSpec.getId())) {
@@ -131,7 +132,7 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
                 String caption = nameService.getDefaultCaption(blockSpec);
                 captionCache.put(blockSpec.getId(), caption);
                 return caption;
-            }
+            } */
         }
 
         return null;
@@ -140,12 +141,12 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
     /**
      * Get icon for given block type. Use cache if available.
      *
-     * @param blockType
+     * @param blockDecl
      * @return icon
      */
-    public ImageIcon getIcon(XBBlockType blockType) {
-        if (blockType instanceof XBCBlockType) {
-            XBCBlockSpec blockSpec = (XBCBlockSpec) ((XBCBlockType) blockType).getBlockSpec().getParent();
+    public ImageIcon getIcon(XBBlockDecl blockDecl) {
+        if (blockDecl instanceof XBCBlockDecl) {
+            XBCBlockSpec blockSpec = (XBCBlockSpec) ((XBCBlockDecl) blockDecl).getBlockSpec().getParent();
             if (iconCache.containsKey(blockSpec.getId())) {
                 return iconCache.get(blockSpec.getId());
             }
@@ -161,8 +162,9 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
             icon = new ImageIcon(icon.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
             iconCache.put(blockSpec.getId(), icon);
             return icon;
-        } else if (blockType instanceof XBDBlockType) {
-            XBCBlockDecl blockDecl = (XBCBlockDecl) ((XBDBlockType) blockType).getBlockDecl();
+        } else if (blockDecl instanceof XBDBlockType) {
+            // TODO
+            /* XBCBlockDecl blockDecl = (XBCBlockDecl) ((XBDBlockType) blockDecl).getBlockDecl();
             if (blockDecl != null) {
                 XBCBlockSpec blockSpec = blockDecl.getBlockSpec().getParent();
                 if (iconCache.containsKey(blockSpec.getId())) {
@@ -177,7 +179,7 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
                 icon = new ImageIcon(icon.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
                 iconCache.put(blockSpec.getId(), icon);
                 return icon;
-            }
+            } */
         }
 
         return null;

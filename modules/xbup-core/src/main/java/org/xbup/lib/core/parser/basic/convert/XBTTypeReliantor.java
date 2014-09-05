@@ -30,12 +30,12 @@ import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * XBUP level 1 encapsulation filter.
+ * Convert stand-alone block types to fixed types.
  *
  * @version 0.1.23 2014/03/05
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTEncapsulator implements XBTFilter {
+public class XBTTypeReliantor implements XBTFilter {
 
     private XBTListener listener;
     private final XBCatalog catalog;
@@ -43,12 +43,12 @@ public class XBTEncapsulator implements XBTFilter {
     private long counter;
 
     /**
-     * Creates a new instance of XBTEncapsulator.
+     * Creates a new instance.
      * 
-     * @param context
-     * @param catalog 
+     * @param context initial context
+     * @param catalog catalog used for catalog types
      */
-    public XBTEncapsulator(XBContext context, XBCatalog catalog) {
+    public XBTTypeReliantor(XBContext context, XBCatalog catalog) {
         this.context = context;
         this.catalog = catalog;
         listener = null;

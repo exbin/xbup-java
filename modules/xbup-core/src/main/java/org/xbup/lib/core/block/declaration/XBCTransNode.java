@@ -18,7 +18,6 @@ package org.xbup.lib.core.block.declaration;
 
 import java.util.Map;
 import java.util.TreeMap;
-import org.xbup.lib.core.block.declaration.XBBlockDecl;
 
 /**
  * Specification's header declaration using catalog link.
@@ -64,6 +63,7 @@ public class XBCTransNode {
             parent = node;
             pos++;
         }
+
         parent.block = block;
     }
 
@@ -71,6 +71,7 @@ public class XBCTransNode {
         if (path.length == 0) {
             return block;
         }
+
         int pos = 0;
         XBCTransNode node = this;
         while (path.length > pos) {
@@ -83,6 +84,7 @@ public class XBCTransNode {
         if (node == null) {
             return null;
         }
+
         return node.getBlock();
     }
 }

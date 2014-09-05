@@ -36,7 +36,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTProducer;
-import org.xbup.lib.core.parser.basic.convert.XBTDecapsulator;
+import org.xbup.lib.core.parser.basic.convert.XBTTypeSeparator;
 import org.xbup.lib.core.parser.basic.convert.XBTProducerToProvider;
 import org.xbup.lib.core.parser.basic.convert.XBTProviderToProducer;
 import org.xbup.lib.core.parser.token.XBTToken;
@@ -141,7 +141,7 @@ public class XBTCPRemoteServer implements XBRemoteServer {
     }
 
     public void respondMessage(XBTokenInputStream input, XBEventListener output) throws IOException, XBProcessingException {
-        XBTDecapsulator decapsulator = new XBTDecapsulator(null);
+        XBTTypeSeparator decapsulator = new XBTTypeSeparator(null);
         // TODO Optimalization should be done here
         XBTProducer producer = new XBTProviderToProducer(new XBTPullProviderToProvider(new XBToXBTPullConvertor(input)));
         producer.attachXBTListener(decapsulator);

@@ -58,7 +58,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Basic object model parser XBUP level 1 document block / tree node.
  *
- * @version 0.1.24 2014/08/31
+ * @version 0.1.24 2014/09/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
@@ -108,22 +108,28 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     public void processSpec(XBCatalog catalog, XBContext parentContext) {
         context = parentContext;
         if (dataMode == XBBlockDataMode.NODE_BLOCK) {
-            if (getAttributesCount() > 1) {
-                if ((getAttributeValue(0) == 0) && (getAttributeValue(1) == XBBasicBlockType.DECLARATION.ordinal())) {
-                    // Process specification block
-                    XBContext childContext = catalog.processDeclaration(parentContext, this);
-                    long blockPos = 0;
-                    if (getChildren() != null) {
-                        for (Iterator it = getChildren().iterator(); it.hasNext();) {
-                            blockPos++;
-                            XBTTreeNode item = ((XBTTreeNode) it.next());
-                            item.processSpec(catalog, blockPos == 2 ? childContext : parentContext);
-                        }
-                    }
-
-                    return;
-                }
+            if (context != null) {
+                blockDecl = context.getBlockDecl((XBFBlockType) getBlockType());
+            } else {
+                blockDecl = null;
             }
+            
+            if (getBlockType().getAsBasicType() == XBBasicBlockType.DECLARATION) {
+                // Process declaration block
+                XBContext childContext = catalog.processDeclaration(parentContext, this);
+                long blockPos = 0;
+                if (getChildren() != null) {
+                    for (Iterator it = getChildren().iterator(); it.hasNext();) {
+                        blockPos++;
+                        XBTTreeNode item = ((XBTTreeNode) it.next());
+                        item.processSpec(catalog, blockPos == 2 ? childContext : parentContext);
+                    }
+                }
+
+                return;
+            }
+        } else {
+            blockDecl = null;
         }
 
         if (getChildren() != null) {

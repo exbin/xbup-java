@@ -31,13 +31,12 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * XB Event Stream Encapsulation Filter
- * TODO: Upgrade for pull processing
+ * Convert stand-alone block types to fixed types.
  *
  * @version 0.1.19 2010/06/01
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTPullEncapsulator implements XBTFilter, XBTProducer, XBTConsumer {
+public class XBTPullTypeReliantor implements XBTFilter, XBTProducer, XBTConsumer {
 
     private XBTListener listener;
     private XBTProvider declProvider;
@@ -45,13 +44,13 @@ public class XBTPullEncapsulator implements XBTFilter, XBTProducer, XBTConsumer 
     private long counter;
 
     /** Creates a new instance of XBTEncapsulator */
-    public XBTPullEncapsulator(XBTProvider declProvider) {
+    public XBTPullTypeReliantor(XBTProvider declProvider) {
         this.declProvider = declProvider;
         listener = null;
         counter = 0;
     }
 
-    public XBTPullEncapsulator(XBTProvider declProvider, XBTListener target) {
+    public XBTPullTypeReliantor(XBTProvider declProvider, XBTListener target) {
         this(declProvider);
         attachXBTListener(target);
     }

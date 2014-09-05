@@ -36,7 +36,6 @@ import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 import org.xbup.lib.core.ubnumber.UBENatural;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
-import org.xbup.lib.core.ubnumber.type.UBPath32;
 
 /**
  * XBUP level 1 group declaration.

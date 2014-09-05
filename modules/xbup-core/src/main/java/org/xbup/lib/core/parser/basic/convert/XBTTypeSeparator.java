@@ -18,56 +18,67 @@ package org.xbup.lib.core.parser.basic.convert;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTFilter;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.declaration.XBContext;
+import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * Decode specifications head for events and links relevant block types to it.
+ * Convert block types from fixed types to stand-alone types.
  *
- * @version 0.1.23 2013/11/19
+ * @version 0.1.24 2014/09/03
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTDecapsulator implements XBTFilter {
+public class XBTTypeSeparator implements XBTFilter {
 
-    private XBTListener listener;
-    private final XBTListener declListener;
+    private XBTListener listener = null;
+    private List<ContextRecord> contexts = new ArrayList<>();
+    private XBDeclaration declaration = null;
+    private XBTListener declListener = null;
 
-    private long depth;
-    private int mode;
+    private long documentDepth = 0;
+    private int mode = 0;
     private XBBlockTerminationMode beginTerm;
 
-    public XBTDecapsulator(XBTListener declListener) {
-        this.declListener = declListener;
-        mode = 0;
-        depth = 0;
+    public XBTTypeSeparator() {
+    }
+
+    public XBTTypeSeparator(XBContext initialContext) {
+        this();
+        contexts.add(new ContextRecord(initialContext, 0));
     }
 
     @Override
     public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-        if (depth > 0) {
+        listener.beginXBT(terminationMode);
+
+        if (declListener != null) {
             declListener.beginXBT(terminationMode);
-            depth++;
-            return;
         }
 
+        documentDepth++;
         beginTerm = terminationMode;
         mode = 1;
     }
 
     @Override
     public void typeXBT(XBBlockType type) throws XBProcessingException, IOException {
-        if (depth > 0) {
+        listener.typeXBT(type);
+
+        if (declListener != null) {
             declListener.typeXBT(type);
-            return;
         }
 
         if (type.getAsBasicType() == XBBasicBlockType.DECLARATION) {
-            depth++;
+            
+            documentDepth++;
             mode = 2;
             declListener.beginXBT(beginTerm);
             declListener.typeXBT(type);
@@ -79,7 +90,7 @@ public class XBTDecapsulator implements XBTFilter {
 
     @Override
     public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
-        if (depth > 0) {
+        if (documentDepth > 0) {
             declListener.attribXBT(value);
             return;
         }
@@ -89,7 +100,7 @@ public class XBTDecapsulator implements XBTFilter {
 
     @Override
     public void dataXBT(InputStream data) throws XBProcessingException, IOException {
-        if (depth > 0) {
+        if (documentDepth > 0) {
             declListener.dataXBT(data);
             return;
         }
@@ -99,17 +110,17 @@ public class XBTDecapsulator implements XBTFilter {
 
     @Override
     public void endXBT() throws XBProcessingException, IOException {
-        if (depth > 0) {
+        if (documentDepth > 0) {
             declListener.endXBT();
-            depth--;
+            documentDepth--;
 
-            if (depth == 1) {
+            if (documentDepth == 1) {
                 mode++;
             }
 
             if (mode == 4) {
                 mode = 0;
-                depth = 0;
+                documentDepth = 0;
             } else {
                 return;
             }
@@ -121,5 +132,24 @@ public class XBTDecapsulator implements XBTFilter {
     @Override
     public void attachXBTListener(XBTListener listener) {
         this.listener = listener;
+    }
+
+    public XBContext getCurrentContext() {
+        return contexts.size() > 0 ? contexts.get(contexts.size() - 1).context : null;
+    }
+
+    private class ContextRecord {
+
+        public ContextRecord(XBContext context, long documentLevel) {
+            this.context = context;
+            this.documentLevel = documentLevel;
+        }
+
+        public XBContext context;
+        public long documentLevel;
+    }
+
+    private enum ProcessingMode {
+        
     }
 }

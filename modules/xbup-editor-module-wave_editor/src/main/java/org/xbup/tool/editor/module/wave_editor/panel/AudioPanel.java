@@ -52,7 +52,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.undo.UndoManager;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.convert.XBTEncapsulator;
+import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
@@ -505,7 +505,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
 
                 XBDeclaration declaration = new XBDeclaration(new XBPFormatDecl(new long[] {1, 4, 0, 1}));
                 // TODO catalog
-                XBTEncapsulator encapsulator = new XBTEncapsulator(declaration.generateContext(null), null);
+                XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(null), null);
                 encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
                 handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));
                 getStubXBTDataSerializator().serializeToXB(handler);

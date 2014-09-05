@@ -16,21 +16,21 @@
  */
 package org.xbup.lib.core.serial.basic;
 
-import org.xbup.lib.core.parser.basic.XBTProvider;
+import org.xbup.lib.core.parser.basic.XBTConsumer;
 import org.xbup.lib.core.serial.XBInputSerialHandler;
 
 /**
  * Interface for XBUP level 1 serialization input handler using basic parser.
  *
- * @version 0.1.24 2014/08/23
+ * @version 0.1.24 2014/09/05
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTBasicInputSerialHandler extends XBInputSerialHandler {
 
     /**
-     * Attach provider to be used as source for serialization.
+     * Attach listener to be used as target for serialization.
      *
-     * @param provider
+     * @param consumer
      */
-    public void attachXBTProvider(XBTProvider provider);
+    public void attachXBTConsumer(XBTConsumer consumer);
 }

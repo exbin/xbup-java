@@ -25,7 +25,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.convert.XBTEncapsulator;
+import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
@@ -59,7 +59,7 @@ public class Test1 {
             XBTChildOutputSerialHandler handler = new XBTChildListenerSerialHandler();
             XBContext context = new XBContext();
             // TODO new XBContext(null, image.XB_BLOCK_PATH getXBDeclaration())
-            XBTEncapsulator encapsulator = new XBTEncapsulator(context, null);
+            XBTTypeReliantor encapsulator = new XBTTypeReliantor(context, null);
             encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
             handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));
             image.serializeToXB(handler);
@@ -75,7 +75,7 @@ public class Test1 {
             XBTChildOutputSerialHandler listenerHandler = new XBTChildListenerSerialHandler();
             XBContext context1 = new XBContext();
             // TODO new XBContext(null, image.getXBDeclaration())
-            XBTEncapsulator encapsulator1 = new XBTEncapsulator(context1, null);
+            XBTTypeReliantor encapsulator1 = new XBTTypeReliantor(context1, null);
             encapsulator1.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
             listenerHandler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator1));
             image.serializeToXB(listenerHandler);

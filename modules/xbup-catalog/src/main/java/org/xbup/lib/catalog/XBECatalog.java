@@ -44,7 +44,9 @@ import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
+import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
+import org.xbup.lib.core.block.declaration.XBGroup;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockType;
@@ -446,8 +448,8 @@ public class XBECatalog implements XBCatalog {
         
         if (blockType == null) {
             for (int groupId = 0; groupId < context.getGroups().size(); groupId++) {
-                XBGroupDecl groupDecl = context.getGroups().get(groupId);
-                Long blockId = findBlockIdForGroup(groupDecl, decl);
+                XBGroup group = context.getGroups().get(groupId);
+                Long blockId = findBlockIdForGroup(group, decl);
                 if (blockId != null) {
                     return new XBFixedBlockType(groupId + context.getStartFrom(), blockId);
                 }
@@ -457,6 +459,18 @@ public class XBECatalog implements XBCatalog {
         return blockType;
     }
     
+    public Long findBlockIdForGroup(XBGroup group, XBBlockDecl decl) {
+        List<XBBlockDecl> blocks = group.getBlocks();
+        for (int blockId = 0; blockId < blocks.size(); blockId++) {
+            XBBlockDecl block = blocks.get(blockId);
+            if (block.equals(decl)) {
+                return (long) blockId;
+            }
+        }
+        
+        return null;
+    }
+
     public Long findBlockIdForGroup(XBGroupDecl group, XBBlockDecl decl) {
         if (group instanceof XBDGroupDecl) {
             List<XBBlockDecl> blocks = ((XBDGroupDecl) group).getBlocks();
@@ -492,35 +506,14 @@ public class XBECatalog implements XBCatalog {
      * @return block type declaration
      */
     public XBBlockDecl getBlockType(XBContext context, int groupId, int blockId) {
-        XBCSpecService bindService = (XBCSpecService) getCatalogService(XBCSpecService.class);
-        XBGroupDecl group = context.getGroupForId(groupId);
+        XBGroup group = context.getGroupForId(groupId);
         
         if (group == null) {
             return null;
         }
         
-        if (group instanceof XBDGroupDecl) {
-            List<XBBlockDecl> blocks = ((XBDGroupDecl) group).getBlocks();
-            return blockId < blocks.size() ? blocks.get(blockId) : null;
-        } else if (group instanceof XBCGroupDecl) {
-            XBCGroupRev groupRev = ((XBCGroupDecl) group).getGroupSpec();
-            List<XBBlockDecl> blocks = getBlocks(groupRev.getParent());
-            Long limit = groupRev.getXBLimit();
-            return blockId < blocks.size() && blockId < limit ? blocks.get(blockId) : null;
-
-            /*XBCSpecDef groupBind = (XBCSpecDef) bindService.findSpecDefByXB(groupSpec,block);
-            if (groupBind == null) {
-                return null;
-            }
-            rev = (XBCRev) groupBind.getTarget();
-            if (rev == null) {
-                return null;
-            }
-
-            return new XBCBlockDecl((XBCBlockRev) rev); */
-        } else {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
+        List<XBBlockDecl> blocks = group.getBlocks();
+        return blockId < blocks.size() ? blocks.get(blockId) : null;
     }
 
     @Override
@@ -528,15 +521,17 @@ public class XBECatalog implements XBCatalog {
         if (specBlock.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
             if (specBlock.getAttributesCount() > 1) {
                 if (specBlock.getBlockType().getAsBasicType() == XBBasicBlockType.DECLARATION) {
+                    XBDeclaration declaration = new XBDeclaration();
+                    throw new UnsupportedOperationException("Not supported yet.");
+                    /*declaration.se
                     XBContext context = new XBContext();
                     context.setParent(parent);
-                    /* TODO
                     context.getDeclaration().setGroupsReserved(specBlock.getAttribute(0).getLong());
                     context.getDeclaration().setPreserveCount(specBlock.getAttribute(1).getLong());
                     if (specBlock.getChildCount() > 0) {
                         context.getDeclaration().setFormat(processFormatSpec(catalog, specBlock.getChildAt(0)));
-                    } */
-                    return context;
+                    }
+                    return context; */
                 }
             }
         }

@@ -22,12 +22,12 @@ import org.xbup.lib.core.parser.basic.XBTProvider;
 import org.xbup.lib.core.parser.basic.XBTProviderFilter;
 
 /**
- * Decode specifications head for events and links relevant block types to it.
+ * Convert block types from fixed types to stand-alone types.
  *
- * @version 0.1.23 2013/11/18
+ * @version 0.1.24 2014/09/03
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTPullDecapsulator implements XBTProviderFilter {
+public class XBTPullTypeSeparator implements XBTProviderFilter {
 
     private XBTProvider provider;
     private XBTListener listener;
@@ -39,7 +39,7 @@ public class XBTPullDecapsulator implements XBTProviderFilter {
     private boolean beginTerm;
     private XBBlockType type = null;
 
-    public XBTPullDecapsulator(XBTListener declListener) {
+    public XBTPullTypeSeparator(XBTListener declListener) {
         this.declListener = declListener;
         mode = 0;
         depth = 0;
@@ -60,9 +60,9 @@ public class XBTPullDecapsulator implements XBTProviderFilter {
                     listener.typeXBT(type);
                     type = null;
                 } catch (XBProcessingException ex) {
-                    Logger.getLogger(XBTPullDecapsulator.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(XBTPullTypeSeparator.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
-                    Logger.getLogger(XBTPullDecapsulator.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(XBTPullTypeSeparator.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 trigger.produceXBT();

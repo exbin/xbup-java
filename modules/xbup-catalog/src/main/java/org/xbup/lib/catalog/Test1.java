@@ -36,8 +36,8 @@ import org.xbup.lib.core.catalog.base.service.XBCXLangService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTProducer;
-import org.xbup.lib.core.parser.basic.convert.XBTDecapsulator;
-import org.xbup.lib.core.parser.basic.convert.XBTEncapsulator;
+import org.xbup.lib.core.parser.basic.convert.XBTTypeSeparator;
+import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
 import org.xbup.lib.core.parser.basic.convert.XBTProducerToProvider;
 import org.xbup.lib.core.parser.basic.convert.XBTProviderToProducer;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
@@ -119,7 +119,7 @@ public class Test1 {
             XBFileOutputStream output = new XBFileOutputStream("string.xb");
             XBTChildOutputSerialHandler handler = new XBTChildListenerSerialHandler();
             XBDeclaration declaration = new XBDeclaration(new XBPBlockDecl(XBString.XB_FORMAT_PATH));
-            XBTEncapsulator encapsulator = new XBTEncapsulator(declaration.generateContext(catalog), catalog);
+            XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
             encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
             handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));
             text.serializeToXB(handler);
@@ -135,7 +135,7 @@ public class Test1 {
             XBFileInputStream input = new XBFileInputStream("string.xb");
             XBTChildInputSerialHandler handler = new XBTChildProviderSerialHandler();
             // TODO decapsulation + optimalization
-            XBTDecapsulator decapsulator = new XBTDecapsulator(null);
+            XBTTypeSeparator decapsulator = new XBTTypeSeparator(null);
             XBTProducer producer = new XBTProviderToProducer(new XBTPullProviderToProvider(new XBToXBTPullConvertor(input)));
             producer.attachXBTListener(decapsulator);
             handler.attachXBTPullProvider(new XBTProviderToPullProvider(new XBTProducerToProvider(decapsulator)));

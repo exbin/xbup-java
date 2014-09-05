@@ -16,21 +16,29 @@
  */
 package org.xbup.lib.core.serial.basic;
 
-import org.xbup.lib.core.parser.basic.XBProvider;
-import org.xbup.lib.core.serial.XBOutputSerialHandler;
+import org.xbup.lib.core.parser.basic.XBTConsumer;
+import org.xbup.lib.core.parser.basic.XBTProvider;
 
 /**
- * Interface for XBUP level 0 serialization output handler using basic parser.
+ * XBUP level 1 serialization handler using basic parser mapping to listener.
  *
- * @version 0.1.24 2014/09/04
+ * @version 0.1.24 2014/09/05
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBBasicOutputSerialHandler extends XBOutputSerialHandler {
+public class XBTConsumerSerialHandler implements XBTConsumer, XBTBasicInputSerialHandler {
 
-    /**
-     * Attach provider to be used as source for serialization.
-     *
-     * @param provider
-     */
-    public void attachXBProvider(XBProvider provider);
+    private XBTConsumer consumer;
+
+    public XBTConsumerSerialHandler() {
+    }
+
+    @Override
+    public void attachXBTConsumer(XBTConsumer consumer) {
+        this.consumer = consumer;
+    }
+
+    @Override
+    public void attachXBTProvider(XBTProvider provider) {
+        consumer.attachXBTProvider(provider);
+    }
 }

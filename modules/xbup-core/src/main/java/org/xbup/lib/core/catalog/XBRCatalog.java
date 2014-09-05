@@ -33,6 +33,7 @@ import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
+import org.xbup.lib.core.block.declaration.XBGroup;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockType;
 import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
 import org.xbup.lib.core.catalog.base.XBCBase;
@@ -68,7 +69,7 @@ import org.xbup.lib.core.catalog.remote.service.XBRSpecService;
  *
  * Catalog is accesed using XBService RPC network interface.
  *
- * @version 0.1.24 2014/09/02
+ * @version 0.1.24 2014/09/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRCatalog implements XBCatalog {
@@ -292,8 +293,8 @@ public class XBRCatalog implements XBCatalog {
         
         if (blockType == null) {
             for (int groupId = 0; groupId < context.getGroups().size(); groupId++) {
-                XBGroupDecl groupDecl = context.getGroups().get(groupId);
-                Long blockId = findBlockIdForGroup(groupDecl, decl);
+                XBGroup group = context.getGroups().get(groupId);
+                Long blockId = findBlockIdForGroup(group, decl);
                 if (blockId != null) {
                     return new XBFixedBlockType(groupId + context.getStartFrom(), blockId);
                 }
@@ -303,6 +304,18 @@ public class XBRCatalog implements XBCatalog {
         return blockType;
     }
     
+    public Long findBlockIdForGroup(XBGroup group, XBBlockDecl decl) {
+        List<XBBlockDecl> blocks = group.getBlocks();
+        for (int blockId = 0; blockId < blocks.size(); blockId++) {
+            XBBlockDecl block = blocks.get(blockId);
+            if (block.equals(decl)) {
+                return (long) blockId;
+            }
+        }
+        
+        return null;
+    }
+
     public Long findBlockIdForGroup(XBGroupDecl group, XBBlockDecl decl) {
         if (group instanceof XBDGroupDecl) {
             List<XBBlockDecl> blocks = ((XBDGroupDecl) group).getBlocks();

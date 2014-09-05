@@ -32,7 +32,7 @@ import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.parser.basic.convert.XBTEncapsulator;
+import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
@@ -117,10 +117,10 @@ public class XBTCPServiceClient implements XBServiceClient {
         try {
             socket = new Socket(getHost(),getPort());
             source = new XBTStreamChecker(new XBToXBTStreamConvertor(new XBPullReader(getSocket().getInputStream())));
-            target = new XBTEncapsulator(null, null); // new XBServiceContext()
+            target = new XBTTypeReliantor(null, null); // new XBServiceContext()
             OutputStream oStream = getSocket().getOutputStream();
             XBHead.writeXBUPHead(oStream);
-            ((XBTEncapsulator) target).attachXBTListener(new XBTEventListenerToListener(new MyXBTEventListener(new XBTToXBEventConvertor(new XBEventWriter(oStream)))));
+            ((XBTTypeReliantor) target).attachXBTListener(new XBTEventListenerToListener(new MyXBTEventListener(new XBTToXBEventConvertor(new XBEventWriter(oStream)))));
             target.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
         } catch (XBProcessingException ex) {
             Logger.getLogger(XBTCPServiceClient.class.getName()).log(Level.SEVERE, null, ex);

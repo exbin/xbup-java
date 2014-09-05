@@ -16,21 +16,21 @@
  */
 package org.xbup.lib.core.serial.basic;
 
-import org.xbup.lib.core.parser.basic.XBTListener;
+import org.xbup.lib.core.parser.basic.XBTProvider;
 import org.xbup.lib.core.serial.XBOutputSerialHandler;
 
 /**
  * Interface for XBUP level 1 serialization output handler using basic parser.
  *
- * @version 0.1.24 2014/08/23
+ * @version 0.1.24 2014/09/04
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTBasicOutputSerialHandler extends XBOutputSerialHandler {
 
     /**
-     * Attach listener to be used as target for serialization.
+     * Attach provider to be used as source for serialization.
      *
-     * @param listener
+     * @param provider
      */
-    public void attachXBTListener(XBTListener listener);
+    public void attachXBTProvider(XBTProvider provider);
 }

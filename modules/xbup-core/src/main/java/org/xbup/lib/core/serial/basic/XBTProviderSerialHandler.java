@@ -27,7 +27,7 @@ import org.xbup.lib.core.parser.basic.XBTProvider;
  * @version 0.1.24 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTProviderSerialHandler implements XBTProvider, XBTBasicInputSerialHandler {
+public class XBTProviderSerialHandler implements XBTProvider, XBTBasicOutputSerialHandler {
 
     private XBTProvider provider;
 

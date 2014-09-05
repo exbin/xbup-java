@@ -32,10 +32,15 @@ import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
 import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.parser.basic.XBTConsumer;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTProvider;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.serial.basic.XBTBasicInputSerialHandler;
+import org.xbup.lib.core.serial.basic.XBTBasicOutputSerialHandler;
+import org.xbup.lib.core.serial.basic.XBTBasicSerializable;
 import org.xbup.lib.core.serial.sequence.XBTSequenceListenerSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBTSequenceProviderSerialHandler;
 import org.xbup.lib.core.ubnumber.UBNatural;
@@ -44,16 +49,17 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Representation of declaration block.
  *
- * @version 0.1 wr24.0 2014/09/02
+ * @version 0.1 wr24.0 2014/09/05
  * @author XBUP Project (http://xbup.org)
  */
-public class XBDeclaration implements XBSerializable {
+public class XBDeclaration implements XBTBasicSerializable {
 
     private XBFormatDecl format;
     private XBSerializable rootNode;
 
     private int groupsReserved = 0;
     private int preserveCount = 0;
+    private boolean declarationFinished = false;
 
     public XBDeclaration() {
         format = null;
@@ -95,14 +101,14 @@ public class XBDeclaration implements XBSerializable {
         XBContext context = new XBContext();
         context.setParent(parentContext);
         context.setStartFrom(preserveCount);
-        List<XBDGroupDecl> groups = context.getGroups();
+        List<XBGroup> groups = context.getGroups();
 
         if (format instanceof XBDFormatDecl) {
             XBDFormatDecl formatDecl = (XBDFormatDecl) format;
             for (int groupIndex = 0; groupIndex < formatDecl.getGroups().size() && groupIndex < formatDecl.getGroupsLimit() && groupIndex < groupsReserved; groupIndex++) {
                 XBGroupDecl group = formatDecl.getGroups().get(groupIndex);
                 if (group instanceof XBDGroupDecl) {
-                    groups.add((XBDGroupDecl) group);
+                    groups.add(new XBGroup(((XBDGroupDecl) group).getBlocks()));
                 } else if (group instanceof XBCGroupDecl) {
                     groups.add(convertCatalogGroup((XBCGroupDecl) group, catalog));
                 }
@@ -120,16 +126,16 @@ public class XBDeclaration implements XBSerializable {
         return context;
     }
 
-    private XBDGroupDecl convertCatalogGroup(XBCGroupDecl group, XBCatalog catalog) {
-        XBDGroupDecl groupDecl = new XBDGroupDecl();
-        List<XBBlockDecl> blocks = catalog.getBlocks(((XBCGroupDecl) group).getGroupSpec().getParent());
+    private XBGroup convertCatalogGroup(XBCGroupDecl groupDecl, XBCatalog catalog) {
+        XBGroup group = new XBGroup();
+        List<XBBlockDecl> blocks = catalog.getBlocks(((XBCGroupDecl) groupDecl).getGroupSpec().getParent());
         // TODO revision
         for (int blockIndex = 0; blockIndex < blocks.size(); blockIndex++) {
             XBCBlockDecl block = (XBCBlockDecl) blocks.get(blockIndex);
-            groupDecl.getBlocks().add(block);
+            group.getBlocks().add(block);
         }
 
-        return groupDecl;
+        return group;
     }
 
     /**
@@ -141,34 +147,152 @@ public class XBDeclaration implements XBSerializable {
         return preserveCount + groupsReserved + 1;
     }
 
-    /* public XBGroupDecl getGroup(int group) {
-        if (group == 0) {
-            return null;
-        }
-//        if ((group <= preserveCount)&&(parent != null)) return parent.getGroup(group);
-        if ((group > preserveCount) && (group < preserveCount + groupsReserved + 1) && (format != null)) {
-            if (format instanceof XBDFormatDecl) {
-                if (group - preserveCount - 1 >= ((XBDFormatDecl) format).getGroups().size()) {
-                    return null;
-                }
+    @Override
+    public void serializeFromXB(XBTBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        declarationFinished = false;
+        serializationHandler.attachXBTConsumer(new XBTConsumer() {
 
-                return ((XBDFormatDecl) format).getGroups().get(group - preserveCount - 1);
-            } else if (format instanceof XBCFormatDecl) {
-                if (group - preserveCount - 1 >= ((XBCFormatDecl) format).getGroups().size()) {
-                    return null;
-                }
+            @Override
+            public void attachXBTProvider(XBTProvider provider) {
+                XBTListenerImpl listener = new XBTListenerImpl();
 
-                return ((XBCFormatDecl) format).getGroups().get(group - preserveCount - 1);
-            } else {
-                throw new UnsupportedOperationException("Not supported yet.");
+                while (listener.parseMode < 7) {
+                    try {
+                        provider.produceXBT(listener);
+                    } catch (XBProcessingException | IOException ex) {
+                        Logger.getLogger(XBDeclaration.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
-        }
 
-        return null;
-    } */
+            class XBTListenerImpl implements XBTListener {
 
-    public XBTProvider convertToXBT() {
-        return new XBTProvider() {
+                // TODO remake to enumeration
+                private int parseMode = 0;
+                private int counter = 0;
+                private XBTListener activeListener;
+                private XBTListener formatListener;
+                private XBTListener rootListener;
+
+                public XBTListenerImpl() {
+                }
+
+                @Override
+                public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+                    if (counter > 0) {
+                        activeListener.beginXBT(terminationMode);
+                        return;
+                    }
+                    if (parseMode == 4) {
+                        counter = 1;
+                        activeListener = formatListener;
+                        activeListener.beginXBT(terminationMode);
+                        return;
+                    }
+                    if (parseMode == 5) {
+                        counter = 1;
+                        activeListener = rootListener;
+                        activeListener.beginXBT(terminationMode);
+                        return;
+                    }
+                    if (parseMode > 0) {
+                        throw new XBProcessingException("Unexpected begin", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    }
+
+                    declarationFinished = true;
+                    if (rootNode != null) {
+                        throw new UnsupportedOperationException("Not supported yet.");
+                        // rootListener = rootNode.convertFromXBT();
+                    }
+
+                    if (format instanceof XBDFormatDecl) {
+                        XBTSequenceProviderSerialHandler handler = new XBTSequenceProviderSerialHandler();
+                        handler.attachXBTPullProvider(null);
+                        ((XBDFormatDecl) format).serializeXB(handler);
+                    } else if (format instanceof XBCFormatDecl) {
+                        throw new UnsupportedOperationException("Not supported yet.");
+                    } else {
+                        throw new UnsupportedOperationException("Not supported yet.");
+                    }
+
+                    parseMode = 1;
+                }
+
+                @Override
+                public void typeXBT(XBBlockType type) throws XBProcessingException, IOException {
+                    if (counter > 0) {
+                        activeListener.typeXBT(type);
+                        return;
+                    }
+                    if (parseMode == 1) {
+                        if (type.getAsBasicType() != XBBasicBlockType.DECLARATION) {
+                            throw new XBProcessingException("Unexpected block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
+                        }
+
+                        parseMode = 2;
+                    } else {
+                        throw new XBProcessingException("Unexpected type event", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    }
+                }
+
+                @Override
+                public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
+                    if (counter > 0) {
+                        activeListener.attribXBT(value);
+                        return;
+                    }
+                    if (parseMode < 2) {
+                        throw new XBProcessingException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    }
+                    switch (parseMode) {
+                        case 2: {
+                            preserveCount = 0;
+                            groupsReserved = value.getInt();
+                            parseMode = 3;
+                            break;
+                        }
+                        case 3: {
+                            preserveCount = value.getInt();
+                            parseMode = 4;
+                            break;
+                        }
+                    }
+                }
+
+                @Override
+                public void dataXBT(InputStream data) throws XBProcessingException, IOException {
+                    if (counter > 0) {
+                        activeListener.dataXBT(data);
+                        return;
+                    }
+
+                    throw new XBProcessingException("Unexpected data block", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                }
+
+                @Override
+                public void endXBT() throws XBProcessingException, IOException {
+                    if (counter > 0) {
+                        activeListener.endXBT();
+                        counter--;
+                        if (counter == 0) {
+                            parseMode += 1;
+                        }
+                        return;
+                    }
+                    if (parseMode != 6) {
+                        throw new XBProcessingException("Unexpected end of block", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    }
+
+                    parseMode = 7;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void serializeToXB(XBTBasicOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        declarationFinished = false;
+        serializationHandler.attachXBTProvider(new XBTProvider() {
 
             private int position = 0;
 
@@ -207,133 +331,47 @@ public class XBDeclaration implements XBSerializable {
                         throw new UnsupportedOperationException("Not supported yet.");
                     }
 
+                    declarationFinished = true;
                     if (rootNode != null) {
-                        // TODO getRootNode().convertToXBT().attachXBTListener(listener);
-                    }
+                        if (rootNode instanceof XBTBasicSerializable) {
+                            throw new UnsupportedOperationException("Not supported yet.");
+                            // TODO ((XBTBasicSerializable) rootNode).serializeToXB(serializationHandler);
+                            // TODO getRootNode().convertToXBT().attachXBTListener(listener);
+                        }
 
-                    listener.endXBT();
+                        listener.endXBT();
+                    }
                 } catch (XBProcessingException | IOException ex) {
                     Logger.getLogger(XBDeclaration.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        };
+        });
     }
 
-    public XBTListener convertFromXBT() {
-        return new XBTListener() {
+    public XBGroupDecl getGroup(int group) {
+        if (group == 0) {
+            return null;
+        }
+//        if ((group <= preserveCount)&&(parent != null)) return parent.getGroup(group);
+        if ((group > preserveCount) && (group < preserveCount + groupsReserved + 1) && (format != null)) {
+            if (format instanceof XBDFormatDecl) {
+                if (group - preserveCount - 1 >= ((XBDFormatDecl) format).getGroups().size()) {
+                    return null;
+                }
 
-            // TODO remake to enumeration
-            private int parseMode = 0;
-            private int counter = 0;
-            private XBTListener activeListener;
-            private XBTListener formatListener;
-            private XBTListener rootListener;
+                return ((XBDFormatDecl) format).getGroups().get(group - preserveCount - 1);
+            } else if (format instanceof XBCFormatDecl) {
+                if (group - preserveCount - 1 >= ((XBCFormatDecl) format).getGroups().size()) {
+                    return null;
+                }
 
-            @Override
-            public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-                if (counter > 0) {
-                    activeListener.beginXBT(terminationMode);
-                    return;
-                }
-                if (parseMode == 4) {
-                    counter = 1;
-                    activeListener = formatListener;
-                    activeListener.beginXBT(terminationMode);
-                    return;
-                }
-                if (parseMode == 5) {
-                    counter = 1;
-                    activeListener = rootListener;
-                    activeListener.beginXBT(terminationMode);
-                    return;
-                }
-                if (parseMode > 0) {
-                    throw new XBProcessingException("Unexpected begin");
-                }
-                if (rootNode != null) {
-                    throw new UnsupportedOperationException("Not supported yet.");
-                    // rootListener = rootNode.convertFromXBT();
-                }
-                
-                if (format instanceof XBDFormatDecl) {
-                    XBTSequenceProviderSerialHandler handler = new XBTSequenceProviderSerialHandler();
-                    handler.attachXBTPullProvider(null);
-                    ((XBDFormatDecl) format).serializeXB(handler);
-                } else if (format instanceof XBCFormatDecl) {
-                    throw new UnsupportedOperationException("Not supported yet.");
-                } else {
-                    throw new UnsupportedOperationException("Not supported yet.");
-                }
-                
-                parseMode = 1;
+                return ((XBCFormatDecl) format).getGroups().get(group - preserveCount - 1);
+            } else {
+                throw new UnsupportedOperationException("Not supported yet.");
             }
+        }
 
-            @Override
-            public void typeXBT(XBBlockType type) throws XBProcessingException, IOException {
-                if (counter > 0) {
-                    activeListener.typeXBT(type);
-                    return;
-                }
-                if (parseMode == 1) {
-                    if (type.getAsBasicType() != XBBasicBlockType.DECLARATION) {
-                        throw new XBProcessingException("Unexpected block type");
-                    }
-
-                    parseMode = 2;
-                } else {
-                    throw new XBProcessingException("Unexpected type event");
-                }
-            }
-
-            @Override
-            public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
-                if (counter > 0) {
-                    activeListener.attribXBT(value);
-                    return;
-                }
-                if (parseMode < 2) {
-                    throw new XBProcessingException("Unexpected event order");
-                }
-                switch (parseMode) {
-                    case 2: {
-                        preserveCount = 0;
-                        groupsReserved = value.getInt();
-                        parseMode = 3;
-                        break;
-                    }
-                    case 3: {
-                        preserveCount = value.getInt();
-                        parseMode = 4;
-                        break;
-                    }
-                }
-            }
-
-            @Override
-            public void dataXBT(InputStream data) throws XBProcessingException, IOException {
-                if (counter > 0) {
-                    activeListener.dataXBT(data);
-                    return;
-                }
-                throw new XBProcessingException("Unexpected data block");
-            }
-
-            @Override
-            public void endXBT() throws XBProcessingException, IOException {
-                if (counter > 0) {
-                    activeListener.endXBT();
-                    counter--;
-                    if (counter == 0) {
-                        parseMode += 1;
-                    }
-                    return;
-                }
-                if (parseMode != 6) {
-                    throw new XBProcessingException("Unexpected end of block");
-                }
-                parseMode = 7;
-            }
-        };
+        return null;
     }
 
     public XBFormatDecl getFormat() {
@@ -366,5 +404,13 @@ public class XBDeclaration implements XBSerializable {
 
     public void setRootNode(XBSerializable rootNode) {
         this.rootNode = rootNode;
+    }
+
+    public boolean isDeclarationFinished() {
+        return declarationFinished;
+    }
+
+    public void setDeclarationFinished(boolean declarationFinished) {
+        this.declarationFinished = declarationFinished;
     }
 }

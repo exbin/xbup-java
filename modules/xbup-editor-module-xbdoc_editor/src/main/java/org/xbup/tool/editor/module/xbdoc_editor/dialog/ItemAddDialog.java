@@ -25,15 +25,12 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.block.declaration.XBContext;
+import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
-import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSelectSpecDialog;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
@@ -68,7 +65,7 @@ public class ItemAddDialog extends javax.swing.JDialog {
 
         if (catalog != null) {
             Long[] basicGroupPath = { new Long(0), new Long(0) };
-            List<XBBlockDecl> list = catalog.getBlocks((XBCGroupSpec) catalog.findGroupTypeByPath(basicGroupPath, 0));
+            List<XBBlockDecl> list = catalog.getBlocks(((XBCGroupDecl) catalog.findGroupTypeByPath(basicGroupPath, 0)).getGroupSpec().getParent());
 
             XBCXNameService nameExtension = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
             for (int i = 1; i < list.size(); i++) {

@@ -37,44 +37,26 @@ public class XBGroupDef implements XBSerializable {
     public XBGroupDef() {
     }
 
-    /**
-     * @return the consistSkip
-     */
     public UBNatural getConsistSkip() {
         return consistSkip;
     }
 
-    /**
-     * @param consistSkip the consistSkip to set
-     */
     public void setConsistSkip(UBNatural consistSkip) {
         this.consistSkip = consistSkip;
     }
 
-    /**
-     * @return the joinCount
-     */
     public UBNatural getJoinCount() {
         return joinCount;
     }
 
-    /**
-     * @param joinCount the joinCount to set
-     */
     public void setJoinCount(UBNatural joinCount) {
         this.joinCount = joinCount;
     }
 
-    /**
-     * @return the groups
-     */
     public List<XBDGroupDecl> getGroups() {
         return groups;
     }
 
-    /**
-     * @param groups the groups to set
-     */
     public void setGroups(List<XBDGroupDecl> groups) {
         this.groups = groups;
     }

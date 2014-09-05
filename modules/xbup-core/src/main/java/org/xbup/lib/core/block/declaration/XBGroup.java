@@ -14,23 +14,38 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.serial.basic;
+package org.xbup.lib.core.block.declaration;
 
-import org.xbup.lib.core.parser.basic.XBProvider;
-import org.xbup.lib.core.serial.XBOutputSerialHandler;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Interface for XBUP level 0 serialization output handler using basic parser.
+ * Group as a list of block declarations.
  *
- * @version 0.1.24 2014/09/04
+ * @version 0.1.24 2014/09/03
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBBasicOutputSerialHandler extends XBOutputSerialHandler {
+public class XBGroup {
 
-    /**
-     * Attach provider to be used as source for serialization.
-     *
-     * @param provider
-     */
-    public void attachXBProvider(XBProvider provider);
+    private List<XBBlockDecl> blocks;
+
+    public XBGroup() {
+        blocks = new ArrayList<>();
+    }
+
+    public XBGroup(List<XBBlockDecl> blocks) {
+        this.blocks = blocks;
+    }
+
+    public List<XBBlockDecl> getBlocks() {
+        return blocks;
+    }
+
+    public void setBlocks(List<XBBlockDecl> blockDecl) {
+        this.blocks = blockDecl;
+    }
+
+    public XBBlockDecl getBlockForId(int blockId) {
+        return blocks.get(blockId);
+    }
 }

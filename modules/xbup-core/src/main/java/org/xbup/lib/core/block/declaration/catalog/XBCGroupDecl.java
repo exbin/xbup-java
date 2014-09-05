@@ -17,10 +17,12 @@
 package org.xbup.lib.core.block.declaration.catalog;
 
 import java.io.IOException;
+import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
+import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCGroupRev;
@@ -48,6 +50,10 @@ public class XBCGroupDecl implements XBGroupDecl, XBTChildSerializable {
         this.catalog = catalog;
     }
 
+    public List<XBBlockDecl> getGroups() {
+        return catalog.getBlocks(groupSpec.getParent());
+    }
+    
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin();

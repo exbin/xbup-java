@@ -45,7 +45,6 @@ public class XBTToXBDropper implements XBTListener, XBProducer {
     private boolean typeFlag;
     private XBToken token;
 
-    /** Creates a new instance of XBTToXBDropper */
     public XBTToXBDropper(XBListener target) {
         this.target = target;
         typeFlag = false;
@@ -110,9 +109,7 @@ public class XBTToXBDropper implements XBTListener, XBProducer {
        if (token != null) {
             try {
                 flushToken();
-            } catch (XBProcessingException ex) {
-                Logger.getLogger(XBTToXBDropper.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
+            } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBTToXBDropper.class.getName()).log(Level.SEVERE, null, ex);
             }
        } else {

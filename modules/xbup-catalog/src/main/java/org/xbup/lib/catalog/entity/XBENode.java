@@ -25,12 +25,15 @@ import org.xbup.lib.core.catalog.base.XBCNode;
 /**
  * Node database entity.
  *
- * @version 0.1.21 2011/10/22
+ * @version 0.1.24 2014/09/07
  * @author XBUP Project (http://xbup.org)
  */
 @Entity(name = "XBNode")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class XBENode extends XBEItem implements XBCNode, Serializable {
+
+    private Long cNameOrder;
+    private Long cStriOrder;
 
     public XBENode() {
     }
@@ -88,5 +91,21 @@ public class XBENode extends XBEItem implements XBCNode, Serializable {
 
     public void setOwner(XBENode node) {
         super.setParent(node);
+    }
+
+    public Long getcNameOrder() {
+        return cNameOrder;
+    }
+
+    public void setcNameOrder(Long cNameOrder) {
+        this.cNameOrder = cNameOrder;
+    }
+
+    public Long getcStriOrder() {
+        return cStriOrder;
+    }
+
+    public void setcStriOrder(Long cStriOrder) {
+        this.cStriOrder = cStriOrder;
     }
 }

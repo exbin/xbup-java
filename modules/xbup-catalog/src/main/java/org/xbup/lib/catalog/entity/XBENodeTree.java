@@ -17,40 +17,48 @@
 package org.xbup.lib.catalog.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import org.xbup.lib.core.catalog.base.XBCNodeTree;
 
 /**
  * Node tree database entity.
  *
- * @version 0.1.23 2013/10/06
+ * @version 0.1.24 2014/09/07
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBNodeTree")
+@Entity(name = "XBNodeTree")
 public class XBENodeTree implements XBCNodeTree, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
+    private XBENode owner;
+    @ManyToOne
+    @JoinColumn(nullable = false)
     private XBENode node;
     @ManyToOne
-    private XBENode child;
+    private XBERoot root;
 
+    @Column(nullable = false)
     private Integer depthLevel;
 
-    public XBENodeTree() {}
+    public XBENodeTree() {
+    }
 
     /**
-     * Returns a hash code value for the object.
-     * This implementation computes a hash code value based on the id fields
-     * in this object.
-     * 
+     * Returns a hash code value for the object. This implementation computes a
+     * hash code value based on the id fields in this object.
+     *
      * @return a hash code value for this object.
      */
     @Override
@@ -61,10 +69,10 @@ public class XBENodeTree implements XBCNodeTree, Serializable {
     }
 
     /**
-     * Determines whether another object is equal to this Item.
-     * The result is <code>true</code> if and only if the argument is not null
-     * and is a Item object that has the same id field values as this object.
-     * 
+     * Determines whether another object is equal to this Item. The result is
+     * <code>true</code> if and only if the argument is not null and is a Item
+     * object that has the same id field values as this object.
+     *
      * @param object the reference object with which to compare
      * @return <code>true</code> if this object is the same as the argument;
      * <code>false</code> otherwise.
@@ -76,8 +84,8 @@ public class XBENodeTree implements XBCNodeTree, Serializable {
             return false;
         }
 
-        XBENodeTree other = (XBENodeTree)object;
-        return this.getId() == other.getId() || (this.getId() != null && this.id.equals(other.id));
+        XBENodeTree other = (XBENodeTree) object;
+        return Objects.equals(this.getId(), other.getId()) || (this.getId() != null && this.id.equals(other.id));
     }
 
     @Override
@@ -99,12 +107,21 @@ public class XBENodeTree implements XBCNodeTree, Serializable {
     }
 
     @Override
-    public XBENode getChild() {
-        return child;
+    public XBENode getOwner() {
+        return owner;
     }
 
-    public void setChild(XBENode child) {
-        this.child = child;
+    public void setOwner(XBENode owner) {
+        this.owner = owner;
+    }
+
+    @Override
+    public XBERoot getRoot() {
+        return root;
+    }
+
+    public void setRoot(XBERoot root) {
+        this.root = root;
     }
 
     @Override

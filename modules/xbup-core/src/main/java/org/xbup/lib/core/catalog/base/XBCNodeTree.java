@@ -19,7 +19,7 @@ package org.xbup.lib.core.catalog.base;
 /**
  * Interface for catalog node tree entity.
  *
- * @version 0.1.23 2013/10/06
+ * @version 0.1.24 2014/09/07
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCNodeTree {
@@ -36,14 +36,14 @@ public interface XBCNodeTree {
      *
      * @return the node
      */
-    public XBCNode getNode();
+    public XBCNode getOwner();
 
     /**
      * Get node child.
      *
      * @return the node
      */
-    public XBCNode getChild();
+    public XBCNode getNode();
 
     /**
      * Get depth level.
@@ -51,4 +51,6 @@ public interface XBCNodeTree {
      * @return the depth
      */
     public Integer getDepthLevel();
+
+    public XBCRoot getRoot();
 }

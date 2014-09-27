@@ -63,7 +63,7 @@ public class XBPullReaderTest extends TestCase {
      */
     @Test
     public void testRead() throws Exception {
-        InputStream source = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/xhtml-test.xb");
+        InputStream source = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/xhtml-test.xb");
         try {
             try (XBPullReader reader = new XBPullReader()) {
                 DebugPullProvider provider = new DebugPullProvider();
@@ -87,7 +87,7 @@ public class XBPullReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSingleEmptyBlock() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_singleemptyblock.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singleemptyblock.xb");
         try (XBPullReader reader = new XBPullReader(stream)) {
             DebugPullProvider provider = new DebugPullProvider();
             provider.attachXBPullProvider(reader);
@@ -112,7 +112,7 @@ public class XBPullReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleExtended() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_extended.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_extended.xb");
         try (XBPullReader reader = new XBPullReader(stream)) {
             DebugPullProvider provider = new DebugPullProvider();
             provider.attachXBPullProvider(reader);
@@ -145,7 +145,7 @@ public class XBPullReaderTest extends TestCase {
     public void testReadSampleEmpty() throws Exception {
         Throwable ex = null;
 
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/corrupted/l0_empty.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_empty.xb");
         XBPullReader reader = new XBPullReader(stream);
         DebugPullProvider provider = new DebugPullProvider();
         provider.attachXBPullProvider(reader);
@@ -166,7 +166,7 @@ public class XBPullReaderTest extends TestCase {
     @Test
     public void testReadSampleSingleByte() throws Exception {
         Throwable ex = null;
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/corrupted/l0_singlebyte.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_singlebyte.xb");
         XBPullReader reader = new XBPullReader(stream);
         DebugPullProvider provider = new DebugPullProvider();
         provider.attachXBPullProvider(reader);
@@ -188,7 +188,7 @@ public class XBPullReaderTest extends TestCase {
     public void testReadSampleWrongHeader() throws Exception {
         Throwable ex = null;
 
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/corrupted/l0_wrongheader.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_wrongheader.xb");
         XBPullReader provider = new XBPullReader(stream);
         try {
             provider.pullXBToken();
@@ -206,7 +206,7 @@ public class XBPullReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSingleData() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_singledata.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singledata.xb");
         try (XBPullReader reader = new XBPullReader(stream)) {
             DebugPullProvider provider = new DebugPullProvider();
             provider.attachXBPullProvider(reader);
@@ -233,7 +233,7 @@ public class XBPullReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleTerminated() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_terminated.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_terminated.xb");
         try (XBPullReader reader = new XBPullReader(stream)) {
             DebugPullProvider provider = new DebugPullProvider();
             provider.attachXBPullProvider(reader);
@@ -270,7 +270,7 @@ public class XBPullReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSixBlocks() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_sixblocks.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_sixblocks.xb");
         try (XBPullReader reader = new XBPullReader(stream)) {
             DebugPullProvider provider = new DebugPullProvider();
             provider.attachXBPullProvider(reader);

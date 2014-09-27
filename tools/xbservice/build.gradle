@@ -16,7 +16,7 @@ repositories {
 
 dependencies {
     compile(project(":modules:xbup-core"))
-    compile(project(":modules:xbup-service"))
+    compile(project(":modules:xbup-framework-service"))
     compile(project(":modules:xbup-editor-base"))
     compile(project(":modules:xbup-editor-module-service_manager"))
     compile ':jspf.core:1.0.2'

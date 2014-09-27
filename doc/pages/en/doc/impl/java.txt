@@ -1,0 +1,55 @@
+====== Java Implementation Documentation ======
+
+Implementation is organized into modules and can be build using Gradle build tool.
+
+===== Libraries =====
+
+There are basic libraries with functionality related to protocol itself and services, additional libraries with some support for various data types and libraries related to editors for demonstration purposes.
+
+===== Basic Libraries =====
+
+  * [[en:doc:impl:java:lib:xbup-core|xbup-core]] - Core library with basic support for xbup encoding
+  * [[en:doc:impl:java:lib:xbup-catalog|xbup-catalog]] - Library for catalog of types
+  * [[en:doc:impl:java:lib:xbup-framework-client|xbup-framework-client]] - Library for framework clients
+  * [[en:doc:impl:java:lib:xbup-framework-service|xbup-framework-service]] - Library for framework service
+  * [[en:doc:impl:java:lib:xbup-parser-tree|xbup-parser-tree]] - Library for object model / tree parser
+  * [[en:doc:impl:java:lib:xbup-parser-command|xbup-parser-command]] - Library for command parser
+
+===== Additional Libraries =====
+
+  * [[en:doc:impl:java:lib:xbup-plugin|xbup-plugin]] - Library for plugins
+  * [[en:doc:impl:java:lib:xbup-operation|xbup-operation]] - Library for undo/redo and complex operations handling
+  * [[en:doc:impl:java:lib:xbup-audio|xbup-audio]] - Library for functionality related to audio data processing
+  * [[en:doc:impl:java:lib:xbup-visual|xbup-visual]] - Library for functionality related to visual data processing
+
+===== Editor-related Libraries =====
+
+  * [[en:doc:impl:java:lib:xbup-editor-base|xbup-editor-base]] - Library for editor modules handling
+  * [[en:doc:impl:java:lib:xbup-editor-base-api|xbup-editor-base-api]] - Library for editor modules handling API
+  * [[en:doc:impl:java:lib:xbup-editor-module-frame|xbup-editor-module-frame]] - Library for editor main frame
+  * [[en:doc:impl:java:lib:xbup-editor-module-java_help|xbup-editor-module-java_help]] - Library for java help editor module
+  * [[en:doc:impl:java:lib:xbup-editor-module-online_help|xbup-editor-module-online_help]] - Library for online help editor module
+  * [[en:doc:impl:java:lib:xbup-editor-module-service_manager|xbup-editor-module-service_manager]] - Library for service management editor module
+  * [[en:doc:impl:java:lib:xbup-editor-module-xbdoc_editor|xbup-editor-module-xbdoc_editor]] - Library for xbup-encoded document editor module
+  * [[en:doc:impl:java:lib:xbup-editor-module-text_editor|xbup-editor-module-text_editor]] - Library for text editor module
+  * [[en:doc:impl:java:lib:xbup-editor-module-picture_editor|xbup-editor-module-picture_editor]] - Library for picture editor module
+  * [[en:doc:impl:java:lib:xbup-editor-module-wave_editor|xbup-editor-module-wave_editor]] - Library for wave editor module
+
+===== Tools =====
+
+Implementation includes following tools for manipulation with XBUP-encoded documents:
+
+==== Basic Tools ====
+
+  * [[en:doc:impl:java:tool:xbeditor|XBEditor]] - Basic editor allowing to view and edit document as a tree or text file or in hexadecimal mode
+  * [[en:doc:impl:java:tool:xbmanager|XBManager]] - Tool for accessing XBUP catalog or framework services
+  * [[en:doc:impl:java:tool:xbshell|XBShell]] - Support for browsing content of document on the text command line
+
+==== Sample Editors ====
+
+There are also demo applications available that allow work with some simple testing formats.
+
+  * [[en:doc:impl:java:tool:lrub1demo|LRUB 1 Demo]] - Demonstration application for number encoding
+  * [[en:doc:impl:java:tool:xbpeditor|XBPEditor]] - Simple picture editor
+  * [[en:doc:impl:java:tool:xbteditor|XBTEditor]] - Simple text editor
+  * [[en:doc:impl:java:tool:xbseditor|XBSEditor]] - Simple audio editor

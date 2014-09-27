@@ -18,7 +18,7 @@ Structure
 
 As the project is currently in alpha stage, repository contains complete resources for distribution package with following folders:
 
- * doc - Documentation + related presenations
+ * doc - Documentation + related presentations
  * gradle - Gradle wrapper
  * src - Sources related to building distribution packages
  * modules - Libraries and other
@@ -42,7 +42,7 @@ The Gradle build system provides support for various IDEs. See gradle website fo
 
  * NetBeans 8.0 or later
 
-There is gradle support plugin, which can be used to some degree, but some projects need other handling as described in their readme files.
+There is gradle support plugin, which can be used to some degree, but some projects need other way of handling as described in their readme files.
 
 Gradle support plugin website: http://plugins.netbeans.org/plugin/44510/gradle-support
 

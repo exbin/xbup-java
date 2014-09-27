@@ -1,7 +1,7 @@
 rootProject.name = 'xbservice'
 include ":modules:xbup-core"
 include ":modules:xbup-catalog"
-include ":modules:xbup-service"
+include ":modules:xbup-framework-service"
 include ":modules:xbup-plugin"
 include ":modules:xbup-editor-base"
 include ":modules:xbup-editor-base-api"
@@ -12,7 +12,7 @@ if (rootProject.path == ':') {
     def rootProjectDir = rootProject.projectDir.path + "/../.."
     project(':modules:xbup-core').projectDir = new File(rootProjectDir + "/modules/xbup-core")
     project(':modules:xbup-catalog').projectDir = new File(rootProjectDir + "/modules/xbup-catalog")
-    project(':modules:xbup-service').projectDir = new File(rootProjectDir + "/modules/xbup-service")
+    project(':modules:xbup-framework-service').projectDir = new File(rootProjectDir + "/modules/xbup-framework-service")
     project(':modules:xbup-plugin').projectDir = new File(rootProjectDir + "/modules/xbup-plugin")
     project(':modules:xbup-editor-base').projectDir = new File(rootProjectDir + "/modules/xbup-editor-base")
     project(':modules:xbup-editor-base-api').projectDir = new File(rootProjectDir + "/modules/xbup-editor-base-api")

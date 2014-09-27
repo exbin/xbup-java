@@ -52,7 +52,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Representation of declaration block.
  *
- * @version 0.1 wr24.0 2014/09/07
+ * @version 0.1 wr24.0 2014/09/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDeclaration implements XBTSequenceSerializable {
@@ -60,17 +60,13 @@ public class XBDeclaration implements XBTSequenceSerializable {
     private XBFormatDecl format;
     private XBSerializable rootNode;
 
-    private int groupsReserved = 0;
-    private int preserveCount = 0;
+    private UBNat32 groupsReserved = new UBNat32(0);
+    private UBNat32 preserveCount = new UBNat32(0);
     private boolean declarationFinished = false;
 
-    public XBDeclaration() {
-        format = null;
-        rootNode = null;
-    }
-
     public XBDeclaration(XBFormatDecl format) {
-        this(format, null);
+        this.format = format;
+        rootNode = null;
     }
 
     public XBDeclaration(XBFormatDecl format, XBSerializable rootNode) {
@@ -103,12 +99,12 @@ public class XBDeclaration implements XBTSequenceSerializable {
     public XBContext generateContext(XBContext parentContext, XBCatalog catalog) {
         XBContext context = new XBContext();
         context.setParent(parentContext);
-        context.setStartFrom(preserveCount);
+        context.setStartFrom(preserveCount.getInt());
         List<XBGroup> groups = context.getGroups();
 
         if (format instanceof XBDFormatDecl) {
             XBDFormatDecl formatDecl = (XBDFormatDecl) format;
-            for (int groupIndex = 0; groupIndex < formatDecl.getGroups().size() && groupIndex < formatDecl.getGroupsLimit() && groupIndex < groupsReserved; groupIndex++) {
+            for (int groupIndex = 0; groupIndex < formatDecl.getGroups().size() && groupIndex < formatDecl.getGroupsLimit() && groupIndex < groupsReserved.getInt(); groupIndex++) {
                 XBGroupDecl group = formatDecl.getGroups().get(groupIndex);
                 if (group instanceof XBDGroupDecl) {
                     groups.add(new XBGroup(((XBDGroupDecl) group).getBlocks()));
@@ -147,14 +143,7 @@ public class XBDeclaration implements XBTSequenceSerializable {
      * @return count of groups
      */
     public long getGroupsCount() {
-        return preserveCount + groupsReserved + 1;
-    }
-
-    @Override
-    public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        XBSerialSequence seq = new XBSerialSequence();
-        seq.setXBBlockType(new XBFixedBlockType(XBBasicBlockType.DECLARATION));
-        serializationHandler.sequenceXB(seq);
+        return preserveCount.getLong() + groupsReserved.getLong() + 1;
     }
 
     public XBGroupDecl getGroup(int group) {
@@ -162,25 +151,42 @@ public class XBDeclaration implements XBTSequenceSerializable {
             return null;
         }
 //        if ((group <= preserveCount)&&(parent != null)) return parent.getGroup(group);
-        if ((group > preserveCount) && (group < preserveCount + groupsReserved + 1) && (format != null)) {
+        if ((group > preserveCount.getInt()) && (group < preserveCount.getInt() + groupsReserved.getInt() + 1) && (format != null)) {
             if (format instanceof XBDFormatDecl) {
-                if (group - preserveCount - 1 >= ((XBDFormatDecl) format).getGroups().size()) {
+                if (group - preserveCount.getInt() - 1 >= ((XBDFormatDecl) format).getGroups().size()) {
                     return null;
                 }
 
-                return ((XBDFormatDecl) format).getGroups().get(group - preserveCount - 1);
+                return ((XBDFormatDecl) format).getGroups().get(group - preserveCount.getInt() - 1);
             } else if (format instanceof XBCFormatDecl) {
-                if (group - preserveCount - 1 >= ((XBCFormatDecl) format).getGroups().size()) {
+                if (group - preserveCount.getInt() - 1 >= ((XBCFormatDecl) format).getGroups().size()) {
                     return null;
                 }
 
-                return ((XBCFormatDecl) format).getGroups().get(group - preserveCount - 1);
+                return ((XBCFormatDecl) format).getGroups().get(group - preserveCount.getInt() - 1);
             } else {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
         }
 
         return null;
+    }
+
+    @Override
+    public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        XBSerialSequence seq = new XBSerialSequence();
+        serializeDeclaration(serializationHandler);
+        seq.consist(rootNode);
+        serializationHandler.sequenceXB(seq);
+        // TODO serialize extensions
+    }
+
+    public void serializeDeclaration(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        XBSerialSequence seq = new XBSerialSequence();
+        seq.setXBBlockType(new XBFixedBlockType(XBBasicBlockType.DECLARATION));
+        seq.join(groupsReserved);
+        seq.join(preserveCount);
+        seq.consist(format);
     }
 
     public class BasicSerializer implements XBTBasicSerializable {
@@ -284,13 +290,13 @@ public class XBDeclaration implements XBTSequenceSerializable {
                         }
                         switch (parseMode) {
                             case 2: {
-                                preserveCount = 0;
-                                groupsReserved = value.getInt();
+                                preserveCount = new UBNat32();
+                                groupsReserved = new UBNat32(value);
                                 parseMode = 3;
                                 break;
                             }
                             case 3: {
-                                preserveCount = value.getInt();
+                                preserveCount = new UBNat32(value);
                                 parseMode = 4;
                                 break;
                             }
@@ -337,7 +343,7 @@ public class XBDeclaration implements XBTSequenceSerializable {
 //            private XBTListener listener;
 //            private XBTListener formatListener;
                 @Override
-                public void produceXBT(XBTListener listener) {
+                public void produceXBT(final XBTListener listener) {
                     // TODO: Correct later to single event per execution
                     try {
                         listener.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -358,7 +364,7 @@ public class XBDeclaration implements XBTSequenceSerializable {
                          } */
                         listener.attribXBT(new UBNat32(getGroupsReserved())); // GroupsReserver
                         listener.attribXBT(new UBNat32(getPreserveCount())); // PreserveCount
-
+                        
                         if (format instanceof XBDFormatDecl) {
                             XBTSequenceListenerSerialHandler handler = new XBTSequenceListenerSerialHandler();
                             handler.attachXBTEventListener(new XBTListenerToEventListener(listener));
@@ -373,7 +379,7 @@ public class XBDeclaration implements XBTSequenceSerializable {
                         if (rootNode != null) {
                             if (rootNode instanceof XBTBasicSerializable) {
                                 throw new UnsupportedOperationException("Not supported yet.");
-                            // TODO ((XBTBasicSerializable) rootNode).serializeToXB(serializationHandler);
+                                // TODO ((XBTBasicSerializable) rootNode).serializeToXB(serializationHandler);
                                 // TODO getRootNode().convertToXBT().attachXBTListener(listener);
                             }
 
@@ -396,19 +402,19 @@ public class XBDeclaration implements XBTSequenceSerializable {
     }
 
     public int getGroupsReserved() {
-        return groupsReserved;
+        return groupsReserved.getInt();
     }
 
     public void setGroupsReserved(int groupsReserved) {
-        this.groupsReserved = groupsReserved;
+        this.groupsReserved = new UBNat32(groupsReserved);
     }
 
     public int getPreserveCount() {
-        return preserveCount;
+        return preserveCount.getInt();
     }
 
     public void setPreserveCount(int preserveCount) {
-        this.preserveCount = preserveCount;
+        this.preserveCount = new UBNat32(preserveCount);
     }
 
     public XBSerializable getRootNode() {

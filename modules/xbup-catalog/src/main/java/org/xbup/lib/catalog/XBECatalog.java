@@ -521,7 +521,7 @@ public class XBECatalog implements XBCatalog {
         if (specBlock.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
             if (specBlock.getAttributesCount() > 1) {
                 if (specBlock.getBlockType().getAsBasicType() == XBBasicBlockType.DECLARATION) {
-                    XBDeclaration declaration = new XBDeclaration();
+                    XBDeclaration declaration = new XBDeclaration(new XBCFormatDecl(null, this));
                     throw new UnsupportedOperationException("Not supported yet.");
                     /*declaration.se
                     XBContext context = new XBContext();

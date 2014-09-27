@@ -1,0 +1,63 @@
+====== XBUP Core Library ======
+
+Core library provides set of interfaces and functions to support XBUP-encoded document's handling. It provides basic parsers, declarations and catalog access, basic types and support for serialization, streaming and remote procedure calls (RPC).
+
+FIXME
+
+===== Basic Interfaces =====
+
+Library contains interfaces for document, block and type declarations.
+
+==== Declarations and Basic Types ====
+
+Declarations are included in "org.xbup.lib.core.block" package. 
+
+===== Parsers =====
+
+Implementation of pull and event parsers is included in core library in "org.xbup.lib.core.parser" package.
+
+[[en:doc:protocol:parsers|See more about protocol parser.]]
+
+Java implementation provides two ways how to process tokens. One way is via wide interface XBListener for level 0 which provides single method for each token type.
+
+  public void begin(XBBlockTerminationMode terminationMode)
+  public void attrib(UBNatural attribute)
+  public void data(InputStream data)
+  public void end()
+
+For level 1, there is similar interface XBTListener, which also includes additional method for type:
+
+  public void typeXBT(XBBlockType blockType)
+
+Other way uses token classes as defined in "org.xbup.lib.core.parser.token" package and interfaces with single method.
+
+  * For level 0:
+
+  XBBeginToken, XBAttributeToken, XBDataToken, XBEndToken
+
+  * For level 1:
+
+  XBTBeginToken, XBTTypeToken, XBTAttributeToken, XBTDataToken, XBTEndToken
+
+For different ways and directions of handling tokens there are defined interfaces for each case:
+
+
+
+===== Serialization =====
+
+Various ways how to perform conversion of object data to protocol and back are included in "org.xbup.lib.core.serial" package.
+
+
+===== Streaming =====
+
+
+
+==== Stream Event Processing ====
+
+===== Framework and Catalog Access =====
+
+
+
+TODO:
+
+Note: You have to process content of data token (for example read InputStream) before receiving next token.

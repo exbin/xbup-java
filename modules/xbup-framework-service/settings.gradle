@@ -1,4 +1,4 @@
-rootProject.name = 'xbup-service'
+rootProject.name = 'xbup-framework-service'
 include ":modules:xbup-core"
 include ":modules:xbup-catalog"
 

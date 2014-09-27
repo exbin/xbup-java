@@ -1,0 +1,7 @@
+====== JavaDoc ======
+
+Following documentations are automatically generated.
+
+[[this>../docs/javadoc/XBLib-wr23/index.html|XBLib]] - XBUP Basic Library\\
+[[this>../docs/javadoc/XBCatalogLib-wr23/index.html|XBCatalogLib]] - XBUP Catalog Library
+

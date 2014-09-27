@@ -16,11 +16,13 @@
  */
 package org.xbup.lib.core.block.declaration;
 
+import org.xbup.lib.core.serial.XBSerializable;
+
 /**
  * Format declaration interface, either for catalog or local definition.
  *
- * @version 0.1.24 2014/08/28
+ * @version 0.1.24 2014/09/27
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBFormatDecl {
+public interface XBFormatDecl extends XBSerializable {
 }

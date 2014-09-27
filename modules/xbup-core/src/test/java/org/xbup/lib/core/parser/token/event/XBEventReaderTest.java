@@ -69,7 +69,7 @@ public class XBEventReaderTest extends TestCase {
      */
     @Test
     public void testRead() throws Exception {
-        InputStream source = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/xhtml-test.xb");
+        InputStream source = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/xhtml-test.xb");
         try {
             XBEventReader reader = new XBEventReader();
             reader.open(source);
@@ -90,7 +90,7 @@ public class XBEventReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSingleEmptyBlock() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_singleemptyblock.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singleemptyblock.xb");
         XBEventReader instance = new XBEventReader(stream);
         AssertListener assertListener;
 
@@ -115,7 +115,7 @@ public class XBEventReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleExtended() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_extended.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_extended.xb");
         XBEventReader instance = new XBEventReader(stream);
         AssertListener assertListener;
 
@@ -142,7 +142,7 @@ public class XBEventReaderTest extends TestCase {
     public void testReadSampleEmpty() throws Exception {
         Throwable ex = null;
 
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/corrupted/l0_empty.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_empty.xb");
         XBEventReader instance = new XBEventReader(stream);
         try {
             instance.attachXBEventListener(new AssertListener(null));
@@ -163,7 +163,7 @@ public class XBEventReaderTest extends TestCase {
     public void testReadSampleSingleByte() throws Exception {
         Throwable ex = null;
 
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/corrupted/l0_singlebyte.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_singlebyte.xb");
         XBEventReader instance = new XBEventReader(stream);
         try {
             instance.attachXBEventListener(new AssertListener(null));
@@ -184,7 +184,7 @@ public class XBEventReaderTest extends TestCase {
     public void testReadSampleWrongHeader() throws Exception {
         Throwable ex = null;
 
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/corrupted/l0_wrongheader.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_wrongheader.xb");
         XBEventReader instance = new XBEventReader(stream);
         try {
             instance.attachXBEventListener(new AssertListener(null));
@@ -203,7 +203,7 @@ public class XBEventReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSingleData() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_singledata.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singledata.xb");
         XBEventReader instance = new XBEventReader(stream);
         AssertListener assertListener;
 
@@ -228,7 +228,7 @@ public class XBEventReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleTerminated() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_terminated.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_terminated.xb");
         XBEventReader instance = new XBEventReader(stream);
         AssertListener assertListener;
 
@@ -256,7 +256,7 @@ public class XBEventReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSixBlocks() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_sixblocks.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_sixblocks.xb");
         XBEventReader instance = new XBEventReader(stream);
         AssertListener assertListener;
 

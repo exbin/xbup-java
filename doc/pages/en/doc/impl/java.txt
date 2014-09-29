@@ -50,6 +50,6 @@ Implementation includes following tools for manipulation with XBUP-encoded docum
 There are also demo applications available that allow work with some simple testing formats.
 
   * [[en:doc:impl:java:tool:lrub1demo|LRUB 1 Demo]] - Demonstration application for number encoding
-  * [[en:doc:impl:java:tool:xbpeditor|XBPEditor]] - Simple picture editor
   * [[en:doc:impl:java:tool:xbteditor|XBTEditor]] - Simple text editor
+  * [[en:doc:impl:java:tool:xbpeditor|XBPEditor]] - Simple picture editor
   * [[en:doc:impl:java:tool:xbseditor|XBSEditor]] - Simple audio editor

@@ -46,6 +46,7 @@ public class XBTTreeWriter implements XBTProvider {
     public XBTTreeWriter(XBTTreeNode source, boolean recursive) {
         this.source = source;
         this.recursive = recursive;
+        position = 1;
     }
 
     public void produceXBT(XBTListener listener, boolean recursive) throws XBProcessingException, IOException {
@@ -70,7 +71,7 @@ public class XBTTreeWriter implements XBTProvider {
         }
 
         pos--;
-        if (pos < source.getAttributes().size()) {
+        if (pos >= 0 && pos < source.getAttributes().size()) {
             listener.attribXBT(source.getAttributes().get(pos));
             return;
         }

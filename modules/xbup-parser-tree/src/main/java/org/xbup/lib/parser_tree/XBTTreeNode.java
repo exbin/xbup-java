@@ -48,6 +48,7 @@ import org.xbup.lib.core.parser.param.XBParamPosition;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
+import org.xbup.lib.core.parser.token.pull.convert.XBTProviderToPullProvider;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.UBStreamable;
@@ -58,7 +59,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Basic object model parser XBUP level 1 document block / tree node.
  *
- * @version 0.1.24 2014/09/03
+ * @version 0.1.24 2014/09/29
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
@@ -116,7 +117,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             
             if (getBlockType().getAsBasicType() == XBBasicBlockType.DECLARATION) {
                 // Process declaration block
-                XBContext childContext = catalog.processDeclaration(parentContext, this);
+                XBContext childContext = catalog.processDeclaration(parentContext, new XBTProviderToPullProvider(new XBTTreeWriter(this, true)));
                 long blockPos = 0;
                 if (getChildren() != null) {
                     for (Iterator it = getChildren().iterator(); it.hasNext();) {

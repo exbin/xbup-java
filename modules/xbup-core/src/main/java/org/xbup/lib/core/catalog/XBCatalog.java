@@ -19,7 +19,6 @@ package org.xbup.lib.core.catalog;
 import java.util.List;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
-import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
@@ -30,6 +29,7 @@ import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.manager.XBCManager;
 import org.xbup.lib.core.catalog.base.service.XBCService;
+import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 
 /**
  * Interface for XBUP level 1 catalog.
@@ -158,7 +158,7 @@ public interface XBCatalog {
      */
     public XBFixedBlockType findFixedType(XBContext context, XBBlockType type);
 
-    public XBContext processDeclaration(XBContext parent, XBTBlock specBlock);
+    public XBContext processDeclaration(XBContext parent, XBTPullProvider blockProvider);
 
     /**
      * Get path for given specification.

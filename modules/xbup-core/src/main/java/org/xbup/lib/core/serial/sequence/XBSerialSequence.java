@@ -34,7 +34,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 serialization sequence.
  *
- * @version 0.1.24 2014/08/23
+ * @version 0.1.24 2014/09/28
  * @author XBUP Project (http://xbup.org)
  */
 public class XBSerialSequence {
@@ -113,6 +113,10 @@ public class XBSerialSequence {
 
     public void setItems(List<XBSerialSequenceItem> items) {
         this.items = items;
+    }
+
+    public void append(XBSerialSequence seq) {
+        items.addAll(seq.items);
     }
 
     private class XBSequenceSerializableList implements XBSerialSequenceList, XBTChildSerializable {

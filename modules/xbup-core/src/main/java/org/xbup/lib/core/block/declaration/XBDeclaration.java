@@ -175,20 +175,25 @@ public class XBDeclaration implements XBTSequenceSerializable {
     @Override
     public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
         XBSerialSequence seq = new XBSerialSequence();
-        serializeDeclaration(serializationHandler);
+        seq.append(getDeclarationSerializationSeq());
         seq.consist(rootNode);
         serializationHandler.sequenceXB(seq);
         // TODO serialize extensions
     }
 
-    public void serializeDeclaration(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public XBSerialSequence getDeclarationSerializationSeq() throws XBProcessingException, IOException {
         XBSerialSequence seq = new XBSerialSequence();
         seq.setXBBlockType(new XBFixedBlockType(XBBasicBlockType.DECLARATION));
         seq.join(groupsReserved);
         seq.join(preserveCount);
         seq.consist(format);
+        return seq;
     }
 
+    public void serializeDeclaration(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        serializationHandler.sequenceXB(getDeclarationSerializationSeq());
+    }
+    
     public class BasicSerializer implements XBTBasicSerializable {
 
         @Override

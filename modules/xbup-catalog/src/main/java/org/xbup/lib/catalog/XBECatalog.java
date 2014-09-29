@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.catalog;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -41,7 +42,6 @@ import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
-import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
@@ -73,6 +73,9 @@ import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXInfoService;
 import org.xbup.lib.core.catalog.remote.service.XBRSpecService;
 import org.xbup.lib.core.catalog.update.XBCUpdateHandler;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
+import org.xbup.lib.core.serial.sequence.XBTSequenceProviderSerialHandler;
 
 /**
  * Basic level 1 catalog class using Java persistence.
@@ -517,26 +520,27 @@ public class XBECatalog implements XBCatalog {
     }
 
     @Override
-    public XBContext processDeclaration(XBContext parent, XBTBlock specBlock) {
-        if (specBlock.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
-            if (specBlock.getAttributesCount() > 1) {
-                if (specBlock.getBlockType().getAsBasicType() == XBBasicBlockType.DECLARATION) {
-                    XBDeclaration declaration = new XBDeclaration(new XBCFormatDecl(null, this));
-                    throw new UnsupportedOperationException("Not supported yet.");
-                    /*declaration.se
-                    XBContext context = new XBContext();
-                    context.setParent(parent);
-                    context.getDeclaration().setGroupsReserved(specBlock.getAttribute(0).getLong());
-                    context.getDeclaration().setPreserveCount(specBlock.getAttribute(1).getLong());
-                    if (specBlock.getChildCount() > 0) {
-                        context.getDeclaration().setFormat(processFormatSpec(catalog, specBlock.getChildAt(0)));
-                    }
-                    return context; */
-                }
-            }
+    public XBContext processDeclaration(XBContext parent, XBTPullProvider blockProvider) {
+        XBDeclaration declaration = new XBDeclaration(new XBCFormatDecl(null, this));
+        try {
+            XBTSequenceProviderSerialHandler serialHandler = new XBTSequenceProviderSerialHandler();
+            serialHandler.attachXBTPullProvider(blockProvider);
+            declaration.serializeDeclaration(serialHandler);
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBECatalog.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return null;
+        XBContext context = declaration.generateContext(this);
+        /*declaration.se
+        XBContext context = new XBContext();
+        context.setParent(parent);
+        context.getDeclaration().setGroupsReserved(specBlock.getAttribute(0).getLong());
+        context.getDeclaration().setPreserveCount(specBlock.getAttribute(1).getLong());
+        if (specBlock.getChildCount() > 0) {
+            context.getDeclaration().setFormat(processFormatSpec(catalog, specBlock.getChildAt(0)));
+        }
+        return context; */
+        return context;
     }
 
     /* public static XBDFormatDecl processFormatSpec(XBCatalog catalog, XBTBlock specBlock) {

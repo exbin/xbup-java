@@ -21,11 +21,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.xbup.lib.core.block.XBBasicBlockType;
-import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
-import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
@@ -63,6 +60,7 @@ import org.xbup.lib.core.catalog.remote.service.XBRItemService;
 import org.xbup.lib.core.catalog.remote.service.XBRNodeService;
 import org.xbup.lib.core.catalog.remote.service.XBRRevService;
 import org.xbup.lib.core.catalog.remote.service.XBRSpecService;
+import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 
 /**
  * XBUP level 1 remote catalog.
@@ -343,24 +341,25 @@ public class XBRCatalog implements XBCatalog {
     }
 
     @Override
-    public XBContext processDeclaration(XBContext parent, XBTBlock specBlock) {
-        if (specBlock.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
+    public XBContext processDeclaration(XBContext parent, XBTPullProvider blockProvider) {
+        throw new UnsupportedOperationException("Not supported yet.");
+        /* TODO if (specBlock.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
             if (specBlock.getAttributesCount() > 1) {
                 if (specBlock.getBlockType().getAsBasicType() == XBBasicBlockType.DECLARATION) {
                     XBContext context = new XBContext();
                     context.setParent(parent);
-                    /* TODO
+                    
                     context.getDeclaration().setGroupsReserved(specBlock.getAttribute(0).getLong());
                     context.getDeclaration().setPreserveCount(specBlock.getAttribute(1).getLong());
                     if (specBlock.getChildCount() > 0) {
                         context.getDeclaration().setFormat(processFormatSpec(catalog, specBlock.getChildAt(0)));
-                    } */
+                    }
                     return context;
                 }
             }
         }
 
-        return null;
+        return null; */
     }
 
     @Override

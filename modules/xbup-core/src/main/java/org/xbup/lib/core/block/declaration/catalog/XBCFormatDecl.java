@@ -17,6 +17,7 @@
 package org.xbup.lib.core.block.declaration.catalog;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
@@ -24,6 +25,7 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
+import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCFormatRev;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -51,13 +53,30 @@ public class XBCFormatDecl implements XBFormatDecl, XBTChildSerializable {
     }
     
     public List<XBGroupDecl> getGroups() {
-        return catalog.getGroups(formatSpec.getParent());
+        return formatSpec == null ? new ArrayList<XBGroupDecl>() : catalog.getGroups(formatSpec.getParent());
     }
 
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin();
         XBBlockType type = serializationHandler.getType();
+        if (type.getAsBasicType() != XBBasicBlockType.FORMAT_DECLARATION) {
+            throw new XBProcessingException("Unexpected block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
+        }
+
+        XBDFormatDecl decl = new XBDFormatDecl();
+        long groupLimit = serializationHandler.nextAttribute().getLong();
+        Long[] catalogPath = new Long[serializationHandler.nextAttribute().getInt()];
+        int i;
+        for (i = 0; i < catalogPath.length; i++) {
+            catalogPath[i] = serializationHandler.nextAttribute().getLong();
+        }
+        long revision = serializationHandler.nextAttribute().getLong();
+        
+        XBCFormatDecl format = (XBCFormatDecl) catalog.findFormatTypeByPath(catalogPath, (int) revision);
+        formatSpec = format == null ? null : format.getFormatSpec();
+        
+        /* TODO
         if (type.getAsBasicType() != XBBasicBlockType.FORMAT_DECLARATION_LINK) {
             throw new XBProcessingException("Unexpected block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
         }
@@ -69,7 +88,7 @@ public class XBCFormatDecl implements XBFormatDecl, XBTChildSerializable {
         }
 
         XBCFormatDecl format = (XBCFormatDecl) catalog.findFormatTypeByPath(path, 0);
-        formatSpec = format.getFormatSpec();
+        formatSpec = format == null ? null : format.getFormatSpec(); */
         serializationHandler.end();
     }
 

@@ -46,6 +46,6 @@ public class XBGroup {
     }
 
     public XBBlockDecl getBlockForId(int blockId) {
-        return blocks.get(blockId);
+        return blockId < blocks.size() ? blocks.get(blockId) : null;
     }
 }

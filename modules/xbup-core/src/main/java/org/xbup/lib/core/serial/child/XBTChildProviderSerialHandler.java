@@ -214,7 +214,7 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
         // TODO Skip rest
         XBTToken token = pullProvider.pullXBTToken();
         if (token.getTokenType() != XBTTokenType.END) {
-            throw new XBSerialException("End method was expected but not received", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            throw new XBSerialException("End token was expected but not received", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
         state = XBChildSerialState.EOF;

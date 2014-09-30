@@ -19,7 +19,7 @@ package org.xbup.lib.core.parser;
 /**
  * Enumeration of possible parsing states.
  *
- * @version 0.1.23 2013/02/05
+ * @version 0.1.24 2014/09/30
  * @author XBUP Project (http://xbup.org)
  */
 public enum XBParserState {
@@ -33,13 +33,21 @@ public enum XBParserState {
      */
     BLOCK_BEGIN,
     /**
+     * Inside or at the end of block type.
+     */
+    BLOCK_TYPE,
+    /**
      * Inside or at the end of atribute part.
      */
     ATTRIBUTE_PART,
     /**
      * Inside or at the end of data part.
      */
-    DATA,
+    DATA_PART,
+    /**
+     * Inside or at the end of children part.
+     */
+    CHILDREN_PART,
     /**
      * Inside extended part.
      */

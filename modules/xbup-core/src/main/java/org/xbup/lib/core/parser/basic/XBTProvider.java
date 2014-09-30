@@ -32,7 +32,7 @@ public interface XBTProvider {
      * Produce single data.
      * 
      * @param listener listener to send data to
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
+     * @throws XBProcessingException
      * @throws java.io.IOException
      */
     public void produceXBT(XBTListener listener) throws XBProcessingException, IOException;

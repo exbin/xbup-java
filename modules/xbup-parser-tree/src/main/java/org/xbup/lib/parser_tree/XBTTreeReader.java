@@ -142,7 +142,7 @@ public class XBTTreeReader implements XBTListener {
         }
 
         if (parserState == XBParserState.BLOCK_BEGIN) {
-            parserState = XBParserState.DATA;
+            parserState = XBParserState.DATA_PART;
             target.setData(data);
         } else {
             throw new XBParseException("Unexpected data event");
@@ -160,7 +160,7 @@ public class XBTTreeReader implements XBTListener {
             return;
         }
 
-        if ((parserState == XBParserState.DATA) || (parserState == XBParserState.BLOCK_BEGIN)) {
+        if ((parserState == XBParserState.DATA_PART) || (parserState == XBParserState.BLOCK_BEGIN)) {
             parserState = XBParserState.BLOCK_END;
             if (level > 0) {
                 parserState = XBParserState.BLOCK_END;

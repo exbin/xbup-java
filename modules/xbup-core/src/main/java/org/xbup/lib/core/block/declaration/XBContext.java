@@ -23,7 +23,7 @@ import org.xbup.lib.core.block.XBFBlockType;
 /**
  * Representation of current declaration context for block types.
  *
- * @version 0.1.24 2014/09/03
+ * @version 0.1.24 2014/09/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBContext {

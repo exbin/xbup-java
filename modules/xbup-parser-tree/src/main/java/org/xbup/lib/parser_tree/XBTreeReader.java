@@ -141,7 +141,7 @@ public class XBTreeReader implements XBListener {
         }
 
         if (parserState == XBParserState.BLOCK_BEGIN) {
-            parserState = XBParserState.DATA;
+            parserState = XBParserState.DATA_PART;
             target.setData(data);
         } else {
             throw new XBParseException("Unexpected data event");
@@ -159,7 +159,7 @@ public class XBTreeReader implements XBListener {
             return;
         }
 
-        if ((parserState == XBParserState.DATA) || (parserState == XBParserState.ATTRIBUTE_PART) || (parserState == XBParserState.BLOCK_END)) {
+        if ((parserState == XBParserState.DATA_PART) || (parserState == XBParserState.ATTRIBUTE_PART) || (parserState == XBParserState.BLOCK_END)) {
             parserState = XBParserState.BLOCK_END;
             if (level > 0) {
                 level--;

@@ -735,9 +735,9 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         XBTTreeNode node = getSelectedItem();
         if (node != null) {
             try {
-                XBTTreeWriter writer = new XBTTreeWriter(node, true);
+                XBTTreeWriter writer = new XBTTreeWriter(node);
                 writer.produceXBT(convertor);
-            } catch (XBProcessingException ex) {
+            } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

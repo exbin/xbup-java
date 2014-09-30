@@ -207,7 +207,7 @@ public class XBPullReader extends XBTokenInputStream implements Closeable, XBPul
                     dataPartSizeValue = dataPartSize.isInfinity() ? null : dataPartSize.getInt();
 
                     if (attrPartSizeValue == dataPartSizeLength) {
-                        parserState = XBParserState.DATA;
+                        parserState = XBParserState.DATA_PART;
                     } else {
                         attrPartSizeValue -= dataPartSizeLength;
                         if (attrPartSizeValue > 0) {
@@ -272,7 +272,7 @@ public class XBPullReader extends XBTokenInputStream implements Closeable, XBPul
                 return new XBAttributeToken(attribute);
             }
 
-            case DATA: {
+            case DATA_PART: {
                 dataWrapper = (dataPartSizeValue == null)
                         ? new TerminatedDataInputStreamWrapper(source)
                         : new FixedDataInputStreamWrapper(source, dataPartSizeValue);

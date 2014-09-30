@@ -99,7 +99,7 @@ public class XBDeclaration implements XBTSequenceSerializable {
     public XBContext generateContext(XBContext parentContext, XBCatalog catalog) {
         XBContext context = new XBContext();
         context.setParent(parentContext);
-        context.setStartFrom(preserveCount.getInt());
+        context.setStartFrom(preserveCount.getInt() + 1);
         List<XBGroup> groups = context.getGroups();
 
         if (format instanceof XBDFormatDecl) {
@@ -114,7 +114,7 @@ public class XBDeclaration implements XBTSequenceSerializable {
             }
         } else if (format instanceof XBCFormatDecl) {
             XBCFormatDecl formatDecl = (XBCFormatDecl) format;
-            List<XBGroupDecl> formatGroups = catalog.getGroups(formatDecl.getFormatSpec().getParent());
+            List<XBGroupDecl> formatGroups = formatDecl.getGroups();
             // TODO revision
             for (int groupIndex = 0; groupIndex < formatGroups.size(); groupIndex++) {
                 XBCGroupDecl group = (XBCGroupDecl) formatGroups.get(groupIndex);
@@ -125,7 +125,7 @@ public class XBDeclaration implements XBTSequenceSerializable {
         return context;
     }
 
-    private XBGroup convertCatalogGroup(XBCGroupDecl groupDecl, XBCatalog catalog) {
+    public static XBGroup convertCatalogGroup(XBCGroupDecl groupDecl, XBCatalog catalog) {
         XBGroup group = new XBGroup();
         List<XBBlockDecl> blocks = catalog.getBlocks(((XBCGroupDecl) groupDecl).getGroupSpec().getParent());
         // TODO revision
@@ -193,7 +193,7 @@ public class XBDeclaration implements XBTSequenceSerializable {
     public void serializeDeclaration(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.sequenceXB(getDeclarationSerializationSeq());
     }
-    
+
     public class BasicSerializer implements XBTBasicSerializable {
 
         @Override
@@ -369,7 +369,7 @@ public class XBDeclaration implements XBTSequenceSerializable {
                          } */
                         listener.attribXBT(new UBNat32(getGroupsReserved())); // GroupsReserver
                         listener.attribXBT(new UBNat32(getPreserveCount())); // PreserveCount
-                        
+
                         if (format instanceof XBDFormatDecl) {
                             XBTSequenceListenerSerialHandler handler = new XBTSequenceListenerSerialHandler();
                             handler.attachXBTEventListener(new XBTListenerToEventListener(listener));

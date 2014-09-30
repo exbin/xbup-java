@@ -42,8 +42,6 @@ import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
-import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.parser.basic.XBTProvider;
 import org.xbup.lib.core.parser.param.XBParamPosition;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBFBlockType;
@@ -117,7 +115,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             
             if (getBlockType().getAsBasicType() == XBBasicBlockType.DECLARATION) {
                 // Process declaration block
-                XBContext childContext = catalog.processDeclaration(parentContext, new XBTProviderToPullProvider(new XBTTreeWriter(this, true)));
+                XBContext childContext = catalog.processDeclaration(parentContext, new XBTProviderToPullProvider(new XBTTreeWriter(this)));
                 long blockPos = 0;
                 if (getChildren() != null) {
                     for (Iterator it = getChildren().iterator(); it.hasNext();) {
@@ -583,22 +581,6 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
 // TODO        node.attributes = (ArrayList<UBNumber>) attributes.clone();
 // TODO        if (recursive) node.children = (ArrayList<XBTTreeNode>) children.clone();
         return node;
-    }
-
-    public XBTProvider convertToXBTR(boolean recursive) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public XBTListener convertFromXBTR(boolean recursive) {
-        return new XBTTreeReader(this, recursive);
-    }
-
-    public XBTProvider convertToXBT() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public XBTListener convertFromXBT() {
-        return convertFromXBTR(true);
     }
 
     @Override

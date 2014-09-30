@@ -38,8 +38,6 @@ import org.xbup.lib.catalog.entity.service.XBENodeService;
 import org.xbup.lib.catalog.entity.service.XBERevService;
 import org.xbup.lib.catalog.entity.service.XBESpecService;
 import org.xbup.lib.catalog.entity.service.XBEXInfoService;
-import org.xbup.lib.core.block.XBBasicBlockType;
-import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
@@ -80,12 +78,12 @@ import org.xbup.lib.core.serial.sequence.XBTSequenceProviderSerialHandler;
 /**
  * Basic level 1 catalog class using Java persistence.
  *
- * @version 0.1.24 2014/08/31
+ * @version 0.1.24 2014/09/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBECatalog implements XBCatalog {
 
-    private XBContext emptyContext;
+    private XBContext rootContext;
     private XBCUpdateHandler updateHandler;
     private boolean shallInit;
     private String fileRepositoryPath;
@@ -120,7 +118,7 @@ public class XBECatalog implements XBCatalog {
     @PostConstruct
     private void init() {
         updateHandler = null;
-        emptyContext = null;
+        rootContext = null;
         catalogManagers = new HashMap<>();
         catalogServices = new HashMap<>();
 
@@ -218,7 +216,7 @@ public class XBECatalog implements XBCatalog {
 
     @Override
     public XBContext getRootContext() {
-        return emptyContext;
+        return rootContext;
     }
 
     public void initCatalog() {
@@ -321,12 +319,19 @@ public class XBECatalog implements XBCatalog {
     }
 
     public void initContext() {
+        // Generate root context
         XBENodeService nodeService = (XBENodeService) getCatalogService(XBCNodeService.class);
         XBESpecService specService = (XBESpecService) getCatalogService(XBCSpecService.class);
-        XBENode node = nodeService.getRootNode();
-        XBEFormatSpec spec = specService.findFormatSpecByXB(node, 0);
-//        emptyContext = createFormatContext(spec);
-        emptyContext = new XBContext();
+        XBERevService revService = (XBERevService) getCatalogService(XBCRevService.class);
+        XBENode rootNode = nodeService.getRootNode();
+        XBENode basicNode = nodeService.getSubNode(rootNode, 0);
+        // XBCFormatDecl formatDecl = new XBCFormatDecl((XBCFormatRev) revService.findRevByXB(specService.findFormatSpecByXB(rootNode, 0),0), this);
+        // XBCGroupDecl groupDecl = (XBCGroupDecl) formatDecl.getGroups().get(0);
+        XBCGroupDecl groupDecl = new XBCGroupDecl((XBCGroupRev) revService.findRevByXB(specService.findGroupSpecByXB(basicNode, 0),0), this);
+        
+        rootContext = new XBContext();
+        rootContext.setStartFrom(0);
+        rootContext.getGroups().add(XBDeclaration.convertCatalogGroup(groupDecl, this));
     }
 
     @Override

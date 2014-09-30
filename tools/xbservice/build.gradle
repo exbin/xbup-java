@@ -8,10 +8,10 @@ if (!hasProperty('mainClass')) {
     ext.appArgs = '-dev'
 }
 
-task run(type : JavaExec ){
-   main = mainClass
-   classpath = sourceSets.main.runtimeClasspath
-   args appArgs
+task run(type : JavaExec) {
+    main = mainClass
+    classpath = sourceSets.main.runtimeClasspath
+    args appArgs
 }
 
 repositories {

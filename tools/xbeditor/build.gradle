@@ -8,7 +8,7 @@ if (!hasProperty('mainClass')) {
     ext.appArgs = '-dev'
 }
 
-task run(type : JavaExec ){
+task run(type : JavaExec) {
    main = mainClass
    classpath = sourceSets.main.runtimeClasspath
    args appArgs

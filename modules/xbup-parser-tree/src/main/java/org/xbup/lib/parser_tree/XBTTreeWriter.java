@@ -17,134 +17,138 @@
 package org.xbup.lib.parser_tree;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlockDataMode;
-import org.xbup.lib.core.block.XBTBlock;
+import org.xbup.lib.core.parser.XBParserState;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.parser.basic.XBTProducer;
 import org.xbup.lib.core.parser.basic.XBTProvider;
-import org.xbup.lib.core.parser.basic.convert.XBTDefaultFilter;
-import org.xbup.lib.core.ubnumber.UBNatural;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * Basic object model parser XBUP level 1 document block / tree node.
  *
- * @version 0.1.23 2014/02/20
+ * TODO: Iteration instead of recursion
+ *
+ * @version 0.1.24 2014/09/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTreeWriter implements XBTProvider {
 
     private final XBTTreeNode source;
-    private final boolean recursive;
-    XBTProducer subProducer = null;
-    private int position;
+    private XBTTreeWriter subProducer = null;
+    private int attrPosition = 0;
+    private int childPosition = 0;
+    private XBParserState state = XBParserState.BLOCK_BEGIN;
 
-    public XBTTreeWriter(XBTTreeNode source, boolean recursive) {
+    public XBTTreeWriter(XBTTreeNode source) {
         this.source = source;
-        this.recursive = recursive;
-        position = 1;
-    }
-
-    public void produceXBT(XBTListener listener, boolean recursive) throws XBProcessingException, IOException {
-        int pos = position;
-        position++;
-        if (pos == 1) {
-            listener.beginXBT(source.getTerminationMode());
-            return;
-        }
-
-        // TODO type
-        listener.typeXBT(null);
-
-        if (source.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
-            if (pos == 2) {
-                listener.dataXBT(source.getData());
-            } else if (pos == 3) {
-                listener.endXBT();
-                position = 0;
-            } // else throw
-            return;
-        }
-
-        pos--;
-        if (pos >= 0 && pos < source.getAttributes().size()) {
-            listener.attribXBT(source.getAttributes().get(pos));
-            return;
-        }
-
-        pos -= source.getAttributes().size();
-        if (pos < source.getChildCount()) {
-            if (subProducer == null) {
-                subProducer = (XBTProducer) source.getChildAt(pos).convertToXBTR(recursive);
-                XBTDefaultFilter filter = new XBTDefaultFilter();
-                filter.attachXBTListener(listener);
-                /* TODO filter.attachXBTriger(new XBTrigger() {
-                 @Override
-                 public void produceXB() {
-                 MyXBProducer.this.produceXB();
-                 }
-
-                 @Override
-                 public boolean eofXB() {
-                 return eofXB();
-                 }
-                 }); */
-            }
-            ((XBTTreeWriter) subProducer).produceXBT(listener);
-            position--;
-            return;
-        }
-
-        if (pos == source.getChildCount()) {
-            listener.endXBT();
-            position = 0;
-        }
     }
 
     @Override
-    public void produceXBT(XBTListener listener) {
-        try {
-            produceXBT(listener, true);
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBTreeNode.class.getName()).log(Level.SEVERE, null, ex);
+    public void produceXBT(XBTListener listener) throws XBProcessingException, IOException {
+        if (subProducer != null) {
+            if (!subProducer.isFinished()) {
+                subProducer.produceXBT(listener);
+                return;
+            } else {
+                subProducer = null;
+            }
         }
+
+        switch (state) {
+            case BLOCK_BEGIN: {
+                listener.beginXBT(source.getTerminationMode());
+                state = (source.getDataMode() == XBBlockDataMode.DATA_BLOCK) ? XBParserState.DATA_PART : XBParserState.BLOCK_TYPE;
+                break;
+            }
+
+            case DATA_PART: {
+                listener.dataXBT(source.getData());
+                state = XBParserState.BLOCK_END;
+                break;
+            }
+
+            case BLOCK_TYPE: {
+                listener.typeXBT(source.getBlockType());
+                state = XBParserState.ATTRIBUTE_PART;
+                break;
+            }
+
+            case ATTRIBUTE_PART: {
+                if (attrPosition < source.getAttributesCount()) {
+                    listener.attribXBT(source.getAttribute(attrPosition));
+                    attrPosition++;
+                    break;
+                } else {
+                    state = XBParserState.EXTENDED_AREA;
+                    // no break
+                }
+            }
+
+            case EXTENDED_AREA: {
+                if (childPosition < source.getChildCount()) {
+                    subProducer = new XBTTreeWriter(source.getChildAt(childPosition));
+                    childPosition++;
+                    subProducer.produceXBT(listener);
+                    break;
+                } else {
+                    state = XBParserState.BLOCK_END;
+                    // no break
+                }
+            }
+
+            case BLOCK_END: {
+                listener.endXBT();
+                state = XBParserState.EOF;
+                break;
+            }
+
+            case EOF: {
+                throw new XBProcessingException("Reading after block end", XBProcessingExceptionType.READING_AFTER_END);
+            }
+
+            default: {
+                throw new XBProcessingException("Unexpected state", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            }
+        }
+    }
+
+    public boolean isFinished() {
+        return state == XBParserState.EOF;
     }
 
     // @Override
-    public void attachXBTListener(XBTListener listener) {
-        try {
-            generateXBT(listener, true);
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBTreeNode.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    /*
+     public void attachXBTListener(XBTListener listener) {
+     try {
+     generateXBT(listener, true);
+     } catch (XBProcessingException | IOException ex) {
+     Logger.getLogger(XBTreeNode.class.getName()).log(Level.SEVERE, null, ex);
+     }
+     }
 
-    public void generateXBT(XBTListener listener, boolean recursive) throws XBProcessingException, IOException {
-        listener.beginXBT(source.getTerminationMode());
-        if (source.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
-            listener.dataXBT(source.getData());
-        } else {
-            listener.typeXBT(source.getBlockType());
-            if (source.getAttributes() != null) {
-                Iterator<UBNatural> iter = source.getAttributes().iterator();
-                UBNatural attrib;
-                while (iter.hasNext()) {
-                    attrib = new UBNat32(iter.next());
-                    listener.attribXBT(attrib);
-                }
-            }
-            if (recursive & (source.getChildren() != null)) {
-                Iterator<XBTBlock> iter = source.getChildren().iterator();
-                while (iter.hasNext()) {
-                    // TODO ((XBTTreeNode) iter.next()).toXBTEvents(listener);
-                }
-            }
-        }
+     public void generateXBT(XBTListener listener, boolean recursive) throws XBProcessingException, IOException {
+     listener.beginXBT(source.getTerminationMode());
+     if (source.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
+     listener.dataXBT(source.getData());
+     } else {
+     listener.typeXBT(source.getBlockType());
+     if (source.getAttributes() != null) {
+     Iterator<UBNatural> iter = source.getAttributes().iterator();
+     UBNatural attrib;
+     while (iter.hasNext()) {
+     attrib = new UBNat32(iter.next());
+     listener.attribXBT(attrib);
+     }
+     }
+     if (recursive & (source.getChildren() != null)) {
+     Iterator<XBTBlock> iter = source.getChildren().iterator();
+     while (iter.hasNext()) {
+     // TODO ((XBTTreeNode) iter.next()).toXBTEvents(listener);
+     }
+     }
+     }
 
-        listener.endXBT();
-    }
+     listener.endXBT();
+     } */
 }

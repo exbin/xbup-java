@@ -22,7 +22,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Block type defined as fixed group and block indexes.
  *
- * @version 0.1.24 2014/08/27
+ * @version 0.1.24 2014/10/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBFixedBlockType implements XBFBlockType {
@@ -77,7 +77,7 @@ public class XBFixedBlockType implements XBFBlockType {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof XBFBlockType) {
-            return (((XBFBlockType) obj).getGroupID().getLong() == groupID.getLong()) && (((XBFBlockType) obj).getBlockID().getLong() == blockID.getLong());
+            return ((XBFBlockType) obj).getGroupID().getLong() == 0 && groupID.getLong() == 0 && (((XBFBlockType) obj).getBlockID().getLong() == blockID.getLong());
         }
 
         return super.equals(obj);

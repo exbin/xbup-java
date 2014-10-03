@@ -23,7 +23,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * Interface for editable XBUP level 0 block.
  *
- * @version 0.1.24 2014/08/26
+ * @version 0.1.24 2014/10/02
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBEditableBlock extends XBBlock {
@@ -59,13 +59,18 @@ public interface XBEditableBlock extends XBBlock {
     /**
      * Set attribute of given index.
      *
+     * If index greater than current count of attributes, new zero attributes
+     * will be filled.
+     *
      * @param attribute attribute value
-     * @param index attribute index
+     * @param attributeIndex attribute index
      */
-    public void setAttribute(UBNatural attribute, int index);
+    public void setAttribute(UBNatural attribute, int attributeIndex);
 
     /**
      * Set count of attributes.
+     *
+     * List of attributes will be trimmed/extended with zero values.
      *
      * @param count count of attributes
      */
@@ -81,6 +86,9 @@ public interface XBEditableBlock extends XBBlock {
     /**
      * Set children of given index.
      *
+     * If index greater than current count of children, new empty blocks will be
+     * filled.
+     *
      * @param block child block
      * @param childIndex index of child block
      */
@@ -88,6 +96,8 @@ public interface XBEditableBlock extends XBBlock {
 
     /**
      * Get count of children blocks.
+     *
+     * List of children will be trimmed/extended with empty blocks.
      *
      * @param count count of children
      */

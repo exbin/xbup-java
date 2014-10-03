@@ -22,7 +22,7 @@ import org.xbup.lib.core.block.declaration.XBFormatDecl;
 /**
  * XBUP level 1 format declaration using catalog path.
  *
- * @version 0.1.24 2014/08/29
+ * @version 0.1.24 2014/10/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPFormatDecl implements XBFormatDecl {
@@ -39,13 +39,13 @@ public class XBPFormatDecl implements XBFormatDecl {
     }
 
     public XBPFormatDecl(Long[] path) {
-        setCatalogPath(path);
+        setCatalogObjectPath(path);
     }
 
-    public void setCatalogPath(Long[] path) {
-        setCatalogPath(new long[path.length]);
+    private void setCatalogObjectPath(Long[] path) {
+        catalogPath = new long[path.length];
         for (int i = 0; i < path.length; i++) {
-            getCatalogPath()[i] = path[i];
+            catalogPath[i] = path[i];
         }
     }
 
@@ -72,6 +72,10 @@ public class XBPFormatDecl implements XBFormatDecl {
 
     public void setCatalogPath(long[] catalogPath) {
         this.catalogPath = catalogPath;
+    }
+
+    public void setCatalogPath(Long[] path) {
+        setCatalogObjectPath(path);
     }
 
     /*public XBBlockDecl getBlockType(int group, int block) {

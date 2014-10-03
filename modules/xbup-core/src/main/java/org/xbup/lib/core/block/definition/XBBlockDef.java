@@ -18,13 +18,14 @@ package org.xbup.lib.core.block.definition;
 
 import java.util.List;
 import org.xbup.lib.core.block.XBTBlock;
-import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.block.param.XBParamDecl;
+import org.xbup.lib.core.parser.param.XBParamPosition;
+import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * XBUP level 1 block definition interface.
  *
- * @version 0.1.20 2011/01/02
+ * @version 0.1.24 2014/10/02
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBBlockDef {
@@ -52,6 +53,15 @@ public interface XBBlockDef {
     public long getParamCount();
 
     /**
+     * Get n-th parameter of the given block.
+     *
+     * @param source block to get parameter from
+     * @param index index of the requested parameter
+     * @return instance of block
+     */
+    public XBParamPosition getParamPosition(XBSerializable source, int index);
+
+    /**
      * Get list of revisions in order of appliance.
      *
      * @return list of revisions
@@ -66,15 +76,6 @@ public interface XBBlockDef {
      * @return instance of block
      */
     public XBTBlock getParameter(XBTBlock block, int index);
-
-    /**
-     * Set n-th parameter of the given block.
-     *
-     * @param block block to modify parameter in
-     * @param index index of parameter to modify
-     * @param parameter parameter content
-     */
-    public void setParameter(XBTEditableBlock block, int index, XBTBlock parameter);
 
     /**
      * Get count of parameters defined in given block.

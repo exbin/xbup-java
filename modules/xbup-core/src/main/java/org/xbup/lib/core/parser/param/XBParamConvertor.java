@@ -31,6 +31,10 @@ import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockType;
+import org.xbup.lib.core.block.definition.catalog.XBCBlockDef;
+import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
@@ -38,7 +42,7 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
 /**
  * Basic filter providing parameter sequence from typed tokens.
  *
- * @version 0.1.23 2013/11/25
+ * @version 0.1.24 2014/10/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBParamConvertor implements XBTListener, XBParamProducer {
@@ -78,23 +82,24 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
             if (decl instanceof XBDBlockDecl) {
                 blockDef = ((XBDBlockDecl) decl).getBlockDef();
             }
+        } else if (type instanceof XBCBlockType) {
+            XBCBlockDecl blockDecl = new XBCBlockDecl((XBCBlockRev) ((XBCBlockType) type).getBlockSpec(), catalog);
+            blockDef = new XBCBlockDef(catalog, blockDecl.getBlockSpec());
+        }
 
-            paramIndex = 0;
-            while ((nextParam == null)&&(paramIndex < blockDef.getParamCount())) {
-                nextParam = blockDef.getParamDecl(paramIndex);
-                paramListener.beginXBParam(nextParam);
-                paramProcessor = new XBParamProcessor(nextParam);
-                paramProcessor.attachXBParamListener(paramListener);
-                if (paramProcessor.paramDecl == null) {
-                    nextParam = null;
-                }
-
-                if (nextParam == null) {
-                    paramIndex++;
-                }
+        paramIndex = 0;
+        while ((nextParam == null)&&(paramIndex < blockDef.getParamCount())) {
+            nextParam = blockDef.getParamDecl(paramIndex);
+            paramListener.beginXBParam(nextParam);
+            paramProcessor = new XBParamProcessor(nextParam);
+            paramProcessor.attachXBParamListener(paramListener);
+            if (paramProcessor.paramDecl == null) {
+                nextParam = null;
             }
-        } else {
-            blockDef = null;
+
+            if (nextParam == null) {
+                paramIndex++;
+            }
         }
     }
 

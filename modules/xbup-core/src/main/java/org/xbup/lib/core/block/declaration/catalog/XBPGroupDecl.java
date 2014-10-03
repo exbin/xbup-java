@@ -22,7 +22,7 @@ import org.xbup.lib.core.block.declaration.XBGroupDecl;
 /**
  * XBUP level 1 group declaration using catalog path.
  *
- * @version 0.1.24 2014/08/29
+ * @version 0.1.24 2014/10/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPGroupDecl implements XBGroupDecl {
@@ -39,13 +39,13 @@ public class XBPGroupDecl implements XBGroupDecl {
     }
 
     public XBPGroupDecl(Long[] path) {
-        setCatalogPath(path);
+        setCatalogObjectPath(path);
     }
 
-    public void setCatalogPath(Long[] path) {
-        setCatalogPath(new long[path.length]);
+    private void setCatalogObjectPath(Long[] path) {
+        catalogPath = new long[path.length];
         for (int i = 0; i < path.length; i++) {
-            getCatalogPath()[i] = path[i];
+            catalogPath[i] = path[i];
         }
     }
 
@@ -74,6 +74,10 @@ public class XBPGroupDecl implements XBGroupDecl {
         this.catalogPath = catalogPath;
     }
 
+    public void setCatalogPath(Long[] path) {
+        setCatalogObjectPath(path);
+    }
+
 /*
     public void processSpec() {
         getBlocks().clear();
@@ -86,7 +90,10 @@ public class XBPGroupDecl implements XBGroupDecl {
                 getBlocks().set(elem.getXbIndex().intValue(),typeBlock);
                 typeBlock.processSpec(elem.getHasBlock());
             }
-        }
+        }    public void setCatalogPath(Long[] path) {
+        setCatalogObjectPath(path);
+    }
+
     }
 
     public void processSpec(XBGroupSpecification spec) {

@@ -25,9 +25,9 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * Table Model for attribute list for item editing.
+ * Attributes list table model for item editing.
  *
- * @version 0.1.22 2013/02/27
+ * @version 0.1.24 2014/10/01
  * @author XBUP Project (http://xbup.org)
  */
 public class ItemAttribsTableModel extends AbstractTableModel {
@@ -42,7 +42,7 @@ public class ItemAttribsTableModel extends AbstractTableModel {
         java.lang.Integer.class
     };
     private boolean[] canEdit = new boolean[]{false, false, false, true};
-    private List<TableModelListener> tableModelListeners = new ArrayList<TableModelListener>();
+    private List<TableModelListener> tableModelListeners = new ArrayList<>();
 
     /**
      * Creates a new instance of ItemAttribsTableModel

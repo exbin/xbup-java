@@ -20,13 +20,9 @@ import java.io.IOException;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
-import org.xbup.lib.core.block.XBTBlock;
-import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.definition.XBBlockDef;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.param.XBParamPosition;
-import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.sequence.XBSerialSequence;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
@@ -111,49 +107,6 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
         /*        int hash = 5;
          hash = 61 * hash + Arrays.deepHashCode(this.catalogPath);
          return hash; */
-    }
-
-    /**
-     * Get n-th parameter of the given block.
-     *
-     * @param source block to get parameter from
-     * @param index index of the requested parameter
-     * @return instance of block
-     */
-    public XBParamPosition getParamPosition(XBSerializable source, int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * Get n-th parameter of the given block.
-     *
-     * @param block block to get parameter from
-     * @param index index of the requested parameter
-     * @return instance of block
-     */
-    public XBTBlock getParameter(XBTBlock block, int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * Set n-th parameter of the given block.
-     *
-     * @param block block to modify parameter in
-     * @param index index of parameter to modify
-     * @param parameter parameter content
-     */
-    public void setParameter(XBTEditableBlock block, int index, XBTBlock parameter) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * Get count of parameters defined in given block.
-     *
-     * @param block block to get count of parameters from
-     * @return count of defined parameters
-     */
-    public int getParametersCount(XBTBlock block) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**

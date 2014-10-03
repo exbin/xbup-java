@@ -24,7 +24,7 @@ import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 /**
  * XBUP level 1 block declaration using catalog path.
  *
- * @version 0.1.24 2014/08/29
+ * @version 0.1.24 2014/10/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPBlockDecl implements XBBlockDecl {
@@ -41,13 +41,13 @@ public class XBPBlockDecl implements XBBlockDecl {
     }
 
     public XBPBlockDecl(Long[] path) {
-        setCatalogPath(path);
+        setCatalogObjectPath(path);
     }
 
-    public void setCatalogPath(Long[] path) {
-        setCatalogPath(new long[path.length]);
+    private void setCatalogObjectPath(Long[] path) {
+        catalogPath = new long[path.length];
         for (int i = 0; i < path.length; i++) {
-            getCatalogPath()[i] = path[i];
+            catalogPath[i] = path[i];
         }
     }
 
@@ -91,6 +91,10 @@ public class XBPBlockDecl implements XBBlockDecl {
 
     public void setCatalogPath(long[] catalogPath) {
         this.catalogPath = catalogPath;
+    }
+
+    public void setCatalogPath(Long[] path) {
+        setCatalogObjectPath(path);
     }
 
     public int getRevision() {

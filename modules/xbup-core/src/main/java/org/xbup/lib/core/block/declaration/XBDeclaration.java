@@ -52,39 +52,37 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Representation of declaration block.
  *
- * @version 0.1 wr24.0 2014/09/27
+ * @version 0.1 wr24.0 2014/10/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDeclaration implements XBTSequenceSerializable {
 
     private XBFormatDecl format;
-    private XBSerializable rootNode;
+    private XBSerializable rootBlock;
 
     private UBNat32 groupsReserved = new UBNat32(0);
     private UBNat32 preserveCount = new UBNat32(0);
-    private boolean declarationFinished = false;
 
-    public XBDeclaration(XBFormatDecl format) {
+    public XBDeclaration(XBFormatDecl format, XBSerializable rootBlock) {
         this.format = format;
-        rootNode = null;
+        this.rootBlock = rootBlock;
     }
 
-    public XBDeclaration(XBFormatDecl format, XBSerializable rootNode) {
-        this.format = format;
-        this.rootNode = rootNode;
+    public XBDeclaration(XBFormatDecl format) {
+        this(format, null);
     }
 
     public XBDeclaration(XBGroupDecl group) {
         this(group, null);
     }
 
-    public XBDeclaration(XBGroupDecl group, XBSerializable rootNode) {
-        this(new XBDFormatDecl(), rootNode);
+    public XBDeclaration(XBGroupDecl group, XBSerializable rootBlock) {
+        this(new XBDFormatDecl(), rootBlock);
         ((XBDFormatDecl) format).getGroups().add(group);
     }
 
-    public XBDeclaration(XBBlockDecl block) {
-        this(block, null);
+    public XBDeclaration(XBBlockDecl blockDecl) {
+        this(blockDecl, null);
     }
 
     public XBDeclaration(XBBlockDecl block, XBSerializable rootNode) {
@@ -115,10 +113,8 @@ public class XBDeclaration implements XBTSequenceSerializable {
         } else if (format instanceof XBCFormatDecl) {
             XBCFormatDecl formatDecl = (XBCFormatDecl) format;
             List<XBGroupDecl> formatGroups = formatDecl.getGroups();
-            // TODO revision
-            for (int groupIndex = 0; groupIndex < formatGroups.size(); groupIndex++) {
-                XBCGroupDecl group = (XBCGroupDecl) formatGroups.get(groupIndex);
-                groups.add(convertCatalogGroup((XBCGroupDecl) group, catalog));
+            for (XBGroupDecl formatGroup : formatGroups) {
+                groups.add(convertCatalogGroup((XBCGroupDecl) formatGroup, catalog));
             }
         }
 
@@ -127,11 +123,10 @@ public class XBDeclaration implements XBTSequenceSerializable {
 
     public static XBGroup convertCatalogGroup(XBCGroupDecl groupDecl, XBCatalog catalog) {
         XBGroup group = new XBGroup();
-        List<XBBlockDecl> blocks = catalog.getBlocks(((XBCGroupDecl) groupDecl).getGroupSpec().getParent());
         // TODO revision
-        for (int blockIndex = 0; blockIndex < blocks.size(); blockIndex++) {
-            XBCBlockDecl block = (XBCBlockDecl) blocks.get(blockIndex);
-            group.getBlocks().add(block);
+        List<XBBlockDecl> blocks = catalog.getBlocks(((XBCGroupDecl) groupDecl).getGroupSpec().getParent());
+        for (XBBlockDecl block : blocks) {
+            group.getBlocks().add((XBCBlockDecl) block);
         }
 
         return group;
@@ -176,7 +171,7 @@ public class XBDeclaration implements XBTSequenceSerializable {
     public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
         XBSerialSequence seq = new XBSerialSequence();
         seq.append(getDeclarationSerializationSeq());
-        seq.consist(rootNode);
+        seq.consist(rootBlock);
         serializationHandler.sequenceXB(seq);
         // TODO serialize extensions
     }
@@ -198,7 +193,6 @@ public class XBDeclaration implements XBTSequenceSerializable {
 
         @Override
         public void serializeFromXB(XBTBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-            declarationFinished = false;
             serializationHandler.attachXBTConsumer(new XBTConsumer() {
 
                 @Override
@@ -248,10 +242,9 @@ public class XBDeclaration implements XBTSequenceSerializable {
                             throw new XBProcessingException("Unexpected begin", XBProcessingExceptionType.UNEXPECTED_ORDER);
                         }
 
-                        declarationFinished = true;
-                        if (rootNode != null) {
+                        if (rootBlock != null) {
                             throw new UnsupportedOperationException("Not supported yet.");
-                            // rootListener = rootNode.convertFromXBT();
+                            // rootListener = rootBlock.convertFromXBT();
                         }
 
                         if (format instanceof XBDFormatDecl) {
@@ -340,11 +333,9 @@ public class XBDeclaration implements XBTSequenceSerializable {
 
         @Override
         public void serializeToXB(XBTBasicOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-            declarationFinished = false;
             serializationHandler.attachXBTProvider(new XBTProvider() {
 
-                private int position = 0;
-
+//            private int position = 0;
 //            private XBTListener listener;
 //            private XBTListener formatListener;
                 @Override
@@ -380,12 +371,11 @@ public class XBDeclaration implements XBTSequenceSerializable {
                             throw new UnsupportedOperationException("Not supported yet.");
                         }
 
-                        declarationFinished = true;
-                        if (rootNode != null) {
-                            if (rootNode instanceof XBTBasicSerializable) {
+                        if (rootBlock != null) {
+                            if (rootBlock instanceof XBTBasicSerializable) {
                                 throw new UnsupportedOperationException("Not supported yet.");
-                                // TODO ((XBTBasicSerializable) rootNode).serializeToXB(serializationHandler);
-                                // TODO getRootNode().convertToXBT().attachXBTListener(listener);
+                                // TODO ((XBTBasicSerializable) rootBlock).serializeToXB(serializationHandler);
+                                // TODO getRootBlock().convertToXBT().attachXBTListener(listener);
                             }
 
                             listener.endXBT();
@@ -422,19 +412,11 @@ public class XBDeclaration implements XBTSequenceSerializable {
         this.preserveCount = new UBNat32(preserveCount);
     }
 
-    public XBSerializable getRootNode() {
-        return rootNode;
+    public XBSerializable getRootBlock() {
+        return rootBlock;
     }
 
-    public void setRootNode(XBSerializable rootNode) {
-        this.rootNode = rootNode;
-    }
-
-    public boolean isDeclarationFinished() {
-        return declarationFinished;
-    }
-
-    public void setDeclarationFinished(boolean declarationFinished) {
-        this.declarationFinished = declarationFinished;
+    public void setRootBlock(XBSerializable rootNode) {
+        this.rootBlock = rootNode;
     }
 }

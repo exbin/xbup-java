@@ -68,10 +68,10 @@ public interface XBTBlock {
      * Gets attribute of given index. Returns zero if attribute index greater
      * than attributes count.
      *
-     * @param index index of attribute
+     * @param attributeIndex index of attribute
      * @return attribute value
      */
-    public UBNatural getAttribute(int index);
+    public UBNatural getAttribute(int attributeIndex);
 
     /**
      * Get count of attributes.

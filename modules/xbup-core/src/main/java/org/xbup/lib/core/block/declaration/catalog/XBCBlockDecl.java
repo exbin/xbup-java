@@ -33,9 +33,9 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * Block type context defined by catalog specification.
+ * Block type declaration defined by catalog specification.
  *
- * @version 0.1.24 2014/09/02
+ * @version 0.1.24 2014/10/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCBlockDecl implements XBBlockDecl, XBTChildSerializable {
@@ -86,9 +86,11 @@ public class XBCBlockDecl implements XBBlockDecl, XBTChildSerializable {
         if (obj == null) {
             return false;
         }
+
         if (!(obj instanceof XBBlockDecl)) {
             return false;
         }
+
         if (obj instanceof XBCBlockDecl) {
             final XBCBlockDecl other = (XBCBlockDecl) obj;
             if (blockSpec == null || !this.blockSpec.equals(other.blockSpec)) {
@@ -96,9 +98,23 @@ public class XBCBlockDecl implements XBBlockDecl, XBTChildSerializable {
             }
 
             return blockSpec.getId() != other.blockSpec.getId().longValue();
+        } else if (obj instanceof XBPBlockDecl) {
+            Long[] catalogPath = catalog.getSpecPath(getBlockSpec().getParent());
+            long[] objCatalogPath = ((XBPBlockDecl) obj).getCatalogPath();
+            if (objCatalogPath.length != catalogPath.length) {
+                return false;
+            }
+
+            for (int pathIndex = 0; pathIndex < catalogPath.length; pathIndex++) {
+                if (catalogPath[pathIndex] != objCatalogPath[pathIndex]) {
+                    return false;
+                }
+            }
+
+            return true;
         } else {
             return false;
-        } // TODO: return Arrays.equals(((XBBlockDecl) obj).getCatalogPath(), getCatalogPath());
+        }
     }
 
     @Override
@@ -111,7 +127,7 @@ public class XBCBlockDecl implements XBBlockDecl, XBTChildSerializable {
     public XBCBlockRev getBlockSpec() {
         return blockSpec;
     }
-    
+
     public void setBlockSpec(XBCBlockRev blockSpec) {
         this.blockSpec = blockSpec;
     }

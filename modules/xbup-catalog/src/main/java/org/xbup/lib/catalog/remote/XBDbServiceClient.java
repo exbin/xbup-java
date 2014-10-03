@@ -217,7 +217,7 @@ public class XBDbServiceClient implements XBServiceClient {
         public XBServiceContext(XBSerializable rootNode) {
             super();
             XBDeclaration decl = new XBDeclaration(new XBDFormatDecl());
-            decl.setRootNode(rootNode);
+            decl.setRootBlock(rootNode);
             decl.setFormat(new XBPFormatDecl(XBSERVICE_FORMAT));
             // setDeclaration(decl);
         }

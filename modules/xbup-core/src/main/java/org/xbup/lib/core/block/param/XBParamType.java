@@ -43,5 +43,4 @@ public enum XBParamType {
      * list of attributes.
      */
     LIST_JOIN
-    // TODO: Specifify parameter type for: If parameter not specified include single unspecified subblock
 }

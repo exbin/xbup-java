@@ -23,7 +23,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * Interface for read access to XBUP level 0 block.
  *
- * @version 0.1.24 2014/08/24
+ * @version 0.1.24 2014/10/02
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBBlock {
@@ -60,10 +60,10 @@ public interface XBBlock {
     /**
      * Gets attribute of given index / order.
      *
-     * @param index index/order of attribute
+     * @param attributeIndex index/order of attribute
      * @return attribute value
      */
-    public UBNatural getAttribute(int index);
+    public UBNatural getAttribute(int attributeIndex);
 
     /**
      * Get count of attributes.

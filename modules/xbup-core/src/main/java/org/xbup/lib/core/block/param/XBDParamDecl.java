@@ -41,11 +41,6 @@ public class XBDParamDecl implements XBParamDecl, XBTSequenceSerializable {
     private boolean listFlag;
     private boolean joinFlag;
 
-    /**
-     * Creates a new instance of XBDParamDecl.
-     *
-     * @param blockDecl block declaration
-     */
     public XBDParamDecl(XBBlockDecl blockDecl) {
         this.blockDecl = blockDecl;
     }

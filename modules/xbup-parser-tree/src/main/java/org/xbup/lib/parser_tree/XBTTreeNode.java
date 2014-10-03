@@ -42,7 +42,6 @@ import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
-import org.xbup.lib.core.parser.param.XBParamPosition;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
@@ -678,9 +677,9 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
 //        XBDeclaration decl = context.getDeclaration(); // Or from catalog?
 //        XBDeclaration paramDecl = context.getParamDecl(declBlockType, index);
         if (blockDecl instanceof XBDBlockDecl) {
-            XBParamPosition paramPos = ((XBDBlockDecl) blockDecl).getParamPosition(new XBSerializable() {
+            // XBParamPosition paramPos = ((XBDBlockDecl) blockDecl).getParamPosition(new XBSerializable() {
                 // TODO
-            }, index);
+            // }, index);
             return new XBSerializable() {
                 // TODO
             };

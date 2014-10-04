@@ -21,27 +21,38 @@ import java.io.InputStream;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.basic.XBFilter;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * XBUP level 0 counting listener.
+ * XBUP level 0 counting filter.
  *
- * @version 0.1.23 2014/03/05
+ * Keeps track of current depth level and provides isFinished method.
+ *
+ * @version 0.1.24 2014/10/04
  * @author XBUP Project (http://xbup.org)
  */
-public class XBCountingListener implements XBListener {
+public class XBCountingFilter implements XBFilter {
 
-    private int level;
-    private final XBListener listener;
+    private int depthLevel = 0;
+    private XBListener listener;
 
-    public XBCountingListener(XBListener listener) {
-        level = 0;
+    public XBCountingFilter() {
+    }
+
+    public XBCountingFilter(XBListener listener) {
+        this();
+        this.listener = listener;
+    }
+
+    @Override
+    public void attachXBListener(XBListener listener) {
         this.listener = listener;
     }
 
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-        level++;
+        depthLevel++;
         listener.beginXB(terminationMode);
     }
 
@@ -57,11 +68,16 @@ public class XBCountingListener implements XBListener {
 
     @Override
     public void endXB() throws XBProcessingException, IOException {
-        level--;
+        depthLevel--;
         listener.endXB();
     }
 
+    /**
+     * Block completness.
+     *
+     * @return true if no data passed or end of root block passed
+     */
     public boolean isFinished() {
-        return level == 0;
+        return depthLevel == 0;
     }
 }

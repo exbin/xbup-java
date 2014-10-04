@@ -28,7 +28,7 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.wrapper.FixedDataOutputStreamWrapper;
 import org.xbup.lib.core.parser.basic.wrapper.OutputStreamWrapper;
 import org.xbup.lib.core.parser.basic.wrapper.TerminatedDataOutputStreamWrapper;
-import org.xbup.lib.core.parser.token.convert.XBTokenWriter;
+import org.xbup.lib.core.parser.token.convert.XBTokenBuffer;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
@@ -50,7 +50,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 public class XBConsumerWriter implements Closeable, XBConsumer {
 
     private XBParserMode parserMode = XBParserMode.FULL;
-    
+
     private OutputStream stream;
     private XBProvider provider;
     private XBListenerToToken tokenListener;
@@ -69,8 +69,7 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
         this.parserMode = parserMode;
         openStream(outputStream);
     }
-    
-    /** Open input byte-stream. */
+
     private void openStream(OutputStream outputStream) throws IOException {
         stream = outputStream;
     }
@@ -78,10 +77,10 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
     public void open(OutputStream outputStream) throws IOException {
         openStream(outputStream);
     }
-    
+
     public void write() throws XBProcessingException, IOException {
         List<Integer> sizeLimits = new ArrayList<>();
-        XBTokenWriter tokenWriter = new XBTokenWriter();
+        XBTokenBuffer tokenBuffer = new XBTokenBuffer();
         XBDataToken extendedArea = null;
         List<UBNatural> attributeList = new ArrayList<>();
         int bufferedFromLevel = -1;
@@ -91,7 +90,7 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
         if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_HEAD) {
             XBHead.writeXBUPHead(stream);
         }
-        
+
         XBToken token = pullToken();
         do {
             switch (token.getTokenType()) {
@@ -99,12 +98,12 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                     level++;
                     XBBlockTerminationMode terminationMode = ((XBBeginToken) token).getTerminationMode();
                     if (bufferedFromLevel >= 0) {
-                        tokenWriter.putXBToken(token);
+                        tokenBuffer.putXBToken(token);
                         sizeLimits.add(null);
                     } else {
                         if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
                             bufferedFromLevel = level;
-                            tokenWriter.putXBToken(token);
+                            tokenBuffer.putXBToken(token);
                             sizeLimits.add(null);
                         } else {
                             sizeLimits.add(null);
@@ -115,7 +114,7 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                     switch (token.getTokenType()) {
                         case DATA: {
                             if (bufferedFromLevel >= 0) {
-                                tokenWriter.putXBToken(token);
+                                tokenBuffer.putXBToken(token);
                             } else {
                                 OutputStream streamWrapper;
                                 if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
@@ -131,7 +130,7 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                                     streamWrapper = new TerminatedDataOutputStreamWrapper(stream);
                                 }
 
-                                CopyStreamUtils.copyInputStreamToOutputStream(((XBDataToken)token).getData(), streamWrapper);
+                                CopyStreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), streamWrapper);
 
                                 int dataPartSize = ((OutputStreamWrapper) streamWrapper).finish();
                                 shrinkStatus(sizeLimits, dataPartSize);
@@ -146,18 +145,18 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                             if (token.getTokenType() != XBTokenType.END) {
                                 throw new XBParseException("Data block must be followed by block end", XBProcessingExceptionType.UNEXPECTED_ORDER);
                             }
-                            
+
                             break;
                         }
 
                         case ATTRIBUTE: {
                             attributeList.clear();
-                            int attributePartSizeValue = 0;                            
+                            int attributePartSizeValue = 0;
                             do {
                                 UBNatural attribute = ((XBAttributeToken) token).getAttribute();
 
                                 if (bufferedFromLevel >= 0) {
-                                    tokenWriter.putXBToken(token);
+                                    tokenBuffer.putXBToken(token);
                                 } else {
                                     int attributeSize = attribute.getSizeUB();
                                     shrinkStatus(sizeLimits, attributeSize);
@@ -176,7 +175,7 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                                     throw new XBParseException("Unexpected DATA token after attribute token(s)", XBProcessingExceptionType.UNEXPECTED_ORDER);
                                 }
                             }
-                            
+
                             if (bufferedFromLevel < 0) {
                                 attributePartSizeValue += UBENat32.INFINITY_SIZE_UB;
                                 UBNat32 attributePartSize = new UBNat32(attributePartSizeValue);
@@ -185,7 +184,7 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                                 UBENat32 dataPartSize = new UBENat32();
                                 dataPartSize.setInfinity();
                                 dataPartSize.toStreamUB(stream);
-                                
+
                                 for (UBNatural attribute : attributeList) {
                                     attribute.toStreamUB(stream);
                                 }
@@ -197,7 +196,8 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                             break;
                         }
 
-                        default: throw new XBParseException("Missing at least one atribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                        default:
+                            throw new XBParseException("Missing at least one atribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
                     }
 
                     break;
@@ -205,9 +205,9 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
 
                 case END: {
                     if (bufferedFromLevel >= 0) {
-                        tokenWriter.putXBToken(token);
+                        tokenBuffer.putXBToken(token);
                         if (bufferedFromLevel == level) {
-                            tokenWriter.write(stream);
+                            tokenBuffer.write(stream);
                             bufferedFromLevel = -1;
                         }
                     }
@@ -225,10 +225,11 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                     break;
                 }
 
-                default: throw new XBParseException("Must begin with NodeBegin", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                default:
+                    throw new XBParseException("Must begin with NodeBegin", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
         } while (level > 0);
-        
+
         // Write extended block if present
         if (extendedArea != null) {
             if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED) {
@@ -238,7 +239,7 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
             }
         }
     }
-    
+
     private XBToken pullToken() throws XBProcessingException, IOException {
         tokenListener.setToken(null);
         provider.produceXB(tokenListener);
@@ -256,7 +257,7 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
 
     /**
      * Method to shrink limits accross all depths.
-     * 
+     *
      * @param value Value to shrink all limits off
      * @throws XBParseException If limits are breached
      */

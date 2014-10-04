@@ -23,7 +23,7 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
  *
  * Class marks beggining of block. Terminated flag carry information about
  * method for block termination type in bitstream.
- * 
+ *
  * @version 0.1.23 2014/01/27
  * @author XBUP Project (http://xbup.org)
  */

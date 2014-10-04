@@ -49,7 +49,7 @@ public class XBListenerToToken implements XBListener {
     public void setToken(XBToken token) {
         this.token = token;
     }
-    
+
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         token = new XBBeginToken(terminationMode);

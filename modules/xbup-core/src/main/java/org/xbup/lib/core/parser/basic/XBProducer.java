@@ -18,6 +18,7 @@ package org.xbup.lib.core.parser.basic;
 
 /**
  * XBUP level 0 data producer.
+ *
  * Execution is sender side controlled (push).
  *
  * @version 0.1.23 2013/11/08
@@ -27,7 +28,7 @@ public interface XBProducer {
 
     /**
      * Attach data listener.
-     * 
+     *
      * @param listener data listener to attach
      */
     public void attachXBListener(XBListener listener);

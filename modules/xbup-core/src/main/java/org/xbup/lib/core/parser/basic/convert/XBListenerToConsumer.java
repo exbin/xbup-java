@@ -40,7 +40,7 @@ public class XBListenerToConsumer implements XBConsumer {
 
     @Override
     public void attachXBProvider(XBProvider provider) {
-        XBCountingListener countingListener = new XBCountingListener(listener);
+        XBCountingFilter countingListener = new XBCountingFilter(listener);
         
         do {
             try {

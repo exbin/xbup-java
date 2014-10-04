@@ -27,29 +27,61 @@ import org.xbup.lib.core.parser.token.TypedToken;
  * @param <T> source token generic type
  * @param <U> target token generic type
  */
-public abstract class XBTokenOperator<T extends TypedToken,U extends TypedToken> {
+public abstract class XBTokenOperator<T extends TypedToken, U extends TypedToken> {
 
-    /** Put single processed event */
-    public abstract void putToken(U event) throws IOException;
+    /**
+     * Put single token.
+     *
+     * @param token
+     * @throws java.io.IOException
+     */
+    public abstract void putToken(U token) throws IOException;
 
-    /** Get single event from source */
+    /**
+     * Get single token from source.
+     *
+     * @return token
+     * @throws java.io.IOException
+     */
     public abstract T getToken() throws IOException;
 
-    /** Reset processing */
+    /**
+     * Reset processing.
+     */
     public abstract void reset();
 
-    /** Get available capacity of input buffer */
+    /**
+     * Get available capacity of input buffer.
+     *
+     * @return available capacity in bytes
+     */
     public abstract int availableInput();
 
-    /** Get available capacity of output buffer */
+    /**
+     * Get available capacity of output buffer.
+     *
+     * @return available capacity in bytes
+     */
     public abstract int availableOutput();
 
-    /** Set request for minimum cache fill to operate */
+    /**
+     * Set request for minimum cache fill to operate.
+     *
+     * @param count
+     */
     public abstract void request(int count);
 
-    /** Set size of operator's input cache */
+    /**
+     * Set size of operator's input cache.
+     *
+     * @param size size in bytes
+     */
     public abstract void setInputCache(int size);
 
-    /** Set size of operator's output cache */
+    /**
+     * Set size of operator's output cache.
+     *
+     * @param size size in bytes
+     */
     public abstract void setOutputCache(int size);
 }

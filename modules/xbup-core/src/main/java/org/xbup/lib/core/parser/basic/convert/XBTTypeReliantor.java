@@ -32,7 +32,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * Convert stand-alone block types to fixed types.
  *
- * @version 0.1.23 2014/03/05
+ * @version 0.1.23 2014/10/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTypeReliantor implements XBTFilter {
@@ -44,7 +44,7 @@ public class XBTTypeReliantor implements XBTFilter {
 
     /**
      * Creates a new instance.
-     * 
+     *
      * @param context initial context
      * @param catalog catalog used for catalog types
      */
@@ -58,12 +58,12 @@ public class XBTTypeReliantor implements XBTFilter {
     @Override
     public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         if (counter == 0) {
-            XBTStubCountingListener countingListener = new XBTStubCountingListener(listener);
+            XBTCountingFilter countingFilter = new XBTCountingFilter(listener);
             do {
                 // TODO declProvider.produceXBT(countingListener);
-            } while (!countingListener.isFinished());
+            } while (!countingFilter.isFinished());
         }
-        
+
         listener.beginXBT(terminationMode);
         counter++;
     }
@@ -112,49 +112,5 @@ public class XBTTypeReliantor implements XBTFilter {
 
     public void setContext(XBContext context) {
         this.context = context;
-    }
-
-    public class XBTStubCountingListener implements XBTListener {
-
-        private int level;
-        private final XBTListener listener;
-
-        public XBTStubCountingListener(XBTListener listener) {
-            level = 0;
-            this.listener = listener;
-        }
-
-        @Override
-        public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-            level++;
-            listener.beginXBT(terminationMode);
-        }
-
-        @Override
-        public void typeXBT(XBBlockType blockType) throws XBProcessingException, IOException {
-            listener.typeXBT(blockType);
-        }
-
-        @Override
-        public void attribXBT(UBNatural attribute) throws XBProcessingException, IOException {
-            listener.attribXBT(attribute);
-        }
-
-        @Override
-        public void dataXBT(InputStream data) throws XBProcessingException, IOException {
-            listener.dataXBT(data);
-        }
-
-        @Override
-        public void endXBT() throws XBProcessingException, IOException {
-            level--;
-            if (level > 0) {
-                listener.endXBT();
-            }
-        }
-
-        public boolean isFinished() {
-            return level == 0;
-        }
     }
 }

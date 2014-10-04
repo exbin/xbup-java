@@ -35,7 +35,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * XBUP level 0 to level 1 token convertor.
- * 
+ *
  * TODO: This is stub only
  *
  * @version 0.1.21 2011/08/21

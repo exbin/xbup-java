@@ -34,42 +34,46 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 1 to level 0 convertor.
  *
- * @version 0.1.23 2013/11/20
+ * @version 0.1.24 2014/10/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTToXBConvertor implements XBTListener, XBProducer {
 
-    private XBListener target;
+    private XBListener listener;
     private UBNatural block;
+
+    public XBTToXBConvertor() {
+    }
 
     /**
      * Creates a new instance of XBTToXBConvertor
-     * @param target target listener
+     *
+     * @param listener target listener
      */
-    public XBTToXBConvertor(XBListener target) {
-        this.target = target;
-        block = null;
+    public XBTToXBConvertor(XBListener listener) {
+        this();
+        this.listener = listener;
     }
 
     @Override
     public void beginXBT(XBBlockTerminationMode terminatinationMode) throws XBProcessingException, IOException {
         if (block != null) {
-            target.attribXB(block);
+            listener.attribXB(block);
             block = null;
         }
 
-        target.beginXB(terminatinationMode);
+        listener.beginXB(terminatinationMode);
     }
 
     @Override
     public void typeXBT(XBBlockType type) throws XBProcessingException, IOException {
         if (block != null) {
-            target.attribXB(block);
+            listener.attribXB(block);
             block = null;
         }
 
         if (type instanceof XBFixedBlockType) {
-            target.attribXB(((XBFixedBlockType) type).getGroupID());
+            listener.attribXB(((XBFixedBlockType) type).getGroupID());
             block = ((XBFixedBlockType) type).getBlockID();
         } else {
             throw new XBParseException("Unable to parse non-static block type", XBProcessingExceptionType.UNSUPPORTED);
@@ -79,41 +83,42 @@ public class XBTToXBConvertor implements XBTListener, XBProducer {
     @Override
     public void attribXBT(UBNatural attribute) throws XBProcessingException, IOException {
         if (block != null) {
-            target.attribXB(block);
+            listener.attribXB(block);
             block = null;
         }
 
-        target.attribXB(attribute);
+        listener.attribXB(attribute);
     }
 
     @Override
     public void dataXBT(InputStream data) throws XBProcessingException, IOException {
         if (block != null) {
-            target.attribXB(block);
+            listener.attribXB(block);
             block = null;
         }
 
-        target.dataXB(data);
+        listener.dataXB(data);
     }
 
     @Override
     public void endXBT() throws XBProcessingException, IOException {
         if (block != null) {
-            target.attribXB(block);
+            listener.attribXB(block);
             block = null;
         }
-        target.endXB();
+
+        listener.endXB();
     }
 
     @Override
     public void attachXBListener(XBListener listener) {
-        target = listener;
+        this.listener = listener;
     }
 
     public void performXB() {
         if (block != null) {
             try {
-                target.attribXB(block);
+                listener.attribXB(block);
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBTToXBConvertor.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -123,25 +128,4 @@ public class XBTToXBConvertor implements XBTListener, XBProducer {
             // TODO trigger.produceXBT();
         }
     }
-
-    /*
-    @Override
-    public void attachXBConsumer(XBConsumer consumer) {
-        target = consumer;
-        consumer.attachXBTriger(new XBConsumer.XBTrigger() {
-            @Override
-            public void produceXB() {
-                performXB();
-            }
-
-            @Override
-            public boolean eofXB() {
-                if (trigger != null) {
-                    return trigger.eofXBT();
-                } else {
-                    return true;
-                }
-            }
-        });
-    } */
 }

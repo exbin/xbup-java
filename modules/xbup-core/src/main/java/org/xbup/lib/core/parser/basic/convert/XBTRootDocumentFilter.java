@@ -23,14 +23,14 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * TODO: Filter primary document content - process/skip all basic blocks and extensions.
+ * TODO: Filter primary document content - process/skip all basic blocks and
+ * extensions.
  *
  * @version 0.1.23 2013/11/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTRootDocumentFilter implements XBTListener {
 
-    /** Creates a new instance of XBRootDocumentFilter */
     public XBTRootDocumentFilter() {
         throw new UnsupportedOperationException("Not yet implemented");
     }

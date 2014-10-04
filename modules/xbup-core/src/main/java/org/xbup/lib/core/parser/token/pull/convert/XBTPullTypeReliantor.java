@@ -43,16 +43,15 @@ public class XBTPullTypeReliantor implements XBTFilter, XBTProducer, XBTConsumer
     private XBContext context;
     private long counter;
 
-    /** Creates a new instance of XBTEncapsulator */
     public XBTPullTypeReliantor(XBTProvider declProvider) {
         this.declProvider = declProvider;
         listener = null;
         counter = 0;
     }
 
-    public XBTPullTypeReliantor(XBTProvider declProvider, XBTListener target) {
+    public XBTPullTypeReliantor(XBTProvider declProvider, XBTListener listener) {
         this(declProvider);
-        attachXBTListener(target);
+        this.listener = listener;
     }
 
     @Override

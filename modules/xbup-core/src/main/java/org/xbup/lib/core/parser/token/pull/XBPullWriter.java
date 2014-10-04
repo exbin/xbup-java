@@ -29,7 +29,7 @@ import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.core.parser.basic.wrapper.FixedDataOutputStreamWrapper;
 import org.xbup.lib.core.parser.basic.wrapper.OutputStreamWrapper;
 import org.xbup.lib.core.parser.basic.wrapper.TerminatedDataOutputStreamWrapper;
-import org.xbup.lib.core.parser.token.convert.XBTokenWriter;
+import org.xbup.lib.core.parser.token.convert.XBTokenBuffer;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
@@ -78,7 +78,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
 
     public void write() throws XBProcessingException, IOException {
         List<Integer> sizeLimits = new ArrayList<>();
-        XBTokenWriter tokenWriter = new XBTokenWriter();
+        XBTokenBuffer tokenWriter = new XBTokenBuffer();
         XBDataToken extendedArea = null;
         List<UBNatural> attributeList = new ArrayList<>();
         int bufferedFromLevel = -1;
@@ -127,7 +127,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                                     shrinkStatus(sizeLimits, UBENat32.INFINITY_SIZE_UB + 1);
                                     streamWrapper = new TerminatedDataOutputStreamWrapper(stream);
                                 }
-                                
+
                                 CopyStreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), streamWrapper);
 
                                 int dataPartSize = ((OutputStreamWrapper) streamWrapper).finish();

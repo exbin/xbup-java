@@ -31,7 +31,7 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.wrapper.FixedDataOutputStreamWrapper;
 import org.xbup.lib.core.parser.basic.wrapper.OutputStreamWrapper;
 import org.xbup.lib.core.parser.basic.wrapper.TerminatedDataOutputStreamWrapper;
-import org.xbup.lib.core.parser.token.convert.XBTokenWriter;
+import org.xbup.lib.core.parser.token.convert.XBTokenBuffer;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
@@ -45,30 +45,27 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * XBUP level 0 listener writer.
  *
- * @version 0.1.23 2014/02/19
+ * @version 0.1.24 2014/10/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBListenerWriter implements Closeable, XBListener {
 
-    private XBParserState parserState;
     private XBParserMode parserMode = XBParserMode.FULL;
-
-    private final XBTokenWriter tokenWriter = new XBTokenWriter();
-    private XBDataToken extendedArea = null;
     private OutputStream stream;
-    private List<Integer> sizeLimits = new ArrayList<>();
+
+    private XBParserState parserState = XBParserState.START;
+    private final XBTokenBuffer tokenWriter = new XBTokenBuffer();
+    private final List<Integer> sizeLimits = new ArrayList<>();
+    private XBDataToken extendedArea = null;
     private int bufferedFromLevel = -1;
-    private int level = 0;
+    private int depthLevel = 0;
 
     private XBBlockTerminationMode terminationMode;
     private XBBlockDataMode dataMode;
     private final List<UBNatural> attributeList = new ArrayList<>();
-    private int attributePartSizeValue = 0;                            
+    private int attributePartSizeValue = 0;
 
     public XBListenerWriter() {
-        sizeLimits = new ArrayList<>();
-        level = 0;
-        parserState = XBParserState.START;
     }
 
     public XBListenerWriter(OutputStream outputStream) throws IOException {
@@ -81,12 +78,17 @@ public class XBListenerWriter implements Closeable, XBListener {
         this.parserMode = parserMode;
         openStream(outputStream);
     }
-    
-    /** Open input byte-stream. */
+
     private void openStream(OutputStream outputStream) throws IOException {
         stream = outputStream;
     }
 
+    /**
+     * Open output byte-stream.
+     * 
+     * @param outputStream output stream
+     * @throws java.io.IOException
+     */
     public void open(OutputStream outputStream) throws IOException {
         openStream(outputStream);
     }
@@ -103,7 +105,7 @@ public class XBListenerWriter implements Closeable, XBListener {
 
         close();
     }
-    
+
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         if (parserState == XBParserState.START) {
@@ -111,17 +113,17 @@ public class XBListenerWriter implements Closeable, XBListener {
             if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_HEAD) {
                 XBHead.writeXBUPHead(stream);
             }
-            
+
             parserState = XBParserState.BLOCK_BEGIN;
         }
-        
+
         if (parserState == XBParserState.ATTRIBUTE_PART) {
             flushAttributes();
             parserState = XBParserState.BLOCK_BEGIN;
         }
-        
+
         if (parserState == XBParserState.BLOCK_BEGIN) {
-            level++;
+            depthLevel++;
             this.terminationMode = terminationMode;
             dataMode = null;
             if (bufferedFromLevel >= 0) {
@@ -129,7 +131,7 @@ public class XBListenerWriter implements Closeable, XBListener {
                 sizeLimits.add(null);
             } else {
                 if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
-                    bufferedFromLevel = level;
+                    bufferedFromLevel = depthLevel;
                     tokenWriter.putXBToken(new XBBeginToken(terminationMode));
                     sizeLimits.add(null);
                 } else {
@@ -164,7 +166,7 @@ public class XBListenerWriter implements Closeable, XBListener {
     @Override
     public void dataXB(InputStream data) throws XBProcessingException, IOException {
         if (parserState == XBParserState.ATTRIBUTE_PART) {
-            if (level == 1 && dataMode == XBBlockDataMode.NODE_BLOCK) {
+            if (depthLevel == 1 && dataMode == XBBlockDataMode.NODE_BLOCK) {
                 extendedArea = new XBDataToken(data);
                 parserState = XBParserState.EXTENDED_AREA;
             } else {
@@ -200,7 +202,7 @@ public class XBListenerWriter implements Closeable, XBListener {
                 parserState = XBParserState.BLOCK_END;
             }
         } else if (parserState == XBParserState.BLOCK_BEGIN) {
-            if (level == 1) {
+            if (depthLevel == 1) {
                 extendedArea = new XBDataToken(data);
                 parserState = XBParserState.EXTENDED_AREA;
             } else {
@@ -209,7 +211,7 @@ public class XBListenerWriter implements Closeable, XBListener {
 
             parserState = XBParserState.EOF;
         } else if (parserState == XBParserState.BLOCK_END) {
-            if (level == 1 && dataMode == XBBlockDataMode.DATA_BLOCK) {
+            if (depthLevel == 1 && dataMode == XBBlockDataMode.DATA_BLOCK) {
                 extendedArea = new XBDataToken(data);
                 parserState = XBParserState.EXTENDED_AREA;
             } else {
@@ -226,13 +228,13 @@ public class XBListenerWriter implements Closeable, XBListener {
             case ATTRIBUTE_PART: {
                 flushAttributes();
             }
-            
+
             case EXTENDED_AREA:
             case BLOCK_BEGIN:
             case BLOCK_END: {
                 if (bufferedFromLevel >= 0) {
                     tokenWriter.putXBToken(new XBEndToken());
-                    if (bufferedFromLevel == level) {
+                    if (bufferedFromLevel == depthLevel) {
                         tokenWriter.write(stream);
                         bufferedFromLevel = -1;
                     }
@@ -247,8 +249,8 @@ public class XBListenerWriter implements Closeable, XBListener {
                     }
                 }
 
-                level--;
-                parserState = (level == 0) ? XBParserState.EOF : XBParserState.BLOCK_BEGIN;
+                depthLevel--;
+                parserState = (depthLevel == 0) ? XBParserState.EOF : XBParserState.BLOCK_BEGIN;
                 break;
             }
 
@@ -278,7 +280,7 @@ public class XBListenerWriter implements Closeable, XBListener {
 
     /**
      * Method to shrink limits accross all depths.
-     * 
+     *
      * @param value value to shrink all limits off
      * @throws XBParseException if limits are breached
      */

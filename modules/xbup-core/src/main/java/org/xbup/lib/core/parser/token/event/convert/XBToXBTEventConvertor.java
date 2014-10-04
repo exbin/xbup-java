@@ -64,7 +64,7 @@ public class XBToXBTEventConvertor implements XBEventListener, XBTEventProducer 
                     target.putXBTToken(new XBTTypeToken(new XBFixedBlockType(group.getLong(), 0)));
                 }
 
-                target.putXBTToken(new XBTBeginToken(((XBBeginToken)token).getTerminationMode()));
+                target.putXBTToken(new XBTBeginToken(((XBBeginToken) token).getTerminationMode()));
                 expectType = true;
                 group = null;
                 break;
@@ -89,7 +89,7 @@ public class XBToXBTEventConvertor implements XBEventListener, XBTEventProducer 
                     target.putXBTToken(new XBTTypeToken(new XBFixedBlockType(group.getLong(), 0)));
                 }
 
-                target.putXBTToken(new XBTDataToken(((XBDataToken)token).getData()));
+                target.putXBTToken(new XBTDataToken(((XBDataToken) token).getData()));
                 break;
             }
 

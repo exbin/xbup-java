@@ -40,19 +40,20 @@ import org.xbup.lib.core.util.CopyStreamUtils;
  * @version 0.1.24 2014/06/08
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTokenWriter implements XBEventListener {
+public class XBTokenBuffer implements XBEventListener {
 
     private final List<XBToken> tokenList;
     private final List<List<BlockSize>> blockSizes;
 
-    public XBTokenWriter() {
+    public XBTokenBuffer() {
         tokenList = new ArrayList<>();
         blockSizes = new LinkedList<>();
     }
 
     /**
-     * Write content of passed tokens into data stream. In the end tokens are
-     * released.
+     * Write content of passed tokens into data stream.
+     *
+     * In the end tokens are disposed.
      *
      * @param stream output stream to write to
      * @throws IOException if writing in stream throws it

@@ -21,10 +21,10 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP protocol level 1 size precomputed begin token.
- * 
+ *
  * Class marks beggining of block. Terminated flag carry information about
  * method for block termination type in bitstream.
- * 
+ *
  * Additional blockSize represents precomputed size of block if available.
  *
  * @version 0.1.23 2014/02/01

@@ -26,7 +26,7 @@ public interface XBEventProducer {
 
     /**
      * Attach event listener.
-     * 
+     *
      * @param eventListener listener to be used for events
      */
     public void attachXBEventListener(XBEventListener eventListener);

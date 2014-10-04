@@ -35,7 +35,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 0 consumer to listener convertor.
- * 
+ *
  * Uses token buffer stored in memory.
  *
  * @version 0.1.23 2013/11/21

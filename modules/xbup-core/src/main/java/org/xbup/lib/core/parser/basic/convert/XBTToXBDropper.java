@@ -36,83 +36,83 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 to level 0 convertor which drops types.
  *
- * @version 0.1.23 2013/11/21
+ * @version 0.1.24 2014/10/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTToXBDropper implements XBTListener, XBProducer {
 
-    private XBListener target;
-    private boolean typeFlag;
+    private XBListener listener;
+    private boolean blockTypeProcessed;
     private XBToken token;
 
     public XBTToXBDropper(XBListener target) {
-        this.target = target;
-        typeFlag = false;
+        this.listener = target;
+        blockTypeProcessed = false;
         token = null;
     }
 
     @Override
     public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         flushToken();
-        if (typeFlag) {
-            target.attribXB(new UBNat32(0));
-            typeFlag = false;
+        if (blockTypeProcessed) {
+            listener.attribXB(new UBNat32(0));
+            blockTypeProcessed = false;
             token = new XBBeginToken(terminationMode);
         } else {
-            target.beginXB(terminationMode);
+            listener.beginXB(terminationMode);
         }
     }
 
     @Override
     public void typeXBT(XBBlockType type) throws XBProcessingException, IOException {
         flushToken();
-        typeFlag = true;
+        blockTypeProcessed = true;
     }
 
     @Override
     public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
         flushToken();
-        target.attribXB(value);
-        typeFlag = false;
+        listener.attribXB(value);
+        blockTypeProcessed = false;
     }
 
     @Override
     public void dataXBT(InputStream data) throws XBProcessingException, IOException {
         flushToken();
-        if (typeFlag) {
-            target.attribXB(new UBNat32(0));
-            typeFlag = false;
+        if (blockTypeProcessed) {
+            listener.attribXB(new UBNat32(0));
+            blockTypeProcessed = false;
             token = new XBDataToken(data);
         } else {
-            target.dataXB(data);
+            listener.dataXB(data);
         }
     }
 
     @Override
     public void endXBT() throws XBProcessingException, IOException {
         flushToken();
-        if (typeFlag) {
-            target.attribXB(new UBNat32(0));
-            typeFlag = false;
+        if (blockTypeProcessed) {
+            listener.attribXB(new UBNat32(0));
+            blockTypeProcessed = false;
             token = new XBEndToken();
         } else {
-            target.endXB();
+            listener.endXB();
         }
     }
 
     @Override
     public void attachXBListener(XBListener eventListener) {
-        target = eventListener;
+        listener = eventListener;
     }
 
     public void performXB() {
-       if (token != null) {
+        if (token != null) {
             try {
                 flushToken();
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBTToXBDropper.class.getName()).log(Level.SEVERE, null, ex);
             }
-       } else {
+        } else {
             // TODO trigger.produceXBT();
         }
     }
@@ -121,39 +121,22 @@ public class XBTToXBDropper implements XBTListener, XBProducer {
         if (token != null) {
             switch (token.getTokenType()) {
                 case BEGIN: {
-                    target.beginXB(((XBBeginToken)token).getTerminationMode());
+                    listener.beginXB(((XBBeginToken) token).getTerminationMode());
                     break;
                 }
+
                 case DATA: {
-                    target.dataXB(((XBDataToken)token).getData());
+                    listener.dataXB(((XBDataToken) token).getData());
                     break;
                 }
+
                 case END: {
-                    target.endXB();
+                    listener.endXB();
                     break;
                 }
             }
+
             token = null;
         }
     }
-/*
-    @Override
-    public void attachXBConsumer(XBConsumer consumer) {
-        target = consumer;
-        consumer.attachXBTriger(new XBConsumer.XBTrigger() {
-            @Override
-            public void produceXB() {
-                performXB();
-            }
-
-            @Override
-            public boolean eofXB() {
-                if (trigger != null) {
-                    return trigger.eofXBT();
-                } else {
-                    return true;
-                }
-            }
-        });
-    } */
 }

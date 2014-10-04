@@ -44,7 +44,7 @@ public class XBProviderToPullProvider implements XBPullProvider {
     public XBProviderToPullProvider(XBProvider provider) {
         this.provider = provider;
     }
-    
+
     @Override
     public XBToken pullXBToken() throws XBProcessingException, IOException {
         provider.produceXB(new XBListener() {

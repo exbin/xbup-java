@@ -21,6 +21,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 
 /**
  * XBUP protocol level 1 sata provider.
+ *
  * Execution is listener side controlled (pull).
  *
  * @version 0.1.23 2014/02/20
@@ -30,7 +31,7 @@ public interface XBTProvider {
 
     /**
      * Produce single data.
-     * 
+     *
      * @param listener listener to send data to
      * @throws XBProcessingException
      * @throws java.io.IOException

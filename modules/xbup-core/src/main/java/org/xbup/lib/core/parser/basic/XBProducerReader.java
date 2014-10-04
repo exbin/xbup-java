@@ -35,7 +35,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Basic XBUP level 0 reader - producer.
  *
- * @version 0.1.23 2014/02/19
+ * @version 0.1.24 2014/10/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBProducerReader implements XBProducer {
@@ -59,7 +59,6 @@ public class XBProducerReader implements XBProducer {
         openStream(inputStream);
     }
 
-    /** Open input byte-stream */
     private void openStream(InputStream stream) throws IOException {
         source = stream;
         reset();
@@ -67,7 +66,7 @@ public class XBProducerReader implements XBProducer {
 
     /**
      * Open input byte-stream.
-     * 
+     *
      * @param stream input stream
      * @throws java.io.IOException
      */
@@ -78,7 +77,7 @@ public class XBProducerReader implements XBProducer {
 
     /**
      * Process all events and send them to target.
-     * 
+     *
      * @throws XBProcessingException
      * @throws java.io.IOException
      */
@@ -91,9 +90,10 @@ public class XBProducerReader implements XBProducer {
         // Process single node
         readNode();
     }
-    
+
     /**
      * Read single node and all its child nodes.
+     *
      * If parent node is in terminated mode, this might just close parent node.
      */
     private void readNode() throws XBProcessingException, IOException {
@@ -103,20 +103,20 @@ public class XBProducerReader implements XBProducer {
 
         // Process blocks until whole tree is processed
         do {
-            UBNat32 attrPartSize = new UBNat32();
-            int headSize = attrPartSize.fromStreamUB(source);
+            UBNat32 attributePartSize = new UBNat32();
+            int headSize = attributePartSize.fromStreamUB(source);
             shrinkStatus(sizeLimits, headSize);
-            if (attrPartSize.getLong() == 0) {
+            if (attributePartSize.getLong() == 0) {
                 // Process terminator
-                if (sizeLimits.isEmpty() || sizeLimits.get(sizeLimits.size()-1) != null) {
+                if (sizeLimits.isEmpty() || sizeLimits.get(sizeLimits.size() - 1) != null) {
                     throw new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR);
                 }
 
-                sizeLimits.remove(sizeLimits.size()-1);
+                sizeLimits.remove(sizeLimits.size() - 1);
                 listener.endXB();
             } else {
                 // Process regular block
-                int attrPartSizeValue = attrPartSize.getInt();
+                int attrPartSizeValue = attributePartSize.getInt();
                 shrinkStatus(sizeLimits, attrPartSizeValue);
 
                 UBENat32 dataPartSize = new UBENat32();
@@ -127,9 +127,9 @@ public class XBProducerReader implements XBProducer {
 
                 if (attrPartSizeValue == dataPartSizeLength) {
                     // Process data block
-                    InputStreamWrapper dataWrapper = (dataPartSizeValue == null) ?
-                            new TerminatedDataInputStreamWrapper(source):
-                            new FixedDataInputStreamWrapper(source, dataPartSizeValue);
+                    InputStreamWrapper dataWrapper = (dataPartSizeValue == null)
+                            ? new TerminatedDataInputStreamWrapper(source)
+                            : new FixedDataInputStreamWrapper(source, dataPartSizeValue);
                     listener.dataXB((InputStream) dataWrapper);
                     dataWrapper.finish();
                     shrinkStatus(sizeLimits, dataWrapper.getLength());
@@ -156,14 +156,14 @@ public class XBProducerReader implements XBProducer {
             }
 
             // Enclose all completed blocks
-            while (sizeLimits.size()>0 && sizeLimits.get(sizeLimits.size()-1) != null && sizeLimits.get(sizeLimits.size()-1) == 0) {
-                sizeLimits.remove(sizeLimits.size()-1);
-                
+            while (sizeLimits.size() > 0 && sizeLimits.get(sizeLimits.size() - 1) != null && sizeLimits.get(sizeLimits.size() - 1) == 0) {
+                sizeLimits.remove(sizeLimits.size() - 1);
+
                 if (sizeLimits.isEmpty()) {
                     // Process extended area
                     if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED) {
                         listener.dataXB(new ExtendedAreaInputStreamWrapper(source));
-                    }                    
+                    }
                 }
 
                 listener.endXB();
@@ -173,7 +173,7 @@ public class XBProducerReader implements XBProducer {
 
     /**
      * Reset input stream and parser state.
-     * 
+     *
      * @throws java.io.IOException
      */
     public void reset() throws IOException {
@@ -181,7 +181,7 @@ public class XBProducerReader implements XBProducer {
 
     /**
      * Close input stream.
-     * 
+     *
      * @throws java.io.IOException
      */
     public void close() throws IOException {
@@ -190,7 +190,7 @@ public class XBProducerReader implements XBProducer {
 
     /**
      * Method to shrink limits accross all depths.
-     * 
+     *
      * @param value Value to shrink all limits off
      * @throws XBParseException If limits are breached
      */

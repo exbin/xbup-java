@@ -30,88 +30,56 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 To level 0 convertor.
  *
- * @version 0.1.23 2013/11/21
+ * @version 0.1.24 2014/10/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBToXBTConvertor implements XBListener, XBTProducer {
 
-    private XBTListener target;
-    private boolean expectType;
-    private UBNatural group;
+    private XBTListener listener;
+    private boolean blockTypeProcessed = false;
+    private UBNatural groupId;
 
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-        if (expectType && group != null) {
-            target.typeXBT(new XBFixedBlockType(group.getLong(),0));
+        if (!blockTypeProcessed) {
+            listener.typeXBT(new XBFixedBlockType(groupId != null ? groupId.getLong() : 0, 0));
         }
 
-        target.beginXBT(terminationMode);
-        expectType = true;
-        group = null;
+        listener.beginXBT(terminationMode);
+        blockTypeProcessed = false;
+        groupId = null;
     }
 
     @Override
     public void attribXB(UBNatural value) throws XBProcessingException, IOException {
-        if (expectType) {
-            if (group != null) {
-                target.typeXBT(new XBFixedBlockType(group.getLong(),value.getLong()));
-                expectType = false;
-            } else {
-                group = new UBNat32(value.getLong());
-            }
+        if (blockTypeProcessed) {
+            listener.attribXBT(value);
         } else {
-            target.attribXBT(value);
+            if (groupId != null) {
+                listener.typeXBT(new XBFixedBlockType(groupId.getLong(), value.getLong()));
+                blockTypeProcessed = true;
+            } else {
+                groupId = new UBNat32(value.getLong());
+            }
         }
     }
 
     @Override
     public void dataXB(InputStream data) throws XBProcessingException, IOException {
-        if (expectType && group != null) {
-            target.typeXBT(new XBFixedBlockType(group.getLong(),0));
-        }
-
-        target.dataXBT(data);
+        listener.dataXBT(data);
     }
 
     @Override
     public void endXB() throws XBProcessingException, IOException {
-        if (expectType && group != null) {
-            target.typeXBT(new XBFixedBlockType(group.getLong(),0));
+        if (!blockTypeProcessed) {
+            listener.typeXBT(new XBFixedBlockType(groupId != null ? groupId.getLong() : 0, 0));
         }
 
-        target.endXBT();
+        listener.endXBT();
     }
 
     @Override
     public void attachXBTListener(XBTListener listener) {
-        target = listener;
+        this.listener = listener;
     }
-
-    /*public void performXBT() {
-        if (expectType) {
-            trigger.produceXB();
-        }
-
-        trigger.produceXB();
-    }
-
-    @Override
-    public void attachXBTConsumer(XBTConsumer consumer) {
-        target = consumer;
-        consumer.attachXBTTriger(new XBTConsumer.XBTTrigger() {
-            @Override
-            public void produceXBT() {
-                performXBT();
-            }
-
-            @Override
-            public boolean eofXBT() {
-                if (trigger != null) {
-                    return trigger.eofXB();
-                } else {
-                    return true;
-                }
-            }
-        });
-    } */
 }

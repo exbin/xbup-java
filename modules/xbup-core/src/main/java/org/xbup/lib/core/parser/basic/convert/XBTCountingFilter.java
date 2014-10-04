@@ -22,21 +22,32 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.basic.XBTFilter;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * XBUP level 1 counting listener.
+ * XBUP level 1 counting filter.
  *
- * @version 0.1.23 2014/03/05
+ * Keeps track of current depth level and provides isFinished method.
+ *
+ * @version 0.1.23 2014/10/04
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTCountingListener implements XBTListener {
+public class XBTCountingFilter implements XBTFilter {
 
-    private int level;
-    private final XBTListener listener;
+    private int level = 0;
+    private XBTListener listener;
 
-    public XBTCountingListener(XBTListener listener) {
-        level = 0;
+    public XBTCountingFilter() {
+    }
+
+    public XBTCountingFilter(XBTListener listener) {
+        this();
+        this.listener = listener;
+    }
+
+    @Override
+    public void attachXBTListener(XBTListener listener) {
         this.listener = listener;
     }
 
@@ -67,6 +78,11 @@ public class XBTCountingListener implements XBTListener {
         listener.endXBT();
     }
 
+    /**
+     * Block completness.
+     *
+     * @return true if no data passed or end of root block passed
+     */
     public boolean isFinished() {
         return level == 0;
     }

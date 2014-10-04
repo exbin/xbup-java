@@ -63,9 +63,6 @@ public class XBEventReader implements XBEventProducer {
         openStream(inputStream);
     }
 
-    /**
-     * Open input byte-stream.
-     */
     private void openStream(InputStream stream) throws IOException {
         source = stream;
     }

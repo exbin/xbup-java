@@ -29,51 +29,52 @@ import org.xbup.lib.core.parser.token.TypedToken;
  * @param <T> source token generic type
  * @param <U> target token generic type
  */
-public class XBOperatorFilter<T extends TypedToken,U extends TypedToken> {
+public class XBOperatorFilter<T extends TypedToken, U extends TypedToken> {
 
     private final MyOperator operator;
 
-    public XBOperatorFilter(XBOperation<T,U> operation) {
+    public XBOperatorFilter(XBOperation<T, U> operation) {
         operator = new MyOperator(operation);
     }
-/*
-    public void attachXBL0EventListener(XBL0EventListener eventListener) {
-        operator.attachXBEventListener(eventListener);
-    }
+    /*
+     public void attachXBL0EventListener(XBL0EventListener eventListener) {
+     operator.attachXBEventListener(eventListener);
+     }
 
-    public void performXBEvent(T event) throws XBParseException, IOException {
-        operator.performXBEvent(event);
-    }
+     public void performXBEvent(T event) throws XBParseException, IOException {
+     operator.performXBEvent(event);
+     }
 
-    public void putXBL0Token(XBL0Token event) throws XBParseException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-*/
+     public void putXBL0Token(XBL0Token event) throws XBParseException, IOException {
+     throw new UnsupportedOperationException("Not supported yet.");
+     }
+     */
+
     private class MyOperator extends XBTokenOperator<T, U> {
 
         private int inputMax;
         private int inputRequest;
         private List<T> inputCache;
-        private final XBOperation<T,U> operation;
+        private final XBOperation<T, U> operation;
 //        private XBL0EventListener listener;
 
-        public MyOperator(XBOperation<T,U> operation) {
+        public MyOperator(XBOperation<T, U> operation) {
             this.operation = operation;
             reset();
         }
 
         @Override
         public void putToken(U event) throws IOException {
-/*            try {
-                listener.performXBEvent(event);
-            } catch (XBParseException ex) {
-                Logger.getLogger(XBOperatorFilter.class.getName()).log(Level.SEVERE, null, ex);
-            } */
+            /*            try {
+             listener.performXBEvent(event);
+             } catch (XBParseException ex) {
+             Logger.getLogger(XBOperatorFilter.class.getName()).log(Level.SEVERE, null, ex);
+             } */
         }
 
         @Override
         public T getToken() throws IOException {
-            if (inputCache.size()>0) {
+            if (inputCache.size() > 0) {
                 return inputCache.remove(0);
             } else {
                 throw new IOException("No event available in cache");
@@ -84,7 +85,7 @@ public class XBOperatorFilter<T extends TypedToken,U extends TypedToken> {
         public void reset() {
             inputMax = 0;
             inputRequest = 0;
-            inputCache = new ArrayList<T>();
+            inputCache = new ArrayList<>();
         }
 
         @Override
@@ -94,7 +95,6 @@ public class XBOperatorFilter<T extends TypedToken,U extends TypedToken> {
 
         @Override
         public void setOutputCache(int size) {
-            return;
         }
 
         @Override
@@ -102,6 +102,7 @@ public class XBOperatorFilter<T extends TypedToken,U extends TypedToken> {
             if (inputCache == null) {
                 return 0;
             }
+
             return inputCache.size();
         }
 
@@ -115,16 +116,5 @@ public class XBOperatorFilter<T extends TypedToken,U extends TypedToken> {
 //            if (inputMax>0) if (count > inputMax) throw new Exception("Requested capacity overflow ");
             inputRequest = count;
         }
-/*
-        private void attachXBEventListener(XBL0EventListener eventListener) {
-            this.listener = eventListener;
-        }
-
-        private void performXBEvent(T event) {
-            if ((inputCache.size() < inputMax) || inputMax == 0) {
-                inputCache.add(event);
-                if (inputCache.size() > inputRequest) operation.operate(this);
-            } // else throw new Exception("Buffer capacity overflowed");
-        } */
     }
 }

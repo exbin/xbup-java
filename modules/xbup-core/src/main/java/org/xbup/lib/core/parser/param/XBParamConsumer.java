@@ -26,7 +26,7 @@ public interface XBParamConsumer extends XBParamListener {
 
     /**
      * Attach provider to use as data source.
-     * 
+     *
      * @param provider provider to attach
      */
     public void attachXBProvider(XBParamProvider provider);

@@ -26,7 +26,7 @@ public interface XBTPullConsumer {
 
     /**
      * Attach pull provider.
-     * 
+     *
      * @param pullProvider token provider
      */
     public void attachXBTPullProvider(XBTPullProvider pullProvider);

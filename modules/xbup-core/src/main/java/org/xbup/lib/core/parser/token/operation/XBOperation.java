@@ -30,7 +30,7 @@ public abstract class XBOperation<T extends TypedToken, U extends TypedToken> {
 
     /**
      * Method to perform operation.
-     * 
+     *
      * @param operator
      */
     public abstract void operate(XBTokenOperator<T, U> operator);

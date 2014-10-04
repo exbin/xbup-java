@@ -38,7 +38,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * @version 0.1.21 2011/08/21
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTToXBOperation extends XBOperation<XBTToken,XBToken> {
+public class XBTToXBOperation extends XBOperation<XBTToken, XBToken> {
 
     public XBTToXBOperation() {
     }
@@ -51,24 +51,24 @@ public class XBTToXBOperation extends XBOperation<XBTToken,XBToken> {
             XBTToken token = operator.getToken();
             switch (token.getTokenType()) {
                 case BEGIN: {
-                    operator.putToken(new XBBeginToken(((XBTBeginToken)token).getTerminationMode()));
+                    operator.putToken(new XBBeginToken(((XBTBeginToken) token).getTerminationMode()));
                     break;
                 }
 
                 case TYPE: {
-                    XBFixedBlockType blockType = (XBFixedBlockType) ((XBTTypeToken)token).getBlockType();
+                    XBFixedBlockType blockType = (XBFixedBlockType) ((XBTTypeToken) token).getBlockType();
                     operator.putToken(new XBAttributeToken(new UBNat32(blockType.getGroupID().getInt())));
                     operator.putToken(new XBAttributeToken(new UBNat32(blockType.getBlockID().getInt())));
                     break;
                 }
 
                 case ATTRIBUTE: {
-                    operator.putToken(new XBAttributeToken(((XBTAttributeToken)token).getAttribute()));
+                    operator.putToken(new XBAttributeToken(((XBTAttributeToken) token).getAttribute()));
                     break;
                 }
 
-                case DATA:{
-                    operator.putToken(new XBDataToken(((XBTDataToken)token).getData()));
+                case DATA: {
+                    operator.putToken(new XBDataToken(((XBTDataToken) token).getData()));
                     break;
                 }
 

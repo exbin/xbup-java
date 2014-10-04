@@ -44,7 +44,7 @@ public class XBPrefixPullProvider implements XBPullProvider {
             prefix = null;
             return token;
         }
-        
+
         return provider.pullXBToken();
     }
 }

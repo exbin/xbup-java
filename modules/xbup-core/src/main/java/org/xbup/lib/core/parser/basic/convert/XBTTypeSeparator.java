@@ -31,21 +31,21 @@ import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * Convert block types from fixed types to stand-alone types.
+ * TODO: Convert block types from fixed types to stand-alone types.
  *
- * @version 0.1.24 2014/09/03
+ * @version 0.1.24 2014/10/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTypeSeparator implements XBTFilter {
 
     private XBTListener listener = null;
-    private List<ContextRecord> contexts = new ArrayList<>();
+    private final List<ContextRecord> contexts = new ArrayList<>();
     private XBDeclaration declaration = null;
     private XBTListener declListener = null;
 
     private long documentDepth = 0;
     private int mode = 0;
-    private XBBlockTerminationMode beginTerm;
+    private XBBlockTerminationMode beginTerminationMode;
 
     public XBTTypeSeparator() {
     }
@@ -64,7 +64,7 @@ public class XBTTypeSeparator implements XBTFilter {
         }
 
         documentDepth++;
-        beginTerm = terminationMode;
+        beginTerminationMode = terminationMode;
         mode = 1;
     }
 
@@ -77,13 +77,13 @@ public class XBTTypeSeparator implements XBTFilter {
         }
 
         if (type.getAsBasicType() == XBBasicBlockType.DECLARATION) {
-            
+
             documentDepth++;
             mode = 2;
-            declListener.beginXBT(beginTerm);
+            declListener.beginXBT(beginTerminationMode);
             declListener.typeXBT(type);
         } else {
-            listener.beginXBT(beginTerm);
+            listener.beginXBT(beginTerminationMode);
             listener.typeXBT(type);
         }
     }
@@ -150,6 +150,6 @@ public class XBTTypeSeparator implements XBTFilter {
     }
 
     private enum ProcessingMode {
-        
+
     }
 }

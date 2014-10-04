@@ -44,16 +44,24 @@ import org.xbup.lib.core.stream.XBTokenInputStream;
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTPullProvider {
-    
+
     private final XBPullReader pullReader;
 
     // Structure for typeTarget
-    private class TypeTargetItem { public int skip; public XBContext context; };
+    private class TypeTargetItem {
+
+        public int skip;
+        public XBContext context;
+    };
 
     private final XBCatalog catalog;
-    /** List of TypeContexts for current tree path levels. */
+    /**
+     * List of TypeContexts for current tree path levels.
+     */
     private final SortedMap<Integer, XBContext> typeMap;
-    /** List of TypeContexts for later use. */
+    /**
+     * List of TypeContexts for later use.
+     */
     private final SortedMap<Integer, TypeTargetItem> typeTarget;
     private XBContext currentContext;
     private int currentGroup;
@@ -68,14 +76,16 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
         resetParser();
     }
 
-    /** Reset source and all parsing properties */
+    /**
+     * Reset source and all parsing properties.
+     */
     private void resetParser() {
         pullReader.reset();
         typeMap.clear();
         currentContext = catalog.getRootContext();
         typeTarget.clear();
     }
-    
+
     @Override
     public void reset() {
         resetParser();
@@ -83,9 +93,10 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
 
     /**
      * Open byte input stream.
-     * 
+     *
      * @param stream
-     * @throws java.io.IOException */
+     * @throws java.io.IOException
+     */
     public void open(InputStream stream) throws IOException {
         pullReader.open(stream);
     }
@@ -94,7 +105,7 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
     public void close() throws IOException {
         pullReader.close();
     }
-    
+
     @Override
     public boolean finished() throws IOException {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -109,7 +120,7 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
 
     /**
      * Returns current parsing context.
-     * 
+     *
      * @return current context
      */
     public XBContext getCurrentContext() {
@@ -130,7 +141,7 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
                 attrMode = 0;
                 break;
             }
- 
+
             case ATTRIBUTE: {
                 if (attrMode == 0) {
                     currentGroup = ((XBAttributeToken) item).getAttribute().getInt();
@@ -150,7 +161,8 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
                 break;
             }
 
-            case DATA: break;
+            case DATA:
+                break;
 
             case END: {
                 // update type context
@@ -166,7 +178,8 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
                 break;
             }
 
-            default: throw new XBParseException("Unexpected pull item type");
+            default:
+                throw new XBParseException("Unexpected pull item type");
         }
         return item;
     }

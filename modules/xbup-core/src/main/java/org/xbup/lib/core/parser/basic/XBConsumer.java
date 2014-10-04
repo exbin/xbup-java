@@ -18,6 +18,7 @@ package org.xbup.lib.core.parser.basic;
 
 /**
  * XBUP level 0 data consumer.
+ *
  * Execution is listener side controlled (pull).
  *
  * @version 0.1.23 2013/11/07
@@ -27,7 +28,7 @@ public interface XBConsumer {
 
     /**
      * Attach provider to use as data source.
-     * 
+     *
      * @param provider provider to attach
      */
     public void attachXBProvider(XBProvider provider);

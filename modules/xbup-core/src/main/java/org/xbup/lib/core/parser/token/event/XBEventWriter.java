@@ -31,7 +31,7 @@ import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.core.parser.basic.wrapper.FixedDataOutputStreamWrapper;
 import org.xbup.lib.core.parser.basic.wrapper.OutputStreamWrapper;
 import org.xbup.lib.core.parser.basic.wrapper.TerminatedDataOutputStreamWrapper;
-import org.xbup.lib.core.parser.token.convert.XBTokenWriter;
+import org.xbup.lib.core.parser.token.convert.XBTokenBuffer;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
@@ -55,7 +55,7 @@ public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBE
     private XBParserState parserState;
     private XBParserMode parserMode = XBParserMode.FULL;
     
-    private final XBTokenWriter tokenWriter = new XBTokenWriter();
+    private final XBTokenBuffer tokenWriter = new XBTokenBuffer();
     private XBDataToken extendedArea = null;
     private OutputStream stream;
     private List<Integer> sizeLimits = new ArrayList<>();
@@ -84,7 +84,6 @@ public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBE
         openStream(outputStream);
     }
     
-    /** Open input byte-stream. */
     private void openStream(OutputStream outputStream) throws IOException {
         stream = outputStream;
     }

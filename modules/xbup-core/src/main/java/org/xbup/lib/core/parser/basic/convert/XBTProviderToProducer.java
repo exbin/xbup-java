@@ -40,7 +40,7 @@ public class XBTProviderToProducer implements XBTProducer {
 
     @Override
     public void attachXBTListener(XBTListener listener) {
-        XBTCountingListener countingListener = new XBTCountingListener(listener);
+        XBTCountingFilter countingListener = new XBTCountingFilter(listener);
         
         do {
             try {

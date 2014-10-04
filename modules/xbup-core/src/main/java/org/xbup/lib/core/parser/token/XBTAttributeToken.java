@@ -22,7 +22,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  * XBUP protocol level 1 attribute token.
  *
  * This class carry single UBNatural value.
- * 
+ *
  * @version 0.1.23 2013/11/01
  * @author XBUP Project (http://xbup.org)
  */

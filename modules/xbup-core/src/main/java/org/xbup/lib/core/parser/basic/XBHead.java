@@ -30,23 +30,28 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
 /**
  * XBUP document header validator/provider.
  *
- * @version 0.1.23 2013/12/15
+ * @version 0.1.24 2014/10/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBHead {
 
-    /** MIME description. */
+    /**
+     * MIME type description.
+     *
+     * See http://en.wikipedia.org/wiki/MIME
+     */
     public static String MIME_XBUP = "others/x-xbup";
 
     /**
      * Blob header for files encoded using XBUP protocol.
-     * 
-     * FE - means cluster size 7
-     * 00 - Protocol version - means testing release
-     * 58 - aka 'X' for magic number
-     * 42 - aka 'B' for magic number
-     * 00 - Major version
-     * 02 - Minor version (09 used from wr9, 11 used from wr11, 01 used till wr16)
+     *
+     * FE - means cluster size 7<br/>
+     * 00 - Protocol version - means testing release<br/>
+     * 58 - aka 'X' for magic number<br/>
+     * 42 - aka 'B' for magic number<br/>
+     * 00 - Major version<br/>
+     * 02 - Minor version (09 used from wr9, 11 used from wr11, 01 used till
+     * wr16)<br/>
      */
     public static byte[] XB_HEADER = {-2, 0, 'X', 'B', 0, 2};
 
@@ -55,7 +60,7 @@ public class XBHead {
 
     /**
      * Write head of XBUP file into stream.
-     * 
+     *
      * @param stream output stream
      * @return count of written bytes
      * @throws java.io.IOException
@@ -67,7 +72,7 @@ public class XBHead {
 
     /**
      * Returns length of XBUP file head.
-     * 
+     *
      * @return count of bytes of XBUP file head
      */
     public static int getXBUPHeadSize() {
@@ -76,40 +81,41 @@ public class XBHead {
 
     /**
      * Validate head of XBUP file in stream.
-     * 
-     * @param stream
+     *
+     * @param stream input stream
      * @return count of processed bytes
      * @throws IOException and ParseException
      * @throws XBProcessingException if header doesn't match correct format
      */
     public static int checkXBUPHead(InputStream stream) throws IOException, XBProcessingException {
         byte[] head = new byte[XB_HEADER.length];
-        int len = XB_HEADER.length;
-        int off = 0;
-        int red = 0;
-        while (red < len) {
-            red = stream.read(head, off, len);
-            if (red < 0) {
+        int length = XB_HEADER.length;
+        int offset = 0;
+        int redByte = 0;
+        while (redByte < length) {
+            redByte = stream.read(head, offset, length);
+            if (redByte < 0) {
                 throw new XBParseException("Corrupted or missing header", XBProcessingExceptionType.CORRUPTED_HEADER);
             }
 
-            off += red;
-            len -= red;
+            offset += redByte;
+            length -= redByte;
         }
 
-        if (!Arrays.equals(XB_HEADER,head)) {
+        if (!Arrays.equals(XB_HEADER, head)) {
             String header = "";
             for (int i = 0; i < head.length; i++) {
-                header += Integer.toString( ( head[i] & 0xff ) + 0x100, 16).substring( 1 );
+                header += Integer.toString((head[i] & 0xff) + 0x100, 16).substring(1);
             }
 
-            throw new XBParseException("Unsupported header: 0x"+header, XBProcessingExceptionType.CORRUPTED_HEADER);
+            throw new XBParseException("Unsupported header: 0x" + header, XBProcessingExceptionType.CORRUPTED_HEADER);
         }
 
         return XB_HEADER.length;
     }
 
     private static class XBDebugLevel extends Level {
+
         public XBDebugLevel(String string, int i, String defaultBundle) {
             super(string, i, defaultBundle);
         }
@@ -127,7 +133,7 @@ public class XBHead {
         public void publish(LogRecord record) {
             if (record.getLevel() == XB_DEBUG_LEVEL) {
                 if (verboseMode) {
-                    System.out.println("DEBUG: "+record.getMessage());
+                    System.out.println("DEBUG: " + record.getMessage());
                 }
             }
         }

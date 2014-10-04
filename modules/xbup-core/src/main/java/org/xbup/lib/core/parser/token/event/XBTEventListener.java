@@ -31,10 +31,11 @@ public interface XBTEventListener extends EventListener {
 
     /**
      * Invoked when an event occurs.
-     * 
+     *
      * @param token
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
-     * @throws java.io.IOException */
+     * @throws XBProcessingException
+     * @throws java.io.IOException
+     */
     public void putXBTToken(XBTToken token) throws XBProcessingException, IOException;
 
 }

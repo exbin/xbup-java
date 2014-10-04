@@ -26,7 +26,7 @@ public abstract class XBTToken extends TypedToken {
 
     /**
      * Get type of this token.
-     * 
+     *
      * @return current token type.
      */
     @Override

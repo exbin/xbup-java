@@ -20,7 +20,7 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 
 /**
  * XBUP protocol level 0 begin token.
- * 
+ *
  * Class marks beggining of block. Terminated flag carry information about
  * method for block termination type in bitstream.
  *

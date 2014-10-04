@@ -23,12 +23,21 @@ package org.xbup.lib.core.parser.token.param;
  * @author XBUP Project (http://xbup.org)
  */
 public enum XBParamTokenType {
-    /** Begin of parameter. */
+
+    /**
+     * Begin of parameter.
+     */
     BEGIN,
-    /** Block parameter. */
+    /**
+     * Block parameter.
+     */
     BLOCK,
-    /** List of blocks parameter. */
+    /**
+     * List of blocks parameter.
+     */
     LIST,
-    /** End of parameter. */
+    /**
+     * End of parameter.
+     */
     END
 }

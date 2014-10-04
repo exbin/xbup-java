@@ -18,12 +18,15 @@ package org.xbup.lib.core.block.definition.catalog;
 
 import java.util.List;
 import org.xbup.lib.core.block.XBTBlock;
-import org.xbup.lib.core.block.XBTEditableBlock;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.block.definition.XBBlockDef;
-import org.xbup.lib.core.block.definition.XBRevisionDef;
+import org.xbup.lib.core.block.definition.local.XBDRevisionDef;
+import org.xbup.lib.core.block.param.XBDParamDecl;
 import org.xbup.lib.core.block.param.XBParamDecl;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
+import org.xbup.lib.core.catalog.base.XBCSpecDef;
+import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.parser.param.XBParamPosition;
 import org.xbup.lib.core.serial.XBSerializable;
 
@@ -36,15 +39,15 @@ import org.xbup.lib.core.serial.XBSerializable;
 public class XBCBlockDef implements XBBlockDef, XBSerializable {
 
     private final XBCatalog catalog;
-    private final XBCBlockRev blockSpec;
+    private final XBCBlockRev blockSpecRev;
 
-    public XBCBlockDef(XBCatalog catalog, XBCBlockRev blockSpec) {
+    public XBCBlockDef(XBCatalog catalog, XBCBlockRev blockSpecRev) {
         this.catalog = catalog;
-        this.blockSpec = blockSpec;
+        this.blockSpecRev = blockSpecRev;
     }
 
     @Override
-    public List<XBRevisionDef> getRevisionDefs() {
+    public List<XBDRevisionDef> getRevisionDefs() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -65,7 +68,9 @@ public class XBCBlockDef implements XBBlockDef, XBSerializable {
 
     @Override
     public XBParamDecl getParamDecl(int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        XBCSpecDef specDef = specService.getSpecDefByOrder(blockSpecRev.getParent(), index);
+        return new XBDParamDecl(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
     }
 
     @Override
@@ -75,6 +80,6 @@ public class XBCBlockDef implements XBBlockDef, XBSerializable {
 
     @Override
     public long getParamCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return blockSpecRev.getXBLimit();
     }
 }

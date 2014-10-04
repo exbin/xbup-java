@@ -57,7 +57,7 @@ import org.xbup.tool.editor.base.api.MainFrameManagement;
 /**
  * XBTEditor Main Frame.
  *
- * @version 0.1.22 2013/03/24
+ * @version 0.1.24 2014/10/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPanelFrame, TextFontPanelFrame, TextEncodingPanelFrame, TextAppearancePanelFrame {
@@ -73,7 +73,8 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
     private final String DIALOG_MENU_SUFIX = "...";
     private MainFrameManagement mainFrameManagement;
 
-    public static final String XBTFILETYPE = "XBTextEditor.XBTFileType";
+    public static final String XBT_FILE_TYPE = "XBTextEditor.XBTFileType";
+    public static final String TXT_FILE_TYPE = "XBTextEditor.TXTFileType";
 
     /**
      * Creates new form XBTextEditorFrame
@@ -744,7 +745,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
 
         @Override
         public String getFileTypeId() {
-            return XBTFILETYPE;
+            return XBT_FILE_TYPE;
         }
     }
 
@@ -773,7 +774,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
 
         @Override
         public String getFileTypeId() {
-            return "XBTextEditor.TXTFileType";
+            return TXT_FILE_TYPE;
         }
     }
 

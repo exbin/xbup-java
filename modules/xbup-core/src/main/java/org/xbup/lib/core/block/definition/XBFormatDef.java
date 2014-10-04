@@ -18,64 +18,29 @@ package org.xbup.lib.core.block.definition;
 
 import java.util.List;
 import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
-import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * XBUP level 1 format definition.
+ * XBUP level 1 format definition interface.
  *
- * @version 0.1.21 2011/12/02
+ * @version 0.1.24 2014/10/03
  * @author XBUP Project (http://xbup.org)
  */
-public class XBFormatDef implements XBSerializable {
-
-    private UBNatural consistSkip = new UBNat32(0);
-    private UBNatural joinCount = new UBNat32(0);
-    private List<XBDFormatDecl> formats;
-
-    public XBFormatDef() {
-    }
+public interface XBFormatDef {
 
     /**
      * @return the consistSkip
      */
-    public UBNatural getConsistSkip() {
-        return consistSkip;
-    }
-
-    /**
-     * @param consistSkip the consistSkip to set
-     */
-    public void setConsistSkip(UBNatural consistSkip) {
-        this.consistSkip = consistSkip;
-    }
-
-    /**
-     * @return the joinCount
-     */
-    public UBNatural getJoinCount() {
-        return joinCount;
-    }
-
-    /**
-     * @param joinCount the joinCount to set
-     */
-    public void setJoinCount(UBNatural joinCount) {
-        this.joinCount = joinCount;
-    }
+    UBNatural getConsistSkip();
 
     /**
      * @return the formats
      */
-    public List<XBDFormatDecl> getFormats() {
-        return formats;
-    }
+    List<XBDFormatDecl> getFormats();
 
     /**
-     * @param formats the formats to set
+     * @return the joinCount
      */
-    public void setFormats(List<XBDFormatDecl> formats) {
-        this.formats = formats;
-    }
+    UBNatural getJoinCount();
+    
 }

@@ -122,14 +122,19 @@ public class XBDeclaration implements XBTSequenceSerializable {
     }
 
     public static XBGroup convertCatalogGroup(XBCGroupDecl groupDecl, XBCatalog catalog) {
-        XBGroup group = new XBGroup();
-        // TODO revision
-        List<XBBlockDecl> blocks = catalog.getBlocks(((XBCGroupDecl) groupDecl).getGroupSpec().getParent());
-        for (XBBlockDecl block : blocks) {
-            group.getBlocks().add((XBCBlockDecl) block);
+        if (groupDecl != null) {
+            XBGroup group = new XBGroup();
+            // TODO revision
+            List<XBBlockDecl> blocks = catalog.getBlocks(((XBCGroupDecl) groupDecl).getGroupSpec().getParent());
+            for (XBBlockDecl block : blocks) {
+                group.getBlocks().add((XBCBlockDecl) block);
+            }
+
+            return group;
         }
 
-        return group;
+        // TODO Fix this if it is first time and catalog is still loading
+        return null;
     }
 
     /**

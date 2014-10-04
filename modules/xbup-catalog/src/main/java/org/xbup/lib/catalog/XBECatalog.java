@@ -42,12 +42,12 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.XBGroup;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
-import org.xbup.lib.core.block.declaration.catalog.XBCBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
 import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
@@ -433,8 +433,8 @@ public class XBECatalog implements XBCatalog {
     public XBFixedBlockType findFixedType(XBContext context, XBBlockType type) {
         if (type instanceof XBFixedBlockType) {
             return (XBFixedBlockType) type;
-        } else if (type instanceof XBCBlockType) {
-            return findFixedType(context, new XBCBlockDecl((XBCBlockRev) ((XBCBlockType) type).getBlockSpec(), this));
+        } else if (type instanceof XBDeclBlockType) {
+            return findFixedType(context, ((XBDeclBlockType) type).getBlockDecl());
         } else {
             throw new UnsupportedOperationException("Not supported yet.");
         }

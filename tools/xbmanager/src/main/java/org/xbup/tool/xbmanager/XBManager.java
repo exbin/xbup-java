@@ -37,13 +37,14 @@ import org.xbup.tool.editor.base.api.ApplicationModule;
 /**
  * The main class of the XBManager application.
  *
- * @version 0.1.22 2012/11/15
+ * @version 0.1.24 2014/10/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBManager extends XBEditorBase {
 
     private static Preferences preferences;
     private static boolean verboseMode = false;
+    private static boolean devMode = false;
 
     public XBManager() {
     }
@@ -72,6 +73,7 @@ public class XBManager extends XBEditorBase {
 //            opt.addOption("db", true, resourceMap.getString("cl_option_db"));
 //            opt.addOption("derby", false, resourceMap.getString("cl_option_derby"));
 //            opt.addOption("noderby", false, resourceMap.getString("cl_option_noderby"));
+            opt.addOption("dev", false, bundle.getString("cl_option_dev"));
             BasicParser parser = new BasicParser();
             CommandLine cl = parser.parse(opt, args);
             if (cl.hasOption('h')) {
@@ -81,6 +83,7 @@ public class XBManager extends XBEditorBase {
             }
 
             verboseMode = cl.hasOption("v");
+            devMode = cl.hasOption("dev");
             Logger logger = Logger.getLogger("");
             try {
                 logger.setLevel(Level.ALL);

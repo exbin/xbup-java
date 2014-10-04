@@ -400,7 +400,6 @@ public class ItemModifyDialog extends javax.swing.JDialog {
                 }
                 tableModel.setAttribs(node.getAttributes());
 //                if (srcNode.getTypeSpec() instanceof XBCPContextSpec) tableModel.setTypeSpec((XBCPContextSpec) srcNode.getTypeSpec());
-                tableModel.updateBlockAttribs();
                 removeButton.setEnabled(node.getAttributes().size() > 1);
             }
         }

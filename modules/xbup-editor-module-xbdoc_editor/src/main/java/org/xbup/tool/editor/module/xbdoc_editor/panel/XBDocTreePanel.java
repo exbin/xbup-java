@@ -49,9 +49,10 @@ import javax.swing.tree.TreePath;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFBlockType;
-import org.xbup.lib.core.block.declaration.catalog.XBCBlockType;
+import org.xbup.lib.core.block.declaration.XBBlockDecl;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
@@ -686,9 +687,13 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
         XBBlockType blockType = node.getBlockType();
         if (catalog != null) {
             XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-            if (blockType instanceof XBCBlockType) {
-                XBCBlockSpec blockSpec = (XBCBlockSpec) ((XBCBlockType) blockType).getBlockSpec().getParent();
-                return nameService.getDefaultCaption(blockSpec);
+            if (blockType instanceof XBDeclBlockType) {
+                XBBlockDecl blockDecl = ((XBDeclBlockType) blockType).getBlockDecl();
+                if (blockDecl instanceof XBCBlockDecl) {
+                    return nameService.getDefaultCaption(((XBCBlockDecl) blockDecl).getBlockSpec().getParent());
+                } else {
+                    // TODO locally defined blocks later
+                }
             }
         }
 

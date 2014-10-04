@@ -14,24 +14,41 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.block.definition;
+package org.xbup.lib.core.block.definition.local;
 
-import java.util.List;
-import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
-import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.block.definition.XBRevisionDef;
+import org.xbup.lib.core.serial.XBSerializable;
 
 /**
- * XBUP level 1 group definition interface.
+ * XBUP level 1 revision definition.
  *
- * @version 0.1.24 2014/10/03
+ * @version 0.1.21 2011/12/02
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBGroupDef {
+public class XBDRevisionDef implements XBSerializable, XBRevisionDef {
 
-    UBNatural getConsistSkip();
+    private long revision;
 
-    List<XBDGroupDecl> getGroups();
+    public XBDRevisionDef(long revision) {
+        this.revision = revision;
+    }
 
-    UBNatural getJoinCount();
-    
+    public XBDRevisionDef() {
+        this(0);
+    }
+
+    /**
+     * @return the revision
+     */
+    @Override
+    public long getRevision() {
+        return revision;
+    }
+
+    /**
+     * @param revision the revision to set
+     */
+    public void setRevision(long revision) {
+        this.revision = revision;
+    }
 }

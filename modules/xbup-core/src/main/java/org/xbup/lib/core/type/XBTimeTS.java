@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.block.declaration.local.XBDBlockType;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
@@ -80,7 +80,7 @@ public class XBTimeTS implements XBTChildSerializable {
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serial.setType(new XBDBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
+        serial.setType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
         serial.addChild(new DataBlockSerializator());
         serial.end();
     }

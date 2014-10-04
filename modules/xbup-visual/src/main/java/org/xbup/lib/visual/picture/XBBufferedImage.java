@@ -22,7 +22,7 @@ import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.util.List;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.declaration.local.XBDBlockType;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
@@ -84,7 +84,7 @@ public class XBBufferedImage implements XBTChildSerializable {
 
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.setType(new XBDBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
+        serial.setType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
         WritableRaster raster = image.getRaster();
         serial.addAttribute(new UBNat32(raster.getWidth()));
         serial.addAttribute(new UBNat32(raster.getHeight()));

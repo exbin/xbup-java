@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBTBlock;
-import org.xbup.lib.core.block.declaration.local.XBDBlockType;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.param.XBParamDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -107,7 +107,7 @@ public class XBTreeParamExtractor implements XBParamListener {
 
     public XBTTreeNode getOutput() {
         XBTTreeNode output = new XBTTreeNode();
-        output.setBlockType(new XBDBlockType(paramType.getBlockDecl()));
+        output.setBlockDecl(paramType.getBlockDecl());
         output.setChildren(new ArrayList<XBTBlock>());
         if (paramType.isJoinFlag()) {
             long attribute = attributeStart;

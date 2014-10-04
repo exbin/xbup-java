@@ -40,11 +40,11 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  */
 public class XBCBlockDecl implements XBBlockDecl, XBTChildSerializable {
 
-    private XBCBlockRev blockSpec;
+    private XBCBlockRev blockSpecRev;
     private final XBCatalog catalog;
 
-    public XBCBlockDecl(XBCBlockRev blockSpec, XBCatalog catalog) {
-        this.blockSpec = blockSpec;
+    public XBCBlockDecl(XBCBlockRev blockSpecRev, XBCatalog catalog) {
+        this.blockSpecRev = blockSpecRev;
         this.catalog = catalog;
     }
 
@@ -63,7 +63,7 @@ public class XBCBlockDecl implements XBBlockDecl, XBTChildSerializable {
         }
 
         XBCBlockDecl block = (XBCBlockDecl) catalog.findBlockTypeByPath(path, 0);
-        blockSpec = block.getBlockSpec();
+        blockSpecRev = block.getBlockSpec();
         serializationHandler.end();
     }
 
@@ -71,13 +71,13 @@ public class XBCBlockDecl implements XBBlockDecl, XBTChildSerializable {
     public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
         serializationHandler.setType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION_LINK));
-        Long[] path = catalog.getSpecPath(blockSpec.getParent());
+        Long[] path = catalog.getSpecPath(blockSpecRev.getParent());
         serializationHandler.addAttribute(new UBNat32(path.length - 1));
         for (Long pathIndex : path) {
             serializationHandler.addAttribute(new UBNat32(pathIndex));
         }
 
-        serializationHandler.addAttribute(new UBNat32(blockSpec.getXBIndex()));
+        serializationHandler.addAttribute(new UBNat32(blockSpecRev.getXBIndex()));
         serializationHandler.end();
     }
 
@@ -93,11 +93,11 @@ public class XBCBlockDecl implements XBBlockDecl, XBTChildSerializable {
 
         if (obj instanceof XBCBlockDecl) {
             final XBCBlockDecl other = (XBCBlockDecl) obj;
-            if (blockSpec == null || !this.blockSpec.equals(other.blockSpec)) {
+            if (blockSpecRev == null || !this.blockSpecRev.equals(other.blockSpecRev)) {
                 return false;
             }
 
-            return blockSpec.getId() != other.blockSpec.getId().longValue();
+            return blockSpecRev.getId() != other.blockSpecRev.getId().longValue();
         } else if (obj instanceof XBPBlockDecl) {
             Long[] catalogPath = catalog.getSpecPath(getBlockSpec().getParent());
             long[] objCatalogPath = ((XBPBlockDecl) obj).getCatalogPath();
@@ -120,15 +120,15 @@ public class XBCBlockDecl implements XBBlockDecl, XBTChildSerializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 79 * hash + (blockSpec != null ? blockSpec.hashCode() : 0);
+        hash = 79 * hash + (blockSpecRev != null ? blockSpecRev.hashCode() : 0);
         return hash;
     }
 
     public XBCBlockRev getBlockSpec() {
-        return blockSpec;
+        return blockSpecRev;
     }
 
     public void setBlockSpec(XBCBlockRev blockSpec) {
-        this.blockSpec = blockSpec;
+        this.blockSpecRev = blockSpec;
     }
 }

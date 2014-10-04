@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.block.declaration.local.XBDBlockType;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
@@ -77,7 +77,7 @@ public class XBByte implements XBTChildSerializable {
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
-        if (!serial.getType().equals(new XBDBlockType(new XBPBlockDecl(XB_BLOCK_PATH)))) {
+        if (!serial.getType().equals(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)))) {
             throw new XBProcessingException("Unexpected type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
         }
 
@@ -88,7 +88,7 @@ public class XBByte implements XBTChildSerializable {
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serial.setType(new XBDBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
+        serial.setType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
         serial.addChild(new DataBlockSerializator());
         serial.end();
     }

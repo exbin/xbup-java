@@ -14,23 +14,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.block.declaration.catalog;
+package org.xbup.lib.core.block;
 
-import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.catalog.base.XBCRev;
+import org.xbup.lib.core.block.declaration.XBBlockDecl;
 
 /**
- * Block type defined by catalog specification.
+ * Interface for block type represented by declaration.
  *
- * @version 0.1.24 2014/08/26
+ * @version 0.1.24 2014/10/03
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBCBlockType extends XBBlockType {
+public interface XBDBlockType extends XBBlockType {
 
     /**
-     * Get definition of this declaration in given catalog.
-     *
-     * @return catalog representation of relevant block definition
+     * Get block declaration.
+     * 
+     * @return block declaration
      */
-    public XBCRev getBlockSpec();
+    public XBBlockDecl getBlockDecl();
+
 }

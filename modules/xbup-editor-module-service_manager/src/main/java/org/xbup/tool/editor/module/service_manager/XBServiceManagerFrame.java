@@ -92,7 +92,6 @@ public class XBServiceManagerFrame extends javax.swing.JFrame implements XBEdito
 
         textStatusStateLabel.setBackground(new java.awt.Color(255, 0, 0));
         textStatusStateLabel.setFont(new java.awt.Font("Tahoma 11", 1, 12)); // NOI18N
-        textStatusStateLabel.setForeground(new java.awt.Color(0, 0, 0));
         textStatusStateLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         textStatusStateLabel.setText("Disconnected");
         textStatusStateLabel.setName("textStatusStateLabel"); // NOI18N
@@ -109,7 +108,7 @@ public class XBServiceManagerFrame extends javax.swing.JFrame implements XBEdito
         );
         textStatusPanelLayout.setVerticalGroup(
             textStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(textStatusStateLabel)
+            .addComponent(textStatusStateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(textStatusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
@@ -281,6 +280,7 @@ public class XBServiceManagerFrame extends javax.swing.JFrame implements XBEdito
     }
 
     public void actionDisconnect() {
+        setStatus(Color.RED, "Disconnected");
         activePanel.setService(null);
     }
 

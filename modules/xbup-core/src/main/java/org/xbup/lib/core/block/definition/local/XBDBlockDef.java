@@ -20,7 +20,6 @@ import java.util.List;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.block.definition.XBBlockDef;
-import org.xbup.lib.core.block.definition.XBRevisionDef;
 import org.xbup.lib.core.block.param.XBParamDecl;
 import org.xbup.lib.core.parser.param.XBParamPosition;
 import org.xbup.lib.core.serial.XBSerializable;
@@ -34,17 +33,17 @@ import org.xbup.lib.core.serial.XBSerializable;
 public class XBDBlockDef implements XBBlockDef, XBSerializable {
 
     private List<XBParamDecl> params;
-    private List<XBRevisionDef> revisionDefs;
+    private List<XBDRevisionDef> revisionDefs;
 
     public XBDBlockDef() {
     }
 
     @Override
-    public List<XBRevisionDef> getRevisionDefs() {
+    public List<XBDRevisionDef> getRevisionDefs() {
         return revisionDefs;
     }
 
-    public void setRevisionDefs(List<XBRevisionDef> revisionDefs) {
+    public void setRevisionDefs(List<XBDRevisionDef> revisionDefs) {
         this.revisionDefs = revisionDefs;
     }
 

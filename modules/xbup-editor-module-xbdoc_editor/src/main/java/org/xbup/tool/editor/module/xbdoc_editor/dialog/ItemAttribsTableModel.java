@@ -27,36 +27,30 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Attributes list table model for item editing.
  *
- * @version 0.1.24 2014/10/01
+ * @version 0.1.24 2014/10/03
  * @author XBUP Project (http://xbup.org)
  */
 public class ItemAttribsTableModel extends AbstractTableModel {
 
-    private ResourceBundle resourceBundle;
-    private List<UBNatural> attribs;
-    private List<UBNatural> attrList;
+    private final ResourceBundle resourceBundle;
+    private List<UBNatural> attributes;
 
-    private String[] columns;
+    private final String[] columns;
     private Class[] types = new Class[]{
-        java.lang.String.class, java.lang.String.class, java.lang.String.class,
-        java.lang.Integer.class
+        java.lang.Integer.class, java.lang.Integer.class
     };
-    private boolean[] canEdit = new boolean[]{false, false, false, true};
+    private final boolean[] canEdit = new boolean[]{false, true};
     private List<TableModelListener> tableModelListeners = new ArrayList<>();
 
-    /**
-     * Creates a new instance of ItemAttribsTableModel
-     */
     public ItemAttribsTableModel() {
         resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbdoceditor/dialog/resources/ItemModifyDialog");
-        columns = new String[]{resourceBundle.getString("itemmod_itemtype"), resourceBundle.getString("itemmod_itemname"), resourceBundle.getString("itemmod_itemdesc"), resourceBundle.getString("itemmod_itemvalue")};
-        attribs = new ArrayList<UBNatural>();
-        attrList = null;
+        columns = new String[]{resourceBundle.getString("itemmod_itemorder"), resourceBundle.getString("itemmod_itemvalue")};
+        attributes = new ArrayList<>();
     }
 
     @Override
     public int getRowCount() {
-        return attribs.size();
+        return attributes.size();
     }
 
     @Override
@@ -81,59 +75,28 @@ public class ItemAttribsTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        if (columnIndex == 3) {
+        if (columnIndex == 1) {
             return ((UBNat32) getAttribs().get(rowIndex)).getInt();
-        }
-        if (rowIndex < 2) {
-            switch (columnIndex) {
-                case 0:
-                    return "UBNatural";
-                case 1:
-                    if (rowIndex == 0) {
-                        return "BlockGroup";
-                    } else {
-                        return "BlockType";
-                    }
-                case 2:
-                    if (rowIndex == 0) {
-                        return resourceBundle.getString("itemmod_attrib_group");
-                    } else {
-                        return resourceBundle.getString("itemmod_attrib_block");
-                    }
-                default:
-                    throw new IllegalArgumentException();
-            }
         } else {
-            switch (columnIndex) {
-                case 0:
-                    return "UBNumber";
-                case 1:
-                    return "attribute";
-                case 2:
-                    return "";
-                default:
-                    throw new IllegalArgumentException();
-            }
+            return rowIndex;
         }
     }
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        if (columnIndex == 3) {
-            ((UBNat32) attribs.get(rowIndex)).setValue((Integer) aValue);
-            if (rowIndex < 2) {
-                updateBlockAttribs();
-                fireTableDataChanged();
-            }
+        if (columnIndex == 1) {
+            ((UBNat32) attributes.get(rowIndex)).setValue((Integer) aValue);
+        } else {
+            throw new IllegalStateException();
         }
     }
 
     public List<UBNatural> getAttribs() {
-        return attribs;
+        return attributes;
     }
 
-    public void setAttribs(List<UBNatural> attribs) {
-        this.attribs = attribs;
+    public void setAttribs(List<UBNatural> attributes) {
+        this.attributes = attributes;
     }
 
     public Class[] getTypes() {
@@ -155,23 +118,14 @@ public class ItemAttribsTableModel extends AbstractTableModel {
     }
 
     public int getAttribute(int index) {
-        if (attribs.size() <= index) {
+        if (attributes.size() <= index) {
             return 0;
         }
-        UBNat32 attribute = (UBNat32) attribs.get(index);
+        UBNat32 attribute = (UBNat32) attributes.get(index);
         if (attribute != null) {
             return attribute.getInt();
         } else {
             return 0;
         }
-    }
-
-    public void updateBlockAttribs() {
-        /*        if (getTypeSpec()!=null) {
-         XBCBlockType typeBlock = getTypeSpec().getBlockSpec(getAttribute(0),getAttribute(1));
-         if (typeBlock != null) {
-         attrList = typeBlock.getAttrList();
-         } else attrList = new ArrayList<XBAttributeType>();
-         } else attrList = null; */
     }
 }

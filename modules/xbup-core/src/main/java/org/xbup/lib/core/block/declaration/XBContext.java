@@ -19,11 +19,12 @@ package org.xbup.lib.core.block.declaration;
 import java.util.ArrayList;
 import java.util.List;
 import org.xbup.lib.core.block.XBFBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
 
 /**
  * Representation of current declaration context for block types.
  *
- * @version 0.1.24 2014/09/30
+ * @version 0.1.24 2014/10/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBContext {
@@ -52,6 +53,28 @@ public class XBContext {
     public XBBlockDecl getBlockDecl(XBFBlockType blockType) {
         XBGroup group = getGroupForId(blockType.getGroupID().getInt());
         return group != null ? group.getBlockForId(blockType.getBlockID().getInt()) : null;
+    }
+
+    /**
+     * Traverse thru all groups and check if block declaration matches to any
+     * block type declared in current context.
+     *
+     * @param blockDecl block declaration
+     * @return fixed block type or null if no match
+     */
+    public XBFixedBlockType getFixedBlockType(XBBlockDecl blockDecl) {
+        for (int groupIndex = 0; groupIndex < groups.size(); groupIndex++) {
+            XBGroup group = groups.get(groupIndex);
+            List<XBBlockDecl> blocks = group.getBlocks();
+            for (int blockIndex = 0; blockIndex < blocks.size(); blockIndex++) {
+                XBBlockDecl groupBlockDecl = blocks.get(blockIndex);
+                if (groupBlockDecl.equals(blockDecl)) {
+                    return new XBFixedBlockType(groupIndex, blockIndex);
+                }
+            }
+        }
+
+        return null;
     }
 
     public XBContext getParent() {

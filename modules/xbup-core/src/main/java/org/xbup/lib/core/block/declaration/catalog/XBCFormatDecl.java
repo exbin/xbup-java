@@ -63,7 +63,6 @@ public class XBCFormatDecl implements XBFormatDecl, XBTChildSerializable {
             throw new XBProcessingException("Unexpected block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
         }
 
-        XBDFormatDecl decl = new XBDFormatDecl();
         long groupLimit = serializationHandler.nextAttribute().getLong();
         Long[] catalogPath = new Long[serializationHandler.nextAttribute().getInt()];
         int i;

@@ -27,7 +27,7 @@ import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.block.declaration.local.XBDBlockDecl;
-import org.xbup.lib.core.block.declaration.local.XBDBlockType;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.service.XBCXIconService;
@@ -162,7 +162,7 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
             icon = new ImageIcon(icon.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
             iconCache.put(blockSpec.getId(), icon);
             return icon;
-        } else if (blockDecl instanceof XBDBlockType) {
+        } else if (blockDecl instanceof XBDeclBlockType) {
             // TODO
             /* XBCBlockDecl blockDecl = (XBCBlockDecl) ((XBDBlockType) blockDecl).getBlockDecl();
             if (blockDecl != null) {

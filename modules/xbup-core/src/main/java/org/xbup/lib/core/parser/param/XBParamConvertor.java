@@ -24,17 +24,17 @@ import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.local.XBDBlockDecl;
-import org.xbup.lib.core.block.declaration.local.XBDBlockType;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.param.XBParamDecl;
 import org.xbup.lib.core.block.definition.XBBlockDef;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBFBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
-import org.xbup.lib.core.block.declaration.catalog.XBCBlockType;
 import org.xbup.lib.core.block.definition.catalog.XBCBlockDef;
-import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
@@ -77,18 +77,24 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
             return;
         }
 
-        if (type instanceof XBDBlockType) {
-            XBBlockDecl decl = ((XBDBlockType) type).getBlockDecl();
-            if (decl instanceof XBDBlockDecl) {
-                blockDef = ((XBDBlockDecl) decl).getBlockDef();
+        if (type instanceof XBDeclBlockType) {
+            XBBlockDecl blockDecl = ((XBDeclBlockType) type).getBlockDecl();
+            if (blockDecl instanceof XBCBlockDecl) {
+                blockDef = new XBCBlockDef(catalog, ((XBCBlockDecl) blockDecl).getBlockSpec());
+            } else if (blockDecl instanceof XBDBlockDecl) {
+                blockDef = ((XBDBlockDecl) blockDecl).getBlockDef();
+            } else {
+                throw new UnsupportedOperationException("Not supported yet.");
             }
-        } else if (type instanceof XBCBlockType) {
-            XBCBlockDecl blockDecl = new XBCBlockDecl((XBCBlockRev) ((XBCBlockType) type).getBlockSpec(), catalog);
+        } else if (type instanceof XBFixedBlockType) {
+            XBCBlockDecl blockDecl = (XBCBlockDecl) catalog.getRootContext().getBlockDecl((XBFBlockType) type);
             blockDef = new XBCBlockDef(catalog, blockDecl.getBlockSpec());
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         paramIndex = 0;
-        while ((nextParam == null)&&(paramIndex < blockDef.getParamCount())) {
+        while ((nextParam == null) && (paramIndex < blockDef.getParamCount())) {
             nextParam = blockDef.getParamDecl(paramIndex);
             paramListener.beginXBParam(nextParam);
             paramProcessor = new XBParamProcessor(nextParam);
@@ -144,7 +150,7 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
 
     /**
      * Parameter processor accepting attributes and returning parameter events.
-     * 
+     *
      * It uses depth processing with connected instances.
      */
     public class XBParamProcessor implements XBParamProducer {
@@ -173,10 +179,10 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
                 return;
             }
 
-            if ((position == 0)&&(paramDecl.isListFlag())) {
+            if ((position == 0) && (paramDecl.isListFlag())) {
                 if (paramDecl.isJoinFlag()) {
                     listCount = new UBENat32(value.getLong());
-                    while ((childProcessor == null)&&(listCount.getLong() == 0)) {
+                    while ((childProcessor == null) && (listCount.getLong() == 0)) {
                         childProcessor = new XBParamProcessor(paramDecl.convertToNonList());
                         childProcessor.attachXBParamListener(new XBParamHandler(this));
                         listCount = new UBENat32(listCount.getLong() - 1);
@@ -211,7 +217,7 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
                     throw new XBProcessingException("Internal error", XBProcessingExceptionType.UNKNOWN);
                 }
 
-                while ((childProcessor == null)&&(listCount.getLong() == 0)) {
+                while ((childProcessor == null) && (listCount.getLong() == 0)) {
                     childProcessor = new XBParamProcessor(paramDecl.convertToNonList());
                     childProcessor.attachXBParamListener(new XBParamHandler(this));
                     listCount = new UBENat32(listCount.getLong() - 1);
@@ -235,7 +241,7 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
                 } else {
                     List<XBParamDecl> params = blockDef.getParamDecls();
                     // TODO: Revision processing
-                    while ((childProcessor == null)&&(position < params.size())) {
+                    while ((childProcessor == null) && (position < params.size())) {
                         nextChildProcessor();
                         if (childProcessor != null) {
                             childProcessor.attribXBT(value);
@@ -284,12 +290,12 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
                 Logger.getLogger(XBParamConvertor.class.getName()).log(Level.SEVERE, null, ex);
             }
             /*try {
-                listener.endXBParam();
-            } catch (XBProcessingException ex) {
-                Logger.getLogger(XBParamConvertor.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(XBParamConvertor.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
+             listener.endXBParam();
+             } catch (XBProcessingException ex) {
+             Logger.getLogger(XBParamConvertor.class.getName()).log(Level.SEVERE, null, ex);
+             } catch (IOException ex) {
+             Logger.getLogger(XBParamConvertor.class.getName()).log(Level.SEVERE, null, ex);
+             }*/
         }
     }
 

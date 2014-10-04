@@ -16,37 +16,17 @@
  */
 package org.xbup.lib.core.block.definition;
 
-import org.xbup.lib.core.serial.XBSerializable;
-
 /**
- * XBUP level 1 revision definition.
+ * XBUP level 1 revision definition interface.
  *
- * @version 0.1.21 2011/12/02
+ * @version 0.1.24 2014/10/03
  * @author XBUP Project (http://xbup.org)
  */
-public class XBRevisionDef implements XBSerializable {
-
-    private long revision;
-
-    public XBRevisionDef(long revision) {
-        this.revision = revision;
-    }
-
-    public XBRevisionDef() {
-        this(0);
-    }
+public interface XBRevisionDef {
 
     /**
      * @return the revision
      */
-    public long getRevision() {
-        return revision;
-    }
-
-    /**
-     * @param revision the revision to set
-     */
-    public void setRevision(long revision) {
-        this.revision = revision;
-    }
+    long getRevision();
+    
 }

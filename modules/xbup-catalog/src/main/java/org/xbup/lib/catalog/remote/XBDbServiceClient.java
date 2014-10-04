@@ -26,7 +26,7 @@ import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
-import org.xbup.lib.core.block.declaration.local.XBDBlockType;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBPFormatDecl;
 import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
@@ -226,8 +226,8 @@ public class XBDbServiceClient implements XBServiceClient {
             if (type instanceof XBFixedBlockType) {
                 return (XBFixedBlockType) type;
             }
-            if (type instanceof XBDBlockType) {
-                XBBlockDecl blockDecl = ((XBDBlockType) type).getBlockDecl();
+            if (type instanceof XBDeclBlockType) {
+                XBBlockDecl blockDecl = ((XBDeclBlockType) type).getBlockDecl();
                 if (blockDecl instanceof XBPBlockDecl) {
                     Long[] path = ((XBPBlockDecl) blockDecl).getCatalogObjectPath();
                     if (path.length != 5) {

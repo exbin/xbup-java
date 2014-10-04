@@ -27,7 +27,7 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
-import org.xbup.lib.core.block.declaration.local.XBDBlockType;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
@@ -84,7 +84,7 @@ public class XBTCPServiceClient implements XBServiceClient {
     public int login(String user, char[] password) throws IOException {
         try {
             init();
-            target.typeXBT(new XBDBlockType(new XBPBlockDecl(LOGIN_SERVICE_PROCEDURE)));
+            target.typeXBT(new XBDeclBlockType(new XBPBlockDecl(LOGIN_SERVICE_PROCEDURE)));
 /*            XBString userName = new XBString(user);
             XBTSerialEventProducer eventSerializer = new XBTSerialEventProducer(userName);
             eventSerializer.attachXBTEventListener(XBTDefaultEventListener.getXBTEventListener(target));
@@ -135,7 +135,7 @@ public class XBTCPServiceClient implements XBServiceClient {
     public String getVersion() {
         try {
             init();
-            target.typeXBT(new XBDBlockType(new XBPBlockDecl(VERSION_INFO_PROCEDURE)));
+            target.typeXBT(new XBDeclBlockType(new XBPBlockDecl(VERSION_INFO_PROCEDURE)));
             target.endXBT();
             source.beginXBT();
             source.typeXBT(new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK)); // TODO
@@ -153,7 +153,7 @@ public class XBTCPServiceClient implements XBServiceClient {
     public void stop() {
         try {
             init();
-            target.typeXBT(new XBDBlockType(new XBPBlockDecl(STOP_SERVICE_PROCEDURE)));
+            target.typeXBT(new XBDeclBlockType(new XBPBlockDecl(STOP_SERVICE_PROCEDURE)));
             target.endXBT();
             source.beginXBT();
             source.typeXBT(new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK)); // TODO
@@ -177,7 +177,7 @@ public class XBTCPServiceClient implements XBServiceClient {
     public void ping() {
         try {
             init();
-            target.typeXBT(new XBDBlockType(new XBPBlockDecl(PING_SERVICE_PROCEDURE)));
+            target.typeXBT(new XBDeclBlockType(new XBPBlockDecl(PING_SERVICE_PROCEDURE)));
             target.endXBT();
             source.beginXBT();
             source.typeXBT(new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK)); // TODO
@@ -310,8 +310,8 @@ public class XBTCPServiceClient implements XBServiceClient {
             if (type instanceof XBFixedBlockType) {
                 return (XBFixedBlockType) type;
             }
-            if (type instanceof XBDBlockType) {
-                XBBlockDecl blockDecl = ((XBDBlockType) type).getBlockDecl();
+            if (type instanceof XBDeclBlockType) {
+                XBBlockDecl blockDecl = ((XBDeclBlockType) type).getBlockDecl();
                 if (blockDecl instanceof XBPBlockDecl) {
                     Long[] path = ((XBPBlockDecl) blockDecl).getCatalogObjectPath();
                     if (path.length != 5) {

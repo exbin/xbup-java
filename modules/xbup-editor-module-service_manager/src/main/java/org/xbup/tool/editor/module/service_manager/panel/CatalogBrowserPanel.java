@@ -16,8 +16,11 @@
  */
 package org.xbup.tool.editor.module.service_manager.panel;
 
+import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogFilesTreePanel;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemsTreePanel;
@@ -27,9 +30,9 @@ import org.xbup.tool.editor.base.api.MainFrameManagement;
 import org.xbup.tool.editor.base.api.MenuManagement;
 
 /**
- * Simple Browser for catalog data
+ * Simple Browser for catalog data.
  *
- * @version 0.1.23 2013/09/26
+ * @version 0.1.24 2014/10/03
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogBrowserPanel extends javax.swing.JPanel implements ActivePanelActionHandling {
@@ -40,7 +43,6 @@ public class CatalogBrowserPanel extends javax.swing.JPanel implements ActivePan
     private MenuManagement menuManagement;
     private MainFrameManagement mainFrameManagement;
 
-    /** Creates new form CatalogBrowserPanel */
     public CatalogBrowserPanel() {
         initComponents();
         catalog = null;
@@ -55,22 +57,70 @@ public class CatalogBrowserPanel extends javax.swing.JPanel implements ActivePan
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        catalogNotAvailablePanel = new javax.swing.JPanel();
+        notAvailableLabel = new javax.swing.JLabel();
+        catalogLoadingPanel = new javax.swing.JPanel();
+        progressBarPanel = new javax.swing.JPanel();
+        loadingProgressBar = new javax.swing.JProgressBar();
+        loadingCatalogLabel = new javax.swing.JLabel();
         tabbedPane = new javax.swing.JTabbedPane();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
+        setLayout(new java.awt.CardLayout());
+
+        catalogNotAvailablePanel.setLayout(new java.awt.GridBagLayout());
+
+        notAvailableLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        notAvailableLabel.setText("Catalog is not available");
+        catalogNotAvailablePanel.add(notAvailableLabel, new java.awt.GridBagConstraints());
+
+        add(catalogNotAvailablePanel, "notAvailable");
+
+        catalogLoadingPanel.setLayout(new java.awt.GridBagLayout());
+
+        loadingProgressBar.setMaximum(0);
+        loadingProgressBar.setIndeterminate(true);
+        loadingProgressBar.setString("Catalog is loading...");
+
+        loadingCatalogLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        loadingCatalogLabel.setText("Catalog is loading...");
+
+        javax.swing.GroupLayout progressBarPanelLayout = new javax.swing.GroupLayout(progressBarPanel);
+        progressBarPanel.setLayout(progressBarPanelLayout);
+        progressBarPanelLayout.setHorizontalGroup(
+            progressBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(progressBarPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(progressBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(loadingCatalogLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(progressBarPanelLayout.createSequentialGroup()
+                        .addComponent(loadingProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabbedPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+        progressBarPanelLayout.setVerticalGroup(
+            progressBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(progressBarPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(loadingCatalogLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(loadingProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        catalogLoadingPanel.add(progressBarPanel, new java.awt.GridBagConstraints());
+
+        add(catalogLoadingPanel, "catalogLoading");
+        add(tabbedPane, "catalog");
 
         getAccessibleContext().setAccessibleName("catalog");
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel catalogLoadingPanel;
+    private javax.swing.JPanel catalogNotAvailablePanel;
+    private javax.swing.JLabel loadingCatalogLabel;
+    private javax.swing.JProgressBar loadingProgressBar;
+    private javax.swing.JLabel notAvailableLabel;
+    private javax.swing.JPanel progressBarPanel;
     private javax.swing.JTabbedPane tabbedPane;
     // End of variables declaration//GEN-END:variables
 
@@ -79,11 +129,15 @@ public class CatalogBrowserPanel extends javax.swing.JPanel implements ActivePan
     }
 
     public void setCatalog(XBACatalog catalog) {
-        if (catalog != null) {
+        if (catalog == null) {
+            ((CardLayout) getLayout()).show(this, "notAvailable");
+        } else {
+            ((CardLayout) getLayout()).show(this, "catalogLoading");
             tabbedPane.removeAll();
+            this.catalog = catalog;
+            reloadCatalog();
+            ((CardLayout) getLayout()).show(this, "catalog");
         }
-        this.catalog = catalog;
-        reloadCatalog();
     }
 
     private void reloadCatalog() {

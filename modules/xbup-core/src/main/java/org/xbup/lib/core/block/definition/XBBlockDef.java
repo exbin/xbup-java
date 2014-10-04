@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.core.block.definition;
 
+import org.xbup.lib.core.block.definition.local.XBDRevisionDef;
 import java.util.List;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.param.XBParamDecl;
@@ -66,7 +67,7 @@ public interface XBBlockDef {
      *
      * @return list of revisions
      */
-    public List<XBRevisionDef> getRevisionDefs();
+    public List<XBDRevisionDef> getRevisionDefs();
 
     /**
      * Get n-th parameter of the given block.

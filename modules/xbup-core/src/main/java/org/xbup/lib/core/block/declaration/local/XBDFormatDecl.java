@@ -16,8 +16,9 @@
  */
 package org.xbup.lib.core.block.declaration.local;
 
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import java.io.IOException;
-import org.xbup.lib.core.block.definition.XBFormatDef;
+import org.xbup.lib.core.block.definition.local.XBDFormatDef;
 import java.util.ArrayList;
 import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
@@ -27,7 +28,7 @@ import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
-import org.xbup.lib.core.block.definition.XBRevisionDef;
+import org.xbup.lib.core.block.definition.local.XBDRevisionDef;
 import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBSerializable;
@@ -50,8 +51,8 @@ public class XBDFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
     private UBNat32 revision = new UBNat32(0);
     private List<XBGroupDecl> groups = new ArrayList<>();
     private UBNat32 groupsLimit = new UBNat32(0);
-    private List<XBFormatDef> formatDefs;
-    private List<XBRevisionDef> revisionDefs;
+    private List<XBDFormatDef> formatDefs;
+    private List<XBDRevisionDef> revisionDefs;
 
     public XBDFormatDecl() {
     }
@@ -100,19 +101,19 @@ public class XBDFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
         this.groups = groups;
     }
 
-    public List<XBFormatDef> getFormatDef() {
+    public List<XBDFormatDef> getFormatDef() {
         return formatDefs;
     }
 
-    public void setFormatDef(List<XBFormatDef> formatDef) {
+    public void setFormatDef(List<XBDFormatDef> formatDef) {
         this.formatDefs = formatDef;
     }
 
-    public List<XBRevisionDef> getRevisionDef() {
+    public List<XBDRevisionDef> getRevisionDef() {
         return revisionDefs;
     }
 
-    public void setRevisionDef(List<XBRevisionDef> revisionDef) {
+    public void setRevisionDef(List<XBDRevisionDef> revisionDef) {
         this.revisionDefs = revisionDef;
     }
 
@@ -126,7 +127,7 @@ public class XBDFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
             @Override
             public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
                 long[] xbGroupLimitBlockType = {1, 5};
-                XBSerialSequence subSequence = new XBSerialSequence(new XBDBlockType(new XBPBlockDecl(xbGroupLimitBlockType)), groupsLimit);
+                XBSerialSequence subSequence = new XBSerialSequence(new XBDeclBlockType(new XBPBlockDecl(xbGroupLimitBlockType)), groupsLimit);
 
                 serializationHandler.sequenceXB(subSequence);
             }
@@ -140,7 +141,7 @@ public class XBDFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
             @Override
             public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
                 long[] xbRevisionBlockType = {1, 5};
-                XBSerialSequence subSequence = new XBSerialSequence(new XBDBlockType(new XBPBlockDecl(xbRevisionBlockType)), revision);
+                XBSerialSequence subSequence = new XBSerialSequence(new XBDeclBlockType(new XBPBlockDecl(xbRevisionBlockType)), revision);
 
                 serializationHandler.sequenceXB(subSequence);
             }
@@ -216,7 +217,7 @@ public class XBDFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
                 }
                 if (i > 0) {
                     while (i > 0) {
-                        formatDefs.add(new XBFormatDef());
+                        formatDefs.add(new XBDFormatDef());
                         i--;
                     }
                 } else {
@@ -266,7 +267,7 @@ public class XBDFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
                 }
                 if (i > 0) {
                     while (i > 0) {
-                        revisionDefs.add(new XBRevisionDef());
+                        revisionDefs.add(new XBDRevisionDef());
                         i--;
                     }
                 } else {

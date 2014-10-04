@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.core.block.declaration.local;
 
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,8 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
-import org.xbup.lib.core.block.definition.XBGroupDef;
-import org.xbup.lib.core.block.definition.XBRevisionDef;
+import org.xbup.lib.core.block.definition.local.XBDGroupDef;
+import org.xbup.lib.core.block.definition.local.XBDRevisionDef;
 import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBSerializable;
@@ -48,8 +49,8 @@ public class XBDGroupDecl implements XBGroupDecl, XBTSequenceSerializable {
     private UBNat32 revision = new UBNat32(0);
     private List<XBBlockDecl> blocks = new ArrayList<>();
     private UBNat32 blocksLimit = new UBNat32(0);
-    private List<XBGroupDef> groupDefs;
-    private List<XBRevisionDef> revisionDefs;
+    private List<XBDGroupDef> groupDefs;
+    private List<XBDRevisionDef> revisionDefs;
 
     public XBDGroupDecl() {
     }
@@ -98,7 +99,7 @@ public class XBDGroupDecl implements XBGroupDecl, XBTSequenceSerializable {
             @Override
             public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
                 long[] xbGroupLimitBlockType = {1, 5};
-                XBSerialSequence seq = new XBSerialSequence(new XBDBlockType(new XBPBlockDecl(xbGroupLimitBlockType)), blocksLimit);
+                XBSerialSequence seq = new XBSerialSequence(new XBDeclBlockType(new XBPBlockDecl(xbGroupLimitBlockType)), blocksLimit);
                 // Join FormatSpecCatalogPath (UBPath)
                 // seq.join(new UBPath32(getCatalogPath()));
                 // Join Revision (UBNatural)
@@ -106,7 +107,7 @@ public class XBDGroupDecl implements XBGroupDecl, XBTSequenceSerializable {
                     @Override
                     public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
                         long[] xbRevisionBlockType = {1, 5};
-                        XBSerialSequence subSequence = new XBSerialSequence(new XBDBlockType(new XBPBlockDecl(xbRevisionBlockType)), revision);
+                        XBSerialSequence subSequence = new XBSerialSequence(new XBDeclBlockType(new XBPBlockDecl(xbRevisionBlockType)), revision);
 
                         serializationHandler.sequenceXB(subSequence);
                     }
@@ -176,7 +177,7 @@ public class XBDGroupDecl implements XBGroupDecl, XBTSequenceSerializable {
                         }
                         if (i > 0) {
                             while (i > 0) {
-                                groupDefs.add(new XBGroupDef());
+                                groupDefs.add(new XBDGroupDef());
                                 i--;
                             }
                         } else {
@@ -226,7 +227,7 @@ public class XBDGroupDecl implements XBGroupDecl, XBTSequenceSerializable {
                         }
                         if (i > 0) {
                             while (i > 0) {
-                                revisionDefs.add(new XBRevisionDef());
+                                revisionDefs.add(new XBDRevisionDef());
                                 i--;
                             }
                         } else {

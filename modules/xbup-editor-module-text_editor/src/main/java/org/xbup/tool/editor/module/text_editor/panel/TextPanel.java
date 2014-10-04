@@ -30,6 +30,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -351,7 +352,7 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
         File file = new File(getFileName());
         try {
             XBFileInputStream fileStream = new XBFileInputStream(file);
-            if (XBTextEditorFrame.XBTFILETYPE.equals(fileType.getFileTypeId())) { // Process XB header
+            if (XBTextEditorFrame.XBT_FILE_TYPE.equals(fileType.getFileTypeId())) { // Process XB header
                 XBChildInputSerialHandler handler = new XBChildProviderSerialHandler();
                 handler.attachXBPullProvider(fileStream);
                 new XBL0TextPanelSerializable().serializeFromXB(handler);
@@ -370,11 +371,16 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
     public void saveToFile() {
         File file = new File(getFileName());
         try {
-            XBFileOutputStream fileStream = new XBFileOutputStream(file);
-            if (XBTextEditorFrame.XBTFILETYPE.equals(fileType.getFileTypeId())) { // Process XB header
+            
+            if (XBTextEditorFrame.XBT_FILE_TYPE.equals(fileType.getFileTypeId())) { // Process XB header
+                XBFileOutputStream fileStream = new XBFileOutputStream(file);
                 XBChildListenerSerialHandler handler = new XBChildListenerSerialHandler();
                 handler.attachXBEventListener(fileStream);
                 new XBL0TextPanelSerializable().serializeToXB(handler);
+            } else if (XBTextEditorFrame.TXT_FILE_TYPE.equals(fileType.getFileTypeId())) {
+                try (BufferedWriter fileOut = new BufferedWriter(new FileWriter(file))) {
+                    textArea.write(fileOut);
+                }
             }
             setModified(false);
         } catch (XBProcessingException ex) {

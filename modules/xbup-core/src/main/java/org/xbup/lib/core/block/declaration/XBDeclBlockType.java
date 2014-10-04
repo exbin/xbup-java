@@ -14,23 +14,22 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.block.declaration.local;
+package org.xbup.lib.core.block.declaration;
 
 import org.xbup.lib.core.block.XBBasicBlockType;
-import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.declaration.XBBlockDecl;
+import org.xbup.lib.core.block.XBDBlockType;
 
 /**
  * Block type defined with block declaration.
  *
- * @version 0.1.24 2014/08/28
+ * @version 0.1.24 2014/10/03
  * @author XBUP Project (http://xbup.org)
  */
-public class XBDBlockType implements XBBlockType {
+public class XBDeclBlockType implements XBDBlockType {
 
     private XBBlockDecl blockDecl;
 
-    public XBDBlockType(XBBlockDecl blockDecl) {
+    public XBDeclBlockType(XBBlockDecl blockDecl) {
         this.blockDecl = blockDecl;
     }
 
@@ -41,8 +40,8 @@ public class XBDBlockType implements XBBlockType {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof XBDBlockType) {
-            return ((XBDBlockType) obj).blockDecl.equals(blockDecl);
+        if (obj instanceof XBDeclBlockType) {
+            return ((XBDeclBlockType) obj).blockDecl.equals(blockDecl);
         }
 
         return super.equals(obj);
@@ -53,6 +52,7 @@ public class XBDBlockType implements XBBlockType {
         return blockDecl.hashCode();
     }
 
+    @Override
     public XBBlockDecl getBlockDecl() {
         return blockDecl;
     }

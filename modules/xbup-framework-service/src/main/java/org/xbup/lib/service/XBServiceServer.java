@@ -26,7 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.declaration.local.XBDBlockType;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
@@ -297,7 +297,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.STOP_SERVICE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.STOP_SERVICE_PROCEDURE));
         }
 
         @Override
@@ -317,7 +317,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.PING_SERVICE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.PING_SERVICE_PROCEDURE));
         }
 
         @Override
@@ -339,7 +339,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.LOGIN_SERVICE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.LOGIN_SERVICE_PROCEDURE));
         }
 
         @Override
@@ -410,7 +410,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.VERSION_INFO_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.VERSION_INFO_PROCEDURE));
         }
 
         @Override
@@ -434,7 +434,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.OWNER_ITEM_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.OWNER_ITEM_PROCEDURE));
         }
 
         @Override
@@ -469,7 +469,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.XBINDEX_ITEM_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.XBINDEX_ITEM_PROCEDURE));
         }
 
         @Override
@@ -499,7 +499,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.ITEMSCOUNT_ITEM_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.ITEMSCOUNT_ITEM_PROCEDURE));
         }
 
         @Override
@@ -523,7 +523,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.ROOT_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.ROOT_NODE_PROCEDURE));
         }
 
         @Override
@@ -547,7 +547,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.ROOT_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.ROOT_PROCEDURE));
         }
 
         @Override
@@ -572,7 +572,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.SUBNODE_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.SUBNODE_NODE_PROCEDURE));
         }
 
         @Override
@@ -605,7 +605,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.SUBNODES_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.SUBNODES_NODE_PROCEDURE));
         }
 
         @Override
@@ -636,7 +636,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.SUBNODESCOUNT_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.SUBNODESCOUNT_NODE_PROCEDURE));
         }
 
         @Override
@@ -663,7 +663,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.SPEC_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.SPEC_NODE_PROCEDURE));
         }
 
         @Override
@@ -691,7 +691,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.SPECS_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.SPECS_NODE_PROCEDURE));
         }
 
         @Override
@@ -722,7 +722,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.FORMATSPEC_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.FORMATSPEC_NODE_PROCEDURE));
         }
 
         @Override
@@ -759,7 +759,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.FORMATSPECS_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.FORMATSPECS_NODE_PROCEDURE));
         }
 
         @Override
@@ -790,7 +790,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.GROUPSPEC_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.GROUPSPEC_NODE_PROCEDURE));
         }
 
         @Override
@@ -827,7 +827,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.GROUPSPECS_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.GROUPSPECS_NODE_PROCEDURE));
         }
 
         @Override
@@ -858,7 +858,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.BLOCKSPEC_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.BLOCKSPEC_NODE_PROCEDURE));
         }
 
         @Override
@@ -895,7 +895,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.BLOCKSPECS_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.BLOCKSPECS_NODE_PROCEDURE));
         }
 
         @Override
@@ -926,7 +926,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.FINDOWNER_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.FINDOWNER_NODE_PROCEDURE));
         }
 
         @Override
@@ -958,7 +958,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.PATHNODE_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.PATHNODE_NODE_PROCEDURE));
         }
 
         @Override
@@ -989,7 +989,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.FINDNODE_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.FINDNODE_NODE_PROCEDURE));
         }
 
         @Override
@@ -1023,7 +1023,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.MAXSUBNODE_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.MAXSUBNODE_NODE_PROCEDURE));
         }
 
         @Override
@@ -1050,7 +1050,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.FINDBLOCKSPEC_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.FINDBLOCKSPEC_NODE_PROCEDURE));
         }
 
         @Override
@@ -1087,7 +1087,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.MAXBLOCKSPEC_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.MAXBLOCKSPEC_NODE_PROCEDURE));
         }
 
         @Override
@@ -1114,7 +1114,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.FINDGROUPSPEC_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.FINDGROUPSPEC_NODE_PROCEDURE));
         }
 
         @Override
@@ -1151,7 +1151,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.MAXGROUPSPEC_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.MAXGROUPSPEC_NODE_PROCEDURE));
         }
 
         @Override
@@ -1178,7 +1178,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.FINDFORMATSPEC_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.FINDFORMATSPEC_NODE_PROCEDURE));
         }
 
         @Override
@@ -1215,7 +1215,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.MAXFORMATSPEC_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.MAXFORMATSPEC_NODE_PROCEDURE));
         }
 
         @Override
@@ -1242,7 +1242,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.SPECSCOUNT_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.SPECSCOUNT_NODE_PROCEDURE));
         }
 
         @Override
@@ -1269,7 +1269,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.BLOCKSPECSCOUNT_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.BLOCKSPECSCOUNT_NODE_PROCEDURE));
         }
 
         @Override
@@ -1296,7 +1296,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.GROUPSPECSCOUNT_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.GROUPSPECSCOUNT_NODE_PROCEDURE));
         }
 
         @Override
@@ -1323,7 +1323,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.FORMATSPECSCOUNT_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.FORMATSPECSCOUNT_NODE_PROCEDURE));
         }
 
         @Override
@@ -1350,7 +1350,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.NODESCOUNT_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.NODESCOUNT_NODE_PROCEDURE));
         }
 
         @Override
@@ -1374,7 +1374,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.SUBNODESEQ_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.SUBNODESEQ_NODE_PROCEDURE));
         }
 
         @Override
@@ -1407,7 +1407,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.SUBNODESEQCNT_NODE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.SUBNODESEQCNT_NODE_PROCEDURE));
         }
 
         @Override
@@ -1434,7 +1434,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.BIND_SPEC_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.BIND_SPEC_PROCEDURE));
         }
 
         @Override
@@ -1472,7 +1472,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.BINDS_SPEC_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.BINDS_SPEC_PROCEDURE));
         }
 
         @Override
@@ -1502,7 +1502,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.BINDSCOUNT_SPEC_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.BINDSCOUNT_SPEC_PROCEDURE));
         }
 
         @Override
@@ -1528,7 +1528,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.FINDBIND_SPEC_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.FINDBIND_SPEC_PROCEDURE));
         }
 
         @Override
@@ -1569,7 +1569,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.FINDREV_SPEC_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.FINDREV_SPEC_PROCEDURE));
         }
 
         @Override
@@ -1602,7 +1602,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.FORMATSPECSCOUNT_SPEC_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.FORMATSPECSCOUNT_SPEC_PROCEDURE));
         }
 
         @Override
@@ -1626,7 +1626,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.GROUPSPECSCOUNT_SPEC_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.GROUPSPECSCOUNT_SPEC_PROCEDURE));
         }
 
         @Override
@@ -1650,7 +1650,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.BLOCKSPECSCOUNT_SPEC_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.BLOCKSPECSCOUNT_SPEC_PROCEDURE));
         }
 
         @Override
@@ -1674,7 +1674,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.SPECSCOUNT_SPEC_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.SPECSCOUNT_SPEC_PROCEDURE));
         }
 
         @Override
@@ -1712,7 +1712,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.REVSCOUNT_SPEC_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.REVSCOUNT_SPEC_PROCEDURE));
         }
 
         @Override
@@ -1739,7 +1739,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.REV_SPEC_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.REV_SPEC_PROCEDURE));
         }
 
         @Override
@@ -1776,7 +1776,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.TARGET_BIND_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.TARGET_BIND_PROCEDURE));
         }
 
         @Override
@@ -1811,7 +1811,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.BINDSCOUNT_BIND_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.BINDSCOUNT_BIND_PROCEDURE));
         }
 
         @Override
@@ -1835,7 +1835,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.XBLIMIT_REV_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.XBLIMIT_REV_PROCEDURE));
         }
 
         @Override
@@ -1870,7 +1870,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.REVSCOUNT_REV_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.REVSCOUNT_REV_PROCEDURE));
         }
 
         @Override
@@ -1894,7 +1894,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.CODE_LANG_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.CODE_LANG_PROCEDURE));
         }
 
         @Override
@@ -1924,7 +1924,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.DEFAULT_LANG_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.DEFAULT_LANG_PROCEDURE));
         }
 
         @Override
@@ -1947,7 +1947,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.LANGS_LANG_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.LANGS_LANG_PROCEDURE));
         }
 
         @Override
@@ -1974,7 +1974,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.LANGSCOUNT_LANG_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.LANGSCOUNT_LANG_PROCEDURE));
         }
 
         @Override
@@ -1997,7 +1997,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.ITEM_NAME_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.ITEM_NAME_PROCEDURE));
         }
 
         @Override
@@ -2025,7 +2025,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.TEXT_NAME_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.TEXT_NAME_PROCEDURE));
         }
 
         @Override
@@ -2060,7 +2060,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.LANG_NAME_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.LANG_NAME_PROCEDURE));
         }
 
         @Override
@@ -2088,7 +2088,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.ITEMNAME_NAME_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.ITEMNAME_NAME_PROCEDURE));
         }
 
         @Override
@@ -2119,7 +2119,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.LANGNAME_NAME_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.LANGNAME_NAME_PROCEDURE));
         }
 
         @Override
@@ -2147,7 +2147,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.ITEMNAMES_NAME_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.ITEMNAMES_NAME_PROCEDURE));
         }
 
         @Override
@@ -2177,7 +2177,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.NAMESCOUNT_NAME_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.NAMESCOUNT_NAME_PROCEDURE));
         }
 
         @Override
@@ -2200,7 +2200,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.ITEM_DESC_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.ITEM_DESC_PROCEDURE));
         }
 
         @Override
@@ -2228,7 +2228,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.TEXT_DESC_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.TEXT_DESC_PROCEDURE));
         }
 
         @Override
@@ -2262,7 +2262,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.LANG_DESC_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.LANG_DESC_PROCEDURE));
         }
 
         @Override
@@ -2290,7 +2290,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.ITEMDESC_DESC_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.ITEMDESC_DESC_PROCEDURE));
         }
 
         @Override
@@ -2321,7 +2321,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.LANGNAME_DESC_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.LANGNAME_DESC_PROCEDURE));
         }
 
         @Override
@@ -2349,7 +2349,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.ITEMDESCS_DESC_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.ITEMDESCS_DESC_PROCEDURE));
         }
 
         @Override
@@ -2379,7 +2379,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.DESCSCOUNT_DESC_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.DESCSCOUNT_DESC_PROCEDURE));
         }
 
         @Override
@@ -2402,7 +2402,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.NODE_INFO_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.NODE_INFO_PROCEDURE));
         }
 
         @Override
@@ -2430,7 +2430,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.INFOSCOUNT_INFO_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.INFOSCOUNT_INFO_PROCEDURE));
         }
 
         @Override
@@ -2454,7 +2454,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.FILENAME_INFO_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.FILENAME_INFO_PROCEDURE));
         }
 
         @Override
@@ -2487,7 +2487,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.PATH_INFO_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.PATH_INFO_PROCEDURE));
         }
 
         @Override
@@ -2520,7 +2520,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.OWNER_FILE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.OWNER_FILE_PROCEDURE));
         }
 
         @Override
@@ -2545,7 +2545,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.FILENAME_FILE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.FILENAME_FILE_PROCEDURE));
         }
 
         @Override
@@ -2580,7 +2580,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.DATA_FILE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.DATA_FILE_PROCEDURE));
         }
 
         @Override
@@ -2609,7 +2609,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.OWNER_ICON_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.OWNER_ICON_PROCEDURE));
         }
 
         @Override
@@ -2635,7 +2635,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.MODE_ICON_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.MODE_ICON_PROCEDURE));
         }
 
         @Override
@@ -2661,7 +2661,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.XBINDEX_ICON_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.XBINDEX_ICON_PROCEDURE));
         }
 
         @Override
@@ -2687,7 +2687,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.DEFAULTITEM_ICON_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.DEFAULTITEM_ICON_PROCEDURE));
         }
 
         @Override
@@ -2719,7 +2719,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.FILE_ICON_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.FILE_ICON_PROCEDURE));
         }
 
         @Override
@@ -2754,7 +2754,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.OWNER_PLUGIN_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.OWNER_PLUGIN_PROCEDURE));
         }
 
         @Override
@@ -2780,7 +2780,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.FILE_PLUGIN_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.FILE_PLUGIN_PROCEDURE));
         }
 
         @Override
@@ -2815,7 +2815,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.INDEX_PLUGIN_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.INDEX_PLUGIN_PROCEDURE));
         }
 
         @Override
@@ -2841,7 +2841,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.LINEPLUGIN_PLUGIN_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.LINEPLUGIN_PLUGIN_PROCEDURE));
         }
 
         @Override
@@ -2867,7 +2867,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.LINEINDEX_PLUGIN_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.LINEINDEX_PLUGIN_PROCEDURE));
         }
 
         @Override
@@ -2893,7 +2893,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.PANEPLUGIN_PLUGIN_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.PANEPLUGIN_PLUGIN_PROCEDURE));
         }
 
         @Override
@@ -2919,7 +2919,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.PANEINDEX_PLUGIN_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.PANEINDEX_PLUGIN_PROCEDURE));
         }
 
         @Override
@@ -2945,7 +2945,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.REV_LINE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.REV_LINE_PROCEDURE));
         }
 
         @Override
@@ -2971,7 +2971,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.PLUGIN_LINE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.PLUGIN_LINE_PROCEDURE));
         }
 
         @Override
@@ -2997,7 +2997,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.PRIORITY_LINE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.PRIORITY_LINE_PROCEDURE));
         }
 
         @Override
@@ -3023,7 +3023,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.LINESCOUNT_LINE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.LINESCOUNT_LINE_PROCEDURE));
         }
 
         @Override
@@ -3047,7 +3047,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.REVLINE_LINE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.REVLINE_LINE_PROCEDURE));
         }
 
         @Override
@@ -3080,7 +3080,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.PLUGLINESCOUNT_LINE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.PLUGLINESCOUNT_LINE_PROCEDURE));
         }
 
         @Override
@@ -3104,7 +3104,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.PLUGLINE_LINE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.PLUGLINE_LINE_PROCEDURE));
         }
 
         @Override
@@ -3133,7 +3133,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.REV_PANE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.REV_PANE_PROCEDURE));
         }
 
         @Override
@@ -3159,7 +3159,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.PLUGIN_PANE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.PLUGIN_PANE_PROCEDURE));
         }
 
         @Override
@@ -3190,7 +3190,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.PRIORITY_PANE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.PRIORITY_PANE_PROCEDURE));
         }
 
         @Override
@@ -3216,7 +3216,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.PANESCOUNT_PANE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.PANESCOUNT_PANE_PROCEDURE));
         }
 
         @Override
@@ -3240,7 +3240,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.REVPANE_PANE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.REVPANE_PANE_PROCEDURE));
         }
 
         @Override
@@ -3273,7 +3273,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.PLUGPANESCOUNT_PANE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.PLUGPANESCOUNT_PANE_PROCEDURE));
         }
 
         @Override
@@ -3297,7 +3297,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.PLUGPANE_PANE_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.PLUGPANE_PANE_PROCEDURE));
         }
 
         @Override
@@ -3326,7 +3326,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.ITEM_STRI_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.ITEM_STRI_PROCEDURE));
         }
 
         @Override
@@ -3354,7 +3354,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.TEXT_STRI_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.TEXT_STRI_PROCEDURE));
         }
 
         @Override
@@ -3389,7 +3389,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.NODEPATH_STRI_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.NODEPATH_STRI_PROCEDURE));
         }
 
         @Override
@@ -3424,7 +3424,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.ITEMSTRI_STRI_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.ITEMSTRI_STRI_PROCEDURE));
         }
 
         @Override
@@ -3455,7 +3455,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.ITEMSTRIS_STRI_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.ITEMSTRIS_STRI_PROCEDURE));
         }
 
         @Override
@@ -3485,7 +3485,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public XBBlockType getType() {
-            return new XBDBlockType(new XBPBlockDecl(XBServiceClient.STRISCOUNT_STRI_PROCEDURE));
+            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.STRISCOUNT_STRI_PROCEDURE));
         }
 
         @Override

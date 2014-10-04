@@ -73,13 +73,13 @@ import org.xbup.tool.editor.base.api.MenuManagement;
 /**
  * XBManager Service Management Panel.
  *
- * @version 0.1.23 2013/09/26
+ * @version 0.1.24 2014/10/03
  * @author XBUP Project (http://xbup.org)
  */
 public class ServiceManagerPanel extends javax.swing.JPanel implements ApplicationPanel, ActivePanelActionHandling {
 
     private XBServiceClient service;
-    private CatalogBrowserPanel catalogPanel;
+    private final CatalogBrowserPanel catalogPanel;
     private MenuManagement menuManagement;
 
     /** Creates new form ServiceManagerPanel */
@@ -122,6 +122,20 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
     public void setService(XBServiceClient service) {
         this.service = service;
         if (service == null) {
+            String unknown = "unknown";
+            serviceVersionTextField.setText(unknown);
+            connectionHostTextField.setText(unknown);
+            connectionPortTextField.setText(unknown);
+            connectionProtocolTextField.setText(unknown);
+            serviceNameTextField.setText(unknown);
+            serviceNetworkIPTextField.setText(unknown);
+            managerNameTextField.setText(unknown);
+            managerNetworkIPTextField.setText(unknown);
+            managerSystemTextField.setText(unknown);
+            managerHardwareTextField.setText(unknown);
+            
+            getCatalogPanel().setCatalog(null);
+            
             return;
         }
 
@@ -189,6 +203,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
                 }
             }
         }
+
         getCatalogPanel().setCatalog(catalog);
     }
 
@@ -236,7 +251,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
 
     private class MutableTreeNode extends DefaultMutableTreeNode {
 
-        private String caption;
+        private final String caption;
 
         public MutableTreeNode(Object userObject, String caption) {
             super(userObject);
@@ -263,7 +278,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             if (lastPath != null) { // Colapse last relevant node
                 if (!lastPath.equals(itemPath)) {
                     if (itemPath.getPathCount()<=lastPath.getPathCount()) {
-                        ArrayList<Object> collapsePath = new ArrayList<Object>();
+                        ArrayList<Object> collapsePath = new ArrayList<>();
                         int i;
                         for (i = 0; i < itemPath.getPathCount(); i++) {
                             if (!itemPath.getPathComponent(i).equals(lastPath.getPathComponent(i))) {
@@ -422,7 +437,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             connectionInfoBorderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(connectionInfoBorderPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
+                .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         connectionInfoBorderPanelLayout.setVerticalGroup(
@@ -484,7 +499,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             serviceInfoBorderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(serviceInfoBorderPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
+                .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         serviceInfoBorderPanelLayout.setVerticalGroup(
@@ -566,7 +581,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             managerInfoBorderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(managerInfoBorderPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 510, Short.MAX_VALUE)
+                .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         managerInfoBorderPanelLayout.setVerticalGroup(
@@ -584,8 +599,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
                     .addComponent(managerInfoBorderPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(connectionInfoBorderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(serviceInfoPanelLabel)
-                    .addComponent(serviceInfoBorderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(serviceInfoBorderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         serviceInfoPanelLayout.setVerticalGroup(
             serviceInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -598,7 +612,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
                 .addComponent(serviceInfoBorderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(managerInfoBorderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(254, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         cardPanel.add(serviceInfoPanel, "info");
@@ -636,16 +650,16 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE))
+                        .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE))
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
-                        .addComponent(jCheckBox2, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE))
+                        .addComponent(jCheckBox2, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel15))
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jComboBox1, 0, 510, Short.MAX_VALUE)))
+                        .addComponent(jComboBox1, 0, 187, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
@@ -684,9 +698,9 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox3, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
+                    .addComponent(jCheckBox3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel16)
-                    .addComponent(jComboBox2, 0, 510, Short.MAX_VALUE))
+                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel12Layout.setVerticalGroup(
@@ -708,8 +722,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
                 .addContainerGap()
                 .addGroup(serviceStartupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         serviceStartupPanelLayout.setVerticalGroup(
             serviceStartupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -718,7 +731,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(371, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         cardPanel.add(serviceStartupPanel, "startup");
@@ -756,7 +769,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(286, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
@@ -792,14 +805,14 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                 .addContainerGap())
         );
 

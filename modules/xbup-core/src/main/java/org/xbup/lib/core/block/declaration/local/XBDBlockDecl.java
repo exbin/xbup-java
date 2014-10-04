@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.core.block.declaration.local;
 
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import java.io.IOException;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockType;
@@ -58,8 +59,8 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
 
     public boolean matchType(XBBlockType type) {
         // TODO: Process internal types
-        if (type instanceof XBDBlockType) {
-            return this.equals(((XBDBlockType) type).getBlockDecl());
+        if (type instanceof XBDeclBlockType) {
+            return this.equals(((XBDeclBlockType) type).getBlockDecl());
         }
         return false;
     }

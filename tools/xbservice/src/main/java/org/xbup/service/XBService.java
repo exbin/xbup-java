@@ -68,8 +68,8 @@ import org.xbup.lib.service.XBServiceServer;
  */
 public class XBService {
 
-    private static ResourceBundle myBundle = ResourceBundle.getBundle("org/xbup/service/messages");
-    private static Preferences preferences = Preferences.userNodeForPackage(XBService.class);
+    private static final ResourceBundle myBundle = ResourceBundle.getBundle("org/xbup/service/messages");
+    private static final Preferences preferences = Preferences.userNodeForPackage(XBService.class);
     private static boolean shallUpdate;
     private static boolean verboseMode;
     private static boolean rootCatalogMode;

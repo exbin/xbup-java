@@ -14,6 +14,14 @@ task run(type : JavaExec) {
    args appArgs
 }
 
+tasks.withType(JavaCompile) {
+    doFirst {
+        options.fork = true
+        options.bootClasspath = "${System.properties['java.home']}/lib/rt.jar"
+        options.bootClasspath += "$File.pathSeparator${System.properties['java.home']}/jre/lib/jsse.jar"
+    }
+}
+
 repositories {
     mavenCentral()
     flatDir {

@@ -16,8 +16,6 @@
  */
 package org.xbup.lib.core.parser.token.event;
 
-import org.xbup.lib.core.parser.token.event.XBEventListener;
-import org.xbup.lib.core.parser.token.event.XBEventWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -35,7 +33,6 @@ import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBEndToken;
 import org.xbup.lib.core.parser.token.XBToken;
-import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**

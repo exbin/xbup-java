@@ -18,7 +18,7 @@ package org.xbup.lib.operation.basic;
 
 import java.util.List;
 import org.xbup.lib.core.block.XBBlockDataMode;
-import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.XBTEditableDocument;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.core.ubnumber.UBNatural;
@@ -27,14 +27,14 @@ import org.xbup.lib.operation.XBTCommand;
 /**
  * Command for modifying block attributes.
  *
- * @version 0.1.20 2010/09/15
+ * @version 0.1.24 2014/10/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTModAttrBlockCommand implements XBTCommand {
 
     private String caption;
     private List<UBNatural> attrList;
-    private XBBlockType blockType;
+    private XBFixedBlockType blockType;
     private int position;
 
     public XBTModAttrBlockCommand(XBTTreeNode node, XBTTreeNode newNode) throws Exception {
@@ -46,7 +46,7 @@ public class XBTModAttrBlockCommand implements XBTCommand {
             throw new Exception("Unable to process data node");
         }
         attrList = newNode.getAttributes();
-        blockType = newNode.getBlockType();
+        blockType = newNode.getFixedBlockType();
         position = node.getBlockIndex();
     }
 
@@ -65,7 +65,7 @@ public class XBTModAttrBlockCommand implements XBTCommand {
         XBTTreeNode node = (XBTTreeNode) document.findNodeByIndex(position);
         List<UBNatural> newList = node.getAttributes();
         node.setAttributes(attrList);
-        node.setBlockType(blockType);
+        node.setFixedBlockType(blockType);
         attrList = newList;
     }
 

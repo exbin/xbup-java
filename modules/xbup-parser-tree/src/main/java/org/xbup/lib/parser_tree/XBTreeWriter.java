@@ -33,19 +33,17 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Basic object model parser XBUP level 0 document block / tree node.
  *
- * @version 0.1.23 2014/02/11
+ * @version 0.1.24 2014/10/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeWriter implements XBProvider {
 
     private final XBTreeNode source;
-    private final boolean recursive;
     XBProducer subProducer = null;
     private int position;
 
-    public XBTreeWriter(XBTreeNode source, boolean recursive) {
+    public XBTreeWriter(XBTreeNode source) {
         this.source = source;
-        this.recursive = recursive;
     }
 
     public void produceXB(XBListener listener, boolean recursive) throws XBProcessingException, IOException {
@@ -75,20 +73,9 @@ public class XBTreeWriter implements XBProvider {
         pos -= source.getAttributes().size();
         if (pos < source.getChildCount()) {
             if (subProducer == null) {
-                subProducer = (XBProducer) source.getChildAt(pos).convertToXBR(recursive);
+                subProducer = (XBProducer) new XBTreeWriter(source.getChildAt(pos));
                 XBDefaultFilter filter = new XBDefaultFilter();
                 filter.attachXBListener(listener);
-                /* TODO filter.attachXBTriger(new XBTrigger() {
-                 @Override
-                 public void produceXB() {
-                 MyXBProducer.this.produceXB();
-                 }
-
-                 @Override
-                 public boolean eofXB() {
-                 return eofXB();
-                 }
-                 }); */
             }
 
             ((XBTreeWriter) subProducer).produceXB(listener);

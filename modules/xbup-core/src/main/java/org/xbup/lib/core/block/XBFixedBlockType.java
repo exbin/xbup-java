@@ -22,7 +22,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Block type defined as fixed group and block indexes.
  *
- * @version 0.1.24 2014/10/02
+ * @version 0.1.24 2014/10/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBFixedBlockType implements XBFBlockType {
@@ -92,5 +92,9 @@ public class XBFixedBlockType implements XBFBlockType {
         hash = 29 * hash + (this.groupID != null ? this.groupID.hashCode() : 0);
         hash = 29 * hash + (this.blockID != null ? this.blockID.hashCode() : 0);
         return hash;
+    }
+
+    public int getSizeUB() {
+        return groupID.getSizeUB() + blockID.getSizeUB();
     }
 }

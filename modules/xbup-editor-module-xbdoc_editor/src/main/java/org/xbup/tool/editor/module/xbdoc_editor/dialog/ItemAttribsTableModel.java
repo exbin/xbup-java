@@ -27,7 +27,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Attributes list table model for item editing.
  *
- * @version 0.1.24 2014/10/03
+ * @version 0.1.24 2014/10/07
  * @author XBUP Project (http://xbup.org)
  */
 public class ItemAttribsTableModel extends AbstractTableModel {
@@ -118,14 +118,11 @@ public class ItemAttribsTableModel extends AbstractTableModel {
     }
 
     public int getAttribute(int index) {
-        if (attributes.size() <= index) {
+        if (index >= attributes.size()) {
             return 0;
         }
+
         UBNat32 attribute = (UBNat32) attributes.get(index);
-        if (attribute != null) {
-            return attribute.getInt();
-        } else {
-            return 0;
-        }
+        return attribute != null ? attribute.getInt() : 0;
     }
 }

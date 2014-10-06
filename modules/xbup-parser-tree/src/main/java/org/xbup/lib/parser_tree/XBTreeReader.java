@@ -142,6 +142,7 @@ public class XBTreeReader implements XBListener {
 
         if (parserState == XBParserState.BLOCK_BEGIN) {
             parserState = XBParserState.DATA_PART;
+            target.setDataMode(XBBlockDataMode.DATA_BLOCK);
             target.setData(data);
         } else {
             throw new XBParseException("Unexpected data event");

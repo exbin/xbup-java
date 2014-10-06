@@ -34,7 +34,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 convertor from tokens to tree node.
  *
- * @version 0.1.23 2014/02/20
+ * @version 0.1.24 2014/10/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTreeReader implements XBTListener {
@@ -60,7 +60,7 @@ public class XBTTreeReader implements XBTListener {
     @Override
     public void beginXBT(XBBlockTerminationMode terminationMode) throws XBParseException, IOException {
         if (finished) {
-            throw new XBParseException("Block already parsed");
+            throw new XBParseException("Block already parsed", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
         if ((!recursive) && (!skipNode.isClosed())) {
@@ -84,7 +84,7 @@ public class XBTTreeReader implements XBTListener {
             parserState = XBParserState.BLOCK_BEGIN;
         } else if (parserState == XBParserState.ATTRIBUTE_PART) {
             if (!recursive) {
-                throw new XBParseException("Parser nonvalid state");
+                throw new XBParseException("Parser nonvalid state", XBProcessingExceptionType.UNKNOWN);
             }
             if (target.getChildren() == null) {
                 target.setChildren(new ArrayList<XBTBlock>());
@@ -96,7 +96,7 @@ public class XBTTreeReader implements XBTListener {
             target = node;
             parserState = XBParserState.START;
         } else {
-            throw new XBParseException("Unexpected block begin event");
+            throw new XBParseException("Unexpected block begin event", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
     }
 
@@ -108,7 +108,7 @@ public class XBTTreeReader implements XBTListener {
     @Override
     public void attribXBT(UBNatural value) throws XBParseException, IOException {
         if (finished) {
-            throw new XBParseException("Block already parsed");
+            throw new XBParseException("Block already parsed", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
         if ((!recursive) && (!skipNode.isClosed())) {
@@ -126,14 +126,14 @@ public class XBTTreeReader implements XBTListener {
         if (parserState == XBParserState.ATTRIBUTE_PART) {
             target.getAttributes().add(new UBNat32(value));
         } else {
-            throw new XBParseException("Unexpected attribute event");
+            throw new XBParseException("Unexpected attribute event", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
     }
 
     @Override
     public void dataXBT(InputStream data) throws XBParseException, IOException {
         if (finished) {
-            throw new XBParseException("Block already parsed");
+            throw new XBParseException("Block already parsed", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
         if ((!recursive) && (!skipNode.isClosed())) {
@@ -145,14 +145,14 @@ public class XBTTreeReader implements XBTListener {
             parserState = XBParserState.DATA_PART;
             target.setData(data);
         } else {
-            throw new XBParseException("Unexpected data event");
+            throw new XBParseException("Unexpected data event", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
     }
 
     @Override
     public void endXBT() throws XBParseException, IOException {
         if (finished) {
-            throw new XBParseException("Block already parsed");
+            throw new XBParseException("Block already parsed", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
         if ((!recursive) && (!skipNode.isClosed())) {

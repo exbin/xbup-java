@@ -53,7 +53,7 @@ public class XBTreeDocumentTest extends TestCase {
     }
 
     /**
-     * Test of open method, of class XBPullReader.
+     * Test of open method, of class XBTreeDocument.
      * 
      * @throws java.lang.Exception
      */

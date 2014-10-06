@@ -24,10 +24,11 @@ import org.xbup.lib.core.parser.token.event.XBEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBListenerToEventListener;
 import org.xbup.lib.parser_tree.XBTreeNode;
 import org.xbup.lib.core.stream.XBTokenOutputStream;
+import org.xbup.lib.parser_tree.XBTreeReader;
 
 /**
  * Object model parser stream receiver.
- * 
+ *
  * TODO: Clear Listener/EventListener connection later
  *
  * @version 0.1.16 2008/08/02
@@ -39,10 +40,9 @@ public class XBOMOutputStream extends XBTokenOutputStream {
     private XBListener treeNodeListener;
     private XBEventListener treeNodeEventListener;
 
-    /** Creates a new instance of XBOMOutputStream */
     public XBOMOutputStream(XBTreeNode treeNode) {
         this.treeNode = treeNode;
-        this.treeNodeListener = treeNode.convertFromXB();
+        this.treeNodeListener = new XBTreeReader(treeNode, true);
         this.treeNodeEventListener = new XBListenerToEventListener(treeNodeListener);
     }
 

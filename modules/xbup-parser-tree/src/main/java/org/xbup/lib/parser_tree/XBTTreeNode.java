@@ -321,7 +321,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
 
             // Write attributes
             if (getAttributesCount() > 0) {
-                Iterator<UBNatural> iter = getAttributes().iterator();
+                Iterator<UBNatural> iter = attributes.iterator();
                 while (iter.hasNext()) {
                     size += iter.next().toStreamUB(stream);
                 }
@@ -384,7 +384,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             size += attrSize.getSizeUB();
             size += childrenSize.getSizeUB();
             if (getAttributesCount() > 0) {
-                Iterator<UBNatural> iter = getAttributes().iterator();
+                Iterator<UBNatural> iter = attributes.iterator();
                 while (iter.hasNext()) {
                     size += iter.next().getSizeUB();
                 }
@@ -492,6 +492,8 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         node.setBlockDecl(blockDecl);
         node.setFixedBlockType(blockType);
         node.setSingleAttributeType(singleAttributeType);
+        node.setDataMode(dataMode);
+
         if (data != null) {
             node.data = data.clone();
         }
@@ -502,8 +504,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
 
         if (children != null) {
             List<XBTBlock> cloneChildren = new ArrayList<>();
-            for (int i = 0; i < children.size(); i++) {
-                XBTBlock block = children.get(i);
+            for (XBTBlock block : children) {
                 if (recursive) {
                     cloneChildren.add(((XBTTreeNode) block).cloneNode(true));
                 } else {
@@ -513,8 +514,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             
             node.setChildren(cloneChildren);
         }
-// TODO        node.attributes = (ArrayList<UBNumber>) attributes.clone();
-// TODO        if (recursive) node.children = (ArrayList<XBTTreeNode>) children.clone();
+
         return node;
     }
 

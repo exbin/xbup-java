@@ -302,7 +302,6 @@
               <ResourceString bundle="org/xbup/tool/xbeditor/module/mainframe/resources/MainFrame.properties" key="editMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="editMenu" noResource="true"/>
-            <Property name="rolloverEnabled" type="boolean" value="true"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="editUndoMenuItem">

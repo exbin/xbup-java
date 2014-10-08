@@ -61,40 +61,39 @@ public class XBPropertyTableCellRenderer extends javax.swing.JPanel implements T
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        editParameterButton = new javax.swing.JButton();
+        parameterTextField = new javax.swing.JTextField();
 
         setName("Form"); // NOI18N
         setLayout(new java.awt.BorderLayout());
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTableCellRenderer"); // NOI18N
-        jButton1.setText(bundle.getString("jButton1.text")); // NOI18N
-        jButton1.setName("jButton1"); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        editParameterButton.setText(bundle.getString("jButton1.text")); // NOI18N
+        editParameterButton.setName("editParameterButton"); // NOI18N
+        editParameterButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                editParameterButtonActionPerformed(evt);
             }
         });
-        add(jButton1, java.awt.BorderLayout.EAST);
+        add(editParameterButton, java.awt.BorderLayout.EAST);
 
-        jTextField1.setEditable(false);
-        jTextField1.setText(bundle.getString("jTextField1.text")); // NOI18N
-        jTextField1.setName("jTextField1"); // NOI18N
-        add(jTextField1, java.awt.BorderLayout.CENTER);
+        parameterTextField.setEditable(false);
+        parameterTextField.setText(bundle.getString("jTextField1.text")); // NOI18N
+        parameterTextField.setName("parameterTextField"); // NOI18N
+        add(parameterTextField, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void editParameterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editParameterButtonActionPerformed
         XBPropertyDialog propertyDialog = new XBPropertyDialog(getFrame(), true);
         propertyDialog.setCatalog(catalog);
         propertyDialog.setLocationRelativeTo(propertyDialog.getParent());
-        XBTTreeDocument document = propertyDialog.getDocumentPanel().getDoc();
 
         XBTTreeNode newNode = (XBTTreeNode) node.getParam(catalog, getParamIndex());
-        document.setRootBlock(newNode);
+        propertyDialog.setRootBlock(newNode);
         propertyDialog.getDocumentPanel().reportStructureChange(newNode);
         propertyDialog.getDocumentPanel().updateItem();
         propertyDialog.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_editParameterButtonActionPerformed
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -103,8 +102,8 @@ public class XBPropertyTableCellRenderer extends javax.swing.JPanel implements T
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton editParameterButton;
+    private javax.swing.JTextField parameterTextField;
     // End of variables declaration//GEN-END:variables
 
     @Override

@@ -94,9 +94,6 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
     private PropertyChangeListener propertyChangeListener;
     private final XBDocEditorFrame mainFrame;
 
-    /**
-     * Creates new panel XBDocTreePanel.
-     */
     public XBDocumentPanel(XBDocEditorFrame mainFrame, XBACatalog catalog) {
         this.mainFrame = mainFrame;
         mode = PanelMode.TREE;

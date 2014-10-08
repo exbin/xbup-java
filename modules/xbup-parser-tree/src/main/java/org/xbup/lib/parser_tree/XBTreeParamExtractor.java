@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBTBlock;
-import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.param.XBParamDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.parser.XBProcessingException;

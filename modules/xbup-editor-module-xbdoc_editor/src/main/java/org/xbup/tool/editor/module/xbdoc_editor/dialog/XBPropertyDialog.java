@@ -17,12 +17,13 @@
 package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 
 import javax.swing.JPopupMenu;
+import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.tool.editor.module.xbdoc_editor.panel.XBDocumentPanel;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
 
 /**
- * Property dialog.
+ * Document node property dialog.
  *
  * @version 0.1.23 2013/09/23
  * @author XBUP Project (http://xbup.org)
@@ -30,10 +31,9 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
 public class XBPropertyDialog extends javax.swing.JDialog {
 
     private XBACatalog catalog;
-    private XBDocumentPanel documentPanel;
+    private final XBDocumentPanel documentPanel;
     private JPopupMenu popupMenu;
 
-    /** Creates new form XBPropertyDialog */
     public XBPropertyDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -161,40 +161,29 @@ public class XBPropertyDialog extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
-    /**
-     * @return the catalog
-     */
     public XBACatalog getCatalog() {
         return catalog;
     }
 
-    /**
-     * @param catalog the catalog to set
-     */
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
         documentPanel.setCatalog(catalog);
     }
 
-    /**
-     * @return the documentPanel
-     */
     public XBDocumentPanel getDocumentPanel() {
         return documentPanel;
     }
 
-    /**
-     * @return the popupMenu
-     */
     public JPopupMenu getPopupMenu() {
         return popupMenu;
     }
 
-    /**
-     * @param popupMenu the popupMenu to set
-     */
     public void setPopupMenu(JPopupMenu popupMenu) {
         this.popupMenu = popupMenu;
         documentPanel.setPopupMenu(popupMenu);
+    }
+    
+    public void setRootBlock(XBTBlock node) {
+        documentPanel.getDoc().setRootBlock(node);
     }
 }

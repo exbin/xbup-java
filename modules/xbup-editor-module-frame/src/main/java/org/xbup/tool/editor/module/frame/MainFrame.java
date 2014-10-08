@@ -1037,44 +1037,26 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
             this.fileMode = fileMode;
         }
 
-        /**
-         * @return the path
-         */
         public String getPath() {
             return path;
         }
 
-        /**
-         * @param path the path to set
-         */
         public void setPath(String path) {
             this.path = path;
         }
 
-        /**
-         * @return the fileMode
-         */
         public String getFileMode() {
             return fileMode;
         }
 
-        /**
-         * @param fileMode the fileMode to set
-         */
         public void setFileMode(String fileMode) {
             this.fileMode = fileMode;
         }
 
-        /**
-         * @return the moduleName
-         */
         public String getModuleName() {
             return moduleName;
         }
 
-        /**
-         * @param moduleName the moduleName to set
-         */
         public void setModuleName(String moduleName) {
             this.moduleName = moduleName;
         }

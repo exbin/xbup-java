@@ -25,12 +25,16 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
@@ -65,7 +69,7 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
 /**
  * Dialog for modifying item attributes or data.
  *
- * @version 0.1.24 2014/10/07
+ * @version 0.1.24 2014/10/08
  * @author XBUP Project (http://xbup.org)
  */
 public class ItemModifyDialog extends javax.swing.JDialog {
@@ -100,6 +104,14 @@ public class ItemModifyDialog extends javax.swing.JDialog {
         attributesEditorPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(attributesEditorPanel));
         dataEditorPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(dataEditorPanel));
         paramEditorPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(paramEditorPanel));
+        
+        attributesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                removeButton.setEnabled(attributesTable.getSelectedRowCount() > 0);
+            }
+        });
     }
 
     /**
@@ -115,7 +127,6 @@ public class ItemModifyDialog extends javax.swing.JDialog {
         attributesEditorPanel = new javax.swing.JPanel();
         attributesScrollPane = new javax.swing.JScrollPane();
         attributesTable = new javax.swing.JTable();
-        modifyButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
         addButton = new javax.swing.JButton();
         dataEditorPanel = new javax.swing.JPanel();
@@ -137,22 +148,18 @@ public class ItemModifyDialog extends javax.swing.JDialog {
             }
         });
 
-        paramEditorPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("paramEditorPanel.border.title"))); // NOI18N
-
         org.jdesktop.layout.GroupLayout paramEditorPanelLayout = new org.jdesktop.layout.GroupLayout(paramEditorPanel);
         paramEditorPanel.setLayout(paramEditorPanelLayout);
         paramEditorPanelLayout.setHorizontalGroup(
             paramEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 574, Short.MAX_VALUE)
+            .add(0, 597, Short.MAX_VALUE)
         );
         paramEditorPanelLayout.setVerticalGroup(
             paramEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 350, Short.MAX_VALUE)
+            .add(0, 382, Short.MAX_VALUE)
         );
 
-        mainTabbedPane.addTab(bundle.getString("paramEditorPanel.title"), paramEditorPanel); // NOI18N
-
-        attributesEditorPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("attributesPanel.border.title"))); // NOI18N
+        mainTabbedPane.addTab(bundle.getString("paramEditorPanel.title"), null, paramEditorPanel, "List of parameters on level 1"); // NOI18N
 
         attributesTable.setModel(tableModel);
         attributesTable.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -162,9 +169,6 @@ public class ItemModifyDialog extends javax.swing.JDialog {
         });
         attributesScrollPane.setViewportView(attributesTable);
         attributesTable.getAccessibleContext().setAccessibleName("AttributeTable");
-
-        modifyButton.setText(bundle.getString("modifyButton.text")); // NOI18N
-        modifyButton.setEnabled(false);
 
         removeButton.setText(bundle.getString("removeButton.text")); // NOI18N
         removeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -184,29 +188,30 @@ public class ItemModifyDialog extends javax.swing.JDialog {
         attributesEditorPanel.setLayout(attributesEditorPanelLayout);
         attributesEditorPanelLayout.setHorizontalGroup(
             attributesEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, attributesEditorPanelLayout.createSequentialGroup()
+            .add(attributesEditorPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(attributesScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(attributesEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                    .add(removeButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(addButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(modifyButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(attributesEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(attributesScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
+                    .add(attributesEditorPanelLayout.createSequentialGroup()
+                        .add(addButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(removeButton)
+                        .add(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         attributesEditorPanelLayout.setVerticalGroup(
             attributesEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(attributesEditorPanelLayout.createSequentialGroup()
-                .add(addButton)
+                .addContainerGap()
+                .add(attributesScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(removeButton)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(modifyButton)
-                .addContainerGap(269, Short.MAX_VALUE))
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, attributesScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .add(attributesEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(addButton)
+                    .add(removeButton))
+                .addContainerGap())
         );
 
-        mainTabbedPane.addTab(bundle.getString("attributesEditorPanel.title"), attributesEditorPanel); // NOI18N
+        mainTabbedPane.addTab(bundle.getString("attributesEditorPanel.title"), null, attributesEditorPanel, "List of attributes on level 0"); // NOI18N
 
         dataLabel.setText(bundle.getString("dataLabel.text")); // NOI18N
 
@@ -287,12 +292,12 @@ public class ItemModifyDialog extends javax.swing.JDialog {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(cancelButton)
                 .addContainerGap())
-            .add(mainTabbedPane)
+            .add(mainTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .add(mainTabbedPane)
+                .add(mainTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(cancelButton)
@@ -312,20 +317,17 @@ public class ItemModifyDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-        int index = attributes.size();
-        if (index > 1) {
-            attributes.remove((int) (index - 1));
-            if (index == 2) {
-                removeButton.setEnabled(false);
-            }
+        int[] selectedRows = attributesTable.getSelectedRows();
+        Arrays.sort(selectedRows);
+        for (int index = selectedRows.length - 1; index >= 0; index--) {
+            attributes.remove(selectedRows[index]);
         }
-
+        
+        attributesTable.clearSelection();
         attributesTable.revalidate();
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-        
-        setVisible(false);
         if (dataMode == XBBlockDataMode.DATA_BLOCK) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             try {
@@ -356,6 +358,11 @@ public class ItemModifyDialog extends javax.swing.JDialog {
                     Logger.getLogger(ItemModifyDialog.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
+                if (attributes.isEmpty()) {
+                    JOptionPane.showMessageDialog(customPanel, "There must be at least one attribute", "Attribute Needed", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 newNode = srcNode.cloneNode();
                 newNode.setAttributesCount(0);
                 
@@ -456,7 +463,6 @@ public class ItemModifyDialog extends javax.swing.JDialog {
     private javax.swing.JPanel hexEditPanel;
     private javax.swing.JButton loadFromButton;
     private javax.swing.JTabbedPane mainTabbedPane;
-    private javax.swing.JButton modifyButton;
     private javax.swing.JButton okButton;
     private javax.swing.JPanel paramEditorPanel;
     private javax.swing.JButton removeButton;

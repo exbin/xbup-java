@@ -30,7 +30,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -82,8 +81,8 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
     private Object highlight;
     private Color foundTextBackgroundColor;
     private Charset charset;
-    private Font defaultFont;
-    private Color[] defaultColors;
+    private final Font defaultFont;
+    private final Color[] defaultColors;
     private PropertyChangeListener propertyChangeListener;
     private MainFrameManagement mainFrameManagement;
 
@@ -351,12 +350,28 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
     public void loadFromFile() {
         File file = new File(getFileName());
         try {
-            XBFileInputStream fileStream = new XBFileInputStream(file);
-            if (XBTextEditorFrame.XBT_FILE_TYPE.equals(fileType.getFileTypeId())) { // Process XB header
-                XBChildInputSerialHandler handler = new XBChildProviderSerialHandler();
-                handler.attachXBPullProvider(fileStream);
-                new XBL0TextPanelSerializable().serializeFromXB(handler);
+            switch (fileType.getFileTypeId()) {
+                case XBTextEditorFrame.XBT_FILE_TYPE: {
+                    XBFileInputStream fileStream = new XBFileInputStream(file);
+                    XBChildInputSerialHandler handler = new XBChildProviderSerialHandler();
+                    handler.attachXBPullProvider(fileStream);
+                    new XBL0TextPanelSerializable().serializeFromXB(handler);
+                    break;
+                }
+                case XBTextEditorFrame.TXT_FILE_TYPE: {
+                    XBFileInputStream fileStream = new XBFileInputStream(file);
+                    int gotChars;
+                    char[] buffer = new char[32];
+                    StringBuilder data = new StringBuilder();
+                    BufferedReader rdr = new BufferedReader(new InputStreamReader(fileStream.getSource(), charset));
+                    while ((gotChars = rdr.read(buffer)) != -1) {
+                        data.append(buffer, 0, gotChars);
+                    }
+                    textArea.setText(data.toString());
+                    break;
+                }
             }
+
             setModified(false);
         } catch (XBProcessingException ex) {
             Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -371,17 +386,30 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
     public void saveToFile() {
         File file = new File(getFileName());
         try {
-            
-            if (XBTextEditorFrame.XBT_FILE_TYPE.equals(fileType.getFileTypeId())) { // Process XB header
-                XBFileOutputStream fileStream = new XBFileOutputStream(file);
-                XBChildListenerSerialHandler handler = new XBChildListenerSerialHandler();
-                handler.attachXBEventListener(fileStream);
-                new XBL0TextPanelSerializable().serializeToXB(handler);
-            } else if (XBTextEditorFrame.TXT_FILE_TYPE.equals(fileType.getFileTypeId())) {
-                try (BufferedWriter fileOut = new BufferedWriter(new FileWriter(file))) {
-                    textArea.write(fileOut);
+            switch (fileType.getFileTypeId()) {
+                case XBTextEditorFrame.XBT_FILE_TYPE: {
+                    XBFileOutputStream fileStream = new XBFileOutputStream(file);
+                    XBChildListenerSerialHandler handler = new XBChildListenerSerialHandler();
+                    handler.attachXBEventListener(fileStream);
+                    new XBL0TextPanelSerializable().serializeToXB(handler);
+                    break;
+                }
+                case XBTextEditorFrame.TXT_FILE_TYPE: {
+                    XBFileOutputStream fileStream = new XBFileOutputStream(file);
+                    String text = textArea.getText();
+                    try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileStream.getTarget(), charset))) {
+                        int fileLength = text.length();
+                        int offset = 0;
+                        while (offset < fileLength) {
+                            int length = Math.min(1024, fileLength - offset);
+                            writer.write(text, offset, length);
+                            offset += length;
+                        }
+                    }
+                    break;
                 }
             }
+
             setModified(false);
         } catch (XBProcessingException ex) {
             Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);

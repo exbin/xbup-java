@@ -441,15 +441,13 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
             result.append("]\n");
         } else {
             result.append("<").append(getCaption(node));
-            if (node.getAttributes()!=null) {
-                if (node.getAttributesCount()>2) {
-                    Iterator it = node.getAttributes().iterator();
-                    int i = 1;
-                    for (;it.hasNext();) {
-                        UBNat32 attr = (UBNat32) it.next();
-                        result.append(" ").append(i).append("=\"").append(attr.getLong()).append("\"");
-                        i++;
-                    }
+            if (node.getAttributesCount()>2) {
+                Iterator attributesIterator = node.getAttributes().iterator();
+                int i = 1;
+                for (;attributesIterator.hasNext();) {
+                    UBNat32 attr = (UBNat32) attributesIterator.next();
+                    result.append(" ").append(i).append("=\"").append(attr.getLong()).append("\"");
+                    i++;
                 }
             }
 

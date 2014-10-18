@@ -72,8 +72,8 @@ public class XBTreeWriterTest extends TestCase {
         try {
             XBTreeNode node = new XBTreeNode();
             node.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-            node.getAttributes().add(new UBNat32(1));
-            node.getAttributes().add(new UBNat32(2));
+            node.addAttribute(new UBNat32(1));
+            node.addAttribute(new UBNat32(2));
 
             XBTreeWriter treeWriter = new XBTreeWriter(node);
             XBEventWriter writer = new XBEventWriter(target);
@@ -97,7 +97,7 @@ public class XBTreeWriterTest extends TestCase {
 
         XBTreeNode node = new XBTreeNode();
         node.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        node.getAttributes().add(new UBNat32(0));
+        node.addAttribute(new UBNat32(0));
 
         XBTreeWriter treeWriter = new XBTreeWriter(node);
         XBEventWriter writer = new XBEventWriter(target);
@@ -141,10 +141,10 @@ public class XBTreeWriterTest extends TestCase {
 
         XBTreeNode node = new XBTreeNode();
         node.setTerminationMode(XBBlockTerminationMode.TERMINATED_BY_ZERO);
-        node.getAttributes().add(new UBNat32(0));
-        node.getAttributes().add(new UBNat32(0));
-        node.getAttributes().add(new UBNat32(1));
-        node.getAttributes().add(new UBNat32(2));
+        node.addAttribute(new UBNat32(0));
+        node.addAttribute(new UBNat32(0));
+        node.addAttribute(new UBNat32(1));
+        node.addAttribute(new UBNat32(2));
 
         XBTreeWriter treeWriter = new XBTreeWriter(node);
         XBEventWriter writer = new XBEventWriter(target);
@@ -165,17 +165,17 @@ public class XBTreeWriterTest extends TestCase {
 
         XBTreeNode rootNode = new XBTreeNode();
         rootNode.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        rootNode.getAttributes().add(new UBNat32(0));
+        rootNode.addAttribute(new UBNat32(0));
 
         XBTreeNode node1 = new XBTreeNode(rootNode);
         rootNode.getChildren().add(node1);
         node1.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        node1.getAttributes().add(new UBNat32(0));
+        node1.addAttribute(new UBNat32(0));
 
         XBTreeNode node2 = new XBTreeNode(node1);
         node1.getChildren().add(node2);
         node2.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        node2.getAttributes().add(new UBNat32(0));
+        node2.addAttribute(new UBNat32(0));
 
         XBTreeNode node3 = new XBTreeNode(node2);
         node2.getChildren().add(node3);
@@ -188,16 +188,16 @@ public class XBTreeWriterTest extends TestCase {
         XBTreeNode node4 = new XBTreeNode(rootNode);
         rootNode.getChildren().add(node4);
         node4.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        node4.getAttributes().add(new UBNat32(0));
+        node4.addAttribute(new UBNat32(0));
 
         XBTreeNode node5 = new XBTreeNode(node4);
         node4.getChildren().add(node5);
         node5.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        node5.getAttributes().add(new UBNat32(0));
-        node5.getAttributes().add(new UBNat32(0));
-        node5.getAttributes().add(new UBNat32(1));
-        node5.getAttributes().add(new UBNat32(2));
-        node5.getAttributes().add(new UBNat32(3));
+        node5.addAttribute(new UBNat32(0));
+        node5.addAttribute(new UBNat32(0));
+        node5.addAttribute(new UBNat32(1));
+        node5.addAttribute(new UBNat32(2));
+        node5.addAttribute(new UBNat32(3));
 
         XBTreeWriter treeWriter = new XBTreeWriter(rootNode);
         XBEventWriter writer = new XBEventWriter(target);

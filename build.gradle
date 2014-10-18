@@ -11,3 +11,6 @@ task zip(type:Zip) {
    from project.rootDir
    include 'readme.txt', 'lgpl-3.0.txt', 'gpl-3.0.txt'
 }
+
+// Disable tests on build
+check.dependsOn.remove(test)

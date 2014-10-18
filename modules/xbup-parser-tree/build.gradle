@@ -20,6 +20,9 @@ repositories {
     mavenCentral()
 }
 
+// Disable tests on build
+check.dependsOn.remove(test)
+
 dependencies {
     compile(project(':modules:xbup-core'))
     compile group: 'org.springframework', name: 'spring-core', version: '4.0.5.RELEASE'

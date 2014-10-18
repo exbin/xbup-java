@@ -18,6 +18,7 @@ package org.xbup.lib.parser_tree;
 
 import java.io.IOException;
 import org.xbup.lib.core.block.XBBlockDataMode;
+import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.parser.XBParserState;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
@@ -34,13 +35,13 @@ import org.xbup.lib.core.parser.basic.XBTProvider;
  */
 public class XBTTreeWriter implements XBTProvider {
 
-    private final XBTTreeNode source;
+    private final XBTBlock source;
     private XBTTreeWriter subProducer = null;
     private int attrPosition = 0;
     private int childPosition = 0;
     private XBParserState state = XBParserState.BLOCK_BEGIN;
 
-    public XBTTreeWriter(XBTTreeNode source) {
+    public XBTTreeWriter(XBTBlock source) {
         this.source = source;
     }
 

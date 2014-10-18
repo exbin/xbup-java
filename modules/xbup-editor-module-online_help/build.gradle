@@ -23,6 +23,9 @@ repositories {
     }
 }
 
+// Disable tests on build
+check.dependsOn.remove(test)
+
 dependencies {
     compile(project(":modules:xbup-editor-base-api"))
 

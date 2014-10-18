@@ -20,6 +20,9 @@ repositories {
     mavenCentral()
 }
 
+// Disable tests on build
+check.dependsOn.remove(test)
+
 dependencies {
     testCompile group : 'junit', name: 'junit', version: '4.10'
 }

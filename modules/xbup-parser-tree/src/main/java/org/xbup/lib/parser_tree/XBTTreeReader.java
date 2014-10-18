@@ -71,9 +71,7 @@ public class XBTTreeReader implements XBTListener {
         if (parserState == XBParserState.START) {
             if (!recursive) {
                 if (target.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
-                    if (target.getAttributes() != null) {
-                        target.getAttributes().clear();
-                    }
+                    target.setAttributesCount(0);
                 } else {
                     target.setData(null);
                 }
@@ -117,14 +115,12 @@ public class XBTTreeReader implements XBTListener {
         }
 
         if (parserState == XBParserState.BLOCK_BEGIN) {
-            if (target.getAttributes() == null) {
-                target.setAttributes(new ArrayList<UBNatural>());
-            }
+            target.setAttributesCount(0);
             parserState = XBParserState.ATTRIBUTE_PART;
         }
 
         if (parserState == XBParserState.ATTRIBUTE_PART) {
-            target.getAttributes().add(new UBNat32(value));
+            target.addAttribute(new UBNat32(value));
         } else {
             throw new XBParseException("Unexpected attribute event", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }

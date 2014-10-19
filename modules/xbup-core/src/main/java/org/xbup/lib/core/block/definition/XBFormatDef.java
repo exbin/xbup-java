@@ -31,16 +31,16 @@ public interface XBFormatDef {
     /**
      * @return the consistSkip
      */
-    UBNatural getConsistSkip();
+    public UBNatural getConsistSkip();
 
     /**
      * @return the formats
      */
-    List<XBDFormatDecl> getFormats();
+    public List<XBDFormatDecl> getFormats();
 
     /**
      * @return the joinCount
      */
-    UBNatural getJoinCount();
+    public UBNatural getJoinCount();
     
 }

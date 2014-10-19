@@ -23,42 +23,105 @@ import org.xbup.lib.core.catalog.base.XBCRoot;
 /**
  * Interface for XBCNode items service.
  *
- * @version 0.1.22 2013/08/17
+ * @version 0.1.24 2014/10/19
  * @author XBUP Project (http://xbup.org)
+ * @param <T> node class
  */
 public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
 
-    /** Returns specification tree root node */
+    /**
+     * Returns specification tree root node.
+     *
+     * @return
+     */
     public XBCNode getRootNode();
 
-    /** Get list of subnodes */
-    public List<XBCNode> getSubNodes(XBCNode node);
+    /**
+     * Get list of subnodes.
+     *
+     * @param parentNode parent node
+     * @return list of child nodes
+     */
+    public List<XBCNode> getSubNodes(XBCNode parentNode);
 
-    /** Returns subnode of given index */
-    public XBCNode getSubNode(XBCNode node, long index);
+    /**
+     * Returns subnode of given index.
+     *
+     * @param parentNode parent node
+     * @param index
+     * @return node or null
+     */
+    public XBCNode getSubNode(XBCNode parentNode, long index);
 
-    /** Return count of direct subnodes */
-    public long getSubNodesCount(XBCNode node);
+    /**
+     * Return count of direct subnodes.
+     *
+     * @param parentNode parent node
+     * @return count of child nodes
+     */
+    public long getSubNodesCount(XBCNode parentNode);
 
-    /** Returns n-th node from subnode's sequence */
-    public XBCNode getSubNodeSeq(XBCNode node, long seq);
+    /**
+     * Returns n-th node from all subnodes sequence.
+     *
+     * @param parentNode parent node
+     * @param sequenceIndex
+     * @return node or null
+     */
+    public XBCNode getSubNodeSeq(XBCNode parentNode, long sequenceIndex);
 
-    /** Return size of subnode sequence */
-    public long getSubNodesSeq(XBCNode node);
+    /**
+     * Return size of all subnodes sequence.
+     *
+     * @param parentNode parent node
+     * @return size of all subnodes
+     */
+    public long getSubNodesSeq(XBCNode parentNode);
 
-    /** Travers array of XB indexes and returns node if exists */
+    /**
+     * Traverse array of XB indexes and return node if exists.
+     *
+     * @param xbCatalogPath catalog path
+     * @return node or null
+     */
     public XBCNode findNodeByXBPath(Long[] xbCatalogPath);
 
-    /** Travers array of XB indexes except last one and returns node if exists */
+    /**
+     * Traverse array of XB indexes except last one and returns node if exists.
+     *
+     * @param xbCatalogPath catalog path
+     * @return node or null
+     */
     public XBCNode findParentByXBPath(Long[] xbCatalogPath);
 
-    /** Returns Path of XBIndexes for given node */
+    /**
+     * Returns path of XBIndexes for given node.
+     *
+     * @param node node
+     * @return catalog path
+     */
     public Long[] getNodeXBPath(XBCNode node);
 
-    /** Ignores last member of path and returns parent node */
+    /**
+     * Ignore last member of path and return parent node.
+     *
+     * @param xbCatalogPath catalog path
+     * @return node or null
+     */
     public XBCNode findOwnerByXBPath(Long[] xbCatalogPath);
 
+    /**
+     * Find maximum subnode XB index.
+     *
+     * @param node parent node
+     * @return XB index or null
+     */
     public Long findMaxSubNodeXB(XBCNode node);
 
+    /**
+     * Get root record.
+     *
+     * @return root record
+     */
     public XBCRoot getRoot();
 }

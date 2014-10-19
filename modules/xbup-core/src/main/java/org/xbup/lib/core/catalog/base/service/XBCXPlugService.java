@@ -24,20 +24,49 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 /**
  * Interface for XBCXPlugin items service.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.24 2014/10/19
  * @author XBUP Project (http://xbup.org)
+ * @param <T> plugin entity
  */
 public interface XBCXPlugService<T extends XBCXPlugin> extends XBCService<T>, XBCExtension {
 
-    /** Get count of all files in the database */
+    /**
+     * Get count of all plugins.
+     *
+     * @return count of plugins
+     */
     public Long getAllPluginCount();
 
-    /** Returns Path of XBIndexes for given node */
+    /**
+     * Returns path of XBIndexes for given plugin.
+     *
+     * @param plugin plugin
+     * @return catalog path
+     */
     public Long[] getPluginXBPath(XBCXPlugin plugin);
 
+    /**
+     * Find plugin by ID.
+     *
+     * @param id id
+     * @return plugin
+     */
     public XBCXPlugin findById(long id);
 
+    /**
+     * Find plugin for given node and order index.
+     *
+     * @param node node
+     * @param index order index
+     * @return plugin
+     */
     public XBCXPlugin findPlugin(XBCNode node, Long index);
 
+    /**
+     * Get data content for given plugin.
+     *
+     * @param plugin plugin
+     * @return data
+     */
     public InputStream getPlugin(XBCXPlugin plugin);
 }

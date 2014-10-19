@@ -25,31 +25,50 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 /**
  * Interface for XBCXDesc items service.
  *
- * @version 0.1.21 2012/01/22
+ * @version 0.1.24 2014/10/19
  * @author XBUP Project (http://xbup.org)
+ * @param <T> description entity
  */
 public interface XBCXDescService<T extends XBCXDesc> extends XBCService<T>, XBCExtension {
 
-    /** Returns name for given item */
+    /**
+     * Returns description for given item in default language.
+     *
+     * @param item item
+     * @return description
+     */
     public XBCXDesc getItemDesc(XBCItem item);
 
-    /** Returns name for given item */
+    /**
+     * Returns description for given item and language.
+     *
+     * @param item item
+     * @param language language
+     * @return description
+     */
     public XBCXDesc getItemDesc(XBCItem item, XBCXLanguage language);
 
-    /** Returns list of names for given item */
+    /**
+     * Returns list of names for given item.
+     *
+     * @param item item
+     * @return description
+     */
     public List<XBCXDesc> getItemDescs(XBCItem item);
 
     /**
      * Get description text for default language and given item.
-     * @param item Item to get name of.
-     * @return Text or null if name is not set.
+     *
+     * @param item item to get name of
+     * @return text or null if name is not set
      */
     public String getItemDescText(XBCItem item);
 
     /**
      * Set description text for default language and given item.
-     * @param item Item to set name for.
-     * @param text Text to set.
+     *
+     * @param item item to set name for
+     * @param text text to set
      */
     public void setItemDescText(XBCItem item, String text);
 }

@@ -27,6 +27,6 @@ public interface XBRevisionDef {
     /**
      * @return the revision
      */
-    long getRevision();
+    public long getRevision();
     
 }

@@ -28,11 +28,13 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
  *
  * @version 0.1.21 2011/12/31
  * @author XBUP Project (http://xbup.org)
+ * @param <T> file entity
  */
 public interface XBCXFileService<T extends XBCXFile> extends XBCService<T>, XBCExtension {
 
     /**
      * Returns path of XBIndexes for given node.
+     *
      * @param file file
      * @return array of path indexes
      */
@@ -40,6 +42,7 @@ public interface XBCXFileService<T extends XBCXFile> extends XBCService<T>, XBCE
 
     /**
      * Find file by its node and filename.
+     *
      * @param node parent node of the file
      * @param fileName name of the file
      * @return file or null if no such file exist
@@ -48,6 +51,7 @@ public interface XBCXFileService<T extends XBCXFile> extends XBCService<T>, XBCE
 
     /**
      * Get file as image.
+     *
      * @param file source file
      * @return image representation of the file
      */
@@ -55,6 +59,7 @@ public interface XBCXFileService<T extends XBCXFile> extends XBCService<T>, XBCE
 
     /**
      * Access file as data stream.
+     *
      * @param file source file
      * @return data stream
      */
@@ -62,6 +67,7 @@ public interface XBCXFileService<T extends XBCXFile> extends XBCService<T>, XBCE
 
     /**
      * Find all file for given node.
+     *
      * @param node parent node of the file
      * @return list of files or null if no such file exist
      */

@@ -55,14 +55,12 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
     };
 
     private final XBCatalog catalog;
-    /**
-     * List of TypeContexts for current tree path levels.
-     */
+
+    // List of TypeContexts for current tree path levels.
     private final SortedMap<Integer, XBContext> typeMap;
-    /**
-     * List of TypeContexts for later use.
-     */
+    // List of TypeContexts for later use.
     private final SortedMap<Integer, TypeTargetItem> typeTarget;
+
     private XBContext currentContext;
     private int currentGroup;
     private int currentType;

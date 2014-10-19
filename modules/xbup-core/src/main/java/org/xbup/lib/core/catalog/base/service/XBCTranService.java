@@ -23,6 +23,7 @@ import org.xbup.lib.core.catalog.base.XBCTran;
  *
  * @version 0.1.21 2011/12/30
  * @author XBUP Project (http://xbup.org)
+ * @param <T> transformation entity
  */
 public interface XBCTranService<T extends XBCTran> extends XBCService<T> {
 

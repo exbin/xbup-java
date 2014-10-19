@@ -26,18 +26,35 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 /**
  * Interface for XBCXName items service.
  *
- * @version 0.1.21 2012/01/22
+ * @version 0.1.24 2014/10/19
  * @author XBUP Project (http://xbup.org)
+ * @param <T> name entity
  */
 public interface XBCXNameService<T extends XBCXName> extends XBCService<T>, XBCExtension {
 
-    /** Returns name for given item */
+    /**
+     * Returns default name for given item.
+     *
+     * @param item item
+     * @return name
+     */
     public XBCXName getItemName(XBCItem item);
 
-    /** Returns name for given item */
+    /**
+     * Returns name for given item and language.
+     *
+     * @param item item
+     * @param language language
+     * @return name
+     */
     public XBCXName getItemName(XBCItem item, XBCXLanguage language);
 
-    /** Returns list of names for given item */
+    /**
+     * Returns list of names for given item.
+     *
+     * @param item item
+     * @return list of names
+     */
     public List<XBCXName> getItemNames(XBCItem item);
 
     /**
@@ -50,6 +67,7 @@ public interface XBCXNameService<T extends XBCXName> extends XBCService<T>, XBCE
 
     /**
      * Get name text for default language and given item.
+     *
      * @param item Item to get name of.
      * @return Text or null if name is not set.
      */
@@ -57,6 +75,7 @@ public interface XBCXNameService<T extends XBCXName> extends XBCService<T>, XBCE
 
     /**
      * Set name text for default language and given item.
+     *
      * @param item Item to set name for.
      * @param text Text to set.
      */

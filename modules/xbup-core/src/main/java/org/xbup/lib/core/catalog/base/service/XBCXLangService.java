@@ -24,9 +24,14 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
  *
  * @version 0.1.21 2011/12/31
  * @author XBUP Project (http://xbup.org)
+ * @param <T> language entity
  */
 public interface XBCXLangService<T extends XBCXLanguage> extends XBCService<T>, XBCExtension {
 
+    /**
+     * Get default language.
+     *
+     * @return language
+     */
     public XBCXLanguage getDefaultLang();
-
 }

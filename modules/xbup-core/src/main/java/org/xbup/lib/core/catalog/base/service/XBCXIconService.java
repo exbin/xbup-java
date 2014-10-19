@@ -27,22 +27,41 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 /**
  * Interface for XBCXIcon items service.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.24 2014/10/19
  * @author XBUP Project (http://xbup.org)
+ * @param <T> icon entity
  */
 public interface XBCXIconService<T extends XBCXIcon> extends XBCService<T>, XBCExtension {
 
+    /**
+     * Get default icon for given item.
+     *
+     * @param item item we want to get icon of
+     * @return icon instance or null
+     */
     public XBCXIcon getDefaultIcon(XBCItem item);
 
-    public XBCXIconMode getIconMode(Long type);
-
-    public List<XBCXIcon> getBlockSpecIcons(XBCBlockSpec icon);
+    /**
+     * Get icon mode.
+     *
+     * @param iconModeIndex
+     * @return icon mode
+     */
+    public XBCXIconMode getIconMode(Long iconModeIndex);
 
     /**
-     * Get default icon for given block type.
+     * Get list of icons for given specification.
      *
-     * @param item Item we want to get icon of.
-     * @return icon instance or null.
+     * @param blockSpec specification
+     * @return list of icons
+     */
+    public List<XBCXIcon> getBlockSpecIcons(XBCBlockSpec blockSpec);
+
+    /**
+     * Get default icon for given item.
+     *
+     * @param item item we want to get icon of
+     * @return icon instance or null
      */
     public ImageIcon getDefaultImageIcon(XBCItem item);
 }

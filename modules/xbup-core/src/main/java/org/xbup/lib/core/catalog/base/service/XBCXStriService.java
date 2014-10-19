@@ -28,13 +28,24 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
  *
  * @version 0.1.22 2013/01/13
  * @author XBUP Project (http://xbup.org)
+ * @param <T> stringId entity
  */
 public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCExtension {
 
-    /** Returns StringId for given item */
+    /**
+     * Returns StringId for given item.
+     *
+     * @param item item
+     * @return stringId
+     */
     public XBCXStri getItemStringId(XBCItem item);
 
-    /** Returns list of StringIds for given item */
+    /**
+     * Returns list of StringIds for given item.
+     *
+     * @param item item
+     * @return list of stringIds
+     */
     public List<XBCXStri> getItemStringIds(XBCItem item);
 
     /**
@@ -47,6 +58,7 @@ public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCE
 
     /**
      * Get string id text for default language and given item.
+     *
      * @param item Item to get Stri of.
      * @return Text or null if Stri is not set.
      */
@@ -54,6 +66,7 @@ public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCE
 
     /**
      * Set string id text for default language and given item.
+     *
      * @param item Item to set Stri for.
      * @param text Text to set.
      */
@@ -61,6 +74,7 @@ public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCE
 
     /**
      * Full stringId path including leading slash symbol.
+     *
      * @param itemString stringId item
      * @return String representation of the path.
      */
@@ -68,6 +82,7 @@ public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCE
 
     /**
      * Full stringId path including leading slash symbol.
+     *
      * @param item Item to get Stri of.
      * @return String representation of the path.
      */

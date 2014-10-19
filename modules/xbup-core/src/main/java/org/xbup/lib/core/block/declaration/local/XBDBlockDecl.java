@@ -65,30 +65,18 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
         return false;
     }
 
-    /**
-     * @return the revision
-     */
     public int getRevision() {
         return revision.getInt();
     }
 
-    /**
-     * @param revision the revision to set
-     */
     public void setRevision(int revision) {
         this.revision = new UBNat32(revision);
     }
 
-    /**
-     * @return the blocksLimit
-     */
     public int getBlocksLimit() {
         return 0; // TODO blocksLimit.getInt();
     }
 
-    /**
-     * @param blocksLimit the blocksLimit to set
-     */
     public void setBlocksLimit(int blocksLimit) {
         // TODO this.blocksLimit = new UBNat32(blocksLimit);
     }
@@ -110,16 +98,10 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
          return hash; */
     }
 
-    /**
-     * @return the blockDef
-     */
     public XBBlockDef getBlockDef() {
         return blockDef;
     }
 
-    /**
-     * @param blockDef the blockDef to set
-     */
     public void setBlockDef(XBBlockDef blockDef) {
         this.blockDef = blockDef;
     }

@@ -25,20 +25,23 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
  *
  * @version 0.1.21 2011/02/05
  * @author XBUP Project (http://xbup.org)
+ * @param <T> documentation entity
  */
 public interface XBCXHDocService<T extends XBCXHDoc> extends XBCService<T>, XBCExtension {
 
     /**
-     * Get documentation in default language for given item,
-     * @param item Catalog item
-     * @return Hypertext documentation structure
+     * Get documentation in default language for given item.
+     *
+     * @param item catalog item
+     * @return hypertext documentation structure
      */
     public XBCXHDoc getDocumentation(XBCItem item);
 
     /**
-     * Get text for documentation in default language for given item,
-     * @param item Catalog item.
-     * @return Hypertext documentation
+     * Get text for documentation in default language for given item.
+     *
+     * @param item catalog item
+     * @return hypertext documentation
      */
     public String getDocumentationText(XBCItem item);
 

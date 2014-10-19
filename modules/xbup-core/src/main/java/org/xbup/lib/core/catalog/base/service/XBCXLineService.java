@@ -26,33 +26,89 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 /**
  * Interface for XBCXBlockLine items service.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.24 2014/10/19
  * @author XBUP Project (http://xbup.org)
+ * @param <T> block line editor entity
  */
 public interface XBCXLineService<T extends XBCXBlockLine> extends XBCService<T>, XBCExtension {
 
-    /** Get list of all block revision lines */
-    public List<XBCXBlockLine> getLines(XBCBlockRev rev);
+    /**
+     * Get list of all block line editors.
+     *
+     * @param revision revision
+     * @return block line editors
+     */
+    public List<XBCXBlockLine> getLines(XBCBlockRev revision);
 
-    /** Get count of line editors for given line */
-    public long getLinesCount(XBCBlockRev rev);
+    /**
+     * Get count of line editors for given revision.
+     *
+     * @param revision revision
+     * @return count of line editors
+     */
+    public long getLinesCount(XBCBlockRev revision);
 
-    /** Get line editor for given priority */
-    public XBCXBlockLine findLineByPR(XBCBlockRev rev, long priority);
+    /**
+     * Get line editor for given revision and priority.
+     *
+     * @param revision revision
+     * @param priority priority
+     * @return block line editor
+     */
+    public XBCXBlockLine findLineByPR(XBCBlockRev revision, long priority);
 
+    /**
+     * Find line editor by ID.
+     *
+     * @param id id
+     * @return line editor
+     */
     public XBCXBlockLine findById(long id);
 
+    /**
+     * Find line plugin by ID.
+     *
+     * @param id id
+     * @return line plugin
+     */
     public XBCXPlugLine findPlugLineById(long id);
 
+    /**
+     * Return count of line editors.
+     *
+     * @return count of line editors
+     */
     public Long getAllLinesCount();
 
-    /** Get list of all plugin lines */
+    /**
+     * Get list of all line plugins.
+     *
+     * @param plugin plugin
+     * @return line plugin
+     */
     public List<XBCXPlugLine> getPlugLines(XBCXPlugin plugin);
 
-    /** Get count of line editors for given plugin */
+    /**
+     * Get count of line editors for given plugin.
+     * 
+     * @param plugin plugin
+     * @return count of line editors
+     */
     public long getPlugLinesCount(XBCXPlugin plugin);
 
+    /**
+     * Get line plugin for given index.
+     * 
+     * @param plugin plugin
+     * @param lineIndex line plugin index
+     * @return line plugin
+     */
     public XBCXPlugLine getPlugLine(XBCXPlugin plugin, long lineIndex);
 
+    /**
+     * Get count of all line editors.
+     * 
+     * @return count of line editors
+     */
     public Long getAllPlugLinesCount();
 }

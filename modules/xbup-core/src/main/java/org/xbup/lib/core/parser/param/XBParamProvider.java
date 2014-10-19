@@ -29,16 +29,16 @@ public interface XBParamProvider {
 
     /**
      * Produce single param data.
-     * 
+     *
      * @param listener listener to send data to
-     * @throws org.xbup.lib.xb.parser.XBProcessingException
-     * @throws java.io.IOException
+     * @throws XBProcessingException
+     * @throws IOException
      */
     public void produceParamXB(XBParamListener listener) throws XBProcessingException, IOException;
 
     /**
      * Indicate end of data.
-     * 
+     *
      * @return true if end of data stream reached
      */
     public boolean eofParamXB();

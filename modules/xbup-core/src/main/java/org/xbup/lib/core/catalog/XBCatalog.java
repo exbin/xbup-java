@@ -158,6 +158,13 @@ public interface XBCatalog {
      */
     public XBFixedBlockType findFixedType(XBContext context, XBBlockType type);
 
+    /**
+     * Process declaration block and it's children and construct new context.
+     * 
+     * @param parent parent context
+     * @param blockProvider data provider
+     * @return new context
+     */
     public XBContext processDeclaration(XBContext parent, XBTPullProvider blockProvider);
 
     /**

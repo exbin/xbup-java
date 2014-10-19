@@ -23,6 +23,7 @@ import org.xbup.lib.core.catalog.base.XBCXUser;
  *
  * @version 0.1.23 2014/03/16
  * @author XBUP Project (http://xbup.org)
+ * @param <T> user entity
  */
 public interface XBCXUserService<T extends XBCXUser> extends XBCService<T> {
 

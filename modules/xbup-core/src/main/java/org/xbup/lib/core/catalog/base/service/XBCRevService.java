@@ -23,27 +23,58 @@ import org.xbup.lib.core.catalog.base.XBCSpec;
 /**
  * Interface for XBCRev items service.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.24 2014/10/19
  * @author XBUP Project (http://xbup.org)
+ * @param <T> revision class
  */
 public interface XBCRevService<T extends XBCRev> extends XBCService<T> {
 
-    /** Get Bind of given index
-     * @param xbIndex XBIndex of given bind
+    /**
+     * Get revision of given XB index.
+     *
+     * @param spec specification
+     * @param xbIndex XBIndex of given revision
+     * @return revision
      */
     public XBCRev findRevByXB(XBCSpec spec, long xbIndex);
 
-    /** Get Revision of given index */
+    /**
+     * Get Revision of given index.
+     *
+     * @param id
+     * @return revision
+     */
     public XBCRev findRevById(long id);
 
-    /** Get Bind of given index */
+    /**
+     * Get revision of given order index.
+     *
+     * @param spec specification
+     * @param index order index
+     * @return revision
+     */
     public XBCRev getRev(XBCSpec spec, long index);
 
-    /** Get list of all binds */
+    /**
+     * Get list of all revisions.
+     *
+     * @param spec specification
+     * @return list of revisions
+     */
     public List<XBCRev> getRevs(XBCSpec spec);
 
-    /** Returns count of revisions */
+    /**
+     * Return count of revisions.
+     *
+     * @param spec specification
+     * @return count of revisions
+     */
     public long getRevsCount(XBCSpec spec);
 
+    /**
+     * Get count of all revisions in catalog.
+     *
+     * @return count of revisions
+     */
     public Long getAllRevisionsCount();
 }

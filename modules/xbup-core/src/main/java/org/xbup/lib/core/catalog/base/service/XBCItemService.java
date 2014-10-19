@@ -23,6 +23,7 @@ import org.xbup.lib.core.catalog.base.XBCItem;
  *
  * @version 0.1.21 2011/12/30
  * @author XBUP Project (http://xbup.org)
+ * @param <T> item class
  */
 public interface XBCItemService<T extends XBCItem> extends XBCService<T> {
 

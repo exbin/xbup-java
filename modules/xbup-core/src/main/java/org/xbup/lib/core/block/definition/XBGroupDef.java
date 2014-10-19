@@ -28,10 +28,10 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  */
 public interface XBGroupDef {
 
-    UBNatural getConsistSkip();
+    public UBNatural getConsistSkip();
 
-    List<XBDGroupDecl> getGroups();
+    public List<XBDGroupDecl> getGroups();
 
-    UBNatural getJoinCount();
+    public UBNatural getJoinCount();
     
 }

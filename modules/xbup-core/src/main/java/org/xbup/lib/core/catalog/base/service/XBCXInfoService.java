@@ -24,9 +24,15 @@ import org.xbup.lib.core.catalog.base.XBCNode;
  *
  * @version 0.1.21 2011/12/31
  * @author XBUP Project (http://xbup.org)
+ * @param <T> information entity
  */
 public interface XBCXInfoService<T extends XBCXItemInfo> extends XBCService<T> {
 
-    /** Returns Path of XBIndexes for given node */
-    public XBCXItemInfo getNodeInfo(XBCNode dir);
+    /**
+     * Returns item's information for given node.
+     *
+     * @param node parent node
+     * @return information
+     */
+    public XBCXItemInfo getNodeInfo(XBCNode node);
 }

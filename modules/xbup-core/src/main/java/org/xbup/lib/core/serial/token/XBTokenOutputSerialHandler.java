@@ -28,7 +28,7 @@ import org.xbup.lib.core.serial.XBOutputSerialHandler;
 public interface XBTokenOutputSerialHandler extends XBOutputSerialHandler {
 
     /**
-     * Attach event listener to be used as target for serialization.
+     * Attaches event listener to be used as target for serialization.
      *
      * @param listener
      */

@@ -25,7 +25,7 @@ package org.xbup.tool.editor.base.api;
 public interface ApplicationPanel {
 
     /**
-     * Get panel name.
+     * Gets panel name.
      *
      * @return panel name
      */

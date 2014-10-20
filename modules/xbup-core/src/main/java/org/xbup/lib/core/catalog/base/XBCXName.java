@@ -25,42 +25,42 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCXName extends XBCBase {
 
     /**
-     * Get relevant item.
+     * Gets relevant item.
      *
      * @return item
      */
     public XBCItem getItem();
 
     /**
-     * Get item text.
+     * Gets item text.
      *
      * @return item text
      */
     public String getText();
 
     /**
-     * Get name language.
+     * Gets name language.
      *
      * @return language
      */
     public XBCXLanguage getLang();
 
     /**
-     * Set relevant item.
+     * Sets relevant item.
      *
      * @param item
      */
     public void setItem(XBCItem item);
 
     /**
-     * Set item text.
+     * Sets item text.
      *
      * @param text
      */
     public void setText(String text);
 
     /**
-     * Set language.
+     * Sets language.
      *
      * @param language
      */

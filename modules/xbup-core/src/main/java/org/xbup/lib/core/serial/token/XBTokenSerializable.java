@@ -32,20 +32,20 @@ import org.xbup.lib.core.serial.XBSerializable;
 public interface XBTokenSerializable extends XBSerializable {
 
     /**
-     * Perform serialization from XBUP protocol using particular method.
+     * Performs serialization from XBUP protocol using particular method.
      *
      * @param serializationHandler serialization resource
      * @throws XBProcessingException if proccesing problem encountered
-     * @throws java.io.IOException if input/output problem encountered
+     * @throws IOException if input/output problem encountered
      */
     public void serializeFromXB(XBBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException;
 
     /**
-     * Perform serialization to XBUP protocol using particular method.
+     * Performs serialization to XBUP protocol using particular method.
      *
      * @param serializationHandler serialization resource
      * @throws XBProcessingException if proccesing problem encountered
-     * @throws java.io.IOException if input/output problem encountered
+     * @throws IOException if input/output problem encountered
      */
     public void serializeToXB(XBBasicOutputSerialHandler serializationHandler) throws XBProcessingException, IOException;
 }

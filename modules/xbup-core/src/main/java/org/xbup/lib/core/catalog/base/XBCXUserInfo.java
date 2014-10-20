@@ -27,35 +27,35 @@ import java.util.Date;
 public interface XBCXUserInfo extends XBCBase {
 
     /**
-     * Get related user.
+     * Gets related user.
      *
      * @return the user
      */
     public XBCXUser getUser();
 
     /**
-     * Get date of creation.
+     * Gets date of creation.
      *
      * @return the created
      */
     public Date getCreated();
 
     /**
-     * Get date of current login.
+     * Gets date of current login.
      *
      * @return the currLogin
      */
     public Date getCurrLogin();
 
     /**
-     * Get date of last login.
+     * Gets date of last login.
      *
      * @return the lastLogin
      */
     public Date getLastLogin();
 
     /**
-     * Get date of last change.
+     * Gets date of last change.
      *
      * @return the updated
      */

@@ -132,12 +132,12 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
         }
         // TODO test depth for extended area
         /*
-        if (state == XBChildSerialState.DATA) {
-            throw new XBSerialException("Data event is not allowed after another data event", XBProcessingExceptionType.UNEXPECTED_ORDER);
-        }
-        if (state == XBChildSerialState.CHILDREN) {
-            throw new XBSerialException("Data block is not allowed after children", XBProcessingExceptionType.UNEXPECTED_ORDER);
-        } */
+         if (state == XBChildSerialState.DATA) {
+         throw new XBSerialException("Data event is not allowed after another data event", XBProcessingExceptionType.UNEXPECTED_ORDER);
+         }
+         if (state == XBChildSerialState.CHILDREN) {
+         throw new XBSerialException("Data block is not allowed after children", XBProcessingExceptionType.UNEXPECTED_ORDER);
+         } */
         if (state == XBChildSerialState.BLOCK_BEGIN) {
             eventListener.putXBTToken(new XBTBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
         }

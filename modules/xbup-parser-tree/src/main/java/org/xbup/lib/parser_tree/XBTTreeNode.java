@@ -97,7 +97,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     /**
-     * Return index of child.
+     * Returns index of child.
      *
      * @param node node to search match for
      * @return index of node if node found
@@ -112,7 +112,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     /**
-     * Get count of all subnodes.
+     * Gets count of all subnodes.
      *
      * @return count of child nodes and all their child nodes
      */
@@ -132,7 +132,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     /**
-     * Get block position in tree in depth-first scan.
+     * Gets block position in tree in depth-first scan.
      *
      * @return position index
      */
@@ -166,7 +166,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     /**
-     * Find node of given index (recursive, no cache).
+     * Finds node of given index (recursive, no cache).
      *
      * @param index depth-first order index
      * @return node if found
@@ -214,7 +214,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     /**
-     * Load this node from data stream.
+     * Loads this node from data stream.
      *
      * @param stream data stream
      * @param terminable specify if terminator can be read
@@ -480,7 +480,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     /**
-     * Create deep copy of this node.
+     * Creates deep copy of this node.
      *
      * @return tree node
      */
@@ -489,7 +489,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     /**
-     * Create copy of this node
+     * Creates copy of this node
      *
      * @param recursive if true, perform deep copy or else shallow copy.
      * @return tree node

@@ -79,7 +79,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
     }
 
     /**
-     * Get count of all subnodes.
+     * Gets count of all subnodes.
      *
      * @return count of child nodes and all their child nodes
      */
@@ -98,7 +98,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
     }
 
     /**
-     * Get index in depth-first order.
+     * Gets index in depth-first order.
      *
      * @return node index
      */
@@ -131,7 +131,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
     }
 
     /**
-     * Find node of given index (recursive, no cache).
+     * Finds node of given index (recursive, no cache).
      *
      * @param index depth-first order index
      * @return node if found
@@ -236,7 +236,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
     }
 
     /**
-     * Load this node from data stream.
+     * Loads this node from data stream.
      *
      * @param stream data stream
      * @param terminable specify if terminator can be read
@@ -293,7 +293,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
     }
 
     /**
-     * Load children from data stream.
+     * Loads children from data stream.
      *
      * @param stream input stream
      * @param maxSize Maximum size of bytes to consume. Otherwise Exception.
@@ -605,7 +605,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
     }
 
     /**
-     * Return index of child.
+     * Returns index of child.
      *
      * @param node node to search match for
      * @return index of node if node found

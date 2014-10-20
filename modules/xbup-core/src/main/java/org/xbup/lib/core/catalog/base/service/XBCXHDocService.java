@@ -30,7 +30,7 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 public interface XBCXHDocService<T extends XBCXHDoc> extends XBCService<T>, XBCExtension {
 
     /**
-     * Get documentation in default language for given item.
+     * Gets documentation in default language for given item.
      *
      * @param item catalog item
      * @return hypertext documentation structure
@@ -38,7 +38,7 @@ public interface XBCXHDocService<T extends XBCXHDoc> extends XBCService<T>, XBCE
     public XBCXHDoc getDocumentation(XBCItem item);
 
     /**
-     * Get text for documentation in default language for given item.
+     * Gets text for documentation in default language for given item.
      *
      * @param item catalog item
      * @return hypertext documentation

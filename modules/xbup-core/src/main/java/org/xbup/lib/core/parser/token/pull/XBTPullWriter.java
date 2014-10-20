@@ -76,7 +76,7 @@ public class XBTPullWriter implements Closeable, XBTPullConsumer {
      * Open byte output stream.
      *
      * @param stream
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void open(OutputStream stream) throws IOException {
         pullWriter.open(stream);

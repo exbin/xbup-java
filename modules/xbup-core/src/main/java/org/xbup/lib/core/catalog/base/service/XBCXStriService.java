@@ -49,7 +49,7 @@ public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCE
     public List<XBCXStri> getItemStringIds(XBCItem item);
 
     /**
-     * Get default caption in current language.
+     * Gets default caption in current language.
      *
      * @param blockSpec specification to get caption of
      * @return string caption
@@ -57,7 +57,7 @@ public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCE
     public String getDefaultStringId(XBCBlockSpec blockSpec);
 
     /**
-     * Get string id text for default language and given item.
+     * Gets string id text for default language and given item.
      *
      * @param item Item to get Stri of.
      * @return Text or null if Stri is not set.
@@ -65,7 +65,7 @@ public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCE
     public String getItemStringIdText(XBCItem item);
 
     /**
-     * Set string id text for default language and given item.
+     * Sets string id text for default language and given item.
      *
      * @param item Item to set Stri for.
      * @param text Text to set.
@@ -73,7 +73,7 @@ public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCE
     public void setItemStringIdText(XBCItem item, String text);
 
     /**
-     * Full stringId path including leading slash symbol.
+     * Returns full stringId path including leading slash symbol.
      *
      * @param itemString stringId item
      * @return String representation of the path.
@@ -81,7 +81,7 @@ public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCE
     public String getFullPath(XBCXStri itemString);
 
     /**
-     * Full stringId path including leading slash symbol.
+     * Returns full stringId path including leading slash symbol.
      *
      * @param item Item to get Stri of.
      * @return String representation of the path.
@@ -89,7 +89,7 @@ public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCE
     public String getItemFullPath(XBCItem item);
 
     /**
-     * Get specification for give full path.
+     * Gets specification for give full path.
      *
      * @param fullPath fullPath to specification.
      * @return specification.

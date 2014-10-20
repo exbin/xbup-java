@@ -28,12 +28,13 @@ public interface TextEncodingPanelFrame {
 
     /**
      * Returns current encodings used in application frame.
+     *
      * @return font
      */
     public List<String> getCurrentEncodingList();
 
     /**
-     * Get selected encoding.
+     * Gets selected encoding.
      *
      * @return selected encoding
      */
@@ -41,11 +42,14 @@ public interface TextEncodingPanelFrame {
 
     /**
      * Sets current encodings used in application frame.
+     *
+     * @param encodings list of encodings
      */
     public void setEncodingList(List<String> encodings);
 
     /**
-     * Set selected encoding.
+     * Sets selected encoding.
+     *
      * @param encoding
      */
     public void setSelectedEncoding(String encoding);

@@ -73,7 +73,7 @@ public class XBPBlockDecl implements XBBlockDecl {
     }
 
     /**
-     * Get catalog path as array of Long instances.
+     * Gets catalog path as array of Long instances.
      *
      * @return the catalogPath
      */

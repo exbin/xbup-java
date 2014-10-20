@@ -25,19 +25,19 @@ package org.xbup.lib.core.serial.sequence;
 public enum XBSerialSequenceOp {
 
     /**
-     * Join block.
+     * Join block sequence operation.
      */
     JOIN,
     /**
-     * Consist of subblock.
+     * Consist of subblock sequence operation.
      */
     CONSIST,
     /**
-     * Join list of blocks.
+     * Join list of blocks sequence operation.
      */
     LIST_JOIN,
     /**
-     * Consist of list of subblocks.
+     * Consist of list of subblocks sequence operation.
      */
     LIST_CONSIST
 }

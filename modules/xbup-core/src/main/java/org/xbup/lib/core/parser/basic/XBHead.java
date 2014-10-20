@@ -63,7 +63,7 @@ public class XBHead {
      *
      * @param stream output stream
      * @return count of written bytes
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public static int writeXBUPHead(OutputStream stream) throws IOException {
         stream.write(XBHead.XB_HEADER);

@@ -53,7 +53,7 @@ public class XBDBlockDef implements XBBlockDef, XBSerializable {
     }
 
     /**
-     * Set n-th parameter of the given block.
+     * Sets n-th parameter of the given block.
      *
      * @param targetBlock block to modify parameter in
      * @param index index of parameter to modify

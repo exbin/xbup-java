@@ -130,7 +130,12 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
                 if (state != XBChildSerialState.BLOCK_END) {
                     throw new XBSerialException("Block without data or attributes not allowed", XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
+
                 state = XBChildSerialState.EOF;
+                break;
+            }
+            default: {
+                throw new XBSerialException("Unexpected token type", XBProcessingExceptionType.UNSUPPORTED);
             }
         }
 

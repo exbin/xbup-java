@@ -27,7 +27,7 @@ import javax.swing.JFileChooser;
 public interface FileTypeManagement {
 
     /**
-     * Add file type into manager.
+     * Adds file type into manager.
      *
      * FileType should extends javax.swing.filechooser.FileFilter.
      *
@@ -36,7 +36,7 @@ public interface FileTypeManagement {
     public void addFileType(FileType fileType);
 
     /**
-     * Open file from given fileChooser with the respect to used file type.
+     * Opens file from given fileChooser with the respect to used file type.
      *
      * @param fileChooser
      * @return true if file opened successfuly
@@ -53,12 +53,12 @@ public interface FileTypeManagement {
     public boolean openFile(String path, String fileTypeId);
 
     /**
-     * Finish last file operation.
+     * Finishes last file operation.
      */
     public void finish();
 
     /**
-     * Save file using given file chooser.
+     * Saves file using given file chooser.
      *
      * @param saveFC file chooser
      * @return true if file saved successfuly
@@ -66,19 +66,19 @@ public interface FileTypeManagement {
     public boolean saveFile(JFileChooser saveFC);
 
     /**
-     * Save file using last used filename.
+     * Saves file using last used filename.
      *
      * @return true if file saved successfuly
      */
     public boolean saveFile();
 
     /**
-     * Create new file.
+     * Creates new file.
      */
     public void newFile();
 
     /**
-     * Get window title.
+     * Gets window title.
      *
      * @return window title
      */

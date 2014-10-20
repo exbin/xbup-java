@@ -32,14 +32,14 @@ public interface XBCXBlockLine extends XBCBase {
     public XBCBlockRev getBlockRev();
 
     /**
-     * Get line editor.
+     * Gets line editor.
      *
      * @return line editor
      */
     public XBCXPlugLine getLine();
 
     /**
-     * Get priority.
+     * Gets priority.
      *
      * @return priority
      */

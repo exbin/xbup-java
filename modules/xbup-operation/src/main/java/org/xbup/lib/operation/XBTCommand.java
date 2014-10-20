@@ -34,14 +34,14 @@ public interface XBTCommand {
     public String getCaption();
 
     /**
-     * Perform operation on given document.
+     * Performs operation on given document.
      *
      * @param document a document to perform operation on.
      */
     public void perform(XBTEditableDocument document) throws Exception;
 
     /**
-     * Perform revert operation on given document.
+     * Performs revert operation on given document.
      *
      * @param document a document to perform operation on.
      */

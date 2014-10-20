@@ -33,7 +33,7 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 public interface XBCXLineManager<T extends XBCXBlockLine> extends XBCManager<T>, XBCExtension {
 
     /**
-     * Get list of block line editors for block revision.
+     * Gets list of block line editors for block revision.
      *
      * @param revision
      * @return list of line editors
@@ -41,7 +41,7 @@ public interface XBCXLineManager<T extends XBCXBlockLine> extends XBCManager<T>,
     public List<XBCXBlockLine> getLines(XBCBlockRev revision);
 
     /**
-     * Get count of line editors for given revision.
+     * Gets count of line editors for given revision.
      *
      * @param revision
      * @return count of line editors
@@ -49,7 +49,7 @@ public interface XBCXLineManager<T extends XBCXBlockLine> extends XBCManager<T>,
     public long getLinesCount(XBCBlockRev revision);
 
     /**
-     * Get line editor for given revision and priority.
+     * Gets line editor for given revision and priority.
      *
      * @param revision
      * @param priority
@@ -58,7 +58,7 @@ public interface XBCXLineManager<T extends XBCXBlockLine> extends XBCManager<T>,
     public XBCXBlockLine findLineByPR(XBCBlockRev revision, long priority);
 
     /**
-     * Get line editor by unique index.
+     * Gets line editor by unique index.
      *
      * @param id unique index
      * @return line editor
@@ -66,7 +66,7 @@ public interface XBCXLineManager<T extends XBCXBlockLine> extends XBCManager<T>,
     public XBCXBlockLine findById(long id);
 
     /**
-     * Find plugin lines by unique index.
+     * Finds plugin lines by unique index.
      *
      * @param id
      * @return plugin lines
@@ -74,14 +74,14 @@ public interface XBCXLineManager<T extends XBCXBlockLine> extends XBCManager<T>,
     public XBCXPlugLine findPlugLineById(long id);
 
     /**
-     * Get count of all line editors.
+     * Gets count of all line editors.
      *
      * @return count of line editors
      */
     public Long getAllLinesCount();
 
     /**
-     * Get list of line editors for plugin.
+     * Gets list of line editors for plugin.
      *
      * @param plugin
      * @return list of plugin lines
@@ -89,7 +89,7 @@ public interface XBCXLineManager<T extends XBCXBlockLine> extends XBCManager<T>,
     public List<XBCXPlugLine> getPlugLines(XBCXPlugin plugin);
 
     /**
-     * Get count of line editors for given plugin.
+     * Gets count of line editors for given plugin.
      *
      * @param plugin
      * @return count of plugin lines
@@ -97,7 +97,7 @@ public interface XBCXLineManager<T extends XBCXBlockLine> extends XBCManager<T>,
     public long getPlugLinesCount(XBCXPlugin plugin);
 
     /**
-     * Get plugin line for given plugin and line index.
+     * Gets plugin line for given plugin and line index.
      *
      * @param plugin
      * @param lineIndex
@@ -106,7 +106,7 @@ public interface XBCXLineManager<T extends XBCXBlockLine> extends XBCManager<T>,
     public XBCXPlugLine getPlugLine(XBCXPlugin plugin, long lineIndex);
 
     /**
-     * Get count of all plugin lines.
+     * Gets count of all plugin lines.
      *
      * @return count of plugin lines
      */

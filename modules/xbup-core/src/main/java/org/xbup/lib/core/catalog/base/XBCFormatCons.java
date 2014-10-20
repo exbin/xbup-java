@@ -25,7 +25,7 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCFormatCons extends XBCConsDef {
 
     /**
-     * Get specification which is also owner.
+     * Gets specification which is also owner.
      *
      * @return format specification
      */
@@ -33,7 +33,7 @@ public interface XBCFormatCons extends XBCConsDef {
     public XBCFormatSpec getSpec();
 
     /**
-     * Get target specification.
+     * Gets target specification.
      *
      * @return group revision
      */

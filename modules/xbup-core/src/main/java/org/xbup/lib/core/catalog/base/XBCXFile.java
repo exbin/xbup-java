@@ -25,21 +25,21 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCXFile extends XBCBase {
 
     /**
-     * Get owner which is directory.
+     * Gets owner which is directory.
      *
      * @return the node
      */
     public XBCNode getNode();
 
     /**
-     * Get name of the file.
+     * Gets name of the file.
      *
      * @return filename string
      */
     public String getFilename();
 
     /**
-     * Get content of the file.
+     * Gets content of the file.
      *
      * @return byte array
      */

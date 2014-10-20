@@ -29,7 +29,7 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 public interface XBCXLangService<T extends XBCXLanguage> extends XBCService<T>, XBCExtension {
 
     /**
-     * Get default language.
+     * Gets default language.
      *
      * @return language
      */

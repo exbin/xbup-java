@@ -39,7 +39,8 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * XBUP level 1 serialization handler using serialization sequence parser mapping to token listener.
+ * XBUP level 1 serialization handler using serialization sequence parser
+ * mapping to token listener.
  *
  * @version 0.1.24 2014/08/24
  * @author XBUP Project (http://xbup.org)

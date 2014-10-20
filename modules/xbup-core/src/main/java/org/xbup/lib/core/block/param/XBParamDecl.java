@@ -31,35 +31,35 @@ import org.xbup.lib.core.block.declaration.XBBlockDecl;
 public interface XBParamDecl {
 
     /**
-     * Get block declaration.
+     * Gets block declaration.
      *
      * @return block declaration
      */
     public XBBlockDecl getBlockDecl();
 
     /**
-     * Get flag whether parameter is list of items.
+     * Gets flag whether parameter is list of items.
      *
      * @return true if parameter is list
      */
     public boolean isListFlag();
 
     /**
-     * Get flag whether parameter is joined.
+     * Gets flag whether parameter is joined.
      *
      * @return true if parameter is joined
      */
     public boolean isJoinFlag();
 
     /**
-     * Get type of this parameter.
+     * Gets type of this parameter.
      *
      * @return type of this parameter
      */
     public XBParamType getParamType();
 
     /**
-     * Get new instance of the same declaration, but as list.
+     * Gets new instance of the same declaration, but as list.
      *
      * @return parameter declaration
      */

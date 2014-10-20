@@ -38,7 +38,7 @@ public interface XBTSListener extends XBTListener {
      * @param blockSize Precomputed size of block or null if no precomputed size
      * is available
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void beginXBT(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException;
 }

@@ -29,35 +29,35 @@ import java.util.prefs.Preferences;
 public interface XBEditorApp {
 
     /**
-     * Get application bundle.
+     * Gets application bundle.
      *
      * @return the appBundle
      */
     public ResourceBundle getAppBundle();
 
     /**
-     * Get application preferences.
+     * Gets application preferences.
      *
      * @return the appPreferences
      */
     public Preferences getAppPreferences();
 
     /**
-     * Get modules repository.
+     * Gets modules repository.
      *
      * @return the moduleRepository
      */
     public ModuleRepository getModuleRepository();
 
     /**
-     * Get application modeflag.
+     * Gets application modeflag.
      *
      * @return the appMode
      */
     public boolean isAppMode();
 
     /**
-     * Get preferences key value.
+     * Gets preferences key value.
      *
      * @param key
      * @param def
@@ -66,7 +66,7 @@ public interface XBEditorApp {
     public String preferencesGet(String key, String def);
 
     /**
-     * Get application icon.
+     * Gets application icon.
      *
      * @return application icon image
      */

@@ -25,42 +25,42 @@ package org.xbup.tool.editor.base.api;
 public interface ModuleManagement {
 
     /**
-     * Register basic application panel for this module.
+     * Registers basic application panel for this module.
      *
      * @param panel
      */
     public void registerPanel(ApplicationPanel panel);
 
     /**
-     * Get menu management instance.
+     * Gets menu management instance.
      *
      * @return menu management
      */
     public MenuManagement getMenuManagement();
 
     /**
-     * Get file type management instance.
+     * Gets file type management instance.
      *
      * @return file type management
      */
     public FileTypeManagement getFileTypeManagement();
 
     /**
-     * Get status bars mamagement instance.
+     * Gets status bars mamagement instance.
      *
      * @return status management
      */
     public StatusManagement getStatusManagement();
 
     /**
-     * Get instance of options management.
+     * Gets instance of options management.
      *
      * @return options management
      */
     public OptionsManagement getOptionsManagement();
 
     /**
-     * Get main frame management.
+     * Gets main frame management.
      *
      * @return main frame management
      */

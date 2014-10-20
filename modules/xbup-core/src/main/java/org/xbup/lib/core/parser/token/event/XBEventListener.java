@@ -30,11 +30,11 @@ import org.xbup.lib.core.parser.token.XBToken;
 public interface XBEventListener extends EventListener {
 
     /**
-     * Put next token.
+     * Puts next token.
      *
      * @param token passed token
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void putXBToken(XBToken token) throws XBProcessingException, IOException;
 }

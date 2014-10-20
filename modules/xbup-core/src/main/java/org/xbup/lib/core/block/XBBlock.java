@@ -29,7 +29,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 public interface XBBlock {
 
     /**
-     * Get parent block or null if block has no parent.
+     * Gets parent block or null if block has no parent.
      *
      * @return Parent block.
      */
@@ -51,7 +51,7 @@ public interface XBBlock {
     public XBBlockTerminationMode getTerminationMode();
 
     /**
-     * Get List of attributes in order of appearance.
+     * Gets List of attributes in order of appearance.
      *
      * @return list of attributes
      */
@@ -66,21 +66,21 @@ public interface XBBlock {
     public UBNatural getAttribute(int attributeIndex);
 
     /**
-     * Get count of attributes.
+     * Gets count of attributes.
      *
      * @return count of attributes
      */
     public int getAttributesCount();
 
     /**
-     * Get list of all children blocks.
+     * Gets list of all children blocks.
      *
      * @return list of child blocks
      */
     public List<XBBlock> getChildren();
 
     /**
-     * Get child block of given index.
+     * Gets child block of given index.
      *
      * @param childIndex index of child block
      * @return child block
@@ -88,28 +88,28 @@ public interface XBBlock {
     public XBBlock getChildAt(int childIndex);
 
     /**
-     * Get count of children.
+     * Gets count of children.
      *
      * @return count of children
      */
     public int getChildCount();
 
     /**
-     * Get block data.
+     * Gets block data.
      *
      * @return block data or null
      */
     public InputStream getData();
 
     /**
-     * Get data size.
+     * Gets data size.
      *
      * @return data size in bytes
      */
     public int getDataSize();
 
     /**
-     * Get block size.
+     * Gets block size.
      *
      * @return block size in bytes
      */

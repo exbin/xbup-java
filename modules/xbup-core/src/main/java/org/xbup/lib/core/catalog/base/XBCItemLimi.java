@@ -25,14 +25,14 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCItemLimi extends XBCBase {
 
     /**
-     * Get block specification which is owner.
+     * Gets block specification which is owner.
      *
      * @return block specification
      */
     public XBCBlockSpec getOwner();
 
     /**
-     * Get owner which is directory.
+     * Gets owner which is directory.
      *
      * @return limit specification
      */

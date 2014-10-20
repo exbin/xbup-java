@@ -670,7 +670,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
     }
 
     /**
-     * Get the extension part of file name.
+     * Gets the extension part of file name.
      *
      * @param file Source file
      * @return extension part of file name

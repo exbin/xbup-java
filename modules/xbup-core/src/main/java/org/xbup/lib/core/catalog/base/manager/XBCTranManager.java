@@ -28,7 +28,7 @@ import org.xbup.lib.core.catalog.base.XBCTran;
 public interface XBCTranManager<T extends XBCTran> extends XBCCatalogManager<T> {
 
     /**
-     * Get count of all transformations.
+     * Gets count of all transformations.
      *
      * @return count of transformations
      */

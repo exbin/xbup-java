@@ -93,7 +93,7 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
      * Open byte input stream.
      *
      * @param stream
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void open(InputStream stream) throws IOException {
         pullReader.open(stream);
@@ -129,7 +129,7 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
      * Overrides handlings for level 0 pull processing.
      *
      * @return Next XBEvent
-     * @throws java.io.IOException
+     * @throws IOException
      */
     @Override
     public XBToken pullXBToken() throws IOException, XBProcessingException {

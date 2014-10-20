@@ -421,7 +421,7 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     /**
-     * Get the extension part of file name.
+     * Gets the extension part of file name.
      *
      * @param file Source file
      * @return extension part of file name

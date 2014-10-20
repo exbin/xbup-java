@@ -16,8 +16,6 @@
  */
 package org.xbup.lib.core.parser.basic;
 
-import org.xbup.lib.core.parser.basic.XBProviderReader;
-import org.xbup.lib.core.parser.basic.XBListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -468,7 +466,7 @@ public class XBProviderReaderTest extends TestCase {
                 position++;
             }
 
-            assertTrue("Extended data are too short", position == 10);
+            assertEquals("Extended data are too short", 10, position);
         }
     }
 }

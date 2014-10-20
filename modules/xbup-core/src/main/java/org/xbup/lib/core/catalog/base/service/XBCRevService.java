@@ -30,7 +30,7 @@ import org.xbup.lib.core.catalog.base.XBCSpec;
 public interface XBCRevService<T extends XBCRev> extends XBCService<T> {
 
     /**
-     * Get revision of given XB index.
+     * Gets revision of given XB index.
      *
      * @param spec specification
      * @param xbIndex XBIndex of given revision
@@ -39,7 +39,7 @@ public interface XBCRevService<T extends XBCRev> extends XBCService<T> {
     public XBCRev findRevByXB(XBCSpec spec, long xbIndex);
 
     /**
-     * Get Revision of given index.
+     * Gets Revision of given index.
      *
      * @param id
      * @return revision
@@ -47,7 +47,7 @@ public interface XBCRevService<T extends XBCRev> extends XBCService<T> {
     public XBCRev findRevById(long id);
 
     /**
-     * Get revision of given order index.
+     * Gets revision of given order index.
      *
      * @param spec specification
      * @param index order index
@@ -56,7 +56,7 @@ public interface XBCRevService<T extends XBCRev> extends XBCService<T> {
     public XBCRev getRev(XBCSpec spec, long index);
 
     /**
-     * Get list of all revisions.
+     * Gets list of all revisions.
      *
      * @param spec specification
      * @return list of revisions
@@ -64,7 +64,7 @@ public interface XBCRevService<T extends XBCRev> extends XBCService<T> {
     public List<XBCRev> getRevs(XBCSpec spec);
 
     /**
-     * Return count of revisions.
+     * Returns count of revisions.
      *
      * @param spec specification
      * @return count of revisions
@@ -72,7 +72,7 @@ public interface XBCRevService<T extends XBCRev> extends XBCService<T> {
     public long getRevsCount(XBCSpec spec);
 
     /**
-     * Get count of all revisions in catalog.
+     * Gets count of all revisions in catalog.
      *
      * @return count of revisions
      */

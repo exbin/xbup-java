@@ -1503,7 +1503,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     // End of variables declaration//GEN-END:variables
 
     /**
-     * Get the extension part of file name.
+     * Gets the extension part of file name.
      *
      * @param file Source file
      * @return extension part of file name

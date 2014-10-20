@@ -43,7 +43,7 @@ public interface ActivePanelActionHandling extends EventListener {
     public void releaseActionStatus();
 
     /**
-     * Perform action on given panel.
+     * Performs action on given panel.
      *
      * @param eventName name of event
      * @param event

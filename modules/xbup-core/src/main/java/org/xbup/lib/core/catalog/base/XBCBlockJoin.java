@@ -25,7 +25,7 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCBlockJoin extends XBCJoinDef {
 
     /**
-     * Get specification which is also owner.
+     * Gets specification which is also owner.
      *
      * @return block specification
      */
@@ -33,7 +33,7 @@ public interface XBCBlockJoin extends XBCJoinDef {
     public XBCBlockSpec getSpec();
 
     /**
-     * Get target specification.
+     * Gets target specification.
      *
      * @return block revision
      */

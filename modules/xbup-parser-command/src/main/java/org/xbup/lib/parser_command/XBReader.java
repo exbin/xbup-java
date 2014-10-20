@@ -47,7 +47,7 @@ public class XBReader implements Closeable {
     }
 
     /**
-     * Open input byte-stream.
+     * Opens input byte-stream.
      */
     private void openStream(InputStream stream) throws IOException {
         source = stream;
@@ -63,7 +63,7 @@ public class XBReader implements Closeable {
     }
 
     /**
-     * Get block handler for given path in document.
+     * Gets block handler for given path in document.
      *
      * @param blockPath path to block in document
      * @return block handler

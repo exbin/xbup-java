@@ -25,21 +25,21 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCXPlugin extends XBCBase {
 
     /**
-     * Get node which is owner of this plugin.
+     * Gets node which is owner of this plugin.
      *
      * @return
      */
     public XBCNode getOwner();
 
     /**
-     * Get plugin index.
+     * Gets plugin index.
      *
      * @return plugin index
      */
     public Long getPluginIndex();
 
     /**
-     * Get plugin file.
+     * Gets plugin file.
      *
      * @return file
      */

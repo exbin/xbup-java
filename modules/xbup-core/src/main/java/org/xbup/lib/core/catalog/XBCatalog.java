@@ -168,7 +168,7 @@ public interface XBCatalog {
     public XBContext processDeclaration(XBContext parent, XBTPullProvider blockProvider);
 
     /**
-     * Get path for given specification.
+     * Gets path for given specification.
      *
      * @param spec specification
      * @return path

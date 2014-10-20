@@ -86,7 +86,7 @@ public class XBPullReader extends XBTokenInputStream implements Closeable, XBPul
      * Open byte input stream.
      *
      * @param stream
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void open(InputStream stream) throws IOException {
         openStream(stream);
@@ -138,7 +138,7 @@ public class XBPullReader extends XBTokenInputStream implements Closeable, XBPul
     }
 
     /**
-     * Return current level of how deep in tree we are.
+     * Returns current level of how deep in tree we are.
      *
      * @return tree level, 0 means root
      */
@@ -150,7 +150,7 @@ public class XBPullReader extends XBTokenInputStream implements Closeable, XBPul
      * Indicate parsing completeness.
      *
      * @return true if complete
-     * @throws java.io.IOException
+     * @throws IOException
      */
     @Override
     public boolean finished() throws IOException {

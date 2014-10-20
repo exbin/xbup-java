@@ -28,33 +28,33 @@ import java.util.prefs.Preferences;
 public interface OptionsPanel {
 
     /**
-     * Get path in options dialog.
+     * Gets path in options dialog.
      *
      * @return path to options dialog
      */
     public List<PathItem> getPath();
 
     /**
-     * Inicialize configuration from given properties.
+     * Inicializes configuration from given properties.
      */
     public void applyPreferencesChanges();
 
     /**
-     * Load configuration from given properties.
+     * Loads configuration from given properties.
      *
      * @param preferences
      */
     public void loadFromPreferences(Preferences preferences);
 
     /**
-     * Save configuration from given properties.
+     * Saves configuration from given properties.
      *
      * @param preferences
      */
     public void saveToPreferences(Preferences preferences);
 
     /**
-     * Register listener for changes monitoring.
+     * Registers listener for changes monitoring.
      *
      * @param listener modified option listener
      */

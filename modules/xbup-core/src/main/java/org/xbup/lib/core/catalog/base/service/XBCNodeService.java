@@ -37,7 +37,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
     public XBCNode getRootNode();
 
     /**
-     * Get list of subnodes.
+     * Gets list of subnodes.
      *
      * @param parentNode parent node
      * @return list of child nodes
@@ -54,7 +54,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
     public XBCNode getSubNode(XBCNode parentNode, long index);
 
     /**
-     * Return count of direct subnodes.
+     * Returns count of direct subnodes.
      *
      * @param parentNode parent node
      * @return count of child nodes
@@ -71,7 +71,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
     public XBCNode getSubNodeSeq(XBCNode parentNode, long sequenceIndex);
 
     /**
-     * Return size of all subnodes sequence.
+     * Returns size of all subnodes sequence.
      *
      * @param parentNode parent node
      * @return size of all subnodes
@@ -79,7 +79,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
     public long getSubNodesSeq(XBCNode parentNode);
 
     /**
-     * Traverse array of XB indexes and return node if exists.
+     * Traverses array of XB indexes and return node if exists.
      *
      * @param xbCatalogPath catalog path
      * @return node or null
@@ -87,7 +87,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
     public XBCNode findNodeByXBPath(Long[] xbCatalogPath);
 
     /**
-     * Traverse array of XB indexes except last one and returns node if exists.
+     * Traverses array of XB indexes except last one and returns node if exists.
      *
      * @param xbCatalogPath catalog path
      * @return node or null
@@ -103,7 +103,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
     public Long[] getNodeXBPath(XBCNode node);
 
     /**
-     * Ignore last member of path and return parent node.
+     * Ignores last member of path and returns parent node.
      *
      * @param xbCatalogPath catalog path
      * @return node or null
@@ -111,7 +111,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
     public XBCNode findOwnerByXBPath(Long[] xbCatalogPath);
 
     /**
-     * Find maximum subnode XB index.
+     * Finds maximum subnode XB index.
      *
      * @param node parent node
      * @return XB index or null
@@ -119,7 +119,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
     public Long findMaxSubNodeXB(XBCNode node);
 
     /**
-     * Get root record.
+     * Gets root record.
      *
      * @return root record
      */

@@ -51,14 +51,14 @@ public interface XBTBlock {
     public XBBlockDataMode getDataMode();
 
     /**
-     * Get block type.
+     * Gets block type.
      *
      * @return block type
      */
     public XBBlockType getBlockType();
 
     /**
-     * Get list of attributes in order of appearance.
+     * Gets list of attributes in order of appearance.
      *
      * @return list of attributes
      */
@@ -74,21 +74,21 @@ public interface XBTBlock {
     public UBNatural getAttribute(int attributeIndex);
 
     /**
-     * Get count of attributes.
+     * Gets count of attributes.
      *
      * @return count of attributes
      */
     public int getAttributesCount();
 
     /**
-     * Get list of all children.
+     * Gets list of all children.
      *
      * @return list of child blocks
      */
     public List<XBTBlock> getChildren();
 
     /**
-     * Get children of given index.
+     * Gets children of given index.
      *
      * @param childIndex index of child block
      * @return child block
@@ -96,35 +96,35 @@ public interface XBTBlock {
     public XBTBlock getChildAt(int childIndex);
 
     /**
-     * Get count of children blocks.
+     * Gets count of children blocks.
      *
      * @return count of children
      */
     public int getChildCount();
 
     /**
-     * Get block data.
+     * Gets block data.
      *
      * @return data stream
      */
     public InputStream getData();
 
     /**
-     * Get data size.
+     * Gets data size.
      *
      * @return data size in bytes
      */
     public int getDataSize();
 
     /**
-     * Get block position in tree in depth-first scan.
+     * Gets block position in tree in depth-first scan.
      *
      * @return position index
      */
     public int getBlockIndex();
 
     /**
-     * Get block size.
+     * Gets block size.
      *
      * @return block size in bytes.
      */

@@ -27,7 +27,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 public interface UBEInteger {
 
     /**
-     * Getting short integer value.
+     * Gets short integer value.
      *
      * @return integer value
      * @throws UBOverFlowException if value is out of range
@@ -35,7 +35,7 @@ public interface UBEInteger {
     public int getInt() throws UBOverFlowException;
 
     /**
-     * Getting long integer value.
+     * Gets long integer value.
      *
      * @return long integer value
      * @throws UBOverFlowException if value is out of range
@@ -43,7 +43,7 @@ public interface UBEInteger {
     public long getLong() throws UBOverFlowException;
 
     /**
-     * Setting integer value.
+     * Sets integer value.
      *
      * @param value integer value
      */
@@ -57,14 +57,14 @@ public interface UBEInteger {
     public void setValue(long value) throws UBOverFlowException;
 
     /**
-     * Get count of long value segments.
+     * Gets count of long value segments.
      *
      * @return count of long segments
      */
     public long getSegmentCount();
 
     /**
-     * Get long integer segment of value.
+     * Gets long integer segment of value.
      *
      * @param segmentIndex index of segment, 0 for lowest value
      * @return long integer
@@ -72,33 +72,33 @@ public interface UBEInteger {
     public long getValueSegment(long segmentIndex);
 
     /**
-     * Read positive or negative infinity flag.
+     * Reads positive or negative infinity flag.
      *
      * @return true if value represents infinity
      */
     public boolean isInfinity();
 
     /**
-     * Read positive infinity flag.
+     * Reads positive infinity flag.
      *
      * @return true if value represents infinity
      */
     public boolean isPositiveInfinity();
 
     /**
-     * Read negative infinity flag.
+     * Reads negative infinity flag.
      *
      * @return true if value represents infinity
      */
     public boolean isNegativeInfinity();
 
     /**
-     * Set value to positive infinity constant.
+     * Sets value to positive infinity constant.
      */
     public void setPositiveInfinity();
 
     /**
-     * Set value to negative infinity constant.
+     * Sets value to negative infinity constant.
      */
     public void setNegativeInfinity();
 }

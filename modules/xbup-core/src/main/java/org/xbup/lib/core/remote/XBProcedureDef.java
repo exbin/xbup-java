@@ -28,28 +28,28 @@ import org.xbup.lib.core.block.declaration.XBBlockDecl;
 public interface XBProcedureDef {
 
     /**
-     * Return type of this procedure.
+     * Returns type of this procedure.
      * 
      * @return Type of this procedure.
      */
     public XBBlockType getType();
 
     /**
-     * Return type of input data parameter.
+     * Returns type of input data parameter.
      * 
      * @return Declaration of input type.
      */
     public XBBlockDecl getParameterType();
 
     /**
-     * Return type of output data returned as result.
+     * Returns type of output data returned as result.
      * 
      * @return Declaration of output type.
      */
     public XBBlockDecl getReturnType();
 
     /**
-     * Return type of status data for reporting proper execution or exception.
+     * Returns type of status data for reporting proper execution or exception.
      * 
      * @return Declaration of execution status type.
      */

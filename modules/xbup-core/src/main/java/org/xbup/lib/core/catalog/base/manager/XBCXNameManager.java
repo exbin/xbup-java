@@ -58,7 +58,7 @@ public interface XBCXNameManager<T extends XBCXName> extends XBCManager<T>, XBCE
     public List<XBCXName> getItemNames(XBCItem item);
 
     /**
-     * Get default caption in current language.
+     * Gets default caption in current language.
      *
      * @param blockSpec specification to get caption of
      * @return string caption

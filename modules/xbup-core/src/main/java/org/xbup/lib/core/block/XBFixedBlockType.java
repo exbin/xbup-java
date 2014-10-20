@@ -31,7 +31,7 @@ public class XBFixedBlockType implements XBFBlockType {
     private final UBNatural blockID;
 
     /**
-     * Create fixed block type UNKNOWN_BLOCK(0).
+     * Creates fixed block type UNKNOWN_BLOCK(0).
      */
     public XBFixedBlockType() {
         groupID = new UBNat32(0);

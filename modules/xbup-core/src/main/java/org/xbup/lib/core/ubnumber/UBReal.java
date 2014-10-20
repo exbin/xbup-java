@@ -27,7 +27,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 public interface UBReal {
 
     /**
-     * Getting short integer value.
+     * Gets short integer value.
      *
      * @return integer value
      * @throws UBOverFlowException if value is out of range
@@ -35,7 +35,7 @@ public interface UBReal {
     public int getInt() throws UBOverFlowException;
 
     /**
-     * Getting long integer value.
+     * Gets long integer value.
      *
      * @return long integer value
      * @throws UBOverFlowException if value is out of range
@@ -43,7 +43,7 @@ public interface UBReal {
     public long getLong() throws UBOverFlowException;
 
     /**
-     * Getting float value.
+     * Gets float value.
      *
      * @return float value
      * @throws UBOverFlowException if value is out of range
@@ -51,50 +51,50 @@ public interface UBReal {
     public float getFloat() throws UBOverFlowException;
 
     /**
-     * Getting double value.
+     * Gets double value.
      *
      * @return double value
      * @throws UBOverFlowException if value is out of range
      */
     public double getDouble() throws UBOverFlowException;
-    
+
     /**
-     * Setting integer value.
+     * Sets integer value.
      *
      * @param value integer value
      */
     public void setValue(int value) throws UBOverFlowException;
 
     /**
-     * Setting long integer value.
+     * Sets long integer value.
      *
      * @param value long integer value
      */
     public void setValue(long value) throws UBOverFlowException;
 
     /**
-     * Setting float value.
+     * Sets float value.
      *
      * @param value float value
      */
     public void setValue(float value) throws UBOverFlowException;
 
     /**
-     * Setting double value.
+     * Sets double value.
      *
      * @param value double value
      */
     public void setValue(double value) throws UBOverFlowException;
 
     /**
-     * Get base part of real value.
+     * Gets base part of real value.
      *
      * @return base part
      */
     public UBInteger getBase();
 
     /**
-     * Get mantissa part of real value.
+     * Gets mantissa part of real value.
      *
      * @return mantissa part
      */

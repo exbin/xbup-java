@@ -58,7 +58,7 @@ public interface XBCXNameService<T extends XBCXName> extends XBCService<T>, XBCE
     public List<XBCXName> getItemNames(XBCItem item);
 
     /**
-     * Get default caption in current language.
+     * Gets default caption in current language.
      *
      * @param blockSpec specification to get caption of
      * @return string caption
@@ -66,7 +66,7 @@ public interface XBCXNameService<T extends XBCXName> extends XBCService<T>, XBCE
     public String getDefaultCaption(XBCBlockSpec blockSpec);
 
     /**
-     * Get name text for default language and given item.
+     * Gets name text for default language and given item.
      *
      * @param item Item to get name of.
      * @return Text or null if name is not set.
@@ -74,7 +74,7 @@ public interface XBCXNameService<T extends XBCXName> extends XBCService<T>, XBCE
     public String getItemNameText(XBCItem item);
 
     /**
-     * Set name text for default language and given item.
+     * Sets name text for default language and given item.
      *
      * @param item Item to set name for.
      * @param text Text to set.

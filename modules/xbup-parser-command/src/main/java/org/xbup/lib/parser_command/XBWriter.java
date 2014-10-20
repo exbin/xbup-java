@@ -63,7 +63,7 @@ public class XBWriter implements Closeable {
     }
 
     /**
-     * Get block handler for given path in document.
+     * Gets block handler for given path in document.
      *
      * @param blockPath path to block in document
      * @return block handler

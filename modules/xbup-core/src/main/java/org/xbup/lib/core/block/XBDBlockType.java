@@ -27,7 +27,7 @@ import org.xbup.lib.core.block.declaration.XBBlockDecl;
 public interface XBDBlockType extends XBBlockType {
 
     /**
-     * Get block declaration.
+     * Gets block declaration.
      * 
      * @return block declaration
      */

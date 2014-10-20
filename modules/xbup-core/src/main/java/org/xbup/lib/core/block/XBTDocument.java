@@ -27,14 +27,14 @@ import java.io.InputStream;
 public interface XBTDocument {
 
     /**
-     * Get root block of the document.
+     * Gets root block of the document.
      *
      * @return root block if exits or null
      */
     public XBTBlock getRootBlock();
 
     /**
-     * Get size of the whole document.
+     * Gets size of the whole document.
      *
      * It is sum of the size of the root node if present + size of extended
      * area.
@@ -44,14 +44,14 @@ public interface XBTDocument {
     public long getDocumentSize();
 
     /**
-     * Get extended data area.
+     * Gets extended data area.
      *
      * @return data stream
      */
     public InputStream getExtendedArea();
 
     /**
-     * Get size of extended data area.
+     * Gets size of extended data area.
      *
      * @return length of extended area in bytes
      */

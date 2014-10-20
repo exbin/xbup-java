@@ -37,7 +37,7 @@ public interface XBListener {
      *
      * @param terminationMode Specify whether block is terminated
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
 
@@ -46,7 +46,7 @@ public interface XBListener {
      *
      * @param attribute given attribute
      * @throws XBProcessingException if unable to parse attribute value
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void attribXB(UBNatural attribute) throws XBProcessingException, IOException;
 
@@ -57,7 +57,7 @@ public interface XBListener {
      *
      * @param data processed data
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void dataXB(InputStream data) throws XBProcessingException, IOException;
 
@@ -65,7 +65,7 @@ public interface XBListener {
      * Reports block end.
      *
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void endXB() throws XBProcessingException, IOException;
 }

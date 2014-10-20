@@ -32,14 +32,14 @@ import org.xbup.lib.core.serial.XBSerializable;
 public interface XBBlockDef {
 
     /**
-     * Get list of parameters in order of appearance.
+     * Gets list of parameters in order of appearance.
      *
      * @return list of parameters
      */
     public List<XBParamDecl> getParamDecls();
 
     /**
-     * Get specific parameter declaration.
+     * Gets specific parameter declaration.
      *
      * @param index parameter declaration index
      * @return list of parameters
@@ -47,14 +47,14 @@ public interface XBBlockDef {
     public XBParamDecl getParamDecl(int index);
 
     /**
-     * Get count of parameter's declarations.
+     * Gets count of parameter's declarations.
      *
      * @return count of declarations
      */
     public long getParamCount();
 
     /**
-     * Get n-th parameter of the given block.
+     * Gets n-th parameter of the given block.
      *
      * @param source block to get parameter from
      * @param index index of the requested parameter
@@ -63,14 +63,14 @@ public interface XBBlockDef {
     public XBParamPosition getParamPosition(XBSerializable source, int index);
 
     /**
-     * Get list of revisions in order of appliance.
+     * Gets list of revisions in order of appliance.
      *
      * @return list of revisions
      */
     public List<XBDRevisionDef> getRevisionDefs();
 
     /**
-     * Get n-th parameter of the given block.
+     * Gets n-th parameter of the given block.
      *
      * @param block block to get parameter from
      * @param index index of the requested parameter
@@ -79,7 +79,7 @@ public interface XBBlockDef {
     public XBTBlock getParameter(XBTBlock block, int index);
 
     /**
-     * Get count of parameters defined in given block.
+     * Gets count of parameters defined in given block.
      *
      * @param block block to get count of parameters from
      * @return count of defined parameters

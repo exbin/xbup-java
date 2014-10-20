@@ -32,46 +32,46 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 public interface XBChildProvider {
 
     /**
-     * Get beggining of block.
+     * Matches beggining of block.
      *
      * @return terminated block flag
-     * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws XBProcessingException if not matching
+     * @throws IOException if input/output exception occurs
      */
     public XBBlockTerminationMode begin() throws XBProcessingException, IOException;
 
     /**
-     * Get block attribute.
+     * Matches block attribute.
      *
      * @return attribute value
-     * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws XBProcessingException if not matching
+     * @throws IOException if input/output exception occurs
      */
     public UBNatural nextAttribute() throws XBProcessingException, IOException;
 
     /**
-     * Get block child.
+     * Matches block child.
      *
      * @param child serializable block
-     * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws XBProcessingException if not matching
+     * @throws IOException if input/output exception occurs
      */
     public void nextChild(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
-     * Get block data.
+     * Matches block data.
      *
      * @return block data stream
-     * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws XBProcessingException if not matching
+     * @throws IOException if input/output exception occurs
      */
     public InputStream nextData() throws XBProcessingException, IOException;
 
     /**
-     * Get end of block.
+     * Matches end of block.
      *
-     * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws XBProcessingException if not matching
+     * @throws IOException if input/output exception occurs
      */
     public void end() throws XBProcessingException, IOException;
 }

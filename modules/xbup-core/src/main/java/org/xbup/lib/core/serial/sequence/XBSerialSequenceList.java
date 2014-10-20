@@ -28,13 +28,6 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 public interface XBSerialSequenceList {
 
     /**
-     * Set size of the list.
-     *
-     * @param count
-     */
-    public void setSize(UBNatural count);
-
-    /**
      * Returns size of the list.
      *
      * @return size of list
@@ -42,12 +35,19 @@ public interface XBSerialSequenceList {
     public UBNatural getSize();
 
     /**
-     * Reset position of the list order.
+     * Sets size of the list.
+     *
+     * @param count
+     */
+    public void setSize(UBNatural count);
+
+    /**
+     * Resets position of the list order.
      */
     public void reset();
 
     /**
-     * Get next item from the list.
+     * Gets next item from the list.
      *
      * @return next item
      */

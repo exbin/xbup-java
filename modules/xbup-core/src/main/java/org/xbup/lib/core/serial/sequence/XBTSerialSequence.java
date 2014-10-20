@@ -28,7 +28,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 public interface XBTSerialSequence {
 
     /**
-     * Put sequence record.
+     * Puts sequence record.
      *
      * @param sequence
      * @throws XBProcessingException

@@ -30,11 +30,11 @@ import org.xbup.lib.core.serial.XBSerializable;
 public interface XBTSequenceSerializable extends XBSerializable {
 
     /**
-     * Method to peform dual-way serialization to XBUP protocol
+     * Performs dual-way serialization to XBUP protocol
      *
      * @param serializationHandler serialization resource
      * @throws XBProcessingException if proccesing problem encountered
-     * @throws java.io.IOException if input/output problem encountered
+     * @throws IOException if input/output problem encountered
      */
     public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException;
 }

@@ -34,7 +34,7 @@ public interface XBCExtension {
     public void initializeExtension();
 
     /**
-     * Get some name for give extension.
+     * Gets some name for give extension.
      *
      * @return the name string of this extension
      */

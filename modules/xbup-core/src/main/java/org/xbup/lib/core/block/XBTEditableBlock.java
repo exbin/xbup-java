@@ -29,35 +29,35 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 public interface XBTEditableBlock extends XBTBlock {
 
     /**
-     * Set parent block.
+     * Sets parent block.
      *
      * @param parent block
      */
     public void setParent(XBTBlock parent);
 
     /**
-     * Set terminated mode.
+     * Sets terminated mode.
      *
      * @param terminationMode terminated mode flag
      */
     public void setTerminationMode(XBBlockTerminationMode terminationMode);
 
     /**
-     * Set data mode.
+     * Sets data mode.
      *
      * @param dataMode data mode
      */
     public void setDataMode(XBBlockDataMode dataMode);
 
     /**
-     * Set List of attributes in order of appearance.
+     * Sets List of attributes in order of appearance.
      *
      * @param attributes list of attributes
      */
     public void setAttributes(List<UBNatural> attributes);
 
     /**
-     * Set attribute of given index.
+     * Sets attribute of given index.
      *
      * If index greater than current count of attributes, new zero attributes
      * will be filled.
@@ -68,7 +68,7 @@ public interface XBTEditableBlock extends XBTBlock {
     public void setAttribute(UBNatural attribute, int attributeIndex);
 
     /**
-     * Set count of attributes.
+     * Sets count of attributes.
      *
      * List of attributes will be trimmed/extended with zero values.
      *
@@ -77,14 +77,14 @@ public interface XBTEditableBlock extends XBTBlock {
     public void setAttributesCount(int count);
 
     /**
-     * Set list of all children.
+     * Sets list of all children.
      *
      * @param blocks list of blocks
      */
     public void setChildren(List<XBTBlock> blocks);
 
     /**
-     * Set children of given index.
+     * Sets children of given index.
      *
      * If index greater than current count of children, new empty blocks will be
      * filled.
@@ -95,7 +95,7 @@ public interface XBTEditableBlock extends XBTBlock {
     public void setChildAt(XBTBlock block, int childIndex);
 
     /**
-     * Get count of children.
+     * Gets count of children.
      *
      * List of children will be trimmed/extended with empty blocks.
      *
@@ -104,7 +104,7 @@ public interface XBTEditableBlock extends XBTBlock {
     public void setChildCount(int count);
 
     /**
-     * Set block data.
+     * Sets block data.
      *
      * @param data data stream
      */

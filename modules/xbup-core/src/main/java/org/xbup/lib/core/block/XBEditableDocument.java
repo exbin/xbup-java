@@ -27,14 +27,14 @@ import java.io.InputStream;
 public interface XBEditableDocument extends XBDocument {
 
     /**
-     * Set root block of the document.
+     * Sets root block of the document.
      *
      * @param block the block to use as root block for this document
      */
     public void setRootBlock(XBBlock block);
 
     /**
-     * Set extended data area.
+     * Sets extended data area.
      *
      * @param source data stream
      */
@@ -46,7 +46,7 @@ public interface XBEditableDocument extends XBDocument {
     public void clear();
 
     /**
-     * Find block using depth-first traversal index.
+     * Finds block using depth-first traversal index.
      *
      * @param index order of the block in document
      * @return block if found else null

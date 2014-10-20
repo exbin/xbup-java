@@ -36,7 +36,7 @@ public interface XBParamListener {
      *
      * @param paramType Type of parameter
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void beginXBParam(XBParamDecl paramType) throws XBProcessingException, IOException;
 
@@ -44,7 +44,7 @@ public interface XBParamListener {
      * Reports single block.
      *
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void blockXBParam() throws XBProcessingException, IOException;
 
@@ -52,7 +52,7 @@ public interface XBParamListener {
      * Reports potentially infinite / terminated block sequence.
      *
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void listXBParam() throws XBProcessingException, IOException;
 
@@ -60,7 +60,7 @@ public interface XBParamListener {
      * Reports parameter end.
      *
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void endXBParam() throws XBProcessingException, IOException;
 }

@@ -27,7 +27,7 @@ import org.xbup.lib.core.parser.token.TypedToken;
 public abstract class XBParamToken extends TypedToken {
 
     /**
-     * Get type of this token.
+     * Gets type of this token.
      *
      * @return current token type.
      */

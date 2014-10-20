@@ -33,7 +33,7 @@ public interface XBTPullProvider {
      *
      * @return next token
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public XBTToken pullXBTToken() throws XBProcessingException, IOException;
 }

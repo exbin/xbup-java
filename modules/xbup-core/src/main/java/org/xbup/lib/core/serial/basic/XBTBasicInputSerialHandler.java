@@ -28,7 +28,7 @@ import org.xbup.lib.core.serial.XBInputSerialHandler;
 public interface XBTBasicInputSerialHandler extends XBInputSerialHandler {
 
     /**
-     * Attach listener to be used as target for serialization.
+     * Attaches listener which will be used as target for serialization.
      *
      * @param consumer
      */

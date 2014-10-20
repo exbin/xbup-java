@@ -27,28 +27,28 @@ import java.sql.Time;
 public interface XBCXItemInfo extends XBCBase {
 
     /**
-     * Related item.
+     * Gets related item.
      *
      * @return item
      */
     public XBCItem getItem();
 
     /**
-     * Item owner.
+     * Gets item owner.
      *
      * @return user
      */
     public XBCXUser getOwner();
 
     /**
-     * Get created by user.
+     * Gets created by user.
      *
      * @return user
      */
     public XBCXUser getCreatedByUser();
 
     /**
-     * Get creation date.
+     * Gets creation date.
      *
      * @return creation date
      */

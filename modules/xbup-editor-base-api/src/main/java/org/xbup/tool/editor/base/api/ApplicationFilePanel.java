@@ -27,38 +27,38 @@ import java.beans.PropertyChangeListener;
 public interface ApplicationFilePanel extends ApplicationPanel {
 
     /**
-     * Load file from given filename.
+     * Loads file from given filename.
      */
     public void loadFromFile();
 
     /**
-     * Save file to given filename.
+     * Saves file to given filename.
      */
     public void saveToFile();
 
     /**
-     * Get current filename.
+     * Gets current filename.
      *
      * @return filename
      */
     public String getFileName();
 
     /**
-     * Set current filename.
+     * Sets current filename.
      *
      * @param fileName
      */
     public void setFileName(String fileName);
 
     /**
-     * Set current filetype.
+     * Sets current filetype.
      *
      * @param fileType
      */
     public void setFileType(FileType fileType);
 
     /**
-     * Create new file.
+     * Creates new file.
      */
     public void newFile();
 
@@ -70,14 +70,14 @@ public interface ApplicationFilePanel extends ApplicationPanel {
     public boolean isModified();
 
     /**
-     * Change passing listener.
+     * Changes passing listener.
      *
      * @param propertyChangeListener Change listener.
      */
     public void setPropertyChangeListener(PropertyChangeListener propertyChangeListener);
 
     /**
-     * Get window title related to last opened or saved file.
+     * Gets window title related to last opened or saved file.
      *
      * @param frameTitle title of frame
      * @return title related to last opened file

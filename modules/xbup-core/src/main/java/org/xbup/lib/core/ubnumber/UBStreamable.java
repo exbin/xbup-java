@@ -32,27 +32,27 @@ import org.xbup.lib.core.parser.XBProcessingException;
 public interface UBStreamable extends Serializable {
 
     /**
-     * Method for writting current value in UB Encoding to standard byte stream.
+     * Writes current value in UB Encoding to standard byte stream.
      *
      * @param stream Stream to write to
-     * @return Count of bytes written to stream
-     * @throws java.io.IOException if stream throws it
+     * @return count of bytes written to stream
+     * @throws IOException if stream throws it
      */
     public int toStreamUB(OutputStream stream) throws IOException;
 
     /**
-     * Method for reading value in UB Encoding from standard byte stream.
+     * Reads value in UB Encoding from standard byte stream.
      *
      * @param stream Stream to read from
-     * @return Count of bytes read from stream
-     * @throws java.io.IOException if stream throws it
+     * @return count of bytes read from stream
+     * @throws IOException if stream throws it
      */
     public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException;
 
     /**
-     * Method for getting size of data which would be saved in byte stream.
+     * Returns size of data which would be saved in byte stream.
      *
-     * @return Count of bytes which would be saved
+     * @return count of bytes which would be saved
      */
     public int getSizeUB();
 }

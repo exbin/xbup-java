@@ -27,14 +27,14 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 public interface XBFBlockType extends XBBlockType {
 
     /**
-     * Get group ID of this block.
+     * Gets group ID of this block.
      * 
      * @return value of group index
      */
     public UBNatural getGroupID();
 
     /**
-     * Get block ID of this block.
+     * Gets block ID of this block.
      * 
      * @return value of block index
      */

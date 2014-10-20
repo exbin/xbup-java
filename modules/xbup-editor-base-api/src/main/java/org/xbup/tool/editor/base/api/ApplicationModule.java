@@ -27,14 +27,14 @@ import net.xeoh.plugins.base.Plugin;
 public interface ApplicationModule extends Plugin {
 
     /**
-     * Get basic info about plugin.
+     * Gets basic info about plugin.
      *
      * @return module information
      */
     public ApplicationModuleInfo getInfo();
 
     /**
-     * Initialize plugin and perform registrations.
+     * Initializes plugin and perform registrations.
      *
      * @param management module management
      */

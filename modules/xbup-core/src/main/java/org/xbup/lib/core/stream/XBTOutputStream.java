@@ -32,7 +32,7 @@ public abstract class XBTOutputStream implements Closeable, XBTEventListener {
      * Flushes this output stream and forces any buffered output bytes to be
      * written out.
      *
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public abstract void flush() throws IOException;
 }

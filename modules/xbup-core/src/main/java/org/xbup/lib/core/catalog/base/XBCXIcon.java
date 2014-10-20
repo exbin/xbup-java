@@ -25,28 +25,28 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCXIcon extends XBCBase {
 
     /**
-     * Get XB Index.
+     * Gets XB Index.
      *
      * @return the XB Index
      */
     public Long getXBIndex();
 
     /**
-     * Get parent.
+     * Gets parent item.
      *
      * @return the parent item.
      */
     public XBCItem getParent();
 
     /**
-     * Get icon mode.
+     * Gets icon mode.
      *
      * @return icon mode
      */
     public XBCXIconMode getMode();
 
     /**
-     * Get icon file.
+     * Gets icon file.
      *
      * @return icon file
      */

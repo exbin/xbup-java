@@ -56,7 +56,7 @@ public class XBContext {
     }
 
     /**
-     * Traverse thru all groups and check if block declaration matches to any
+     * Traverses thru all groups and check if block declaration matches to any
      * block type declared in current context.
      *
      * @param blockDecl block declaration

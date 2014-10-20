@@ -33,56 +33,56 @@ import javax.swing.JMenu;
 public interface MainFrameManagement {
 
     /**
-     * Get action map.
+     * Gets action map.
      *
      * @return the actionMap
      */
     public ActionMap getActionMap();
 
     /**
-     * Get cut action.
+     * Gets cut action.
      *
      * @return the cutAction
      */
     public Action getCutAction();
 
     /**
-     * Get copy action.
+     * Gets copy action.
      *
      * @return the copyAction
      */
     public Action getCopyAction();
 
     /**
-     * Get paste action.
+     * Gets paste action.
      *
      * @return the pasteAction
      */
     public Action getPasteAction();
 
     /**
-     * Get delete action.
+     * Gets delete action.
      *
      * @return the deleteAction
      */
     public Action getDeleteAction();
 
     /**
-     * Get select all action.
+     * Gets select all action.
      *
      * @return the selectAllAction
      */
     public Action getSelectAllAction();
 
     /**
-     * Get undo action.
+     * Gets undo action.
      *
      * @return the undoAction
      */
     public Action getUndoAction();
 
     /**
-     * Get redo action.
+     * Gets redo action.
      *
      * @return the redoAction
      */
@@ -94,42 +94,42 @@ public interface MainFrameManagement {
     public void refreshUndo();
 
     /**
-     * Get current frame preferences.
+     * Gets current frame preferences.
      *
      * @return preferences
      */
     public Preferences getPreferences();
 
     /**
-     * Get icon for dialogs.
+     * Gets icon for dialogs.
      *
      * @return icon image
      */
     public Image getFrameIcon();
 
     /**
-     * Initialize menu item.
+     * Initializes menu item.
      *
      * @param item menu item to initialize
      */
     public void initMenuItem(Object item);
 
     /**
-     * Initialize menu.
+     * Initializes menu.
      *
      * @param menu menu item to initialize
      */
     public void initMenu(JMenu menu);
 
     /**
-     * Get last focus owner.
+     * Gets last focus owner.
      *
      * @return component
      */
     public Component getLastFocusOwner();
 
     /**
-     * Get current frame.
+     * Gets current frame.
      *
      * @return frame
      */

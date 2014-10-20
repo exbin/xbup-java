@@ -30,20 +30,20 @@ import org.xbup.lib.core.serial.XBSerializable;
 public interface XBChildSerializable extends XBSerializable {
 
     /**
-     * Method to perform serialization from XBUP protocol.
+     * Performs serialization from XBUP protocol.
      *
      * @param serializationHandler serialization resource
      * @throws XBProcessingException if proccesing problem encountered
-     * @throws java.io.IOException if input/output problem encountered
+     * @throws IOException if input/output problem encountered
      */
     public void serializeFromXB(XBChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException;
 
     /**
-     * Method to perform serialization to XBUP protocol.
+     * Performs serialization to XBUP protocol.
      *
      * @param serializationHandler serialization resource
      * @throws XBProcessingException if proccesing problem encountered
-     * @throws java.io.IOException if input/output problem encountered
+     * @throws IOException if input/output problem encountered
      */
     public void serializeToXB(XBChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException;
 }

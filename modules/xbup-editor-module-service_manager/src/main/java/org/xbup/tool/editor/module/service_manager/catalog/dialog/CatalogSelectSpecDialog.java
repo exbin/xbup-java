@@ -213,16 +213,16 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
     }
 
     /**
-     * Get the value of spec
+     * Gets the item value of specification.
      *
-     * @return the value of spec
+     * @return the value of specification
      */
     public XBCItem getSpec() {
         return spec;
     }
 
     /**
-     * Set the value of spec
+     * Sets the value of spec
      *
      * @param spec new value of spec
      */

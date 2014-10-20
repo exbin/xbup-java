@@ -37,12 +37,12 @@ public interface ActivePanelUndoable {
     public Boolean canRedo();
 
     /**
-     * Perform undo.
+     * Performs undo.
      */
     public void performUndo();
 
     /**
-     * Perform redo.
+     * Performs redo.
      */
     public void performRedo();
 }

@@ -14,10 +14,8 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.xb.parser.tree;
+package org.xbup.lib.parser_tree;
 
-import org.xbup.lib.parser_tree.XBTreeDocument;
-import org.xbup.lib.parser_tree.XBTreeNode;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,7 +54,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
 
     /**
      * Test of open method of the class XBTreeDocument.
-     * 
+     *
      * @throws java.lang.Exception
      */
     @Test
@@ -70,13 +68,13 @@ public class XBTreeDocumentReaderTest extends TestCase {
             fail("File not found");
         } catch (IOException | XBProcessingException ex) {
             Logger.getLogger(XBTreeDocumentReaderTest.class.getName()).log(Level.SEVERE, null, ex);
-            fail("Processing error: "+ex.getMessage());
+            fail("Processing error: " + ex.getMessage());
         }
     }
 
     /**
      * Test of open method of the class XBTreeDocument.
-     * 
+     *
      * @throws java.lang.Exception
      */
     @Test
@@ -95,7 +93,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
 
     /**
      * Test of open method of the class XBTreeDocument.
-     * 
+     *
      * @throws java.lang.Exception
      */
     @Test
@@ -103,10 +101,10 @@ public class XBTreeDocumentReaderTest extends TestCase {
         InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_extended.xb");
         XBTreeDocument instance = new XBTreeDocument();
         instance.fromStreamUB(stream);
-        
+
         assertNotNull(instance.getRootBlock());
         assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, instance.getRootBlock().getTerminationMode());
-        
+
         assertEquals(0, instance.getRootBlock().getChildCount());
         assertEquals(1, instance.getRootBlock().getAttributesCount());
         assertEquals(0, instance.getRootBlock().getAttribute(0).getInt());
@@ -116,7 +114,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
 
     /**
      * Test of open method of the class XBTreeDocument.
-     * 
+     *
      * @throws java.lang.Exception
      */
     @Test
@@ -136,7 +134,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
 
     /**
      * Test of open method of the class XBTreeDocument.
-     * 
+     *
      * @throws java.lang.Exception
      */
     @Test
@@ -156,7 +154,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
 
     /**
      * Test of open method of the class XBTreeDocument.
-     * 
+     *
      * @throws java.lang.Exception
      */
     @Test
@@ -176,6 +174,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
 
     /**
      * Test of open method of the class XBTreeDocument.
+     *
      * @throws java.lang.Exception
      */
     @Test
@@ -194,7 +193,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
 
     /**
      * Test of open method of the class XBTreeDocument.
-     * 
+     *
      * @throws java.lang.Exception
      */
     @Test
@@ -216,7 +215,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
 
     /**
      * Test of open method of the class XBTreeDocument.
-     * 
+     *
      * @throws java.lang.Exception
      */
     @Test
@@ -237,7 +236,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
         assertEquals(1, node1.getChildCount());
         assertEquals(1, node1.getAttributesCount());
         assertEquals(0, node1.getAttribute(0).getInt());
-        
+
         XBTreeNode node2 = node1.getChildAt(0);
         assertEquals(1, node2.getChildCount());
         assertEquals(1, node2.getAttributesCount());
@@ -247,7 +246,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
         assertEquals(0, node3.getChildCount());
         assertEquals(0, node3.getAttributesCount());
         assertEquals(XBBlockDataMode.DATA_BLOCK, node3.getDataMode());
-                
+
         XBTreeNode node4 = rootNode.getChildAt(1);
         assertEquals(1, node4.getChildCount());
         assertEquals(1, node4.getAttributesCount());

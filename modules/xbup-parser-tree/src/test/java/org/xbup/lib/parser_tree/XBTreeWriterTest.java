@@ -14,9 +14,8 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.xb.parser.tree;
+package org.xbup.lib.parser_tree;
 
-import org.xbup.lib.parser_tree.XBTreeNode;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -37,7 +36,6 @@ import org.xbup.lib.core.parser.token.event.XBEventListener;
 import org.xbup.lib.core.parser.token.event.XBEventWriter;
 import org.xbup.lib.core.parser.token.event.convert.XBEventListenerToListener;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
-import org.xbup.lib.parser_tree.XBTreeWriter;
 
 /**
  * Test class for XBTreeWriter.

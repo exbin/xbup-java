@@ -25,14 +25,14 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCXPlugLine extends XBCBase {
 
     /**
-     * Get attached plugin.
+     * Gets attached plugin.
      *
      * @return plugin
      */
     public XBCXPlugin getPlugin();
 
     /**
-     * Get index of the line editor.
+     * Gets index of the line editor.
      *
      * @return line editor index
      */

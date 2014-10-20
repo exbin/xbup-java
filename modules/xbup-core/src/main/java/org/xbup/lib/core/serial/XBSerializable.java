@@ -34,7 +34,7 @@ package org.xbup.lib.core.serial;
  * public void serializeToXB(XBOutputSerialHandler serializationHandler) throws
  * XBProcessingException, IOException;
  *
- * Method to peform dual-way serialization to XBUP protocol:
+ * Method to perform dual-way serialization to XBUP protocol:
  *
  * public void serializeXB(XBSerialHandler serializationHandler) throws
  * XBProcessingException, IOException;

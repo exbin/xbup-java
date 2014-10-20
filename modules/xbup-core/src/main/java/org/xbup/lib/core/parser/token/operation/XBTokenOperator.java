@@ -30,18 +30,18 @@ import org.xbup.lib.core.parser.token.TypedToken;
 public abstract class XBTokenOperator<T extends TypedToken, U extends TypedToken> {
 
     /**
-     * Put single token.
+     * Puts single token.
      *
      * @param token
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public abstract void putToken(U token) throws IOException;
 
     /**
-     * Get single token from source.
+     * Gets single token from source.
      *
      * @return token
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public abstract T getToken() throws IOException;
 
@@ -51,35 +51,35 @@ public abstract class XBTokenOperator<T extends TypedToken, U extends TypedToken
     public abstract void reset();
 
     /**
-     * Get available capacity of input buffer.
+     * Gets available capacity of input buffer.
      *
      * @return available capacity in bytes
      */
     public abstract int availableInput();
 
     /**
-     * Get available capacity of output buffer.
+     * Gets available capacity of output buffer.
      *
      * @return available capacity in bytes
      */
     public abstract int availableOutput();
 
     /**
-     * Set request for minimum cache fill to operate.
+     * Sets request for minimum cache fill to operate.
      *
      * @param count
      */
     public abstract void request(int count);
 
     /**
-     * Set size of operator's input cache.
+     * Sets size of operator's input cache.
      *
      * @param size size in bytes
      */
     public abstract void setInputCache(int size);
 
     /**
-     * Set size of operator's output cache.
+     * Sets size of operator's output cache.
      *
      * @param size size in bytes
      */

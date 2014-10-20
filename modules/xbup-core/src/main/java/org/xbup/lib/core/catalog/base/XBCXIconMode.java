@@ -25,21 +25,21 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCXIconMode extends XBCBase {
 
     /**
-     * Get type of icon.
+     * Gets type of icon.
      *
      * @return icon type index
      */
     public Long getType();
 
     /**
-     * Get MIME string.
+     * Gets MIME string.
      *
      * @return MIME string
      */
     public String getMIME();
 
     /**
-     * Get mode caption.
+     * Gets icon mode text caption.
      *
      * @return caption string
      */

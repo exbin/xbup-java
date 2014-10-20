@@ -73,12 +73,12 @@ public class XBTCPServiceClient implements XBServiceClient {
     };
 */
     /**
-     * Perform login to the server
+     * Performs login to the server
      *
      * @param user 
      * @param password
      * @return 
-     * @throws java.io.IOException 
+     * @throws IOException 
      */
     @Override
     public int login(String user, char[] password) throws IOException {

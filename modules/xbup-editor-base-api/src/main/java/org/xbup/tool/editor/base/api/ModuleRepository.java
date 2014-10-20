@@ -30,28 +30,28 @@ import net.xeoh.plugins.base.PluginManager;
 public interface ModuleRepository {
 
     /**
-     * Scan for all valid modules in give directory.
+     * Scans for all valid modules in give directory.
      *
      * @param uri
      */
     public void addPluginsFrom(URI uri);
 
     /**
-     * Get active module.
+     * Gets active module.
      *
      * @return the activeModule
      */
     public long getActiveModule();
 
     /**
-     * Get currently active plugin handler.
+     * Gets currently active plugin handler.
      *
      * @return application module
      */
     public ApplicationModule getPluginHandler();
 
     /**
-     * Get plugin manager.
+     * Gets plugin manager.
      *
      * @return the pluginManager
      */
@@ -66,7 +66,7 @@ public interface ModuleRepository {
     public boolean openFile(JFileChooser openFC);
 
     /**
-     * Open file from given properties.
+     * Opens file from given properties.
      *
      * @param path full path
      * @param fileTypeId file type id
@@ -75,19 +75,19 @@ public interface ModuleRepository {
     public boolean openFile(String path, String fileTypeId);
 
     /**
-     * Get list of modules.
+     * Gets list of modules.
      *
      * @return list of modules
      */
     public List<ApplicationModuleInfo> getModulesList();
 
     /**
-     * Create new file.
+     * Creates new file.
      */
     public void newFile();
 
     /**
-     * Save file under the given filename.
+     * Saves file under the given filename.
      *
      * @param saveFC file chooser
      * @return true if file successfully saved
@@ -95,7 +95,7 @@ public interface ModuleRepository {
     public boolean saveFile(JFileChooser saveFC);
 
     /**
-     * Save file under the same filename.
+     * Saves file under the same filename.
      *
      * @return true if file successfully saved
      */

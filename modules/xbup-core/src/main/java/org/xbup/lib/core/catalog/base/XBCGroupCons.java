@@ -25,7 +25,7 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCGroupCons extends XBCConsDef {
 
     /**
-     * Get owner which is also specification.
+     * Gets owner which is also specification.
      *
      * @return group specification
      */
@@ -33,7 +33,7 @@ public interface XBCGroupCons extends XBCConsDef {
     public XBCGroupSpec getSpec();
 
     /**
-     * Get target specification.
+     * Gets target specification.
      *
      * @return block revision
      */

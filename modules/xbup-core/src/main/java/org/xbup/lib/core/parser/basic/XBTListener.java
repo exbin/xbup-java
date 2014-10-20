@@ -38,7 +38,7 @@ public interface XBTListener {
      *
      * @param terminationMode Specify whether block is terminated
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
 
@@ -47,7 +47,7 @@ public interface XBTListener {
      *
      * @param blockType Returns type of block
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void typeXBT(XBBlockType blockType) throws XBProcessingException, IOException;
 
@@ -56,7 +56,7 @@ public interface XBTListener {
      *
      * @param attribute given attribute
      * @throws XBProcessingException if unable to parse attribute value
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void attribXBT(UBNatural attribute) throws XBProcessingException, IOException;
 
@@ -67,7 +67,7 @@ public interface XBTListener {
      *
      * @param data processed data
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void dataXBT(InputStream data) throws XBProcessingException, IOException;
 
@@ -75,7 +75,7 @@ public interface XBTListener {
      * Reports block end.
      *
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void endXBT() throws XBProcessingException, IOException;
 }

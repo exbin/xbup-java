@@ -23,7 +23,7 @@ import java.io.OutputStream;
 /**
  * Utilities for copying stream data.
  *
- * @version 0.1.23 2014/03/09
+ * @version 0.1.24 2014/10/20
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class CopyStreamUtils {
@@ -31,11 +31,11 @@ public abstract class CopyStreamUtils {
     private static final int BUFFER_SIZE = 1024;
 
     /**
-     * Copy all data from input stream to output stream using 1k buffer.
+     * Copies all data from input stream to output stream using 1k buffer.
      *
      * @param source input stream
      * @param target output stream
-     * @throws java.io.IOException if read or write fails
+     * @throws IOException if read or write fails
      */
     public static void copyInputStreamToOutputStream(InputStream source, OutputStream target) throws IOException {
         byte[] buffer = new byte[BUFFER_SIZE];
@@ -56,13 +56,13 @@ public abstract class CopyStreamUtils {
     }
 
     /**
-     * Copy all data from input stream to output stream using 1k buffer with
+     * Copies all data from input stream to output stream using 1k buffer with
      * size limitation.
      *
      * @param source input stream
      * @param target output stream
      * @param size data size limitation
-     * @throws java.io.IOException if read or write fails
+     * @throws IOException if read or write fails
      */
     public static void copyInputStreamToOutputStream(InputStream source, OutputStream target, long size) throws IOException {
         long remain = size;
@@ -95,13 +95,13 @@ public abstract class CopyStreamUtils {
     }
 
     /**
-     * Copy data of given size from input stream to output stream using 1k
+     * Copies data of given size from input stream to output stream using 1k
      * buffer with size limitation.
      *
      * @param source input stream
      * @param target output stream
      * @param size data size limitation
-     * @throws java.io.IOException if read or write fails
+     * @throws IOException if read or write fails
      */
     public static void copyFixedSizeInputStreamToOutputStream(InputStream source, OutputStream target, long size) throws IOException {
         long remain = size;
@@ -130,6 +130,12 @@ public abstract class CopyStreamUtils {
         }
     }
 
+    /**
+     * Reads all remaining data from input stream.
+     *
+     * @param source input stream
+     * @throws IOException if read fails
+     */
     public static void readUpInputStream(InputStream source) throws IOException {
         byte[] buffer = new byte[BUFFER_SIZE];
 
@@ -139,12 +145,12 @@ public abstract class CopyStreamUtils {
     }
 
     /**
-     * Copy all data from input stream to output stream using 1k buffer.
+     * Copies all data from input stream to output stream using 1k buffer.
      *
      * @param source input stream
      * @param target output stream
      * @param secondTarget second output stream
-     * @throws java.io.IOException if read or write fails
+     * @throws IOException if read or write fails
      */
     public static void copyInputStreamToTwoOutputStreams(InputStream source, OutputStream target, OutputStream secondTarget) throws IOException {
         byte[] buffer = new byte[BUFFER_SIZE];

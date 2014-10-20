@@ -25,28 +25,28 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCTran extends XBCBase {
 
     /**
-     * Get owner which is directory.
+     * Gets owner which is directory.
      *
      * @return block specification
      */
     public XBCBlockSpec getOwner();
 
     /**
-     * Get target of the procedure.
+     * Gets target of the procedure.
      *
      * @return block revision
      */
     public XBCBlockRev getTarget();
 
     /**
-     * Get limitation of the procedure-
+     * Gets limitation of the procedure.
      *
      * @return specification's limitation
      */
     public XBCLimitSpec getLimit();
 
     /**
-     * Get exception of the procedure.
+     * Gets exception of the procedure.
      *
      * @return block revision
      */

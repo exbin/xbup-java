@@ -34,7 +34,7 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 public interface XBCXIconManager<T extends XBCXIcon> extends XBCManager<T>, XBCExtension {
 
     /**
-     * Get default icon for item.
+     * Gets default icon for item.
      *
      * @param item
      * @return icon
@@ -42,7 +42,7 @@ public interface XBCXIconManager<T extends XBCXIcon> extends XBCManager<T>, XBCE
     public XBCXIcon getDefaultIcon(XBCItem item);
 
     /**
-     * Get icon mode by unique index.
+     * Gets icon mode by unique index.
      *
      * @param type
      * @return icon mode
@@ -50,7 +50,7 @@ public interface XBCXIconManager<T extends XBCXIcon> extends XBCManager<T>, XBCE
     public XBCXIconMode getIconMode(Long type);
 
     /**
-     * Get list of icons for block specification.
+     * Gets list of icons for block specification.
      *
      * @param blockSpec
      * @return list of icons
@@ -58,7 +58,7 @@ public interface XBCXIconManager<T extends XBCXIcon> extends XBCManager<T>, XBCE
     public List<XBCXIcon> getBlockSpecIcons(XBCBlockSpec blockSpec);
 
     /**
-     * Get default icon for given item.
+     * Gets default icon for given item.
      *
      * @param item item we want to get icon of
      * @return icon instance or null

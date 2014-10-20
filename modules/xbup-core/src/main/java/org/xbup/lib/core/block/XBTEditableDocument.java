@@ -27,14 +27,14 @@ import java.io.InputStream;
 public interface XBTEditableDocument extends XBTDocument {
 
     /**
-     * Set root block of the document.
+     * Sets root block of the document.
      *
      * @param block the block to use as root block for this document
      */
     public void setRootBlock(XBTBlock block);
 
     /**
-     * Set extended data area.
+     * Sets extended data area.
      *
      * @param source data stream
      */
@@ -46,7 +46,7 @@ public interface XBTEditableDocument extends XBTDocument {
     public void clear();
 
     /**
-     * Find node using depth-first traversal index.
+     * Finds node using depth-first traversal index.
      *
      * @param index order of the block in document
      * @return block if found else null
@@ -54,7 +54,7 @@ public interface XBTEditableDocument extends XBTDocument {
     public XBTBlock findNodeByIndex(long index);
 
     /**
-     * Create new instance of block as next child for given block.
+     * Creates new instance of block as next child for given block.
      *
      * @param parent block which would be set as parent block. Null for root
      * node

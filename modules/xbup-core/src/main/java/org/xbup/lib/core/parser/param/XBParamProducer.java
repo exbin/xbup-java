@@ -25,7 +25,7 @@ package org.xbup.lib.core.parser.param;
 public interface XBParamProducer {
 
     /**
-     * Set listener for data be to send to.
+     * Sets listener for data be to send to.
      *
      * @param listener target lonsumer
      */

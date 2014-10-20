@@ -22,7 +22,8 @@ import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 
 /**
- * XBUP level 1 serialization token handler using token parser mapping to listener.
+ * XBUP level 1 serialization token handler using token parser mapping to
+ * listener.
  *
  * @version 0.1.24 2014/08/23
  * @author XBUP Project (http://xbup.org)

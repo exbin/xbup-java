@@ -34,7 +34,7 @@ public interface XBTProvider {
      *
      * @param listener listener to send data to
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void produceXBT(XBTListener listener) throws XBProcessingException, IOException;
 }

@@ -28,7 +28,7 @@ package org.xbup.lib.core.block;
 public interface XBBlockType {
 
     /**
-     * Return this type as basic type if it is matching or null.
+     * Returns this type as basic type if it is matching or null.
      *
      * @return basic block type or null
      */

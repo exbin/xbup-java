@@ -25,21 +25,21 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCXLanguage extends XBCBase {
 
     /**
-     * Get language code.
+     * Gets language code.
      *
      * @return language code
      */
     public String getLangCode();
 
     /**
-     * Set language code.
+     * Sets language code.
      *
      * @param langCode
      */
     public void setLangCode(String langCode);
 
     /**
-     * Get language name.
+     * Gets language name.
      *
      * @return language name
      */

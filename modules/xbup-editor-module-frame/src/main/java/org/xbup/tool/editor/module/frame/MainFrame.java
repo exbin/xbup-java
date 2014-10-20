@@ -232,7 +232,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         initPopupMenu(mainPopupMenu);
         initPopupMenu(defaultPopupMenu);
 
-        recentFiles = new ArrayList<RecentItem>();
+        recentFiles = new ArrayList<>();
 
         mainTabbedPane.addChangeListener(new ChangeListener() {
             @Override
@@ -248,13 +248,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
             try {
                 UIManager.setLookAndFeel(lookAndFeel);
 
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InstantiationException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (UnsupportedLookAndFeelException ex) {
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -429,8 +423,8 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
     }
 
     // TODO: Ordering
-    private final Map<String, JPanel> tabs = new HashMap<String, JPanel>();
-    private final Map<String, Long> tabModules = new HashMap<String, Long>();
+    private final Map<String, JPanel> tabs = new HashMap<>();
+    private final Map<String, Long> tabModules = new HashMap<>();
 
     public void setActivePanel(JPanel panel, String panelName) {
         activePanel = panel;
@@ -1002,7 +996,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
     }
 
     /**
-     * Get the extension part of file name.
+     * Gets the extension part of file name.
      *
      * @param file Source file
      * @return extension part of file name
@@ -1719,7 +1713,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
 
                                 @Override
                                 public List<ApplicationModuleInfo> getModulesList() {
-                                    return new ArrayList<ApplicationModuleInfo>();
+                                    return new ArrayList<>();
                                 }
 
                                 @Override

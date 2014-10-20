@@ -32,28 +32,28 @@ public interface OptionsManagement {
     public static final String PREFERENCES_LOCALE_VARIANT = "locale.variant";
 
     /**
-     * Add options panel.
+     * Adds options panel.
      *
      * @param optionsPanel
      */
     public void addOptionsPanel(OptionsPanel optionsPanel);
 
     /**
-     * Extend main options panel.
+     * Extends main options panel.
      *
      * @param optionsPanel
      */
     public void extendMainOptionsPanel(OptionsPanel optionsPanel);
 
     /**
-     * Extend appearance options panel.
+     * Extends appearance options panel.
      *
      * @param optionsPanel
      */
     public void extendAppearanceOptionsPanel(OptionsPanel optionsPanel);
 
     /**
-     * Get preferences.
+     * Gets preferences.
      *
      * @return prefereces.
      */

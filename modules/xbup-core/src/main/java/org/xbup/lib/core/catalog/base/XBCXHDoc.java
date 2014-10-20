@@ -25,21 +25,21 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCXHDoc extends XBCBase {
 
     /**
-     * Get language.
+     * Gets language.
      *
      * @return the language
      */
     public XBCXLanguage getLang();
 
     /**
-     * Get relevant item.
+     * Gets relevant item.
      *
      * @return the item
      */
     public XBCItem getItem();
 
     /**
-     * Get documentation file.
+     * Gets documentation file.
      *
      * @return the file
      */

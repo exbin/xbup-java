@@ -29,28 +29,28 @@ import org.xbup.lib.core.catalog.base.XBCBase;
 public interface XBCManager<T extends XBCBase> {
 
     /**
-     * Create instance of new item and set it to default state.
+     * Creates instance of new item and set it to default state.
      *
      * @return new item
      */
     public T createItem();
 
     /**
-     * Update item state to persistent repository.
+     * Updates item state to persistent repository.
      *
      * @param item to update
      */
     public void persistItem(T item);
 
     /**
-     * Delete item from persistent repository.
+     * Deletes item from persistent repository.
      *
      * @param item
      */
     public void removeItem(T item);
 
     /**
-     * Get item from persistent repository.
+     * Gets item from persistent repository.
      *
      * @param itemId item id
      * @return instance of item or null
@@ -58,14 +58,14 @@ public interface XBCManager<T extends XBCBase> {
     public T getItem(long itemId);
 
     /**
-     * Get list of all items from persistent repository.
+     * Gets list of all items from persistent repository.
      *
      * @return list of items
      */
     public List<T> getAllItems();
 
     /**
-     * Count of items in persistent repository.
+     * Returns count of items in persistent repository.
      *
      * @return count of items
      */

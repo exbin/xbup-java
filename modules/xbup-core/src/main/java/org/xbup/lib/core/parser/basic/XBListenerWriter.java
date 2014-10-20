@@ -87,7 +87,7 @@ public class XBListenerWriter implements Closeable, XBListener {
      * Open output byte-stream.
      * 
      * @param outputStream output stream
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void open(OutputStream outputStream) throws IOException {
         openStream(outputStream);

@@ -50,21 +50,20 @@ public class UBENat32Test extends TestCase {
 
     /**
      * Test of fromStreamUB method, of class UBENat32.
-     * 
+     *
      * @throws java.lang.Exception
      */
     public void testFromStreamUB() throws Exception {
-        System.out.println("fromStreamUB");
         UBENat32 instance = new UBENat32();
         InputStream stream;
         int result;
 
-        stream = new ByteArrayInputStream(new byte[] { 0 } );
+        stream = new ByteArrayInputStream(new byte[]{0});
         result = instance.fromStreamUB(stream);
         assertEquals(1, result);
         assertEquals(0, instance.getInt());
 
-        stream = new ByteArrayInputStream(new byte[] { -0x80, 0 } );
+        stream = new ByteArrayInputStream(new byte[]{-0x80, 0});
         result = instance.fromStreamUB(stream);
         assertEquals(2, result);
         assertEquals(127, instance.getInt());
@@ -76,17 +75,17 @@ public class UBENat32Test extends TestCase {
     public void testReadWrite() {
         ByteArrayOutputStream oStream = new ByteArrayOutputStream();
         try {
-            assertEquals(1,new UBENat32(0x7E).toStreamUB(oStream));
-            assertEquals(2,new UBENat32(0x7F).toStreamUB(oStream));
-            assertEquals(2,new UBENat32(0x407E).toStreamUB(oStream));
-            assertEquals(3,new UBENat32(0x407F).toStreamUB(oStream));
-            assertEquals(3,new UBENat32(0x20407E).toStreamUB(oStream));
-            assertEquals(4,new UBENat32(0x20407F).toStreamUB(oStream));
-            assertEquals(4,new UBENat32(0x1020407E).toStreamUB(oStream));
-            assertEquals(5,new UBENat32(0x1020407F).toStreamUB(oStream));
+            assertEquals(1, new UBENat32(0x7E).toStreamUB(oStream));
+            assertEquals(2, new UBENat32(0x7F).toStreamUB(oStream));
+            assertEquals(2, new UBENat32(0x407E).toStreamUB(oStream));
+            assertEquals(3, new UBENat32(0x407F).toStreamUB(oStream));
+            assertEquals(3, new UBENat32(0x20407E).toStreamUB(oStream));
+            assertEquals(4, new UBENat32(0x20407F).toStreamUB(oStream));
+            assertEquals(4, new UBENat32(0x1020407E).toStreamUB(oStream));
+            assertEquals(5, new UBENat32(0x1020407F).toStreamUB(oStream));
             UBENat32 infinity = new UBENat32();
             infinity.setInfinity();
-            assertEquals(infinity.toStreamUB(oStream),1);
+            assertEquals(infinity.toStreamUB(oStream), 1);
             oStream.flush();
             oStream.close();
         } catch (IOException ex) {
@@ -97,21 +96,21 @@ public class UBENat32Test extends TestCase {
         try {
             iStream = new ByteArrayInputStream(oStream.toByteArray());
             UBENat32 value = new UBENat32();
-            assertEquals(1,value.fromStreamUB(iStream));
+            assertEquals(1, value.fromStreamUB(iStream));
             assertEquals(0x7E, value.getInt());
-            assertEquals(2,value.fromStreamUB(iStream));
+            assertEquals(2, value.fromStreamUB(iStream));
             assertEquals(0x7F, value.getInt());
-            assertEquals(2,value.fromStreamUB(iStream));
+            assertEquals(2, value.fromStreamUB(iStream));
             assertEquals(0x407E, value.getInt());
-            assertEquals(3,value.fromStreamUB(iStream));
+            assertEquals(3, value.fromStreamUB(iStream));
             assertEquals(0x407F, value.getInt());
-            assertEquals(3,value.fromStreamUB(iStream));
+            assertEquals(3, value.fromStreamUB(iStream));
             assertEquals(0x20407E, value.getInt());
-            assertEquals(4,value.fromStreamUB(iStream));
+            assertEquals(4, value.fromStreamUB(iStream));
             assertEquals(0x20407F, value.getInt());
-            assertEquals(4,value.fromStreamUB(iStream));
+            assertEquals(4, value.fromStreamUB(iStream));
             assertEquals(0x1020407E, value.getInt());
-            assertEquals(5,value.fromStreamUB(iStream));
+            assertEquals(5, value.fromStreamUB(iStream));
             assertEquals(0x1020407F, value.getInt());
             value.fromStreamUB(iStream);
             assertTrue(value.isInfinity());
@@ -125,7 +124,6 @@ public class UBENat32Test extends TestCase {
      * Test of getInt method, of class UBENat32.
      */
     public void testGetInt() {
-        System.out.println("getInt");
         UBENat32 instance = new UBENat32(Integer.MAX_VALUE);
         int expResult = Integer.MAX_VALUE;
         int result = instance.getInt();

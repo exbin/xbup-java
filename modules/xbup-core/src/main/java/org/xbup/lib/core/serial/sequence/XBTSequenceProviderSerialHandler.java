@@ -84,7 +84,7 @@ public class XBTSequenceProviderSerialHandler implements XBTSequenceSerialHandle
             switch (seqItem.getSequenceOp()) {
                 case JOIN: {
                     if (item instanceof XBSerialSequence) {
-                         children.addAll(serializeFromXBSequence((XBSerialSequence) item, handler));
+                        children.addAll(serializeFromXBSequence((XBSerialSequence) item, handler));
                     } else if (item instanceof XBTChildSerializable) {
                         XBJoinInputStream joinSerial = new XBJoinInputStream(handler);
                         ((XBTChildSerializable) item).serializeFromXB(joinSerial);
@@ -103,7 +103,6 @@ public class XBTSequenceProviderSerialHandler implements XBTSequenceSerialHandle
                      } else {
                      throw new XBProcessingException("Unknown serialization object");
                      } */
-                    
                     break;
                 }
                 case CONSIST: {
@@ -126,7 +125,7 @@ public class XBTSequenceProviderSerialHandler implements XBTSequenceSerialHandle
                 }
             }
         }
-        
+
         return children;
     }
 

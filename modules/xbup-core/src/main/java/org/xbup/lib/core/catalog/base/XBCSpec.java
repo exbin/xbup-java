@@ -25,7 +25,7 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCSpec extends XBCItem {
 
     /**
-     * Get node which is also owner.
+     * Gets node which is also owner.
      *
      * @return the node
      */

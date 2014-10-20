@@ -32,46 +32,46 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 public interface XBChildListener {
 
     /**
-     * Put beggining of block.
+     * Puts beggining of block.
      *
      * @param terminationMode flag
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void begin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
 
     /**
-     * Put block attribute.
+     * Puts block attribute.
      *
      * @param attribute attribute value
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void addAttribute(UBNatural attribute) throws XBProcessingException, IOException;
 
     /**
-     * Put block's child.
+     * Puts block's child.
      *
      * @param child serializable block
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void addChild(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
-     * Put block data.
+     * Puts block data.
      *
      * @param data data stream
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void addData(InputStream data) throws XBProcessingException, IOException;
 
     /**
-     * Put end of block.
+     * Puts end of block.
      *
      * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void end() throws XBProcessingException, IOException;
 }

@@ -32,12 +32,12 @@ public abstract class XBTokenInputStream implements Closeable, XBPullProvider {
     /**
      * Reset source - jump to beginning of stream.
      *
-     * @throws java.io.IOException if not possible to reset
+     * @throws IOException if not possible to reset
      */
     public abstract void reset() throws IOException;
 
     /**
-     * Return true if stream ended.
+     * Returns true if stream ended.
      *
      * @return true if stream ended
      * @throws IOException if unable to determine stream end
@@ -48,7 +48,7 @@ public abstract class XBTokenInputStream implements Closeable, XBPullProvider {
      * Skip given count of tokens in stream.
      *
      * @param tokenCount count of tokens
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public abstract void skip(long tokenCount) throws XBProcessingException, IOException;
 }

@@ -30,7 +30,7 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 public interface XBCXHDocManager<T extends XBCXHDoc> extends XBCManager<T>, XBCExtension {
 
     /**
-     * Get documentation for item.
+     * Gets documentation for item.
      *
      * @param item
      * @return documentation
@@ -38,7 +38,7 @@ public interface XBCXHDocManager<T extends XBCXHDoc> extends XBCManager<T>, XBCE
     public XBCXHDoc getDocumentation(XBCItem item);
 
     /**
-     * Get documentation by unique index.
+     * Gets documentation by unique index.
      *
      * @param id unique index
      * @return documentation
@@ -46,7 +46,7 @@ public interface XBCXHDocManager<T extends XBCXHDoc> extends XBCManager<T>, XBCE
     public XBCXHDoc findById(Long id);
 
     /**
-     * Get count of all HTML documentations.
+     * Gets count of all HTML documentations.
      *
      * @return count of documentations
      */

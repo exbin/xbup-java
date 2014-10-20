@@ -82,7 +82,7 @@ public class XBProviderReader implements XBProvider {
      * Open input byte-stream.
      *
      * @param stream input stream
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void open(InputStream stream) throws IOException {
         source = stream;
@@ -92,7 +92,7 @@ public class XBProviderReader implements XBProvider {
     /**
      * Reset input stream and parser state.
      *
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void reset() throws IOException {
         resetParser();
@@ -101,7 +101,7 @@ public class XBProviderReader implements XBProvider {
     /**
      * Close input stream.
      *
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void close() throws IOException {
         source.close();
@@ -127,7 +127,7 @@ public class XBProviderReader implements XBProvider {
     }
 
     /**
-     * Return current level of how deep in tree we are.
+     * Returns current level of how deep in tree we are.
      *
      * @return tree level, 0 means root
      */

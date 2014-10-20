@@ -16,9 +16,6 @@
  */
 package org.xbup.lib.core.parser.token.pull;
 
-import org.xbup.lib.core.parser.token.pull.XBPullConsumer;
-import org.xbup.lib.core.parser.token.pull.XBPullProvider;
-import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -408,6 +405,6 @@ public class XBPullReaderTest extends TestCase {
             position++;
         }
 
-        assertTrue("Extended data are too short", position == 10);
+        assertEquals("Extended data are too short", 10, position);
     }
 }

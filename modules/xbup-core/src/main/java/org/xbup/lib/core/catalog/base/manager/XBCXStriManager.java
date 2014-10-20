@@ -48,7 +48,7 @@ public interface XBCXStriManager<T extends XBCXStri> extends XBCManager<T>, XBCE
     public List<XBCXStri> getItemStringIds(XBCItem item);
 
     /**
-     * Get default caption in current language.
+     * Gets default caption in current language.
      *
      * @param blockSpec specification to get caption of
      * @return string caption
@@ -56,7 +56,7 @@ public interface XBCXStriManager<T extends XBCXStri> extends XBCManager<T>, XBCE
     public String getDefaultStringId(XBCBlockSpec blockSpec);
 
     /**
-     * Full stringId path including leading slash symbol.
+     * Returns full stringId path including leading slash symbol.
      *
      * @param itemString stringId item
      * @return string representation of the path

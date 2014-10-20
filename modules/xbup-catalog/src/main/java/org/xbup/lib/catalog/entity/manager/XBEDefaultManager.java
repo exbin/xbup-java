@@ -127,7 +127,7 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
     }
 
     /**
-     * Get class on which is this class parametrized / generic of.
+     * Gets class on which is this class parametrized / generic of.
      *
      * @return generic class of this class
      */
@@ -137,7 +137,7 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
     }
 
     /**
-     * Get table name for this manager.
+     * Gets table name for this manager.
      *
      * @return table name
      */

@@ -27,21 +27,21 @@ import java.io.InputStream;
 public interface XBDocument {
 
     /**
-     * Get root block of the document.
+     * Gets root block of the document.
      *
      * @return root block if exits or null.
      */
     public XBBlock getRootBlock();
 
     /**
-     * Get extended data area.
+     * Gets extended data area.
      *
      * @return InputStream of providing read access to data area
      */
     public InputStream getExtendedArea();
 
     /**
-     * Get size of the whole document.
+     * Gets size of the whole document.
      *
      * It is sum of the size of the root block if present + size of the extended
      * area.
@@ -51,7 +51,7 @@ public interface XBDocument {
     public long getDocumentSize();
 
     /**
-     * Get size of extended data area.
+     * Gets size of extended data area.
      *
      * @return length of extended area in bytes.
      */

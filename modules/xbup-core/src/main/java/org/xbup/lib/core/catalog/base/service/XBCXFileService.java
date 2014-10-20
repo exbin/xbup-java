@@ -41,7 +41,7 @@ public interface XBCXFileService<T extends XBCXFile> extends XBCService<T>, XBCE
     public Long[] getFileXBPath(XBCXFile file);
 
     /**
-     * Find file by its node and filename.
+     * Finds file by its node and filename.
      *
      * @param node parent node of the file
      * @param fileName name of the file
@@ -50,7 +50,7 @@ public interface XBCXFileService<T extends XBCXFile> extends XBCService<T>, XBCE
     public XBCXFile findFile(XBCNode node, String fileName);
 
     /**
-     * Get file as image.
+     * Gets file as image.
      *
      * @param file source file
      * @return image representation of the file
@@ -58,7 +58,7 @@ public interface XBCXFileService<T extends XBCXFile> extends XBCService<T>, XBCE
     public ImageIcon getFileAsImageIcon(XBCXFile file);
 
     /**
-     * Access file as data stream.
+     * Accesses file as data stream.
      *
      * @param file source file
      * @return data stream
@@ -66,7 +66,7 @@ public interface XBCXFileService<T extends XBCXFile> extends XBCService<T>, XBCE
     public InputStream getFile(XBCXFile file);
 
     /**
-     * Find all file for given node.
+     * Finds all file for given node.
      *
      * @param node parent node of the file
      * @return list of files or null if no such file exist

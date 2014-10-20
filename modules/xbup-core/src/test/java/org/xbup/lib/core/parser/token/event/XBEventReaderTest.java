@@ -16,8 +16,6 @@
  */
 package org.xbup.lib.core.parser.token.event;
 
-import org.xbup.lib.core.parser.token.event.XBEventListener;
-import org.xbup.lib.core.parser.token.event.XBEventReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -398,14 +396,14 @@ public class XBEventReaderTest extends TestCase {
                     while ((data.available() >= 0) && (position < 10)) {
                         int readStat = data.read(dataBlob, 0, 1);
                         if (readStat < 0) {
-                            assertTrue("Incorrect extended data", false);
+                            fail("Incorrect extended data");
                         }
 
                         assertEquals('0' + position, dataBlob[0]);
                         position++;
                     }
 
-                    assertTrue("Extended data are too short", position == 10);
+                    assertEquals("Extended data are too short", 10, position);
                 }
             } else {
                 super.putXBToken(token);

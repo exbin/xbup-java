@@ -31,7 +31,7 @@ public interface UBENatural extends Serializable, UBStreamable {
     public static int INFINITY_SIZE_UB = 1;
 
     /**
-     * Getting short integer value.
+     * Gets short integer value.
      *
      * @return integer value
      * @throws UBOverFlowException if value is out of range
@@ -39,7 +39,7 @@ public interface UBENatural extends Serializable, UBStreamable {
     public int getInt() throws UBOverFlowException;
 
     /**
-     * Getting long integer value.
+     * Gets long integer value.
      *
      * @return long integer value
      * @throws UBOverFlowException if value is out of range
@@ -47,28 +47,28 @@ public interface UBENatural extends Serializable, UBStreamable {
     public long getLong() throws UBOverFlowException;
 
     /**
-     * Setting integer value.
+     * Sets integer value.
      *
      * @param value integer value
      */
     public void setValue(int value) throws UBOverFlowException;
 
     /**
-     * Setting long integer value.
+     * Sets long integer value.
      *
      * @param value long integer value
      */
     public void setValue(long value) throws UBOverFlowException;
 
     /**
-     * Get count of long value segments.
+     * Gets count of long value segments.
      *
      * @return count of long segments
      */
     public long getSegmentCount();
 
     /**
-     * Get long integer segment of value.
+     * Gets long integer segment of value.
      *
      * @param segmentIndex index of segment, 0 for lowest value
      * @return long integer
@@ -76,14 +76,14 @@ public interface UBENatural extends Serializable, UBStreamable {
     public long getValueSegment(long segmentIndex);
 
     /**
-     * Read infinity flag.
+     * Reads infinity flag.
      *
      * @return true if value represents infinity
      */
     public boolean isInfinity();
 
     /**
-     * Set value to infinity constant.
+     * Sets value to infinity constant.
      */
     public void setInfinity();
 }

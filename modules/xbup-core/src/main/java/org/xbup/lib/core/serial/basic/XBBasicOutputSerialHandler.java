@@ -28,7 +28,7 @@ import org.xbup.lib.core.serial.XBOutputSerialHandler;
 public interface XBBasicOutputSerialHandler extends XBOutputSerialHandler {
 
     /**
-     * Attach provider to be used as source for serialization.
+     * Attaches provider which will be used as source for serialization.
      *
      * @param provider
      */

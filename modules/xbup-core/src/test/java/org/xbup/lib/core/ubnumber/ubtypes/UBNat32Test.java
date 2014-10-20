@@ -50,21 +50,20 @@ public class UBNat32Test extends TestCase {
 
     /**
      * Test of fromStreamUB method, of class UBNat32.
-     * 
+     *
      * @throws java.lang.Exception
      */
     public void testFromStreamUB() throws Exception {
-        System.out.println("fromStreamUB");
         UBNat32 instance = new UBNat32();
         InputStream stream;
         int result;
 
-        stream = new ByteArrayInputStream(new byte[] { 0 } );
+        stream = new ByteArrayInputStream(new byte[]{0});
         result = instance.fromStreamUB(stream);
         assertEquals(1, result);
         assertEquals(0, instance.getInt());
 
-        stream = new ByteArrayInputStream(new byte[] { -0x80, 0 } );
+        stream = new ByteArrayInputStream(new byte[]{-0x80, 0});
         result = instance.fromStreamUB(stream);
         assertEquals(2, result);
         assertEquals(128, instance.getInt());
@@ -76,14 +75,14 @@ public class UBNat32Test extends TestCase {
     public void testReadWrite() {
         ByteArrayOutputStream oStream = new ByteArrayOutputStream();
         try {
-            assertEquals(1,new UBNat32(0x7F).toStreamUB(oStream));
-            assertEquals(2,new UBNat32(0x80).toStreamUB(oStream));
-            assertEquals(2,new UBNat32(0x407F).toStreamUB(oStream));
-            assertEquals(3,new UBNat32(0x4080).toStreamUB(oStream));
-            assertEquals(3,new UBNat32(0x20407F).toStreamUB(oStream));
-            assertEquals(4,new UBNat32(0x204080).toStreamUB(oStream));
-            assertEquals(4,new UBNat32(0x1020407F).toStreamUB(oStream));
-            assertEquals(5,new UBNat32(0x10204080).toStreamUB(oStream));
+            assertEquals(1, new UBNat32(0x7F).toStreamUB(oStream));
+            assertEquals(2, new UBNat32(0x80).toStreamUB(oStream));
+            assertEquals(2, new UBNat32(0x407F).toStreamUB(oStream));
+            assertEquals(3, new UBNat32(0x4080).toStreamUB(oStream));
+            assertEquals(3, new UBNat32(0x20407F).toStreamUB(oStream));
+            assertEquals(4, new UBNat32(0x204080).toStreamUB(oStream));
+            assertEquals(4, new UBNat32(0x1020407F).toStreamUB(oStream));
+            assertEquals(5, new UBNat32(0x10204080).toStreamUB(oStream));
             oStream.flush();
             oStream.close();
         } catch (IOException ex) {
@@ -94,21 +93,21 @@ public class UBNat32Test extends TestCase {
         try {
             iStream = new ByteArrayInputStream(oStream.toByteArray());
             UBNat32 value = new UBNat32();
-            assertEquals(1,value.fromStreamUB(iStream));
+            assertEquals(1, value.fromStreamUB(iStream));
             assertEquals(0x7F, value.getInt());
-            assertEquals(2,value.fromStreamUB(iStream));
+            assertEquals(2, value.fromStreamUB(iStream));
             assertEquals(0x80, value.getInt());
-            assertEquals(2,value.fromStreamUB(iStream));
+            assertEquals(2, value.fromStreamUB(iStream));
             assertEquals(0x407F, value.getInt());
-            assertEquals(3,value.fromStreamUB(iStream));
+            assertEquals(3, value.fromStreamUB(iStream));
             assertEquals(0x4080, value.getInt());
-            assertEquals(3,value.fromStreamUB(iStream));
+            assertEquals(3, value.fromStreamUB(iStream));
             assertEquals(0x20407F, value.getInt());
-            assertEquals(4,value.fromStreamUB(iStream));
+            assertEquals(4, value.fromStreamUB(iStream));
             assertEquals(0x204080, value.getInt());
-            assertEquals(4,value.fromStreamUB(iStream));
+            assertEquals(4, value.fromStreamUB(iStream));
             assertEquals(0x1020407F, value.getInt());
-            assertEquals(5,value.fromStreamUB(iStream));
+            assertEquals(5, value.fromStreamUB(iStream));
             assertEquals(0x10204080, value.getInt());
             iStream.close();
         } catch (IOException | XBProcessingException ex) {
@@ -120,7 +119,6 @@ public class UBNat32Test extends TestCase {
      * Test of getInt method, of class UBNat32.
      */
     public void testGetInt() {
-        System.out.println("getInt");
         UBNat32 instance = new UBNat32(Integer.MAX_VALUE);
         int expResult = Integer.MAX_VALUE;
         int result = instance.getInt();

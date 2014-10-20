@@ -27,7 +27,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 public interface UBEReal {
 
     /**
-     * Getting short integer value.
+     * Gets short integer value.
      *
      * @return integer value
      * @throws UBOverFlowException if value is out of range
@@ -35,7 +35,7 @@ public interface UBEReal {
     public int getInt() throws UBOverFlowException;
 
     /**
-     * Getting long integer value.
+     * Gets long integer value.
      *
      * @return long integer value
      * @throws UBOverFlowException if value is out of range
@@ -43,7 +43,7 @@ public interface UBEReal {
     public long getLong() throws UBOverFlowException;
 
     /**
-     * Getting float value.
+     * Gets float value.
      *
      * @return float value
      * @throws UBOverFlowException if value is out of range
@@ -51,7 +51,7 @@ public interface UBEReal {
     public float getFloat() throws UBOverFlowException;
 
     /**
-     * Getting double value.
+     * Gets double value.
      *
      * @return double value
      * @throws UBOverFlowException if value is out of range
@@ -59,7 +59,7 @@ public interface UBEReal {
     public double getDouble() throws UBOverFlowException;
     
     /**
-     * Setting integer value.
+     * Sets integer value.
      *
      * @param value integer value
      */
@@ -73,61 +73,61 @@ public interface UBEReal {
     public void setValue(long value) throws UBOverFlowException;
 
     /**
-     * Setting float value.
+     * Sets float value.
      *
      * @param value float value
      */
     public void setValue(float value) throws UBOverFlowException;
 
     /**
-     * Setting double value.
+     * Sets double value.
      *
      * @param value double value
      */
     public void setValue(double value) throws UBOverFlowException;
 
     /**
-     * Get base part of real value.
+     * Gets base part of real value.
      *
      * @return base part
      */
     public UBNatural getBase();
 
     /**
-     * Get mantissa part of real value.
+     * Gets mantissa part of real value.
      *
      * @return mantissa part
      */
     public UBNatural getMantissa();
 
     /**
-     * Read positive or negative infinity flag.
+     * Reads positive or negative infinity flag.
      *
      * @return true if value represents infinity
      */
     public boolean isInfinity();
 
     /**
-     * Read positive infinity flag.
+     * Reads positive infinity flag.
      *
      * @return true if value represents infinity
      */
     public boolean isPositiveInfinity();
 
     /**
-     * Read negative infinity flag.
+     * Reads negative infinity flag.
      *
      * @return true if value represents infinity
      */
     public boolean isNegativeInfinity();
 
     /**
-     * Set value to positive infinity constant.
+     * Sets value to positive infinity constant.
      */
     public void setPositiveInfinity();
 
     /**
-     * Set value to negative infinity constant.
+     * Sets value to negative infinity constant.
      */
     public void setNegativeInfinity();
 }

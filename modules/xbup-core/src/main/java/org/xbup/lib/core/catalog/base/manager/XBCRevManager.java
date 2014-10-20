@@ -30,7 +30,7 @@ import org.xbup.lib.core.catalog.base.XBCSpec;
 public interface XBCRevManager<T extends XBCRev> extends XBCCatalogManager<T> {
 
     /**
-     * Get revision of given index.
+     * Gets revision of given index.
      *
      * @param spec parent specification
      * @param xbIndex XBIndex of given revision
@@ -39,7 +39,7 @@ public interface XBCRevManager<T extends XBCRev> extends XBCCatalogManager<T> {
     public XBCRev findRevByXB(XBCSpec spec, long xbIndex);
 
     /**
-     * Get Revision of given index.
+     * Finds revision of given index.
      *
      * @param id unique index
      * @return revision
@@ -47,7 +47,7 @@ public interface XBCRevManager<T extends XBCRev> extends XBCCatalogManager<T> {
     public XBCRev findRevById(long id);
 
     /**
-     * Get revision of given index.
+     * Gets revision of given index.
      *
      * @param spec parent specification
      * @param index order index
@@ -56,7 +56,7 @@ public interface XBCRevManager<T extends XBCRev> extends XBCCatalogManager<T> {
     public XBCRev getRev(XBCSpec spec, long index);
 
     /**
-     * Get list of all revisions.
+     * Gets list of all revisions.
      *
      * @param spec parent specification
      * @return list of revisions
@@ -72,7 +72,7 @@ public interface XBCRevManager<T extends XBCRev> extends XBCCatalogManager<T> {
     public long getRevsCount(XBCSpec spec);
 
     /**
-     * Get count of all revisions in catalog.
+     * Gets count of all revisions in catalog.
      *
      * @return count of revisions
      */

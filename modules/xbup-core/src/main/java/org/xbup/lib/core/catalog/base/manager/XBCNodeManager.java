@@ -44,7 +44,7 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
     public XBCNode getRootNode();
 
     /**
-     * Get list of subnodes.
+     * Gets list of subnodes.
      *
      * @param node parent node
      * @return list of nodes
@@ -61,7 +61,7 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
     public XBCNode getSubNode(XBCNode node, long index);
 
     /**
-     * Return count of direct subnodes.
+     * Returns count of direct subnodes.
      *
      * @param node parent node
      * @return count of nodes
@@ -78,7 +78,7 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
     public XBCNode getSubNodeSeq(XBCNode node, long seq);
 
     /**
-     * Return size of subnode sequence.
+     * Returns size of subnode sequence.
      *
      * @param node parent node
      * @return count of all sub nodes
@@ -86,7 +86,7 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
     public long getSubNodesSeq(XBCNode node);
 
     /**
-     * Travers array of XB indexes and returns node if exists.
+     * Traverses array of XB indexes and returns node if exists.
      *
      * @param xbCatalogPath catalog path
      * @return node
@@ -94,7 +94,7 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
     public XBCNode findNodeByXBPath(Long[] xbCatalogPath);
 
     /**
-     * Travers array of XB indexes except last one and returns node if exists.
+     * Traverses array of XB indexes except last one and returns node if exists.
      *
      * @param xbCatalogPath catalog path
      * @return node
@@ -118,7 +118,7 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
     public XBCNode findOwnerByXBPath(Long[] xbCatalogPath);
 
     /**
-     * Get maximum XB index of all direct child nodes for given node.
+     * Gets maximum XB index of all direct child nodes for given node.
      *
      * @param node parent node
      * @return maximum XBIndex

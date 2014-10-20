@@ -25,42 +25,42 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCXStri extends XBCBase {
 
     /**
-     * Get relevant item.
+     * Gets relevant item.
      *
      * @return item
      */
     public XBCItem getItem();
 
     /**
-     * Get relevant text.
+     * Gets relevant text.
      *
      * @return text
      */
     public String getText();
 
     /**
-     * Set relevant item.
+     * Sets relevant item.
      *
      * @param item
      */
     public void setItem(XBCItem item);
 
     /**
-     * Set item text.
+     * Sets item text.
      *
      * @param text
      */
     public void setText(String text);
 
     /**
-     * Get node path.
+     * Gets node path.
      *
      * @return the nodePath
      */
     public String getNodePath();
 
     /**
-     * Set node path.
+     * Sets node path.
      *
      * @param nodePath the nodePath to set
      */

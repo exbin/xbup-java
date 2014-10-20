@@ -25,14 +25,14 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCXPlugPane extends XBCBase {
 
     /**
-     * Get attached plugin.
+     * Gets attached plugin.
      *
      * @return plugin
      */
     public XBCXPlugin getPlugin();
 
     /**
-     * Get index of the panel editor.
+     * Gets index of the panel editor.
      *
      * @return panel editor index
      */

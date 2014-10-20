@@ -16,10 +16,6 @@
  */
 package org.xbup.lib.core.parser.basic;
 
-import org.xbup.lib.core.parser.basic.XBConsumerWriter;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBConsumer;
-import org.xbup.lib.core.parser.basic.XBProvider;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;

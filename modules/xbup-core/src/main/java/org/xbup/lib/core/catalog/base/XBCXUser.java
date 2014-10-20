@@ -25,14 +25,14 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCXUser extends XBCBase {
 
     /**
-     * Get login string.
+     * Gets login string.
      *
      * @return the login
      */
     public String getLogin();
 
     /**
-     * Get password string.
+     * Gets password string.
      *
      * TODO: Use hash instead
      *

@@ -76,7 +76,7 @@ public class XBInputStreamOperatorFilter extends XBTokenInputStreamFilter {
         private int inputRequest;
         private int outputMax;
         private List<XBToken> outputCache;
-        private XBOperation<XBToken,XBToken> operation;
+        private final XBOperation<XBToken,XBToken> operation;
         private XBTokenInputStream source;
 
         public MyOperator(XBOperation<XBToken,XBToken> operation) {
@@ -107,7 +107,7 @@ public class XBInputStreamOperatorFilter extends XBTokenInputStreamFilter {
         public void reset() {
             outputMax = 0;
             inputRequest = 0;
-            outputCache = new ArrayList<XBToken>();
+            outputCache = new ArrayList<>();
         }
 
         @Override

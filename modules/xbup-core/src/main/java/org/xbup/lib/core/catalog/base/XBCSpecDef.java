@@ -25,23 +25,23 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCSpecDef extends XBCItem {
 
     /**
-     * Get specification which is also owner.
+     * Gets specification which is also owner.
      *
      * @return specification
      */
     public XBCSpec getSpec();
 
     /**
-     * Get target specification.
+     * Gets target specification.
      *
      * @return revision
      */
     public XBCRev getTarget();
 
     /**
-     * Get binding type.
+     * Gets specification definition's type.
      *
-     * @return specification definition type
+     * @return specification definition's type
      */
     public XBCSpecDefType getType();
 }

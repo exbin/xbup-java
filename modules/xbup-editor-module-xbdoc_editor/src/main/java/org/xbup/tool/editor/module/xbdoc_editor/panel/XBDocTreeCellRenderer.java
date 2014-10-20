@@ -46,7 +46,6 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
     private Map<Long,String> captionCache;
     private Map<Long,ImageIcon> iconCache;
 
-    /** Creates a new instance of XBDocTreeCellRenderer */
     public XBDocTreeCellRenderer(XBACatalog catalog) {
         super();
         this.catalog = catalog;
@@ -103,7 +102,7 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
     }
 
     /**
-     * Get caption for given block type. Use cache if available.
+     * Gets caption for given block type. Use cache if available.
      *
      * @param blockDecl
      * @return caption
@@ -139,7 +138,7 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
     }
 
     /**
-     * Get icon for given block type. Use cache if available.
+     * Gets icon for given block type. Use cache if available.
      *
      * @param blockDecl
      * @return icon

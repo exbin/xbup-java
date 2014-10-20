@@ -25,42 +25,42 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCXDesc extends XBCBase {
 
     /**
-     * Get relevant item.
+     * Gets relevant item.
      *
      * @return the item
      */
     public XBCItem getItem();
 
     /**
-     * Get description text.
+     * Gets description text.
      *
      * @return the description text
      */
     public String getText();
 
     /**
-     * Get description language.
+     * Gets description language.
      *
      * @return the language
      */
     public XBCXLanguage getLang();
 
     /**
-     * Set relevant item.
+     * Sets relevant item.
      *
      * @param item
      */
     public void setItem(XBCItem item);
 
     /**
-     * Set description text.
+     * Sets description text.
      *
      * @param text
      */
     public void setText(String text);
 
     /**
-     * Set description language.
+     * Sets description language.
      *
      * @param language
      */

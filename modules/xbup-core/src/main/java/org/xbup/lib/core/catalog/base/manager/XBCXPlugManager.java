@@ -31,7 +31,7 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 public interface XBCXPlugManager<T extends XBCXPlugin> extends XBCManager<T>, XBCExtension {
 
     /**
-     * Get count of all plugins.
+     * Gets count of all plugins.
      *
      * @return count of plugins
      */
@@ -46,7 +46,7 @@ public interface XBCXPlugManager<T extends XBCXPlugin> extends XBCManager<T>, XB
     public Long[] getPluginXBPath(XBCXPlugin plugin);
 
     /**
-     * Find plugin by unique index.
+     * Finds plugin by unique index.
      *
      * @param id
      * @return plugin
@@ -54,18 +54,18 @@ public interface XBCXPlugManager<T extends XBCXPlugin> extends XBCManager<T>, XB
     public XBCXPlugin findById(long id);
 
     /**
-     * Get plugin by node and order index.
+     * Gets plugin by node and order index.
      *
-     * @param node
-     * @param index
+     * @param node node
+     * @param index order index
      * @return plugin
      */
     public XBCXPlugin findPlugin(XBCNode node, Long index);
 
     /**
-     * Access content of plugin.
+     * Returns access to content of plugin as data stream.
      *
-     * @param plugin
+     * @param plugin plugin
      * @return input stream
      */
     public InputStream getPlugin(XBCXPlugin plugin);

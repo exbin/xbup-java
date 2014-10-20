@@ -25,7 +25,7 @@ package org.xbup.tool.editor.base.api;
 public interface ApplicationModuleInfo {
 
     /**
-     * Get plugin ID.
+     * Gets plugin ID.
      *
      * This should be unique.
      *
@@ -34,21 +34,21 @@ public interface ApplicationModuleInfo {
     public String getPluginId();
 
     /**
-     * Get plugin name.
+     * Gets plugin name.
      *
      * @return plugin name
      */
     public String getPluginName();
 
     /**
-     * Get plugin description.
+     * Gets plugin description.
      *
      * @return plugin description
      */
     public String getPluginDescription();
 
     /**
-     * Get list of modules this module depends on / require for it's proper
+     * Gets list of modules this module depends on / require for it's proper
      * work.
      *
      * @return list of modules
@@ -56,7 +56,7 @@ public interface ApplicationModuleInfo {
     public String[] pluginDependency();
 
     /**
-     * Get list of modules this module can optionally use.
+     * Gets list of modules this module can optionally use.
      *
      * @return list of modules
      */

@@ -14,10 +14,8 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.xb.parser.tree;
+package org.xbup.lib.parser_tree;
 
-import org.xbup.lib.parser_tree.XBTreeDocument;
-import org.xbup.lib.parser_tree.XBTreeNode;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;

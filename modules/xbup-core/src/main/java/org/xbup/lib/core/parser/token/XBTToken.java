@@ -25,7 +25,7 @@ package org.xbup.lib.core.parser.token;
 public abstract class XBTToken extends TypedToken {
 
     /**
-     * Get type of this token.
+     * Gets type of this token.
      *
      * @return current token type.
      */

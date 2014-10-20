@@ -28,7 +28,7 @@ import org.xbup.lib.core.serial.XBInputSerialHandler;
 public interface XBTTokenInputSerialHandler extends XBInputSerialHandler {
 
     /**
-     * Attach pull provider to be used as source for serialization.
+     * Attaches pull provider to be used as source for serialization.
      *
      * @param provider
      */

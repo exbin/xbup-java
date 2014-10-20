@@ -25,32 +25,37 @@ package org.xbup.lib.core.catalog.base;
 public interface XBCNodeTree {
 
     /**
-     * Get index.
+     * Gets index.
      *
      * @return the index
      */
     public Long getId();
 
     /**
-     * Get node.
+     * Gets node.
      *
      * @return the node
      */
     public XBCNode getOwner();
 
     /**
-     * Get node child.
+     * Gets node child.
      *
      * @return the node
      */
     public XBCNode getNode();
 
     /**
-     * Get depth level.
+     * Gets depth level.
      *
      * @return the depth
      */
     public Integer getDepthLevel();
 
+    /**
+     * Gets root record for this node.
+     *
+     * @return root record
+     */
     public XBCRoot getRoot();
 }

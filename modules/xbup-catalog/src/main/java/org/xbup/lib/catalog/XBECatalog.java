@@ -506,7 +506,7 @@ public class XBECatalog implements XBCatalog {
     }
 
     /**
-     * Get block type for specification defined by IDs in given context.
+     * Gets block type for specification defined by IDs in given context.
      *
      * @param context current context
      * @param groupId group ID

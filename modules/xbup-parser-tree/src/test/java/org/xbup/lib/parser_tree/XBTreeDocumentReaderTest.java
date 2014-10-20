@@ -59,7 +59,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
      */
     @Test
     public void testRead() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/xhtml-test.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/xhtml-test.xb");
         try {
             XBTreeDocument instance = new XBTreeDocument();
             instance.fromStreamUB(stream);
@@ -79,7 +79,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSingleEmptyBlock() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_singleemptyblock.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_singleemptyblock.xb");
         XBTreeDocument instance = new XBTreeDocument();
         instance.fromStreamUB(stream);
 
@@ -98,7 +98,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleExtended() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_extended.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_extended.xb");
         XBTreeDocument instance = new XBTreeDocument();
         instance.fromStreamUB(stream);
 
@@ -121,7 +121,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
     public void testReadSampleEmpty() throws Exception {
         Throwable ex = null;
 
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/corrupted/l0_empty.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/corrupted/l0_empty.xb");
         XBTreeDocument instance = new XBTreeDocument();
         try {
             instance.fromStreamUB(stream);
@@ -141,7 +141,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
     public void testReadSampleSingleByte() throws Exception {
         Throwable ex = null;
 
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/corrupted/l0_singlebyte.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/corrupted/l0_singlebyte.xb");
         XBTreeDocument instance = new XBTreeDocument();
         try {
             instance.fromStreamUB(stream);
@@ -161,7 +161,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
     public void testReadSampleWrongHeader() throws Exception {
         Throwable ex = null;
 
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/corrupted/l0_wrongheader.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/corrupted/l0_wrongheader.xb");
         XBTreeDocument instance = new XBTreeDocument();
         try {
             instance.fromStreamUB(stream);
@@ -179,7 +179,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSingleData() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_singledata.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_singledata.xb");
         XBTreeDocument instance = new XBTreeDocument();
         instance.fromStreamUB(stream);
 
@@ -198,7 +198,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleTerminated() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_terminated.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_terminated.xb");
         XBTreeDocument instance = new XBTreeDocument();
         instance.fromStreamUB(stream);
 
@@ -220,7 +220,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSixBlocks() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_sixblocks.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_sixblocks.xb");
         XBTreeDocument instance = new XBTreeDocument();
         instance.fromStreamUB(stream);
 

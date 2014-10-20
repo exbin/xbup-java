@@ -90,7 +90,7 @@ public class XBTreeWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleSingleEmptyBlock() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_singleemptyblock.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_singleemptyblock.xb");
         ByteArrayOutputStream target = new ByteArrayOutputStream();
 
         XBTreeNode node = new XBTreeNode();
@@ -110,7 +110,7 @@ public class XBTreeWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleSingleData() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_singledata.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_singledata.xb");
         ByteArrayOutputStream target = new ByteArrayOutputStream();
 
         XBTreeNode node = new XBTreeNode();
@@ -134,7 +134,7 @@ public class XBTreeWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleTerminated() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_terminated.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_terminated.xb");
         ByteArrayOutputStream target = new ByteArrayOutputStream();
 
         XBTreeNode node = new XBTreeNode();
@@ -158,7 +158,7 @@ public class XBTreeWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleSixBlocks() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/xb/test/resources/samples/l0_sixblocks.xb");
+        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_sixblocks.xb");
         ByteArrayOutputStream target = new ByteArrayOutputStream();
 
         XBTreeNode rootNode = new XBTreeNode();

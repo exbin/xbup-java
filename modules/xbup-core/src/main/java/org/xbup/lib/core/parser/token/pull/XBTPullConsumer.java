@@ -25,7 +25,7 @@ package org.xbup.lib.core.parser.token.pull;
 public interface XBTPullConsumer {
 
     /**
-     * Attach pull provider.
+     * Attaches pull provider.
      *
      * @param pullProvider token provider
      */

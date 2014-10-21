@@ -25,7 +25,7 @@ package org.xbup.lib.core.parser.param;
 public interface XBParamConsumer extends XBParamListener {
 
     /**
-     * Attach provider to use as data source.
+     * Attaches provider to use as data source.
      *
      * @param provider provider to attach
      */

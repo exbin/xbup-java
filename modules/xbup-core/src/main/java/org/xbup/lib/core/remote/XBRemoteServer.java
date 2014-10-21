@@ -24,9 +24,17 @@ package org.xbup.lib.core.remote;
  */
 public interface XBRemoteServer {
 
-    /** Register procedure handling. */
+    /**
+     * Register procedure handling.
+     *
+     * @param procedure procedure handler to add
+     */
     public void addXBProcedure(XBProcedure procedure);
 
-    /** Unregister procedure handling. */
+    /**
+     * Unregister procedure handling.
+     *
+     * @param procedure procedure handler to remove
+     */
     public void removeXBProcedure(XBProcedure procedure);
 }

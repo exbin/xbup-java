@@ -22,7 +22,7 @@ import org.xbup.lib.core.parser.basic.XBTProvider;
 import org.xbup.lib.core.parser.basic.XBTProviderFilter;
 
 /**
- * Convert block types from fixed types to stand-alone types.
+ * Filter to convert block types from fixed types to stand-alone types.
  *
  * @version 0.1.24 2014/09/03
  * @author XBUP Project (http://xbup.org)

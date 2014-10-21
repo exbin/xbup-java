@@ -31,7 +31,7 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * Convert stand-alone block types to fixed types.
+ * Filter to convert stand-alone block types to fixed types.
  *
  * @version 0.1.19 2010/06/01
  * @author XBUP Project (http://xbup.org)

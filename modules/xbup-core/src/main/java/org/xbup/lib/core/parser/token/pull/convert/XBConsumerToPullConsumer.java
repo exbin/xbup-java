@@ -21,7 +21,7 @@ import org.xbup.lib.core.parser.token.pull.XBPullConsumer;
 import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 
 /**
- * Consumer to pull Consumer convertor for XBUP protocol level 0.
+ * Consumer to pull consumer convertor for XBUP protocol level 0.
  *
  * @version 0.1.23 2014/02/06
  * @author XBUP Project (http://xbup.org)

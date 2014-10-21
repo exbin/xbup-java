@@ -74,16 +74,13 @@ public class XBPullReader extends XBTokenInputStream implements Closeable, XBPul
         openStream(inputStream);
     }
 
-    /**
-     * Open input byte-stream.
-     */
     private void openStream(InputStream stream) throws IOException {
         source = stream;
         resetParser();
     }
 
     /**
-     * Open byte input stream.
+     * Opens byte input stream.
      *
      * @param stream
      * @throws IOException
@@ -117,7 +114,7 @@ public class XBPullReader extends XBTokenInputStream implements Closeable, XBPul
     }
 
     /**
-     * Method to shrink limits accross all depths.
+     * Shrinks limits accross all depths.
      *
      * @param length Value to shrink all limits off
      * @throws XBParseException If limits are breached

@@ -25,7 +25,7 @@ package org.xbup.lib.core.parser.token.event;
 public interface XBTEventProducer {
 
     /**
-     * Attach event listener.
+     * Attaches event listener.
      *
      * @param eventListener
      */

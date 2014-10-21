@@ -90,7 +90,7 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
     }
 
     /**
-     * Open byte input stream.
+     * Opens byte input stream.
      *
      * @param stream
      * @throws IOException
@@ -177,7 +177,7 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
             }
 
             default:
-                throw new XBParseException("Unexpected pull item type");
+                throw new XBParseException("Unexpected pull item type", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
         return item;
     }
@@ -186,6 +186,7 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
      * Returns next item in XBUP level 1 parsing.
      *
      * @return Next XBL1Event
+     * @throws IOException if input/output error
      */
     @Override
     public XBTToken pullXBTToken() throws IOException, XBProcessingException {

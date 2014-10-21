@@ -84,7 +84,7 @@ public class XBListenerWriter implements Closeable, XBListener {
     }
 
     /**
-     * Open output byte-stream.
+     * Opens output byte-stream.
      * 
      * @param outputStream output stream
      * @throws IOException
@@ -279,7 +279,7 @@ public class XBListenerWriter implements Closeable, XBListener {
     }
 
     /**
-     * Method to shrink limits accross all depths.
+     * Shrinks limits accross all depths.
      *
      * @param value value to shrink all limits off
      * @throws XBParseException if limits are breached

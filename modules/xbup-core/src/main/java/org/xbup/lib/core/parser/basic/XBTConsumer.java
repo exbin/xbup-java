@@ -27,7 +27,7 @@ package org.xbup.lib.core.parser.basic;
 public interface XBTConsumer {
 
     /**
-     * Attach provider to use as data source.
+     * Attaches provider to use as data source.
      *
      * @param provider provider to attach
      */

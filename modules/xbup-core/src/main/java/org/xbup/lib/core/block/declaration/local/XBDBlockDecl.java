@@ -18,22 +18,31 @@ package org.xbup.lib.core.block.declaration.local;
 
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import java.io.IOException;
+import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.block.definition.XBBlockDef;
+import org.xbup.lib.core.block.definition.local.XBDRevisionDef;
+import org.xbup.lib.core.block.param.XBDParamDecl;
+import org.xbup.lib.core.block.param.XBParamDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.sequence.XBSerialSequence;
+import org.xbup.lib.core.serial.sequence.XBSerialSequenceIList;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
+import org.xbup.lib.core.ubnumber.UBENatural;
 import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * XBUP level 1 block declaration using existing block definition.
  *
- * @version 0.1.24 2014/09/02
+ * @version 0.1.24 2014/10/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
@@ -108,17 +117,16 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
 
     @Override
     public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        long[] xbGroupLimitBlockType = {1, 5};
-        long[] xbRevisionBlockType = {1, 5};
+        final long[] xbGroupLimitBlockType = {1, 5};
+        final long[] xbRevisionBlockType = {1, 5};
         XBSerialSequence seq = new XBSerialSequence(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION));
 
-        /*
         // Join GroupsLimit (UBNatural)
         seq.join(new XBTSequenceSerializable() {
 
             @Override
             public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                serializationHandler.sequenceXB(new XBSerialSequence(new XBDBlockType(new XBCBlockDecl(null, xbGroupLimitBlockType)), new UBNat32(getBlocksLimit())));
+                serializationHandler.sequenceXB(new XBSerialSequence(new XBDeclBlockType(new XBPBlockDecl(xbGroupLimitBlockType, getBlocksLimit()))));
             }
         });
 
@@ -129,69 +137,70 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
 
             @Override
             public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                XBSerialSequence subSequence = new XBSerialSequence(new XBDBlockType(new XBCBlockDecl(null, xbRevisionBlockType)), revision));
+                XBSerialSequence subSequence = new XBSerialSequence(new XBDeclBlockType(new XBPBlockDecl(xbRevisionBlockType, revision)));
                 serializationHandler.sequenceXB(subSequence);
             }
         });
-        
-                
+
         if (blockDef != null) {
             // TODO: Move to format serialization
             // List GroupSpecification
-            seq.listConsist(new XBSequenceIList() {
+            seq.listConsist(new XBSerialSequenceIList() {
 
                 private int position = 0;
 
+                @Override
                 public void setSize(UBENatural count) {
-                    List<XBBlockDecl> blocks = blockDef.getBlocks();
-                    int i = count.getInt() - blocks.size();
-                    if ((i > 0) && (blocks == null)) {
-                        blocks = new ArrayList<XBBlockDecl>();
-                    }
+                    List<XBParamDecl> paramDecls = blockDef.getParamDecls();
+                    int i = count.getInt() - paramDecls.size();
+
                     if (i > 0) {
                         while (i > 0) {
-                            blocks.add(new XBDBlockDecl());
+                            paramDecls.add(new XBDParamDecl());
                             i--;
                         }
                     } else {
                         while (i < 0) {
-                            blocks.remove(blocks.size() - 1);
+                            paramDecls.remove(paramDecls.size() - 1);
                             i++;
                         }
                     }
                 }
 
+                @Override
                 public UBENatural getSize() {
-                    List<XBBlockDecl> blocks = blockDef.getBlocks();
+                    List<XBParamDecl> blocks = blockDef.getParamDecls();
                     if (blocks == null) {
                         return new UBENat32();
                     }
+
                     return new UBENat32(blocks.size());
                 }
 
-                public XBSerializable get() {
-                    return blockDef.getBlocks().get(position++).getXBSerialSequence();
+                @Override
+                public XBSerializable next() {
+                    return (XBDParamDecl) blockDef.getParamDecl(position++);
                 }
 
+                @Override
                 public void reset() {
                     position = 0;
                 }
             });
 
             // List FormatConstructor
-            seq.listConsist(new XBSequenceIList() {
+            seq.listConsist(new XBSerialSequenceIList() {
 
                 private int position = 0;
 
+                @Override
                 public void setSize(UBENatural count) {
-                    List<XBBlockDef> blockDefs = blockDef.getBlockDefs();
+                    List<XBDRevisionDef> blockDefs = blockDef.getRevisionDefs();
                     int i = count.getInt() - blockDefs.size();
-                    if ((i > 0) && (blockDefs == null)) {
-                        blockDefs = new ArrayList<XBBlockDef>();
-                    }
+
                     if (i > 0) {
                         while (i > 0) {
-                            blockDefs.add(new XBDBlockDef());
+                            blockDefs.add(new XBDRevisionDef());
                             i--;
                         }
                     } else {
@@ -202,38 +211,39 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
                     }
                 }
 
+                @Override
                 public UBENatural getSize() {
-                    List<XBBlockDef> blockDefs = blockDef.getBlockDefs();
+                    List<XBDRevisionDef> blockDefs = blockDef.getRevisionDefs();
                     if (blockDefs == null) {
                         return new UBENat32();
                     }
                     return new UBENat32(blockDefs.size());
                 }
 
-                public XBTSerializable get() {
-                    return ((XBDBlockDef) blockDef.getBlockDefs().get(position++)).getXBSerialSequence();
+                @Override
+                public XBSerializable next() {
+                    return ((XBDRevisionDef) blockDef.getRevisionDefs().get(position++));
                 }
 
+                @Override
                 public void reset() {
                     position = 0;
                 }
             });
 
             // List Revision
-            seq.listConsist(new XBSequenceIList() {
+            seq.listConsist(new XBSerialSequenceIList() {
 
                 private int position = 0;
 
+                @Override
                 public void setSize(UBENatural count) {
-                    List<XBRevisionDef> revisionDefs = blockDef.getRevisionDefs();
+                    List<XBDRevisionDef> revisionDefs = blockDef.getRevisionDefs();
                     int i = count.getInt() - revisionDefs.size();
-                    if ((i > 0) && (revisionDefs == null)) {
-                        revisionDefs = new ArrayList<XBRevisionDef>();
-                    }
 
                     if (i > 0) {
                         while (i > 0) {
-                            revisionDefs.add(new XBRevisionDef());
+                            revisionDefs.add(new XBDRevisionDef());
                             i--;
                         }
                     } else {
@@ -244,8 +254,9 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
                     }
                 }
 
+                @Override
                 public UBENatural getSize() {
-                    List<XBRevisionDef> revisionDefs = blockDef.getRevisionDefs();
+                    List<XBDRevisionDef> revisionDefs = blockDef.getRevisionDefs();
                     if (revisionDefs == null) {
                         return new UBENat32();
                     }
@@ -253,15 +264,17 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
                     return new UBENat32(revisionDefs.size());
                 }
 
-                public XBTSerializable get() {
-                    return blockDef.getRevisionDefs().get(position++).getXBSerialSequence();
+                @Override
+                public XBSerializable next() {
+                    return blockDef.getRevisionDefs().get(position++);
                 }
 
+                @Override
                 public void reset() {
                     position = 0;
                 }
             });
-        }*/
+        }
 
         serializationHandler.sequenceXB(seq);
     }

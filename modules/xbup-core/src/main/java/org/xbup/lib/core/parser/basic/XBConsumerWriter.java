@@ -256,7 +256,7 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
     }
 
     /**
-     * Method to shrink limits accross all depths.
+     * Shrinks limits accross all depths.
      *
      * @param value Value to shrink all limits off
      * @throws XBParseException If limits are breached

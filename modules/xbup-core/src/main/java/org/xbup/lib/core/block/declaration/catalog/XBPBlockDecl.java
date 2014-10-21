@@ -20,11 +20,12 @@ import java.util.Arrays;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 1 block declaration using catalog path.
  *
- * @version 0.1.24 2014/10/02
+ * @version 0.1.24 2014/10/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPBlockDecl implements XBBlockDecl {
@@ -37,10 +38,26 @@ public class XBPBlockDecl implements XBBlockDecl {
     }
 
     public XBPBlockDecl(long[] path) {
-        this.catalogPath = path;
+        this(path, 0);
     }
 
     public XBPBlockDecl(Long[] path) {
+        this(path, 0);
+    }
+
+    public XBPBlockDecl(long[] path, UBNatural revision) {
+        this(path, revision != null ? revision.getInt() : 0);
+    }
+
+    public XBPBlockDecl(Long[] path, UBNatural revision) {
+        this(path, revision != null ? revision.getInt() : 0);
+    }
+
+    public XBPBlockDecl(long[] path, int revision) {
+        this.catalogPath = path;
+    }
+
+    public XBPBlockDecl(Long[] path, int revision) {
         setCatalogObjectPath(path);
     }
 

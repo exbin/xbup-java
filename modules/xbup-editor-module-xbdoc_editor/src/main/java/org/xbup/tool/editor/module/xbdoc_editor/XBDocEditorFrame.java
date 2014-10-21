@@ -1411,7 +1411,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     public void actionFileProperties() {
         PropertiesDialog dialog = new PropertiesDialog(this, true);
         dialog.setLocationRelativeTo(dialog.getParent());
-        dialog.runDialog(activePanel.getDoc());
+        dialog.runDialog(activePanel.getDoc(), activePanel.getFileName());
     }
 
     public void setDocumentCharset(Charset charset) {

@@ -38,7 +38,7 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
 /**
  * Dialog for adding new item into given document.
  *
- * @version 0.1.23 2013/09/23
+ * @version 0.1.24 2014/10/20
  * @author XBUP Project (http://xbup.org)
  */
 public class ItemAddDialog extends javax.swing.JDialog {
@@ -48,7 +48,6 @@ public class ItemAddDialog extends javax.swing.JDialog {
     private XBACatalog catalog;
     private XBCBlockSpec blockSpec;
 
-    /** Creates new form NewItem */
     public ItemAddDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog) {
         super(parent, modal);
         this.catalog = catalog;
@@ -64,7 +63,7 @@ public class ItemAddDialog extends javax.swing.JDialog {
         initComponents();
 
         if (catalog != null) {
-            Long[] basicGroupPath = { new Long(0), new Long(0) };
+            Long[] basicGroupPath = { 0l, 0l};
             List<XBBlockDecl> list = catalog.getBlocks(((XBCGroupDecl) catalog.findGroupTypeByPath(basicGroupPath, 0)).getGroupSpec().getParent());
 
             XBCXNameService nameExtension = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
@@ -383,11 +382,12 @@ public class ItemAddDialog extends javax.swing.JDialog {
     private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables
 
-    /** Assign ESCAPE/ENTER key for all focusable components recursively */
+    /**
+     * Assign ESCAPE/ENTER key for all focusable components recursively.
+     */
     private void assignGlobalKeyListener(Container comp) {
         Component[] comps = comp.getComponents();
-        for (int i = 0; i < comps.length; i++) {
-            Component item = comps[i];
+        for (Component item : comps) {
             if (item.isFocusable()) {
                 item.addKeyListener(new KeyListener() {
                     @Override
@@ -413,6 +413,7 @@ public class ItemAddDialog extends javax.swing.JDialog {
                     }
                 });
             }
+
             if (item instanceof Container) {
                 assignGlobalKeyListener((Container) item);
             }

@@ -27,7 +27,7 @@ package org.xbup.lib.core.parser.basic;
 public interface XBProducer {
 
     /**
-     * Attach data listener.
+     * Attaches data listener.
      *
      * @param listener data listener to attach
      */

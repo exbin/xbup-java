@@ -47,7 +47,7 @@ public class XBWriter implements Closeable {
     }
 
     /**
-     * Open input byte-stream.
+     * Opens input byte-stream.
      */
     private void openStream(InputStream stream) throws IOException {
         source = stream;

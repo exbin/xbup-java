@@ -1,3 +1,3 @@
-For documentation of Java implementation Dokuwiki (http://dokuwiki.org) is currently used.
+Dokuwiki (http://dokuwiki.org) is currently used for documentation of Java implementation.
 
 See: http://www.xbup.org/?wiki/doc/impl/java

@@ -25,7 +25,7 @@ package org.xbup.lib.core.parser.basic;
 public interface XBTProducer {
 
     /**
-     * Attach data listener.
+     * Attaches data listener.
      * 
      * @param listener data listener to attach
      */

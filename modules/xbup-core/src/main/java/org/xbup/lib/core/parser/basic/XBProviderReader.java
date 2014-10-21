@@ -79,7 +79,7 @@ public class XBProviderReader implements XBProvider {
     }
 
     /**
-     * Open input byte-stream.
+     * Opens input byte-stream.
      *
      * @param stream input stream
      * @throws IOException
@@ -108,7 +108,7 @@ public class XBProviderReader implements XBProvider {
     }
 
     /**
-     * Method to shrink limits accross all depths.
+     * Shrinks limits accross all depths.
      *
      * @param value Value to shrink all limits off
      * @throws XBParseException If limits are breached

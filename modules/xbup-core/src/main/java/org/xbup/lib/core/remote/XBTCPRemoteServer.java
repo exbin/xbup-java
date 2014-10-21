@@ -86,7 +86,7 @@ public class XBTCPRemoteServer implements XBRemoteServer {
     }
 
     /**
-     * Open service handler
+     * Opens service handler
      *
      * @param port the port number, or 0 to use any free port.
      * @throws IOException if an I/O error occurs when opening the socket.
@@ -96,7 +96,7 @@ public class XBTCPRemoteServer implements XBRemoteServer {
     }
 
     /**
-     * Open service handler
+     * Opens service handler
      *
      * @param port the port number, or 0 to use any free port.
      * @param bindAddr the local InetAddress the server will bind to

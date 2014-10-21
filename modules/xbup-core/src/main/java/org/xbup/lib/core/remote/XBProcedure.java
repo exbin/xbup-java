@@ -26,22 +26,38 @@ import org.xbup.lib.core.stream.XBTStreamChecker;
 /**
  * XBUP level 1 RPC procedure interface
  *
- * @version 0.1.19 2010/06/04
+ * @version 0.1.24 2014/10/20
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBProcedure {
 
-    /** @return Type of this procedure */
+    /**
+     * Returns type of this procedure.
+     *
+     * @return type of this procedure
+     */
     public XBBlockType getType();
 
-    /** Return required declaration for result
-     * TODO: Should be joined declaration (for multiple formats, groups and blocks)
+    /**
+     * Return required declaration for result.
+     *
+     * TODO: Should be joined declaration (for multiple formats, groups and
+     * blocks)
+     *
+     * @return format declaration
      */
     public XBDFormatDecl getResultDecl();
 
-    /** Method for invocation of this procedure
-     * Position in source is after block type
+    /**
+     * Method for invocation of this procedure.
+     *
+     * Position in source is after block type.
+     *
      * TODO: Add status handling (may include exceptions)
+     *
+     * @param source
+     * @param result
+     * @throws IOException
      */
     public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException;
 }

@@ -24,15 +24,23 @@ import org.xbup.lib.core.stream.XBTStreamChecker;
 /**
  * XBUP level 1 RPC procedure call interface.
  *
- * @version 0.1.21 2011/10/30
+ * @version 0.1.24 2014/10/20
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCall {
 
     /**
      * Method for remote invocation/calling of given procedure.
-     * Position in source is after block type
+     *
+     * Position in source is after block type.
+     *
      * TODO: Add status handling (may include exceptions)
+     * 
+     * @param source
+     * @param result
+     * @return
+     * @throws XBProcessingException
+     * @throws IOException 
      */
     public XBProcedureStatus call(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException;
 }

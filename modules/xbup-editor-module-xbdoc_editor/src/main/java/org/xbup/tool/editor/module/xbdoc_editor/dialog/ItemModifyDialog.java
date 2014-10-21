@@ -109,7 +109,7 @@ public class ItemModifyDialog extends javax.swing.JDialog {
 
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                removeButton.setEnabled(attributesTable.getSelectedRowCount() > 0);
+                updateAttributesButtons();
             }
         });
     }
@@ -130,7 +130,6 @@ public class ItemModifyDialog extends javax.swing.JDialog {
         removeButton = new javax.swing.JButton();
         addButton = new javax.swing.JButton();
         dataEditorPanel = new javax.swing.JPanel();
-        dataLabel = new javax.swing.JLabel();
         saveAsButton = new javax.swing.JButton();
         loadFromButton = new javax.swing.JButton();
         hexEditPanel = new javax.swing.JPanel();
@@ -213,8 +212,6 @@ public class ItemModifyDialog extends javax.swing.JDialog {
 
         mainTabbedPane.addTab(bundle.getString("attributesEditorPanel.title"), null, attributesEditorPanel, "List of attributes on level 0"); // NOI18N
 
-        dataLabel.setText(bundle.getString("dataLabel.text")); // NOI18N
-
         saveAsButton.setText(bundle.getString("saveAsButton.text")); // NOI18N
         saveAsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -237,28 +234,21 @@ public class ItemModifyDialog extends javax.swing.JDialog {
         dataEditorPanelLayout.setHorizontalGroup(
             dataEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(dataEditorPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .add(dataEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, dataEditorPanelLayout.createSequentialGroup()
-                        .add(356, 356, 356)
+                    .add(hexEditPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+                    .add(dataEditorPanelLayout.createSequentialGroup()
                         .add(loadFromButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(saveAsButton))
-                    .add(dataEditorPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(hexEditPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .add(saveAsButton)
+                        .add(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .add(dataEditorPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(dataLabel)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         dataEditorPanelLayout.setVerticalGroup(
             dataEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(dataEditorPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(dataLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(hexEditPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(hexEditPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(dataEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(saveAsButton)
@@ -266,7 +256,7 @@ public class ItemModifyDialog extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        mainTabbedPane.addTab("Data", dataEditorPanel);
+        mainTabbedPane.addTab("Data (Level 0)", dataEditorPanel);
 
         cancelButton.setText(bundle.getString("cancelButton.text")); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -441,7 +431,7 @@ public class ItemModifyDialog extends javax.swing.JDialog {
                     attributes.addAll(srcNode.getAttributes());
                 }
                 tableModel.setAttribs(attributes);
-                removeButton.setEnabled(tableModel.getAttribs().size() > 1);
+                updateAttributesButtons();
             }
 
             mainTabbedPane.addTab(paramEditorPanelTitle, paramEditorPanel);
@@ -459,7 +449,6 @@ public class ItemModifyDialog extends javax.swing.JDialog {
     private javax.swing.JTable attributesTable;
     private javax.swing.JButton cancelButton;
     private javax.swing.JPanel dataEditorPanel;
-    private javax.swing.JLabel dataLabel;
     private javax.swing.JPanel hexEditPanel;
     private javax.swing.JButton loadFromButton;
     private javax.swing.JTabbedPane mainTabbedPane;
@@ -522,6 +511,10 @@ public class ItemModifyDialog extends javax.swing.JDialog {
         this.pluginRepository = pluginRepository;
     }
 
+    private void updateAttributesButtons() {
+        removeButton.setEnabled(attributesTable.getSelectedRowCount() > 0);
+    }
+
     private JPanel getCustomPanel(XBTTreeNode srcNode) {
         if (catalog == null) {
             return null;
@@ -566,6 +559,7 @@ public class ItemModifyDialog extends javax.swing.JDialog {
         if (panelEditor == null) {
             return null;
         }
+
         return panelEditor.getPanel();
     }
 

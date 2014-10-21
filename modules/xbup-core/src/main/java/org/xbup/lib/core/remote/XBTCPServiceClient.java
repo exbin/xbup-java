@@ -183,10 +183,8 @@ public class XBTCPServiceClient implements XBServiceClient {
             source.typeXBT(new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK)); // TODO
             source.endXBT();
             close();
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBTCPServiceClient.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ConnectException ex) {
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBTCPServiceClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

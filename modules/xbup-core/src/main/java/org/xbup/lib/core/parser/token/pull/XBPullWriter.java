@@ -72,8 +72,14 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
         this.stream = stream;
     }
 
-    public void open(OutputStream outputStream) throws IOException {
-        openStream(outputStream);
+    /**
+     * Opens byte output stream.
+     *
+     * @param stream
+     * @throws IOException
+     */
+    public void open(OutputStream stream) throws IOException {
+        openStream(stream);
     }
 
     public void write() throws XBProcessingException, IOException {
@@ -82,7 +88,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
         XBDataToken extendedArea = null;
         List<UBNatural> attributeList = new ArrayList<>();
         int bufferedFromLevel = -1;
-        int level = 0;
+        int depthLevel = 0;
 
         // Write file head
         if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_HEAD) {
@@ -93,14 +99,14 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
         do {
             switch (token.getTokenType()) {
                 case BEGIN: {
-                    level++;
+                    depthLevel++;
                     XBBlockTerminationMode terminationMode = ((XBBeginToken) token).getTerminationMode();
                     if (bufferedFromLevel >= 0) {
                         tokenWriter.putXBToken(token);
                         sizeLimits.add(null);
                     } else {
                         if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
-                            bufferedFromLevel = level;
+                            bufferedFromLevel = depthLevel;
                             tokenWriter.putXBToken(token);
                             sizeLimits.add(null);
                         } else {
@@ -135,7 +141,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                             }
 
                             token = pullProvider.pullXBToken();
-                            if (level == 1 && token.getTokenType() == XBTokenType.DATA) {
+                            if (depthLevel == 1 && token.getTokenType() == XBTokenType.DATA) {
                                 extendedArea = (XBDataToken) token;
                                 token = pullProvider.pullXBToken();
                             }
@@ -166,7 +172,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                             } while (token.getTokenType() == XBTokenType.ATTRIBUTE);
 
                             if (token.getTokenType() == XBTokenType.DATA) {
-                                if (level == 1) {
+                                if (depthLevel == 1) {
                                     extendedArea = (XBDataToken) token;
                                     token = pullProvider.pullXBToken();
                                 } else {
@@ -203,17 +209,17 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                 case END: {
                     if (bufferedFromLevel >= 0) {
                         tokenWriter.putXBToken(token);
-                        if (bufferedFromLevel == level) {
+                        if (bufferedFromLevel == depthLevel) {
                             tokenWriter.write(stream);
                             bufferedFromLevel = -1;
                         }
                     }
 
-                    level--;
-                    if (level > 0) {
+                    depthLevel--;
+                    if (depthLevel > 0) {
                         token = pullProvider.pullXBToken();
 
-                        if (level == 1 && token.getTokenType() == XBTokenType.DATA) {
+                        if (depthLevel == 1 && token.getTokenType() == XBTokenType.DATA) {
                             extendedArea = (XBDataToken) token;
                             token = pullProvider.pullXBToken();
                         }
@@ -225,7 +231,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                 default:
                     throw new XBParseException("Must begin with NodeBegin", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
-        } while (level > 0);
+        } while (depthLevel > 0);
 
         // Write extended block if present
         if (extendedArea != null) {
@@ -243,7 +249,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
     }
 
     /**
-     * Method to shrink limits accross all depths.
+     * Shrinks limits accross all depths.
      *
      * @param value Value to shrink all limits off
      * @throws XBParseException If limits are breached

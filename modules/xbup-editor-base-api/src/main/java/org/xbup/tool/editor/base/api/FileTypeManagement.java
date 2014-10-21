@@ -44,7 +44,7 @@ public interface FileTypeManagement {
     public boolean openFile(JFileChooser fileChooser);
 
     /**
-     * Open file from given properties.
+     * Opens file from given properties.
      *
      * @param path full path to file
      * @param fileTypeId file type ID

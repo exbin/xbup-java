@@ -63,9 +63,10 @@ public class XBDGroupDecl implements XBGroupDecl, XBTSequenceSerializable {
     }
 
     public Integer matchType(XBBlockType type) {
-        for (int blockId = 0; blockId < blocks.size(); blockId++) {
-            // TODO: if (blocks.get(blockId).matchType(type)) return blockId;
-        }
+//        for (int blockId = 0; blockId < blocks.size(); blockId++) {
+//            if (blocks.get(blockId).matchType(type)) return blockId;
+//        }
+        
         return null;
     }
 

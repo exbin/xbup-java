@@ -41,6 +41,10 @@ public class XBDParamDecl implements XBParamDecl, XBTSequenceSerializable {
     private boolean listFlag;
     private boolean joinFlag;
 
+    public XBDParamDecl() {
+        this(null);
+    }
+            
     public XBDParamDecl(XBBlockDecl blockDecl) {
         this.blockDecl = blockDecl;
     }

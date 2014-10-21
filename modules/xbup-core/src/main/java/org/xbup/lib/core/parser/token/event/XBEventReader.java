@@ -68,7 +68,7 @@ public class XBEventReader implements XBEventProducer {
     }
 
     /**
-     * Open input byte-stream.
+     * Opens input byte-stream.
      *
      * @param stream input stream
      * @throws IOException
@@ -183,7 +183,7 @@ public class XBEventReader implements XBEventProducer {
     }
 
     /**
-     * Method to shrink limits accross all depths.
+     * Shrinks limits accross all depths.
      *
      * @param length Value to shrink all limits off
      * @throws XBParseException If limits are breached

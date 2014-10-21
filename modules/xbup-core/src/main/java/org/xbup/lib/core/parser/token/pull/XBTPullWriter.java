@@ -73,7 +73,7 @@ public class XBTPullWriter implements Closeable, XBTPullConsumer {
     }
 
     /**
-     * Open byte output stream.
+     * Opens byte output stream.
      *
      * @param stream
      * @throws IOException

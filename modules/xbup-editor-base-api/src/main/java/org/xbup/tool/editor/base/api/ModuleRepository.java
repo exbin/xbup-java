@@ -58,7 +58,7 @@ public interface ModuleRepository {
     public PluginManager getPluginManager();
 
     /**
-     * Open given file.
+     * Opens given file.
      *
      * @param openFC file chooser
      * @return true if file successfully opened

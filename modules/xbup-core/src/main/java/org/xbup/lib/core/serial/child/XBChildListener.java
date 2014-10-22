@@ -41,7 +41,7 @@ public interface XBChildListener {
     public void begin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
 
     /**
-     * Puts block attribute.
+     * Puts block's attribute.
      *
      * @param attribute attribute value
      * @throws XBProcessingException
@@ -59,7 +59,7 @@ public interface XBChildListener {
     public void addChild(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
-     * Puts block data.
+     * Puts block's data.
      *
      * @param data data stream
      * @throws XBProcessingException

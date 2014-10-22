@@ -25,12 +25,17 @@ package org.xbup.lib.core.catalog.client;
 public interface XBCatalogServiceClient {
 
     /**
-     * Execute remote procedure of XBUP Service
-     * 
-     * @return Message handler
+     * Executes remote procedure of XBUP Service
+     *
+     * @param procedureId procedure identification array
+     * @return message handler
      */
     public XBCatalogServiceMessage executeProcedure(long[] procedureId);
 
-    /** Check whether connection is valid. */
+    /**
+     * Checks whether connection is valid.
+     *
+     * @return true, if connection is valid
+     */
     public abstract boolean validate();
 }

@@ -29,7 +29,8 @@ import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * XBUP level 0 listener to single token convertor.
+ * XBUP level 0 listener to single token convertor and static method for reverse
+ * operation.
  *
  * @version 0.1.23 2014/02/07
  * @author XBUP Project (http://xbup.org)
@@ -70,6 +71,14 @@ public class XBListenerToToken implements XBListener {
         token = new XBEndToken();
     }
 
+    /**
+     * Passes given token to given listener.
+     *
+     * @param token given token
+     * @param listener target listener
+     * @throws XBProcessingException
+     * @throws IOException
+     */
     public static void tokenToListener(XBToken token, XBListener listener) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {

@@ -30,7 +30,7 @@ import org.xbup.lib.core.stream.XBTStreamChecker;
 public interface XBCall {
 
     /**
-     * Method for remote invocation/calling of given procedure.
+     * Performs remote invocation/calling of given procedure.
      *
      * Position in source is after block type.
      *

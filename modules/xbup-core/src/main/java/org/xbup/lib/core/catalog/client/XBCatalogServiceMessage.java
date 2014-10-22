@@ -29,18 +29,36 @@ import org.xbup.lib.core.stream.XBStreamChecker;
  */
 public interface XBCatalogServiceMessage {
 
-    /** Get Output stream */
+    /**
+     * Gets output stream.
+     *
+     * @return token output stream
+     */
     public XBTokenOutputStream getXBOutputStream();
 
-    /** Get Input stream */
+    /**
+     * Gets input stream.
+     *
+     * @return token input stream
+     */
     public XBTokenInputStream getXBInputStream();
 
-    /** Get Output listener */
+    /**
+     * Gets output listener.
+     *
+     * @return listener
+     */
     public XBListener getXBOutput();
 
-    /** Get Input checker */
+    /**
+     * Gets input checker.
+     *
+     * @return input stream checker
+     */
     public XBStreamChecker getXBInput();
 
-    /** Close message */
+    /**
+     * Closes message.
+     */
     public void close();
 }

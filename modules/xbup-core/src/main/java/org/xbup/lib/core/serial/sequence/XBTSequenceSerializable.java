@@ -30,7 +30,7 @@ import org.xbup.lib.core.serial.XBSerializable;
 public interface XBTSequenceSerializable extends XBSerializable {
 
     /**
-     * Performs dual-way serialization to XBUP protocol
+     * Performs dual-way serialization to XBUP protocol.
      *
      * @param serializationHandler serialization resource
      * @throws XBProcessingException if proccesing problem encountered

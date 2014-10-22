@@ -43,7 +43,7 @@ import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.stream.XBTStreamChecker;
-import org.xbup.lib.core.stream.filter.XBToXBTStreamConvertor;
+import org.xbup.lib.core.stream.convert.XBToXBTStreamConvertor;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**

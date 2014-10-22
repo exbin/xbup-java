@@ -29,9 +29,9 @@ import org.xbup.lib.core.parser.token.TypedToken;
 public abstract class XBOperation<T extends TypedToken, U extends TypedToken> {
 
     /**
-     * Method to perform operation.
+     * Performs operation.
      *
-     * @param operator
+     * @param operator token operator
      */
     public abstract void operate(XBTokenOperator<T, U> operator);
 }

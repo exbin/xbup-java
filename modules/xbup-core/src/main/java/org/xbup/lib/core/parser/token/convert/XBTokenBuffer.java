@@ -51,7 +51,7 @@ public class XBTokenBuffer implements XBEventListener {
     }
 
     /**
-     * Write content of passed tokens into data stream.
+     * Writes content of passed tokens into data stream.
      *
      * In the end tokens are disposed.
      *
@@ -64,7 +64,7 @@ public class XBTokenBuffer implements XBEventListener {
     }
 
     /**
-     * Precompute sizes of attribute and data parts for each block into
+     * Precomputes sizes of attribute and data parts for each block into
      * blockSizes list.
      */
     private void precomputeBufferBlockSizes() throws IOException {
@@ -161,7 +161,7 @@ public class XBTokenBuffer implements XBEventListener {
     }
 
     /**
-     * Write and delete all buffered tokens using precompute sizes.
+     * Writes and deletes all buffered tokens using precompute sizes.
      *
      * @param stream output stream
      */
@@ -224,7 +224,7 @@ public class XBTokenBuffer implements XBEventListener {
     }
 
     /**
-     * Store passed token into token buffer list.
+     * Stores passed token into token buffer list.
      *
      * @param token passed tokken
      */
@@ -234,7 +234,7 @@ public class XBTokenBuffer implements XBEventListener {
     }
 
     /**
-     * Method to add value to block sizes accross all depths.
+     * Adds value to block sizes accross all depths.
      *
      * @param blockSizes list of block sizes
      * @param attributeSize Value to add to all block sizes
@@ -251,7 +251,7 @@ public class XBTokenBuffer implements XBEventListener {
     }
 
     /**
-     * Method to add value to block sizes accross all depths.
+     * Adds value to block sizes accross all depths.
      *
      * @param blockSizes list of block sizes
      * @param dataSize Value to add to all block sizes

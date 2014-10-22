@@ -14,11 +14,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.stream.filter;
+package org.xbup.lib.core.stream.convert;
 
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
@@ -29,17 +30,21 @@ import org.xbup.lib.core.stream.XBTInputTokenStream;
 /**
  * XBUP level 0 to level 1 stream convertor.
  *
- * @version 0.1.19 2010/06/04
+ * TODO: Fill type instead of attributes
+ * 
+ * @version 0.1.18 2009/07/21
  * @author XBUP Project (http://xbup.org)
  */
-public class XBToXBTStreamConvertor extends XBTInputTokenStream {
+public class XBToXBTStreamUndropConvertor extends XBTInputTokenStream {
 
     private XBTokenInputStream source;
     private XBToXBTEventConvertor convertor;
+    private XBBlockType type;
     ConvertorListener listener;
 
-    public XBToXBTStreamConvertor(XBTokenInputStream input) {
+    public XBToXBTStreamUndropConvertor(XBTokenInputStream input, XBBlockType type) {
         this.source = input;
+        this.type = type;
         listener = new ConvertorListener();
         convertor = new XBToXBTEventConvertor(listener);
     }
@@ -56,7 +61,7 @@ public class XBToXBTStreamConvertor extends XBTInputTokenStream {
                     token = listener.popXBT();
                 }
             } catch (IOException ex) {
-                Logger.getLogger(XBToXBTStreamConvertor.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(XBToXBTStreamUndropConvertor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return token;

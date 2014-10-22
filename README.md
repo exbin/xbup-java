@@ -13,6 +13,8 @@ This should provide following advantages:
 Homepage: http://xbup.org  
 Project page: http://sourceforge.net/projects/xbup  
 
+This repository contains Java implementation of the protocol and support tools and sample files.
+
 Structure
 ---------
 

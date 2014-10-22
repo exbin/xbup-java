@@ -27,7 +27,7 @@ import org.xbup.lib.core.catalog.client.XBCatalogServiceClient;
 public class XBRBlockCons extends XBRConsDef implements XBCBlockCons {
 
     public XBRBlockCons(XBCatalogServiceClient client, long id) {
-        super(client,id);
+        super(client, id);
     }
 
     @Override
@@ -36,7 +36,8 @@ public class XBRBlockCons extends XBRConsDef implements XBCBlockCons {
         if (item == null) {
             return null;
         }
-        return new XBRBlockRev(item.client,item.getId());
+
+        return new XBRBlockRev(item.client, item.getId());
     }
 
     @Override
@@ -45,6 +46,7 @@ public class XBRBlockCons extends XBRConsDef implements XBCBlockCons {
         if (item == null) {
             return null;
         }
-        return new XBRBlockSpec(item.client,item.getId());
+
+        return new XBRBlockSpec(item.client, item.getId());
     }
 }

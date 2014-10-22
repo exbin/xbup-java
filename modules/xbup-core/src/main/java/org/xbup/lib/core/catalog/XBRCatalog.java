@@ -258,7 +258,7 @@ public class XBRCatalog implements XBCatalog {
     }
 
     /**
-     * Provide fixed block type for given block declaration.
+     * Provides fixed block type for given block declaration.
      *
      * @param context
      * @param type block type

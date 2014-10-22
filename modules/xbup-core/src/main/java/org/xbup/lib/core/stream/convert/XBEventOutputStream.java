@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.stream.filter;
+package org.xbup.lib.core.stream.convert;
 
 import java.io.IOException;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -24,7 +24,7 @@ import org.xbup.lib.core.parser.token.event.XBEventProducer;
 import org.xbup.lib.core.stream.XBTokenOutputStream;
 
 /**
- * XB level 1 output stream abstract class.
+ * XBUP level 1 output stream convertor to event producer.
  *
  * @version 0.1.16 2008/08/03
  * @author XBUP Project (http://xbup.org)

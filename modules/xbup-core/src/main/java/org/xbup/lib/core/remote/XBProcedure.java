@@ -39,7 +39,7 @@ public interface XBProcedure {
     public XBBlockType getType();
 
     /**
-     * Return required declaration for result.
+     * Returns required declaration for result.
      *
      * TODO: Should be joined declaration (for multiple formats, groups and
      * blocks)
@@ -49,7 +49,7 @@ public interface XBProcedure {
     public XBDFormatDecl getResultDecl();
 
     /**
-     * Method for invocation of this procedure.
+     * Invocates this procedure.
      *
      * Position in source is after block type.
      *

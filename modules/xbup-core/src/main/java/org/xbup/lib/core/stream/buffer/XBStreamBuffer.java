@@ -31,11 +31,9 @@ import org.xbup.lib.core.stream.XBTokenOutputStream;
  */
 public class XBStreamBuffer extends XBTokenOutputStream {
 
-    private List<XBToken> itemList;
+    private List<XBToken> itemList = new ArrayList<>();
 
-    /** Creates a new instance of XBStreamBuffer */
     public XBStreamBuffer() {
-        itemList = new ArrayList<XBToken>();
     }
 
     @Override

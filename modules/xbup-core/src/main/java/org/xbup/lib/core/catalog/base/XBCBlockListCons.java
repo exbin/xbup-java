@@ -17,8 +17,7 @@
 package org.xbup.lib.core.catalog.base;
 
 /**
- * Interface for level 2 potentionally infinite type list of block consist
- * entity.
+ * Interface for potentionally infinite type list of block consist entity.
  *
  * @version 0.1.21 2012/03/26
  * @author XBUP Project (http://xbup.org)

@@ -14,13 +14,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.catalog.base;
+package org.xbup.lib.core.serial.child;
+
+import org.xbup.lib.core.serial.token.XBTTokenInputSerialHandler;
 
 /**
- * Interface block specification entity.
+ * Interface for XBUP level 2 serialization input handler using basic child serialization.
  *
- * @version 0.1.24 2014/08/29
+ * @version 0.1.24 2014/10/24
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBCBlockSpec extends XBCSpec {
+public interface XBAChildInputSerialHandler extends XBAChildProvider, XBTTokenInputSerialHandler {
 }

@@ -183,7 +183,7 @@ public class XBDeclaration implements XBTSequenceSerializable {
 
     public XBSerialSequence getDeclarationSerializationSeq() throws XBProcessingException, IOException {
         XBSerialSequence seq = new XBSerialSequence();
-        seq.setXBBlockType(new XBFixedBlockType(XBBasicBlockType.DECLARATION));
+        seq.setBlockType(new XBFixedBlockType(XBBasicBlockType.DECLARATION));
         seq.join(groupsReserved);
         seq.join(preserveCount);
         seq.consist(format);

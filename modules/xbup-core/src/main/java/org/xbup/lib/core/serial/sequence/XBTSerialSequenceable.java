@@ -25,7 +25,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
  * @version 0.1.23 2014/03/03
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBTSerialSequence {
+public interface XBTSerialSequenceable {
 
     /**
      * Puts sequence record.

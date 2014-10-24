@@ -18,6 +18,7 @@ package org.xbup.lib.core.serial.child;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
@@ -25,12 +26,12 @@ import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * XBUP level 1 child serialization provider interface.
+ * XBUP level 2 child serialization provider interface.
  *
- * @version 0.1.24 2014/08/23
+ * @version 0.1.24 2014/10/24
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBTChildProvider {
+public interface XBAChildProvider {
 
     /**
      * Gets beggining of block.
@@ -42,13 +43,23 @@ public interface XBTChildProvider {
     public XBBlockTerminationMode begin() throws XBProcessingException, IOException;
 
     /**
-     * Gets block type.
+     * Get block type.
      *
      * @return block type
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
     public XBBlockType getType() throws XBProcessingException, IOException;
+
+    /**
+     * Matches block type.
+     *
+     * @param blockTypes list of block types to match to
+     * @return block type
+     * @throws XBProcessingException if not matching
+     * @throws IOException if input/output exception occurs
+     */
+    public XBBlockType matchType(List<XBBlockType> blockTypes) throws XBProcessingException, IOException;
 
     /**
      * Gets block attribute.

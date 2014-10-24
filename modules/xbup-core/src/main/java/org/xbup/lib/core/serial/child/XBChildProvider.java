@@ -32,7 +32,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 public interface XBChildProvider {
 
     /**
-     * Matches beggining of block.
+     * Gets beggining of block.
      *
      * @return terminated block flag
      * @throws XBProcessingException if not matching
@@ -41,7 +41,7 @@ public interface XBChildProvider {
     public XBBlockTerminationMode begin() throws XBProcessingException, IOException;
 
     /**
-     * Matches block attribute.
+     * Gets block attribute.
      *
      * @return attribute value
      * @throws XBProcessingException if not matching
@@ -50,7 +50,7 @@ public interface XBChildProvider {
     public UBNatural nextAttribute() throws XBProcessingException, IOException;
 
     /**
-     * Matches block child.
+     * Gets block child.
      *
      * @param child serializable block
      * @throws XBProcessingException if not matching
@@ -59,7 +59,7 @@ public interface XBChildProvider {
     public void nextChild(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
-     * Matches block data.
+     * Gets block data.
      *
      * @return block data stream
      * @throws XBProcessingException if not matching
@@ -68,7 +68,7 @@ public interface XBChildProvider {
     public InputStream nextData() throws XBProcessingException, IOException;
 
     /**
-     * Matches end of block.
+     * Gets end of block.
      *
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs

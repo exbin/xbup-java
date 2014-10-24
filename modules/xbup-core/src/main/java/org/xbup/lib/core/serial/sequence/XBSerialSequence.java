@@ -16,55 +16,39 @@
  */
 package org.xbup.lib.core.serial.sequence;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildSerializable;
-import org.xbup.lib.core.ubnumber.UBENatural;
-import org.xbup.lib.core.ubnumber.UBNatural;
-import org.xbup.lib.core.ubnumber.type.UBENat32;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * XBUP level 1 serialization sequence.
  *
- * @version 0.1.24 2014/09/28
+ * @version 0.1.24 2014/10/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBSerialSequence {
 
     private XBBlockType type;
-    private XBBlockTerminationMode terminationMode;
-    private List<XBSerialSequenceItem> items;
+    private XBBlockTerminationMode terminationMode = XBBlockTerminationMode.SIZE_SPECIFIED;
+    private List<XBSerialSequenceItem> items = new ArrayList<>();
 
     public XBSerialSequence() {
-        items = new ArrayList<>();
     }
 
-    public XBSerialSequence(XBBlockType type, XBBlockTerminationMode terminationMode) {
+    public XBSerialSequence(XBBlockTerminationMode terminationMode) {
         this();
-        this.type = type;
         this.terminationMode = terminationMode;
+    }
+    
+    public XBSerialSequence(XBBlockType type, XBBlockTerminationMode terminationMode) {
+        this(terminationMode);
+        this.type = type;
     }
 
     public XBSerialSequence(XBBlockType type) {
         this(type, XBBlockTerminationMode.SIZE_SPECIFIED);
-    }
-
-    public XBSerialSequence(XBBlockType type, XBSerializable join) {
-        this(type, XBBlockTerminationMode.SIZE_SPECIFIED);
-        privateJoin(join);
-    }
-
-    public XBSerialSequence(XBBlockType type, XBBlockTerminationMode terminationMode, XBSerializable join) {
-        this(type, terminationMode);
-        privateJoin(join);
     }
 
     public void add(XBSerialSequenceOp op, XBSerializable item) {
@@ -84,18 +68,18 @@ public class XBSerialSequence {
     }
 
     public void listJoin(XBSerialSequenceList item) {
-        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_JOIN, new XBSequenceSerializableList(item)));
+        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_JOIN, new XBSerialSequenceListSerializable(item)));
     }
 
     public void listConsist(XBSerialSequenceIList item) {
-        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_CONSIST, new XBSequenceSerializableIList(item)));
+        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_CONSIST, new XBSerialSequenceIListSerializable(item)));
     }
 
-    public XBBlockType getXBBlockType() {
+    public XBBlockType getBlockType() {
         return type;
     }
 
-    public void setXBBlockType(XBBlockType type) {
+    public void setBlockType(XBBlockType type) {
         this.type = type;
     }
 
@@ -117,120 +101,5 @@ public class XBSerialSequence {
 
     public void append(XBSerialSequence seq) {
         items.addAll(seq.items);
-    }
-
-    private class XBSequenceSerializableList implements XBSerialSequenceList, XBTChildSerializable {
-
-        private final XBSerialSequenceList list;
-
-        public XBSequenceSerializableList(XBSerialSequenceList list) {
-            this.list = list;
-        }
-
-        @Override
-        public void setSize(UBNatural count) {
-            list.setSize(count);
-        }
-
-        @Override
-        public UBNatural getSize() {
-            return list.getSize();
-        }
-
-        @Override
-        public XBSerializable next() {
-            return list.next();
-        }
-
-        @Override
-        public void reset() {
-            list.reset();
-        }
-
-        @Override
-        public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-            UBNatural count = getSize();
-            while (count.getLong() != 0) {
-                serial.nextChild(next());
-                count = new UBNat32(count.getLong() - 1);
-            }
-        }
-
-        @Override
-        public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-            UBNatural count = getSize();
-            while (count.getLong() != 0) {
-                serial.addChild(next());
-                count = new UBNat32(count.getLong() - 1);
-            }
-        }
-    }
-
-    private class XBSequenceSerializableIList implements XBSerialSequenceIList, XBTChildSerializable {
-
-        private final XBSerialSequenceIList list;
-
-        public XBSequenceSerializableIList(XBSerialSequenceIList list) {
-            this.list = list;
-        }
-
-        @Override
-        public void setSize(UBENatural count) {
-            list.setSize(count);
-        }
-
-        @Override
-        public UBENatural getSize() {
-            return list.getSize();
-        }
-
-        @Override
-        public XBSerializable next() {
-            return list.next();
-        }
-
-        @Override
-        public void reset() {
-            list.reset();
-        }
-
-        @Override
-        public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-            UBENatural count = getSize();
-            if (count.isInfinity()) {
-                XBSerializable block;
-                do {
-                    block = next();
-                    // TODO: Handle infinite lists (Process termination by empty data block)
-                    serial.nextChild(next());
-                } while (block != null);
-            } else {
-                while (count.getLong() != 0) {
-                    serial.nextChild(next());
-                    count = new UBENat32(count.getLong() - 1);
-                }
-            }
-        }
-
-        @Override
-        public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-            UBENatural count = getSize();
-            if (count.isInfinity()) {
-                XBSerializable block;
-                do {
-                    block = next();
-                    if (block == null) {
-                        serial.addChild(block);
-                    } else {
-                        serial.addChild(null); // TODO: Add empty block as terminator
-                    }
-                } while (block != null);
-            } else {
-                while (count.getLong() != 0) {
-                    serial.addChild(next());
-                    count = new UBENat32(count.getLong() - 1);
-                }
-            }
-        }
     }
 }

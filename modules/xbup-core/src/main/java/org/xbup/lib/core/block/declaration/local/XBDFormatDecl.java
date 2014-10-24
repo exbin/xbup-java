@@ -127,7 +127,8 @@ public class XBDFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
             @Override
             public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
                 long[] xbGroupLimitBlockType = {1, 5};
-                XBSerialSequence subSequence = new XBSerialSequence(new XBDeclBlockType(new XBPBlockDecl(xbGroupLimitBlockType)), groupsLimit);
+                XBSerialSequence subSequence = new XBSerialSequence(new XBDeclBlockType(new XBPBlockDecl(xbGroupLimitBlockType)));
+                subSequence.join(groupsLimit);
 
                 serializationHandler.sequenceXB(subSequence);
             }
@@ -141,7 +142,8 @@ public class XBDFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
             @Override
             public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
                 long[] xbRevisionBlockType = {1, 5};
-                XBSerialSequence subSequence = new XBSerialSequence(new XBDeclBlockType(new XBPBlockDecl(xbRevisionBlockType)), revision);
+                XBSerialSequence subSequence = new XBSerialSequence(new XBDeclBlockType(new XBPBlockDecl(xbRevisionBlockType)));
+                subSequence.join(revision);
 
                 serializationHandler.sequenceXB(subSequence);
             }

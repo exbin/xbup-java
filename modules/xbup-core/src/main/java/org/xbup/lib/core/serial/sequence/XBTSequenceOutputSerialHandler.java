@@ -26,5 +26,5 @@ import org.xbup.lib.core.serial.token.XBTTokenOutputSerialHandler;
  * @version 0.1.24 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBTSequenceOutputSerialHandler extends XBOutputSerialHandler, XBTSerialSequence, XBTTokenOutputSerialHandler {
+public interface XBTSequenceOutputSerialHandler extends XBOutputSerialHandler, XBTSerialSequenceable, XBTTokenOutputSerialHandler {
 }

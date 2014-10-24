@@ -17,7 +17,7 @@
 package org.xbup.lib.core.catalog.base;
 
 /**
- * Interface for level 2 finite type list of block join entity.
+ * Interface for finite type list of block join entity.
  *
  * @version 0.1.21 2012/03/26
  * @author XBUP Project (http://xbup.org)

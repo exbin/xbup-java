@@ -30,22 +30,20 @@ import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.serial.child.XBChildSerialState;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.token.XBTTokenOutputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.core.ubnumber.UBENatural;
 import org.xbup.lib.core.ubnumber.UBNatural;
-import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * XBUP level 1 serialization handler using serialization sequence parser
  * mapping to token listener.
  *
- * @version 0.1.24 2014/08/24
+ * @version 0.1.24 2014/10/24
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandler, XBTSequenceOutputSerialHandler, XBTSerialSequence, XBTTokenOutputSerialHandler {
+public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandler, XBTSequenceOutputSerialHandler, XBTSerialSequenceable, XBTTokenOutputSerialHandler {
 
     private XBTEventListener eventListener;
     private final XBChildSerialState state;
@@ -65,7 +63,7 @@ public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandle
         handler.attachXBTEventListener(eventListener);
 
         handler.begin(sequence.getTerminationMode());
-        handler.setType(sequence.getXBBlockType());
+        handler.setType(sequence.getBlockType());
 
         List<XBSerializable> params = new ArrayList<>();
         serializeToXBSequence(sequence, handler, params);
@@ -109,130 +107,15 @@ public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandle
                     XBSerialSequenceList list = (XBSerialSequenceList) item.getItem();
                     UBNatural count = list.getSize();
                     serial.addAttribute(count);
-                    params.add(new XBSequenceSerializableList(list));
+                    params.add(new XBSerialSequenceListSerializable(list));
                     break;
                 }
                 case LIST_CONSIST: {
                     XBSerialSequenceIList list = (XBSerialSequenceIList) item.getItem();
                     UBENatural count = list.getSize();
                     serial.addAttribute(new UBNat32(count.getLong()));
-                    params.add(new XBSequenceSerializableIList(list));
+                    params.add(new XBSerialSequenceIListSerializable(list));
                     break;
-                }
-            }
-        }
-    }
-
-    private class XBSequenceSerializableList implements XBSerialSequenceList, XBTChildSerializable {
-
-        private final XBSerialSequenceList list;
-
-        public XBSequenceSerializableList(XBSerialSequenceList list) {
-            this.list = list;
-        }
-
-        @Override
-        public void setSize(UBNatural count) {
-            list.setSize(count);
-        }
-
-        @Override
-        public UBNatural getSize() {
-            return list.getSize();
-        }
-
-        @Override
-        public XBSerializable next() {
-            return list.next();
-        }
-
-        @Override
-        public void reset() {
-            list.reset();
-        }
-
-        @Override
-        public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-            UBNatural count = getSize();
-            while (count.getLong() != 0) {
-                serial.nextChild(next());
-                count = new UBNat32(count.getLong() - 1);
-            }
-        }
-
-        @Override
-        public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-            UBNatural count = getSize();
-            while (count.getLong() != 0) {
-                serial.addChild(next());
-                count = new UBNat32(count.getLong() - 1);
-            }
-        }
-    }
-
-    private class XBSequenceSerializableIList implements XBSerialSequenceIList, XBTChildSerializable {
-
-        private final XBSerialSequenceIList list;
-
-        public XBSequenceSerializableIList(XBSerialSequenceIList list) {
-            this.list = list;
-        }
-
-        @Override
-        public void setSize(UBENatural count) {
-            list.setSize(count);
-        }
-
-        @Override
-        public UBENatural getSize() {
-            return list.getSize();
-        }
-
-        @Override
-        public XBSerializable next() {
-            return list.next();
-        }
-
-        @Override
-        public void reset() {
-            list.reset();
-        }
-
-        @Override
-        public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-            UBENatural count = getSize();
-            if (count.isInfinity()) {
-                XBSerializable block;
-                do {
-                    block = next();
-                    // TODO: Handle infinite lists (Process termination by empty data block)
-                    serial.nextChild(next());
-                } while (block != null);
-            } else {
-                while (count.getLong() != 0) {
-                    serial.nextChild(next());
-                    count = new UBENat32(count.getLong() - 1);
-                }
-            }
-        }
-
-        @Override
-        public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-            UBENatural count = getSize();
-            if (count.isInfinity()) {
-                XBSerializable block;
-                do {
-                    block = next();
-                    if (block == null) {
-                        serial.addChild(block);
-                    } else {
-                        serial.addChild(null); // TODO: Add empty block as terminator
-                    }
-                } while (block != null);
-            } else {
-                while (count.getLong() != 0) {
-                    serial.addChild(next());
-                    count = new UBENat32(count.getLong() - 1);
                 }
             }
         }

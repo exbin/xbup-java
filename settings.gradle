@@ -1,4 +1,4 @@
-rootProject.name = 'xbup-full'
+rootProject.name = 'xbup-java'
 include ":modules:xbup-core"
 include ":modules:xbup-framework-client"
 include ":modules:xbup-framework-service"

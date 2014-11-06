@@ -115,9 +115,9 @@ import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
  */
 public class XBServiceServer extends XBTCPRemoteServer {
 
-    private static ResourceBundle myBundle = ResourceBundle.getBundle("org/xbup/lib/xbservice/messages");
+    private static final ResourceBundle myBundle = ResourceBundle.getBundle("org/xbup/lib/xbservice/messages");
 
-    private XBCUpdatePHPHandler wsHandler;
+    private final XBCUpdatePHPHandler wsHandler;
 /*
     private enum commandTypeEnum {
         SERVICE, INFO

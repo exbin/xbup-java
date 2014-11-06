@@ -141,11 +141,14 @@
                     </Property>
                   </Properties>
                   <AccessibilityProperties>
-                    <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="AttributeTable"/>
+                    <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
                   </AccessibilityProperties>
                   <Events>
                     <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="attributesTablePropertyChange"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JTable(tableModel) {&#xa;            @Override&#xa;        public boolean editCellAt(int row, int column, EventObject e) {&#xa;                boolean result = super.editCellAt(row, column, e);&#xa;                final Component editor = getEditorComponent();&#xa;                if (editor == null || !(editor instanceof JTextComponent)) {&#xa;                    return result;&#xa;                }&#xa;                if (e instanceof MouseEvent) {&#xa;                    EventQueue.invokeLater(new Runnable() {&#xa;&#xa;                        @Override&#xa;        public void run() {&#xa;                            ((JTextComponent) editor).selectAll();&#xa;                        }&#xa;&#xa;                    });&#xa;                } else {&#xa;                    ((JTextComponent) editor).selectAll();&#xa;                }&#xa;                return result;&#xa;            }&#xa;        }"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>

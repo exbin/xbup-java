@@ -132,8 +132,9 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        zoombuttonGroup = new javax.swing.ButtonGroup();
+        zoomButtonGroup = new javax.swing.ButtonGroup();
         mainPopupMenu = new javax.swing.JPopupMenu();
+        toolButtonGroup = new javax.swing.ButtonGroup();
         statusBar = new javax.swing.JPanel();
         javax.swing.JSeparator statusPanelSeparator = new javax.swing.JSeparator();
         statusPanel = new javax.swing.JPanel();
@@ -155,6 +156,7 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
         viewZoom400MenuItem = new javax.swing.JRadioButtonMenuItem();
         toolsMenu = new javax.swing.JMenu();
         toolPencilMenuItem = new javax.swing.JRadioButtonMenuItem();
+        toolLineMenuItem = new javax.swing.JRadioButtonMenuItem();
         pictMenu = new javax.swing.JMenu();
         pictResizeMenuItem = new javax.swing.JMenuItem();
         pictRotateMenu = new javax.swing.JMenu();
@@ -282,10 +284,15 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
 
         toolsMenu.setText(bundle.getString("toolsMenu.text")); // NOI18N
 
+        toolButtonGroup.add(toolPencilMenuItem);
         toolPencilMenuItem.setSelected(true);
         toolPencilMenuItem.setText(bundle.getString("toolPencil.Action.text")); // NOI18N
         toolPencilMenuItem.setToolTipText(bundle.getString("toolPencil.Action.shortDescription")); // NOI18N
         toolsMenu.add(toolPencilMenuItem);
+
+        toolButtonGroup.add(toolLineMenuItem);
+        toolLineMenuItem.setText("Line");
+        toolsMenu.add(toolLineMenuItem);
 
         menuBar.add(toolsMenu);
 
@@ -408,6 +415,8 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem pictRotateMirrorMenuItem;
     private javax.swing.JPanel statusBar;
     private javax.swing.JPanel statusPanel;
+    private javax.swing.ButtonGroup toolButtonGroup;
+    private javax.swing.JRadioButtonMenuItem toolLineMenuItem;
     private javax.swing.JRadioButtonMenuItem toolPencilMenuItem;
     public javax.swing.JMenu toolsMenu;
     public javax.swing.JMenu viewMenu;
@@ -417,7 +426,7 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
     private javax.swing.JRadioButtonMenuItem viewZoom25MenuItem;
     private javax.swing.JRadioButtonMenuItem viewZoom400MenuItem;
     private javax.swing.JRadioButtonMenuItem viewZoom50MenuItem;
-    private javax.swing.ButtonGroup zoombuttonGroup;
+    private javax.swing.ButtonGroup zoomButtonGroup;
     // End of variables declaration//GEN-END:variables
 
     /**

@@ -138,7 +138,7 @@ public class XBEditor extends XBEditorBase {
             ApplicationModule module = app.getModuleRepository().getPluginHandler(OnlineHelpModule.class);
             try {
                 if (module instanceof OnlineHelpModule) {
-                    ((OnlineHelpModule) module).setHelpUrl(new URL("http://www.xbup.org/?devel/editor"));
+                    ((OnlineHelpModule) module).setHelpUrl(new URL("http://www.xbup.org/?wiki/doc/impl/java/tool/xbeditor"));
                 }
             } catch (MalformedURLException ex) {
                 Logger.getLogger(XBEditor.class.getName()).log(Level.SEVERE, null, ex);

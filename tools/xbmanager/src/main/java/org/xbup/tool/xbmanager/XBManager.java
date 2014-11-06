@@ -16,6 +16,8 @@
  */
 package org.xbup.tool.xbmanager;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -33,11 +35,12 @@ import org.xbup.tool.editor.base.XBEditorApplication;
 import org.xbup.tool.editor.base.XBEditorApplication.XBAppCommand;
 import org.xbup.tool.editor.base.XBEditorBase;
 import org.xbup.tool.editor.base.api.ApplicationModule;
+import org.xbup.tool.editor.module.online_help.OnlineHelpModule;
 
 /**
  * The main class of the XBManager application.
  *
- * @version 0.1.24 2014/10/03
+ * @version 0.1.24 2014/11/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBManager extends XBEditorBase {
@@ -95,11 +98,11 @@ public class XBManager extends XBEditorBase {
             String fileName = "";
             String catalogConnection = cl.getOptionValue("ip");
             String port = cl.getOptionValue("port");
-            if ((!"".equals(port))&&(port != null)) {
+            if ((!"".equals(port)) && (port != null)) {
                 catalogConnection += ":" + port;
             }
             List fileArgs = cl.getArgList();
-            if (fileArgs.size()>0) {
+            if (fileArgs.size() > 0) {
                 fileName = (String) fileArgs.get(0);
             }
 
@@ -109,6 +112,7 @@ public class XBManager extends XBEditorBase {
             app.setAppBundle(bundle);
 
             app.addPlugin(new ClassURI(XBServiceManagerModule.class).toURI());
+            app.addPlugin(new ClassURI(OnlineHelpModule.class).toURI());
 
             app.setFirstCommand(new XBManagerFirstCommand(app));
             app.startup();
@@ -128,9 +132,17 @@ public class XBManager extends XBEditorBase {
         @Override
         public void execute() {
             ApplicationModule module = app.getModuleRepository().getPluginHandler();
-            if (module instanceof XBServiceManagerModule) {
-                ((XBServiceManagerModule) module).getEditorFrame().actionConnect();
+
+            try {
+                if (module instanceof XBServiceManagerModule) {
+                    ((XBServiceManagerModule) module).getEditorFrame().actionConnect();
+                } else if (module instanceof OnlineHelpModule) {
+                    ((OnlineHelpModule) module).setHelpUrl(new URL("http://www.xbup.org/?wiki/doc/impl/java/tool/xbmanager"));
+                }
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(XBManager.class.getName()).log(Level.SEVERE, null, ex);
             }
+
         }
     }
 }

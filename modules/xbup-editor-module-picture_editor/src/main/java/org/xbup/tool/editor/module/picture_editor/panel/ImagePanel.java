@@ -105,7 +105,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
     private Font defaultFont;
     private Color[] defaultColors;
     private InputMethodListener caretListener;
-    private int toolMode;
+    private ToolMode toolMode;
     private PropertyChangeListener propertyChangeListener;
 
     /**
@@ -114,7 +114,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
     public ImagePanel() {
         initComponents();
         scaleRatio = 1;
-        toolMode = 0;
+        toolMode = ToolMode.DOTTER;
         undo = new UndoManager();
         fileName = "";
         highlight = null;
@@ -301,7 +301,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
     }// </editor-fold>//GEN-END:initComponents
 
     private void imageAreaMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageAreaMouseDragged
-        if (toolMode == 0) {
+        if (toolMode == ToolMode.DOTTER) {
             int x = (int) (evt.getX() / scaleRatio);
             int y = (int) (evt.getY() / scaleRatio);
             if (grph != null) {
@@ -314,12 +314,16 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
             }
 //            evt.getComponent().repaint();
             evt.consume();
+        } else if (toolMode == ToolMode.PENCIL) {
+
+        } else if (toolMode == ToolMode.LINE) {
+
         }
     }//GEN-LAST:event_imageAreaMouseDragged
 
     private void imageAreaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageAreaMouseClicked
         if (evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
-            if (toolMode == 0) {
+            if (toolMode == ToolMode.DOTTER) {
                 int x = (int) (evt.getX() / scaleRatio);
                 int y = (int) (evt.getY() / scaleRatio);
                 if (grph != null) {
@@ -332,6 +336,10 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                 }
 //                evt.getComponent().repaint();
                 evt.consume();
+            } else if (toolMode == ToolMode.PENCIL) {
+
+            } else if (toolMode == ToolMode.LINE) {
+
             }
         }
     }//GEN-LAST:event_imageAreaMouseClicked
@@ -401,9 +409,9 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                 XBFileOutputStream output = new XBFileOutputStream(file);
                 XBTChildOutputSerialHandler handler = new XBTChildListenerSerialHandler();
                 handler.attachXBTEventListener(null);
-                XBDeclaration declaration = new XBDeclaration(new XBPFormatDecl(new long[] {1, 4, 0, 1}));
+                XBDeclaration declaration = new XBDeclaration(new XBPFormatDecl(new long[]{1, 4, 0, 1}));
                 // TODO catalog
-                XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(null), null); 
+                XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(null), null);
                 encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
                 handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));
                 getStubXBTDataSerializator().serializeToXB(handler);
@@ -721,5 +729,12 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         }
 
         return frameTitle;
+    }
+
+    public enum ToolMode {
+
+        DOTTER,
+        PENCIL,
+        LINE
     }
 }

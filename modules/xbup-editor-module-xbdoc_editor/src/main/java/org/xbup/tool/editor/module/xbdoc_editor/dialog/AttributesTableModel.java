@@ -30,7 +30,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * @version 0.1.24 2014/10/07
  * @author XBUP Project (http://xbup.org)
  */
-public class ItemAttribsTableModel extends AbstractTableModel {
+public class AttributesTableModel extends AbstractTableModel {
 
     private final ResourceBundle resourceBundle;
     private List<UBNatural> attributes;
@@ -42,7 +42,7 @@ public class ItemAttribsTableModel extends AbstractTableModel {
     private final boolean[] canEdit = new boolean[]{false, true};
     private List<TableModelListener> tableModelListeners = new ArrayList<>();
 
-    public ItemAttribsTableModel() {
+    public AttributesTableModel() {
         resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbdoceditor/dialog/resources/ItemModifyDialog");
         columns = new String[]{resourceBundle.getString("itemmod_itemorder"), resourceBundle.getString("itemmod_itemvalue")};
         attributes = new ArrayList<>();
@@ -84,10 +84,12 @@ public class ItemAttribsTableModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        if (columnIndex == 1) {
-            ((UBNat32) attributes.get(rowIndex)).setValue((Integer) aValue);
-        } else {
-            throw new IllegalStateException();
+        if (rowIndex < getRowCount()) {
+            if (columnIndex == 1) {
+                ((UBNat32) attributes.get(rowIndex)).setValue((Integer) aValue);
+            } else {
+                throw new IllegalStateException();
+            }
         }
     }
 

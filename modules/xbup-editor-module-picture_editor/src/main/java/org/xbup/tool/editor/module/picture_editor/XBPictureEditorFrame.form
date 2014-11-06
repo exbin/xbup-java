@@ -2,7 +2,7 @@
 
 <Form version="1.5" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Component class="javax.swing.ButtonGroup" name="zoombuttonGroup">
+    <Component class="javax.swing.ButtonGroup" name="zoomButtonGroup">
     </Component>
     <Container class="javax.swing.JPopupMenu" name="mainPopupMenu">
 
@@ -10,6 +10,8 @@
         <Property name="useNullLayout" type="boolean" value="true"/>
       </Layout>
     </Container>
+    <Component class="javax.swing.ButtonGroup" name="toolButtonGroup">
+    </Component>
     <Menu class="javax.swing.JMenuBar" name="menuBar">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_LayoutCodePost" type="java.lang.String" value="for (JMenuItem item : Arrays.asList(filePropertiesMenuItem, filePrintMenuItem, pictResizeMenuItem, optionsColorsMenuItem)) {&#xa;    item.setText(item.getText()+DIALOG_MENU_SUFIX);&#xa;}"/>
@@ -162,6 +164,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JRadioButtonMenuItem" name="toolPencilMenuItem">
               <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="toolButtonGroup"/>
+                </Property>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/xbup/tool/xbeditor/module/xbpictureeditor/resources/XBPictureEditorFrame.properties" key="toolPencil.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
@@ -169,6 +174,14 @@
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/xbup/tool/xbeditor/module/xbpictureeditor/resources/XBPictureEditorFrame.properties" key="toolPencil.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JRadioButtonMenuItem" name="toolLineMenuItem">
+              <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="toolButtonGroup"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Line"/>
               </Properties>
             </MenuItem>
           </SubComponents>

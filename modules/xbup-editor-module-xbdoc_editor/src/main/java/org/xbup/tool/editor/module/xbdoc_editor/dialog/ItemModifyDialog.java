@@ -19,13 +19,16 @@ package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 import hexedit.HexEditPanel;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.EventQueue;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EventObject;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,8 +36,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.text.JTextComponent;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
@@ -74,7 +79,7 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
  */
 public class ItemModifyDialog extends javax.swing.JDialog {
 
-    private final ItemAttribsTableModel tableModel = new ItemAttribsTableModel();
+    private final AttributesTableModel tableModel = new AttributesTableModel();
     private XBTTreeNode srcNode;
     private XBTTreeNode newNode = null;
     private final HexEditPanel hexPanel;
@@ -84,7 +89,7 @@ public class ItemModifyDialog extends javax.swing.JDialog {
 
     XBBlockDataMode dataMode = XBBlockDataMode.NODE_BLOCK;
     private List<UBNatural> attributes;
-    
+
     private final String attributesEditorPanelTitle;
     private final String dataEditorPanelTitle;
     private final String paramEditorPanelTitle;
@@ -100,7 +105,7 @@ public class ItemModifyDialog extends javax.swing.JDialog {
         customPanel = null;
         hexEditPanel.add(hexPanel);
         assignGlobalKeyListener();
-        
+
         attributesEditorPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(attributesEditorPanel));
         dataEditorPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(dataEditorPanel));
         paramEditorPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(paramEditorPanel));
@@ -126,7 +131,29 @@ public class ItemModifyDialog extends javax.swing.JDialog {
         paramEditorPanel = new javax.swing.JPanel();
         attributesEditorPanel = new javax.swing.JPanel();
         attributesScrollPane = new javax.swing.JScrollPane();
-        attributesTable = new javax.swing.JTable();
+        attributesTable = new JTable(tableModel) {
+            @Override
+            public boolean editCellAt(int row, int column, EventObject e) {
+                boolean result = super.editCellAt(row, column, e);
+                final Component editor = getEditorComponent();
+                if (editor == null || !(editor instanceof JTextComponent)) {
+                    return result;
+                }
+                if (e instanceof MouseEvent) {
+                    EventQueue.invokeLater(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            ((JTextComponent) editor).selectAll();
+                        }
+
+                    });
+                } else {
+                    ((JTextComponent) editor).selectAll();
+                }
+                return result;
+            }
+        };
         removeButton = new javax.swing.JButton();
         addButton = new javax.swing.JButton();
         dataEditorPanel = new javax.swing.JPanel();
@@ -167,7 +194,7 @@ public class ItemModifyDialog extends javax.swing.JDialog {
             }
         });
         attributesScrollPane.setViewportView(attributesTable);
-        attributesTable.getAccessibleContext().setAccessibleName("AttributeTable");
+        attributesTable.getAccessibleContext().setAccessibleName("");
 
         removeButton.setText(bundle.getString("removeButton.text")); // NOI18N
         removeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -308,13 +335,16 @@ public class ItemModifyDialog extends javax.swing.JDialog {
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         int[] selectedRows = attributesTable.getSelectedRows();
-        Arrays.sort(selectedRows);
-        for (int index = selectedRows.length - 1; index >= 0; index--) {
-            attributes.remove(selectedRows[index]);
+        if (selectedRows.length > 0) {
+            Arrays.sort(selectedRows);
+            for (int index = selectedRows.length - 1; index >= 0; index--) {
+                attributes.remove(selectedRows[index]);
+            }
+
+            tableModel.fireTableDataChanged();
+            attributesTable.clearSelection();
+            attributesTable.revalidate();
         }
-        
-        attributesTable.clearSelection();
-        attributesTable.revalidate();
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
@@ -355,12 +385,12 @@ public class ItemModifyDialog extends javax.swing.JDialog {
 
                 newNode = srcNode.cloneNode();
                 newNode.setAttributesCount(0);
-                
+
                 UBNatural groupId = attributes.get(0);
                 UBNatural blockId = attributes.size() > 1 ? attributes.get(1) : new UBNat32();
                 newNode.setFixedBlockType(new XBFixedBlockType(groupId, blockId));
                 newNode.setSingleAttributeType(attributes.size() == 1);
-                
+
                 for (int attributeIndex = 2; attributeIndex < attributes.size(); attributeIndex++) {
                     newNode.addAttribute(attributes.get(attributeIndex));
                 }

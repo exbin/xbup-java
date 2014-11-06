@@ -73,13 +73,13 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
         int rangeStart = 0;
         int rangeEnd;
         int[] zones = {
-            ((int) ((cursorPosition - windowPosition) * scaleRatio))-1,
-            ((int) ((cursorPosition - windowPosition) * scaleRatio))+2,
+            ((int) ((cursorPosition - windowPosition) * scaleRatio)) - 1,
+            ((int) ((cursorPosition - windowPosition) * scaleRatio)) + 2,
             -1,
             -1};
         if (selection != null) {
             zones[2] = ((int) ((selection.begin - windowPosition) * scaleRatio));
-            zones[3] = ((int) ((selection.end - windowPosition) * scaleRatio))+1;
+            zones[3] = ((int) ((selection.end - windowPosition) * scaleRatio)) + 1;
         }
 
         while (rangeStart < clipBounds.getWidth()) {
@@ -87,7 +87,7 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
             rangeEnd = clipBounds.width;
             for (int i = 0; i < zones.length; i++) {
                 int zonePosition = zones[i];
-                if ((zonePosition>rangePosition) && (rangeEnd > zonePosition-clipBounds.x)) {
+                if ((zonePosition > rangePosition) && (rangeEnd > zonePosition - clipBounds.x)) {
                     rangeEnd = zonePosition - clipBounds.x;
                 }
             }
@@ -110,27 +110,27 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
         if (wave != null) {
             g.setColor(dataColor);
             int channelsCount = wave.getAudioFormat().getChannels();
-            int[] prev = { -1, -1 };
+            int[] prev = {-1, -1};
             if (stopPos >= (getWaveLength() - windowPosition) * scaleRatio) {
-                stopPos = (int) ((getWaveLength() - windowPosition) * scaleRatio)-1;
+                stopPos = (int) ((getWaveLength() - windowPosition) * scaleRatio) - 1;
             }
 
-            for (int pos = clipBounds.x-1; pos < stopPos; pos++) {
+            for (int pos = clipBounds.x - 1; pos < stopPos; pos++) {
                 for (int channel = 0; channel < channelsCount; channel++) {
                     int pomPos = pos;
                     if (pomPos < 0) {
                         pomPos = 0;
                     }
-                    int value = wave.getRatioValue(windowPosition + (int) (pomPos / scaleRatio), channel, getHeight()/channelsCount) + (channel*getHeight())/channelsCount;
-                    int middle = (getHeight() + (2*channel*getHeight())) / (2*channelsCount) ;
+                    int value = wave.getRatioValue(windowPosition + (int) (pomPos / scaleRatio), channel, getHeight() / channelsCount) + (channel * getHeight()) / channelsCount;
+                    int middle = (getHeight() + (2 * channel * getHeight())) / (2 * channelsCount);
                     switch (drawMode) {
                         case DOTS_MODE: {
                             g.drawLine(pos, value, pos, value);
                             break;
                         }
                         case LINE_MODE: {
-                            if (prev[channel]>=0) {
-                                g.drawLine(pos-1, prev[channel], pos, value);
+                            if (prev[channel] >= 0) {
+                                g.drawLine(pos - 1, prev[channel], pos, value);
                             }
                             prev[channel] = value;
                             break;
@@ -313,12 +313,14 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
     }
 
     public enum DrawMode {
+
         DOTS_MODE,
         LINE_MODE,
         INTEGRAL_MODE
     }
 
     public enum ToolMode {
+
         SELECTION,
         PENCIL
     }
@@ -347,23 +349,22 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
     int wavePosition;
 
     @Override
-    public void mousePressed(MouseEvent me)
-    {
+    public void mousePressed(MouseEvent me) {
         if (me.getButton() == MouseEvent.BUTTON1) {
             if (toolMode == ToolMode.SELECTION) {
                 selectNone();
                 int oldPosition = getCursorPosition();
-                setCursorPosition((int) (me.getX() / scaleRatio)  + windowPosition);
+                setCursorPosition((int) (me.getX() / scaleRatio) + windowPosition);
 
                 repaint();
-            } else {
+            } else if (toolMode == ToolMode.PENCIL) {
                 wavePosition = (int) (me.getX() / scaleRatio);
                 int channel = 0;
-                if (me.getY()> (getHeight()/2)) {
+                if (me.getY() > (getHeight() / 2)) {
                     channel = 1;
                 }
 
-                wave.setRatioValue(wavePosition + windowPosition, me.getY() - ((getHeight()/2)*channel), channel, getHeight()/2);
+                wave.setRatioValue(wavePosition + windowPosition, me.getY() - ((getHeight() / 2) * channel), channel, getHeight() / 2);
                 repaint();
             }
 
@@ -373,32 +374,30 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
     }
 
     @Override
-    public void mouseReleased(MouseEvent me)
-    {
-/*        mouseClickEnd = (int) (me.getX() / scaleRatio);
-        if (mouseClickEnd < 0) mouseClickEnd = 0;
-        if (mouseClickEnd > getWidth()) mouseClickEnd = getWidth();
-        repaint(); */
+    public void mouseReleased(MouseEvent me) {
+        /*        mouseClickEnd = (int) (me.getX() / scaleRatio);
+         if (mouseClickEnd < 0) mouseClickEnd = 0;
+         if (mouseClickEnd > getWidth()) mouseClickEnd = getWidth();
+         repaint(); */
         mouseDown = false;
     }
 
     @Override
-    public void mouseDragged(MouseEvent me)
-    {
+    public void mouseDragged(MouseEvent me) {
         if (mouseDown) {
             if (toolMode == ToolMode.SELECTION) {
                 setCursorPosition((int) (me.getX() / scaleRatio) + windowPosition);
-                if ((selection != null)||(getCursorPosition() > mousePressPosition + 3)||(getCursorPosition() < mousePressPosition - 3)) {
+                if ((selection != null) || (getCursorPosition() > mousePressPosition + 3) || (getCursorPosition() < mousePressPosition - 3)) {
                     if (getCursorPosition() > mousePressPosition) {
                         selection = new SelectionRange(mousePressPosition, getCursorPosition());
                     } else {
-                        selection = new SelectionRange(getCursorPosition(),mousePressPosition);
+                        selection = new SelectionRange(getCursorPosition(), mousePressPosition);
                     }
 
                     repaint();
                 }
-            } else {
-                int startPosition = me.getX();
+            } else if (toolMode == ToolMode.PENCIL) {
+                int startPosition = (int) (me.getX() / scaleRatio) + windowPosition;
                 int endPosition;
                 if (wavePosition < startPosition) {
                     endPosition = startPosition;
@@ -406,21 +405,23 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
                 } else {
                     endPosition = wavePosition;
                 }
+
                 int channel = 0;
-                if (me.getY()>= (getHeight()/2)) {
+                if (me.getY() >= (getHeight() / 2)) {
                     channel = 1;
                 }
-                for(int drawPosition = startPosition;drawPosition <= endPosition;drawPosition++) {
-                    wave.setRatioValue(drawPosition, me.getY() - ((getHeight()/2)*channel), channel, getHeight()/2);
+                for (int drawPosition = startPosition; drawPosition <= endPosition; drawPosition++) {
+                    wave.setRatioValue(drawPosition, me.getY() - ((getHeight() / 2) * channel), channel, getHeight() / 2);
                 }
-                
+
                 repaint();
-                wavePosition = me.getX();
+                wavePosition = (int) (me.getX() / scaleRatio) + windowPosition;
             }
         }
     }
 
     public class SelectionRange {
+
         private int begin;
         private int end;
 

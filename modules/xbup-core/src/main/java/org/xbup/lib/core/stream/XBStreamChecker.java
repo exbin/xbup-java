@@ -24,6 +24,7 @@ import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.XBTokenType;
@@ -37,7 +38,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  */
 public class XBStreamChecker implements XBListener {
 
-    private XBTokenInputStream stream;
+    private final XBTokenInputStream stream;
 
     public XBStreamChecker(XBTokenInputStream stream) {
         this.stream = stream;
@@ -46,39 +47,39 @@ public class XBStreamChecker implements XBListener {
     public XBBlockTerminationMode beginXB() throws XBProcessingException, IOException {
         XBToken token = stream.pullXBToken();
         if (token.getTokenType() == XBTokenType.BEGIN) {
-            return ((XBBeginToken)token).getTerminationMode();
+            return ((XBBeginToken) token).getTerminationMode();
         }
-        throw new XBParseException("Unexpected event order");
+        throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
     }
 
     public UBNatural attribXB() throws XBProcessingException, IOException {
         XBToken token = stream.pullXBToken();
         if (token.getTokenType() == XBTokenType.ATTRIBUTE) {
-            return ((XBAttributeToken)token).getAttribute();
+            return ((XBAttributeToken) token).getAttribute();
         }
-        throw new XBParseException("Unexpected event order");
+        throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
     }
 
     public InputStream dataXB() throws XBProcessingException, IOException {
         XBToken token = stream.pullXBToken();
         if (token.getTokenType() == XBTokenType.DATA) {
-            return ((XBDataToken)token).getData();
+            return ((XBDataToken) token).getData();
         }
-        throw new XBParseException("Unexpected event order");
+        throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
     }
 
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         XBToken token = stream.pullXBToken();
-        if (token.getTokenType() != XBTokenType.BEGIN || terminationMode != ((XBBeginToken)token).getTerminationMode()) {
-            throw new XBParseException("Unexpected event order");
+        if (token.getTokenType() != XBTokenType.BEGIN || terminationMode != ((XBBeginToken) token).getTerminationMode()) {
+            throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
     }
 
     @Override
     public void attribXB(UBNatural value) throws XBProcessingException, IOException {
         XBToken token = stream.pullXBToken();
-        if (token.getTokenType() != XBTokenType.ATTRIBUTE || ((XBAttributeToken)token).getAttribute().getLong() != value.getLong()) {
+        if (token.getTokenType() != XBTokenType.ATTRIBUTE || ((XBAttributeToken) token).getAttribute().getLong() != value.getLong()) {
             throw new XBParseException("Unexpected event order");
         }
     }
@@ -86,8 +87,8 @@ public class XBStreamChecker implements XBListener {
     @Override
     public void dataXB(InputStream data) throws XBProcessingException, IOException {
         XBToken token = stream.pullXBToken();
-        if (token.getTokenType() != XBTokenType.DATA || data != ((XBDataToken)token).getData()) {
-            throw new XBParseException("Unexpected event order");
+        if (token.getTokenType() != XBTokenType.DATA || data != ((XBDataToken) token).getData()) {
+            throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
     }
 
@@ -99,7 +100,7 @@ public class XBStreamChecker implements XBListener {
     public void endXB() throws XBProcessingException, IOException {
         XBToken token = stream.pullXBToken();
         if (token.getTokenType() != XBTokenType.END) {
-            throw new XBParseException("Unexpected event order");
+            throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
     }
 }

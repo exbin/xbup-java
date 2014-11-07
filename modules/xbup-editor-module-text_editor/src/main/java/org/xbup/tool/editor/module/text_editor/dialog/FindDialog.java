@@ -113,7 +113,7 @@ public class FindDialog extends javax.swing.JDialog {
         textToReplaceTextField = new javax.swing.JTextField();
         replaceAllMatchesCheckBox = new javax.swing.JCheckBox();
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbtexteditor/dialog/resources/FindDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/dialog/resources/FindDialog"); // NOI18N
         setTitle(bundle.getString("Form.title")); // NOI18N
         setLocationByPlatform(true);
         setModal(true);

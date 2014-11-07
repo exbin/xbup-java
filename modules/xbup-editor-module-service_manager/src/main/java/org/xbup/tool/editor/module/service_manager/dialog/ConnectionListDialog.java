@@ -115,7 +115,7 @@ public class ConnectionListDialog extends javax.swing.JDialog {
         mainPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbservicemanager/dialog/resources/ConnectionListDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/dialog/resources/ConnectionListDialog"); // NOI18N
         setTitle(bundle.getString("Form.title")); // NOI18N
 
         setButton.setText(bundle.getString("setButton.text")); // NOI18N

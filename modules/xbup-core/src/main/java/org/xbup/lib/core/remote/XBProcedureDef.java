@@ -29,28 +29,28 @@ public interface XBProcedureDef {
 
     /**
      * Returns type of this procedure.
-     *
+     * 
      * @return type of this procedure
      */
     public XBBlockType getType();
 
     /**
      * Returns type of input data parameter.
-     *
+     * 
      * @return declaration of input type
      */
     public XBBlockDecl getParameterType();
 
     /**
      * Returns type of output data returned as result.
-     *
+     * 
      * @return declaration of output type
      */
     public XBBlockDecl getReturnType();
 
     /**
      * Returns type of status data for reporting proper execution or exception.
-     *
+     * 
      * @return declaration of execution status type
      */
     public XBBlockDecl getStatusType();

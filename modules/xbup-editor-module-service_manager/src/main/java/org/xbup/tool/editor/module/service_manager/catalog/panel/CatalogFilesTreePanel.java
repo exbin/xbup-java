@@ -132,7 +132,7 @@ public class CatalogFilesTreePanel extends javax.swing.JPanel {
 
         catalogTreePopupMenu.setName("catalogTreePopupMenu"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbservicemanager/catalog/panel/resources/CatalogItemsTreePanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel"); // NOI18N
         popupAddNodeMenuItem.setText(bundle.getString("addNodeMenuItem.text")); // NOI18N
         popupAddNodeMenuItem.setName("popupAddNodeMenuItem"); // NOI18N
         popupAddNodeMenuItem.addActionListener(new java.awt.event.ActionListener() {

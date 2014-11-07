@@ -47,7 +47,7 @@ public class OnlineHelpModule implements ApplicationModule {
 
     /** Constructor */
     public OnlineHelpModule() {
-        resourceBundle = ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/onlinehelp/resources/OnlineHelpModule");
+        resourceBundle = ResourceBundle.getBundle("org/xbup/tool/editor/module/online_help/resources/OnlineHelpModule");
         try {
             helpUrl = new URL("http://xbup.org/");
         } catch (MalformedURLException ex) {

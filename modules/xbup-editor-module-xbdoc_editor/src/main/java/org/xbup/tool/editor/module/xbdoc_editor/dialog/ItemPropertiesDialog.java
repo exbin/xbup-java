@@ -50,7 +50,7 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
 
     private XBTTreeNode node;
     private XBACatalog catalog;
-    private ResourceBundle resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbdoceditor/dialog/resources/ItemPropertiesDialog");
+    private ResourceBundle resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ItemPropertiesDialog");
 
     /**
      * Creates new form ItemPropertiesDialog
@@ -88,7 +88,7 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbdoceditor/dialog/resources/ItemPropertiesDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ItemPropertiesDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
         setLocationByPlatform(true);
 

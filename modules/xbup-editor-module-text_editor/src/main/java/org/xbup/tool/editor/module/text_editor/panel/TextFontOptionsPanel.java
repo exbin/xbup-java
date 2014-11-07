@@ -54,7 +54,7 @@ public class TextFontOptionsPanel extends javax.swing.JPanel implements OptionsP
     /** Creates new form TextColorPanel */
     public TextFontOptionsPanel(TextFontPanelFrame frame) {
         this.frame = frame;
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextFontOptionsPanel");
+        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/panel/resources/TextFontOptionsPanel");
 
         initComponents();
     }
@@ -89,7 +89,7 @@ public class TextFontOptionsPanel extends javax.swing.JPanel implements OptionsP
         setName("Form"); // NOI18N
 
         defaultFontCheckBox.setSelected(true);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextFontOptionsPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/panel/resources/TextFontOptionsPanel"); // NOI18N
         defaultFontCheckBox.setText(bundle.getString("TextFontOptionsPanel.defaultFontCheckBox.text")); // NOI18N
         defaultFontCheckBox.setName("defaultFontCheckBox"); // NOI18N
         defaultFontCheckBox.addItemListener(new java.awt.event.ItemListener() {

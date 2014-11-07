@@ -55,7 +55,7 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
      * Creates new form ApperanceOptionsPanel
      */
     public MainOptionsPanel(MainFrame frame) {
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/mainframe/panel/resources/MainOptionsPanel");
+        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/panel/resources/MainOptionsPanel");
         this.frame = frame;
 
         themesComboBoxModel = new DefaultComboBoxModel<String>();
@@ -98,7 +98,7 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
 
         setLayout(new java.awt.BorderLayout());
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/mainframe/panel/resources/MainOptionsPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/panel/resources/MainOptionsPanel"); // NOI18N
         visualThemeLabel.setText(bundle.getString("MainOptionsPanel.visualThemeLabel.text")); // NOI18N
 
         themeComboBox.setModel(themesComboBoxModel);

@@ -44,7 +44,7 @@ public class TextEncodingOptionsPanel extends javax.swing.JPanel implements Opti
     /** Creates new form TextColorPanel */
     public TextEncodingOptionsPanel(TextEncodingPanelFrame frame) {
         this.frame = frame;
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextEncodingOptionsPanel");
+        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/panel/resources/TextEncodingOptionsPanel");
 
         initComponents();
 
@@ -92,7 +92,7 @@ public class TextEncodingOptionsPanel extends javax.swing.JPanel implements Opti
             }
         });
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextEncodingOptionsPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/panel/resources/TextEncodingOptionsPanel"); // NOI18N
         defaultEncodingLabel.setText(bundle.getString("TextEncodingOptionsPanel.defaultEncodingLabel.text")); // NOI18N
         defaultEncodingLabel.setName("defaultEncodingLabel"); // NOI18N
 

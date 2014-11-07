@@ -86,7 +86,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
         moveUpDefButton = new javax.swing.JButton();
         moveDownDefButton = new javax.swing.JButton();
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbservicemanager/catalog/panel/resources/CatalogItemEditDefinitionPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemEditDefinitionPanel"); // NOI18N
         setToolTipText(bundle.getString("toolTipText")); // NOI18N
         setLayout(new java.awt.BorderLayout());
 

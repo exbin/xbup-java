@@ -394,7 +394,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
 
         serviceInfoPanelLabel.setName("serviceInfoPanelLabel"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbservicemanager/panel/resources/ServiceManagerPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/panel/resources/ServiceManagerPanel"); // NOI18N
         connectionInfoBorderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("connectionInfoBorderPanel.border.title"))); // NOI18N
         connectionInfoBorderPanel.setName("connectionInfoBorderPanel"); // NOI18N
 

@@ -785,7 +785,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                 blockDecl = null;
             }
 
-            if (getFixedBlockType().getAsBasicType() == XBBasicBlockType.DECLARATION) {
+            if (getFixedBlockType().getAsBasicType() == XBBasicBlockType.DECLARATION && catalog != null) {
                 // Process declaration block
                 XBContext childContext = catalog.processDeclaration(parentContext, new XBTProviderToPullProvider(new XBTTreeWriter(this)));
                 long blockPos = 0;

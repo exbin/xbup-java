@@ -89,7 +89,7 @@ public class PropertiesDialog extends javax.swing.JDialog {
         jTextField3 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbwaveeditor/dialog/resources/PropertiesDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/wave_editor/dialog/resources/PropertiesDialog"); // NOI18N
         setTitle(bundle.getString("Form.title")); // NOI18N
         setLocationByPlatform(true);
         setModal(true);

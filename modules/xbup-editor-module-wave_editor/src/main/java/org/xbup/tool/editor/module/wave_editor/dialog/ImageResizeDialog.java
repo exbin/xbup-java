@@ -62,7 +62,7 @@ public class ImageResizeDialog extends javax.swing.JDialog {
         setModal(true);
         setName("Form"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbwaveeditor/dialog/resources/ImageResizeDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/wave_editor/dialog/resources/ImageResizeDialog"); // NOI18N
         jButton1.setText(bundle.getString("jButton1.text")); // NOI18N
         jButton1.setName("jButton1"); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {

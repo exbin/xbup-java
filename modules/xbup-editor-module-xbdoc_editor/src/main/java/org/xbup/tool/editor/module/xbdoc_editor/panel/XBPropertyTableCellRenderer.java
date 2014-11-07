@@ -67,7 +67,7 @@ public class XBPropertyTableCellRenderer extends javax.swing.JPanel implements T
         setName("Form"); // NOI18N
         setLayout(new java.awt.BorderLayout());
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTableCellRenderer"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTableCellRenderer"); // NOI18N
         editParameterButton.setText(bundle.getString("jButton1.text")); // NOI18N
         editParameterButton.setName("editParameterButton"); // NOI18N
         editParameterButton.addActionListener(new java.awt.event.ActionListener() {

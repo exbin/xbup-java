@@ -166,7 +166,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         jSplitPane1 = new javax.swing.JSplitPane();
         splitPanel = new javax.swing.JPanel();
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBDocumentPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBDocumentPanel"); // NOI18N
         popupItemViewMenuItem.setText(bundle.getString("popupItemViewMenuItem.text")); // NOI18N
         popupItemViewMenuItem.setToolTipText(bundle.getString("popupItemViewMenuItem.toolTipText")); // NOI18N
         popupItemViewMenuItem.addActionListener(new java.awt.event.ActionListener() {

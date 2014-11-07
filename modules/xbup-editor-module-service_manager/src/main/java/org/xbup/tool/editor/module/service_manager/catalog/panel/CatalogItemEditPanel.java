@@ -16,7 +16,13 @@
  */
 package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
+import java.awt.Component;
+import java.awt.EventQueue;
+import java.awt.event.MouseEvent;
+import java.util.EventObject;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.JTextComponent;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBase;
 import org.xbup.lib.core.catalog.base.XBCItem;
@@ -53,7 +59,29 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         scrollPane = new javax.swing.JScrollPane();
-        propertiesTable = new javax.swing.JTable();
+        propertiesTable = new JTable(null) {
+            @Override
+            public boolean editCellAt(int row, int column, EventObject e) {
+                boolean result = super.editCellAt(row, column, e);
+                final Component editor = getEditorComponent();
+                if (editor == null || !(editor instanceof JTextComponent)) {
+                    return result;
+                }
+                if (e instanceof MouseEvent) {
+                    EventQueue.invokeLater(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            ((JTextComponent) editor).selectAll();
+                        }
+
+                    });
+                } else {
+                    ((JTextComponent) editor).selectAll();
+                }
+                return result;
+            }
+        };
 
         setLayout(new java.awt.BorderLayout());
 

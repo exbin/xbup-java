@@ -79,7 +79,7 @@ public class ToolColorPanel extends javax.swing.JPanel {
 
         setName("Form"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbpictureeditor/panel/resources/ToolColorPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/picture_editor/panel/resources/ToolColorPanel"); // NOI18N
         penColorLabel.setText(bundle.getString("ToolColorPanel.penColorLabel.text")); // NOI18N
         penColorLabel.setName("penColorLabel"); // NOI18N
 

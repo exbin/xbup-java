@@ -65,7 +65,7 @@ public class AddConnectionDialog extends javax.swing.JDialog {
         okButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbservicemanager/dialog/resources/AddConnectionDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/dialog/resources/AddConnectionDialog"); // NOI18N
         setTitle(bundle.getString("Form.title")); // NOI18N
 
         cancelButton.setText(bundle.getString("cancelButton.text")); // NOI18N

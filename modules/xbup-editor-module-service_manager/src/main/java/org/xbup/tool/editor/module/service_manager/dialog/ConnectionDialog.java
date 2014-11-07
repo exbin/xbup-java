@@ -114,7 +114,7 @@ public class ConnectionDialog extends javax.swing.JDialog {
         devDbCatalogDevButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbservicemanager/dialog/resources/ConnectionDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/dialog/resources/ConnectionDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
 
         connectionHeaderPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -127,7 +127,7 @@ public class ConnectionDialog extends javax.swing.JDialog {
         serviceLabel.setBounds(100, 0, 480, 44);
         jLayeredPane1.add(serviceLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        logoImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbservicemanager/resources/images/xbup_maskot4_small.png"))); // NOI18N
+        logoImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/service_manager/resources/images/xbup_maskot4_small.png"))); // NOI18N
         logoImageLabel.setBounds(20, 0, 50, 80);
         jLayeredPane2.add(logoImageLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 

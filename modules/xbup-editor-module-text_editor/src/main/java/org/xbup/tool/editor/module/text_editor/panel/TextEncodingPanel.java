@@ -48,7 +48,7 @@ public class TextEncodingPanel extends javax.swing.JPanel implements OptionsPane
     /** Creates new form TextEncodingPanel */
     public TextEncodingPanel(TextEncodingPanelFrame frame) {
         this.frame = frame;
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextEncodingOptionsPanel");
+        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/panel/resources/TextEncodingOptionsPanel");
         initComponents();
         encodingsList.getModel().addListDataListener(new ListDataListener() {
 
@@ -117,7 +117,7 @@ public class TextEncodingPanel extends javax.swing.JPanel implements OptionsPane
 
         jPanel1.setName("jPanel1"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextEncodingPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/panel/resources/TextEncodingPanel"); // NOI18N
         upButton.setText(bundle.getString("upButton.text")); // NOI18N
         upButton.setEnabled(false);
         upButton.setName("upButton"); // NOI18N

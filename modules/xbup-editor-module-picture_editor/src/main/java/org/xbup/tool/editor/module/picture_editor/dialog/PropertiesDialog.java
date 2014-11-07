@@ -84,7 +84,7 @@ public class PropertiesDialog extends javax.swing.JDialog {
         setModal(true);
         setName("Form"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbpictureeditor/dialog/resources/PropertiesDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/picture_editor/dialog/resources/PropertiesDialog"); // NOI18N
         closeButton.setText(bundle.getString("closeButton.text")); // NOI18N
         closeButton.setName("closeButton"); // NOI18N
         closeButton.addActionListener(new java.awt.event.ActionListener() {

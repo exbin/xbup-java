@@ -209,7 +209,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
 
         catalogTreePopupMenu.setName("catalogTreePopupMenu"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbservicemanager/catalog/panel/resources/CatalogItemsTreePanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel"); // NOI18N
         popupAddItemMenu.setText(bundle.getString("addItemMenu.text")); // NOI18N
         popupAddItemMenu.setName("popupAddItemMenu"); // NOI18N
 

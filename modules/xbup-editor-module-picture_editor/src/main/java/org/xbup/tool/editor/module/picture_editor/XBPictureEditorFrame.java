@@ -52,7 +52,7 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
      * Creates new form XBPictureEditorFrame
      */
     public XBPictureEditorFrame() {
-        resourceBundle = ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbpictureeditor/resources/XBPictureEditorFrame");
+        resourceBundle = ResourceBundle.getBundle("org/xbup/tool/editor/module/picture_editor/resources/XBPictureEditorFrame");
 
         activePanel = new ImagePanel();
 
@@ -199,7 +199,7 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
         mainPanel.setLayout(new java.awt.BorderLayout());
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbpictureeditor/resources/XBPictureEditorFrame"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/picture_editor/resources/XBPictureEditorFrame"); // NOI18N
         fileMenu.setText(bundle.getString("fileMenu.text")); // NOI18N
 
         filePropertiesMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ENTER, java.awt.event.InputEvent.ALT_MASK));
@@ -214,7 +214,7 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
         fileMenu.add(jSeparator1);
 
         filePrintMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
-        filePrintMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbpictureeditor/resources/images/actions/Print16.gif"))); // NOI18N
+        filePrintMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/picture_editor/resources/images/actions/Print16.gif"))); // NOI18N
         filePrintMenuItem.setText(bundle.getString("actionFilePrint.Action.text")); // NOI18N
         filePrintMenuItem.setToolTipText(bundle.getString("actionFilePrint.Action.shortDescription")); // NOI18N
         filePrintMenuItem.addActionListener(new java.awt.event.ActionListener() {

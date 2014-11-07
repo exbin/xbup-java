@@ -43,7 +43,7 @@ public class TextColorOptionsPanel extends javax.swing.JPanel implements Options
     public TextColorOptionsPanel(TextColorPanelFrame frame) {
         this.frame = frame;
         initComponents();
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextColorOptionsPanel");
+        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/panel/resources/TextColorOptionsPanel");
 
         colorPanel = new TextColorPanel(frame);
         colorPanel.setEnabled(false);
@@ -71,7 +71,7 @@ public class TextColorOptionsPanel extends javax.swing.JPanel implements Options
         defaultColorPanel.setName("defaultColorPanel"); // NOI18N
 
         defaultColorCheckBox.setSelected(true);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextColorOptionsPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/panel/resources/TextColorOptionsPanel"); // NOI18N
         defaultColorCheckBox.setText(bundle.getString("TextColorOptionsPanel.defaultColorCheckBox.text")); // NOI18N
         defaultColorCheckBox.setName("defaultColorCheckBox"); // NOI18N
         defaultColorCheckBox.addItemListener(new java.awt.event.ItemListener() {

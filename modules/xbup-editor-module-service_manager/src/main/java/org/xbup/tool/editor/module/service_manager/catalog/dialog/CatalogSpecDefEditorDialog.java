@@ -44,7 +44,7 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
 /**
  * XBManager Catalog Specification Selection Dialog.
  *
- * @version 0.1.23 2013/09/22
+ * @version 0.1.24 2013/11/07
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
@@ -158,6 +158,10 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         selectTargetButton = new javax.swing.JButton();
         targetRevisionLabel = new javax.swing.JLabel();
         targetRevisionComboBox = new javax.swing.JComboBox();
+        nameLabel = new javax.swing.JLabel();
+        nameTextField = new javax.swing.JTextField();
+        descriptionLabel = new javax.swing.JLabel();
+        descriptionTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Definition Editor");
@@ -223,6 +227,10 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
 
         targetRevisionComboBox.setModel(revsModel);
 
+        nameLabel.setText("Name");
+
+        descriptionLabel.setText("Description");
+
         javax.swing.GroupLayout definitionTypePanelLayout = new javax.swing.GroupLayout(definitionTypePanel);
         definitionTypePanel.setLayout(definitionTypePanelLayout);
         definitionTypePanelLayout.setHorizontalGroup(
@@ -241,7 +249,12 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
                             .addComponent(definitionTypeLabel)
                             .addComponent(definitionTargetLabel)
                             .addComponent(targetRevisionLabel))
-                        .addGap(0, 223, Short.MAX_VALUE)))
+                        .addGap(0, 223, Short.MAX_VALUE))
+                    .addComponent(nameTextField)
+                    .addComponent(descriptionTextField)
+                    .addGroup(definitionTypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(nameLabel)
+                        .addComponent(descriptionLabel)))
                 .addContainerGap())
         );
         definitionTypePanelLayout.setVerticalGroup(
@@ -261,12 +274,20 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
                 .addComponent(targetRevisionLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(targetRevisionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(97, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(nameLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(descriptionLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(descriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(definitionTypePanel, java.awt.BorderLayout.NORTH);
+        getContentPane().add(definitionTypePanel, java.awt.BorderLayout.CENTER);
 
-        setSize(new java.awt.Dimension(377, 295));
+        setSize(new java.awt.Dimension(377, 356));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -344,6 +365,10 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     private javax.swing.JComboBox definitionTypeComboBox;
     private javax.swing.JLabel definitionTypeLabel;
     private javax.swing.JPanel definitionTypePanel;
+    private javax.swing.JLabel descriptionLabel;
+    private javax.swing.JTextField descriptionTextField;
+    private javax.swing.JLabel nameLabel;
+    private javax.swing.JTextField nameTextField;
     private javax.swing.JButton selectButton;
     private javax.swing.JButton selectTargetButton;
     private javax.swing.JComboBox targetRevisionComboBox;

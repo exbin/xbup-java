@@ -42,5 +42,5 @@ public interface XBCall {
      * @throws XBProcessingException
      * @throws IOException 
      */
-    public XBProcedureStatus call(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException;
+    public XBProcedureDef call(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException;
 }

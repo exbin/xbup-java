@@ -132,7 +132,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
 
         basicItemDataPanel.setName("basicItemDataPanel"); // NOI18N
 
-        itemIconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbservicemanager/resources/images/empty.png"))); // NOI18N
+        itemIconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/service_manager/resources/images/empty.png"))); // NOI18N
         itemIconLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         itemIconLabel.setName("itemIconLabel"); // NOI18N
 
@@ -141,7 +141,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
 
         jSeparator1.setName("jSeparator1"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbservicemanager/catalog/panel/resources/CatalogItemPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemPanel"); // NOI18N
         itemNameLabel.setText(bundle.getString("itemNameLabel.text")); // NOI18N
         itemNameLabel.setName("itemNameLabel"); // NOI18N
 
@@ -387,7 +387,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
                 ImageIcon icon = iconService.getDefaultImageIcon(item);
                 itemIconLabel.setIcon(icon);
             } else {
-                itemIconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbservicemanager/resources/images/empty.png")));
+                itemIconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/service_manager/resources/images/empty.png")));
             }
 //            itemHD
         } else {

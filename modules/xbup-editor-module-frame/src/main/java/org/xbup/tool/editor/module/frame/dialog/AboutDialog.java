@@ -60,7 +60,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
             setIconImage(appEditor.getApplicationIcon());
             appBundle = appEditor.getAppBundle();
         } else {
-            appBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/mainframe/dialog/resources/AboutDialog");
+            appBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/dialog/resources/AboutDialog");
         }
 
         init();
@@ -183,7 +183,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         javax.swing.JLabel appDescLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/mainframe/dialog/resources/AboutDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/dialog/resources/AboutDialog"); // NOI18N
         setTitle(bundle.getString("aboutBox.title")); // NOI18N
 
         closeButton.setText(bundle.getString("closeButton.text")); // NOI18N

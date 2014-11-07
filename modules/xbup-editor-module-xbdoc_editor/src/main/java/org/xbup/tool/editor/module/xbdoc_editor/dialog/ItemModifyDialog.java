@@ -74,12 +74,13 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
 /**
  * Dialog for modifying item attributes or data.
  *
- * @version 0.1.24 2014/10/08
+ * @version 0.1.24 2014/11/06
  * @author XBUP Project (http://xbup.org)
  */
 public class ItemModifyDialog extends javax.swing.JDialog {
 
     private final AttributesTableModel tableModel = new AttributesTableModel();
+    private final ParametersTableModel parametersTableModel = new ParametersTableModel();
     private XBTTreeNode srcNode;
     private XBTTreeNode newNode = null;
     private final HexEditPanel hexPanel;
@@ -87,7 +88,7 @@ public class ItemModifyDialog extends javax.swing.JDialog {
     private XBACatalog catalog;
     private XBPluginRepository pluginRepository;
 
-    XBBlockDataMode dataMode = XBBlockDataMode.NODE_BLOCK;
+    private XBBlockDataMode dataMode = XBBlockDataMode.NODE_BLOCK;
     private List<UBNatural> attributes;
 
     private final String attributesEditorPanelTitle;
@@ -129,6 +130,8 @@ public class ItemModifyDialog extends javax.swing.JDialog {
 
         mainTabbedPane = new javax.swing.JTabbedPane();
         paramEditorPanel = new javax.swing.JPanel();
+        parametersScrollPane = new javax.swing.JScrollPane();
+        parametersTable = new javax.swing.JTable();
         attributesEditorPanel = new javax.swing.JPanel();
         attributesScrollPane = new javax.swing.JScrollPane();
         attributesTable = new JTable(tableModel) {
@@ -164,7 +167,7 @@ public class ItemModifyDialog extends javax.swing.JDialog {
         okButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbdoceditor/dialog/resources/ItemModifyDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ItemModifyDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
         setLocationByPlatform(true);
         setModal(true);
@@ -174,15 +177,24 @@ public class ItemModifyDialog extends javax.swing.JDialog {
             }
         });
 
+        parametersTable.setModel(parametersTableModel);
+        parametersScrollPane.setViewportView(parametersTable);
+
         org.jdesktop.layout.GroupLayout paramEditorPanelLayout = new org.jdesktop.layout.GroupLayout(paramEditorPanel);
         paramEditorPanel.setLayout(paramEditorPanelLayout);
         paramEditorPanelLayout.setHorizontalGroup(
             paramEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 597, Short.MAX_VALUE)
+            .add(paramEditorPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(parametersScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+                .addContainerGap())
         );
         paramEditorPanelLayout.setVerticalGroup(
             paramEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 382, Short.MAX_VALUE)
+            .add(paramEditorPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(parametersScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         mainTabbedPane.addTab(bundle.getString("paramEditorPanel.title"), null, paramEditorPanel, "List of parameters on level 1"); // NOI18N
@@ -484,6 +496,8 @@ public class ItemModifyDialog extends javax.swing.JDialog {
     private javax.swing.JTabbedPane mainTabbedPane;
     private javax.swing.JButton okButton;
     private javax.swing.JPanel paramEditorPanel;
+    private javax.swing.JScrollPane parametersScrollPane;
+    private javax.swing.JTable parametersTable;
     private javax.swing.JButton removeButton;
     private javax.swing.JButton saveAsButton;
     // End of variables declaration//GEN-END:variables

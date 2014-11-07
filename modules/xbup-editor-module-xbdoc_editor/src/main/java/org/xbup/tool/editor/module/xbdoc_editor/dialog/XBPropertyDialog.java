@@ -62,7 +62,7 @@ public class XBPropertyDialog extends javax.swing.JDialog {
         closeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbdoceditor/dialog/resources/XBPropertyDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/XBPropertyDialog"); // NOI18N
         setTitle(bundle.getString("Form.title")); // NOI18N
         setName("Form"); // NOI18N
 

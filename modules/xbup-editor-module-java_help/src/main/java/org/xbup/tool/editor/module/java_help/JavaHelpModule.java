@@ -52,7 +52,7 @@ public class JavaHelpModule implements ApplicationModule {
 
     /** Constructor */
     public JavaHelpModule() {
-        resourceBundle = ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/javahelp/resources/JavaHelpModule");
+        resourceBundle = ResourceBundle.getBundle("org/xbup/tool/editor/module/java_help/resources/JavaHelpModule");
     }
 
     @Override

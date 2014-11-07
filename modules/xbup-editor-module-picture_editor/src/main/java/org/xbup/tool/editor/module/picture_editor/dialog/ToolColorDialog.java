@@ -62,7 +62,7 @@ public class ToolColorDialog extends javax.swing.JDialog {
         setModal(true);
         setName("Form"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbpictureeditor/dialog/resources/ToolColorDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/picture_editor/dialog/resources/ToolColorDialog"); // NOI18N
         cancelButton.setText(bundle.getString("cancelButton.text")); // NOI18N
         cancelButton.setName("cancelButton"); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {

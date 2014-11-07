@@ -47,7 +47,7 @@ public class WaveColorPanel extends javax.swing.JPanel implements OptionsPanel {
     /** Creates new form WaveColorPanel */
     public WaveColorPanel(WaveColorPanelFrame frame) {
         this.frame = frame;
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbwaveeditor/panel/resources/WaveColorPanel"); // NOI18N
+        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/wave_editor/panel/resources/WaveColorPanel"); // NOI18N
         initComponents();
     }
 
@@ -127,7 +127,7 @@ public class WaveColorPanel extends javax.swing.JPanel implements OptionsPanel {
 
         setName("Form"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbwaveeditor/panel/resources/WaveColorPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/wave_editor/panel/resources/WaveColorPanel"); // NOI18N
         waveSelectionColorButton.setText(bundle.getString("WaveColorPanel.selectButton.text")); // NOI18N
         waveSelectionColorButton.setName("waveSelectionColorButton"); // NOI18N
         waveSelectionColorButton.addActionListener(new java.awt.event.ActionListener() {

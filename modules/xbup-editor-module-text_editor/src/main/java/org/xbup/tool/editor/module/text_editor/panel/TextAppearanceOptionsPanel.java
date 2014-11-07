@@ -37,7 +37,7 @@ public class TextAppearanceOptionsPanel extends javax.swing.JPanel implements Op
     /** Creates new form TextColorPanel */
     public TextAppearanceOptionsPanel(TextAppearancePanelFrame frame) {
         this.frame = frame;
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextAppearanceOptionsPanel");
+        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/panel/resources/TextAppearanceOptionsPanel");
 
         initComponents();
     }
@@ -56,7 +56,7 @@ public class TextAppearanceOptionsPanel extends javax.swing.JPanel implements Op
         setName("Form"); // NOI18N
 
         wordWrapCheckBox.setSelected(true);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextAppearanceOptionsPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/panel/resources/TextAppearanceOptionsPanel"); // NOI18N
         wordWrapCheckBox.setText(bundle.getString("TextAppearanceOptionsPanel.wordWrapCheckBox.text")); // NOI18N
         wordWrapCheckBox.setName("wordWrapCheckBox"); // NOI18N
         wordWrapCheckBox.addItemListener(new java.awt.event.ItemListener() {

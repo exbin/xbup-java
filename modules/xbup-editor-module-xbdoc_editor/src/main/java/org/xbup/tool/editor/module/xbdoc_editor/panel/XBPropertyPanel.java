@@ -64,7 +64,7 @@ public class XBPropertyPanel extends javax.swing.JPanel {
         initComponents();
 
 //        jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        TableColumnModel columns = jTable1.getColumnModel();
+        TableColumnModel columns = propertiesTable.getColumnModel();
         columns.getColumn(0).setPreferredWidth(190);
         columns.getColumn(1).setPreferredWidth(190);
         columns.getColumn(0).setWidth(190);
@@ -104,9 +104,9 @@ public class XBPropertyPanel extends javax.swing.JPanel {
         popupSelectAllMenuItem = new javax.swing.JMenuItem();
         jSeparator16 = new javax.swing.JPopupMenu.Separator();
         popupItemPropertiesMenuItem = new javax.swing.JMenuItem();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
+        propertiesScrollPane = new javax.swing.JScrollPane();
+        propertiesTable = new javax.swing.JTable();
+        itemInfoHeaderPanel = new javax.swing.JPanel();
         nameLabel = new javax.swing.JLabel();
         descLabel = new javax.swing.JLabel();
         descTextField = new javax.swing.JTextField();
@@ -114,7 +114,7 @@ public class XBPropertyPanel extends javax.swing.JPanel {
 
         propertyPopupMenu.setName("propertyPopupMenu"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyPanel"); // NOI18N
         popupItemOpenMenuItem.setText(bundle.getString("actionItemOpen.text")); // NOI18N
         popupItemOpenMenuItem.setName("popupItemOpenMenuItem"); // NOI18N
         propertyPopupMenu.add(popupItemOpenMenuItem);
@@ -178,9 +178,9 @@ public class XBPropertyPanel extends javax.swing.JPanel {
         setName("Form"); // NOI18N
         setLayout(new java.awt.BorderLayout());
 
-        jScrollPane1.setName("jScrollPane1"); // NOI18N
+        propertiesScrollPane.setName("propertiesScrollPane"); // NOI18N
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        propertiesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -203,13 +203,13 @@ public class XBPropertyPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setComponentPopupMenu(propertyPopupMenu);
-        jTable1.setName("jTable1"); // NOI18N
-        jScrollPane1.setViewportView(jTable1);
+        propertiesTable.setComponentPopupMenu(propertyPopupMenu);
+        propertiesTable.setName("propertiesTable"); // NOI18N
+        propertiesScrollPane.setViewportView(propertiesTable);
 
-        add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        add(propertiesScrollPane, java.awt.BorderLayout.CENTER);
 
-        jPanel1.setName("jPanel1"); // NOI18N
+        itemInfoHeaderPanel.setName("itemInfoHeaderPanel"); // NOI18N
 
         nameLabel.setText(bundle.getString("nameLabel.text")); // NOI18N
 
@@ -222,46 +222,44 @@ public class XBPropertyPanel extends javax.swing.JPanel {
         nameTextField.setEditable(false);
         nameTextField.setName("nameTextField"); // NOI18N
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout itemInfoHeaderPanelLayout = new javax.swing.GroupLayout(itemInfoHeaderPanel);
+        itemInfoHeaderPanel.setLayout(itemInfoHeaderPanelLayout);
+        itemInfoHeaderPanelLayout.setHorizontalGroup(
+            itemInfoHeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(itemInfoHeaderPanelLayout.createSequentialGroup()
+                .addGroup(itemInfoHeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(descLabel)
                     .addComponent(nameLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(itemInfoHeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(descTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
                     .addComponent(nameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        itemInfoHeaderPanelLayout.setVerticalGroup(
+            itemInfoHeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(itemInfoHeaderPanelLayout.createSequentialGroup()
+                .addGroup(itemInfoHeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameLabel)
                     .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(itemInfoHeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(descLabel)
                     .addComponent(descTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        add(jPanel1, java.awt.BorderLayout.NORTH);
+        add(itemInfoHeaderPanel, java.awt.BorderLayout.NORTH);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel descLabel;
     private javax.swing.JTextField descTextField;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel itemInfoHeaderPanel;
     private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator14;
     private javax.swing.JPopupMenu.Separator jSeparator16;
     private javax.swing.JPopupMenu.Separator jSeparator7;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JMenuItem popupCopyMenuItem;
@@ -275,6 +273,8 @@ public class XBPropertyPanel extends javax.swing.JPanel {
     private javax.swing.JMenuItem popupRedoMenuItem;
     private javax.swing.JMenuItem popupSelectAllMenuItem;
     private javax.swing.JMenuItem popupUndoMenuItem;
+    private javax.swing.JScrollPane propertiesScrollPane;
+    private javax.swing.JTable propertiesTable;
     private javax.swing.JPopupMenu propertyPopupMenu;
     // End of variables declaration//GEN-END:variables
 
@@ -343,7 +343,7 @@ public class XBPropertyPanel extends javax.swing.JPanel {
             super.start();
             try {
                 getValueFillingSemaphore().acquire();
-                tableModel = ((DefaultTableModel) jTable1.getModel());
+                tableModel = ((DefaultTableModel) propertiesTable.getModel());
                 for (int i = tableModel.getRowCount()-1; i >= 0; i--) {
                     tableModel.removeRow(i);
                 }

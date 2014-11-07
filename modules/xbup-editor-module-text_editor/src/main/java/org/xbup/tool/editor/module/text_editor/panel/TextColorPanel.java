@@ -48,7 +48,7 @@ public class TextColorPanel extends javax.swing.JPanel implements OptionsPanel {
     public TextColorPanel(TextColorPanelFrame frame) {
         this.frame = frame;
         initComponents();
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextColorPanel");
+        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/panel/resources/TextColorPanel");
     }
 
     public Color getTextColor() {
@@ -163,7 +163,7 @@ public class TextColorPanel extends javax.swing.JPanel implements OptionsPanel {
             .addGap(0, 21, Short.MAX_VALUE)
         );
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextColorPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/panel/resources/TextColorPanel"); // NOI18N
         selectTextColorButton.setText(bundle.getString("TextColorPanel.selectButton.text")); // NOI18N
         selectTextColorButton.setName("selectTextColorButton"); // NOI18N
         selectTextColorButton.addActionListener(new java.awt.event.ActionListener() {

@@ -80,7 +80,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
      * Creates new form XBTextEditorFrame
      */
     public XBTextEditorFrame() {
-        resourceBundle = ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbtexteditor/resources/XBTextEditorFrame");
+        resourceBundle = ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame");
 
         activePanel = new TextPanel();
 
@@ -299,8 +299,8 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
         toolBar.setRollover(true);
         toolBar.setName("toolBar"); // NOI18N
 
-        findToolButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbtexteditor/resources/images/actions/Find16.gif"))); // NOI18N
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbtexteditor/resources/XBTextEditorFrame"); // NOI18N
+        findToolButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/text_editor/resources/images/actions/Find16.gif"))); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame"); // NOI18N
         findToolButton.setText(bundle.getString("XBTextEditorFrame.findToolButton.text")); // NOI18N
         findToolButton.setFocusable(false);
         findToolButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);

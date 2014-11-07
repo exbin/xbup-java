@@ -133,7 +133,7 @@ public class XBServiceManagerFrame extends javax.swing.JFrame implements XBEdito
 
         menuBar.setName("menuBar"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbservicemanager/resources/XBServiceManagerFrame"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/resources/XBServiceManagerFrame"); // NOI18N
         serviceMenu.setText(bundle.getString("serviceMenu.text")); // NOI18N
         serviceMenu.setName("serviceMenu"); // NOI18N
 

@@ -43,7 +43,7 @@ public class WaveColorOptionsPanel extends javax.swing.JPanel implements Options
     public WaveColorOptionsPanel(WaveColorPanelFrame frame) {
         this.frame = frame;
         initComponents();
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbwaveeditor/panel/resources/WaveColorOptionsPanel");
+        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/wave_editor/panel/resources/WaveColorOptionsPanel");
 
         colorPanel = new WaveColorPanel(frame);
         colorPanel.setEnabled(false);
@@ -67,7 +67,7 @@ public class WaveColorOptionsPanel extends javax.swing.JPanel implements Options
 
         setName("Form"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbwaveeditor/panel/resources/WaveColorOptionsPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/wave_editor/panel/resources/WaveColorOptionsPanel"); // NOI18N
         customColorsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("WaveColorOptionsPanel.customColorsPanel.title"))); // NOI18N
         customColorsPanel.setName("customColorsPanel"); // NOI18N
         customColorsPanel.setLayout(new java.awt.BorderLayout());

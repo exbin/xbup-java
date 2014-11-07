@@ -109,7 +109,7 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
 
         propertyPopupMenu.setName("propertyPopupMenu"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTablePanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel"); // NOI18N
         popupItemOpenMenuItem.setText(bundle.getString("popupItemOpenMenuItem.text")); // NOI18N
         popupItemOpenMenuItem.setToolTipText(bundle.getString("popupItemOpenMenuItem.toolTipText")); // NOI18N
         popupItemOpenMenuItem.setName("popupItemOpenMenuItem"); // NOI18N

@@ -78,7 +78,7 @@ public class OptionsDialog extends javax.swing.JDialog {
     }
 
     private void init() {
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/mainframe/dialog/resources/OptionsDialog");
+        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/dialog/resources/OptionsDialog");
         initComponents();
 
         optionPanels = new HashMap<String, JPanel>();
@@ -228,7 +228,7 @@ public class OptionsDialog extends javax.swing.JDialog {
         saveButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/mainframe/dialog/resources/OptionsDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/dialog/resources/OptionsDialog"); // NOI18N
         setTitle(bundle.getString("OptionsDialog.title")); // NOI18N
 
         optionsSplitPane.setDividerLocation(130);

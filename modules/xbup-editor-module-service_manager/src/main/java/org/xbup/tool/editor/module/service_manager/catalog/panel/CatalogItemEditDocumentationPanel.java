@@ -82,7 +82,7 @@ public class CatalogItemEditDocumentationPanel extends javax.swing.JPanel {
         itemHDocSourceTextPane = new javax.swing.JTextPane();
 
         includeDocumentationCheckBox.setSelected(true);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbservicemanager/catalog/panel/resources/CatalogItemEditDocumentationPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemEditDocumentationPanel"); // NOI18N
         includeDocumentationCheckBox.setText(bundle.getString("CatalogItemEditDocumentationDialog.includeDocumentationCheckBox.text")); // NOI18N
         includeDocumentationCheckBox.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {

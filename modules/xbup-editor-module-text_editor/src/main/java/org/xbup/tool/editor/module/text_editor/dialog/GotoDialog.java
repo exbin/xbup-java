@@ -143,7 +143,7 @@ public class GotoDialog extends javax.swing.JDialog {
         posLineLabel = new javax.swing.JLabel();
         posLineSpinner = new javax.swing.JSpinner();
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbtexteditor/dialog/resources/GotoDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/dialog/resources/GotoDialog"); // NOI18N
         setTitle(bundle.getString("Form.title")); // NOI18N
         setLocationByPlatform(true);
         setModal(true);

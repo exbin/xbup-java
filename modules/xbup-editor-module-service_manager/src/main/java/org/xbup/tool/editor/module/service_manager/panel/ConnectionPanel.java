@@ -107,7 +107,7 @@ public class ConnectionPanel extends javax.swing.JPanel {
 
         jPanel1.setName("jPanel1"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbservicemanager/panel/resources/ConnectionPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/panel/resources/ConnectionPanel"); // NOI18N
         upButton.setText(bundle.getString("upButton.text")); // NOI18N
         upButton.setEnabled(false);
         upButton.setName("upButton"); // NOI18N

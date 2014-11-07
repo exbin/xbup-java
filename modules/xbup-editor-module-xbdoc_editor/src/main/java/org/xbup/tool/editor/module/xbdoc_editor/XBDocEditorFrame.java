@@ -169,7 +169,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     private MenuManagement menuManagement;
 
     public XBDocEditorFrame() {
-        resourceBundle = ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame");
+        resourceBundle = ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame");
 
         catalog = null;
         activePanel = new XBDocumentPanel(this, catalog);
@@ -471,7 +471,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                 actionItemAdd();
             }
         };
-        itemAddAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Add16.gif")));
+        itemAddAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Add16.gif")));
         itemAddAction.putValue(Action.NAME, resourceBundle.getString("actionItemAdd.Action.text"));
         itemAddAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionItemAdd.Action.shortDescription"));
         itemAddAction.setEnabled(false);
@@ -482,7 +482,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                 actionItemModify();
             }
         };
-        itemModifyAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Modify16.gif")));
+        itemModifyAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Modify16.gif")));
         itemModifyAction.putValue(Action.NAME, resourceBundle.getString("actionItemModify.Action.text"));
         itemModifyAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionItemModify.Action.shortDescription"));
         itemModifyAction.setEnabled(false);
@@ -503,7 +503,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                 actionEditFind();
             }
         };
-        editFindAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Find16.gif")));
+        editFindAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Find16.gif")));
         editFindAction.putValue(Action.NAME, resourceBundle.getString("actionItemModify.Action.text"));
         editFindAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionItemModify.Action.shortDescription"));
         editFindAction.setEnabled(false);
@@ -514,7 +514,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                 actionEditFindAgain();
             }
         };
-        editFindAgainAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/FindAgain16.gif")));
+        editFindAgainAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/FindAgain16.gif")));
         editFindAgainAction.putValue(Action.NAME, resourceBundle.getString("actionEditFindAgain.Action.text"));
         editFindAgainAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditFindAgain.Action.shortDescription"));
         editFindAgainAction.setEnabled(false);
@@ -525,7 +525,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                 actionEditReplace();
             }
         };
-        editReplaceAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Replace16.gif")));
+        editReplaceAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Replace16.gif")));
         editReplaceAction.putValue(Action.NAME, resourceBundle.getString("actionEditReplace.Action.text"));
         editReplaceAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditReplace.Action.shortDescription"));
         editReplaceAction.setEnabled(false);
@@ -746,7 +746,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
         mainPopupMenu.setName("mainPopupMenu"); // NOI18N
 
-        ResourceBundle bundle = ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame"); // NOI18N
+        ResourceBundle bundle = ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame"); // NOI18N
         popupItemOpenMenuItem.setText(bundle.getString("popupItemOpenMenuItem.text")); // NOI18N
         popupItemOpenMenuItem.setToolTipText(bundle.getString("popupItemOpenMenuItem.toolTipText")); // NOI18N
         popupItemOpenMenuItem.setEnabled(false);
@@ -754,13 +754,13 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         mainPopupMenu.add(popupItemOpenMenuItem);
 
         popupItemAddMenuItem.setAction(itemAddAction);
-        popupItemAddMenuItem.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Add16.gif"))); // NOI18N
+        popupItemAddMenuItem.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Add16.gif"))); // NOI18N
         popupItemAddMenuItem.setText(bundle.getString("popupItemAddMenuItem.text")); // NOI18N
         popupItemAddMenuItem.setName("popupItemAddMenuItem"); // NOI18N
         mainPopupMenu.add(popupItemAddMenuItem);
 
         popupItemModifyMenuItem.setAction(itemModifyAction);
-        popupItemModifyMenuItem.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Modify16.gif"))); // NOI18N
+        popupItemModifyMenuItem.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Modify16.gif"))); // NOI18N
         popupItemModifyMenuItem.setText(bundle.getString("popupItemModifyMenuItem.text")); // NOI18N
         popupItemModifyMenuItem.setName("popupItemModifyMenuItem"); // NOI18N
         mainPopupMenu.add(popupItemModifyMenuItem);
@@ -815,7 +815,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         toolBar.setName("toolBar"); // NOI18N
 
         findToolButton.setAction(editFindAction);
-        findToolButton.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Find16.gif"))); // NOI18N
+        findToolButton.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Find16.gif"))); // NOI18N
         findToolButton.setText(bundle.getString("actionEditFind.Action.text")); // NOI18N
         findToolButton.setFocusable(false);
         findToolButton.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -827,7 +827,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         toolBar.add(jSeparator20);
 
         addToolButton.setAction(itemAddAction);
-        addToolButton.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Add16.gif"))); // NOI18N
+        addToolButton.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Add16.gif"))); // NOI18N
         addToolButton.setText(bundle.getString("actionItemAdd.Action.text")); // NOI18N
         addToolButton.setFocusable(false);
         addToolButton.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -836,7 +836,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         toolBar.add(addToolButton);
 
         modifyToolButton.setAction(itemModifyAction);
-        modifyToolButton.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Modify16.gif"))); // NOI18N
+        modifyToolButton.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Modify16.gif"))); // NOI18N
         modifyToolButton.setText(bundle.getString("actionItemModify.Action.text")); // NOI18N
         modifyToolButton.setFocusable(false);
         modifyToolButton.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -973,7 +973,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
         connectionStatusPanel.setName("connectionStatusPanel"); // NOI18N
 
-        connectionStatusLabel.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/status/network-offline.png"))); // NOI18N
+        connectionStatusLabel.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/xbdoc_editor/resources/images/status/network-offline.png"))); // NOI18N
         connectionStatusLabel.setToolTipText(bundle.getString("connectionStatusLabel.toolTipText")); // NOI18N
         connectionStatusLabel.setName("connectionStatusLabel"); // NOI18N
 
@@ -997,7 +997,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         fileMenu.setText(bundle.getString("fileMenu.text")); // NOI18N
         fileMenu.setName("fileMenu"); // NOI18N
 
-        fileNewCustomMenuItem.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/New16.gif"))); // NOI18N
+        fileNewCustomMenuItem.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/New16.gif"))); // NOI18N
         fileNewCustomMenuItem.setText(bundle.getString("fileNewCustomMenuItem.text")); // NOI18N
         fileNewCustomMenuItem.setToolTipText(bundle.getString("fileNewCustomMenuItem.toolTipText")); // NOI18N
         fileNewCustomMenuItem.setEnabled(false);
@@ -1064,21 +1064,21 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
         editFindMenuItem.setAction(editFindAction);
         editFindMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_MASK));
-        editFindMenuItem.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Find16.gif"))); // NOI18N
+        editFindMenuItem.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Find16.gif"))); // NOI18N
         editFindMenuItem.setText(bundle.getString("actionEditFind.Action.text")); // NOI18N
         editFindMenuItem.setName("editFindMenuItem"); // NOI18N
         editMenu.add(editFindMenuItem);
 
         editFindAgainMenuItem.setAction(editFindAgainAction);
         editFindAgainMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
-        editFindAgainMenuItem.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/FindAgain16.gif"))); // NOI18N
+        editFindAgainMenuItem.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/FindAgain16.gif"))); // NOI18N
         editFindAgainMenuItem.setText(bundle.getString("actionEditFindAgain.Action.text")); // NOI18N
         editFindAgainMenuItem.setName("editFindAgainMenuItem"); // NOI18N
         editMenu.add(editFindAgainMenuItem);
 
         editFindReplaceMenuItem.setAction(editReplaceAction);
         editFindReplaceMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
-        editFindReplaceMenuItem.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Replace16.gif"))); // NOI18N
+        editFindReplaceMenuItem.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Replace16.gif"))); // NOI18N
         editFindReplaceMenuItem.setText(bundle.getString("actionEditReplace.Action.text")); // NOI18N
         editFindReplaceMenuItem.setName("editFindReplaceMenuItem"); // NOI18N
         editMenu.add(editFindReplaceMenuItem);
@@ -1087,13 +1087,13 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         editMenu.add(jSeparator15);
 
         editItemAddMenuItem.setAction(itemAddAction);
-        editItemAddMenuItem.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Add16.gif"))); // NOI18N
+        editItemAddMenuItem.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Add16.gif"))); // NOI18N
         editItemAddMenuItem.setText(bundle.getString("actionItemAdd.Action.text")); // NOI18N
         editItemAddMenuItem.setName("editItemAddMenuItem"); // NOI18N
         editMenu.add(editItemAddMenuItem);
 
         editItemModifyMenuItem.setAction(itemModifyAction);
-        editItemModifyMenuItem.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Modify16.gif"))); // NOI18N
+        editItemModifyMenuItem.setIcon(new ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Modify16.gif"))); // NOI18N
         editItemModifyMenuItem.setText(bundle.getString("actionItemModify.Action.text")); // NOI18N
         editItemModifyMenuItem.setName("editItemModifyMenuItem"); // NOI18N
         editMenu.add(editItemModifyMenuItem);
@@ -1221,7 +1221,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     private void fileOpenXHTMLSampleMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_fileOpenXHTMLSampleMenuItemActionPerformed
         activePanel.newFile();
         try {
-            activePanel.getDoc().fromStreamUB(getClass().getResourceAsStream("/org/xbup/tool/xbeditor/module/xbdoceditor/resources/samples/xhtml_example.xb"));
+            activePanel.getDoc().fromStreamUB(getClass().getResourceAsStream("/org/xbup/tool/editor/module/xbdoc_editor/resources/samples/xhtml_example.xb"));
             activePanel.getDoc().processSpec();
         } catch (XBProcessingException ex) {
             Logger.getLogger(XBDocEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -1235,7 +1235,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     private void fileOpenPicSampleMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_fileOpenPicSampleMenuItemActionPerformed
         activePanel.newFile();
         try {
-            activePanel.getDoc().fromStreamUB(getClass().getResourceAsStream("/org/xbup/tool/xbeditor/module/xbdoceditor/resources/samples/xblogo.xbp"));
+            activePanel.getDoc().fromStreamUB(getClass().getResourceAsStream("/org/xbup/tool/editor/module/xbdoc_editor/resources/samples/xblogo.xbp"));
             activePanel.getDoc().processSpec();
         } catch (XBProcessingException ex) {
             Logger.getLogger(XBDocEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -1682,11 +1682,11 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     };
 
     private static String[] connectionStatusIcons = {
-        "/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/status/network-offline.png",
-        "/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/status/computer.png",
-        "/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/status/network-idle.png",
-        "/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/status/network-server.png",
-        "/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/status/internet-web-browser.png"
+        "/org/xbup/tool/editor/module/xbdoc_editor/resources/images/status/network-offline.png",
+        "/org/xbup/tool/editor/module/xbdoc_editor/resources/images/status/computer.png",
+        "/org/xbup/tool/editor/module/xbdoc_editor/resources/images/status/network-idle.png",
+        "/org/xbup/tool/editor/module/xbdoc_editor/resources/images/status/network-server.png",
+        "/org/xbup/tool/editor/module/xbdoc_editor/resources/images/status/internet-web-browser.png"
     };
 
     private void setConnectionStatus(ConnectionStatus status) {

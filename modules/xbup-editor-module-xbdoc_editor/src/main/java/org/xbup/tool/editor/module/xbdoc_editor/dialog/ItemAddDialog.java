@@ -102,7 +102,7 @@ public class ItemAddDialog extends javax.swing.JDialog {
         catalogTypeTextField = new javax.swing.JTextField();
         cancelButton = new javax.swing.JButton();
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbdoceditor/dialog/resources/ItemAddDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ItemAddDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
         setLocationByPlatform(true);
         setModal(true);

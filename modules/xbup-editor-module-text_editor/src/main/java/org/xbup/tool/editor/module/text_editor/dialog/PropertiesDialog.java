@@ -101,7 +101,7 @@ public class PropertiesDialog extends javax.swing.JDialog {
         wordsCountTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbtexteditor/dialog/resources/PropertiesDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/dialog/resources/PropertiesDialog"); // NOI18N
         setTitle(bundle.getString("PropertiesDialog.title")); // NOI18N
         setLocationByPlatform(true);
         setModal(true);

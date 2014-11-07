@@ -39,7 +39,7 @@ public class AudioDevicesPanel extends javax.swing.JPanel implements OptionsPane
     /** Creates new form AudioDevicesPanel */
     @SuppressWarnings("unchecked")
     public AudioDevicesPanel() {
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbwaveeditor/panel/resources/AudioDevicesPanel");
+        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/wave_editor/panel/resources/AudioDevicesPanel");
         initComponents();
 
         // loop through all mixers, and all source and target lines within each mixer.
@@ -92,7 +92,7 @@ public class AudioDevicesPanel extends javax.swing.JPanel implements OptionsPane
 
         setAutoscrolls(true);
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbwaveeditor/panel/resources/AudioDevicesPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/wave_editor/panel/resources/AudioDevicesPanel"); // NOI18N
         audioOutputPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("audioOutputPanel.border.title"))); // NOI18N
         audioOutputPanel.setName("audioOutputPanel"); // NOI18N
 

@@ -80,7 +80,7 @@ public class PropertiesDialog extends javax.swing.JDialog {
         jLabel5.setText("jLabel5");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbdoceditor/dialog/resources/PropertiesDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/PropertiesDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
         setLocationByPlatform(true);
 

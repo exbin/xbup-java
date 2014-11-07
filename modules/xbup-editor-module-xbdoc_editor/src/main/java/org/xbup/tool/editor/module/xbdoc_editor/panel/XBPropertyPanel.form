@@ -142,9 +142,9 @@
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
   <SubComponents>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+    <Container class="javax.swing.JScrollPane" name="propertiesScrollPane">
       <Properties>
-        <Property name="name" type="java.lang.String" value="jScrollPane1" noResource="true"/>
+        <Property name="name" type="java.lang.String" value="propertiesScrollPane" noResource="true"/>
       </Properties>
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -157,7 +157,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable1">
+        <Component class="javax.swing.JTable" name="propertiesTable">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="2" rowCount="0">
@@ -168,14 +168,14 @@
             <Property name="componentPopupMenu" type="javax.swing.JPopupMenu" editor="org.netbeans.modules.form.ComponentChooserEditor">
               <ComponentRef name="propertyPopupMenu"/>
             </Property>
-            <Property name="name" type="java.lang.String" value="jTable1" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="propertiesTable" noResource="true"/>
           </Properties>
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanel1">
+    <Container class="javax.swing.JPanel" name="itemInfoHeaderPanel">
       <Properties>
-        <Property name="name" type="java.lang.String" value="jPanel1" noResource="true"/>
+        <Property name="name" type="java.lang.String" value="itemInfoHeaderPanel" noResource="true"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">

@@ -35,16 +35,16 @@ public class AttributesTableModel extends AbstractTableModel {
     private final ResourceBundle resourceBundle;
     private List<UBNatural> attributes;
 
-    private final String[] columns;
-    private Class[] types = new Class[]{
+    private final String[] columnNames;
+    private Class[] columnTypes = new Class[]{
         java.lang.Integer.class, java.lang.Integer.class
     };
-    private final boolean[] canEdit = new boolean[]{false, true};
-    private List<TableModelListener> tableModelListeners = new ArrayList<>();
+    private final boolean[] columnsEditable = new boolean[]{false, true};
+    private final List<TableModelListener> tableModelListeners = new ArrayList<>();
 
     public AttributesTableModel() {
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbdoceditor/dialog/resources/ItemModifyDialog");
-        columns = new String[]{resourceBundle.getString("itemmod_itemorder"), resourceBundle.getString("itemmod_itemvalue")};
+        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ItemModifyDialog");
+        columnNames = new String[]{resourceBundle.getString("itemmod_itemorder"), resourceBundle.getString("itemmod_itemvalue")};
         attributes = new ArrayList<>();
     }
 
@@ -55,12 +55,12 @@ public class AttributesTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return columns.length;
+        return columnNames.length;
     }
 
     @Override
     public String getColumnName(int columnIndex) {
-        return columns[columnIndex];
+        return columnNames[columnIndex];
     }
 
     @Override
@@ -70,7 +70,7 @@ public class AttributesTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return canEdit[columnIndex];
+        return columnsEditable[columnIndex];
     }
 
     @Override
@@ -102,11 +102,11 @@ public class AttributesTableModel extends AbstractTableModel {
     }
 
     public Class[] getTypes() {
-        return types;
+        return columnTypes;
     }
 
     public void setTypes(Class[] types) {
-        this.types = types;
+        this.columnTypes = types;
     }
 
     @Override

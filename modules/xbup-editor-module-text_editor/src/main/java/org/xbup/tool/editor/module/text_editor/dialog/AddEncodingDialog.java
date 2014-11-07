@@ -105,7 +105,7 @@ public class AddEncodingDialog extends javax.swing.JDialog {
         setTitle("Add Supported Encoding"); // NOI18N
         setName("Form"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbtexteditor/dialog/resources/AddEncodingDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/dialog/resources/AddEncodingDialog"); // NOI18N
         supportedEncodingsLabel.setText(bundle.getString("supportedEncodingsLabel.text")); // NOI18N
         supportedEncodingsLabel.setName("supportedEncodingsLabel"); // NOI18N
 

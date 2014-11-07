@@ -98,7 +98,7 @@ public class WaveColorDialog extends javax.swing.JDialog {
         mainPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbwaveeditor/dialog/resources/ColorDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/wave_editor/dialog/resources/ColorDialog"); // NOI18N
         setTitle(bundle.getString("Form.title")); // NOI18N
         setLocationByPlatform(true);
         setModal(true);

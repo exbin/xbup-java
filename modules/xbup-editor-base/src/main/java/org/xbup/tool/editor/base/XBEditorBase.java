@@ -45,7 +45,7 @@ public class XBEditorBase {
      * @param args
      */
     public static void main(String[] args) {
-        ResourceBundle bundle = ResourceBundle.getBundle("org/xbup/tool/xbeditorbase/base/resources/XBEditorBase");
+        ResourceBundle bundle = ResourceBundle.getBundle("org/xbup/tool/editor/base/resources/XBEditorBase");
         try {
             preferences = Preferences.userNodeForPackage(XBEditorBase.class);
         } catch (SecurityException ex) {

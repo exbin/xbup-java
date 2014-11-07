@@ -62,7 +62,7 @@ public class XBPropertyTableCellEditor extends javax.swing.JPanel implements Tab
         add(jButton1, java.awt.BorderLayout.EAST);
 
         jTextField1.setEditable(false);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTableCellEditor"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTableCellEditor"); // NOI18N
         jTextField1.setText(bundle.getString("jTextField1.text")); // NOI18N
         jTextField1.setName("jTextField1"); // NOI18N
         add(jTextField1, java.awt.BorderLayout.CENTER);

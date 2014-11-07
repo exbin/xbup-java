@@ -51,7 +51,7 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
      * Creates new form XBWaveEditorFrame
      */
     public XBWaveEditorFrame() {
-        resourceBundle = ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame");
+        resourceBundle = ResourceBundle.getBundle("org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame");
 
         initComponents();
         activePanel = new AudioPanel();
@@ -142,8 +142,8 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
         if (activePanel.getIsPlaying() != playing) {
             playing = !playing;
             playButton.setIcon(playing ?
-                    new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbwaveeditor/resources/images/actions/pause16.png")) :
-                    new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbwaveeditor/resources/images/actions/play16.png"))
+                    new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/wave_editor/resources/images/actions/pause16.png")) :
+                    new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/wave_editor/resources/images/actions/play16.png"))
             );
         }
     }
@@ -254,8 +254,8 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
         currentTimeTextField.setToolTipText("Current position of cursor MIN:SEC.DEC");
         currentTimeTextField.setName("currentTimeTextField"); // NOI18N
 
-        playButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbwaveeditor/resources/images/actions/play16.png"))); // NOI18N
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame"); // NOI18N
+        playButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/wave_editor/resources/images/actions/play16.png"))); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame"); // NOI18N
         playButton.setToolTipText(bundle.getString("playButton.toolTipText")); // NOI18N
         playButton.setFocusable(false);
         playButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -277,7 +277,7 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
             }
         });
 
-        stopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/xbeditor/module/xbwaveeditor/resources/images/actions/stop16.png"))); // NOI18N
+        stopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/wave_editor/resources/images/actions/stop16.png"))); // NOI18N
         stopButton.setToolTipText(bundle.getString("stopButton.toolTipText")); // NOI18N
         stopButton.setFocusable(false);
         stopButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);

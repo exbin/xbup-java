@@ -33,23 +33,21 @@ import org.xbup.lib.core.remote.XBTCPServiceClient;
 import org.xbup.lib.catalog.remote.XBDbServiceClient;
 import org.xbup.tool.editor.module.service_manager.XBServiceManagerFrame;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * XBManager Login Dialog.
  *
- * @version 0.1.23 2013/09/22
+ * @version 0.1.24 2014/11/08
  * @author XBUP Project (http://xbup.org)
  */
 public class ConnectionDialog extends javax.swing.JDialog {
 
     private XBServiceClient service;
-    private XBServiceManagerFrame mainForm;
+    private final XBServiceManagerFrame mainForm;
 
-    private static String PREFERENCES_PREFIX = "catalogConnection";
+    private static final String PREFERENCES_PREFIX = "catalogConnection";
 
-    /**
-     * Creates new form ConnectionDialog
-     */
     public ConnectionDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -427,12 +425,12 @@ public class ConnectionDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_okButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        dispose();
+        WindowUtils.closeWindow(this);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void connectionManageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectionManageButtonActionPerformed
         ConnectionListDialog connectionDialog = new ConnectionListDialog((Frame) this.getParent(), true);
-        List<String> connectionList = new ArrayList<String>();
+        List<String> connectionList = new ArrayList<>();
         int itemsCount = connectionComboBox.getItemCount();
         for (int i = 0; i < itemsCount; i++) {
             connectionList.add((String) connectionComboBox.getItemAt(i));
@@ -444,8 +442,8 @@ public class ConnectionDialog extends javax.swing.JDialog {
             connectionList = connectionDialog.getConnectionList();
             DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) connectionComboBox.getModel();
             comboBoxModel.removeAllElements();
-            for (int i = 0; i < connectionList.size(); i++) {
-                comboBoxModel.addElement(connectionList.get(i));
+            for (String connection : connectionList) {
+                comboBoxModel.addElement(connection);
             }
         }
     }//GEN-LAST:event_connectionManageButtonActionPerformed
@@ -469,7 +467,7 @@ public class ConnectionDialog extends javax.swing.JDialog {
         }
 
         setStatus(Color.GREEN, "Connected");
-        dispose();
+        WindowUtils.closeWindow(this);
     }//GEN-LAST:event_devDbLocalButtonActionPerformed
 
     private void devDbCatalogButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_devDbCatalogButtonActionPerformed
@@ -481,7 +479,7 @@ public class ConnectionDialog extends javax.swing.JDialog {
         }
 
         setStatus(Color.GREEN, "Connected");
-        dispose();
+        WindowUtils.closeWindow(this);
     }//GEN-LAST:event_devDbCatalogButtonActionPerformed
 
     private void devDbCatalogDevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_devDbCatalogDevButtonActionPerformed
@@ -493,50 +491,14 @@ public class ConnectionDialog extends javax.swing.JDialog {
         }
 
         setStatus(Color.GREEN, "Connected");
-        dispose();
+        WindowUtils.closeWindow(this);
     }//GEN-LAST:event_devDbCatalogDevButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ConnectionDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ConnectionDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ConnectionDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConnectionDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                ConnectionDialog dialog = new ConnectionDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+        WindowUtils.invokeWindow(new ConnectionDialog(new javax.swing.JFrame(), true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -572,7 +534,7 @@ public class ConnectionDialog extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     public List<String> getConnectionList() {
-        ArrayList<String> connectionList = new ArrayList<String>();
+        ArrayList<String> connectionList = new ArrayList<>();
         int pos = 0;
         while (pos < connectionComboBox.getItemCount()) {
             connectionList.add((String) connectionComboBox.getItemAt(pos));
@@ -583,13 +545,13 @@ public class ConnectionDialog extends javax.swing.JDialog {
 
     public void setConnectionList(List<String> connectionList) {
         connectionComboBox.removeAllItems();
-        for (int i = 0; i < connectionList.size(); i++) {
-            connectionComboBox.addItem(connectionList.get(i));
+        for (String connection : connectionList) {
+            connectionComboBox.addItem(connection);
         }
     }
 
     public void loadConnectionList(Preferences preferences) {
-        ArrayList<String> connectionList = new ArrayList<String>();
+        ArrayList<String> connectionList = new ArrayList<>();
         long pos = 1;
         while (preferences.get(PREFERENCES_PREFIX + String.valueOf(pos), null) != null) {
             connectionList.add(preferences.get(PREFERENCES_PREFIX + String.valueOf(pos), ""));
@@ -605,7 +567,7 @@ public class ConnectionDialog extends javax.swing.JDialog {
         List<String> connectionList = getConnectionList();
         int pos = 0;
         while (pos < connectionList.size()) {
-            preferences.put(PREFERENCES_PREFIX + String.valueOf(pos+1), connectionList.get(pos));
+            preferences.put(PREFERENCES_PREFIX + String.valueOf(pos + 1), connectionList.get(pos));
             pos++;
         }
     }

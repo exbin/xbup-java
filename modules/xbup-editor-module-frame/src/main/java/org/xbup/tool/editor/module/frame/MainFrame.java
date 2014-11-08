@@ -30,6 +30,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.FlavorEvent;
 import java.awt.datatransfer.FlavorListener;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -843,7 +844,18 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
 
             @Override
             public void copy() {
-                throw new UnsupportedOperationException("Not supported yet.");
+                StringBuilder builder = new StringBuilder();
+                List<String> rows = listComp.getSelectedValuesList();
+                boolean empty = true;
+                for (String row : rows) {
+                    builder.append(empty ? row : System.getProperty("line.separator") + row);
+
+                    if (empty) {
+                        empty = false;
+                    }
+                }
+
+                getClipboard().setContents(new StringSelection(builder.toString()), null);
             }
 
             @Override

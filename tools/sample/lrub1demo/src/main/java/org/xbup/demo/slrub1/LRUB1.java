@@ -95,11 +95,17 @@ public class LRUB1 {
         return value;
     }
 
-    /** Convert number to binary sequence of given length */
+    /**
+     * Convert number to binary sequence of given length.
+     *
+     * @param value value
+     * @param length target length
+     * @return
+     */
     public String numberToBinary(long value, int length) {
         String result = Long.toBinaryString(value);
         if (result.length() < length) {
-            result = repeat("0",length - result.length()) + result;
+            result = repeat("0", length - result.length()) + result;
         }
         return result;
     }
@@ -108,14 +114,19 @@ public class LRUB1 {
         return Long.parseLong(value, 2);
     }
 
-    /** Return n-times repeate contatenation of given string */
+    /**
+     * Return n-times repeate contatenation of given string.
+     */
     private String repeat(String string, int repetitions) {
-         StringBuilder stringBuilder = new StringBuilder(string.length() * repetitions);
-         for(int i = 0; i < repetitions; i++) stringBuilder.append(string);
-         return stringBuilder.toString();
+        StringBuilder stringBuilder = new StringBuilder(string.length() * repetitions);
+        for (int i = 0; i < repetitions; i++) {
+            stringBuilder.append(string);
+        }
+        return stringBuilder.toString();
     }
 
     public class CodeResult {
+
         private String prefix;
         private long length;
 
@@ -205,17 +216,17 @@ public class LRUB1 {
 
     public class LengthCode {
 
-        private List<DepthValue> statuses;
+        private final List<DepthValue> statuses;
         private int length;
 
         public LengthCode() {
-            statuses = new ArrayList<DepthValue>();
+            statuses = new ArrayList<>();
             length = 0;
         }
 
         public long nextLength() {
             if (statuses.isEmpty()) {
-                statuses.add(new DepthValue(0,1,1));
+                statuses.add(new DepthValue(0, 1, 1));
                 length = 1;
                 return length;
             }
@@ -225,22 +236,22 @@ public class LRUB1 {
                 value.setValue(value.getValue() + 1);
                 length += 2;
             } else {
-                while (depth<statuses.size()) {
+                while (depth < statuses.size()) {
                     value = statuses.get(depth);
                     if (value.getValue() < value.getLimit()) {
                         value.setValue(value.getValue() + 1);
                         break;
                     } else {
                         value.setValue(0);
-                        if (depth == statuses.size()-1) {
+                        if (depth == statuses.size() - 1) {
                             statuses.add(new DepthValue(0, 1, 1));
                             break;
                         } else {
                             depth++;
                             DepthValue next = statuses.get(depth);
                             if (next.getValue() < next.getLimit()) {
-                                value.setLimit(value.getLimit()*2 + 1);
-                                value.setLength(value.getLength()+2);
+                                value.setLimit(value.getLimit() * 2 + 1);
+                                value.setLength(value.getLength() + 2);
                             }
                         }
                     }
@@ -252,10 +263,10 @@ public class LRUB1 {
         private void getCode(StringBuilder result) {
             result.append(repeat("1", statuses.size()));
             result.append("0");
-            for (int i = statuses.size() - 1; i >= 0 ; i--) {
+            for (int i = statuses.size() - 1; i >= 0; i--) {
                 DepthValue depthValue = statuses.get(i);
                 //result.append("|");
-                result.append(numberToBinary(depthValue.getValue(),depthValue.getLength()));
+                result.append(numberToBinary(depthValue.getValue(), depthValue.getLength()));
             }
         }
 

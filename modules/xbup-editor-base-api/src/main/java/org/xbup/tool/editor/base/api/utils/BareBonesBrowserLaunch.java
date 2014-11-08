@@ -9,12 +9,15 @@
 //  Public Domain Software -- Free to Use as You Like  //
 /////////////////////////////////////////////////////////
 
-package org.xbup.tool.editor.module.frame.util;
+package org.xbup.tool.editor.base.api.utils;
 
 import java.lang.reflect.Method;
 import javax.swing.JOptionPane;
 
 public class BareBonesBrowserLaunch {
+
+    private BareBonesBrowserLaunch() {
+    }
 
     private static final String errMsg = "Error attempting to launch web browser";
 

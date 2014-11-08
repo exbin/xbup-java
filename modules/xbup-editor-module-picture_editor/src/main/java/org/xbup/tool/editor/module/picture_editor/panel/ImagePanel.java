@@ -80,7 +80,7 @@ import org.xbup.tool.editor.base.api.ApplicationFilePanel;
 import org.xbup.tool.editor.base.api.FileType;
 
 /**
- * XBPEditor image panel.
+ * Image panel for XBPEditor.
  *
  * @version 0.1.23 2014/03/04
  * @author XBUP Project (http://xbup.org)
@@ -94,18 +94,18 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
     private String fileName;
     private String ext;
     private FileType fileType;
-    private boolean modified = false;
+    private final boolean modified = false;
     private Image image;
     private Image scaledImage;
     private Graphics grph;
     private double scaleRatio;
-    private Object highlight;
+    private final Object highlight;
     private Color selectionColor;
     private Color toolColor;
     private Font defaultFont;
     private Color[] defaultColors;
     private InputMethodListener caretListener;
-    private ToolMode toolMode;
+    private final ToolMode toolMode;
     private PropertyChangeListener propertyChangeListener;
 
     /**

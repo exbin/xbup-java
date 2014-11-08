@@ -76,21 +76,20 @@ import org.xbup.tool.editor.base.api.MainFrameManagement;
  */
 public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelActionHandling {
 
-    private XBTTreeDocument mainDoc;
-    private XBDocTreeModel mainDocModel;
+    private final XBTTreeDocument mainDoc;
+    private final XBDocTreeModel mainDocModel;
     private XBDocTreeCellRenderer cellRenderer;
 
     private XBACatalog catalog;
-    private XBTLinearUndo treeUndo;
-    private List<ActionListener> updateEventList;
+    private final XBTLinearUndo treeUndo;
+    private final List<ActionListener> updateEventList;
     private boolean editEnabled;
     private boolean addEnabled;
     private Clipboard clipboard;
-    private static DataFlavor xbFlavor = new DataFlavor(XBHead.MIME_XBUP, "XBUP Document");
-    ;
+    private static final DataFlavor xbFlavor = new DataFlavor(XBHead.MIME_XBUP, "XBUP Document");
 
     private Component lastFocusedComponent = null;
-    private Map<String, ActionListener> actionListenerMap = new HashMap<>();
+    private final Map<String, ActionListener> actionListenerMap = new HashMap<>();
     private final XBDocEditorFrame mainFrame;
 
     public XBDocTreePanel(XBDocEditorFrame mainFrame, XBTTreeDocument mainDoc, XBACatalog catalog, JPopupMenu popupMenu) {
@@ -99,7 +98,7 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
         clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         this.catalog = catalog;
         mainDocModel = new XBDocTreeModel(mainDoc);
-        updateEventList = new ArrayList<ActionListener>();
+        updateEventList = new ArrayList<>();
         treeUndo = new XBTLinearUndo(mainDoc);
 
         initComponents();
@@ -312,14 +311,10 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
                     } catch (Exception ex) {
                         Logger.getLogger(XBDocTreePanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (IOException ex) {
-                    Logger.getLogger(XBDocTreePanel.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (XBProcessingException ex) {
+                } catch (IOException | XBProcessingException ex) {
                     Logger.getLogger(XBDocTreePanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (UnsupportedFlavorException ex) {
-                Logger.getLogger(XBDocTreePanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
+            } catch (UnsupportedFlavorException | IOException ex) {
                 Logger.getLogger(XBDocTreePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -551,7 +546,7 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
 
     private static class XBDocTreeTransferHandler extends TransferHandler {
 
-        private XBDocTreePanel docTreePanel;
+        private final XBDocTreePanel docTreePanel;
         private XBTTreeNode sourceNode;
 
         public XBDocTreeTransferHandler(XBDocTreePanel docTreePanel) {
@@ -666,14 +661,10 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
                     } catch (Exception ex) {
                         Logger.getLogger(XBDocTreePanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (IOException ex) {
-                    Logger.getLogger(XBDocTreePanel.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (XBProcessingException ex) {
+                } catch (IOException | XBProcessingException ex) {
                     Logger.getLogger(XBDocTreePanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (UnsupportedFlavorException ex) {
-                Logger.getLogger(XBDocTreePanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
+            } catch (UnsupportedFlavorException | IOException ex) {
                 Logger.getLogger(XBDocTreePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
             return true;

@@ -39,7 +39,6 @@ public class ParametersTableModel extends AbstractTableModel {
     private Class[] columnTypes = new Class[]{
         java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
     };
-    private final boolean[] columnsEditable = new boolean[]{false, true};
     private final List<TableModelListener> tableModelListeners = new ArrayList<>();
 
     public ParametersTableModel() {
@@ -70,7 +69,7 @@ public class ParametersTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return columnsEditable[columnIndex];
+        return false;
     }
 
     @Override

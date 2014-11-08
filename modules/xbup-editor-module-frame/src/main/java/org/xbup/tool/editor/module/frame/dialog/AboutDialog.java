@@ -16,11 +16,8 @@
  */
 package org.xbup.tool.editor.module.frame.dialog;
 
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Cursor;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
 import java.awt.font.TextAttribute;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -35,9 +32,10 @@ import javax.swing.JLabel;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.table.DefaultTableModel;
-import org.xbup.tool.editor.module.frame.util.BareBonesBrowserLaunch;
+import org.xbup.tool.editor.base.api.utils.BareBonesBrowserLaunch;
 import org.xbup.tool.editor.base.api.ApplicationModuleInfo;
 import org.xbup.tool.editor.base.api.XBEditorApp;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * MainFrame About Dialog.
@@ -69,7 +67,6 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         getRootPane().setDefaultButton(closeButton);
         HashMap<TextAttribute, Object> attribs = new HashMap<>();
         attribs.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
-        assignGlobalKeyListener(this);
 
         // Fill system properties tab
         Properties systemProperties = System.getProperties();
@@ -100,37 +97,8 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         } catch (IOException ex) {
             Logger.getLogger(AboutDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
 
-    /**
-     * Assign ESCAPE/ENTER key for all focusable components recursively.
-     */
-    private void assignGlobalKeyListener(Container comp) {
-        Component[] comps = comp.getComponents();
-        for (Component item : comps) {
-            if (item.isFocusable()) {
-                item.addKeyListener(new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent evt) {
-                        if ((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_ESCAPE)) {
-                            closeButtonActionPerformed(null);
-                        }
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-                    }
-                });
-            }
-
-            if (item instanceof Container) {
-                assignGlobalKeyListener((Container) item);
-            }
-        }
+        WindowUtils.assignGlobalKeyListener(this, closeButton);
     }
 
     /**
@@ -183,7 +151,6 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         javax.swing.JLabel appTitleLabel = new javax.swing.JLabel();
         javax.swing.JLabel appDescLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/dialog/resources/AboutDialog"); // NOI18N
         setTitle(bundle.getString("aboutBox.title")); // NOI18N
 
@@ -508,49 +475,16 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
         aboutTabbedPane.setSelectedIndex(0);
-        setVisible(false);
+        WindowUtils.closeWindow(this);
     }//GEN-LAST:event_closeButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AboutDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                AboutDialog dialog = new AboutDialog(new javax.swing.JFrame(), true, null);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+        WindowUtils.invokeWindow(new AboutDialog(new javax.swing.JFrame(), true, WindowUtils.getDefaultAppEditor()));
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel aboutHeaderPanel;
     private javax.swing.JPanel aboutPanel;

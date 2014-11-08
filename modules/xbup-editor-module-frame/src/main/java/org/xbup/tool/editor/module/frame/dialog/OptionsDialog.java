@@ -16,10 +16,6 @@
  */
 package org.xbup.tool.editor.module.frame.dialog;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
@@ -44,11 +40,12 @@ import org.xbup.tool.editor.base.api.OptionsPanel.ModifiedOptionListener;
 import org.xbup.tool.editor.base.api.OptionsPanel.PathItem;
 import org.xbup.tool.editor.base.api.XBEditorApp;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * Dialog for application options and preferences setting.
  *
- * @version 0.1.22 2013/03/25
+ * @version 0.1.24 2014/11/08
  * @author XBUP Project (http://xbup.org)
  */
 public class OptionsDialog extends javax.swing.JDialog {
@@ -66,8 +63,7 @@ public class OptionsDialog extends javax.swing.JDialog {
     private MainOptionsPanel mainOptionsPanel;
     private AppearanceOptionsPanel appearanceOptionsPanel;
 
-    /** Creates new form OptionsDialog */
-    public OptionsDialog(java.awt.Frame parent, MainFrame frame,  boolean modal) {
+    public OptionsDialog(java.awt.Frame parent, MainFrame frame, boolean modal) {
         super(parent, modal);
         if (parent instanceof XBEditorFrame) {
             setIconImage(((XBEditorFrame) parent).getMainFrameManagement().getFrameIcon());
@@ -81,7 +77,7 @@ public class OptionsDialog extends javax.swing.JDialog {
         resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/dialog/resources/OptionsDialog");
         initComponents();
 
-        optionPanels = new HashMap<String, JPanel>();
+        optionPanels = new HashMap<>();
         modified = false;
         modifiedOptionListener = new ModifiedOptionListener() {
 
@@ -101,13 +97,13 @@ public class OptionsDialog extends javax.swing.JDialog {
         });
 
         // Create menu tree
-        top = new OptionsMutableTreeNode(resourceBundle.getString("options_options"),"options");
+        top = new OptionsMutableTreeNode(resourceBundle.getString("options_options"), "options");
         createNodes(top);
-        optionsTree.setModel(new DefaultTreeModel(top,true));
+        optionsTree.setModel(new DefaultTreeModel(top, true));
         optionsTree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
             @Override
             public void valueChanged(TreeSelectionEvent e) {
-                if (e.getPath()!=null) {
+                if (e.getPath() != null) {
                     String caption;
                     OptionsMutableTreeNode node = ((OptionsMutableTreeNode) optionsTree.getLastSelectedPathComponent());
                     if (node == null) {
@@ -115,7 +111,7 @@ public class OptionsDialog extends javax.swing.JDialog {
                         optionsAreaTitleLabel.setText("");
                     } else {
                         caption = node.getName();
-                        optionsAreaTitleLabel.setText(" "+(String) node.getUserObject());
+                        optionsAreaTitleLabel.setText(" " + (String) node.getUserObject());
                     }
                     if (currentOptionsPanel != null) {
                         optionsAreaScrollPane.remove(currentOptionsPanel);
@@ -141,7 +137,7 @@ public class OptionsDialog extends javax.swing.JDialog {
         // Expand all nodes
         expandJTree(optionsTree, -1);
 
-        assignGlobalKeyListener(this);
+        WindowUtils.assignGlobalKeyListener(this, null, cancelButton);
     }
 
     public void loadPreferences(Preferences preferences) {
@@ -177,39 +173,10 @@ public class OptionsDialog extends javax.swing.JDialog {
         }
     }
 
-    /** Assign ESCAPE/ENTER key for all focusable components recursively */
-    private void assignGlobalKeyListener(Container comp) {
-        Component[] comps = comp.getComponents();
-        for (int i = 0; i < comps.length; i++) {
-            Component item = comps[i];
-            if (item.isFocusable()) {
-                item.addKeyListener(new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent evt) {
-                        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                            cancelButton.doClick();
-                        }
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-                    }
-                });
-            }
-            if (item instanceof Container) {
-                assignGlobalKeyListener((Container) item);
-            }
-        }
-    }
-
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -341,46 +308,9 @@ public class OptionsDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(OptionsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(OptionsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(OptionsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(OptionsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                OptionsDialog dialog = new OptionsDialog(new javax.swing.JFrame(), null, true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+        WindowUtils.invokeWindow(new OptionsDialog(new javax.swing.JFrame(), null, true));
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton applyButton;
     private javax.swing.JButton cancelButton;
@@ -397,7 +327,7 @@ public class OptionsDialog extends javax.swing.JDialog {
 
     private void createNodes(DefaultMutableTreeNode top) {
         DefaultMutableTreeNode item;
-        item = new OptionsMutableTreeNode(resourceBundle.getString("options_apperance"),"apperance");
+        item = new OptionsMutableTreeNode(resourceBundle.getString("options_apperance"), "apperance");
         top.add(item);
     }
 
@@ -414,7 +344,7 @@ public class OptionsDialog extends javax.swing.JDialog {
         if (optionPanel.getPath() == null) {
             panelKey = "options";
         } else {
-            panelKey = optionPanel.getPath().get(optionPanel.getPath().size()-1).getName();
+            panelKey = optionPanel.getPath().get(optionPanel.getPath().size() - 1).getName();
             estabilishPath(optionPanel.getPath());
         }
         optionPanels.put(panelKey, (JPanel) optionPanel);
@@ -432,16 +362,14 @@ public class OptionsDialog extends javax.swing.JDialog {
 
     private void estabilishPath(List<PathItem> path) {
         OptionsMutableTreeNode node = top;
-        for (int pathIndex = 0; pathIndex < path.size(); pathIndex++) {
-            PathItem pathItem = path.get(pathIndex);
-
+        for (PathItem pathItem : path) {
             int childIndex = 0;
             OptionsMutableTreeNode child = null;
             if (node == null) {
                 return;
             }
 
-            while ((childIndex>=0)&&(childIndex < node.getChildCount())) {
+            while ((childIndex >= 0) && (childIndex < node.getChildCount())) {
                 child = (OptionsMutableTreeNode) node.getChildAt(childIndex);
                 if (child.getName().equals(pathItem.getName())) {
                     break;
@@ -459,7 +387,7 @@ public class OptionsDialog extends javax.swing.JDialog {
             }
         }
 
-        optionsTree.setModel(new DefaultTreeModel(top,true));
+        optionsTree.setModel(new DefaultTreeModel(top, true));
         for (int i = 0; i < optionsTree.getRowCount(); i++) {
             optionsTree.expandRow(i);
         }
@@ -486,7 +414,7 @@ public class OptionsDialog extends javax.swing.JDialog {
 
     private class OptionsMutableTreeNode extends DefaultMutableTreeNode {
 
-        private String name;
+        private final String name;
 
         public OptionsMutableTreeNode(Object userObject, String name) {
             super(userObject);
@@ -500,11 +428,11 @@ public class OptionsDialog extends javax.swing.JDialog {
 
     private class OptionsPreferences extends AbstractPreferences {
 
-        private Map<String, String> spiValues;
+        private final Map<String, String> spiValues;
 
         public OptionsPreferences() {
             super(null, "");
-            spiValues = new HashMap<String, String>();
+            spiValues = new HashMap<>();
         }
 
         @Override
@@ -554,54 +482,47 @@ public class OptionsDialog extends javax.swing.JDialog {
     /**
      * Expands all nodes in a JTree.
      *
-     * @param tree      The JTree to expand.
-     * @param depth     The depth to which the tree should be expanded.  Zero
-     *                  will just expand the root node, a negative value will
-     *                  fully expand the tree, and a positive value will
-     *                  recursively expand the tree to that depth.
+     * @param tree The JTree to expand.
+     * @param depth The depth to which the tree should be expanded. Zero will
+     * just expand the root node, a negative value will fully expand the tree,
+     * and a positive value will recursively expand the tree to that depth.
      */
-    public static void expandJTree (javax.swing.JTree tree, int depth)
-    {
+    public static void expandJTree(javax.swing.JTree tree, int depth) {
         javax.swing.tree.TreeModel model = tree.getModel();
         expandJTreeNode(tree, model, model.getRoot(), 0, depth);
     } // expandJTree()
 
-
     /**
      * Expands a given node in a JTree.
      *
-     * @param tree      The JTree to expand.
-     * @param model     The TreeModel for tree.
-     * @param node      The node within tree to expand.
-     * @param row       The displayed row in tree that represents
-     *                  node.
-     * @param depth     The depth to which the tree should be expanded.
-     *                  Zero will just expand node, a negative
-     *                  value will fully expand the tree, and a positive
-     *                  value will recursively expand the tree to that
-     *                  depth relative to node.
+     * @param tree The JTree to expand.
+     * @param model The TreeModel for tree.
+     * @param node The node within tree to expand.
+     * @param row The displayed row in tree that represents node.
+     * @param depth The depth to which the tree should be expanded. Zero will
+     * just expand node, a negative value will fully expand the tree, and a
+     * positive value will recursively expand the tree to that depth relative to
+     * node.
+     * @return row
      */
-    public static int expandJTreeNode (javax.swing.JTree tree,
-                                       javax.swing.tree.TreeModel model,
-                                       Object node, int row, int depth)
-    {
-        if (node != null  &&  !model.isLeaf(node)) {
+    public static int expandJTreeNode(javax.swing.JTree tree,
+            javax.swing.tree.TreeModel model,
+            Object node, int row, int depth) {
+        if (node != null && !model.isLeaf(node)) {
             tree.expandRow(row);
-            if (depth != 0)
-            {
+            if (depth != 0) {
                 for (int index = 0;
-                     row + 1 < tree.getRowCount()  &&
-                                index < model.getChildCount(node);
-                     index++)
-                {
+                        row + 1 < tree.getRowCount()
+                        && index < model.getChildCount(node);
+                        index++) {
                     row++;
                     Object child = model.getChild(node, index);
                     if (child == null) {
                         break;
                     }
                     javax.swing.tree.TreePath path;
-                    while ((path = tree.getPathForRow(row)) != null  &&
-                            path.getLastPathComponent() != child) {
+                    while ((path = tree.getPathForRow(row)) != null
+                            && path.getLastPathComponent() != child) {
                         row++;
                     }
                     if (path == null) {

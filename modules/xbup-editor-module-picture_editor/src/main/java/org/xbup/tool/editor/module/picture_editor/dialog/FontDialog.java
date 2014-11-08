@@ -67,7 +67,7 @@ import javax.swing.text.StyleConstants;
  */
 public class FontDialog extends JDialog {
 
-    protected int Closed_Option = JOptionPane.CLOSED_OPTION;
+    protected int dialogOption = JOptionPane.CLOSED_OPTION;
     private InputList fontNameInputList;
     private InputList fontSizeInputList;
     private MutableAttributeSet attributes;
@@ -171,7 +171,7 @@ public class FontDialog extends JDialog {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                Closed_Option = JOptionPane.OK_OPTION;
+                dialogOption = JOptionPane.OK_OPTION;
                 dispose();
             }
         };
@@ -184,7 +184,7 @@ public class FontDialog extends JDialog {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                Closed_Option = JOptionPane.CANCEL_OPTION;
+                dialogOption = JOptionPane.CANCEL_OPTION;
                 dispose();
             }
         };
@@ -259,7 +259,7 @@ public class FontDialog extends JDialog {
     }
 
     public int getOption() {
-        return Closed_Option;
+        return dialogOption;
     }
 
     public Font getStoredFont() {

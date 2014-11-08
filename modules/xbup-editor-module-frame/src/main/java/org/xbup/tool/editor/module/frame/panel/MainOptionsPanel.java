@@ -45,21 +45,18 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
 
     private DefaultComboBoxModel<String> themesComboBoxModel;
     private DefaultComboBoxModel<Locale> languageComboBoxModel;
-    private DefaultListCellRenderer languageComboBoxCellRenderer;
+    private final DefaultListCellRenderer languageComboBoxCellRenderer;
 
     private List<String> themes;
     private List<String> themeNames;
     private List<Locale> languages;
 
-    /**
-     * Creates new form ApperanceOptionsPanel
-     */
     public MainOptionsPanel(MainFrame frame) {
         resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/panel/resources/MainOptionsPanel");
         this.frame = frame;
 
-        themesComboBoxModel = new DefaultComboBoxModel<String>();
-        languageComboBoxModel = new DefaultComboBoxModel<Locale>();
+        themesComboBoxModel = new DefaultComboBoxModel<>();
+        languageComboBoxModel = new DefaultComboBoxModel<>();
         languageComboBoxCellRenderer = new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -205,11 +202,17 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
         }
 
         String selectedTheme = themes.get(themeComboBox.getSelectedIndex());
-        if ("".equals(selectedTheme)) {
-            selectedTheme = ""; // TODO Get default lookAndFeel
-        } else if ("SYSTEM".equals(selectedTheme)) {
-            selectedTheme = UIManager.getSystemLookAndFeelClassName();
+        if (null != selectedTheme) {
+            switch (selectedTheme) {
+                case "":
+                    selectedTheme = ""; // TODO Get default lookAndFeel
+                    break;
+                case "SYSTEM":
+                    selectedTheme = UIManager.getSystemLookAndFeelClassName();
+                    break;
+            }
         }
+
         frame.applySetting(selectedTheme);
     }
 
@@ -219,10 +222,10 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
             extendedPanel.loadFromPreferences(preferences);
         }
 
-        Locale locale = new Locale(preferences.get(OptionsManagement.PREFERENCES_LOCALE_LANGUAGE,""), preferences.get(OptionsManagement.PREFERENCES_LOCALE_COUNTRY,""), preferences.get(OptionsManagement.PREFERENCES_LOCALE_VARIANT,""));
+        Locale locale = new Locale(preferences.get(OptionsManagement.PREFERENCES_LOCALE_LANGUAGE, ""), preferences.get(OptionsManagement.PREFERENCES_LOCALE_COUNTRY, ""), preferences.get(OptionsManagement.PREFERENCES_LOCALE_VARIANT, ""));
         languageComboBox.setSelectedItem(locale);
 
-        String laf = preferences.get(OptionsManagement.PREFERENCES_LOOK_AND_FEEL,"");
+        String laf = preferences.get(OptionsManagement.PREFERENCES_LOOK_AND_FEEL, "");
         themeComboBox.setSelectedIndex(themes.indexOf(laf));
     }
 
@@ -234,9 +237,9 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
 
         preferences.put(OptionsManagement.PREFERENCES_LOOK_AND_FEEL, themes.get(themeComboBox.getSelectedIndex()));
         Locale locale = (Locale) languageComboBox.getSelectedItem();
-        preferences.put(OptionsManagement.PREFERENCES_LOCALE_LANGUAGE,locale.getLanguage());
-        preferences.put(OptionsManagement.PREFERENCES_LOCALE_COUNTRY,locale.getCountry());
-        preferences.put(OptionsManagement.PREFERENCES_LOCALE_VARIANT,locale.getVariant());
+        preferences.put(OptionsManagement.PREFERENCES_LOCALE_LANGUAGE, locale.getLanguage());
+        preferences.put(OptionsManagement.PREFERENCES_LOCALE_COUNTRY, locale.getCountry());
+        preferences.put(OptionsManagement.PREFERENCES_LOCALE_VARIANT, locale.getVariant());
     }
 
     @Override
@@ -245,7 +248,7 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
     }
 
     private void init() {
-        themes = new ArrayList<String>();
+        themes = new ArrayList<>();
         themes.add("");
         if (!"javax.swing.plaf.metal.MetalLookAndFeel".equals(UIManager.getCrossPlatformLookAndFeelClassName())) {
             themes.add(UIManager.getCrossPlatformLookAndFeelClassName());
@@ -253,7 +256,7 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
         themes.add("SYSTEM");
         themes.add("javax.swing.plaf.metal.MetalLookAndFeel");
         themes.add("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-        themeNames = new ArrayList<String>();
+        themeNames = new ArrayList<>();
         themeNames.add(resourceBundle.getString("MainOptionsPanel.defaultTheme"));
         if (!"javax.swing.plaf.metal.MetalLookAndFeel".equals(UIManager.getCrossPlatformLookAndFeelClassName())) {
             themeNames.add(resourceBundle.getString("MainOptionsPanel.crossPlatformTheme"));
@@ -262,25 +265,24 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
         themeNames.add("Metal");
         themeNames.add("Motif");
         UIManager.LookAndFeelInfo[] infos = UIManager.getInstalledLookAndFeels();
-        for (int i = 0; i < infos.length; i++) {
-            UIManager.LookAndFeelInfo lookAndFeelInfo = infos[i];
+        for (UIManager.LookAndFeelInfo lookAndFeelInfo : infos) {
             if (!themes.contains(lookAndFeelInfo.getClassName())) {
                 themes.add(lookAndFeelInfo.getClassName());
                 themeNames.add(lookAndFeelInfo.getName());
             }
         }
 
-        for (int i = 0; i < themeNames.size(); i++) {
-            themesComboBoxModel.addElement(themeNames.get(i));
+        for (String themeName : themeNames) {
+            themesComboBoxModel.addElement(themeName);
         }
 
-        languages = new ArrayList<Locale>();
+        languages = new ArrayList<>();
         // TODO: List all available resource locales
         languages.add(Locale.ROOT);
-        languages.add(new Locale("en","US"));
-        languages.add(new Locale("cs","CZ"));
-        for (int i = 0; i < languages.size(); i++) {
-            languageComboBoxModel.addElement(languages.get(i));
+        languages.add(new Locale("en", "US"));
+        languages.add(new Locale("cs", "CZ"));
+        for (Locale language : languages) {
+            languageComboBoxModel.addElement(language);
         }
     }
 

@@ -30,26 +30,24 @@ import org.xbup.tool.editor.module.wave_editor.dialog.WaveColorDialog;
 import org.xbup.tool.editor.module.wave_editor.panel.AudioPanel;
 import org.xbup.tool.editor.module.wave_editor.panel.WaveColorPanelFrame;
 import org.xbup.tool.editor.base.api.FileType;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * XBSEditor Main Frame.
  *
- * @version 0.1.23 2013/12/05
+ * @version 0.1.24 2014/11/08
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPanelFrame {
 
     private AudioPanel activePanel;
-    private MouseMotionListener mouseMotionListener;
+    private final MouseMotionListener mouseMotionListener;
     private ResourceBundle resourceBundle;
     private final String DIALOG_MENU_SUFIX = "...";
     private boolean playing = false;
 
     public static final String XBSFILETYPE = "XBWaveEditor.XBSFileFilter";
 
-    /**
-     * Creates new form XBWaveEditorFrame
-     */
     public XBWaveEditorFrame() {
         resourceBundle = ResourceBundle.getBundle("org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame");
 
@@ -69,16 +67,14 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
         });
 
         // ((CardLayout) statusPanel.getLayout()).show(statusPanel,"default");
-
         mainPanel.add(activePanel, java.awt.BorderLayout.CENTER);
 
-/*        // Open file from command line
-        String fileName = ((XBSEditor) app).getFileName();
-        if (!"".equals(fileName)) {
-            setFileName(fileName);
-            activePanel.loadFromFile();
-        } */
-
+        /*        // Open file from command line
+         String fileName = ((XBSEditor) app).getFileName();
+         if (!"".equals(fileName)) {
+         setFileName(fileName);
+         activePanel.loadFromFile();
+         } */
         // Caret position listener
         mouseMotionListener = new MouseMotionListener() {
 
@@ -141,9 +137,9 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
 
         if (activePanel.getIsPlaying() != playing) {
             playing = !playing;
-            playButton.setIcon(playing ?
-                    new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/wave_editor/resources/images/actions/pause16.png")) :
-                    new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/wave_editor/resources/images/actions/play16.png"))
+            playButton.setIcon(playing
+                    ? new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/wave_editor/resources/images/actions/pause16.png"))
+                    : new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/wave_editor/resources/images/actions/play16.png"))
             );
         }
     }
@@ -742,32 +738,7 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(XBWaveEditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new XBWaveEditorFrame().setVisible(true);
-            }
-        });
+        WindowUtils.invokeWindow(new XBWaveEditorFrame());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -838,8 +809,8 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
         String str = file.getName();
         int i = str.lastIndexOf('.');
 
-        if (i > 0 &&  i < str.length() - 1) {
-            ext = str.substring(i+1).toLowerCase();
+        if (i > 0 && i < str.length() - 1) {
+            ext = str.substring(i + 1).toLowerCase();
         }
         return ext;
     }
@@ -854,11 +825,11 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
 
             String extension = getExtension(f);
             if (extension != null) {
-                if (extension.length()<3) {
+                if (extension.length() < 3) {
                     return false;
                 }
 
-                return "xbs".contains(extension.substring(0,3));
+                return "xbs".contains(extension.substring(0, 3));
             }
 
             return false;

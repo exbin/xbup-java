@@ -16,83 +16,41 @@
  */
 package org.xbup.tool.editor.module.service_manager.catalog.dialog;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSelectSpecPanel;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * XBManager Catalog Specification Selection Dialog.
  *
- * @version 0.1.22 2013/05/12
+ * @version 0.1.24 2014/11/08
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSelectSpecDialog extends javax.swing.JDialog {
 
-    private CatalogSelectSpecPanel selectSpecPanel;
+    private final CatalogSelectSpecPanel selectSpecPanel;
     private int dialogOption = JOptionPane.CLOSED_OPTION;
-    private XBCItem spec;
+    private XBCItem specification;
 
-    /**
-     * Creates new form CatalogSelectSpecDialog
-     */
     public CatalogSelectSpecDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog, CatalogSpecItemType specType) {
         super(parent, modal);
         initComponents();
-        assignGlobalKeyListener();
         if (parent instanceof XBEditorFrame) {
             setIconImage(((XBEditorFrame) parent).getMainFrameManagement().getFrameIcon());
         }
 
         selectSpecPanel = new CatalogSelectSpecPanel(catalog, specType);
         add(selectSpecPanel);
+
+        init();
     }
 
-    private void assignGlobalKeyListener() {
-        assignGlobalKeyListener(this);
-    }
-
-    /** Assign ESCAPE/ENTER key for all focusable components recursively */
-    private void assignGlobalKeyListener(Container comp) {
-        Component[] comps = comp.getComponents();
-        for (int i = 0; i < comps.length; i++) {
-            Component item = comps[i];
-            if (item.isFocusable()) {
-                item.addKeyListener(new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent evt) {
-                        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                            cancelButton.doClick();
-                        }
-                        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-                            if (evt.getSource() instanceof JButton) {
-                                ((JButton) evt.getSource()).doClick();
-                            } else {
-                                selectButton.doClick();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-                    }
-                });
-            }
-            if (item instanceof Container) {
-                assignGlobalKeyListener((Container) item);
-            }
-        }
+    private void init() {
+        WindowUtils.assignGlobalKeyListener(this, selectButton, cancelButton);
     }
 
     public int getOption() {
@@ -158,14 +116,14 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         dialogOption = JOptionPane.CANCEL_OPTION;
-        dispose();
+        WindowUtils.closeWindow(this);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
-        spec = selectSpecPanel.getSpec();
-        if (spec != null) {
+        specification = selectSpecPanel.getSpec();
+        if (specification != null) {
             dialogOption = JOptionPane.OK_OPTION;
-            dispose();
+            WindowUtils.closeWindow(this);
         }
     }//GEN-LAST:event_selectButtonActionPerformed
 
@@ -173,43 +131,7 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CatalogSelectSpecDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CatalogSelectSpecDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CatalogSelectSpecDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CatalogSelectSpecDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                CatalogSelectSpecDialog dialog = new CatalogSelectSpecDialog(new javax.swing.JFrame(), true, null, CatalogSpecItemType.NODE);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+        WindowUtils.invokeWindow(new CatalogSelectSpecDialog(new javax.swing.JFrame(), true, null, CatalogSpecItemType.NODE));
     }
 
     /**
@@ -218,16 +140,16 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
      * @return the value of specification
      */
     public XBCItem getSpec() {
-        return spec;
+        return specification;
     }
 
     /**
-     * Sets the value of spec
+     * Sets the value of specification.
      *
-     * @param spec new value of spec
+     * @param spec new value of specification
      */
     public void setSpec(XBCItem spec) {
-        this.spec = spec;
+        this.specification = spec;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

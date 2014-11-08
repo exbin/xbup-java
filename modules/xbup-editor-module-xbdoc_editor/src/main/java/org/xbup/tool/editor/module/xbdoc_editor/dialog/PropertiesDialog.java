@@ -17,24 +17,20 @@
 package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 
 import hexedit.HexEditPanel;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import org.xbup.lib.core.block.XBTEditableDocument;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * Dialog for document properties showing various information about file.
  *
- * @version 0.1.24 2014/10/20
+ * @version 0.1.24 2014/11/08
  * @author XBUP Project (http://xbup.org)
  */
 public class PropertiesDialog extends javax.swing.JDialog {
@@ -51,7 +47,11 @@ public class PropertiesDialog extends javax.swing.JDialog {
 
         hexPanel = new HexEditPanel((JFrame) parent);
         hexEditScrollPane.setViewportView(hexPanel);
-        assignGlobalKeyListener();
+        init();
+    }
+
+    private void init() {
+        WindowUtils.assignGlobalKeyListener(this, closeButton);
     }
 
     /**
@@ -63,7 +63,7 @@ public class PropertiesDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel5 = new javax.swing.JLabel();
-        okButton = new javax.swing.JButton();
+        closeButton = new javax.swing.JButton();
         propertiesTabbedPane = new javax.swing.JTabbedPane();
         generalPropertiesPanel = new javax.swing.JPanel();
         fileNameLabel = new javax.swing.JLabel();
@@ -84,10 +84,10 @@ public class PropertiesDialog extends javax.swing.JDialog {
         setTitle(bundle.getString("title")); // NOI18N
         setLocationByPlatform(true);
 
-        okButton.setText(bundle.getString("okButton.text")); // NOI18N
-        okButton.addActionListener(new java.awt.event.ActionListener() {
+        closeButton.setText(bundle.getString("okButton.text")); // NOI18N
+        closeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                okButtonActionPerformed(evt);
+                closeButtonActionPerformed(evt);
             }
         });
 
@@ -193,7 +193,7 @@ public class PropertiesDialog extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(okButton)
+                .addComponent(closeButton)
                 .addContainerGap())
             .addComponent(propertiesTabbedPane)
         );
@@ -202,14 +202,14 @@ public class PropertiesDialog extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(propertiesTabbedPane)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(okButton)
+                .addComponent(closeButton)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+    private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
         // TODO: Horrible extraction of data from HexEditPanel
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         try {
@@ -219,8 +219,8 @@ public class PropertiesDialog extends javax.swing.JDialog {
         }
 
         doc.setExtendedArea(new ByteArrayInputStream(buffer.toByteArray()));
-        dispose();
-    }//GEN-LAST:event_okButtonActionPerformed
+        WindowUtils.closeWindow(this);
+    }//GEN-LAST:event_closeButtonActionPerformed
 
     private void loadFromButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadFromButton3ActionPerformed
         HexEditPanel.openFile(null);
@@ -230,48 +230,6 @@ public class PropertiesDialog extends javax.swing.JDialog {
     private void saveFromButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveFromButtonActionPerformed
         HexEditPanel.saveFile();
     }//GEN-LAST:event_saveFromButtonActionPerformed
-
-    /**
-     * Assign ESCAPE/ENTER key for all focusable components recursively.
-     */
-    private void assignGlobalKeyListener() {
-        assignGlobalKeyListener(this);
-    }
-
-    private void assignGlobalKeyListener(Container comp) {
-        Component[] comps = comp.getComponents();
-        for (Component item : comps) {
-            if (item.isFocusable()) {
-                item.addKeyListener(new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent evt) {
-                        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                            okButton.doClick();
-                        }
-                        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-                            if (evt.getSource() instanceof JButton) {
-                                ((JButton) evt.getSource()).doClick();
-                            } else {
-                                okButton.doClick();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-                    }
-                });
-            }
-
-            if (item instanceof Container) {
-                assignGlobalKeyListener((Container) item);
-            }
-        }
-    }
 
     public void runDialog(XBTEditableDocument doc, String fileName) {
         this.doc = doc;
@@ -289,15 +247,11 @@ public class PropertiesDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new ItemPropertiesDialog(new javax.swing.JFrame(), true).setVisible(true);
-            }
-        });
+        WindowUtils.invokeWindow(new ItemPropertiesDialog(new javax.swing.JFrame(), true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton closeButton;
     private javax.swing.JPanel extendedAreaPanel;
     private javax.swing.JLabel fileNameLabel;
     private javax.swing.JTextField fileNameTextField;
@@ -309,7 +263,6 @@ public class PropertiesDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane hexEditScrollPane;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JButton loadFromButton3;
-    private javax.swing.JButton okButton;
     private javax.swing.JTabbedPane propertiesTabbedPane;
     private javax.swing.JButton saveFromButton;
     // End of variables declaration//GEN-END:variables

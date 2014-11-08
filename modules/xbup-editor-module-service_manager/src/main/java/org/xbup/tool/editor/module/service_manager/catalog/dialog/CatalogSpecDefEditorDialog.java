@@ -17,12 +17,8 @@
 package org.xbup.tool.editor.module.service_manager.catalog.dialog;
 
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Frame;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -40,11 +36,12 @@ import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogRevsComboBoxModel;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * XBManager Catalog Specification Selection Dialog.
  *
- * @version 0.1.24 2013/11/07
+ * @version 0.1.24 2014/11/08
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
@@ -59,9 +56,6 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     private XBCRevService revService;
     private CatalogSpecItemType targetType;
 
-    /**
-     * Creates new form CatalogSelectSpecDialog
-     */
     public CatalogSpecDefEditorDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog) {
         super(parent, modal);
         revsModel = new CatalogRevsComboBoxModel();
@@ -84,54 +78,18 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         });
 
         // TODO change listener for definitionTypeComboBox.
-
-        assignGlobalKeyListener();
         this.catalog = catalog;
-        if (catalog!=null) {
+        if (catalog != null) {
             itemService = (XBCItemService) catalog.getCatalogService(XBCItemService.class);
             revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
         }
         targetSpec = null;
+
+        init();
     }
 
-    private void assignGlobalKeyListener() {
-        assignGlobalKeyListener(this);
-    }
-
-    /** Assign ESCAPE/ENTER key for all focusable components recursively */
-    private void assignGlobalKeyListener(Container comp) {
-        Component[] comps = comp.getComponents();
-        for (int i = 0; i < comps.length; i++) {
-            Component item = comps[i];
-            if (item.isFocusable()) {
-                item.addKeyListener(new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent evt) {
-                        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                            cancelButton.doClick();
-                        }
-                        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-                            if (evt.getSource() instanceof JButton) {
-                                ((JButton) evt.getSource()).doClick();
-                            } else {
-                                selectButton.doClick();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-                    }
-                });
-            }
-            if (item instanceof Container) {
-                assignGlobalKeyListener((Container) item);
-            }
-        }
+    private void init() {
+        WindowUtils.assignGlobalKeyListener(this, selectButton, cancelButton);
     }
 
     public int getOption() {
@@ -293,12 +251,12 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         dialogOption = JOptionPane.CANCEL_OPTION;
-        dispose();
+        WindowUtils.closeWindow(this);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
         dialogOption = JOptionPane.OK_OPTION;
-        dispose();
+        WindowUtils.closeWindow(this);
     }//GEN-LAST:event_selectButtonActionPerformed
 
     private void selectTargetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectTargetButtonActionPerformed
@@ -318,43 +276,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CatalogSpecDefEditorDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CatalogSpecDefEditorDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CatalogSpecDefEditorDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CatalogSpecDefEditorDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                CatalogSpecDefEditorDialog dialog = new CatalogSpecDefEditorDialog(new javax.swing.JFrame(), true, null);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+        WindowUtils.invokeWindow(new CatalogSpecDefEditorDialog(new javax.swing.JFrame(), true, null));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -384,7 +306,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
             definitionTargetTextField.setText(Long.toString(targetSpec.getId()));
             if (targetSpec instanceof XBCSpec) {
                 revsModel.setRevs(revService.getRevs((XBCSpec) targetSpec));
-                targetRevisionComboBox.setSelectedIndex(revsModel.getSize()-1);
+                targetRevisionComboBox.setSelectedIndex(revsModel.getSize() - 1);
 
             } else {
                 revsModel.getRevs().clear();
@@ -414,7 +336,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
             setTargetSpec(rev.getParent());
             definitionTargetTextField.setText(Long.toString(rev.getParent().getId()));
             revsModel.setRevs(revService.getRevs((XBCSpec) targetSpec));
-            targetRevisionComboBox.setSelectedIndex(revsModel.getSize()-1);
+            targetRevisionComboBox.setSelectedIndex(revsModel.getSize() - 1);
             targetRevisionComboBox.setSelectedIndex(rev.getXBIndex().intValue());
         } else {
             setTargetSpec(null);
@@ -424,13 +346,20 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     public XBCSpecDefType getSpecDefType() {
         if (spec instanceof XBCBlockSpec) {
             switch (definitionTypeComboBox.getSelectedIndex()) {
-                case 0: return XBCSpecDefType.CONS;
-                case 1: return XBCSpecDefType.JOIN;
-                case 2: return XBCSpecDefType.JOIN; // Attribute
-                case 3: return XBCSpecDefType.CONS; // Blob
-                case 4: return XBCSpecDefType.LIST_CONS;
-                case 5: return XBCSpecDefType.LIST_JOIN;
-                default: return XBCSpecDefType.CONS;
+                case 0:
+                    return XBCSpecDefType.CONS;
+                case 1:
+                    return XBCSpecDefType.JOIN;
+                case 2:
+                    return XBCSpecDefType.JOIN; // Attribute
+                case 3:
+                    return XBCSpecDefType.CONS; // Blob
+                case 4:
+                    return XBCSpecDefType.LIST_CONS;
+                case 5:
+                    return XBCSpecDefType.LIST_JOIN;
+                default:
+                    return XBCSpecDefType.CONS;
             }
         } else {
             if (definitionTypeComboBox.getSelectedIndex() == 0) {
@@ -453,10 +382,10 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     public void setSpec(XBCSpec spec) {
         this.spec = spec;
         if (spec instanceof XBCBlockSpec) {
-            definitionTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Consist", "Join", "Attribute", "Blob", "List Consist", "List Join" }));
+            definitionTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Consist", "Join", "Attribute", "Blob", "List Consist", "List Join"}));
             switchSpecDefType(CatalogSpecItemType.BLOCK);
         } else {
-            definitionTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Consist", "Join" }));
+            definitionTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Consist", "Join"}));
             if (spec instanceof XBCGroupSpec) {
                 switchSpecDefType(CatalogSpecItemType.BLOCK);
             } else {
@@ -511,7 +440,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         }
 
         if (spec instanceof XBCBlockSpec) {
-            boolean enabled = ! ((definitionTypeComboBox.getSelectedIndex() == 2)||(definitionTypeComboBox.getSelectedIndex() == 3));
+            boolean enabled = !((definitionTypeComboBox.getSelectedIndex() == 2) || (definitionTypeComboBox.getSelectedIndex() == 3));
             targetRevisionComboBox.setEnabled(enabled);
             selectTargetButton.setEnabled(enabled);
         } else {

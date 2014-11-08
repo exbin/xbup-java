@@ -31,6 +31,7 @@ import org.xbup.tool.editor.base.api.OptionsPanel;
  * @author XBUP Project (http://xbup.org)
  */
 public class AppearanceOptionsPanel extends javax.swing.JPanel implements OptionsPanel {
+
     public static final String PREFERENCES_TOOLBAR_VISIBLE = "toolBar.visible";
     public static final String PREFERENCES_TOOLBAR_CAPTIONS = "toolBar.captions";
     public static final String PREFERENCES_STATUSBAR_VISIBLE = "statusBar.visible";
@@ -39,9 +40,6 @@ public class AppearanceOptionsPanel extends javax.swing.JPanel implements Option
     private final MainFrame frame;
     private OptionsPanel extendedPanel = null;
 
-    /**
-     * Creates new form AppearanceOptionsPanel
-     */
     public AppearanceOptionsPanel(MainFrame frame) {
         this.frame = frame;
         initComponents();
@@ -141,7 +139,7 @@ public class AppearanceOptionsPanel extends javax.swing.JPanel implements Option
 
     @Override
     public List<PathItem> getPath() {
-        ArrayList<OptionsPanel.PathItem> path = new ArrayList<OptionsPanel.PathItem>();
+        ArrayList<OptionsPanel.PathItem> path = new ArrayList<>();
         path.add(new PathItem("apperance", ""));
         return path;
     }

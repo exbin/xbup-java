@@ -345,7 +345,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="documentCursorPositionTextField" min="-2" pref="96" max="-2" attributes="0"/>
                           <EmptySpace pref="372" max="32767" attributes="0"/>
-                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                          <Component id="encodingLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="documentEncodingTextField" min="-2" pref="93" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -357,7 +357,7 @@
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                           <Component id="documentCursorPositionTextField" alignment="3" pref="26" max="32767" attributes="0"/>
                           <Component id="documentEncodingTextField" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="encodingLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -372,10 +372,10 @@
                     <Property name="name" type="java.lang.String" value="documentCursorPositionTextField" noResource="true"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel1">
+                <Component class="javax.swing.JLabel" name="encodingLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Encoding"/>
-                    <Property name="name" type="java.lang.String" value="jLabel1" noResource="true"/>
+                    <Property name="name" type="java.lang.String" value="encodingLabel" noResource="true"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="documentEncodingTextField">

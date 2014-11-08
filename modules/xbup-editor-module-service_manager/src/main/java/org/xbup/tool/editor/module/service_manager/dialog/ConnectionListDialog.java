@@ -16,30 +16,23 @@
  */
 package org.xbup.tool.editor.module.service_manager.dialog;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.List;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import org.xbup.tool.editor.module.service_manager.panel.ConnectionPanel;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * XBManager Connection Selection Dialog.
  *
- * @version 0.1.23 2013/09/22
+ * @version 0.1.24 2014/11/08
  * @author XBUP Project (http://xbup.org)
  */
 public class ConnectionListDialog extends javax.swing.JDialog {
 
-    private ConnectionPanel connectionPanel;
-    private int Closed_Option = JOptionPane.CLOSED_OPTION;
+    private final ConnectionPanel connectionPanel;
+    private int dialogOption = JOptionPane.CLOSED_OPTION;
 
-    /**
-     * Creates new form ConnectionListDialog
-     */
     public ConnectionListDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -49,52 +42,15 @@ public class ConnectionListDialog extends javax.swing.JDialog {
 
         connectionPanel = new ConnectionPanel();
         mainPanel.add(connectionPanel);
-        assignGlobalKeyListener();
+        init();
     }
 
-    /** Assign ESCAPE/ENTER key for all focusable components recursively */
-    private void assignGlobalKeyListener() {
-        assignGlobalKeyListener(this);
-    }
-
-    /** Assign ESCAPE/ENTER key for all focusable components recursively */
-    private void assignGlobalKeyListener(Container comp) {
-        Component[] comps = comp.getComponents();
-        for (int i = 0; i < comps.length; i++) {
-            Component item = comps[i];
-            if (item.isFocusable()) {
-                item.addKeyListener(new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent evt) {
-                        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                            cancelButton.doClick();
-                        }
-                        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-                            if (evt.getSource() instanceof JButton) {
-                                ((JButton) evt.getSource()).doClick();
-                            } else {
-                                setButton.doClick();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-                    }
-                });
-            }
-            if (item instanceof Container) {
-                assignGlobalKeyListener((Container) item);
-            }
-        }
+    private void init() {
+        WindowUtils.assignGlobalKeyListener(this, setButton, cancelButton);
     }
 
     public int getOption() {
-        return Closed_Option;
+        return dialogOption;
     }
 
     public ConnectionPanel getEncodingPanel() {
@@ -162,56 +118,20 @@ public class ConnectionListDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void setButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setButtonActionPerformed
-        Closed_Option = JOptionPane.OK_OPTION;
-        dispose();
+        dialogOption = JOptionPane.OK_OPTION;
+        WindowUtils.closeWindow(this);
     }//GEN-LAST:event_setButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        Closed_Option = JOptionPane.CANCEL_OPTION;
-        dispose();
+        dialogOption = JOptionPane.CANCEL_OPTION;
+        WindowUtils.closeWindow(this);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ConnectionListDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ConnectionListDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ConnectionListDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConnectionListDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                ConnectionListDialog dialog = new ConnectionListDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+        WindowUtils.invokeWindow(new ConnectionListDialog(new javax.swing.JFrame(), true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

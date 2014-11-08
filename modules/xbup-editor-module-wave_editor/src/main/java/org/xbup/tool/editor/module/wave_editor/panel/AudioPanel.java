@@ -69,7 +69,7 @@ import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.tool.editor.module.wave_editor.XBWaveEditorFrame;
-import org.xbup.tool.editor.module.wave_editor.dialog.ImageResizeDialog;
+import org.xbup.tool.editor.module.wave_editor.dialog.WaveResizeDialog;
 import org.xbup.tool.editor.base.api.ApplicationFilePanel;
 import org.xbup.tool.editor.base.api.FileType;
 
@@ -594,7 +594,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         wavePanel.addMouseMotionListener(listener);
     }
 
-    public void showResizeDialog(ImageResizeDialog dlg) {
+    public void showResizeDialog(WaveResizeDialog dlg) {
         if (dlg.getOption() == JOptionPane.OK_OPTION) {
         }
     }

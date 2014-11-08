@@ -16,11 +16,6 @@
  */
 package org.xbup.tool.editor.module.service_manager.catalog.dialog;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
@@ -28,25 +23,25 @@ import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEdit
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditDocumentationPanel;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditPanel;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
- * XBManager Catalog Item Properties Dialog. TODO: This dialog should be later
- * replaced by dialog based on properties defined by the protocol definition.
+ * XBManager Catalog Item Properties Dialog.
  *
- * @version 0.1.23 2013/09/22
+ * TODO: This dialog should be later replaced by dialog based on properties
+ * defined by the protocol definition.
+ *
+ * @version 0.1.24 2014/11/08
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemEditDialog extends javax.swing.JDialog {
 
     private int dialogOption = JOptionPane.CLOSED_OPTION;
 
-    private CatalogItemEditPanel propertiesPanel;
-    private CatalogItemEditDocumentationPanel documentationPanel;
-    private CatalogItemEditDefinitionPanel definitionPanel;
+    private final CatalogItemEditPanel propertiesPanel;
+    private final CatalogItemEditDocumentationPanel documentationPanel;
+    private final CatalogItemEditDefinitionPanel definitionPanel;
 
-    /**
-     * Creates new form EncodingDialog
-     */
     public CatalogItemEditDialog(java.awt.Frame frame, boolean modal) {
         super(frame, modal);
         initComponents();
@@ -60,49 +55,11 @@ public class CatalogItemEditDialog extends javax.swing.JDialog {
         mainTabbedPane.add(documentationPanel, "Documentation");
         definitionPanel = new CatalogItemEditDefinitionPanel();
         mainTabbedPane.add(definitionPanel, "Definition");
-        assignGlobalKeyListener();
+        init();
     }
 
-    private void assignGlobalKeyListener() {
-        assignGlobalKeyListener(this);
-    }
-
-    /**
-     * Assign ESCAPE/ENTER key for all focusable components recursively
-     */
-    private void assignGlobalKeyListener(Container comp) {
-        Component[] comps = comp.getComponents();
-        for (int i = 0; i < comps.length; i++) {
-            Component item = comps[i];
-            if (item.isFocusable()) {
-                item.addKeyListener(new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent evt) {
-                        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                            cancelButton.doClick();
-                        }
-                        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-                            if (evt.getSource() instanceof JButton) {
-                                ((JButton) evt.getSource()).doClick();
-                            } else {
-                                setButton.doClick();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-                    }
-                });
-            }
-            if (item instanceof Container) {
-                assignGlobalKeyListener((Container) item);
-            }
-        }
+    private void init() {
+        WindowUtils.assignGlobalKeyListener(this, setButton, cancelButton);
     }
 
     public int getOption() {
@@ -183,31 +140,19 @@ public class CatalogItemEditDialog extends javax.swing.JDialog {
         propertiesPanel.persist();
         documentationPanel.persist();
         definitionPanel.persist();
-        dispose();
+        WindowUtils.closeWindow(this);
 }//GEN-LAST:event_setButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         dialogOption = JOptionPane.CANCEL_OPTION;
-        dispose();
+        WindowUtils.closeWindow(this);
 }//GEN-LAST:event_cancelButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                CatalogItemEditDialog dialog = new CatalogItemEditDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+        WindowUtils.invokeWindow(new CatalogItemEditDialog(new javax.swing.JFrame(), true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

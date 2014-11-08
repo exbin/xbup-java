@@ -16,28 +16,21 @@
  */
 package org.xbup.tool.editor.module.service_manager.catalog.dialog;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * XBManager Catalog Specification Selection Dialog.
  *
- * @version 0.1.23 2013/09/24
+ * @version 0.1.24 2014/11/08
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogAddItemDialog extends javax.swing.JDialog {
 
     private int dialogOption = JOptionPane.CLOSED_OPTION;
 
-    /**
-     * Creates new form CatalogSelectSpecDialog
-     */
     public CatalogAddItemDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -45,47 +38,11 @@ public class CatalogAddItemDialog extends javax.swing.JDialog {
             setIconImage(((XBEditorFrame) parent).getMainFrameManagement().getFrameIcon());
         }
 
-        assignGlobalKeyListener();
+        init();
     }
 
-    private void assignGlobalKeyListener() {
-        assignGlobalKeyListener(this);
-    }
-
-    /** Assign ESCAPE/ENTER key for all focusable components recursively */
-    private void assignGlobalKeyListener(Container comp) {
-        Component[] comps = comp.getComponents();
-        for (int i = 0; i < comps.length; i++) {
-            Component item = comps[i];
-            if (item.isFocusable()) {
-                item.addKeyListener(new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent evt) {
-                        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                            cancelButton.doClick();
-                        }
-                        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-                            if (evt.getSource() instanceof JButton) {
-                                ((JButton) evt.getSource()).doClick();
-                            } else {
-                                addButton.doClick();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-                    }
-                });
-            }
-            if (item instanceof Container) {
-                assignGlobalKeyListener((Container) item);
-            }
-        }
+    private void init() {
+        WindowUtils.assignGlobalKeyListener(this, addButton, cancelButton);
     }
 
     public int getOption() {
@@ -194,55 +151,19 @@ public class CatalogAddItemDialog extends javax.swing.JDialog {
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         dialogOption = JOptionPane.CANCEL_OPTION;
-        dispose();
+        WindowUtils.closeWindow(this);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         dialogOption = JOptionPane.OK_OPTION;
-        dispose();
+        WindowUtils.closeWindow(this);
     }//GEN-LAST:event_addButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CatalogAddItemDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CatalogAddItemDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CatalogAddItemDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CatalogAddItemDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                CatalogAddItemDialog dialog = new CatalogAddItemDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+        WindowUtils.invokeWindow(new CatalogAddItemDialog(new javax.swing.JFrame(), true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -258,9 +179,12 @@ public class CatalogAddItemDialog extends javax.swing.JDialog {
 
     public CatalogSpecItemType getItemType() {
         switch (itemTypeComboBox.getSelectedIndex()) {
-            case 0: return CatalogSpecItemType.BLOCK;
-            case 1: return CatalogSpecItemType.GROUP;
-            case 2: return CatalogSpecItemType.FORMAT;
+            case 0:
+                return CatalogSpecItemType.BLOCK;
+            case 1:
+                return CatalogSpecItemType.GROUP;
+            case 2:
+                return CatalogSpecItemType.FORMAT;
         }
 
         return null;

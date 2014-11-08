@@ -32,6 +32,7 @@ import org.xbup.tool.editor.module.picture_editor.dialog.PropertiesDialog;
 import org.xbup.tool.editor.module.picture_editor.dialog.ToolColorDialog;
 import org.xbup.tool.editor.module.picture_editor.panel.ImagePanel;
 import org.xbup.tool.editor.base.api.FileType;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * XBPictureEditor Main Frame.
@@ -42,7 +43,7 @@ import org.xbup.tool.editor.base.api.FileType;
 public class XBPictureEditorFrame extends javax.swing.JFrame {
 
     public ImagePanel activePanel;
-    private MouseMotionListener mouseMotionListener;
+    private final MouseMotionListener mouseMotionListener;
     private final String DIALOG_MENU_SUFIX = "...";
     private ResourceBundle resourceBundle;
 
@@ -388,13 +389,7 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new XBPictureEditorFrame().setVisible(true);
-            }
-        });
+        WindowUtils.invokeWindow(new XBPictureEditorFrame());
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel cursorPositionPanel;

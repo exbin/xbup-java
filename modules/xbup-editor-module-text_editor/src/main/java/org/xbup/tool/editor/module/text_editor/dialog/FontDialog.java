@@ -18,8 +18,6 @@ package org.xbup.tool.editor.module.text_editor.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -28,8 +26,6 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.font.TextAttribute;
 import static java.awt.font.TextAttribute.FAMILY;
 import static java.awt.font.TextAttribute.POSTURE;
@@ -73,6 +69,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * Font Chooser Dialog With Pole taken from:
@@ -83,7 +80,7 @@ import javax.swing.text.StyleConstants;
  */
 public class FontDialog extends JDialog {
 
-    protected int Closed_Option = JOptionPane.CLOSED_OPTION;
+    protected int dialogOption = JOptionPane.CLOSED_OPTION;
     private InputList fontNameInputList;
     private InputList fontSizeInputList;
     private MutableAttributeSet attributes;
@@ -104,7 +101,7 @@ public class FontDialog extends JDialog {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         fontNames = ge.getAvailableFontFamilyNames();
         fontSizes = new String[]{"8", "9", "10", "11", "12", "14", "16",
-                    "18", "20", "22", "24", "26", "28", "36", "48", "72"};
+            "18", "20", "22", "24", "26", "28", "36", "48", "72"};
         fontNameInputList = new InputList(fontNames, "Name:");
         fontSizeInputList = new InputList(fontSizes, "Size:");
 
@@ -162,15 +159,15 @@ public class FontDialog extends JDialog {
 //        lbl.setDisplayedMnemonic('c');
 //        p.add(lbl);
         p.add(Box.createHorizontalStrut(20));
-/*
-        colorComboBox = new ColorComboBox();
-        lbl.setLabelFor(colorComboBox);
-        colorComboBox.setToolTipText("Font color");
-        ToolTipManager.sharedInstance().registerComponent(colorComboBox);
-        p.add(colorComboBox);
-        p.add(Box.createHorizontalStrut(10));
-        getContentPane().add(p);
-*/
+        /*
+         colorComboBox = new ColorComboBox();
+         lbl.setLabelFor(colorComboBox);
+         colorComboBox.setToolTipText("Font color");
+         ToolTipManager.sharedInstance().registerComponent(colorComboBox);
+         p.add(colorComboBox);
+         p.add(Box.createHorizontalStrut(10));
+         getContentPane().add(p);
+         */
         p = new JPanel(new BorderLayout());
         p.setBorder(new TitledBorder(new EtchedBorder(), "Preview"));
         previewLabel = new FontLabel(PREVIEW_TEXT);
@@ -187,7 +184,7 @@ public class FontDialog extends JDialog {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                Closed_Option = JOptionPane.OK_OPTION;
+                dialogOption = JOptionPane.OK_OPTION;
                 dispose();
             }
         };
@@ -200,7 +197,7 @@ public class FontDialog extends JDialog {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                Closed_Option = JOptionPane.CANCEL_OPTION;
+                dialogOption = JOptionPane.CANCEL_OPTION;
                 dispose();
             }
         };
@@ -237,9 +234,8 @@ public class FontDialog extends JDialog {
         subscriptCheckBox.addActionListener(actionListener);
         superscriptCheckBox.addActionListener(actionListener);
 
-        assignGlobalKeyListener(this, btOK, btCancel);
+        WindowUtils.assignGlobalKeyListener(this, btOK, btCancel);
     }
-
 
     public FontDialog(JFrame owner) {
         this(owner, false);
@@ -278,7 +274,7 @@ public class FontDialog extends JDialog {
     }
 
     public int getOption() {
-        return Closed_Option;
+        return dialogOption;
     }
 
     public Font getStoredFont() {
@@ -288,7 +284,7 @@ public class FontDialog extends JDialog {
             return null;
         }
 
-        Map<TextAttribute, Object> attribs = new HashMap<TextAttribute, Object>();
+        Map<TextAttribute, Object> attribs = new HashMap<>();
 
         attribs.put(FAMILY, name);
         attribs.put(SIZE, (float) size);
@@ -381,58 +377,6 @@ public class FontDialog extends JDialog {
         StyleConstants.setFontSize(a, 12);
         dlg.setAttributes(a);
         dlg.setVisible(true);
-    }
-/*
-    public Color getMyColor() {
-        return (Color) colorComboBox.getSelectedItem();
-    }
- */
-
-    /** Assign ESCAPE/ENTER key for all focusable components recursively */
-    private void assignGlobalKeyListener(Container comp, JButton okButton, JButton cancelButton) {
-        Component[] comps = comp.getComponents();
-        for (int i = 0; i < comps.length; i++) {
-            Component item = comps[i];
-            if (item.isFocusable()) {
-                item.addKeyListener(new AssignKeyListener(cancelButton, okButton));
-            }
-            if (item instanceof Container) {
-                assignGlobalKeyListener((Container) item, okButton, cancelButton);
-            }
-        }
-    }
-
-    private static class AssignKeyListener implements KeyListener {
-
-        private final JButton cancelButton;
-        private final JButton okButton;
-
-        public AssignKeyListener(JButton cancelButton, JButton okButton) {
-            this.cancelButton = cancelButton;
-            this.okButton = okButton;
-        }
-
-        @Override
-        public void keyTyped(KeyEvent e) {
-        }
-
-        @Override
-        public void keyPressed(KeyEvent evt) {
-            if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                cancelButton.doClick();
-            }
-            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-                if (evt.getSource() instanceof JButton) {
-                    ((JButton) evt.getSource()).doClick();
-                } else {
-                    okButton.doClick();
-                }
-            }
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-        }
     }
 }
 
@@ -574,7 +518,7 @@ class InputList extends JPanel implements ListSelectionListener, ActionListener 
     public void appendResultSet(ResultSet results, int index,
             boolean toTitleCase) {
         textfield.setText("");
-        DefaultListModel<String> model = new DefaultListModel<String>();
+        DefaultListModel<String> model = new DefaultListModel<>();
         try {
             while (results.next()) {
                 String str = results.getString(index);
@@ -674,46 +618,46 @@ class FontLabel extends JLabel {
     }
 }
 /*
-class ColorComboBox extends JComboBox {
+ class ColorComboBox extends JComboBox {
 
-    public ColorComboBox() {
-        int[] values = new int[]{0, 128, 192, 255};
-        for (int r = 0; r < values.length; r++) {
-            for (int g = 0; g < values.length; g++) {
-                for (int b = 0; b < values.length; b++) {
-                    Color c = new Color(values[r], values[g], values[b]);
-                    addItem(c);
-                }
-            }
-        }
-        setRenderer(new ColorComboRenderer1());
+ public ColorComboBox() {
+ int[] values = new int[]{0, 128, 192, 255};
+ for (int r = 0; r < values.length; r++) {
+ for (int g = 0; g < values.length; g++) {
+ for (int b = 0; b < values.length; b++) {
+ Color c = new Color(values[r], values[g], values[b]);
+ addItem(c);
+ }
+ }
+ }
+ setRenderer(new ColorComboRenderer1());
 
-    }
+ }
 
-    class ColorComboRenderer1 extends JPanel implements ListCellRenderer {
+ class ColorComboRenderer1 extends JPanel implements ListCellRenderer {
 
-        protected Color m_c = Color.black;
+ protected Color m_c = Color.black;
 
-        public ColorComboRenderer1() {
-            super();
-            setBorder(new CompoundBorder(new MatteBorder(2, 10, 2, 10,
-                    Color.white), new LineBorder(Color.black)));
-        }
+ public ColorComboRenderer1() {
+ super();
+ setBorder(new CompoundBorder(new MatteBorder(2, 10, 2, 10,
+ Color.white), new LineBorder(Color.black)));
+ }
 
-        public Component getListCellRendererComponent(JList list, Object obj,
-                int row, boolean sel, boolean hasFocus) {
-            if (obj instanceof Color) {
-                m_c = (Color) obj;
-            }
-            return this;
-        }
+ public Component getListCellRendererComponent(JList list, Object obj,
+ int row, boolean sel, boolean hasFocus) {
+ if (obj instanceof Color) {
+ m_c = (Color) obj;
+ }
+ return this;
+ }
 
-        @Override
-        public void paint(Graphics g) {
-            setBackground(m_c);
-            super.paint(g);
-        }
-    }
+ @Override
+ public void paint(Graphics g) {
+ setBackground(m_c);
+ super.paint(g);
+ }
+ }
 
-}
-*/
+ }
+ */

@@ -18,10 +18,7 @@ package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 
 import hexedit.HexEditPanel;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.EventQueue;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -32,7 +29,6 @@ import java.util.EventObject;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -70,6 +66,7 @@ import org.xbup.lib.plugin.XBPanelEditor;
 import org.xbup.lib.plugin.XBPlugin;
 import org.xbup.lib.plugin.XBPluginRepository;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * Dialog for modifying item attributes or data.
@@ -105,12 +102,11 @@ public class ItemModifyDialog extends javax.swing.JDialog {
         hexPanel = new HexEditPanel((JFrame) parent);
         customPanel = null;
         hexEditPanel.add(hexPanel);
-        assignGlobalKeyListener();
 
         attributesEditorPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(attributesEditorPanel));
         dataEditorPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(dataEditorPanel));
         paramEditorPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(paramEditorPanel));
-        
+
         attributesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
             @Override
@@ -118,6 +114,12 @@ public class ItemModifyDialog extends javax.swing.JDialog {
                 updateAttributesButtons();
             }
         });
+
+        init();
+    }
+
+    private void init() {
+        WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
     }
 
     /**
@@ -502,43 +504,6 @@ public class ItemModifyDialog extends javax.swing.JDialog {
     private javax.swing.JButton saveAsButton;
     // End of variables declaration//GEN-END:variables
 
-    /**
-     * Assign ESCAPE/ENTER key for all focusable components recursively.
-     */
-    private void assignGlobalKeyListener(Container comp) {
-        Component[] comps = comp.getComponents();
-        for (Component item : comps) {
-            if (item.isFocusable()) {
-                item.addKeyListener(new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent evt) {
-                        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                            cancelButton.doClick();
-                        }
-                        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-                            if (evt.getSource() instanceof JButton) {
-                                ((JButton) evt.getSource()).doClick();
-                            } else {
-                                okButton.doClick();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-                    }
-                });
-            }
-            if (item instanceof Container) {
-                assignGlobalKeyListener((Container) item);
-            }
-        }
-    }
-
     public XBACatalog getCatalog() {
         return catalog;
     }
@@ -605,9 +570,5 @@ public class ItemModifyDialog extends javax.swing.JDialog {
         }
 
         return panelEditor.getPanel();
-    }
-
-    private void assignGlobalKeyListener() {
-        assignGlobalKeyListener(this);
     }
 }

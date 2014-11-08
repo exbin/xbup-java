@@ -18,20 +18,18 @@ package org.xbup.tool.editor.module.service_manager.dialog;
 
 import javax.swing.JOptionPane;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * Add Connection Dialog
  *
- * @version 0.1.23 2013/09/22
+ * @version 0.1.24 2014/11/08
  * @author XBUP Project (http://xbup.org)
  */
 public class AddConnectionDialog extends javax.swing.JDialog {
 
-    protected int Closed_Option = JOptionPane.CLOSED_OPTION;
+    protected int dialogOption = JOptionPane.CLOSED_OPTION;
 
-    /**
-     * Creates new form AddConnectionDialog
-     */
     public AddConnectionDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -41,11 +39,11 @@ public class AddConnectionDialog extends javax.swing.JDialog {
     }
 
     public int getOption() {
-        return Closed_Option;
+        return dialogOption;
     }
 
     public String getConnection() {
-        return connectionHostTextField.getText()+":"+String.valueOf((Integer) connectionPortSpinner.getValue());
+        return connectionHostTextField.getText() + ":" + String.valueOf((Integer) connectionPortSpinner.getValue());
     }
 
     /**
@@ -126,56 +124,20 @@ public class AddConnectionDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        Closed_Option = JOptionPane.CANCEL_OPTION;
-        dispose();
+        dialogOption = JOptionPane.CANCEL_OPTION;
+        WindowUtils.closeWindow(this);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-        Closed_Option = JOptionPane.OK_OPTION;
-        dispose();
+        dialogOption = JOptionPane.OK_OPTION;
+        WindowUtils.closeWindow(this);
     }//GEN-LAST:event_okButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddConnectionDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddConnectionDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddConnectionDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddConnectionDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                AddConnectionDialog dialog = new AddConnectionDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+        WindowUtils.invokeWindow(new AddConnectionDialog(new javax.swing.JFrame(), true));
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;

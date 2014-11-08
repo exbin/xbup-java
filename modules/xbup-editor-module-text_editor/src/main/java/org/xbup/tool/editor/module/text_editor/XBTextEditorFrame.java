@@ -53,23 +53,24 @@ import org.xbup.tool.editor.module.text_editor.panel.TextFontPanelFrame;
 import org.xbup.tool.editor.module.text_editor.panel.TextPanel;
 import org.xbup.tool.editor.base.api.FileType;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * XBTEditor Main Frame.
  *
- * @version 0.1.24 2014/10/03
+ * @version 0.1.24 2014/11/08
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPanelFrame, TextFontPanelFrame, TextEncodingPanelFrame, TextAppearancePanelFrame {
 
     private FindDialog findDialog = null;
     private GotoDialog gotoDialog = null;
-    private TextPanel activePanel;
+    private final TextPanel activePanel;
     private List<String> encodings = null;
-    private ButtonGroup encodingButtonGroup;
-    private ActionListener encodingActionListener;
-    private ChangeListener caretChangeListener;
-    private ResourceBundle resourceBundle;
+    private final ButtonGroup encodingButtonGroup;
+    private final ActionListener encodingActionListener;
+    private final ChangeListener caretChangeListener;
+    private final ResourceBundle resourceBundle;
     private final String DIALOG_MENU_SUFIX = "...";
     private MainFrameManagement mainFrameManagement;
 
@@ -94,7 +95,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
 
         initComponents();
 
-        ((CardLayout) statusPanel.getLayout()).show(statusPanel,"default");
+        ((CardLayout) statusPanel.getLayout()).show(statusPanel, "default");
 
         mainPanel.add(activePanel, java.awt.BorderLayout.CENTER);
 
@@ -103,13 +104,13 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
             @Override
             public void stateChanged(ChangeEvent e) {
                 Point pos = getActivePanel().getCaretPosition();
-                documentCursorPositionTextField.setText(Long.toString((long) pos.getX()) +":"+ Long.toString((long) pos.getY()));
+                documentCursorPositionTextField.setText(Long.toString((long) pos.getX()) + ":" + Long.toString((long) pos.getY()));
             }
         };
 
         activePanel.attachCaretListener(caretChangeListener);
         activePanel.setPopupMenu(mainPopupMenu);
-     }
+    }
 
     /**
      * @return the activePanel
@@ -207,7 +208,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
         statusPanel = new javax.swing.JPanel();
         documentStatusPanel = new javax.swing.JPanel();
         documentCursorPositionTextField = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        encodingLabel = new javax.swing.JLabel();
         documentEncodingTextField = new javax.swing.JTextField();
         mainPanel = new javax.swing.JPanel();
         toolBar = new javax.swing.JToolBar();
@@ -258,8 +259,8 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
         documentCursorPositionTextField.setToolTipText("Current position of cursor CHAR : LINE");
         documentCursorPositionTextField.setName("documentCursorPositionTextField"); // NOI18N
 
-        jLabel1.setText("Encoding");
-        jLabel1.setName("jLabel1"); // NOI18N
+        encodingLabel.setText("Encoding");
+        encodingLabel.setName("encodingLabel"); // NOI18N
 
         documentEncodingTextField.setEditable(false);
         documentEncodingTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -274,7 +275,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
             .addGroup(documentStatusPanelLayout.createSequentialGroup()
                 .addComponent(documentCursorPositionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 372, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(encodingLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(documentEncodingTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -284,7 +285,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
             .addGroup(documentStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(documentCursorPositionTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
                 .addComponent(documentEncodingTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel1))
+                .addComponent(encodingLabel))
         );
 
         statusPanel.add(documentStatusPanel, "default");
@@ -351,7 +352,6 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
 
         editMenu.setText("Edit");
         editMenu.setName("editMenu"); // NOI18N
-        editMenu.setRolloverEnabled(true);
 
         jSeparator2.setName("jSeparator2"); // NOI18N
         editMenu.add(jSeparator2);
@@ -514,7 +514,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
         EncodingDialog dlg = new EncodingDialog(getFrame(), this, true);
         dlg.setIconImage(mainFrameManagement.getFrameIcon());
         TextEncodingPanel panel = dlg.getEncodingPanel();
-        panel.setEncodingList(new ArrayList<String>(encodings));
+        panel.setEncodingList(new ArrayList<>(encodings));
         dlg.setLocationRelativeTo(dlg.getParent());
         dlg.setVisible(true);
         if (dlg.getOption() == JOptionPane.OK_OPTION) {
@@ -529,7 +529,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
         findDialog.setSelected();
         findDialog.setLocationRelativeTo(findDialog.getParent());
         findDialog.setVisible(true);
-        if (findDialog.getResultOption() == JOptionPane.OK_OPTION) {
+        if (findDialog.getOption() == JOptionPane.OK_OPTION) {
             getActivePanel().findText(findDialog);
         }
     }//GEN-LAST:event_editFindMenuItemActionPerformed
@@ -540,7 +540,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
         findDialog.setSelected();
         findDialog.setLocationRelativeTo(findDialog.getParent());
         findDialog.setVisible(true);
-        if (findDialog.getResultOption() == JOptionPane.OK_OPTION) {
+        if (findDialog.getOption() == JOptionPane.OK_OPTION) {
             getActivePanel().findText(findDialog);
         }
     }//GEN-LAST:event_editFindReplaceMenuItemActionPerformed
@@ -555,7 +555,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
         gotoDialog.setCharPos(1);
         gotoDialog.setLocationRelativeTo(gotoDialog.getParent());
         gotoDialog.setVisible(true);
-        if (gotoDialog.getResultOption() == JOptionPane.OK_OPTION) {
+        if (gotoDialog.getOption() == JOptionPane.OK_OPTION) {
             getActivePanel().gotoLine(gotoDialog.getLine());
             getActivePanel().gotoRelative(gotoDialog.getCharPos());
         }
@@ -583,37 +583,9 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(XBTextEditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(XBTextEditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(XBTextEditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(XBTextEditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new XBTextEditorFrame().setVisible(true);
-            }
-        });
+        WindowUtils.invokeWindow(new XBTextEditorFrame());
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField documentCursorPositionTextField;
     private javax.swing.JTextField documentEncodingTextField;
@@ -623,11 +595,11 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
     private javax.swing.JMenuItem editFindReplaceMenuItem;
     private javax.swing.JMenuItem editGotoMenuItem;
     public javax.swing.JMenu editMenu;
+    private javax.swing.JLabel encodingLabel;
     public javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem filePrintMenuItem;
     private javax.swing.JMenuItem filePropertiesMenuItem;
     private javax.swing.JButton findToolButton;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator13;
@@ -657,7 +629,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
 
     public void initFindDialog() {
         if (findDialog == null) {
-            findDialog = new FindDialog(getFrame(),true);
+            findDialog = new FindDialog(getFrame(), true);
             findDialog.setIconImage(mainFrameManagement.getFrameIcon());
         }
     }
@@ -680,8 +652,8 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
         String str = file.getName();
         int i = str.lastIndexOf('.');
 
-        if (i > 0 &&  i < str.length() - 1) {
-            ext = str.substring(i+1).toLowerCase();
+        if (i > 0 && i < str.length() - 1) {
+            ext = str.substring(i + 1).toLowerCase();
         }
         return ext;
     }
@@ -730,10 +702,10 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
             }
             String extension = getExtension(f);
             if (extension != null) {
-                if (extension.length()<3) {
+                if (extension.length() < 3) {
                     return false;
                 }
-                return "xbt".contains(extension.substring(0,3));
+                return "xbt".contains(extension.substring(0, 3));
             }
             return false;
         }

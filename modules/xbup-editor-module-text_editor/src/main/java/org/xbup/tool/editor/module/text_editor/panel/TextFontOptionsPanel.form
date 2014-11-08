@@ -67,7 +67,7 @@
       <Properties>
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextFontOptionsPanel.properties" key="TextFontOptionsPanel.defaultFontCheckBox.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/xbup/tool/editor/module/text_editor/panel/resources/TextFontOptionsPanel.properties" key="TextFontOptionsPanel.defaultFontCheckBox.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="defaultFontCheckBox" noResource="true"/>
       </Properties>
@@ -78,7 +78,7 @@
     <Component class="javax.swing.JButton" name="fillDefaultFontButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextFontOptionsPanel.properties" key="TextFontOptionsPanel.fillDefaultFontButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/xbup/tool/editor/module/text_editor/panel/resources/TextFontOptionsPanel.properties" key="TextFontOptionsPanel.fillDefaultFontButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="enabled" type="boolean" value="false"/>
         <Property name="name" type="java.lang.String" value="fillDefaultFontButton" noResource="true"/>
@@ -90,7 +90,7 @@
     <Component class="javax.swing.JButton" name="changeFontButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextFontOptionsPanel.properties" key="TextFontOptionsPanel.changeFontButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/xbup/tool/editor/module/text_editor/panel/resources/TextFontOptionsPanel.properties" key="TextFontOptionsPanel.changeFontButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="enabled" type="boolean" value="false"/>
         <Property name="name" type="java.lang.String" value="changeFontButton" noResource="true"/>
@@ -106,7 +106,7 @@
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextFontOptionsPanel.properties" key="TextFontOptionsPanel.fontPreviewLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/xbup/tool/editor/module/text_editor/panel/resources/TextFontOptionsPanel.properties" key="TextFontOptionsPanel.fontPreviewLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -121,7 +121,7 @@
     <Component class="javax.swing.JButton" name="fillCurrentFontButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextFontOptionsPanel.properties" key="TextFontOptionsPanel.fillCurrentFontButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/xbup/tool/editor/module/text_editor/panel/resources/TextFontOptionsPanel.properties" key="TextFontOptionsPanel.fillCurrentFontButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="enabled" type="boolean" value="false"/>
         <Property name="name" type="java.lang.String" value="fillCurrentFontButton" noResource="true"/>

@@ -48,7 +48,7 @@ public class XBEditorApplication implements XBEditorApp {
     private XBAppCommand firstCommand;
 
     public XBEditorApplication() {
-        plugins = new ArrayList<URI>();
+        plugins = new ArrayList<>();
         moduleRepository = new BaseModuleRepository();
     }
 
@@ -78,7 +78,7 @@ public class XBEditorApplication implements XBEditorApp {
         if (isAppMode()) {
             mainFrame.setVisible(true);
             /*form.setSize(form.getWidth(), form.getHeight());
-            form.setLocationByPlatform(true); */
+             form.setLocationByPlatform(true); */
 
             if (firstCommand != null) {
                 firstCommand.execute();
@@ -156,7 +156,9 @@ public class XBEditorApplication implements XBEditorApp {
         String localeVariant = preferencesGet(OptionsManagement.PREFERENCES_LOCALE_VARIANT, Locale.US.getVariant());
         try {
             Locale locale = new Locale(localeLanguage, localeCountry, localeVariant);
-            if (!locale.equals(Locale.ROOT)) Locale.setDefault(locale);
+            if (!locale.equals(Locale.ROOT)) {
+                Locale.setDefault(locale);
+            }
         } catch (SecurityException ex) {
             // Ignore it in java webstart
         }
@@ -182,11 +184,13 @@ public class XBEditorApplication implements XBEditorApp {
     }
 
     public interface XBAppCommand {
+
         public void execute();
     }
 
     /**
      * Add plugin to list of plugins.
+     *
      * @param uri URI to plugin.
      */
     public void addPlugin(URI uri) {

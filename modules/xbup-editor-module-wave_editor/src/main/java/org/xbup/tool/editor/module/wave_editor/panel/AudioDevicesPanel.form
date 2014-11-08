@@ -42,7 +42,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder title="Audio Output">
-              <ResourceString PropertyName="titleX" bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/panel/resources/AudioDevicesPanel.properties" key="audioOutputPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString PropertyName="titleX" bundle="org/xbup/tool/editor/module/wave_editor/panel/resources/AudioDevicesPanel.properties" key="audioOutputPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </TitledBorder>
           </Border>
         </Property>
@@ -103,7 +103,7 @@
         <Component class="javax.swing.JLabel" name="outputSoundDeviceLabel">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/panel/resources/AudioDevicesPanel.properties" key="outputSoundDeviceLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/panel/resources/AudioDevicesPanel.properties" key="outputSoundDeviceLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="outputSoundDeviceLabel" noResource="true"/>
           </Properties>
@@ -111,7 +111,7 @@
         <Component class="javax.swing.JLabel" name="outputSampleRateLabel">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/panel/resources/AudioDevicesPanel.properties" key="outputSampleRateLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/panel/resources/AudioDevicesPanel.properties" key="outputSampleRateLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="outputSampleRateLabel" noResource="true"/>
           </Properties>
@@ -119,7 +119,7 @@
         <Component class="javax.swing.JLabel" name="outputBufferSizejLabel">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/panel/resources/AudioDevicesPanel.properties" key="outputBufferSizejLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/panel/resources/AudioDevicesPanel.properties" key="outputBufferSizejLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="outputBufferSizejLabel" noResource="true"/>
           </Properties>
@@ -157,7 +157,7 @@
         <Component class="javax.swing.JButton" name="testAudioButton">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/panel/resources/AudioDevicesPanel.properties" key="testAudioButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/panel/resources/AudioDevicesPanel.properties" key="testAudioButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="testAudioButton" noResource="true"/>
           </Properties>

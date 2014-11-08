@@ -42,6 +42,7 @@ public class XBEditorBase {
 
     /**
      * Main method launching the application.
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -74,7 +75,7 @@ public class XBEditorBase {
             }
 
             List fileArgs = cl.getArgList();
-            if (fileArgs.size()>0) {
+            if (fileArgs.size() > 0) {
                 // TODO fileName = (String) fileArgs.get(0);
             }
 

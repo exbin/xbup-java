@@ -52,7 +52,7 @@ public class BaseModuleRepository implements ModuleRepository {
     private ModuleManager moduleManager;
 
     public BaseModuleRepository() {
-        modules = new HashMap<Long, ApplicationModule>();
+        modules = new HashMap<>();
         pluginManager = PluginManagerFactory.createPluginManager();
         mainFrame = null;
 
@@ -215,7 +215,7 @@ public class BaseModuleRepository implements ModuleRepository {
 
     @Override
     public List<ApplicationModuleInfo> getModulesList() {
-        List<ApplicationModuleInfo> moduleList = new ArrayList<ApplicationModuleInfo>();
+        List<ApplicationModuleInfo> moduleList = new ArrayList<>();
         for (long moduleIndex = 1; moduleIndex <= activeModule; moduleIndex++) {
             ApplicationModule module = modules.get(new Long(moduleIndex));
             if (module != null) {

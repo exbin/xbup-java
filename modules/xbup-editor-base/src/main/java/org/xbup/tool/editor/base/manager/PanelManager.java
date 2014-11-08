@@ -34,7 +34,7 @@ class PanelManager {
 
     public PanelManager(BaseModuleRepository moduleRepository) {
         this.moduleRepository = moduleRepository;
-        panels = new HashMap<Long,ApplicationPanel>();
+        panels = new HashMap<>();
     }
 
     void registerPanel(ApplicationPanel panel) {

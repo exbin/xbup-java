@@ -39,7 +39,7 @@ public class FileTypeManager implements FileTypeManagement {
 
     FileTypeManager(BaseModuleRepository moduleRepository) {
         this.moduleRepository = moduleRepository;
-        fileTypes = new HashMap<String, FileType>();
+        fileTypes = new HashMap<>();
     }
 
     @Override

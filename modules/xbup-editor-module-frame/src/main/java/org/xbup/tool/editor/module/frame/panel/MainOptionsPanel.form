@@ -58,7 +58,7 @@
         <Component class="javax.swing.JLabel" name="visualThemeLabel">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/mainframe/panel/resources/MainOptionsPanel.properties" key="MainOptionsPanel.visualThemeLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/frame/panel/resources/MainOptionsPanel.properties" key="MainOptionsPanel.visualThemeLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>
@@ -88,7 +88,7 @@
         <Component class="javax.swing.JLabel" name="languageLabel">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/mainframe/panel/resources/MainOptionsPanel.properties" key="MainOptionsPanel.langaugeLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/frame/panel/resources/MainOptionsPanel.properties" key="MainOptionsPanel.langaugeLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>
@@ -125,7 +125,7 @@
         <Component class="javax.swing.JLabel" name="requireRestartLabel">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/mainframe/panel/resources/MainOptionsPanel.properties" key="MainOptionsPanel.requireRestartLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/frame/panel/resources/MainOptionsPanel.properties" key="MainOptionsPanel.requireRestartLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>

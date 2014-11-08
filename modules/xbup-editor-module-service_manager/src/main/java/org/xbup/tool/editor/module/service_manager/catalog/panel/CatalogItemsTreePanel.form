@@ -14,7 +14,7 @@
         <Menu class="javax.swing.JMenu" name="popupAddItemMenu">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbservicemanager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="addItemMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="addItemMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="popupAddItemMenu" noResource="true"/>
           </Properties>
@@ -22,7 +22,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="popupAddCustomMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbservicemanager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="addCustomMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="addCustomMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="name" type="java.lang.String" value="popupAddCustomMenuItem" noResource="true"/>
@@ -34,7 +34,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="popupAddSpecMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbservicemanager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="addBlockMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="addBlockMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="popupAddSpecMenuItem" noResource="true"/>
               </Properties>
@@ -45,7 +45,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="popupAddNodeMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbservicemanager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="addNodeMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="addNodeMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="popupAddNodeMenuItem" noResource="true"/>
               </Properties>
@@ -58,7 +58,7 @@
         <MenuItem class="javax.swing.JMenuItem" name="popupEditMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbservicemanager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="editMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="editMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="popupEditMenuItem" noResource="true"/>
           </Properties>

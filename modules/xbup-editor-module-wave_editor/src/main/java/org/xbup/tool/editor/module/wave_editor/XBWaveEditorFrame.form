@@ -108,7 +108,7 @@
                 <Component class="javax.swing.JButton" name="playButton">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/org/xbup/tool/xbeditor/module/xbwaveeditor/resources/images/actions/play16.png"/>
+                      <Image iconType="3" name="/org/xbup/tool/editor/module/wave_editor/resources/images/actions/play16.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="playButton.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
@@ -136,7 +136,7 @@
                 <Component class="javax.swing.JButton" name="stopButton">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/org/xbup/tool/xbeditor/module/xbwaveeditor/resources/images/actions/stop16.png"/>
+                      <Image iconType="3" name="/org/xbup/tool/editor/module/wave_editor/resources/images/actions/stop16.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="stopButton.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>

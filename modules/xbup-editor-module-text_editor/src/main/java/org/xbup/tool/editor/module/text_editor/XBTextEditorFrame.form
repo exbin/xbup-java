@@ -34,10 +34,10 @@
                   <KeyStroke key="Alt+ENTER"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/resources/XBTextEditorFrame.properties" key="actionFileProperties.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame.properties" key="actionFileProperties.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/resources/XBTextEditorFrame.properties" key="actionFileProperties.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame.properties" key="actionFileProperties.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="filePropertiesMenuItem" noResource="true"/>
               </Properties>
@@ -56,10 +56,10 @@
                   <KeyStroke key="Ctrl+P"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/resources/XBTextEditorFrame.properties" key="actionFilePrint.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame.properties" key="actionFilePrint.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/resources/XBTextEditorFrame.properties" key="actionFilePrint.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame.properties" key="actionFilePrint.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="filePrintMenuItem" noResource="true"/>
               </Properties>
@@ -89,10 +89,10 @@
                   <KeyStroke key="Ctrl+G"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/resources/XBTextEditorFrame.properties" key="actionEditGoto.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame.properties" key="actionEditGoto.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/resources/XBTextEditorFrame.properties" key="actionEditGoto.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame.properties" key="actionEditGoto.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="editGotoMenuItem" noResource="true"/>
               </Properties>
@@ -111,10 +111,10 @@
                   <KeyStroke key="Ctrl+F"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/resources/XBTextEditorFrame.properties" key="actionEditFind.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame.properties" key="actionEditFind.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/resources/XBTextEditorFrame.properties" key="actionEditFind.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame.properties" key="actionEditFind.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="editFindMenuItem" noResource="true"/>
               </Properties>
@@ -128,10 +128,10 @@
                   <KeyStroke key="F3"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/resources/XBTextEditorFrame.properties" key="actionFindAgain.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame.properties" key="actionFindAgain.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/resources/XBTextEditorFrame.properties" key="actionFindAgain.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame.properties" key="actionFindAgain.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="editFindAgainMenuItem" noResource="true"/>
               </Properties>
@@ -145,10 +145,10 @@
                   <KeyStroke key="Ctrl+H"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/resources/XBTextEditorFrame.properties" key="actionEditReplace.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame.properties" key="actionEditReplace.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/resources/XBTextEditorFrame.properties" key="actionEditReplace.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame.properties" key="actionEditReplace.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="editFindReplaceMenuItem" noResource="true"/>
               </Properties>
@@ -175,10 +175,10 @@
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="viewWordWrapCheckBoxMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/resources/XBTextEditorFrame.properties" key="viewWordWrapCheckBoxMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame.properties" key="viewWordWrapCheckBoxMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/resources/XBTextEditorFrame.properties" key="viewWordWrapCheckBoxMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame.properties" key="viewWordWrapCheckBoxMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="viewWordWrapCheckBoxMenuItem" noResource="true"/>
               </Properties>
@@ -246,10 +246,10 @@
                 <MenuItem class="javax.swing.JMenuItem" name="manageEncodingsMenuItem">
                   <Properties>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/resources/XBTextEditorFrame.properties" key="manageEncodingsMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame.properties" key="manageEncodingsMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/resources/XBTextEditorFrame.properties" key="manageEncodingsMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame.properties" key="manageEncodingsMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="name" type="java.lang.String" value="manageEncodingsMenuItem" noResource="true"/>
                   </Properties>
@@ -421,10 +421,10 @@
             <Component class="javax.swing.JButton" name="findToolButton">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/org/xbup/tool/xbeditor/module/xbtexteditor/resources/images/actions/Find16.gif"/>
+                  <Image iconType="3" name="/org/xbup/tool/editor/module/text_editor/resources/images/actions/Find16.gif"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/resources/XBTextEditorFrame.properties" key="XBTextEditorFrame.findToolButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame.properties" key="XBTextEditorFrame.findToolButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>

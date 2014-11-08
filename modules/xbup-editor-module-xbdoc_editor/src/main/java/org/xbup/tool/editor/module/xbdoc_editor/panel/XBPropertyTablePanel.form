@@ -14,10 +14,10 @@
         <MenuItem class="javax.swing.JMenuItem" name="popupItemOpenMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTablePanel.properties" key="popupItemOpenMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupItemOpenMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTablePanel.properties" key="popupItemOpenMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupItemOpenMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="popupItemOpenMenuItem" noResource="true"/>
           </Properties>
@@ -25,10 +25,10 @@
         <MenuItem class="javax.swing.JMenuItem" name="popupItemAddMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTablePanel.properties" key="popupItemAddMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupItemAddMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTablePanel.properties" key="popupItemAddMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupItemAddMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="popupItemAddMenuItem" noResource="true"/>
           </Properties>
@@ -36,10 +36,10 @@
         <MenuItem class="javax.swing.JMenuItem" name="popupItemModifyMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTablePanel.properties" key="popupItemModifyMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupItemModifyMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTablePanel.properties" key="popupItemModifyMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupItemModifyMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="popupItemModifyMenuItem" noResource="true"/>
           </Properties>
@@ -55,10 +55,10 @@
               <KeyStroke key="Ctrl+Z"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTablePanel.properties" key="popupUndoMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupUndoMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTablePanel.properties" key="popupUndoMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupUndoMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="popupUndoMenuItem" noResource="true"/>
           </Properties>
@@ -66,10 +66,10 @@
         <MenuItem class="javax.swing.JMenuItem" name="popupRedoMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTablePanel.properties" key="popupRedoMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupRedoMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTablePanel.properties" key="popupRedoMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupRedoMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="popupRedoMenuItem" noResource="true"/>
           </Properties>
@@ -111,10 +111,10 @@
         <MenuItem class="javax.swing.JMenuItem" name="popupSelectAllMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTablePanel.properties" key="popupSelectAllMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupSelectAllMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTablePanel.properties" key="popupSelectAllMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupSelectAllMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="popupSelectAllMenuItem" noResource="true"/>
           </Properties>
@@ -127,10 +127,10 @@
         <MenuItem class="javax.swing.JMenuItem" name="popupItemPropertiesMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTablePanel.properties" key="popupItemPropertiesMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupItemPropertiesMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTablePanel.properties" key="popupItemPropertiesMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupItemPropertiesMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="popupItemPropertiesMenuItem" noResource="true"/>
           </Properties>

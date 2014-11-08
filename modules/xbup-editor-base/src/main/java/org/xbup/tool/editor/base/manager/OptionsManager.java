@@ -29,7 +29,7 @@ import org.xbup.tool.editor.base.api.OptionsPanel;
  */
 public class OptionsManager implements OptionsManagement {
 
-    private BaseModuleRepository moduleRepository;
+    private final BaseModuleRepository moduleRepository;
 
     OptionsManager(BaseModuleRepository moduleRepository) {
         this.moduleRepository = moduleRepository;

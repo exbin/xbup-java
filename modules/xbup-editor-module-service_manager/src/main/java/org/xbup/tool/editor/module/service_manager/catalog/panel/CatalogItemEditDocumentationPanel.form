@@ -35,7 +35,7 @@
       <Properties>
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/tool/xbeditor/module/xbservicemanager/catalog/panel/resources/CatalogItemEditDocumentationPanel.properties" key="CatalogItemEditDocumentationDialog.includeDocumentationCheckBox.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemEditDocumentationPanel.properties" key="CatalogItemEditDocumentationDialog.includeDocumentationCheckBox.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Events>

@@ -27,7 +27,7 @@ import org.xbup.tool.editor.base.api.StatusManagement;
  */
 public class StatusManager implements StatusManagement {
 
-    private BaseModuleRepository moduleRepository;
+    private final BaseModuleRepository moduleRepository;
 
     StatusManager(BaseModuleRepository moduleRepository) {
         this.moduleRepository = moduleRepository;

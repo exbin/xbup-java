@@ -22,7 +22,7 @@
     <Component class="javax.swing.JButton" name="editParameterButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTableCellRenderer.properties" key="jButton1.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTableCellRenderer.properties" key="jButton1.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="editParameterButton" noResource="true"/>
       </Properties>
@@ -39,7 +39,7 @@
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/panel/resources/XBPropertyTableCellRenderer.properties" key="jTextField1.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTableCellRenderer.properties" key="jTextField1.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="parameterTextField" noResource="true"/>
       </Properties>

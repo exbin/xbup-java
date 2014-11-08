@@ -54,10 +54,12 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import static javax.swing.Action.NAME;
 import javax.swing.ActionMap;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -93,6 +95,7 @@ import org.xbup.tool.editor.base.api.ApplicationFilePanel;
 import org.xbup.tool.editor.base.api.ApplicationModule;
 import org.xbup.tool.editor.base.api.ApplicationModuleInfo;
 import org.xbup.tool.editor.base.api.ApplicationPanel;
+import org.xbup.tool.editor.base.api.ComponentClipboardHandler;
 import org.xbup.tool.editor.base.api.FileType;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
 import org.xbup.tool.editor.base.api.ModuleRepository;
@@ -102,7 +105,7 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
 /**
  * XBEditor Main Frame.
  *
- * @version 0.1.23 2013/09/26
+ * @version 0.1.24 2014/11/08
  * @author XBUP Project (http://xbup.org)
  */
 public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, MainFrameManagement {
@@ -134,12 +137,12 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
     private PropertyChangeListener textComponentPCL;
 
     private ActionMap defaultTextActionMap;
-    private DefaultPopupTextAction defaultCutAction;
-    private DefaultPopupTextAction defaultCopyAction;
-    private DefaultPopupTextAction defaultPasteAction;
-    private DefaultPopupTextAction defaultDeleteAction;
-    private DefaultPopupTextAction defaultSelectAllAction;
-    private DefaultPopupTextAction[] defaultTextActions;
+    private DefaultPopupClipboardAction defaultCutAction;
+    private DefaultPopupClipboardAction defaultCopyAction;
+    private DefaultPopupClipboardAction defaultPasteAction;
+    private DefaultPopupClipboardAction defaultDeleteAction;
+    private DefaultPopupClipboardAction defaultSelectAllAction;
+    private DefaultPopupClipboardAction[] defaultTextActions;
 
     private ActionMap actionMap;
     private Component actionFocusOwner = null;
@@ -583,15 +586,15 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
 
     public void initDefaultPopupMenu() {
         defaultTextActionMap = new ActionMap();
-        defaultCutAction = new DefaultPopupTextAction(DefaultEditorKit.cutAction) {
+        defaultCutAction = new DefaultPopupClipboardAction(DefaultEditorKit.cutAction) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                textComponent.cut();
+                clipboardHandler.cut();
             }
 
             @Override
             protected void postTextComponentInitialize() {
-                setEnabled(textComponent.isEditable() && isTextSelected());
+                setEnabled(clipboardHandler.isEditable() && clipboardHandler.isSelection());
             }
         };
         defaultCutAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/cut.png")));
@@ -601,15 +604,15 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         defaultCutAction.setEnabled(false);
         defaultTextActionMap.put(TransferHandler.getCutAction().getValue(Action.NAME), defaultCutAction);
 
-        defaultCopyAction = new DefaultPopupTextAction(DefaultEditorKit.copyAction) {
+        defaultCopyAction = new DefaultPopupClipboardAction(DefaultEditorKit.copyAction) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                textComponent.copy();
+                clipboardHandler.copy();
             }
 
             @Override
             protected void postTextComponentInitialize() {
-                setEnabled(isTextSelected());
+                setEnabled(clipboardHandler.isSelection());
             }
         };
         defaultCopyAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/copy.png")));
@@ -619,15 +622,15 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         defaultCopyAction.setEnabled(false);
         defaultTextActionMap.put(TransferHandler.getCopyAction().getValue(Action.NAME), defaultCopyAction);
 
-        defaultPasteAction = new DefaultPopupTextAction(DefaultEditorKit.pasteAction) {
+        defaultPasteAction = new DefaultPopupClipboardAction(DefaultEditorKit.pasteAction) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                textComponent.paste();
+                clipboardHandler.paste();
             }
 
             @Override
             protected void postTextComponentInitialize() {
-                setEnabled(textComponent.isEditable());
+                setEnabled(clipboardHandler.isEditable());
             }
         };
         defaultPasteAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/paste.png")));
@@ -637,15 +640,15 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         defaultPasteAction.setEnabled(false);
         defaultTextActionMap.put(TransferHandler.getPasteAction().getValue(Action.NAME), defaultPasteAction);
 
-        defaultDeleteAction = new DefaultPopupTextAction(DefaultEditorKit.deleteNextCharAction) {
+        defaultDeleteAction = new DefaultPopupClipboardAction(DefaultEditorKit.deleteNextCharAction) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                invokeTextAction(textComponent, DefaultEditorKit.deleteNextCharAction);
+                clipboardHandler.delete();
             }
 
             @Override
             protected void postTextComponentInitialize() {
-                setEnabled(textComponent.isEditable() && isTextSelected());
+                setEnabled(clipboardHandler.isEditable() && clipboardHandler.isSelection());
             }
         };
         defaultDeleteAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/delete.png")));
@@ -655,16 +658,15 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         defaultDeleteAction.setEnabled(false);
         defaultTextActionMap.put("delete", defaultDeleteAction);
 
-        defaultSelectAllAction = new DefaultPopupTextAction("Select all") {
+        defaultSelectAllAction = new DefaultPopupClipboardAction("Select all") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                textComponent.requestFocus();
-                textComponent.selectAll();
+                clipboardHandler.selectAll();
             }
 
             @Override
             protected void postTextComponentInitialize() {
-                setEnabled(!textComponent.getText().trim().equals(""));
+                setEnabled(clipboardHandler.canSelectAll());
             }
         };
         defaultSelectAllAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
@@ -672,7 +674,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         defaultSelectAllAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditSelectAll.Action.shortDescription"));
         defaultTextActionMap.put("selectAll", defaultSelectAllAction);
 
-        DefaultPopupTextAction[] actions = {defaultCutAction, defaultCopyAction, defaultPasteAction, defaultDeleteAction, defaultSelectAllAction};
+        DefaultPopupClipboardAction[] actions = {defaultCutAction, defaultCopyAction, defaultPasteAction, defaultDeleteAction, defaultSelectAllAction};
         defaultTextActions = actions;
 
         Toolkit.getDefaultToolkit().getSystemEventQueue().push(new PopupEventQueue());
@@ -749,14 +751,24 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
 
                 if (c instanceof JTextComponent) {
                     if ((SwingUtilities.isRightMouseButton(e)) && (((JTextComponent) c).getComponentPopupMenu() == null)) {
-                        final JTextComponent txtComp = (JTextComponent) c;
+                        TextComponentClipboardHandler clipboardHandler = new TextComponentClipboardHandler((JTextComponent) c);
                         for (Object action : defaultTextActions) {
-                            ((DefaultPopupTextAction) action).setTextComponent(txtComp);
+                            ((DefaultPopupClipboardAction) action).setClipboardHandler(clipboardHandler);
+                        }
+
+                        defaultPopupMenu.show(e.getComponent(), e.getX(), e.getY());
+                    }
+                } else if (c instanceof JList) {
+                    if ((SwingUtilities.isRightMouseButton(e)) && (((JList) c).getComponentPopupMenu() == null)) {
+                        ListClipboardHandler clipboardHandler = new ListClipboardHandler((JList) c);
+                        for (Object action : defaultTextActions) {
+                            ((DefaultPopupClipboardAction) action).setClipboardHandler(clipboardHandler);
                         }
 
                         defaultPopupMenu.show(e.getComponent(), e.getX(), e.getY());
                     }
                 }
+
             }
 
             super.dispatchEvent(event);
@@ -765,26 +777,123 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         private Component getSource(MouseEvent e) {
             return SwingUtilities.getDeepestComponentAt(e.getComponent(), e.getX(), e.getY());
         }
+
+        private class TextComponentClipboardHandler implements ComponentClipboardHandler {
+
+            private final JTextComponent txtComp;
+
+            public TextComponentClipboardHandler(JTextComponent txtComp) {
+                this.txtComp = txtComp;
+            }
+
+            @Override
+            public void cut() {
+                txtComp.cut();
+            }
+
+            @Override
+            public void copy() {
+                txtComp.copy();
+            }
+
+            @Override
+            public void paste() {
+                txtComp.paste();
+            }
+
+            @Override
+            public void delete() {
+                invokeTextAction(txtComp, DefaultEditorKit.deleteNextCharAction);
+            }
+
+            @Override
+            public void selectAll() {
+                txtComp.requestFocus();
+                txtComp.selectAll();
+            }
+
+            @Override
+            public boolean isSelection() {
+                return txtComp.isEnabled() && txtComp.getSelectionStart() != txtComp.getSelectionEnd();
+            }
+
+            @Override
+            public boolean isEditable() {
+                return txtComp.isEnabled() && txtComp.isEditable();
+            }
+
+            @Override
+            public boolean canSelectAll() {
+                return txtComp.isEnabled() && !txtComp.getText().isEmpty();
+            }
+        }
+
+        private class ListClipboardHandler implements ComponentClipboardHandler {
+
+            private final JList listComp;
+
+            public ListClipboardHandler(JList listComp) {
+                this.listComp = listComp;
+            }
+
+            @Override
+            public void cut() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void copy() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void paste() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void delete() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void selectAll() {
+                if (listComp.getModel().getSize() > 0) {
+                    listComp.setSelectionInterval(0, listComp.getModel().getSize() - 1);
+                }
+            }
+
+            @Override
+            public boolean isSelection() {
+                return listComp.isEnabled() && !listComp.isSelectionEmpty();
+            }
+
+            @Override
+            public boolean isEditable() {
+                return false;
+            }
+
+            @Override
+            public boolean canSelectAll() {
+                return listComp.isEnabled() && listComp.getSelectionMode() != DefaultListSelectionModel.SINGLE_SELECTION;
+            }
+        }
     }
 
     /**
-     * Text action for default popup menu.
+     * Clipboard action for default popup menu.
      */
-    private static abstract class DefaultPopupTextAction extends AbstractAction {
+    private static abstract class DefaultPopupClipboardAction extends AbstractAction {
 
-        protected JTextComponent textComponent;
+        protected ComponentClipboardHandler clipboardHandler;
 
-        public DefaultPopupTextAction(String name) {
+        public DefaultPopupClipboardAction(String name) {
             super(name);
         }
 
-        public void setTextComponent(JTextComponent textComponent) {
-            this.textComponent = textComponent;
+        public void setClipboardHandler(ComponentClipboardHandler clipboardHandler) {
+            this.clipboardHandler = clipboardHandler;
             postTextComponentInitialize();
-        }
-
-        protected boolean isTextSelected() {
-            return (textComponent.getSelectionStart() != textComponent.getSelectionEnd());
         }
 
         protected abstract void postTextComponentInitialize();
@@ -1480,7 +1589,6 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
 
         editMenu.setText(bundle.getString("editMenu.text")); // NOI18N
         editMenu.setName("editMenu"); // NOI18N
-        editMenu.setRolloverEnabled(true);
 
         editUndoMenuItem.setAction(getUndoAction());
         editUndoMenuItem.setName("editUndoMenuItem"); // NOI18N
@@ -2093,8 +2201,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         pasteAction.setEnabled(editable && data);
     }
 
-    /* This method lifted from JTextComponent.java
-     */
+    /* This method lifted from JTextComponent.java */
     private int getCurrentEventModifiers() {
         int modifiers = 0;
         AWTEvent currentEvent = EventQueue.getCurrentEvent();

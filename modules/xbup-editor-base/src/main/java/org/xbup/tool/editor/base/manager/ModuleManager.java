@@ -33,13 +33,13 @@ import org.xbup.tool.editor.base.api.StatusManagement;
  */
 public class ModuleManager implements ModuleManagement {
 
-    private BaseModuleRepository moduleRepository;
-    private MenuManager menuManager;
-    private PanelManager panelManager;
-    private FileTypeManager fileTypeManager;
-    private StatusManager statusManager;
-    private OptionsManager optionsManager;
-    private MainFrameManagement mainFrame;
+    private final BaseModuleRepository moduleRepository;
+    private final MenuManager menuManager;
+    private final PanelManager panelManager;
+    private final FileTypeManager fileTypeManager;
+    private final StatusManager statusManager;
+    private final OptionsManager optionsManager;
+    private final MainFrameManagement mainFrame;
 
     public ModuleManager(BaseModuleRepository moduleRepository) {
         this.moduleRepository = moduleRepository;

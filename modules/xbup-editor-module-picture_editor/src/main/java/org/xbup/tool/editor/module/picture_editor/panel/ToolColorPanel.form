@@ -80,7 +80,7 @@
     <Component class="javax.swing.JLabel" name="penColorLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/tool/xbeditor/module/xbpictureeditor/panel/resources/ToolColorPanel.properties" key="ToolColorPanel.penColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/xbup/tool/editor/module/picture_editor/panel/resources/ToolColorPanel.properties" key="ToolColorPanel.penColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="penColorLabel" noResource="true"/>
       </Properties>
@@ -111,7 +111,7 @@
     <Component class="javax.swing.JButton" name="penColorSelectButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/tool/xbeditor/module/xbpictureeditor/panel/resources/ToolColorPanel.properties" key="ToolColorPanel.penColorSelectButton" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/xbup/tool/editor/module/picture_editor/panel/resources/ToolColorPanel.properties" key="ToolColorPanel.penColorSelectButton" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="penColorSelectButton" noResource="true"/>
       </Properties>
@@ -122,7 +122,7 @@
     <Component class="javax.swing.JLabel" name="fillcolorLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/tool/xbeditor/module/xbpictureeditor/panel/resources/ToolColorPanel.properties" key="ToolColorPanel.fillColorLabel" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/xbup/tool/editor/module/picture_editor/panel/resources/ToolColorPanel.properties" key="ToolColorPanel.fillColorLabel" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="fillcolorLabel" noResource="true"/>
       </Properties>
@@ -153,7 +153,7 @@
     <Component class="javax.swing.JButton" name="fillColorSelectButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/tool/xbeditor/module/xbpictureeditor/panel/resources/ToolColorPanel.properties" key="ToolColorPanel.fillColorSelectButton" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/xbup/tool/editor/module/picture_editor/panel/resources/ToolColorPanel.properties" key="ToolColorPanel.fillColorSelectButton" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="fillColorSelectButton" noResource="true"/>
       </Properties>

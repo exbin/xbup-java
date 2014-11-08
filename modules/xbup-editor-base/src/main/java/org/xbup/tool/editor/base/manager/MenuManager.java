@@ -209,7 +209,7 @@ public class MenuManager implements MenuManagement {
         public MenuGap(int gapPosition) {
             this.gapPosition = gapPosition;
             this.beforeItemsCount = 0;
-            panelItemsCount = new HashMap<Long,Integer>();
+            panelItemsCount = new HashMap<>();
             this.afterItemsCount = 0;
         }
 

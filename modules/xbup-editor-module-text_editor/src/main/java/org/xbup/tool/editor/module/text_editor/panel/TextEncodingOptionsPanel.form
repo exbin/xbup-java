@@ -81,7 +81,7 @@
         <Component class="javax.swing.JLabel" name="defaultEncodingLabel">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextEncodingOptionsPanel.properties" key="TextEncodingOptionsPanel.defaultEncodingLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/text_editor/panel/resources/TextEncodingOptionsPanel.properties" key="TextEncodingOptionsPanel.defaultEncodingLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="defaultEncodingLabel" noResource="true"/>
           </Properties>
@@ -89,7 +89,7 @@
         <Component class="javax.swing.JButton" name="fillCurrentEncodingButton">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextEncodingOptionsPanel.properties" key="TextEncodingOptionsPanel.fillCurrentEncodingButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/text_editor/panel/resources/TextEncodingOptionsPanel.properties" key="TextEncodingOptionsPanel.fillCurrentEncodingButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="fillCurrentEncodingButton" noResource="true"/>
           </Properties>
@@ -132,7 +132,7 @@
         <Component class="javax.swing.JButton" name="fillCurrentEncodingsButton">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbtexteditor/panel/resources/TextEncodingOptionsPanel.properties" key="TextEncodingOptionsPanel.fillCurrentEncodingsButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/text_editor/panel/resources/TextEncodingOptionsPanel.properties" key="TextEncodingOptionsPanel.fillCurrentEncodingsButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="fillCurrentEncodingsButton" noResource="true"/>
           </Properties>

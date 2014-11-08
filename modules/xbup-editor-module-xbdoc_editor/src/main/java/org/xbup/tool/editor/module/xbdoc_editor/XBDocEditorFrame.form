@@ -17,10 +17,10 @@
         <MenuItem class="javax.swing.JMenuItem" name="popupItemOpenMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="popupItemOpenMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="popupItemOpenMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="popupItemOpenMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="popupItemOpenMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="popupItemOpenMenuItem" noResource="true"/>
@@ -32,10 +32,10 @@
               <Connection code="itemAddAction" type="code"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Add16.gif"/>
+              <Image iconType="3" name="/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Add16.gif"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="popupItemAddMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="popupItemAddMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="popupItemAddMenuItem" noResource="true"/>
           </Properties>
@@ -46,10 +46,10 @@
               <Connection code="itemModifyAction" type="code"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Modify16.gif"/>
+              <Image iconType="3" name="/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Modify16.gif"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="popupItemModifyMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="popupItemModifyMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="popupItemModifyMenuItem" noResource="true"/>
           </Properties>
@@ -67,10 +67,10 @@
         <MenuItem class="javax.swing.JMenuItem" name="popupItemImportMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="popupItemImportMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="popupItemImportMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="popupItemImportMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="popupItemImportMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="popupItemImportMenuItem" noResource="true"/>
           </Properties>
@@ -78,10 +78,10 @@
         <MenuItem class="javax.swing.JMenuItem" name="popupItemExportMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="popupItemExportMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="popupItemExportMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="popupItemExportMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="popupItemExportMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="popupItemExportMenuItem" noResource="true"/>
           </Properties>
@@ -97,7 +97,7 @@
               <Connection code="itemPropertiesAction" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="actionItemProperties.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="actionItemProperties.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="popupItemPropertiesMenuItem" noResource="true"/>
           </Properties>
@@ -105,7 +105,7 @@
         <Menu class="javax.swing.JMenu" name="popupDevelopmentMenu">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="popupDevelopmentMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="popupDevelopmentMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="popupDevelopmentMenu" noResource="true"/>
           </Properties>
@@ -113,7 +113,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="parametrListMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="parametrListMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="parametrListMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="parametrListMenuItem" noResource="true"/>
               </Properties>
@@ -138,7 +138,7 @@
         <Menu class="javax.swing.JMenu" name="fileMenu">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="fileMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="fileMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="fileMenu" noResource="true"/>
           </Properties>
@@ -149,13 +149,13 @@
             <MenuItem class="javax.swing.JMenuItem" name="fileNewCustomMenuItem">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" noResource="true" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/New16.gif"/>
+                  <Image iconType="3" name="/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/New16.gif"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="fileNewCustomMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="fileNewCustomMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="fileNewCustomMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="fileNewCustomMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="name" type="java.lang.String" value="fileNewCustomMenuItem" noResource="true"/>
@@ -167,10 +167,10 @@
             <Menu class="javax.swing.JMenu" name="fileOpenSampleMenu">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="fileOpenSampleMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="fileOpenSampleMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="fileOpenSampleMenu.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="fileOpenSampleMenu.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="fileOpenSampleMenu" noResource="true"/>
               </Properties>
@@ -178,7 +178,7 @@
                 <MenuItem class="javax.swing.JMenuItem" name="fileOpenXHTMLSampleMenuItem">
                   <Properties>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="fileOpenXHTMLSampleMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="fileOpenXHTMLSampleMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="name" type="java.lang.String" value="fileOpenXHTMLSampleMenuItem" noResource="true"/>
                   </Properties>
@@ -189,7 +189,7 @@
                 <MenuItem class="javax.swing.JMenuItem" name="fileOpenPicSampleMenuItem">
                   <Properties>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="fileOpenPicSampleMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="fileOpenPicSampleMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="name" type="java.lang.String" value="fileOpenPicSampleMenuItem" noResource="true"/>
                   </Properties>
@@ -205,10 +205,10 @@
                   <KeyStroke key="Alt+ENTER"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="filePropertiesMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="filePropertiesMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="filePropertiesMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="filePropertiesMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="filePropertiesMenuItem" noResource="true"/>
               </Properties>
@@ -221,7 +221,7 @@
         <Menu class="javax.swing.JMenu" name="editMenu">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="editMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="editMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="editMenu" noResource="true"/>
             <Property name="rolloverEnabled" type="boolean" value="true"/>
@@ -244,7 +244,7 @@
                   <KeyStroke key="Ctrl+G"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="actionEditGoto.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="actionEditGoto.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="editGotoMenuItem" noResource="true"/>
               </Properties>
@@ -263,10 +263,10 @@
                   <KeyStroke key="Ctrl+F"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" noResource="true" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Find16.gif"/>
+                  <Image iconType="3" name="/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Find16.gif"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="actionEditFind.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="actionEditFind.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="editFindMenuItem" noResource="true"/>
               </Properties>
@@ -280,10 +280,10 @@
                   <KeyStroke key="F3"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" noResource="true" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/FindAgain16.gif"/>
+                  <Image iconType="3" name="/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/FindAgain16.gif"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="actionEditFindAgain.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="actionEditFindAgain.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="editFindAgainMenuItem" noResource="true"/>
               </Properties>
@@ -297,10 +297,10 @@
                   <KeyStroke key="Ctrl+H"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" noResource="true" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Replace16.gif"/>
+                  <Image iconType="3" name="/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Replace16.gif"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="actionEditReplace.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="actionEditReplace.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="editFindReplaceMenuItem" noResource="true"/>
               </Properties>
@@ -316,10 +316,10 @@
                   <Connection code="itemAddAction" type="code"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" noResource="true" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Add16.gif"/>
+                  <Image iconType="3" name="/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Add16.gif"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="actionItemAdd.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="actionItemAdd.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="editItemAddMenuItem" noResource="true"/>
               </Properties>
@@ -330,10 +330,10 @@
                   <Connection code="itemModifyAction" type="code"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" noResource="true" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Modify16.gif"/>
+                  <Image iconType="3" name="/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Modify16.gif"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="actionItemModify.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="actionItemModify.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="editItemModifyMenuItem" noResource="true"/>
               </Properties>
@@ -343,7 +343,7 @@
         <Menu class="javax.swing.JMenu" name="viewMenu">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="viewMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="viewMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <AuxValues>
@@ -359,10 +359,10 @@
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="viewPropertiesCheckBoxMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="viewPropertiesCheckBoxMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="viewPropertiesCheckBoxMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="viewPropertiesCheckBoxMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="viewPropertiesCheckBoxMenuItem" noResource="true"/>
               </Properties>
@@ -382,10 +382,10 @@
                 </Property>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="viewAsTreeMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="viewAsTreeMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="viewAsTreeMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="viewAsTreeMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="viewAsTreeMenuItem" noResource="true"/>
               </Properties>
@@ -399,10 +399,10 @@
                   <ComponentRef name="viewAsbuttonGroup"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="viewAsTextMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="viewAsTextMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="viewAsTextMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="viewAsTextMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="viewAsTextMenuItem" noResource="true"/>
               </Properties>
@@ -416,10 +416,10 @@
                   <ComponentRef name="viewAsbuttonGroup"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="viewAsHexMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="viewAsHexMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="viewAsHexMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="viewAsHexMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="viewAsHexMenuItem" noResource="true"/>
               </Properties>
@@ -435,7 +435,7 @@
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="viewWordWrapCheckBoxMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="viewWordWrapCheckBoxMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="viewWordWrapCheckBoxMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="viewWordWrapCheckBoxMenuItem" noResource="true"/>
               </Properties>
@@ -448,7 +448,7 @@
         <Menu class="javax.swing.JMenu" name="toolsMenu">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="toolsMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="toolsMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="toolsMenu" noResource="true"/>
           </Properties>
@@ -459,10 +459,10 @@
             <MenuItem class="javax.swing.JMenuItem" name="toolsCatalogBrowserMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="toolsCatalogBrowserMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="toolsCatalogBrowserMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="toolsCatalogBrowserMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="toolsCatalogBrowserMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="toolsCatalogBrowserMenuItem" noResource="true"/>
               </Properties>
@@ -475,7 +475,7 @@
         <Menu class="javax.swing.JMenu" name="optionsMenu">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="XBDocEditorFrame.optionsMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="XBDocEditorFrame.optionsMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="optionsMenu" noResource="true"/>
           </Properties>
@@ -486,10 +486,10 @@
             <MenuItem class="javax.swing.JMenuItem" name="optionsFontMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="XBDocEditorFrame.optionsFontMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="XBDocEditorFrame.optionsFontMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="XBDocEditorFrame.optionsFontMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="XBDocEditorFrame.optionsFontMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="optionsFontMenuItem" noResource="true"/>
               </Properties>
@@ -500,10 +500,10 @@
             <MenuItem class="javax.swing.JMenuItem" name="optionsColorsMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="XBDocEditorFrame.optionsColorsMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="XBDocEditorFrame.optionsColorsMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="XBDocEditorFrame.optionsColorsMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="XBDocEditorFrame.optionsColorsMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="optionsColorsMenuItem" noResource="true"/>
               </Properties>
@@ -523,7 +523,7 @@
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="1"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="true"/>
-    <AuxValue name="FormSettings_formBundle" type="java.lang.String" value="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame"/>
+    <AuxValue name="FormSettings_formBundle" type="java.lang.String" value="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame"/>
     <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
@@ -568,10 +568,10 @@
                   <Connection code="editFindAction" type="code"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" noResource="true" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Find16.gif"/>
+                  <Image iconType="3" name="/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Find16.gif"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="actionEditFind.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="actionEditFind.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -590,10 +590,10 @@
                   <Connection code="itemAddAction" type="code"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" noResource="true" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Add16.gif"/>
+                  <Image iconType="3" name="/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Add16.gif"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="actionItemAdd.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="actionItemAdd.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -607,10 +607,10 @@
                   <Connection code="itemModifyAction" type="code"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" noResource="true" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/actions/Modify16.gif"/>
+                  <Image iconType="3" name="/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Modify16.gif"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="actionItemModify.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="actionItemModify.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -713,7 +713,7 @@
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="text" type="java.lang.String" value="1:1" noResource="true"/>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="textPositionTextField.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="textPositionTextField.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="name" type="java.lang.String" value="textPositionTextField" noResource="true"/>
                   </Properties>
@@ -729,7 +729,7 @@
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="text" type="java.lang.String" value="UTF-8" noResource="true"/>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="currentEncodingTextField.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="currentEncodingTextField.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="name" type="java.lang.String" value="currentEncodingTextField" noResource="true"/>
                   </Properties>
@@ -874,10 +874,10 @@
             <Component class="javax.swing.JLabel" name="connectionStatusLabel">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" noResource="true" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/org/xbup/tool/xbeditor/module/xbdoceditor/resources/images/status/network-offline.png"/>
+                  <Image iconType="3" name="/org/xbup/tool/editor/module/xbdoc_editor/resources/images/status/network-offline.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbdoceditor/resources/XBDocEditorFrame.properties" key="connectionStatusLabel.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="connectionStatusLabel.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="connectionStatusLabel" noResource="true"/>
               </Properties>

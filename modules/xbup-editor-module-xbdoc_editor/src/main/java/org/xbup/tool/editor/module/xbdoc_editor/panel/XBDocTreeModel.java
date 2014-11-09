@@ -28,15 +28,14 @@ import org.xbup.lib.parser_tree.XBTTreeNode;
 /**
  * Document Tree Model for XBUP Document Tree.
  *
- * @version 0.1.20 2010/09/15
+ * @version 0.1.24 2014/11/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocTreeModel implements TreeModel {
 
     private XBTTreeDocument treeDoc;
-    private List<TreeModelListener> treeModelListeners = new ArrayList<TreeModelListener>();
+    private final List<TreeModelListener> treeModelListeners = new ArrayList<>();
 
-    /** Creates a new instance of XBDocTreeModel */
     public XBDocTreeModel() {
         super();
     }
@@ -86,22 +85,26 @@ public class XBDocTreeModel implements TreeModel {
     }
 
     /**
-     * The only event raised by this model is TreeStructureChanged with the
-     * root as path, i.e. the whole tree has changed.
+     * Perform structure change event.
+     *
+     * The only event raised by this model is TreeStructureChanged with the root
+     * as path, i.e. the whole tree has changed.
+     *
+     * @param oldRoot old root node
      */
     public void fireTreeStructureChanged(XBTTreeNode oldRoot) {
         int len = treeModelListeners.size();
-        TreeModelEvent e = new TreeModelEvent(this, new Object[] {oldRoot});
+        TreeModelEvent e = new TreeModelEvent(this, new Object[]{oldRoot});
         for (int i = 0; i < len; i++) {
-            ((TreeModelListener)treeModelListeners.get(i)).treeStructureChanged(e);
+            ((TreeModelListener) treeModelListeners.get(i)).treeStructureChanged(e);
         }
     }
 
     public void fireTreeChanged() {
         int len = treeModelListeners.size();
-        TreeModelEvent e = new TreeModelEvent(this, new Object[] {this});
+        TreeModelEvent e = new TreeModelEvent(this, new Object[]{this});
         for (int i = 0; i < len; i++) {
-            ((TreeModelListener)treeModelListeners.get(i)).treeStructureChanged(e);
+            ((TreeModelListener) treeModelListeners.get(i)).treeStructureChanged(e);
         }
     }
 

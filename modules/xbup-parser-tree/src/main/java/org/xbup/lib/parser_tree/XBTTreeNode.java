@@ -742,7 +742,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
 
     @Override
     public boolean isLeaf() {
-        return dataMode == XBBlockDataMode.DATA_BLOCK || getChildCount() == 0;
+        return dataMode == XBBlockDataMode.DATA_BLOCK;
     }
 
     @Override

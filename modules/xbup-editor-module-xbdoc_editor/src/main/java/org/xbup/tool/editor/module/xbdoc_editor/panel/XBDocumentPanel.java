@@ -73,12 +73,12 @@ import org.xbup.tool.editor.base.api.FileType;
 /**
  * Panel with XBUP document visualization.
  *
- * @version 0.1.23 2013/09/23
+ * @version 0.1.24 2014/11/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFilePanel, ActivePanelUndoable, ActivePanelActionHandling {
 
-    private XBTTreeDocument mainDoc;
+    private final XBTTreeDocument mainDoc;
     private FileType fileType;
     private XBACatalog catalog;
     private boolean splitMode = false;
@@ -86,8 +86,8 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
     private PanelMode mode;
 
     private XBDocTreePanel treePanel;
-    private XBDocHexPanel hexPanel;
-    private TextPanel textPanel;
+    private final XBDocHexPanel hexPanel;
+    private final TextPanel textPanel;
 
     private XBPropertyPanel propertyPanel;
     private XBPluginRepository pluginRepository;
@@ -361,9 +361,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
                     try {
                         hexPanel.saveToStream(buffer);
                         mainDoc.fromStreamUB(new ByteArrayInputStream(buffer.toByteArray()));
-                    } catch (XBProcessingException ex) {
-                        Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
+                    } catch (XBProcessingException | IOException ex) {
                         Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     break;
@@ -444,7 +442,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
             if (node.getAttributesCount()>2) {
                 Iterator attributesIterator = node.getAttributes().iterator();
                 int i = 1;
-                for (;attributesIterator.hasNext();) {
+                while (attributesIterator.hasNext()) {
                     UBNat32 attr = (UBNat32) attributesIterator.next();
                     result.append(" ").append(i).append("=\"").append(attr.getLong()).append("\"");
                     i++;

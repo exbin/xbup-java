@@ -47,18 +47,11 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.tree.TreePath;
 import org.xbup.lib.core.block.XBBlockDataMode;
-import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBFBlockType;
-import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.parser_tree.XBTTreeDocument;
 import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.operation.XBTCommand;
 import org.xbup.lib.operation.basic.XBTAddBlockCommand;
 import org.xbup.lib.operation.basic.XBTDeleteBlockCommand;
@@ -71,7 +64,7 @@ import org.xbup.tool.editor.base.api.MainFrameManagement;
 /**
  * Panel with document tree visualization.
  *
- * @version 0.1.23 2013/09/23
+ * @version 0.1.24 2014/11/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelActionHandling {
@@ -151,12 +144,14 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
         mainTree.setDropMode(DropMode.USE_SELECTION);
 
         mainTree.setTransferHandler(new XBDocTreeTransferHandler(this));
+        cellRenderer = cellRenderer = new XBDocTreeCellRenderer(catalog);
+        mainTree.setCellRenderer(cellRenderer);
 //        mainTree.setDropTarget(new );
     }
 
     /**
      * Updating selected item available operations status, like add, edit,
-     * delete
+     * delete.
      */
     public void updateItemStatus() {
         setEditEnabled(!mainTree.isSelectionEmpty());
@@ -181,12 +176,12 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane2 = new javax.swing.JScrollPane();
+        mainScrollPane = new javax.swing.JScrollPane();
         mainTree = new javax.swing.JTree();
 
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
-        jScrollPane2.setBorder(null);
+        mainScrollPane.setBorder(null);
 
         mainTree.setModel(mainDocModel);
         mainTree.setAutoscrolls(true);
@@ -199,9 +194,9 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
                 mainTreeMouseReleased1(evt);
             }
         });
-        jScrollPane2.setViewportView(mainTree);
+        mainScrollPane.setViewportView(mainTree);
 
-        add(jScrollPane2);
+        add(mainScrollPane);
     }// </editor-fold>//GEN-END:initComponents
 
     private void mainTreeMouseReleased1(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainTreeMouseReleased1
@@ -239,10 +234,6 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
     }
 
     public void reportStructureChange(XBTTreeNode node) {
-        if ((cellRenderer == null) && (this.isShowing())) {
-            cellRenderer = new XBDocTreeCellRenderer(catalog);
-            mainTree.setCellRenderer(cellRenderer);
-        }
         if (node == null) {
             mainDocModel.fireTreeChanged();
         } else {
@@ -275,10 +266,8 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
     }
 
     public void setCatalog(XBACatalog catalog) {
-        if (cellRenderer != null) {
-            cellRenderer.setCatalog(catalog);
-        }
         this.catalog = catalog;
+        cellRenderer.setCatalog(catalog);
         if (mainDoc != null) {
             mainDoc.setCatalog(catalog);
             mainDoc.processSpec();
@@ -383,36 +372,8 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
         mainDoc.setModified(true);
     }
 
-    private StringBuffer nodeAsText(XBTTreeNode node, String prefix) {
-        StringBuffer result = new StringBuffer();
-        result.append(prefix);
-        result.append("<").append(getCaption(node));
-        if (node.getAttributesCount() > 2) {
-            Iterator attributesIterator = node.getAttributes().iterator();
-            int i = 1;
-            for (; attributesIterator.hasNext();) {
-                UBNat32 attr = (UBNat32) attributesIterator.next();
-                result.append(" ").append(i).append("=\"").append(attr.getLong()).append("\"");
-                i++;
-            }
-        }
-
-        if (node.getChildren() != null) {
-            result.append(">\n");
-            for (Iterator it = node.getChildren().iterator(); it.hasNext();) {
-                XBTTreeNode elem = (XBTTreeNode) it.next();
-                result.append(nodeAsText(elem, prefix + "  "));
-            }
-            result.append(prefix);
-            result.append("</").append(getCaption(node)).append(">\n");
-        } else {
-            result.append("/>\n");
-        }
-        return result;
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane mainScrollPane;
     private javax.swing.JTree mainTree;
     // End of variables declaration//GEN-END:variables
 
@@ -669,26 +630,6 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
             }
             return true;
         }
-    }
-
-    private String getCaption(XBTTreeNode node) {
-        if (node.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
-            return "Data Block";
-        }
-        XBBlockType blockType = node.getBlockType();
-        if (catalog != null) {
-            XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-            if (blockType instanceof XBDeclBlockType) {
-                XBBlockDecl blockDecl = ((XBDeclBlockType) blockType).getBlockDecl();
-                if (blockDecl instanceof XBCBlockDecl) {
-                    return nameService.getDefaultCaption(((XBCBlockDecl) blockDecl).getBlockSpec().getParent());
-                } else {
-                    // TODO locally defined blocks later
-                }
-            }
-        }
-
-        return "Unknown" + " (" + Integer.toString(((XBFBlockType) blockType).getGroupID().getInt()) + ", " + Integer.toString(((XBFBlockType) blockType).getBlockID().getInt()) + ")";
     }
 
     private Frame getFrame() {

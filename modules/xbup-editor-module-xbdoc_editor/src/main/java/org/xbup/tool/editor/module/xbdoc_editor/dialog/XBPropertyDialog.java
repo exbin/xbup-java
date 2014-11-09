@@ -19,6 +19,7 @@ package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 import javax.swing.JPopupMenu;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.catalog.XBACatalog;
+import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.tool.editor.module.xbdoc_editor.panel.XBDocumentPanel;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
@@ -26,7 +27,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Document node property dialog.
  *
- * @version 0.1.23 2013/09/23
+ * @version 0.1.24 2014/11/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyDialog extends javax.swing.JDialog {
@@ -63,8 +64,8 @@ public class XBPropertyDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         infoPanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        propertyNameLabel = new javax.swing.JLabel();
+        propertyNameTextField = new javax.swing.JTextField();
         bottomPanel = new javax.swing.JPanel();
         closeButton = new javax.swing.JButton();
 
@@ -75,11 +76,11 @@ public class XBPropertyDialog extends javax.swing.JDialog {
         infoPanel.setEnabled(false);
         infoPanel.setName("infoPanel"); // NOI18N
 
-        jLabel1.setText(bundle.getString("jLabel1.text")); // NOI18N
+        propertyNameLabel.setText(bundle.getString("jLabel1.text")); // NOI18N
 
-        jTextField1.setEditable(false);
-        jTextField1.setText(bundle.getString("jTextField1.text")); // NOI18N
-        jTextField1.setName("jTextField1"); // NOI18N
+        propertyNameTextField.setEditable(false);
+        propertyNameTextField.setText(bundle.getString("jTextField1.text")); // NOI18N
+        propertyNameTextField.setName("propertyNameTextField"); // NOI18N
 
         javax.swing.GroupLayout infoPanelLayout = new javax.swing.GroupLayout(infoPanel);
         infoPanel.setLayout(infoPanelLayout);
@@ -87,9 +88,9 @@ public class XBPropertyDialog extends javax.swing.JDialog {
             infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(infoPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(propertyNameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+                .addComponent(propertyNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
                 .addContainerGap())
         );
         infoPanelLayout.setVerticalGroup(
@@ -97,8 +98,8 @@ public class XBPropertyDialog extends javax.swing.JDialog {
             .addGroup(infoPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(propertyNameLabel)
+                    .addComponent(propertyNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -151,8 +152,8 @@ public class XBPropertyDialog extends javax.swing.JDialog {
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton closeButton;
     private javax.swing.JPanel infoPanel;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel propertyNameLabel;
+    private javax.swing.JTextField propertyNameTextField;
     // End of variables declaration//GEN-END:variables
 
     public XBACatalog getCatalog() {
@@ -179,5 +180,6 @@ public class XBPropertyDialog extends javax.swing.JDialog {
 
     public void setRootBlock(XBTBlock node) {
         documentPanel.getDoc().setRootBlock(node);
+        documentPanel.reportStructureChange((XBTTreeNode) node);
     }
 }

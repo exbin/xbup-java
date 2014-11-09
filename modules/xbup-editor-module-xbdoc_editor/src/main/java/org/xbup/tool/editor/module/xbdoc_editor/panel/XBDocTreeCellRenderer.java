@@ -37,14 +37,14 @@ import org.xbup.lib.parser_tree.XBTTreeNode;
 /**
  * Tree Cell Renderer for XBUP Document Tree.
  *
- * @version 0.1.24 2014/09/03
+ * @version 0.1.24 2014/11/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
 
     private XBACatalog catalog;
-    private Map<Long,String> captionCache;
-    private Map<Long,ImageIcon> iconCache;
+    private final Map<Long,String> captionCache;
+    private final Map<Long,ImageIcon> iconCache;
 
     public XBDocTreeCellRenderer(XBACatalog catalog) {
         super();
@@ -74,7 +74,6 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
             }
 
             if (node.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
-                //new ("/home/hajdam/Projekty/XBUP/imgs/xbup_logo2.png").getImage();
                 ImageIcon icon = null;
                 if (catalog != null) {
                     icon = getIcon(node.getBlockDecl());

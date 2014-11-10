@@ -45,6 +45,7 @@ public class XBPropertyDialog extends javax.swing.JDialog {
 
         documentPanel = new XBDocumentPanel(null, catalog);
         getContentPane().add(documentPanel, java.awt.BorderLayout.CENTER);
+        
         pack();
         
         init();

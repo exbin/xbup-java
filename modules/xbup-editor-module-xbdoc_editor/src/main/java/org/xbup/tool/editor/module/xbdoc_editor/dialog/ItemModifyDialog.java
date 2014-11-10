@@ -35,16 +35,27 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.text.JTextComponent;
 import org.xbup.lib.core.block.XBBlockDataMode;
+import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
+import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
+import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.core.catalog.base.XBCRev;
+import org.xbup.lib.core.catalog.base.XBCSpec;
+import org.xbup.lib.core.catalog.base.XBCSpecDef;
 import org.xbup.lib.core.catalog.base.XBCXBlockPane;
+import org.xbup.lib.core.catalog.base.XBCXName;
 import org.xbup.lib.core.catalog.base.XBCXPlugPane;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.core.catalog.base.service.XBCRevService;
+import org.xbup.lib.core.catalog.base.service.XBCSpecService;
+import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXPaneService;
 import org.xbup.lib.core.parser.XBParserMode;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -67,6 +78,8 @@ import org.xbup.lib.plugin.XBPlugin;
 import org.xbup.lib.plugin.XBPluginRepository;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.module.xbdoc_editor.panel.XBPropertyTableCellEditor;
+import org.xbup.tool.editor.module.xbdoc_editor.panel.XBPropertyTableCellRenderer;
 
 /**
  * Dialog for modifying item attributes or data.
@@ -114,6 +127,13 @@ public class ItemModifyDialog extends javax.swing.JDialog {
                 updateAttributesButtons();
             }
         });
+
+        int parametersTableWidth = parametersTable.getWidth();
+        parametersTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        parametersTable.getColumnModel().getColumn(0).setPreferredWidth(parametersTableWidth / 6);
+        parametersTable.getColumnModel().getColumn(1).setPreferredWidth(parametersTableWidth / 6);
+        parametersTable.getColumnModel().getColumn(2).setPreferredWidth(parametersTableWidth / 6);
+        parametersTable.getColumnModel().getColumn(3).setPreferredWidth(parametersTableWidth / 2);
 
         init();
     }
@@ -342,7 +362,7 @@ public class ItemModifyDialog extends javax.swing.JDialog {
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         attributes.add(new UBNat32());
         tableModel.fireTableDataChanged();
-//        tableModel.fireTableRowsInserted(tableModel.getAttribs().size()-1,tableModel.getAttribs().size());
+//        tableModel.fireTableRowsInserted(tableModel.getParameters().size()-1,tableModel.getParameters().size());
         attributesTable.revalidate();
         removeButton.setEnabled(true);
     }//GEN-LAST:event_addButtonActionPerformed
@@ -386,8 +406,8 @@ public class ItemModifyDialog extends javax.swing.JDialog {
                     throw new UnsupportedOperationException("Not supported yet.");
                     // node = (XBTTreeNode) doc.getRootBlock();
                     // TODO: Patching node type, should be handled by context later
-                    // node.setAttribute(srcNode.getAttribute(0), 0);
-                    // node.setAttribute(srcNode.getAttribute(1), 1);
+                    // node.setAttribute(srcNode.getParameter(0), 0);
+                    // node.setAttribute(srcNode.getParameter(1), 1);
                 } catch (IOException | XBProcessingException ex) {
                     Logger.getLogger(ItemModifyDialog.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -476,6 +496,12 @@ public class ItemModifyDialog extends javax.swing.JDialog {
                 }
                 tableModel.setAttribs(attributes);
                 updateAttributesButtons();
+
+                loadParameters(srcNode);
+                TableColumnModel columnModel = parametersTable.getColumnModel();
+                TableColumn column = columnModel.getColumn(3);
+                column.setCellEditor(new XBPropertyTableCellEditor(catalog, newNode));
+                column.setCellRenderer(new XBPropertyTableCellRenderer(catalog, newNode));
             }
 
             mainTabbedPane.addTab(paramEditorPanelTitle, paramEditorPanel);
@@ -570,5 +596,49 @@ public class ItemModifyDialog extends javax.swing.JDialog {
         }
 
         return panelEditor.getPanel();
+    }
+
+    private void loadParameters(XBTTreeNode node) {
+        List<ParametersTableItem> parameters = parametersTableModel.getParameters();
+
+        if (node == null) {
+            return;
+        }
+        XBBlockType type = node.getBlockType();
+        XBBlockDecl decl = node.getBlockDecl();
+
+        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        if (decl instanceof XBCBlockDecl) {
+            XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+            XBCBlockSpec spec = ((XBCBlockDecl) decl).getBlockSpec().getParent();
+            if (spec != null) {
+                long bindCount = specService.getSpecDefsCount(spec);
+                // TODO: if (desc != null) descTextField.setText(desc.getText());
+                for (int i = 0; i < bindCount; i++) {
+                    // TODO: Exclusive lock
+                    XBCSpecDef bind = specService.getSpecDefByOrder(spec, i);
+                    String specName = "";
+                    String specType = "";
+
+                    if (bind != null) {
+                        XBCXName bindName = nameService.getItemName(bind);
+                        if (bindName != null) {
+                            specName = bindName.getText();
+                        }
+
+                        XBCRev rowRev = bind.getTarget();
+                        XBCSpec rowSpec = rowRev.getParent();
+
+                        XBCXName typeName = nameService.getItemName(rowSpec);
+                        if (typeName != null) {
+                            specType = typeName.getText();
+                        }
+                    }
+
+                    ParametersTableItem itemRecord = new ParametersTableItem(spec, specName, specType);
+                    parameters.add(itemRecord);
+                }
+            }
+        }
     }
 }

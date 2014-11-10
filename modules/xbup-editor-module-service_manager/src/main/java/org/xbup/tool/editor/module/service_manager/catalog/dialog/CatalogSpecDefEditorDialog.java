@@ -33,6 +33,8 @@ import org.xbup.lib.core.catalog.base.XBCSpecDef;
 import org.xbup.lib.core.catalog.base.XBCSpecDefType;
 import org.xbup.lib.core.catalog.base.service.XBCItemService;
 import org.xbup.lib.core.catalog.base.service.XBCRevService;
+import org.xbup.lib.core.catalog.base.service.XBCXDescService;
+import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogRevsComboBoxModel;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
@@ -41,7 +43,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * XBManager Catalog Specification Selection Dialog.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.1.24 2014/11/10
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
@@ -89,7 +91,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     }
 
     private void init() {
-        WindowUtils.assignGlobalKeyListener(this, selectButton, cancelButton);
+        WindowUtils.assignGlobalKeyListener(this, saveButton, cancelButton);
     }
 
     public int getOption() {
@@ -107,7 +109,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
 
         controlPanel = new javax.swing.JPanel();
         cancelButton = new javax.swing.JButton();
-        selectButton = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
         definitionTypePanel = new javax.swing.JPanel();
         definitionTypeLabel = new javax.swing.JLabel();
         definitionTypeComboBox = new javax.swing.JComboBox();
@@ -131,10 +133,10 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        selectButton.setText("Select");
-        selectButton.addActionListener(new java.awt.event.ActionListener() {
+        saveButton.setText("Save");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectButtonActionPerformed(evt);
+                saveButtonActionPerformed(evt);
             }
         });
 
@@ -143,8 +145,8 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         controlPanelLayout.setHorizontalGroup(
             controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
-                .addContainerGap(184, Short.MAX_VALUE)
-                .addComponent(selectButton)
+                .addContainerGap(194, Short.MAX_VALUE)
+                .addComponent(saveButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cancelButton)
                 .addContainerGap())
@@ -155,7 +157,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
-                    .addComponent(selectButton))
+                    .addComponent(saveButton))
                 .addContainerGap())
         );
 
@@ -202,17 +204,16 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
                         .addComponent(definitionTargetTextField)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(selectTargetButton))
+                    .addComponent(nameTextField)
+                    .addComponent(descriptionTextField)
                     .addGroup(definitionTypePanelLayout.createSequentialGroup()
                         .addGroup(definitionTypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(definitionTypeLabel)
                             .addComponent(definitionTargetLabel)
-                            .addComponent(targetRevisionLabel))
-                        .addGap(0, 223, Short.MAX_VALUE))
-                    .addComponent(nameTextField)
-                    .addComponent(descriptionTextField)
-                    .addGroup(definitionTypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(nameLabel)
-                        .addComponent(descriptionLabel)))
+                            .addComponent(targetRevisionLabel)
+                            .addComponent(nameLabel)
+                            .addComponent(descriptionLabel))
+                        .addGap(0, 223, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         definitionTypePanelLayout.setVerticalGroup(
@@ -254,10 +255,10 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         WindowUtils.closeWindow(this);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-    private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         dialogOption = JOptionPane.OK_OPTION;
         WindowUtils.closeWindow(this);
-    }//GEN-LAST:event_selectButtonActionPerformed
+    }//GEN-LAST:event_saveButtonActionPerformed
 
     private void selectTargetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectTargetButtonActionPerformed
         CatalogSelectSpecDialog specSelectDialog = new CatalogSelectSpecDialog((Frame) SwingUtilities.getWindowAncestor(this), true, catalog, targetType);
@@ -291,7 +292,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     private javax.swing.JTextField descriptionTextField;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;
-    private javax.swing.JButton selectButton;
+    private javax.swing.JButton saveButton;
     private javax.swing.JButton selectTargetButton;
     private javax.swing.JComboBox targetRevisionComboBox;
     private javax.swing.JLabel targetRevisionLabel;
@@ -307,7 +308,6 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
             if (targetSpec instanceof XBCSpec) {
                 revsModel.setRevs(revService.getRevs((XBCSpec) targetSpec));
                 targetRevisionComboBox.setSelectedIndex(revsModel.getSize() - 1);
-
             } else {
                 revsModel.getRevs().clear();
             }
@@ -397,6 +397,11 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     public void setSpecDef(XBCSpecDef specDef) {
         setSpec(specDef.getSpec());
 
+        XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+        nameTextField.setText(nameService.getItemNameText(specDef));
+        XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
+        descriptionTextField.setText(descService.getItemDescText(specDef));
+        
         repaint();
 
         setTarget(specDef.getTarget());
@@ -447,5 +452,13 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
             targetRevisionComboBox.setEnabled(true);
             selectTargetButton.setEnabled(true);
         }
+    }
+
+    public String getItemName() {
+        return nameTextField.getText();
+    }
+
+    public String getItemDescription() {
+        return descriptionTextField.getText();
     }
 }

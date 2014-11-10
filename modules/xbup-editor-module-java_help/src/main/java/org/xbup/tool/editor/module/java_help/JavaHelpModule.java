@@ -19,6 +19,7 @@ package org.xbup.tool.editor.module.java_help;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -26,6 +27,7 @@ import java.util.logging.Logger;
 import javax.help.CSH;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
+import javax.help.HelpSetException;
 import javax.swing.JMenuItem;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.tool.editor.base.api.ApplicationModule;
@@ -48,9 +50,8 @@ public class JavaHelpModule implements ApplicationModule {
     private ActionListener helpActionLisneter;
     private final String DIALOG_MENU_SUFIX = "...";
     private JMenuItem helpContextMenuItem;
-    private ResourceBundle resourceBundle;
+    private final ResourceBundle resourceBundle;
 
-    /** Constructor */
     public JavaHelpModule() {
         resourceBundle = ResourceBundle.getBundle("org/xbup/tool/editor/module/java_help/resources/JavaHelpModule");
     }
@@ -97,8 +98,9 @@ public class JavaHelpModule implements ApplicationModule {
         } catch (IOException ex) {
             Logger.getLogger(JavaHelpModule.class.getName()).log(Level.SEVERE, null, ex);
         }
-        helpSet = getHelpSet(path + "/help/Sample.hs");
-        if (helpSet != null) { // Temporary for Java webstart, include help in jar later
+        helpSet = getHelpSet(path + "/help/help.hs");
+        if (helpSet != null) {
+            // Temporary for Java webstart, include help in jar later
             helpBroker = helpSet.createHelpBroker();
             CSH.setHelpIDString(helpContextMenuItem, "top");
             helpActionLisneter = new CSH.DisplayHelpFromSource(helpBroker);
@@ -110,23 +112,23 @@ public class JavaHelpModule implements ApplicationModule {
     }
 
     /**
-     * find the helpset file and create a HelpSet object
+     * find the helpset file and create a HelpSet object.
      */
     private HelpSet getHelpSet(String helpsetfile) {
         HelpSet hs = null;
         ClassLoader cl = getClass().getClassLoader();
         try {
             URL hsURL = HelpSet.findHelpSet(cl, helpsetfile);
-            File file = new File("./help/Sample.hs");
+            File file = new File("./help/help.hs");
             if (!file.exists()) {
-                file = new File("./../help/Sample.hs");
+                file = new File("./../help/help.hs");
             }
             if (hsURL == null) {
                 hsURL = (file.toURI()).toURL();
             }
             hs = new HelpSet(null, hsURL);
-        } catch (Exception ee) {
-            System.out.println("HelpSet: " + ee.getMessage());
+        } catch (MalformedURLException | HelpSetException ex) {
+            System.out.println("HelpSet: " + ex.getMessage());
             System.out.println("HelpSet: " + helpsetfile + " not found");
         }
         return hs;

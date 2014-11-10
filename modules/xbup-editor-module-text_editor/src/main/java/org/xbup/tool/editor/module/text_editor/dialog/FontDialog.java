@@ -98,6 +98,7 @@ public class FontDialog extends JDialog {
 
     public FontDialog(java.awt.Frame owner, boolean modal) {
         super(owner, modal);
+        
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         fontNames = ge.getAvailableFontFamilyNames();
         fontSizes = new String[]{"8", "9", "10", "11", "12", "14", "16",

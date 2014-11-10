@@ -23,6 +23,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.FlushModeType;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,9 +59,7 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
     public T createItem() {
         try {
             return (T) getGenericClass().newInstance();
-        } catch (InstantiationException ex) {
-            Logger.getLogger(XBEDefaultManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(XBEDefaultManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -67,12 +67,19 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
 
     @Override
     public void removeItem(T item) {
-        // EntityTransaction transaction = em.getTransaction();
-        // transaction.begin();
+        EntityTransaction transaction = null;
+        if (em.getFlushMode() == FlushModeType.COMMIT) {
+            transaction = em.getTransaction();
+            transaction.begin();
+        }
+
         T removedItem = em.merge(item);
         em.remove(removedItem);
-        // em.flush();
-        // transaction.commit();
+
+        if (em.getFlushMode() == FlushModeType.COMMIT && transaction != null) {
+            em.flush();
+            transaction.commit();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -119,11 +126,18 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
 
     @Override
     public void persistItem(T item) {
-        // EntityTransaction transaction = em.getTransaction();
-        // transaction.begin();
+        EntityTransaction transaction = null;
+        if (em.getFlushMode() == FlushModeType.COMMIT) {
+            transaction = em.getTransaction();
+            transaction.begin();
+        }
+
         em.merge(item);
-        // em.flush();
-        // transaction.commit();
+
+        if (em.getFlushMode() == FlushModeType.COMMIT && transaction != null) {
+            em.flush();
+            transaction.commit();
+        }
     }
 
     /**

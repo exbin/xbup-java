@@ -33,6 +33,8 @@ import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.catalog.entity.XBERev;
 import org.xbup.lib.catalog.entity.XBESpec;
 import org.xbup.lib.catalog.entity.XBESpecDef;
+import org.xbup.lib.core.catalog.base.service.XBCXDescService;
+import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecDefEditorDialog;
 
 /**
@@ -206,6 +208,11 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
             if (!updateList.contains(specDef)) {
                 updateList.add(specDef);
             }
+            
+            XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+            nameService.setItemNameText(specDef, editorDialog.getItemName());
+            XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
+            descService.setItemDescText(specDef, editorDialog.getItemDescription());
 
             updateItemStatus();
         }
@@ -226,6 +233,11 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
             if (updateList.contains(specDef)) {
                 updateList.remove(specDef);
             }
+            
+            XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+            nameService.setItemNameText(specDef, editorDialog.getItemName());
+            XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
+            descService.setItemDescText(specDef, editorDialog.getItemDescription());
         }
     }//GEN-LAST:event_modifyButtonActionPerformed
 

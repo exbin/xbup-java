@@ -21,35 +21,34 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
-import org.xbup.lib.core.ubnumber.UBNatural;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * Parameters list table model for item editing.
  *
- * @version 0.1.24 2014/11/07
+ * @version 0.1.24 2014/11/10
  * @author XBUP Project (http://xbup.org)
  */
 public class ParametersTableModel extends AbstractTableModel {
 
     private final ResourceBundle resourceBundle;
-    private List<UBNatural> attributes;
+    private List<ParametersTableItem> parameters;
 
     private final String[] columnNames;
     private Class[] columnTypes = new Class[]{
-        java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
+        java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
     };
+    private final boolean[] columnsEditable = new boolean[]{false, false, false, true};
     private final List<TableModelListener> tableModelListeners = new ArrayList<>();
 
     public ParametersTableModel() {
         resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ItemModifyDialog");
-        columnNames = new String[]{resourceBundle.getString("itemmod_itemorder"), resourceBundle.getString("itemmod_itemvalue")};
-        attributes = new ArrayList<>();
+        columnNames = new String[]{resourceBundle.getString("parametersTableModel.itemOrder"), resourceBundle.getString("parametersTableModel.itemName"), resourceBundle.getString("parametersTableModel.itemType"), resourceBundle.getString("parametersTableModel.itemValue")};
+        parameters = new ArrayList<>();
     }
 
     @Override
     public int getRowCount() {
-        return attributes.size();
+        return parameters.size();
     }
 
     @Override
@@ -69,15 +68,22 @@ public class ParametersTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return false;
+        return columnsEditable[columnIndex];
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        if (columnIndex == 1) {
-            return ((UBNat32) getAttribs().get(rowIndex)).getInt();
-        } else {
-            return rowIndex;
+        switch (columnIndex) {
+            case 0:
+                return rowIndex;
+            case 1:
+                return getParameter(rowIndex).getName();
+            case 2:
+                return getParameter(rowIndex).getType();
+            case 3:
+                return "";
+            default:
+                return "";
         }
     }
 
@@ -85,19 +91,20 @@ public class ParametersTableModel extends AbstractTableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         if (rowIndex < getRowCount()) {
             if (columnIndex == 1) {
-                ((UBNat32) attributes.get(rowIndex)).setValue((Integer) aValue);
+                throw new UnsupportedOperationException("Not supported yet.");
+                // ((UBNat32) parameters.get(rowIndex)).setValue((Integer) aValue);
             } else {
                 throw new IllegalStateException();
             }
         }
     }
 
-    public List<UBNatural> getAttribs() {
-        return attributes;
+    public List<ParametersTableItem> getParameters() {
+        return parameters;
     }
 
-    public void setAttribs(List<UBNatural> attributes) {
-        this.attributes = attributes;
+    public void setParameters(List<ParametersTableItem> attributes) {
+        this.parameters = attributes;
     }
 
     public Class[] getTypes() {
@@ -118,12 +125,11 @@ public class ParametersTableModel extends AbstractTableModel {
         tableModelListeners.remove(listener);
     }
 
-    public int getAttribute(int index) {
-        if (index >= attributes.size()) {
-            return 0;
+    public ParametersTableItem getParameter(int index) {
+        if (index >= parameters.size()) {
+            return null;
         }
 
-        UBNat32 attribute = (UBNat32) attributes.get(index);
-        return attribute != null ? attribute.getInt() : 0;
+        return parameters.get(index);
     }
 }

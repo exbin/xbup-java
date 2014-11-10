@@ -19,15 +19,13 @@
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="editParameterButton">
+    <Component class="javax.swing.JButton" name="editorButton">
       <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTableCellRenderer.properties" key="jButton1.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-        </Property>
-        <Property name="name" type="java.lang.String" value="editParameterButton" noResource="true"/>
+        <Property name="text" type="java.lang.String" value="..." noResource="true"/>
+        <Property name="name" type="java.lang.String" value="editorButton" noResource="true"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editParameterButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editorButtonActionPerformed"/>
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -35,13 +33,12 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="javax.swing.JTextField" name="parameterTextField">
+    <Component class="javax.swing.JTextField" name="valueTextField">
       <Properties>
-        <Property name="editable" type="boolean" value="false"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTableCellRenderer.properties" key="jTextField1.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTableCellEditor.properties" key="jTextField1.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
-        <Property name="name" type="java.lang.String" value="parameterTextField" noResource="true"/>
+        <Property name="name" type="java.lang.String" value="valueTextField" noResource="true"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">

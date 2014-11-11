@@ -186,7 +186,7 @@ public class TextFontOptionsPanel extends javax.swing.JPanel implements OptionsP
         fontDialog.setStoredFont(fontPreviewLabel.getFont());
         fontDialog.setLocationRelativeTo(fontDialog.getParent());
         fontDialog.setVisible(true);
-        if (fontDialog.getOption() == JOptionPane.OK_OPTION) {
+        if (fontDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             fontPreviewLabel.setFont(fontDialog.getStoredFont());
             setModified(true);
         }

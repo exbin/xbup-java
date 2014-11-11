@@ -37,7 +37,7 @@ public class WaveResizeDialog extends javax.swing.JDialog {
         initComponents();
     }
 
-    public int getOption() {
+    public int getDialogOption() {
         return dialogOption;
     }
 

@@ -6,10 +6,10 @@ XBManager is management tool for framework and catalog services. It allows to br
 
 The primary window contains a tree of manageable items and the window for their configuration.
 
-{{ :en:doc:support:tools:images:xbmanager.png |XBManager Screenshot}}
+{{ :en:doc:impl:java:tool:xbmanager.png |XBManager Screenshot}}
 
 ===== Technical Details =====
 
-Application allows to connect to the framwork service running on local or remote computer.
+Application allows to connect to the framework service running on local or remote computer.
 
 FIXME

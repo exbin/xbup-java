@@ -76,7 +76,7 @@ import org.xbup.tool.editor.base.api.FileType;
 /**
  * XBSEditor audio panel.
  *
- * @version 0.1.23 2014/03/04
+ * @version 0.1.24 2014/11/11
  * @author XBUP Project (http://xbup.org)
  */
 public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePanel {
@@ -86,7 +86,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
     private String ext;
     private javax.sound.sampled.AudioFileFormat.Type audioFormatType;
     private FileType fileType;
-    private boolean modified = false;
+    private final boolean modified = false;
     private boolean wavePlayed = false;
     private int drawPosition = -1;
     private int wavePosition = -1;
@@ -95,8 +95,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
     private final WavePaintThread wavePaintThread;
 
     private double scaleRatio;
-    private Color[] defaultColors;
-    private int toolMode;
+    private final Color[] defaultColors;
     private XBWavePanel wavePanel;
     private SourceDataLine sourceDataLine;
     private AudioInputStream audioInputStream;
@@ -104,16 +103,12 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
     private DataLine.Info targetDataLineInfo;
     private int dataLinePosition;
     private InputMethodListener caretListener;
-    private List<StatusChangeListener> statusChangeListeners;
-    private List<WaveRepaintListener> waveRepaintListeners;
+    private final List<StatusChangeListener> statusChangeListeners;
+    private final List<WaveRepaintListener> waveRepaintListeners;
 
-    /**
-     * Creates new form AudioPanel
-     */
     public AudioPanel() {
         initComponents();
         scaleRatio = 1;
-        toolMode = 0;
         undo = new UndoManager();
         fileName = "";
         audioFormatType = null;
@@ -595,7 +590,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
     }
 
     public void showResizeDialog(WaveResizeDialog dlg) {
-        if (dlg.getOption() == JOptionPane.OK_OPTION) {
+        if (dlg.getDialogOption() == JOptionPane.OK_OPTION) {
         }
     }
 
@@ -771,6 +766,12 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
     public void setToolMode(XBWavePanel.ToolMode toolMode) {
         wavePanel.setToolMode(toolMode);
         wavePanel.repaint();
+    }
+
+    public void performTransformReverse() {
+        XBWave wave = wavePanel.getWave();
+        wave.performTransformReverse();
+        repaint();
     }
 
     class PlayThread extends Thread {

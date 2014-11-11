@@ -438,7 +438,7 @@ public class ConnectionDialog extends javax.swing.JDialog {
         connectionDialog.setConnectionList(connectionList);
         connectionDialog.setLocationRelativeTo(connectionDialog.getParent());
         connectionDialog.setVisible(true);
-        if (connectionDialog.getOption() == JOptionPane.OK_OPTION) {
+        if (connectionDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             connectionList = connectionDialog.getConnectionList();
             DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) connectionComboBox.getModel();
             comboBoxModel.removeAllElements();

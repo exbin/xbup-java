@@ -545,6 +545,10 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     public void addAttribute(UBNatural attribute) {
+        if (attributes.isEmpty() && singleAttributeType) {
+            singleAttributeType = false;
+        }
+
         attributes.add(attribute);
     }
 

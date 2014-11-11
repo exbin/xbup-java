@@ -167,6 +167,52 @@ public class XBWave implements XBTChildSerializable {
         serial.end();
     }
 
+    public void performTransformReverse() {
+        if (!data.isEmpty()) {
+            // TODO support for non-whole-byte alignment later
+            int sampleSize = audioFormat.getSampleSizeInBits() / 8;
+            byte[] buffer = new byte[sampleSize];
+            long remaining = getDataSize() / (sampleSize * 2);
+            int headBlockIndex = 0;
+            int headPosition = 0;
+            int tailBlockIndex = data.size() - 1;
+            byte[] headBlock = data.get(headBlockIndex);
+            byte[] tailBlock = data.get(tailBlockIndex);
+            int tailPosition = data.get(tailBlockIndex).length;
+            
+            while (remaining > 0) {
+                if (headPosition + sampleSize <= chunkSize) {
+                    System.arraycopy(headBlock, headPosition, buffer, 0, sampleSize);
+                    headPosition += sampleSize;
+                } else {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+                
+                if (tailPosition >= sampleSize) {
+                    System.arraycopy(tailBlock, tailPosition - sampleSize, headBlock, headPosition - sampleSize, sampleSize);
+                    System.arraycopy(buffer, 0, tailBlock, tailPosition - sampleSize, sampleSize);
+                    tailPosition -= sampleSize;
+                } else {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+                
+                if (headPosition == chunkSize) {
+                    headPosition = 0;
+                    headBlockIndex++;
+                    headBlock = data.get(headBlockIndex);
+                }
+                
+                if (tailPosition == 0) {
+                    tailPosition = chunkSize;
+                    tailBlockIndex--;
+                    tailBlock = data.get(tailBlockIndex);
+                }
+                
+                remaining--;
+            }
+        }
+    }
+
     private class WaveInputStream extends InputStream {
 
         private int blockPosition;
@@ -244,6 +290,17 @@ public class XBWave implements XBTChildSerializable {
 
     public List<byte[]> getData() {
         return data;
+    }
+
+    /**
+     * Returns data size in bytes;
+     *
+     * @return size in bytes
+     */
+    public long getDataSize() {
+        long sizeInBytes = 0;
+
+        return data.isEmpty() ? 0 : data.get(data.size() - 1).length + (data.size() > 1 ? sizeInBytes += (data.size() - 1) * chunkSize : 0);
     }
 
     public void setData(List<byte[]> data) {

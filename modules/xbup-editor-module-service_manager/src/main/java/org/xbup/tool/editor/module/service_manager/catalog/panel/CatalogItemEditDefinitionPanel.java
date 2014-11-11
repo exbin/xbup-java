@@ -192,7 +192,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
         editorDialog.setSpec((XBCSpec) catalogItem);
         editorDialog.setVisible(true);
 
-        if (editorDialog.getOption() == JOptionPane.OK_OPTION) {
+        if (editorDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             long maxXbIndex = 0;
             if (bindsModel.getRowCount() > 0) {
                 CatalogBindsTableItem rowItem = bindsModel.getRowItem(bindsModel.getRowCount() - 1);
@@ -226,7 +226,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
         editorDialog.setSpecDef(row.getSpecDef());
         editorDialog.setVisible(true);
 
-        if (editorDialog.getOption() == JOptionPane.OK_OPTION) {
+        if (editorDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             XBCSpecDef specDef = row.getSpecDef();
             ((XBESpecDef) specDef).setTarget((XBERev) editorDialog.getTarget());
 

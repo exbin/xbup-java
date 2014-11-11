@@ -47,7 +47,7 @@ public class WaveColorDialog extends javax.swing.JDialog {
         WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
     }
 
-    public int getOption() {
+    public int getDialogOption() {
         return dialogOption;
     }
 
@@ -142,7 +142,7 @@ public class WaveColorDialog extends javax.swing.JDialog {
     public void showDialog() {
         waveColorPanel.setWaveColorsFromArray(frame.getCurrentWaveColors());
         setVisible(true);
-        if (getOption() == JOptionPane.OK_OPTION) {
+        if (getDialogOption() == JOptionPane.OK_OPTION) {
             frame.setCurrentWaveColors(waveColorPanel.getWaveColorsAsArray());
         }
     }

@@ -111,7 +111,7 @@
                       <Image iconType="3" name="/org/xbup/tool/editor/module/wave_editor/resources/images/actions/play16.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="playButton.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="playButton.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -139,7 +139,7 @@
                       <Image iconType="3" name="/org/xbup/tool/editor/module/wave_editor/resources/images/actions/stop16.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="stopButton.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="stopButton.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -284,7 +284,7 @@
         <Menu class="javax.swing.JMenu" name="viewDrawModePopupMenu">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="viewDrawModePopupMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="viewDrawModePopupMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="viewDrawModePopupMenu" noResource="true"/>
           </Properties>
@@ -292,10 +292,10 @@
             <MenuItem class="javax.swing.JRadioButtonMenuItem" name="viewDrawModeDotsPopupMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="actionDrawModeDots.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="actionDrawModeDots.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="actionDrawModeDots.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="actionDrawModeDots.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="viewDrawModeDotsPopupMenuItem" noResource="true"/>
               </Properties>
@@ -309,10 +309,10 @@
             <MenuItem class="javax.swing.JRadioButtonMenuItem" name="viewDrawModeLinesPopupMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="actionDrawModeLines.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="actionDrawModeLines.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="actionDrawModeLines.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="actionDrawModeLines.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="viewDrawModeLinesPopupMenuItem" noResource="true"/>
               </Properties>
@@ -326,10 +326,10 @@
             <MenuItem class="javax.swing.JRadioButtonMenuItem" name="viewDrawModeIntegralPopupMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="actionDrawModeIntegral.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="actionDrawModeIntegral.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="actionDrawModeIntegral.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="actionDrawModeIntegral.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="viewDrawModeIntegralPopupMenuItem" noResource="true"/>
               </Properties>
@@ -378,10 +378,10 @@
                   <KeyStroke key="Ctrl+P"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="filePrintMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="filePrintMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="filePrintMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="filePrintMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="filePrintMenuItem" noResource="true"/>
               </Properties>
@@ -408,7 +408,7 @@
             <Menu class="javax.swing.JMenu" name="viewDrawModeMenu">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="viewDrawModeMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="viewDrawModeMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="viewDrawModeMenu" noResource="true"/>
               </Properties>
@@ -419,10 +419,10 @@
                       <ComponentRef name="drawModeButtonGroup"/>
                     </Property>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="actionDrawModeDots.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="actionDrawModeDots.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="actionDrawModeDots.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="actionDrawModeDots.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="name" type="java.lang.String" value="viewDrawModeDotsMenuItem" noResource="true"/>
                   </Properties>
@@ -437,10 +437,10 @@
                     </Property>
                     <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="actionDrawModeLines.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="actionDrawModeLines.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="actionDrawModeLines.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="actionDrawModeLines.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="name" type="java.lang.String" value="viewDrawModeLinesMenuItem" noResource="true"/>
                   </Properties>
@@ -454,10 +454,10 @@
                       <ComponentRef name="drawModeButtonGroup"/>
                     </Property>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="actionDrawModeIntegral.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="actionDrawModeIntegral.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="actionDrawModeIntegral.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="actionDrawModeIntegral.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="name" type="java.lang.String" value="viewDrawModeIntegralMenuItem" noResource="true"/>
                   </Properties>
@@ -470,7 +470,7 @@
             <Menu class="javax.swing.JMenu" name="viewZoomMenu">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="viewZoomMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="viewZoomMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="viewZoomMenu" noResource="true"/>
               </Properties>
@@ -481,10 +481,10 @@
                       <ComponentRef name="zoomButtonGroup"/>
                     </Property>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="viewZoom25.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="viewZoom25.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="viewZoom25.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="viewZoom25.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="name" type="java.lang.String" value="viewZoom25MenuItem" noResource="true"/>
                   </Properties>
@@ -498,10 +498,10 @@
                       <ComponentRef name="zoomButtonGroup"/>
                     </Property>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="viewZoom50.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="viewZoom50.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="viewZoom50.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="viewZoom50.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="name" type="java.lang.String" value="viewZoom50MenuItem" noResource="true"/>
                   </Properties>
@@ -516,10 +516,10 @@
                     </Property>
                     <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="viewZoom100.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="viewZoom100.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="viewZoom200.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="viewZoom200.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="name" type="java.lang.String" value="viewZoom100MenuItem" noResource="true"/>
                   </Properties>
@@ -533,10 +533,10 @@
                       <ComponentRef name="zoomButtonGroup"/>
                     </Property>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="viewZoom200.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="viewZoom200.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="viewZoom200.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="viewZoom200.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="name" type="java.lang.String" value="viewZoom200MenuItem" noResource="true"/>
                   </Properties>
@@ -550,10 +550,10 @@
                       <ComponentRef name="zoomButtonGroup"/>
                     </Property>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="viewZoom400.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="viewZoom400.Action.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="viewZoom400.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="viewZoom400.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="name" type="java.lang.String" value="viewZoom400MenuItem" noResource="true"/>
                   </Properties>
@@ -567,7 +567,9 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="audioMenu">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Audio"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="audioMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="name" type="java.lang.String" value="audioMenu" noResource="true"/>
           </Properties>
           <AuxValues>
@@ -580,10 +582,10 @@
                   <KeyStroke key="SPACE"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="audioPlayMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="audioPlayMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="audioPlayMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="audioPlayMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="audioPlayMenuItem" noResource="true"/>
               </Properties>
@@ -594,10 +596,10 @@
             <MenuItem class="javax.swing.JMenuItem" name="audioStopMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="audioStopMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="audioStopMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="audioStopMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="audioStopMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="audioStopMenuItem" noResource="true"/>
               </Properties>
@@ -613,7 +615,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="audioResizeMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="audioResizeMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="audioResizeMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="audioResizeMenuItem" noResource="true"/>
               </Properties>
@@ -621,19 +623,21 @@
             <Menu class="javax.swing.JMenu" name="audioTransformMenu">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="audioTransformMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="audioTransformMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
-                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="name" type="java.lang.String" value="audioTransformMenu" noResource="true"/>
               </Properties>
               <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="audioTransformMirrorMenuItem">
+                <MenuItem class="javax.swing.JMenuItem" name="audioTransformReverseMenuItem">
                   <Properties>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="audioTransformMirrorMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="audioTransformReverseMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
-                    <Property name="name" type="java.lang.String" value="audioTransformMirrorMenuItem" noResource="true"/>
+                    <Property name="name" type="java.lang.String" value="audioTransformReverseMenuItem" noResource="true"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="audioTransformReverseMenuItemActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -642,7 +646,7 @@
         <Menu class="javax.swing.JMenu" name="toolsMenu">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="toolsMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="toolsMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="toolsMenu" noResource="true"/>
           </Properties>
@@ -657,7 +661,7 @@
                 </Property>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="toolSelectionMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="toolSelectionMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="toolSelectionMenuItem" noResource="true"/>
               </Properties>
@@ -671,7 +675,7 @@
                   <ComponentRef name="toolsModeButtonGroup"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="toolPencilMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="toolPencilMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="toolPencilMenuItem" noResource="true"/>
               </Properties>
@@ -684,7 +688,7 @@
         <Menu class="javax.swing.JMenu" name="optionsMenu">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="optionsMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="optionsMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="optionsMenu" noResource="true"/>
           </Properties>
@@ -695,10 +699,10 @@
             <MenuItem class="javax.swing.JMenuItem" name="optionsColorsMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="optionsColorsMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="optionsColorsMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/xbeditor/module/xbwaveeditor/resources/XBWaveEditorFrame.properties" key="optionsColorsMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="optionsColorsMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="optionsColorsMenuItem" noResource="true"/>
               </Properties>

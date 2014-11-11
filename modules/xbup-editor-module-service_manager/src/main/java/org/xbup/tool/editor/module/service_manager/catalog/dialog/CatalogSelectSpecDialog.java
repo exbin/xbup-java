@@ -53,7 +53,7 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
         WindowUtils.assignGlobalKeyListener(this, selectButton, cancelButton);
     }
 
-    public int getOption() {
+    public int getDialogOption() {
         return dialogOption;
     }
 

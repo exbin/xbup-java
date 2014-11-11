@@ -16,46 +16,24 @@
  */
 package org.xbup.web.xbcatalogweb.base;
 
-import java.util.List;
-import org.xbup.lib.catalog.entity.XBEXHDoc;
-import org.xbup.lib.catalog.entity.XBEXLanguage;
-
 /**
  * Full item record entity interface.
  *
  * @version 0.1.24 2014/11/11
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBCFullItemRecord extends XBCItemRecord {
+public interface XBCDefinitionRecord {
 
-    String getDescription();
-
-    XBEXHDoc getHdoc();
-
-    String getHdocText();
-
-    String getItemName();
-
-    XBEXLanguage getLanguage();
-
-    String getParentNode();
+    Integer getXbIndex();
 
     String getStringId();
 
-    List<XBCDefinitionRecord> getDefinitions();
+    String getName();
 
-    void setDescription(String description);
-
-    void setHdoc(XBEXHDoc hdoc);
-
-    void setHdocText(String hdocText);
-
-    void setItemName(String itemName);
-
-    void setLanguage(XBEXLanguage language);
-
-    void setParentNode(String parentNode);
+    void setXBIndex(Integer xbIndex);
 
     void setStringId(String stringId);
+
+    void setName(String itemName);
 
 }

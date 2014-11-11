@@ -35,22 +35,20 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * XBSEditor Main Frame.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.1.24 2014/11/11
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPanelFrame {
 
     private AudioPanel activePanel;
     private final MouseMotionListener mouseMotionListener;
-    private ResourceBundle resourceBundle;
+    private ResourceBundle resourceBundle = ResourceBundle.getBundle("org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame");
     private final String DIALOG_MENU_SUFIX = "...";
     private boolean playing = false;
 
     public static final String XBSFILETYPE = "XBWaveEditor.XBSFileFilter";
 
     public XBWaveEditorFrame() {
-        resourceBundle = ResourceBundle.getBundle("org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame");
-
         initComponents();
         activePanel = new AudioPanel();
         activePanel.addStatusChangeListener(new AudioPanel.StatusChangeListener() {
@@ -217,7 +215,7 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
         jSeparator6 = new javax.swing.JPopupMenu.Separator();
         audioResizeMenuItem = new javax.swing.JMenuItem();
         audioTransformMenu = new javax.swing.JMenu();
-        audioTransformMirrorMenuItem = new javax.swing.JMenuItem();
+        audioTransformReverseMenuItem = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
         toolSelectionMenuItem = new javax.swing.JRadioButtonMenuItem();
         toolPencilMenuItem = new javax.swing.JRadioButtonMenuItem();
@@ -556,7 +554,7 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
 
         menuBar.add(viewMenu);
 
-        audioMenu.setText("Audio");
+        audioMenu.setText(bundle.getString("audioMenu.text")); // NOI18N
         audioMenu.setName("audioMenu"); // NOI18N
 
         audioPlayMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_SPACE, 0));
@@ -588,12 +586,16 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
         audioMenu.add(audioResizeMenuItem);
 
         audioTransformMenu.setText(bundle.getString("audioTransformMenu.text")); // NOI18N
-        audioTransformMenu.setEnabled(false);
         audioTransformMenu.setName("audioTransformMenu"); // NOI18N
 
-        audioTransformMirrorMenuItem.setText(bundle.getString("audioTransformMirrorMenuItem.text")); // NOI18N
-        audioTransformMirrorMenuItem.setName("audioTransformMirrorMenuItem"); // NOI18N
-        audioTransformMenu.add(audioTransformMirrorMenuItem);
+        audioTransformReverseMenuItem.setText(bundle.getString("audioTransformReverseMenuItem.text")); // NOI18N
+        audioTransformReverseMenuItem.setName("audioTransformReverseMenuItem"); // NOI18N
+        audioTransformReverseMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                audioTransformReverseMenuItemActionPerformed(evt);
+            }
+        });
+        audioTransformMenu.add(audioTransformReverseMenuItem);
 
         audioMenu.add(audioTransformMenu);
 
@@ -734,6 +736,10 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
         activePanel.performStop();
     }//GEN-LAST:event_stopButtonActionPerformed
 
+    private void audioTransformReverseMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_audioTransformReverseMenuItemActionPerformed
+        activePanel.performTransformReverse();
+    }//GEN-LAST:event_audioTransformReverseMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -748,7 +754,7 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
     private javax.swing.JMenuItem audioResizeMenuItem;
     private javax.swing.JMenuItem audioStopMenuItem;
     private javax.swing.JMenu audioTransformMenu;
-    private javax.swing.JMenuItem audioTransformMirrorMenuItem;
+    private javax.swing.JMenuItem audioTransformReverseMenuItem;
     private javax.swing.JTextField currentTimeTextField;
     private javax.swing.ButtonGroup drawModeButtonGroup;
     public javax.swing.JMenu fileMenu;

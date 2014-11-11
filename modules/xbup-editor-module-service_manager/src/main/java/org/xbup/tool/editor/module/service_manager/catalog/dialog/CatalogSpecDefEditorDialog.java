@@ -94,7 +94,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         WindowUtils.assignGlobalKeyListener(this, saveButton, cancelButton);
     }
 
-    public int getOption() {
+    public int getDialogOption() {
         return dialogOption;
     }
 
@@ -263,7 +263,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     private void selectTargetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectTargetButtonActionPerformed
         CatalogSelectSpecDialog specSelectDialog = new CatalogSelectSpecDialog((Frame) SwingUtilities.getWindowAncestor(this), true, catalog, targetType);
         specSelectDialog.setVisible(true);
-        if (specSelectDialog.getOption() == JOptionPane.OK_OPTION) {
+        if (specSelectDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             setRevSpec((XBCSpec) specSelectDialog.getSpec());
         }
         targetRevisionComboBox.repaint();

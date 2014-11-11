@@ -131,18 +131,21 @@ public class XBManager extends XBEditorBase {
 
         @Override
         public void execute() {
-            ApplicationModule module = app.getModuleRepository().getPluginHandler();
+            ApplicationModule module;
 
             try {
+                module = app.getModuleRepository().getPluginHandler(XBServiceManagerModule.class);
                 if (module instanceof XBServiceManagerModule) {
                     ((XBServiceManagerModule) module).getEditorFrame().actionConnect();
-                } else if (module instanceof OnlineHelpModule) {
+                }
+                
+                module = app.getModuleRepository().getPluginHandler(OnlineHelpModule.class);
+                if (module instanceof OnlineHelpModule) {
                     ((OnlineHelpModule) module).setHelpUrl(new URL("http://www.xbup.org/?wiki/doc/impl/java/tool/xbmanager"));
                 }
             } catch (MalformedURLException ex) {
                 Logger.getLogger(XBManager.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
     }
 }

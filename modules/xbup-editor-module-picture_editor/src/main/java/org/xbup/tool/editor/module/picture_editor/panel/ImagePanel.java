@@ -229,7 +229,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         ToolColorPanel colorPanel = dlg.getColorPanel();
         // colorPanel.setTextFindColor(getSelectionColor());
         dlg.setVisible(true);
-        if (dlg.getOption() == JOptionPane.OK_OPTION) {
+        if (dlg.getDialogOption() == JOptionPane.OK_OPTION) {
             // setSelectionColor(colorPanel.getTextFindColor());
         }
     }
@@ -241,7 +241,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
 //        dlg.setAttributes(a);
         dlg.setStoredFont(imageArea.getFont());
         dlg.setVisible(true);
-        if (dlg.getOption() == JOptionPane.OK_OPTION) {
+        if (dlg.getDialogOption() == JOptionPane.OK_OPTION) {
             imageArea.setFont(dlg.getStoredFont());
 //            textArea.setForeground(dlg.getMyColor());
         }
@@ -604,7 +604,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
     public void showResizeDialog(ImageResizeDialog dlg) {
         dlg.setResolution(new Point(image.getWidth(null), image.getHeight(null)));
         dlg.setVisible(true);
-        if (dlg.getOption() == JOptionPane.OK_OPTION) {
+        if (dlg.getDialogOption() == JOptionPane.OK_OPTION) {
             Point point = dlg.getResolution();
             int width = (int) (point.getX());
             int height = (int) (point.getY());

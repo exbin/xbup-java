@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * XBUP basic specification block types enumeration.
  *
- * @version 0.1.24 2014/08/27
+ * @version 0.1.24 2014/11/11
  * @author XBUP Project (http://xbup.org)
  */
 public enum XBBasicBlockType {
@@ -112,5 +112,11 @@ public enum XBBasicBlockType {
 
     public static XBBasicBlockType valueOf(int blockId) {
         return map.get(blockId);
+    }
+    
+    private static final int size = values().length;
+    
+    public static int getSize() {
+        return size;
     }
 }

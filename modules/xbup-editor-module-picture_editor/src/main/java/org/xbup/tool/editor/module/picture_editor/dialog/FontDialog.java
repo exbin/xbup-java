@@ -258,7 +258,7 @@ public class FontDialog extends JDialog {
         return attributes;
     }
 
-    public int getOption() {
+    public int getDialogOption() {
         return dialogOption;
     }
 

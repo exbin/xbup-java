@@ -38,7 +38,7 @@ public class AddConnectionDialog extends javax.swing.JDialog {
         }
     }
 
-    public int getOption() {
+    public int getDialogOption() {
         return dialogOption;
     }
 

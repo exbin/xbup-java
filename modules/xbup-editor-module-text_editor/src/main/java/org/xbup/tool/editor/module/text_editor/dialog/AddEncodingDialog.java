@@ -46,7 +46,7 @@ public class AddEncodingDialog extends javax.swing.JDialog {
         WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
     }
 
-    public int getOption() {
+    public int getDialogOption() {
         return dialogOption;
     }
 

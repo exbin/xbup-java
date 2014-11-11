@@ -32,20 +32,21 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.tool.editor.module.xbdoc_editor.util.BareBonesBrowserLaunch;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
+import org.xbup.tool.editor.base.api.utils.BareBonesBrowserLaunch;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * Dialog for showing information about items.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.1.24 2014/11/11
  * @author XBUP Project (http://xbup.org)
  */
 public class ItemPropertiesDialog extends javax.swing.JDialog {
 
     private XBTTreeNode node;
     private XBACatalog catalog;
+    private boolean devMode = false;
     private final ResourceBundle resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ItemPropertiesDialog");
 
     public ItemPropertiesDialog(java.awt.Frame parent, boolean modal) {
@@ -221,8 +222,7 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
         jTextField1.setText(getCaption(node));
         jTextField2.setText(Integer.toString(node.getSizeUB()));
         jCheckBox1.setSelected(node.getTerminationMode() == XBBlockTerminationMode.TERMINATED_BY_ZERO);
-        // TODO: Different link for dev mode
-        String catalogLink = "http://catalog.xbup.org/";
+        String catalogLink = devMode ? "http://catalog-dev.xbup.org/" : "http://catalog.xbup.org/";
         XBBlockType type = node.getBlockType();
 
         XBBlockDecl decl = node.getBlockDecl();
@@ -268,20 +268,18 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
     private javax.swing.JLabel onlineSpecLinkLabel;
     // End of variables declaration//GEN-END:variables
 
-    /**
-     * @return the catalog
-     */
     public XBACatalog getCatalog() {
         return catalog;
     }
 
-    /**
-     * @param catalog the catalog to set
-     */
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
     }
 
+    public void setDevMode(boolean devMode) {
+        this.devMode = devMode;
+    }
+    
     private String getCaption(XBTTreeNode node) {
         if (node.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
             String blockCaption = resourceBundle.getString("block_caption_data");

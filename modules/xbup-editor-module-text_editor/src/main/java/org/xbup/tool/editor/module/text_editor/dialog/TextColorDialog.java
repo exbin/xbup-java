@@ -42,7 +42,7 @@ public class TextColorDialog extends javax.swing.JDialog {
         init();
     }
 
-    public int getOption() {
+    public int getDialogOption() {
         return dialogOption;
     }
 
@@ -141,7 +141,7 @@ public class TextColorDialog extends javax.swing.JDialog {
     public void showDialog() {
         textColorPanel.setColorsFromArray(frame.getCurrentTextColors());
         setVisible(true);
-        if (getOption() == JOptionPane.OK_OPTION) {
+        if (getDialogOption() == JOptionPane.OK_OPTION) {
             frame.setCurrentTextColors(textColorPanel.getArrayFromColors());
         }
     }

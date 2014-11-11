@@ -104,6 +104,7 @@ public class ItemModifyDialog extends javax.swing.JDialog {
     private final String attributesEditorPanelTitle;
     private final String dataEditorPanelTitle;
     private final String paramEditorPanelTitle;
+    private int dialogOption = JOptionPane.CLOSED_OPTION;
 
     public ItemModifyDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -193,11 +194,6 @@ public class ItemModifyDialog extends javax.swing.JDialog {
         setTitle(bundle.getString("title")); // NOI18N
         setLocationByPlatform(true);
         setModal(true);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
 
         parametersTable.setModel(parametersTableModel);
         parametersScrollPane.setViewportView(parametersTable);
@@ -431,23 +427,18 @@ public class ItemModifyDialog extends javax.swing.JDialog {
             }
         }
 
-        dispose();
+        dialogOption = JOptionPane.OK_OPTION;
+        WindowUtils.closeWindow(this);
     }//GEN-LAST:event_okButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        setVisible(false);
-        attributes = null;
-        dispose();
+        dialogOption = JOptionPane.CANCEL_OPTION;
+        WindowUtils.closeWindow(this);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void attributesTablePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_attributesTablePropertyChange
         attributesTable.repaint();
     }//GEN-LAST:event_attributesTablePropertyChange
-
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        attributes = null;
-        dispose();
-    }//GEN-LAST:event_formWindowClosing
 
     private void loadFromButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadFromButtonActionPerformed
         HexEditPanel.openFile(null);
@@ -512,6 +503,13 @@ public class ItemModifyDialog extends javax.swing.JDialog {
         return newNode;
     }
 
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        WindowUtils.invokeWindow(new ItemPropertiesDialog(new javax.swing.JFrame(), true));
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JPanel attributesEditorPanel;
@@ -550,6 +548,10 @@ public class ItemModifyDialog extends javax.swing.JDialog {
         removeButton.setEnabled(attributesTable.getSelectedRowCount() > 0);
     }
 
+    public int getDialogOption() {
+        return dialogOption;
+    }
+    
     private JPanel getCustomPanel(XBTTreeNode srcNode) {
         if (catalog == null) {
             return null;

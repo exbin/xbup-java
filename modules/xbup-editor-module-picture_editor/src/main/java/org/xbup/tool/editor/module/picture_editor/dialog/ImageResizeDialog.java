@@ -35,7 +35,7 @@ public class ImageResizeDialog extends javax.swing.JDialog {
         initComponents();
     }
 
-    public int getOption() {
+    public int getDialogOption() {
         return dialogOption;
     }
 

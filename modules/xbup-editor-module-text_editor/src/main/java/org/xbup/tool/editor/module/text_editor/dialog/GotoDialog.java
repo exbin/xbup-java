@@ -206,7 +206,7 @@ public class GotoDialog extends javax.swing.JDialog {
     /**
      * @return the dialogOption
      */
-    public int getOption() {
+    public int getDialogOption() {
         return dialogOption;
     }
 }

@@ -517,7 +517,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
         panel.setEncodingList(new ArrayList<>(encodings));
         dlg.setLocationRelativeTo(dlg.getParent());
         dlg.setVisible(true);
-        if (dlg.getOption() == JOptionPane.OK_OPTION) {
+        if (dlg.getDialogOption() == JOptionPane.OK_OPTION) {
             encodings = panel.getEncodingList();
             encodingsRebuild();
         }
@@ -529,7 +529,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
         findDialog.setSelected();
         findDialog.setLocationRelativeTo(findDialog.getParent());
         findDialog.setVisible(true);
-        if (findDialog.getOption() == JOptionPane.OK_OPTION) {
+        if (findDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             getActivePanel().findText(findDialog);
         }
     }//GEN-LAST:event_editFindMenuItemActionPerformed
@@ -540,7 +540,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
         findDialog.setSelected();
         findDialog.setLocationRelativeTo(findDialog.getParent());
         findDialog.setVisible(true);
-        if (findDialog.getOption() == JOptionPane.OK_OPTION) {
+        if (findDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             getActivePanel().findText(findDialog);
         }
     }//GEN-LAST:event_editFindReplaceMenuItemActionPerformed
@@ -555,7 +555,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
         gotoDialog.setCharPos(1);
         gotoDialog.setLocationRelativeTo(gotoDialog.getParent());
         gotoDialog.setVisible(true);
-        if (gotoDialog.getOption() == JOptionPane.OK_OPTION) {
+        if (gotoDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             getActivePanel().gotoLine(gotoDialog.getLine());
             getActivePanel().gotoRelative(gotoDialog.getCharPos());
         }

@@ -68,7 +68,20 @@
                         <rich:editor value="#{itemEditBacking.editedItem.hdocText}" toolbar="full" />
                     </rich:tab>
                     <rich:tab header="Definition">
-                        TBD
+                        <h:form id="definitionForm">
+                            <a4j:outputPanel id="definitionWrapper">
+                                <rich:dataTable id="definitionTable" value="#{itemEditBacking.editedItem.definitions}" var="record"
+                                                iterationStatusVar="index" style="width: 100%;" rowClasses="odd-row, even-row">
+                                    <rich:column>
+                                        <f:facet name="header">
+                                            <a4j:commandLink style="color:#FFFFFF;" immediate="true"
+                                                             value="ID" />
+                                        </f:facet>
+                                        #{record.item.id}
+                                    </rich:column>
+                                </rich:dataTable>
+                            </a4j:outputPanel>
+                        </h:form>
                     </rich:tab>
                 </rich:tabPanel>
                 <br/>

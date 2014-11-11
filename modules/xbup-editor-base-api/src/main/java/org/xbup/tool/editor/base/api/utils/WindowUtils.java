@@ -75,7 +75,7 @@ public class WindowUtils {
             @Override
             public void run() {
                 if (window instanceof JDialog) {
-                    ((JDialog) window).setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+                    ((JDialog) window).setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
                 }
 
                 window.addWindowListener(new java.awt.event.WindowAdapter() {

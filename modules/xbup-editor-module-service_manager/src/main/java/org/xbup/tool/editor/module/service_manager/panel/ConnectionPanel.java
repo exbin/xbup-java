@@ -214,7 +214,7 @@ public class ConnectionPanel extends javax.swing.JPanel {
         AddConnectionDialog dialog = new AddConnectionDialog(null, true); // XBManager.getApplication().getMainFrame()
         dialog.setLocationRelativeTo(dialog.getParent());
         dialog.setVisible(true);
-        if (dialog.getOption() == JOptionPane.OK_OPTION) {
+        if (dialog.getDialogOption() == JOptionPane.OK_OPTION) {
             ((ConnectionsListModel) jList1.getModel()).add(jList1.isSelectionEmpty() ? -1 : jList1.getSelectedIndex(), dialog.getConnection());
         }
     }//GEN-LAST:event_addButtonActionPerformed

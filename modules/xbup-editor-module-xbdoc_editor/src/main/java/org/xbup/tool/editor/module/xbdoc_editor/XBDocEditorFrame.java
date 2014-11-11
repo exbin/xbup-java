@@ -1343,7 +1343,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         findDialog.setSelected();
         findDialog.setLocationRelativeTo(findDialog.getParent());
         findDialog.setVisible(true);
-        if (findDialog.getOption() == JOptionPane.OK_OPTION) {
+        if (findDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             activePanel.findText(findDialog);
         }
     }
@@ -1354,7 +1354,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         findDialog.setSelected();
         findDialog.setLocationRelativeTo(findDialog.getParent());
         findDialog.setVisible(true);
-        if (findDialog.getOption() == JOptionPane.OK_OPTION) {
+        if (findDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             activePanel.findText(findDialog);
         }
     }
@@ -1369,7 +1369,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         gotoDialog.setCharPos(1);
         gotoDialog.setLocationRelativeTo(gotoDialog.getParent());
         gotoDialog.setVisible(true);
-        if (gotoDialog.getOption() == JOptionPane.OK_OPTION) {
+        if (gotoDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             activePanel.gotoLine(gotoDialog.getLine());
             activePanel.gotoRelative(gotoDialog.getCharPos());
         }

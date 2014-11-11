@@ -36,7 +36,7 @@ public class ToolColorDialog extends javax.swing.JDialog {
         mainPanel.add(new ToolColorPanel());
     }
 
-    public int getOption() {
+    public int getDialogOption() {
         return dialogOption;
     }
 

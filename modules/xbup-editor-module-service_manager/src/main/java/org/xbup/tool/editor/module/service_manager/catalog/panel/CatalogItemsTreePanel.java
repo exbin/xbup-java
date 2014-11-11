@@ -412,7 +412,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
     private void popupAddSpecMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupAddSpecMenuItemActionPerformed
         CatalogAddItemDialog addDialog = new CatalogAddItemDialog(getFrame(), true);
         addDialog.setVisible(true);
-        if (addDialog.getOption() == JOptionPane.OK_OPTION) {
+        if (addDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             // TODO: Use different transaction management later
             EntityManager em = ((XBECatalog) catalog).getEntityManager();
             EntityTransaction transaction = em.getTransaction();

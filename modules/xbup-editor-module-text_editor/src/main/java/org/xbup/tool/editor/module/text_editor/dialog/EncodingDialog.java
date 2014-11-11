@@ -42,7 +42,7 @@ public class EncodingDialog extends javax.swing.JDialog {
         WindowUtils.assignGlobalKeyListener(this, setButton, cancelButton);
     }
 
-    public int getOption() {
+    public int getDialogOption() {
         return dialogOption;
     }
 

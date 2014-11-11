@@ -19,11 +19,14 @@ package org.xbup.web.xbcatalogweb.entity;
 import org.xbup.web.xbcatalogweb.base.XBCFullItemRecord;
 import java.io.Serializable;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import org.xbup.lib.catalog.entity.XBEXDesc;
 import org.xbup.lib.catalog.entity.XBEXFile;
 import org.xbup.lib.catalog.entity.XBEXHDoc;
 import org.xbup.lib.catalog.entity.XBEXLanguage;
 import org.xbup.lib.catalog.entity.XBEXName;
+import org.xbup.web.xbcatalogweb.base.XBCDefinitionRecord;
 
 /**
  * Full item record entity.
@@ -67,15 +70,15 @@ public class XBEFullItemRecord extends XBEItemRecord implements Serializable, XB
             desc.setLang(language);
             setDesc(desc);
         }
-        
+
         getDesc().setText(description);
     }
-    
+
     @Override
     public String getItemName() {
         return getName() == null ? "" : getName().getText();
     }
-    
+
     @Override
     public void setItemName(String itemName) {
         if (getName() == null) {
@@ -84,7 +87,7 @@ public class XBEFullItemRecord extends XBEItemRecord implements Serializable, XB
             name.setLang(language);
             setName(name);
         }
-        
+
         getName().setText(itemName);
     }
 
@@ -97,7 +100,7 @@ public class XBEFullItemRecord extends XBEItemRecord implements Serializable, XB
     public void setHdocText(String hdocText) {
         if (hdoc == null) {
             XBEXFile hdocFile = new XBEXFile();
-            hdocFile.setFilename(getStri() == null ? getId().toString() : getStri().getText()+".html");
+            hdocFile.setFilename(getStri() == null ? getId().toString() : getStri().getText() + ".html");
             hdoc = new XBEXHDoc();
             hdoc.setDocFile(hdocFile);
             hdoc.setLang(language);
@@ -124,5 +127,10 @@ public class XBEFullItemRecord extends XBEItemRecord implements Serializable, XB
     @Override
     public void setHdoc(XBEXHDoc hdoc) {
         this.hdoc = hdoc;
+    }
+
+    public List<XBCDefinitionRecord> getDefinitions() {
+        // TODO
+        return new ArrayList<XBCDefinitionRecord>();
     }
 }

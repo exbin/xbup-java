@@ -218,7 +218,7 @@ public class TextEncodingPanel extends javax.swing.JPanel implements OptionsPane
         addEncodingDialog.setLocationRelativeTo(addEncodingDialog.getParent());
         addEncodingDialog.setVisible(true);
         addEncodingDialog.setIconImage(iconImage);
-        if (addEncodingDialog.getOption() == JOptionPane.OK_OPTION) {
+        if (addEncodingDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             ((EncodingsListModel) encodingsList.getModel()).addAll(addEncodingDialog.getEncodings(), encodingsList.isSelectionEmpty() ? -1 : encodingsList.getSelectedIndex());
             wasModified();
         }

@@ -45,7 +45,7 @@ public class CatalogAddItemDialog extends javax.swing.JDialog {
         WindowUtils.assignGlobalKeyListener(this, addButton, cancelButton);
     }
 
-    public int getOption() {
+    public int getDialogOption() {
         return dialogOption;
     }
 

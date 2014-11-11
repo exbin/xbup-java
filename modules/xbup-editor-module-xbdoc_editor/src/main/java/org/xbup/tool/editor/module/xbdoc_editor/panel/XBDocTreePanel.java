@@ -38,6 +38,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DropMode;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
@@ -339,7 +340,7 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
         itemAddDialog.setLocationRelativeTo(itemAddDialog.getParent());
         itemAddDialog.setParentNode(node);
         XBTTreeNode newNode = itemAddDialog.showDialog();
-        if (newNode != null) {
+        if (itemAddDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             try {
                 XBTCommand step = new XBTAddBlockCommand(node, newNode);
                 getTreeUndo().performStep(step);

@@ -280,7 +280,7 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
     public void showFontDialog(FontDialog dlg) {
         dlg.setStoredFont(textArea.getFont());
         dlg.setVisible(true);
-        if (dlg.getOption() == JOptionPane.OK_OPTION) {
+        if (dlg.getDialogOption() == JOptionPane.OK_OPTION) {
             textArea.setFont(dlg.getStoredFont());
         }
     }

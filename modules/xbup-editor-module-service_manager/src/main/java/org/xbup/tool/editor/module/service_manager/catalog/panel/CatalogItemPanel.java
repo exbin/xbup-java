@@ -51,7 +51,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
     private XBCItem item;
 
     private XBACatalog catalog;
-    private CatalogBindsTableModel bindsModel;
+    private CatalogDefsTableModel bindsModel;
     private CatalogRevsTableModel revsModel;
     private XBCXNameService nameService;
     private XBCXDescService descService;
@@ -78,7 +78,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
             iconService = (XBCXIconService) catalog.getCatalogService(XBCXIconService.class);
             // TODO: OnAddExtension
         }
-        bindsModel = new CatalogBindsTableModel(catalog);
+        bindsModel = new CatalogDefsTableModel(catalog);
         revsModel = new CatalogRevsTableModel(catalog);
         initComponents();
     }

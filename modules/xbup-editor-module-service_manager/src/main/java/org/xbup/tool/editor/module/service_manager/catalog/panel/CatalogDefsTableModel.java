@@ -41,7 +41,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXStriService;
  * @version 0.1.23 2013/09/22
  * @author XBUP Project (http://xbup.org)
  */
-public class CatalogBindsTableModel extends AbstractTableModel {
+public class CatalogDefsTableModel extends AbstractTableModel {
 
     private XBACatalog catalog;
     private XBCSpec spec;
@@ -55,15 +55,15 @@ public class CatalogBindsTableModel extends AbstractTableModel {
         java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class
     };
 
-    private List<CatalogBindsTableItem> items;
+    private List<CatalogDefsTableItem> items;
 
     /**
      * Creates a new instance of CatalogSpecsTableModel
      */
-    public CatalogBindsTableModel(XBACatalog catalog) {
+    public CatalogDefsTableModel(XBACatalog catalog) {
         initCatalog(catalog);
         spec = null;
-        items = new ArrayList<CatalogBindsTableItem>();
+        items = new ArrayList<CatalogDefsTableItem>();
     }
 
     @Override
@@ -84,7 +84,7 @@ public class CatalogBindsTableModel extends AbstractTableModel {
         if (spec == null) {
             return null;
         }
-        CatalogBindsTableItem item = items.get(rowIndex);
+        CatalogDefsTableItem item = items.get(rowIndex);
 
         switch (columnIndex) {
             case 0: return item.getXbIndex();
@@ -119,7 +119,7 @@ public class CatalogBindsTableModel extends AbstractTableModel {
             spec = (XBCSpec) item;
             List<XBCSpecDef> specDefs = bindService.getSpecDefs(spec);
             for (XBCSpecDef specDef : specDefs) {
-                CatalogBindsTableItem tableItem = new CatalogBindsTableItem();
+                CatalogDefsTableItem tableItem = new CatalogDefsTableItem();
                 tableItem.setSpecDef(specDef);
                 tableItem.setXbIndex(specDef.getXBIndex());
                 tableItem.setStringId(striService.getItemStringIdText(specDef));
@@ -169,7 +169,7 @@ public class CatalogBindsTableModel extends AbstractTableModel {
         }
     }
 
-    public CatalogBindsTableItem getRowItem(int rowIndex) {
+    public CatalogDefsTableItem getRowItem(int rowIndex) {
         return items.get(rowIndex);
     }
 
@@ -192,7 +192,7 @@ public class CatalogBindsTableModel extends AbstractTableModel {
 
     public void removeItem(XBCSpecDef specDef) {
         for (int i = 0; i < items.size(); i++) {
-            CatalogBindsTableItem item = items.get(i);
+            CatalogDefsTableItem item = items.get(i);
             if (item.getSpecDef() == specDef) {
                 items.remove(item);
                 break;
@@ -201,7 +201,7 @@ public class CatalogBindsTableModel extends AbstractTableModel {
     }
 
     public void moveItemDown(int itemPos) {
-        CatalogBindsTableItem item = items.get(itemPos);
+        CatalogDefsTableItem item = items.get(itemPos);
         item.setXbIndex(item.getSpecDef().getXBIndex());
         items.remove(item);
         items.add(itemPos+1, item);

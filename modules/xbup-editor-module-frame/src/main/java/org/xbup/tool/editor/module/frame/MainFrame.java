@@ -67,7 +67,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
+import javax.swing.JTable;
 import javax.swing.JToolBar;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.TransferHandler;
@@ -106,7 +108,7 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
 /**
  * XBEditor Main Frame.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.1.24 2014/11/12
  * @author XBUP Project (http://xbup.org)
  */
 public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, MainFrameManagement {
@@ -768,6 +770,15 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
 
                         defaultPopupMenu.show(e.getComponent(), e.getX(), e.getY());
                     }
+                } else if (c instanceof JTable) {
+                    if ((SwingUtilities.isRightMouseButton(e)) && (((JTable) c).getComponentPopupMenu() == null)) {
+                        TableClipboardHandler clipboardHandler = new TableClipboardHandler((JTable) c);
+                        for (Object action : defaultTextActions) {
+                            ((DefaultPopupClipboardAction) action).setClipboardHandler(clipboardHandler);
+                        }
+
+                        defaultPopupMenu.show(e.getComponent(), e.getX(), e.getY());
+                    }
                 }
 
             }
@@ -888,6 +899,90 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
             @Override
             public boolean canSelectAll() {
                 return listComp.isEnabled() && listComp.getSelectionMode() != DefaultListSelectionModel.SINGLE_SELECTION;
+            }
+        }
+
+        private class TableClipboardHandler implements ComponentClipboardHandler {
+
+            private final JTable tableComp;
+
+            public TableClipboardHandler(JTable tableComp) {
+                this.tableComp = tableComp;
+            }
+
+            @Override
+            public void cut() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void copy() {
+                StringBuilder builder = new StringBuilder();
+                int[] rows = tableComp.getSelectedRows();
+                int[] columns;
+                if (tableComp.getSelectionModel().getSelectionMode() == ListSelectionModel.SINGLE_SELECTION) {
+                    columns = new int[tableComp.getColumnCount()];
+                    for (int i = 0; i < tableComp.getColumnCount(); i++) {
+                        columns[i] = i;
+                    }
+                } else {
+                    columns = tableComp.getSelectedColumns();
+                }
+
+                boolean empty = true;
+                for (int rowIndex : rows) {
+                    if (!empty) {
+                        builder.append(System.getProperty("line.separator"));
+                    } else {
+                        empty = false;
+                    }
+
+                    boolean columnEmpty = true;
+                    for (int columnIndex : columns) {
+                        if (!columnEmpty) {
+                            builder.append("\t");
+                        } else {
+                            columnEmpty = false;
+                        }
+
+                        Object value = tableComp.getModel().getValueAt(rowIndex, columnIndex);
+                        if (value != null) {
+                            builder.append(value.toString());
+                        }
+                    }
+                }
+
+                getClipboard().setContents(new StringSelection(builder.toString()), null);
+            }
+
+            @Override
+            public void paste() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void delete() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void selectAll() {
+                tableComp.selectAll();
+            }
+
+            @Override
+            public boolean isSelection() {
+                return tableComp.isEnabled() && (tableComp.getSelectedColumn() >= 0 || tableComp.getSelectedRow() >= 0);
+            }
+
+            @Override
+            public boolean isEditable() {
+                return false;
+            }
+
+            @Override
+            public boolean canSelectAll() {
+                return tableComp.isEnabled();
             }
         }
     }

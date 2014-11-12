@@ -19,12 +19,12 @@ package org.xbup.tool.editor.module.service_manager.catalog.panel;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
 
 /**
- * Table model for catalog bindings.
+ * Table model for catalog specification definition.
  *
- * @version 0.1.22 2013/05/17
+ * @version 0.1.24 2014/11/12
  * @author XBUP Project (http://xbup.org)
  */
-public class CatalogBindsTableItem {
+public class CatalogDefsTableItem {
 
     private XBCSpecDef specDef;
     private Long xbIndex;
@@ -34,102 +34,59 @@ public class CatalogBindsTableItem {
     private Long revision;
     private String name;
 
-    /**
-     * @return the specDef
-     */
     public XBCSpecDef getSpecDef() {
         return specDef;
     }
 
-    /**
-     * @param specDef the specDef to set
-     */
     public void setSpecDef(XBCSpecDef specDef) {
         this.specDef = specDef;
     }
 
-    /**
-     * @return the xbIndex
-     */
     public Long getXbIndex() {
         return xbIndex;
     }
 
-    /**
-     * @param xbIndex the xbIndex to set
-     */
     public void setXbIndex(Long xbIndex) {
         this.xbIndex = xbIndex;
     }
 
-    /**
-     * @return the stringId
-     */
     public String getStringId() {
         return stringId;
     }
 
-    /**
-     * @param stringId the stringId to set
-     */
     public void setStringId(String stringId) {
         this.stringId = stringId;
     }
 
-    /**
-     * @return the target
-     */
     public String getTarget() {
         return target;
     }
 
-    /**
-     * @param target the target to set
-     */
     public void setTarget(String target) {
         this.target = target;
     }
 
-    /**
-     * @return the type
-     */
     public String getType() {
         return type;
     }
 
-    /**
-     * @param type the type to set
-     */
     public void setType(String type) {
         this.type = type;
     }
 
-    /**
-     * @return the revision
-     */
     public Long getRevision() {
         return revision;
     }
 
-    /**
-     * @param revision the revision to set
-     */
     public void setRevision(Long revision) {
         this.revision = revision;
     }
 
-    /**
-     * @return the name
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * @param name the name to set
-     */
     public void setName(String name) {
         this.name = name;
     }
-
 }

@@ -37,7 +37,7 @@ public class CatalogExtensionsListModel extends AbstractListModel {
 
     public CatalogExtensionsListModel(XBCatalog catalog) {
         this.catalog = catalog;
-        extensions = new ArrayList<XBCService<? extends XBCBase>>();
+        extensions = new ArrayList<>();
         for (XBCService<? extends XBCBase> service : catalog.getCatalogServices()) {
             if (service instanceof XBCExtension) {
                 extensions.add(service);

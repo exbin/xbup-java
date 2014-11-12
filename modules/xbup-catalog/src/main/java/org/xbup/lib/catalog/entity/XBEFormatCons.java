@@ -47,7 +47,7 @@ public class XBEFormatCons extends XBEConsDef implements XBCFormatCons {
     }
 
     public void setSpec(XBEFormatSpec spec) {
-        super.setSpec(spec);
+        super.setCatalogItem(spec);
     }
 
     public void setTarget(XBEGroupRev target) {

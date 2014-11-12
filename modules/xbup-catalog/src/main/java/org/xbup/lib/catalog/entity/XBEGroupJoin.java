@@ -48,7 +48,7 @@ public class XBEGroupJoin extends XBEJoinDef implements XBCGroupJoin {
     }
 
     public void setSpec(XBEGroupSpec spec) {
-        super.setSpec(spec);
+        super.setCatalogItem(spec);
     }
 
     public void setTarget(XBEGroupRev target) {

@@ -23,5 +23,6 @@ package org.xbup.tool.editor.module.service_manager.catalog.panel;
  * @author XBUP Project (http://xbup.org)
  */
 public enum CatalogSpecItemType {
+
     NODE, FORMAT, GROUP, BLOCK
 }

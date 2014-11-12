@@ -48,7 +48,7 @@ public class XBEBlockListJoin extends XBEJoinDef implements XBCBlockListJoin {
     }
 
     public void setSpec(XBEBlockSpec spec) {
-        super.setSpec(spec);
+        super.setCatalogItem(spec);
     }
 
     public void setTarget(XBEBlockRev target) {

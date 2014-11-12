@@ -50,25 +50,22 @@ public class CatalogDefsTableModel extends AbstractTableModel {
     private XBCXStriService striService;
     private XBCSpecService bindService;
 
-    private String[] columnNames = new String [] { "XBIndex", "StringId", "Target", "Type", "Revision", "Name", "Description" };
-    private Class[] classes = new Class [] {
-        java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class
+    private final String[] columnNames = new String[]{"XBIndex", "Revision", "StringId", "Operation", "Type", "Type Revision", "Name", "Description"};
+    private final Class[] classes = new Class[]{
+        java.lang.Long.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class
     };
 
-    private List<CatalogDefsTableItem> items;
+    private final List<CatalogDefsTableItem> items;
 
-    /**
-     * Creates a new instance of CatalogSpecsTableModel
-     */
     public CatalogDefsTableModel(XBACatalog catalog) {
         initCatalog(catalog);
         spec = null;
-        items = new ArrayList<CatalogDefsTableItem>();
+        items = new ArrayList<>();
     }
 
     @Override
     public int getRowCount() {
-        if (spec==null) {
+        if (spec == null) {
             return 0;
         }
         return items.size();
@@ -76,7 +73,7 @@ public class CatalogDefsTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 7;
+        return classes.length;
     }
 
     @Override
@@ -87,15 +84,25 @@ public class CatalogDefsTableModel extends AbstractTableModel {
         CatalogDefsTableItem item = items.get(rowIndex);
 
         switch (columnIndex) {
-            case 0: return item.getXbIndex();
-            case 1: return item.getStringId();
-            case 2: return item.getTarget();
-            case 3: return item.getType();
-            case 4: return item.getRevision();
-            case 5: return item.getName();
-            case 6: return ""; //item.getDescription();
+            case 0:
+                return item.getXbIndex();
+            case 1:
+                return item.getRevision();
+            case 2:
+                return item.getStringId();
+            case 3:
+                return item.getOperation();
+            case 4:
+                return item.getType();
+            case 5:
+                return item.getTypeRevision();
+            case 6:
+                return item.getName();
+            case 7:
+                return item.getDescription();
 
-            default: return "";
+            default:
+                return "";
         }
     }
 
@@ -122,7 +129,6 @@ public class CatalogDefsTableModel extends AbstractTableModel {
                 CatalogDefsTableItem tableItem = new CatalogDefsTableItem();
                 tableItem.setSpecDef(specDef);
                 tableItem.setXbIndex(specDef.getXBIndex());
-                tableItem.setStringId(striService.getItemStringIdText(specDef));
                 String target;
 
                 if (specDef instanceof XBCBlockJoin) {
@@ -148,9 +154,9 @@ public class CatalogDefsTableModel extends AbstractTableModel {
                 } else {
                     target = "Unknown";
                 }
-                tableItem.setTarget(target);
+                tableItem.setOperation(target);
                 tableItem.setType("");
-                tableItem.setRevision(0L);
+                tableItem.setTypeRevision(0L);
                 if (specDef.getTarget() != null) {
                     XBCSpec targetSpec = (XBCSpec) specDef.getTarget().getParent();
                     if (targetSpec != null) {
@@ -159,12 +165,12 @@ public class CatalogDefsTableModel extends AbstractTableModel {
                             tableItem.setType(name.getText());
                         }
                     }
-                    tableItem.setRevision(specDef.getTarget().getXBIndex());
+                    tableItem.setTypeRevision(specDef.getTarget().getXBIndex());
 
                 }
                 items.add(tableItem);
-                tableItem.setName(""); //nameService.getItemNameText(specDef));
-                // tableItem.setDescription(descService.getItemDescText(specDef));
+                tableItem.setName(nameService.getItemNameText(specDef));
+                tableItem.setDescription(descService.getItemDescText(specDef));
             }
         }
     }
@@ -177,7 +183,7 @@ public class CatalogDefsTableModel extends AbstractTableModel {
         this.catalog = catalog;
 
         nameService = null;
-        if (catalog!=null) {
+        if (catalog != null) {
             nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
             descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
             striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
@@ -204,7 +210,7 @@ public class CatalogDefsTableModel extends AbstractTableModel {
         CatalogDefsTableItem item = items.get(itemPos);
         item.setXbIndex(item.getSpecDef().getXBIndex());
         items.remove(item);
-        items.add(itemPos+1, item);
+        items.add(itemPos + 1, item);
 
         item = items.get(itemPos);
         item.setXbIndex(item.getSpecDef().getXBIndex());

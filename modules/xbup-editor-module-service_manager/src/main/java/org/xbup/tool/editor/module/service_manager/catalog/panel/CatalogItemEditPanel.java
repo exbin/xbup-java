@@ -44,9 +44,6 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
     private XBACatalog catalog;
     private XBCItem catalogItem;
 
-    /**
-     * Creates new form CatalogItemEditPanel
-     */
     public CatalogItemEditPanel() {
         initComponents();
     }
@@ -191,16 +188,10 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
         striService.setItemStringIdText(catalogItem, (String) tableModel.getValueAt(4, 1));
     }
 
-    /**
-     * @return the catalog
-     */
     public XBACatalog getCatalog() {
         return catalog;
     }
 
-    /**
-     * @param catalog the catalog to set
-     */
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
     }

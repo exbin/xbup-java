@@ -58,9 +58,6 @@ public class CatalogItemEditDocumentationPanel extends javax.swing.JPanel {
     private XBCXHDoc itemHDoc;
     private long hdocPreviousState = 0;
 
-    /**
-     * Creates new form CatalogItemEditDocumentationPanel
-     */
     public CatalogItemEditDocumentationPanel() {
         initComponents();
     }
@@ -135,7 +132,7 @@ public class CatalogItemEditDocumentationPanel extends javax.swing.JPanel {
                     itemHDocSourceTextPane.write(new OutputStreamWriter(outputStream));
                     itemHDocEditorPane.read(new ByteArrayInputStream(outputStream.toByteArray()), null);
                 } catch (IOException ex) {
-                    Logger.getLogger(CatalogItemPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(CatalogItemEditDocumentationPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 try {
@@ -145,10 +142,8 @@ public class CatalogItemEditDocumentationPanel extends javax.swing.JPanel {
                     kit.write(outputStream, itemHDocEditorPane.getDocument(), 0, itemHDocEditorPane.getDocument().getLength());
                     byte[] data = outputStream.toByteArray();
                     itemHDocSourceTextPane.read(new ByteArrayInputStream(data), null);
-                } catch (IOException ex) {
-                    Logger.getLogger(CatalogItemPanel.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (BadLocationException ex) {
-                    Logger.getLogger(CatalogItemPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException | BadLocationException ex) {
+                    Logger.getLogger(CatalogItemEditDocumentationPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -180,7 +175,7 @@ public class CatalogItemEditDocumentationPanel extends javax.swing.JPanel {
                 itemHDocSourceTextPane.write(new OutputStreamWriter(outputStream));
             }
         } catch (IOException ex) {
-            Logger.getLogger(CatalogItemPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CatalogItemEditDocumentationPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (includeDocumentationCheckBox.isSelected()) {
@@ -219,7 +214,7 @@ public class CatalogItemEditDocumentationPanel extends javax.swing.JPanel {
                         ((XBEXFile) itemHDocFile).setContent(contentOutputStream.toByteArray());
                         ((XBEXFileService) fileService).persistItem((XBEXFile) itemHDocFile);
                     } catch (IOException ex) {
-                        Logger.getLogger(CatalogItemPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(CatalogItemEditDocumentationPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -243,13 +238,13 @@ public class CatalogItemEditDocumentationPanel extends javax.swing.JPanel {
             } catch (RuntimeException ex) {
                 // TODO: Properly handle loading exceptions
             } catch (IOException ex) {
-                Logger.getLogger(CatalogItemPanel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CatalogItemEditDocumentationPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
             fileStream = fileService.getFile(itemHDocFile);
             try {
                 itemHDocSourceTextPane.read(fileStream, null);
             } catch (IOException ex) {
-                Logger.getLogger(CatalogItemPanel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CatalogItemEditDocumentationPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             itemHDocEditorPane.setText("");
@@ -261,16 +256,10 @@ public class CatalogItemEditDocumentationPanel extends javax.swing.JPanel {
         return catalogItem;
     }
 
-    /**
-     * @return the catalog
-     */
     public XBACatalog getCatalog() {
         return catalog;
     }
 
-    /**
-     * @param catalog the catalog to set
-     */
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
         hDocService = (XBCXHDocService) catalog.getCatalogService(XBCXHDocService.class);

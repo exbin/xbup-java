@@ -28,11 +28,13 @@ public class CatalogDefsTableItem {
 
     private XBCSpecDef specDef;
     private Long xbIndex;
-    private String stringId;
-    private String target;
-    private String type;
     private Long revision;
+    private String stringId;
+    private String operation;
+    private String type;
+    private Long typeRevision;
     private String name;
+    private String description;
 
     public XBCSpecDef getSpecDef() {
         return specDef;
@@ -50,6 +52,14 @@ public class CatalogDefsTableItem {
         this.xbIndex = xbIndex;
     }
 
+    public Long getRevision() {
+        return revision;
+    }
+
+    public void setRevision(Long revision) {
+        this.revision = revision;
+    }
+
     public String getStringId() {
         return stringId;
     }
@@ -57,13 +67,13 @@ public class CatalogDefsTableItem {
     public void setStringId(String stringId) {
         this.stringId = stringId;
     }
-
-    public String getTarget() {
-        return target;
+    
+    public String getOperation() {
+        return operation;
     }
 
-    public void setTarget(String target) {
-        this.target = target;
+    public void setOperation(String target) {
+        this.operation = target;
     }
 
     public String getType() {
@@ -74,12 +84,12 @@ public class CatalogDefsTableItem {
         this.type = type;
     }
 
-    public Long getRevision() {
-        return revision;
+    public Long getTypeRevision() {
+        return typeRevision;
     }
 
-    public void setRevision(Long revision) {
-        this.revision = revision;
+    public void setTypeRevision(Long revision) {
+        this.typeRevision = revision;
     }
 
     public String getName() {
@@ -88,5 +98,13 @@ public class CatalogDefsTableItem {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

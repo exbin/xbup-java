@@ -25,7 +25,7 @@ import org.xbup.lib.core.catalog.base.service.XBCRevService;
 /**
  * Table model for catalog revisions.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.24 2014/11/12
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogRevsTableModel extends AbstractTableModel {
@@ -33,19 +33,18 @@ public class CatalogRevsTableModel extends AbstractTableModel {
     private XBCatalog catalog;
     private XBCSpec spec;
 
-    private String[] columnNames = new String [] { "Type", "XBIndex", "XBLimit" };
-    private Class[] classes = new Class [] {
+    private final String[] columnNames = new String[]{"Type", "XBIndex", "XBLimit"};
+    private final Class[] classes = new Class[]{
         java.lang.String.class, java.lang.Long.class, java.lang.Long.class
     };
 
-    /** Creates a new instance of CatalogRevsTableModel */
     public CatalogRevsTableModel(XBCatalog catalog) {
         this.catalog = catalog;
     }
 
     @Override
     public int getRowCount() {
-        if (spec==null) {
+        if (spec == null) {
             return 0;
         }
         XBCRevService revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
@@ -54,7 +53,7 @@ public class CatalogRevsTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 3;
+        return classes.length;
     }
 
     @Override
@@ -68,9 +67,12 @@ public class CatalogRevsTableModel extends AbstractTableModel {
             return null;
         }
         switch (columnIndex) {
-            case 0: return "Revision";
-            case 1: return rev.getXBIndex();
-            case 2: return rev.getXBLimit();
+            case 0:
+                return "Revision";
+            case 1:
+                return rev.getXBIndex();
+            case 2:
+                return rev.getXBLimit();
         }
         return null;
 
@@ -92,5 +94,9 @@ public class CatalogRevsTableModel extends AbstractTableModel {
 
     public void setSpec(XBCSpec spec) {
         this.spec = spec;
+    }
+
+    public void setCatalog(XBCatalog catalog) {
+        this.catalog = catalog;
     }
 }

@@ -56,7 +56,7 @@ public class XBESpecDef extends XBEItem implements Serializable, XBCSpecDef {
         return (XBCSpec) getParent();
     }
 
-    public void setSpec(XBESpec spec) {
+    public void setCatalogItem(XBESpec spec) {
         setParent(spec);
     }
 

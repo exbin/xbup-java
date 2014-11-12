@@ -35,6 +35,8 @@ import org.xbup.lib.catalog.entity.XBESpec;
 import org.xbup.lib.catalog.entity.XBESpecDef;
 import org.xbup.lib.core.catalog.base.service.XBCXDescService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
+import org.xbup.lib.core.catalog.base.service.XBCXStriService;
+import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogEditRevisionsDialog;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecDefEditorDialog;
 
 /**
@@ -78,6 +80,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
         itemDefinitionsTable = new javax.swing.JTable();
         definitionControlPanel = new javax.swing.JPanel();
         addDefButton = new javax.swing.JButton();
+        manageRevisionsButton = new javax.swing.JButton();
         definitionControlSidePanel = new javax.swing.JPanel();
         modifyButton = new javax.swing.JButton();
         jumpToDefButton = new javax.swing.JButton();
@@ -102,6 +105,13 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
             }
         });
 
+        manageRevisionsButton.setText("Manage Revisions...");
+        manageRevisionsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manageRevisionsButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout definitionControlPanelLayout = new javax.swing.GroupLayout(definitionControlPanel);
         definitionControlPanel.setLayout(definitionControlPanelLayout);
         definitionControlPanelLayout.setHorizontalGroup(
@@ -109,13 +119,17 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
             .addGroup(definitionControlPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(addDefButton)
-                .addContainerGap(312, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(manageRevisionsButton)
+                .addContainerGap(123, Short.MAX_VALUE))
         );
         definitionControlPanelLayout.setVerticalGroup(
             definitionControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, definitionControlPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(addDefButton)
+                .addGroup(definitionControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addDefButton)
+                    .addComponent(manageRevisionsButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -199,7 +213,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
             XBCSpecDef specDef;
             specDef = specService.createSpecDef((XBCSpec) catalogItem, editorDialog.getSpecDefType());
             // TODO: Refit for general usage (including XBRSpecDef and so on...)
-            ((XBESpecDef) specDef).setSpec((XBESpec) catalogItem);
+            ((XBESpecDef) specDef).setCatalogItem((XBESpec) catalogItem);
             ((XBESpecDef) specDef).setTarget((XBERev) editorDialog.getTarget());
             ((XBESpecDef) specDef).setXBIndex(maxXbIndex);
             if (!updateList.contains(specDef)) {
@@ -210,6 +224,8 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
             nameService.setItemNameText(specDef, editorDialog.getItemName());
             XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
             descService.setItemDescText(specDef, editorDialog.getItemDescription());
+            XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
+            striService.setItemStringIdText(specDef, editorDialog.getItemStringId());
 
             updateItemStatus();
         }
@@ -235,6 +251,8 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
             nameService.setItemNameText(specDef, editorDialog.getItemName());
             XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
             descService.setItemDescText(specDef, editorDialog.getItemDescription());
+            XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
+            striService.setItemStringIdText(specDef, editorDialog.getItemStringId());
         }
     }//GEN-LAST:event_modifyButtonActionPerformed
 
@@ -293,6 +311,17 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
         itemDefinitionsTable.setRowSelectionInterval(selectedRow + 1, selectedRow + 1);
     }//GEN-LAST:event_moveDownDefButtonActionPerformed
 
+    private void manageRevisionsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageRevisionsButtonActionPerformed
+        CatalogEditRevisionsDialog editorDialog = new CatalogEditRevisionsDialog(getFrame(), true, catalog);
+        editorDialog.setCatalogItem(catalogItem);
+        editorDialog.setVisible(true);
+
+        if (editorDialog.getDialogOption() == JOptionPane.OK_OPTION) {
+
+            updateItemStatus();
+        }
+    }//GEN-LAST:event_manageRevisionsButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addDefButton;
     private javax.swing.JPanel definitionControlPanel;
@@ -300,6 +329,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane itemDefinitionsScrollPane;
     private javax.swing.JTable itemDefinitionsTable;
     private javax.swing.JButton jumpToDefButton;
+    private javax.swing.JButton manageRevisionsButton;
     private javax.swing.JButton modifyButton;
     private javax.swing.JButton moveDownDefButton;
     private javax.swing.JButton moveUpDefButton;
@@ -307,8 +337,8 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     public void persist() {
-        for (int i = 0; i < removeList.size(); i++) {
-            specService.removeItem(removeList.get(i));
+        for (XBCSpecDef specDef : removeList) {
+            specService.removeItem(specDef);
         }
 
         for (int i = 0; i < updateList.size(); i++) {
@@ -348,16 +378,10 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
         return catalogItem;
     }
 
-    /**
-     * @return the catalog
-     */
     public XBACatalog getCatalog() {
         return catalog;
     }
 
-    /**
-     * @param catalog the catalog to set
-     */
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
         specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);

@@ -31,10 +31,9 @@ import org.xbup.lib.core.catalog.XBACatalog;
  */
 public class CatalogTypesTreeModel implements TreeModel {
 
-    private XBACatalog catalog;
-    private List<TreeModelListener> treeModelListeners = new ArrayList<TreeModelListener>();
+    private final XBACatalog catalog;
+    private final List<TreeModelListener> treeModelListeners = new ArrayList<>();
 
-    /** Creates a new instance of NodesCatalogTreeModel */
     public CatalogTypesTreeModel(XBACatalog catalog) {
         this.catalog = catalog;
     }
@@ -48,15 +47,15 @@ public class CatalogTypesTreeModel implements TreeModel {
     @Override
     public Object getChild(Object parent, int index) {
         throw new UnsupportedOperationException("Not yet implemented");
-/*        if (parent==null) return null;
-        return catalog.getTypeManager().getSubNode(((XBCType) parent),index); */
+        /*        if (parent==null) return null;
+         return catalog.getTypeManager().getSubNode(((XBCType) parent),index); */
     }
 
     @Override
     public int getChildCount(Object parent) {
         throw new UnsupportedOperationException("Not yet implemented");
-/*        if (parent==null) throw new NullPointerException("No parent");
-        return (int) catalog.getTypeManager().getSubNodesCount(((XBCType) parent)); */
+        /*        if (parent==null) throw new NullPointerException("No parent");
+         return (int) catalog.getTypeManager().getSubNodesCount(((XBCType) parent)); */
     }
 
     @Override

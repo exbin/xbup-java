@@ -17,7 +17,6 @@
 package org.xbup.tool.editor.module.frame.dialog;
 
 import java.awt.Cursor;
-import java.awt.event.WindowEvent;
 import java.awt.font.TextAttribute;
 import java.io.IOException;
 import java.net.URISyntaxException;

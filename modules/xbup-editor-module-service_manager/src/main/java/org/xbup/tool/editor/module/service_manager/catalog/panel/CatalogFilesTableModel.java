@@ -33,27 +33,22 @@ import org.xbup.lib.catalog.entity.XBEXFile;
  */
 public class CatalogFilesTableModel extends AbstractTableModel {
 
-    private XBCatalog catalog;
+    private final XBCatalog catalog;
     private XBCXFileService fileService;
     private XBCNode node;
 
-    private String[] columnNames = new String [] { "Filename", "Size" };
-    private Class[] classes = new Class [] {
+    private final String[] columnNames = new String[]{"Filename", "Size"};
+    private final Class[] classes = new Class[]{
         java.lang.String.class, java.lang.Long.class
     };
 
-    private List<XBCXFile> items = new ArrayList<XBCXFile>();
+    private List<XBCXFile> items = new ArrayList<>();
 
-    // private long formatCount, groupCount, blockCount, limitCount;
-
-    /**
-     * Creates a new instance of CatalogSpecsTableModel
-     */
     public CatalogFilesTableModel(XBCatalog catalog) {
         this.catalog = catalog;
         node = null;
         fileService = null;
-        if (catalog!=null) {
+        if (catalog != null) {
             fileService = (XBCXFileService) catalog.getCatalogService(XBCXFileService.class);
             // TODO: OnAddExtension
         }
@@ -63,10 +58,10 @@ public class CatalogFilesTableModel extends AbstractTableModel {
     public int getRowCount() {
         return items.size();
         /*if (node==null) {
-            return 0;
-        }
-        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
-        return (int) specService.getSpecsCount(node)+1; */
+         return 0;
+         }
+         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+         return (int) specService.getSpecsCount(node)+1; */
     }
 
     @Override
@@ -108,7 +103,7 @@ public class CatalogFilesTableModel extends AbstractTableModel {
 
     public void setNode(XBCNode node) {
         this.node = node;
-        items = new ArrayList<XBCXFile>();
+        items = new ArrayList<>();
         if (node != null) {
             items.addAll(fileService.findFilesForNode(node));
         }

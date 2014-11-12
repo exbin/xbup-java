@@ -48,7 +48,7 @@ public class XBEBlockListCons extends XBEConsDef implements XBCBlockListCons {
     }
 
     public void setSpec(XBEBlockSpec spec) {
-        super.setSpec(spec);
+        super.setCatalogItem(spec);
     }
 
     public void setTarget(XBEBlockRev target) {

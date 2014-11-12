@@ -127,7 +127,7 @@ public class CatalogFilesTreePanel extends javax.swing.JPanel {
         panelSplitPane = new javax.swing.JSplitPane();
         catalogTreeScrollPane = new javax.swing.JScrollPane();
         catalogTree = new javax.swing.JTree();
-        catalogItemListScrollPane = new javax.swing.JScrollPane();
+        catalogFilesListScrollPane = new javax.swing.JScrollPane();
         catalogFilesListTable = new javax.swing.JTable();
 
         catalogTreePopupMenu.setName("catalogTreePopupMenu"); // NOI18N
@@ -212,14 +212,15 @@ public class CatalogFilesTreePanel extends javax.swing.JPanel {
 
         panelSplitPane.setLeftComponent(catalogTreeScrollPane);
 
-        catalogItemListScrollPane.setName("catalogItemListScrollPane"); // NOI18N
+        catalogFilesListScrollPane.setComponentPopupMenu(catalogTreePopupMenu);
+        catalogFilesListScrollPane.setName("catalogFilesListScrollPane"); // NOI18N
 
         catalogFilesListTable.setModel(filesModel);
         catalogFilesListTable.setComponentPopupMenu(catalogTreePopupMenu);
         catalogFilesListTable.setName("catalogFilesListTable"); // NOI18N
-        catalogItemListScrollPane.setViewportView(catalogFilesListTable);
+        catalogFilesListScrollPane.setViewportView(catalogFilesListTable);
 
-        panelSplitPane.setRightComponent(catalogItemListScrollPane);
+        panelSplitPane.setRightComponent(catalogFilesListScrollPane);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -368,8 +369,8 @@ public class CatalogFilesTreePanel extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane catalogFilesListScrollPane;
     private javax.swing.JTable catalogFilesListTable;
-    private javax.swing.JScrollPane catalogItemListScrollPane;
     private javax.swing.JTree catalogTree;
     private javax.swing.JPopupMenu catalogTreePopupMenu;
     private javax.swing.JScrollPane catalogTreeScrollPane;

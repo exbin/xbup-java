@@ -69,6 +69,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
+import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
@@ -752,6 +753,10 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
                 MouseEvent e = (MouseEvent) event;
                 Component c = getSource(e);
 
+                if (c instanceof JViewport) {
+                    c = ((JViewport) c).getView();
+                }
+
                 if (c instanceof JTextComponent) {
                     if ((SwingUtilities.isRightMouseButton(e)) && (((JTextComponent) c).getComponentPopupMenu() == null)) {
                         TextComponentClipboardHandler clipboardHandler = new TextComponentClipboardHandler((JTextComponent) c);
@@ -982,7 +987,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
 
             @Override
             public boolean canSelectAll() {
-                return tableComp.isEnabled();
+                return tableComp.isEnabled() && tableComp.getSelectionModel().getSelectionMode() != ListSelectionModel.SINGLE_SELECTION;
             }
         }
     }
@@ -2308,7 +2313,9 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         pasteAction.setEnabled(editable && data);
     }
 
-    /* This method lifted from JTextComponent.java */
+    /**
+     * This method lifted from JTextComponent.java
+     */
     private int getCurrentEventModifiers() {
         int modifiers = 0;
         AWTEvent currentEvent = EventQueue.getCurrentEvent();

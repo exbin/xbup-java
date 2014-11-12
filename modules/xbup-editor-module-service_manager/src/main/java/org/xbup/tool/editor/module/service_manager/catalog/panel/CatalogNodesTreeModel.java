@@ -34,11 +34,10 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
  */
 public class CatalogNodesTreeModel implements TreeModel {
 
-    private XBCatalog catalog;
-    private List<TreeModelListener> treeModelListeners = new ArrayList<TreeModelListener>();
+    private final XBCatalog catalog;
+    private final List<TreeModelListener> treeModelListeners = new ArrayList<>();
     private CatalogNodesTreeItem rootItem = null;
 
-    /** Creates a new instance of NodesCatalogTreeModel */
     public CatalogNodesTreeModel(XBCatalog catalog) {
         this.catalog = catalog;
         XBCNodeService nodeService = (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
@@ -55,7 +54,7 @@ public class CatalogNodesTreeModel implements TreeModel {
 
     @Override
     public Object getChild(Object parent, int index) {
-        if (parent==null) {
+        if (parent == null) {
             return null;
         }
 
@@ -64,11 +63,11 @@ public class CatalogNodesTreeModel implements TreeModel {
 
     @Override
     public int getChildCount(Object parent) {
-        if (parent==null) {
+        if (parent == null) {
             throw new NullPointerException("No parent");
         }
 
-        return ((CatalogNodesTreeItem)parent).getChildren().size();
+        return ((CatalogNodesTreeItem) parent).getChildren().size();
     }
 
     @Override
@@ -82,7 +81,7 @@ public class CatalogNodesTreeModel implements TreeModel {
 
     @Override
     public int getIndexOfChild(Object parent, Object child) {
-        return ((CatalogNodesTreeItem)parent).getChildren().indexOf(child);
+        return ((CatalogNodesTreeItem) parent).getChildren().indexOf(child);
     }
 
     @Override
@@ -108,33 +107,24 @@ public class CatalogNodesTreeModel implements TreeModel {
         }
         private String name;
         private boolean loaded = false;
-        private List<CatalogNodesTreeItem> children;
+        private final List<CatalogNodesTreeItem> children;
 
         public CatalogNodesTreeItem(XBCNode node) {
             this.node = node;
             XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
             name = nameService.getItemNameText(node);
 
-            children = new ArrayList<CatalogNodesTreeItem>();
+            children = new ArrayList<>();
         }
 
-        /**
-         * @return the node
-         */
         public XBCNode getNode() {
             return node;
         }
 
-        /**
-         * @param node the node to set
-         */
         public void setNode(XBCNode node) {
             this.node = node;
         }
 
-        /**
-         * @return the children
-         */
         public List<CatalogNodesTreeItem> getChildren() {
             if (!loaded) {
                 XBCNodeService nodeService = (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);

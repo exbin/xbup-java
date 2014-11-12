@@ -29,7 +29,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 /**
  * XBManager Catalog Specification Selection Panel.
  *
- * @version 0.1.22 2013/05/19
+ * @version 0.1.24 2014/11/12
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSelectSpecPanel extends javax.swing.JPanel {
@@ -37,12 +37,9 @@ public class CatalogSelectSpecPanel extends javax.swing.JPanel {
     private XBCXNameService nameService;
     private CatalogSelectSpecTreeModel treeModel;
 
-    /**
-     * Creates new form CatalogSelectSpecPanel
-     */
     public CatalogSelectSpecPanel(XBACatalog catalog, CatalogSpecItemType specType) {
         nameService = null;
-        if (catalog!=null) {
+        if (catalog != null) {
             nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
         }
         treeModel = new CatalogSelectSpecTreeModel(catalog, specType);
@@ -55,7 +52,7 @@ public class CatalogSelectSpecPanel extends javax.swing.JPanel {
                 DefaultTreeCellRenderer retValue = (DefaultTreeCellRenderer) super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
                 if (value instanceof XBCNode) {
                     XBCNode node = (XBCNode) value;
-                    if (nameService!=null) {
+                    if (nameService != null) {
                         XBCXName name = nameService.getItemName(node);
                         if (name == null) {
                             retValue.setText("unknown name");
@@ -67,7 +64,7 @@ public class CatalogSelectSpecPanel extends javax.swing.JPanel {
                     }
                 } else if (value instanceof XBCSpec) {
                     XBCSpec spec = (XBCSpec) value;
-                    if (nameService!=null) {
+                    if (nameService != null) {
                         XBCXName name = nameService.getItemName(spec);
                         if (name == null) {
                             retValue.setText("unknown name");

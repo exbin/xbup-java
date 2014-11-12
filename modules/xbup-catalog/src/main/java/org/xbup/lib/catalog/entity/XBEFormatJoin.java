@@ -48,7 +48,7 @@ public class XBEFormatJoin extends XBEJoinDef implements XBCFormatJoin {
     }
 
     public void setSpec(XBEFormatSpec spec) {
-        super.setSpec(spec);
+        super.setCatalogItem(spec);
     }
 
     public void setTarget(XBEFormatRev target) {

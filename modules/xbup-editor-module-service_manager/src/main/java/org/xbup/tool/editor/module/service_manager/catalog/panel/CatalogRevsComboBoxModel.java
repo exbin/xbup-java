@@ -33,9 +33,8 @@ public class CatalogRevsComboBoxModel extends AbstractListModel<XBCRev> implemen
     private List<XBCRev> revs;
     private XBCRev selectedRev;
 
-    /** Creates a new instance of CatalogRevsTableModel */
     public CatalogRevsComboBoxModel() {
-        revs = new ArrayList<XBCRev>();
+        revs = new ArrayList<>();
     }
 
     @Override
@@ -48,16 +47,10 @@ public class CatalogRevsComboBoxModel extends AbstractListModel<XBCRev> implemen
         return revs.get(index);
     }
 
-    /**
-     * @return the revs
-     */
     public List<XBCRev> getRevs() {
         return revs;
     }
 
-    /**
-     * @param revs the revs to set
-     */
     public void setRevs(List<XBCRev> revs) {
         this.revs = revs;
     }
@@ -72,16 +65,10 @@ public class CatalogRevsComboBoxModel extends AbstractListModel<XBCRev> implemen
         return getSelectedRev();
     }
 
-    /**
-     * @return the selectedRev
-     */
     public XBCRev getSelectedRev() {
         return selectedRev;
     }
 
-    /**
-     * @param selectedRev the selectedRev to set
-     */
     public void setSelectedRev(XBCRev selectedRev) {
         this.selectedRev = selectedRev;
     }

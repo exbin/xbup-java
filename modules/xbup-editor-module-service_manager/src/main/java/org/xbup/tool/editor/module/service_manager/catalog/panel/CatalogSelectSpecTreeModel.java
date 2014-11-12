@@ -37,13 +37,12 @@ import static org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogS
  */
 public class CatalogSelectSpecTreeModel implements TreeModel {
 
-    private XBCatalog catalog;
-    private XBCNodeService nodeService;
-    private XBCSpecService specService;
-    private List<TreeModelListener> treeModelListeners = new ArrayList<TreeModelListener>();
+    private final XBCatalog catalog;
+    private final XBCNodeService nodeService;
+    private final XBCSpecService specService;
+    private final List<TreeModelListener> treeModelListeners = new ArrayList<>();
     private final CatalogSpecItemType specType;
 
-    /** Creates a new instance of NodesCatalogTreeModel */
     public CatalogSelectSpecTreeModel(XBCatalog catalog, CatalogSpecItemType specType) {
         this.catalog = catalog;
         this.specType = specType;
@@ -59,12 +58,12 @@ public class CatalogSelectSpecTreeModel implements TreeModel {
 
     @Override
     public Object getChild(Object parent, int index) {
-        if (parent==null) {
+        if (parent == null) {
             return null;
         }
         long subNodesCount = nodeService.getSubNodesCount((XBCNode) parent);
         if (index < subNodesCount) {
-            return nodeService.getSubNodeSeq(((XBCNode) parent),index);
+            return nodeService.getSubNodeSeq(((XBCNode) parent), index);
         }
 
         switch (specType) {
@@ -84,7 +83,7 @@ public class CatalogSelectSpecTreeModel implements TreeModel {
 
     @Override
     public int getChildCount(Object parent) {
-        if (parent==null) {
+        if (parent == null) {
             throw new NullPointerException("No parent");
         }
         int childrenCount = (int) nodeService.getSubNodesSeq(((XBCNode) parent));

@@ -47,7 +47,7 @@ public class XBEGroupCons extends XBEConsDef implements XBCGroupCons {
     }
 
     public void setSpec(XBEGroupSpec spec) {
-        super.setSpec(spec);
+        super.setCatalogItem(spec);
     }
 
     public void setTarget(XBEBlockRev target) {

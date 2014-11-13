@@ -42,12 +42,12 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
- * XBManager Catalog Specification Definition Editor Dialog.
+ * XBManager Catalog Specification Revision Editor Dialog.
  *
- * @version 0.1.24 2014/11/12
+ * @version 0.1.24 2014/11/13
  * @author XBUP Project (http://xbup.org)
  */
-public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
+public class CatalogSpecRevEditorDialog extends javax.swing.JDialog {
 
     private int dialogOption = JOptionPane.CLOSED_OPTION;
     private final XBACatalog catalog;
@@ -59,7 +59,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     private XBCRevService revService;
     private CatalogSpecItemType targetType;
 
-    public CatalogSpecDefEditorDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog) {
+    public CatalogSpecRevEditorDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog) {
         super(parent, modal);
         revsModel = new CatalogRevsComboBoxModel();
         targetType = CatalogSpecItemType.BLOCK;
@@ -312,7 +312,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        WindowUtils.invokeWindow(new CatalogSpecDefEditorDialog(new javax.swing.JFrame(), true, null));
+        WindowUtils.invokeWindow(new CatalogSpecRevEditorDialog(new javax.swing.JFrame(), true, null));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -441,7 +441,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         descriptionTextField.setText(descService.getItemDescText(specDef));
         XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
         stringIdTextField.setText(striService.getItemStringIdText(specDef));
-
+        
         repaint();
 
         setTarget(specDef.getTarget());

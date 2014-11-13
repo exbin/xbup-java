@@ -41,7 +41,6 @@ public class CatalogRevsTableModel extends AbstractTableModel {
     private final Class[] classes = new Class[]{
         java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class
     };
-    private final boolean[] columnsEditable = new boolean[]{false, false, false, true};
     private final List<CatalogRevsTableItem> revs = new ArrayList<>();
 
     public CatalogRevsTableModel(XBCatalog catalog) {
@@ -73,11 +72,6 @@ public class CatalogRevsTableModel extends AbstractTableModel {
 
         return null;
 
-    }
-
-    @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return columnsEditable[columnIndex];
     }
 
     @Override
@@ -121,5 +115,9 @@ public class CatalogRevsTableModel extends AbstractTableModel {
     public void setCatalog(XBCatalog catalog) {
         this.catalog = catalog;
         reloadItems();
+    }
+
+    public CatalogRevsTableItem getRowItem(int index) {
+        return revs.get(index);
     }
 }

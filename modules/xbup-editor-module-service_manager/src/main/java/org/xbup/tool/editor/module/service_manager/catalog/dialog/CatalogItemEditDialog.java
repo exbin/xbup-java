@@ -26,11 +26,12 @@ import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEdit
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditPanel;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditRevsPanel;
 
 /**
  * XBManager Catalog Item Properties Dialog.
  *
- * @version 0.1.24 2014/11/12
+ * @version 0.1.24 2014/11/13
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemEditDialog extends javax.swing.JDialog {
@@ -41,6 +42,7 @@ public class CatalogItemEditDialog extends javax.swing.JDialog {
 
     private CatalogItemEditPanel propertiesPanel;
     private CatalogItemEditDocumentationPanel documentationPanel;
+    private CatalogItemEditRevsPanel revisionsPanel;
     private CatalogItemEditDefinitionPanel definitionPanel;
 
     public CatalogItemEditDialog(java.awt.Frame frame, boolean modal) {
@@ -139,6 +141,7 @@ public class CatalogItemEditDialog extends javax.swing.JDialog {
         propertiesPanel.persist();
         documentationPanel.persist();
         definitionPanel.persist();
+        revisionsPanel.persist();
         WindowUtils.closeWindow(this);
 }//GEN-LAST:event_setButtonActionPerformed
 
@@ -177,6 +180,12 @@ public class CatalogItemEditDialog extends javax.swing.JDialog {
         mainTabbedPane.add(documentationPanel, "Documentation");
 
         if (item instanceof XBCSpec) {
+            revisionsPanel = new CatalogItemEditRevsPanel();
+            revisionsPanel.setCatalog(catalog);
+            revisionsPanel.setCatalogItem(item);
+            initComponent(revisionsPanel);
+            mainTabbedPane.add(revisionsPanel, "Revisions");
+
             definitionPanel = new CatalogItemEditDefinitionPanel();
             definitionPanel.setCatalog(catalog);
             definitionPanel.setCatalogItem(item);
@@ -196,6 +205,9 @@ public class CatalogItemEditDialog extends javax.swing.JDialog {
         }
         if (documentationPanel != null) {
             documentationPanel.setCatalog(catalog);
+        }
+        if (revisionsPanel != null) {
+            revisionsPanel.setCatalog(catalog);
         }
         if (definitionPanel != null) {
             definitionPanel.setCatalog(catalog);

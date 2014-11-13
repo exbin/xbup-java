@@ -42,7 +42,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecDef
 /**
  * XBManager Catalog Item Edit Documentation Panel.
  *
- * @version 0.1.24 2014/11/12
+ * @version 0.1.24 2014/11/13
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
@@ -79,7 +79,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
         itemDefinitionsScrollPane = new javax.swing.JScrollPane();
         itemDefinitionsTable = new javax.swing.JTable();
         definitionControlPanel = new javax.swing.JPanel();
-        addDefButton = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
         manageRevisionsButton = new javax.swing.JButton();
         definitionControlSidePanel = new javax.swing.JPanel();
         modifyButton = new javax.swing.JButton();
@@ -98,10 +98,10 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
 
         add(itemDefinitionsScrollPane, java.awt.BorderLayout.CENTER);
 
-        addDefButton.setText("Add...");
-        addDefButton.addActionListener(new java.awt.event.ActionListener() {
+        addButton.setText("Add...");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addDefButtonActionPerformed(evt);
+                addButtonActionPerformed(evt);
             }
         });
 
@@ -118,7 +118,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
             definitionControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(definitionControlPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(addDefButton)
+                .addComponent(addButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(manageRevisionsButton)
                 .addContainerGap(123, Short.MAX_VALUE))
@@ -128,7 +128,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, definitionControlPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(definitionControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addDefButton)
+                    .addComponent(addButton)
                     .addComponent(manageRevisionsButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -198,7 +198,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
         add(definitionControlSidePanel, java.awt.BorderLayout.EAST);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addDefButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDefButtonActionPerformed
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         CatalogSpecDefEditorDialog editorDialog = new CatalogSpecDefEditorDialog(getFrame(), true, catalog);
         editorDialog.setSpec((XBCSpec) catalogItem);
         editorDialog.setVisible(true);
@@ -229,7 +229,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
 
             updateItemStatus();
         }
-    }//GEN-LAST:event_addDefButtonActionPerformed
+    }//GEN-LAST:event_addButtonActionPerformed
 
     private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
         int selectedRow = itemDefinitionsTable.getSelectedRow();
@@ -323,7 +323,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_manageRevisionsButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addDefButton;
+    private javax.swing.JButton addButton;
     private javax.swing.JPanel definitionControlPanel;
     private javax.swing.JPanel definitionControlSidePanel;
     private javax.swing.JScrollPane itemDefinitionsScrollPane;
@@ -367,7 +367,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
 
     public void setCatalogItem(XBCItem catalogItem) {
         this.catalogItem = catalogItem;
-        addDefButton.setEnabled(!(catalogItem instanceof XBCNode));
+        addButton.setEnabled(!(catalogItem instanceof XBCNode));
         defsModel.setItem(catalogItem);
         updateList = new ArrayList<>();
         removeList = new ArrayList<>();

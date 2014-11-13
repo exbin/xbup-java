@@ -38,7 +38,7 @@ public class CatalogFilesTableModel extends AbstractTableModel {
     private XBCNode node;
 
     private final String[] columnNames = new String[]{"Filename", "Size"};
-    private final Class[] classes = new Class[]{
+    private final Class[] columnClasses = new Class[]{
         java.lang.String.class, java.lang.Long.class
     };
 
@@ -94,7 +94,7 @@ public class CatalogFilesTableModel extends AbstractTableModel {
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        return classes[columnIndex];
+        return columnClasses[columnIndex];
     }
 
     public XBCNode getNode() {

@@ -16,16 +16,20 @@
  */
 package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.service.XBCRevService;
+import org.xbup.lib.core.catalog.base.service.XBCXDescService;
+import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 
 /**
  * Table model for catalog revisions.
  *
- * @version 0.1.24 2014/11/12
+ * @version 0.1.24 2014/11/13
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogRevsTableModel extends AbstractTableModel {
@@ -33,10 +37,12 @@ public class CatalogRevsTableModel extends AbstractTableModel {
     private XBCatalog catalog;
     private XBCSpec spec;
 
-    private final String[] columnNames = new String[]{"Type", "XBIndex", "XBLimit"};
+    private final String[] columnNames = new String[]{"XBIndex", "Name", "Description", "XBLimit"};
     private final Class[] classes = new Class[]{
-        java.lang.String.class, java.lang.Long.class, java.lang.Long.class
+        java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class
     };
+    private final boolean[] columnsEditable = new boolean[]{false, false, false, true};
+    private final List<CatalogRevsTableItem> revs = new ArrayList<>();
 
     public CatalogRevsTableModel(XBCatalog catalog) {
         this.catalog = catalog;
@@ -44,11 +50,7 @@ public class CatalogRevsTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        if (spec == null) {
-            return 0;
-        }
-        XBCRevService revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
-        return (int) revService.getRevsCount(spec);
+        return revs.size();
     }
 
     @Override
@@ -58,24 +60,24 @@ public class CatalogRevsTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        if (spec == null) {
-            return null;
-        }
-        XBCRevService revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
-        XBCRev rev = revService.getRev(spec, rowIndex);
-        if (rev == null) {
-            return null;
-        }
         switch (columnIndex) {
             case 0:
-                return "Revision";
+                return revs.get(rowIndex).getXbIndex();
             case 1:
-                return rev.getXBIndex();
+                return revs.get(rowIndex).getName();
             case 2:
-                return rev.getXBLimit();
+                return revs.get(rowIndex).getDescription();
+            case 3:
+                return revs.get(rowIndex).getLimit();
         }
+
         return null;
 
+    }
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return columnsEditable[columnIndex];
     }
 
     @Override
@@ -94,9 +96,30 @@ public class CatalogRevsTableModel extends AbstractTableModel {
 
     public void setSpec(XBCSpec spec) {
         this.spec = spec;
+        reloadItems();
+    }
+
+    private void reloadItems() {
+        revs.clear();
+        if (spec != null && catalog != null) {
+            XBCRevService revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
+            XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+            XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
+            List<XBCRev> revsList = revService.getRevs(spec);
+            for (XBCRev rev : revsList) {
+                CatalogRevsTableItem item = new CatalogRevsTableItem();
+                item.setRev(rev);
+                item.setXbIndex(rev.getXBIndex());
+                item.setLimit(rev.getXBLimit());
+                item.setName(nameService.getItemNameText(rev));
+                item.setDescription(descService.getItemDescText(rev));
+                revs.add(item);
+            }
+        }
     }
 
     public void setCatalog(XBCatalog catalog) {
         this.catalog = catalog;
+        reloadItems();
     }
 }

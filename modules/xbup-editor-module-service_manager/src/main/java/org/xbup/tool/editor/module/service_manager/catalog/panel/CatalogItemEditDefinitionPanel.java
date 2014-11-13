@@ -313,7 +313,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
 
     private void manageRevisionsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageRevisionsButtonActionPerformed
         CatalogEditRevisionsDialog editorDialog = new CatalogEditRevisionsDialog(getFrame(), true, catalog);
-        editorDialog.setCatalogItem(catalogItem);
+        editorDialog.setSpec((XBCSpec) catalogItem);
         editorDialog.setVisible(true);
 
         if (editorDialog.getDialogOption() == JOptionPane.OK_OPTION) {

@@ -22,27 +22,24 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.base.XBCItem;
-import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
-import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecDefEditorDialog;
 
 /**
  * XBManager Catalog Item Edit Documentation Panel.
  *
- * @version 0.1.24 2014/11/12
+ * @version 0.1.24 2014/11/13
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogRevsPanel extends javax.swing.JPanel {
 
     private XBACatalog catalog;
-    private XBCItem catalogItem;
+    private XBCSpec spec;
     private XBCSpecService specService;
     private final CatalogRevsTableModel revsModel;
 
-    public CatalogRevsPanel() {
-        revsModel = new CatalogRevsTableModel(null);
+    public CatalogRevsPanel(XBACatalog catalog) {
+        revsModel = new CatalogRevsTableModel(catalog);
         initComponents();
 
         revisionsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -51,6 +48,7 @@ public class CatalogRevsPanel extends javax.swing.JPanel {
                 updateItemStatus();
             }
         });
+
         updateItemStatus();
     }
 
@@ -66,8 +64,9 @@ public class CatalogRevsPanel extends javax.swing.JPanel {
         revisionsScrollPane = new javax.swing.JScrollPane();
         revisionsTable = new javax.swing.JTable();
         revisionsControlPanel = new javax.swing.JPanel();
-        addDefButton = new javax.swing.JButton();
-        removeDefButton = new javax.swing.JButton();
+        addRevButton = new javax.swing.JButton();
+        removeRevButton = new javax.swing.JButton();
+        editRevButton = new javax.swing.JButton();
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemEditDefinitionPanel"); // NOI18N
         setToolTipText(bundle.getString("toolTipText")); // NOI18N
@@ -79,19 +78,21 @@ public class CatalogRevsPanel extends javax.swing.JPanel {
 
         add(revisionsScrollPane, java.awt.BorderLayout.CENTER);
 
-        addDefButton.setText("Add");
-        addDefButton.addActionListener(new java.awt.event.ActionListener() {
+        addRevButton.setText("Add");
+        addRevButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addDefButtonActionPerformed(evt);
+                addRevButtonActionPerformed(evt);
             }
         });
 
-        removeDefButton.setText("Remove");
-        removeDefButton.addActionListener(new java.awt.event.ActionListener() {
+        removeRevButton.setText("Remove");
+        removeRevButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeDefButtonActionPerformed(evt);
+                removeRevButtonActionPerformed(evt);
             }
         });
+
+        editRevButton.setText("Edit...");
 
         javax.swing.GroupLayout revisionsControlPanelLayout = new javax.swing.GroupLayout(revisionsControlPanel);
         revisionsControlPanel.setLayout(revisionsControlPanelLayout);
@@ -99,42 +100,43 @@ public class CatalogRevsPanel extends javax.swing.JPanel {
             revisionsControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(revisionsControlPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(addDefButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(removeDefButton)
-                .addContainerGap(130, Short.MAX_VALUE))
+                .addComponent(addRevButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(editRevButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(removeRevButton)
+                .addContainerGap(181, Short.MAX_VALUE))
         );
         revisionsControlPanelLayout.setVerticalGroup(
             revisionsControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, revisionsControlPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(revisionsControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addDefButton)
-                    .addComponent(removeDefButton))
+                    .addComponent(addRevButton)
+                    .addComponent(removeRevButton)
+                    .addComponent(editRevButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         add(revisionsControlPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addDefButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDefButtonActionPerformed
-        CatalogSpecDefEditorDialog editorDialog = new CatalogSpecDefEditorDialog(getFrame(), true, catalog);
-        editorDialog.setSpec((XBCSpec) catalogItem);
-        editorDialog.setVisible(true);
+    private void addRevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRevButtonActionPerformed
 
-    }//GEN-LAST:event_addDefButtonActionPerformed
+    }//GEN-LAST:event_addRevButtonActionPerformed
 
-    private void removeDefButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefButtonActionPerformed
+    private void removeRevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeRevButtonActionPerformed
         int selectedRow = revisionsTable.getSelectedRow();
 
         // removeList.add(specDef);
         // revsModel.removeItem(specDef);
         updateItemStatus();
-    }//GEN-LAST:event_removeDefButtonActionPerformed
+    }//GEN-LAST:event_removeRevButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addDefButton;
-    private javax.swing.JButton removeDefButton;
+    private javax.swing.JButton addRevButton;
+    private javax.swing.JButton editRevButton;
+    private javax.swing.JButton removeRevButton;
     private javax.swing.JPanel revisionsControlPanel;
     private javax.swing.JScrollPane revisionsScrollPane;
     private javax.swing.JTable revisionsTable;
@@ -144,22 +146,23 @@ public class CatalogRevsPanel extends javax.swing.JPanel {
         int selectedRow = revisionsTable.getSelectedRow();
         int rowsCount = revsModel.getRowCount();
         if ((selectedRow >= 0) && (selectedRow < rowsCount)) {
-            removeDefButton.setEnabled(true);
+            editRevButton.setEnabled(true);
+            removeRevButton.setEnabled(true);
         } else {
-            removeDefButton.setEnabled(false);
+            editRevButton.setEnabled(false);
+            removeRevButton.setEnabled(false);
         }
         revisionsTable.repaint();
     }
 
-    public void setCatalogItem(XBCItem catalogItem) {
-        this.catalogItem = catalogItem;
-        addDefButton.setEnabled(!(catalogItem instanceof XBCNode));
-        revsModel.setSpec((XBCSpec) catalogItem);
+    public void setSpec(XBCSpec spec) {
+        this.spec = spec;
+        revsModel.setSpec(spec);
         updateItemStatus();
     }
 
-    public XBCItem getCatalogItem() {
-        return catalogItem;
+    public XBCSpec getSpec() {
+        return spec;
     }
 
     public XBACatalog getCatalog() {
@@ -170,6 +173,7 @@ public class CatalogRevsPanel extends javax.swing.JPanel {
         this.catalog = catalog;
         specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
         revsModel.setCatalog(catalog);
+        repaint();
     }
 
     private Frame getFrame() {

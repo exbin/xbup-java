@@ -42,7 +42,7 @@ public class CatalogSpecsTableModel extends AbstractTableModel {
     private XBCNode node;
 
     private final String[] columnNames = new String[]{"Name", "Type", "XBIndex"};
-    private final Class[] classes = new Class[]{
+    private final Class[] columnClasses = new Class[]{
         java.lang.String.class, java.lang.String.class, java.lang.Long.class
     };
 
@@ -139,7 +139,7 @@ public class CatalogSpecsTableModel extends AbstractTableModel {
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        return classes[columnIndex];
+        return columnClasses[columnIndex];
     }
 
     public XBCNode getNode() {

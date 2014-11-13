@@ -18,15 +18,15 @@ package org.xbup.tool.editor.module.service_manager.catalog.dialog;
 
 import javax.swing.JOptionPane;
 import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.base.XBCItem;
+import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogRevsTableModel;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogRevsPanel;
 
 /**
  * XBManager Catalog Revisions Editor Dialog.
  *
- * @version 0.1.24 2014/11/12
+ * @version 0.1.24 2014/11/13
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogEditRevisionsDialog extends javax.swing.JDialog {
@@ -34,13 +34,17 @@ public class CatalogEditRevisionsDialog extends javax.swing.JDialog {
     private int dialogOption = JOptionPane.CLOSED_OPTION;
 
     private XBACatalog catalog;
-    private final CatalogRevsTableModel revsTableModel;
+    private final CatalogRevsPanel revsPanel;
 
     public CatalogEditRevisionsDialog(java.awt.Frame frame, boolean modal, XBACatalog catalog) {
         super(frame, modal);
         this.catalog = catalog;
-        revsTableModel = new CatalogRevsTableModel(catalog);
+
         initComponents();
+
+        revsPanel = new CatalogRevsPanel(catalog);
+        getContentPane().add(revsPanel, java.awt.BorderLayout.CENTER);
+
         if (frame instanceof XBEditorFrame) {
             setIconImage(((XBEditorFrame) frame).getMainFrameManagement().getFrameIcon());
         }
@@ -68,11 +72,9 @@ public class CatalogEditRevisionsDialog extends javax.swing.JDialog {
         controlPanel = new javax.swing.JPanel();
         cancelButton = new javax.swing.JButton();
         setButton = new javax.swing.JButton();
-        revisionsScrollPane = new javax.swing.JScrollPane();
-        revisionsTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/catalog/dialog/resources/CatalogItemEditDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/catalog/dialog/resources/CatalogEditRevisionsDialog"); // NOI18N
         setTitle(bundle.getString("Form.title")); // NOI18N
         setLocationByPlatform(true);
         setModal(true);
@@ -101,7 +103,7 @@ public class CatalogEditRevisionsDialog extends javax.swing.JDialog {
         controlPanelLayout.setHorizontalGroup(
             controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
-                .addContainerGap(133, Short.MAX_VALUE)
+                .addContainerGap(274, Short.MAX_VALUE)
                 .addComponent(setButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cancelButton)
@@ -119,15 +121,7 @@ public class CatalogEditRevisionsDialog extends javax.swing.JDialog {
 
         getContentPane().add(controlPanel, java.awt.BorderLayout.PAGE_END);
 
-        revisionsScrollPane.setName("revisionsScrollPane"); // NOI18N
-
-        revisionsTable.setModel(revsTableModel);
-        revisionsTable.setName("revisionsTable"); // NOI18N
-        revisionsScrollPane.setViewportView(revisionsTable);
-
-        getContentPane().add(revisionsScrollPane, java.awt.BorderLayout.CENTER);
-
-        setSize(new java.awt.Dimension(306, 219));
+        setSize(new java.awt.Dimension(447, 345));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -151,20 +145,19 @@ public class CatalogEditRevisionsDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JPanel controlPanel;
-    private javax.swing.JScrollPane revisionsScrollPane;
-    private javax.swing.JTable revisionsTable;
     private javax.swing.JButton setButton;
     // End of variables declaration//GEN-END:variables
 
-    public void setCatalogItem(XBCItem item) {
+    public void setSpec(XBCSpec item) {
+        revsPanel.setSpec(item);
     }
 
-    public XBCItem getCatalogItem() {
-        return null;
+    public XBCSpec getSpec() {
+        return revsPanel.getSpec();
     }
 
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
-        revsTableModel.setCatalog(catalog);
+        revsPanel.setCatalog(catalog);
     }
 }

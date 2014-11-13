@@ -51,7 +51,7 @@ public class CatalogDefsTableModel extends AbstractTableModel {
     private XBCSpecService bindService;
 
     private final String[] columnNames = new String[]{"XBIndex", "Revision", "StringId", "Operation", "Type", "Type Revision", "Name", "Description"};
-    private final Class[] classes = new Class[]{
+    private final Class[] columnClasses = new Class[]{
         java.lang.Long.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class
     };
 
@@ -73,7 +73,7 @@ public class CatalogDefsTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return classes.length;
+        return columnClasses.length;
     }
 
     @Override
@@ -113,7 +113,7 @@ public class CatalogDefsTableModel extends AbstractTableModel {
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        return classes[columnIndex];
+        return columnClasses[columnIndex];
     }
 
     public XBCSpec getSpec() {

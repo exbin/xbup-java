@@ -82,7 +82,6 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
     private final CatalogBrowserPanel catalogPanel;
     private MenuManagement menuManagement;
 
-    /** Creates new form ServiceManagerPanel */
     public ServiceManagerPanel() {
         initComponents();
 
@@ -100,18 +99,18 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
     }
 
     private void createNodes(DefaultMutableTreeNode top) {
-        DefaultMutableTreeNode item = new MutableTreeNode("Server Information","info");
+        DefaultMutableTreeNode item = new MutableTreeNode("Server Information", "info");
 //        item.add(new MutableTreeNode("Connection","empty"));
         top.add(item);
-        item = new MutableTreeNode("Service Control","control");
+        item = new MutableTreeNode("Service Control", "control");
         top.add(item);
-        item = new MutableTreeNode("Service Startup","startup");
+        item = new MutableTreeNode("Service Startup", "startup");
         top.add(item);
-        item = new MutableTreeNode("Catalog","catalog");
-        item.add(new MutableTreeNode("Update Service","update"));
+        item = new MutableTreeNode("Catalog", "catalog");
+        item.add(new MutableTreeNode("Update Service", "update"));
         top.add(item);
-        item = new MutableTreeNode("Plugin","empty");
-        item.add(new MutableTreeNode("Transformations","transplug"));
+        item = new MutableTreeNode("Plugin", "empty");
+        item.add(new MutableTreeNode("Transformations", "transplug"));
         top.add(item);
     }
 
@@ -133,9 +132,9 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             managerNetworkIPTextField.setText(unknown);
             managerSystemTextField.setText(unknown);
             managerHardwareTextField.setText(unknown);
-            
+
             getCatalogPanel().setCatalog(null);
-            
+
             return;
         }
 
@@ -154,20 +153,20 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             EntityManagerFactory emf = ((XBDbServiceClient) service).getEntityManagerFactory();
             try {
                 catalog = new XBAECatalog(emf.createEntityManager(), System.getProperty("user.home") + "/.XBUP/repository"); // TODO: Kill on failure
-                if (((XBAECatalog)catalog).isShallInit()) {
+                if (((XBAECatalog) catalog).isShallInit()) {
                     ((XBAECatalog) catalog).initCatalog();
                 }
-                    ((XBAECatalog) catalog).addCatalogService(XBCXLangService.class, new XBEXLangService((XBAECatalog) catalog));
-                    ((XBAECatalog) catalog).addCatalogService(XBCXStriService.class, new XBEXStriService((XBAECatalog) catalog));
-                    ((XBAECatalog) catalog).addCatalogService(XBCXNameService.class, new XBEXNameService((XBAECatalog) catalog));
-                    ((XBAECatalog) catalog).addCatalogService(XBCXDescService.class, new XBEXDescService((XBAECatalog) catalog));
+                ((XBAECatalog) catalog).addCatalogService(XBCXLangService.class, new XBEXLangService((XBAECatalog) catalog));
+                ((XBAECatalog) catalog).addCatalogService(XBCXStriService.class, new XBEXStriService((XBAECatalog) catalog));
+                ((XBAECatalog) catalog).addCatalogService(XBCXNameService.class, new XBEXNameService((XBAECatalog) catalog));
+                ((XBAECatalog) catalog).addCatalogService(XBCXDescService.class, new XBEXDescService((XBAECatalog) catalog));
 
-                    ((XBAECatalog) catalog).addCatalogService(XBCXFileService.class, new XBEXFileService((XBAECatalog) catalog));
-                    ((XBAECatalog) catalog).addCatalogService(XBCXIconService.class, new XBEXIconService((XBAECatalog) catalog));
-                    ((XBAECatalog) catalog).addCatalogService(XBCXPlugService.class, new XBEXPlugService((XBAECatalog) catalog));
-                    ((XBAECatalog) catalog).addCatalogService(XBCXLineService.class, new XBEXLineService((XBAECatalog) catalog));
-                    ((XBAECatalog) catalog).addCatalogService(XBCXPaneService.class, new XBEXPaneService((XBAECatalog) catalog));
-                    ((XBAECatalog) catalog).addCatalogService(XBCXHDocService.class, new XBEXHDocService((XBAECatalog) catalog));
+                ((XBAECatalog) catalog).addCatalogService(XBCXFileService.class, new XBEXFileService((XBAECatalog) catalog));
+                ((XBAECatalog) catalog).addCatalogService(XBCXIconService.class, new XBEXIconService((XBAECatalog) catalog));
+                ((XBAECatalog) catalog).addCatalogService(XBCXPlugService.class, new XBEXPlugService((XBAECatalog) catalog));
+                ((XBAECatalog) catalog).addCatalogService(XBCXLineService.class, new XBEXLineService((XBAECatalog) catalog));
+                ((XBAECatalog) catalog).addCatalogService(XBCXPaneService.class, new XBEXPaneService((XBAECatalog) catalog));
+                ((XBAECatalog) catalog).addCatalogService(XBCXHDocService.class, new XBEXHDocService((XBAECatalog) catalog));
             } catch (Exception ex) {
                 Logger.getLogger(ServiceManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
                 catalog = null;
@@ -188,16 +187,16 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
                 XBCatalogNetServiceClient serviceClient = new XBCatalogNetServiceClient(service.getHost(), service.getPort());
                 if (serviceClient.validate()) {
                     catalog = new XBARCatalog(serviceClient); // 22594 is 0x5842 (XB)
-                    ((XBARCatalog) catalog).addCatalogService(XBCXLangService.class, new XBRXLangService((XBARCatalog)catalog));
-                    ((XBARCatalog) catalog).addCatalogService(XBCXStriService.class, new XBRXStriService((XBARCatalog)catalog));
-                    ((XBARCatalog) catalog).addCatalogService(XBCXNameService.class, new XBRXNameService((XBARCatalog)catalog));
-                    ((XBARCatalog) catalog).addCatalogService(XBCXDescService.class, new XBRXDescService((XBARCatalog)catalog));
-                    ((XBARCatalog) catalog).addCatalogService(XBCXFileService.class, new XBRXFileService((XBARCatalog)catalog));
-                    ((XBARCatalog) catalog).addCatalogService(XBCXIconService.class, new XBRXIconService((XBARCatalog)catalog));
-                    ((XBARCatalog) catalog).addCatalogService(XBCXPlugService.class, new XBRXPlugService((XBARCatalog)catalog));
-                    ((XBARCatalog) catalog).addCatalogService(XBCXLineService.class, new XBRXLineService((XBARCatalog)catalog));
-                    ((XBARCatalog) catalog).addCatalogService(XBCXPaneService.class, new XBRXPaneService((XBARCatalog)catalog));
-                    ((XBARCatalog) catalog).addCatalogService(XBCXHDocService.class, new XBRXHDocService((XBARCatalog)catalog));
+                    ((XBARCatalog) catalog).addCatalogService(XBCXLangService.class, new XBRXLangService((XBARCatalog) catalog));
+                    ((XBARCatalog) catalog).addCatalogService(XBCXStriService.class, new XBRXStriService((XBARCatalog) catalog));
+                    ((XBARCatalog) catalog).addCatalogService(XBCXNameService.class, new XBRXNameService((XBARCatalog) catalog));
+                    ((XBARCatalog) catalog).addCatalogService(XBCXDescService.class, new XBRXDescService((XBARCatalog) catalog));
+                    ((XBARCatalog) catalog).addCatalogService(XBCXFileService.class, new XBRXFileService((XBARCatalog) catalog));
+                    ((XBARCatalog) catalog).addCatalogService(XBCXIconService.class, new XBRXIconService((XBARCatalog) catalog));
+                    ((XBARCatalog) catalog).addCatalogService(XBCXPlugService.class, new XBRXPlugService((XBARCatalog) catalog));
+                    ((XBARCatalog) catalog).addCatalogService(XBCXLineService.class, new XBRXLineService((XBARCatalog) catalog));
+                    ((XBARCatalog) catalog).addCatalogService(XBCXPaneService.class, new XBRXPaneService((XBARCatalog) catalog));
+                    ((XBARCatalog) catalog).addCatalogService(XBCXHDocService.class, new XBRXHDocService((XBARCatalog) catalog));
                 } else {
                     catalog = null;
                 }
@@ -218,7 +217,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
     public boolean updateActionStatus(Component component) {
         // String test = ((CardLayout) cardPanel.getLayout()).toString();
         // if ("catalog".equals(test)) {
-            catalogPanel.updateActionStatus(component);
+        catalogPanel.updateActionStatus(component);
         // }
 
         return false;
@@ -227,14 +226,14 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
     @Override
     public void releaseActionStatus() {
         // if ("catalog".equals(((CardLayout) cardPanel.getLayout()).toString())) {
-            catalogPanel.releaseActionStatus();
+        catalogPanel.releaseActionStatus();
         // }
     }
 
     @Override
     public boolean performAction(String eventName, ActionEvent event) {
         // if ("catalog".equals(((CardLayout) cardPanel.getLayout()).toString())) {
-            return catalogPanel.performAction(eventName, event);
+        return catalogPanel.performAction(eventName, event);
         // }
 
         // return false;
@@ -277,7 +276,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             TreePath itemPath = e.getPath();
             if (lastPath != null) { // Colapse last relevant node
                 if (!lastPath.equals(itemPath)) {
-                    if (itemPath.getPathCount()<=lastPath.getPathCount()) {
+                    if (itemPath.getPathCount() <= lastPath.getPathCount()) {
                         ArrayList<Object> collapsePath = new ArrayList<>();
                         int i;
                         for (i = 0; i < itemPath.getPathCount(); i++) {
@@ -286,30 +285,30 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
                             }
                             collapsePath.add(itemPath.getPathComponent(i));
                         }
-                        if (i<=itemPath.getPathCount()) {
+                        if (i <= itemPath.getPathCount()) {
                             collapsePath.add(lastPath.getPathComponent(i));
                             managerTree.collapsePath(new TreePath(collapsePath.toArray()));
                         }
                     }
                 }
             }
-            if (itemPath!=null) {
+            if (itemPath != null) {
                 lastPath = itemPath;
                 managerTree.expandPath(itemPath);
                 String caption = ((MutableTreeNode) managerTree.getLastSelectedPathComponent()).getCaption();
                 if (caption != null) {
-                    ((CardLayout) cardPanel.getLayout()).show(cardPanel,caption);
+                    ((CardLayout) cardPanel.getLayout()).show(cardPanel, caption);
                 } else {
-                    ((CardLayout) cardPanel.getLayout()).show(cardPanel,"empty");
+                    ((CardLayout) cardPanel.getLayout()).show(cardPanel, "empty");
                 }
             }
         }
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

@@ -24,13 +24,10 @@ import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.block.declaration.XBContext;
-import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSelectSpecDialog;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType;
@@ -40,7 +37,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Dialog for adding new item into given document.
  *
- * @version 0.1.24 2014/11/11
+ * @version 0.1.24 2014/11/14
  * @author XBUP Project (http://xbup.org)
  */
 public class ItemAddDialog extends javax.swing.JDialog {
@@ -94,9 +91,9 @@ public class ItemAddDialog extends javax.swing.JDialog {
         mainPanel = new javax.swing.JPanel();
         dataRadioButton = new javax.swing.JRadioButton();
         basicTypeRadioButton = new javax.swing.JRadioButton();
-        basicTypeComboBox = new javax.swing.JComboBox();
+        basicTypeComboBox = new javax.swing.JComboBox<String>();
         localTypeRadioButton = new javax.swing.JRadioButton();
-        localTypeComboBox = new javax.swing.JComboBox();
+        localTypeComboBox = new javax.swing.JComboBox<String>();
         localTypeAdvancedButton = new javax.swing.JButton();
         catalogTypeRadioButton = new javax.swing.JRadioButton();
         catalogTypeSelectButton = new javax.swing.JButton();
@@ -132,7 +129,7 @@ public class ItemAddDialog extends javax.swing.JDialog {
             }
         });
 
-        basicTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Unknown", "Declaration", "Format Declaration", "Group Declaration", "Block Declaration", "Format Definition", "Group Definition", "Block Definition", "List Definition", "Revision Definition" }));
+        basicTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Unknown", "Declaration", "Format Declaration", "Group Declaration", "Block Declaration", "Format Definition", "Group Definition", "Block Definition", "List Definition", "Revision Definition" }));
 
         buttonGroup1.add(localTypeRadioButton);
         localTypeRadioButton.setText(bundle.getString("jRadioButton4.text")); // NOI18N
@@ -143,7 +140,7 @@ public class ItemAddDialog extends javax.swing.JDialog {
             }
         });
 
-        localTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "data block" }));
+        localTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "data block" }));
         localTypeComboBox.setEnabled(false);
 
         localTypeAdvancedButton.setText(bundle.getString("jButton4.text")); // NOI18N
@@ -323,7 +320,7 @@ public class ItemAddDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox basicTypeComboBox;
+    private javax.swing.JComboBox<String> basicTypeComboBox;
     private javax.swing.JRadioButton basicTypeRadioButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cancelButton;
@@ -332,7 +329,7 @@ public class ItemAddDialog extends javax.swing.JDialog {
     private javax.swing.JTextField catalogTypeTextField;
     private javax.swing.JRadioButton dataRadioButton;
     private javax.swing.JButton localTypeAdvancedButton;
-    private javax.swing.JComboBox localTypeComboBox;
+    private javax.swing.JComboBox<String> localTypeComboBox;
     private javax.swing.JRadioButton localTypeRadioButton;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JButton okButton;

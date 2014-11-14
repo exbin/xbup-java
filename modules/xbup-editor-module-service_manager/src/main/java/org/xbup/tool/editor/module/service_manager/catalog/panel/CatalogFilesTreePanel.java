@@ -43,7 +43,7 @@ import org.xbup.lib.catalog.entity.XBEItem;
 import org.xbup.lib.catalog.entity.XBENode;
 import org.xbup.lib.catalog.entity.XBEXFile;
 import org.xbup.lib.catalog.yaml.XBCatalogYaml;
-import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogItemEditDialog;
+import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogEditItemDialog;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogNodesTreeModel.CatalogNodesTreeItem;
 
 /**
@@ -260,7 +260,7 @@ public class CatalogFilesTreePanel extends javax.swing.JPanel {
 
     private void popupPropertiesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupPropertiesMenuItemActionPerformed
         if (currentItem != null) {
-            CatalogItemEditDialog propertiesDialog = new CatalogItemEditDialog(getFrame(), true);
+            CatalogEditItemDialog propertiesDialog = new CatalogEditItemDialog(getFrame(), true);
             propertiesDialog.setCatalog(catalog);
             propertiesDialog.setCatalogItem(currentNode);
             propertiesDialog.setVisible(true);

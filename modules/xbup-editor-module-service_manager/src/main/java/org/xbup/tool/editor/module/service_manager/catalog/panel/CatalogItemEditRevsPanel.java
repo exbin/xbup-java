@@ -199,7 +199,7 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
 
         if (editorDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             XBCRev rev = row.getRev();
-            ((XBESpecDef) rev).setTarget((XBERev) editorDialog.getTarget());
+            ((XBERev) rev).setXBLimit(editorDialog.getXbLimit());
 
             if (updateList.contains(rev)) {
                 updateList.remove(rev);

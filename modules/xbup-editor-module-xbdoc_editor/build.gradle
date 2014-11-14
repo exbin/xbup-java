@@ -9,6 +9,7 @@ if (!hasProperty('mainClass')) {
 }
 
 tasks.withType(JavaCompile) {
+//    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
     doFirst {
         options.fork = true
         options.bootClasspath = "${System.properties['java.home']}/lib/rt.jar"

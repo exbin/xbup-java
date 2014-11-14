@@ -53,7 +53,6 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import static javax.swing.Action.NAME;
 import javax.swing.ActionMap;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
@@ -861,10 +860,10 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
             @Override
             public void copy() {
                 StringBuilder builder = new StringBuilder();
-                List<String> rows = listComp.getSelectedValuesList();
+                List rows = listComp.getSelectedValuesList();
                 boolean empty = true;
-                for (String row : rows) {
-                    builder.append(empty ? row : System.getProperty("line.separator") + row);
+                for (Object row : rows) {
+                    builder.append(empty ? row.toString() : System.getProperty("line.separator") + row);
 
                     if (empty) {
                         empty = false;

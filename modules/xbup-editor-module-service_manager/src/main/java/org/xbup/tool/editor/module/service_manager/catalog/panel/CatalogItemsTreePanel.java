@@ -57,7 +57,7 @@ import org.xbup.lib.catalog.entity.XBEXDesc;
 import org.xbup.lib.catalog.entity.XBEXName;
 import org.xbup.lib.catalog.yaml.XBCatalogYaml;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogAddItemDialog;
-import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogItemEditDialog;
+import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogEditItemDialog;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogNodesTreeModel.CatalogNodesTreeItem;
 import static org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType.FORMAT;
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
@@ -355,7 +355,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
 
     private void popupEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupEditMenuItemActionPerformed
         if (currentItem != null) {
-            CatalogItemEditDialog propertiesDialog = new CatalogItemEditDialog(getFrame(), true);
+            CatalogEditItemDialog propertiesDialog = new CatalogEditItemDialog(getFrame(), true);
             propertiesDialog.setCatalog(catalog);
             propertiesDialog.setCatalogItem(currentItem);
             propertiesDialog.setVisible(true);

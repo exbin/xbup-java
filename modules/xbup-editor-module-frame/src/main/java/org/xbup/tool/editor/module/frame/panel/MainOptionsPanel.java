@@ -33,7 +33,7 @@ import org.xbup.tool.editor.base.api.OptionsPanel;
 /**
  * Tool Bar Apperance Options panel.
  *
- * @version 0.1.22 2013/03/25
+ * @version 0.1.24 2014/11/14
  * @author XBUP Project (http://xbup.org)
  */
 public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel {
@@ -87,8 +87,8 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
 
         mainOptionsBasicPanel = new javax.swing.JPanel();
         visualThemeLabel = new javax.swing.JLabel();
-        themeComboBox = new javax.swing.JComboBox();
-        languageComboBox = new javax.swing.JComboBox();
+        themeComboBox = new javax.swing.JComboBox<>();
+        languageComboBox = new javax.swing.JComboBox<>();
         languageLabel = new javax.swing.JLabel();
         mainOptionsNotePanel = new javax.swing.JPanel();
         requireRestartLabel = new javax.swing.JLabel();
@@ -175,12 +175,12 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
     }//GEN-LAST:event_languageComboBoxjComboBoxItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox languageComboBox;
+    private javax.swing.JComboBox<Locale> languageComboBox;
     private javax.swing.JLabel languageLabel;
     private javax.swing.JPanel mainOptionsBasicPanel;
     private javax.swing.JPanel mainOptionsNotePanel;
     private javax.swing.JLabel requireRestartLabel;
-    private javax.swing.JComboBox themeComboBox;
+    private javax.swing.JComboBox<String> themeComboBox;
     private javax.swing.JLabel visualThemeLabel;
     // End of variables declaration//GEN-END:variables
 

@@ -43,7 +43,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 /**
  * Panel for basic XBItem viewing/editation.
  *
- * @version 0.1.24 2014/11/12
+ * @version 0.1.24 2014/11/14
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemPanel extends javax.swing.JPanel {
@@ -51,6 +51,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
     private XBCItem item;
 
     private CatalogDefsTableModel defsModel;
+    private CatalogRevsTableModel revsModel;
     private XBCXNameService nameService;
     private XBCXDescService descService;
     private XBCXStriService striService;
@@ -75,6 +76,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
             // TODO: OnAddExtension
         }
         defsModel = new CatalogDefsTableModel(catalog);
+        revsModel = new CatalogRevsTableModel(catalog);
         initComponents();
     }
 
@@ -111,6 +113,9 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         documentationPanel = new javax.swing.JPanel();
         itemHDocScrollPane = new javax.swing.JScrollPane();
         itemHDocEditorPane = new javax.swing.JEditorPane();
+        revisionsPanel = new javax.swing.JPanel();
+        itemRevisionsScrollPane = new javax.swing.JScrollPane();
+        itemRevisionsTable = new javax.swing.JTable();
         definitionPanel = new javax.swing.JPanel();
         itemDefinitionScrollPane = new javax.swing.JScrollPane();
         itemDefinitionTable = new javax.swing.JTable();
@@ -176,7 +181,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
                     .addGroup(basicItemDataPanelLayout.createSequentialGroup()
                         .addComponent(itemIconLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(itemTitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE))
+                        .addComponent(itemTitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE))
                     .addComponent(jSeparator1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, basicItemDataPanelLayout.createSequentialGroup()
                         .addGroup(basicItemDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -248,14 +253,27 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         documentationPanel.setLayout(documentationPanelLayout);
         documentationPanelLayout.setHorizontalGroup(
             documentationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(itemHDocScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+            .addComponent(itemHDocScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
         );
         documentationPanelLayout.setVerticalGroup(
             documentationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(itemHDocScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
+            .addComponent(itemHDocScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
         );
 
         mainTabbedPane.addTab("Documentation", documentationPanel);
+
+        revisionsPanel.setName("revisionsPanel"); // NOI18N
+        revisionsPanel.setLayout(new java.awt.BorderLayout());
+
+        itemRevisionsScrollPane.setName("itemRevisionsScrollPane"); // NOI18N
+
+        itemRevisionsTable.setModel(revsModel);
+        itemRevisionsTable.setName("itemRevisionsTable"); // NOI18N
+        itemRevisionsScrollPane.setViewportView(itemRevisionsTable);
+
+        revisionsPanel.add(itemRevisionsScrollPane, java.awt.BorderLayout.CENTER);
+
+        mainTabbedPane.addTab("Revisions", revisionsPanel);
 
         definitionPanel.setName("definitionPanel"); // NOI18N
         definitionPanel.setLayout(new java.awt.BorderLayout());
@@ -293,11 +311,14 @@ public class CatalogItemPanel extends javax.swing.JPanel {
     private javax.swing.JTextField itemNameTextField;
     private javax.swing.JLabel itemPathLabel;
     private javax.swing.JTextField itemPathTextField;
+    private javax.swing.JScrollPane itemRevisionsScrollPane;
+    private javax.swing.JTable itemRevisionsTable;
     private javax.swing.JLabel itemTitleLabel;
     private javax.swing.JLabel itemTypeLabel;
     private javax.swing.JTextField itemTypeTextField;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane mainTabbedPane;
+    private javax.swing.JPanel revisionsPanel;
     // End of variables declaration//GEN-END:variables
 
     public XBCItem getItem() {
@@ -382,8 +403,13 @@ public class CatalogItemPanel extends javax.swing.JPanel {
             itemNameTextField.setText("");
             itemDescriptionTextField.setText("");
         }
+
         defsModel.setItem(item);
         itemDefinitionTable.revalidate();
         itemDefinitionTable.repaint();
+
+        revsModel.setSpec(item instanceof XBCSpec ? (XBCSpec) item : null);
+        itemRevisionsTable.revalidate();
+        itemRevisionsTable.repaint();
     }
 }

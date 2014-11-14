@@ -88,7 +88,7 @@ public class FontDialog extends JDialog {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         fontNames = ge.getAvailableFontFamilyNames();
         fontSizes = new String[]{"8", "9", "10", "11", "12", "14", "16",
-                    "18", "20", "22", "24", "26", "28", "36", "48", "72"};
+            "18", "20", "22", "24", "26", "28", "36", "48", "72"};
         fontNameInputList = new InputList(fontNames, "Name:");
         fontSizeInputList = new InputList(fontSizes, "Size:");
 
@@ -146,15 +146,15 @@ public class FontDialog extends JDialog {
 //        lbl.setDisplayedMnemonic('c');
 //        p.add(lbl);
         p.add(Box.createHorizontalStrut(20));
-/*
-        colorComboBox = new ColorComboBox();
-        lbl.setLabelFor(colorComboBox);
-        colorComboBox.setToolTipText("Font color");
-        ToolTipManager.sharedInstance().registerComponent(colorComboBox);
-        p.add(colorComboBox);
-        p.add(Box.createHorizontalStrut(10));
-        getContentPane().add(p);
-*/
+        /*
+         colorComboBox = new ColorComboBox();
+         lbl.setLabelFor(colorComboBox);
+         colorComboBox.setToolTipText("Font color");
+         ToolTipManager.sharedInstance().registerComponent(colorComboBox);
+         p.add(colorComboBox);
+         p.add(Box.createHorizontalStrut(10));
+         getContentPane().add(p);
+         */
         p = new JPanel(new BorderLayout());
         p.setBorder(new TitledBorder(new EtchedBorder(), "Preview"));
         previewLabel = new FontLabel(PREVIEW_TEXT);
@@ -269,7 +269,7 @@ public class FontDialog extends JDialog {
             return null;
         }
 
-        Map<TextAttribute, Object> attribs = new HashMap<TextAttribute, Object>();
+        Map<TextAttribute, Object> attribs = new HashMap<>();
 
         attribs.put(FAMILY, name);
         attribs.put(SIZE, (float) size);
@@ -363,12 +363,13 @@ public class FontDialog extends JDialog {
         dlg.setAttributes(a);
         dlg.setVisible(true);
     }
-/*
-    public Color getMyColor() {
-        return (Color) colorComboBox.getSelectedItem();
-    }
- */
+    /*
+     public Color getMyColor() {
+     return (Color) colorComboBox.getSelectedItem();
+     }
+     */
 }
+
 class InputList extends JPanel implements ListSelectionListener, ActionListener {
 
     protected JLabel label = new JLabel();
@@ -380,6 +381,17 @@ class InputList extends JPanel implements ListSelectionListener, ActionListener 
         setLayout(null);
 
         add(label);
+        init(data);
+    }
+
+    public InputList(String title, int numCols) {
+        setLayout(null);
+        label = new OpelListLabel(title, JLabel.LEFT);
+        add(label);
+        init(numCols);
+    }
+
+    private void init(String[] data) {
         textfield = new OpelListText();
         textfield.addActionListener(this);
         label.setLabelFor(textfield);
@@ -391,10 +403,7 @@ class InputList extends JPanel implements ListSelectionListener, ActionListener 
         add(scroll);
     }
 
-    public InputList(String title, int numCols) {
-        setLayout(null);
-        label = new OpelListLabel(title, JLabel.LEFT);
-        add(label);
+    private void init(int numCols) {
         textfield = new OpelListText(numCols);
         textfield.addActionListener(this);
         label.setLabelFor(textfield);
@@ -607,46 +616,46 @@ class FontLabel extends JLabel {
     }
 }
 /*
-class ColorComboBox extends JComboBox {
+ class ColorComboBox extends JComboBox {
 
-    public ColorComboBox() {
-        int[] values = new int[]{0, 128, 192, 255};
-        for (int r = 0; r < values.length; r++) {
-            for (int g = 0; g < values.length; g++) {
-                for (int b = 0; b < values.length; b++) {
-                    Color c = new Color(values[r], values[g], values[b]);
-                    addItem(c);
-                }
-            }
-        }
-        setRenderer(new ColorComboRenderer1());
+ public ColorComboBox() {
+ int[] values = new int[]{0, 128, 192, 255};
+ for (int r = 0; r < values.length; r++) {
+ for (int g = 0; g < values.length; g++) {
+ for (int b = 0; b < values.length; b++) {
+ Color c = new Color(values[r], values[g], values[b]);
+ addItem(c);
+ }
+ }
+ }
+ setRenderer(new ColorComboRenderer1());
 
-    }
+ }
 
-    class ColorComboRenderer1 extends JPanel implements ListCellRenderer {
+ class ColorComboRenderer1 extends JPanel implements ListCellRenderer {
 
-        protected Color m_c = Color.black;
+ protected Color m_c = Color.black;
 
-        public ColorComboRenderer1() {
-            super();
-            setBorder(new CompoundBorder(new MatteBorder(2, 10, 2, 10,
-                    Color.white), new LineBorder(Color.black)));
-        }
+ public ColorComboRenderer1() {
+ super();
+ setBorder(new CompoundBorder(new MatteBorder(2, 10, 2, 10,
+ Color.white), new LineBorder(Color.black)));
+ }
 
-        public Component getListCellRendererComponent(JList list, Object obj,
-                int row, boolean sel, boolean hasFocus) {
-            if (obj instanceof Color) {
-                m_c = (Color) obj;
-            }
-            return this;
-        }
+ public Component getListCellRendererComponent(JList list, Object obj,
+ int row, boolean sel, boolean hasFocus) {
+ if (obj instanceof Color) {
+ m_c = (Color) obj;
+ }
+ return this;
+ }
 
-        @Override
-        public void paint(Graphics g) {
-            setBackground(m_c);
-            super.paint(g);
-        }
-    }
+ @Override
+ public void paint(Graphics g) {
+ setBackground(m_c);
+ super.paint(g);
+ }
+ }
 
-}
-*/
+ }
+ */

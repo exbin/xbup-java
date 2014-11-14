@@ -180,21 +180,13 @@
         </Component>
         <Component class="javax.swing.JComboBox" name="basicTypeComboBox">
           <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="10">
-                <StringItem index="0" value="Unknown"/>
-                <StringItem index="1" value="Declaration"/>
-                <StringItem index="2" value="Format Declaration"/>
-                <StringItem index="3" value="Group Declaration"/>
-                <StringItem index="4" value="Block Declaration"/>
-                <StringItem index="5" value="Format Definition"/>
-                <StringItem index="6" value="Group Definition"/>
-                <StringItem index="7" value="Block Definition"/>
-                <StringItem index="8" value="List Definition"/>
-                <StringItem index="9" value="Revision Definition"/>
-              </StringArray>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Unknown&quot;, &quot;Declaration&quot;, &quot;Format Declaration&quot;, &quot;Group Declaration&quot;, &quot;Block Declaration&quot;, &quot;Format Definition&quot;, &quot;Group Definition&quot;, &quot;Block Definition&quot;, &quot;List Definition&quot;, &quot;Revision Definition&quot; })" type="code"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JRadioButton" name="localTypeRadioButton">
           <Properties>
@@ -212,13 +204,14 @@
         </Component>
         <Component class="javax.swing.JComboBox" name="localTypeComboBox">
           <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="1">
-                <StringItem index="0" value="data block"/>
-              </StringArray>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;data block&quot; })" type="code"/>
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="localTypeAdvancedButton">
           <Properties>

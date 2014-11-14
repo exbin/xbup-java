@@ -31,10 +31,10 @@ import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEdit
 /**
  * XBManager Catalog Item Properties Dialog.
  *
- * @version 0.1.24 2014/11/13
+ * @version 0.1.24 2014/11/14
  * @author XBUP Project (http://xbup.org)
  */
-public class CatalogItemEditDialog extends javax.swing.JDialog {
+public class CatalogEditItemDialog extends javax.swing.JDialog {
 
     private int dialogOption = JOptionPane.CLOSED_OPTION;
 
@@ -45,7 +45,7 @@ public class CatalogItemEditDialog extends javax.swing.JDialog {
     private CatalogItemEditRevsPanel revisionsPanel;
     private CatalogItemEditDefinitionPanel definitionPanel;
 
-    public CatalogItemEditDialog(java.awt.Frame frame, boolean modal) {
+    public CatalogEditItemDialog(java.awt.Frame frame, boolean modal) {
         super(frame, modal);
         initComponents();
         if (frame instanceof XBEditorFrame) {
@@ -82,7 +82,7 @@ public class CatalogItemEditDialog extends javax.swing.JDialog {
         mainTabbedPane = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/catalog/dialog/resources/CatalogItemEditDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/catalog/dialog/resources/CatalogEditItemDialog"); // NOI18N
         setTitle(bundle.getString("Form.title")); // NOI18N
         setLocationByPlatform(true);
         setModal(true);
@@ -154,7 +154,7 @@ public class CatalogItemEditDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        WindowUtils.invokeWindow(new CatalogItemEditDialog(new javax.swing.JFrame(), true));
+        WindowUtils.invokeWindow(new CatalogEditItemDialog(new javax.swing.JFrame(), true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

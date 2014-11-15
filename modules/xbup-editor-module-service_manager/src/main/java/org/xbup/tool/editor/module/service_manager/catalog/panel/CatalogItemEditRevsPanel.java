@@ -24,24 +24,21 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import org.xbup.lib.catalog.entity.XBEItem;
+import org.xbup.lib.catalog.entity.XBERev;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCSpec;
-import org.xbup.lib.catalog.entity.XBERev;
-import org.xbup.lib.catalog.entity.XBESpec;
-import org.xbup.lib.catalog.entity.XBESpecDef;
-import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.core.catalog.base.service.XBCXDescService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecRevEditorDialog;
 
 /**
  * XBManager Catalog Item Edit Revisions Panel.
  *
- * @version 0.1.24 2014/11/13
+ * @version 0.1.24 2014/11/14
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
@@ -50,8 +47,8 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
     private XBCItem catalogItem;
     private XBCRevService revService;
     private final CatalogRevsTableModel revsModel;
-    private List<XBCRev> removeList;
-    private List<XBCRev> updateList;
+    private List<CatalogRevsTableItem> removeList;
+    private List<CatalogRevsTableItem> updateList;
 
     public CatalogItemEditRevsPanel() {
         revsModel = new CatalogRevsTableModel(null);
@@ -158,33 +155,27 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        CatalogSpecRevEditorDialog editorDialog = new CatalogSpecRevEditorDialog(getFrame(), true, catalog);
-        editorDialog.setSpec((XBCSpec) catalogItem);
+        CatalogSpecRevEditorDialog editorDialog = new CatalogSpecRevEditorDialog(getFrame(), true);
+        editorDialog.setRevItem(new CatalogRevsTableItem());
         editorDialog.setVisible(true);
 
         if (editorDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             long maxXbIndex = 0;
             if (revsModel.getRowCount() > 0) {
-                CatalogRevsTableItem rowItem = revsModel.getRowItem(revsModel.getRowCount() - 1);
-                maxXbIndex = rowItem.getXbIndex() + 1;
+                CatalogRevsTableItem rewItem = revsModel.getRowItem(revsModel.getRowCount() - 1);
+                if (rewItem.getXbIndex() >= maxXbIndex) {
+                    maxXbIndex = rewItem.getXbIndex() + 1;
+                }
             }
 
-            XBCRev rev;
-            rev = (XBCRev) revService.createItem();
-            // TODO: Refit for general usage (including XBRSpecDef and so on...)
-            ((XBERev) rev).setParent((XBESpec) catalogItem);
-            ((XBERev) rev).setXBIndex(maxXbIndex);
-            if (!updateList.contains(rev)) {
-                updateList.add(rev);
+            CatalogRevsTableItem revItem = editorDialog.getRevItem();
+            revItem.setXbIndex(maxXbIndex);
+            if (!updateList.contains(revItem)) {
+                updateList.add(revItem);
             }
 
-            XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-            nameService.setItemNameText(rev, editorDialog.getItemName());
-            XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
-            descService.setItemDescText(rev, editorDialog.getItemDescription());
-            XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
-            striService.setItemStringIdText(rev, editorDialog.getItemStringId());
-
+            revsModel.getRevs().add(revItem);
+            revsModel.fireTableDataChanged();
             updateItemStatus();
         }
     }//GEN-LAST:event_addButtonActionPerformed
@@ -193,37 +184,31 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
         int selectedRow = itemRevisionsTable.getSelectedRow();
         CatalogRevsTableItem row = revsModel.getRowItem(selectedRow);
 
-        CatalogSpecRevEditorDialog editorDialog = new CatalogSpecRevEditorDialog(getFrame(), true, catalog);
-        // editorDialog.setSpecDef(row.getSpecDef());
+        CatalogSpecRevEditorDialog editorDialog = new CatalogSpecRevEditorDialog(getFrame(), true);
+        editorDialog.setRevItem(row);
         editorDialog.setVisible(true);
 
         if (editorDialog.getDialogOption() == JOptionPane.OK_OPTION) {
-            XBCRev rev = row.getRev();
-            ((XBERev) rev).setXBLimit(editorDialog.getXbLimit());
-
-            if (updateList.contains(rev)) {
-                updateList.remove(rev);
+            CatalogRevsTableItem revItem = editorDialog.getRevItem();
+            if (!updateList.contains(revItem)) {
+                updateList.add(revItem);
             }
 
-            XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-            nameService.setItemNameText(rev, editorDialog.getItemName());
-            XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
-            descService.setItemDescText(rev, editorDialog.getItemDescription());
-            XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
-            striService.setItemStringIdText(rev, editorDialog.getItemStringId());
+            updateItemStatus();
         }
     }//GEN-LAST:event_modifyButtonActionPerformed
 
     private void removeDefButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefButtonActionPerformed
         int selectedRow = itemRevisionsTable.getSelectedRow();
-        XBCRev rev = revsModel.getRowItem(selectedRow).getRev();
+        CatalogRevsTableItem revItem = revsModel.getRowItem(selectedRow);
 
-        if (updateList.contains(rev)) {
-            updateList.remove(rev);
+        if (updateList.contains(revItem)) {
+            updateList.remove(revItem);
         }
 
-        removeList.add(rev);
-        // revsModel.removeItem(rev);
+        removeList.add(revItem);
+        revsModel.getRevs().remove(revItem);
+        revsModel.fireTableDataChanged();
         updateItemStatus();
     }//GEN-LAST:event_removeDefButtonActionPerformed
 
@@ -238,12 +223,28 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     public void persist() {
-        for (XBCRev rev : removeList) {
-            revService.removeItem(rev);
+        for (CatalogRevsTableItem revItem : updateList) {
+            XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+            XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
+
+            XBERev rev = (XBERev) revItem.getRev();
+            if (rev == null) {
+                rev = (XBERev) revService.createItem();
+                rev.setParent((XBEItem) catalogItem);
+                rev.setXBIndex(revItem.getXbIndex());
+                rev.setXBLimit(revItem.getLimit());
+            }
+
+            revService.persistItem(rev);
+
+            nameService.setItemNameText(rev, revItem.getName());
+            descService.setItemDescText(rev, revItem.getDescription());
         }
 
-        for (int i = 0; i < updateList.size(); i++) {
-            revService.persistItem(removeList.get(i));
+        for (CatalogRevsTableItem revItem : removeList) {
+            if (revItem.getRev() != null) {
+                revService.removeItem(revItem.getRev());
+            }
         }
     }
 
@@ -257,6 +258,7 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
             modifyButton.setEnabled(false);
             removeDefButton.setEnabled(false);
         }
+
         itemRevisionsTable.repaint();
     }
 

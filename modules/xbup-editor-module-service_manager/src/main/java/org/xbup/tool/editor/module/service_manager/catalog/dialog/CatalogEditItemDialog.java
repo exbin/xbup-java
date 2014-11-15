@@ -137,11 +137,11 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void setButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setButtonActionPerformed
-        dialogOption = JOptionPane.OK_OPTION;
         propertiesPanel.persist();
         documentationPanel.persist();
         definitionPanel.persist();
         revisionsPanel.persist();
+        dialogOption = JOptionPane.OK_OPTION;
         WindowUtils.closeWindow(this);
 }//GEN-LAST:event_setButtonActionPerformed
 

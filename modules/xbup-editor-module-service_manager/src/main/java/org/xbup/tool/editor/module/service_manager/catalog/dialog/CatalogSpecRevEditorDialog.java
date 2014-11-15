@@ -17,18 +17,9 @@
 package org.xbup.tool.editor.module.service_manager.catalog.dialog;
 
 import javax.swing.JOptionPane;
-import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.base.XBCItem;
-import org.xbup.lib.core.catalog.base.XBCSpec;
-import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.catalog.base.service.XBCItemService;
-import org.xbup.lib.core.catalog.base.service.XBCRevService;
-import org.xbup.lib.core.catalog.base.service.XBCXDescService;
-import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.core.catalog.base.service.XBCXStriService;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogRevsComboBoxModel;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogRevsTableItem;
 
 /**
  * XBManager Catalog Specification Revision Editor Dialog.
@@ -39,29 +30,14 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 public class CatalogSpecRevEditorDialog extends javax.swing.JDialog {
 
     private int dialogOption = JOptionPane.CLOSED_OPTION;
-    private final XBACatalog catalog;
-    private XBCSpec spec;
-    private XBCSpec targetSpec;
-    private final CatalogRevsComboBoxModel revsModel;
+    private CatalogRevsTableItem revItem;
 
-    private XBCItemService itemService;
-    private XBCRevService revService;
-
-    public CatalogSpecRevEditorDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog) {
+    public CatalogSpecRevEditorDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        revsModel = new CatalogRevsComboBoxModel();
         initComponents();
         if (parent instanceof XBEditorFrame) {
             setIconImage(((XBEditorFrame) parent).getMainFrameManagement().getFrameIcon());
         }
-
-        // TODO change listener for definitionTypeComboBox.
-        this.catalog = catalog;
-        if (catalog != null) {
-            itemService = (XBCItemService) catalog.getCatalogService(XBCItemService.class);
-            revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
-        }
-        targetSpec = null;
 
         init();
     }
@@ -190,6 +166,10 @@ public class CatalogSpecRevEditorDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        revItem.setName(nameTextField.getText());
+        revItem.setDescription(descriptionTextField.getText());
+        revItem.setLimit(Long.parseLong(limitTextField.getText()));
+
         dialogOption = JOptionPane.OK_OPTION;
         WindowUtils.closeWindow(this);
     }//GEN-LAST:event_saveButtonActionPerformed
@@ -198,7 +178,7 @@ public class CatalogSpecRevEditorDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        WindowUtils.invokeWindow(new CatalogSpecRevEditorDialog(new javax.swing.JFrame(), true, null));
+        WindowUtils.invokeWindow(new CatalogSpecRevEditorDialog(new javax.swing.JFrame(), true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -214,60 +194,17 @@ public class CatalogSpecRevEditorDialog extends javax.swing.JDialog {
     private javax.swing.JButton saveButton;
     // End of variables declaration//GEN-END:variables
 
-    public XBCItem getTargetSpec() {
-        return targetSpec;
-    }
+    public void setRevItem(CatalogRevsTableItem revItem) {
+        this.revItem = revItem;
 
-    public void setRevSpec(XBCSpec targetSpec) {
-        if (targetSpec != null) {
-            if (targetSpec instanceof XBCSpec) {
-                revsModel.setRevs(revService.getRevs((XBCSpec) targetSpec));
-            } else {
-                revsModel.getRevs().clear();
-            }
-        } else {
-            revsModel.getRevs().clear();
-        }
-
-    }
-
-    public void setTargetSpec(XBCSpec targetSpec) {
-        this.targetSpec = targetSpec;
-
-        revsModel.getRevs().clear();
-    }
-
-    public void setSpec(XBCSpec spec) {
-        this.spec = spec;
-    }
-
-    public void setSpecDef(XBCSpecDef specDef) {
-        setSpec(specDef.getSpec());
-
-        XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-        nameTextField.setText(nameService.getItemNameText(specDef));
-        XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
-        descriptionTextField.setText(descService.getItemDescText(specDef));
-        XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
-        limitTextField.setText(striService.getItemStringIdText(specDef));
+        nameTextField.setText(revItem.getName());
+        descriptionTextField.setText(revItem.getDescription());
+        limitTextField.setText(revItem.getLimit() == null ? "" : revItem.getLimit().toString());
 
         repaint();
-
     }
 
-    public String getItemName() {
-        return nameTextField.getText();
-    }
-
-    public String getItemDescription() {
-        return descriptionTextField.getText();
-    }
-
-    public String getItemStringId() {
-        return limitTextField.getText();
-    }
-
-    public Long getXbLimit() {
-        return Long.parseLong(limitTextField.getText());
+    public CatalogRevsTableItem getRevItem() {
+        return revItem;
     }
 }

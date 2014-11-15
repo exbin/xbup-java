@@ -68,9 +68,10 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
     @Override
     public void removeItem(T item) {
         EntityTransaction transaction = null;
-        if (em.getFlushMode() == FlushModeType.COMMIT) {
+        try {
             transaction = em.getTransaction();
             transaction.begin();
+        } catch (IllegalStateException ex) {
         }
 
         T removedItem = em.merge(item);
@@ -127,9 +128,10 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
     @Override
     public void persistItem(T item) {
         EntityTransaction transaction = null;
-        if (em.getFlushMode() == FlushModeType.COMMIT) {
+        try {
             transaction = em.getTransaction();
             transaction.begin();
+        } catch (IllegalStateException ex) {
         }
 
         em.merge(item);

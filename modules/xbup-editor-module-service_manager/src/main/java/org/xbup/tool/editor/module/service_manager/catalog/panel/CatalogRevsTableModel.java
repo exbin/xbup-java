@@ -120,4 +120,8 @@ public class CatalogRevsTableModel extends AbstractTableModel {
     public CatalogRevsTableItem getRowItem(int index) {
         return revs.get(index);
     }
+
+    public List<CatalogRevsTableItem> getRevs() {
+        return revs;
+    }
 }

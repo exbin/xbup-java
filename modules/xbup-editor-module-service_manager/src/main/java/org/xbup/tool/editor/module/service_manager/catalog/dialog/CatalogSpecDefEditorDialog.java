@@ -26,38 +26,35 @@ import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
 import org.xbup.lib.core.catalog.base.XBCGroupSpec;
-import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpec;
-import org.xbup.lib.core.catalog.base.XBCSpecDef;
 import org.xbup.lib.core.catalog.base.XBCSpecDefType;
-import org.xbup.lib.core.catalog.base.service.XBCItemService;
 import org.xbup.lib.core.catalog.base.service.XBCRevService;
-import org.xbup.lib.core.catalog.base.service.XBCXDescService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogRevsComboBoxModel;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogDefsTableItem;
 
 /**
  * XBManager Catalog Specification Definition Editor Dialog.
  *
- * @version 0.1.24 2014/11/12
+ * @version 0.1.24 2014/11/16
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
 
     private int dialogOption = JOptionPane.CLOSED_OPTION;
-    private final XBACatalog catalog;
-    private XBCSpec spec;
-    private XBCSpec targetSpec;
-    private CatalogRevsComboBoxModel revsModel;
 
-    private XBCItemService itemService;
+    private final XBACatalog catalog;
+    private CatalogRevsComboBoxModel revsModel;
     private XBCRevService revService;
+
+    private XBCSpec spec;
+    private CatalogDefsTableItem defItem;
     private CatalogSpecItemType targetType;
+    private XBCSpec targetSpec;
 
     public CatalogSpecDefEditorDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog) {
         super(parent, modal);
@@ -83,7 +80,6 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         // TODO change listener for definitionTypeComboBox.
         this.catalog = catalog;
         if (catalog != null) {
-            itemService = (XBCItemService) catalog.getCatalogService(XBCItemService.class);
             revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
         }
         targetSpec = null;
@@ -92,7 +88,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     }
 
     private void init() {
-        WindowUtils.assignGlobalKeyListener(this, saveButton, cancelButton);
+        WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
     }
 
     public int getDialogOption() {
@@ -110,7 +106,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
 
         controlPanel = new javax.swing.JPanel();
         cancelButton = new javax.swing.JButton();
-        saveButton = new javax.swing.JButton();
+        okButton = new javax.swing.JButton();
         definitionTypePanel = new javax.swing.JPanel();
         operationLabel = new javax.swing.JLabel();
         operationComboBox = new javax.swing.JComboBox();
@@ -137,10 +133,10 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        saveButton.setText("Save");
-        saveButton.addActionListener(new java.awt.event.ActionListener() {
+        okButton.setText("Set");
+        okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveButtonActionPerformed(evt);
+                okButtonActionPerformed(evt);
             }
         });
 
@@ -149,8 +145,8 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         controlPanelLayout.setHorizontalGroup(
             controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
-                .addContainerGap(273, Short.MAX_VALUE)
-                .addComponent(saveButton)
+                .addContainerGap(283, Short.MAX_VALUE)
+                .addComponent(okButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cancelButton)
                 .addContainerGap())
@@ -161,7 +157,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
-                    .addComponent(saveButton))
+                    .addComponent(okButton))
                 .addContainerGap())
         );
 
@@ -290,10 +286,22 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         WindowUtils.closeWindow(this);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+        defItem.setName(nameTextField.getText());
+        defItem.setDescription(descriptionTextField.getText());
+        defItem.setStringId(stringIdTextField.getText());
+        defItem.setDefType(getSpecDefType());
+        defItem.setOperation((String) operationComboBox.getModel().getSelectedItem());
+        XBCRev target = getTarget();
+        defItem.setTarget(target);
+
+        XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+        defItem.setType(target != null ? nameService.getItemNameText(target) : null);
+        defItem.setTargetRevision(target != null ? target.getXBIndex() : null);
+
         dialogOption = JOptionPane.OK_OPTION;
         WindowUtils.closeWindow(this);
-    }//GEN-LAST:event_saveButtonActionPerformed
+    }//GEN-LAST:event_okButtonActionPerformed
 
     private void selectTargetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectTargetButtonActionPerformed
         CatalogSelectSpecDialog specSelectDialog = new CatalogSelectSpecDialog((Frame) SwingUtilities.getWindowAncestor(this), true, catalog, targetType);
@@ -301,6 +309,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         if (specSelectDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             setRevSpec((XBCSpec) specSelectDialog.getSpec());
         }
+
         targetRevisionComboBox.repaint();
     }//GEN-LAST:event_selectTargetButtonActionPerformed
 
@@ -325,9 +334,9 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     private javax.swing.JTextField descriptionTextField;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;
+    private javax.swing.JButton okButton;
     private javax.swing.JComboBox operationComboBox;
     private javax.swing.JLabel operationLabel;
-    private javax.swing.JButton saveButton;
     private javax.swing.JButton selectTargetButton;
     private javax.swing.JLabel stringIdLabel;
     private javax.swing.JTextField stringIdTextField;
@@ -336,8 +345,58 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     private javax.swing.JPanel typePanel;
     // End of variables declaration//GEN-END:variables
 
-    public XBCItem getTargetSpec() {
-        return targetSpec;
+    public void setSpec(XBCSpec spec) {
+        this.spec = spec;
+        if (spec instanceof XBCBlockSpec) {
+            operationComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Consist", "Join", "Attribute", "Blob", "List Consist", "List Join"}));
+            switchSpecDefType(CatalogSpecItemType.BLOCK);
+        } else {
+            operationComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Consist", "Join"}));
+            if (spec instanceof XBCGroupSpec) {
+                switchSpecDefType(CatalogSpecItemType.BLOCK);
+            } else {
+                switchSpecDefType(CatalogSpecItemType.GROUP);
+            }
+        }
+    }
+
+    public CatalogDefsTableItem getDefItem() {
+        return defItem;
+    }
+
+    public void setDefItem(CatalogDefsTableItem defItem) {
+        this.defItem = defItem;
+
+        nameTextField.setText(defItem.getName());
+        descriptionTextField.setText(defItem.getDescription());
+        stringIdTextField.setText(defItem.getStringId());
+
+        setTarget(defItem.getTarget());
+
+        if (defItem.getDefType() == null) {
+            defItem.setDefType(getSpecDefType());
+        }
+
+        switch (defItem.getDefType()) {
+            case CONS: {
+                operationComboBox.setSelectedIndex((defItem.getTarget() == null) && (operationComboBox.getItemCount() > 3) ? 3 : 0);
+                break;
+            }
+            case JOIN: {
+                operationComboBox.setSelectedIndex((defItem.getTarget() == null) && (operationComboBox.getItemCount() > 2) ? 2 : 1);
+                break;
+            }
+            case LIST_CONS: {
+                operationComboBox.setSelectedIndex(4);
+                break;
+            }
+            case LIST_JOIN: {
+                operationComboBox.setSelectedIndex(5);
+                break;
+            }
+        }
+
+        updateSpecDefType();
     }
 
     public void setRevSpec(XBCSpec targetSpec) {
@@ -417,56 +476,6 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         }
     }
 
-    public void setSpec(XBCSpec spec) {
-        this.spec = spec;
-        if (spec instanceof XBCBlockSpec) {
-            operationComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Consist", "Join", "Attribute", "Blob", "List Consist", "List Join"}));
-            switchSpecDefType(CatalogSpecItemType.BLOCK);
-        } else {
-            operationComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Consist", "Join"}));
-            if (spec instanceof XBCGroupSpec) {
-                switchSpecDefType(CatalogSpecItemType.BLOCK);
-            } else {
-                switchSpecDefType(CatalogSpecItemType.GROUP);
-            }
-        }
-    }
-
-    public void setSpecDef(XBCSpecDef specDef) {
-        setSpec(specDef.getSpec());
-
-        XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-        nameTextField.setText(nameService.getItemNameText(specDef));
-        XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
-        descriptionTextField.setText(descService.getItemDescText(specDef));
-        XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
-        stringIdTextField.setText(striService.getItemStringIdText(specDef));
-
-        repaint();
-
-        setTarget(specDef.getTarget());
-
-        switch (specDef.getType()) {
-            case CONS: {
-                operationComboBox.setSelectedIndex((specDef.getTarget() == null) && (operationComboBox.getItemCount() > 3) ? 3 : 0);
-                break;
-            }
-            case JOIN: {
-                operationComboBox.setSelectedIndex((specDef.getTarget() == null) && (operationComboBox.getItemCount() > 2) ? 2 : 1);
-                break;
-            }
-            case LIST_CONS: {
-                operationComboBox.setSelectedIndex(4);
-                break;
-            }
-            case LIST_JOIN: {
-                operationComboBox.setSelectedIndex(5);
-                break;
-            }
-        }
-        updateSpecDefType();
-    }
-
     private void updateSpecDefType() {
         if (spec instanceof XBCBlockSpec) {
             switchSpecDefType(CatalogSpecItemType.BLOCK);
@@ -492,17 +501,5 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
             targetRevisionComboBox.setEnabled(true);
             selectTargetButton.setEnabled(true);
         }
-    }
-
-    public String getItemName() {
-        return nameTextField.getText();
-    }
-
-    public String getItemDescription() {
-        return descriptionTextField.getText();
-    }
-
-    public String getItemStringId() {
-        return stringIdTextField.getText();
     }
 }

@@ -16,25 +16,33 @@
  */
 package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
+import org.xbup.lib.catalog.entity.XBERev;
+import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
+import org.xbup.lib.core.catalog.base.XBCSpecDefType;
 
 /**
  * Table model for catalog specification definition.
  *
- * @version 0.1.24 2014/11/12
+ * @version 0.1.24 2014/11/16
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogDefsTableItem {
 
     private XBCSpecDef specDef;
     private Long xbIndex;
-    private Long revision;
+    private XBCSpecDefType defType;
+    private XBCRev target;
     private String stringId;
-    private String operation;
-    private String type;
-    private Long typeRevision;
     private String name;
     private String description;
+
+    /**
+     * Chached values.
+     */
+    private Long revision;
+    private String operation;
+    private String type;
 
     public XBCSpecDef getSpecDef() {
         return specDef;
@@ -67,7 +75,7 @@ public class CatalogDefsTableItem {
     public void setStringId(String stringId) {
         this.stringId = stringId;
     }
-    
+
     public String getOperation() {
         return operation;
     }
@@ -84,12 +92,22 @@ public class CatalogDefsTableItem {
         this.type = type;
     }
 
-    public Long getTypeRevision() {
-        return typeRevision;
+    public XBCRev getTarget() {
+        return target;
     }
 
-    public void setTypeRevision(Long revision) {
-        this.typeRevision = revision;
+    public void setTarget(XBCRev target) {
+        this.target = target;
+    }
+
+    public Long getTargetRevision() {
+        return target != null ? target.getXBIndex() : null;
+    }
+
+    public void setTargetRevision(Long revision) {
+        if (target != null) {
+            ((XBERev) target).setXBIndex(revision);
+        }
     }
 
     public String getName() {
@@ -106,5 +124,13 @@ public class CatalogDefsTableItem {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public XBCSpecDefType getDefType() {
+        return defType;
+    }
+
+    public void setDefType(XBCSpecDefType defType) {
+        this.defType = defType;
     }
 }

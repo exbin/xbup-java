@@ -24,7 +24,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogRevsTabl
 /**
  * XBManager Catalog Specification Revision Editor Dialog.
  *
- * @version 0.1.24 2014/11/14
+ * @version 0.1.24 2014/11/16
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSpecRevEditorDialog extends javax.swing.JDialog {
@@ -43,7 +43,7 @@ public class CatalogSpecRevEditorDialog extends javax.swing.JDialog {
     }
 
     private void init() {
-        WindowUtils.assignGlobalKeyListener(this, saveButton, cancelButton);
+        WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
     }
 
     public int getDialogOption() {
@@ -61,14 +61,14 @@ public class CatalogSpecRevEditorDialog extends javax.swing.JDialog {
 
         controlPanel = new javax.swing.JPanel();
         cancelButton = new javax.swing.JButton();
-        saveButton = new javax.swing.JButton();
+        okButton = new javax.swing.JButton();
         definitionTypePanel = new javax.swing.JPanel();
         limitLabel = new javax.swing.JLabel();
-        limitTextField = new javax.swing.JTextField();
         nameLabel = new javax.swing.JLabel();
         nameTextField = new javax.swing.JTextField();
         descriptionLabel = new javax.swing.JLabel();
         descriptionTextField = new javax.swing.JTextField();
+        limitSpinner = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Revision Editor");
@@ -80,10 +80,10 @@ public class CatalogSpecRevEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        saveButton.setText("Save");
-        saveButton.addActionListener(new java.awt.event.ActionListener() {
+        okButton.setText("Set");
+        okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveButtonActionPerformed(evt);
+                okButtonActionPerformed(evt);
             }
         });
 
@@ -92,8 +92,8 @@ public class CatalogSpecRevEditorDialog extends javax.swing.JDialog {
         controlPanelLayout.setHorizontalGroup(
             controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
-                .addContainerGap(273, Short.MAX_VALUE)
-                .addComponent(saveButton)
+                .addContainerGap(58, Short.MAX_VALUE)
+                .addComponent(okButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cancelButton)
                 .addContainerGap())
@@ -104,7 +104,7 @@ public class CatalogSpecRevEditorDialog extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
-                    .addComponent(saveButton))
+                    .addComponent(okButton))
                 .addContainerGap())
         );
 
@@ -123,15 +123,15 @@ public class CatalogSpecRevEditorDialog extends javax.swing.JDialog {
             .addGroup(definitionTypePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(definitionTypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(limitTextField)
                     .addComponent(nameTextField)
                     .addComponent(descriptionTextField)
                     .addGroup(definitionTypePanelLayout.createSequentialGroup()
                         .addGroup(definitionTypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(limitLabel)
                             .addComponent(nameLabel)
-                            .addComponent(descriptionLabel))
-                        .addGap(0, 325, Short.MAX_VALUE)))
+                            .addComponent(descriptionLabel)
+                            .addComponent(limitLabel))
+                        .addGap(0, 100, Short.MAX_VALUE))
+                    .addComponent(limitSpinner))
                 .addContainerGap())
         );
         definitionTypePanelLayout.setVerticalGroup(
@@ -140,8 +140,8 @@ public class CatalogSpecRevEditorDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(limitLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(limitTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(limitSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
                 .addComponent(nameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -154,9 +154,7 @@ public class CatalogSpecRevEditorDialog extends javax.swing.JDialog {
 
         getContentPane().add(definitionTypePanel, java.awt.BorderLayout.CENTER);
 
-        getAccessibleContext().setAccessibleName("Revision Editor");
-
-        setSize(new java.awt.Dimension(456, 232));
+        setSize(new java.awt.Dimension(231, 232));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -165,14 +163,14 @@ public class CatalogSpecRevEditorDialog extends javax.swing.JDialog {
         WindowUtils.closeWindow(this);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         revItem.setName(nameTextField.getText());
         revItem.setDescription(descriptionTextField.getText());
-        revItem.setLimit(Long.parseLong(limitTextField.getText()));
+        revItem.setLimit(new Long((Integer) limitSpinner.getValue()));
 
         dialogOption = JOptionPane.OK_OPTION;
         WindowUtils.closeWindow(this);
-    }//GEN-LAST:event_saveButtonActionPerformed
+    }//GEN-LAST:event_okButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -188,10 +186,10 @@ public class CatalogSpecRevEditorDialog extends javax.swing.JDialog {
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JTextField descriptionTextField;
     private javax.swing.JLabel limitLabel;
-    private javax.swing.JTextField limitTextField;
+    private javax.swing.JSpinner limitSpinner;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;
-    private javax.swing.JButton saveButton;
+    private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables
 
     public void setRevItem(CatalogRevsTableItem revItem) {
@@ -199,7 +197,7 @@ public class CatalogSpecRevEditorDialog extends javax.swing.JDialog {
 
         nameTextField.setText(revItem.getName());
         descriptionTextField.setText(revItem.getDescription());
-        limitTextField.setText(revItem.getLimit() == null ? "" : revItem.getLimit().toString());
+        limitSpinner.setValue(revItem.getLimit() == null ? 0 : revItem.getLimit());
 
         repaint();
     }

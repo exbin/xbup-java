@@ -60,6 +60,7 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
                 updateItemStatus();
             }
         });
+
         updateItemStatus();
     }
 

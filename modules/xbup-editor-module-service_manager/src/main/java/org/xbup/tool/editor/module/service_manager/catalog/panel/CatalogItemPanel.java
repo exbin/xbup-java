@@ -404,7 +404,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
             itemDescriptionTextField.setText("");
         }
 
-        defsModel.setItem(item);
+        defsModel.setCatalogItem(item);
         itemDefinitionTable.revalidate();
         itemDefinitionTable.repaint();
 

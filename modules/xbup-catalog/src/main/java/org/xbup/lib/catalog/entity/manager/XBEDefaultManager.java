@@ -134,7 +134,7 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
         } catch (IllegalStateException ex) {
         }
 
-        em.merge(item);
+        em.persist(item); // was merge
 
         if (em.getFlushMode() == FlushModeType.COMMIT && transaction != null) {
             em.flush();

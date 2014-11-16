@@ -355,10 +355,14 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
 
     private void popupEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupEditMenuItemActionPerformed
         if (currentItem != null) {
-            CatalogEditItemDialog propertiesDialog = new CatalogEditItemDialog(getFrame(), true);
-            propertiesDialog.setCatalog(catalog);
-            propertiesDialog.setCatalogItem(currentItem);
-            propertiesDialog.setVisible(true);
+            CatalogEditItemDialog editDialog = new CatalogEditItemDialog(getFrame(), true);
+            editDialog.setCatalog(catalog);
+            editDialog.setCatalogItem(currentItem);
+            editDialog.setVisible(true);
+
+            if (editDialog.getDialogOption() == JOptionPane.OK_OPTION) {
+                setItem(currentItem);
+            }
         }
     }//GEN-LAST:event_popupEditMenuItemActionPerformed
 

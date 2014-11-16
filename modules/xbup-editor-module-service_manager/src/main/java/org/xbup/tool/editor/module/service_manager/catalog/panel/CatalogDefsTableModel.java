@@ -95,7 +95,7 @@ public class CatalogDefsTableModel extends AbstractTableModel {
             case 4:
                 return item.getType();
             case 5:
-                return item.getTypeRevision();
+                return item.getTargetRevision();
             case 6:
                 return item.getName();
             case 7:
@@ -116,11 +116,11 @@ public class CatalogDefsTableModel extends AbstractTableModel {
         return columnClasses[columnIndex];
     }
 
-    public XBCSpec getSpec() {
-        return spec;
+    public List<CatalogDefsTableItem> getDefs() {
+        return items;
     }
 
-    public void setItem(XBCItem item) {
+    public void setCatalogItem(XBCItem item) {
         items.clear();
         if (item instanceof XBCSpec) {
             spec = (XBCSpec) item;
@@ -129,34 +129,11 @@ public class CatalogDefsTableModel extends AbstractTableModel {
                 CatalogDefsTableItem tableItem = new CatalogDefsTableItem();
                 tableItem.setSpecDef(specDef);
                 tableItem.setXbIndex(specDef.getXBIndex());
-                String target;
+                tableItem.setOperation(getOperation(specDef));
 
-                if (specDef instanceof XBCBlockJoin) {
-                    if (specDef.getTarget() == null) {
-                        target = "Attribute";
-                    } else {
-                        target = "Join";
-                    }
-                } else if (specDef instanceof XBCBlockCons) {
-                    if (specDef.getTarget() == null) {
-                        target = "Data Block";
-                    } else {
-                        target = "Consist";
-                    }
-                } else if (specDef instanceof XBCBlockListJoin) {
-                    target = "Join List";
-                } else if (specDef instanceof XBCBlockListCons) {
-                    target = "Consist List";
-                } else if (specDef instanceof XBCJoinDef) {
-                    target = "Join";
-                } else if (specDef instanceof XBCConsDef) {
-                    target = "Consist";
-                } else {
-                    target = "Unknown";
-                }
-                tableItem.setOperation(target);
                 tableItem.setType("");
-                tableItem.setTypeRevision(0L);
+                tableItem.setTargetRevision(0L);
+                tableItem.setTarget(specDef.getTarget());
                 if (specDef.getTarget() != null) {
                     XBCSpec targetSpec = (XBCSpec) specDef.getTarget().getParent();
                     if (targetSpec != null) {
@@ -165,14 +142,46 @@ public class CatalogDefsTableModel extends AbstractTableModel {
                             tableItem.setType(name.getText());
                         }
                     }
-                    tableItem.setTypeRevision(specDef.getTarget().getXBIndex());
 
+                    tableItem.setTargetRevision(specDef.getTarget().getXBIndex());
                 }
-                items.add(tableItem);
+
                 tableItem.setName(nameService.getItemNameText(specDef));
                 tableItem.setDescription(descService.getItemDescText(specDef));
+                tableItem.setStringId(striService.getItemStringIdText(specDef));
+                
+                items.add(tableItem);
             }
         }
+    }
+
+    public String getOperation(XBCSpecDef specDef) {
+        String operation;
+        if (specDef instanceof XBCBlockJoin) {
+            if (specDef.getTarget() == null) {
+                operation = "Attribute";
+            } else {
+                operation = "Join";
+            }
+        } else if (specDef instanceof XBCBlockCons) {
+            if (specDef.getTarget() == null) {
+                operation = "Data Block";
+            } else {
+                operation = "Consist";
+            }
+        } else if (specDef instanceof XBCBlockListJoin) {
+            operation = "Join List";
+        } else if (specDef instanceof XBCBlockListCons) {
+            operation = "Consist List";
+        } else if (specDef instanceof XBCJoinDef) {
+            operation = "Join";
+        } else if (specDef instanceof XBCConsDef) {
+            operation = "Consist";
+        } else {
+            operation = "Unknown";
+        }
+
+        return operation;
     }
 
     public CatalogDefsTableItem getRowItem(int rowIndex) {

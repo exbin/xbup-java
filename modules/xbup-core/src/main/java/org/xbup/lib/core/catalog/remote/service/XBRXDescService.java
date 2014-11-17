@@ -69,7 +69,7 @@ public class XBRXDescService extends XBRDefaultService<XBRXDesc> implements XBCX
     }
 
     @Override
-    public String getItemDescText(XBCItem item) {
+    public String getDefaultText(XBCItem item) {
         XBRXDesc desc = getItemDesc(item);
         if (desc == null) {
             return null;
@@ -78,7 +78,7 @@ public class XBRXDescService extends XBRDefaultService<XBRXDesc> implements XBCX
     }
 
     @Override
-    public void setItemDescText(XBCItem item, String text) {
+    public void setDefaultText(XBCItem item, String text) {
         XBRXDesc desc = getItemDesc(item);
         if (desc == null) {
             XBRXLangManager langManager = ((XBRXLangManager) catalog.getCatalogManager(XBCXLangManager.class));

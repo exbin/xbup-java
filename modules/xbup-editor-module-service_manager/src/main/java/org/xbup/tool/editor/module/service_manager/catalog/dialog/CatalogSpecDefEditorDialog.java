@@ -40,7 +40,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogDefsTabl
 /**
  * XBManager Catalog Specification Definition Editor Dialog.
  *
- * @version 0.1.24 2014/11/16
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
@@ -287,16 +287,23 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+        String operation = (String) operationComboBox.getModel().getSelectedItem();
+        XBCRev target = getTarget();
+
+        if (target == null && ("Consist".equals(operation) || "Join".equals(operation))) {
+            JOptionPane.showMessageDialog(this, "Target Type is required", "Set is not allowed", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         defItem.setName(nameTextField.getText());
         defItem.setDescription(descriptionTextField.getText());
         defItem.setStringId(stringIdTextField.getText());
         defItem.setDefType(getSpecDefType());
-        defItem.setOperation((String) operationComboBox.getModel().getSelectedItem());
-        XBCRev target = getTarget();
+        defItem.setOperation(operation);
         defItem.setTarget(target);
 
         XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-        defItem.setType(target != null ? nameService.getItemNameText(target) : null);
+        defItem.setType(target != null ? nameService.getDefaultText(target.getParent()) : null);
         defItem.setTargetRevision(target != null ? target.getXBIndex() : null);
 
         dialogOption = JOptionPane.OK_OPTION;
@@ -307,7 +314,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         CatalogSelectSpecDialog specSelectDialog = new CatalogSelectSpecDialog((Frame) SwingUtilities.getWindowAncestor(this), true, catalog, targetType);
         specSelectDialog.setVisible(true);
         if (specSelectDialog.getDialogOption() == JOptionPane.OK_OPTION) {
-            setRevSpec((XBCSpec) specSelectDialog.getSpec());
+            setTargetSpec((XBCSpec) specSelectDialog.getSpec());
         }
 
         targetRevisionComboBox.repaint();
@@ -399,9 +406,19 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         updateSpecDefType();
     }
 
-    public void setRevSpec(XBCSpec targetSpec) {
+    public void setTargetSpec(XBCSpec targetSpec) {
+        this.targetSpec = targetSpec;
         if (targetSpec != null) {
-            definitionTargetTextField.setText(Long.toString(targetSpec.getId()));
+            XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+            String targetCaption = nameService.getItemNamePath(targetSpec);
+            if (targetCaption == null) {
+                targetCaption = "";
+            } else {
+                targetCaption += " ";
+            }
+            targetCaption += "(" + Long.toString(targetSpec.getId()) + ")";
+            definitionTargetTextField.setText(targetCaption);
+
             if (targetSpec instanceof XBCSpec) {
                 revsModel.setRevs(revService.getRevs((XBCSpec) targetSpec));
                 targetRevisionComboBox.setSelectedIndex(revsModel.getSize() - 1);
@@ -416,14 +433,6 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
 
     }
 
-    public void setTargetSpec(XBCSpec targetSpec) {
-        this.targetSpec = targetSpec;
-
-        definitionTargetTextField.setText("");
-        targetRevisionComboBox.setSelectedIndex(-1);
-        revsModel.getRevs().clear();
-    }
-
     public XBCRev getTarget() {
         return (XBCRev) targetRevisionComboBox.getSelectedItem();
     }
@@ -431,9 +440,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     public void setTarget(XBCRev rev) {
         if (rev != null) {
             setTargetSpec(rev.getParent());
-            definitionTargetTextField.setText(Long.toString(rev.getParent().getId()));
             revsModel.setRevs(revService.getRevs((XBCSpec) targetSpec));
-            targetRevisionComboBox.setSelectedIndex(revsModel.getSize() - 1);
             targetRevisionComboBox.setSelectedIndex(rev.getXBIndex().intValue());
         } else {
             setTargetSpec(null);
@@ -468,17 +475,18 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     }
 
     private void switchSpecDefType(CatalogSpecItemType newType) {
-        if (!targetType.equals(newType)) {
-            definitionTargetTextField.setText("");
-            targetRevisionComboBox.setSelectedIndex(-1);
-            revsModel.getRevs().clear();
-            targetType = newType;
-        }
+        definitionTargetTextField.setText("");
+        targetRevisionComboBox.setSelectedIndex(-1);
+        revsModel.getRevs().clear();
+        targetType = newType;
+        targetSpec = null;
     }
 
     private void updateSpecDefType() {
         if (spec instanceof XBCBlockSpec) {
-            switchSpecDefType(CatalogSpecItemType.BLOCK);
+            if (operationComboBox.getSelectedIndex() == 2 || operationComboBox.getSelectedIndex() == 3) {
+                switchSpecDefType(CatalogSpecItemType.BLOCK);
+            }
         } else if (spec instanceof XBCGroupSpec) {
             if (operationComboBox.getSelectedIndex() == 0) {
                 switchSpecDefType(CatalogSpecItemType.BLOCK);

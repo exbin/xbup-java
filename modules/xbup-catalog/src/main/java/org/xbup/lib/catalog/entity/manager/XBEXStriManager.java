@@ -22,7 +22,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 import org.springframework.stereotype.Repository;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCXStri;
@@ -36,7 +35,7 @@ import org.xbup.lib.catalog.entity.XBEXStri;
 /**
  * XBUP catalog string ID manager.
  *
- * @version 0.1.22 2013/01/13
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -91,12 +90,13 @@ public class XBEXStriManager extends XBEDefaultManager<XBEXStri> implements XBCX
     }
 
     @Override
-    public String getDefaultStringId(XBCBlockSpec blockSpec) {
-        XBCXStri name = getItemStringId(blockSpec);
-        if (name == null) {
-            return ":";
+    public String getItemStringIdText(XBCItem item) {
+        XBCXStri stri = getItemStringId(item);
+        if (stri == null) {
+            return null;
         }
-        return name.getText();
+
+        return stri.getText();
     }
 
     @Override
@@ -107,7 +107,7 @@ public class XBEXStriManager extends XBEDefaultManager<XBEXStri> implements XBCX
         final String nodePath = itemString.getNodePath();
         if ("/".equals(nodePath)) {
             XBCNodeManager nodeManager = (XBCNodeManager) catalog.getCatalogManager(XBCNodeManager.class);
-            if (itemString.getItem().getId() == nodeManager.getRootNode().getId()) {
+            if (itemString.getItem().getId().equals(nodeManager.getRootNode().getId())) {
                 return "";
             }
             return nodePath + itemString.getText();

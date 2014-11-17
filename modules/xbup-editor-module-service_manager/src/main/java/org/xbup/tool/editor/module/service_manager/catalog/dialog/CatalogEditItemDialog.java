@@ -189,6 +189,7 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
             definitionPanel = new CatalogItemEditDefinitionPanel();
             definitionPanel.setCatalog(catalog);
             definitionPanel.setCatalogItem(item);
+            revisionsPanel.setDefsModel(definitionPanel.getDefsModel());
             initComponent(definitionPanel);
             mainTabbedPane.add(definitionPanel, "Definition");
         }

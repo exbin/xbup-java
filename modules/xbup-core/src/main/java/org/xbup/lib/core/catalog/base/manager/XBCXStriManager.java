@@ -17,7 +17,6 @@
 package org.xbup.lib.core.catalog.base.manager;
 
 import java.util.List;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXStri;
 import org.xbup.lib.core.catalog.base.XBCExtension;
@@ -25,7 +24,7 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 /**
  * Interface for XBCXStri catalog manager.
  *
- * @version 0.1.21 2012/04/18
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  * @param <T> string index entity
  */
@@ -48,12 +47,12 @@ public interface XBCXStriManager<T extends XBCXStri> extends XBCManager<T>, XBCE
     public List<XBCXStri> getItemStringIds(XBCItem item);
 
     /**
-     * Gets default caption in current language.
+     * Gets stri text for given item.
      *
-     * @param blockSpec specification to get caption of
+     * @param item item to get caption of
      * @return string caption
      */
-    public String getDefaultStringId(XBCBlockSpec blockSpec);
+    public String getItemStringIdText(XBCItem item);
 
     /**
      * Returns full stringId path including leading slash symbol.

@@ -17,7 +17,6 @@
 package org.xbup.lib.core.catalog.base.manager;
 
 import java.util.List;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.core.catalog.base.XBCXName;
@@ -26,7 +25,7 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 /**
  * Interface for XBCXName catalog manager.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  * @param <T> name entity
  */
@@ -58,10 +57,10 @@ public interface XBCXNameManager<T extends XBCXName> extends XBCManager<T>, XBCE
     public List<XBCXName> getItemNames(XBCItem item);
 
     /**
-     * Gets default caption in current language.
+     * Gets default name text for default language.
      *
-     * @param blockSpec specification to get caption of
+     * @param item item to get name of
      * @return string caption
      */
-    public String getDefaultCaption(XBCBlockSpec blockSpec);
+    public String getDefaultText(XBCItem item);
 }

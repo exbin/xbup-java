@@ -49,7 +49,7 @@ public class XBEXDescManager extends XBEDefaultManager<XBEXDesc> implements XBCX
     public XBEXDescManager() {
         super();
     }
-    
+
     public XBEXDescManager(XBECatalog catalog) {
         super(catalog);
     }
@@ -59,8 +59,9 @@ public class XBEXDescManager extends XBEDefaultManager<XBEXDesc> implements XBCX
         if (!(item instanceof XBEItem)) {
             return null;
         }
+
         XBCXLanguage language = ((XBCXLangManager) catalog.getCatalogManager(XBCXLangManager.class)).getDefaultLang();
-        return getItemDesc(item, language); // TODO Try another language if default not available
+        return getItemDesc(item, language);
     }
 
     @Override
@@ -145,5 +146,14 @@ public class XBEXDescManager extends XBEDefaultManager<XBEXDesc> implements XBCX
             Logger.getLogger(XBEXDescManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+    }
+
+    public String getDefaultText(XBCItem item) {
+        XBEXDesc desc = getItemDesc(item);
+        if (desc == null) {
+            return "";
+        }
+
+        return desc.getText();
     }
 }

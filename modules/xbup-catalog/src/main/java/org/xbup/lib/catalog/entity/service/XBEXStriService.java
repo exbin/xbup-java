@@ -21,7 +21,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCXStri;
@@ -60,18 +59,18 @@ public class XBEXStriService extends XBEDefaultService<XBEXStri> implements XBCX
     }
 
     @Override
-    public String getDefaultStringId(XBCBlockSpec blockSpec) {
-        return ((XBEXStriManager)itemManager).getDefaultStringId(blockSpec);
+    public String getItemStringIdText(XBCItem item) {
+        return ((XBEXStriManager) itemManager).getItemStringIdText(item);
     }
 
     @Override
     public XBEXStri getItemStringId(XBCItem item) {
-        return ((XBEXStriManager)itemManager).getItemStringId(item);
+        return ((XBEXStriManager) itemManager).getItemStringId(item);
     }
 
     @Override
     public List<XBCXStri> getItemStringIds(XBCItem item) {
-        return ((XBEXStriManager)itemManager).getItemStringIds(item);
+        return ((XBEXStriManager) itemManager).getItemStringIds(item);
     }
 
     @Override
@@ -85,29 +84,26 @@ public class XBEXStriService extends XBEDefaultService<XBEXStri> implements XBCX
     }
 
     @Override
-    public String getItemStringIdText(XBCItem item) {
-        XBEXStri Stri = getItemStringId(item);
-        if (Stri == null) {
-            return null;
-        }
-        return Stri.getText();
-    }
-
-    @Override
     public void setItemStringIdText(XBCItem item, String text) {
         XBEXStri stringId = getItemStringId(item);
-        if (stringId == null) {
-            stringId = createItem();
-            stringId.setItem(item);
-        }
+        if (text == null || text.isEmpty()) {
+            if (stringId != null) {
+                removeItem(stringId);
+            }
+        } else {
+            if (stringId == null) {
+                stringId = createItem();
+                stringId.setItem(item);
+            }
 
-        stringId.setText(text);
-        persistItem(stringId);
+            stringId.setText(text);
+            persistItem(stringId);
+        }
     }
 
     @Override
     public String getFullPath(XBCXStri itemString) {
-        return ((XBEXStriManager)itemManager).getFullPath(itemString);
+        return ((XBEXStriManager) itemManager).getFullPath(itemString);
     }
 
     @Override
@@ -121,6 +117,6 @@ public class XBEXStriService extends XBEDefaultService<XBEXStri> implements XBCX
 
     @Override
     public XBCSpec getSpecByFullPath(String fullPath) {
-        return ((XBEXStriManager)itemManager).getSpecByFullPath(fullPath);
+        return ((XBEXStriManager) itemManager).getSpecByFullPath(fullPath);
     }
 }

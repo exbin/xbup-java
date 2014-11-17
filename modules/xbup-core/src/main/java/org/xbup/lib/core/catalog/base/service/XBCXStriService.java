@@ -17,7 +17,6 @@
 package org.xbup.lib.core.catalog.base.service;
 
 import java.util.List;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCXStri;
@@ -26,7 +25,7 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 /**
  * Interface for XBCXStri items service.
  *
- * @version 0.1.22 2013/01/13
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  * @param <T> stringId entity
  */
@@ -49,26 +48,18 @@ public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCE
     public List<XBCXStri> getItemStringIds(XBCItem item);
 
     /**
-     * Gets default caption in current language.
+     * Gets string id text for given item.
      *
-     * @param blockSpec specification to get caption of
-     * @return string caption
-     */
-    public String getDefaultStringId(XBCBlockSpec blockSpec);
-
-    /**
-     * Gets string id text for default language and given item.
-     *
-     * @param item Item to get Stri of.
-     * @return Text or null if Stri is not set.
+     * @param item item to get Stri of
+     * @return text or null if Stri is not set
      */
     public String getItemStringIdText(XBCItem item);
 
     /**
-     * Sets string id text for default language and given item.
+     * Sets string id text for given item.
      *
-     * @param item Item to set Stri for.
-     * @param text Text to set.
+     * @param item item to set stri for
+     * @param text text to set
      */
     public void setItemStringIdText(XBCItem item, String text);
 
@@ -76,23 +67,23 @@ public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCE
      * Returns full stringId path including leading slash symbol.
      *
      * @param itemString stringId item
-     * @return String representation of the path.
+     * @return String representation of the path
      */
     public String getFullPath(XBCXStri itemString);
 
     /**
      * Returns full stringId path including leading slash symbol.
      *
-     * @param item Item to get Stri of.
-     * @return String representation of the path.
+     * @param item item to get stri of
+     * @return string representation of the path
      */
     public String getItemFullPath(XBCItem item);
 
     /**
      * Gets specification for give full path.
      *
-     * @param fullPath fullPath to specification.
-     * @return specification.
+     * @param fullPath fullPath to specification
+     * @return specification
      */
     public XBCSpec getSpecByFullPath(String fullPath);
 }

@@ -704,7 +704,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
             XBCBlockDecl blockDecl = (XBCBlockDecl) node.getBlockDecl();
             if (blockDecl != null) {
                 XBCBlockSpec blockSpec = blockDecl.getBlockSpec().getParent();
-                return nameService.getDefaultCaption(blockSpec);
+                return nameService.getDefaultText(blockSpec);
             }
         }
         return "Unknown" + " (" + Integer.toString(((XBFBlockType) blockType).getGroupID().getInt()) + ", " + Integer.toString(((XBFBlockType) blockType).getBlockID().getInt()) + ")";

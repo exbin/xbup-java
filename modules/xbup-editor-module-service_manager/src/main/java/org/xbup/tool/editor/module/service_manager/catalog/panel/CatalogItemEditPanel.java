@@ -136,8 +136,8 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
         if (catalogItem.getParent() != null) {
             parentId = catalogItem.getParent().getId().toString();
         }
-        tableModel.addRow(new String[]{"Name", nameService.getItemNameText(catalogItem)});
-        tableModel.addRow(new String[]{"Description", descService.getItemDescText(catalogItem)});
+        tableModel.addRow(new String[]{"Name", nameService.getDefaultText(catalogItem)});
+        tableModel.addRow(new String[]{"Description", descService.getDefaultText(catalogItem)});
         tableModel.addRow(new String[]{"ParentId", parentId});
         String itemIndex = null;
         Long xbIndex = catalogItem.getXBIndex();
@@ -165,8 +165,8 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
         XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
 
         DefaultTableModel tableModel = (DefaultTableModel) propertiesTable.getModel();
-        nameService.setItemNameText(catalogItem, (String) tableModel.getValueAt(0, 1));
-        descService.setItemDescText(catalogItem, (String) tableModel.getValueAt(1, 1));
+        nameService.setDefaultText(catalogItem, (String) tableModel.getValueAt(0, 1));
+        descService.setDefaultText(catalogItem, (String) tableModel.getValueAt(1, 1));
         if (catalogItem instanceof XBEItem) {
             String xbIndex = (String) tableModel.getValueAt(3, 1);
             if (xbIndex != null) {

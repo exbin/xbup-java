@@ -52,16 +52,15 @@ import org.yaml.snakeyaml.Yaml;
 /**
  * XB Catalog import and export to yaml.
  *
- * @version 0.1.22 2013/02/10
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCatalogYaml {
 
-    private XBACatalog catalog;
+    private final XBACatalog catalog;
     private XBCXNameService nameService;
     private XBCXDescService descService;
 
-    /** Creates a new instance of XBECatalog */
     public XBCatalogYaml(XBACatalog catalog) {
         this.catalog = catalog;
         if (catalog != null) {
@@ -72,7 +71,7 @@ public class XBCatalogYaml {
     }
 
     public void exportCatalogItem(XBCItem item, Writer writer) {
-        Map<String, Object> itemData = new HashMap<String, Object>();
+        Map<String, Object> itemData = new HashMap<>();
 
         if (item instanceof XBCNode) {
             exportNode((XBCNode) item, itemData);
@@ -84,10 +83,10 @@ public class XBCatalogYaml {
             }
         }
 
-        List<Object> itemMaps = new ArrayList<Object>();
+        List<Object> itemMaps = new ArrayList<>();
         itemMaps.add(itemData);
 
-        Map<String, Object> doc = new HashMap<String, Object>();
+        Map<String, Object> doc = new HashMap<>();
         String typeString = getItemTypeString(item);
         doc.put(typeString, itemMaps);
 
@@ -102,17 +101,17 @@ public class XBCatalogYaml {
         String stringId = striService.getItemStringIdText(item);
         targetData.put("id", stringId);
         /* XBCItem parent = item.getParent();
-        if (parent != null) {
-            String parentId = striService.getItemStringIdText(parent);
-            blockData.put("parent", parentId);
-        } */
+         if (parent != null) {
+         String parentId = striService.getItemStringIdText(parent);
+         blockData.put("parent", parentId);
+         } */
 
-        String name = nameService.getItemNameText(item);
+        String name = nameService.getDefaultText(item);
         if (name != null) {
             targetData.put("name", name);
         }
 
-        String desc = descService.getItemDescText(item);
+        String desc = descService.getDefaultText(item);
         if (desc != null) {
             targetData.put("description", desc);
         }
@@ -130,9 +129,8 @@ public class XBCatalogYaml {
         List defs = new ArrayList();
 
         List<XBCSpecDef> specDefs = specService.getSpecDefs((XBCSpec) item);
-        for (int defId = 0; defId < specDefs.size(); defId++) {
-            XBCSpecDef specDef = specDefs.get(defId);
-            Map<String, Object> def = new HashMap<String, Object>();
+        for (XBCSpecDef specDef : specDefs) {
+            Map<String, Object> def = new HashMap<>();
             String name = striService.getItemStringIdText(specDef);
             def.put("id", name);
             def.put("bind", getBindString(specDef.getType()));
@@ -145,7 +143,7 @@ public class XBCatalogYaml {
                 def.put("rev", rev);
             }
 
-            Map<String, Object> defData = new HashMap<String, Object>();
+            Map<String, Object> defData = new HashMap<>();
             exportItem(specDef, defData);
             def.putAll(defData);
 
@@ -163,48 +161,44 @@ public class XBCatalogYaml {
 
         List blockSpecMaps = new ArrayList();
         List<XBCBlockSpec> blockSpecs = specService.getBlockSpecs(node);
-        for (int specId = 0; specId < blockSpecs.size(); specId++) {
-            XBCBlockSpec blockSpec = blockSpecs.get(specId);
-            Map<String, Object> specData = new HashMap<String, Object>();
+        for (XBCBlockSpec blockSpec : blockSpecs) {
+            Map<String, Object> specData = new HashMap<>();
             exportItem(blockSpec, specData);
             exportSpec(blockSpec, specData);
             blockSpecMaps.add(specData);
         }
-        targetData.put("block",blockSpecMaps);
+        targetData.put("block", blockSpecMaps);
 
         List groupSpecMaps = new ArrayList();
         List<XBCGroupSpec> groupSpecs = specService.getGroupSpecs(node);
-        for (int specId = 0; specId < groupSpecs.size(); specId++) {
-            XBCGroupSpec groupSpec = groupSpecs.get(specId);
-            Map<String, Object> specData = new HashMap<String, Object>();
+        for (XBCGroupSpec groupSpec : groupSpecs) {
+            Map<String, Object> specData = new HashMap<>();
             exportItem(groupSpec, specData);
             exportSpec(groupSpec, specData);
             groupSpecMaps.add(specData);
         }
-        targetData.put("group",groupSpecMaps);
+        targetData.put("group", groupSpecMaps);
 
         List formatSpecMaps = new ArrayList();
         List<XBCFormatSpec> formatSpecs = specService.getFormatSpecs(node);
-        for (int specId = 0; specId < formatSpecs.size(); specId++) {
-            XBCFormatSpec formatSpec = formatSpecs.get(specId);
-            Map<String, Object> specData = new HashMap<String, Object>();
+        for (XBCFormatSpec formatSpec : formatSpecs) {
+            Map<String, Object> specData = new HashMap<>();
             exportItem(formatSpec, specData);
             exportSpec(formatSpec, specData);
             formatSpecMaps.add(specData);
         }
-        targetData.put("format",formatSpecMaps);
+        targetData.put("format", formatSpecMaps);
 
         List nodeSpecMaps = new ArrayList();
         List subNodes = nodeService.getSubNodes(node);
-        for (int nodeId = 0; nodeId < subNodes.size(); nodeId++) {
-            XBCNode subNode = (XBCNode)subNodes.get(nodeId);
-            Map<String, Object> subNodeData = new HashMap<String, Object>();
-
+        for (Object subNodeObject : subNodes) {
+            XBCNode subNode = (XBCNode) subNodeObject;
+            Map<String, Object> subNodeData = new HashMap<>();
             // TODO: Replace recursion with iteration
             exportNode(subNode, subNodeData);
             nodeSpecMaps.add(subNodeData);
         }
-        targetData.put("node",nodeSpecMaps);
+        targetData.put("node", nodeSpecMaps);
     }
 
     public void importCatalogItem(InputStream stream, XBENode parentNode) {
@@ -225,10 +219,10 @@ public class XBCatalogYaml {
         striService.setItemStringIdText(target, stringId);
 
         String name = (String) blockData.get("name");
-        nameService.setItemNameText(target, name);
+        nameService.setDefaultText(target, name);
 
         String desc = (String) blockData.get("description");
-        descService.setItemDescText(target, desc);
+        descService.setDefaultText(target, desc);
     }
 
     public void importSpec(Map<String, Object> specData, XBESpec target) {
@@ -276,14 +270,12 @@ public class XBCatalogYaml {
 
         List<Object> nodes = (List<Object>) nodeData.get("node");
         if (nodes != null) {
-            for (int nodeId = 0; nodeId < nodes.size(); nodeId++) {
-                Map<String, Object> subNodeData = (Map<String, Object>)nodes.get(nodeId);
+            for (Object node : nodes) {
+                Map<String, Object> subNodeData = (Map<String, Object>) node;
                 XBENode subNode = (XBENode) nodeService.createItem();
                 subNode.setOwner(target);
                 nodeService.persistItem(subNode);
-
                 importItem(subNodeData, subNode);
-
                 // TODO: Replace recursion with iteration
                 importNode(subNodeData, subNode);
             }
@@ -292,7 +284,7 @@ public class XBCatalogYaml {
         List<Object> blocks = (List<Object>) nodeData.get("block");
         if (blocks != null && nodes != null) {
             for (int blockId = 0; blockId < blocks.size(); blockId++) {
-                Map<String, Object> blockData = (Map<String, Object>)nodes.get(blockId);
+                Map<String, Object> blockData = (Map<String, Object>) nodes.get(blockId);
                 XBEBlockSpec blockSpec = (XBEBlockSpec) specService.createBlockSpec();
                 blockSpec.setParent(target);
                 long blockSpecIndex = specService.findMaxBlockSpecXB(target);
@@ -309,7 +301,7 @@ public class XBCatalogYaml {
         List<Object> groups = (List<Object>) nodeData.get("group");
         if (groups != null && nodes != null) {
             for (int groupId = 0; groupId < groups.size(); groupId++) {
-                Map<String, Object> groupData = (Map<String, Object>)nodes.get(groupId);
+                Map<String, Object> groupData = (Map<String, Object>) nodes.get(groupId);
                 XBEGroupSpec groupSpec = (XBEGroupSpec) specService.createGroupSpec();
                 groupSpec.setParent(target);
                 long groupSpecIndex = specService.findMaxGroupSpecXB(target);
@@ -326,7 +318,7 @@ public class XBCatalogYaml {
         List<Object> formats = (List<Object>) nodeData.get("format");
         if (formats != null && nodes != null) {
             for (int formatId = 0; formatId < formats.size(); formatId++) {
-                Map<String, Object> formatData = (Map<String, Object>)nodes.get(formatId);
+                Map<String, Object> formatData = (Map<String, Object>) nodes.get(formatId);
                 XBEFormatSpec formatSpec = (XBEFormatSpec) specService.createFormatSpec();
                 formatSpec.setParent(target);
                 long formatSpecIndex = specService.findMaxFormatSpecXB(target);
@@ -347,11 +339,16 @@ public class XBCatalogYaml {
         }
 
         switch (type) {
-            case CONS: return "cons";
-            case JOIN: return "join";
-            case LIST_CONS: return "listcons";
-            case LIST_JOIN: return "listjoin";
-            default: return null;
+            case CONS:
+                return "cons";
+            case JOIN:
+                return "join";
+            case LIST_CONS:
+                return "listcons";
+            case LIST_JOIN:
+                return "listjoin";
+            default:
+                return null;
         }
     }
 

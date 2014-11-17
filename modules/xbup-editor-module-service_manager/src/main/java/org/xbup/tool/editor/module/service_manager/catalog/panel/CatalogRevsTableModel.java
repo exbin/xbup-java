@@ -105,8 +105,8 @@ public class CatalogRevsTableModel extends AbstractTableModel {
                 item.setRev(rev);
                 item.setXbIndex(rev.getXBIndex());
                 item.setLimit(rev.getXBLimit());
-                item.setName(nameService.getItemNameText(rev));
-                item.setDescription(descService.getItemDescText(rev));
+                item.setName(nameService.getDefaultText(rev));
+                item.setDescription(descService.getDefaultText(rev));
                 revs.add(item);
             }
         }
@@ -123,5 +123,21 @@ public class CatalogRevsTableModel extends AbstractTableModel {
 
     public List<CatalogRevsTableItem> getRevs() {
         return revs;
+    }
+
+    public Long getRevisionForIndex(Long xbIndex) {
+        long limitSum = 0;
+
+        for (int revision = 0; revision < revs.size(); revision++) {
+            CatalogRevsTableItem revItem = revs.get(revision);
+
+            if (xbIndex < limitSum + revItem.getLimit()) {
+                return (long) revision;
+            }
+
+            limitSum += revItem.getLimit();
+        }
+
+        return null;
     }
 }

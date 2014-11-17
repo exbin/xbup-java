@@ -40,7 +40,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecDef
 /**
  * XBManager Catalog Item Edit Documentation Panel.
  *
- * @version 0.1.24 2014/11/16
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
@@ -247,15 +247,12 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
 
     private void moveUpDefButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveUpDefButtonActionPerformed
         int selectedRow = itemDefinitionsTable.getSelectedRow();
-        CatalogDefsTableItem specDef = defsModel.getRowItem(selectedRow);
-        CatalogDefsTableItem targetSpecDef = defsModel.getRowItem(selectedRow - 1);
-        Long prevIndex = specDef.getXbIndex();
-        specDef.setXbIndex(targetSpecDef.getXbIndex());
-        targetSpecDef.setXbIndex(prevIndex);
 
+        CatalogDefsTableItem specDef = defsModel.getRowItem(selectedRow);
         if (!updateList.contains(specDef)) {
             updateList.add(specDef);
         }
+        CatalogDefsTableItem targetSpecDef = defsModel.getRowItem(selectedRow - 1);
         if (!updateList.contains(targetSpecDef)) {
             updateList.add(targetSpecDef);
         }
@@ -268,16 +265,12 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
 
     private void moveDownDefButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveDownDefButtonActionPerformed
         int selectedRow = itemDefinitionsTable.getSelectedRow();
+
         CatalogDefsTableItem specDef = defsModel.getRowItem(selectedRow);
-        CatalogDefsTableItem targetSpecDef = defsModel.getRowItem(selectedRow + 1);
-
-        Long prevIndex = specDef.getXbIndex();
-        specDef.setXbIndex(targetSpecDef.getXbIndex());
-        targetSpecDef.setXbIndex(prevIndex);
-
         if (!updateList.contains(specDef)) {
             updateList.add(specDef);
         }
+        CatalogDefsTableItem targetSpecDef = defsModel.getRowItem(selectedRow + 1);
         if (!updateList.contains(targetSpecDef)) {
             updateList.add(targetSpecDef);
         }
@@ -307,17 +300,23 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
             XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
 
             XBESpecDef specDef = (XBESpecDef) defItem.getSpecDef();
+            if (specDef != null && specDef.getType() != defItem.getDefType()) {
+                specService.removeItem(specDef);
+                specDef = null;
+            }
+
             if (specDef == null) {
                 specDef = (XBESpecDef) specService.createSpecDef((XBCSpec) catalogItem, defItem.getDefType());
                 specDef.setCatalogItem((XBESpec) catalogItem);
-                specDef.setXBIndex(defItem.getXbIndex());
-                specDef.setTarget((XBERev) defItem.getTarget());
             }
+
+            specDef.setXBIndex(defItem.getXbIndex());
+            specDef.setTarget((XBERev) defItem.getTarget());
 
             specService.persistItem(specDef);
 
-            nameService.setItemNameText(specDef, defItem.getName());
-            descService.setItemDescText(specDef, defItem.getDescription());
+            nameService.setDefaultText(specDef, defItem.getName());
+            descService.setDefaultText(specDef, defItem.getDescription());
             striService.setItemStringIdText(specDef, defItem.getStringId());
         }
 
@@ -376,5 +375,9 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
             component = component.getParent();
         }
         return (Frame) component;
+    }
+
+    public CatalogDefsTableModel getDefsModel() {
+        return defsModel;
     }
 }

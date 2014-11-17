@@ -38,7 +38,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecRev
 /**
  * XBManager Catalog Item Edit Revisions Panel.
  *
- * @version 0.1.24 2014/11/14
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
@@ -47,6 +47,7 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
     private XBCItem catalogItem;
     private XBCRevService revService;
     private final CatalogRevsTableModel revsModel;
+    private CatalogDefsTableModel defsModel;
     private List<CatalogRevsTableItem> removeList;
     private List<CatalogRevsTableItem> updateList;
 
@@ -178,6 +179,7 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
             revsModel.getRevs().add(revItem);
             revsModel.fireTableDataChanged();
             updateItemStatus();
+            defsModel.setRevsModel(revsModel);
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
@@ -196,6 +198,7 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
             }
 
             updateItemStatus();
+            defsModel.setRevsModel(revsModel);
         }
     }//GEN-LAST:event_modifyButtonActionPerformed
 
@@ -211,6 +214,7 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
         revsModel.getRevs().remove(revItem);
         revsModel.fireTableDataChanged();
         updateItemStatus();
+        defsModel.setRevsModel(revsModel);
     }//GEN-LAST:event_removeDefButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -238,8 +242,8 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
 
             revService.persistItem(rev);
 
-            nameService.setItemNameText(rev, revItem.getName());
-            descService.setItemDescText(rev, revItem.getDescription());
+            nameService.setDefaultText(rev, revItem.getName());
+            descService.setDefaultText(rev, revItem.getDescription());
         }
 
         for (CatalogRevsTableItem revItem : removeList) {
@@ -284,6 +288,11 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
         this.catalog = catalog;
         revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
         revsModel.setCatalog(catalog);
+    }
+
+    public void setDefsModel(CatalogDefsTableModel defsModel) {
+        this.defsModel = defsModel;
+        defsModel.setRevsModel(revsModel);
     }
 
     private Frame getFrame() {

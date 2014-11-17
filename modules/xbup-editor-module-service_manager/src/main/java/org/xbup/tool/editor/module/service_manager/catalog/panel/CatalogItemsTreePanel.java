@@ -448,7 +448,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
 
             spec.setParent(node);
             specService.persistItem(spec);
-            nameService.setItemNameText(spec, addDialog.getItemName());
+            nameService.setDefaultText(spec, addDialog.getItemName());
             em.flush();
             transaction.commit();
 

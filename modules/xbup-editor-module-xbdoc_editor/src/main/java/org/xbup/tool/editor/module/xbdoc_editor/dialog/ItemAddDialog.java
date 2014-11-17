@@ -37,7 +37,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Dialog for adding new item into given document.
  *
- * @version 0.1.24 2014/11/14
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  */
 public class ItemAddDialog extends javax.swing.JDialog {
@@ -70,7 +70,7 @@ public class ItemAddDialog extends javax.swing.JDialog {
             for (int i = 1; i < list.size(); i++) {
                 XBBlockDecl decl = list.get(i);
                 if (decl instanceof XBCBlockSpec) {
-                    basicTypeComboBox.addItem(nameExtension.getDefaultCaption((XBCBlockSpec) decl));
+                    basicTypeComboBox.addItem(nameExtension.getDefaultText((XBCBlockSpec) decl));
                 }
             }
         }
@@ -91,9 +91,9 @@ public class ItemAddDialog extends javax.swing.JDialog {
         mainPanel = new javax.swing.JPanel();
         dataRadioButton = new javax.swing.JRadioButton();
         basicTypeRadioButton = new javax.swing.JRadioButton();
-        basicTypeComboBox = new javax.swing.JComboBox<String>();
+        basicTypeComboBox = new javax.swing.JComboBox<>();
         localTypeRadioButton = new javax.swing.JRadioButton();
-        localTypeComboBox = new javax.swing.JComboBox<String>();
+        localTypeComboBox = new javax.swing.JComboBox<>();
         localTypeAdvancedButton = new javax.swing.JButton();
         catalogTypeRadioButton = new javax.swing.JRadioButton();
         catalogTypeSelectButton = new javax.swing.JButton();
@@ -288,7 +288,15 @@ public class ItemAddDialog extends javax.swing.JDialog {
             selectSpecDialog.setVisible(true);
             if (selectSpecDialog.getDialogOption() == JOptionPane.OK_OPTION) {
                 blockSpec = (XBCBlockSpec) selectSpecDialog.getSpec();
-                catalogTypeTextField.setText(blockSpec.getId().toString());
+                XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+                String targetCaption = nameService.getItemNamePath(blockSpec);
+                if (targetCaption == null) {
+                    targetCaption = "";
+                } else {
+                    targetCaption += " ";
+                }
+                targetCaption += "(" + Long.toString(blockSpec.getId()) + ")";
+                catalogTypeTextField.setText(targetCaption);
             }
         }
     }//GEN-LAST:event_catalogTypeSelectButtonActionPerformed

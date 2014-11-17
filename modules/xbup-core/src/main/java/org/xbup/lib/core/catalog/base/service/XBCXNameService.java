@@ -17,7 +17,6 @@
 package org.xbup.lib.core.catalog.base.service;
 
 import java.util.List;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.core.catalog.base.XBCXName;
@@ -26,7 +25,7 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 /**
  * Interface for XBCXName items service.
  *
- * @version 0.1.24 2014/10/19
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  * @param <T> name entity
  */
@@ -58,26 +57,26 @@ public interface XBCXNameService<T extends XBCXName> extends XBCService<T>, XBCE
     public List<XBCXName> getItemNames(XBCItem item);
 
     /**
-     * Gets default caption in current language.
+     * Gets default name text for default language.
      *
-     * @param blockSpec specification to get caption of
+     * @param item item to get caption of
      * @return string caption
      */
-    public String getDefaultCaption(XBCBlockSpec blockSpec);
-
-    /**
-     * Gets name text for default language and given item.
-     *
-     * @param item Item to get name of.
-     * @return Text or null if name is not set.
-     */
-    public String getItemNameText(XBCItem item);
+    public String getDefaultText(XBCItem item);
 
     /**
      * Sets name text for default language and given item.
      *
-     * @param item Item to set name for.
-     * @param text Text to set.
+     * @param item item to set name for
+     * @param text text to set
      */
-    public void setItemNameText(XBCItem item, String text);
+    public void setDefaultText(XBCItem item, String text);
+
+    /**
+     * Gets name path as a list of dot separated name sequence.
+     *
+     * @param item
+     * @return name path string
+     */
+    public String getItemNamePath(XBCItem item);
 }

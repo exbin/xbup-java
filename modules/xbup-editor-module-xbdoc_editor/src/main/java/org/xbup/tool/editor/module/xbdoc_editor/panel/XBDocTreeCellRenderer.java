@@ -114,7 +114,7 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
             }
 
             XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-            String caption = nameService.getDefaultCaption(blockSpec);
+            String caption = nameService.getDefaultText(blockSpec);
             captionCache.put(blockSpec.getId(), caption);
             return caption;
         } else if (blockDecl instanceof XBDBlockDecl) {
@@ -127,7 +127,7 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
                 }
 
                 XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-                String caption = nameService.getDefaultCaption(blockSpec);
+                String caption = nameService.getDefaultText(blockSpec);
                 captionCache.put(blockSpec.getId(), caption);
                 return caption;
             } */

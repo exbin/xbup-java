@@ -18,7 +18,6 @@ package org.xbup.lib.core.catalog.remote.service;
 
 import java.util.List;
 import org.xbup.lib.core.catalog.XBRCatalog;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCXStri;
@@ -31,7 +30,7 @@ import org.xbup.lib.core.catalog.remote.manager.XBRXStriManager;
 /**
  * Interface for XBRXStri items service.
  *
- * @version 0.1.22 2013/01/13
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXStriService extends XBRDefaultService<XBRXStri> implements XBCXStriService<XBRXStri> {
@@ -43,18 +42,18 @@ public class XBRXStriService extends XBRDefaultService<XBRXStri> implements XBCX
     }
 
     @Override
-    public String getDefaultStringId(XBCBlockSpec blockSpec) {
-        return ((XBRXStriManager)itemManager).getDefaultStringId(blockSpec);
+    public String getItemStringIdText(XBCItem item) {
+        return ((XBRXStriManager) itemManager).getItemStringIdText(item);
     }
 
     @Override
     public XBRXStri getItemStringId(XBCItem item) {
-        return ((XBRXStriManager)itemManager).getItemStringId(item);
+        return ((XBRXStriManager) itemManager).getItemStringId(item);
     }
 
     @Override
     public List<XBCXStri> getItemStringIds(XBCItem item) {
-        return ((XBRXStriManager)itemManager).getItemStringIds(item);
+        return ((XBRXStriManager) itemManager).getItemStringIds(item);
     }
 
     @Override
@@ -68,29 +67,26 @@ public class XBRXStriService extends XBRDefaultService<XBRXStri> implements XBCX
     }
 
     @Override
-    public String getItemStringIdText(XBCItem item) {
-        XBRXStri Stri = getItemStringId(item);
-        if (Stri == null) {
-            return null;
-        }
-        return Stri.getText();
-    }
-
-    @Override
     public void setItemStringIdText(XBCItem item, String text) {
         XBRXStri stringId = getItemStringId(item);
-        if (stringId == null) {
-            stringId = createItem();
-            stringId.setItem(item);
-        }
+        if (text == null || text.isEmpty()) {
+            if (stringId != null) {
+                removeItem(stringId);
+            }
+        } else {
+            if (stringId == null) {
+                stringId = createItem();
+                stringId.setItem(item);
+            }
 
-        stringId.setText(text);
-        persistItem(stringId);
+            stringId.setText(text);
+            persistItem(stringId);
+        }
     }
 
     @Override
     public String getFullPath(XBCXStri itemString) {
-        return ((XBRXStriManager)itemManager).getFullPath(itemString);
+        return ((XBRXStriManager) itemManager).getFullPath(itemString);
     }
 
     @Override

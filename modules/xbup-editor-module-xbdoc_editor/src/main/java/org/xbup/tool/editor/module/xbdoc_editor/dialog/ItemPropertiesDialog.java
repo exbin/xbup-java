@@ -299,7 +299,7 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
                 return "Undefined";
             }
             XBCBlockSpec blockSpec = blockDecl.getBlockSpec().getParent();
-            return nameService.getDefaultCaption(blockSpec);
+            return nameService.getDefaultText(blockSpec);
         }
         if (blockType == null) {
             return "Unknown";

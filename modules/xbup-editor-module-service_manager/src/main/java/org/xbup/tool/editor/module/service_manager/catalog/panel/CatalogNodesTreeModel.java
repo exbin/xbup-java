@@ -112,7 +112,7 @@ public class CatalogNodesTreeModel implements TreeModel {
         public CatalogNodesTreeItem(XBCNode node) {
             this.node = node;
             XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-            name = nameService.getItemNameText(node);
+            name = nameService.getDefaultText(node);
 
             children = new ArrayList<>();
         }

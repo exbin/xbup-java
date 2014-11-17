@@ -382,7 +382,7 @@ public class XBPropertyPanel extends javax.swing.JPanel {
                 XBCBlockSpec blockSpec = ((XBCBlockDecl) blockDecl).getBlockSpec().getParent();
                 if (catalog != null) {
                     XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-                    return nameService.getDefaultCaption(blockSpec);
+                    return nameService.getDefaultText(blockSpec);
                 }
             }
 

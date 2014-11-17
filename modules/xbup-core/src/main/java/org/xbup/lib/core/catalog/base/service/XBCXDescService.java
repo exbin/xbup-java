@@ -25,7 +25,7 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 /**
  * Interface for XBCXDesc items service.
  *
- * @version 0.1.24 2014/10/19
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  * @param <T> description entity
  */
@@ -62,7 +62,7 @@ public interface XBCXDescService<T extends XBCXDesc> extends XBCService<T>, XBCE
      * @param item item to get name of
      * @return text or null if name is not set
      */
-    public String getItemDescText(XBCItem item);
+    public String getDefaultText(XBCItem item);
 
     /**
      * Sets description text for default language and given item.
@@ -70,5 +70,5 @@ public interface XBCXDescService<T extends XBCXDesc> extends XBCService<T>, XBCE
      * @param item item to set name for
      * @param text text to set
      */
-    public void setItemDescText(XBCItem item, String text);
+    public void setDefaultText(XBCItem item, String text);
 }

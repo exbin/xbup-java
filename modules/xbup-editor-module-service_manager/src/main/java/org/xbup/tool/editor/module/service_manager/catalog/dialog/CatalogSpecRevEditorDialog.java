@@ -166,7 +166,7 @@ public class CatalogSpecRevEditorDialog extends javax.swing.JDialog {
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         revItem.setName(nameTextField.getText());
         revItem.setDescription(descriptionTextField.getText());
-        revItem.setLimit(new Long((Integer) limitSpinner.getValue()));
+        revItem.setLimit(limitSpinner.getValue() instanceof Long ? (Long) limitSpinner.getValue() : (Integer) limitSpinner.getValue());
 
         dialogOption = JOptionPane.OK_OPTION;
         WindowUtils.closeWindow(this);

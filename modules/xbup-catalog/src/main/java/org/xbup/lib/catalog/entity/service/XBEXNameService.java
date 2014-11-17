@@ -21,7 +21,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.core.catalog.base.XBCXName;
@@ -37,7 +36,7 @@ import org.xbup.lib.catalog.entity.manager.XBEXNameManager;
 /**
  * Interface for XBEXName items service.
  *
- * @version 0.1.21 2012/01/22
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  */
 @Service
@@ -62,23 +61,18 @@ public class XBEXNameService extends XBEDefaultService<XBEXName> implements XBCX
     }
 
     @Override
-    public String getDefaultCaption(XBCBlockSpec blockSpec) {
-        return ((XBEXNameManager)itemManager).getDefaultCaption(blockSpec);
-    }
-
-    @Override
     public XBEXName getItemName(XBCItem item) {
-        return ((XBEXNameManager)itemManager).getItemName(item);
+        return ((XBEXNameManager) itemManager).getItemName(item);
     }
 
     @Override
     public XBEXName getItemName(XBCItem item, XBCXLanguage language) {
-        return ((XBEXNameManager)itemManager).getItemName(item, language);
+        return ((XBEXNameManager) itemManager).getItemName(item, language);
     }
 
     @Override
     public List<XBCXName> getItemNames(XBCItem item) {
-        return ((XBEXNameManager)itemManager).getItemNames(item);
+        return ((XBEXNameManager) itemManager).getItemNames(item);
     }
 
     @Override
@@ -92,25 +86,41 @@ public class XBEXNameService extends XBEDefaultService<XBEXName> implements XBCX
     }
 
     @Override
-    public String getItemNameText(XBCItem item) {
-        XBEXName name = getItemName(item);
-        if (name == null) {
-            return null;
-        }
-        return name.getText();
+    public String getDefaultText(XBCItem item) {
+        return ((XBEXNameManager) itemManager).getDefaultText(item);
     }
 
     @Override
-    public void setItemNameText(XBCItem item, String text) {
+    public void setDefaultText(XBCItem item, String text) {
         XBEXName name = getItemName(item);
-        if (name == null) {
-            XBEXLangManager langManager = ((XBEXLangManager) catalog.getCatalogManager(XBCXLangManager.class));
-            name = createItem();
-            name.setItem(item);
-            name.setLang(langManager.getDefaultLang());
+        if (text == null || text.isEmpty()) {
+            if (name != null) {
+                removeItem(name);
+            }
+        } else {
+            if (name == null) {
+                XBEXLangManager langManager = ((XBEXLangManager) catalog.getCatalogManager(XBCXLangManager.class));
+                name = createItem();
+                name.setItem(item);
+                name.setLang(langManager.getDefaultLang());
+            }
+
+            name.setText(text);
+            persistItem(name);
+        }
+    }
+
+    @Override
+    public String getItemNamePath(XBCItem item) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(getDefaultText(item));
+
+        XBCItem parentItem = item.getParent();
+        while (parentItem != null && parentItem.getParent() != null) {
+            builder.insert(0, getDefaultText(parentItem) + ".");
+            parentItem = parentItem.getParent();
         }
 
-        name.setText(text);
-        persistItem(name);
+        return builder.toString();
     }
 }

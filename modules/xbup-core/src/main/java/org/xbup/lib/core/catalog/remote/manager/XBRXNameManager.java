@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.catalog.XBRCatalog;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.core.catalog.base.XBCXName;
@@ -40,7 +39,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Manager class for XBRXName catalog items.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXNameManager extends XBRDefaultManager<XBRXName> implements XBCXNameManager<XBRXName> {
@@ -64,9 +63,7 @@ public class XBRXNameManager extends XBRDefaultManager<XBRXName> implements XBCX
                 return null;
             }
             return new XBRXName(client, ownerId);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -88,9 +85,7 @@ public class XBRXNameManager extends XBRDefaultManager<XBRXName> implements XBCX
                 return null;
             }
             return new XBRXName(client, ownerId);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -104,17 +99,15 @@ public class XBRXNameManager extends XBRDefaultManager<XBRXName> implements XBCX
             listener.attribXB(new UBNat32(((XBRItem) item).getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            List<XBCXName> result = new ArrayList<XBCXName>();
+            List<XBCXName> result = new ArrayList<>();
             long count = checker.attribXB().getLong();
             for (int i = 0; i < count; i++) {
-                result.add(new XBRXName(client,checker.attribXB().getLong()));
+                result.add(new XBRXName(client, checker.attribXB().getLong()));
             }
             checker.endXB();
             message.close();
             return result;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -131,9 +124,7 @@ public class XBRXNameManager extends XBRDefaultManager<XBRXName> implements XBCX
             checker.endXB();
             message.close();
             return count;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
@@ -148,24 +139,24 @@ public class XBRXNameManager extends XBRDefaultManager<XBRXName> implements XBCX
         return "Name Extension";
     }
 
-/*    public String getCaption(XBBlockType blockType) {
-        if (blockType == null) return "Unknown";
-        if (blockType instanceof XBContextBlockType) {
-            XBBlockDecl decl = ((XBContextBlockType) blockType).getBlockDecl();
-            if (decl != null) {
-                if (decl instanceof XBCBlockDecl) return ((XBCBlockDecl) decl).getCaption();
-                if (decl instanceof XBCPBlockDecl) return ((XBCPBlockDecl) decl).getCaption();
-            }
-        }
-        return "unknown ("+ Integer.toString(blockType.getGroupID().getInt()) + "," + Integer.toString(blockType.getBlockID().getInt()) + ")";
-    } */
-
+    /*    public String getCaption(XBBlockType blockType) {
+     if (blockType == null) return "Unknown";
+     if (blockType instanceof XBContextBlockType) {
+     XBBlockDecl decl = ((XBContextBlockType) blockType).getBlockDecl();
+     if (decl != null) {
+     if (decl instanceof XBCBlockDecl) return ((XBCBlockDecl) decl).getCaption();
+     if (decl instanceof XBCPBlockDecl) return ((XBCPBlockDecl) decl).getCaption();
+     }
+     }
+     return "unknown ("+ Integer.toString(blockType.getGroupID().getInt()) + "," + Integer.toString(blockType.getBlockID().getInt()) + ")";
+     } */
     @Override
-    public String getDefaultCaption(XBCBlockSpec blockSpec) {
-        XBCXName name = getItemName(blockSpec);
-        if (name==null) {
-            return ":";
+    public String getDefaultText(XBCItem item) {
+        XBCXName name = getItemName(item);
+        if (name == null) {
+            return null;
         }
+
         return name.getText();
     }
 }

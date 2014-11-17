@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import org.springframework.stereotype.Repository;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.core.catalog.base.XBCXName;
@@ -41,7 +40,7 @@ import org.xbup.lib.catalog.entity.XBEXName;
 /**
  * XBUP catalog item name manager.
  *
- * @version 0.1.21 2012/01/01
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -57,12 +56,12 @@ public class XBEXNameManager extends XBEDefaultManager<XBEXName> implements XBCX
 
     @Override
     public XBEXName getItemName(XBCItem item) {
-        XBEXLangManager langManager = ((XBEXLangManager) catalog.getCatalogManager(XBCXLangManager.class));
         if (!(item instanceof XBEItem)) {
             return null;
         }
-        XBCXLanguage language = langManager.getDefaultLang();
-        return getItemName(item, language); // TODO Try another language if default not available
+
+        XBEXLangManager langManager = ((XBEXLangManager) catalog.getCatalogManager(XBCXLangManager.class));
+        return getItemName(item, langManager.getDefaultLang());
     }
 
     @Override
@@ -70,6 +69,7 @@ public class XBEXNameManager extends XBEDefaultManager<XBEXName> implements XBCX
         if (!(item instanceof XBEItem)) {
             return null;
         }
+
         try {
             return (XBEXName) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXName as o WHERE o.item.id = " + ((XBEItem) item).getId() + " AND o.lang.id = " + (((XBEXLanguage) language).getId())).getSingleResult();
         } catch (NoResultException ex) {
@@ -152,12 +152,12 @@ public class XBEXNameManager extends XBEDefaultManager<XBEXName> implements XBCX
     }
 
     @Override
-    public String getDefaultCaption(XBCBlockSpec blockSpec) {
-        XBCXName name = getItemName(blockSpec);
+    public String getDefaultText(XBCItem item) {
+        XBCXName name = getItemName(item);
         if (name == null) {
-            return ":";
+            return "";
         }
+
         return name.getText();
     }
-
 }

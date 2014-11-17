@@ -18,7 +18,6 @@ package org.xbup.lib.core.catalog.remote.service;
 
 import java.util.List;
 import org.xbup.lib.core.catalog.XBRCatalog;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.core.catalog.base.XBCXName;
@@ -33,7 +32,7 @@ import org.xbup.lib.core.catalog.remote.manager.XBRXNameManager;
 /**
  * Interface for XBRXName items service.
  *
- * @version 0.1.21 2012/01/22
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXNameService extends XBRDefaultService<XBRXName> implements XBCXNameService<XBRXName> {
@@ -45,23 +44,23 @@ public class XBRXNameService extends XBRDefaultService<XBRXName> implements XBCX
     }
 
     @Override
-    public String getDefaultCaption(XBCBlockSpec blockSpec) {
-        return ((XBRXNameManager)itemManager).getDefaultCaption(blockSpec);
+    public String getDefaultText(XBCItem item) {
+        return ((XBRXNameManager) itemManager).getDefaultText(item);
     }
 
     @Override
     public XBRXName getItemName(XBCItem item) {
-        return ((XBRXNameManager)itemManager).getItemName(item);
+        return ((XBRXNameManager) itemManager).getItemName(item);
     }
 
     @Override
     public XBRXName getItemName(XBCItem item, XBCXLanguage language) {
-        return ((XBRXNameManager)itemManager).getItemName(item, language);
+        return ((XBRXNameManager) itemManager).getItemName(item, language);
     }
 
     @Override
     public List<XBCXName> getItemNames(XBCItem item) {
-        return ((XBRXNameManager)itemManager).getItemNames(item);
+        return ((XBRXNameManager) itemManager).getItemNames(item);
     }
 
     @Override
@@ -75,25 +74,36 @@ public class XBRXNameService extends XBRDefaultService<XBRXName> implements XBCX
     }
 
     @Override
-    public String getItemNameText(XBCItem item) {
+    public void setDefaultText(XBCItem item, String text) {
         XBRXName name = getItemName(item);
-        if (name == null) {
-            return null;
+        if (text == null || text.isEmpty()) {
+            if (name != null) {
+                removeItem(name);
+            }
+        } else {
+            if (name == null) {
+                XBRXLangManager langManager = ((XBRXLangManager) catalog.getCatalogManager(XBCXLangManager.class));
+                name = createItem();
+                name.setItem(item);
+                name.setLang(langManager.getDefaultLang());
+            }
+
+            name.setText(text);
+            persistItem(name);
         }
-        return name.getText();
     }
 
     @Override
-    public void setItemNameText(XBCItem item, String text) {
-        XBRXName name = getItemName(item);
-        if (name == null) {
-            XBRXLangManager langManager = ((XBRXLangManager) catalog.getCatalogManager(XBCXLangManager.class));
-            name = createItem();
-            name.setItem(item);
-            name.setLang(langManager.getDefaultLang());
+    public String getItemNamePath(XBCItem item) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(getDefaultText(item));
+
+        XBCItem parentItem = item.getParent();
+        while (parentItem != null && parentItem.getParent() != null) {
+            builder.insert(0, getDefaultText(parentItem) + ".");
+            parentItem = parentItem.getParent();
         }
 
-        name.setText(text);
-        persistItem(name);
+        return builder.toString();
     }
 }

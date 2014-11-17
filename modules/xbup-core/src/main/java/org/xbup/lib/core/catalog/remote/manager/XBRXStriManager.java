@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.catalog.XBRCatalog;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXStri;
 import org.xbup.lib.core.catalog.base.manager.XBCNodeManager;
@@ -39,7 +38,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Manager class for XBRXStri catalog items.
  *
- * @version 0.1.21 2012/05/01
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXStriManager extends XBRDefaultManager<XBRXStri> implements XBCXStriManager<XBRXStri> {
@@ -63,9 +62,7 @@ public class XBRXStriManager extends XBRDefaultManager<XBRXStri> implements XBCX
                 return null;
             }
             return new XBRXStri(client, ownerId);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXStriManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBRXStriManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -79,17 +76,15 @@ public class XBRXStriManager extends XBRDefaultManager<XBRXStri> implements XBCX
             listener.attribXB(new UBNat32(((XBRItem) item).getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            List<XBCXStri> result = new ArrayList<XBCXStri>();
+            List<XBCXStri> result = new ArrayList<>();
             long count = checker.attribXB().getLong();
             for (int i = 0; i < count; i++) {
-                result.add(new XBRXStri(client,checker.attribXB().getLong()));
+                result.add(new XBRXStri(client, checker.attribXB().getLong()));
             }
             checker.endXB();
             message.close();
             return result;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXStriManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBRXStriManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -106,9 +101,7 @@ public class XBRXStriManager extends XBRDefaultManager<XBRXStri> implements XBCX
             checker.endXB();
             message.close();
             return count;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXStriManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBRXStriManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
@@ -123,23 +116,22 @@ public class XBRXStriManager extends XBRDefaultManager<XBRXStri> implements XBCX
         return "Stri Extension";
     }
 
-/*    public String getCaption(XBBlockType blockType) {
-        if (blockType == null) return "Unknown";
-        if (blockType instanceof XBContextBlockType) {
-            XBBlockDecl decl = ((XBContextBlockType) blockType).getBlockDecl();
-            if (decl != null) {
-                if (decl instanceof XBCBlockDecl) return ((XBCBlockDecl) decl).getCaption();
-                if (decl instanceof XBCPBlockDecl) return ((XBCPBlockDecl) decl).getCaption();
-            }
-        }
-        return "unknown ("+ Integer.toString(blockType.getGroupID().getInt()) + "," + Integer.toString(blockType.getBlockID().getInt()) + ")";
-    } */
-
+    /*    public String getCaption(XBBlockType blockType) {
+     if (blockType == null) return "Unknown";
+     if (blockType instanceof XBContextBlockType) {
+     XBBlockDecl decl = ((XBContextBlockType) blockType).getBlockDecl();
+     if (decl != null) {
+     if (decl instanceof XBCBlockDecl) return ((XBCBlockDecl) decl).getCaption();
+     if (decl instanceof XBCPBlockDecl) return ((XBCPBlockDecl) decl).getCaption();
+     }
+     }
+     return "unknown ("+ Integer.toString(blockType.getGroupID().getInt()) + "," + Integer.toString(blockType.getBlockID().getInt()) + ")";
+     } */
     @Override
-    public String getDefaultStringId(XBCBlockSpec blockSpec) {
-        XBCXStri Stri = getItemStringId(blockSpec);
-        if (Stri==null) {
-            return ":";
+    public String getItemStringIdText(XBCItem item) {
+        XBCXStri Stri = getItemStringId(item);
+        if (Stri == null) {
+            return null;
         }
         return Stri.getText();
     }
@@ -148,7 +140,7 @@ public class XBRXStriManager extends XBRDefaultManager<XBRXStri> implements XBCX
     public String getFullPath(XBCXStri itemString) {
         if ("/".equals(itemString.getNodePath())) {
             XBCNodeManager nodeManager = (XBCNodeManager) catalog.getCatalogManager(XBCNodeManager.class);
-            if (itemString.getItem().getId() == nodeManager.getRootNode().getId()) {
+            if (itemString.getItem().getId().equals(nodeManager.getRootNode().getId())) {
                 return "";
             }
         }

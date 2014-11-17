@@ -38,29 +38,25 @@ import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 /**
  * Table model for catalog bindings.
  *
- * @version 0.1.23 2013/09/22
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogDefsTableModel extends AbstractTableModel {
 
     private XBACatalog catalog;
-    private XBCSpec spec;
-    private XBCXNameService nameService;
-    private XBCXDescService descService;
-    private XBCXStriService striService;
-    private XBCSpecService bindService;
+    private XBCSpec spec = null;
+    private XBCItem catalogItem = null;
+    private CatalogRevsTableModel revsModel = null;
+
+    private final List<CatalogDefsTableItem> items = new ArrayList<>();
 
     private final String[] columnNames = new String[]{"XBIndex", "Revision", "StringId", "Operation", "Type", "Type Revision", "Name", "Description"};
     private final Class[] columnClasses = new Class[]{
         java.lang.Long.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class
     };
 
-    private final List<CatalogDefsTableItem> items;
-
     public CatalogDefsTableModel(XBACatalog catalog) {
-        initCatalog(catalog);
-        spec = null;
-        items = new ArrayList<>();
+        this.catalog = catalog;
     }
 
     @Override
@@ -121,15 +117,22 @@ public class CatalogDefsTableModel extends AbstractTableModel {
     }
 
     public void setCatalogItem(XBCItem item) {
+        this.catalogItem = item;
         items.clear();
         if (item instanceof XBCSpec) {
+            XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+            XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
+            XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
+            XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+
             spec = (XBCSpec) item;
-            List<XBCSpecDef> specDefs = bindService.getSpecDefs(spec);
+            List<XBCSpecDef> specDefs = specService.getSpecDefs(spec);
             for (XBCSpecDef specDef : specDefs) {
                 CatalogDefsTableItem tableItem = new CatalogDefsTableItem();
                 tableItem.setSpecDef(specDef);
                 tableItem.setXbIndex(specDef.getXBIndex());
                 tableItem.setOperation(getOperation(specDef));
+                tableItem.setDefType(specDef.getType());
 
                 tableItem.setType("");
                 tableItem.setTargetRevision(0L);
@@ -146,10 +149,14 @@ public class CatalogDefsTableModel extends AbstractTableModel {
                     tableItem.setTargetRevision(specDef.getTarget().getXBIndex());
                 }
 
-                tableItem.setName(nameService.getItemNameText(specDef));
-                tableItem.setDescription(descService.getItemDescText(specDef));
+                tableItem.setName(nameService.getDefaultText(specDef));
+                tableItem.setDescription(descService.getDefaultText(specDef));
                 tableItem.setStringId(striService.getItemStringIdText(specDef));
-                
+
+                if (revsModel != null) {
+                    tableItem.setRevision(revsModel.getRevisionForIndex(specDef.getXBIndex()));
+                }
+
                 items.add(tableItem);
             }
         }
@@ -188,21 +195,12 @@ public class CatalogDefsTableModel extends AbstractTableModel {
         return items.get(rowIndex);
     }
 
-    private void initCatalog(XBACatalog catalog) {
+    public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
 
-        nameService = null;
-        if (catalog != null) {
-            nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-            descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
-            striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
-            // TODO: OnAddExtension
-            bindService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        if (catalogItem != null) {
+            setCatalogItem(catalogItem);
         }
-    }
-
-    public void setCatalog(XBACatalog catalog) {
-        initCatalog(catalog);
     }
 
     public void removeItem(XBCSpecDef specDef) {
@@ -217,11 +215,25 @@ public class CatalogDefsTableModel extends AbstractTableModel {
 
     public void moveItemDown(int itemPos) {
         CatalogDefsTableItem item = items.get(itemPos);
-        item.setXbIndex(item.getSpecDef().getXBIndex());
+        CatalogDefsTableItem nextItem = items.get(itemPos + 1);
+        Long prevIndex = item.getXbIndex();
+        item.setXbIndex(nextItem.getXbIndex());
+        nextItem.setXbIndex(prevIndex);
+
+        if (revsModel != null) {
+            item.setRevision(revsModel.getRevisionForIndex(item.getXbIndex()));
+            nextItem.setRevision(revsModel.getRevisionForIndex(nextItem.getXbIndex()));
+        }
+
         items.remove(item);
         items.add(itemPos + 1, item);
+    }
 
-        item = items.get(itemPos);
-        item.setXbIndex(item.getSpecDef().getXBIndex());
+    public void setRevsModel(CatalogRevsTableModel revsModel) {
+        this.revsModel = revsModel;
+
+        if (catalogItem != null) {
+            setCatalogItem(catalogItem);
+        }
     }
 }

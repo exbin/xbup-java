@@ -36,7 +36,7 @@ import org.xbup.lib.catalog.entity.manager.XBEXLangManager;
 /**
  * Interface for XBEXDesc items service.
  *
- * @version 0.1.21 2012/01/22
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  */
 @Service
@@ -62,17 +62,17 @@ public class XBEXDescService extends XBEDefaultService<XBEXDesc> implements XBCX
 
     @Override
     public XBEXDesc getItemDesc(XBCItem item) {
-        return ((XBEXDescManager)itemManager).getItemDesc(item);
+        return ((XBEXDescManager) itemManager).getItemDesc(item);
     }
 
     @Override
     public XBEXDesc getItemDesc(XBCItem item, XBCXLanguage language) {
-        return ((XBEXDescManager)itemManager).getItemDesc(item, language);
+        return ((XBEXDescManager) itemManager).getItemDesc(item, language);
     }
 
     @Override
     public List<XBCXDesc> getItemDescs(XBCItem item) {
-        return ((XBEXDescManager)itemManager).getItemDescs(item);
+        return ((XBEXDescManager) itemManager).getItemDescs(item);
     }
 
     @Override
@@ -86,25 +86,27 @@ public class XBEXDescService extends XBEDefaultService<XBEXDesc> implements XBCX
     }
 
     @Override
-    public String getItemDescText(XBCItem item) {
-        XBEXDesc desc = getItemDesc(item);
-        if (desc == null) {
-            return null;
-        }
-        return desc.getText();
+    public String getDefaultText(XBCItem item) {
+        return ((XBEXDescManager) itemManager).getDefaultText(item);
     }
 
     @Override
-    public void setItemDescText(XBCItem item, String text) {
+    public void setDefaultText(XBCItem item, String text) {
         XBEXDesc desc = getItemDesc(item);
-        if (desc == null) {
-            XBEXLangManager langManager = ((XBEXLangManager) catalog.getCatalogManager(XBCXLangManager.class));
-            desc = createItem();
-            desc.setItem(item);
-            desc.setLang(langManager.getDefaultLang());
-        }
+        if (text == null || text.isEmpty()) {
+            if (desc != null) {
+                removeItem(desc);
+            }
+        } else {
+            if (desc == null) {
+                XBEXLangManager langManager = ((XBEXLangManager) catalog.getCatalogManager(XBCXLangManager.class));
+                desc = createItem();
+                desc.setItem(item);
+                desc.setLang(langManager.getDefaultLang());
+            }
 
-        desc.setText(text);
-        persistItem(desc);
+            desc.setText(text);
+            persistItem(desc);
+        }
     }
 }

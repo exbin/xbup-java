@@ -43,7 +43,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 /**
  * Panel for basic XBItem viewing/editation.
  *
- * @version 0.1.24 2014/11/14
+ * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemPanel extends javax.swing.JPanel {
@@ -75,6 +75,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
             iconService = (XBCXIconService) catalog.getCatalogService(XBCXIconService.class);
             // TODO: OnAddExtension
         }
+
         defsModel = new CatalogDefsTableModel(catalog);
         revsModel = new CatalogRevsTableModel(catalog);
         initComponents();
@@ -404,12 +405,13 @@ public class CatalogItemPanel extends javax.swing.JPanel {
             itemDescriptionTextField.setText("");
         }
 
-        defsModel.setCatalogItem(item);
-        itemDefinitionTable.revalidate();
-        itemDefinitionTable.repaint();
-
         revsModel.setSpec(item instanceof XBCSpec ? (XBCSpec) item : null);
         itemRevisionsTable.revalidate();
         itemRevisionsTable.repaint();
+
+        defsModel.setCatalogItem(item);
+        defsModel.setRevsModel(revsModel);
+        itemDefinitionTable.revalidate();
+        itemDefinitionTable.repaint();
     }
 }

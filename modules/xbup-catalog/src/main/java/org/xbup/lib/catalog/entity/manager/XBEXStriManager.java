@@ -17,7 +17,6 @@
 package org.xbup.lib.catalog.entity.manager;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.NoResultException;
@@ -35,7 +34,7 @@ import org.xbup.lib.catalog.entity.XBEXStri;
 /**
  * XBUP catalog string ID manager.
  *
- * @version 0.1.24 2014/11/17
+ * @version 0.1.24 2014/11/18
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -56,22 +55,6 @@ public class XBEXStriManager extends XBEDefaultManager<XBEXStri> implements XBCX
         }
         try {
             return (XBEXStri) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXStri as o WHERE o.item.id = " + ((XBEItem) item).getId()).getSingleResult();
-        } catch (NoResultException ex) {
-            return null;
-        } catch (Exception ex) {
-            Logger.getLogger(XBEXStriManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<XBCXStri> getItemStringIds(XBCItem item) {
-        if (!(item instanceof XBEItem)) {
-            return null;
-        }
-        try {
-            return (List<XBCXStri>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXStri as o WHERE o.item.id = " + ((XBEItem) item).getId()).getResultList();
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {

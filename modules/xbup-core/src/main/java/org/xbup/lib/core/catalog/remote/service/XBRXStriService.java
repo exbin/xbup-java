@@ -16,7 +16,6 @@
  */
 package org.xbup.lib.core.catalog.remote.service;
 
-import java.util.List;
 import org.xbup.lib.core.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCSpec;
@@ -49,11 +48,6 @@ public class XBRXStriService extends XBRDefaultService<XBRXStri> implements XBCX
     @Override
     public XBRXStri getItemStringId(XBCItem item) {
         return ((XBRXStriManager) itemManager).getItemStringId(item);
-    }
-
-    @Override
-    public List<XBCXStri> getItemStringIds(XBCItem item) {
-        return ((XBRXStriManager) itemManager).getItemStringIds(item);
     }
 
     @Override

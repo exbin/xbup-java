@@ -37,11 +37,20 @@ import org.xbup.lib.catalog.entity.XBEGroupSpec;
 import org.xbup.lib.catalog.entity.XBESpec;
 import org.xbup.lib.catalog.entity.XBESpecDef;
 import org.xbup.lib.catalog.entity.manager.XBESpecManager;
+import org.xbup.lib.core.catalog.base.XBCRev;
+import org.xbup.lib.core.catalog.base.XBCXDesc;
+import org.xbup.lib.core.catalog.base.XBCXHDoc;
+import org.xbup.lib.core.catalog.base.XBCXName;
+import org.xbup.lib.core.catalog.base.XBCXStri;
+import org.xbup.lib.core.catalog.base.manager.XBCXDescManager;
+import org.xbup.lib.core.catalog.base.manager.XBCXHDocManager;
+import org.xbup.lib.core.catalog.base.manager.XBCXNameManager;
+import org.xbup.lib.core.catalog.base.manager.XBCXStriManager;
 
 /**
  * Interface for XBESpec items service.
  *
- * @version 0.1.22 2013/01/11
+ * @version 0.1.24 2014/11/18
  * @author XBUP Project (http://xbup.org)
  */
 @Service
@@ -67,171 +76,200 @@ public class XBESpecService extends XBEDefaultService<XBESpec> implements XBCSpe
 
     @Override
     public XBEBlockSpec findBlockSpecByXB(XBCNode node, long xbIndex) {
-        return ((XBESpecManager)itemManager).findBlockSpecByXB(node, xbIndex);
+        return ((XBESpecManager) itemManager).findBlockSpecByXB(node, xbIndex);
     }
 
     @Override
     public XBEFormatSpec findFormatSpecByXB(XBCNode node, long xbIndex) {
-        return ((XBESpecManager)itemManager).findFormatSpecByXB(node, xbIndex);
+        return ((XBESpecManager) itemManager).findFormatSpecByXB(node, xbIndex);
     }
 
     @Override
     public XBEGroupSpec findGroupSpecByXB(XBCNode node, long xbIndex) {
-        return ((XBESpecManager)itemManager).findGroupSpecByXB(node, xbIndex);
+        return ((XBESpecManager) itemManager).findGroupSpecByXB(node, xbIndex);
     }
 
     @Override
     public Long findMaxBlockSpecXB(XBCNode node) {
-        return ((XBESpecManager)itemManager).findMaxBlockSpecXB(node);
+        return ((XBESpecManager) itemManager).findMaxBlockSpecXB(node);
     }
 
     @Override
     public Long findMaxFormatSpecXB(XBCNode node) {
-        return ((XBESpecManager)itemManager).findMaxFormatSpecXB(node);
+        return ((XBESpecManager) itemManager).findMaxFormatSpecXB(node);
     }
 
     @Override
     public Long findMaxGroupSpecXB(XBCNode node) {
-        return ((XBESpecManager)itemManager).findMaxGroupSpecXB(node);
+        return ((XBESpecManager) itemManager).findMaxGroupSpecXB(node);
     }
 
     @Override
     public Long getAllBlockSpecsCount() {
-        return ((XBESpecManager)itemManager).getAllBlockSpecsCount();
+        return ((XBESpecManager) itemManager).getAllBlockSpecsCount();
     }
 
     @Override
     public Long getAllFormatSpecsCount() {
-        return ((XBESpecManager)itemManager).getAllFormatSpecsCount();
+        return ((XBESpecManager) itemManager).getAllFormatSpecsCount();
     }
 
     @Override
     public Long getAllGroupSpecsCount() {
-        return ((XBESpecManager)itemManager).getAllGroupSpecsCount();
+        return ((XBESpecManager) itemManager).getAllGroupSpecsCount();
     }
 
     @Override
     public Long getAllSpecsCount() {
-        return ((XBESpecManager)itemManager).getAllSpecsCount();
+        return ((XBESpecManager) itemManager).getAllSpecsCount();
     }
 
     @Override
     public XBEBlockSpec getBlockSpec(XBCNode node, long index) {
-        return ((XBESpecManager)itemManager).getBlockSpec(node, index);
+        return ((XBESpecManager) itemManager).getBlockSpec(node, index);
     }
 
     @Override
     public List<XBCBlockSpec> getBlockSpecs(XBCNode node) {
-        return ((XBESpecManager)itemManager).getBlockSpecs(node);
+        return ((XBESpecManager) itemManager).getBlockSpecs(node);
     }
 
     @Override
     public long getBlockSpecsCount(XBCNode node) {
-        return ((XBESpecManager)itemManager).getBlockSpecsCount(node);
+        return ((XBESpecManager) itemManager).getBlockSpecsCount(node);
     }
 
     @Override
     public XBEFormatSpec getFormatSpec(XBCNode node, long index) {
-        return ((XBESpecManager)itemManager).getFormatSpec(node, index);
+        return ((XBESpecManager) itemManager).getFormatSpec(node, index);
     }
 
     @Override
     public List<XBCFormatSpec> getFormatSpecs(XBCNode node) {
-        return ((XBESpecManager)itemManager).getFormatSpecs(node);
+        return ((XBESpecManager) itemManager).getFormatSpecs(node);
     }
 
     @Override
     public long getFormatSpecsCount(XBCNode node) {
-        return ((XBESpecManager)itemManager).getFormatSpecsCount(node);
+        return ((XBESpecManager) itemManager).getFormatSpecsCount(node);
     }
 
     @Override
     public XBEGroupSpec getGroupSpec(XBCNode node, long index) {
-        return ((XBESpecManager)itemManager).getGroupSpec(node, index);
+        return ((XBESpecManager) itemManager).getGroupSpec(node, index);
     }
 
     @Override
     public List<XBCGroupSpec> getGroupSpecs(XBCNode node) {
-        return ((XBESpecManager)itemManager).getGroupSpecs(node);
+        return ((XBESpecManager) itemManager).getGroupSpecs(node);
     }
 
     @Override
     public long getGroupSpecsCount(XBCNode node) {
-        return ((XBESpecManager)itemManager).getGroupSpecsCount(node);
+        return ((XBESpecManager) itemManager).getGroupSpecsCount(node);
     }
 
     @Override
     public XBESpec getSpecByOrder(XBCNode node, long index) {
-        return ((XBESpecManager)itemManager).getSpec(node, index);
+        return ((XBESpecManager) itemManager).getSpec(node, index);
     }
 
     @Override
     public Long[] getSpecXBPath(XBCSpec spec) {
-        return ((XBESpecManager)itemManager).getSpecXBPath(spec);
+        return ((XBESpecManager) itemManager).getSpecXBPath(spec);
     }
 
     @Override
     public List<XBCSpec> getSpecs(XBCNode node) {
-        return ((XBESpecManager)itemManager).getSpecs(node);
+        return ((XBESpecManager) itemManager).getSpecs(node);
     }
 
     @Override
     public long getSpecsCount(XBCNode node) {
-        return ((XBESpecManager)itemManager).getSpecsCount(node);
+        return ((XBESpecManager) itemManager).getSpecsCount(node);
     }
 
     @Override
     public XBESpecDef findSpecDefByXB(XBCSpec spec, long xbIndex) {
-        return ((XBESpecManager)itemManager).findSpecDefByXB(spec, xbIndex);
+        return ((XBESpecManager) itemManager).findSpecDefByXB(spec, xbIndex);
     }
 
     @Override
     public Long findMaxSpecDefXB(XBCSpec spec) {
-        return ((XBESpecManager)itemManager).findMaxSpecDefXB(spec);
+        return ((XBESpecManager) itemManager).findMaxSpecDefXB(spec);
     }
 
     @Override
     public XBESpecDef getSpecDefByOrder(XBCSpec spec, long index) {
-        return ((XBESpecManager)itemManager).getSpecDefByOrder(spec, index);
+        return ((XBESpecManager) itemManager).getSpecDefByOrder(spec, index);
     }
 
     @Override
     public List<XBCSpecDef> getSpecDefs(XBCSpec spec) {
-        return ((XBESpecManager)itemManager).getSpecDefs(spec);
+        return ((XBESpecManager) itemManager).getSpecDefs(spec);
     }
 
     @Override
     public long getSpecDefsCount(XBCSpec spec) {
-        return ((XBESpecManager)itemManager).getSpecDefsCount(spec);
+        return ((XBESpecManager) itemManager).getSpecDefsCount(spec);
     }
 
     @Override
     public long getDefsCount() {
-        return ((XBESpecManager)itemManager).getDefsCount();
+        return ((XBESpecManager) itemManager).getDefsCount();
     }
 
     @Override
     public XBESpecDef getSpecDef(long itemId) {
-        return (XBESpecDef) ((XBESpecManager)itemManager).getSpecDef(itemId);
+        return (XBESpecDef) ((XBESpecManager) itemManager).getSpecDef(itemId);
     }
 
     @Override
     public XBCSpecDef createSpecDef(XBCSpec spec, XBCSpecDefType type) {
-        return ((XBESpecManager)itemManager).createSpecDef(spec, type);
+        return ((XBESpecManager) itemManager).createSpecDef(spec, type);
     }
 
     @Override
     public XBEBlockSpec createBlockSpec() {
-        return ((XBESpecManager)itemManager).createBlockSpec();
+        return ((XBESpecManager) itemManager).createBlockSpec();
     }
 
     @Override
     public XBCGroupSpec createGroupSpec() {
-        return ((XBESpecManager)itemManager).createGroupSpec();
+        return ((XBESpecManager) itemManager).createGroupSpec();
     }
 
     @Override
     public XBCFormatSpec createFormatSpec() {
-        return ((XBESpecManager)itemManager).createFormatSpec();
+        return ((XBESpecManager) itemManager).createFormatSpec();
+    }
+
+    @Override
+    public void removeItemDepth(XBCSpecDef specDef) {
+        XBCXNameManager nameManager = (XBCXNameManager) catalog.getCatalogManager(XBCXNameManager.class);
+        List<XBCXName> itemNames = nameManager.getItemNames(specDef);
+        for (XBCXName itemName : itemNames) {
+            nameManager.removeItem(itemName);
+        }
+
+        XBCXDescManager descManager = (XBCXDescManager) catalog.getCatalogManager(XBCXDescManager.class);
+        List<XBCXDesc> itemDescs = descManager.getItemDescs(specDef);
+        for (XBCXDesc itemDesc : itemDescs) {
+            descManager.removeItem(itemDesc);
+        }
+
+        XBCXStriManager striManager = (XBCXStriManager) catalog.getCatalogManager(XBCXStriManager.class);
+        XBCXStri itemStri = striManager.getItemStringId(specDef);
+        if (itemStri != null) {
+            striManager.removeItem(itemStri);
+        }
+
+        XBCXHDocManager hdocManager = (XBCXHDocManager) catalog.getCatalogManager(XBCXHDocManager.class);
+        XBCXHDoc itemHDoc = hdocManager.getDocumentation(specDef);
+        if (itemHDoc != null) {
+            hdocManager.removeItem(itemHDoc);
+        }
+
+        ((XBCSpecService) this).removeItem(specDef);
     }
 }

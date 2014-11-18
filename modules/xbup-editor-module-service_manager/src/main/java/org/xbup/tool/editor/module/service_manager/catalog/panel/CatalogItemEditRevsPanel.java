@@ -248,7 +248,7 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
 
         for (CatalogRevsTableItem revItem : removeList) {
             if (revItem.getRev() != null) {
-                revService.removeItem(revItem.getRev());
+                revService.removeItemDepth(revItem.getRev());
             }
         }
     }

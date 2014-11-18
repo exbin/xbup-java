@@ -24,7 +24,7 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 /**
  * Interface for XBCXStri catalog manager.
  *
- * @version 0.1.24 2014/11/17
+ * @version 0.1.24 2014/11/18
  * @author XBUP Project (http://xbup.org)
  * @param <T> string index entity
  */
@@ -37,14 +37,6 @@ public interface XBCXStriManager<T extends XBCXStri> extends XBCManager<T>, XBCE
      * @return string index
      */
     public XBCXStri getItemStringId(XBCItem item);
-
-    /**
-     * Returns list of string indices for given item.
-     *
-     * @param item
-     * @return list of string indices
-     */
-    public List<XBCXStri> getItemStringIds(XBCItem item);
 
     /**
      * Gets stri text for given item.

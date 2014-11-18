@@ -16,7 +16,6 @@
  */
 package org.xbup.lib.core.catalog.base.service;
 
-import java.util.List;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCXStri;
@@ -25,7 +24,7 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 /**
  * Interface for XBCXStri items service.
  *
- * @version 0.1.24 2014/11/17
+ * @version 0.1.24 2014/11/18
  * @author XBUP Project (http://xbup.org)
  * @param <T> stringId entity
  */
@@ -38,14 +37,6 @@ public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCE
      * @return stringId
      */
     public XBCXStri getItemStringId(XBCItem item);
-
-    /**
-     * Returns list of StringIds for given item.
-     *
-     * @param item item
-     * @return list of stringIds
-     */
-    public List<XBCXStri> getItemStringIds(XBCItem item);
 
     /**
      * Gets string id text for given item.

@@ -28,11 +28,20 @@ import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBERev;
 import org.xbup.lib.catalog.entity.manager.XBERevManager;
+import org.xbup.lib.core.catalog.base.XBCXDesc;
+import org.xbup.lib.core.catalog.base.XBCXHDoc;
+import org.xbup.lib.core.catalog.base.XBCXName;
+import org.xbup.lib.core.catalog.base.XBCXStri;
+import org.xbup.lib.core.catalog.base.manager.XBCXDescManager;
+import org.xbup.lib.core.catalog.base.manager.XBCXHDocManager;
+import org.xbup.lib.core.catalog.base.manager.XBCXNameManager;
+import org.xbup.lib.core.catalog.base.manager.XBCXStriManager;
+import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 
 /**
  * Interface for XBERev items service.
  *
- * @version 0.1.21 2012/01/01
+ * @version 0.1.24 2014/11/18
  * @author XBUP Project (http://xbup.org)
  */
 @Service
@@ -58,31 +67,60 @@ public class XBERevService extends XBEDefaultService<XBERev> implements XBCRevSe
 
     @Override
     public XBERev findRevById(long id) {
-        return ((XBERevManager)itemManager).findRevById(id);
+        return ((XBERevManager) itemManager).findRevById(id);
     }
 
     @Override
     public XBERev findRevByXB(XBCSpec spec, long xbIndex) {
-        return ((XBERevManager)itemManager).findRevByXB(spec, xbIndex);
+        return ((XBERevManager) itemManager).findRevByXB(spec, xbIndex);
     }
 
     @Override
     public XBERev getRev(XBCSpec spec, long index) {
-        return ((XBERevManager)itemManager).getRev(spec, index);
+        return ((XBERevManager) itemManager).getRev(spec, index);
     }
 
     @Override
     public List<XBCRev> getRevs(XBCSpec spec) {
-        return ((XBERevManager)itemManager).getRevs(spec);
+        return ((XBERevManager) itemManager).getRevs(spec);
     }
 
     @Override
     public Long getAllRevisionsCount() {
-        return ((XBERevManager)itemManager).getAllRevisionsCount();
+        return ((XBERevManager) itemManager).getAllRevisionsCount();
     }
 
     @Override
     public long getRevsCount(XBCSpec spec) {
-        return ((XBERevManager)itemManager).getRevsCount(spec);
+        return ((XBERevManager) itemManager).getRevsCount(spec);
+    }
+
+    @Override
+    public void removeItemDepth(XBCRev rev) {
+        XBCXNameManager nameManager = (XBCXNameManager) catalog.getCatalogManager(XBCXNameManager.class);
+        List<XBCXName> itemNames = nameManager.getItemNames(rev);
+        for (XBCXName itemName : itemNames) {
+            nameManager.removeItem(itemName);
+        }
+
+        XBCXDescManager descManager = (XBCXDescManager) catalog.getCatalogManager(XBCXDescManager.class);
+        List<XBCXDesc> itemDescs = descManager.getItemDescs(rev);
+        for (XBCXDesc itemDesc : itemDescs) {
+            descManager.removeItem(itemDesc);
+        }
+
+        XBCXStriManager striManager = (XBCXStriManager) catalog.getCatalogManager(XBCXStriManager.class);
+        XBCXStri itemStri = striManager.getItemStringId(rev);
+        if (itemStri != null) {
+            striManager.removeItem(itemStri);
+        }
+
+        XBCXHDocManager hdocManager = (XBCXHDocManager) catalog.getCatalogManager(XBCXHDocManager.class);
+        XBCXHDoc itemHDoc = hdocManager.getDocumentation(rev);
+        if (itemHDoc != null) {
+            hdocManager.removeItem(itemHDoc);
+        }
+
+        ((XBCSpecService) this).removeItem(rev);
     }
 }

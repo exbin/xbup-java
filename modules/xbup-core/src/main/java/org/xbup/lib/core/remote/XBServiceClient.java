@@ -159,7 +159,6 @@ public interface XBServiceClient {
     public static long[] TEXT_STRI_PROCEDURE = {0, 2, 18, 1, 0};
     public static long[] NODEPATH_STRI_PROCEDURE = {0, 2, 18, 2, 0};
     public static long[] ITEMSTRI_STRI_PROCEDURE = {0, 2, 18, 3, 0};
-    public static long[] ITEMSTRIS_STRI_PROCEDURE = {0, 2, 18, 4, 0};
     public static long[] STRISCOUNT_STRI_PROCEDURE = {0, 2, 18, 5, 0};
 
     /**

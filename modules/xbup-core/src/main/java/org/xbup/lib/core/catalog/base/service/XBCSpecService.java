@@ -307,4 +307,11 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @return count of specifications
      */
     public Long getAllBlockSpecsCount();
+
+    /**
+     * Remove specification definition with all dependencies.
+     *
+     * @param specDef definition to remove
+     */
+    public void removeItemDepth(XBCSpecDef specDef);
 }

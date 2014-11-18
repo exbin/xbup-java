@@ -42,7 +42,6 @@ import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.XBCXIcon;
 import org.xbup.lib.core.catalog.base.XBCXName;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
-import org.xbup.lib.core.catalog.base.XBCXStri;
 import org.xbup.lib.core.catalog.base.service.XBCXInfoService;
 import org.xbup.lib.core.catalog.base.service.XBCItemService;
 import org.xbup.lib.core.catalog.base.service.XBCNodeService;
@@ -118,18 +117,18 @@ public class XBServiceServer extends XBTCPRemoteServer {
     private static final ResourceBundle myBundle = ResourceBundle.getBundle("org/xbup/lib/xbservice/messages");
 
     private final XBCUpdatePHPHandler wsHandler;
-/*
-    private enum commandTypeEnum {
-        SERVICE, INFO
-    };
-    private enum serviceCommandEnum {
-        STOP, PING, LOGIN, RESTART
-    };
-    private enum serviceInfoEnum {
-        VERSION
-    };
-*/
-    /** Creates a new instance of XBServiceServer */
+    /*
+     private enum commandTypeEnum {
+     SERVICE, INFO
+     };
+     private enum serviceCommandEnum {
+     STOP, PING, LOGIN, RESTART
+     };
+     private enum serviceInfoEnum {
+     VERSION
+     };
+     */
+
     public XBServiceServer(XBAECatalog catalog) {
         super(catalog);
 
@@ -262,11 +261,14 @@ public class XBServiceServer extends XBTCPRemoteServer {
         addXBProcedure(new TextStriProcedure());
         addXBProcedure(new NodePathStriProcedure());
         addXBProcedure(new ItemStriStriProcedure());
-        addXBProcedure(new ItemStrisStriProcedure());
         addXBProcedure(new StrisCountStriProcedure());
     }
 
-    /** Perform update from update source */
+    /**
+     * Perform update from update source.
+     *
+     * @return true if update required
+     */
     public boolean shallUpdate() {
         XBCNodeService nodeService = (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
 
@@ -353,10 +355,10 @@ public class XBServiceServer extends XBTCPRemoteServer {
 //            XBString loginPass = new XBString();
 //            XBL1SerialPullConsumer pullConsumer = new XBL1SerialPullConsumer(loginName);
 /*            pullConsumer.attachXBL1PullProvider((XBL1PullProvider) source.getStream());
-            pullConsumer.processXBL1Pulls();
-            pullConsumer = new XBL1SerialPullConsumer(loginPass);
-            pullConsumer.attachXBL1PullProvider((XBL1PullProvider) source.getStream());
-            pullConsumer.processXBL1Pulls();*/
+             pullConsumer.processXBL1Pulls();
+             pullConsumer = new XBL1SerialPullConsumer(loginPass);
+             pullConsumer.attachXBL1PullProvider((XBL1PullProvider) source.getStream());
+             pullConsumer.processXBL1Pulls();*/
 //            source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             result.attribXBT(new UBNat32(0));
@@ -391,7 +393,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     if ("".equals(record.getMessage())) {
                         System.out.println();
                     } else {
-                        System.out.println("STATUS: "+record.getMessage());
+                        System.out.println("STATUS: " + record.getMessage());
                     }
                 }
             }
@@ -978,8 +980,8 @@ public class XBServiceServer extends XBTCPRemoteServer {
             result.attribXBT(new UBNat32(0));
             Long[] itemPath = nodeService.getNodeXBPath(node);
             result.attribXBT(new UBNat32(itemPath.length));
-            for (int i = 0; i < itemPath.length; i++) {
-                result.attribXBT(new UBNat32(itemPath[i]));
+            for (Long itemPathSegment : itemPath) {
+                result.attribXBT(new UBNat32(itemPathSegment));
             }
             result.endXBT();
         }
@@ -1694,20 +1696,20 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
     }
 
-/*                        case XBLIMIT: {
-            UBNat32 index = (UBNat32) source.attribXBT();
-            source.endXBT();
-            XBEItem item = catalog.getItemService().getItem(index.getLong());
-            Long xbIndex = ((XBESpec) item).getXBIndex();
-            target.beginXBT(false);
-            target.attribXBT(new UBNat32(1));
-            target.attribXBT(new UBNat32(0));
-            if (xbIndex != null) {
-                target.attribXBT(new UBNat32(xbIndex));
-            }
-            target.endXBT();
-            break;
-        } */
+    /*                        case XBLIMIT: {
+     UBNat32 index = (UBNat32) source.attribXBT();
+     source.endXBT();
+     XBEItem item = catalog.getItemService().getItem(index.getLong());
+     Long xbIndex = ((XBESpec) item).getXBIndex();
+     target.beginXBT(false);
+     target.attribXBT(new UBNat32(1));
+     target.attribXBT(new UBNat32(0));
+     if (xbIndex != null) {
+     target.attribXBT(new UBNat32(xbIndex));
+     }
+     target.endXBT();
+     break;
+     } */
     private class RevsCountSpecProcedure implements XBProcedure {
 
         @Override
@@ -2009,7 +2011,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
-            XBEXName name = (XBEXName)((XBEXNameService) getCatalog().getCatalogService(XBCXNameService.class)).getItem(index.getLong());
+            XBEXName name = (XBEXName) ((XBEXNameService) getCatalog().getCatalogService(XBCXNameService.class)).getItem(index.getLong());
             XBEItem item = (XBEItem) ((XBEXName) name).getItem();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             result.attribXBT(new UBNat32(0));
@@ -2037,10 +2039,10 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
-            XBEXName name = (XBEXName)((XBEXNameService) getCatalog().getCatalogService(XBCXNameService.class)).getItem(index.getLong());
+            XBEXName name = (XBEXName) ((XBEXNameService) getCatalog().getCatalogService(XBCXNameService.class)).getItem(index.getLong());
             XBString text;
             if (name != null) {
-                 text = new XBString(((XBEXName) name).getText());
+                text = new XBString(((XBEXName) name).getText());
             } else {
                 text = new XBString("");
             }
@@ -2072,13 +2074,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
-            XBEXName name = (XBEXName)((XBEXNameService) getCatalog().getCatalogService(XBCXNameService.class)).getItem(index.getLong());
+            XBEXName name = (XBEXName) ((XBEXNameService) getCatalog().getCatalogService(XBCXNameService.class)).getItem(index.getLong());
             XBEXLanguage lang = (XBEXLanguage) ((XBEXName) name).getLang();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             result.attribXBT(new UBNat32(0));
             result.attribXBT(new UBNat32(0));
-            if ( lang != null) {
-                result.attribXBT(new UBNat32( lang.getId()));
+            if (lang != null) {
+                result.attribXBT(new UBNat32(lang.getId()));
             }
             result.endXBT();
         }
@@ -2279,8 +2281,8 @@ public class XBServiceServer extends XBTCPRemoteServer {
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             result.attribXBT(new UBNat32(0));
             result.attribXBT(new UBNat32(0));
-            if ( lang != null) {
-                result.attribXBT(new UBNat32( lang.getId()));
+            if (lang != null) {
+                result.attribXBT(new UBNat32(lang.getId()));
             }
             result.endXBT();
         }
@@ -2464,22 +2466,22 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
-/*            XBEInfoService infoService = (XBEInfoService) catalog.getCatalogService(XBCXInfoService.class);
-            UBNat32 index = (UBNat32) source.attribXBT();
-            source.endXBT();
-            XBEItemInfo info = (XBEItemInfo) infoService.getItem(index.getLong());
-            String descText = info.getFilename();
-            if (descText == null) descText = "";
-            XBString text = new XBString(descText);
-            result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-            result.attribXBT(new UBNat32(0));
-            result.attribXBT(new UBNat32(0));
-            result.attribXBT(new UBNat32(1));
-              XBTSerialEventProducer producer = new XBTSerialEventProducer(text);
-            producer.attachXBTEventListener(XBTDefaultEventListener.getXBTEventListener(result));
-            producer.generateXBTEvents();
-//                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
-            result.endXBT(); */
+            /*            XBEInfoService infoService = (XBEInfoService) catalog.getCatalogService(XBCXInfoService.class);
+             UBNat32 index = (UBNat32) source.attribXBT();
+             source.endXBT();
+             XBEItemInfo info = (XBEItemInfo) infoService.getItem(index.getLong());
+             String descText = info.getFilename();
+             if (descText == null) descText = "";
+             XBString text = new XBString(descText);
+             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
+             result.attribXBT(new UBNat32(0));
+             result.attribXBT(new UBNat32(0));
+             result.attribXBT(new UBNat32(1));
+             XBTSerialEventProducer producer = new XBTSerialEventProducer(text);
+             producer.attachXBTEventListener(XBTDefaultEventListener.getXBTEventListener(result));
+             producer.generateXBTEvents();
+             //                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
+             result.endXBT(); */
         }
     }
 
@@ -2497,22 +2499,22 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
         @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
-/*            XBEInfoService infoService = (XBEInfoService) catalog.getCatalogService(XBCXInfoService.class);
-            UBNat32 index = (UBNat32) source.attribXBT();
-            source.endXBT();
-            XBEItemInfo info = (XBEItemInfo) infoService.getItem(index.getLong());
-            String descText = info.getPath();
-            if (descText == null) descText = "";
-            XBString text = new XBString(descText);
-            result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-            result.attribXBT(new UBNat32(0));
-            result.attribXBT(new UBNat32(0));
-            result.attribXBT(new UBNat32(1));
-              XBTSerialEventProducer producer = new XBTSerialEventProducer(text);
-            producer.attachXBTEventListener(XBTDefaultEventListener.getXBTEventListener(result));
-            producer.generateXBTEvents();
-//                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
-            result.endXBT(); */
+            /*            XBEInfoService infoService = (XBEInfoService) catalog.getCatalogService(XBCXInfoService.class);
+             UBNat32 index = (UBNat32) source.attribXBT();
+             source.endXBT();
+             XBEItemInfo info = (XBEItemInfo) infoService.getItem(index.getLong());
+             String descText = info.getPath();
+             if (descText == null) descText = "";
+             XBString text = new XBString(descText);
+             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
+             result.attribXBT(new UBNat32(0));
+             result.attribXBT(new UBNat32(0));
+             result.attribXBT(new UBNat32(1));
+             XBTSerialEventProducer producer = new XBTSerialEventProducer(text);
+             producer.attachXBTEventListener(XBTDefaultEventListener.getXBTEventListener(result));
+             producer.generateXBTEvents();
+             //                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
+             result.endXBT(); */
         }
     }
 
@@ -2700,9 +2702,9 @@ public class XBServiceServer extends XBTCPRemoteServer {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
-            XBCItem item = (XBCItem)itemService.getItem(index.getLong());
+            XBCItem item = (XBCItem) itemService.getItem(index.getLong());
             XBCXIconService iconService = (XBCXIconService) getCatalog().getCatalogService(XBCXIconService.class);
-            Long iconId = new Long(0);
+            Long iconId = (long) 0;
             XBCXIcon icon = iconService.getDefaultIcon(item);
             if (icon != null) {
                 iconId = icon.getId();
@@ -3338,7 +3340,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
-            XBEXStri stri = (XBEXStri)((XBEXStriService) getCatalog().getCatalogService(XBCXStriService.class)).getItem(index.getLong());
+            XBEXStri stri = (XBEXStri) ((XBEXStriService) getCatalog().getCatalogService(XBCXStriService.class)).getItem(index.getLong());
             XBEItem item = (XBEItem) ((XBEXStri) stri).getItem();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             result.attribXBT(new UBNat32(0));
@@ -3366,10 +3368,10 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
-            XBEXStri stri = (XBEXStri)((XBEXStriService) getCatalog().getCatalogService(XBCXStriService.class)).getItem(index.getLong());
+            XBEXStri stri = (XBEXStri) ((XBEXStriService) getCatalog().getCatalogService(XBCXStriService.class)).getItem(index.getLong());
             XBString text;
             if (stri != null) {
-                 text = new XBString(((XBEXStri) stri).getText());
+                text = new XBString(((XBEXStri) stri).getText());
             } else {
                 text = new XBString("");
             }
@@ -3401,10 +3403,10 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
-            XBEXStri stri = (XBEXStri)((XBEXStriService) getCatalog().getCatalogService(XBCXStriService.class)).getItem(index.getLong());
+            XBEXStri stri = (XBEXStri) ((XBEXStriService) getCatalog().getCatalogService(XBCXStriService.class)).getItem(index.getLong());
             XBString text;
             if (stri != null) {
-                 text = new XBString(((XBEXStri) stri).getNodePath());
+                text = new XBString(((XBEXStri) stri).getNodePath());
             } else {
                 text = new XBString("");
             }
@@ -3446,36 +3448,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(itemStri.getId()));
             } else {
                 result.attribXBT(new UBNat32(0));
-            }
-            result.endXBT();
-        }
-    }
-
-    private class ItemStrisStriProcedure implements XBProcedure {
-
-        @Override
-        public XBBlockType getType() {
-            return new XBDeclBlockType(new XBPBlockDecl(XBServiceClient.ITEMSTRIS_STRI_PROCEDURE));
-        }
-
-        @Override
-        public XBDFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
-            XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
-            UBNat32 index = (UBNat32) source.attribXBT();
-            source.endXBT();
-            XBEItem item = itemService.getItem(index.getLong());
-            result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-            result.attribXBT(new UBNat32(0));
-            result.attribXBT(new UBNat32(0));
-            List<XBCXStri> itemList = ((XBEXStriService) getCatalog().getCatalogService(XBCXStriService.class)).getItemStringIds(item);
-            result.attribXBT(new UBNat32(itemList.size()));
-            for (Iterator<XBCXStri> it = itemList.iterator(); it.hasNext();) {
-                result.attribXBT(new UBNat32(((XBEXStri) it.next()).getId()));
             }
             result.endXBT();
         }

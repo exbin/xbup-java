@@ -17,8 +17,6 @@
 package org.xbup.lib.core.catalog.remote.manager;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.catalog.XBRCatalog;
@@ -68,29 +66,6 @@ public class XBRXStriManager extends XBRDefaultManager<XBRXStri> implements XBCX
         return null;
     }
 
-    @Override
-    public List<XBCXStri> getItemStringIds(XBCItem item) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.ITEMSTRIS_STRI_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRItem) item).getId()));
-            listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            List<XBCXStri> result = new ArrayList<>();
-            long count = checker.attribXB().getLong();
-            for (int i = 0; i < count; i++) {
-                result.add(new XBRXStri(client, checker.attribXB().getLong()));
-            }
-            checker.endXB();
-            message.close();
-            return result;
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRXStriManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    @Override
     public long getItemsCount() {
         try {
             XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.STRISCOUNT_STRI_PROCEDURE);

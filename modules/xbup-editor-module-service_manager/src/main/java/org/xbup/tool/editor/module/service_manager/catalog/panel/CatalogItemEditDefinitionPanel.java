@@ -40,7 +40,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecDef
 /**
  * XBManager Catalog Item Edit Documentation Panel.
  *
- * @version 0.1.24 2014/11/17
+ * @version 0.1.24 2014/11/18
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
@@ -322,7 +322,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
 
         for (CatalogDefsTableItem defItem : removeList) {
             if (defItem.getSpecDef() != null) {
-                specService.removeItem(defItem.getSpecDef());
+                specService.removeItemDepth(defItem.getSpecDef());
             }
         }
     }

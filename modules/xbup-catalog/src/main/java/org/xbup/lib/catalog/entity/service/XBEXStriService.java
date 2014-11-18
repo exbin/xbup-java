@@ -17,7 +17,6 @@
 package org.xbup.lib.catalog.entity.service;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +33,7 @@ import org.xbup.lib.catalog.entity.manager.XBEXStriManager;
 /**
  * Interface for XBEXStri items service.
  *
- * @version 0.1.22 2013/01/13
+ * @version 0.1.24 2014/11/18
  * @author XBUP Project (http://xbup.org)
  */
 @Service
@@ -66,11 +65,6 @@ public class XBEXStriService extends XBEDefaultService<XBEXStri> implements XBCX
     @Override
     public XBEXStri getItemStringId(XBCItem item) {
         return ((XBEXStriManager) itemManager).getItemStringId(item);
-    }
-
-    @Override
-    public List<XBCXStri> getItemStringIds(XBCItem item) {
-        return ((XBEXStriManager) itemManager).getItemStringIds(item);
     }
 
     @Override

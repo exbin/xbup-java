@@ -30,7 +30,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Dialog for document properties showing various information about file.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.1.24 2014/11/18
  * @author XBUP Project (http://xbup.org)
  */
 public class PropertiesDialog extends javax.swing.JDialog {
@@ -62,7 +62,6 @@ public class PropertiesDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel5 = new javax.swing.JLabel();
         closeButton = new javax.swing.JButton();
         propertiesTabbedPane = new javax.swing.JTabbedPane();
         generalPropertiesPanel = new javax.swing.JPanel();
@@ -74,10 +73,8 @@ public class PropertiesDialog extends javax.swing.JDialog {
         fileTypeTextField = new javax.swing.JTextField();
         extendedAreaPanel = new javax.swing.JPanel();
         hexEditScrollPane = new javax.swing.JScrollPane();
-        loadFromButton3 = new javax.swing.JButton();
+        loadFromButton = new javax.swing.JButton();
         saveFromButton = new javax.swing.JButton();
-
-        jLabel5.setText("jLabel5");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/PropertiesDialog"); // NOI18N
@@ -144,10 +141,10 @@ public class PropertiesDialog extends javax.swing.JDialog {
 
         propertiesTabbedPane.addTab(bundle.getString("jPanel1.TabConstraints.tabTitle"), generalPropertiesPanel); // NOI18N
 
-        loadFromButton3.setText(bundle.getString("jButton3.text")); // NOI18N
-        loadFromButton3.addActionListener(new java.awt.event.ActionListener() {
+        loadFromButton.setText(bundle.getString("jButton3.text")); // NOI18N
+        loadFromButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loadFromButton3ActionPerformed(evt);
+                loadFromButtonActionPerformed(evt);
             }
         });
 
@@ -167,7 +164,7 @@ public class PropertiesDialog extends javax.swing.JDialog {
                 .addGroup(extendedAreaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(hexEditScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
                     .addGroup(extendedAreaPanelLayout.createSequentialGroup()
-                        .addComponent(loadFromButton3)
+                        .addComponent(loadFromButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(saveFromButton)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -181,7 +178,7 @@ public class PropertiesDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(extendedAreaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveFromButton)
-                    .addComponent(loadFromButton3))
+                    .addComponent(loadFromButton))
                 .addContainerGap())
         );
 
@@ -222,10 +219,10 @@ public class PropertiesDialog extends javax.swing.JDialog {
         WindowUtils.closeWindow(this);
     }//GEN-LAST:event_closeButtonActionPerformed
 
-    private void loadFromButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadFromButton3ActionPerformed
+    private void loadFromButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadFromButtonActionPerformed
         HexEditPanel.openFile(null);
         hexPanel.repaint();
-    }//GEN-LAST:event_loadFromButton3ActionPerformed
+    }//GEN-LAST:event_loadFromButtonActionPerformed
 
     private void saveFromButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveFromButtonActionPerformed
         HexEditPanel.saveFile();
@@ -261,8 +258,7 @@ public class PropertiesDialog extends javax.swing.JDialog {
     private javax.swing.JTextField fileTypeTextField;
     private javax.swing.JPanel generalPropertiesPanel;
     private javax.swing.JScrollPane hexEditScrollPane;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JButton loadFromButton3;
+    private javax.swing.JButton loadFromButton;
     private javax.swing.JTabbedPane propertiesTabbedPane;
     private javax.swing.JButton saveFromButton;
     // End of variables declaration//GEN-END:variables

@@ -131,17 +131,20 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
 /**
  * XBDocEditor Main Frame.
  *
- * @version 0.1.23 2014/05/31
+ * @version 0.1.24 2014/11/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFrame, TextColorPanelFrame, TextFontPanelFrame {
 
-    private static Preferences preferences = Preferences.userNodeForPackage(XBDocEditorFrame.class);
+    private static final Preferences preferences = Preferences.userNodeForPackage(XBDocEditorFrame.class);
     private JFileChooser openFC, saveFC;
 //    private ChangeListener caretChangeListener;
 
     private FindDialog findDialog = null;
     private GotoDialog gotoDialog = null;
+    private ItemPropertiesDialog propertiesDialog = null;
+    private CatalogBrowserPanel catalogPanel = null;
+
     private final String DIALOG_MENU_SUFIX = "...";
 
     private String catalogConnection;
@@ -195,26 +198,24 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
         activePanel.addPropertyChangeListener(new PropertyChangePassing(this));
 
-        ((CardLayout) statusPanel.getLayout()).show(statusPanel,"default");
+        ((CardLayout) statusPanel.getLayout()).show(statusPanel, "default");
 
         mainPanel.add(activePanel, java.awt.BorderLayout.CENTER);
 
         // TODO: Open file from command line
 /*        String fileName = ((XBDocEditor) app).getFileName();
-        if (!"".equals(fileName)) {
-            setFileName(fileName);
-            activePanel.loadFromFile();
-        } */
-
+         if (!"".equals(fileName)) {
+         setFileName(fileName);
+         activePanel.loadFromFile();
+         } */
         // Caret position listener
 /*        caretChangeListener = new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-//                Point pos = activePanel.getCaretPosition();
-                Point pos = new Point();
-                jTextField1.setText(Long.toString((long) pos.getX()) +":"+ Long.toString((long) pos.getY()));
-            }
-        }; */
-
+         public void stateChanged(ChangeEvent e) {
+         //                Point pos = activePanel.getCaretPosition();
+         Point pos = new Point();
+         jTextField1.setText(Long.toString((long) pos.getX()) +":"+ Long.toString((long) pos.getY()));
+         }
+         }; */
         // Actions on change of look&feel
         UIManager.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
@@ -264,8 +265,8 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
                 // is 0x5842 (XB)
                 int defaultPort = ("DEV".equals(editorApp.getAppBundle().getString("Application.mode"))) ? 22595 : 22594;
-                ((CardLayout) statusPanel.getLayout()).show(statusPanel,"initCat");
-                jProgressBar1.setString(resourceBundle.getString("main_initlocal")+"...");
+                ((CardLayout) statusPanel.getLayout()).show(statusPanel, "initCat");
+                jProgressBar1.setString(resourceBundle.getString("main_initlocal") + "...");
 
                 Boolean serviceConnectionAllowed = Boolean.valueOf(preferences.get("serviceConnectionAllowed", Boolean.toString(true)));
                 if (serviceConnectionAllowed) {
@@ -276,9 +277,9 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                     String catalogHost;
                     int catalogPort = defaultPort;
                     int pos = catalogConnection.indexOf(":");
-                    if (pos>=0) {
+                    if (pos >= 0) {
                         catalogHost = catalogConnection.substring(0, pos);
-                        catalogPort = Integer.valueOf(catalogConnection.substring(pos+1));
+                        catalogPort = Integer.valueOf(catalogConnection.substring(pos + 1));
                     } else {
                         catalogHost = catalogConnection;
                     }
@@ -286,31 +287,29 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                     catalog = null;
 
                     // Attempt to connect to catalog service
-                    if ((catalogConnection != null)&&(!"".equals(catalogConnection))) {
+                    if ((catalogConnection != null) && (!"".equals(catalogConnection))) {
                         XBCatalogNetServiceClient serviceClient = new XBCatalogNetServiceClient(catalogHost, catalogPort);
                         setConnectionStatus(ConnectionStatus.CONNECTING);
                         if (serviceClient.validate()) {
                             catalog = new XBARCatalog(serviceClient);
 
-                            ((XBARCatalog) catalog).addCatalogService(XBCXLangService.class, new XBRXLangService((XBARCatalog)catalog));
-                            ((XBARCatalog) catalog).addCatalogService(XBCXStriService.class, new XBRXStriService((XBARCatalog)catalog));
-                            ((XBARCatalog) catalog).addCatalogService(XBCXNameService.class, new XBRXNameService((XBARCatalog)catalog));
-                            ((XBARCatalog) catalog).addCatalogService(XBCXDescService.class, new XBRXDescService((XBARCatalog)catalog));
-                            ((XBARCatalog) catalog).addCatalogService(XBCXFileService.class, new XBRXFileService((XBARCatalog)catalog));
-                            ((XBARCatalog) catalog).addCatalogService(XBCXIconService.class, new XBRXIconService((XBARCatalog)catalog));
-                            ((XBARCatalog) catalog).addCatalogService(XBCXPlugService.class, new XBRXPlugService((XBARCatalog)catalog));
-                            ((XBARCatalog) catalog).addCatalogService(XBCXLineService.class, new XBRXLineService((XBARCatalog)catalog));
-                            ((XBARCatalog) catalog).addCatalogService(XBCXPaneService.class, new XBRXPaneService((XBARCatalog)catalog));
-                            ((XBARCatalog) catalog).addCatalogService(XBCXHDocService.class, new XBRXHDocService((XBARCatalog)catalog));
+                            ((XBARCatalog) catalog).addCatalogService(XBCXLangService.class, new XBRXLangService((XBARCatalog) catalog));
+                            ((XBARCatalog) catalog).addCatalogService(XBCXStriService.class, new XBRXStriService((XBARCatalog) catalog));
+                            ((XBARCatalog) catalog).addCatalogService(XBCXNameService.class, new XBRXNameService((XBARCatalog) catalog));
+                            ((XBARCatalog) catalog).addCatalogService(XBCXDescService.class, new XBRXDescService((XBARCatalog) catalog));
+                            ((XBARCatalog) catalog).addCatalogService(XBCXFileService.class, new XBRXFileService((XBARCatalog) catalog));
+                            ((XBARCatalog) catalog).addCatalogService(XBCXIconService.class, new XBRXIconService((XBARCatalog) catalog));
+                            ((XBARCatalog) catalog).addCatalogService(XBCXPlugService.class, new XBRXPlugService((XBARCatalog) catalog));
+                            ((XBARCatalog) catalog).addCatalogService(XBCXLineService.class, new XBRXLineService((XBARCatalog) catalog));
+                            ((XBARCatalog) catalog).addCatalogService(XBCXPaneService.class, new XBRXPaneService((XBARCatalog) catalog));
+                            ((XBARCatalog) catalog).addCatalogService(XBCXHDocService.class, new XBRXHDocService((XBARCatalog) catalog));
 
                             if ("localhost".equals(serviceClient.getHost()) || "127.0.0.1".equals(serviceClient.getHost())) {
                                 setConnectionStatus(ConnectionStatus.LOCAL);
                             } else {
                                 setConnectionStatus(ConnectionStatus.NETWORK);
                             }
-                            activePanel.setCatalog(catalog);
-                            activePanel.reportStructureChange((XBTTreeNode) activePanel.getDoc().getRootBlock());
-                            activePanel.performSelectAll();
+                            setCatalog(catalog);
                         }
                     }
                 }
@@ -351,7 +350,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                             // String catalogUpdate = preferences.get("catalogUpdateURL", null); // TODO
 
                             try {
-                                jProgressBar1.setString(resourceBundle.getString("main_initws")+"...");
+                                jProgressBar1.setString(resourceBundle.getString("main_initws") + "...");
                                 wsHandler = new XBCUpdatePHPHandler((XBAECatalog) catalog);
                                 wsHandler.init();
                                 wsHandler.getPort().getLanguageId("en");
@@ -379,14 +378,14 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
                                         @Override
                                         public void webServiceUsage(boolean status) {
-                                            if (status==true) {
+                                            if (status == true) {
                                                 toolBarVisibleTemp = getStatusBar().isVisible();
-                                                ((CardLayout) statusPanel.getLayout()).show(statusPanel,"updateCat");
-                                                jProgressBar2.setString(resourceBundle.getString("main_updatecat")+"...");
+                                                ((CardLayout) statusPanel.getLayout()).show(statusPanel, "updateCat");
+                                                jProgressBar2.setString(resourceBundle.getString("main_updatecat") + "...");
                                                 getStatusBar().setVisible(true);
                                             } else {
                                                 ((CardLayout) statusPanel.getLayout()).first(statusPanel);
-                //                                statusBar.setVisible(toolBarVisibleTemp);
+                                                //                                statusBar.setVisible(toolBarVisibleTemp);
                                             }
                                         }
                                     });
@@ -394,16 +393,13 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                                 }
                                 setConnectionStatus(ConnectionStatus.INTERNET);
                             } catch (Exception ex) {
-                               Logger.getLogger(XBDocEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
-                               wsHandler = null;
+                                Logger.getLogger(XBDocEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                wsHandler = null;
                             }
                         }
 
-
                         ((XBAECatalog) catalog).initContext();
-                        activePanel.setCatalog(catalog);
-                        activePanel.reportStructureChange((XBTTreeNode) activePanel.getDoc().getRootBlock());
-                        activePanel.performSelectAll();
+                        setCatalog(catalog);
                     } catch (Exception ex) {
                         Logger.getLogger(XBDocEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -424,38 +420,37 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         catInitThread.start();
     }
 
-    void setCatalogConnection(String catalogConnection) {
-        this.catalogConnection = catalogConnection;
+    public void setCatalog(XBACatalog catalog) {
+        this.catalog = catalog;
+
+        activePanel.setCatalog(catalog);
+        activePanel.reportStructureChange((XBTTreeNode) activePanel.getDoc().getRootBlock());
+
+        if (propertiesDialog != null) {
+            propertiesDialog.setCatalog(catalog);
+        }
+
+        if (catalogPanel != null) {
+            catalogPanel.setCatalog(catalog);
+        }
     }
 
     public void updateItem() {
         activePanel.updateItem();
     }
 
-    /**
-     * @return the toolBar
-     */
     public JToolBar getToolBar() {
         return toolBar;
     }
 
-    /**
-     * @param toolBar the toolBar to set
-     */
     public void setToolBar(JToolBar toolBar) {
         this.toolBar = toolBar;
     }
 
-    /**
-     * @return the statusBar
-     */
     public JPanel getStatusBar() {
         return statusBar;
     }
 
-    /**
-     * @param statusBar the statusBar to set
-     */
     public void setStatusBar(JPanel statusBar) {
         this.statusBar = statusBar;
     }
@@ -541,51 +536,30 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         editGotoAction.setEnabled(false);
     }
 
-    /**
-     * @return the itemAddAction
-     */
     public Action getItemAddAction() {
         return itemAddAction;
     }
 
-    /**
-     * @return the itemModifyAction
-     */
     public Action getItemModifyAction() {
         return itemModifyAction;
     }
 
-    /**
-     * @return the editFindAction
-     */
     public Action getEditFindAction() {
         return editFindAction;
     }
 
-    /**
-     * @return the editFindAgainAction
-     */
     public Action getEditFindAgainAction() {
         return editFindAgainAction;
     }
 
-    /**
-     * @return the editReplaceAction
-     */
     public Action getEditReplaceAction() {
         return editReplaceAction;
     }
 
-    /**
-     * @return the editGotoAction
-     */
     public Action getEditGotoAction() {
         return editGotoAction;
     }
 
-    /**
-     * @return the itemPropertiesAction
-     */
     public Action getItemPropertiesAction() {
         return itemPropertiesAction;
     }
@@ -625,9 +599,6 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         return mainFrameManagement;
     }
 
-    /**
-     * @param mainFrameManagement the mainFrameManagement to set
-     */
     void setMainFrameManagement(MainFrameManagement mainFrameManagement) {
         this.mainFrameManagement = mainFrameManagement;
 
@@ -643,7 +614,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
     private class PropertyChangePassing implements PropertyChangeListener {
 
-        private XBDocEditorFrame target;
+        private final XBDocEditorFrame target;
 
         public PropertyChangePassing(XBDocEditorFrame target) {
             this.target = target;
@@ -669,10 +640,10 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         return activePanel.isPasteEnabled();
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -860,12 +831,10 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
         GroupLayout jPanel5Layout = new GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(Alignment.LEADING)
+        jPanel5Layout.setHorizontalGroup(jPanel5Layout.createParallelGroup(Alignment.LEADING)
             .addGap(0, 640, Short.MAX_VALUE)
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(Alignment.LEADING)
+        jPanel5Layout.setVerticalGroup(jPanel5Layout.createParallelGroup(Alignment.LEADING)
             .addGap(0, 27, Short.MAX_VALUE)
         );
 
@@ -889,8 +858,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        jPanel1Layout.setHorizontalGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(textPositionTextField, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(ComponentPlacement.RELATED, 427, Short.MAX_VALUE)
@@ -899,8 +867,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                 .addComponent(currentEncodingTextField, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
             .addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
                 .addComponent(textPositionTextField, GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
                 .addComponent(currentEncodingTextField, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
@@ -933,15 +900,13 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
         GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(Alignment.LEADING)
+        jPanel3Layout.setHorizontalGroup(jPanel3Layout.createParallelGroup(Alignment.LEADING)
             .addGroup(Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
                 .addPreferredGap(ComponentPlacement.RELATED)
                 .addComponent(jButton4, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(Alignment.LEADING)
+        jPanel3Layout.setVerticalGroup(jPanel3Layout.createParallelGroup(Alignment.LEADING)
             .addGroup(jPanel3Layout.createParallelGroup(Alignment.BASELINE)
                 .addComponent(jButton4, GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
                 .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE))
@@ -958,12 +923,10 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
         GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(Alignment.LEADING)
+        jPanel4Layout.setHorizontalGroup(jPanel4Layout.createParallelGroup(Alignment.LEADING)
             .addComponent(jProgressBar2, GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(Alignment.LEADING)
+        jPanel4Layout.setVerticalGroup(jPanel4Layout.createParallelGroup(Alignment.LEADING)
             .addComponent(jProgressBar2, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
         );
 
@@ -979,12 +942,10 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
         GroupLayout connectionStatusPanelLayout = new GroupLayout(connectionStatusPanel);
         connectionStatusPanel.setLayout(connectionStatusPanelLayout);
-        connectionStatusPanelLayout.setHorizontalGroup(
-            connectionStatusPanelLayout.createParallelGroup(Alignment.LEADING)
+        connectionStatusPanelLayout.setHorizontalGroup(connectionStatusPanelLayout.createParallelGroup(Alignment.LEADING)
             .addComponent(connectionStatusLabel)
         );
-        connectionStatusPanelLayout.setVerticalGroup(
-            connectionStatusPanelLayout.createParallelGroup(Alignment.LEADING)
+        connectionStatusPanelLayout.setVerticalGroup(connectionStatusPanelLayout.createParallelGroup(Alignment.LEADING)
             .addComponent(connectionStatusLabel, GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
         );
 
@@ -1223,9 +1184,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         try {
             activePanel.getDoc().fromStreamUB(getClass().getResourceAsStream("/org/xbup/tool/editor/module/xbdoc_editor/resources/samples/xhtml_example.xb"));
             activePanel.getDoc().processSpec();
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBDocEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBDocEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         activePanel.reportStructureChange(null);
@@ -1237,9 +1196,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         try {
             activePanel.getDoc().fromStreamUB(getClass().getResourceAsStream("/org/xbup/tool/editor/module/xbdoc_editor/resources/samples/xblogo.xbp"));
             activePanel.getDoc().processSpec();
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBDocEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBDocEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         activePanel.reportStructureChange(null);
@@ -1279,18 +1236,17 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     }//GEN-LAST:event_viewPropertiesCheckBoxMenuItemActionPerformed
 
     private void optionsFontMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_optionsFontMenuItemActionPerformed
-        FontDialog dlg = new FontDialog(mainFrameManagement.getFrame(), true);
-        dlg.setIconImage(mainFrameManagement.getFrameIcon());
-        dlg.setLocationRelativeTo(dlg.getParent());
-        activePanel.showFontDialog(dlg);
+        FontDialog fontDialog = new FontDialog(mainFrameManagement.getFrame(), true);
+        fontDialog.setIconImage(mainFrameManagement.getFrameIcon());
+        fontDialog.setLocationRelativeTo(fontDialog.getParent());
+        activePanel.showFontDialog(fontDialog);
     }//GEN-LAST:event_optionsFontMenuItemActionPerformed
 
     private void optionsColorsMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_optionsColorsMenuItemActionPerformed
-        TextColorDialog dlg = new TextColorDialog(mainFrameManagement.getFrame(), this, true);
-        dlg.setIconImage(mainFrameManagement.getFrameIcon());
-        dlg.setLocationRelativeTo(dlg.getParent());
-        dlg.showDialog();
-
+        TextColorDialog textColorDialog = new TextColorDialog(mainFrameManagement.getFrame(), this, true);
+        textColorDialog.setIconImage(mainFrameManagement.getFrameIcon());
+        textColorDialog.setLocationRelativeTo(textColorDialog.getParent());
+        textColorDialog.showDialog();
     }//GEN-LAST:event_optionsColorsMenuItemActionPerformed
 
     public void actionFileOpen() {
@@ -1309,13 +1265,12 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         setFileName(fileName);
         activePanel.loadFromFile();
         activePanel.updateItem();
-        activePanel.reportStructureChange(null);
     }
 
     public void actionFileSave() {
         // TODO: Set button grayed when saved and no changes were made.
         // TODO: jButton3.setIcon(jButton3.getDisabledIcon());
-        if ((!"".equals(activePanel.getFileName()))&&(activePanel.getFileName() != null)) {
+        if ((!"".equals(activePanel.getFileName())) && (activePanel.getFileName() != null)) {
             activePanel.saveToFile();
         } else {
             actionFileSaveAs();
@@ -1383,7 +1338,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
     public void initFindDialog() {
         if (findDialog == null) {
-            findDialog = new FindDialog(this,true);
+            findDialog = new FindDialog(this, true);
         }
     }
 
@@ -1394,24 +1349,24 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     }
 
     public void actionFilePrinterSetup() {
-/*        PrinterJob job = PrinterJob.getPrinterJob();
-        PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-        PageFormat pf = job.pageDialog(aset);
-        job.setPrintable(new PrintDialogExample(), pf);
-        boolean ok = job.printDialog(aset);
-        if (ok) {
-            try {
-                 job.print(aset);
-            } catch (PrinterException ex) {
-                Logger.getLogger(XBDocEditor.class.getExtensionName()).log(Level.SEVERE, null, ex);
-            }
-        } */
+        /*        PrinterJob job = PrinterJob.getPrinterJob();
+         PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+         PageFormat pf = job.pageDialog(aset);
+         job.setPrintable(new PrintDialogExample(), pf);
+         boolean ok = job.printDialog(aset);
+         if (ok) {
+         try {
+         job.print(aset);
+         } catch (PrinterException ex) {
+         Logger.getLogger(XBDocEditor.class.getExtensionName()).log(Level.SEVERE, null, ex);
+         }
+         } */
     }
 
     public void actionFileProperties() {
-        PropertiesDialog dialog = new PropertiesDialog(this, true);
-        dialog.setLocationRelativeTo(dialog.getParent());
-        dialog.runDialog(activePanel.getDoc(), activePanel.getFileName());
+        PropertiesDialog propertiesDialog = new PropertiesDialog(this, true);
+        propertiesDialog.setLocationRelativeTo(propertiesDialog.getParent());
+        propertiesDialog.runDialog(activePanel.getDoc(), activePanel.getFileName());
     }
 
     public void setDocumentCharset(Charset charset) {
@@ -1513,8 +1468,8 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         String str = file.getName();
         int i = str.lastIndexOf('.');
 
-        if (i > 0 &&  i < str.length() - 1) {
-            ext = str.substring(i+1).toLowerCase();
+        if (i > 0 && i < str.length() - 1) {
+            ext = str.substring(i + 1).toLowerCase();
         }
         return ext;
     }
@@ -1528,10 +1483,10 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
             }
             String extension = getExtension(f);
             if (extension != null) {
-                if (extension.length()<3) {
+                if (extension.length() < 3) {
                     return false;
                 }
-                return "xbt".contains(extension.substring(0,3));
+                return "xbt".contains(extension.substring(0, 3));
             }
             return false;
         }
@@ -1562,20 +1517,23 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         }
     }
 
-    /** FileFilter for *.xb* files */
+    /**
+     * FileFilter for *.xb* files.
+     */
     public class XBFileFilter extends FileFilter implements FileType {
 
         @Override
-        public boolean accept(File f) {
-            if (f.isDirectory()) {
+        public boolean accept(File file) {
+            if (file.isDirectory()) {
                 return true;
             }
-            String extension = getExtension(f);
+            String extension = getExtension(file);
             if (extension != null) {
-                if (extension.length()>2) {
-                    return extension.substring(0,2).equals("xb");
+                if (extension.length() >= 2) {
+                    return extension.substring(0, 2).equals("xb");
                 }
             }
+
             return false;
         }
 
@@ -1630,9 +1588,10 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     }
 
     public void actionItemProperties() {
-        ItemPropertiesDialog dialog = new ItemPropertiesDialog(this,true);
-        dialog.setCatalog(catalog);
-        dialog.runDialog(activePanel.getSelectedItem());
+        propertiesDialog = new ItemPropertiesDialog(this, true);
+        propertiesDialog.setCatalog(catalog);
+        propertiesDialog.runDialog(activePanel.getSelectedItem());
+        propertiesDialog = null;
     }
 
     public void actionViewAsTree() {
@@ -1648,17 +1607,19 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     }
 
     public void actionToolsCatalogBrowser() {
-        CatalogBrowserPanel catalogPanel = new CatalogBrowserPanel();
+        catalogPanel = new CatalogBrowserPanel();
         catalogPanel.setMenuManagement(menuManagement);
         catalogPanel.setCatalog(catalog);
 
         JDialog dialog = new JDialog(mainFrameManagement.getFrame(), true);
         dialog.setTitle("Catalog Browser");
-        dialog.setSize(500,700);
+        dialog.setSize(500, 700);
         dialog.setIconImage(mainFrameManagement.getFrameIcon());
         dialog.add(catalogPanel);
         dialog.setLocationRelativeTo(dialog.getParent());
         dialog.setVisible(true);
+
+        catalogPanel = null;
     }
 
     public MenuManagement getMenuManagement() {
@@ -1674,6 +1635,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     }
 
     private enum ConnectionStatus {
+
         DISCONNECTED,
         LOCAL,
         CONNECTING,
@@ -1681,7 +1643,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         INTERNET
     };
 
-    private static String[] connectionStatusIcons = {
+    private static final String[] connectionStatusIcons = {
         "/org/xbup/tool/editor/module/xbdoc_editor/resources/images/status/network-offline.png",
         "/org/xbup/tool/editor/module/xbdoc_editor/resources/images/status/computer.png",
         "/org/xbup/tool/editor/module/xbdoc_editor/resources/images/status/network-idle.png",

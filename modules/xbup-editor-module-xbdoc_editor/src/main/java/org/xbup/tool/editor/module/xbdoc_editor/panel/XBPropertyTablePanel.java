@@ -109,16 +109,19 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel"); // NOI18N
         popupItemOpenMenuItem.setText(bundle.getString("popupItemOpenMenuItem.text")); // NOI18N
         popupItemOpenMenuItem.setToolTipText(bundle.getString("popupItemOpenMenuItem.toolTipText")); // NOI18N
+        popupItemOpenMenuItem.setEnabled(false);
         popupItemOpenMenuItem.setName("popupItemOpenMenuItem"); // NOI18N
         propertyPopupMenu.add(popupItemOpenMenuItem);
 
         popupItemAddMenuItem.setText(bundle.getString("popupItemAddMenuItem.text")); // NOI18N
         popupItemAddMenuItem.setToolTipText(bundle.getString("popupItemAddMenuItem.toolTipText")); // NOI18N
+        popupItemAddMenuItem.setEnabled(false);
         popupItemAddMenuItem.setName("popupItemAddMenuItem"); // NOI18N
         propertyPopupMenu.add(popupItemAddMenuItem);
 
         popupItemModifyMenuItem.setText(bundle.getString("popupItemModifyMenuItem.text")); // NOI18N
         popupItemModifyMenuItem.setToolTipText(bundle.getString("popupItemModifyMenuItem.toolTipText")); // NOI18N
+        popupItemModifyMenuItem.setEnabled(false);
         popupItemModifyMenuItem.setName("popupItemModifyMenuItem"); // NOI18N
         propertyPopupMenu.add(popupItemModifyMenuItem);
 
@@ -128,11 +131,13 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
         popupUndoMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
         popupUndoMenuItem.setText(bundle.getString("popupUndoMenuItem.text")); // NOI18N
         popupUndoMenuItem.setToolTipText(bundle.getString("popupUndoMenuItem.toolTipText")); // NOI18N
+        popupUndoMenuItem.setEnabled(false);
         popupUndoMenuItem.setName("popupUndoMenuItem"); // NOI18N
         propertyPopupMenu.add(popupUndoMenuItem);
 
         popupRedoMenuItem.setText(bundle.getString("popupRedoMenuItem.text")); // NOI18N
         popupRedoMenuItem.setToolTipText(bundle.getString("popupRedoMenuItem.toolTipText")); // NOI18N
+        popupRedoMenuItem.setEnabled(false);
         popupRedoMenuItem.setName("popupRedoMenuItem"); // NOI18N
         propertyPopupMenu.add(popupRedoMenuItem);
 
@@ -140,18 +145,22 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
         propertyPopupMenu.add(jSeparator10);
 
         popupCutMenuItem.setText("Cut"); // NOI18N
+        popupCutMenuItem.setEnabled(false);
         popupCutMenuItem.setName("popupCutMenuItem"); // NOI18N
         propertyPopupMenu.add(popupCutMenuItem);
 
         popupCopyMenuItem.setText("Copy"); // NOI18N
+        popupCopyMenuItem.setEnabled(false);
         popupCopyMenuItem.setName("popupCopyMenuItem"); // NOI18N
         propertyPopupMenu.add(popupCopyMenuItem);
 
         popupPasteMenuItem.setText("Paste"); // NOI18N
+        popupPasteMenuItem.setEnabled(false);
         popupPasteMenuItem.setName("popupPasteMenuItem"); // NOI18N
         propertyPopupMenu.add(popupPasteMenuItem);
 
         popupDeleteMenuItem.setText("Delete"); // NOI18N
+        popupDeleteMenuItem.setEnabled(false);
         popupDeleteMenuItem.setName("popupDeleteMenuItem"); // NOI18N
         propertyPopupMenu.add(popupDeleteMenuItem);
 
@@ -160,6 +169,7 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
 
         popupSelectAllMenuItem.setText(bundle.getString("popupSelectAllMenuItem.text")); // NOI18N
         popupSelectAllMenuItem.setToolTipText(bundle.getString("popupSelectAllMenuItem.toolTipText")); // NOI18N
+        popupSelectAllMenuItem.setEnabled(false);
         popupSelectAllMenuItem.setName("popupSelectAllMenuItem"); // NOI18N
         propertyPopupMenu.add(popupSelectAllMenuItem);
 
@@ -168,6 +178,7 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
 
         popupItemPropertiesMenuItem.setText(bundle.getString("popupItemPropertiesMenuItem.text")); // NOI18N
         popupItemPropertiesMenuItem.setToolTipText(bundle.getString("popupItemPropertiesMenuItem.toolTipText")); // NOI18N
+        popupItemPropertiesMenuItem.setEnabled(false);
         popupItemPropertiesMenuItem.setName("popupItemPropertiesMenuItem"); // NOI18N
         propertyPopupMenu.add(popupItemPropertiesMenuItem);
 

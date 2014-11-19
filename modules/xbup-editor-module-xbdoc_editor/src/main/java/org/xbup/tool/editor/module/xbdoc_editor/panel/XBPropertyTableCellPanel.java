@@ -26,7 +26,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.dialog.XBPropertyDialog;
 /**
  * Properties panel custom renderer.
  *
- * @version 0.1.24 2014/11/10
+ * @version 0.1.24 2014/11/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyTableCellPanel extends javax.swing.JPanel {
@@ -67,6 +67,7 @@ public class XBPropertyTableCellPanel extends javax.swing.JPanel {
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTableCellEditor"); // NOI18N
         valueTextField.setText(bundle.getString("jTextField1.text")); // NOI18N
+        valueTextField.setBorder(null);
         valueTextField.setName("valueTextField"); // NOI18N
         add(valueTextField, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents

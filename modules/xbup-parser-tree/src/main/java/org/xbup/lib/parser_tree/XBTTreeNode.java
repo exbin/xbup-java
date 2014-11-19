@@ -600,6 +600,21 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             throw new NullPointerException();
         }
 
+        if (dataMode != this.dataMode) {
+            switch (dataMode) {
+                case DATA_BLOCK: {
+                    data = new byte[0];
+                    clearAttributes();
+                    break;
+                }
+                case NODE_BLOCK: {
+                    data = null;
+                    clearAttributes();
+                    break;
+                }
+            }
+        }
+
         this.dataMode = dataMode;
     }
 

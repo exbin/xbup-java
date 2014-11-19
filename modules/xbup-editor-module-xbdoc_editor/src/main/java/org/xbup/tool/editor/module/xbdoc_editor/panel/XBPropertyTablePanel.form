@@ -19,6 +19,7 @@
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupItemOpenMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="popupItemOpenMenuItem" noResource="true"/>
           </Properties>
         </MenuItem>
@@ -30,6 +31,7 @@
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupItemAddMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="popupItemAddMenuItem" noResource="true"/>
           </Properties>
         </MenuItem>
@@ -41,6 +43,7 @@
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupItemModifyMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="popupItemModifyMenuItem" noResource="true"/>
           </Properties>
         </MenuItem>
@@ -60,6 +63,7 @@
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupUndoMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="popupUndoMenuItem" noResource="true"/>
           </Properties>
         </MenuItem>
@@ -71,6 +75,7 @@
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupRedoMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="popupRedoMenuItem" noResource="true"/>
           </Properties>
         </MenuItem>
@@ -82,24 +87,28 @@
         <MenuItem class="javax.swing.JMenuItem" name="popupCutMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cut" noResource="true"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="popupCutMenuItem" noResource="true"/>
           </Properties>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="popupCopyMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" value="Copy" noResource="true"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="popupCopyMenuItem" noResource="true"/>
           </Properties>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="popupPasteMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" value="Paste" noResource="true"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="popupPasteMenuItem" noResource="true"/>
           </Properties>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="popupDeleteMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" value="Delete" noResource="true"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="popupDeleteMenuItem" noResource="true"/>
           </Properties>
         </MenuItem>
@@ -116,6 +125,7 @@
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupSelectAllMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="popupSelectAllMenuItem" noResource="true"/>
           </Properties>
         </MenuItem>
@@ -132,6 +142,7 @@
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTablePanel.properties" key="popupItemPropertiesMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="popupItemPropertiesMenuItem" noResource="true"/>
           </Properties>
         </MenuItem>

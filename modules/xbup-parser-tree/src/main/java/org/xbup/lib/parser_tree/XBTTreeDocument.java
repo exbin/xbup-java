@@ -35,7 +35,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Basic object model parser XBUP level 1 document representation.
  *
- * @version 0.1.20 2010/09/26
+ * @version 0.1.24 2014/11/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
@@ -44,9 +44,6 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
     private String fileName;
     private byte[] extendedAreaData;
 
-    /**
-     * Creates a new instance of XBTreeDocument
-     */
     public XBTTreeDocument() {
         super(null);
         extendedAreaData = null;
@@ -73,8 +70,10 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
     public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
         int size = XBHead.checkXBUPHead(stream);
         clear();
-        size += super.fromStreamUB(stream);
-        setExtendedArea(stream);
+        if (stream.available() > 0) {
+            size += super.fromStreamUB(stream);
+            setExtendedArea(stream);
+        }
         return (int) (size + getExtendedAreaSize());
     }
 
@@ -109,7 +108,7 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
             extendedAreaData = new byte[((ByteArrayInputStream) source).available()];
             if (extendedAreaData.length > 0) {
                 try {
-                     source.read(extendedAreaData, 0, extendedAreaData.length);
+                    source.read(extendedAreaData, 0, extendedAreaData.length);
                 } catch (IOException ex) {
                     Logger.getLogger(XBTreeNode.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -168,17 +167,19 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
     }
 
     public int fromFileUB() throws IOException, XBProcessingException {
-        InputStream stream = new FileInputStream(fileName);
-        int size = fromStreamUB(stream);
-        stream.close();
+        int size;
+        try (InputStream stream = new FileInputStream(fileName)) {
+            size = fromStreamUB(stream);
+        }
         modified = false;
         return size;
     }
 
     public int toFileUB() throws IOException {
-        OutputStream stream = new FileOutputStream(fileName);
-        int size = toStreamUB(stream);
-        stream.close();
+        int size;
+        try (OutputStream stream = new FileOutputStream(fileName)) {
+            size = toStreamUB(stream);
+        }
         modified = false;
         return size;
     }

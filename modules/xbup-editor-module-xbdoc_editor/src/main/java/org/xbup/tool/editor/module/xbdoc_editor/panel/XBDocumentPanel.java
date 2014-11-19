@@ -365,7 +365,9 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
                     try {
                         hexPanel.saveToStream(buffer);
                         mainDoc.fromStreamUB(new ByteArrayInputStream(buffer.toByteArray()));
-                    } catch (XBProcessingException | IOException ex) {
+                    } catch (XBProcessingException ex) {
+                        JOptionPane.showMessageDialog(getFrame(), ex.getMessage(), "Parse Exception", JOptionPane.ERROR_MESSAGE);
+                    } catch (IOException ex) {
                         Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     break;

@@ -23,7 +23,7 @@ import org.xbup.lib.core.catalog.base.XBCSpec;
 /**
  * Interface for XBCRev items service.
  *
- * @version 0.1.24 2014/11/18
+ * @version 0.1.24 2014/11/20
  * @author XBUP Project (http://xbup.org)
  * @param <T> revision class
  */
@@ -84,4 +84,12 @@ public interface XBCRevService<T extends XBCRev> extends XBCService<T> {
      * @param specDef revision to remove
      */
     public void removeItemDepth(XBCRev specDef);
+
+    /**
+     * Create new revision specific to particular specification.
+     *
+     * @param spec specification
+     * @return new revision instance
+     */
+    public XBCRev createRev(XBCSpec spec);
 }

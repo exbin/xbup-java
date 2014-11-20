@@ -72,4 +72,8 @@ public class CatalogRevsComboBoxModel extends AbstractListModel<XBCRev> implemen
     public void setSelectedRev(XBCRev selectedRev) {
         this.selectedRev = selectedRev;
     }
+
+    public void fireDataChanged() {
+        fireContentsChanged(this, 0, revs.size() > 0 ? revs.size() - 1 : 0);
+    }
 }

@@ -26,8 +26,14 @@ import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.manager.XBCRevManager;
 import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.catalog.XBECatalog;
+import org.xbup.lib.catalog.entity.XBEBlockRev;
+import org.xbup.lib.catalog.entity.XBEFormatRev;
+import org.xbup.lib.catalog.entity.XBEGroupRev;
 import org.xbup.lib.catalog.entity.XBERev;
 import org.xbup.lib.catalog.entity.manager.XBERevManager;
+import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.core.catalog.base.XBCFormatSpec;
+import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.XBCXDesc;
 import org.xbup.lib.core.catalog.base.XBCXHDoc;
 import org.xbup.lib.core.catalog.base.XBCXName;
@@ -41,7 +47,7 @@ import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 /**
  * Interface for XBERev items service.
  *
- * @version 0.1.24 2014/11/18
+ * @version 0.1.24 2014/11/20
  * @author XBUP Project (http://xbup.org)
  */
 @Service
@@ -122,5 +128,18 @@ public class XBERevService extends XBEDefaultService<XBERev> implements XBCRevSe
         }
 
         ((XBCSpecService) this).removeItem(rev);
+    }
+
+    @Override
+    public XBCRev createRev(XBCSpec spec) {
+        if (spec instanceof XBCBlockSpec) {
+            return new XBEBlockRev();
+        } else if (spec instanceof XBCGroupSpec) {
+            return new XBEGroupRev();
+        } else if (spec instanceof XBCFormatSpec) {
+            return new XBEFormatRev();
+        }
+
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

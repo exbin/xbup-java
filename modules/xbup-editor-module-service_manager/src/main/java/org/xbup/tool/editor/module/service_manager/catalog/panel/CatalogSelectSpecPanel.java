@@ -18,6 +18,8 @@ package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
 import java.awt.Component;
 import javax.swing.JTree;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
@@ -29,13 +31,15 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 /**
  * XBManager Catalog Specification Selection Panel.
  *
- * @version 0.1.24 2014/11/12
+ * @version 0.1.24 2014/11/20
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSelectSpecPanel extends javax.swing.JPanel {
 
     private XBCXNameService nameService;
     private CatalogSelectSpecTreeModel treeModel;
+    private SelectionListener selectionListener;
+    private XBCSpec spec;
 
     public CatalogSelectSpecPanel(XBACatalog catalog, CatalogSpecItemType specType) {
         nameService = null;
@@ -43,6 +47,7 @@ public class CatalogSelectSpecPanel extends javax.swing.JPanel {
             nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
         }
         treeModel = new CatalogSelectSpecTreeModel(catalog, specType);
+        spec = null;
 
         initComponents();
 
@@ -79,6 +84,28 @@ public class CatalogSelectSpecPanel extends javax.swing.JPanel {
                 return retValue;
             }
         });
+
+        specSelectTree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
+
+            @Override
+            public void valueChanged(TreeSelectionEvent e) {
+                XBCItem item = (XBCItem) specSelectTree.getLastSelectedPathComponent();
+                if (item instanceof XBCNode) {
+                    item = null;
+                }
+                if (item == null) {
+                    if (spec != null) {
+                        spec = null;
+                        selectionListener.selectedItem(spec);
+                    }
+                } else {
+                    if (spec != item) {
+                        spec = (XBCSpec) item;
+                        selectionListener.selectedItem(spec);
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -107,6 +134,7 @@ public class CatalogSelectSpecPanel extends javax.swing.JPanel {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTree specSelectTree;
@@ -114,5 +142,14 @@ public class CatalogSelectSpecPanel extends javax.swing.JPanel {
 
     public XBCItem getSpec() {
         return (XBCItem) specSelectTree.getLastSelectedPathComponent();
+    }
+
+    public void setSelectionListener(SelectionListener selectionListener) {
+        this.selectionListener = selectionListener;
+    }
+
+    public interface SelectionListener {
+
+        void selectedItem(XBCSpec spec);
     }
 }

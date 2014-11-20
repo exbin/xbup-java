@@ -26,6 +26,7 @@ import org.xbup.lib.core.catalog.base.service.XBCService;
  *
  * @version 0.1.21 2011/12/31
  * @author XBUP Project (http://xbup.org)
+ * @param <T> base entity
  */
 public class XBRDefaultService<T extends XBCBase> extends XBCDefaultItemService<T> implements XBCService<T> {
 

@@ -18,6 +18,9 @@ package org.xbup.lib.core.catalog.remote.service;
 
 import java.util.List;
 import org.xbup.lib.core.catalog.XBRCatalog;
+import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.core.catalog.base.XBCFormatSpec;
+import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCXDesc;
@@ -31,13 +34,16 @@ import org.xbup.lib.core.catalog.base.manager.XBCXNameManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXStriManager;
 import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
+import org.xbup.lib.core.catalog.remote.XBRBlockRev;
+import org.xbup.lib.core.catalog.remote.XBRFormatRev;
+import org.xbup.lib.core.catalog.remote.XBRGroupRev;
 import org.xbup.lib.core.catalog.remote.XBRRev;
 import org.xbup.lib.core.catalog.remote.manager.XBRRevManager;
 
 /**
  * Interface for XBRRev items service.
  *
- * @version 0.1.24 2014/11/18
+ * @version 0.1.24 2014/11/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRRevService extends XBRDefaultService<XBRRev> implements XBCRevService<XBRRev> {
@@ -105,5 +111,18 @@ public class XBRRevService extends XBRDefaultService<XBRRev> implements XBCRevSe
         }
 
         ((XBCSpecService) this).removeItem(rev);
+    }
+
+    @Override
+    public XBCRev createRev(XBCSpec spec) {
+        if (spec instanceof XBCBlockSpec) {
+            return new XBRBlockRev(catalog.getCatalogServiceClient(), 0);
+        } else if (spec instanceof XBCGroupSpec) {
+            return new XBRGroupRev(catalog.getCatalogServiceClient(), 0);
+        } else if (spec instanceof XBCFormatSpec) {
+            return new XBRFormatRev(catalog.getCatalogServiceClient(), 0);
+        }
+
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

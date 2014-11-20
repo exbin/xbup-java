@@ -16,35 +16,82 @@
  */
 package org.xbup.tool.editor.module.service_manager.catalog.dialog;
 
+import java.awt.Component;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
+import org.xbup.lib.core.catalog.base.XBCRev;
+import org.xbup.lib.core.catalog.base.XBCSpec;
+import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSelectSpecPanel;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogRevsComboBoxModel;
 
 /**
  * XBManager Catalog Specification Selection Dialog.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.1.24 2014/11/20
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSelectSpecDialog extends javax.swing.JDialog {
 
+    private XBCRevService revService;
     private final CatalogSelectSpecPanel selectSpecPanel;
     private int dialogOption = JOptionPane.CLOSED_OPTION;
     private XBCItem specification;
+    private CatalogRevsComboBoxModel revsModel;
 
     public CatalogSelectSpecDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog, CatalogSpecItemType specType) {
         super(parent, modal);
+        revsModel = new CatalogRevsComboBoxModel();
         initComponents();
         if (parent instanceof XBEditorFrame) {
             setIconImage(((XBEditorFrame) parent).getMainFrameManagement().getFrameIcon());
         }
 
+        if (catalog != null) {
+            revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
+        }
+
         selectSpecPanel = new CatalogSelectSpecPanel(catalog, specType);
-        add(selectSpecPanel);
+        mainPanel.add(selectSpecPanel);
+        selectSpecPanel.setSelectionListener(new CatalogSelectSpecPanel.SelectionListener() {
+
+            @Override
+            public void selectedItem(XBCSpec spec) {
+                if (spec != null) {
+                    if (spec instanceof XBCSpec) {
+                        revsModel.setRevs(revService.getRevs((XBCSpec) spec));
+                        targetRevisionComboBox.setSelectedIndex(revsModel.getSize() - 1);
+                        selectButton.setEnabled(true);
+                    } else {
+                        revsModel.getRevs().clear();
+                    }
+                } else {
+                    selectButton.setEnabled(false);
+                    targetRevisionComboBox.setSelectedIndex(-1);
+                    revsModel.getRevs().clear();
+                }
+
+                revsModel.fireDataChanged();
+            }
+        });
+
+        targetRevisionComboBox.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                DefaultListCellRenderer retValue = (DefaultListCellRenderer) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof XBCRev) {
+                    retValue.setText("Revision " + ((XBCRev) value).getXBIndex());
+                }
+
+                return retValue;
+            }
+        });
 
         init();
     }
@@ -69,6 +116,9 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
         controlPanel = new javax.swing.JPanel();
         cancelButton = new javax.swing.JButton();
         selectButton = new javax.swing.JButton();
+        mainPanel = new javax.swing.JPanel();
+        revisionSelectionPanel = new javax.swing.JPanel();
+        targetRevisionComboBox = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Select Specification");
@@ -81,6 +131,7 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
         });
 
         selectButton.setText("Select");
+        selectButton.setEnabled(false);
         selectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 selectButtonActionPerformed(evt);
@@ -92,7 +143,7 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
         controlPanelLayout.setHorizontalGroup(
             controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
-                .addContainerGap(217, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(selectButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cancelButton)
@@ -109,6 +160,31 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
         );
 
         getContentPane().add(controlPanel, java.awt.BorderLayout.PAGE_END);
+
+        mainPanel.setLayout(new java.awt.BorderLayout());
+
+        targetRevisionComboBox.setModel(revsModel);
+
+        javax.swing.GroupLayout revisionSelectionPanelLayout = new javax.swing.GroupLayout(revisionSelectionPanel);
+        revisionSelectionPanel.setLayout(revisionSelectionPanelLayout);
+        revisionSelectionPanelLayout.setHorizontalGroup(
+            revisionSelectionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(revisionSelectionPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(targetRevisionComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        revisionSelectionPanelLayout.setVerticalGroup(
+            revisionSelectionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, revisionSelectionPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(targetRevisionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        mainPanel.add(revisionSelectionPanel, java.awt.BorderLayout.PAGE_END);
+
+        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
         setSize(new java.awt.Dimension(410, 330));
         setLocationRelativeTo(null);
@@ -134,20 +210,10 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
         WindowUtils.invokeWindow(new CatalogSelectSpecDialog(new javax.swing.JFrame(), true, null, CatalogSpecItemType.NODE));
     }
 
-    /**
-     * Gets the item value of specification.
-     *
-     * @return the value of specification
-     */
     public XBCItem getSpec() {
         return specification;
     }
 
-    /**
-     * Sets the value of specification.
-     *
-     * @param spec new value of specification
-     */
     public void setSpec(XBCItem spec) {
         this.specification = spec;
     }
@@ -155,6 +221,23 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JPanel controlPanel;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JPanel revisionSelectionPanel;
     private javax.swing.JButton selectButton;
+    private javax.swing.JComboBox targetRevisionComboBox;
     // End of variables declaration//GEN-END:variables
+
+    public XBCRev getTarget() {
+        return (XBCRev) targetRevisionComboBox.getSelectedItem();
+    }
+
+    public void setTarget(XBCRev rev) {
+        if (rev != null) {
+            specification = rev.getParent();
+            revsModel.setRevs(revService.getRevs((XBCSpec) specification));
+            targetRevisionComboBox.setSelectedIndex(rev.getXBIndex().intValue());
+        } else {
+            specification = null;
+        }
+    }
 }

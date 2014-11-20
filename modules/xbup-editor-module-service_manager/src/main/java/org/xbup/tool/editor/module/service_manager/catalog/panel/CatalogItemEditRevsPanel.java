@@ -232,6 +232,7 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
             XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
             XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
 
+            revService.createRev((XBCSpec) catalogItem);
             XBERev rev = (XBERev) revItem.getRev();
             if (rev == null) {
                 rev = (XBERev) revService.createItem();

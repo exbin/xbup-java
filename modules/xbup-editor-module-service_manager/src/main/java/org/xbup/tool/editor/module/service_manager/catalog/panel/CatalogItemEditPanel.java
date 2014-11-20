@@ -159,7 +159,10 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
     }
 
     public void persist() {
-        propertiesTable.getCellEditor().stopCellEditing();
+        if (propertiesTable.getCellEditor() != null) {
+            propertiesTable.getCellEditor().stopCellEditing();
+        }
+
         XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
         XBCItemService itemService = (XBCItemService) catalog.getCatalogService(XBCItemService.class);
         XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);

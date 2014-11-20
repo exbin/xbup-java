@@ -16,10 +16,7 @@
  */
 package org.xbup.tool.editor.module.service_manager.catalog.dialog;
 
-import java.awt.Component;
 import java.awt.Frame;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.xbup.lib.core.catalog.XBACatalog;
@@ -29,9 +26,7 @@ import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDefType;
-import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogRevsComboBoxModel;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
@@ -48,41 +43,23 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     private int dialogOption = JOptionPane.CLOSED_OPTION;
 
     private final XBACatalog catalog;
-    private CatalogRevsComboBoxModel revsModel;
-    private XBCRevService revService;
 
     private XBCSpec spec;
     private CatalogDefsTableItem defItem;
     private CatalogSpecItemType targetType;
-    private XBCSpec targetSpec;
+    private XBCRev targetRev;
 
     public CatalogSpecDefEditorDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog) {
         super(parent, modal);
-        revsModel = new CatalogRevsComboBoxModel();
         targetType = CatalogSpecItemType.BLOCK;
         initComponents();
         if (parent instanceof XBEditorFrame) {
             setIconImage(((XBEditorFrame) parent).getMainFrameManagement().getFrameIcon());
         }
 
-        targetRevisionComboBox.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                DefaultListCellRenderer retValue = (DefaultListCellRenderer) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (value instanceof XBCRev) {
-                    retValue.setText("Revision " + ((XBCRev) value).getXBIndex());
-                }
-
-                return retValue;
-            }
-        });
-
         // TODO change listener for definitionTypeComboBox.
         this.catalog = catalog;
-        if (catalog != null) {
-            revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
-        }
-        targetSpec = null;
+        targetRev = null;
 
         init();
     }
@@ -110,12 +87,9 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         definitionTypePanel = new javax.swing.JPanel();
         operationLabel = new javax.swing.JLabel();
         operationComboBox = new javax.swing.JComboBox();
-        typePanel = new javax.swing.JPanel();
         definitionTargetLabel = new javax.swing.JLabel();
         definitionTargetTextField = new javax.swing.JTextField();
         selectTargetButton = new javax.swing.JButton();
-        targetRevisionLabel = new javax.swing.JLabel();
-        targetRevisionComboBox = new javax.swing.JComboBox();
         stringIdLabel = new javax.swing.JLabel();
         stringIdTextField = new javax.swing.JTextField();
         nameLabel = new javax.swing.JLabel();
@@ -172,9 +146,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        typePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Target Type"));
-
-        definitionTargetLabel.setText("Definition Target");
+        definitionTargetLabel.setText("Target Type");
 
         definitionTargetTextField.setEditable(false);
 
@@ -184,45 +156,6 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
                 selectTargetButtonActionPerformed(evt);
             }
         });
-
-        targetRevisionLabel.setText("Revision");
-
-        targetRevisionComboBox.setModel(revsModel);
-
-        javax.swing.GroupLayout typePanelLayout = new javax.swing.GroupLayout(typePanel);
-        typePanel.setLayout(typePanelLayout);
-        typePanelLayout.setHorizontalGroup(
-            typePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(typePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(typePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(targetRevisionComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(typePanelLayout.createSequentialGroup()
-                        .addComponent(definitionTargetTextField)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(selectTargetButton))
-                    .addGroup(typePanelLayout.createSequentialGroup()
-                        .addGroup(typePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(definitionTargetLabel)
-                            .addComponent(targetRevisionLabel))
-                        .addGap(0, 268, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        typePanelLayout.setVerticalGroup(
-            typePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(typePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(definitionTargetLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(typePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(definitionTargetTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(selectTargetButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(targetRevisionLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(targetRevisionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
 
         stringIdLabel.setText("String Id");
 
@@ -237,14 +170,18 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
             .addGroup(definitionTypePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(definitionTypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(typePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(operationComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(operationComboBox, 0, 422, Short.MAX_VALUE)
+                    .addGroup(definitionTypePanelLayout.createSequentialGroup()
+                        .addComponent(definitionTargetTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(selectTargetButton))
                     .addComponent(stringIdTextField)
                     .addComponent(nameTextField)
                     .addComponent(descriptionTextField)
                     .addGroup(definitionTypePanelLayout.createSequentialGroup()
                         .addGroup(definitionTypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(operationLabel)
+                            .addComponent(definitionTargetLabel)
                             .addComponent(stringIdLabel)
                             .addComponent(nameLabel)
                             .addComponent(descriptionLabel))
@@ -259,7 +196,11 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(operationComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(typePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(definitionTargetLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(definitionTypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(definitionTargetTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selectTargetButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(stringIdLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -277,7 +218,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
 
         getContentPane().add(definitionTypePanel, java.awt.BorderLayout.CENTER);
 
-        setSize(new java.awt.Dimension(456, 432));
+        setSize(new java.awt.Dimension(456, 341));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -288,7 +229,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         String operation = (String) operationComboBox.getModel().getSelectedItem();
-        XBCRev target = getTarget();
+        XBCRev target = targetRev;
 
         if (target == null && ("Consist".equals(operation) || "Join".equals(operation))) {
             JOptionPane.showMessageDialog(this, "Target Type is required", "Set is not allowed", JOptionPane.ERROR_MESSAGE);
@@ -314,10 +255,8 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         CatalogSelectSpecDialog specSelectDialog = new CatalogSelectSpecDialog((Frame) SwingUtilities.getWindowAncestor(this), true, catalog, targetType);
         specSelectDialog.setVisible(true);
         if (specSelectDialog.getDialogOption() == JOptionPane.OK_OPTION) {
-            setTargetSpec((XBCSpec) specSelectDialog.getSpec());
+            setTargetRev(specSelectDialog.getTarget());
         }
-
-        targetRevisionComboBox.repaint();
     }//GEN-LAST:event_selectTargetButtonActionPerformed
 
     private void operationComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_operationComboBoxItemStateChanged
@@ -347,9 +286,6 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     private javax.swing.JButton selectTargetButton;
     private javax.swing.JLabel stringIdLabel;
     private javax.swing.JTextField stringIdTextField;
-    private javax.swing.JComboBox targetRevisionComboBox;
-    private javax.swing.JLabel targetRevisionLabel;
-    private javax.swing.JPanel typePanel;
     // End of variables declaration//GEN-END:variables
 
     public void setSpec(XBCSpec spec) {
@@ -378,7 +314,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         descriptionTextField.setText(defItem.getDescription());
         stringIdTextField.setText(defItem.getStringId());
 
-        setTarget(defItem.getTarget());
+        setTargetRev(defItem.getTarget());
 
         if (defItem.getDefType() == null) {
             defItem.setDefType(getSpecDefType());
@@ -404,47 +340,6 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         }
 
         updateSpecDefType();
-    }
-
-    public void setTargetSpec(XBCSpec targetSpec) {
-        this.targetSpec = targetSpec;
-        if (targetSpec != null) {
-            XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-            String targetCaption = nameService.getItemNamePath(targetSpec);
-            if (targetCaption == null) {
-                targetCaption = "";
-            } else {
-                targetCaption += " ";
-            }
-            targetCaption += "(" + Long.toString(targetSpec.getId()) + ")";
-            definitionTargetTextField.setText(targetCaption);
-
-            if (targetSpec instanceof XBCSpec) {
-                revsModel.setRevs(revService.getRevs((XBCSpec) targetSpec));
-                targetRevisionComboBox.setSelectedIndex(revsModel.getSize() - 1);
-            } else {
-                revsModel.getRevs().clear();
-            }
-        } else {
-            definitionTargetTextField.setText("");
-            targetRevisionComboBox.setSelectedIndex(-1);
-            revsModel.getRevs().clear();
-        }
-
-    }
-
-    public XBCRev getTarget() {
-        return (XBCRev) targetRevisionComboBox.getSelectedItem();
-    }
-
-    public void setTarget(XBCRev rev) {
-        if (rev != null) {
-            setTargetSpec(rev.getParent());
-            revsModel.setRevs(revService.getRevs((XBCSpec) targetSpec));
-            targetRevisionComboBox.setSelectedIndex(rev.getXBIndex().intValue());
-        } else {
-            setTargetSpec(null);
-        }
     }
 
     public XBCSpecDefType getSpecDefType() {
@@ -476,10 +371,8 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
 
     private void switchSpecDefType(CatalogSpecItemType newType) {
         definitionTargetTextField.setText("");
-        targetRevisionComboBox.setSelectedIndex(-1);
-        revsModel.getRevs().clear();
         targetType = newType;
-        targetSpec = null;
+        targetRev = null;
     }
 
     private void updateSpecDefType() {
@@ -503,11 +396,27 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
 
         if (spec instanceof XBCBlockSpec) {
             boolean enabled = !((operationComboBox.getSelectedIndex() == 2) || (operationComboBox.getSelectedIndex() == 3));
-            targetRevisionComboBox.setEnabled(enabled);
             selectTargetButton.setEnabled(enabled);
         } else {
-            targetRevisionComboBox.setEnabled(true);
             selectTargetButton.setEnabled(true);
+        }
+    }
+
+    private void setTargetRev(XBCRev targetRev) {
+        this.targetRev = targetRev;
+        if (targetRev != null) {
+            XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+            String targetCaption = nameService.getItemNamePath(targetRev.getParent());
+            if (targetCaption == null) {
+                targetCaption = "";
+            } else {
+                targetCaption += " ";
+            }
+            targetCaption += "(" + Long.toString(targetRev.getParent().getId()) + ")";
+            definitionTargetTextField.setText(targetCaption);
+
+        } else {
+            definitionTargetTextField.setText("");
         }
     }
 }

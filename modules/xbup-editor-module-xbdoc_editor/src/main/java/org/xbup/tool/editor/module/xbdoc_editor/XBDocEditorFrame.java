@@ -1364,9 +1364,9 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     }
 
     public void actionFileProperties() {
-        PropertiesDialog propertiesDialog = new PropertiesDialog(this, true);
-        propertiesDialog.setLocationRelativeTo(propertiesDialog.getParent());
-        propertiesDialog.runDialog(activePanel.getDoc(), activePanel.getFileName());
+        PropertiesDialog filePropertiesDialog = new PropertiesDialog(this, true);
+        filePropertiesDialog.setLocationRelativeTo(filePropertiesDialog.getParent());
+        filePropertiesDialog.runDialog(activePanel.getDoc(), activePanel.getFileName());
     }
 
     public void setDocumentCharset(Charset charset) {
@@ -1590,6 +1590,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     public void actionItemProperties() {
         propertiesDialog = new ItemPropertiesDialog(this, true);
         propertiesDialog.setCatalog(catalog);
+        propertiesDialog.setDevMode(devMode);
         propertiesDialog.runDialog(activePanel.getSelectedItem());
         propertiesDialog = null;
     }

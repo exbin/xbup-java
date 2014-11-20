@@ -347,6 +347,8 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
             } catch (Exception ex) {
                 Logger.getLogger(XBDocTreePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
+
+            mainDoc.processSpec();
             reportStructureChange(newNode);
             mainDoc.setModified(true);
             updateItemStatus();
@@ -365,6 +367,8 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
         } catch (Exception ex) {
             Logger.getLogger(XBDocTreePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        mainDoc.processSpec();
         if (parent == null) {
             mainDocModel.fireTreeChanged();
         } else {

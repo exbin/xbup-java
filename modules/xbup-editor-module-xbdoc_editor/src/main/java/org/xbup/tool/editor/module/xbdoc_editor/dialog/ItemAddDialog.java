@@ -324,7 +324,9 @@ public class ItemAddDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        WindowUtils.invokeWindow(new ItemPropertiesDialog(new javax.swing.JFrame(), true));
+        ItemPropertiesDialog propertiesDialog = new ItemPropertiesDialog(new javax.swing.JFrame(), true);
+        // TODO propertiesDialog.setDevMode(true);
+        WindowUtils.invokeWindow(propertiesDialog);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

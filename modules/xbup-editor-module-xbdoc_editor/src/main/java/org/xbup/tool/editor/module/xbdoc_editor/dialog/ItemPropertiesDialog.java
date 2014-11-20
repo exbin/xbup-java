@@ -17,9 +17,16 @@
 package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 
 import java.awt.Cursor;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.font.TextAttribute;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockType;
@@ -39,7 +46,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Dialog for showing information about items.
  *
- * @version 0.1.24 2014/11/11
+ * @version 0.1.24 2014/11/19
  * @author XBUP Project (http://xbup.org)
  */
 public class ItemPropertiesDialog extends javax.swing.JDialog {
@@ -66,9 +73,11 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        linkPopupMenu = new javax.swing.JPopupMenu();
+        copyLinkMenuItem = new javax.swing.JMenuItem();
         closeButton = new javax.swing.JButton();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        tabbedPane = new javax.swing.JTabbedPane();
+        generalPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -79,10 +88,18 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
         onlineSpecLinkLabel = new javax.swing.JLabel();
         onlineSpecLinkLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         onlineSpecLabel = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        typePanel = new javax.swing.JPanel();
+
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ItemPropertiesDialog"); // NOI18N
+        copyLinkMenuItem.setText(bundle.getString("copyLinkMenuItem.text")); // NOI18N
+        copyLinkMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                copyLinkMenuItemActionPerformed(evt);
+            }
+        });
+        linkPopupMenu.add(copyLinkMenuItem);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ItemPropertiesDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
         setLocationByPlatform(true);
 
@@ -112,6 +129,7 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
 
         onlineSpecLinkLabel.setForeground(java.awt.Color.blue);
         onlineSpecLinkLabel.setText(bundle.getString("onlineSpecLinkLabel.text")); // NOI18N
+        onlineSpecLinkLabel.setComponentPopupMenu(linkPopupMenu);
         HashMap<TextAttribute, Object> attribs = new HashMap<TextAttribute, Object>();
         attribs.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
         onlineSpecLinkLabel.setFont(onlineSpecLinkLabel.getFont().deriveFont(attribs));
@@ -123,18 +141,18 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
 
         onlineSpecLabel.setText(bundle.getString("onlineSpecLabel.text")); // NOI18N
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout generalPanelLayout = new javax.swing.GroupLayout(generalPanel);
+        generalPanel.setLayout(generalPanelLayout);
+        generalPanelLayout.setHorizontalGroup(
+            generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(generalPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
                     .addComponent(onlineSpecLinkLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
                     .addComponent(jTextField2)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(generalPanelLayout.createSequentialGroup()
+                        .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -144,9 +162,9 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        generalPanelLayout.setVerticalGroup(
+            generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(generalPanelLayout.createSequentialGroup()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -167,26 +185,26 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab(bundle.getString("jPanel1.TabConstraints.tabTitle"), jPanel1); // NOI18N
+        tabbedPane.addTab(bundle.getString("jPanel1.TabConstraints.tabTitle"), generalPanel); // NOI18N
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout typePanelLayout = new javax.swing.GroupLayout(typePanel);
+        typePanel.setLayout(typePanelLayout);
+        typePanelLayout.setHorizontalGroup(
+            typePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 518, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        typePanelLayout.setVerticalGroup(
+            typePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 225, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab(bundle.getString("jPanel2.TabConstraints.tabTitle"), jPanel2); // NOI18N
+        tabbedPane.addTab(bundle.getString("jPanel2.TabConstraints.tabTitle"), typePanel); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(tabbedPane)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(closeButton)
@@ -195,7 +213,7 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jTabbedPane1)
+                .addComponent(tabbedPane)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(closeButton)
                 .addContainerGap())
@@ -209,8 +227,27 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_closeButtonActionPerformed
 
     private void onlineSpecLinkLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onlineSpecLinkLabelMouseClicked
-        BareBonesBrowserLaunch.openURL(((JLabel) evt.getSource()).getText());
+        if (!evt.isPopupTrigger()) {
+            String targetURL = ((JLabel) evt.getSource()).getText();
+            java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+
+            if (desktop.isSupported(java.awt.Desktop.Action.BROWSE)) {
+                try {
+                    java.net.URI uri = new java.net.URI(targetURL);
+                    desktop.browse(uri);
+                } catch (IOException | URISyntaxException ex) {
+                    Logger.getLogger(ItemPropertiesDialog.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                BareBonesBrowserLaunch.openURL(targetURL);
+            }
+        }
 }//GEN-LAST:event_onlineSpecLinkLabelMouseClicked
+
+    private void copyLinkMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyLinkMenuItemActionPerformed
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(new StringSelection(onlineSpecLinkLabel.getText()), null);
+    }//GEN-LAST:event_copyLinkMenuItemActionPerformed
 
     private void init() {
         WindowUtils.assignGlobalKeyListener(this, closeButton);
@@ -254,18 +291,20 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton closeButton;
+    private javax.swing.JMenuItem copyLinkMenuItem;
+    private javax.swing.JPanel generalPanel;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JPopupMenu linkPopupMenu;
     private javax.swing.JLabel onlineSpecLabel;
     private javax.swing.JLabel onlineSpecLinkLabel;
+    private javax.swing.JTabbedPane tabbedPane;
+    private javax.swing.JPanel typePanel;
     // End of variables declaration//GEN-END:variables
 
     public XBACatalog getCatalog() {
@@ -279,7 +318,7 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
     public void setDevMode(boolean devMode) {
         this.devMode = devMode;
     }
-    
+
     private String getCaption(XBTTreeNode node) {
         if (node.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
             String blockCaption = resourceBundle.getString("block_caption_data");

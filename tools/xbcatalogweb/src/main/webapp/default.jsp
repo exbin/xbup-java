@@ -5,5 +5,6 @@ they are not accessible except through controller process.
 This JSP is here to provide a redirect to the dispatcher
 servlet but should be the only JSP outside of WEB-INF.
 --%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% response.sendRedirect("views/about.xhtml"); %>
+<%@page language="java" import="java.util.*" contentType="text/html" pageEncoding="UTF-8"%>
+<%  String targetRedirect = new org.xbup.web.xbcatalogweb.faces.IndexController().getRedirectTarget(request.getParameter("spec"));
+    response.sendRedirect(targetRedirect);%>

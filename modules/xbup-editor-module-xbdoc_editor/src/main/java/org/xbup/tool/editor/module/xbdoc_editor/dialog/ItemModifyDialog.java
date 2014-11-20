@@ -84,7 +84,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.panel.XBPropertyTableCellRendere
 /**
  * Dialog for modifying item attributes or data.
  *
- * @version 0.1.24 2014/11/06
+ * @version 0.1.24 2014/11/19
  * @author XBUP Project (http://xbup.org)
  */
 public class ItemModifyDialog extends javax.swing.JDialog {
@@ -128,6 +128,17 @@ public class ItemModifyDialog extends javax.swing.JDialog {
                 updateAttributesButtons();
             }
         });
+        /*attributesTable.getCellEditor().addCellEditorListener(new CellEditorListener() {
+
+         @Override
+         public void editingStopped(ChangeEvent e) {
+         }
+
+         @Override
+         public void editingCanceled(ChangeEvent e) {
+         attributesTable.setValueAt(((DefaultCellEditor) e.getSource()).getCellEditorValue(), attributesTable.getSelectedRow(), attributesTable.getSelectedColumn());
+         }
+         }); */
 
         int parametersTableWidth = parametersTable.getWidth();
         parametersTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -378,6 +389,10 @@ public class ItemModifyDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+        if (attributesTable.getCellEditor() != null) {
+            attributesTable.getCellEditor().stopCellEditing();
+        }
+
         if (dataMode == XBBlockDataMode.DATA_BLOCK) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             try {
@@ -551,7 +566,7 @@ public class ItemModifyDialog extends javax.swing.JDialog {
     public int getDialogOption() {
         return dialogOption;
     }
-    
+
     private JPanel getCustomPanel(XBTTreeNode srcNode) {
         if (catalog == null) {
             return null;

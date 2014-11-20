@@ -54,7 +54,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Basic object model parser XBUP level 1 document block / tree node.
  *
- * @version 0.1.24 2014/10/07
+ * @version 0.1.24 2014/11/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
@@ -806,7 +806,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
 
             if (getFixedBlockType().getAsBasicType() == XBBasicBlockType.DECLARATION && catalog != null) {
                 // Process declaration block
-                XBContext childContext = catalog.processDeclaration(parentContext, new XBTProviderToPullProvider(new XBTTreeWriter(this)));
+                XBContext childContext = catalog.processDeclaration(parentContext, new XBTProviderToPullProvider(new XBTTreeWriter(new XBTBlockFixedSource(this))));
                 long blockPos = 0;
                 if (getChildren() != null) {
                     for (Iterator it = getChildren().iterator(); it.hasNext();) {
@@ -869,5 +869,89 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         } while (((maxSize == 0) && (childSize != 1)) || ((maxSize > 0) && (size < maxSize)));
 
         return size;
+    }
+
+    private static class XBTBlockFixedSource implements XBTBlock {
+
+        private final XBTTreeNode block;
+
+        public XBTBlockFixedSource(XBTTreeNode block) {
+            this.block = block;
+        }
+
+        @Override
+        public XBTBlock getParent() {
+            return block.getParent();
+        }
+
+        @Override
+        public XBBlockTerminationMode getTerminationMode() {
+            return block.getTerminationMode();
+        }
+
+        @Override
+        public XBBlockDataMode getDataMode() {
+            return block.getDataMode();
+        }
+
+        @Override
+        public XBBlockType getBlockType() {
+            return block.getFixedBlockType();
+        }
+
+        @Override
+        public List<UBNatural> getAttributes() {
+            return block.getAttributes();
+        }
+
+        @Override
+        public UBNatural getAttribute(int attributeIndex) {
+            return block.getAttribute(attributeIndex);
+        }
+
+        @Override
+        public int getAttributesCount() {
+            return block.getAttributesCount();
+        }
+
+        @Override
+        public List<XBTBlock> getChildren() {
+            List<XBTBlock> result = new ArrayList<>();
+            for (XBTBlock child : block.getChildren()) {
+                result.add(new XBTBlockFixedSource((XBTTreeNode) child));
+            }
+
+            return result;
+        }
+
+        @Override
+        public XBTBlock getChildAt(int childIndex) {
+            return new XBTBlockFixedSource(block.getChildAt(childIndex));
+        }
+
+        @Override
+        public int getChildCount() {
+            return block.getChildCount();
+        }
+
+        @Override
+        public InputStream getData() {
+            return block.getData();
+        }
+
+        @Override
+        public int getDataSize() {
+            return block.getDataSize();
+        }
+
+        @Override
+        public int getBlockIndex() {
+            return block.getBlockIndex();
+        }
+
+        @Override
+        public long getBlockSize() {
+            return block.getBlockSize();
+        }
     }
 }

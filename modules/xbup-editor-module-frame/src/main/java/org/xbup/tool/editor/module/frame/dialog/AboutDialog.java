@@ -17,6 +17,9 @@
 package org.xbup.tool.editor.module.frame.dialog;
 
 import java.awt.Cursor;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.font.TextAttribute;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -39,7 +42,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * MainFrame About Dialog.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.1.24 2014/11/19
  * @author XBUP Project (http://xbup.org)
  */
 public class AboutDialog extends javax.swing.JDialog implements HyperlinkListener {
@@ -121,13 +124,15 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        linkPopupMenu = new javax.swing.JPopupMenu();
+        copyLinkMenuItem = new javax.swing.JMenuItem();
         closeButton = new javax.swing.JButton();
         aboutTabbedPane = new javax.swing.JTabbedPane();
         aboutPanel = new javax.swing.JPanel();
         javax.swing.JLabel productLabel = new javax.swing.JLabel();
         javax.swing.JLabel vendorLabel = new javax.swing.JLabel();
         javax.swing.JLabel homepageLabel = new javax.swing.JLabel();
-        javax.swing.JLabel appHomepageLabel = new javax.swing.JLabel();
+        appHomepageLabel = new javax.swing.JLabel();
         appHomepageLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         productTextField = new javax.swing.JTextField();
         vendorTextField = new javax.swing.JTextField();
@@ -150,7 +155,18 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         javax.swing.JLabel appTitleLabel = new javax.swing.JLabel();
         javax.swing.JLabel appDescLabel = new javax.swing.JLabel();
 
+        linkPopupMenu.setName("linkPopupMenu"); // NOI18N
+
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/dialog/resources/AboutDialog"); // NOI18N
+        copyLinkMenuItem.setText(bundle.getString("copyLinkMenuItem.text")); // NOI18N
+        copyLinkMenuItem.setName("copyLinkMenuItem"); // NOI18N
+        copyLinkMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                copyLinkMenuItemActionPerformed(evt);
+            }
+        });
+        linkPopupMenu.add(copyLinkMenuItem);
+
         setTitle(bundle.getString("aboutBox.title")); // NOI18N
 
         closeButton.setText(bundle.getString("closeButton.text")); // NOI18N
@@ -181,6 +197,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
 
         appHomepageLabel.setForeground(java.awt.Color.blue);
         appHomepageLabel.setText(appBundle.getString("Application.homepage"));
+        appHomepageLabel.setComponentPopupMenu(linkPopupMenu);
         appHomepageLabel.setName("appHomepageLabel"); // NOI18N
         HashMap<TextAttribute, Object> attribs = new HashMap<TextAttribute, Object>();
         attribs.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
@@ -477,6 +494,11 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         WindowUtils.closeWindow(this);
     }//GEN-LAST:event_closeButtonActionPerformed
 
+    private void copyLinkMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyLinkMenuItemActionPerformed
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(new StringSelection(appHomepageLabel.getText()), null);
+    }//GEN-LAST:event_copyLinkMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -488,10 +510,12 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
     private javax.swing.JPanel aboutHeaderPanel;
     private javax.swing.JPanel aboutPanel;
     private javax.swing.JTabbedPane aboutTabbedPane;
+    private javax.swing.JLabel appHomepageLabel;
     private javax.swing.JPanel authorsPanel;
     private javax.swing.JScrollPane authorsScrollPane;
     private javax.swing.JTextArea authorsTextArea;
     private javax.swing.JButton closeButton;
+    private javax.swing.JMenuItem copyLinkMenuItem;
     private javax.swing.JPanel environmentPanel;
     private javax.swing.JScrollPane environmentScrollPane;
     private javax.swing.JTable environmentTable;
@@ -499,6 +523,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
     private javax.swing.JPanel licensePanel;
     private javax.swing.JScrollPane licenseScrollPane;
     private javax.swing.JTextField licenseTextField;
+    private javax.swing.JPopupMenu linkPopupMenu;
     private javax.swing.JPanel modulesPanel;
     private javax.swing.JScrollPane modulesScrollPane;
     private javax.swing.JTable modulesTable;

@@ -36,7 +36,7 @@ import org.xbup.lib.catalog.entity.XBEItem;
 /**
  * Panel for properties of the catalog item.
  *
- * @version 0.1.23 2013/09/22
+ * @version 0.1.24 2014/11/19
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemEditPanel extends javax.swing.JPanel {
@@ -159,6 +159,7 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
     }
 
     public void persist() {
+        propertiesTable.getCellEditor().stopCellEditing();
         XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
         XBCItemService itemService = (XBCItemService) catalog.getCatalogService(XBCItemService.class);
         XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);

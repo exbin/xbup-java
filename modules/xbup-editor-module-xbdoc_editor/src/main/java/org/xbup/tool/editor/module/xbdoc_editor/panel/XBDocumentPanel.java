@@ -73,7 +73,7 @@ import org.xbup.tool.editor.base.api.FileType;
 /**
  * Panel with XBUP document visualization.
  *
- * @version 0.1.24 2014/11/09
+ * @version 0.1.24 2014/11/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFilePanel, ActivePanelUndoable, ActivePanelActionHandling {
@@ -138,7 +138,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         });
 
         propertyPanel = new XBPropertyPanel(catalog);
-        jSplitPane1.setRightComponent(propertyPanel);
+        mainSplitPane.setRightComponent(propertyPanel);
         changeSplitMode();
         splitMode = true;
         //updateItem();
@@ -166,7 +166,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         popupItemPropertiesMenuItem = new javax.swing.JMenuItem();
         mainPanel = new javax.swing.JPanel();
-        jSplitPane1 = new javax.swing.JSplitPane();
+        mainSplitPane = new javax.swing.JSplitPane();
         splitPanel = new javax.swing.JPanel();
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBDocumentPanel"); // NOI18N
@@ -204,27 +204,27 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         mainPanel.setLayout(new java.awt.CardLayout());
         add(mainPanel, "main");
 
-        jSplitPane1.setBorder(null);
-        jSplitPane1.setDividerLocation(0);
-        jSplitPane1.setDividerSize(8);
-        jSplitPane1.setResizeWeight(1.0);
-        jSplitPane1.addComponentListener(new java.awt.event.ComponentAdapter() {
+        mainSplitPane.setBorder(null);
+        mainSplitPane.setDividerLocation(0);
+        mainSplitPane.setDividerSize(8);
+        mainSplitPane.setResizeWeight(1.0);
+        mainSplitPane.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
-                jSplitPane1ComponentResized(evt);
+                mainSplitPaneComponentResized(evt);
             }
         });
 
         splitPanel.setLayout(new java.awt.CardLayout());
-        jSplitPane1.setLeftComponent(splitPanel);
+        mainSplitPane.setLeftComponent(splitPanel);
 
-        add(jSplitPane1, "split");
+        add(mainSplitPane, "split");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jSplitPane1ComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jSplitPane1ComponentResized
-        if (jSplitPane1.getDividerLocation() < 2) {
-            jSplitPane1.setDividerLocation(getWidth() - 400);
+    private void mainSplitPaneComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_mainSplitPaneComponentResized
+        if (mainSplitPane.getDividerLocation() < 2) {
+            mainSplitPane.setDividerLocation(getWidth() - 400);
         }
-    }//GEN-LAST:event_jSplitPane1ComponentResized
+    }//GEN-LAST:event_mainSplitPaneComponentResized
 
     private void popupItemPropertiesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupItemPropertiesMenuItemActionPerformed
         actionItemProperties();
@@ -276,12 +276,10 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
 
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
-//        if (mainDoc != null) {
         treePanel.setCatalog(catalog);
         mainDoc.setCatalog(catalog);
         mainDoc.processSpec();
         propertyPanel.setCatalog(catalog);
-//        }
     }
 
     public void performCut() {
@@ -477,8 +475,8 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JSplitPane mainSplitPane;
     private javax.swing.JMenuItem popupItemCopyMenuItem;
     private javax.swing.JMenuItem popupItemPropertiesMenuItem;
     private javax.swing.JMenuItem popupItemViewMenuItem;
@@ -635,6 +633,8 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
                     undoStep = new XBTModAttrBlockCommand(node, newNode);
                 }
                 getTreeUndo().performStep(undoStep);
+
+                mainDoc.processSpec();
                 reportStructureChange(node);
                 getDoc().setModified(true);
             }

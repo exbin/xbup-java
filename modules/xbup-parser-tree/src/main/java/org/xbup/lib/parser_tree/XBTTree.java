@@ -52,9 +52,9 @@ public class XBTTree implements UBStreamable {
         clear();
         XBTTreeNode newRoot = new XBTTreeNode();
         /* TODO
-        if (newRoot.getBlockType() instanceof XBContextBlockType) {
-            ((XBContextBlockType) newRoot.getBlockType()).setContext(rootContext);
-        } */
+         if (newRoot.getBlockType() instanceof XBContextBlockType) {
+         ((XBContextBlockType) newRoot.getBlockType()).setContext(rootContext);
+         } */
 
         setRootBlock(newRoot);
         return newRoot.fromStreamUB(stream);
@@ -70,14 +70,14 @@ public class XBTTree implements UBStreamable {
     }
 
     public void processSpec() {
-        if (getRootBlock()!=null) {
+        if (getRootBlock() != null) {
             ((XBTTreeNode) getRootBlock()).processSpec(catalog, rootContext);
         }
     }
 
     /**
      * TODO: This is stub, because I'm to lazy to think about proper solution
-     * 
+     *
      * @param parent
      * @return
      */
@@ -91,7 +91,7 @@ public class XBTTree implements UBStreamable {
 
     @Override
     public int toStreamUB(OutputStream stream) throws IOException {
-        if (getRootBlock()!=null) {
+        if (getRootBlock() != null) {
             return rootNode.toStreamUB(stream);
         } else {
             return 0;
@@ -100,7 +100,7 @@ public class XBTTree implements UBStreamable {
 
     @Override
     public int getSizeUB() {
-        if (getRootBlock()!=null) {
+        if (getRootBlock() != null) {
             return rootNode.getSizeUB();
         } else {
             return 0;

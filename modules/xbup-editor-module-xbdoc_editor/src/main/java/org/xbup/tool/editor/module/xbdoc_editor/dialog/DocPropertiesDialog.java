@@ -33,12 +33,12 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
  * @version 0.1.24 2014/11/18
  * @author XBUP Project (http://xbup.org)
  */
-public class PropertiesDialog extends javax.swing.JDialog {
+public class DocPropertiesDialog extends javax.swing.JDialog {
 
     private XBTEditableDocument doc;
     private final HexEditPanel hexPanel;
 
-    public PropertiesDialog(java.awt.Frame parent, boolean modal) {
+    public DocPropertiesDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         if (parent instanceof XBEditorFrame) {
@@ -212,7 +212,7 @@ public class PropertiesDialog extends javax.swing.JDialog {
         try {
             HexEditPanel.saveToStream(buffer);
         } catch (IOException ex) {
-            Logger.getLogger(PropertiesDialog.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DocPropertiesDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         doc.setExtendedArea(new ByteArrayInputStream(buffer.toByteArray()));

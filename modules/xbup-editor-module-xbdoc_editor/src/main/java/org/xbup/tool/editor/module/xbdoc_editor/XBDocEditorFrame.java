@@ -113,7 +113,7 @@ import org.xbup.lib.catalog.entity.service.XBEXStriService;
 import org.xbup.lib.catalog.update.XBCUpdatePHPHandler;
 import org.xbup.lib.plugin.XBPluginRepository;
 import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemPropertiesDialog;
-import org.xbup.tool.editor.module.xbdoc_editor.dialog.PropertiesDialog;
+import org.xbup.tool.editor.module.xbdoc_editor.dialog.DocPropertiesDialog;
 import org.xbup.tool.editor.module.xbdoc_editor.panel.XBDocumentPanel;
 import org.xbup.tool.editor.module.service_manager.panel.CatalogBrowserPanel;
 import org.xbup.tool.editor.module.text_editor.dialog.FindDialog;
@@ -1364,7 +1364,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     }
 
     public void actionFileProperties() {
-        PropertiesDialog filePropertiesDialog = new PropertiesDialog(this, true);
+        DocPropertiesDialog filePropertiesDialog = new DocPropertiesDialog(this, true);
         filePropertiesDialog.setLocationRelativeTo(filePropertiesDialog.getParent());
         filePropertiesDialog.runDialog(activePanel.getDoc(), activePanel.getFileName());
     }

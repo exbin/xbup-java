@@ -24,7 +24,7 @@ import org.xbup.lib.core.block.XBFixedBlockType;
 /**
  * Representation of current declaration context for block types.
  *
- * @version 0.1.24 2014/10/03
+ * @version 0.1.24 2014/11/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBContext {
@@ -63,18 +63,22 @@ public class XBContext {
      * @return fixed block type or null if no match
      */
     public XBFixedBlockType getFixedBlockType(XBBlockDecl blockDecl) {
-        for (int groupIndex = 0; groupIndex < groups.size(); groupIndex++) {
+        return getFixedBlockType(blockDecl, startFrom + groups.size() - 1);
+    }
+
+    private XBFixedBlockType getFixedBlockType(XBBlockDecl blockDecl, int groupIdLimit) {
+        for (int groupIndex = 0; groupIndex <= groupIdLimit - startFrom; groupIndex++) {
             XBGroup group = groups.get(groupIndex);
             List<XBBlockDecl> blocks = group.getBlocks();
             for (int blockIndex = 0; blockIndex < blocks.size(); blockIndex++) {
                 XBBlockDecl groupBlockDecl = blocks.get(blockIndex);
                 if (groupBlockDecl.equals(blockDecl)) {
-                    return new XBFixedBlockType(groupIndex, blockIndex);
+                    return new XBFixedBlockType(groupIndex + startFrom, blockIndex);
                 }
             }
         }
 
-        return null;
+        return startFrom > 0 ? parent.getFixedBlockType(blockDecl, startFrom - 1) : null;
     }
 
     public XBContext getParent() {

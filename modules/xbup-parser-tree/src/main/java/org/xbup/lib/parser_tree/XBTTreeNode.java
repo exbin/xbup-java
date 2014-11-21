@@ -769,6 +769,10 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         return Collections.enumeration(getChildren());
     }
 
+    public void setContext(XBContext context) {
+        this.context = context;
+    }
+
     public XBContext getContext() {
         return context;
     }

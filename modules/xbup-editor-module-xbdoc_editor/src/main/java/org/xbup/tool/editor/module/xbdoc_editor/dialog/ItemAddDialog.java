@@ -25,9 +25,13 @@ import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
+import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSelectSpecDialog;
@@ -38,7 +42,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Dialog for adding new item into given document.
  *
- * @version 0.1.24 2014/11/20
+ * @version 0.1.24 2014/11/21
  * @author XBUP Project (http://xbup.org)
  */
 public class ItemAddDialog extends javax.swing.JDialog {
@@ -48,7 +52,7 @@ public class ItemAddDialog extends javax.swing.JDialog {
     private final XBACatalog catalog;
     private XBBlockType contextBlockType = null;
     private XBBlockType catalogBlockType = null;
-    private int dialogOption = JOptionPane.CANCEL_OPTION;
+    private int dialogOption = JOptionPane.CLOSED_OPTION;
 
     public ItemAddDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog) {
         super(parent, modal);
@@ -149,7 +153,6 @@ public class ItemAddDialog extends javax.swing.JDialog {
         });
 
         contextTypeTextField.setEditable(false);
-        contextTypeTextField.setEnabled(false);
 
         blockTypeButtonGroup.add(catalogTypeRadioButton);
         catalogTypeRadioButton.setText(bundle.getString("jRadioButton5.text")); // NOI18N
@@ -264,6 +267,7 @@ public class ItemAddDialog extends javax.swing.JDialog {
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         dialogOption = JOptionPane.OK_OPTION;
         workNode = new XBTTreeNode();
+        workNode.setContext(parentNode.getContext());
 
         if (dataRadioButton.isSelected()) {
             workNode.setDataMode(XBBlockDataMode.DATA_BLOCK);
@@ -271,6 +275,8 @@ public class ItemAddDialog extends javax.swing.JDialog {
             workNode.setBlockType(new XBFixedBlockType(XBBasicBlockType.valueOf(basicTypeComboBox.getSelectedIndex())));
         } else if (contextTypeRadioButton.isSelected()) {
             workNode.setBlockType(contextBlockType);
+        } else if (catalogTypeRadioButton.isSelected()) {
+            workNode.setBlockType(catalogBlockType);
         } else {
             workNode.setDataMode(XBBlockDataMode.NODE_BLOCK);
         }
@@ -280,11 +286,14 @@ public class ItemAddDialog extends javax.swing.JDialog {
 
     private void contextTypeSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contextTypeSelectButtonActionPerformed
         if (catalog != null) {
-            CatalogSelectSpecDialog selectSpecDialog = new CatalogSelectSpecDialog((Frame) SwingUtilities.getWindowAncestor(this), true, catalog, CatalogSpecItemType.BLOCK);
-            selectSpecDialog.setVisible(true);
-            if (selectSpecDialog.getDialogOption() == JOptionPane.OK_OPTION) {
-                XBCBlockSpec blockSpec = (XBCBlockSpec) selectSpecDialog.getSpec();
-                //catalogBlockType = new XBDeclBlockType(new XBCBlockDecl();
+            ContextTypeChoiceDialog contextTypeDialog = new ContextTypeChoiceDialog((Frame) SwingUtilities.getWindowAncestor(this), true, catalog, parentNode);
+            contextTypeDialog.setLocationRelativeTo(this);
+            contextTypeDialog.setVisible(true);
+            if (contextTypeDialog.getDialogOption() == JOptionPane.OK_OPTION) {
+                contextBlockType = contextTypeDialog.getBlockType();
+                XBCBlockDecl blockDecl = (XBCBlockDecl) ((XBDeclBlockType) contextBlockType).getBlockDecl();
+                XBCBlockSpec blockSpec = blockDecl.getBlockSpec().getParent();
+                //new XBDeclBlockType(new XBCBlockDecl();
                 XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
                 String targetCaption = nameService.getItemNamePath(blockSpec);
                 if (targetCaption == null) {
@@ -293,7 +302,7 @@ public class ItemAddDialog extends javax.swing.JDialog {
                     targetCaption += " ";
                 }
                 targetCaption += "(" + Long.toString(blockSpec.getId()) + ")";
-                catalogTypeTextField.setText(targetCaption);
+                contextTypeTextField.setText(targetCaption);
             }
         }
     }//GEN-LAST:event_contextTypeSelectButtonActionPerformed
@@ -301,18 +310,19 @@ public class ItemAddDialog extends javax.swing.JDialog {
     private void catalogTypeSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catalogTypeSelectButtonActionPerformed
         if (catalog != null) {
             CatalogSelectSpecDialog selectSpecDialog = new CatalogSelectSpecDialog((Frame) SwingUtilities.getWindowAncestor(this), true, catalog, CatalogSpecItemType.BLOCK);
+            selectSpecDialog.setLocationRelativeTo(this);
             selectSpecDialog.setVisible(true);
             if (selectSpecDialog.getDialogOption() == JOptionPane.OK_OPTION) {
-                XBCBlockSpec blockSpec = (XBCBlockSpec) selectSpecDialog.getSpec();
-                //catalogBlockType = new XBDeclBlockType(new XBCBlockDecl(blockSpec, catalog));
+                XBCRev blockRev = selectSpecDialog.getTarget();
+                catalogBlockType = new XBDeclBlockType(new XBCBlockDecl((XBCBlockRev) blockRev, catalog));
                 XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-                String targetCaption = nameService.getItemNamePath(blockSpec);
+                String targetCaption = nameService.getItemNamePath(blockRev);
                 if (targetCaption == null) {
                     targetCaption = "";
                 } else {
                     targetCaption += " ";
                 }
-                targetCaption += "(" + Long.toString(blockSpec.getId()) + ")";
+                targetCaption += "(" + Long.toString(blockRev.getId()) + ")";
                 catalogTypeTextField.setText(targetCaption);
             }
         }

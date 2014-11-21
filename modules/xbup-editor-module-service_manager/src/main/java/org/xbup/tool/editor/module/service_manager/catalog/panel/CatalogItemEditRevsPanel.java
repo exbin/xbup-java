@@ -232,10 +232,9 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
             XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
             XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
 
-            revService.createRev((XBCSpec) catalogItem);
             XBERev rev = (XBERev) revItem.getRev();
             if (rev == null) {
-                rev = (XBERev) revService.createItem();
+                rev = (XBERev) revService.createRev((XBCSpec) catalogItem);
                 rev.setParent((XBEItem) catalogItem);
                 rev.setXBIndex(revItem.getXbIndex());
                 rev.setXBLimit(revItem.getLimit());

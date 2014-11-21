@@ -97,7 +97,7 @@ public class XBCBlockDecl implements XBBlockDecl, XBTChildSerializable {
                 return false;
             }
 
-            return blockSpecRev.getId() != other.blockSpecRev.getId().longValue();
+            return blockSpecRev.getId().equals(other.blockSpecRev.getId());
         } else if (obj instanceof XBPBlockDecl) {
             Long[] catalogPath = catalog.getSpecPath(getBlockSpec().getParent());
             long[] objCatalogPath = ((XBPBlockDecl) obj).getCatalogPath();

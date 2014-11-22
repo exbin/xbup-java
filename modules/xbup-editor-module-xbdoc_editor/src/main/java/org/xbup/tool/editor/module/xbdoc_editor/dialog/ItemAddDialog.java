@@ -267,7 +267,9 @@ public class ItemAddDialog extends javax.swing.JDialog {
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         dialogOption = JOptionPane.OK_OPTION;
         workNode = new XBTTreeNode();
-        workNode.setContext(parentNode.getContext());
+        if (parentNode != null) {
+            workNode.setContext(parentNode.getContext());
+        }
 
         if (dataRadioButton.isSelected()) {
             workNode.setDataMode(XBBlockDataMode.DATA_BLOCK);

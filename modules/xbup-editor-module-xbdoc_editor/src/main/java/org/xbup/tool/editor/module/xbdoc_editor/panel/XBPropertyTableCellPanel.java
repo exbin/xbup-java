@@ -37,8 +37,8 @@ public class XBPropertyTableCellPanel extends javax.swing.JPanel {
 
     public XBPropertyTableCellPanel(XBACatalog catalog, XBTTreeNode node) {
         this.catalog = catalog;
-        initComponents();
         this.node = node;
+        initComponents();
     }
 
     /**
@@ -57,6 +57,7 @@ public class XBPropertyTableCellPanel extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         editorButton.setText("..."); // NOI18N
+        editorButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
         editorButton.setName("editorButton"); // NOI18N
         editorButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

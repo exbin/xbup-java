@@ -246,17 +246,18 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
         }
 
         striService.setItemStringIdText(catalogItem, (String) tableModel.getValueAt(4, 1));
-        
+
         String document = cellPanel.getDocument();
         if (document != null) {
-            XBCXFileService fileService = (XBCXFileService)catalog.getCatalogService(XBCXFileService.class);
+            XBCXFileService fileService = (XBCXFileService) catalog.getCatalogService(XBCXFileService.class);
             XBCXHDocService hdocService = (XBCXHDocService) catalog.getCatalogService(XBCXHDocService.class);
 
             XBCXHDoc itemHDoc = hdocService.getDocumentation(catalogItem);
-            
+
             if (document.isEmpty()) {
                 if (itemHDoc != null) {
                     fileService.removeItem(itemHDoc.getDocFile());
+                    ((XBEXHDoc) itemHDoc).setDocFile(null);
                     hdocService.removeItem(itemHDoc);
                 }
             } else {
@@ -267,7 +268,7 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
                     ((XBEXHDoc) itemHDoc).setLang((XBEXLanguage) defaultLanguage);
                     ((XBEXHDoc) itemHDoc).setItem((XBEItem) catalogItem);
                 }
-                
+
                 XBCXFile itemHDocFile = itemHDoc.getDocFile();
                 if (itemHDocFile == null) {
                     XBCXStri stringId = striService.getItemStringId(catalogItem);
@@ -286,7 +287,7 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
                 } catch (IOException ex) {
                     Logger.getLogger(CatalogItemEditPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
-    
+
                 ((XBEXFileService) fileService).persistItem((XBEXFile) itemHDocFile);
                 ((XBEXHDocService) hdocService).persistItem((XBEXHDoc) itemHDoc);
             }

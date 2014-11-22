@@ -466,7 +466,7 @@ public class ItemModifyDialog extends javax.swing.JDialog {
 
     public XBTTreeNode runDialog(XBTTreeNode srcNode) {
         this.srcNode = srcNode;
-        newNode = null;
+        newNode = srcNode.cloneNode(true);
 
         mainTabbedPane.removeAll();
         customPanel = null;

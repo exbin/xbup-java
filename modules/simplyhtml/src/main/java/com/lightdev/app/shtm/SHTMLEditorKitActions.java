@@ -24,9 +24,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Frame;
-import java.awt.datatransfer.DataFlavor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -39,16 +38,12 @@ import java.util.prefs.Preferences;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
-import javax.swing.TransferHandler;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.Element;
@@ -77,6 +72,10 @@ class SHTMLEditorKitActions {
      */
     static class SetStyleAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -128,6 +127,10 @@ class SHTMLEditorKitActions {
      */
     static class AppendTableColAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -164,10 +167,14 @@ class SHTMLEditorKitActions {
     /**
      * Applies a tag to the <i>paragraph element</i> surrounding the selection,
      * based on the paragraph tag previously stored in the tag selector; tag selector
-     * is a combo box. If constructed when the tag name passed, it applies that tag. 
+     * is a combo box. If constructed when the tag name passed, it applies that tag.
      */
     static class SetTagAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -228,6 +235,10 @@ class SHTMLEditorKitActions {
      */
     static class AppendTableRowAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -266,6 +277,10 @@ class SHTMLEditorKitActions {
      */
     static class BoldAction extends StyledEditorKit.BoldAction implements SHTMLAction, AttributeComponent {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -276,7 +291,7 @@ class SHTMLEditorKitActions {
             this.panel = panel;
             putValue(Action.NAME, SHTMLPanelImpl.fontBoldAction);
             putValue(SHTMLPanelImpl.ACTION_SELECTED_KEY, SHTMLPanelImpl.ACTION_UNSELECTED);
-            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_B, KeyEvent.CTRL_MASK));
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_B, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
             SHTMLPanelImpl.getActionProperties(this, SHTMLPanelImpl.fontBoldAction);
         }
 
@@ -384,6 +399,10 @@ class SHTMLEditorKitActions {
      */
     static class ApplyCSSAttributeAction extends AbstractAction implements SHTMLAction, AttributeComponent {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -509,6 +528,10 @@ class SHTMLEditorKitActions {
      */
     static class DeleteTableColAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -549,6 +572,10 @@ class SHTMLEditorKitActions {
      */
     static class ShowElementTreeAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -594,6 +621,10 @@ class SHTMLEditorKitActions {
      */
     static class DeleteTableRowAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -631,6 +662,10 @@ class SHTMLEditorKitActions {
      */
     static class ToggleListAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -674,6 +709,10 @@ class SHTMLEditorKitActions {
      */
     static class DocumentTitleAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -724,6 +763,10 @@ class SHTMLEditorKitActions {
      */
     static class UnderlineAction extends StyledEditorKit.UnderlineAction implements SHTMLAction, AttributeComponent {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -734,7 +777,7 @@ class SHTMLEditorKitActions {
             this.panel = panel;
             putValue(Action.NAME, SHTMLPanelImpl.fontUnderlineAction);
             putValue(SHTMLPanelImpl.ACTION_SELECTED_KEY, SHTMLPanelImpl.ACTION_UNSELECTED);
-            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_MASK));
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_U, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
             SHTMLPanelImpl.getActionProperties(this, SHTMLPanelImpl.fontUnderlineAction);
         }
 
@@ -836,6 +879,10 @@ class SHTMLEditorKitActions {
 
     static class FontColorAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -876,6 +923,10 @@ class SHTMLEditorKitActions {
        */
     static class EditAnchorsAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -919,6 +970,10 @@ class SHTMLEditorKitActions {
      */
     static class EditLinkAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -927,6 +982,7 @@ class SHTMLEditorKitActions {
             super(SHTMLPanelImpl.editLinkAction);
             this.panel = panel;
             getProperties();
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_K, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
 
         public void actionPerformed(final ActionEvent ae) {
@@ -976,6 +1032,10 @@ class SHTMLEditorKitActions {
      */
     static class OpenLinkAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -984,6 +1044,7 @@ class SHTMLEditorKitActions {
             super(SHTMLPanelImpl.openLinkAction);
             this.panel = panel;
             getProperties();
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_B, KeyEvent.ALT_DOWN_MASK));
         }
 
         public void actionPerformed(final ActionEvent ae) {
@@ -1023,6 +1084,10 @@ class SHTMLEditorKitActions {
      */
     static class UndoAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -1032,7 +1097,7 @@ class SHTMLEditorKitActions {
             this.panel = panel;
             setEnabled(false);
             getProperties();
-            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_MASK));
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
 
         public void actionPerformed(final ActionEvent e) {
@@ -1067,6 +1132,10 @@ class SHTMLEditorKitActions {
      */
     static class EditNamedStyleAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -1108,6 +1177,10 @@ class SHTMLEditorKitActions {
 
     static class ClearFormatAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -1117,7 +1190,7 @@ class SHTMLEditorKitActions {
             this.panel = panel;
             putValue(Action.NAME, SHTMLPanelImpl.clearFormatAction);
             putValue(SHTMLPanelImpl.ACTION_SELECTED_KEY, SHTMLPanelImpl.ACTION_UNSELECTED);
-            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_B, KeyEvent.CTRL_MASK));
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_B, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
             SHTMLPanelImpl.getActionProperties(this, SHTMLPanelImpl.clearFormatAction);
         }
 
@@ -1160,6 +1233,10 @@ class SHTMLEditorKitActions {
      */
     static class MultipleDocFindReplaceAction extends AbstractAction implements SHTMLAction, FindReplaceListener {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelMultipleDocImpl panel;
@@ -1167,7 +1244,7 @@ class SHTMLEditorKitActions {
         public MultipleDocFindReplaceAction(final SHTMLPanelMultipleDocImpl panel) {
             super(SHTMLPanelMultipleDocImpl.findReplaceAction);
             this.panel = panel;
-            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F, KeyEvent.CTRL_MASK));
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
             getProperties();
         }
 
@@ -1246,6 +1323,10 @@ class SHTMLEditorKitActions {
      */
     static class SingleDocFindReplaceAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -1253,7 +1334,7 @@ class SHTMLEditorKitActions {
         public SingleDocFindReplaceAction(final SHTMLPanelImpl panel) {
             super(SHTMLPanelImpl.findReplaceAction);
             this.panel = panel;
-            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F, KeyEvent.CTRL_MASK));
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
             getProperties();
         }
 
@@ -1299,6 +1380,10 @@ class SHTMLEditorKitActions {
      */
     static class FontAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -1349,6 +1434,10 @@ class SHTMLEditorKitActions {
      */
     static class FontFamilyAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -1385,6 +1474,10 @@ class SHTMLEditorKitActions {
      */
     static class FontSizeAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -1423,6 +1516,10 @@ class SHTMLEditorKitActions {
 
     static class FormatImageAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -1488,6 +1585,10 @@ class SHTMLEditorKitActions {
      */
     static class FormatListAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -1553,6 +1654,10 @@ class SHTMLEditorKitActions {
      */
     static class FormatParaAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -1602,6 +1707,10 @@ class SHTMLEditorKitActions {
      */
     static class FormatTableAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -1670,6 +1779,10 @@ class SHTMLEditorKitActions {
      */
     static class GarbageCollectionAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -1695,6 +1808,10 @@ class SHTMLEditorKitActions {
 
     static class InsertImageAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -1750,6 +1867,10 @@ class SHTMLEditorKitActions {
      */
     static class InsertTableAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -1799,6 +1920,10 @@ class SHTMLEditorKitActions {
      */
     static class InsertTableColAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -1836,6 +1961,10 @@ class SHTMLEditorKitActions {
      */
     static class InsertTableRowAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -1875,6 +2004,10 @@ class SHTMLEditorKitActions {
      */
     static class MoveTableRowUpAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -1912,6 +2045,10 @@ class SHTMLEditorKitActions {
      */
     static class MoveTableRowDownAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -1949,6 +2086,10 @@ class SHTMLEditorKitActions {
      */
     static class MoveTableColumnLeftAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -1986,6 +2127,10 @@ class SHTMLEditorKitActions {
      */
     static class MoveTableColumnRightAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -2023,6 +2168,10 @@ class SHTMLEditorKitActions {
      */
     static class ToggleTableHeaderCellAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -2057,6 +2206,10 @@ class SHTMLEditorKitActions {
 
     static class ItalicAction extends StyledEditorKit.ItalicAction implements SHTMLAction, AttributeComponent {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -2067,7 +2220,7 @@ class SHTMLEditorKitActions {
             this.panel = panel;
             putValue(Action.NAME, SHTMLPanelImpl.fontItalicAction);
             putValue(SHTMLPanelImpl.ACTION_SELECTED_KEY, SHTMLPanelImpl.ACTION_UNSELECTED);
-            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_MASK));
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_I, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
             SHTMLPanelImpl.getActionProperties(this, SHTMLPanelImpl.fontItalicAction);
         }
 
@@ -2168,6 +2321,10 @@ class SHTMLEditorKitActions {
      */
     static class NextTableCellAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -2210,6 +2367,10 @@ class SHTMLEditorKitActions {
      */
     static class PrevTableCellAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -2251,7 +2412,11 @@ class SHTMLEditorKitActions {
      * action to move to the previous cell in a table
      */
     static class PrintAction extends AbstractAction implements SHTMLAction {
-        static private Method printMethod;
+        /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		static private Method printMethod;
         static {
             Method printMethod = null;
             try {
@@ -2302,6 +2467,10 @@ class SHTMLEditorKitActions {
      */
     static class RedoAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -2311,7 +2480,7 @@ class SHTMLEditorKitActions {
             this.panel = panel;
             setEnabled(false);
             getProperties();
-            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Y, KeyEvent.CTRL_MASK));
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Y, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
 
         public void actionPerformed(final ActionEvent e) {
@@ -2344,6 +2513,10 @@ class SHTMLEditorKitActions {
     /** just adds a normal name to the superclasse's action */
     static class SHTMLEditCopyAction extends DefaultEditorKit.CopyAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -2353,7 +2526,7 @@ class SHTMLEditorKitActions {
             this.panel = panel;
             putValue(Action.NAME, SHTMLPanelImpl.copyAction);
             getProperties();
-            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK));
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
 
         public void actionPerformed(final ActionEvent e) {
@@ -2378,6 +2551,10 @@ class SHTMLEditorKitActions {
     /** just adds a normal name to the superclasse's action */
     static class SHTMLEditCutAction extends DefaultEditorKit.CutAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -2387,7 +2564,7 @@ class SHTMLEditorKitActions {
             this.panel = panel;
             putValue(Action.NAME, SHTMLPanelImpl.cutAction);
             getProperties();
-            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_MASK));
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
 
         public void actionPerformed(final ActionEvent e) {
@@ -2412,6 +2589,10 @@ class SHTMLEditorKitActions {
     /** just adds a normal name to the superclasse's action */
     static class SHTMLEditPasteAction extends DefaultEditorKit.PasteAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -2421,7 +2602,7 @@ class SHTMLEditorKitActions {
             this.panel = panel;
             putValue(Action.NAME, SHTMLPanelImpl.pasteAction);
             getProperties();
-            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_MASK));
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_V, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
 
         public void actionPerformed(final ActionEvent e) {
@@ -2442,7 +2623,7 @@ class SHTMLEditorKitActions {
             SHTMLPanelImpl.getActionProperties(this, (String) getValue(Action.NAME));
         }
     }
-    
+
     /**
      * This action does either "Paste as HTML" or "Paste as Text", depending on default_paste_mode!
      * @author Felix Natter
@@ -2450,6 +2631,10 @@ class SHTMLEditorKitActions {
      */
     static class SHTMLEditPasteOtherAction extends DefaultEditorKit.PasteAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -2457,18 +2642,17 @@ class SHTMLEditorKitActions {
         public SHTMLEditPasteOtherAction(final SHTMLPanelImpl panel) {
             super();
             this.panel = panel;
-            
+
             updateActionName(PasteMode.getValueFromPrefs().invert());
-            putValue(AbstractAction.ACCELERATOR_KEY,
-            		KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_MASK | InputEvent.SHIFT_DOWN_MASK));
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.ALT_DOWN_MASK));
         }
-        
+
         public void updateActionName(final PasteMode pm)
         {
         	if (pm == PasteMode.PASTE_HTML)
         	{
         		putValue(Action.NAME, Util.getResourceString("pasteHTMLLabel"));
-        	} 
+        	}
         	else if (pm == PasteMode.PASTE_PLAIN_TEXT)
         	{
         		putValue(Action.NAME, Util.getResourceString("pastePlainTextLabel"));
@@ -2484,10 +2668,10 @@ class SHTMLEditorKitActions {
         public void actionPerformed(final ActionEvent e) {
         	PasteMode pm = panel.getSHTMLEditorPane().getPasteMode().invert();
         	panel.getSHTMLEditorPane().setPasteMode(pm);
-        	
+
             super.actionPerformed(e);
             panel.updateActions();
-            
+
             panel.getSHTMLEditorPane().setPasteModeFromPrefs();
         }
 
@@ -2507,6 +2691,10 @@ class SHTMLEditorKitActions {
 
     static class SHTMLEditPrefsAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -2521,9 +2709,9 @@ class SHTMLEditorKitActions {
         public void actionPerformed(final ActionEvent ae) {
             final Frame parent = JOptionPane.getFrameForComponent(panel);
             final PrefsDialog dlg = new PrefsDialog(parent, Util.getResourceString("prefsDialogTitle"));
-            
+
             dlg.addPrefChangeListener(panel);
-            
+
             Util.center(parent, dlg);
             dlg.setModal(true);
             dlg.setVisible(true);
@@ -2531,7 +2719,7 @@ class SHTMLEditorKitActions {
             if (dlg.getResult() == DialogShell.RESULT_OK) {
             }
             panel.updateActions();
-            
+
             dlg.removePrefChangeListener(panel);
         }
 
@@ -2545,6 +2733,10 @@ class SHTMLEditorKitActions {
 
     static class SHTMLEditSelectAllAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -2554,7 +2746,7 @@ class SHTMLEditorKitActions {
             this.panel = panel;
             putValue(Action.NAME, SHTMLPanelImpl.selectAllAction);
             getProperties();
-            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_MASK));
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
 
         public void actionPerformed(final ActionEvent ae) {
@@ -2593,6 +2785,10 @@ class SHTMLEditorKitActions {
      */
     static class SHTMLFileCloseAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelMultipleDocImpl panel;
@@ -2604,6 +2800,7 @@ class SHTMLEditorKitActions {
             super(SHTMLPanelMultipleDocImpl.closeAction);
             this.panel = panel;
             getProperties();
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
 
         /** close the currently active document, if there is one */
@@ -2758,6 +2955,10 @@ class SHTMLEditorKitActions {
      */
     static class SHTMLFileCloseAllAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelMultipleDocImpl panel;
@@ -2808,6 +3009,10 @@ class SHTMLEditorKitActions {
      */
     static class SHTMLFileExitAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelMultipleDocImpl panel;
@@ -2816,7 +3021,7 @@ class SHTMLEditorKitActions {
             super(SHTMLPanelImpl.exitAction);
             this.panel = panel;
             getProperties();
-            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_MASK));
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
 
         public void actionPerformed(final ActionEvent ae) {
@@ -2845,6 +3050,10 @@ class SHTMLEditorKitActions {
     /** create a new empty document and show it */
     static class SHTMLFileNewAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelMultipleDocImpl panel;
@@ -2853,7 +3062,7 @@ class SHTMLEditorKitActions {
             super(SHTMLPanelMultipleDocImpl.newAction);
             this.panel = panel;
             getProperties();
-            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK));
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
 
         /** create a new empty document and show it */
@@ -2877,6 +3086,10 @@ class SHTMLEditorKitActions {
     /** open an existing document from file and show it */
     static class SHTMLFileOpenAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelMultipleDocImpl panel;
@@ -2885,7 +3098,7 @@ class SHTMLEditorKitActions {
             super(SHTMLPanelMultipleDocImpl.openAction);
             this.panel = panel;
             getProperties();
-            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_MASK));
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
 
         public void actionPerformed(final ActionEvent ae) {
@@ -3004,6 +3217,10 @@ class SHTMLEditorKitActions {
     /** save a document */
     static class SHTMLFileSaveAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -3012,7 +3229,7 @@ class SHTMLEditorKitActions {
             super(SHTMLPanelMultipleDocImpl.saveAction);
             this.panel = panel;
             getProperties();
-            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_MASK));
+            putValue(AbstractAction.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         }
 
         public void actionPerformed(final ActionEvent ae) {
@@ -3064,6 +3281,10 @@ class SHTMLEditorKitActions {
 
     static class SHTMLFileSaveAllAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelMultipleDocImpl panel;
@@ -3108,6 +3329,10 @@ class SHTMLEditorKitActions {
      */
     static class SHTMLFileSaveAsAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelMultipleDocImpl panel;
@@ -3243,6 +3468,10 @@ class SHTMLEditorKitActions {
      */
     static class SHTMLTestAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -3268,6 +3497,10 @@ class SHTMLEditorKitActions {
     /** show information about SimplyHTML in a dialog */
     static class SHTMLHelpAppInfoAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;
@@ -3303,6 +3536,10 @@ class SHTMLEditorKitActions {
      */
     static class SetDefaultStyleRefAction extends AbstractAction implements SHTMLAction {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+		/**
          *
          */
         private final SHTMLPanelImpl panel;

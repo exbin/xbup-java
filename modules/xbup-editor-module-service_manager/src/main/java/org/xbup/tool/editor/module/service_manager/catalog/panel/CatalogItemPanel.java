@@ -43,7 +43,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 /**
  * Panel for basic XBItem viewing/editation.
  *
- * @version 0.1.24 2014/11/17
+ * @version 0.1.24 2014/11/22
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemPanel extends javax.swing.JPanel {
@@ -375,6 +375,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
             XBCXStri stringId = striService.getItemStringId(item);
             itemPathTextField.setText(stringId == null ? "" : stringId.getText());
 
+            itemHDocEditorPane.setText(null);
             itemHDoc = hDocService.getDocumentation(item);
             if (itemHDoc != null) {
                 XBCXFile itemHDocFile = itemHDoc.getDocFile();
@@ -382,13 +383,10 @@ public class CatalogItemPanel extends javax.swing.JPanel {
                 try {
                     itemHDocEditorPane.getEditorKit().createDefaultDocument();
                     itemHDocEditorPane.read(fileStream, itemHDocEditorPane.getDocument());
-                } catch (RuntimeException ex) {
-                    // TODO: Properly handle loading exceptions
-                } catch (IOException ex) {
+                    
+                } catch (RuntimeException | IOException ex) {
                     Logger.getLogger(CatalogItemPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } else {
-                itemHDocEditorPane.setText("");
             }
             itemIcon = iconService.getDefaultIcon(item);
             if (itemIcon != null) {
@@ -403,6 +401,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
             itemTypeTextField.setText("unknown");
             itemNameTextField.setText("");
             itemDescriptionTextField.setText("");
+            itemHDocEditorPane.setText("");
         }
 
         revsModel.setSpec(item instanceof XBCSpec ? (XBCSpec) item : null);

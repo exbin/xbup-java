@@ -1,0 +1,62 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    <title>    </title>
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Class PluginManager
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">PluginManager</font>
+ finds and loads plug-ins. Upon creation it calls its method <font face="'Courier New',Monospaced,Monospace">
+loadPlugins</font> which in turn calls method <font face="'Courier New',Monospaced,Monospace">
+findPlugins</font> to locate any plug-ins to be loaded and to create a class 
+      loader for them. Method <font face="'Courier New',Monospaced,Monospace">
+      findPlugins</font> uses method <font face="'Courier New',Monospaced,Monospace">
+readJar</font> to get the class names from any Java archive (JAR) file found. <font face="'Courier New',Monospaced,Monospace">
+readJar</font> finds out the URLs for respective plug-in classes too.
+    </p>
+    <p>
+      Once all JAR files are searched, the found classes are loaded by method <font face="'Courier New',Monospaced,Monospace">
+loadPlugins</font>. Method <font face="'Courier New',Monospaced,Monospace">
+      plugins</font> returns all loaded plug-ins as an Enumeration.
+    </p>
+    <p class="heading2">
+      Restrictions for making plug-ins available to SimplyHTML
+    </p>
+    <p>
+      Plug-in classes and their accompanying classes are to be installed as 
+      Java archive (JAR) files. They are to be placed into package <font face="'Courier New',Monospaced,Monospace">
+com.lightdev.app.shtm.plugin.installed</font>. The plug-ins in this package 
+      need to be present in the directory where package <font face="'Courier New',Monospaced,Monospace">
+com.lightdev.app.shtm</font> is installed. This restriction makes it easier 
+      and faster to locate and load plug-ins.
+    </p>
+    <p>
+      If the actual plug-in class (the class implementing interface <font face="'Courier New',Monospaced,Monospace">
+SHTMLPlugin</font>, that is) needs additional classes as part of a plug-in 
+      package, the additional classes are best placed in sub-packages of 
+      package .<font face="'Courier New',Monospaced,Monospace">plugin.installed</font>
+ . This makes it faster to load the actual plug-in classes too.
+    </p>
+    <p class="heading2">
+      How plug-ins are found
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">PluginManager</font> 
+      looks for JAR files in the directory where the class file of <font face="'Courier New',Monospaced,Monospace">
+PluginManager</font> is installed (the application directory of SimplyHTML, 
+      that is). <font face="'Courier New',Monospaced,Monospace">PluginManager</font>
+ opens any JAR file found and goes through all content of the JAR file. Any 
+      class name found in package <font face="'Courier New',Monospaced,Monospace">
+com.lightdev.app.shtm.plugin.installed. </font><font face="Sans-Serif">is 
+      stored along with its URL.</font>
+    </p>
+    <p>
+      A class loader is created for the found URLs and all found classes are 
+      loaded.
+    </p>
+  </body>
+</html>

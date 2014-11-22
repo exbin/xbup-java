@@ -1,0 +1,104 @@
+<html>
+  <head>
+    <link href="../../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Adding online help
+    </p>
+    <p>
+      Once an application is started by the user it is most convenient to 
+      provide information and help directly out of that application. With 
+      JavaHelp technology the Java language has an extension for online help 
+      which any application can use to seamlessly incorporate documentation.
+    </p>
+    <p class="heading2">
+      JavaHelp extension
+    </p>
+    <p>
+      JavaHelp extends the Java Runtime Environment in the way that it 
+      provides a specification and platform to display any kind of 
+      documentation. All Information presented in JavaHelp is stored in HTML 
+      files. Table of contents, index and map are XML files all wrapped 
+      together with the HTML topic files into a framework of classes to view 
+      and query the information through a common user interface.
+    </p>
+    <p>
+      Unfortunately the JavaHelp extension is not a part of the core Java 
+      Runtime Environment (JRE) so the extension has to be applied manually by 
+      coping the extension file for JavaHelp into the extensions directory of 
+      the JRE.
+    </p>
+    <p class="heading3">
+      How to use JavaHelp in an application
+    </p>
+    <p>
+      Once a JavaHelp documentation is set up by creating HTML documents, 
+      table of contents, index and map files and the JavaHelp extension is 
+      available to the JRE, displaying JavaHelp documentation simply is done 
+      by creating a <font face="'Courier New',Monospaced,Monospace">HelpSet</font>
+ object for the corresponding help set and display it with an instance of <font face="'Courier New',Monospaced,Monospace">
+HelpBroker</font>.
+    </p>
+    <p>
+      More about the JavaHelp specification and technology is available at
+    </p>
+    <p>
+      <font color="#3366ff">http://java.sun.com/products/javahelp</font>
+    </p>
+    <p class="heading2">
+      How help is created for SimplyHTML
+    </p>
+    <p>
+      All documentation is stored in a single JavaHelp help set in directory <font face="'Courier New',Monospaced,Monospace">
+help</font> of the SimplyHTML class path (<font face="'Courier New',Monospaced,Monospace">
+source/com/lightdev/app/shtm/help</font>). The help set is the one you are 
+      currently reading. It was produced entirely with the Java application 
+      HelpExpert. HelpExpert is created by the author of SimplyHTML (hey, 
+      that's me again!) and is available at
+    </p>
+    <p>
+      <font color="#3366ff">http://www.calcom.de/eng/product/hlpex.htm</font>
+    </p>
+    <p class="heading2">
+      How help is implemented in SimplyHTML
+    </p>
+    <p>
+      A common practice is to deliver documentation through menu 'Help'. 
+      Consequently SimplyHTML has an item 'Help Topics' in the 'Help' menu 
+      linking to this help set. In stage 1 the link was performed by <font face="'Courier New',Monospaced,Monospace">
+SHTMLHelpShowContentsAction</font>. This has been refined to now being handled 
+      in method <font face="'Courier New',Monospaced,Monospace">initJavaHelp</font>
+ of class <font face="'Courier New',Monospaced,Monospace">FrmMain</font>.
+    </p>
+    <p class="heading3">
+      Method initJavaHelp
+    </p>
+    <p>
+      In method <font face="'Courier New',Monospaced,Monospace">initJavaHelp</font>
+ an instance of a <font face="'Courier New',Monospaced,Monospace">HelpBroker</font>
+ is created pointing to the JavaHelp version of this tutorial (included in the 
+      Java archive (JAR) file of SimplyHTML). A reference to this <font face="'Courier New',Monospaced,Monospace">
+HelpBroker</font> is kept for later use. Then class <font face="'Courier New',Monospaced,Monospace">
+FrmMain's</font> instance of class <font face="'Courier New',Monospaced,Monospace">
+DynamicResource</font> is used to get the menu item meant for displaying the 
+      application's online help topics overview.
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">CSH</font> (for 
+      context sensitive help) of the JavaHelp API is used to create an <font face="'Courier New',Monospaced,Monospace">
+ActionListener</font> responsible to display context sensitive help on 
+      occurrence of a given action (selecting the 'Help contents' menu item in 
+      this case). This <font face="'Courier New',Monospaced,Monospace">
+      ActionListener</font> is registered with the menu item.
+    </p>
+    <p>
+      <b>Important</b>: A 'readme' document should always be distributed with 
+      an application as <i>plain text file</i>. The readme file should contain 
+      essential information to properly set up and run the application. If all 
+      other tools fail, at least the user can be referred to this file to 
+      start with.
+    </p>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Adding an edit menu
+    </p>
+    <p>
+      With the functions describing <a href="../../topic16/topic62/topic69.htm">
+cut and paste</a> and <a href="../../topic16/topic62/topic64.htm">undo/redo</a>
+       in previous chapters we finally have what we need to add common edit 
+      functionality to SimplyHTML and to make it available on the GUI.
+    </p>
+    <p>
+      The edit menu is easily built by adding a new menu definition to our 
+      resource bundles: Just a few lines of text describing the new menu and 
+      its menu items. The entries in the resource bundle look as follows
+    </p>
+    <p>
+      
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <font face="'Courier New',Monospaced,Monospace"># edit menu definition </font>
+
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <font face="'Courier New',Monospaced,Monospace">edit=undo redo - cut 
+      copy paste </font>
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <font face="'Courier New',Monospaced,Monospace">editLabel=Edit </font>
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <font face="'Courier New',Monospaced,Monospace"># edit menu items </font>
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <font face="'Courier New',Monospaced,Monospace">undoLabel=Undo </font>
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <font face="'Courier New',Monospaced,Monospace">redoLabel=Redo </font>
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <font face="'Courier New',Monospaced,Monospace">cutLabel=Cut </font>
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <font face="'Courier New',Monospaced,Monospace">copyLabel=Copy </font>
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <font face="'Courier New',Monospaced,Monospace">pasteLabel=Paste</font>
+    </p>
+    <p>
+      
+    </p>
+    <p>
+      Once above text is added to file SimplyHTML.propertiers, construction of 
+      the menu as well as proper connection to actions and functionality to 
+      enable/disable the menu items is created automatically by the <a href="../../topic16/topic62/topic68.htm">
+dynamic menu functionality</a> of SimplyHTML.
+    </p>
+  </body>
+</html>

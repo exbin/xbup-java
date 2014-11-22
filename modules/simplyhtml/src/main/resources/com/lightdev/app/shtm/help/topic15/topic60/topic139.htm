@@ -1,0 +1,131 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    <title>    </title>
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Creating and manipulating named styles
+    </p>
+    <p>
+      The <a href="../../topic15/topic60/topic138.htm">previous chapter</a> 
+      describes how a certain format can be applied to one or more paragraphs 
+      at once. However, in many cases similar formats are applied to the 
+      content over and over again. To reduce maintenance effort and storage 
+      space, named styles can be defined for such formats.
+    </p>
+    <p>
+      Named styles are not applied directly to a document when created. 
+      Instead they are saved to the style sheet of a document. To use named 
+      styles two steps are necessary:
+    </p>
+    <ol>
+      <li>
+        define a named style by setting all its formatting attributes and 
+        saving it to the style sheet
+      </li>
+      <li>
+        select a portion of the document in the editor and pick a named style 
+        for it from the style selector in the tool bar
+      </li>
+    </ol>
+    <p>
+      Once a named style is saved in the style sheet, it will appear in the 
+      style selector in the tool bar of SimplyHTML. It is necessary to define 
+      named styles only once for a combination of document and style sheet. 
+      The style sheet for a document is maintained automatically by SimplyHTML 
+      and saved whenever a document is <a href="../../topic15/topic58.htm">
+      saved</a>.
+    </p>
+    <p class="heading2">
+      Creating a named style
+    </p>
+    <p>
+      To define and save a named style
+    </p>
+    <ul>
+      <li>
+        select 'Named style...' from menu 'Format'
+      </li>
+      <li>
+        set formatting attributes in the paragraph style dialog accordingly
+      </li>
+      <li>
+        select an <a href="../../topic15/topic60/topic160.htm">element type</a>
+         for the new style (selector located above list of named styles)
+      </li>
+      <li>
+        press button 'Save as...'
+      </li>
+      <li>
+        enter a name for the style and press 'OK'
+      </li>
+    </ul>
+    <p class="standard">
+      <b>Important</b>: Styles are created only for the <a href="../../topic15/topic60/topic160.htm">
+element type</a> that is currently selected (paragraph, link, heading, etc.). 
+      Only changed attributes are saved to the style sheet.
+    </p>
+    <p class="heading2">
+      Changing a name style
+    </p>
+    <p>
+      To change settings for an existing named style
+    </p>
+    <ul>
+      <li>
+        select 'Named style...' from menu 'Format'
+      </li>
+      <li>
+        select the <a href="../../topic15/topic60/topic160.htm">element type</a>
+ (selector located above list of named styles)
+      </li>
+      <li>
+        select the named style to change settings for in the list of existing 
+        named styles
+      </li>
+      <li>
+        change formatting attributes in the paragraph style dialog accordingly
+      </li>
+      <li>
+        switch back to the 'Paragraph' tab if you are on tab 'Font'
+      </li>
+      <li>
+        press button 'Save'
+      </li>
+      <li>
+        press button 'OK'
+      </li>
+    </ul>
+    <p>
+      The named style for the selected element type (paragraph, link, heading, 
+      etc.) will be overwritten with the new settings. At the same location 
+      named styles can be deleted from the style sheet too.
+    </p>
+    <p class="heading2">
+      Deleting a named style
+    </p>
+    <p>
+      To delete a named style
+    </p>
+    <ul>
+      <li>
+        select 'Named style...' from menu 'Format'
+      </li>
+      <li>
+        select the named style to change settings for in the list of existing 
+        named styles
+      </li>
+      <li>
+        press button 'Delete'
+      </li>
+    </ul>
+    <p>
+      <b>Caution</b>: Deleting a named style will cause content portions 
+      formatted with that style to be rendered in an unpredictable style. Be 
+      sure to delete only unused styles. Keep in mind that a named style could 
+      be used in another document sharing styles with the currently edited one.
+    </p>
+  </body>
+</html>

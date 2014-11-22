@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Using the new font formatting GUI
+    </p>
+    <p>
+      <a href="../../topic16/topic74/topic75.htm">Previous chapter</a> 
+      described <font face="'Courier New',Monospaced,Monospace">FontPanel</font>
+ as SimplyHTML's GUI to set most relevant font and font style settings at 
+      once. To actually use class <font face="'Courier New',Monospaced,Monospace">
+FontPanel</font> two additional classes are required. First of all, a dialog 
+      is needed to present a <font face="'Courier New',Monospaced,Monospace">
+      FontPanel</font> to the user. As well an action to invoke respective 
+      dialog must be created.
+    </p>
+    <p class="heading2">
+      Class FontDialog
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">FontDialog</font> 
+      simply wraps class <font face="'Courier New',Monospaced,Monospace">
+      FontPanel</font> into a <font face="'Courier New',Monospaced,Monospace">
+      JDialog</font> and creates all methods necessary to control the dialog 
+      such as closing the dialog with 'OK', cancelling the dialog etc.
+    </p>
+    <p>
+      In its constructor <font face="'Courier New',Monospaced,Monospace">
+      FontDialog</font> expects an <font face="'Courier New',Monospaced,Monospace"><a href="../../topic16/topic74/topic78.htm">
+AttributeSet</a></font> which is routed on to <font face="'Courier New',Monospaced,Monospace">
+FontPanel</font> for display and manipulation. Once the dialog is closed by 
+      pressing the 'OK' button, method <font face="'Courier New',Monospaced,Monospace">
+getAttributes</font> returns the <font face="'Courier New',Monospaced,Monospace">
+AttributeSet</font> from method <font face="'Courier New',Monospaced,Monospace">
+getAttributes</font> of class <font face="'Courier New',Monospaced,Monospace">
+      FontPanel</font>. Method <font face="'Courier New',Monospaced,Monospace">
+      getResult</font> returns the information whether the dialog was closed 
+      with the 'OK' or the 'Cancel' button.
+    </p>
+    <p class="heading2">
+      Action FontAction
+    </p>
+    <p>
+      With class <font face="'Courier New',Monospaced,Monospace">FontAction</font>
+ all prevously descibed font functionality is 'plugged' into SimplyHTML's 
+      mechanism to make functions avaliable on the GUI. Its method <font face="'Courier New',Monospaced,Monospace">
+actionPerformed</font> creates an instance of class <font face="'Courier New',Monospaced,Monospace">
+FontDialog</font> and applies font changes from <font face="'Courier New',Monospaced,Monospace">
+FontDialog</font> to a document. <font face="'Courier New',Monospaced,Monospace">
+FontAction</font> is added to the commands Hashtable of FrmMain through method <font face="'Courier New',Monospaced,Monospace">
+initActions</font> and its name is reflected in the action name constants of 
+      FrmMain ensuring proper usage during <a href="../../topic16/topic62/topic68.htm">
+dynamic menu creation</a>.
+    </p>
+    <p>
+      To always reflect proper state to components bound to <font face="'Courier New',Monospaced,Monospace">
+FontAction</font>, it implements interface <font face="'Courier New',Monospaced,Monospace">
+SHTMLAction</font> with method <font face="'Courier New',Monospaced,Monospace">
+      update</font>.
+    </p>
+  </body>
+</html>

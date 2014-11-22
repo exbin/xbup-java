@@ -1,0 +1,62 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Using interfaces
+    </p>
+    <p>
+      Interfaces are a good way to define rules by which objects interact. If 
+      one object likes to communicate with another it has to have a way to 
+      determine whether or not that other object 'understands'. If an object 
+      can determine from which class another object was instantiated, it can 
+      expect or not expect certain methods being present.
+    </p>
+    <p>
+      If an object is to implement an interface it has to implement all 
+      methods the particular interface defines. How the methods are 
+      implemented, i.e. which code they actually hold, is up to the 
+      implementing object. A single object can implement many interfaces.
+    </p>
+    <p class="heading2">
+      Example: SHTMLAction
+    </p>
+    <p>
+      In application SimplyHTML this is demonstrated by interface <font face="'Courier New',Monospaced,Monospace">
+SHTMLAction</font>.
+    </p>
+    <p>
+      In the process of <a href="../../topic16/topic62/topic68.htm">dynamic 
+      menu creation</a> method createMenu adds an <font face="'Courier New',Monospaced,Monospace">
+SHTMLMenuListener</font> to each menu. <font face="'Courier New',Monospaced,Monospace">
+SHTMLMenuListener</font> is used to update all actions to reflect the up to 
+      date enabled state prior to selection of a menu. To be able to do this, <font face="'Courier New',Monospaced,Monospace">
+SHTMLMenuListener</font> must determine, whether or not an action that is to 
+      be updated, actually <i>has</i> a method to update its enabled state.
+    </p>
+    <p>
+      Interface <font face="'Courier New',Monospaced,Monospace">SHTMLAction</font>
+ is defined so that <font face="'Courier New',Monospaced,Monospace">
+      SHTMLMenuListener</font> can do that. <font face="'Courier New',Monospaced,Monospace">
+SHTMLMenuListener</font> checks if an action is of instance <font face="'Courier New',Monospaced,Monospace">
+SHTMLAction</font> which it only would be if it implements interface <font face="'Courier New',Monospaced,Monospace">
+SHTMLAction</font>. Only if an action is an instance of <font face="'Courier New',Monospaced,Monospace">
+SHTMLAction</font>, its update method is called, because otherwise <font face="'Courier New',Monospaced,Monospace">
+SHTMLMenuListener</font> can not be sure if there is a method <font face="'Courier New',Monospaced,Monospace">
+update</font> in the particular action object.
+    </p>
+    <p>
+      Another advantage of the interface methodology is that objects of any 
+      class can implement interface <font face="'Courier New',Monospaced,Monospace">
+SHTMLAction</font> so that an object instantiated from class <font face="'Courier New',Monospaced,Monospace">
+SHTMLUndoAction</font> can be an instance of <font face="'Courier New',Monospaced,Monospace">
+SHTMLUndoAction</font> and an instance of <font face="'Courier New',Monospaced,Monospace">
+SHTMLAction</font> too even if <font face="'Courier New',Monospaced,Monospace">
+      SHTMLAction</font> is not a superclass according to the class hierarchy 
+      of <font face="'Courier New',Monospaced,Monospace">SHTMLUndoAction</font>
+       .
+    </p>
+  </body>
+</html>

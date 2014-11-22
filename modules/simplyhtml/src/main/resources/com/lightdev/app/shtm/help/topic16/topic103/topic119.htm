@@ -1,0 +1,70 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    <title>    </title>
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Example: Making a new plug-in
+    </p>
+    <p>
+      To create a new plug-in for SimplyHTML,
+    </p>
+    <ol>
+      <li>
+        copy file <font face="'Courier New',Monospaced,Monospace">
+        PluginTemplate.java</font> into your plug-in project's source directoy
+      </li>
+      <li>
+        rename <font face="'Courier New',Monospaced,Monospace">
+        PluginTemplate.java</font> to a name you would like to give your new 
+        plug-in class
+      </li>
+      <li>
+        change the paramteters of call <font face="'Courier New',Monospaced,Monospace">
+super</font> in <font face="'Courier New',Monospaced,Monospace">PluginTemplate</font>
+ 's constructor according to names you choose (refer to class <font face="'Courier New',Monospaced,Monospace">
+AbstractPlugin</font> for a definition of these parameters)
+      </li>
+      <li>
+        create one or more .<font face="'Courier New',Monospaced,Monospace"> 
+        properties</font> files as needed for your new plug-in (you can use 
+        file <font face="'Courier New',Monospaced,Monospace">
+        PluginTemplate.properties</font> a an example)
+      </li>
+      <li>
+        adjust parameter <font face="'Courier New',Monospaced,Monospace">
+        &quot;pluginTemplateLabel&quot;</font> in method <font face="'Courier New',Monospaced,Monospace">
+getGUIName</font> to an ID String referring to respective entry in your .<font face="'Courier New',Monospaced,Monospace">
+properties</font> file(s)
+      </li>
+      <li>
+        add methods and fields to implement the functionality desired for your 
+        new plug-in
+      </li>
+      <li>
+        compile the new plug-in's source file (<font face="'Courier New',Monospaced,Monospace">
+.java</font>) to a <font face="'Courier New',Monospaced,Monospace">.class</font>
+ file
+      </li>
+      <li>
+        place <font face="'Courier New',Monospaced,Monospace">.class</font> 
+        file and .<font face="'Courier New',Monospaced,Monospace">properties</font>
+ file(s) into a Java archive (JAR) file, package <font face="'Courier New',Monospaced,Monospace">
+com.lightdev.app.shtm.plugin.installed</font>
+      </li>
+      <li>
+        place the JAR file into the directory <font face="'Courier New',Monospaced,Monospace">
+SimplyHTML.jar</font> is installed in
+      </li>
+    </ol>
+    <p>
+      
+    </p>
+    <p>
+      When starting SimplyHTML for the next time, your new plug-in should be 
+      listed in the 'Manage Plugins...' dialog.
+    </p>
+  </body>
+</html>

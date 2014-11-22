@@ -1,0 +1,774 @@
+<?xml version='1.0' encoding='ISO-8859-1'  ?>
+   <!DOCTYPE index
+     PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Index Version 1.0//EN"
+            "http://java.sun.com/products/javahelp/index_1_0.dtd">
+<index version="1.0">
+   <indexitem text="about SimplyHTML" target="item1" />
+   <indexitem text="AboutBox" target="item40" />
+   <indexitem text="absolute paths" target="item156" />
+   <indexitem text="absolute references" target="item134" />
+   <indexitem text="AbstractPlugin" target="item113" />
+   <indexitem text="action list" target="item28" />
+   <indexitem text="actions" target="item20" />
+   <indexitem text="actions for list formatting" target="item125" />
+   <indexitem text="actions of FrmMain" target="item28" />
+   <indexitem text="actions, connecting to menu">
+      <indexitem text="Creating a dynamic menu" target="item68" />
+      <indexitem text="Adding an edit menu" target="item66" />
+   </indexitem>
+   <indexitem text="actions, defining for plug-ins" target="item113" />
+   <indexitem text="actions, enabling disabling" target="item68" />
+   <indexitem text="Adding a menu bar and menu items" target="item19" />
+   <indexitem text="adding a standard tool bar" target="item83" />
+   <indexitem text="adding columns" target="item91" />
+   <indexitem text="adding elements" target="item96" />
+   <indexitem text="adding images" target="item135" />
+   <indexitem text="adding images to the repository" target="item130" />
+   <indexitem text="adding online help" target="item43" />
+   <indexitem text="adding rows" target="item91" />
+   <indexitem text="AnchorDialog" target="item157" />
+   <indexitem text="API documentation" target="item44" />
+   <indexitem text="API documents" target="item1" />
+   <indexitem text="App" target="item11" />
+   <indexitem text="append row" target="item102" />
+   <indexitem text="appent column" target="item102" />
+   <indexitem text="application" target="item4" />
+   <indexitem text="application creating" target="item11" />
+   <indexitem text="application, documenting" target="item39" />
+   <indexitem text="application, terminating" target="item37" />
+   <indexitem text="apply a named style" target="item139" />
+   <indexitem text="apply font changes" target="item78" />
+   <indexitem text="apply paragraph attributes" target="item141" />
+   <indexitem text="applyAttributes" target="item78" />
+   <indexitem text="applying attributes" target="item93" />
+   <indexitem text="applying image settings" target="item133" />
+   <indexitem text="applying links" target="item155" />
+   <indexitem text="approach to work with paragraph and named styles" target="item145" />
+   <indexitem text="attribute changes" target="item78" />
+   <indexitem text="attribute changes, enabling" target="item96" />
+   <indexitem text="attributes, changing" target="item93" />
+   <indexitem text="attributes, changing for images" target="item130" />
+   <indexitem text="attributes, combining" target="item78" />
+   <indexitem text="attributes, for input" target="item78" />
+   <indexitem text="AttributeSet" target="item78" />
+   <indexitem text="audience" target="item16" />
+   <indexitem text="author" target="item7" />
+   <indexitem text="automate menu construction" target="item68" />
+   <indexitem text="aviod redundancy of code" target="item28" />
+   <indexitem text="avoiding loss of data in the close process" target="item33" />
+   <indexitem text="border rendering, enhancing" target="item99" />
+   <indexitem text="border-color" target="item100" />
+   <indexitem text="border-width" target="item100" />
+   <indexitem text="caret movement in tables" target="item94" />
+   <indexitem text="caret movement inside lists" target="item126" />
+   <indexitem text="caret movement inside tables" target="item102" />
+   <indexitem text="CaretListener" target="item82" />
+   <indexitem text="caretUpdate" target="item82" />
+   <indexitem text="Cascading Style Sheets CSS" target="item42" />
+   <indexitem text="case sensitive search" target="item174" />
+   <indexitem text="cell attributes, changing" target="item93" />
+   <indexitem text="cell border rendering, enhancing" target="item99" />
+   <indexitem text="cells, removing" target="item91" />
+   <indexitem text="change named style" target="item139" />
+   <indexitem text="change single font attributes" target="item81" />
+   <indexitem text="changing attributes" target="item96" />
+   <indexitem text="changing font settings" target="item85" />
+   <indexitem text="changing images" target="item135" />
+   <indexitem text="changing links" target="item159" />
+   <indexitem text="changing list attributes" target="item124" />
+   <indexitem text="changing list formatting" target="item126" />
+   <indexitem text="changing paragraph styles" target="item138" />
+   <indexitem text="changing plug-in settings individually" target="item117" />
+   <indexitem text="changing table and cell attributes" target="item93" />
+   <indexitem text="changing the table format" target="item102" />
+   <indexitem text="changing the table structure" target="item102" />
+   <indexitem text="class App" target="item11" />
+   <indexitem text="Class DynamicResource" target="item111" />
+   <indexitem text="class ParaStyleDialog" target="item146" />
+   <indexitem text="Class PluginManager" target="item110" />
+   <indexitem text="class StyleSelector" target="item147" />
+   <indexitem text="classes" target="item24" />
+   <indexitem text="clipboard" target="item65" />
+   <indexitem text="close actions" target="item33" />
+   <indexitem text="closing all documents" target="item36" />
+   <indexitem text="closing documents">
+      <indexitem text="SHTMLFileCloseAction" target="item27" />
+      <indexitem text="Closing documents" target="item61" />
+   </indexitem>
+   <indexitem text="closing the application" target="item37" />
+   <indexitem text="ColorPanel" target="item75" />
+   <indexitem text="column, append" target="item102" />
+   <indexitem text="column, delete" target="item102" />
+   <indexitem text="column, insert" target="item102" />
+   <indexitem text="columns, adding" target="item91" />
+   <indexitem text="columns, removing" target="item91" />
+   <indexitem text="command" target="item52" />
+   <indexitem text="communication between objects" target="item71" />
+   <indexitem text="concept for image support" target="item129" />
+   <indexitem text="connecting components and actions" target="item111" />
+   <indexitem text="connecting GUI and functionality" target="item20" />
+   <indexitem text="constructing a DocumentPane" target="item41" />
+   <indexitem text="constructing a LicensePane " target="item51" />
+   <indexitem text="constructing the main window" target="item13" />
+   <indexitem text="copyright notices" target="item39" />
+   <indexitem text="create named style" target="item139" />
+   <indexitem text="createToolBar" target="item79" />
+   <indexitem text="creating a basic application" target="item11" />
+   <indexitem text="creating a dynamic menu" target="item68" />
+   <indexitem text="creating a font formatting tool bar" target="item79" />
+   <indexitem text="creating a GUI to define link anchors" target="item157" />
+   <indexitem text="creating a GUI to define links" target="item156" />
+   <indexitem text="creating a main window and menus" target="item12" />
+   <indexitem text="creating a new table" target="item95" />
+   <indexitem text="creating an About dialog" target="item40" />
+   <indexitem text="creating and manipulating lists" target="item126" />
+   <indexitem text="creating and manipulating tables" target="item102" />
+   <indexitem text="creating and storing documents" target="item25" />
+   <indexitem text="creating images" target="item135" />
+   <indexitem text="creating link anchors" target="item162" />
+   <indexitem text="creating links" target="item159" />
+   <indexitem text="Creating new documents">
+      <indexitem text="Creating new documents" target="item29" />
+      <indexitem text="Creating new documents" target="item57" />
+   </indexitem>
+   <indexitem text="creating plug-ins for SimplyHTML" target="item113" />
+   <indexitem text="creating source code documentation" target="item44" />
+   <indexitem text="CSS" target="item76" />
+   <indexitem text="CSS attributes" target="item141" />
+   <indexitem text="CSS shorthand properties, transforming" target="item100" />
+   <indexitem text="CSS style information, saving" target="item47" />
+   <indexitem text="CSS styles" target="item42" />
+   <indexitem text="CSSWriter" target="item48" />
+   <indexitem text="cultural region" target="item70" />
+   <indexitem text="customizeFrame" target="item83" />
+   <indexitem text="customizing Java for CSS" target="item76" />
+   <indexitem text="customizing the main window" target="item18" />
+   <indexitem text="cut and paste">
+      <indexitem text="Cut and paste mechanism in Java" target="item65" />
+      <indexitem text="How cut and paste work in SimplyHTML" target="item69" />
+      <indexitem text="Common edit functions" target="item127" />
+   </indexitem>
+   <indexitem text="data loss, avoiding" target="item33" />
+   <indexitem text="dataflavor" target="item65" />
+   <indexitem text="dealing with styles and font settings" target="item76" />
+   <indexitem text="defining actions for plug-ins" target="item113" />
+   <indexitem text="delete column" target="item102" />
+   <indexitem text="delete named style" target="item139" />
+   <indexitem text="delete row" target="item102" />
+   <indexitem text="deleting images" target="item135" />
+   <indexitem text="deleting link anchors" target="item162" />
+   <indexitem text="deployment of SimplyHTML" target="item151" />
+   <indexitem text="design" target="item16" />
+   <indexitem text="development" target="item16" />
+   <indexitem text="development stages, planned" target="item112" />
+   <indexitem text="directory for images" target="item131" />
+   <indexitem text="discrepancies in HTML and CSS rendering" target="item115" />
+   <indexitem text="distribution package">
+      <indexitem text="Parts of the distribution package" target="item24" />
+      <indexitem text="Installation" target="item23" />
+   </indexitem>
+   <indexitem text="doc" target="item24" />
+   <indexitem text="documentation" target="item1" />
+   <indexitem text="documenting the application" target="item39" />
+   <indexitem text="DocumentListener" target="item38" />
+   <indexitem text="DocumentPane" target="item38" />
+   <indexitem text="DocumentPane, constructing" target="item41" />
+   <indexitem text="documents" target="item4" />
+   <indexitem text="documents in Java" target="item25" />
+   <indexitem text="documents in SimplyHTML" target="item25" />
+   <indexitem text="documents, closing">
+      <indexitem text="SHTMLFileCloseAction" target="item27" />
+      <indexitem text="Closing documents" target="item61" />
+   </indexitem>
+   <indexitem text="documents, closing all" target="item36" />
+   <indexitem text="documents, creating">
+      <indexitem text="Creating new documents" target="item29" />
+      <indexitem text="Creating new documents" target="item57" />
+   </indexitem>
+   <indexitem text="documents, creating and storing" target="item25" />
+   <indexitem text="documents, editing" target="item60" />
+   <indexitem text="documents, loading  from file" target="item31" />
+   <indexitem text="documents, opening" target="item59" />
+   <indexitem text="documents, saving">
+      <indexitem text="Saving documents" target="item32" />
+      <indexitem text="Saving documents" target="item58" />
+   </indexitem>
+   <indexitem text="documents, saving under a different name" target="item58" />
+   <indexitem text="drag" target="item72" />
+   <indexitem text="drag and drop">
+      <indexitem text="Implementing drag and drop" target="item72" />
+      <indexitem text="Common edit functions" target="item127" />
+   </indexitem>
+   <indexitem text="drop">
+      <indexitem text="Implementing drag and drop" target="item72" />
+      <indexitem text="Common edit functions" target="item127" />
+   </indexitem>
+   <indexitem text="dynamic menu, creating" target="item68" />
+   <indexitem text="dynamic resources" target="item111" />
+   <indexitem text="edit functions" target="item127" />
+   <indexitem text="edit menu" target="item66" />
+   <indexitem text="edit named style" target="item139" />
+   <indexitem text="editing documents" target="item60" />
+   <indexitem text="EditorKit" target="item41" />
+   <indexitem text="EffectPanel" target="item75" />
+   <indexitem text="Element" target="item78" />
+   <indexitem text="element changes, enabling" target="item96" />
+   <indexitem text="element type, setting" target="item160" />
+   <indexitem text="elements, adding" target="item96" />
+   <indexitem text="elements, removing" target="item96" />
+   <indexitem text="ElementTreePanel" target="item5" />
+   <indexitem text="enabling element and attribute changes" target="item96" />
+   <indexitem text="enhancing cell border rendering" target="item99" />
+   <indexitem text="event dispatching thread" target="item11" />
+   <indexitem text="example: making a new plug-in" target="item119" />
+   <indexitem text="ExampleFileFilter" target="item5" />
+   <indexitem text="executable JAR" target="item52" />
+   <indexitem text="existing documents, opening" target="item59" />
+   <indexitem text="exiting the application" target="item37" />
+   <indexitem text="Extractor" target="item24" />
+   <indexitem text="FamilyPickList" target="item75" />
+   <indexitem text="file menu" target="item28" />
+   <indexitem text="files" target="item4" />
+   <indexitem text="find and replace basics" target="item174" />
+   <indexitem text="find and replace for whole words" target="item174" />
+   <indexitem text="find and replace over multiple documents" target="item176" />
+   <indexitem text="find and replace search direction" target="item174" />
+   <indexitem text="find and replace start position" target="item174" />
+   <indexitem text="find and replace user interface" target="item179" />
+   <indexitem text="find logic" target="item175" />
+   <indexitem text="finding links" target="item155" />
+   <indexitem text="finding plug-ins" target="item110" />
+   <indexitem text="font attributes, changing single ones" target="item81" />
+   <indexitem text="font dialog" target="item74" />
+   <indexitem text="font formatting tool bar, creating" target="item79" />
+   <indexitem text="font manipulation" target="item74" />
+   <indexitem text="font manipulation GUI" target="item75" />
+   <indexitem text="font name discrepancies" target="item115" />
+   <indexitem text="font settings, applying" target="item78" />
+   <indexitem text="font settings, changing" target="item85" />
+   <indexitem text="font size discrepancies" target="item115" />
+   <indexitem text="font style attributes, changing" target="item75" />
+   <indexitem text="FontAction" target="item80" />
+   <indexitem text="FontComponent">
+      <indexitem text="Creating a GUI for font manipulation" target="item75" />
+      <indexitem text="Actions and components to switch single font attributes" target="item81" />
+   </indexitem>
+   <indexitem text="fontComponents" target="item75" />
+   <indexitem text="FontDialog" target="item80" />
+   <indexitem text="FontFamilyPicker" target="item81" />
+   <indexitem text="FontPanel" target="item75" />
+   <indexitem text="FontSizePicker" target="item81" />
+   <indexitem text="format image" target="item135" />
+   <indexitem text="format, of supported images" target="item129" />
+   <indexitem text="FormatImageAction" target="item133" />
+   <indexitem text="FrmMain" target="item17" />
+   <indexitem text="functionality" target="item16" />
+   <indexitem text="functionality and GUI, connecting" target="item20" />
+   <indexitem text="geographical region" target="item70" />
+   <indexitem text="getAttributes" target="item75" />
+   <indexitem text="getInputAttributes" target="item78" />
+   <indexitem text="getMaxAttributes" target="item78" />
+   <indexitem text="getting compiled classes" target="item24" />
+   <indexitem text="getting started" target="item22" />
+   <indexitem text="getting this tutorial in JavaHelp format" target="item24" />
+   <indexitem text="getValue" target="item75" />
+   <indexitem text="GNU General Public License">
+      <indexitem text="License" target="item5" />
+      <indexitem text="GNU General Public License" target="item56" />
+   </indexitem>
+   <indexitem text="GPL">
+      <indexitem text="License" target="item5" />
+      <indexitem text="GNU General Public License" target="item56" />
+   </indexitem>
+   <indexitem text="gpl txt">
+      <indexitem text="License" target="item5" />
+      <indexitem text="Parts of the distribution package" target="item24" />
+   </indexitem>
+   <indexitem text="graphical user interface" target="item20" />
+   <indexitem text="GUI">
+      <indexitem text="The class DocumentPane" target="item38" />
+      <indexitem text="Using layouts for proper alignment of visible components" target="item50" />
+      <indexitem text="User interface" target="item163" />
+   </indexitem>
+   <indexitem text="GUI and functionality, connecting " target="item20" />
+   <indexitem text="GUI for font manipulation" target="item75" />
+   <indexitem text="handling window close events" target="item14" />
+   <indexitem text="heading element types" target="item160" />
+   <indexitem text="help menu" target="item28" />
+   <indexitem text="Help pdf" target="item24" />
+   <indexitem text="help, how it is created for SimplyHTML" target="item43" />
+   <indexitem text="HelpExpert">
+      <indexitem text="About SimplyHTML" target="item1" />
+      <indexitem text="Adding online help" target="item43" />
+   </indexitem>
+   <indexitem text="highlighting syntax">
+      <indexitem text="Stage 10: HTML code editor and syntax highlighting" target="item168" />
+      <indexitem text="Adding syntax highlighting" target="item170" />
+   </indexitem>
+   <indexitem text="history of SimplyHTML" target="item21" />
+   <indexitem text="how help is created for SimplyHTML" target="item43" />
+   <indexitem text="how plug-ins are found" target="item110" />
+   <indexitem text="how subdirectories are structured" target="item24" />
+   <indexitem text="how to apply links" target="item155" />
+   <indexitem text="how to use JavaHelp in an application" target="item43" />
+   <indexitem text="how undo and redo work in SimplyHTML" target="item64" />
+   <indexitem text="HTML" target="item172" />
+   <indexitem text="HTML and CSS rendering, discrepancies" target="item115" />
+   <indexitem text="HTML code" target="item168" />
+   <indexitem text="HTML code editor" target="item169" />
+   <indexitem text="HTML code view" target="item172" />
+   <indexitem text="HTML documents" target="item42" />
+   <indexitem text="HTML tags" target="item78" />
+   <indexitem text="HTML, transport of" target="item69" />
+   <indexitem text="HTMLDocument">
+      <indexitem text="The class SHTMLEditorKit" target="item45" />
+      <indexitem text="Extending classes for tag SPAN" target="item77" />
+   </indexitem>
+   <indexitem text="HTMLEditorKit">
+      <indexitem text="The class SHTMLEditorKit" target="item45" />
+      <indexitem text="Extending classes for tag SPAN" target="item77" />
+   </indexitem>
+   <indexitem text="HTMLReader" target="item77" />
+   <indexitem text="HTMLText" target="item69" />
+   <indexitem text="HTMLTextSelection" target="item69" />
+   <indexitem text="HTMLWriter" target="item77" />
+   <indexitem text="i18n" target="item67" />
+   <indexitem text="image attributes, changing" target="item130" />
+   <indexitem text="image directory" target="item131" />
+   <indexitem text="image formats" target="item129" />
+   <indexitem text="image links">
+      <indexitem text="How to apply links" target="item155" />
+      <indexitem text="Creating and manipulating links" target="item159" />
+   </indexitem>
+   <indexitem text="image list maintenance" target="item130" />
+   <indexitem text="image preview" target="item130" />
+   <indexitem text="image references in HTML" target="item134" />
+   <indexitem text="image repository" target="item129" />
+   <indexitem text="image settings, applying" target="item133" />
+   <indexitem text="image storage, implementing" target="item131" />
+   <indexitem text="image, format" target="item135" />
+   <indexitem text="image, insert" target="item135" />
+   <indexitem text="image, reading from the class path" target="item40" />
+   <indexitem text="ImageDialog" target="item130" />
+   <indexitem text="images, adding to repository" target="item130" />
+   <indexitem text="images, removing from repository" target="item130" />
+   <indexitem text="implementing image storage" target="item131" />
+   <indexitem text="incorporating plug-ins at runtime" target="item108" />
+   <indexitem text="individual border rendering" target="item99" />
+   <indexitem text="inisde lists" target="item120" />
+   <indexitem text="inner classes" target="item49" />
+   <indexitem text="input attributes" target="item78" />
+   <indexitem text="insert a table" target="item95" />
+   <indexitem text="insert column" target="item102" />
+   <indexitem text="insert image" target="item135" />
+   <indexitem text="insert row" target="item102" />
+   <indexitem text="insert table" target="item102" />
+   <indexitem text="InsertImageAction" target="item133" />
+   <indexitem text="inside images" target="item128" />
+   <indexitem text="inside links" target="item152" />
+   <indexitem text="inside named styles" target="item140" />
+   <indexitem text="inside paragraph styles" target="item140" />
+   <indexitem text="inside SimplyHTML" target="item16" />
+   <indexitem text="installation" target="item23" />
+   <indexitem text="installing plug-ins" target="item114" />
+   <indexitem text="interaction between objects" target="item71" />
+   <indexitem text="interaction between style components and style sheet" target="item148" />
+   <indexitem text="Interface FontComponent" target="item75" />
+   <indexitem text="interfaces, using" target="item71" />
+   <indexitem text="internationalization">
+      <indexitem text="Using resource bundles" target="item67" />
+      <indexitem text="Dynamic resources" target="item111" />
+   </indexitem>
+   <indexitem text="J2SE" target="item6" />
+   <indexitem text="JAR" target="item52" />
+   <indexitem text="JAR files" target="item110" />
+   <indexitem text="Java" target="item6" />
+   <indexitem text="Java 2 Standard Editition J2SE" target="item6" />
+   <indexitem text="Java Network Launching Protocol" target="item151" />
+   <indexitem text="Java Runtime Environemt" target="item11" />
+   <indexitem text="Java Runtime Environment">
+      <indexitem text="Requirements" target="item6" />
+      <indexitem text="Starting SimplyHTML" target="item52" />
+   </indexitem>
+   <indexitem text="Java Web Start" target="item151" />
+   <indexitem text="Javadoc">
+      <indexitem text="About SimplyHTML" target="item1" />
+      <indexitem text="Creating source code documentation" target="item44" />
+   </indexitem>
+   <indexitem text="JavaHelp">
+      <indexitem text="Parts of the distribution package" target="item24" />
+      <indexitem text="Requirements" target="item6" />
+   </indexitem>
+   <indexitem text="JavaHelp extension" target="item43" />
+   <indexitem text="JEditorPane" target="item38" />
+   <indexitem text="jhall jar" target="item24" />
+   <indexitem text="jhall.jar" target="item6" />
+   <indexitem text="JNLP" target="item151" />
+   <indexitem text="JPanel" target="item38" />
+   <indexitem text="JRE">
+      <indexitem text="Requirements" target="item6" />
+      <indexitem text="Installation" target="item23" />
+      <indexitem text="Starting SimplyHTML" target="item52" />
+      <indexitem text="Creating a basic application" target="item11" />
+   </indexitem>
+   <indexitem text="JScrollPane" target="item38" />
+   <indexitem text="JTabbedPane" target="item18" />
+   <indexitem text="jtpDocs">
+      <indexitem text="The class FrmMain" target="item17" />
+      <indexitem text="Customizing the main window" target="item18" />
+   </indexitem>
+   <indexitem text="laguages, other" target="item111" />
+   <indexitem text="language">
+      <indexitem text="Using resource bundles" target="item67" />
+      <indexitem text="Presenting SimplyHTML in multiple languages" target="item70" />
+   </indexitem>
+   <indexitem text="layout view" target="item172" />
+   <indexitem text="layouts, using for proper alignment" target="item50" />
+   <indexitem text="license" target="item5" />
+   <indexitem text="LicensePane" target="item51" />
+   <indexitem text="line separator" target="item48" />
+   <indexitem text="link anchors" target="item153" />
+   <indexitem text="link anchors, setting and removing" target="item162" />
+   <indexitem text="link protocol" target="item153" />
+   <indexitem text="link structure" target="item153" />
+   <indexitem text="link types" target="item153" />
+   <indexitem text="LinkDialog" target="item156" />
+   <indexitem text="links" target="item152" />
+   <indexitem text="links in HTML" target="item153" />
+   <indexitem text="links, creating and manipulating" target="item159" />
+   <indexitem text="list actions" target="item125" />
+   <indexitem text="list attributes, changing" target="item124" />
+   <indexitem text="list format dialog" target="item124" />
+   <indexitem text="list formatting" target="item123" />
+   <indexitem text="list formatting, changing" target="item126" />
+   <indexitem text="list formatting, turning on or off" target="item126" />
+   <indexitem text="list rendering" target="item121" />
+   <indexitem text="listeners" target="item148" />
+   <indexitem text="listeners, using" target="item84" />
+   <indexitem text="lists in HTML documents" target="item121" />
+   <indexitem text="lists, creating and manipulating" target="item126" />
+   <indexitem text="Loading documents from file" target="item31" />
+   <indexitem text="loading plug-ins" target="item110" />
+   <indexitem text="locale" target="item70" />
+   <indexitem text="look and feel" target="item11" />
+   <indexitem text="loss of data, avoiding" target="item33" />
+   <indexitem text="main frame" target="item11" />
+   <indexitem text="main window">
+      <indexitem text="Creating a main window and menus" target="item12" />
+      <indexitem text="Constructing the main window" target="item13" />
+   </indexitem>
+   <indexitem text="main window, customizing" target="item18" />
+   <indexitem text="making a new plug-in (example)" target="item119" />
+   <indexitem text="making plug-ins available to SimplyHTML" target="item114" />
+   <indexitem text="manipulate fonts" target="item74" />
+   <indexitem text="manipulating fonts and font styles" target="item78" />
+   <indexitem text="manipulating links" target="item159" />
+   <indexitem text="manipulating the table structure" target="item91" />
+   <indexitem text="margin" target="item100" />
+   <indexitem text="menu" target="item66" />
+   <indexitem text="menu bar, adding" target="item19" />
+   <indexitem text="menu items, adding" target="item19" />
+   <indexitem text="menu, creating" target="item68" />
+   <indexitem text="menus" target="item12" />
+   <indexitem text="merge lists" target="item123" />
+   <indexitem text="multiple document find and replace" target="item176" />
+   <indexitem text="multiple languages" target="item70" />
+   <indexitem text="named styles" target="item141" />
+   <indexitem text="named styles, create, edit, delete" target="item139" />
+   <indexitem text="online help, adding" target="item43" />
+   <indexitem text="Open Source" target="item1" />
+   <indexitem text="opening existing documents" target="item59" />
+   <indexitem text="options" target="item117" />
+   <indexitem text="other languages" target="item111" />
+   <indexitem text="package">
+      <indexitem text="Parts of the distribution package" target="item24" />
+      <indexitem text="Installation" target="item23" />
+   </indexitem>
+   <indexitem text="padding" target="item100" />
+   <indexitem text="paragraph attributes" target="item141" />
+   <indexitem text="paragraph element type" target="item160" />
+   <indexitem text="paragraph styles, changing" target="item138" />
+   <indexitem text="ParaStyleDialog" target="item145" />
+   <indexitem text="parts needed to implement links" target="item154" />
+   <indexitem text="parts needed to implement style manipulation" target="item144" />
+   <indexitem text="parts of the distribution package" target="item24" />
+   <indexitem text="parts of the plug-in architecture" target="item107" />
+   <indexitem text="paste">
+      <indexitem text="Cut and paste mechanism in Java" target="item65" />
+      <indexitem text="How cut and paste work in SimplyHTML" target="item69" />
+      <indexitem text="Common edit functions" target="item127" />
+   </indexitem>
+   <indexitem text="path" target="item23" />
+   <indexitem text="planned development stages" target="item112" />
+   <indexitem text="plug-in architecture parts" target="item107" />
+   <indexitem text="plug-in initialization" target="item108" />
+   <indexitem text="plug-in installation" target="item114" />
+   <indexitem text="plug-in menu" target="item108" />
+   <indexitem text="plug-in requirements" target="item109" />
+   <indexitem text="plug-in, changing settings" target="item117" />
+   <indexitem text="plug-in, making new (example)" target="item119" />
+   <indexitem text="plug-ins, creating" target="item113" />
+   <indexitem text="plug-ins, defining actions" target="item113" />
+   <indexitem text="plug-ins, incorporating at runtime" target="item108" />
+   <indexitem text="plug-ins, removing" target="item114" />
+   <indexitem text="plug-ins, using" target="item118" />
+   <indexitem text="plug-ins: finding and loading" target="item110" />
+   <indexitem text="plug-ins: using class DynamicResource for" target="item111" />
+   <indexitem text="PluginManager" target="item110" />
+   <indexitem text="political region" target="item70" />
+   <indexitem text="position to start find and replace" target="item174" />
+   <indexitem text="preferences" target="item117" />
+   <indexitem text="preparing for window close events" target="item13" />
+   <indexitem text="presenting SimplyHTML in multiple languages" target="item70" />
+   <indexitem text="previewing images" target="item130" />
+   <indexitem text="process oriented perspective" target="item34" />
+   <indexitem text="processWindowEvent" target="item14" />
+   <indexitem text="propertiers" target="item66" />
+   <indexitem text="properties files" target="item111" />
+   <indexitem text="protocol, for links" target="item153" />
+   <indexitem text="range of text" target="item78" />
+   <indexitem text="reading an image from the class path" target="item40" />
+   <indexitem text="readme document" target="item43" />
+   <indexitem text="readme txt" target="item24" />
+   <indexitem text="redo" target="item63" />
+   <indexitem text="reference link" target="item29" />
+   <indexitem text="references, to images, absolute and relative" target="item134" />
+   <indexitem text="region, geographical, political, cultural" target="item70" />
+   <indexitem text="registerDocument" target="item82" />
+   <indexitem text="regular expressions" target="item170" />
+   <indexitem text="relative paths" target="item156" />
+   <indexitem text="relative references" target="item134" />
+   <indexitem text="remove named style" target="item139" />
+   <indexitem text="removing cells" target="item91" />
+   <indexitem text="removing columns" target="item91" />
+   <indexitem text="removing elements" target="item96" />
+   <indexitem text="removing images" target="item135" />
+   <indexitem text="removing images from the repository" target="item130" />
+   <indexitem text="removing link anchors" target="item162" />
+   <indexitem text="removing plug-ins" target="item114" />
+   <indexitem text="removing rows" target="item91" />
+   <indexitem text="rendering lists" target="item121" />
+   <indexitem text="rendering mechanism (cell borders)" target="item99" />
+   <indexitem text="replace logic" target="item178" />
+   <indexitem text="repository for images" target="item129" />
+   <indexitem text="requirements" target="item6" />
+   <indexitem text="requirements for plug-ins" target="item109" />
+   <indexitem text="resource bundles">
+      <indexitem text="Adding an edit menu" target="item66" />
+      <indexitem text="Dynamic resources" target="item111" />
+   </indexitem>
+   <indexitem text="resource bundles, using" target="item67" />
+   <indexitem text="restoring contents of the downloaded ZIP file" target="item24" />
+   <indexitem text="restrictions for images" target="item129" />
+   <indexitem text="row, append" target="item102" />
+   <indexitem text="row, delete" target="item102" />
+   <indexitem text="row, insert" target="item102" />
+   <indexitem text="rows, adding" target="item91" />
+   <indexitem text="rows, removing" target="item91" />
+   <indexitem text="run" target="item52" />
+   <indexitem text="Runtime Environment">
+      <indexitem text="Requirements" target="item6" />
+      <indexitem text="Starting SimplyHTML" target="item52" />
+   </indexitem>
+   <indexitem text="save thread" target="item27" />
+   <indexitem text="saving CSS style information" target="item47" />
+   <indexitem text="saving documents">
+      <indexitem text="Saving documents" target="item32" />
+      <indexitem text="Saving documents" target="item58" />
+   </indexitem>
+   <indexitem text="saving documents under a different name" target="item58" />
+   <indexitem text="saving style sheets" target="item150" />
+   <indexitem text="SDK" target="item6" />
+   <indexitem text="search direction" target="item174" />
+   <indexitem text="searching for whole words" target="item174" />
+   <indexitem text="selection" target="item78" />
+   <indexitem text="set most relevant font and font style settings at once" target="item75" />
+   <indexitem text="set of attributes" target="item78" />
+   <indexitem text="setAttributes" target="item75" />
+   <indexitem text="setting a look and feel" target="item11" />
+   <indexitem text="setting image attributes" target="item130" />
+   <indexitem text="setting link anchors" target="item162" />
+   <indexitem text="setting links" target="item159" />
+   <indexitem text="setting paragraph styles" target="item138" />
+   <indexitem text="setting the element type" target="item160" />
+   <indexitem text="setValue" target="item75" />
+   <indexitem text="SHTMLAction" target="item71" />
+   <indexitem text="SHTMLEditorKit" target="item45" />
+   <indexitem text="SHTMLFileCloseAction" target="item27" />
+   <indexitem text="SHTMLFileCloseAllAction" target="item36" />
+   <indexitem text="SHTMLFileExitAction" target="item37" />
+   <indexitem text="SHTMLFileNewAction" target="item28" />
+   <indexitem text="SHTMLFileOpenAction" target="item28" />
+   <indexitem text="SHTMLFileSaveAction" target="item28" />
+   <indexitem text="SHTMLFileSaveAsAction" target="item28" />
+   <indexitem text="SHTMLHelpAppInfoAction" target="item28" />
+   <indexitem text="SHTMLHelpShowContentsAction">
+      <indexitem text="Actions of FrmMain" target="item28" />
+      <indexitem text="Adding online help" target="item43" />
+   </indexitem>
+   <indexitem text="SHTMLWriter">
+      <indexitem text="Creating a new table" target="item95" />
+      <indexitem text="CSS shorthand properties" target="item100" />
+   </indexitem>
+   <indexitem text="SimplyHTML distribution package" target="item23" />
+   <indexitem text="SimplyHTML jar" target="item24" />
+   <indexitem text="SizePickList" target="item75" />
+   <indexitem text="Software Development Kit SDK" target="item6" />
+   <indexitem text="source" target="item24" />
+   <indexitem text="source code documentation, creating" target="item44" />
+   <indexitem text="source codes" target="item16" />
+   <indexitem text="SPAN">
+      <indexitem text="Customizing Java for CSS" target="item76" />
+      <indexitem text="Extending classes for tag SPAN" target="item77" />
+   </indexitem>
+   <indexitem text="split lists" target="item123" />
+   <indexitem text="spotlights" target="item34" />
+   <indexitem text="stage 1 application documents and files" target="item4" />
+   <indexitem text="stage 10: HTML code editor and syntax highlighting" target="item168" />
+   <indexitem text="stage 2: resource bundles and common edit functions" target="item62" />
+   <indexitem text="stage 3: font manipulation and tool bars" target="item74" />
+   <indexitem text="stage 4: tables" target="item86" />
+   <indexitem text="stage 5: plug-ins, user settings and dynamic resources" target="item103" />
+   <indexitem text="stage 8: Paragraph styles and named styles" target="item140" />
+   <indexitem text="stage 9: links" target="item152" />
+   <indexitem text="stages">
+      <indexitem text="About SimplyHTML" target="item1" />
+      <indexitem text="Inside SimplyHTML" target="item16" />
+   </indexitem>
+   <indexitem text="stages, planned for development" target="item112" />
+   <indexitem text="start position for find and replace" target="item174" />
+   <indexitem text="starting SimplyHTML" target="item52" />
+   <indexitem text="store undoable edit actions" target="item64" />
+   <indexitem text="structure" target="item16" />
+   <indexitem text="structure of tables in documents" target="item92" />
+   <indexitem text="STYLE attributes" target="item77" />
+   <indexitem text="style handling design in SimplyHTML" target="item46" />
+   <indexitem text="style selector" target="item145" />
+   <indexitem text="style selector, in tool bar" target="item139" />
+   <indexitem text="style sheet">
+      <indexitem text="The class SHTMLEditorKit" target="item45" />
+      <indexitem text="Loading documents from file" target="item31" />
+      <indexitem text="Manipulating fonts and font styles" target="item78" />
+      <indexitem text="Saving documents" target="item58" />
+   </indexitem>
+   <indexitem text="style sheet reference link" target="item29" />
+   <indexitem text="style sheet storage" target="item150" />
+   <indexitem text="style sheet, saving">
+      <indexitem text="Saving CSS style information" target="item47" />
+      <indexitem text="The class CSSWriter" target="item48" />
+   </indexitem>
+   <indexitem text="style sheets" target="item141" />
+   <indexitem text="style sheets and HTML documents" target="item42" />
+   <indexitem text="style sheets, saving" target="item150" />
+   <indexitem text="StylePickList" target="item75" />
+   <indexitem text="styles" target="item65" />
+   <indexitem text="styles in HTML and CSS" target="item141" />
+   <indexitem text="styles, changing for paragraphs" target="item138" />
+   <indexitem text="StyleSheet">
+      <indexitem text="Constructing a DocumentPane" target="item41" />
+      <indexitem text="The class CSSWriter" target="item48" />
+   </indexitem>
+   <indexitem text="subdirectories" target="item24" />
+   <indexitem text="Sun Microsystems Inc" target="item5" />
+   <indexitem text="supporting find and replace over multiple documents" target="item176" />
+   <indexitem text="switch single font attributes" target="item81" />
+   <indexitem text="switch views" target="item172" />
+   <indexitem text="switching list formatting on or off" target="item123" />
+   <indexitem text="synchronizing tool bar and document" target="item82" />
+   <indexitem text="syntax highlighting">
+      <indexitem text="Stage 10: HTML code editor and syntax highlighting" target="item168" />
+      <indexitem text="Adding syntax highlighting" target="item170" />
+   </indexitem>
+   <indexitem text="system platforms" target="item11" />
+   <indexitem text="table attributes, changing" target="item93" />
+   <indexitem text="table cell margin discrepancies" target="item115" />
+   <indexitem text="table manipulation parts to implement" target="item89" />
+   <indexitem text="table structure in documents" target="item92" />
+   <indexitem text="table structure, manipulating" target="item91" />
+   <indexitem text="table, creating new" target="item95" />
+   <indexitem text="TableDialog" target="item93" />
+   <indexitem text="tables, caret movement">
+      <indexitem text="Caret movement in tables" target="item94" />
+      <indexitem text="Creating and manipulating tables" target="item102" />
+   </indexitem>
+   <indexitem text="tables, changing structure" target="item102" />
+   <indexitem text="tables, changing the format" target="item102" />
+   <indexitem text="tables, creating and manipulating" target="item102" />
+   <indexitem text="tables, insert" target="item102" />
+   <indexitem text="tag SPAN">
+      <indexitem text="Customizing Java for CSS" target="item76" />
+      <indexitem text="Extending classes for tag SPAN" target="item77" />
+   </indexitem>
+   <indexitem text="target audience" target="item16" />
+   <indexitem text="temporary storage" target="item129" />
+   <indexitem text="terminating the application" target="item37" />
+   <indexitem text="text files" target="item67" />
+   <indexitem text="text links">
+      <indexitem text="How to apply links" target="item155" />
+      <indexitem text="Creating and manipulating links" target="item159" />
+   </indexitem>
+   <indexitem text="thread">
+      <indexitem text="Creating a basic application" target="item11" />
+      <indexitem text="SHTMLFileCloseAction" target="item27" />
+   </indexitem>
+   <indexitem text="threads" target="item49" />
+   <indexitem text="threads, using for lengthy operations" target="item49" />
+   <indexitem text="TitledPickList" target="item75" />
+   <indexitem text="ToggleFontAction" target="item81" />
+   <indexitem text="toggleList" target="item123" />
+   <indexitem text="tool bar for font formatting" target="item79" />
+   <indexitem text="tool bar, adding a standard one" target="item83" />
+   <indexitem text="tool bar, synchronizing" target="item82" />
+   <indexitem text="tool bars" target="item74" />
+   <indexitem text="transferable" target="item65" />
+   <indexitem text="transport" target="item69" />
+   <indexitem text="transport of data" target="item65" />
+   <indexitem text="transport of HTML" target="item69" />
+   <indexitem text="trnasferable" target="item69" />
+   <indexitem text="turning list formatting on or off" target="item126" />
+   <indexitem text="tutorial">
+      <indexitem text="Parts of the distribution package" target="item24" />
+      <indexitem text="Documenting the application" target="item39" />
+   </indexitem>
+   <indexitem text="types of links" target="item153" />
+   <indexitem text="UIManager" target="item11" />
+   <indexitem text="undo" target="item63" />
+   <indexitem text="undoable edit actions" target="item64" />
+   <indexitem text="UndoableEditListener" target="item63" />
+   <indexitem text="UndoManager" target="item63" />
+   <indexitem text="UndoManager, creating" target="item64" />
+   <indexitem text="unregisterDocument" target="item82" />
+   <indexitem text="updateFormatControls" target="item82" />
+   <indexitem text="URL" target="item31" />
+   <indexitem text="usage of application SimplyHTML" target="item15" />
+   <indexitem text="usage of styles" target="item42" />
+   <indexitem text="user interface">
+      <indexitem text="Connecting GUI and functionality" target="item20" />
+      <indexitem text="User interface" target="item163" />
+   </indexitem>
+   <indexitem text="user interface for find and replace" target="item179" />
+   <indexitem text="user manual" target="item39" />
+   <indexitem text="user settings" target="item117" />
+   <indexitem text="using class DynamicResource for plug-ins" target="item111" />
+   <indexitem text="using FontPanel" target="item80" />
+   <indexitem text="using interfaces" target="item71" />
+   <indexitem text="using Java Web Start to launch SimplyHTML" target="item151" />
+   <indexitem text="using layouts for proper alignment of visible components " target="item50" />
+   <indexitem text="using LinkDialog and AnchorDialog" target="item158" />
+   <indexitem text="using listeners" target="item84" />
+   <indexitem text="using plug-ins" target="item118" />
+   <indexitem text="using resource bundles" target="item67" />
+   <indexitem text="using SimplyHTML" target="item15" />
+   <indexitem text="using threads for lengthy operations" target="item49" />
+   <indexitem text="Vector" target="item75" />
+   <indexitem text="view, HTML" target="item172" />
+   <indexitem text="view, layout" target="item172" />
+   <indexitem text="Web Start" target="item151" />
+   <indexitem text="whole word search" target="item174" />
+   <indexitem text="window close events" target="item37" />
+   <indexitem text="window close events, handling" target="item14" />
+   <indexitem text="window close events, preparing for" target="item13" />
+   <indexitem text="working with HTML code" target="item172" />
+   <indexitem text="zip file" target="item23" />
+   <indexitem text="zip files" target="item24" />
+</index>

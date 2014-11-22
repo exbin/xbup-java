@@ -1,0 +1,100 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      CSS shorthand properties
+    </p>
+    <p>
+      CSS 'shorthand properties' allow to store a group of properties in one 
+      single property which shortens the way the properties are stored. If for 
+      instance a margin should be specified for an object that margin usually 
+      applies to a certain side such as top, or left. To store individual 
+      margins for all four sides of an object one can specifiy four CSS 
+      attributes for each of the four sides or the individual properties of 
+      all four sides can be stored in one shorthand property.
+    </p>
+    <p>
+      To store values in a shorthand property, they have to follow the order 
+      top, right, bottom, left. Individual values can be omitted, if some or 
+      all values are equal. E.g. if the margin of all sides is the same, only 
+      one value needs to be stored in the shorthand property which will be 
+      taken for all four sides.
+    </p>
+    <p>
+      <i><b>Example with four equal values</b>:</i> <font face="'Courier New',Monospaced,Monospace">
+margin:0pt;</font>
+    </p>
+    <p>
+      <i><b>Example with four different values</b>:</i> <font face="'Courier New',Monospaced,Monospace">
+margin:0pt 1pt 2pt 3pt;</font>
+    </p>
+    <p class="heading3">
+      Shorthand properties used with HTML tables
+    </p>
+    <p>
+      For elements of HTML tables modeled by application SimplyHTML the 
+      following shorthand properties can be used to shorten attribute 
+      expressions inside individual tags:
+    </p>
+    <ul>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">margin</font>
+      </li>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">padding</font>
+      </li>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">border-width</font>
+      </li>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">border-color</font>
+      </li>
+    </ul>
+    <p class="heading2">
+      Class CombinedAttribute
+    </p>
+    <p>
+      To enable usage of shorthand properties, application SimplyHTML provides 
+      class <font face="'Courier New',Monospaced,Monospace">CombinedAttribute</font>
+ . <font face="'Courier New',Monospaced,Monospace">CombinedAttribute</font> 
+      models a CSS shorthand property by providing methods to manipulate and 
+      store four individual CSS properties in one CSS shorthand property.
+    </p>
+    <p>
+      It is used in classes <font face="'Courier New',Monospaced,Monospace">
+      SHTMLBoxPainter</font> to render table cells, <font face="'Courier New',Monospaced,Monospace">
+SHTMLEditorPane</font> to manipulate tables and in <font face="'Courier New',Monospaced,Monospace">
+SHTMLWriter</font> for writing CSS shorthand properties.
+    </p>
+    <p class="heading2">
+      Transforming CSS properties to CSS shorthand properties
+    </p>
+    <p>
+      In the Java languages all CSS shorthand properties are transformed to 
+      'normal' CSS properties when HTML and CSS is modeled (in an <font face="'Courier New',Monospaced,Monospace">
+HTMLDocument</font> for instance). So for any CSS shorthand property four 
+      individual CSS attributes are created for an element.
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">CombinedAtrribute</font> 
+      is constructed from an <font face="'Courier New',Monospaced,Monospace">
+      AttributeSet</font> which may have CSS attributes belonging to a CSS 
+      shorthand property or not, so it does not matter whether or not the 
+      model uses CSS shorthand properties. When HTML code is to be generated 
+      for HTML file creation however, 'normal' CSS properties belonging to a 
+      CSS shorthand property need to be transformed from the model to the file 
+      accordingly.
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">SHTMLWriter</font> 
+      does that by initializing a table of CSS properties for which CSS 
+      shorthand properties are to be generated. When creating HTML code, 
+      method <font face="'Courier New',Monospaced,Monospace">writeAttributes</font>
+ filters out those single CSS atributes, creates CSS shorthand properties for 
+      them, and writes out these instead.
+    </p>
+  </body>
+</html>

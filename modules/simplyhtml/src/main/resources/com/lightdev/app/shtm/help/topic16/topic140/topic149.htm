@@ -1,0 +1,95 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    <title>    </title>
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Adding the new style components to the GUI
+    </p>
+    <p>
+      As in previous stages actions are used to connect the new functionality 
+      to the GUI elements such as menus or the tool bar. There are three new 
+      actions and one changed action in class FrmMain
+    </p>
+    <ul>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">FormatParaAction</font>
+         - action to set paragraph styles
+      </li>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">EditNamedStyleAction</font>
+ - action to manipulate named styles
+      </li>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">SetStyleAction</font> 
+        - action to apply a given named style to the current selection
+      </li>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">ToggleAction</font> - 
+        adaption of former ToggleFontAction to support paragraph alignment too
+      </li>
+    </ul>
+    <p>
+      The actions are initialized in method <font face="'Courier New',Monospaced,Monospace">
+initActions</font> of class <font face="'Courier New',Monospaced,Monospace">
+      FrmMain</font> and are added to <font face="'Courier New',Monospaced,Monospace">
+FrmMain's</font> dynamic resource.
+    </p>
+    <p class="heading3">
+      FormatParaAction and EditNamedStyleAction
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">FormatParaAction</font> 
+      and <font face="'Courier New',Monospaced,Monospace">EditNamedStyleAction</font>
+ both create an instance of <font face="'Courier New',Monospaced,Monospace"><a href="../../topic16/topic140/topic146.htm">
+ParaStyleDialog</a></font>. <font face="'Courier New',Monospaced,Monospace">
+      FormatParaAction</font> uses the set of attributes returned by <font face="'Courier New',Monospaced,Monospace">
+ParaStyleDialog</font> and applies them to the currently selected 
+      paragraph(s). <font face="'Courier New',Monospaced,Monospace">
+      EditNamedStyleAction</font> does nothing on return of <font face="'Courier New',Monospaced,Monospace">
+ParastyleDialog</font>, the dialog does all the work for manipulation of named 
+      styles.
+    </p>
+    <p class="heading3">
+      SetStyleAction
+    </p>
+    <p>
+      SetStyleAction takes the class attribute returned by the StyleSelector 
+      component in the tool bar and applies it to the currently selected 
+      paragraph(s).
+    </p>
+    <p class="heading3">
+      ToggleAction
+    </p>
+    <p>
+      ToggleAction applies the attribute returned by its getValue method to 
+      the current selection. Depending on the attribute key the action object 
+      represents attriubtes are applied to either on paragraph or character 
+      level. The action then sets a state indicator to allow a bound component 
+      such as a JToggleButton to reflect the state accordingly (selected or 
+      unselected).
+    </p>
+    <p class="heading2">
+      New components
+    </p>
+    <p>
+      Besides the new <font face="'Courier New',Monospaced,Monospace">
+      StyleSelector</font> component, in method <font face="'Courier New',Monospaced,Monospace">
+createToolBar</font> of class <font face="'Courier New',Monospaced,Monospace">
+      FrmMain</font>, additional toggle buttons are created to toggle between 
+      different paragrpah alignments (left, center, right). A new tool bar 
+      button for setting a paragraph style is added too. In menu 'Format', new 
+      menu items are created for setting paragraph style, style sheet 
+      manipulation and paragraph alignment.
+    </p>
+    <p>
+      All new components are added by including their associated action names 
+      in the properties file of SimplyHTML as described in <a href="../../topic16/topic62.htm">
+stage 2</a> and especially '<a href="../../topic16/topic62/topic66.htm">Adding 
+      an edit menu</a>' as well as '<a href="../../topic16/topic103/topic111.htm">
+Dynamic resources</a>' from <a href="../../topic16/topic103.htm">stage 5</a>.
+    </p>
+  </body>
+</html>

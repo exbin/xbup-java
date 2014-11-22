@@ -1,0 +1,212 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    <title>    </title>
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Using Java Web Start to launch SimplyHTML
+    </p>
+    <p>
+      <a href="../../topic22/topic6.htm">Java Web Start</a> - a technology for 
+      simplifying deployment of Java applications - gives users the power to 
+      launch full-featured applications with a single click from a Web 
+      browser. Introduced in version 1.4 of the Java 2 Standard Edition (J2SE) 
+      Java Web Start allows to download and launch applications, such as 
+      SimplyHTML, without going through complicated installation procedures.
+    </p>
+    <p class="heading3">
+      Benefits
+    </p>
+    <p>
+      The following benefits as listed in the Java Network Launching Protocol 
+      (JNLP) specification result from using Java Web Start:
+    </p>
+    <p>
+      
+    </p>
+    <ul>
+      <li>
+        <b>No installation phase</b>: A JNLP Client simply needs to download 
+        and cache the application&#8217;s resources. The user does not need to be 
+        prompted about install directories and the like.
+      </li>
+      <li>
+        <b>Transparent update</b>: A JNLP Client can check the currently 
+        cached resources against the versions hosted on the Web Server and 
+        transparently download newer versions.
+      </li>
+      <li>
+        <b>Incremental update</b>: The JNLP Client only needs to download the 
+        resources that have been changed when an application is updated. If 
+        only a few of the application&#8217;s resources have been modified, this can 
+        significantly reduce the amount of data that needs to be downloaded 
+        when upgrading to a new version of an application. Furthermore, 
+        incremental update of individual JAR files is also supported.
+      </li>
+      <li>
+        <b>Incremental download</b>: A JNLP Client does not need to download 
+        an entire application before it is launched. For example, for a 
+        spreadsheet application the downloading of the graphing module could 
+        be postponed until first use. JNLP supports this model by allowing the 
+        developer to specify what resources are needed before an application 
+        is launched (eager), and what resources can be downloaded later 
+        (lazy). Furthermore, JNLP provides an API so the developer can check 
+        if a resource is local or not (e.g., need to be downloaded or not), 
+        and to request non-local resources to be downloaded.
+      </li>
+      <li>
+        <b>Offline support</b>: A JNLP Client can launch an application 
+        offline if a sufficient set of resources are cached locally. However, 
+        most applications deployed using JNLP are expected to be Web-centric, 
+        i.e., they will typically connect back to a Web server or database to 
+        retrieve their state. Hence, many applications will only work online. 
+        The application developer specifies if offline operation is supported, 
+        and what resources are needed locally to launch the application 
+        offline.
+      </li>
+    </ul>
+    <p class="heading2">
+      How Java Web Start works for SimplyHTML
+    </p>
+    <p>
+      With <a href="../../topic16/topic140.htm">stage 8</a> of SimplyHTML, the 
+      application home page at <font face="'Courier New',Monospaced,Monospace">
+      http://www.lightdev.com/dev/sh.htm</font> holds a link to a <font face="'Courier New',Monospaced,Monospace">
+.jnlp</font> file which in turn specifies all details of application 
+      SimplyHTML (required files, descriptions, etc.). When the link is 
+      clicked, Java Web Start is invoked on the client and the application is 
+      loaded down to the client. Once loaded, SimplyHTML is launched and the 
+      application can be used immediately.
+    </p>
+    <p>
+      No manual installation, no copying of files, no command line scripting 
+      or desktop links, no compatibility checking, nothing.
+    </p>
+    <p>
+      Users can choose to always start SimplyHTML through the web or to 
+      download it to the client permanently and work with the application 
+      offline.
+    </p>
+    <p class="heading3">
+      How it is done
+    </p>
+    <p>
+      To achieve a Java Web Start for SimplyHTML a <font face="'Courier New',Monospaced,Monospace">
+.jnlp</font> file is created as follows (with <font face="'Courier New',Monospaced,Monospace">
+codebase</font> below having an example entry)
+    </p>
+    <p>
+      
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;jnlp spec=&quot;1.0+&quot; codebase=&quot;http://www.lightdev.com/dev/&quot;&gt;
+
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; margin-left:12pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;information&gt;
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; margin-left:24pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;title&gt;SimplyHTML&lt;/title&gt;
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; margin-left:24pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;vendor&gt;Light Development&lt;/vendor&gt;
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; margin-left:24pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;homepage href=&quot;http://www.lightdev.com/dev/sh.htm&quot; /&gt;
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; margin-left:24pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;description&gt;SimplyHTML text processor for HTML and CSS&lt;/description&gt;
+
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; margin-left:24pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;offline-allowed/&gt;
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; margin-left:12pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;/information&gt;
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; margin-left:12pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;security&gt;
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; margin-left:24pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;all-permissions/&gt;
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; margin-left:12pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;/security&gt;
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; margin-left:12pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;resources&gt;
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; margin-left:24pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;j2se version=&quot;1.4+&quot; /&gt;
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; margin-left:24pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;jar href=&quot;SimplyHTML.jar&quot;/&gt;
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; margin-left:24pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;extension name=&quot;Java Help&quot; href=&quot;javahelp.jnlp&quot;&gt;
+
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; margin-left:24pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;/extension&gt;
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; margin-left:12pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;/resources&gt;
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; margin-left:12pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;application-desc main-class=&quot;com.lightdev.app.shtm.App&quot; /&gt;
+
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; margin-left:0pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;/jnlp&gt;
+    </p>
+    <p>
+      
+    </p>
+    <p>
+      A similar <font face="'Courier New',Monospaced,Monospace">.jnlp</font> 
+      file is created to deploy the <a href="../../topic22/topic6.htm">JavaHelp</a>
+ runtime extension (file <font face="'Courier New',Monospaced,Monospace">
+      jhall.jar</font>). The <font face="'Courier New',Monospaced,Monospace">
+      .jnlp</font> files are copied onto the web server along with the signed 
+      application <font face="'Courier New',Monospaced,Monospace">.jar</font> 
+      file. Once the application home page has the mentioned link to the <font face="'Courier New',Monospaced,Monospace">
+.jnlp</font> file, it is ready to be 'Web Started'.
+    </p>
+    <p class="heading2">
+      References
+    </p>
+    <p>
+      A very good article about how to 'Web Start' an application can be found 
+      at
+    </p>
+    <p>
+      <font color="#0033ff">
+      http://developer.java.sun.com/developer/technicalArticles/Programming/jnlp/ 
+</font>
+    </p>
+    <p>
+      
+    </p>
+    <p>
+      A perfect explanation of how to obtain a certificate from a Certificate 
+      Authority and how to sign own code with such certificate can be found at
+    </p>
+    <p>
+      <font color="#0033ff">http://www.dallaway.com/acad/webstart/</font>
+    </p>
+    <p>
+      
+    </p>
+    <p>
+      The official Java Web Start product page is at
+    </p>
+    <p>
+      <font color="#0033ff">http://java.sun.com/products/javawebstart/</font>
+    </p>
+  </body>
+</html>

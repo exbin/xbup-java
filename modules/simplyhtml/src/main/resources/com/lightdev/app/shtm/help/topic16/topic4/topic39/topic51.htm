@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <link href="../../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      The class LicensePane
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">LicensePane</font> 
+      extens class <font face="'Courier New',Monospaced,Monospace">JPanel</font>
+ by adding a <font face="'Courier New',Monospaced,Monospace">JTextArea</font> 
+      and a <font face="'Courier New',Monospaced,Monospace">JScrollPane</font> 
+      to it. The <font face="'Courier New',Monospaced,Monospace">JTextArea</font>
+ is used to display the full text of the <a href="../../../topic1/topic5.htm">
+      GNU General Public License</a>. By wrapping this functionality into a 
+      separate class it is easier for other classes such as <font face="'Courier New',Monospaced,Monospace"><a href="../../../topic16/topic4/topic39/topic40.htm">
+AboutBox</a></font> to show that info text.
+    </p>
+    <p class="heading2">
+      Constructing a LicensePane
+    </p>
+    <p>
+      The constructor takes a <font face="'Courier New',Monospaced,Monospace">
+      Dimension</font> object to determine the preferred size of the panel to 
+      be constructed. In the constructor a new non-editable <font face="'Courier New',Monospaced,Monospace">
+JTextArea</font> is created with the license text to be displayed as a 
+      parameter. The license text is delivered by method <font face="'Courier New',Monospaced,Monospace">
+getLicenseText</font> (see below). A new <font face="'Courier New',Monospaced,Monospace">
+JScrollPane</font> is created and the <font face="'Courier New',Monospaced,Monospace">
+JTextArea</font> is associated with it. The vertical and horizontal scroll bar 
+      are set to be displayed as needed.
+    </p>
+    <p>
+      Finally the <font face="'Courier New',Monospaced,Monospace">JScrollPane</font>
+ containing the <font face="'Courier New',Monospaced,Monospace">JTextArea</font>
+ is added to the <font face="'Courier New',Monospaced,Monospace">LicensePane</font>
+ and the license text is scrolled to the top with method <font face="'Courier New',Monospaced,Monospace">
+setCaretPosition</font>.
+    </p>
+    <p class="heading2">
+      Method getLicenseText
+    </p>
+    <p>
+      The license text is taken from file '<font face="'Courier New',Monospaced,Monospace">
+gpl.txt</font>' delivered in the class path of the <a href="../../../topic1/topic24.htm">
+distribution</a> of SimplyHTML. Method <font face="'Courier New',Monospaced,Monospace">
+getResourceAsStream</font> is used to locate the file and to open an <font face="'Courier New',Monospaced,Monospace">
+InputStream</font> object to it. An <font face="'Courier New',Monospaced,Monospace">
+InputStreamReader</font> is created on that <font face="'Courier New',Monospaced,Monospace">
+InputStream</font> and the <font face="'Courier New',Monospaced,Monospace">
+      InputStreamReader</font> is used to create a <font face="'Courier New',Monospaced,Monospace">
+BufferedReader</font>.
+    </p>
+    <p>
+      As long as lines are found in '<font face="'Courier New',Monospaced,Monospace">
+gpl.txt</font>' they are read and appended to a <font face="'Courier New',Monospaced,Monospace">
+StringBuffer</font>. Finally the readers are closed properly and the contents 
+      of the <font face="'Courier New',Monospaced,Monospace">StringBuffer</font>
+ are returned as a <font face="'Courier New',Monospaced,Monospace">String</font>
+ .
+    </p>
+  </body>
+</html>

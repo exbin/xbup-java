@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <link href="../../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Adding a menu bar and menu items
+    </p>
+    <p>
+      As class <font face="'Courier New',Monospaced,Monospace">FrmMain</font> 
+      defines the main window of application SimplyHTML it should present the 
+      application's functions to the user. One way of doing this is to 
+      maintain a menu bar and menu items. In class <font face="'Courier New',Monospaced,Monospace">
+FrmMain</font> this is done mainly in method <font face="'Courier New',Monospaced,Monospace">
+constructMenu</font> which is called in <font face="'Courier New',Monospaced,Monospace">
+FrmMain's</font> constructor.
+    </p>
+    <p class="heading2">
+      Fields referring to menus and menu items
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">FrmMain</font> 
+      holds a field for each menu and menu item in its menu bar. These fields 
+      are visible to all methods within class <font face="'Courier New',Monospaced,Monospace">
+FrmMain</font>. By keeping fields referring to the menu structure it is 
+      possible to influence appearance and behaviour of the menu structure 
+      later on during the flow of the program.
+    </p>
+    <p>
+      To build a menu bar using the menu fields of class <font face="'Courier New',Monospaced,Monospace">
+FrmMain</font>, the fields have to be initialized first. This is done at the 
+      same time the fields are declared upon construction of a <font face="'Courier New',Monospaced,Monospace">
+FrmMain</font> object.
+    </p>
+    <p>
+      Initialization is done by creating a new instance of <font face="'Courier New',Monospaced,Monospace">
+JMenu</font> and <font face="'Courier New',Monospaced,Monospace">JMenuItem</font>
+ respectively on the line of code where that field is declared. Each menu item 
+      gets associated with an instance of the <a href="../../../topic16/topic4/topic20.htm">
+action class</a> which is meant for handling selctions of the particular menu 
+      item.
+    </p>
+    <p class="heading2">
+      Method constructMenu
+    </p>
+    <p>
+      The previously initialized menu fields of class <font face="'Courier New',Monospaced,Monospace">
+FrmMain</font> are put together on a menu bar by method <font face="'Courier New',Monospaced,Monospace">
+constructMenu</font>. The method first creates a new <font face="'Courier New',Monospaced,Monospace">
+JMenuBar</font> object and then adds all previously initialized menus and menu 
+      items to it.
+    </p>
+    <p>
+      It then adds a new <font face="'Courier New',Monospaced,Monospace">
+      MenuListener</font> to the file menu object which takes care of 
+      adjusting appearance of the file menu whenever it is selected. Finally 
+      the new menu bar is associated with the main window by calling method 
+      setJMenuBar, which was inherited from <font face="'Courier New',Monospaced,Monospace">
+JFrame</font>.
+    </p>
+  </body>
+</html>

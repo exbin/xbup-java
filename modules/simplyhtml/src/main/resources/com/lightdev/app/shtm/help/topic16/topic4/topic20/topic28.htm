@@ -1,0 +1,101 @@
+<html>
+  <head>
+    <link href="../../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Actions of FrmMain
+    </p>
+    <p>
+      The actions in <font face="'Courier New',Monospaced,Monospace"><a href="../../../topic16/topic4/topic12/topic17.htm">
+FrmMain</a></font> take use much of class <font face="'Courier New',Monospaced,Monospace"><a href="../../../topic16/topic4/topic25/topic38.htm">
+DocumentPane</a></font>. They call some of the functions for files and 
+      documents available in this class. Also other functions are wrapped into 
+      actions.
+    </p>
+    <p>
+      In this section it is explained, how to make existing functions 
+      available to the user. The functions of stage 1 themselves are explained 
+      in '<a href="../../../topic16/topic4/topic25.htm">Creating and storing 
+      documents</a>' and in '<a href="../../../topic16/topic4/topic39.htm"> 
+      Documenting the application</a>'.
+    </p>
+    <p class="heading2">
+      Actions for the file menu
+    </p>
+    <p>
+      In the file menu, the basic actions on documents and files are 
+      selectable. Create new documents, open documents from file, save changes 
+      to documents, save new documents or save exisiting documents under a new 
+      name and finally exiting the application can be done by the user through 
+      this menu.
+    </p>
+    <p class="heading2">
+      Actions for the help menu
+    </p>
+    <p>
+      The help menu makes all kinds of documentation available to the user. 
+      With stage 1 of application SimplyHTML the help menu has links to the 
+      help file (this tutorial), the API documentation and an <a href="../../../topic16/topic4/topic39/topic40.htm">
+'About this application' dialog</a>.
+    </p>
+    <p class="heading2">
+      Action list and short description
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; margin-left:10pt; font-size:12pt; color:#000000; margin-top:6pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <b>SHTMLFileNewAction</b> - <a href="../../../topic16/topic4/topic25/topic29.htm">
+create</a> a new document and show it
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; margin-left:10pt; font-size:12pt; color:#000000; margin-top:6pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <b>SHTMLFileOpenAction</b> - <a href="../../../topic16/topic4/topic25/topic31.htm">
+open</a> an existing document and show it
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; margin-left:10pt; font-size:12pt; color:#000000; margin-top:6pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <b><a href="../../../topic16/topic4/topic20/topic27.htm">
+      SHTMLFileCloseAction</a></b> - close a currently open document and take 
+      care of <a href="../../../topic16/topic4/topic25/topic32.htm">saving</a> 
+      the document before closing if necessary
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; margin-left:10pt; font-size:12pt; color:#000000; margin-top:6pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <b><a href="../../../topic16/topic4/topic20/topic36.htm">
+      SHTMLFileCloseAllAction</a></b> - close all currently open documents and 
+      take care of <a href="../../../topic16/topic4/topic25/topic32.htm">saving</a>
+ the documents before closing if necessary
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; margin-left:10pt; font-size:12pt; color:#000000; margin-top:6pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <b><a href="../../../topic16/topic4/topic20/topic37.htm">
+      SHTMLFileExitAction</a></b> - exit the application and take care of <a href="../../../topic16/topic4/topic25/topic32.htm">
+saving</a> open documents before closing if necessary
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; margin-left:10pt; font-size:12pt; color:#000000; margin-top:6pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <b>SHTMLFileSaveAction</b> - <a href="../../../topic16/topic4/topic25/topic32.htm">
+save</a> a document
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; margin-left:10pt; font-size:12pt; color:#000000; margin-top:6pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <b>SHTMLFileSaveAsAction</b>- <a href="../../../topic16/topic4/topic25/topic32.htm">
+save</a> a document under a new name
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; margin-left:10pt; font-size:12pt; color:#000000; margin-top:6pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <b>SHTMLHelpAppInfoAction</b> - shows SimplyHTML's <a href="../../../topic16/topic4/topic39/topic40.htm">
+about dialog </a>
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; margin-left:10pt; font-size:12pt; color:#000000; margin-top:6pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <b>SHTMLHelpShowContentsAction</b> - brings up online help
+    </p>
+    <p class="heading2">
+      Dynamic interaction
+    </p>
+    <p>
+      There is a certain dependability between some of the actions which 
+      requires to aviod redundancy of code in the design therefore. Using 
+      actions bears an advantage for this because it allows to build a more 
+      complex process by combining actions individually.
+    </p>
+    <p>
+      Especially see '<a href="../../../topic16/topic34/topic33.htm">Avoiding 
+      loss of data in the close process</a>' in the Spotlights section partly 
+      dealing with this issue too.
+    </p>
+  </body>
+</html>

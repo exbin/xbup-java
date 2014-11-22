@@ -1,0 +1,72 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    <title>    </title>
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Dynamic resources
+    </p>
+    <p>
+      In <a href="../../topic16/topic62.htm">stage 2</a> of SimplyHTML a 
+      dynamic way of using resource bundles was implemented. It is capable of 
+      providing <a href="../../topic16/topic62/topic70.htm">
+      internationalization support</a> and of <a href="../../topic16/topic62/topic68.htm">
+dynamic creation of components</a> such as menus and tool bars from parameters 
+      from a resource bundle.
+    </p>
+    <p>
+      This functionality needs to be made available to plug-ins as well which 
+      is why a new class <font face="'Courier New',Monospaced,Monospace">
+      DynamicResource</font> now provides these features formerly contained in 
+      class <font face="'Courier New',Monospaced,Monospace">FrmMain</font>.
+    </p>
+    <p class="heading2">
+      Class DynamicResource
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">DynamicResource</font>
+ provides methods for menu and tool bar creation based on parameters stored in 
+      ResourceBundles. As well, it stores and associates actions with 
+      components created in such way allowing for rerieval of component by 
+      their associated action name.
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">FrmMain</font> has 
+      been changed to now use class <font face="'Courier New',Monospaced,Monospace">
+DynamicResource</font> for all internationalization and menu creation. It now 
+      makes publicly available a static instance of <font face="'Courier New',Monospaced,Monospace">
+DynamicResource</font> referencing components and actions of SimplyHTML. By 
+      having one static instance of DynamicResource in FrmMain, any object can 
+      use its utility methods without instanciating DynamicResources again.
+    </p>
+    <p>
+      All classes relying on <font face="'Courier New',Monospaced,Monospace">
+      FrmMain's</font> former functionality have been changed accordingly. 
+      Please see the source code and SimplyHTML's main .<font face="'Courier New',Monospaced,Monospace">
+properties</font> file for examples of how parameters can be created for 
+      automatic component creation.
+    </p>
+    <p class="heading2">
+      Using class DynamicResource for plug-ins
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">AbstractPlugin</font>
+ is an abstract base class plug-ins can use. By extending class <font face="'Courier New',Monospaced,Monospace">
+AbstractPlugin</font> a plug-in inherits some automatic initialization methods 
+      being performed upon construction. If a .<font face="'Courier New',Monospaced,Monospace">
+properties</font> file exists in the plug-in package (e.g. <font face="'Courier New',Monospaced,Monospace">
+com.lightdev.app.shtm.plugin.installed.MyPlugIn.properties</font>), class <font face="'Courier New',Monospaced,Monospace">
+AbstractPlugin</font> automatically creates a ResourceBundle for that .<font face="'Courier New',Monospaced,Monospace">
+properties</font> file. It then uses FrmMain's DynamicResource instance to 
+      create menus from the menu definitions found in that .properties file.
+    </p>
+    <p>
+      If a different approach of plug-in construction is desired, a plug-in 
+      class either can be declared not to extend class <font face="'Courier New',Monospaced,Monospace">
+AbstractPlugin</font> or can override some or all methods of class <font face="'Courier New',Monospaced,Monospace">
+AbstractPlugin</font> accordingly.
+    </p>
+  </body>
+</html>

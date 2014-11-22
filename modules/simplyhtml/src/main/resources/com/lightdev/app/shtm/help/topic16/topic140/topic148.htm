@@ -1,0 +1,109 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    <title>    </title>
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Interaction between style components and style sheet
+    </p>
+    <p>
+      As described <a href="../../topic16/topic140/topic144.htm">previously</a>
+       , several components are involved in paragraph and named styles 
+      manipulation:
+    </p>
+    <ul>
+      <li>
+        the style sheet of the document currently edited,
+      </li>
+      <li>
+        the <font face="'Courier New',Monospaced,Monospace">JTabbedPane</font> 
+        of class <font face="'Courier New',Monospaced,Monospace">FrmMain</font>
+         ,
+      </li>
+      <li>
+        the <font face="'Courier New',Monospaced,Monospace">StyleSelector</font>
+ in the tool bar,
+      </li>
+      <li>
+        the list of named styles in class <font face="'Courier New',Monospaced,Monospace">
+ParaStyleDialog</font>.
+      </li>
+    </ul>
+    <p>
+      Components reflecting named styles have to be updated accordingly when
+    </p>
+    <ul>
+      <li>
+        a new document is created,
+      </li>
+      <li>
+        an existing document is opened,
+      </li>
+      <li>
+        another document in the group of currently open documents is activated 
+        or
+      </li>
+      <li>
+        the style sheet of the currently edited document changes.
+      </li>
+    </ul>
+    <p class="heading2">
+      Listeners to watch for changes
+    </p>
+    <p>
+      Instead of implementing hard wired relations between objects to handle 
+      style related events, application SimplyHTML implements listeners with 
+      these objects.
+    </p>
+    <p class="heading3">
+      StyleSelector
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">StyleSelector</font>
+ implements the <font face="'Courier New',Monospaced,Monospace">ChangeListener</font>
+ interface to handle <font face="'Courier New',Monospaced,Monospace">
+      ChangeEvents</font>. The <font face="'Courier New',Monospaced,Monospace">
+      StyleSelector</font> object in the tool bar is registered as a <font face="'Courier New',Monospaced,Monospace">
+ChangeListener</font> with the style sheet of any document with method <font face="'Courier New',Monospaced,Monospace">
+registerDocument</font> of class <font face="'Courier New',Monospaced,Monospace">
+FrmMain</font>. With that the <font face="'Courier New',Monospaced,Monospace">
+      StyleSelector</font> object is notified whenever a style sheet changes. 
+      When a document is closed, class <font face="'Courier New',Monospaced,Monospace">
+StyleSelector</font> is removed as a <font face="'Courier New',Monospaced,Monospace">
+ChangeListener</font> in method <font face="'Courier New',Monospaced,Monospace">
+unregisterDocument</font> of class <font face="'Courier New',Monospaced,Monospace">
+FrmMain</font>.
+    </p>
+    <p>
+      In method <font face="'Courier New',Monospaced,Monospace">createToolBar</font>
+ of class <font face="'Courier New',Monospaced,Monospace">FrmMain</font> class <font face="'Courier New',Monospaced,Monospace">
+StyleSelector</font> is registered with <font face="'Courier New',Monospaced,Monospace">
+FrmMain's</font> <font face="'Courier New',Monospaced,Monospace">JTabbedPane</font>
+ as <font face="'Courier New',Monospaced,Monospace">ChangeListener</font> too. 
+      Whenever another document is activated in the JTabbedPane, the <font face="'Courier New',Monospaced,Monospace">
+StyleSelector</font> object in the tool bar is notified.
+    </p>
+    <p class="heading3">
+      ParaStyleDialog
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">ParaStyleDialog</font>
+ is also implementing the <font face="'Courier New',Monospaced,Monospace">
+      ChangeListener</font> interface. It registers itself as a <font face="'Courier New',Monospaced,Monospace">
+ChangeListener</font> with the style sheet of the currently active document. 
+      Whenever class <font face="'Courier New',Monospaced,Monospace">
+      ParaStyleDialog</font> is used in <font face="'Courier New',Monospaced,Monospace">
+MODE_NAMED_STYLE</font> and a style is saved to the style sheet, the 
+      respective change event triggers an update of class <font face="'Courier New',Monospaced,Monospace">
+ParaStyleDialog's</font> list of named styles.
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">ParaStyleDialog</font>
+ overrides method <font face="'Courier New',Monospaced,Monospace">dispose</font>
+ to remove itself from the list of <font face="'Courier New',Monospaced,Monospace">
+ChangeListeners</font> of the underlying style sheet.
+    </p>
+  </body>
+</html>

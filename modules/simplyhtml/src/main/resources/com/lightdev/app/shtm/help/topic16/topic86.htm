@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <link href="../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Stage 4: Tables
+    </p>
+    <p>
+      Implementing support for tables is a comparably complex task because 
+      there are no special objects for a table, table row or table column 
+      inside a HTML document. Each table part is represented by elements 
+      hierarchically linked, each element having many attributes. Iterating 
+      through all cells of a table column for instance needs a special way of 
+      handling for this reason.
+    </p>
+    <p>
+      To complicate things a little, there are only comparably limited ways to 
+      manipulate table elements in a document in Java. An additional challenge 
+      is to support table borders in Java because up to J2SE 1.4, table cell 
+      rendering is not appropriate compared to existing text processors when 
+      it comes to borders.
+    </p>
+    <p>
+      This stage of SimplyHTML implements support for tables trying to solve 
+      these limitations. In the follwing chapters is described how this is 
+      done in more detail.
+    </p>
+    <p>
+      <a href="../topic16/topic86/topic89.htm">Table manipulation parts to 
+      implement</a>
+    </p>
+    <p>
+      <a href="../topic16/topic86/topic92.htm">Table structure in documents</a>
+    </p>
+    <p>
+      <a href="../topic16/topic86/topic95.htm">Creating a new table</a>
+    </p>
+    <p>
+      <a href="../topic16/topic86/topic96.htm">Enabling element and attribute 
+      changes</a>
+    </p>
+    <p>
+      <a href="../topic16/topic86/topic100.htm">CSS shorthand properties</a>
+    </p>
+    <p>
+      <a href="../topic16/topic86/topic91.htm">Manipulating the table structure</a>
+
+    </p>
+    <p>
+      <a href="../topic16/topic86/topic99.htm">Enhancing cell border rendering</a>
+
+    </p>
+    <p>
+      <a href="../topic16/topic86/topic93.htm">Changing table and cell 
+      attributes</a>
+    </p>
+    <p>
+      <a href="../topic16/topic86/topic94.htm">Caret movement in tables</a>
+    </p>
+    <p>
+      Due to the complexity of the topic the documentation does not cover all 
+      details of the resulting source code completely. The source code itself 
+      should be taken in addition to understand how the implementation is 
+      accomplished.
+    </p>
+  </body>
+</html>

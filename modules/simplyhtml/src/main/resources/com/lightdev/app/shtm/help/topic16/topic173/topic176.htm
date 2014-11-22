@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <link href="../../style.css" type="text/css" rel="stylesheet">
+    
+<title>Supporting find and replace over multiple documents</title>  </head>
+  <body>
+    <p class="heading1">
+      Supporting find and replace over multiple documents
+    </p>
+    <p>
+      With SimplyHTML more than one document can be open at the same time. The 
+      find and replace logic introduced in stage 11 offers a way to apply find 
+      and replace to all open documents optionally. The way to apply find and 
+      replace to multiple documents can be customized in addition to account 
+      for different purposes such as applying find and replace to a set of 
+      documents inside a kind of 'project' as delivered by a possible 
+      SimplyHTML plug-in.
+    </p>
+    <p class="heading2">
+      FindReplaceListener and FindReplaceEvent
+    </p>
+    <p>
+      To support find and replace over multiple documents interface <font face="'Courier New',Monospaced,Monospace">
+FindReplaceListener</font> and class <font face="'Courier New',Monospaced,Monospace">
+FindReplaceEvent</font> are used. An instance of class <font face="'Courier New',Monospaced,Monospace">
+FindReplaceListener</font> can be passed as a parameter during construction of 
+      a <font face="'Courier New',Monospaced,Monospace">FindReplaceDialog</font>
+. Passing a <font face="'Courier New',Monospaced,Monospace">FindReplaceListener</font>
+ signals <font face="'Courier New',Monospaced,Monospace">FindReplaceDialog</font>
+ that find and replace is to be performed over more than one document. <font face="'Courier New',Monospaced,Monospace">
+FindReplaceDialog</font> fires <font face="'Courier New',Monospaced,Monospace">
+      FindReplaceEvents</font> to the given <font face="'Courier New',Monospaced,Monospace">
+FindReplaceListener</font> to signal that it is through with searching a 
+      particular document and that another document is required to continue.
+    </p>
+    <p class="heading3">
+      Feedback during a multiple document process
+    </p>
+    <p>
+      The object registered as <font face="'Courier New',Monospaced,Monospace">
+      FindReplaceListener</font> has to give feedback to <font face="'Courier New',Monospaced,Monospace">
+FindReplaceDialog</font> during multiple document operations. Methods <font face="'Courier New',Monospaced,Monospace">
+getFirstDocument</font> and <font face="'Courier New',Monospaced,Monospace">
+      getNextDocument</font> have to call either <font face="'Courier New',Monospaced,Monospace">
+FindReplaceDialog.resumeOperation</font> or <font face="'Courier New',Monospaced,Monospace">
+FindReplaceDialog.terminateOperation</font> at their end, depending on whether 
+      or not there are documents left to process.
+    </p>
+  </body>
+</html>

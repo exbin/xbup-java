@@ -65,8 +65,6 @@ public class XBPropertyTableCellPanel extends javax.swing.JPanel {
         });
         add(editorButton, java.awt.BorderLayout.EAST);
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBPropertyTableCellEditor"); // NOI18N
-        valueTextField.setText(bundle.getString("jTextField1.text")); // NOI18N
         valueTextField.setBorder(null);
         valueTextField.setName("valueTextField"); // NOI18N
         add(valueTextField, java.awt.BorderLayout.CENTER);

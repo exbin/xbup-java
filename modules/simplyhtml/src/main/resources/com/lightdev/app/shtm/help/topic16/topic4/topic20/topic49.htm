@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <link href="../../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Using threads for lengthy operations
+    </p>
+    <p>
+      Most of the operations we encountered so far are not considerably time 
+      consuming. Especially loading or saving documents however, can be a 
+      lengthy task depending on the amount of data to be processed. Without 
+      any special handling of these tasks, application SimplyHTML could block 
+      for the time a particular save or load process would take. Java provides 
+      a mechanism to overcome this potential problem with class <font face="'Courier New',Monospaced,Monospace">
+Thread</font>.
+    </p>
+    <p class="heading2">
+      Threads
+    </p>
+    <p>
+      Usually all activities of an application are done within the event 
+      dispatching thread. All lines of code contained in a method called by 
+      the event dispatching thread are executed sequentially in the order they 
+      are coded. In Java however, this must not be the case always. By opening 
+      a new <font face="'Courier New',Monospaced,Monospace">Thread</font> 
+      object and starting the code placed in its <font face="'Courier New',Monospaced,Monospace">
+run</font> method, this piece of code is executed in parallel or at least 
+      asynchonous from the event dispatching thread.
+    </p>
+    <p class="heading2">
+      How SimplyHTML uses threads
+    </p>
+    <p>
+      In SimplyHTML three operations are executed in separate threads so far: 
+      saving a document to a file, loading a document from a file and closing 
+      one or more documents. All operations are embedded in an inner class of 
+      the respectice Actions <font face="'Courier New',Monospaced,Monospace">
+      SHTMLFileSaveAction,</font> <font face="'Courier New',Monospaced,Monospace">
+SHTMLFileOpenAction,</font> <font face="'Courier New',Monospaced,Monospace">
+      SHTMLFileSaveAsAction</font> and <font face="'Courier New',Monospaced,Monospace"><a href="../../../topic16/topic4/topic20/topic27.htm">
+SHTMLFileCloseAction</a></font>.
+    </p>
+    <p>
+      The inner classes <font face="'Courier New',Monospaced,Monospace">
+      FileSaver</font>, <font face="'Courier New',Monospaced,Monospace">
+      NewFileSaver,</font> <font face="'Courier New',Monospaced,Monospace">
+      FileLoader</font> are subclasses of class <font face="'Courier New',Monospaced,Monospace">
+Thread</font> and simply wrap the call to <font face="'Courier New',Monospaced,Monospace"><a href="../../../topic16/topic4/topic25/topic32.htm">
+saveDocument</a></font> or <font face="'Courier New',Monospaced,Monospace"><a href="../../../topic16/topic4/topic25/topic31.htm">
+loadDocument</a></font> respectively in the <font face="'Courier New',Monospaced,Monospace">
+run</font> method inherited from the <font face="'Courier New',Monospaced,Monospace">
+Thread</font> class. Once an action is fired, its <font face="'Courier New',Monospaced,Monospace">
+actionPerformed</font> method creates an instance of <font face="'Courier New',Monospaced,Monospace">
+FileSaver</font>, <font face="'Courier New',Monospaced,Monospace">NewFileSaver</font>
+ or <font face="'Courier New',Monospaced,Monospace">FileLoader</font> and 
+      calls its <font face="'Courier New',Monospaced,Monospace">start</font> 
+      method.
+    </p>
+    <p>
+      In addition, method <font face="'Courier New',Monospaced,Monospace"><a href="../../../topic16/topic4/topic20/topic27.htm">
+scheduleClose</a></font> in <font face="'Courier New',Monospaced,Monospace"><a href="../../../topic16/topic4/topic20/topic27.htm">
+SHTMLFileCloseAction</a></font> creates a <font face="'Courier New',Monospaced,Monospace">
+Timer</font> thread for each close operation waiting for a save operation to 
+      complete.
+    </p>
+  </body>
+</html>

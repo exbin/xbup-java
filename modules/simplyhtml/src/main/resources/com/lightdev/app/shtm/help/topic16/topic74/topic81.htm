@@ -1,0 +1,149 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Actions and components to switch single font attributes
+    </p>
+    <p>
+      On top of being able to change most relevant font settings at once using 
+      class <font face="'Courier New',Monospaced,Monospace"><a href="../../topic16/topic74/topic75.htm">
+FontPanel</a></font>, a couple of actions and components are needed to allow 
+      users to toggle or switch single font attributes quickly. In stage 3 of 
+      SimplyHTML this is done by adding some inner classes to <font face="'Courier New',Monospaced,Monospace">
+FrmMain</font> implementing respective parts:
+    </p>
+    <ul>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">FontFamilyPicker</font>
+         - a JComboBox dedicated to font family changes
+      </li>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">FontSizePicker</font> 
+        - a JComboBox dedicated to font size changes
+      </li>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">FontFamilyAction</font>
+         - an action to change the font family
+      </li>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">FontSizeAction</font> 
+        - an action to change the font size
+      </li>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">ToggleFontAction</font>
+         - an action to toggle a single font setting on or off
+      </li>
+    </ul>
+    <p class="heading2">
+      FontFamilyPicker and FontSizePicker
+    </p>
+    <p>
+      The easiest way to act on a certain font setting probably would be an 
+      action bound to a <font face="'Courier New',Monospaced,Monospace">JButton</font>
+ . For font properties family and size however, a possible setting is not just 
+      'on' or 'off', for both attributes there a is a certain list of possible 
+      selections instead. For this type of setting a <font face="'Courier New',Monospaced,Monospace">
+JComboBox</font> is the GUI component of choice.
+    </p>
+    <p class="heading3">
+      Extending JComboBox
+    </p>
+    <p>
+      To make such <font face="'Courier New',Monospaced,Monospace">JComboBoxes</font>
+ easier to handle, two inner classes <font face="'Courier New',Monospaced,Monospace">
+FontFamilyPicker</font> and <font face="'Courier New',Monospaced,Monospace">
+      FontSizePicker</font> extend class <font face="'Courier New',Monospaced,Monospace">
+JComboBox</font> with functions special to the purpose of changing respective 
+      font settings.
+    </p>
+    <p class="heading3">
+      Customized content and common interface
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">FontFamilyPicker</font> 
+      adds all font family names found on the particular system to its combo 
+      box using method <font face="'Courier New',Monospaced,Monospace">
+      getAvailableFontFamilyNames</font> of class <font face="'Courier New',Monospaced,Monospace">
+GraphicsEnvironment</font> in its constructor. <font face="'Courier New',Monospaced,Monospace">
+FontSizePicker</font> adds a fixed list of point sizes instead. Both classes 
+      implement interface <font face="'Courier New',Monospaced,Monospace"><a href="../../topic16/topic74/topic75.htm">
+FontComponent</a></font> for standardized access to their selected value.
+    </p>
+    <p class="heading2">
+      FontFamilyAction and FontSizeAction
+    </p>
+    <p>
+      Both actions implement interface <font face="'Courier New',Monospaced,Monospace">
+SHTMLAction</font> so that common handling of setting action properties from 
+      our resource bundle and common updating can be used. In their 
+      actionPerformed method they apply the attribute represented by their 
+      associated picker component (family or size) to the editor.
+    </p>
+    <p class="heading2">
+      ToggleFontAction
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">ToggleFontAction</font> 
+      allows to switch a single font setting on or off in a generic way. It 
+      extends <font face="'Courier New',Monospaced,Monospace">AbstractAction</font>
+ by defining some private fields reflecting the font attribute this instance 
+      of <font face="'Courier New',Monospaced,Monospace">ToggleFontAction</font>
+ represents as well as the value for 'on' and 'off' for that particular font 
+      attribute. In the constructor, those fields are initialized from 
+      respective arguments passed to the constructor.
+    </p>
+    <p class="heading3">
+      Shifting state
+    </p>
+    <p>
+      Method <font face="'Courier New',Monospaced,Monospace">actionPerformed</font>
+ applies the font attribute resulting from the current state (on or off) and 
+      then toggles the action's state using method <font face="'Courier New',Monospaced,Monospace">
+putValue</font>. By passing either value <font face="'Courier New',Monospaced,Monospace">
+FrmMain.ACTION_SELECTED</font> or <font face="'Courier New',Monospaced,Monospace">
+FrmMain.ACTION_UNSELECTED</font> with key <font face="'Courier New',Monospaced,Monospace">
+FrmMain.ACTION_SELECTED_KEY</font> to method <font face="'Courier New',Monospaced,Monospace">
+putValue</font>, respective value is stored in the action's poperties table 
+      causing a <font face="'Courier New',Monospaced,Monospace">
+      PropertyChangeEvent</font> being fired. Any listener to such events can 
+      then update its state accordingly.
+    </p>
+    <p class="heading3">
+      Interfaces
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">ToggleFontAction</font> 
+      implements interface <font face="'Courier New',Monospaced,Monospace">
+      FontComponent</font> so that its value can be changed in a standard way 
+      from other objects through methods <font face="'Courier New',Monospaced,Monospace">
+getValue</font> and <font face="'Courier New',Monospaced,Monospace">setValue</font>
+ . To always reflect proper state to components bound to <font face="'Courier New',Monospaced,Monospace">
+FontAction</font>, it implements interface <font face="'Courier New',Monospaced,Monospace">
+SHTMLAction</font> with method <font face="'Courier New',Monospaced,Monospace">
+      update</font>.
+    </p>
+    <p class="heading3">
+      Integration to FrmMain
+    </p>
+    <p>
+      Method <font face="'Courier New',Monospaced,Monospace">initActions</font>
+       of class <font face="'Courier New',Monospaced,Monospace">FrmMain</font> 
+      initializes three instances of <font face="'Courier New',Monospaced,Monospace">
+ToggleFontAction</font> to the central <font face="'Courier New',Monospaced,Monospace">
+commands</font> <font face="'Courier New',Monospaced,Monospace">Hashtable</font>
+ , one for <font face="'Courier New',Monospaced,Monospace">
+      CSS.Attribute.FONT_WEIGHT</font>, one for <font face="'Courier New',Monospaced,Monospace">
+CSS.Attribute.FONT_STYLE</font> and one for switching <font face="'Courier New',Monospaced,Monospace">
+CSS.Attribute.TEXT_DECORATION</font> between <font face="'Courier New',Monospaced,Monospace">
+normal</font> and <font face="'Courier New',Monospaced,Monospace">underline</font>
+ . For each of the three instances a separate action command is created in the 
+      constants list of class <font face="'Courier New',Monospaced,Monospace">
+      FrmMain</font> for proper handling in <a href="../../topic16/topic62/topic68.htm">
+dynamic menu</a> and <a href="../../topic16/topic74/topic79.htm">tool bar</a> 
+      creation.
+    </p>
+  </body>
+</html>

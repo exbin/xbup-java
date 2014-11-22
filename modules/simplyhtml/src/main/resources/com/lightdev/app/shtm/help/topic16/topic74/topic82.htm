@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Synchronizing tool bar and document
+    </p>
+    <p>
+      Font formatting controls in the tool bar not only allow to act on 
+      certain font settings in a document, they should also be used to reflect 
+      the settings at the current caret position. Class <font face="'Courier New',Monospaced,Monospace">
+FrmMain</font> implements interface <font face="'Courier New',Monospaced,Monospace">
+CaretListener</font> for doing this.
+    </p>
+    <p class="heading2">
+      Method caretUpdate
+    </p>
+    <p>
+      Method <font face="'Courier New',Monospaced,Monospace">caretUpdate</font>
+       in class <font face="'Courier New',Monospaced,Monospace">FrmMain</font> 
+      calls method <font face="'Courier New',Monospaced,Monospace">
+      updateFormatControls</font> (see below) whenever the caret changes in 
+      the curently active document. <font face="'Courier New',Monospaced,Monospace">
+updateFormatControls</font> is called by <font face="'Courier New',Monospaced,Monospace">
+FontAction</font> too because this action also changes font attributes but the 
+      caret position does not change in this case.
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">caretUpdate</font> is 
+      registered with every newly opened or created document through method <font face="'Courier New',Monospaced,Monospace">
+registerDocument</font>. Method <font face="'Courier New',Monospaced,Monospace">
+unregisterDocument</font> takes care of removing any listener when a document 
+      is closed.
+    </p>
+    <p class="heading2">
+      Method updateFormatControls
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">updateFormatControls</font>
+ gets the attributes for the current caret position and calls method <font face="'Courier New',Monospaced,Monospace">
+setValue</font> of any <font face="'Courier New',Monospaced,Monospace">
+      FontComponents</font> found in the format tool bar.
+    </p>
+  </body>
+</html>

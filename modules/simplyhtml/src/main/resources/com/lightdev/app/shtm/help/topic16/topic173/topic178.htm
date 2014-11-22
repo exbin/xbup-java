@@ -1,0 +1,90 @@
+<html>
+  <head>
+    <link href="../../style.css" type="text/css" rel="stylesheet">
+    
+<title>Replace logic</title>  </head>
+  <body>
+    <p class="heading1">
+      Replace logic
+    </p>
+    <p style=" margin-bottom:2pt; background-color:#ffffff; margin-top:2pt; font-weight:normal; text-align:left; font-family:Arial,Sans-Serif; color:#000000; text-decoration:none; font-style:normal; font-size:12pt;">
+      Similar to the find logic described in <a href="../../topic16/topic173/topic175.htm">
+previous topic</a> the following methods of <font face="'Courier New',Monospaced,Monospace">
+FindReplaceDialog</font> have the main logic for replacing occurrences of a 
+      given phrase:
+    </p>
+    <p style=" margin-bottom:2pt; background-color:#ffffff; margin-top:2pt; font-weight:normal; text-align:left; font-family:Arial,Sans-Serif; color:#000000; text-decoration:none; font-style:normal; font-size:12pt;">
+      
+    </p>
+    <table style=" background-color:#ffffff; width:80%;">
+      <tr>
+        <td style=" margin-left:1pt; margin-top:1pt; text-align:left; padding-bottom:2pt; border-left-width:0pt; background-color:#e7e4e4; padding-top:0pt; border-right-width:0pt; border-bottom-width:0pt; padding-right:4pt; margin-right:1pt; margin-bottom:1pt; border-top-width:0pt; padding-left:4pt; width:30%;" valign="top">
+          <p style=" font-family:Arial,Sans-Serif; margin-top:2pt; text-align:left; color:#000000; background-color:#e7e4e4; text-decoration:none; font-size:12pt; font-style:normal; margin-bottom:2pt; font-weight:normal;" class="table">
+            <font size="2"><b>Method </b></font>
+          </p>
+        </td>
+        <td style=" margin-left:1pt; margin-top:1pt; text-align:left; padding-bottom:2pt; border-left-width:0pt; background-color:#e7e4e4; padding-top:0pt; border-right-width:0pt; border-bottom-width:0pt; padding-right:4pt; margin-right:1pt; margin-bottom:1pt; border-top-width:0pt; padding-left:4pt; width:70%;" valign="top">
+          <p style=" font-family:Arial,Sans-Serif; margin-top:2pt; text-align:left; color:#000000; background-color:#e7e4e4; text-decoration:none; font-size:12pt; font-style:normal; margin-bottom:2pt; font-weight:normal;" class="table">
+            <font size="2"><b>Purpose</b></font>
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td style=" margin-left:1pt; margin-top:1pt; text-align:left; padding-bottom:2pt; border-left-width:0pt; background-color:#f4f0f0; padding-top:0pt; border-right-width:0pt; border-bottom-width:0pt; padding-right:4pt; margin-right:1pt; margin-bottom:1pt; border-top-width:0pt; padding-left:4pt; width:30%;" valign="top">
+          <p style=" font-family:Arial,Sans-Serif; margin-left:1pt; margin-top:2pt; text-align:left; color:#000000; background-color:#f4f0f0; text-decoration:none; font-size:12pt; font-style:normal; margin-right:1pt; margin-bottom:2pt; font-weight:normal;" class="table">
+            <font face="'Courier New',Monospaced,Monospace">replace</font>
+          </p>
+        </td>
+        <td style=" margin-left:1pt; margin-top:1pt; text-align:left; padding-bottom:2pt; border-left-width:0pt; background-color:#f4f0f0; padding-top:0pt; border-right-width:0pt; border-bottom-width:0pt; padding-right:4pt; margin-right:1pt; margin-bottom:1pt; border-top-width:0pt; padding-left:4pt; width:30%;" valign="top">
+          <p style=" font-family:Arial,Sans-Serif; margin-left:1pt; margin-top:2pt; text-align:left; color:#000000; background-color:#f4f0f0; text-decoration:none; font-size:12pt; font-style:normal; margin-right:1pt; margin-bottom:2pt; font-weight:normal;" class="table">
+            Initiate a replace operation. If no (more) hits are found, a 
+            message is displayed and the dialog is unlocked for a new search 
+            operation.
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td style=" margin-left:1pt; margin-top:1pt; text-align:left; padding-bottom:2pt; border-left-width:0pt; background-color:#f4f0f0; padding-top:0pt; border-right-width:0pt; border-bottom-width:0pt; padding-right:4pt; margin-right:1pt; margin-bottom:1pt; border-top-width:0pt; padding-left:4pt; width:30%;" valign="top">
+          <p style=" font-family:Arial,Sans-Serif; margin-left:1pt; margin-top:2pt; text-align:left; color:#000000; background-color:#f4f0f0; text-decoration:none; font-size:12pt; font-style:normal; margin-right:1pt; margin-bottom:2pt; font-weight:normal;" class="table">
+            <font face="'Courier New',Monospaced,Monospace">replaceOne</font>
+          </p>
+        </td>
+        <td style=" margin-left:1pt; margin-top:1pt; text-align:left; padding-bottom:2pt; border-left-width:0pt; background-color:#f4f0f0; padding-top:0pt; border-right-width:0pt; border-bottom-width:0pt; padding-right:4pt; margin-right:1pt; margin-bottom:1pt; border-top-width:0pt; padding-left:4pt; width:30%;" valign="top">
+          <p style=" font-family:Arial,Sans-Serif; margin-left:1pt; margin-top:2pt; text-align:left; color:#000000; background-color:#f4f0f0; text-decoration:none; font-size:12pt; font-style:normal; margin-right:1pt; margin-bottom:2pt; font-weight:normal;" class="table">
+            Replace the currently selected occurrence of the search phrase.
+          </p>
+        </td>
+      </tr>
+    </table>
+    <p style=" margin-bottom:2pt; background-color:#ffffff; margin-top:2pt; font-weight:normal; text-align:left; font-family:Arial,Sans-Serif; color:#000000; text-decoration:none; font-style:normal; font-size:12pt;">
+      
+    </p>
+    <p style=" margin-bottom:2pt; background-color:#ffffff; margin-top:2pt; font-weight:normal; text-align:left; font-family:Arial,Sans-Serif; color:#000000; text-decoration:none; font-style:normal; font-size:12pt;">
+      By pressing button <font face="'Courier New',Monospaced,Monospace">
+      jbtnReplace</font> a find operation is initiated with a call to method <font face="'Courier New',Monospaced,Monospace">
+initFind</font> and above methods are called with an initial replace option of <font face="'Courier New',Monospaced,Monospace">
+RO_YES</font>. Subsequent iterations through the replace process are driven by 
+      the user through a selection in method <font face="'Courier New',Monospaced,Monospace">
+getReplaceChoice</font> which is called each time an instance of the search 
+      phrase is found and which can be one of
+    </p>
+    <ul>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">RO_YES</font> - 
+        replace and find next
+      </li>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">RO_NO</font> - do not 
+        replace and find next
+      </li>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">RO_ALL</font> - 
+        replace all occurrences
+      </li>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">RO_DONE</font> - exit 
+        replace process
+      </li>
+    </ul>
+  </body>
+</html>

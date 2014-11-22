@@ -19,9 +19,18 @@ package org.xbup.tool.editor.module.service_manager.catalog.panel;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.EventObject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.swing.text.JTextComponent;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBase;
@@ -32,17 +41,31 @@ import org.xbup.lib.core.catalog.base.service.XBCXDescService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 import org.xbup.lib.catalog.entity.XBEItem;
+import org.xbup.lib.catalog.entity.XBENode;
+import org.xbup.lib.catalog.entity.XBEXFile;
+import org.xbup.lib.catalog.entity.XBEXHDoc;
+import org.xbup.lib.catalog.entity.XBEXLanguage;
+import org.xbup.lib.catalog.entity.service.XBEXFileService;
+import org.xbup.lib.catalog.entity.service.XBEXHDocService;
+import org.xbup.lib.core.catalog.base.XBCXFile;
+import org.xbup.lib.core.catalog.base.XBCXHDoc;
+import org.xbup.lib.core.catalog.base.XBCXLanguage;
+import org.xbup.lib.core.catalog.base.service.XBCXFileService;
+import org.xbup.lib.core.catalog.base.service.XBCXHDocService;
+import org.xbup.lib.core.catalog.base.service.XBCXLangService;
+import sun.swing.DefaultLookup;
 
 /**
  * Panel for properties of the catalog item.
  *
- * @version 0.1.24 2014/11/19
+ * @version 0.1.24 2014/11/22
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemEditPanel extends javax.swing.JPanel {
 
     private XBACatalog catalog;
     private XBCItem catalogItem;
+    private CatalogPropetiesDocTableCellPanel cellPanel = null;
 
     public CatalogItemEditPanel() {
         initComponents();
@@ -152,6 +175,39 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
             pathName = stringId.getText();
         }
         tableModel.addRow(new String[]{"StringId", pathName});
+        tableModel.addRow(new String[]{"HDoc", ""});
+
+        cellPanel = new CatalogPropetiesDocTableCellPanel(catalog);
+        cellPanel.setCatalogItem(catalogItem);
+        TableColumnModel columns = propertiesTable.getColumnModel();
+        columns.getColumn(1).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                if (row == 5) {
+                    cellPanel.setBackground(isSelected ? table.getSelectionBackground() : table.getBackground());
+                    cellPanel.getCellComponent().setBorder(null);
+                    return cellPanel;
+                }
+
+                return super.getTableCellRendererComponent(table, value,
+                        isSelected, hasFocus, row, column);
+            }
+        });
+        DefaultCellEditor defaultCellEditor = new DefaultCellEditor(new JTextField()) {
+            @Override
+            public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+                if (row == 5) {
+                    cellPanel.setBackground(table.getSelectionBackground());
+                    cellPanel.getCellComponent().setBorder(DefaultLookup.getBorder(cellPanel.getCellComponent(), ui, "Table.focusCellHighlightBorder"));
+                    return cellPanel;
+                }
+                return super.getTableCellEditorComponent(table, value, isSelected, row, column);
+            }
+        };
+        defaultCellEditor.setClickCountToStart(0);
+        columns.getColumn(1).setCellEditor(defaultCellEditor);
+        propertiesTable.repaint();
     }
 
     public XBCItem getCatalogItem() {
@@ -190,6 +246,51 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
         }
 
         striService.setItemStringIdText(catalogItem, (String) tableModel.getValueAt(4, 1));
+        
+        String document = cellPanel.getDocument();
+        if (document != null) {
+            XBCXFileService fileService = (XBCXFileService)catalog.getCatalogService(XBCXFileService.class);
+            XBCXHDocService hdocService = (XBCXHDocService) catalog.getCatalogService(XBCXHDocService.class);
+
+            XBCXHDoc itemHDoc = hdocService.getDocumentation(catalogItem);
+            
+            if (document.isEmpty()) {
+                if (itemHDoc != null) {
+                    fileService.removeItem(itemHDoc.getDocFile());
+                    hdocService.removeItem(itemHDoc);
+                }
+            } else {
+                if (itemHDoc == null) {
+                    XBCXLangService langService = (XBCXLangService) catalog.getCatalogService(XBCXLangService.class);
+                    XBCXLanguage defaultLanguage = langService.getDefaultLang();
+                    itemHDoc = new XBEXHDoc();
+                    ((XBEXHDoc) itemHDoc).setLang((XBEXLanguage) defaultLanguage);
+                    ((XBEXHDoc) itemHDoc).setItem((XBEItem) catalogItem);
+                }
+                
+                XBCXFile itemHDocFile = itemHDoc.getDocFile();
+                if (itemHDocFile == null) {
+                    XBCXStri stringId = striService.getItemStringId(catalogItem);
+                    String itemPath = stringId == null ? "" : stringId.getText();
+                    itemHDocFile = (XBCXFile) fileService.createItem();
+                    ((XBEXFile) itemHDocFile).setFilename("hdoc-" + itemPath);
+                    ((XBEXFile) itemHDocFile).setNode((XBENode) catalogItem.getParent());
+                    ((XBEXHDoc) itemHDoc).setDocFile((XBEXFile) itemHDocFile);
+                }
+
+                OutputStream fileOutputStream = ((XBEXFileService) fileService).setFile(itemHDocFile);
+                OutputStreamWriter writer = new OutputStreamWriter(fileOutputStream);
+                try {
+                    writer.write(document);
+                    writer.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(CatalogItemEditPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+    
+                ((XBEXFileService) fileService).persistItem((XBEXFile) itemHDocFile);
+                ((XBEXHDocService) hdocService).persistItem((XBEXHDoc) itemHDoc);
+            }
+        }
     }
 
     public XBACatalog getCatalog() {

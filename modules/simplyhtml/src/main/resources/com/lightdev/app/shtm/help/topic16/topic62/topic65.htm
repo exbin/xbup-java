@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Cut and paste mechanism in Java
+    </p>
+    <p>
+      Cut and paste uses the clipboard to copy a certain part of a document. 
+      Data is transferred from one part of a document to the clipboard and 
+      later it is transferred from the clipboard to another place of this or 
+      another cocument.
+    </p>
+    <p class="heading2">
+      Cut, copy and paste actions and methods
+    </p>
+    <p>
+      In the <font face="'Courier New',Monospaced,Monospace">javax.swing 
+      packages</font> there are predefined actions one can use to add cut and 
+      paste to an application in an 'Edit' menu for instance. <font face="'Courier New',Monospaced,Monospace">
+DefaultEditorKit.CutAction</font>, <font face="'Courier New',Monospaced,Monospace">
+DefaultEditorKit.CopyAction</font> and <font face="'Courier New',Monospaced,Monospace">
+DefaultEditorKit.PasteAction</font> already deliver functionality by calling a 
+      target object's <font face="'Courier New',Monospaced,Monospace">cut</font>
+ , <font face="'Courier New',Monospaced,Monospace">copy</font> and <font face="'Courier New',Monospaced,Monospace">
+paste</font> methods.
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">JTextComponent</font>
+ , which is a superclass to <font face="'Courier New',Monospaced,Monospace">
+      JEditorPane</font>, in turn implements these methods to perform the 
+      actual cut and paste on a <font face="'Courier New',Monospaced,Monospace">
+Document</font> connected to that <font face="'Courier New',Monospaced,Monospace">
+JTextComponent</font>.
+    </p>
+    <p class="heading2">
+      How data is transported
+    </p>
+    <p>
+      To be able to transport data regardless of its type, the Java language 
+      has an object <font face="'Courier New',Monospaced,Monospace">
+      Transferable</font> which one has to use or design to certain needs. <font face="'Courier New',Monospaced,Monospace">
+Transferables</font> make use of <font face="'Courier New',Monospaced,Monospace">
+DataFlavors</font> to inform about the data types they support. Transport of <font face="'Courier New',Monospaced,Monospace">
+Transferables</font> in cut and paste operations is done through <font face="'Courier New',Monospaced,Monospace">
+Clipboard</font> objects.
+    </p>
+    <p class="heading2">
+      Extending the mechanism
+    </p>
+    <p>
+      Unfortunately this mechanism is not extended by class <font face="'Courier New',Monospaced,Monospace">
+JEditorPane</font> for the transport of HTML during cut and paste operations. <font face="'Courier New',Monospaced,Monospace">
+JEditorPane</font> is limited to plain text in cut and paste operations even 
+      when its content type is set to <font face="'Courier New',Monospaced,Monospace">
+text/html</font>. SimplyHTML therefore extends <font face="'Courier New',Monospaced,Monospace">
+JEditorPane</font> with class <font face="'Courier New',Monospaced,Monospace"><a href="../../topic16/topic62/topic69.htm">
+SHTMLEditorPane</a></font> overriding its cut, copy and paste methods so that 
+      cut and paste <i>including</i> styles and HTML specific parts is 
+      possible.
+    </p>
+  </body>
+</html>

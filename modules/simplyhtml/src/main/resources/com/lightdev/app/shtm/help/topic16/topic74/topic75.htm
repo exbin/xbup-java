@@ -1,0 +1,201 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Creating a GUI for font manipulation
+    </p>
+    <p class="standard">
+      To use the functionality described in the previous chapters, application 
+      SimplyHTML needs additional GUI components the first of which is class <font face="'Courier New',Monospaced,Monospace">
+FontPanel</font>. Class <font face="'Courier New',Monospaced,Monospace">
+      FontPanel</font> allows to display and change most relevant font and 
+      font style attributes at once. By wrapping all related components into a 
+      panel, it is easier to use it in different places such as dialogs later.
+    </p>
+    <p class="heading2">
+      Setting and getting attributes
+    </p>
+    <p class="standard">
+      <font face="'Courier New',Monospaced,Monospace">FontPanel</font> uses 
+      methods <font face="'Courier New',Monospaced,Monospace">getAttributes</font>
+ and <font face="'Courier New',Monospaced,Monospace">setAttributes</font> to 
+      exchange font settings with other objects through an <a href="../../topic16/topic74/topic78.htm">
+AttributeSet</a>.
+    </p>
+    <p class="standard">
+      In the constructor of <font face="'Courier New',Monospaced,Monospace">
+      FontPanel</font> all components implementing the <font face="'Courier New',Monospaced,Monospace">
+FontComponent</font> interface (see below) are added to <font face="'Courier New',Monospaced,Monospace">
+Vector</font> <font face="'Courier New',Monospaced,Monospace">fontComponents</font>
+ . This makes it easy for methods <font face="'Courier New',Monospaced,Monospace">
+getAttributes</font> and <font face="'Courier New',Monospaced,Monospace">
+      setAttributes</font> to distribute or collect the attributes to and from 
+      the various font manipulation components through an <font face="'Courier New',Monospaced,Monospace">
+AttributeSet</font>.
+    </p>
+    <p class="standard">
+      <font face="Sans-Serif">Methods </font><font face="'Courier New',Monospaced,Monospace">
+getAttributes</font> and <font face="'Courier New',Monospaced,Monospace">
+      setAttributes</font> simply go through all objects in <font face="'Courier New',Monospaced,Monospace">
+Vector</font> <font face="'Courier New',Monospaced,Monospace">fontComponents</font>
+ and call methods <font face="'Courier New',Monospaced,Monospace">getValue</font>
+ and <font face="'Courier New',Monospaced,Monospace">setValue</font> 
+      respectively passing the <font face="'Courier New',Monospaced,Monospace">
+      AttributeSet</font> containing the actual font settings.
+    </p>
+    <p class="heading2">
+      Components of class FontPanel
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">FontPanel</font> uses 
+      GUI components defined in different classes to set the various font 
+      attributes:
+    </p>
+    <ul>
+      <li>
+        font family - <font face="'Courier New',Monospaced,Monospace">
+        FamilyPickList</font>
+      </li>
+      <li>
+        font size - <font face="'Courier New',Monospaced,Monospace">
+        SizePickList</font>
+      </li>
+      <li>
+        font style - <font face="'Courier New',Monospaced,Monospace">
+        StylePickList</font>
+      </li>
+      <li>
+        line effects - <font face="'Courier New',Monospaced,Monospace">
+        EffectPanel</font>
+      </li>
+      <li>
+        colors - <font face="'Courier New',Monospaced,Monospace">ColorPanel</font>
+
+      </li>
+    </ul>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">FamilyPickList</font>, <font face="'Courier New',Monospaced,Monospace">
+SizePickList</font> and <font face="'Courier New',Monospaced,Monospace">
+      StylePickList</font> are inner classes of class <font face="'Courier New',Monospaced,Monospace">
+FontPanel</font> and variations of a separate class <font face="'Courier New',Monospaced,Monospace">
+TitledPickList</font> which defines the general behaviour of a pick list 
+      typical for font dialogs having a list, a text field and a title label. 
+      All mentioned classes are described below shortly. Please consult the 
+      sources and API documents for further details.
+    </p>
+    <p class="heading2">
+      TitledPickList
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">TitledPickList</font>
+ defines a pick list typically being used in font dialogs, consisting of a 
+      list title, a text field for the currently selected value and the actual 
+      pick list containing all possible values. It implements listeners for 
+      the various events produced by user settings inside its controls to 
+      synchronize selections in the text field and the pick list at all times. 
+      Then it has some getter/setter methods to programmatically get and set a 
+      selection.
+    </p>
+    <p>
+      It also defines a an <font face="'Courier New',Monospaced,Monospace">
+      EventListener</font> and <font face="'Courier New',Monospaced,Monospace">
+      Event</font> so that external components can be notified of changes in 
+      the <font face="'Courier New',Monospaced,Monospace">TitledPickList</font>
+       . This mainly is meant to allow <font face="'Courier New',Monospaced,Monospace">
+FontPanel</font> to update the sample text display whenever a selection 
+      changes.
+    </p>
+    <p class="heading2">
+      FamilyPickList, SizePickList and StylePickList
+    </p>
+    <p>
+      Classes <font face="'Courier New',Monospaced,Monospace">FamilyPickList</font>
+ , <font face="'Courier New',Monospaced,Monospace">SizePickList</font> and <font face="'Courier New',Monospaced,Monospace">
+StylePickList</font> all are subclasses of <font face="'Courier New',Monospaced,Monospace">
+TitledPickList</font>. They extend <font face="'Courier New',Monospaced,Monospace">
+TitledPickList</font> by implementing interface <font face="'Courier New',Monospaced,Monospace">
+FontComponent</font>.
+    </p>
+    <p class="heading2">
+      Interface FontComponent
+    </p>
+    <p>
+      Interface <font face="'Courier New',Monospaced,Monospace">FontComponent</font>
+ is used to standardize the way attributes are set and retrieved. It defines 
+      two generic methods <font face="'Courier New',Monospaced,Monospace">
+      getValue</font> and <font face="'Courier New',Monospaced,Monospace">
+      setValue</font>. <font face="'Courier New',Monospaced,Monospace">setValue</font>
+ is meant for setting a component from an <font face="'Courier New',Monospaced,Monospace">
+AttributeSet</font>, <font face="'Courier New',Monospaced,Monospace">getValue</font>
+ should return the setting of a font component in the form of an <font face="'Courier New',Monospaced,Monospace">
+AttributeSet</font>.
+    </p>
+    <p class="heading3">
+      Implementing the FontComponent Interface
+    </p>
+    <p>
+      Each component implementing the <font face="'Courier New',Monospaced,Monospace">
+FontComponent</font> interface can do the implementation special to the 
+      attribute or set of attributes it is meant to manipulate. <font face="'Courier New',Monospaced,Monospace">
+FamilyPickList</font> for instance simply reads <font face="'Courier New',Monospaced,Monospace">
+CSS.Attribute.FONT_FAMILY</font>, <font face="'Courier New',Monospaced,Monospace">
+StylePickList</font> acts on a combination of <font face="'Courier New',Monospaced,Monospace">
+CSS.Attribute.FONT_WEIGHT</font> and <font face="'Courier New',Monospaced,Monospace">
+CSS.Attribute.FONT_STYLE</font> and <font face="'Courier New',Monospaced,Monospace">
+SizePickList</font> uses <font face="'Courier New',Monospaced,Monospace">
+      CSS.Attribute.FONT_SIZE</font> and adds certain handling for the 'pt' 
+      identifier.
+    </p>
+    <p class="heading2">
+      EffectPanel
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">EffectPanel</font> 
+      is a <font face="'Courier New',Monospaced,Monospace">JPanel</font> with 
+      a <font face="'Courier New',Monospaced,Monospace">ButtonGroup</font> of <font face="'Courier New',Monospaced,Monospace">
+JRadioButtons</font> allowing to select, whether or not a text portion should 
+      be underlined or striked out. With <font face="'Courier New',Monospaced,Monospace">
+CSS.Attribute.TEXT_DECORATION</font>, attributes <font face="'Courier New',Monospaced,Monospace">
+underline</font> and <font face="'Courier New',Monospaced,Monospace">
+      line-through</font> can not be combined which is why <font face="'Courier New',Monospaced,Monospace">
+JRadioButtons</font> are used allowing only one of the possible selections at 
+      a time.
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">EffectPanel</font> 
+      implements interface <font face="'Courier New',Monospaced,Monospace">
+      FontComponent</font> to set and return the component's value in form of 
+      an <font face="'Courier New',Monospaced,Monospace">AttributeSet</font>.
+    </p>
+    <p class="heading2">
+      ColorPanel
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">ColorPanel</font> 
+      adds a <font face="'Courier New',Monospaced,Monospace">JLabel</font>, a <font face="'Courier New',Monospaced,Monospace">
+JTextField</font> and a <font face="'Courier New',Monospaced,Monospace">JButton</font>
+ to a <font face="'Courier New',Monospaced,Monospace">JPanel</font> and shows 
+      a <font face="'Courier New',Monospaced,Monospace">JColorChooser</font> 
+      dialog when the <font face="'Courier New',Monospaced,Monospace">JButton</font>
+ is pressed. Colors selected from the <font face="'Courier New',Monospaced,Monospace">
+JColorChooser</font> are set as the background color of the <font face="'Courier New',Monospaced,Monospace">
+JTextField</font>. The <font face="'Courier New',Monospaced,Monospace">
+      JTextField</font> is not editable, it is only used to show the currently 
+      selected color as its background color.
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">ColorPanel</font> 
+      implements interface <font face="'Courier New',Monospaced,Monospace">
+      FontComponent</font> to set and return the component's value in form of 
+      an <font face="'Courier New',Monospaced,Monospace">AttributeSet</font>. 
+      In addition it defines a an <font face="'Courier New',Monospaced,Monospace">
+EventListener</font> and <font face="'Courier New',Monospaced,Monospace">Event</font>
+ so that external components can be notified of changes in the <font face="'Courier New',Monospaced,Monospace">
+ColorPanel</font>. This mainly is meant to allow <font face="'Courier New',Monospaced,Monospace">
+FontPanel</font> to update the sample text display when a color is changed.
+    </p>
+  </body>
+</html>

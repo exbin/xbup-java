@@ -1,0 +1,90 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    <title>    </title>
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Creating a GUI to define links
+    </p>
+    <p>
+      With methods to apply links as explained in <a href="../../topic16/topic152/topic155.htm">
+previous chapter</a>, a new dialog is required to allow for convenient link 
+      creation and manipulation. New class <font face="'Courier New',Monospaced,Monospace"><a href="../../topic15/topic163/topic164.htm">
+LinkDialog</a></font> is the central place to allow for link entries of all 
+      kind.
+    </p>
+    <p class="heading2">
+      Class LinkDialog
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">LinkDialog</font> 
+      has a collection of components for all relevant <a href="../../topic16/topic152/topic153.htm">
+link attributes</a>. It can be used to set a new link or to view and 
+      manipulate an exisiting link.
+    </p>
+    <p>
+      As several dialogs of application SimplyHTML have been explained in 
+      earlier stages already, we only look at some additional 'specialties' of 
+      class <font face="'Courier New',Monospaced,Monospace">LinkDialog</font> 
+      here. <font face="'Courier New',Monospaced,Monospace">LinkDialog</font> 
+      establishes a central <font face="'Courier New',Monospaced,Monospace">
+      ActionListener</font> to handle changes to any of its components. If the 
+      link type combo box changes for instance, the buttons to select a local 
+      file or <a href="../../topic16/topic152/topic157.htm">link anchor</a> 
+      are enabled or disabled accordingly.
+    </p>
+    <p class="heading3">
+      Switching of relative and absolute paths
+    </p>
+    <p>
+      If the link type is set to 'relative' or to 'local', the link address is 
+      switched between absolute (<font face="'Courier New',Monospaced,Monospace">
+file:/C:/Data/aFile.htm</font>) or relative (<font face="'Courier New',Monospaced,Monospace">
+../../aDir/aFile.htm</font>) notation with the help of methods <font face="'Courier New',Monospaced,Monospace">
+resolveRelativePath</font> and <font face="'Courier New',Monospaced,Monospace">
+      getRelativePath</font> of class <font face="'Courier New',Monospaced,Monospace">
+Util</font>.
+    </p>
+    <p class="heading3">
+      Selection of local files and link anchors
+    </p>
+    <p>
+      A link type of '<font face="'Courier New',Monospaced,Monospace">local</font>
+ ' allows to use a <font face="'Courier New',Monospaced,Monospace">JFileChooser</font>
+ dialog to browse for a local file. Link types '<font face="'Courier New',Monospaced,Monospace">
+local</font>' and '<font face="'Courier New',Monospaced,Monospace">relative</font>
+ ' as well allow to define a <a href="../../topic16/topic152/topic157.htm">
+      link anchor</a> with respective browse button.
+    </p>
+    <p>
+      Link address and link anchor can be typed directly into respective text 
+      fields too.
+    </p>
+    <p class="heading3">
+      Image selection
+    </p>
+    <p>
+      By selecting 'show link as image', the dialog switches to display an 
+      image panel with a browse button to set an image from the <a href="../../topic16/topic128.htm">
+repository</a>. In the <font face="'Courier New',Monospaced,Monospace">
+      LinkDialog</font> any selected image is only shown with the width and 
+      height selected in the <font face="'Courier New',Monospaced,Monospace">
+      ImageDialog</font>. These settings can only be changed by using the <font face="'Courier New',Monospaced,Monospace">
+ImageDialog</font> through respective browse button.
+    </p>
+    <p class="heading2">
+      Returning link settings
+    </p>
+    <p>
+      Once all link attributes are set with class <font face="'Courier New',Monospaced,Monospace">
+LinkDialog</font>, methods <font face="'Courier New',Monospaced,Monospace">
+      getLinkText</font>, <font face="'Courier New',Monospaced,Monospace">
+      getHref</font>, <font face="'Courier New',Monospaced,Monospace">
+      getStyleName</font>, <font face="'Courier New',Monospaced,Monospace">
+      getLinkImage</font> and <font face="'Courier New',Monospaced,Monospace">
+      getLinkImageSize</font> can be used to find out the user settings.
+    </p>
+  </body>
+</html>

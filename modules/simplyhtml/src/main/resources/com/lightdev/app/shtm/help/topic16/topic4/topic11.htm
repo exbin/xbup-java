@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Creating a basic application
+    </p>
+    <p>
+      For creating a basic application, in Java we need a class having a 
+      method called <font face="'Courier New',Monospaced,Monospace">main</font>
+       which accepts possible parameters from the standard Java Runtime 
+      Environemt (JRE). This basically is done by the class described in <font face="'Courier New',Monospaced,Monospace">
+App.java</font>.
+    </p>
+    <p>
+      Besides providing the application's main method, <font face="'Courier New',Monospaced,Monospace">
+App.class</font> constructs an instance of the main frame of application 
+      SimplyHTML, an instance of the class defined by <font face="'Courier New',Monospaced,Monospace">
+FrmMain.java,</font><font face="Sans-Serif"> and initially displays it. </font>
+    </p>
+    <p>
+      When application SimplyHTML is started, the Java Runtime Environment 
+      opens the main thread for this aplication and executes method main of 
+      class <font face="'Courier New',Monospaced,Monospace">App</font>. Once 
+      all steps such as constructing the application's main frame, control is 
+      transferred to the event dispatching thread.
+    </p>
+    <p class="heading2">
+      Setting a look and feel
+    </p>
+    <p>
+      An important feature of Java is to support different system platforms 
+      making it necessary to design applications independent from any system 
+      specific behaviour. The author of a Java application can not predict, on 
+      which system the application actually will be used.
+    </p>
+    <p>
+      Java provides mechanisms to keep applications away from proprietary look 
+      and feels or behaviours with class <font face="'Courier New',Monospaced,Monospace">
+UIManager</font> of package <font face="'Courier New',Monospaced,Monospace">
+      javax.swing</font>. <font face="'Courier New',Monospaced,Monospace">
+      App.class</font> of SimplyHTML uses methods <font face="'Courier New',Monospaced,Monospace">
+setLookAndFeel</font> and <font face="'Courier New',Monospaced,Monospace">
+      getSystemLookAndFeelClassName</font> of class <font face="'Courier New',Monospaced,Monospace">
+UIManager</font> to initially set the look and feel to the one of the system, 
+      the application is started on.
+    </p>
+    <p>
+      By setting the L&amp;F at runtime in the application's main method, an 
+      application can be kept independent from system specific behaviour. 
+      Class <font face="'Courier New',Monospaced,Monospace">UIManager</font> 
+      still allows to change L&amp;F settings later in a session with the 
+      application if necessary.
+    </p>
+  </body>
+</html>

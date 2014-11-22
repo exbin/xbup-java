@@ -1,0 +1,74 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Creating and storing documents
+    </p>
+    <p>
+      From the perspective of application SimplyHTML there is a distinction 
+      between documents as represented in package <font face="'Courier New',Monospaced,Monospace">
+javax.swing</font> and documents of application SimplyHTML. Package <font face="'Courier New',Monospaced,Monospace">
+javax.swing</font> provides a very powerful set of classes for working with 
+      documents, which relieves applications from having to completely 
+      implement their own editor, document model, etc.
+    </p>
+    <p>
+      How this set of classes is implemented in an application is left to the 
+      application developer however, allowing a maximum of flexibility while 
+      reducing effort and still retaining a common basis for the particular 
+      functionality.
+    </p>
+    <p class="heading2">
+      Documents in Java
+    </p>
+    <p>
+      The package <font face="'Courier New',Monospaced,Monospace">javax.swing</font>
+ implements a model-view-controller (MVC) approach to work with documents as 
+      shown below:
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; margin-left:10pt; font-size:12pt; color:#000000; margin-top:6pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <b>Document</b> - the model for swing text components
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; margin-left:10pt; font-size:12pt; color:#000000; margin-top:6pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <b>EditorKit</b> - the controller for text components
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; margin-left:10pt; font-size:12pt; color:#000000; margin-top:6pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <b>JTextComponent</b> - the view component
+    </p>
+    <p>
+      The interface <font face="'Courier New',Monospaced,Monospace">Document</font>
+ is a container for text that serves as the model for swing text components. 
+      The goal for this interface is to scale from very simple needs (a plain 
+      text textfield) to complex needs (an HTML or XML document, for example).
+    </p>
+    <p>
+      The abstract class <font face="'Courier New',Monospaced,Monospace">
+      EditorKit</font> serves as the controller for text components 
+      establishing the set of things needed by a text component to be a 
+      reasonably functioning editor for some type of text content.
+    </p>
+    <p>
+      Abstract class <font face="'Courier New',Monospaced,Monospace">
+      JTextComponent</font> finally is the view component in the MVC context 
+      serving as the base class for swing text components such as <font face="'Courier New',Monospaced,Monospace">
+JEditorPane</font>.
+    </p>
+    <p class="heading2">
+      Documents in SimplyHTML
+    </p>
+    <p>
+      SimplyHTML defines an own class for dealing with the documents used in 
+      the application. Class <font face="'Courier New',Monospaced,Monospace"><a href="../../topic16/topic4/topic25/topic38.htm">
+DocumentPane</a></font> is used to create new documents, load documents from 
+      file, save documents, view and edit documents and to define a SimplyHTML 
+      document in general.
+    </p>
+    <p>
+      With DocumentPane there is only one interface to deal with for both GUI 
+      and functionality when working with documents.
+    </p>
+  </body>
+</html>

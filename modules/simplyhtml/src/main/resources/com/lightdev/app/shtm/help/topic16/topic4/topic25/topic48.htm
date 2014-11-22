@@ -1,0 +1,122 @@
+<html>
+  <head>
+    <link href="../../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      The class CSSWriter
+    </p>
+    <p>
+      As mentioned <a href="../../../topic16/topic4/topic25/topic46.htm">
+      previously</a>, Java does not provide a class to save information in a <font face="'Courier New',Monospaced,Monospace">
+StyleSheet</font> to a file. To be able to save <a href="../../../topic16/topic4/topic25/topic42.htm">
+CSS</a> information, SimplyHTML defines and uses class <font face="'Courier New',Monospaced,Monospace">
+CSSWriter</font>. <font face="'Courier New',Monospaced,Monospace">CSSWriter</font>
+ is passed a <font face="'Courier New',Monospaced,Monospace">Writer</font> 
+      object and a <font face="'Courier New',Monospaced,Monospace">StyleSheet</font>
+ object upon construction. The <font face="'Courier New',Monospaced,Monospace">
+      StyleSheet</font> object contains the <a href="../../../topic16/topic4/topic25/topic42.htm">
+CSS</a> information to be saved and the <font face="'Courier New',Monospaced,Monospace">
+Writer</font> object identifies the destination to store the <a href="../../../topic16/topic4/topic25/topic42.htm">
+CSS</a> information at.
+    </p>
+    <p>
+      In the constructor of <font face="'Courier New',Monospaced,Monospace">
+      CSSWriter</font>, the two parameters <font face="'Courier New',Monospaced,Monospace">
+Writer</font> and <font face="'Courier New',Monospaced,Monospace">StyleSheet</font>
+ are stored in respective fields <font face="'Courier New',Monospaced,Monospace">
+w</font> and <font face="'Courier New',Monospaced,Monospace">s</font> of class <font face="'Courier New',Monospaced,Monospace">
+CSSWriter</font> for later use. To actually write out the styles found in the <font face="'Courier New',Monospaced,Monospace">
+StyleSheet</font> <font face="'Courier New',Monospaced,Monospace">s</font>, 
+      method <font face="'Courier New',Monospaced,Monospace">write</font> is 
+      used.
+    </p>
+    <p class="heading2">
+      Method write
+    </p>
+    <p>
+      In method <font face="'Courier New',Monospaced,Monospace">write</font> 
+      an <font face="'Courier New',Monospaced,Monospace">Enumeration</font> of 
+      all rules in the <font face="'Courier New',Monospaced,Monospace">
+      StyleSheet</font> is created. An <font face="'Courier New',Monospaced,Monospace">
+Enumeration</font> is a good way to iterate over a collection of elements. It 
+      provides two convenience methods <font face="'Courier New',Monospaced,Monospace">
+hasMoreElements</font> and <font face="'Courier New',Monospaced,Monospace">
+      nextElement for </font><font face="Sans-Serif">this purpose</font>. 
+      While there are more Elements in the Enumeration of styles, method <font face="'Courier New',Monospaced,Monospace">
+write</font> gets the next element in the <font face="'Courier New',Monospaced,Monospace">
+Enumeration</font> being the name of the next <font face="'Courier New',Monospaced,Monospace">
+Style</font> object.
+    </p>
+    <p>
+      It then gets the <font face="'Courier New',Monospaced,Monospace">Style</font>
+ object identified by that name. <font face="'Courier New',Monospaced,Monospace">
+Style</font> objects are <font face="'Courier New',Monospaced,Monospace">
+      AttributeSet</font> objects that can contain attribute objects or other <font face="'Courier New',Monospaced,Monospace">
+AttributeSet</font> objects. The length of the style name is taken to find out 
+      how far from the left side the style attributes have to be written to 
+      file. This indentation length is stored in field <font face="'Courier New',Monospaced,Monospace">
+indentLen</font> of class <font face="'Courier New',Monospaced,Monospace">
+      CSSWriter</font>.
+    </p>
+    <p>
+      First the style name is written to file followed by the character 
+      opening a collection of attributes for a CSS style ( '{' ). Every style 
+      except the one identified by <font face="'Courier New',Monospaced,Monospace">
+StyleContext.DEFAULT_STYLE</font> then is written to file by calling method <font face="'Courier New',Monospaced,Monospace">
+writeStyle</font> on respective <font face="'Courier New',Monospaced,Monospace">
+Style</font> object.
+    </p>
+    <p class="heading2">
+      Method writeStyle
+    </p>
+    <p>
+      In method <font face="'Courier New',Monospaced,Monospace">writeStyle</font>
+ again an <font face="'Courier New',Monospaced,Monospace">Enumeration</font> 
+      is used to go through all attributes found in the style <font face="'Courier New',Monospaced,Monospace">
+AttributeSet</font>. An <font face="'Courier New',Monospaced,Monospace">
+      AttributeSet</font> is a pair of objects for the key and the value of a 
+      style attribute. For every element in the <font face="'Courier New',Monospaced,Monospace">
+Enumeration</font> the key and value objects are read.
+    </p>
+    <p>
+      Attribute <font face="'Courier New',Monospaced,Monospace">
+      StyleConstants.NameAttribute</font> can be left out from writing because 
+      it contains the name of the style, this <font face="'Courier New',Monospaced,Monospace">
+Style</font> object is describing. As well the attribute <font face="'Courier New',Monospaced,Monospace">
+StyleConstants.ResolveAttribute</font> is not written to file itself, because 
+      it contains another <font face="'Courier New',Monospaced,Monospace">
+      AttributeSet</font> in its value object. For attributes of type <font face="'Courier New',Monospaced,Monospace">
+StyleConstants.ResolveAttribute</font> method <font face="'Courier New',Monospaced,Monospace">
+writeStyle</font> is called recursively to write out all attributes found in 
+      this attribute.
+    </p>
+    <p>
+      All other attributes are written to file by first writing the key object 
+      having the name of the attribute (such as font-size, left-margin, etc.) 
+      followed by a colon, the attribute value (such as '12pt' or '20%', etc.) 
+      and a semicolon. Every attribute except the first is preceded by a new 
+      line and the indentation needed to make the collection of attributes 
+      more legible.
+    </p>
+    <p>
+      Finally the closing character for a CSS style ( '}' ) and a new line is 
+      written.
+    </p>
+    <p class="heading3">
+      Using the appropriate line separator
+    </p>
+    <p>
+      At design time it can not be predicted on which operating system 
+      application SimplyHTML might be used. As different operating systems use 
+      different line separators with their file system, this has to be taken 
+      into account for our save routine. <font face="'Courier New',Monospaced,Monospace">
+CSSWriter</font> gets the correct line separator from a global constant 
+      defined in Java with command <font face="'Courier New',Monospaced,Monospace">
+System.getProperty(&quot;line.separator&quot;)</font>. The value returned by 
+      this call is appended to every line written to the target style sheet 
+      file.
+    </p>
+  </body>
+</html>

@@ -60,6 +60,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -72,7 +73,9 @@ import javax.swing.text.StyleConstants;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
- * Font Chooser Dialog With Pole taken from:
+ * Font Chooser Dialog.
+ *
+ * Code is based on the following source:
  * http://www.java2s.com/Code/Java/Tiny-Application/AdvancedFontChooserrevisedbypole.htm
  *
  * @version 0.1.22 2013/03/02
@@ -98,7 +101,7 @@ public class FontDialog extends JDialog {
 
     public FontDialog(java.awt.Frame owner, boolean modal) {
         super(owner, modal);
-        
+
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         fontNames = ge.getAvailableFontFamilyNames();
         fontSizes = new String[]{"8", "9", "10", "11", "12", "14", "16",
@@ -399,6 +402,7 @@ class InputList extends JPanel implements ListSelectionListener, ActionListener 
         list = new OpelListList(data);
         list.setVisibleRowCount(4);
         list.addListSelectionListener(this);
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         scroll = new JScrollPane(list);
         add(scroll);
     }
@@ -414,6 +418,7 @@ class InputList extends JPanel implements ListSelectionListener, ActionListener 
         list = new OpelListList();
         list.setVisibleRowCount(4);
         list.addListSelectionListener(this);
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         scroll = new JScrollPane(list);
         add(scroll);
     }

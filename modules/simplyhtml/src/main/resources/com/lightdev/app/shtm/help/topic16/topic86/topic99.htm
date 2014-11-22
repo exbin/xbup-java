@@ -1,0 +1,103 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Enhancing cell border rendering
+    </p>
+    <p>
+      A prerequisite to manipulation of table and cell attributes as described <a href="../../topic16/topic86/topic93.htm">
+separately</a> is to provide some enhancement to the way cell borders are 
+      rendered by Java.
+    </p>
+    <p>
+      Up to J2SE 1.4 cell borders are not rendered individually and there is 
+      no way to have different colors for borders of different sides of a 
+      cell. Either a border is drawn around all sides of a table cell or no 
+      border is drawn. There is no way for example to draw a vertical border 
+      between two cells only while the other sides of these cells have no 
+      borders.
+    </p>
+    <p class="heading2">
+      Rendering mechanism
+    </p>
+    <p>
+      In general <font face="'Courier New',Monospaced,Monospace">Elements</font>
+ of an <font face="'Courier New',Monospaced,Monospace">HTMLDocument</font> are 
+      rendered through the pluggable design construct of <font face="'Courier New',Monospaced,Monospace">
+HTMLEditorKit.HTMLFactory</font>. The idea behind this design is to provide 
+      individual <font face="'Courier New',Monospaced,Monospace">Views</font> 
+      to render <font face="'Courier New',Monospaced,Monospace">Elements</font>
+       .
+    </p>
+    <p class="heading3">
+      Parts involved in cell border rendering
+    </p>
+    <p>
+      A table cell is rendered by class <font face="'Courier New',Monospaced,Monospace">
+BoxPainter</font> which is an inner class of class <font face="'Courier New',Monospaced,Monospace">
+StyleSheet. BoxPainter </font>is used in class <font face="'Courier New',Monospaced,Monospace">
+BlockView</font> which is a superclass of class <font face="'Courier New',Monospaced,Monospace">
+CellView</font>. <font face="'Courier New',Monospaced,Monospace">CellView</font>
+ in turn is an inner class of class <font face="'Courier New',Monospaced,Monospace">
+TableView</font><font face="Sans-Serif"> (terrible isn't it?).</font>
+    </p>
+    <p>
+      To change how borders are painted, <font face="'Courier New',Monospaced,Monospace">
+StyleSheet.BoxPainter</font> needs to be replaced by an own class. <font face="'Courier New',Monospaced,Monospace">
+TableView</font> could be subclassed and its <font face="'Courier New',Monospaced,Monospace">
+create</font> method could be reimplemented to provide a replacement of <font face="'Courier New',Monospaced,Monospace">
+CellView</font> replacing <font face="'Courier New',Monospaced,Monospace">
+      StyleSheet.BoxPainter</font>.
+    </p>
+    <p class="heading2">
+      Enabling for individual border rendering
+    </p>
+    <p>
+      The constructor of <font face="'Courier New',Monospaced,Monospace">
+      TableView</font> is public but unfortunately the class itself is 
+      protected so there is no way to simply subclass <font face="'Courier New',Monospaced,Monospace">
+TableView</font> to replace the <font face="'Courier New',Monospaced,Monospace">
+ViewFactory</font> of <font face="'Courier New',Monospaced,Monospace">TableView</font>
+ with an own <font face="'Courier New',Monospaced,Monospace">CellView</font>. 
+      It is dificult to change the rendering while leaving the underlying 
+      classes untouched due to <font face="'Courier New',Monospaced,Monospace">
+      TableView</font> being protected (I did not want to write a complete new 
+      view or view factory only to change a little part - a complete new table 
+      view would be hard to write too...).
+    </p>
+    <p class="heading3">
+      Solution
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">SHTMLBoxPainter</font> 
+      is created allowing to draw borders around a table cell independently 
+      from each other. Width and color for each side are drawn independently 
+      and borders of adjacent cells are adjusted so that only one border is 
+      drawn instead of two when the adjacent cells have no margin..
+    </p>
+    <p>
+      To enable <font face="'Courier New',Monospaced,Monospace">SHTMLBoxPainter</font>
+ in place of <font face="'Courier New',Monospaced,Monospace">
+      StyleSheet.BoxPainter</font> the sources of the superclasses <font face="'Courier New',Monospaced,Monospace">
+BlockView</font> and <font face="'Courier New',Monospaced,Monospace">TableView</font>
+ are copied unchanged into new ones and only bring in <font face="'Courier New',Monospaced,Monospace">
+SHTMLBoxPainter</font> where appropriate. This is done by classes <font face="'Courier New',Monospaced,Monospace">
+SHTMLBlockView</font> and <font face="'Courier New',Monospaced,Monospace">
+      SHTMLTableView</font> respectively. Both classes had to be put into 
+      package <font face="'Courier New',Monospaced,Monospace">
+      javax.swing.text.html</font> to do so.
+    </p>
+    <p>
+      Due to class <font face="'Courier New',Monospaced,Monospace">TableView</font>
+ being protected admittedly this is an ugly solution so any other and more 
+      elegant and effortless one is welcome and highly appreciated!
+    </p>
+    <p>
+      Highly appreciated also would be an explanation why <font face="'Courier New',Monospaced,Monospace">
+TableView</font> is protected...
+    </p>
+  </body>
+</html>

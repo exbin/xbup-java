@@ -1,0 +1,143 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Extending classes for tag SPAN
+    </p>
+    <p>
+      SimplyHTML extends classes <font face="'Courier New',Monospaced,Monospace">
+HTMLDocument</font>, <font face="'Courier New',Monospaced,Monospace">
+      HTMLDocument.HTMLReader</font>, <font face="'Courier New',Monospaced,Monospace">
+HTMLEditorKit</font> and <font face="'Courier New',Monospaced,Monospace">
+      HTMLWriter</font> to support the <font face="'Courier New',Monospaced,Monospace">
+SPAN</font> tag of HTML. In this chapter the overall approach of how this is 
+      done is described. Please consult the source code and API documents of 
+      the mentioned classes for additional details.
+    </p>
+    <p class="heading2">
+      Why extending the mentioned classes?
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">HTMLDocument</font>
+       has an inner class <font face="'Courier New',Monospaced,Monospace">
+      HTMLReader</font> which is used by <font face="'Courier New',Monospaced,Monospace">
+HTMLEditorKit</font> to read HTML files. <font face="'Courier New',Monospaced,Monospace">
+HTMLReader</font> does not support <font face="'Courier New',Monospaced,Monospace">
+SPAN</font> tags so it is extended by SHTMLReader accordingly. To use <font face="'Courier New',Monospaced,Monospace">
+SHTMLReader</font> in favor of <font face="'Courier New',Monospaced,Monospace">
+      HTMLReader</font>, class <font face="'Courier New',Monospaced,Monospace">
+      HTMLDocument</font> has to be extended too.
+    </p>
+    <p>
+      When a HTML document is edited in SimplyHTML, all attributes are stored 
+      as CSS attributes which is why it is also necessary to extend class <font face="'Courier New',Monospaced,Monospace">
+HTMLWriter</font> to write out those CSS styles inside <font face="'Courier New',Monospaced,Monospace">
+SPAN</font> tags. To use both our own reader and our own writer, <font face="'Courier New',Monospaced,Monospace">
+HTMLEditorKit</font> needs to be extended as well.
+    </p>
+    <p class="heading2">
+      SHTMLWriter
+    </p>
+    <p>
+      Usually a class is extended simply by overriding one or more of its 
+      public methods. Unfortunately class <font face="'Courier New',Monospaced,Monospace">
+HTMLWriter</font> only has one public method <font face="'Courier New',Monospaced,Monospace">
+write</font> which calls other private methods making up the actual write 
+      process.
+    </p>
+    <p>
+      If not a completely new writer is to be created, the only way to extend <font face="'Courier New',Monospaced,Monospace">
+HTMLWriter</font> is to copy its source code completely into a new subclass <font face="'Courier New',Monospaced,Monospace">
+SHTMLWriter</font> and change some of the code to our needs (please do let me 
+      know if you can provide a more elegant way to do this...).
+    </p>
+    <p>
+      To allow to write <font face="'Courier New',Monospaced,Monospace">SPAN</font>
+ tags for style attributes, new class <font face="'Courier New',Monospaced,Monospace">
+SHTMLWriter</font> changes method <font face="'Courier New',Monospaced,Monospace">
+convertToHTML32</font>. Whenever a <font face="'Courier New',Monospaced,Monospace">
+CONTENT</font> tag is encountered during write, any CSS attributes are 
+      converted to a syntax used in <font face="'Courier New',Monospaced,Monospace">
+STYLE</font> attributes. The resulting style string then is added to a new <font face="'Courier New',Monospaced,Monospace">
+SPAN</font> tag and the <font face="'Courier New',Monospaced,Monospace">SPAN</font>
+ tag including the found styles is added to the <font face="'Courier New',Monospaced,Monospace">
+CONTENT</font> tag.
+    </p>
+    <p class="heading2">
+      SHTMLDocument
+    </p>
+    <p>
+      Whenever data is read into an instance of <font face="'Courier New',Monospaced,Monospace">
+SHTMLDocument</font>, method <font face="'Courier New',Monospaced,Monospace">
+      getReader</font> returns an instance of the reader special to this type 
+      of document, so this method is overridden to provide an instance of <font face="'Courier New',Monospaced,Monospace">
+SHTMLReader</font> (see below).
+    </p>
+    <p class="heading2">
+      SHTMLDocument.SHTMLReader
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">HTMLDocument</font>
+       contains an inner class <font face="'Courier New',Monospaced,Monospace">
+      HTMLReader</font> to read HTML data into an instance of <font face="'Courier New',Monospaced,Monospace">
+HTMLDocument</font>. To support <font face="'Courier New',Monospaced,Monospace">
+SPAN</font> tags <font face="'Courier New',Monospaced,Monospace">SHTMLDocument</font>
+ creates a new inner class <font face="'Courier New',Monospaced,Monospace">
+      SHTMLReader</font>.
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">SHTMLReader</font> 
+      overrides methods <font face="'Courier New',Monospaced,Monospace">
+      handleStartTag</font>, <font face="'Courier New',Monospaced,Monospace">
+      handleSimpleTag</font> and <font face="'Courier New',Monospaced,Monospace">
+handleEndTag</font> which are called by the parser for every tag found. <font face="'Courier New',Monospaced,Monospace">
+SPAN</font> tags are delivered to the reader through method <font face="'Courier New',Monospaced,Monospace">
+handleSimpleTag</font>. <font face="'Courier New',Monospaced,Monospace">
+      SHTMLReader</font> deviates this tag to be handled by <font face="'Courier New',Monospaced,Monospace">
+handleStartTag</font> instead.
+    </p>
+    <p>
+      In method handleStartTag, for any <font face="'Courier New',Monospaced,Monospace">
+SPAN</font> tag found an instance of <font face="'Courier New',Monospaced,Monospace">
+SHTMLCharacterAction</font> is invoked. <font face="'Courier New',Monospaced,Monospace">
+SHTMLCharacterAction</font> is an inner class of <font face="'Courier New',Monospaced,Monospace">
+SHTMLReader</font> and extends class <font face="'Courier New',Monospaced,Monospace">
+CharacterAction</font> of class <font face="'Courier New',Monospaced,Monospace">
+HTMLReader</font>. It does the actual handling of the <font face="'Courier New',Monospaced,Monospace">
+SPAN</font> tag by removing the <font face="'Courier New',Monospaced,Monospace">
+SPAN</font> tag and by adding its style attributes to the <font face="'Courier New',Monospaced,Monospace">
+CONTENT</font> tag the <font face="'Courier New',Monospaced,Monospace">SPAN</font>
+ tag belongs to.
+    </p>
+    <p>
+      Method <font face="'Courier New',Monospaced,Monospace">handleEndTag</font>
+ properly terminates <font face="'Courier New',Monospaced,Monospace">
+      SHTMLCharacterActions</font> for any <font face="'Courier New',Monospaced,Monospace">
+SPAN</font> tag in process.
+    </p>
+    <p class="heading2">
+      SHTMLEditorKit
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">HTMLEditorKit</font>
+ provides methods to read and write data stored inside an instance of <font face="'Courier New',Monospaced,Monospace">
+HTMLDocument</font>. It uses method <font face="'Courier New',Monospaced,Monospace">
+getReader</font> of <font face="'Courier New',Monospaced,Monospace">
+      HTMLDocument</font> in its read an write methods. To support our own set 
+      of classes as described above, class <font face="'Courier New',Monospaced,Monospace">
+SHTMLEditorKit</font> overrides methods <font face="'Courier New',Monospaced,Monospace">
+read</font> and <font face="'Courier New',Monospaced,Monospace">write</font> 
+      accordingly.
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">SHTMLEditorKit</font> 
+      also ensures that a <font face="'Courier New',Monospaced,Monospace">
+      SHTMLDocument</font> is created instead of a <font face="'Courier New',Monospaced,Monospace">
+HTMLDocument</font> by overriding method <font face="'Courier New',Monospaced,Monospace">
+createDefaultDocument</font>.
+    </p>
+  </body>
+</html>

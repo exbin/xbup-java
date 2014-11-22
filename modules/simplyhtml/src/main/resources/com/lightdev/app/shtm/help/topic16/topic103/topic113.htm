@@ -1,0 +1,102 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    <title>    </title>
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Creating plug-ins for SimplyHTML
+    </p>
+    <p>
+      A plug-in can be any Java object implementing interface <font face="'Courier New',Monospaced,Monospace">
+SHTMLPlugin</font>. As specified by interface <font face="'Courier New',Monospaced,Monospace">
+SHTMLPlugin</font>, a plug-in should provide
+    </p>
+    <ul>
+      <li>
+        a menu delivering access to all of the plug-ins functions (plug-in 
+        menu)
+      </li>
+      <li>
+        a menu providing documentation about the plug-in as required (help 
+        menu)
+      </li>
+      <li>
+        a component containing any GUI representation of the plug-in (plug-in 
+        component)
+      </li>
+      <li>
+        an indicator telling whether the plug-in component shall be 'docked' 
+        to SimplyHTML's main window (and where by default) or displayed in a 
+        separate window.
+      </li>
+      <li>
+        its name as it should be represented on a GUI
+      </li>
+      <li>
+        its internal name for possible internal referencing
+      </li>
+    </ul>
+    <p>
+      Above parts need not to be present in all cases, returning <font face="'Courier New',Monospaced,Monospace">
+null</font> in one or more parts is sufficient as well. Apart from above 
+      specification, plug-in developers are free to design their plug-in in 
+      any way they like. As SimplyHTML is open source (and will remain as 
+      such), plug-ins can access all its public parts as described in 
+      SimplyHTML's API documentation.
+    </p>
+    <p class="heading2">
+      Class AbstractPlugin
+    </p>
+    <p>
+      To further simplify plug-in creation, there is an <a href="../../topic16/topic103/topic111.htm">
+abstract base class</a> that can be used to build a new plug-in upon. It 
+      basically implements a generic way of creating menus from a resource 
+      bundle (if one is delivered with the plug-in). See chapter '<a href="../../topic16/topic103/topic111.htm">
+Dynamic resources</a>' and the source code for class <font face="'Courier New',Monospaced,Monospace">
+AbstractPlugin</font> for details.
+    </p>
+    <p>
+      Plug-ins are not obliged to extend <font face="'Courier New',Monospaced,Monospace">
+AbstractPlugin</font> or they can override some or all of its classes to 
+      adjust the plug-in accordingly. When extending AbstractPlugin unchanged, 
+      a .<font face="'Courier New',Monospaced,Monospace">properties</font> 
+      file should be provided with the new plug-in having menu definitions, 
+      etc.
+    </p>
+    <p class="heading2">
+      Class PluginTemplate
+    </p>
+    <p>
+      Another help for plug-in developers is class <font face="'Courier New',Monospaced,Monospace">
+PluginTemplate</font>. It constructs a working - though functionless - plug-in 
+      for SimplyHTML. Plug-in developers can use it as a copy template for own 
+      plug-ins or for explanatory purposes.
+    </p>
+    <p>
+      With class PluginTemplate two .properties files are provided too. They 
+      have the necessary menu definitions and texts for english and german 
+      language. Use these .properties files as an example for how to define 
+      appropriate .properties files for you plug-ins.
+    </p>
+    <p class="heading2">
+      Defining actions for plug-ins
+    </p>
+    <p>
+      A plug-in typically adds functionality to SimplyHTML which can best be 
+      provided to SimplyHTML through respective action classes. To integrate 
+      action classes of plug-ins with SimplyHTML, they should be connected to 
+      plug-in menu items.
+    </p>
+    <p>
+      Actions from plug-ins are added to SimplyHTML by using FrmMain's 
+      DynamicResource instance. Call method addAction of class DynamicResource 
+      passing it an instance of a plug-in action along with its command name. 
+      The action command should has to be the same expression as it was used 
+      to identify the menu item in the ResourceBundle. See method <font face="'Courier New',Monospaced,Monospace">
+initActions</font> of class <font face="'Courier New',Monospaced,Monospace">
+      FrmMain</font> for an example.
+    </p>
+  </body>
+</html>

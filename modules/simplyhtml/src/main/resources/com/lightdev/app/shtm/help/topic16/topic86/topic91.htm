@@ -1,0 +1,183 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Manipulating the table structure
+    </p>
+    <p>
+      Manipulation of an existing table structure is necessary for following 
+      actions
+    </p>
+    <ul>
+      <li>
+        append row
+      </li>
+      <li>
+        append column
+      </li>
+      <li>
+        insert row
+      </li>
+      <li>
+        insert column
+      </li>
+      <li>
+        delete row
+      </li>
+      <li>
+        delete column
+      </li>
+    </ul>
+    <p>
+      Each of the above table manipulations is implemented in class <font face="'Courier New',Monospaced,Monospace">
+SHTMLEditorPane</font> with repective methods (<font face="'Courier New',Monospaced,Monospace">
+insertTableColumn</font>, <font face="'Courier New',Monospaced,Monospace">
+      appendTableCol</font>, etc.). All table manipulation methods of class <font face="'Courier New',Monospaced,Monospace">
+SHTMLEditorPane</font> have following similarities.
+    </p>
+    <p class="heading3">
+      Common logic
+    </p>
+    <p>
+      Insertions and additions of rows and columns are all done by using 
+      methods <font face="'Courier New',Monospaced,Monospace">insertAfterEnd</font>
+ and <font face="'Courier New',Monospaced,Monospace">insertBeforeStart</font> 
+      of class <font face="'Courier New',Monospaced,Monospace">HTMLDocument</font>
+ respectively. Deletions of rows and columns are both done by using methods <font face="'Courier New',Monospaced,Monospace">
+remove</font> and <font face="'Courier New',Monospaced,Monospace">
+      removeElements</font> of class <font face="'Courier New',Monospaced,Monospace">
+HTMLDocument</font> respectively.
+    </p>
+    <p>
+      All table manipulation methods assume that they are called while the 
+      caret is somewhere inside a table cell. If not, they do nothing. As 
+      opposed to <a href="../../topic16/topic86/topic93.htm">attribute changes</a>
+ the table manipulation methods are designed for being called with a single 
+      action command ('delete row', 'insert column', etc.).
+    </p>
+    <p class="heading2">
+      Adding rows
+    </p>
+    <p>
+      To add a row, the current (insert) or last (append) row is copied by 
+      iterating the row and cell elements and creating an HTML string making 
+      up that element structure including attributes but without text content. 
+      The resulting HTML code is inserted before the current row element 
+      (insert) or inserted after the last row element (append) by use of 
+      method <font face="'Courier New',Monospaced,Monospace">insertAfterEnd</font>
+ and <font face="'Courier New',Monospaced,Monospace">insertBeforeStart</font> 
+      of class <font face="'Courier New',Monospaced,Monospace">HTMLDocument</font>
+ .
+    </p>
+    <p class="heading3">
+      How it works
+    </p>
+    <p>
+      To accomplish the above functionality method <font face="'Courier New',Monospaced,Monospace">
+createNewRow</font> is shared by methods <font face="'Courier New',Monospaced,Monospace">
+insertTableRow</font> and <font face="'Courier New',Monospaced,Monospace">
+      appendTableRow</font> of class <font face="'Courier New',Monospaced,Monospace">
+SHTMLEditorPane</font>. Method <font face="'Courier New',Monospaced,Monospace">
+      createNewRow</font> uses <font face="'Courier New',Monospaced,Monospace">
+      getTableRowHTML</font> of class <font face="'Courier New',Monospaced,Monospace">
+SHTMLEditorPane</font> to do the actual assembling of HTML code. Method <font face="'Courier New',Monospaced,Monospace">
+getTableRowHTML</font> in turn uses methods <font face="'Courier New',Monospaced,Monospace">
+startTag</font> and <font face="'Courier New',Monospaced,Monospace">endTag</font>
+ of class <font face="'Courier New',Monospaced,Monospace"><a href="../../topic16/topic86/topic95.htm">
+SHTMLWriter</a></font> to generate HTML.
+    </p>
+    <p class="heading3">
+      Entry point for Actions
+    </p>
+    <p>
+      Methods <font face="'Courier New',Monospaced,Monospace">insertTableRow</font>
+ and <font face="'Courier New',Monospaced,Monospace">appendTableRow</font> are 
+      as well the entry points for respective actions of class <font face="'Courier New',Monospaced,Monospace">
+FrmMain</font> to connect this functionality with GUI elements such as menus 
+      and tool bar buttons. They both find out the table row (current or last) 
+      by determining the current table cell with the help of method <font face="'Courier New',Monospaced,Monospace">
+getCurTableCell</font>. Method <font face="'Courier New',Monospaced,Monospace">
+      getCurTableCell</font> is discussed in more detail in the chapter about 
+      how to implement a customized caret movement and key mapping.
+    </p>
+    <p class="heading2">
+      Removing rows
+    </p>
+    <p>
+      Removing a table row is comparably simple. Because a table row is 
+      represented by a single element with child elements belonging to that 
+      row only, it is sufficient to just delete this particular element from 
+      the document strucutre.
+    </p>
+    <p>
+      To remove a row method <font face="'Courier New',Monospaced,Monospace">
+      deleteTableRow</font> is called. It is as well the method used in <font face="'Courier New',Monospaced,Monospace">
+FrmMain's</font> respective action. Method <font face="'Courier New',Monospaced,Monospace">
+deleteTableRow</font> gets the row the caret currently is in and deletes it by 
+      calling method <font face="'Courier New',Monospaced,Monospace">
+      removeElement</font>.
+    </p>
+    <p class="heading2">
+      Adding columns
+    </p>
+    <p>
+      As opposed to working with rows, table columns are harder to manipulate 
+      because the cells of a column are spread over all row elements. To add a 
+      column, the same logic is used as in adding rows except that method <font face="'Courier New',Monospaced,Monospace">
+createTableColumn</font> iterates through all rows of a table working on the 
+      particular cell belonging to the column in question in each row.
+    </p>
+    <p class="heading3">
+      Retaining table width
+    </p>
+    <p>
+      Another exception is that SimplyHTML adjusts cell widths by taking half 
+      of the width of the current column for the new column. In method 
+      creatTableColumn the half width is applied to the column the new column 
+      is to be inserted before. Then the new column is created with the same 
+      width so that in total the table width did not change.
+    </p>
+    <p class="heading2">
+      Removing columns
+    </p>
+    <p>
+      To remove a column again the same logic is used as with rows but 
+      respective method <font face="'Courier New',Monospaced,Monospace">
+      deleteTableCol</font> is the most complicated of table manipulation 
+      methods.
+    </p>
+    <p class="heading3">
+      Retaining table width
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">deleteTableCol</font> 
+      first determines which column to increase in width after removal of the 
+      current column. By default the column on the left of the current column 
+      is taken. If the current column is the first in the table the column 
+      right of the current column is taken instead.
+    </p>
+    <p>
+      The method then gets the width values of both columns and finds out the 
+      sum of both widths. The sum is only taken if the unit of both width 
+      values is the same (both percent or point). If a sum could be taken, it 
+      is added to an attribute set.
+    </p>
+    <p class="heading3">
+      Removing cells
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">deleteTableCol</font> 
+      then iterates through all rows in the table removing the cell of each 
+      row belonging to the column to remove and then adds the new width to its 
+      adjacent cell left or right respectively. To remove a cell method <font face="'Courier New',Monospaced,Monospace">
+removeElements</font> of class <font face="'Courier New',Monospaced,Monospace">
+      SHTMLDocument</font> is used. For some reason I did not find out up to 
+      now why but method <font face="'Courier New',Monospaced,Monospace">remove</font>
+ of class <font face="'Courier New',Monospaced,Monospace">HTMLDocument</font> 
+      does not work when used on the last column in a table.
+    </p>
+  </body>
+</html>

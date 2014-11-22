@@ -22,7 +22,6 @@ import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditDefinitionPanel;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditDocumentationPanel;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditPanel;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
@@ -31,7 +30,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEdit
 /**
  * XBManager Catalog Item Properties Dialog.
  *
- * @version 0.1.24 2014/11/14
+ * @version 0.1.24 2014/11/22
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogEditItemDialog extends javax.swing.JDialog {
@@ -41,7 +40,6 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
     private XBACatalog catalog;
 
     private CatalogItemEditPanel propertiesPanel;
-    private CatalogItemEditDocumentationPanel documentationPanel;
     private CatalogItemEditRevsPanel revisionsPanel;
     private CatalogItemEditDefinitionPanel definitionPanel;
 
@@ -138,9 +136,12 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
 
     private void setButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setButtonActionPerformed
         propertiesPanel.persist();
-        documentationPanel.persist();
-        definitionPanel.persist();
-        revisionsPanel.persist();
+        if (definitionPanel != null) {
+            definitionPanel.persist();
+        }
+        if (revisionsPanel != null) {
+            revisionsPanel.persist();
+        }
         dialogOption = JOptionPane.OK_OPTION;
         WindowUtils.closeWindow(this);
 }//GEN-LAST:event_setButtonActionPerformed
@@ -173,12 +174,6 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
         initComponent(propertiesPanel);
         mainTabbedPane.add(propertiesPanel, "Basic");
 
-        documentationPanel = new CatalogItemEditDocumentationPanel();
-        documentationPanel.setCatalog(catalog);
-        documentationPanel.setCatalogItem(item);
-        initComponent(documentationPanel);
-        mainTabbedPane.add(documentationPanel, "Documentation");
-
         if (item instanceof XBCSpec) {
             revisionsPanel = new CatalogItemEditRevsPanel();
             revisionsPanel.setCatalog(catalog);
@@ -203,9 +198,6 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
         this.catalog = catalog;
         if (propertiesPanel != null) {
             propertiesPanel.setCatalog(catalog);
-        }
-        if (documentationPanel != null) {
-            documentationPanel.setCatalog(catalog);
         }
         if (revisionsPanel != null) {
             revisionsPanel.setCatalog(catalog);

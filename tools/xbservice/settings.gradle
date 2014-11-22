@@ -7,6 +7,7 @@ include ":modules:xbup-editor-base"
 include ":modules:xbup-editor-base-api"
 include ":modules:xbup-editor-module-frame"
 include ":modules:xbup-editor-module-service_manager"
+include ":modules:simplyhtml"
 
 if (rootProject.path == ':') {
     def rootProjectDir = rootProject.projectDir.path + "/../.."
@@ -18,4 +19,5 @@ if (rootProject.path == ':') {
     project(':modules:xbup-editor-base-api').projectDir = new File(rootProjectDir + "/modules/xbup-editor-base-api")
     project(':modules:xbup-editor-module-frame').projectDir = new File(rootProjectDir + "/modules/xbup-editor-module-frame")
     project(':modules:xbup-editor-module-service_manager').projectDir = new File(rootProjectDir + "/modules/xbup-editor-module-service_manager")
+    project(':modules:simplyhtml').projectDir = new File(rootProjectDir + "/modules/simplyhtml")
 }

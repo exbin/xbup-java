@@ -1,0 +1,95 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    <title>    </title>
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Style sheet storage
+    </p>
+    <p>
+      Style sheets are part of SimplyHTML since <a href="../../topic16/topic4.htm">
+stage 1</a> of the application. Since then they were only saved along with a 
+      document with a set of static styles. With stage 8 of SimplyHTML 
+      manipulation of named styles is supported so that the original style 
+      sheet handling needs to be extended.
+    </p>
+    <p class="heading2">
+      Loading style sheets
+    </p>
+    <p>
+      Class DocumentPane now has two ways of creating a document with respect 
+      to style sheets. A new document is created with the underlying EditorKit 
+      creating a default style sheet from the resources package of SimplyHTML 
+      (as done in previous stages).
+    </p>
+    <p>
+      This is not longer done when an existing document is loaded. In such 
+      case the underlying EditorKit creates a default document without a 
+      default style sheet. Class DocumentPane instead looks for the style 
+      sheet reference inside this document and loads this style sheet for the 
+      particular document instead.
+    </p>
+    <p>
+      The EditorKit not longer shares a single style sheet among different 
+      documents, each document has associated its own style sheet.
+    </p>
+    <p class="heading2">
+      Saving style sheets
+    </p>
+    <p>
+      When a style sheet is saved, four cases are now handled
+    </p>
+    <ol>
+      <li>
+        no styles are present at save location, create new style sheet
+      </li>
+      <li>
+        the style sheet was loaded from somewhere else and now is being saved 
+        at a new location where a style sheet exists havig the same name
+      </li>
+      <li>
+        the style sheet is saved at the same location where it was loaded from
+      </li>
+      <li>
+        the style sheet was newly created and now is being saved at a location 
+        where a style sheet exists havig the same name
+      </li>
+    </ol>
+    <p>
+      In case 2 and 4 above, the style sheets are merged overwriting existing 
+      styles in the found style sheet with styles from the saved style sheet. 
+      Styles from the found style sheet not existing in the saved style sheet 
+      are kept in the newly saved style sheet.
+    </p>
+    <p>
+      In case 3 above the existing style sheet is overwritten by the new 
+      version.
+    </p>
+    <p class="heading3">
+      Tradeoffs
+    </p>
+    <p>
+      While above save strategy does not require user interaction other than 
+      to choose a save loaction and name for the respective document (as 
+      before) it still leaves the problem that an existing style sheet with 
+      the same name could have styles with the same name as altered ones in 
+      the saved style sheet. Overwriting such styles could cause unwanted 
+      styles to appear in other documents sharing the particular style sheet.
+    </p>
+    <p>
+      Therefore the user is obliged to either
+    </p>
+    <ol>
+      <li>
+        not save documents in the same directory when they do not share the 
+        same set of named styles or
+      </li>
+      <li>
+        use different style names for different styles over all documents 
+        sharing the same style sheet
+      </li>
+    </ol>
+  </body>
+</html>

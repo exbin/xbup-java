@@ -1,0 +1,86 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    <title>    </title>
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Making plug-ins available to SimplyHTML
+    </p>
+    <p>
+      Plug-ins need to reside in Java archive (JAR) files. Inside the JAR file 
+      a plug-in must be in package <font face="'Courier New',Monospaced,Monospace">
+com.lightdev.app.shtm.plugin.installed</font>. If a plug-in is accompanied by .<font face="'Courier New',Monospaced,Monospace">
+properties</font> files for internationalization or dynamic menu creation, the 
+      .<font face="'Courier New',Monospaced,Monospace">properties</font> files 
+      have to reside in package <font face="'Courier New',Monospaced,Monospace">
+com.lighdev.app.shtm.plugin.installed</font> too.
+    </p>
+    <p>
+      Should there be additional classes distributed along with the actual 
+      plug-in class (the class implementing interface <font face="'Courier New',Monospaced,Monospace">
+SHTMLPlugin</font>, that is), these additional classes should be placed into 
+      sub-packages such as <font face="'Courier New',Monospaced,Monospace">
+      com.lightdev.app.shtm.plugin.installed.mypluginaddons</font> inside the 
+      JAR file.
+    </p>
+    <p>
+      Any JAR file containing a plug-in must be placed into the application 
+      directory of SimplyHTML. The application directory of SimplyHTML is
+    </p>
+    <ol>
+      <li>
+        the directory in the file system, where the JAR file of SimplyHTML is 
+        installed or
+      </li>
+      <li>
+        the root package directory of file <font face="'Courier New',Monospaced,Monospace">
+PluginManager.class</font>, if SimplyHTML is not operated out of a JAR file
+      </li>
+    </ol>
+    <p class="heading2">
+      Removing plug-ins
+    </p>
+    <p>
+      To remove a plug-in from SimplyHTML, remove its JAR file from the 
+      application directory and restart SimplyHTML.
+    </p>
+    <p class="heading2">
+      Examples for plug-in installation
+    </p>
+    <p>
+      In the following examples it is assumed that a plug-in is to be added to 
+      SimplyHTML from a file MyPlugIn.jar
+    </p>
+    <p class="heading3">
+      Example 1
+    </p>
+    <p>
+      SimplyHTML is operated out of file <font face="'Courier New',Monospaced,Monospace">
+SimplyHTML.jar</font> and <font face="'Courier New',Monospaced,Monospace">
+      SimplyHTML.jar</font> is in directory <font face="'Courier New',Monospaced,Monospace">
+C.\Programs\SimplyHTML\</font>
+    </p>
+    <p>
+      <i><b>Installation:</b></i> File <font face="'Courier New',Monospaced,Monospace">
+MyPlugIn.jar</font> must be placed into directory <font face="'Courier New',Monospaced,Monospace">
+C:\Programs\SimplyHTML\</font>
+    </p>
+    <p class="heading3">
+      Example 2
+    </p>
+    <p>
+      SimplyHTML is operated as an uncompressed class file not residing in a 
+      JAR file, the SimplyHTML package is installed in <font face="'Courier New',Monospaced,Monospace">
+C:\Programs\SimplyHTML\classes\</font>, i.e. file <font face="'Courier New',Monospaced,Monospace">
+PluginManager.class</font> is installed in <font face="'Courier New',Monospaced,Monospace">
+C:\Programs\SimplyHTML\classes\com\lightdev\app\shtm\plugin\</font>
+    </p>
+    <p>
+      <i><b>Installation:</b></i> File <font face="'Courier New',Monospaced,Monospace">
+MyPlugIn.jar</font> must be placed into directory <font face="'Courier New',Monospaced,Monospace">
+C:\Programs\SimplyHTML\classes\ </font>
+    </p>
+  </body>
+</html>

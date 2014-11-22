@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <link href="../../style.css" type="text/css" rel="stylesheet">
+    
+<title>Using FindReplaceDialog in SimplyHTML</title>  </head>
+  <body>
+    <p class="heading1">
+      Using FindReplaceDialog in SimplyHTML
+    </p>
+    <p>
+      Application SimplyHTML uses a new action in class <font face="'Courier New',Monospaced,Monospace">
+FrmMain</font> to invoke <font face="'Courier New',Monospaced,Monospace">
+      FindReplaceDialog</font>. Inner class <font face="'Courier New',Monospaced,Monospace">
+FindReplaceAction</font> instanciates a <font face="'Courier New',Monospaced,Monospace">
+FindReplaceDialog</font> in its <font face="'Courier New',Monospaced,Monospace">
+actionPerformed</font> method. Class <font face="'Courier New',Monospaced,Monospace">
+FindReplaceAction</font> implements interface <font face="'Courier New',Monospaced,Monospace">
+FindReplaceListener</font>. Whenever more than one document is open inside 
+      SimplyHTML <font face="'Courier New',Monospaced,Monospace">
+      FindReplaceAction</font> passes itself as <font face="'Courier New',Monospaced,Monospace">
+FindReplaceListener</font> to the newly instanciated <font face="'Courier New',Monospaced,Monospace">
+FindReplaceDialog</font>. Methods <font face="'Courier New',Monospaced,Monospace">
+getFirstDocument</font>, <font face="'Courier New',Monospaced,Monospace">
+      getNextDocument</font> and <font face="'Courier New',Monospaced,Monospace">
+findReplaceTerminated</font> in class <font face="'Courier New',Monospaced,Monospace">
+FindReplaceAction</font> hold functionality to implement find and replace for 
+      all documents currently open in SimplyHTML.
+    </p>
+  </body>
+</html>

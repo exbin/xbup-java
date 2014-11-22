@@ -1,0 +1,87 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    <title>    </title>
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Using LinkDialog and AnchorDialog
+    </p>
+    <p>
+      The two dialogs making up the new link functionality in this stage are 
+      made available through new actions in FrmMain.
+    </p>
+    <ul>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">InsertLinkAction</font>
+         - action to create a new link
+      </li>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">EditLinkAction</font> 
+        - action to edit an exisiting link
+      </li>
+      <li>
+        <font face="'Courier New',Monospaced,Monospace">EditAnchorsAction</font>
+ - action to create or remove anchor links
+      </li>
+    </ul>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">InsertLinkAction</font> 
+      and <font face="'Courier New',Monospaced,Monospace">EditLinkAction</font>
+       both create an instance of class <font face="'Courier New',Monospaced,Monospace">
+LinkDialog</font> to let the user create or work on a link. When the user has 
+      not cancelled upon return of the dialog, method <font face="'Courier New',Monospaced,Monospace">
+setLink</font> of class <font face="'Courier New',Monospaced,Monospace">
+      SHTMLEditorPane</font> is called to apply the link settings from the <font face="'Courier New',Monospaced,Monospace">
+LinkDialog</font> object.
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">EditAnchorsAction</font> 
+      is used similar to the above, the only difference is usage of method <font face="'Courier New',Monospaced,Monospace">
+insertAnchor</font> of class <font face="'Courier New',Monospaced,Monospace">
+      SHTMLEditorPane</font> instead.
+    </p>
+    <p class="heading2">
+      Usage of AnchorDialog through LinkDialog
+    </p>
+    <p>
+      Additional to using <font face="'Courier New',Monospaced,Monospace">
+      AnchorDialog</font> directly on a document currently edited, the dialog 
+      can be used from out of class <font face="'Courier New',Monospaced,Monospace">
+LinkDialog</font>. The idea is that either
+    </p>
+    <ol>
+      <li>
+        an anchor link is applied to a document in one step and a link is 
+        created to reference this anchor link in a second step later or
+      </li>
+      <li>
+        an anchor link is created in the course of creating a link both in one 
+        step.
+      </li>
+    </ol>
+    <p>
+      To create a link to a newly created anchor link in one step, as in case 
+      2. above, the anchor link needs to be created directly out of class <font face="'Courier New',Monospaced,Monospace">
+LinkDialog</font>. To do so, <font face="'Courier New',Monospaced,Monospace">
+      LinkDialog</font> has a browse button next to the text field for typing 
+      in a link anchor name. When the browse button is pressed class <font face="'Courier New',Monospaced,Monospace">
+LinkDialog</font> creates an instance of <font face="'Courier New',Monospaced,Monospace">
+AnchorDialog</font> passing the URL currently entered as the link address.
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">AnchorDialog</font> 
+      opens the document referenced by the URL received from <font face="'Courier New',Monospaced,Monospace">
+LinkDialog</font> and shows existing anchors of this document. The user now 
+      can choose an existing anchor link or create a new one which then is 
+      chosen.
+    </p>
+    <p>
+      Once a link anchor is selected, its name is taken back to the calling <font face="'Courier New',Monospaced,Monospace">
+LinkDialog</font> and the anchor name is included with the new link currently 
+      worked on in the <font face="'Courier New',Monospaced,Monospace">
+      LinkDialog</font> object.
+    </p>
+  </body>
+</html>

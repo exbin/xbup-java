@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <link href="../../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Creating an 'About dialog'
+    </p>
+    <p>
+      An elementary part of an application is its 'about' dialog. An 'about 
+      dialog' usually is shown when the user likes to know which application 
+      is currently running, by whom it was created, which version the user 
+      operates, which terms and conditions are connected to usage, etc.
+    </p>
+    <p>
+      It is common practice to have an item in the help menu of an application 
+      such as 'About SimplyHTML' for this purpose. This menu item in 
+      application SimplyHTML creates an instance of its <font face="'Courier New',Monospaced,Monospace">
+AboutBox</font> class.
+    </p>
+    <p class="heading2">
+      Class AboutBox
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">AboutBox</font> 
+      descends from class <font face="'Courier New',Monospaced,Monospace">
+      JDialog</font> and hosts a number of information panels. In the upper 
+      left part, an image associated with the application is shown (see 
+      below). Next to the image on the right a number of <font face="'Courier New',Monospaced,Monospace">
+JLabels</font> have the application name, current release, the author (wow, 
+      that's me!) and the application's home page. The name of the application 
+      is taken from the constant <font face="'Courier New',Monospaced,Monospace">
+APP_NAME</font> of class <font face="'Courier New',Monospaced,Monospace">
+      FrmMain</font>.
+    </p>
+    <p>
+      Below these components, a <a href="../../../topic16/topic4/topic39/topic51.htm">
+license panel</a> shows the full text of the <a href="../../../topic1/topic5.htm">
+GNU General Public License</a> SimplyHTML is distributed under. Finally a 
+      close button is displayed at the bottom of the dialog.
+    </p>
+    <p>
+      <font face="'Courier New',Monospaced,Monospace">AboutBox</font> does not 
+      have any other function than to construct itself and to be shown for 
+      information. Once the close button is pressed, it is disposed properly. 
+      This is ensured by overriding method <font face="'Courier New',Monospaced,Monospace">
+processWindowEvent</font> and calling <font face="'Courier New',Monospaced,Monospace">
+enableEvents</font> in the constructor of <font face="'Courier New',Monospaced,Monospace">
+AboutBox</font>.
+    </p>
+    <p class="heading3">
+      Reading an image from the class path
+    </p>
+    <p>
+      A common way to display an image is to place a JLabel somewhere onto a 
+      visible component and associate an image to it. <font face="'Courier New',Monospaced,Monospace">
+JLabel</font> has a constructor especially for that, which accepts an <font face="'Courier New',Monospaced,Monospace">
+ImageIcon</font> object as a parameter. The image is taken from the class path 
+      of application SimplyHTML, where file '<font face="'Courier New',Monospaced,Monospace">
+App.jpg</font>' is distributed together with the applciation's classes in 
+      subdirectory '<font face="'Courier New',Monospaced,Monospace">image</font>
+ '.
+    </p>
+    <p>
+      Method <font face="'Courier New',Monospaced,Monospace">getResource</font>
+       in the <font face="'Courier New',Monospaced,Monospace">Class</font> 
+      object of respective <font face="'Courier New',Monospaced,Monospace">
+      JLabel</font> is used to create an <font face="'Courier New',Monospaced,Monospace">
+ImageIcon</font> object for file '<font face="'Courier New',Monospaced,Monospace">
+App.jpg</font>'. Using the command <font face="'Courier New',Monospaced,Monospace">
+this.getClass.getResource(&quot;image/App.jpg&quot;)</font> gets the class 
+      object of this <font face="'Courier New',Monospaced,Monospace">JLabel</font>
+ object and finds out from where it was loaded. Calling <font face="'Courier New',Monospaced,Monospace">
+getResource</font> on this <font face="'Courier New',Monospaced,Monospace">
+      Class</font> object resolves the name given as a parameter to <font face="'Courier New',Monospaced,Monospace">
+getResource</font> as a relative path to the path where the class was found.
+    </p>
+  </body>
+</html>

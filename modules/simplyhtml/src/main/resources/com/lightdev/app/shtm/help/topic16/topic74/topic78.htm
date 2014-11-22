@@ -1,0 +1,92 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Manipulating fonts and font styles
+    </p>
+    <p>
+      Documents are modeled by <font face="'Courier New',Monospaced,Monospace">
+      Elements</font> which are hierarchically linked according to the content 
+      structure in the document. HTML documents for instance define - with 
+      certain exceptions - an <font face="'Courier New',Monospaced,Monospace">
+      Element</font> object for every HTML tag. As with HTML tags, each <font face="'Courier New',Monospaced,Monospace">
+Element</font> can have one or more attributes (bold, italic, etc.) which are 
+      assigned to an <font face="'Courier New',Monospaced,Monospace">Element</font>
+ through class <font face="'Courier New',Monospaced,Monospace">AttributeSet</font>
+ .
+    </p>
+    <p class="heading3">
+      Applicable ranges for AttributeSets
+    </p>
+    <p>
+      How <font face="'Courier New',Monospaced,Monospace">AttributeSets</font> 
+      influence the rendering of a document depends on the context they are 
+      found in. Attributes for a paragraph for instance can be valid for a 
+      whole range of subseuqent <font face="'Courier New',Monospaced,Monospace">
+Elements</font>. In addition, a HTML document has an associated style sheet 
+      which defines <font face="'Courier New',Monospaced,Monospace">
+      AttributeSets</font> too. If a paragraph element or an element for a 
+      range of characters has no attributes in the document itself, attributes 
+      from the style sheet might still be relevant for rendering respective 
+      content.
+    </p>
+    <p class="heading3">
+      Limitation to attributes on character level
+    </p>
+    <p>
+      In stage 3 of application SimplyHTML only manipulation of fonts and font 
+      styles on character level is implemented. There are two methods in 
+      SimplyHTML for dealing with attribute changes, one for reading 
+      attributes for a given position in a document and one for applying 
+      attributes to a given part of a document.
+    </p>
+    <p class="heading2">
+      Method getMaxAttributes
+    </p>
+    <p>
+      All methods in stage 3 of SimplyHTML dealing with fonts and font styles 
+      use static method <font face="'Courier New',Monospaced,Monospace">
+      getMaxAttributes</font> of class <font face="'Courier New',Monospaced,Monospace">
+FrmMain</font> to determine which attributes are assigned to a certain point 
+      inisde a document. Method <font face="'Courier New',Monospaced,Monospace">
+getMaxAttributes</font> combines attributes from the style sheet associated to 
+      the document with attributes assigend directly to to a character element 
+      inside the document (in later stages this has to be refined to deal with 
+      style sheet styles other than <font face="'Courier New',Monospaced,Monospace">
+&lt;p&gt;</font>, paragraph styles, etc.).
+    </p>
+    <p>
+      The attribute sets from the style sheet and from the character element 
+      are added to a new attribute set which is returned to the calling method.
+    </p>
+    <p class="heading2">
+      Method applyAttributes
+    </p>
+    <p>
+      As described in the follwing chapters all components manipulating fonts 
+      and font styles do their changes entirely on the basis of <font face="'Courier New',Monospaced,Monospace">
+AttributeSets</font>. An <font face="'Courier New',Monospaced,Monospace">
+      AttributeSet</font> is applied to a document by method <font face="'Courier New',Monospaced,Monospace">
+applyAttributes</font> in class <font face="'Courier New',Monospaced,Monospace">
+FrmMain</font>.
+    </p>
+    <p>
+      Method <font face="'Courier New',Monospaced,Monospace">applyAttributes</font>
+ determines whether or not a range of characters is selected in the given 
+      editor pane. If a selection is present, the given <font face="'Courier New',Monospaced,Monospace">
+AttributeSet</font> is applied to that range of text. If no selection is 
+      present, the given <font face="'Courier New',Monospaced,Monospace">
+      AttributeSet</font> is applied as attributes for subsequent inputs.
+    </p>
+    <p>
+      To define attributes for subsequent inputs, class <font face="'Courier New',Monospaced,Monospace">
+EditorKit</font> defines a method <font face="'Courier New',Monospaced,Monospace">
+getInputAttributes</font>. When attributes are stored in the AttributeSet 
+      returned by this method, these attributes are applied for inputs 
+      thereafter.
+    </p>
+  </body>
+</html>

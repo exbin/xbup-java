@@ -37,5 +37,6 @@ dependencies {
     compile(project(":modules:xbup-parser-tree"))
     compile(project(":modules:xbup-operation"))
     compile(project(":modules:hexedit"))
+    compile(project(":modules:simplyhtml"))
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }

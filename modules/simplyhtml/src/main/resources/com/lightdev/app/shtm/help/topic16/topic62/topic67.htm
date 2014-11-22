@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Using resource bundles
+    </p>
+    <p>
+      Resources are simply text files that are accessible to an application. 
+      The text files contain information in the format
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; margin-left:20pt; font-size:12pt; color:#000000; margin-top:6pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <font face="'Courier New',Monospaced,Monospace">key=value</font>
+    </p>
+    <p>
+      and usually are distributed in the path the application classes are 
+      located. Class <font face="'Courier New',Monospaced,Monospace">
+      java.util.ResourceBundle</font> makes available the data to an 
+      application. Applications read constants or parameters at runtime 
+      through methods of class <font face="'Courier New',Monospaced,Monospace">
+      ResourceBundle</font>.
+    </p>
+    <p class="heading2">
+      Why using resources?
+    </p>
+    <p>
+      Using resources has the following advantages
+    </p>
+    <p>
+      <b>Maintenance</b>: text constants and parameters can be maintained 
+      outside the source code. Changing a text constant or parameter does not 
+      require code changes. Information is stored in a central place. If a 
+      change is necessary, respective part has not to be searched in the whole 
+      source code. Constants have to be changed in only one place regardless 
+      of whether they are used in multiple places in the source code.
+    </p>
+    <p>
+      <b><a href="../../topic16/topic62/topic70.htm">Internationalization</a></b>
+ : Resources can be replaced in one step without code changes making it easy 
+      to switch an application to another language.
+    </p>
+    <p>
+      <b><a href="../../topic16/topic62/topic68.htm">Control</a></b>: Parts of 
+      the application can be controlled dynamically through parameters in a 
+      resource file rather than having to 'hard wire' them.
+    </p>
+  </body>
+</html>

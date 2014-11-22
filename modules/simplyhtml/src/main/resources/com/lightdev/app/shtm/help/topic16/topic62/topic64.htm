@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      How undo and redo work in SimplyHTML
+    </p>
+    <p>
+      Currently, only the<font face="'Courier New',Monospaced,Monospace"> 
+      Document</font> class offers undo and redo support to text components. 
+      For any edit action that can be cancelled and reinstated again in a 
+      particular <font face="'Courier New',Monospaced,Monospace">Document</font>
+ , the <font face="'Courier New',Monospaced,Monospace">Document</font> sends 
+      undoable edit events to all <font face="'Courier New',Monospaced,Monospace"><a href="../../topic16/topic62/topic63.htm">
+UndoableEditListeners</a></font> registered with that <font face="'Courier New',Monospaced,Monospace">
+Document</font>.
+    </p>
+    <p class="heading2">
+      Creating an UndoManager
+    </p>
+    <p>
+      To store undoable edit actions for later use in a possible undo or redo 
+      action, class <font face="'Courier New',Monospaced,Monospace">FrmMain</font>
+ creates an instance of class <font face="'Courier New',Monospaced,Monospace"><a href="../../topic16/topic62/topic63.htm">
+UndoManager</a></font>. The object is stored in private field <font face="'Courier New',Monospaced,Monospace">
+undo</font> of class <font face="'Courier New',Monospaced,Monospace">FrmMain</font>
+ for later use in the undo/redo implementation.
+    </p>
+    <p class="heading2">
+      Defining and registering an UndoableEditListener
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">FrmMain</font> 
+      also defines an inner class <font face="'Courier New',Monospaced,Monospace">
+UndoHandler</font> that implements the <font face="'Courier New',Monospaced,Monospace"><a href="../../topic16/topic62/topic63.htm">
+UndoableEditListener</a></font> interface. In its method <font face="'Courier New',Monospaced,Monospace">
+undoableEditHappened</font> it stores undoable edit actions in the previously 
+      created <font face="'Courier New',Monospaced,Monospace"><a href="../../topic16/topic62/topic63.htm">
+UndoManager</a></font>. As well, <font face="'Courier New',Monospaced,Monospace">
+UndoHandler</font> updates the GUI whenever an undoable edit event is received.
+    </p>
+    <p>
+      The <font face="'Courier New',Monospaced,Monospace">UndoHandler</font> 
+      of <font face="'Courier New',Monospaced,Monospace">FrmMain</font> is 
+      registered with any<font face="'Courier New',Monospaced,Monospace"> 
+      Document</font> created or opened by SimplyHTML in the respective 
+      actions <font face="'Courier New',Monospaced,Monospace"><a href="../../topic16/topic4/topic20/topic28.htm">
+SHTMLFileOpenAction</a></font> and <font face="'Courier New',Monospaced,Monospace"><a href="../../topic16/topic4/topic20/topic28.htm">
+SHTMLFileNewAction</a></font>. Consequently <font face="'Courier New',Monospaced,Monospace">
+UndoHandler</font> is properly removed from any open <font face="'Courier New',Monospaced,Monospace">
+Document</font> before it is closed to ensure proper cleanup of the disposed <font face="'Courier New',Monospaced,Monospace">
+Document</font> in the garbage collection.
+    </p>
+    <p class="heading2">
+      Defining actions for undo and redo
+    </p>
+    <p>
+      To finally being able to perform an undo or redo command, either through 
+      the menu or from other places such as a tool bar, class <font face="'Courier New',Monospaced,Monospace">
+FrmMain</font> defines two actions <font face="'Courier New',Monospaced,Monospace">
+UndoAction</font> and <font face="'Courier New',Monospaced,Monospace">
+      RedoAction</font>.
+    </p>
+    <p>
+      In their <font face="'Courier New',Monospaced,Monospace">actionPerformed</font>
+ methods <font face="'Courier New',Monospaced,Monospace">UndoAction</font> and <font face="'Courier New',Monospaced,Monospace">
+RedoAction</font> call methods<font face="'Courier New',Monospaced,Monospace"> 
+      undo</font> and <font face="'Courier New',Monospaced,Monospace">redo</font>
+ of <font face="'Courier New',Monospaced,Monospace">FrmMain's</font> <font face="'Courier New',Monospaced,Monospace">
+UndoManager</font> accordingly. In addition they both have a method <font face="'Courier New',Monospaced,Monospace">
+update</font> to bring their GUI representation in line with the current undo 
+      state (being enabled or not depending on whether or not undoable edits 
+      are present in the<font face="'Courier New',Monospaced,Monospace"> 
+      UndoManager</font>, that is).
+    </p>
+  </body>
+</html>

@@ -1,0 +1,163 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    <title>    </title>
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Class ParaStyleDialog
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">ParaStyleDialog</font>
+ has two major functions:
+    </p>
+    <ul>
+      <li>
+        to manipulate any given paragraph style and
+      </li>
+      <li>
+        to maintain all paragraph styles in a given style sheet.
+      </li>
+    </ul>
+    <p>
+      The two tasks are available as two separate operation modes of the 
+      component, <font face="'Courier New',Monospaced,Monospace">
+      MODE_PARAGRAPH_STYLE</font> and <font face="'Courier New',Monospaced,Monospace">
+MODE_NAMED_STYLES</font>.
+    </p>
+    <p>
+      In <font face="'Courier New',Monospaced,Monospace">MODE_PARAGRAPH_STYLE</font>
+ class <font face="'Courier New',Monospaced,Monospace">ParaStyleDialog</font> 
+      is used to directly manipulate a given set of paragraph style 
+      attributes. In <font face="'Courier New',Monospaced,Monospace">
+      MODE_NAMED_STYLES</font>, the dialog is used to manipulate styles in a 
+      style sheet which does not affect formats of the underlying document 
+      directly (only indirect through style sheet changes).
+    </p>
+    <p class="heading2">
+      Setting the operation mode
+    </p>
+    <p>
+      The operation mode is derived from the constructor used to create a <font face="'Courier New',Monospaced,Monospace">
+ParaStyleDialog</font>. When constructed to operate with a certain <font face="'Courier New',Monospaced,Monospace">
+Document</font>, <font face="'Courier New',Monospaced,Monospace">
+      MODE_NAMED_STYLES</font> is assumed and the <font face="'Courier New',Monospaced,Monospace">
+Document's</font> style sheet is taken to be operated upon.
+    </p>
+    <p>
+      If no <font face="'Courier New',Monospaced,Monospace">Document</font> is 
+      passed to the constructor of <font face="'Courier New',Monospaced,Monospace">
+ParaStyleDialog</font>, it is constructed in <font face="'Courier New',Monospaced,Monospace">
+MODE_PARAGRAPH_STYLE</font>, i.e. not using a style sheet.
+    </p>
+    <p class="heading2">
+      Passing initial dialog settings
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">ParaStyleDialog</font>
+ implements interface <font face="'Courier New',Monospaced,Monospace"><a href="../../topic16/topic86/topic93.htm">
+AttributeComponent</a></font> (introduced as <font face="'Courier New',Monospaced,Monospace"><a href="../../topic16/topic74/topic75.htm">
+FontComponent</a></font> initially in stage 3) so that its contents can be set 
+      or read through a set of attributes in an <font face="'Courier New',Monospaced,Monospace">
+AttributeSet</font> object. When in <font face="'Courier New',Monospaced,Monospace">
+MODE_PARAGRAPH_STYLE</font>, initial dialog contents need to be set by a call 
+      to method <font face="'Courier New',Monospaced,Monospace">setValue</font>
+       passing an <font face="'Courier New',Monospaced,Monospace">AttributeSet</font>
+ object having all initial paragraph styles to be manipulated.
+    </p>
+    <p>
+      When in <font face="'Courier New',Monospaced,Monospace">MODE_NAMED_STYLES</font>
+ , a list of existing named paragraph styles is read from the style sheet of 
+      the <font face="'Courier New',Monospaced,Monospace">Document</font> 
+      passed in the constructor. Whenever a style is picked from those, the 
+      dialog is set to show the attributes of this style.
+    </p>
+    <p class="heading2">
+      Reading dialog settings
+    </p>
+    <p>
+      As an <font face="'Courier New',Monospaced,Monospace">AttributeComponent</font>
+ class <font face="'Courier New',Monospaced,Monospace">ParaStyleDialog</font> 
+      returns its currents attribute settings in an <font face="'Courier New',Monospaced,Monospace">
+AttributeSet</font> object through method <font face="'Courier New',Monospaced,Monospace">
+getValue</font>. In <font face="'Courier New',Monospaced,Monospace">
+      MODE_PARAGRAPH_STYLE</font> method <font face="'Courier New',Monospaced,Monospace">
+getValue</font> can be used to get the set of attrbutes to be applied.
+    </p>
+    <p>
+      In <font face="'Courier New',Monospaced,Monospace">MODE_NAMED_STYLES</font>
+ class <font face="'Courier New',Monospaced,Monospace">ParaStyleDialog</font> 
+      is not meant to deliver a set of attribute settings, although method <font face="'Courier New',Monospaced,Monospace">
+setValue</font> certainly can be used too. Instead, the dialog only makes 
+      available all named paragraph styles found in a given style sheet.
+    </p>
+    <p>
+      All changes to a given set of paragraph attributes can be saved to that 
+      style sheet using class <font face="'Courier New',Monospaced,Monospace">
+      ParaStyleDialog</font>. By changing attribute settings of an existing 
+      named paragraph style and storing them back to the style sheet, format 
+      of all paragraphs using respective named style is changed implicitly, 
+      immediately and automatically in the underlying document.
+    </p>
+    <p>
+      Thus no direct reading of attribute settings is necessary in <font face="'Courier New',Monospaced,Monospace">
+MODE_NAMED_STYLES</font>.
+    </p>
+    <p class="heading2">
+      Style sheet manipulation
+    </p>
+    <p>
+      In <font face="'Courier New',Monospaced,Monospace">MODE_NAMED_STYLES</font>
+ class <font face="'Courier New',Monospaced,Monospace">ParaStyleDialog</font> 
+      offers to
+    </p>
+    <ul>
+      <li>
+        save settings to an existing named style
+      </li>
+      <li>
+        create a new named style and
+      </li>
+      <li>
+        to remove an exsting named style from the style sheet
+      </li>
+    </ul>
+    <p>
+      Saving attributes to an existing style and creation of a new style both 
+      is done using method <font face="'Courier New',Monospaced,Monospace">
+      addRule</font> of class <font face="'Courier New',Monospaced,Monospace">
+      StyleSheet</font>. This method expects a style to be passed in the form 
+      of a CSS declaration string,
+    </p>
+    <p>
+      e.g. <font face="'Courier New',Monospaced,Monospace">p.myStyle { 
+      text-align:center; }</font>.
+    </p>
+    <p>
+      To transform attribute settings from class <font face="'Courier New',Monospaced,Monospace">
+ParaStyleDialog</font> in to this format, method <font face="'Courier New',Monospaced,Monospace">
+writeRule</font> of class <font face="'Courier New',Monospaced,Monospace">
+      CSSWriter</font> is used.To remove an existing style from the style 
+      sheet class <font face="'Courier New',Monospaced,Monospace">
+      ParaStyleDialog</font> uses method <font face="'Courier New',Monospaced,Monospace">
+removeStyle</font> of class <font face="'Courier New',Monospaced,Monospace">
+      StyleSheet</font>.
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">ParaStyleDialog</font>
+ adds methods necessary to interact with the user upon style changes 
+      accordingly, e.g. by asking whether or not to really delete a particular 
+      style or by checking whether or not a style shall be overwritten having 
+      the same name as a name entered by the user.
+    </p>
+    <p>
+      With stage 8 class <font face="'Courier New',Monospaced,Monospace">Util</font>
+ has some new methods combining a generic <font face="'Courier New',Monospaced,Monospace">
+JOptionPane</font> with calls to SimplyHTML's class <font face="'Courier New',Monospaced,Monospace"><a href="../../topic16/topic103/topic111.htm">
+DynamicResource</a></font> for support of messages in <a href="../../topic16/topic62/topic70.htm">
+other languages</a>. These methods are applied to other usages of <font face="'Courier New',Monospaced,Monospace">
+JOptionPane</font> in SimplyHTML as well.
+    </p>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    <title>    </title>
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Approach to work with paragraph and named styles
+    </p>
+    <p>
+      As <a href="../../topic16/topic140/topic144.htm">pointed out</a>, style 
+      manipulation functionality is already exisiting in the Java classes and 
+      the previous stages of application SimplyHTML. What is needed in 
+      addition is a GUI to visualize the existing styles and to let the user 
+      add new, change existing or delete styles.
+    </p>
+    <p class="heading2">
+      Dialog to manipulate styles
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace"><a href="../../topic16/topic140/topic146.htm">
+ParaStyleDialog</a></font> is added to SimplyHTML as a new component to 
+      achieve this. Class <font face="'Courier New',Monospaced,Monospace">
+      ParaStyleDialog</font> has two major functions:
+    </p>
+    <ul>
+      <li>
+        to manipulate any given paragraph style and
+      </li>
+      <li>
+        to maintain all paragraph styles in a given style sheet.
+      </li>
+    </ul>
+    <p>
+      Because both tasks require the same elements (components to reflect 
+      settings of paragraph attributes), they are combined inside class <font face="'Courier New',Monospaced,Monospace">
+ParaStyleDialog</font> and made available as two separate operation modes of 
+      the component.
+    </p>
+    <p class="heading2">
+      Components to select named styles and alignment
+    </p>
+    <p>
+      To make available existing named styles for paragraphs as defined in the 
+      style sheet, class <font face="'Courier New',Monospaced,Monospace"><a href="../../topic16/topic140/topic147.htm">
+StyleSelector</a></font> is created. It shows all available named paragraph 
+      styles and lets the user apply a given style to the currently selected 
+      paragraph(s).
+    </p>
+    <p>
+      A paragraph attribute which is used quite often is the text alignment 
+      setting (left, center or right). For setting text alignmen in one step, 
+      inner class <font face="'Courier New',Monospaced,Monospace">
+      ToggleFontAction</font> has been changed to class <font face="'Courier New',Monospaced,Monospace">
+ToggleAction</font> and can now can be used as a generic action to toggle 
+      certain character and paragraph attributes including text aligment. The 
+      new action is used by SimplyHTML's <a href="../../topic16/topic103/topic111.htm">
+dynamic resource mechanism</a> to add respective <a href="../../topic16/topic140/topic149.htm">
+toggle button</a> components to the tool bar.
+    </p>
+    <p class="heading2">
+      Style sheet storage
+    </p>
+    <p>
+      As stage 8 allows to change contents of a given style sheet, the way a 
+      style sheet is saved has to be <a href="../../topic16/topic140/topic150.htm">
+revised</a>. When a document is saved, SimplyHTML now recogniszes whether or 
+      not a style sheet with the same name exists in the location where a 
+      document is to be saved.
+    </p>
+    <p>
+      Is a style sheet present already, it is merged with the style sheet to 
+      be saved.
+    </p>
+  </body>
+</html>

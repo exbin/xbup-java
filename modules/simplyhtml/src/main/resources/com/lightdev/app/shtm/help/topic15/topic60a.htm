@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <link href="../style.css" type="text/css" rel="stylesheet">
+    
+  </head>
+  <body>
+    <p class="heading1">Searching documents</p>
+    <p>
+      SimplyHTML supports find+replace which can be accessed using the
+      <i>find &amp; replace</i> button next to the help icon,
+      or the <i>Edit->Find &amp; Replace</i> menu item.
+    </p>
+    
+    <p class="heading2">Searching</p>
+    <p>
+    In order to search incrementally for a search term,
+    enter that term in the <i>Text to find</i> text box and hit
+    the <i>Find next...</i> button (or press enter)
+    each time to get the next search result.
+    
+    Have a look at the <a href="#options">Search/Replace options</a> below.
+    </p>
+    
+    <p class="heading2">Replacing</p>
+    <p>
+	In order to replace occurrences of a search term by a replacement string,
+	enter the search term in the <i>Text to find</i> text box and the replacement
+	string in the <i>"Replace with</i> text box, and hit the <i>Replace...</i>
+	button. You will be prompted whether you want to replace for each occurrence.
+    
+    Have a look at the <a href="#options">Search/Replace options</a> below.
+    In particular, when using approximate search, check every occurrence
+    that is to be replaced carefully!
+    </p>
+    
+    <p class="heading2"><a name="options">Search/Replace options</a></p>
+    <dl style="font-family: sans-serif; font-size: small">
+    	<dt>Match case</dt>
+    	<dd>Whether to honor case when matching.</dd>
+    	<dt>Match approximately</dt>
+    	<dd>Whether to use approximate ("similarity") matching, i.e. allow differences
+    	between the search term and the match(es) in the text. For example, searching for
+    	<i>files</i> will find <i>flies</i> or <i>setup<i>=<i>set up</i>.
+    	</dd>
+    	<dt>Whole words only</dt>
+    	<dd>
+    	Restrict matches to whole words. Not supported for approximate matching.
+    	</dd>
+    	<dt>Search up/down</dt>
+    	<dd>
+    	  Enter the direction for (incremental) search or replace.
+    	</dd>
+    	<dt>Search from start</dt>
+    	<dd>
+    	Whether to search from the beginning of the document or from the current cursor position.
+    	</dd>
+    </dl>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    <title>    </title>
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Implementing list formatting in SimplyHTML
+    </p>
+    <p>
+      As described in the <a href="../../topic16/topic120.htm">introduction of 
+      stage 6</a>, to apply list formatting in SimplyHTML the requirement is 
+      to offer a simple way to switch list formatting on or off for an 
+      arbitrary portion of existing text paragraphs. As well there should be a 
+      way to change formatting of an existing list partly or completely 
+      through a separate dialog.
+    </p>
+    <p>
+      While parts of previous stages of SimplyHTML can be re-used to achieve 
+      list formatting thorugh a dialog, a certain difficulty is to change an 
+      arbitrary portion of existing text to list formatting because the 
+      element structure of the existing document content has to be changed.
+    </p>
+    <p class="heading2">
+      Changing the element structure
+    </p>
+    <p>
+      The only way to change the element structure of an HTML document which 
+      is publicly available in the Java classes is to insert HTML code 
+      replacing a given part of respective document. SimplyHTML uses class <font face="'Courier New',Monospaced,Monospace">
+SHTMLWriter</font> to synthesize HTML code as already done in <a href="../../topic16/topic86/topic95.htm">
+table formatting</a>. The process is described in more detail in the <a href="../../topic16/topic120/topic123.htm">
+following chapters</a>. Please see the source code of stage 6 for additional 
+      details.
+    </p>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Using listeners
+    </p>
+    <p>
+      Listeners are referred in many places of this documentation probably 
+      already giving an idea about how and why they are used. Anyway the 
+      listener concept should be explained in more detail here.
+    </p>
+    <p class="heading2">
+      Example: Font manipulation
+    </p>
+    <p>
+      In stage 3 of SimplyHTML many classes dealing with font manipulation had 
+      been added. These classes mostly are GUI elements or are related to GUI 
+      elements in some way. The <a href="../../topic16/topic74.htm">
+      interaction between objects during font manipulation</a> demonstrates 
+      the importance of proper design in handling such a rather complex topic.
+    </p>
+    <p>
+      In class <font face="'Courier New',Monospaced,Monospace">FontPanel</font>
+       for instance several objects allow changes to font attributes while all 
+      attributes are reflected in another object, the sample view.
+    </p>
+    <p class="heading2">
+      Listener interface instead of hard coding object relations
+    </p>
+    <p>
+      Instead of hard coding a relationship between the font attribute 
+      selectors and the sample view component, each attribute selector <i>
+      defines</i> a listener interface. Whenever an attribute is changed, a 
+      change event is fired in the format that interface defines.
+    </p>
+    <p>
+      The sample view component in turn <i>implements</i> the interface by 
+      having a method <font face="'Courier New',Monospaced,Monospace">
+      valueChanged</font> which is defined in the listener interface of the 
+      font selectors. The sample view component is then registered as a 
+      listener with the component defining the interface.
+    </p>
+    <p>
+      Having functions to handle calls to method <font face="'Courier New',Monospaced,Monospace">
+valueChanged</font>, the functions need to be coded only once and only at the 
+      place they belong to - the sample view component in our case.
+    </p>
+    <p class="heading2">
+      Conclusion
+    </p>
+    <p>
+      The listnener concept is an elegant way of letting an arbitrary number 
+      of objects dynamically interact without having to hard code 
+      relationships between objects. By defining interfaces and listening to 
+      events a clear separation according to object boundaries is accomplished.
+    </p>
+    <p>
+      By implementing code reacting on events, redundancies are avoided and 
+      objects do not need to 'know' about how other objects have to be changed 
+      by own actions.
+    </p>
+  </body>
+</html>

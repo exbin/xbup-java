@@ -16,7 +16,6 @@
  */
 package org.xbup.tool.editor.module.frame.dialog;
 
-import java.awt.Cursor;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -99,7 +98,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         } catch (IOException ex) {
             Logger.getLogger(AboutDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         WindowUtils.assignGlobalKeyListener(this, closeButton);
     }
 
@@ -133,7 +132,6 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         javax.swing.JLabel vendorLabel = new javax.swing.JLabel();
         javax.swing.JLabel homepageLabel = new javax.swing.JLabel();
         appHomepageLabel = new javax.swing.JLabel();
-        appHomepageLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         productTextField = new javax.swing.JTextField();
         vendorTextField = new javax.swing.JTextField();
         javax.swing.JLabel appLicenseLabel = new javax.swing.JLabel();
@@ -198,6 +196,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         appHomepageLabel.setForeground(java.awt.Color.blue);
         appHomepageLabel.setText(appBundle.getString("Application.homepage"));
         appHomepageLabel.setComponentPopupMenu(linkPopupMenu);
+        appHomepageLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         appHomepageLabel.setName("appHomepageLabel"); // NOI18N
         HashMap<TextAttribute, Object> attribs = new HashMap<TextAttribute, Object>();
         attribs.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
@@ -303,10 +302,9 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
 
         licenseScrollPane.setName("licenseScrollPane"); // NOI18N
 
-        licenseEditorPane.setContentType("text/html"); // NOI18N
         licenseEditorPane.setEditable(false);
+        licenseEditorPane.setContentType("text/html"); // NOI18N
         licenseEditorPane.setText("<html>   <head>    </head>   <body>     <p style=\"margin-top: 0\"></p>   </body> </html> ");
-        licenseEditorPane.setToolTipText("");
         licenseEditorPane.setName("licenseEditorPane"); // NOI18N
         licenseScrollPane.setViewportView(licenseEditorPane);
 
@@ -314,7 +312,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         licensePanel.setLayout(licensePanelLayout);
         licensePanelLayout.setHorizontalGroup(
             licensePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(licenseScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
+            .addComponent(licenseScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
         );
         licensePanelLayout.setVerticalGroup(
             licensePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

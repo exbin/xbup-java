@@ -1,0 +1,117 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    <title>    </title>
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Links in HTML
+    </p>
+    <p>
+      A link in HMTL is a reference to another location a user can jump to. 
+      The common syntax for a HTML link is
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; margin-left:20pt; font-size:12pt; color:#000000; margin-top:6pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <font face="'Courier New',Monospaced,Monospace">&lt;a href=&quot;URI&quot;&gt;link 
+      text&lt;/a&gt;</font>
+    </p>
+    <p class="heading2">
+      Link types
+    </p>
+    <p>
+      Link types are reflected by the type of uniform resource identifier 
+      (URI) of attribute <font face="'Courier New',Monospaced,Monospace">href</font>
+ . The following formats for an URI are possible
+    </p>
+    <ol>
+      <li>
+        anchor in the same document (e.g. <font face="'Courier New',Monospaced,Monospace">
+#anchorname</font>)
+      </li>
+      <li>
+        other document (e.g. <font face="'Courier New',Monospaced,Monospace">
+        myDoc.htm</font>)
+      </li>
+      <li>
+        other document in other directory (e.g. <font face="'Courier New',Monospaced,Monospace">
+../directory/myDoc.htm</font>)
+      </li>
+      <li>
+        anchor in other document (e.g. <font face="'Courier New',Monospaced,Monospace">
+myDoc.htm#anchorname</font>)
+      </li>
+      <li>
+        anchor in other document in other directoy (e.g. <font face="'Courier New',Monospaced,Monospace">
+../directory/myDoc.htm#anchorname</font>)
+      </li>
+      <li>
+        WWW address (<font face="'Courier New',Monospaced,Monospace">http://...</font>
+ )
+      </li>
+      <li>
+        address to local document (<font face="'Courier New',Monospaced,Monospace">
+file://...</font>)
+      </li>
+      <li>
+        Gopher address (<font face="'Courier New',Monospaced,Monospace"> 
+        gopher://...</font>)
+      </li>
+      <li>
+        FTP address (<font face="'Courier New',Monospaced,Monospace">ftp://...</font>
+ )
+      </li>
+      <li>
+        Telnet address (<font face="'Courier New',Monospaced,Monospace"> 
+        telnet://...</font>)
+      </li>
+      <li>
+        Newsgroup address (<font face="'Courier New',Monospaced,Monospace"> 
+        news:...</font>)
+      </li>
+      <li>
+        E-Mail address (<font face="'Courier New',Monospaced,Monospace"> 
+        mailto:name@domain.xy</font>)
+      </li>
+    </ol>
+    <p>
+      Link types 1 to 5 above can be summarized as links with relative 
+      addresses (i.e. relative to the location the document containing the 
+      link is stored), all others work with absolute link addresses. Instead 
+      of a link text an image can be specified as well, for instance
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; margin-left:20pt; font-size:12pt; color:#000000; margin-top:6pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <font face="'Courier New',Monospaced,Monospace">&lt;a href=&quot;home.htm&quot;&gt; </font>
+
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; margin-left:40pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <font face="'Courier New',Monospaced,Monospace">&lt;img 
+      src=&quot;anImageFile.jpg&quot; width=&quot;160&quot; height=&quot;34&quot; border=&quot;0&quot;&gt; </font>
+
+    </p>
+    <p style=" font-family:Arial,Sans-Serif; margin-left:20pt; font-size:12pt; color:#000000; margin-top:0pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      <font face="'Courier New',Monospaced,Monospace">&lt;/a&gt;</font>
+    </p>
+    <p>
+      SimplyHTML models all types of links and supports links of type 1 to 7 
+      above.
+    </p>
+    <p class="heading2">
+      Link anchors
+    </p>
+    <p>
+      As shown in link types 1, 4 and 5 above, links not only refer to other 
+      files, they can point to specific locations inside a given file too. To 
+      enable a link to point to a certain location inside a file, so called <i>
+      link anchors</i> have to be defined as target locations in respective 
+      target files. Link anchors are defined by inserting HTML code such as
+    </p>
+    <p style=" font-family:'Courier New',Monospaced,Monospace; margin-left:20pt; font-size:12pt; color:#000000; margin-top:6pt; background-color:#ffffff; text-decoration:none; text-align:left; font-style:normal; font-weight:normal;">
+      &lt;a name=&quot;anchorname&quot;&gt;link anchor text&lt;/a&gt;
+    </p>
+    <p>
+      Link anchors can be defined with or without an anchor text, however 
+      SimplyHTML only allows to create link anchors with text.
+    </p>
+  </body>
+</html>

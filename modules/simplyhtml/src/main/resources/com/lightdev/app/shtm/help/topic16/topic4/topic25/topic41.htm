@@ -1,0 +1,86 @@
+<html>
+  <head>
+    <link href="../../../style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Constructing a DocumentPane
+    </p>
+    <p>
+      Simply creating a new instance of an editor pane and throwing it onto a <font face="'Courier New',Monospaced,Monospace">
+JPanel</font> is not enough to display and use a <font face="'Courier New',Monospaced,Monospace">
+JEditorPane</font>. Due to the <a href="../../../topic16/topic4/topic25.htm">
+      relationship</a> of <font face="'Courier New',Monospaced,Monospace">
+      Document</font>, <font face="'Courier New',Monospaced,Monospace">
+      EditorKit</font>, <font face="'Courier New',Monospaced,Monospace">
+      JEditorPane</font> and <font face="'Courier New',Monospaced,Monospace">
+      StyleSheet</font> it is necessary to initialize all elements properly.
+    </p>
+    <p>
+      In <font face="'Courier New',Monospaced,Monospace">DocumentPane's</font> 
+      basic constructor <font face="'Courier New',Monospaced,Monospace">
+      DocumentPane()</font> a new J<font face="'Courier New',Monospaced,Monospace">
+EditorPane</font> is created and assigned to field <font face="'Courier New',Monospaced,Monospace">
+editor</font>. The caret color for the editor pane is set and the typical text 
+      cursor is assigned by calling method <font face="'Courier New',Monospaced,Monospace">
+setEditCursor</font> (see below).
+    </p>
+    <p>
+      Then a new <font face="'Courier New',Monospaced,Monospace"><a href="../../../topic16/topic4/topic25/topic45.htm">
+SHTMLEditorKit</a></font> is created and assigned to our editor pane. This 
+      procedure ensures that a document gets correctly initialized with the 
+      style sheet properly attached.
+    </p>
+    <p>
+      Finally a new <font face="'Courier New',Monospaced,Monospace">JScrollPane</font>
+ is created, the editor pane is added to the scroll pane and both are added to 
+      the <font face="'Courier New',Monospaced,Monospace">DocumentPane</font> 
+      after defining an appropriate layout.
+    </p>
+    <p>
+      The editor pane has to reside inside a <font face="'Courier New',Monospaced,Monospace">
+JScrollPane</font> for a vertical scroll bar automatically being shown as 
+      needed. The editor pane automatically wraps words at the right end of 
+      the pane so that a horizontal scroll bar is not shown or needed.
+    </p>
+    <p class="heading2">
+      Method setEditCursor
+    </p>
+    <p>
+      Although <font face="'Courier New',Monospaced,Monospace">JEditorPane</font>
+ has a method <font face="'Courier New',Monospaced,Monospace">setCursor</font> 
+      inherited from <font face="'Courier New',Monospaced,Monospace">
+      java.awt.Component</font>, setting the cursor with that method does not 
+      cause respective cursor to be displayed (probably someone can let me 
+      know why sometime). Method <font face="'Courier New',Monospaced,Monospace">
+setEditCursor</font> therefore adds a <font face="'Courier New',Monospaced,Monospace">
+MenuListener</font> to our editor, that reacts on <font face="'Courier New',Monospaced,Monospace">
+mouseEntered</font> and <font face="'Courier New',Monospaced,Monospace">
+      mouseExited</font> events.
+    </p>
+    <p>
+      When the mouse enters the editor pane, the cursor is set to the text 
+      cursor, when the mouse exits the editor pane the cursor is reset to a 
+      default cursor.
+    </p>
+    <p>
+      Method <font face="'Courier New',Monospaced,Monospace">setEditCursor</font>
+ achieves this by getting the <font face="'Courier New',Monospaced,Monospace">
+      glassPane</font> of the <font face="'Courier New',Monospaced,Monospace">
+      DocumentPane's</font> <font face="'Courier New',Monospaced,Monospace">
+      JRootPane</font>, assigning respective cursor and setting the <font face="'Courier New',Monospaced,Monospace">
+glassPane</font> to visible.
+    </p>
+    <p class="heading2">
+      
+    </p>
+    <p>
+      Constructing a <font face="'Courier New',Monospaced,Monospace">
+      DocumentPane</font> with above steps sets up the basic contents of a <font face="'Courier New',Monospaced,Monospace">
+DocumentPane</font>. Read on to learn how to <a href="../../../topic16/topic4/topic25/topic29.htm">
+create a new document</a> for editing or to <a href="../../../topic16/topic4/topic25/topic31.htm">
+open an existing one</a>.
+    </p>
+  </body>
+</html>

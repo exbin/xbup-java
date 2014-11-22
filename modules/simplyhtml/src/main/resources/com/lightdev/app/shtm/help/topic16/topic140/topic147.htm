@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <link href="../../style.css" rel="stylesheet" type="text/css">
+    <title>    </title>
+    
+  </head>
+  <body>
+    <p class="heading1">
+      Class StyleSelector
+    </p>
+    <p>
+      Class <font face="'Courier New',Monospaced,Monospace">StyleSelector</font>
+ is a component used to make available a list of existing named paragraph 
+      styles and to apply a named style to the currently selected 
+      parapraph(s). It extends class <font face="'Courier New',Monospaced,Monospace">
+JComboBox</font> by implementing interfaces <font face="'Courier New',Monospaced,Monospace">
+AttributeComponent</font> and <font face="'Courier New',Monospaced,Monospace">
+      ChangeListener</font>.
+    </p>
+    <p>
+      Added to a tool bar its method <font face="'Courier New',Monospaced,Monospace">
+getValue</font> allows access to the currently set style while method <font face="'Courier New',Monospaced,Monospace">
+setValue</font> can be used to reflect the style of the paragraph the caret is 
+      currently in.
+    </p>
+    <p>
+      As desribed in more detail in the next chapter, class <font face="'Courier New',Monospaced,Monospace">
+StyleSelector</font> listens to changes in the <font face="'Courier New',Monospaced,Monospace">
+JTabbedPane</font> of class <font face="'Courier New',Monospaced,Monospace">
+      FrmMain</font> and to changes of a given style sheet. Whenever the <font face="'Courier New',Monospaced,Monospace">
+JTabbedPane</font> or the style sheet changes (i.e. another document is active 
+      or the styles have changed), the list of named paragraph styles in the <font face="'Courier New',Monospaced,Monospace">
+StyleSelector</font> is updated.
+    </p>
+  </body>
+</html>

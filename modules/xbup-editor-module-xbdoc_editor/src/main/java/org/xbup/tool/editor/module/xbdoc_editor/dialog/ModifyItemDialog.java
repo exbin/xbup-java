@@ -87,7 +87,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.panel.XBPropertyTableCellRendere
  * @version 0.1.24 2014/11/19
  * @author XBUP Project (http://xbup.org)
  */
-public class ItemModifyDialog extends javax.swing.JDialog {
+public class ModifyItemDialog extends javax.swing.JDialog {
 
     private final AttributesTableModel tableModel = new AttributesTableModel();
     private final ParametersTableModel parametersTableModel = new ParametersTableModel();
@@ -106,7 +106,7 @@ public class ItemModifyDialog extends javax.swing.JDialog {
     private final String paramEditorPanelTitle;
     private int dialogOption = JOptionPane.CLOSED_OPTION;
 
-    public ItemModifyDialog(java.awt.Frame parent, boolean modal) {
+    public ModifyItemDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         if (parent instanceof XBEditorFrame) {
@@ -398,7 +398,7 @@ public class ItemModifyDialog extends javax.swing.JDialog {
             try {
                 HexEditPanel.saveToStream(stream);
             } catch (IOException ex) {
-                Logger.getLogger(ItemModifyDialog.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ModifyItemDialog.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             newNode = srcNode.cloneNode();
@@ -420,7 +420,7 @@ public class ItemModifyDialog extends javax.swing.JDialog {
                     // node.setAttribute(srcNode.getParameter(0), 0);
                     // node.setAttribute(srcNode.getParameter(1), 1);
                 } catch (IOException | XBProcessingException ex) {
-                    Logger.getLogger(ItemModifyDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ModifyItemDialog.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 if (attributes.isEmpty()) {
@@ -490,7 +490,7 @@ public class ItemModifyDialog extends javax.swing.JDialog {
                     // defaultEditorPanel.add(customPanel, "custom");
                     //((CardLayout) defaultEditorPanel.getLayout()).show(defaultEditorPanel, "custom");
                 } catch (XBProcessingException | IOException ex) {
-                    Logger.getLogger(ItemModifyDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ModifyItemDialog.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 attributes = new ArrayList<>();

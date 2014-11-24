@@ -40,7 +40,7 @@ import org.xbup.tool.editor.module.online_help.OnlineHelpModule;
 /**
  * The main class of the XBManager application.
  *
- * @version 0.1.24 2014/11/06
+ * @version 0.1.24 2014/11/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBManager extends XBEditorBase {
@@ -48,6 +48,7 @@ public class XBManager extends XBEditorBase {
     private static Preferences preferences;
     private static boolean verboseMode = false;
     private static boolean devMode = false;
+    private static final ResourceBundle bundle = ResourceBundle.getBundle("org/xbup/tool/xbmanager/resources/XBManager");
 
     public XBManager() {
     }
@@ -56,7 +57,6 @@ public class XBManager extends XBEditorBase {
      * Main method launching the application.
      */
     public static void main(String[] args) {
-        ResourceBundle bundle = ResourceBundle.getBundle("org/xbup/tool/xbmanager/resources/XBManager");
         try {
             preferences = Preferences.userNodeForPackage(XBManager.class);
         } catch (SecurityException ex) {
@@ -141,7 +141,7 @@ public class XBManager extends XBEditorBase {
                 
                 module = app.getModuleRepository().getPluginHandler(OnlineHelpModule.class);
                 if (module instanceof OnlineHelpModule) {
-                    ((OnlineHelpModule) module).setHelpUrl(new URL("http://www.xbup.org/?wiki/doc/impl/java/tool/xbmanager"));
+                    ((OnlineHelpModule) module).setHelpUrl(new URL(bundle.getString("online_help_url")));
                 }
             } catch (MalformedURLException ex) {
                 Logger.getLogger(XBManager.class.getName()).log(Level.SEVERE, null, ex);

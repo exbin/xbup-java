@@ -51,11 +51,6 @@ public class XBTTree implements UBStreamable {
     public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
         clear();
         XBTTreeNode newRoot = new XBTTreeNode();
-        /* TODO
-         if (newRoot.getBlockType() instanceof XBContextBlockType) {
-         ((XBContextBlockType) newRoot.getBlockType()).setContext(rootContext);
-         } */
-
         setRootBlock(newRoot);
         return newRoot.fromStreamUB(stream);
     }

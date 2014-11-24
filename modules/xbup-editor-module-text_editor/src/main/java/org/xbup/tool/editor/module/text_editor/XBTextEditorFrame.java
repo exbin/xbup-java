@@ -39,8 +39,8 @@ import javax.swing.JToolBar;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
-import org.xbup.tool.editor.module.text_editor.dialog.EncodingDialog;
-import org.xbup.tool.editor.module.text_editor.dialog.FindDialog;
+import org.xbup.tool.editor.module.text_editor.dialog.ManageEncodingsDialog;
+import org.xbup.tool.editor.module.text_editor.dialog.FindTextDialog;
 import org.xbup.tool.editor.module.text_editor.dialog.FontDialog;
 import org.xbup.tool.editor.module.text_editor.dialog.GotoDialog;
 import org.xbup.tool.editor.module.text_editor.dialog.PropertiesDialog;
@@ -63,7 +63,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
  */
 public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPanelFrame, TextFontPanelFrame, TextEncodingPanelFrame, TextAppearancePanelFrame {
 
-    private FindDialog findDialog = null;
+    private FindTextDialog findDialog = null;
     private GotoDialog gotoDialog = null;
     private final TextPanel activePanel;
     private List<String> encodings = null;
@@ -359,6 +359,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
         editGotoMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
         editGotoMenuItem.setText(bundle.getString("actionEditGoto.Action.text")); // NOI18N
         editGotoMenuItem.setToolTipText(bundle.getString("actionEditGoto.Action.shortDescription")); // NOI18N
+        editGotoMenuItem.setActionCommand("Go To");
         editGotoMenuItem.setName("editGotoMenuItem"); // NOI18N
         editGotoMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -426,7 +427,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
         optionsMenu.setText("Options");
         optionsMenu.setName("optionsMenu"); // NOI18N
 
-        optionsFontMenuItem.setText("Set font");
+        optionsFontMenuItem.setText("Set Font");
         optionsFontMenuItem.setToolTipText("Set font of text view");
         optionsFontMenuItem.setName("optionsFontMenuItem"); // NOI18N
         optionsFontMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -436,7 +437,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
         });
         optionsMenu.add(optionsFontMenuItem);
 
-        optionsColorsMenuItem.setText("Set colors");
+        optionsColorsMenuItem.setText("Set Colors");
         optionsColorsMenuItem.setToolTipText("Select text view colors");
         optionsColorsMenuItem.setName("optionsColorsMenuItem"); // NOI18N
         optionsColorsMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -511,7 +512,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
     }//GEN-LAST:event_utfEncodingRadioButtonMenuItemActionPerformed
 
     private void manageEncodingsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageEncodingsMenuItemActionPerformed
-        EncodingDialog dlg = new EncodingDialog(getFrame(), this, true);
+        ManageEncodingsDialog dlg = new ManageEncodingsDialog(getFrame(), this, true);
         dlg.setIconImage(mainFrameManagement.getFrameIcon());
         TextEncodingPanel panel = dlg.getEncodingPanel();
         panel.setEncodingList(new ArrayList<>(encodings));
@@ -629,7 +630,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
 
     public void initFindDialog() {
         if (findDialog == null) {
-            findDialog = new FindDialog(getFrame(), true);
+            findDialog = new FindTextDialog(getFrame(), true);
             findDialog.setIconImage(mainFrameManagement.getFrameIcon());
         }
     }

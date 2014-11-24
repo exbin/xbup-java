@@ -383,7 +383,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
                 try {
                     itemHDocEditorPane.getEditorKit().createDefaultDocument();
                     itemHDocEditorPane.read(fileStream, itemHDocEditorPane.getDocument());
-                    
+
                 } catch (RuntimeException | IOException ex) {
                     Logger.getLogger(CatalogItemPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }

@@ -89,9 +89,9 @@ public class JavaHelpModule implements ApplicationModule {
 
     @Override
     public void init(ModuleManagement management) {
-        helpContextMenuItem = new JMenuItem(resourceBundle.getString("JavaHelpModule.helpContextMenuItem.text")+DIALOG_MENU_SUFIX);
+        helpContextMenuItem = new JMenuItem(resourceBundle.getString("JavaHelpModule.helpContextMenuItem.text") + DIALOG_MENU_SUFIX);
         helpContextMenuItem.setToolTipText(resourceBundle.getString("JavaHelpModule.helpContextMenuItem.toolTipText"));
-        helpContextMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));;
+        helpContextMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
         String path = ".";
         try {
             path = (new File(".")).getCanonicalPath();

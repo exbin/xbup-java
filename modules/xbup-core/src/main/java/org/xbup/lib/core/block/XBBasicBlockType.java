@@ -113,9 +113,9 @@ public enum XBBasicBlockType {
     public static XBBasicBlockType valueOf(int blockId) {
         return map.get(blockId);
     }
-    
+
     private static final int size = values().length;
-    
+
     public static int getSize() {
         return size;
     }

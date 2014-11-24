@@ -34,7 +34,7 @@ import org.xbup.tool.editor.base.api.XBEditorApp;
 /**
  * XB Document Editor Module.
  *
- * @version 0.1.22 2013/03/10
+ * @version 0.1.24 2014/11/23
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -42,7 +42,6 @@ public class XBDocEditorModule implements ApplicationModule {
 
     private XBDocEditorFrame editorFrame;
 
-    /** Constructor */
     public XBDocEditorModule() {
     }
 
@@ -57,7 +56,7 @@ public class XBDocEditorModule implements ApplicationModule {
 
             @Override
             public String getPluginName() {
-                return "XB Doc Editor";
+                return "XB Document Editor";
             }
 
             @Override
@@ -79,11 +78,8 @@ public class XBDocEditorModule implements ApplicationModule {
 
     @Override
     public void init(ModuleManagement management) {
-
         editorFrame = new XBDocEditorFrame();
-
         management.registerPanel(editorFrame.activePanel);
-
         editorFrame.setMainFrameManagement(management.getMainFrameManagement());
 
         // Register menus
@@ -118,5 +114,9 @@ public class XBDocEditorModule implements ApplicationModule {
 
     public void setDevMode(boolean devMode) {
         editorFrame.setDevMode(devMode);
+    }
+
+    public void postWindowOpened() {
+        editorFrame.postWindowOpened();
     }
 }

@@ -45,7 +45,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
  * @version 0.1.24 2014/11/21
  * @author XBUP Project (http://xbup.org)
  */
-public class ItemAddDialog extends javax.swing.JDialog {
+public class AddItemDialog extends javax.swing.JDialog {
 
     private XBTTreeNode parentNode;
     private XBTTreeNode workNode;
@@ -54,7 +54,7 @@ public class ItemAddDialog extends javax.swing.JDialog {
     private XBBlockType catalogBlockType = null;
     private int dialogOption = JOptionPane.CLOSED_OPTION;
 
-    public ItemAddDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog) {
+    public AddItemDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog) {
         super(parent, modal);
         this.catalog = catalog;
         if (parent instanceof XBEditorFrame) {

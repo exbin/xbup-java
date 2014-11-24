@@ -52,16 +52,10 @@ public class XBEditorApplication implements XBEditorApp {
         moduleRepository = new BaseModuleRepository();
     }
 
-    /**
-     * @return the firstCommand
-     */
     public XBAppCommand getFirstCommand() {
         return firstCommand;
     }
 
-    /**
-     * @param aFirstCommand the firstCommand to set
-     */
     public void setFirstCommand(XBAppCommand aFirstCommand) {
         firstCommand = aFirstCommand;
     }
@@ -103,32 +97,20 @@ public class XBEditorApplication implements XBEditorApp {
         return getAppPreferences().get(key, def);
     }
 
-    /**
-     * @return the appMode
-     */
     @Override
     public boolean isAppMode() {
         return appMode;
     }
 
-    /**
-     * @param appMode the appMode to set
-     */
     public void setAppMode(boolean appMode) {
         this.appMode = appMode;
     }
 
-    /**
-     * @return the appBundle
-     */
     @Override
     public ResourceBundle getAppBundle() {
         return appBundle;
     }
 
-    /**
-     * @param appBundle the appBundle to set
-     */
     public void setAppBundle(ResourceBundle appBundle) {
         this.appBundle = appBundle;
         if (mainFrame != null) {
@@ -136,17 +118,11 @@ public class XBEditorApplication implements XBEditorApp {
         }
     }
 
-    /**
-     * @return the appPreferences
-     */
     @Override
     public Preferences getAppPreferences() {
         return appPreferences;
     }
 
-    /**
-     * @param appPreferences the appPreferences to set
-     */
     public void setAppPreferences(Preferences appPreferences) {
         this.appPreferences = appPreferences;
 
@@ -166,9 +142,6 @@ public class XBEditorApplication implements XBEditorApp {
         mainFrame = new MainFrame();
     }
 
-    /**
-     * @return the moduleRepository
-     */
     @Override
     public BaseModuleRepository getModuleRepository() {
         return moduleRepository;

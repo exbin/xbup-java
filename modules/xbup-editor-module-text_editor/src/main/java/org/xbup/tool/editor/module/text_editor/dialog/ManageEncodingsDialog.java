@@ -27,14 +27,14 @@ import org.xbup.tool.editor.module.text_editor.panel.TextEncodingPanelFrame;
  * @version 0.1.24 2014/11/08
  * @author XBUP Project (http://xbup.org)
  */
-public class EncodingDialog extends javax.swing.JDialog {
+public class ManageEncodingsDialog extends javax.swing.JDialog {
 
     private int dialogOption = JOptionPane.CLOSED_OPTION;
 
-    public EncodingDialog(java.awt.Frame parent, TextEncodingPanelFrame frame, boolean modal) {
+    public ManageEncodingsDialog(java.awt.Frame parent, TextEncodingPanelFrame frame, boolean modal) {
         super(parent, modal);
         initComponents();
-        jPanel1.add(new TextEncodingPanel(frame));
+        mainPanel.add(new TextEncodingPanel(frame));
         init();
     }
 
@@ -47,7 +47,7 @@ public class EncodingDialog extends javax.swing.JDialog {
     }
 
     public TextEncodingPanel getEncodingPanel() {
-        return (TextEncodingPanel) jPanel1.getComponent(0);
+        return (TextEncodingPanel) mainPanel.getComponent(0);
     }
 
     /**
@@ -61,7 +61,7 @@ public class EncodingDialog extends javax.swing.JDialog {
 
         setButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        mainPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/dialog/resources/EncodingDialog"); // NOI18N
@@ -86,8 +86,8 @@ public class EncodingDialog extends javax.swing.JDialog {
             }
         });
 
-        jPanel1.setName("jPanel1"); // NOI18N
-        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
+        mainPanel.setName("mainPanel"); // NOI18N
+        mainPanel.setLayout(new java.awt.GridLayout(1, 0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,12 +99,12 @@ public class EncodingDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cancelButton)
                 .addContainerGap())
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
@@ -129,12 +129,12 @@ public class EncodingDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        WindowUtils.invokeWindow(new EncodingDialog(new javax.swing.JFrame(), null, true));
+        WindowUtils.invokeWindow(new ManageEncodingsDialog(new javax.swing.JFrame(), null, true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel mainPanel;
     private javax.swing.JButton setButton;
     // End of variables declaration//GEN-END:variables
 

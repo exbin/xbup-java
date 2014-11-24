@@ -41,7 +41,7 @@ import org.xbup.tool.editor.base.api.ApplicationModule;
 /**
  * The main class of the XBEditor application.
  *
- * @version 0.1.22 2013/03/10
+ * @version 0.1.22 2013/03/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEditor extends XBEditorBase {
@@ -49,12 +49,12 @@ public class XBEditor extends XBEditorBase {
     private static Preferences preferences;
     private static boolean verboseMode = false;
     private static boolean devMode = false;
+    private static final ResourceBundle bundle = ResourceBundle.getBundle("org/xbup/tool/xbeditor/resources/XBEditor");
 
     /**
      * Main method launching the application.
      */
     public static void main(String[] args) {
-        ResourceBundle bundle = ResourceBundle.getBundle("org/xbup/tool/xbeditor/resources/XBEditor");
         try {
             preferences = Preferences.userNodeForPackage(XBEditor.class);
         } catch (SecurityException ex) {
@@ -64,16 +64,7 @@ public class XBEditor extends XBEditorBase {
             // Parameters processing
             Options opt = new Options();
             opt.addOption("h", "help", false, bundle.getString("cl_option_help"));
-            // opt.addOption("port", true, resourceMap.getString("cl_option_port"));
-            // opt.addOption("ip", true, resourceMap.getString("cl_option_ip"));
             opt.addOption("v", false, bundle.getString("cl_option_verbose"));
-            // TODO: More options
-//            opt.addOption("nopref", false, resourceMap.getString("cl_option_nopref"));
-//            opt.addOption("stop", false, resourceMap.getString("cl_option_stop"));
-//            opt.addOption("log", true, resourceMap.getString("cl_option_log"));
-//            opt.addOption("db", true, resourceMap.getString("cl_option_db"));
-//            opt.addOption("derby", false, resourceMap.getString("cl_option_derby"));
-//            opt.addOption("noderby", false, resourceMap.getString("cl_option_noderby"));
             opt.addOption("dev", false, bundle.getString("cl_option_dev"));
             BasicParser parser = new BasicParser();
             CommandLine cl = parser.parse(opt, args);
@@ -135,10 +126,12 @@ public class XBEditor extends XBEditorBase {
 
         @Override
         public void execute() {
-            ApplicationModule module = app.getModuleRepository().getPluginHandler(OnlineHelpModule.class);
+            ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
+            ((XBDocEditorModule) module).postWindowOpened();
+            
             try {
                 if (module instanceof OnlineHelpModule) {
-                    ((OnlineHelpModule) module).setHelpUrl(new URL("http://www.xbup.org/?wiki/doc/impl/java/tool/xbeditor"));
+                    ((OnlineHelpModule) module).setHelpUrl(new URL(bundle.getString("online_help_url")));
                 }
             } catch (MalformedURLException ex) {
                 Logger.getLogger(XBEditor.class.getName()).log(Level.SEVERE, null, ex);

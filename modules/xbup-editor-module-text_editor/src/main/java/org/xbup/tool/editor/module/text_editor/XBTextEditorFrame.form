@@ -94,6 +94,7 @@
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame.properties" key="actionEditGoto.Action.shortDescription" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
+                <Property name="actionCommand" type="java.lang.String" value="Go To"/>
                 <Property name="name" type="java.lang.String" value="editGotoMenuItem" noResource="true"/>
               </Properties>
               <Events>
@@ -199,7 +200,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="optionsFontMenuItem">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Set font"/>
+                <Property name="text" type="java.lang.String" value="Set Font"/>
                 <Property name="toolTipText" type="java.lang.String" value="Set font of text view"/>
                 <Property name="name" type="java.lang.String" value="optionsFontMenuItem" noResource="true"/>
               </Properties>
@@ -209,7 +210,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="optionsColorsMenuItem">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Set colors"/>
+                <Property name="text" type="java.lang.String" value="Set Colors"/>
                 <Property name="toolTipText" type="java.lang.String" value="Select text view colors"/>
                 <Property name="name" type="java.lang.String" value="optionsColorsMenuItem" noResource="true"/>
               </Properties>

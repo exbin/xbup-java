@@ -60,9 +60,9 @@ import org.xbup.lib.operation.basic.XBTModifyBlockCommand;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
 import org.xbup.lib.plugin.XBPluginRepository;
 import org.xbup.tool.editor.module.xbdoc_editor.XBDocEditorFrame;
-import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemModifyDialog;
+import org.xbup.tool.editor.module.xbdoc_editor.dialog.ModifyItemDialog;
 import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemPropertiesDialog;
-import org.xbup.tool.editor.module.text_editor.dialog.FindDialog;
+import org.xbup.tool.editor.module.text_editor.dialog.FindTextDialog;
 import org.xbup.tool.editor.module.text_editor.dialog.FontDialog;
 import org.xbup.tool.editor.module.text_editor.panel.TextPanel;
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
@@ -73,7 +73,7 @@ import org.xbup.tool.editor.base.api.FileType;
 /**
  * Panel with XBUP document visualization.
  *
- * @version 0.1.24 2014/11/19
+ * @version 0.1.24 2014/11/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFilePanel, ActivePanelUndoable, ActivePanelActionHandling {
@@ -101,6 +101,9 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         mainDoc = new XBTTreeDocument(catalog);
 
         initComponents();
+
+        propertyPanel = new XBPropertyPanel(catalog);
+        mainSplitPane.setRightComponent(propertyPanel);
 
         treePanel = new XBDocTreePanel(mainFrame, mainDoc, catalog, popupMenu);
         hexPanel = new XBDocHexPanel(mainDoc);
@@ -137,16 +140,18 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
             }
         });
 
-        propertyPanel = new XBPropertyPanel(catalog);
-        mainSplitPane.setRightComponent(propertyPanel);
         changeSplitMode();
         splitMode = true;
         //updateItem();
     }
 
+    public void postWindowOpened() {
+        mainSplitPane.setDividerLocation(getWidth() - 300 > 0 ? getWidth() - 300 : getWidth() * 2 / 3);
+    }
+
     /**
      * Updating selected item available operations status, like add, edit,
-     * delete
+     * delete.
      */
     public void updateItem() {
         treePanel.updateItemStatus();
@@ -205,26 +210,14 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         add(mainPanel, "main");
 
         mainSplitPane.setBorder(null);
-        mainSplitPane.setDividerLocation(0);
         mainSplitPane.setDividerSize(8);
         mainSplitPane.setResizeWeight(1.0);
-        mainSplitPane.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentResized(java.awt.event.ComponentEvent evt) {
-                mainSplitPaneComponentResized(evt);
-            }
-        });
 
         splitPanel.setLayout(new java.awt.CardLayout());
         mainSplitPane.setLeftComponent(splitPanel);
 
         add(mainSplitPane, "split");
     }// </editor-fold>//GEN-END:initComponents
-
-    private void mainSplitPaneComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_mainSplitPaneComponentResized
-        if (mainSplitPane.getDividerLocation() < 2) {
-            mainSplitPane.setDividerLocation(getWidth() - 400);
-        }
-    }//GEN-LAST:event_mainSplitPaneComponentResized
 
     private void popupItemPropertiesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupItemPropertiesMenuItemActionPerformed
         actionItemProperties();
@@ -364,6 +357,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
                         hexPanel.saveToStream(buffer);
                         mainDoc.fromStreamUB(new ByteArrayInputStream(buffer.toByteArray()));
                     } catch (XBProcessingException ex) {
+                        Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
                         JOptionPane.showMessageDialog(getFrame(), ex.getMessage(), "Parse Exception", JOptionPane.ERROR_MESSAGE);
                     } catch (IOException ex) {
                         Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -510,10 +504,11 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
             performSelectAll();
             getTreeUndo().clear();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(XBDocEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(XBDocEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (XBProcessingException ex) {
+            Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(getFrame(), ex.getMessage(), "Parse Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -599,7 +594,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         textPanel.gotoLine(line);
     }
 
-    public void findText(FindDialog findDialog) {
+    public void findText(FindTextDialog findDialog) {
         textPanel.findText(findDialog);
     }
 
@@ -619,7 +614,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         XBTTreeNode node = getSelectedItem();
         XBTCommand undoStep;
         try {
-            ItemModifyDialog dialog = new ItemModifyDialog(getFrame(), true);
+            ModifyItemDialog dialog = new ModifyItemDialog(getFrame(), true);
             dialog.setCatalog(catalog);
             dialog.setPluginRepository(pluginRepository);
             dialog.setLocationRelativeTo(dialog.getParent());

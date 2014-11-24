@@ -650,9 +650,9 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="jPanel5">
+            <Container class="javax.swing.JPanel" name="emptyPanel">
               <Properties>
-                <Property name="name" type="java.lang.String" value="jPanel5" noResource="true"/>
+                <Property name="name" type="java.lang.String" value="emptyPanel" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
@@ -673,9 +673,9 @@
                 </DimensionLayout>
               </Layout>
             </Container>
-            <Container class="javax.swing.JPanel" name="jPanel1">
+            <Container class="javax.swing.JPanel" name="textEditingPanel">
               <Properties>
-                <Property name="name" type="java.lang.String" value="jPanel1" noResource="true"/>
+                <Property name="name" type="java.lang.String" value="textEditingPanel" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
@@ -689,7 +689,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="textPositionTextField" min="-2" pref="96" max="-2" attributes="0"/>
                           <EmptySpace pref="427" max="32767" attributes="0"/>
-                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                          <Component id="textStatusLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="currentEncodingTextField" min="-2" pref="93" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -701,7 +701,7 @@
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                           <Component id="textPositionTextField" alignment="3" pref="26" max="32767" attributes="0"/>
                           <Component id="currentEncodingTextField" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="textStatusLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -718,9 +718,9 @@
                     <Property name="name" type="java.lang.String" value="textPositionTextField" noResource="true"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel1">
+                <Component class="javax.swing.JLabel" name="textStatusLabel">
                   <Properties>
-                    <Property name="name" type="java.lang.String" value="jLabel1" noResource="true"/>
+                    <Property name="name" type="java.lang.String" value="textStatusLabel" noResource="true"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="currentEncodingTextField">
@@ -736,9 +736,9 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="jPanel2">
+            <Container class="javax.swing.JPanel" name="labelPanel">
               <Properties>
-                <Property name="name" type="java.lang.String" value="jPanel2" noResource="true"/>
+                <Property name="name" type="java.lang.String" value="labelPanel" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
@@ -757,9 +757,9 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="jPanel3">
+            <Container class="javax.swing.JPanel" name="operationPanel">
               <Properties>
-                <Property name="name" type="java.lang.String" value="jPanel3" noResource="true"/>
+                <Property name="name" type="java.lang.String" value="operationPanel" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
@@ -771,41 +771,41 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="jProgressBar1" pref="559" max="32767" attributes="0"/>
+                          <Component id="operationProgressBar" pref="559" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jButton4" min="-2" pref="75" max="-2" attributes="0"/>
+                          <Component id="operationStopButton" min="-2" pref="75" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                          <Component id="jButton4" alignment="3" pref="26" max="32767" attributes="0"/>
-                          <Component id="jProgressBar1" alignment="3" pref="26" max="32767" attributes="0"/>
+                          <Component id="operationStopButton" alignment="3" pref="26" max="32767" attributes="0"/>
+                          <Component id="operationProgressBar" alignment="3" pref="26" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JProgressBar" name="jProgressBar1">
+                <Component class="javax.swing.JProgressBar" name="operationProgressBar">
                   <Properties>
                     <Property name="indeterminate" type="boolean" value="true"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[10, 10]"/>
                     </Property>
-                    <Property name="name" type="java.lang.String" value="jProgressBar1" noResource="true"/>
+                    <Property name="name" type="java.lang.String" value="operationProgressBar" noResource="true"/>
                     <Property name="requestFocusEnabled" type="boolean" value="false"/>
                     <Property name="stringPainted" type="boolean" value="true"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton4">
+                <Component class="javax.swing.JButton" name="operationStopButton">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Stop" noResource="true"/>
                     <Property name="enabled" type="boolean" value="false"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[67, 15]"/>
                     </Property>
-                    <Property name="name" type="java.lang.String" value="jButton4" noResource="true"/>
+                    <Property name="name" type="java.lang.String" value="operationStopButton" noResource="true"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[75, 20]"/>
                     </Property>
@@ -813,9 +813,9 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="jPanel4">
+            <Container class="javax.swing.JPanel" name="activityPanel">
               <Properties>
-                <Property name="name" type="java.lang.String" value="jPanel4" noResource="true"/>
+                <Property name="name" type="java.lang.String" value="activityPanel" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
@@ -826,20 +826,20 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jProgressBar2" alignment="0" pref="640" max="32767" attributes="0"/>
+                      <Component id="activityProgressBar" alignment="0" pref="640" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jProgressBar2" alignment="1" pref="27" max="32767" attributes="0"/>
+                      <Component id="activityProgressBar" alignment="1" pref="27" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JProgressBar" name="jProgressBar2">
+                <Component class="javax.swing.JProgressBar" name="activityProgressBar">
                   <Properties>
                     <Property name="indeterminate" type="boolean" value="true"/>
-                    <Property name="name" type="java.lang.String" value="jProgressBar2" noResource="true"/>
+                    <Property name="name" type="java.lang.String" value="activityProgressBar" noResource="true"/>
                     <Property name="requestFocusEnabled" type="boolean" value="false"/>
                     <Property name="stringPainted" type="boolean" value="true"/>
                   </Properties>

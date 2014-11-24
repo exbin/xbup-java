@@ -116,7 +116,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemPropertiesDialog;
 import org.xbup.tool.editor.module.xbdoc_editor.dialog.DocPropertiesDialog;
 import org.xbup.tool.editor.module.xbdoc_editor.panel.XBDocumentPanel;
 import org.xbup.tool.editor.module.service_manager.panel.CatalogBrowserPanel;
-import org.xbup.tool.editor.module.text_editor.dialog.FindDialog;
+import org.xbup.tool.editor.module.text_editor.dialog.FindTextDialog;
 import org.xbup.tool.editor.module.text_editor.dialog.FontDialog;
 import org.xbup.tool.editor.module.text_editor.dialog.GotoDialog;
 import org.xbup.tool.editor.module.text_editor.dialog.TextColorDialog;
@@ -131,7 +131,7 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
 /**
  * XBDocEditor Main Frame.
  *
- * @version 0.1.24 2014/11/18
+ * @version 0.1.24 2014/11/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFrame, TextColorPanelFrame, TextFontPanelFrame {
@@ -140,7 +140,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     private JFileChooser openFC, saveFC;
 //    private ChangeListener caretChangeListener;
 
-    private FindDialog findDialog = null;
+    private FindTextDialog findDialog = null;
     private GotoDialog gotoDialog = null;
     private ItemPropertiesDialog propertiesDialog = null;
     private CatalogBrowserPanel catalogPanel = null;
@@ -266,7 +266,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                 // is 0x5842 (XB)
                 int defaultPort = ("DEV".equals(editorApp.getAppBundle().getString("Application.mode"))) ? 22595 : 22594;
                 ((CardLayout) statusPanel.getLayout()).show(statusPanel, "initCat");
-                jProgressBar1.setString(resourceBundle.getString("main_initlocal") + "...");
+                operationProgressBar.setString(resourceBundle.getString("main_initlocal") + "...");
 
                 Boolean serviceConnectionAllowed = Boolean.valueOf(preferences.get("serviceConnectionAllowed", Boolean.toString(true)));
                 if (serviceConnectionAllowed) {
@@ -317,7 +317,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                 // Create internal catalog instead
                 if (catalog == null) {
                     setConnectionStatus(ConnectionStatus.DISCONNECTED);
-                    jProgressBar1.setString(resourceBundle.getString("main_initcat") + "...");
+                    operationProgressBar.setString(resourceBundle.getString("main_initcat") + "...");
                     try {
                         // Database Initialization
                         String derbyHome = System.getProperty("user.home") + "/.java/.userPrefs/" + preferences.absolutePath();
@@ -340,7 +340,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                         ((XBAECatalog) catalog).addCatalogService(XBCXHDocService.class, new XBEXHDocService((XBAECatalog) catalog));
 
                         if (((XBAECatalog) catalog).isShallInit()) {
-                            jProgressBar1.setString(resourceBundle.getString("main_defaultcat") + "...");
+                            operationProgressBar.setString(resourceBundle.getString("main_defaultcat") + "...");
                             ((XBAECatalog) catalog).initCatalog();
                         }
 
@@ -350,7 +350,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                             // String catalogUpdate = preferences.get("catalogUpdateURL", null); // TODO
 
                             try {
-                                jProgressBar1.setString(resourceBundle.getString("main_initws") + "...");
+                                operationProgressBar.setString(resourceBundle.getString("main_initws") + "...");
                                 wsHandler = new XBCUpdatePHPHandler((XBAECatalog) catalog);
                                 wsHandler.init();
                                 wsHandler.getPort().getLanguageId("en");
@@ -381,7 +381,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                                             if (status == true) {
                                                 toolBarVisibleTemp = getStatusBar().isVisible();
                                                 ((CardLayout) statusPanel.getLayout()).show(statusPanel, "updateCat");
-                                                jProgressBar2.setString(resourceBundle.getString("main_updatecat") + "...");
+                                                activityProgressBar.setString(resourceBundle.getString("main_updatecat") + "...");
                                                 getStatusBar().setVisible(true);
                                             } else {
                                                 ((CardLayout) statusPanel.getLayout()).first(statusPanel);
@@ -669,18 +669,18 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         modifyToolButton = new JButton();
         statusBar = new JPanel();
         statusPanel = new JPanel();
-        jPanel5 = new JPanel();
-        jPanel1 = new JPanel();
+        emptyPanel = new JPanel();
+        textEditingPanel = new JPanel();
         textPositionTextField = new JTextField();
-        jLabel1 = new JLabel();
+        textStatusLabel = new JLabel();
         currentEncodingTextField = new JTextField();
-        jPanel2 = new JPanel();
+        labelPanel = new JPanel();
         statusLabel = new JLabel();
-        jPanel3 = new JPanel();
-        jProgressBar1 = new JProgressBar();
-        jButton4 = new JButton();
-        jPanel4 = new JPanel();
-        jProgressBar2 = new JProgressBar();
+        operationPanel = new JPanel();
+        operationProgressBar = new JProgressBar();
+        operationStopButton = new JButton();
+        activityPanel = new JPanel();
+        activityProgressBar = new JProgressBar();
         connectionStatusPanel = new JPanel();
         connectionStatusLabel = new JLabel();
         menuBar = new JMenuBar();
@@ -827,20 +827,20 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         statusPanel.setRequestFocusEnabled(false);
         statusPanel.setLayout(new CardLayout());
 
-        jPanel5.setName("jPanel5"); // NOI18N
+        emptyPanel.setName("emptyPanel"); // NOI18N
 
-        GroupLayout jPanel5Layout = new GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(jPanel5Layout.createParallelGroup(Alignment.LEADING)
+        GroupLayout emptyPanelLayout = new GroupLayout(emptyPanel);
+        emptyPanel.setLayout(emptyPanelLayout);
+        emptyPanelLayout.setHorizontalGroup(emptyPanelLayout.createParallelGroup(Alignment.LEADING)
             .addGap(0, 640, Short.MAX_VALUE)
         );
-        jPanel5Layout.setVerticalGroup(jPanel5Layout.createParallelGroup(Alignment.LEADING)
+        emptyPanelLayout.setVerticalGroup(emptyPanelLayout.createParallelGroup(Alignment.LEADING)
             .addGap(0, 27, Short.MAX_VALUE)
         );
 
-        statusPanel.add(jPanel5, "default");
+        statusPanel.add(emptyPanel, "default");
 
-        jPanel1.setName("jPanel1"); // NOI18N
+        textEditingPanel.setName("textEditingPanel"); // NOI18N
 
         textPositionTextField.setEditable(false);
         textPositionTextField.setHorizontalAlignment(JTextField.CENTER);
@@ -848,7 +848,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         textPositionTextField.setToolTipText(bundle.getString("textPositionTextField.toolTipText")); // NOI18N
         textPositionTextField.setName("textPositionTextField"); // NOI18N
 
-        jLabel1.setName("jLabel1"); // NOI18N
+        textStatusLabel.setName("textStatusLabel"); // NOI18N
 
         currentEncodingTextField.setEditable(false);
         currentEncodingTextField.setHorizontalAlignment(JTextField.CENTER);
@@ -856,81 +856,81 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         currentEncodingTextField.setToolTipText(bundle.getString("currentEncodingTextField.toolTipText")); // NOI18N
         currentEncodingTextField.setName("currentEncodingTextField"); // NOI18N
 
-        GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        GroupLayout textEditingPanelLayout = new GroupLayout(textEditingPanel);
+        textEditingPanel.setLayout(textEditingPanelLayout);
+        textEditingPanelLayout.setHorizontalGroup(textEditingPanelLayout.createParallelGroup(Alignment.LEADING)
+            .addGroup(textEditingPanelLayout.createSequentialGroup()
                 .addComponent(textPositionTextField, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(ComponentPlacement.RELATED, 427, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(textStatusLabel)
                 .addPreferredGap(ComponentPlacement.RELATED)
                 .addComponent(currentEncodingTextField, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
-            .addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
+        textEditingPanelLayout.setVerticalGroup(textEditingPanelLayout.createParallelGroup(Alignment.LEADING)
+            .addGroup(textEditingPanelLayout.createParallelGroup(Alignment.BASELINE)
                 .addComponent(textPositionTextField, GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
                 .addComponent(currentEncodingTextField, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel1))
+                .addComponent(textStatusLabel))
         );
 
-        statusPanel.add(jPanel1, "text");
+        statusPanel.add(textEditingPanel, "text");
 
-        jPanel2.setName("jPanel2"); // NOI18N
-        jPanel2.setLayout(new FlowLayout(FlowLayout.LEFT));
+        labelPanel.setName("labelPanel"); // NOI18N
+        labelPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         statusLabel.setName("statusLabel"); // NOI18N
-        jPanel2.add(statusLabel);
+        labelPanel.add(statusLabel);
 
-        statusPanel.add(jPanel2, "main");
+        statusPanel.add(labelPanel, "main");
 
-        jPanel3.setName("jPanel3"); // NOI18N
+        operationPanel.setName("operationPanel"); // NOI18N
 
-        jProgressBar1.setIndeterminate(true);
-        jProgressBar1.setMinimumSize(new Dimension(10, 10));
-        jProgressBar1.setName("jProgressBar1"); // NOI18N
-        jProgressBar1.setRequestFocusEnabled(false);
-        jProgressBar1.setStringPainted(true);
+        operationProgressBar.setIndeterminate(true);
+        operationProgressBar.setMinimumSize(new Dimension(10, 10));
+        operationProgressBar.setName("operationProgressBar"); // NOI18N
+        operationProgressBar.setRequestFocusEnabled(false);
+        operationProgressBar.setStringPainted(true);
 
-        jButton4.setText("Stop"); // NOI18N
-        jButton4.setEnabled(false);
-        jButton4.setMinimumSize(new Dimension(67, 15));
-        jButton4.setName("jButton4"); // NOI18N
-        jButton4.setPreferredSize(new Dimension(75, 20));
+        operationStopButton.setText("Stop"); // NOI18N
+        operationStopButton.setEnabled(false);
+        operationStopButton.setMinimumSize(new Dimension(67, 15));
+        operationStopButton.setName("operationStopButton"); // NOI18N
+        operationStopButton.setPreferredSize(new Dimension(75, 20));
 
-        GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(jPanel3Layout.createParallelGroup(Alignment.LEADING)
-            .addGroup(Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
+        GroupLayout operationPanelLayout = new GroupLayout(operationPanel);
+        operationPanel.setLayout(operationPanelLayout);
+        operationPanelLayout.setHorizontalGroup(operationPanelLayout.createParallelGroup(Alignment.LEADING)
+            .addGroup(Alignment.TRAILING, operationPanelLayout.createSequentialGroup()
+                .addComponent(operationProgressBar, GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
                 .addPreferredGap(ComponentPlacement.RELATED)
-                .addComponent(jButton4, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE))
+                .addComponent(operationStopButton, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE))
         );
-        jPanel3Layout.setVerticalGroup(jPanel3Layout.createParallelGroup(Alignment.LEADING)
-            .addGroup(jPanel3Layout.createParallelGroup(Alignment.BASELINE)
-                .addComponent(jButton4, GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
-                .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE))
-        );
-
-        statusPanel.add(jPanel3, "initCat");
-
-        jPanel4.setName("jPanel4"); // NOI18N
-
-        jProgressBar2.setIndeterminate(true);
-        jProgressBar2.setName("jProgressBar2"); // NOI18N
-        jProgressBar2.setRequestFocusEnabled(false);
-        jProgressBar2.setStringPainted(true);
-
-        GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(jPanel4Layout.createParallelGroup(Alignment.LEADING)
-            .addComponent(jProgressBar2, GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(jPanel4Layout.createParallelGroup(Alignment.LEADING)
-            .addComponent(jProgressBar2, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+        operationPanelLayout.setVerticalGroup(operationPanelLayout.createParallelGroup(Alignment.LEADING)
+            .addGroup(operationPanelLayout.createParallelGroup(Alignment.BASELINE)
+                .addComponent(operationStopButton, GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                .addComponent(operationProgressBar, GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE))
         );
 
-        statusPanel.add(jPanel4, "updateCat");
+        statusPanel.add(operationPanel, "initCat");
+
+        activityPanel.setName("activityPanel"); // NOI18N
+
+        activityProgressBar.setIndeterminate(true);
+        activityProgressBar.setName("activityProgressBar"); // NOI18N
+        activityProgressBar.setRequestFocusEnabled(false);
+        activityProgressBar.setStringPainted(true);
+
+        GroupLayout activityPanelLayout = new GroupLayout(activityPanel);
+        activityPanel.setLayout(activityPanelLayout);
+        activityPanelLayout.setHorizontalGroup(activityPanelLayout.createParallelGroup(Alignment.LEADING)
+            .addComponent(activityProgressBar, GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
+        );
+        activityPanelLayout.setVerticalGroup(activityPanelLayout.createParallelGroup(Alignment.LEADING)
+            .addComponent(activityProgressBar, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+        );
+
+        statusPanel.add(activityPanel, "updateCat");
 
         statusBar.add(statusPanel, BorderLayout.CENTER);
 
@@ -1338,7 +1338,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
     public void initFindDialog() {
         if (findDialog == null) {
-            findDialog = new FindDialog(this, true);
+            findDialog = new FindTextDialog(this, true);
         }
     }
 
@@ -1389,6 +1389,8 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JPanel activityPanel;
+    private JProgressBar activityProgressBar;
     private JButton addToolButton;
     private JLabel connectionStatusLabel;
     private JPanel connectionStatusPanel;
@@ -1400,6 +1402,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     private JMenuItem editItemAddMenuItem;
     private JMenuItem editItemModifyMenuItem;
     public JMenu editMenu;
+    private JPanel emptyPanel;
     public JMenu fileMenu;
     private JMenuItem fileNewCustomMenuItem;
     private JMenuItem fileOpenPicSampleMenuItem;
@@ -1407,15 +1410,6 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     private JMenuItem fileOpenXHTMLSampleMenuItem;
     private JMenuItem filePropertiesMenuItem;
     private JButton findToolButton;
-    private JButton jButton4;
-    private JLabel jLabel1;
-    private JPanel jPanel1;
-    private JPanel jPanel2;
-    private JPanel jPanel3;
-    private JPanel jPanel4;
-    private JPanel jPanel5;
-    private JProgressBar jProgressBar1;
-    private JProgressBar jProgressBar2;
     private JSeparator jSeparator12;
     private JPopupMenu.Separator jSeparator14;
     private JPopupMenu.Separator jSeparator15;
@@ -1426,10 +1420,14 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     private JPopupMenu.Separator jSeparator22;
     private JSeparator jSeparator3;
     private JSeparator jSeparator6;
+    private JPanel labelPanel;
     private JPanel mainPanel;
     private JPopupMenu mainPopupMenu;
     private JMenuBar menuBar;
     private JButton modifyToolButton;
+    private JPanel operationPanel;
+    private JProgressBar operationProgressBar;
+    private JButton operationStopButton;
     private JMenuItem optionsColorsMenuItem;
     private JMenuItem optionsFontMenuItem;
     public JMenu optionsMenu;
@@ -1444,7 +1442,9 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     private JPanel statusBar;
     private JLabel statusLabel;
     private JPanel statusPanel;
+    private JPanel textEditingPanel;
     private JTextField textPositionTextField;
+    private JLabel textStatusLabel;
     private JToolBar toolBar;
     private JMenuItem toolsCatalogBrowserMenuItem;
     public JMenu toolsMenu;
@@ -1574,8 +1574,10 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
     public void setEditorApp(XBEditorApp editorApp) {
         this.editorApp = editorApp;
+    }
 
-        // TODO: Move to some reasonable place later
+    public void postWindowOpened() {
+        activePanel.postWindowOpened();
         initService();
     }
 

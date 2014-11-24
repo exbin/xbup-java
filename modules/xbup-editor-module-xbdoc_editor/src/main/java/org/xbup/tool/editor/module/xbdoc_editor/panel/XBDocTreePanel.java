@@ -58,7 +58,7 @@ import org.xbup.lib.operation.basic.XBTAddBlockCommand;
 import org.xbup.lib.operation.basic.XBTDeleteBlockCommand;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
 import org.xbup.tool.editor.module.xbdoc_editor.XBDocEditorFrame;
-import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemAddDialog;
+import org.xbup.tool.editor.module.xbdoc_editor.dialog.AddItemDialog;
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
 
@@ -336,7 +336,7 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
 
     public void performAdd() {
         XBTTreeNode node = getSelectedItem();
-        ItemAddDialog itemAddDialog = new ItemAddDialog(getFrame(), true, catalog);
+        AddItemDialog itemAddDialog = new AddItemDialog(getFrame(), true, catalog);
         itemAddDialog.setLocationRelativeTo(itemAddDialog.getParent());
         itemAddDialog.setParentNode(node);
         XBTTreeNode newNode = itemAddDialog.showDialog();

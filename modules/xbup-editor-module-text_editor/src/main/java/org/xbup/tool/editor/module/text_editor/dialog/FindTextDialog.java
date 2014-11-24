@@ -22,14 +22,14 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Find text dialog.
  *
- * @version 0.1.22 2013/03/14
+ * @version 0.1.24 2014/11/23
  * @author XBUP Project (http://xbup.org)
  */
-public class FindDialog extends javax.swing.JDialog {
+public class FindTextDialog extends javax.swing.JDialog {
 
     private int dialogOption = JOptionPane.CLOSED_OPTION;
 
-    public FindDialog(java.awt.Frame parent, boolean modal) {
+    public FindTextDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 
@@ -233,7 +233,7 @@ public class FindDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        WindowUtils.invokeWindow(new FindDialog(new javax.swing.JFrame(), true));
+        WindowUtils.invokeWindow(new FindTextDialog(new javax.swing.JFrame(), true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -251,9 +251,6 @@ public class FindDialog extends javax.swing.JDialog {
     private javax.swing.JTextField textToReplaceTextField;
     // End of variables declaration//GEN-END:variables
 
-    /**
-     * @return the dialogOption
-     */
     public int getDialogOption() {
         return dialogOption;
     }

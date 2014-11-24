@@ -159,17 +159,19 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
     }
 
     public int fromFileUB() throws IOException, XBProcessingException {
-        InputStream stream = new FileInputStream(fileName);
-        int size = fromStreamUB(stream);
-        stream.close();
+        int size;
+        try (InputStream stream = new FileInputStream(fileName)) {
+            size = fromStreamUB(stream);
+        }
         modified = false;
         return size;
     }
 
     public int toFileUB() throws IOException {
-        OutputStream stream = new FileOutputStream(fileName);
-        int size = toStreamUB(stream);
-        stream.close();
+        int size;
+        try (OutputStream stream = new FileOutputStream(fileName)) {
+            size = toStreamUB(stream);
+        }
         modified = false;
         return size;
     }

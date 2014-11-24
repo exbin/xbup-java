@@ -45,7 +45,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Basic object model parser XBUP level 0 document block / tree node.
  *
- * @version 0.1.24 2014/10/08
+ * @version 0.1.24 2014/11/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
@@ -174,63 +174,6 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
     }
 
     @Override
-    public int toStreamUB(OutputStream stream) throws IOException {
-        if (getDataMode() == XBBlockDataMode.DATA_BLOCK) {
-            UBENat32 dataPartSize = new UBENat32(getDataSize());
-            UBNat32 attributePartSize = new UBNat32(dataPartSize.getSizeUB());
-            int size = attributePartSize.toStreamUB(stream);
-            size += dataPartSize.toStreamUB(stream);
-            if (data != null) {
-                stream.write(data);
-            }
-
-            size += getDataSize();
-            return size;
-        } else {
-            UBENat32 childrenSize = new UBENat32();
-            if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
-                childrenSize = new UBENat32(childrenSizeUB());
-            } else {
-                childrenSize.setInfinity();
-            }
-
-            UBNat32 attrSize = new UBNat32(childrenSize.getSizeUB() + attributesSizeUB());
-            int size = attrSize.toStreamUB(stream);
-            size += childrenSize.toStreamUB(stream);
-            if (attributes != null) {
-                Iterator<UBNatural> iter = attributes.iterator();
-                while (iter.hasNext()) {
-                    size += iter.next().toStreamUB(stream);
-                }
-            }
-
-            if (getChildren() != null) {
-                size += childrenToStreamUB(stream);
-            }
-
-            if (terminationMode == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
-                size += (new UBNat32()).toStreamUB(stream);
-            }
-
-            return size;
-        }
-    }
-
-    public int childrenToStreamUB(OutputStream stream) throws IOException {
-        if (getChildren() != null) {
-            Iterator<XBBlock> iter = getChildren().iterator();
-            int size = 0;
-            while (iter.hasNext()) {
-                size += ((XBTreeNode) iter.next()).toStreamUB(stream);
-            }
-
-            return size;
-        } else {
-            return 0;
-        }
-    }
-
-    @Override
     public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
         return fromStreamUB(stream, false);
     }
@@ -244,47 +187,47 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
      * @throws java.io.IOException
      */
     public int fromStreamUB(InputStream stream, boolean terminable) throws IOException, XBProcessingException {
-        UBNat32 attrSize = new UBNat32();
-        int size = attrSize.fromStreamUB(stream);
-        if (attrSize.getLong() == 0) {
+        UBNat32 attrPartSize = new UBNat32();
+        int size = attrPartSize.fromStreamUB(stream);
+        if (attrPartSize.getLong() == 0) {
             if (terminable) {
                 return 1; // attrSize.getSizeUB();
             } else {
                 throw new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR);
             } // TODO
         } else {
-            UBENat32 dataSize = new UBENat32();
-            size += dataSize.fromStreamUB(stream);
-            terminationMode = dataSize.isInfinity() ? XBBlockTerminationMode.TERMINATED_BY_ZERO : XBBlockTerminationMode.SIZE_SPECIFIED;
-            if (attrSize.getInt() == dataSize.getSizeUB()) {
+            UBENat32 dataPartSize = new UBENat32();
+            size += dataPartSize.fromStreamUB(stream);
+            terminationMode = dataPartSize.isInfinity() ? XBBlockTerminationMode.TERMINATED_BY_ZERO : XBBlockTerminationMode.SIZE_SPECIFIED;
+            if (attrPartSize.getInt() == dataPartSize.getSizeUB()) {
                 // Data Block
                 dataMode = XBBlockDataMode.DATA_BLOCK;
-                ByteArrayOutputStream dataStream = new ByteArrayOutputStream(dataSize.getInt());
-                CopyStreamUtils.copyFixedSizeInputStreamToOutputStream(stream, dataStream, dataSize.getInt());
-                size += dataSize.getInt();
+                ByteArrayOutputStream dataStream = new ByteArrayOutputStream(dataPartSize.getInt());
+                CopyStreamUtils.copyFixedSizeInputStreamToOutputStream(stream, dataStream, dataPartSize.getInt());
+                size += dataPartSize.getInt();
                 data = dataStream.toByteArray();
-            } else if (attrSize.getInt() < dataSize.getSizeUB()) {
+            } else if (attrPartSize.getInt() < dataPartSize.getSizeUB()) {
                 throw new XBParseException("Attribute overreached", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
             } else {
                 // Node Block
                 dataMode = XBBlockDataMode.NODE_BLOCK;
-                attrSize.setValue(attrSize.getInt() - dataSize.getSizeUB());
+                attrPartSize.setValue(attrPartSize.getInt() - dataPartSize.getSizeUB());
                 ArrayList<UBNatural> attribs = new ArrayList<>();
                 int itemSize = 0;
                 do {
-                    UBNat32 attr = new UBNat32();
-                    int childSize = attr.fromStreamUB(stream);
-                    itemSize += childSize;
-                    attribs.add(attr);
-                    size += childSize;
-                    if (itemSize > attrSize.getInt()) {
+                    UBNat32 attribute = new UBNat32();
+                    int attributeSize = attribute.fromStreamUB(stream);
+                    itemSize += attributeSize;
+                    attribs.add(attribute);
+                    size += attributeSize;
+                    if (itemSize > attrPartSize.getInt()) {
                         throw new XBParseException("Attribute overreached", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
                     }
-                } while (itemSize < attrSize.getInt());
+                } while (itemSize < attrPartSize.getInt());
 
                 attributes = attribs;
-                if (!dataSize.isInfinity() && dataSize.getInt() > 0) {
-                    size += childrenFromStreamUB(stream, dataSize.getInt());
+                if (!dataPartSize.isInfinity() && dataPartSize.getInt() > 0) {
+                    size += childrenFromStreamUB(stream, dataPartSize.getInt());
                 }
             }
         }
@@ -322,36 +265,87 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
     }
 
     @Override
+    public int toStreamUB(OutputStream stream) throws IOException {
+        if (getDataMode() == XBBlockDataMode.DATA_BLOCK) {
+            UBENat32 dataPartSize = new UBENat32(getDataSize());
+            UBNat32 attrPartSize = new UBNat32(dataPartSize.getSizeUB());
+            int size = attrPartSize.toStreamUB(stream);
+            size += dataPartSize.toStreamUB(stream);
+            if (data != null) {
+                stream.write(data);
+            }
+
+            size += getDataSize();
+            return size;
+        } else {
+            UBENat32 dataPartSize = new UBENat32();
+            if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
+                dataPartSize = new UBENat32(childrenSizeUB());
+            } else {
+                dataPartSize.setInfinity();
+            }
+
+            UBNat32 attrPartSize = new UBNat32(dataPartSize.getSizeUB() + attributesSizeUB());
+            int size = attrPartSize.toStreamUB(stream);
+            size += dataPartSize.toStreamUB(stream);
+            if (attributes != null) {
+                Iterator<UBNatural> iter = attributes.iterator();
+                while (iter.hasNext()) {
+                    size += iter.next().toStreamUB(stream);
+                }
+            }
+
+            if (getChildren() != null) {
+                size += childrenToStreamUB(stream);
+            }
+
+            if (terminationMode == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
+                size += (new UBNat32()).toStreamUB(stream);
+            }
+
+            return size;
+        }
+    }
+
+    public int childrenToStreamUB(OutputStream stream) throws IOException {
+        if (children != null) {
+            Iterator<XBBlock> iter = children.iterator();
+            int size = 0;
+            while (iter.hasNext()) {
+                size += ((XBTreeNode) iter.next()).toStreamUB(stream);
+            }
+
+            return size;
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
     public int getSizeUB() {
         if (getDataMode() == XBBlockDataMode.DATA_BLOCK) {
-            UBENat32 dataSize = new UBENat32(getDataSize());
-            UBNat32 attrSize = new UBNat32(dataSize.getSizeUB());
-            int size = attrSize.getSizeUB();
-            size += dataSize.getSizeUB();
+            UBENat32 dataPartSize = new UBENat32(getDataSize());
+            UBNat32 attrPartSize = new UBNat32(dataPartSize.getSizeUB());
+            int size = attrPartSize.getSizeUB();
+            size += dataPartSize.getSizeUB();
             size += getDataSize();
             return size;
         } else {
             int size = childrenSizeUB();
-            UBENat32 childrenSize = new UBENat32();
+            UBENat32 dataPartSize = new UBENat32();
             if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
-                childrenSize.setValue(childrenSizeUB());
+                dataPartSize.setValue(size);
             } else {
-                childrenSize.setInfinity();
+                dataPartSize.setInfinity();
             }
 
-            UBNat32 attrSize = new UBNat32(childrenSize.getSizeUB() + attributesSizeUB());
-            size += attrSize.getSizeUB();
-            size += childrenSize.getSizeUB();
-            if (attributes != null) {
-                Iterator<UBNatural> iter = attributes.iterator();
-                while (iter.hasNext()) {
-                    size += iter.next().getSizeUB();
-                }
-            }
+            UBNat32 attrPartSize = new UBNat32(dataPartSize.getSizeUB() + attributesSizeUB());
+            size += attrPartSize.getSizeUB();
+            size += attrPartSize.getInt();
 
             if (terminationMode == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
                 size++;
-            } // size += (new UBNat32()).getSizeUB();
+            }
 
             return size;
         }

@@ -59,7 +59,7 @@ import org.xbup.lib.core.stream.file.XBFileInputStream;
 import org.xbup.lib.core.stream.file.XBFileOutputStream;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.tool.editor.module.text_editor.XBTextEditorFrame;
-import org.xbup.tool.editor.module.text_editor.dialog.FindDialog;
+import org.xbup.tool.editor.module.text_editor.dialog.FindTextDialog;
 import org.xbup.tool.editor.module.text_editor.dialog.FontDialog;
 import org.xbup.tool.editor.base.api.ActivePanelUndoable;
 import org.xbup.tool.editor.base.api.ApplicationFilePanel;
@@ -69,7 +69,7 @@ import org.xbup.tool.editor.base.api.MainFrameManagement;
 /**
  * Text editor panel.
  *
- * @version 0.1.23 2014/03/06
+ * @version 0.1.24 2014/11/23
  * @author XBUP Project (http://xbup.org)
  */
 public class TextPanel extends javax.swing.JPanel implements ApplicationFilePanel, ActivePanelUndoable {
@@ -86,9 +86,6 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
     private PropertyChangeListener propertyChangeListener;
     private MainFrameManagement mainFrameManagement;
 
-    /**
-     * Creates new form TextPanel
-     */
     public TextPanel() {
         initComponents();
 
@@ -151,7 +148,7 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
         return textArea.getLineWrap();
     }
 
-    public void findText(FindDialog dialog) {
+    public void findText(FindTextDialog dialog) {
         String text = textArea.getText();
         int pos = textArea.getCaretPosition();
         if (highlight != null) {
@@ -325,17 +322,11 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
     private javax.swing.JScrollPane textAreaScrollPane;
     // End of variables declaration//GEN-END:variables
 
-    /**
-     * @return the modified
-     */
     @Override
     public boolean isModified() {
         return modified;
     }
 
-    /**
-     * @param modified the modified to set
-     */
     public void setModified(boolean modified) {
         if (highlight != null) {
             textArea.getHighlighter().removeHighlight(highlight);
@@ -426,17 +417,11 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
         setModified(false);
     }
 
-    /**
-     * @return the fileName
-     */
     @Override
     public String getFileName() {
         return fileName;
     }
 
-    /**
-     * @param fileName the fileName to set
-     */
     @Override
     public void setFileName(String fileName) {
         this.fileName = fileName;
@@ -467,23 +452,14 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
         textArea.getCaret().addChangeListener(listener);
     }
 
-    /**
-     * @return the charset
-     */
     public Charset getCharset() {
         return charset;
     }
 
-    /**
-     * @param charset the charset to set
-     */
     public void setCharset(Charset charset) {
         this.charset = charset;
     }
 
-    /**
-     * @return the defaultFont
-     */
     public Font getDefaultFont() {
         return defaultFont;
     }
@@ -583,15 +559,15 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
             // TODO optimalize
             ByteArrayOutputStream data = new ByteArrayOutputStream();
             String text = textArea.getText();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(data, charset));
-            int fileLength = text.length();
-            int offset = 0;
-            while (offset < fileLength) {
-                int length = Math.min(1024, fileLength - offset);
-                writer.write(text, offset, length);
-                offset += length;
+            try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(data, charset))) {
+                int fileLength = text.length();
+                int offset = 0;
+                while (offset < fileLength) {
+                    int length = Math.min(1024, fileLength - offset);
+                    writer.write(text, offset, length);
+                    offset += length;
+                }
             }
-            writer.close();
 
             serial.addData(new ByteArrayInputStream(data.toByteArray()));
             serial.end();

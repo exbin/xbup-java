@@ -76,7 +76,6 @@ import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.plugin.XBPanelEditor;
 import org.xbup.lib.plugin.XBPlugin;
 import org.xbup.lib.plugin.XBPluginRepository;
-import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 import org.xbup.tool.editor.module.xbdoc_editor.panel.XBPropertyTableCellEditor;
 import org.xbup.tool.editor.module.xbdoc_editor.panel.XBPropertyTableCellRenderer;
@@ -109,9 +108,6 @@ public class ModifyItemDialog extends javax.swing.JDialog {
     public ModifyItemDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        if (parent instanceof XBEditorFrame) {
-            setIconImage(((XBEditorFrame) parent).getMainFrameManagement().getFrameIcon());
-        }
 
         hexPanel = new HexEditPanel((JFrame) parent);
         customPanel = null;
@@ -151,6 +147,7 @@ public class ModifyItemDialog extends javax.swing.JDialog {
     }
 
     private void init() {
+        WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
     }
 

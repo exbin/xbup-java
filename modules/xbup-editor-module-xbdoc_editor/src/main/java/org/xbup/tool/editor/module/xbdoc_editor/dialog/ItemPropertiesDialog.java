@@ -39,7 +39,6 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.BareBonesBrowserLaunch;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
@@ -59,10 +58,12 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
     public ItemPropertiesDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        if (parent instanceof XBEditorFrame) {
-            setIconImage(((XBEditorFrame) parent).getMainFrameManagement().getFrameIcon());
-        }
         init();
+    }
+
+    private void init() {
+        WindowUtils.initWindow(this);
+        WindowUtils.assignGlobalKeyListener(this, closeButton);
     }
 
     /**
@@ -248,10 +249,6 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(new StringSelection(onlineSpecLinkLabel.getText()), null);
     }//GEN-LAST:event_copyLinkMenuItemActionPerformed
-
-    private void init() {
-        WindowUtils.assignGlobalKeyListener(this, closeButton);
-    }
 
     public void runDialog(XBTTreeNode srcNode) {
         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);

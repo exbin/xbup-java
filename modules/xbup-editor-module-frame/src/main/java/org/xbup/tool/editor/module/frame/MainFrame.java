@@ -158,14 +158,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
     private Action undoAction;
     private Action redoAction;
 
-    /**
-     * Creates new form MainFrame
-     */
     public MainFrame() {
-        init();
-    }
-
-    private void init() {
         resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/resources/MainFrame");
 
         optionsDialog = new OptionsDialog(this, this, true);
@@ -179,7 +172,10 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         initActions();
 
         initComponents();
+        init();
+    }
 
+    private void init() {
 //        activePanel.addPropertyChangeListener(new PropertyChangePassing(this));
         // Setup proper closing for this frame
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -718,6 +714,42 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         return this;
     }
 
+    @Override
+    public JPopupMenu getDefaultTextPopupMenu() {
+        return defaultPopupMenu;
+    }
+
+    @Override
+    public Component duplicateMenuComponent(Component menuComponent) {
+        Component component = null;
+        if (menuComponent instanceof JMenuItem || menuComponent instanceof JMenu) {
+            component = menuComponent instanceof JMenuItem ? new JMenuItem() : new JMenu();
+            component.setEnabled(menuComponent.isEnabled());
+            component.setName(menuComponent.getName());
+            ((JMenuItem) component).setText(((JMenuItem) menuComponent).getText());
+            ((JMenuItem) component).setAction(((JMenuItem) menuComponent).getAction());
+            ((JMenuItem) component).setAccelerator(((JMenuItem) menuComponent).getAccelerator());
+            ((JMenuItem) component).setToolTipText(((JMenuItem) menuComponent).getToolTipText());
+            ((JMenuItem) component).setIcon(((JMenuItem) menuComponent).getIcon());
+            ((JMenuItem) component).setSelectedIcon(((JMenuItem) menuComponent).getSelectedIcon());
+            ((JMenuItem) component).setPressedIcon(((JMenuItem) menuComponent).getPressedIcon());
+            ((JMenuItem) component).setSelected(((JMenuItem) menuComponent).isSelected());
+            for (ActionListener listener : ((JMenuItem) menuComponent).getActionListeners()) {
+                ((JMenuItem) component).addActionListener(listener);
+            }
+
+            if (menuComponent instanceof JMenu) {
+                for (Component subComponent : ((JMenu) menuComponent).getComponents()) {
+                    ((JMenu) component).add(duplicateMenuComponent(subComponent));
+                }
+            }
+        } else if (menuComponent instanceof JSeparator) {
+            component = new JPopupMenu.Separator();
+        }
+
+        return component;
+    }
+
     public class PassingTextAction extends TextAction {
 
         private final TextAction parentAction;
@@ -1093,6 +1125,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         }
     }
 
+    @Override
     public void initPopupMenu(JPopupMenu popupMenu) {
         popupMenu.addPopupMenuListener(new PopupMenuListener() {
             @Override
@@ -2313,7 +2346,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
     }
 
     /**
-     * This method lifted from JTextComponent.java
+     * This method lifted from JTextComponent.java.
      */
     private int getCurrentEventModifiers() {
         int modifiers = 0;

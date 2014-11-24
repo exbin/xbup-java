@@ -46,6 +46,10 @@ public class XBTTreeReader implements XBTListener {
     private XBEventSkipNode skipNode;
     private long level;
 
+    public XBTTreeReader(XBTTreeNode target) {
+        this(target, true);
+    }
+
     public XBTTreeReader(XBTTreeNode target, boolean recursive) {
         this.target = target;
         this.recursive = recursive;

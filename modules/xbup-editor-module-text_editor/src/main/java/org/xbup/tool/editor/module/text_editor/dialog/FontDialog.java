@@ -238,6 +238,7 @@ public class FontDialog extends JDialog {
         subscriptCheckBox.addActionListener(actionListener);
         superscriptCheckBox.addActionListener(actionListener);
 
+        WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, btOK, btCancel);
     }
 

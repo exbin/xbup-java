@@ -59,12 +59,13 @@ public class GotoDialog extends javax.swing.JDialog {
         init();
     }
 
-    public void setCharPos(int i) {
-        ((SpinnerNumberModel) posLineSpinner.getModel()).setValue(i);
+    private void init() {
+        WindowUtils.initWindow(this);
+        WindowUtils.assignGlobalKeyListener(this, jumpButton, cancelButton);
     }
 
-    private void init() {
-        WindowUtils.assignGlobalKeyListener(this, jumpButton, cancelButton);
+    public void setCharPos(int i) {
+        ((SpinnerNumberModel) posLineSpinner.getModel()).setValue(i);
     }
 
     public int getLine() {

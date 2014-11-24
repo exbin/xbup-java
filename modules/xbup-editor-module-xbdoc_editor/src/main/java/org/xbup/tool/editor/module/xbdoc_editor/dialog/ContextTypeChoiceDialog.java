@@ -27,7 +27,6 @@ import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
@@ -48,9 +47,6 @@ public class ContextTypeChoiceDialog extends javax.swing.JDialog {
         super(parent, modal);
         this.catalog = catalog;
         this.parentNode = parentNode;
-        if (parent instanceof XBEditorFrame) {
-            setIconImage(((XBEditorFrame) parent).getMainFrameManagement().getFrameIcon());
-        }
 
         nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
 
@@ -68,6 +64,7 @@ public class ContextTypeChoiceDialog extends javax.swing.JDialog {
             }
         }
 
+        WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
     }
 

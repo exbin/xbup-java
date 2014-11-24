@@ -28,7 +28,6 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
@@ -47,20 +46,18 @@ public class CatalogEditDocumentationDialog extends javax.swing.JDialog {
         super(parent, modal);
         this.documentation = documentation;
         initComponents();
-        if (parent instanceof XBEditorFrame) {
-            setIconImage(((XBEditorFrame) parent).getMainFrameManagement().getFrameIcon());
-        }
 
         SHTMLPanelImpl.setTextResources(createResources());
         SHTMLPanel.getResources();
         mainPanel = SHTMLPanel.createSHTMLPanel();
         mainPanel.setCurrentDocumentContent(documentation);
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
-        
+
         init();
     }
 
     private void init() {
+        WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
     }
 
@@ -73,10 +70,9 @@ public class CatalogEditDocumentationDialog extends javax.swing.JDialog {
                 props.load(in);
             }
             final ResourceBundle resourceBundle = ResourceBundle.getBundle(
-                "com.lightdev.app.shtm.resources.SimplyHTML", Locale.getDefault());
+                    "com.lightdev.app.shtm.resources.SimplyHTML", Locale.getDefault());
             return new DefaultTextResources(resourceBundle, props);
-        }
-        catch (final Exception ex) {
+        } catch (final Exception ex) {
             Util.errMsg(null, "resources not found", ex);
             return null;
         }

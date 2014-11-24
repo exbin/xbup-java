@@ -27,7 +27,6 @@ import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSelectSpecPanel;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType;
-import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogRevsComboBoxModel;
 
@@ -49,9 +48,6 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
         super(parent, modal);
         revsModel = new CatalogRevsComboBoxModel();
         initComponents();
-        if (parent instanceof XBEditorFrame) {
-            setIconImage(((XBEditorFrame) parent).getMainFrameManagement().getFrameIcon());
-        }
 
         if (catalog != null) {
             revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
@@ -97,6 +93,7 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
     }
 
     private void init() {
+        WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, selectButton, cancelButton);
     }
 

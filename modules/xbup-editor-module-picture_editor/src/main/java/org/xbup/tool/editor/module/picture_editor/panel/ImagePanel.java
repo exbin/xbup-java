@@ -43,6 +43,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -55,8 +56,13 @@ import javax.swing.KeyStroke;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
+import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
+import org.xbup.lib.core.block.declaration.XBGroupDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBPFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
+import org.xbup.lib.core.catalog.XBAPCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
@@ -66,9 +72,9 @@ import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
+import org.xbup.lib.core.serial.sequence.XBTSequenceListenerSerialHandler;
 import org.xbup.lib.core.stream.file.XBFileOutputStream;
 import org.xbup.lib.visual.picture.XBBufferedImage;
 import org.xbup.tool.editor.module.picture_editor.PictureFileType;
@@ -407,14 +413,23 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         if (XBPictureEditorFrame.XBPFILETYPE.equals(fileType.getFileTypeId())) {
             try {
                 XBFileOutputStream output = new XBFileOutputStream(file);
-                XBTChildOutputSerialHandler handler = new XBTChildListenerSerialHandler();
-                handler.attachXBTEventListener(null);
-                XBDeclaration declaration = new XBDeclaration(new XBPFormatDecl(new long[]{1, 4, 0, 1}));
-                // TODO catalog
-                XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(null), null);
+                XBTSequenceListenerSerialHandler handler = new XBTSequenceListenerSerialHandler();
+                XBPFormatDecl formatDecl = new XBPFormatDecl(new long[]{1, 4, 0, 1});
+                XBDFormatDecl defDecl = new XBDFormatDecl();
+                List<XBGroupDecl> groups = defDecl.getGroups();
+                XBDGroupDecl bitmapGroup = new XBDGroupDecl();
+                List<XBBlockDecl> bitmapBlocks = bitmapGroup.getBlocks();
+                //bitmapBlocks.a
+                XBDGroupDecl paletteGroup = new XBDGroupDecl();
+                
+                formatDecl.setDefDeclaration(defDecl);
+                XBDeclaration declaration = new XBDeclaration(formatDecl, new XBBufferedImage(toBufferedImage(image)));
+                XBAPCatalog catalog = new XBAPCatalog();
+                XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
                 encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
                 handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));
-                getStubXBTDataSerializator().serializeToXB(handler);
+                declaration.serializeXB(handler);
+                // getStubXBTDataSerializator().serializeToXB(handler);
                 output.close();
             } catch (XBProcessingException ex) {
                 Logger.getLogger(ImagePanel.class.getName()).log(Level.SEVERE, null, ex);

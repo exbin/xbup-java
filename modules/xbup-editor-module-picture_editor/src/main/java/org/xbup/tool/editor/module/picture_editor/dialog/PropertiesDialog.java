@@ -34,6 +34,7 @@ public class PropertiesDialog extends javax.swing.JDialog {
     }
 
     private void init() {
+        WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, closeButton);
     }
 

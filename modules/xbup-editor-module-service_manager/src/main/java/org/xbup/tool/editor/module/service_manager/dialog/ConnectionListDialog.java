@@ -19,7 +19,6 @@ package org.xbup.tool.editor.module.service_manager.dialog;
 import java.util.List;
 import javax.swing.JOptionPane;
 import org.xbup.tool.editor.module.service_manager.panel.ConnectionPanel;
-import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
@@ -36,9 +35,6 @@ public class ConnectionListDialog extends javax.swing.JDialog {
     public ConnectionListDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        if (parent instanceof XBEditorFrame) {
-            setIconImage(((XBEditorFrame) parent).getMainFrameManagement().getFrameIcon());
-        }
 
         connectionPanel = new ConnectionPanel();
         mainPanel.add(connectionPanel);
@@ -46,6 +42,7 @@ public class ConnectionListDialog extends javax.swing.JDialog {
     }
 
     private void init() {
+        WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, setButton, cancelButton);
     }
 

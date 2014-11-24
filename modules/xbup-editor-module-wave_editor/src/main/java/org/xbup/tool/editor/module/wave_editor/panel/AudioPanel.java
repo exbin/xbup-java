@@ -31,7 +31,6 @@ import java.awt.print.PrinterJob;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EventListener;
@@ -52,7 +51,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.undo.UndoManager;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
@@ -64,10 +62,16 @@ import org.xbup.lib.core.stream.file.XBFileOutputStream;
 import org.xbup.lib.audio.swing.XBWavePanel;
 import org.xbup.lib.audio.wave.XBWave;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
+import org.xbup.lib.core.block.declaration.XBGroupDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBPFormatDecl;
-import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
+import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
+import org.xbup.lib.core.block.definition.local.XBDFormatDef;
+import org.xbup.lib.core.catalog.XBAPCatalog;
+import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
 import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
+import org.xbup.lib.core.serial.sequence.XBTSequenceListenerSerialHandler;
 import org.xbup.tool.editor.module.wave_editor.XBWaveEditorFrame;
 import org.xbup.tool.editor.module.wave_editor.dialog.WaveResizeDialog;
 import org.xbup.tool.editor.base.api.ApplicationFilePanel;
@@ -76,7 +80,7 @@ import org.xbup.tool.editor.base.api.FileType;
 /**
  * XBSEditor audio panel.
  *
- * @version 0.1.24 2014/11/11
+ * @version 0.1.24 2014/11/24
  * @author XBUP Project (http://xbup.org)
  */
 public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePanel {
@@ -260,7 +264,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
     private int repaintOnPosition(int position) {
         drawPosition = position;
         int waveWidth = wavePanel.getWaveLength();
-        int windowPosition = 0;
+        int windowPosition;
         int screenWidth = (int) (getWidth() / scaleRatio);
         if (position > waveWidth - screenWidth) {
             windowPosition = waveWidth - screenWidth;
@@ -495,20 +499,21 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         File file = new File(getFileName());
         if (XBWaveEditorFrame.XBSFILETYPE.equals(fileType.getFileTypeId())) {
             try {
-                XBFileOutputStream output = new XBFileOutputStream(file);
-                XBTChildOutputSerialHandler handler = new XBTChildListenerSerialHandler();
+                try (XBFileOutputStream output = new XBFileOutputStream(file)) {
+                    XBTSequenceListenerSerialHandler handler = new XBTSequenceListenerSerialHandler();
 
-                XBDeclaration declaration = new XBDeclaration(new XBPFormatDecl(new long[] {1, 4, 0, 1}));
-                // TODO catalog
-                XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(null), null);
-                encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
-                handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));
-                getStubXBTDataSerializator().serializeToXB(handler);
-                output.close();
-            } catch (XBProcessingException ex) {
-                Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    XBPFormatDecl formatDecl = new XBPFormatDecl(new long[]{1, 4, 0, 1});
+                    XBDFormatDecl defDecl = new XBDFormatDecl();
+                    List<XBGroupDecl> groups = defDecl.getGroups();
+                    //XBDGroupDecl 
+                    formatDecl.setDefDeclaration(defDecl);
+                    XBDeclaration declaration = new XBDeclaration(formatDecl, wavePanel.getWave());
+                    XBAPCatalog catalog = new XBAPCatalog();
+                    XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
+                    encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
+                    handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));
+                    declaration.serializeXB(handler);
+                }
             } catch (IOException ex) {
                 Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -528,17 +533,11 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         setModified(false);
     }
 
-    /**
-     * @return the fileName
-     */
     @Override
     public String getFileName() {
         return fileName;
     }
 
-    /**
-     * @param fileName the fileName to set
-     */
     @Override
     public void setFileName(String fileName) {
         this.fileName = fileName;
@@ -552,9 +551,6 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         wavePanel.setComponentPopupMenu(menu);
     }
 
-    /**
-     * @param fileMode the fileMode to set
-     */
     public void setFileMode(FileType fileMode) {
         this.fileType = fileMode;
     }
@@ -566,16 +562,10 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         wavePanel.repaint();
     }
 
-    /**
-     * @return the ext
-     */
     public String getExt() {
         return ext;
     }
 
-    /**
-     * @param ext the ext to set
-     */
     public void setExt(String ext) {
         this.ext = ext;
     }
@@ -698,16 +688,10 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         return String.valueOf((long) position / 60) + ":" + sec + "." + sub;
     }
 
-    /**
-     * @return the fileType
-     */
     public javax.sound.sampled.AudioFileFormat.Type getFileType() {
         return audioFormatType;
     }
 
-    /**
-     * @param fileType the fileType to set
-     */
     public void setFileType(javax.sound.sampled.AudioFileFormat.Type fileType) {
         this.audioFormatType = fileType;
     }
@@ -722,9 +706,6 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         this.fileType = fileType;
     }
 
-    /**
-     * @return the defaultColors
-     */
     public Color[] getDefaultColors() {
         return defaultColors;
     }
@@ -909,7 +890,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
     }
 
     /**
-     * display formats supported
+     * Print supported formats to system console.
      *
      * @param li the line information.
      */

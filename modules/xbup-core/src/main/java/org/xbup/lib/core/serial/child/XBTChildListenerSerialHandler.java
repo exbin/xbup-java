@@ -30,6 +30,8 @@ import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.serial.XBSerialException;
 import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.serial.sequence.XBTSequenceListenerSerialHandler;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 import org.xbup.lib.core.serial.token.XBTTokenOutputSerialHandler;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
@@ -111,6 +113,10 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
             XBTChildListenerSerialHandler childOutput = new XBTChildListenerSerialHandler();
             childOutput.attachXBTEventListener(eventListener);
             ((XBTChildSerializable) child).serializeToXB(childOutput);
+        } else if (child instanceof XBTSequenceSerializable) {
+            XBTSequenceListenerSerialHandler listenerHandler = new XBTSequenceListenerSerialHandler();
+            listenerHandler.attachXBTEventListener(eventListener);
+            ((XBTSequenceSerializable) child).serializeXB(listenerHandler);
         } else {
             // TODO Support different types of serialization methods
             throw new UnsupportedOperationException("Not supported yet.");

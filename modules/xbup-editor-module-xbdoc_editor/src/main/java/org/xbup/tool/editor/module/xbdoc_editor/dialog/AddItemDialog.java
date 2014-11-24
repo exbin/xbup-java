@@ -16,16 +16,22 @@
  */
 package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 
+import java.awt.CardLayout;
 import java.awt.Frame;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.XBDBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
+import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
@@ -33,10 +39,13 @@ import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
+import org.xbup.lib.core.serial.sequence.XBTSequenceListenerSerialHandler;
 import org.xbup.lib.parser_tree.XBTTreeNode;
+import org.xbup.lib.parser_tree.XBTTreeReader;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSelectSpecDialog;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType;
-import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
@@ -57,10 +66,6 @@ public class AddItemDialog extends javax.swing.JDialog {
     public AddItemDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog) {
         super(parent, modal);
         this.catalog = catalog;
-        if (parent instanceof XBEditorFrame) {
-            setIconImage(((XBEditorFrame) parent).getMainFrameManagement().getFrameIcon());
-        }
-
         init();
     }
 
@@ -80,7 +85,9 @@ public class AddItemDialog extends javax.swing.JDialog {
                 }
             }
         }
+        ((CardLayout) mainPanel.getLayout()).show(mainPanel, "type");
 
+        WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
     }
 
@@ -93,8 +100,8 @@ public class AddItemDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         blockTypeButtonGroup = new javax.swing.ButtonGroup();
-        okButton = new javax.swing.JButton();
         mainPanel = new javax.swing.JPanel();
+        typePanel = new javax.swing.JPanel();
         dataRadioButton = new javax.swing.JRadioButton();
         basicTypeRadioButton = new javax.swing.JRadioButton();
         basicTypeComboBox = new javax.swing.JComboBox<>();
@@ -104,21 +111,23 @@ public class AddItemDialog extends javax.swing.JDialog {
         catalogTypeRadioButton = new javax.swing.JRadioButton();
         catalogTypeSelectButton = new javax.swing.JButton();
         catalogTypeTextField = new javax.swing.JTextField();
+        conditionsPanel = new javax.swing.JPanel();
+        generateDeclarationCheckBox = new javax.swing.JCheckBox();
+        prefillCheckBox = new javax.swing.JCheckBox();
+        controlPanel = new javax.swing.JPanel();
         cancelButton = new javax.swing.JButton();
+        okButton = new javax.swing.JButton();
+        nextButton = new javax.swing.JButton();
+        prevButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ItemAddDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
         setModal(true);
 
-        okButton.setText(bundle.getString("okButton.text")); // NOI18N
-        okButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                okButtonActionPerformed(evt);
-            }
-        });
+        mainPanel.setLayout(new java.awt.CardLayout());
 
-        mainPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("jPanel1.border.title"))); // NOI18N
+        typePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("jPanel1.border.title"))); // NOI18N
 
         blockTypeButtonGroup.add(dataRadioButton);
         dataRadioButton.setText(bundle.getString("jRadioButton2.text")); // NOI18N
@@ -173,35 +182,35 @@ public class AddItemDialog extends javax.swing.JDialog {
         catalogTypeTextField.setEditable(false);
         catalogTypeTextField.setEnabled(false);
 
-        org.jdesktop.layout.GroupLayout mainPanelLayout = new org.jdesktop.layout.GroupLayout(mainPanel);
-        mainPanel.setLayout(mainPanelLayout);
-        mainPanelLayout.setHorizontalGroup(
-            mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(mainPanelLayout.createSequentialGroup()
+        org.jdesktop.layout.GroupLayout typePanelLayout = new org.jdesktop.layout.GroupLayout(typePanel);
+        typePanel.setLayout(typePanelLayout);
+        typePanelLayout.setHorizontalGroup(
+            typePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(typePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, catalogTypeRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, contextTypeRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                    .add(dataRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, basicTypeRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                    .add(mainPanelLayout.createSequentialGroup()
+                .add(typePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, catalogTypeRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, contextTypeRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(dataRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, basicTypeRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(typePanelLayout.createSequentialGroup()
                         .add(11, 11, 11)
                         .add(catalogTypeTextField)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(catalogTypeSelectButton))
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, mainPanelLayout.createSequentialGroup()
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, typePanelLayout.createSequentialGroup()
                         .add(12, 12, 12)
                         .add(basicTypeComboBox, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, mainPanelLayout.createSequentialGroup()
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, typePanelLayout.createSequentialGroup()
                         .add(11, 11, 11)
                         .add(contextTypeTextField)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(contextTypeSelectButton)))
                 .addContainerGap())
         );
-        mainPanelLayout.setVerticalGroup(
-            mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(mainPanelLayout.createSequentialGroup()
+        typePanelLayout.setVerticalGroup(
+            typePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(typePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(dataRadioButton)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -211,17 +220,50 @@ public class AddItemDialog extends javax.swing.JDialog {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(contextTypeRadioButton)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .add(typePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(contextTypeSelectButton)
                     .add(contextTypeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(catalogTypeRadioButton)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .add(typePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(catalogTypeSelectButton)
                     .add(catalogTypeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
+
+        mainPanel.add(typePanel, "type");
+
+        generateDeclarationCheckBox.setText("Generate Declaration");
+
+        prefillCheckBox.setText("Prefill Default Values");
+
+        org.jdesktop.layout.GroupLayout conditionsPanelLayout = new org.jdesktop.layout.GroupLayout(conditionsPanel);
+        conditionsPanel.setLayout(conditionsPanelLayout);
+        conditionsPanelLayout.setHorizontalGroup(
+            conditionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(conditionsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(conditionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(generateDeclarationCheckBox, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+                    .add(conditionsPanelLayout.createSequentialGroup()
+                        .add(prefillCheckBox)
+                        .add(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        conditionsPanelLayout.setVerticalGroup(
+            conditionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(conditionsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(generateDeclarationCheckBox)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(prefillCheckBox)
+                .addContainerGap(172, Short.MAX_VALUE))
+        );
+
+        mainPanel.add(conditionsPanel, "cond");
+
+        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
         cancelButton.setText(bundle.getString("cancelButton.text")); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -230,31 +272,57 @@ public class AddItemDialog extends javax.swing.JDialog {
             }
         });
 
-        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, mainPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(layout.createSequentialGroup()
-                        .add(okButton)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(cancelButton)))
+        okButton.setText(bundle.getString("okButton.text")); // NOI18N
+        okButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                okButtonActionPerformed(evt);
+            }
+        });
+
+        nextButton.setText("Next >");
+        nextButton.setEnabled(false);
+        nextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextButtonActionPerformed(evt);
+            }
+        });
+
+        prevButton.setText("< Prev");
+        prevButton.setEnabled(false);
+        prevButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prevButtonActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout controlPanelLayout = new org.jdesktop.layout.GroupLayout(controlPanel);
+        controlPanel.setLayout(controlPanelLayout);
+        controlPanelLayout.setHorizontalGroup(
+            controlPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, controlPanelLayout.createSequentialGroup()
+                .addContainerGap(60, Short.MAX_VALUE)
+                .add(prevButton)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(nextButton)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(okButton)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(cancelButton)
                 .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(mainPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 16, Short.MAX_VALUE)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+        controlPanelLayout.setVerticalGroup(
+            controlPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, controlPanelLayout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(controlPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(cancelButton)
-                    .add(okButton))
+                    .add(okButton)
+                    .add(nextButton)
+                    .add(prevButton))
                 .addContainerGap())
         );
+
+        getContentPane().add(controlPanel, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -278,7 +346,21 @@ public class AddItemDialog extends javax.swing.JDialog {
         } else if (contextTypeRadioButton.isSelected()) {
             workNode.setBlockType(contextBlockType);
         } else if (catalogTypeRadioButton.isSelected()) {
-            workNode.setBlockType(catalogBlockType);
+            if (generateDeclarationCheckBox.isSelected()) {
+                XBTSequenceListenerSerialHandler serialHandler = new XBTSequenceListenerSerialHandler();
+                serialHandler.attachXBTEventListener(new XBTListenerToEventListener(new XBTTreeReader(workNode, false)));
+                XBDeclaration newDeclaration = new XBDeclaration(((XBDBlockType) catalogBlockType).getBlockDecl());
+                try {
+                    newDeclaration.serializeDeclaration(serialHandler);
+                } catch (XBProcessingException | IOException ex) {
+                    Logger.getLogger(AddItemDialog.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                XBTTreeNode newNode = new XBTTreeNode();
+                newNode.setBlockType(catalogBlockType);
+                workNode.getChildren().add(newNode);
+            } else {
+                workNode.setBlockType(catalogBlockType);
+            }
         } else {
             workNode.setDataMode(XBBlockDataMode.NODE_BLOCK);
         }
@@ -307,6 +389,8 @@ public class AddItemDialog extends javax.swing.JDialog {
                 contextTypeTextField.setText(targetCaption);
             }
         }
+
+        updateOkButton();
     }//GEN-LAST:event_contextTypeSelectButtonActionPerformed
 
     private void catalogTypeSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catalogTypeSelectButtonActionPerformed
@@ -318,7 +402,7 @@ public class AddItemDialog extends javax.swing.JDialog {
                 XBCRev blockRev = selectSpecDialog.getTarget();
                 catalogBlockType = new XBDeclBlockType(new XBCBlockDecl((XBCBlockRev) blockRev, catalog));
                 XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-                String targetCaption = nameService.getItemNamePath(blockRev);
+                String targetCaption = nameService.getItemNamePath(blockRev.getParent());
                 if (targetCaption == null) {
                     targetCaption = "";
                 } else {
@@ -328,6 +412,8 @@ public class AddItemDialog extends javax.swing.JDialog {
                 catalogTypeTextField.setText(targetCaption);
             }
         }
+
+        updateOkButton();
     }//GEN-LAST:event_catalogTypeSelectButtonActionPerformed
 
     private void basicTypeRadioButtonStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_basicTypeRadioButtonStateChanged
@@ -336,12 +422,33 @@ public class AddItemDialog extends javax.swing.JDialog {
 
     private void contextTypeRadioButtonStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_contextTypeRadioButtonStateChanged
         contextTypeSelectButton.setEnabled(contextTypeRadioButton.isSelected());
+        updateOkButton();
     }//GEN-LAST:event_contextTypeRadioButtonStateChanged
 
     private void catalogTypeRadioButtonStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_catalogTypeRadioButtonStateChanged
         catalogTypeTextField.setEnabled(catalogTypeRadioButton.isSelected());
         catalogTypeSelectButton.setEnabled(catalogTypeRadioButton.isSelected());
+        nextButton.setEnabled(catalogTypeRadioButton.isSelected());
+        updateOkButton();
     }//GEN-LAST:event_catalogTypeRadioButtonStateChanged
+
+    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+        ((CardLayout) mainPanel.getLayout()).show(mainPanel, "cond");
+        nextButton.setEnabled(false);
+        prevButton.setEnabled(true);
+    }//GEN-LAST:event_nextButtonActionPerformed
+
+    private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
+        ((CardLayout) mainPanel.getLayout()).show(mainPanel, "type");
+        nextButton.setEnabled(true);
+        prevButton.setEnabled(false);
+    }//GEN-LAST:event_prevButtonActionPerformed
+
+    private void updateOkButton() {
+        okButton.setEnabled(!(contextTypeRadioButton.isSelected() || catalogTypeRadioButton.isSelected())
+                || (contextBlockType != null && contextTypeRadioButton.isSelected())
+                || (catalogBlockType != null && catalogTypeRadioButton.isSelected()));
+    }
 
     public XBTTreeNode showDialog() {
         workNode = null;
@@ -366,12 +473,19 @@ public class AddItemDialog extends javax.swing.JDialog {
     private javax.swing.JRadioButton catalogTypeRadioButton;
     private javax.swing.JButton catalogTypeSelectButton;
     private javax.swing.JTextField catalogTypeTextField;
+    private javax.swing.JPanel conditionsPanel;
     private javax.swing.JRadioButton contextTypeRadioButton;
     private javax.swing.JButton contextTypeSelectButton;
     private javax.swing.JTextField contextTypeTextField;
+    private javax.swing.JPanel controlPanel;
     private javax.swing.JRadioButton dataRadioButton;
+    private javax.swing.JCheckBox generateDeclarationCheckBox;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JButton nextButton;
     private javax.swing.JButton okButton;
+    private javax.swing.JCheckBox prefillCheckBox;
+    private javax.swing.JButton prevButton;
+    private javax.swing.JPanel typePanel;
     // End of variables declaration//GEN-END:variables
 
     public void setParentNode(XBTTreeNode parentNode) {

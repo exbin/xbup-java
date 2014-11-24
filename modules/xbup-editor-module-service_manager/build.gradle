@@ -31,6 +31,7 @@ dependencies {
     compile(project(":modules:xbup-catalog"))
     compile(project(":modules:xbup-editor-base-api"))
     compile(project(":modules:simplyhtml"))
+    compile(project(':modules:xbup-framework-client'))
     compile 'javax.persistence:persistence-api:1.0.2'
     compile 'org.swinglabs:swing-layout:1.0.3'
     runtime 'org.eclipse.persistence:javax.persistence:2.1.0'

@@ -16,16 +16,23 @@
  */
 package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
+import java.awt.Component;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JPopupMenu;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
 import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.XBCItem;
+import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCXDesc;
 import org.xbup.lib.core.catalog.base.XBCXFile;
@@ -39,6 +46,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXHDocService;
 import org.xbup.lib.core.catalog.base.service.XBCXIconService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
+import org.xbup.tool.editor.base.api.MainFrameManagement;
 
 /**
  * Panel for basic XBItem viewing/editation.
@@ -62,8 +70,9 @@ public class CatalogItemPanel extends javax.swing.JPanel {
     private XBCXDesc itemDesc;
     private XBCXHDoc itemHDoc;
     private XBCXIcon itemIcon;
+    private JumpActionListener jumpActionListener = null;
 
-    public CatalogItemPanel(XBACatalog catalog) {
+    public CatalogItemPanel(XBACatalog catalog, MainFrameManagement mainFrameManagement) {
         nameService = null;
         descService = null;
         if (catalog != null) {
@@ -79,6 +88,27 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         defsModel = new CatalogDefsTableModel(catalog);
         revsModel = new CatalogRevsTableModel(catalog);
         initComponents();
+
+        JPopupMenu defaultTextPopupMenu = mainFrameManagement.getDefaultTextPopupMenu();
+        for (Component menuComponent : defaultTextPopupMenu.getComponents()) {
+            definitionPopupMenu.add(mainFrameManagement.duplicateMenuComponent(menuComponent));
+        }
+
+        mainFrameManagement.initPopupMenu(definitionPopupMenu);
+        itemDefinitionTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int rowIndex = itemDefinitionTable.getSelectedRow();
+                if (rowIndex >= 0) {
+                    if (defsModel.getRowItem(rowIndex).getTarget() != null) {
+                        jumpToMenuItem.setEnabled(true);
+                        return;
+                    }
+                }
+
+                jumpToMenuItem.setEnabled(false);
+            }
+        });
     }
 
     public CatalogItemPanel() {
@@ -94,6 +124,9 @@ public class CatalogItemPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        definitionPopupMenu = new javax.swing.JPopupMenu();
+        jumpToMenuItem = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         mainTabbedPane = new javax.swing.JTabbedPane();
         generalPanel = new javax.swing.JPanel();
         basicItemScrollPane = new javax.swing.JScrollPane();
@@ -120,6 +153,21 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         definitionPanel = new javax.swing.JPanel();
         itemDefinitionScrollPane = new javax.swing.JScrollPane();
         itemDefinitionTable = new javax.swing.JTable();
+
+        definitionPopupMenu.setName("definitionPopupMenu"); // NOI18N
+
+        jumpToMenuItem.setText("Jump To Type");
+        jumpToMenuItem.setToolTipText("Navigate to type of selected definition row");
+        jumpToMenuItem.setName("jumpToMenuItem"); // NOI18N
+        jumpToMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jumpToMenuItemActionPerformed(evt);
+            }
+        });
+        definitionPopupMenu.add(jumpToMenuItem);
+
+        jSeparator2.setName("jSeparator2"); // NOI18N
+        definitionPopupMenu.add(jSeparator2);
 
         setLayout(new java.awt.BorderLayout());
 
@@ -282,6 +330,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         itemDefinitionScrollPane.setName("itemDefinitionScrollPane"); // NOI18N
 
         itemDefinitionTable.setModel(defsModel);
+        itemDefinitionTable.setComponentPopupMenu(definitionPopupMenu);
         itemDefinitionTable.setName("itemDefinitionTable"); // NOI18N
         itemDefinitionTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         itemDefinitionScrollPane.setViewportView(itemDefinitionTable);
@@ -293,10 +342,20 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         add(mainTabbedPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jumpToMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jumpToMenuItemActionPerformed
+        CatalogDefsTableModel model = (CatalogDefsTableModel) itemDefinitionTable.getModel();
+        CatalogDefsTableItem rowItem = model.getRowItem(itemDefinitionTable.getSelectedRow());
+        XBCRev target = rowItem.getTarget();
+        if (jumpActionListener != null) {
+            jumpActionListener.jumpToRev(target);
+        }
+    }//GEN-LAST:event_jumpToMenuItemActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel basicItemDataPanel;
     private javax.swing.JScrollPane basicItemScrollPane;
     private javax.swing.JPanel definitionPanel;
+    private javax.swing.JPopupMenu definitionPopupMenu;
     private javax.swing.JPanel documentationPanel;
     private javax.swing.JPanel generalPanel;
     private javax.swing.JLabel itemCreatedLabel;
@@ -318,6 +377,8 @@ public class CatalogItemPanel extends javax.swing.JPanel {
     private javax.swing.JLabel itemTypeLabel;
     private javax.swing.JTextField itemTypeTextField;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JMenuItem jumpToMenuItem;
     private javax.swing.JTabbedPane mainTabbedPane;
     private javax.swing.JPanel revisionsPanel;
     // End of variables declaration//GEN-END:variables
@@ -405,12 +466,21 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         }
 
         revsModel.setSpec(item instanceof XBCSpec ? (XBCSpec) item : null);
-        itemRevisionsTable.revalidate();
-        itemRevisionsTable.repaint();
 
         defsModel.setCatalogItem(item);
         defsModel.setRevsModel(revsModel);
-        itemDefinitionTable.revalidate();
-        itemDefinitionTable.repaint();
+    }
+
+    public JumpActionListener getJumpActionListener() {
+        return jumpActionListener;
+    }
+
+    public void setJumpActionListener(JumpActionListener jumpActionListener) {
+        this.jumpActionListener = jumpActionListener;
+    }
+
+    public interface JumpActionListener {
+
+        void jumpToRev(XBCRev rev);
     }
 }

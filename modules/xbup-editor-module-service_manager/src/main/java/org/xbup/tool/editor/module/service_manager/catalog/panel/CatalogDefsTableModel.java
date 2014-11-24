@@ -160,6 +160,8 @@ public class CatalogDefsTableModel extends AbstractTableModel {
                 items.add(tableItem);
             }
         }
+
+        fireTableDataChanged();
     }
 
     public String getOperation(XBCSpecDef specDef) {

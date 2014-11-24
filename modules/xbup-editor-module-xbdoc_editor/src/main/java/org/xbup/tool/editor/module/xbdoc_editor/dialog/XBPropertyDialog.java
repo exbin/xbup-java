@@ -21,7 +21,6 @@ import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.tool.editor.module.xbdoc_editor.panel.XBDocumentPanel;
-import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
@@ -39,19 +38,16 @@ public class XBPropertyDialog extends javax.swing.JDialog {
     public XBPropertyDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        if (parent instanceof XBEditorFrame) {
-            setIconImage(((XBEditorFrame) parent).getMainFrameManagement().getFrameIcon());
-        }
 
         documentPanel = new XBDocumentPanel(null, catalog);
         getContentPane().add(documentPanel, java.awt.BorderLayout.CENTER);
-        
+
         pack();
-        
         init();
     }
 
     private void init() {
+        WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, closeButton);
     }
 

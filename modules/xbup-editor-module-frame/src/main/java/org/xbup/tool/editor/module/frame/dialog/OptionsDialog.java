@@ -39,7 +39,6 @@ import org.xbup.tool.editor.base.api.OptionsPanel;
 import org.xbup.tool.editor.base.api.OptionsPanel.ModifiedOptionListener;
 import org.xbup.tool.editor.base.api.OptionsPanel.PathItem;
 import org.xbup.tool.editor.base.api.XBEditorApp;
-import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
@@ -65,10 +64,6 @@ public class OptionsDialog extends javax.swing.JDialog {
 
     public OptionsDialog(java.awt.Frame parent, MainFrame frame, boolean modal) {
         super(parent, modal);
-        if (parent instanceof XBEditorFrame) {
-            setIconImage(((XBEditorFrame) parent).getMainFrameManagement().getFrameIcon());
-        }
-
         this.frame = frame;
         init();
     }
@@ -137,6 +132,7 @@ public class OptionsDialog extends javax.swing.JDialog {
         // Expand all nodes
         expandJTree(optionsTree, -1);
 
+        WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, null, cancelButton);
     }
 

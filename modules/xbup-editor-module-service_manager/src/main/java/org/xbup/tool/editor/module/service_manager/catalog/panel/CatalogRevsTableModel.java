@@ -110,6 +110,8 @@ public class CatalogRevsTableModel extends AbstractTableModel {
                 revs.add(item);
             }
         }
+        
+        fireTableDataChanged();
     }
 
     public void setCatalog(XBCatalog catalog) {

@@ -141,8 +141,7 @@ public class CatalogBrowserPanel extends javax.swing.JPanel implements ActivePan
     private void reloadCatalog() {
         if (catalog != null) {
             tabbedPane.add(new CatalogStatusPanel(catalog), "Catalog Status");
-            catalogSpecificationsPanel = new CatalogItemsTreePanel(catalog);
-            catalogSpecificationsPanel.setMainFrameManagement(mainFrameManagement);
+            catalogSpecificationsPanel = new CatalogItemsTreePanel(catalog, mainFrameManagement);
             catalogFilesPanel = new CatalogFilesTreePanel(catalog);
             menuManagement.insertMainPopupMenu(catalogSpecificationsPanel.getPopupMenu(), 3);
             menuManagement.insertMainPopupMenu(catalogFilesPanel.getPopupMenu(), 5);

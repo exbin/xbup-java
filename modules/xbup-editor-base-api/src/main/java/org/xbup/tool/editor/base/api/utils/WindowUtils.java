@@ -34,6 +34,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import org.xbup.tool.editor.base.api.ModuleRepository;
 import org.xbup.tool.editor.base.api.XBEditorApp;
+import org.xbup.tool.editor.base.api.XBEditorFrame;
 
 /**
  * Some simple static methods usable for windows and dialogs.
@@ -68,7 +69,7 @@ public class WindowUtils {
         //</editor-fold>
 
         /**
-         * Create and display the dialog
+         * Create and display the dialog.
          */
         java.awt.EventQueue.invokeLater(new Runnable() {
 
@@ -88,6 +89,12 @@ public class WindowUtils {
                 window.setVisible(true);
             }
         });
+    }
+
+    public static void initWindow(Window window) {
+        if (window.getParent() instanceof XBEditorFrame) {
+            window.setIconImage(((XBEditorFrame) window.getParent()).getMainFrameManagement().getFrameIcon());
+        }
     }
 
     public static void closeWindow(Window window) {
@@ -194,8 +201,7 @@ public class WindowUtils {
             }
 
             @Override
-            public void keyReleased(KeyEvent e
-            ) {
+            public void keyReleased(KeyEvent e) {
             }
         };
 

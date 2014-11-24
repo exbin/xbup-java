@@ -71,25 +71,25 @@ public class XBToXBTPullConvertor implements XBPullConsumer, XBTPullProvider {
         switch (token.getTokenType()) {
             case BEGIN: {
                 first = true;
-                return new XBTBeginToken(((XBBeginToken)token).getTerminationMode());
+                return new XBTBeginToken(((XBBeginToken) token).getTerminationMode());
             }
 
             case ATTRIBUTE: {
                 if (first) {
                     first = false;
                     buffer = pullProvider.pullXBToken();
-                    XBFixedBlockType decl;
+                    XBFixedBlockType blockType;
 
                     if (buffer.getTokenType() == XBTokenType.ATTRIBUTE) {
-                        decl = new XBFixedBlockType(((XBAttributeToken)token).getAttribute().getLong(), ((XBAttributeToken)buffer).getAttribute().getLong());
+                        blockType = new XBFixedBlockType(((XBAttributeToken) token).getAttribute().getLong(), ((XBAttributeToken) buffer).getAttribute().getLong());
                         buffer = null;
                     } else {
-                        decl = new XBFixedBlockType(((XBAttributeToken)token).getAttribute().getLong(), 0);
+                        blockType = new XBFixedBlockType(((XBAttributeToken) token).getAttribute().getLong(), 0);
                     }
-                    
-                    return new XBTTypeToken(decl);
+
+                    return new XBTTypeToken(blockType);
                 } else {
-                    return new XBTAttributeToken(((XBAttributeToken)token).getAttribute());
+                    return new XBTAttributeToken(((XBAttributeToken) token).getAttribute());
                 }
             }
 

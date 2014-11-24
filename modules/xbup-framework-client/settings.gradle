@@ -1,1 +1,6 @@
 rootProject.name = 'xbup-framework-client'
+include ":modules:xbup-core"
+if (rootProject.path == ':') {
+    def rootProjectDir = rootProject.projectDir.path + "/../.."
+    project(':modules:xbup-core').projectDir = new File(rootProjectDir + "/modules/xbup-core")
+}

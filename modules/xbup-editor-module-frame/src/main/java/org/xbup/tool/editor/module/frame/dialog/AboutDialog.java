@@ -54,7 +54,6 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
 
         this.appEditor = appEditor;
         if (appEditor != null) {
-            setIconImage(appEditor.getApplicationIcon());
             appBundle = appEditor.getAppBundle();
         } else {
             appBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/dialog/resources/AboutDialog");
@@ -99,6 +98,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
             Logger.getLogger(AboutDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, closeButton);
     }
 

@@ -130,6 +130,11 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
         });
 
         jumpToDefButton.setText("Jump to");
+        jumpToDefButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jumpToDefButtonActionPerformed(evt);
+            }
+        });
 
         removeDefButton.setText("Remove");
         removeDefButton.addActionListener(new java.awt.event.ActionListener() {
@@ -279,6 +284,10 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
         updateItemStatus();
         itemDefinitionsTable.setRowSelectionInterval(selectedRow + 1, selectedRow + 1);
     }//GEN-LAST:event_moveDownDefButtonActionPerformed
+
+    private void jumpToDefButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jumpToDefButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jumpToDefButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;

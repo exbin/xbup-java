@@ -42,12 +42,13 @@ public class TextColorDialog extends javax.swing.JDialog {
         init();
     }
 
-    public int getDialogOption() {
-        return dialogOption;
+    private void init() {
+        WindowUtils.initWindow(this);
+        WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
     }
 
-    private void init() {
-        WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
+    public int getDialogOption() {
+        return dialogOption;
     }
 
     /**

@@ -18,11 +18,13 @@ package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCNode;
+import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.service.XBCNodeService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 
@@ -94,9 +96,32 @@ public class CatalogNodesTreeModel implements TreeModel {
         treeModelListeners.remove(tml);
     }
 
+    public TreePath findPathForSpec(XBCSpec spec) {
+        Long[] specPath = catalog.getSpecPath(spec);
+        CatalogNodesTreeItem[] nodePath = new CatalogNodesTreeItem[specPath.length - 1];
+        CatalogNodesTreeItem node = rootItem;
+        for (int specPathDepth = 0; specPathDepth < specPath.length - 1; specPathDepth++) {
+            Long specPathIndex = specPath[specPathDepth];
+            List<CatalogNodesTreeItem> children = node.getChildren();
+            for (CatalogNodesTreeItem child : children) {
+                if (child.getNode().getXBIndex().equals(specPathIndex)) {
+                    nodePath[specPathDepth] = child;
+                    node = child;
+                    break;
+                }
+            }
+        }
+        
+        return new TreePath(nodePath);
+    }
+
     public class CatalogNodesTreeItem {
 
         private XBCNode node;
+
+        private String name;
+        private boolean loaded = false;
+        private final List<CatalogNodesTreeItem> children;
 
         public String getName() {
             return name;
@@ -105,9 +130,6 @@ public class CatalogNodesTreeModel implements TreeModel {
         public void setName(String name) {
             this.name = name;
         }
-        private String name;
-        private boolean loaded = false;
-        private final List<CatalogNodesTreeItem> children;
 
         public CatalogNodesTreeItem(XBCNode node) {
             this.node = node;
@@ -137,6 +159,28 @@ public class CatalogNodesTreeModel implements TreeModel {
             }
 
             return children;
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 3;
+            hash = 71 * hash + Objects.hashCode(this.node);
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final CatalogNodesTreeItem other = (CatalogNodesTreeItem) obj;
+            if (!Objects.equals(this.node, other.node)) {
+                return false;
+            }
+            return true;
         }
     }
 }

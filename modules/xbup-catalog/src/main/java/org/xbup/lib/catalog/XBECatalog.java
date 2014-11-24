@@ -69,7 +69,6 @@ import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.core.catalog.base.service.XBCService;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXInfoService;
-import org.xbup.lib.core.catalog.remote.service.XBRSpecService;
 import org.xbup.lib.core.catalog.update.XBCUpdateHandler;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
@@ -600,7 +599,7 @@ public class XBECatalog implements XBCatalog {
 
     @Override
     public Long[] getSpecPath(XBCSpec spec) {
-        XBRSpecService specService = (XBRSpecService) getCatalogService(XBCSpecService.class);
+        XBESpecService specService = (XBESpecService) getCatalogService(XBCSpecService.class);
         return specService.getSpecXBPath(spec);
     }
 }

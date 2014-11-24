@@ -23,7 +23,6 @@ import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditDefinitionPanel;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditPanel;
-import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditRevsPanel;
 
@@ -46,14 +45,12 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
     public CatalogEditItemDialog(java.awt.Frame frame, boolean modal) {
         super(frame, modal);
         initComponents();
-        if (frame instanceof XBEditorFrame) {
-            setIconImage(((XBEditorFrame) frame).getMainFrameManagement().getFrameIcon());
-        }
 
         init();
     }
 
     private void init() {
+        WindowUtils.initWindow(this);
         initComponent(this);
     }
 

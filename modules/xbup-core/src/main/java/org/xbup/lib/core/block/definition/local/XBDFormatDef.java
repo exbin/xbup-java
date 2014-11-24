@@ -38,47 +38,29 @@ public class XBDFormatDef implements XBSerializable, XBFormatDef {
     public XBDFormatDef() {
     }
 
-    /**
-     * @return the consistSkip
-     */
     @Override
     public UBNatural getConsistSkip() {
         return consistSkip;
     }
 
-    /**
-     * @param consistSkip the consistSkip to set
-     */
     public void setConsistSkip(UBNatural consistSkip) {
         this.consistSkip = consistSkip;
     }
 
-    /**
-     * @return the joinCount
-     */
     @Override
     public UBNatural getJoinCount() {
         return joinCount;
     }
 
-    /**
-     * @param joinCount the joinCount to set
-     */
     public void setJoinCount(UBNatural joinCount) {
         this.joinCount = joinCount;
     }
 
-    /**
-     * @return the formats
-     */
     @Override
     public List<XBDFormatDecl> getFormats() {
         return formats;
     }
 
-    /**
-     * @param formats the formats to set
-     */
     public void setFormats(List<XBDFormatDecl> formats) {
         this.formats = formats;
     }

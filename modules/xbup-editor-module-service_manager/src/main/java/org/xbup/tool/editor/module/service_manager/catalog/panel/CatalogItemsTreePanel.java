@@ -40,6 +40,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreePath;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCNode;
@@ -56,6 +57,8 @@ import org.xbup.lib.catalog.entity.XBESpec;
 import org.xbup.lib.catalog.entity.XBEXDesc;
 import org.xbup.lib.catalog.entity.XBEXName;
 import org.xbup.lib.catalog.yaml.XBCatalogYaml;
+import org.xbup.lib.core.catalog.base.XBCRev;
+import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogAddItemDialog;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogEditItemDialog;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogNodesTreeModel.CatalogNodesTreeItem;
@@ -87,8 +90,9 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
 
     private Map<String, ActionListener> actionListenerMap = new HashMap<>();
 
-    public CatalogItemsTreePanel(XBACatalog catalog) {
+    public CatalogItemsTreePanel(XBACatalog catalog, MainFrameManagement mainFrameManagement) {
         this.catalog = catalog;
+        this.mainFrameManagement = mainFrameManagement;
 
         Frame frame = getFrame();
         if (frame instanceof XBEditorFrame) {
@@ -139,14 +143,26 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
                 }
             }
         });
-        /*        jTable2.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-         public void valueChanged(ListSelectionEvent e) {
-         jButton1.setEnabled(jTable2.getSelectedRow()>=0);
-         }
-         }); */
 
-        itemPanel = new CatalogItemPanel(catalog);
+        itemPanel = new CatalogItemPanel(catalog, mainFrameManagement);
         catalogItemSplitPane.setRightComponent(itemPanel);
+        itemPanel.setJumpActionListener(new CatalogItemPanel.JumpActionListener() {
+            @Override
+            public void jumpToRev(XBCRev rev) {
+                XBCSpec spec = rev.getParent();
+                TreePath nodePath = nodesModel.findPathForSpec(spec);
+                if (nodePath != null) {
+                    catalogTree.scrollPathToVisible(nodePath);
+                    catalogTree.setSelectionPath(nodePath);
+                    // TODO doesn't properly select tree node
+
+                    int specRow = specsModel.getIndexOfItem(specsModel.new CatalogSpecTableItem(spec));
+                    if (specRow >= 0) {
+                        catalogSpecListTable.setRowSelectionInterval(specRow, specRow);
+                    }
+                }
+            }
+        });
 
         actionListenerMap.put(DefaultEditorKit.cutAction, new ActionListener() {
             @Override
@@ -178,7 +194,6 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
                 performDelete();
             }
         });
-
     }
 
     /**

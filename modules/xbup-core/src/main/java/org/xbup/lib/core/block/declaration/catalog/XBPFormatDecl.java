@@ -18,17 +18,19 @@ package org.xbup.lib.core.block.declaration.catalog;
 
 import java.util.Arrays;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
 
 /**
  * XBUP level 1 format declaration using catalog path.
  *
- * @version 0.1.24 2014/10/02
+ * @version 0.1.24 2014/11/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPFormatDecl implements XBFormatDecl {
 
     private long[] catalogPath;
     private int revision;
+    private XBDFormatDecl defDeclaration;
 
     public XBPFormatDecl() {
         catalogPath = null;
@@ -78,6 +80,7 @@ public class XBPFormatDecl implements XBFormatDecl {
         setCatalogObjectPath(path);
     }
 
+    
     /*public XBBlockDecl getBlockType(int group, int block) {
         XBCSpecService bindService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
         if ((spec.getXBIndex().intValue() > 0) || (spec.getParent().getParent() != null)) { // Not root context
@@ -127,4 +130,12 @@ public class XBPFormatDecl implements XBFormatDecl {
         target.attribXB(new UBNat32(spec.getXBIndex()));
         target.endXB();
     } */
+
+    public XBDFormatDecl getDefDeclaration() {
+        return defDeclaration;
+    }
+
+    public void setDefDeclaration(XBDFormatDecl formatDef) {
+        this.defDeclaration = formatDef;
+    }
 }

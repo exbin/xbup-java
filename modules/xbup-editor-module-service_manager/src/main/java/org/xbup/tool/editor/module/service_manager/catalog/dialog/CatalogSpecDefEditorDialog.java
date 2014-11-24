@@ -53,9 +53,6 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         super(parent, modal);
         targetType = CatalogSpecItemType.BLOCK;
         initComponents();
-        if (parent instanceof XBEditorFrame) {
-            setIconImage(((XBEditorFrame) parent).getMainFrameManagement().getFrameIcon());
-        }
 
         // TODO change listener for definitionTypeComboBox.
         this.catalog = catalog;
@@ -65,6 +62,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     }
 
     private void init() {
+        WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
     }
 

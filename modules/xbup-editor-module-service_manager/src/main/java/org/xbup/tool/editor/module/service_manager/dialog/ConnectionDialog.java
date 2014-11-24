@@ -51,12 +51,15 @@ public class ConnectionDialog extends javax.swing.JDialog {
     public ConnectionDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        if (parent instanceof XBEditorFrame) {
-            setIconImage(((XBEditorFrame) parent).getMainFrameManagement().getFrameIcon());
-        }
 
         service = null;
         mainForm = parent instanceof XBServiceManagerFrame ? (XBServiceManagerFrame) parent : null;
+        init();
+    }
+    
+    private void init() {
+        WindowUtils.initWindow(this);
+        WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
     }
 
     private void setStatus(Color color, String status) {

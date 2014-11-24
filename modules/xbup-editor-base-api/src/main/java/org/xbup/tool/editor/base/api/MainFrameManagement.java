@@ -23,6 +23,7 @@ import java.util.prefs.Preferences;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JMenu;
+import javax.swing.JPopupMenu;
 
 /**
  * Interface for application windows management.
@@ -120,6 +121,28 @@ public interface MainFrameManagement {
      * @param menu menu item to initialize
      */
     public void initMenu(JMenu menu);
+
+    /**
+     * Initializes popup menu.
+     * 
+     * @param popupMenu menu item to initialize
+     */
+    public void initPopupMenu(JPopupMenu popupMenu);
+    
+    /**
+     * Get basic default popup menu with clipboard actions.
+     *
+     * @return popup menu
+     */
+    public JPopupMenu getDefaultTextPopupMenu();
+
+    /**
+     * Create copy of menu component.
+     *
+     * @param menuComponent menu component to create copy of
+     * @return menu component
+     */
+    public Component duplicateMenuComponent(Component menuComponent);
 
     /**
      * Gets last focus owner.

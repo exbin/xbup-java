@@ -33,6 +33,12 @@ public class ImageResizeDialog extends javax.swing.JDialog {
     public ImageResizeDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        init();
+    }
+
+    private void init() {
+        WindowUtils.initWindow(this);
+        WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
     }
 
     public int getDialogOption() {

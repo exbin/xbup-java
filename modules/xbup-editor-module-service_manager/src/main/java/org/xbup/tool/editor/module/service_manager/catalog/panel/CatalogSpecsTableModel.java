@@ -18,6 +18,7 @@ package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.swing.table.AbstractTableModel;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
@@ -189,11 +190,19 @@ public class CatalogSpecsTableModel extends AbstractTableModel {
          return specService.getBlockSpec(node,index-formatCount-groupCount-1); */
     }
 
+    public int getIndexOfItem(CatalogSpecTableItem item) {
+        return items.indexOf(item);
+    }
+
     public class CatalogSpecTableItem {
 
         private XBCItem item;
         private String name;
         private String type;
+
+        public CatalogSpecTableItem(XBCItem item) {
+            this(item, CatalogSpecItemType.NODE);
+        }
 
         public CatalogSpecTableItem(XBCItem item, CatalogSpecItemType itemType) {
             this.item = item;
@@ -255,6 +264,28 @@ public class CatalogSpecsTableModel extends AbstractTableModel {
 
         public void setItem(XBCItem item) {
             this.item = item;
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 7;
+            hash = 23 * hash + Objects.hashCode(this.item.getId());
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final CatalogSpecTableItem other = (CatalogSpecTableItem) obj;
+            if (!Objects.equals(this.item.getId(), other.item.getId())) {
+                return false;
+            }
+            return true;
         }
     }
 }

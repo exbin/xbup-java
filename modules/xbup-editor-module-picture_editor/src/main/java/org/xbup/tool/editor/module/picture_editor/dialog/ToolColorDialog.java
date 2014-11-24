@@ -23,7 +23,7 @@ import org.xbup.tool.editor.module.picture_editor.panel.ToolColorPanel;
 /**
  * XBPEditor Color Selection Dialog.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.1.24 2014/11/24
  * @author XBUP Project (http://xbup.org)
  */
 public class ToolColorDialog extends javax.swing.JDialog {
@@ -34,6 +34,13 @@ public class ToolColorDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         mainPanel.add(new ToolColorPanel());
+
+        init();
+    }
+
+    private void init() {
+        WindowUtils.initWindow(this);
+        WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
     }
 
     public int getDialogOption() {

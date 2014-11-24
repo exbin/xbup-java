@@ -32,7 +32,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * Convert stand-alone block types to fixed types.
  *
- * @version 0.1.23 2014/10/04
+ * @version 0.1.23 2014/10/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTypeReliantor implements XBTFilter {
@@ -70,12 +70,8 @@ public class XBTTypeReliantor implements XBTFilter {
 
     @Override
     public void typeXBT(XBBlockType type) throws XBProcessingException, IOException {
-        XBFixedBlockType result = catalog.findFixedType(context, type);
-        if (result == null) {
-            result = new XBFixedBlockType();
-        }
-
-        listener.typeXBT(result);
+        XBFixedBlockType fixedType = type instanceof XBFixedBlockType ? (XBFixedBlockType) type : catalog.findFixedType(context, type);
+        listener.typeXBT(fixedType == null ? new XBFixedBlockType() : fixedType);
     }
 
     @Override

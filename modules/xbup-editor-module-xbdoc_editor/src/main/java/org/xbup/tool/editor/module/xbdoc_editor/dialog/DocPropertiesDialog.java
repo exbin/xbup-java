@@ -24,7 +24,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import org.xbup.lib.core.block.XBTEditableDocument;
-import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
@@ -41,9 +40,6 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
     public DocPropertiesDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        if (parent instanceof XBEditorFrame) {
-            setIconImage(((XBEditorFrame) parent).getMainFrameManagement().getFrameIcon());
-        }
 
         hexPanel = new HexEditPanel((JFrame) parent);
         hexEditScrollPane.setViewportView(hexPanel);
@@ -51,6 +47,7 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
     }
 
     private void init() {
+        WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, closeButton);
     }
 

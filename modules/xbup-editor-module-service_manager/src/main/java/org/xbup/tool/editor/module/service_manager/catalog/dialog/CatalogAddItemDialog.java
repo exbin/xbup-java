@@ -18,7 +18,6 @@ package org.xbup.tool.editor.module.service_manager.catalog.dialog;
 
 import javax.swing.JOptionPane;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType;
-import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
@@ -34,14 +33,11 @@ public class CatalogAddItemDialog extends javax.swing.JDialog {
     public CatalogAddItemDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        if (parent instanceof XBEditorFrame) {
-            setIconImage(((XBEditorFrame) parent).getMainFrameManagement().getFrameIcon());
-        }
-
         init();
     }
 
     private void init() {
+        WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, addButton, cancelButton);
     }
 

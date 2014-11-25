@@ -51,14 +51,14 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Dialog for adding new item into given document.
  *
- * @version 0.1.24 2014/11/21
+ * @version 0.1.24 2014/11/24
  * @author XBUP Project (http://xbup.org)
  */
 public class AddItemDialog extends javax.swing.JDialog {
 
     private XBTTreeNode parentNode;
     private XBTTreeNode workNode;
-    private final XBACatalog catalog;
+    private XBACatalog catalog;
     private XBBlockType contextBlockType = null;
     private XBBlockType catalogBlockType = null;
     private int dialogOption = JOptionPane.CLOSED_OPTION;
@@ -66,13 +66,13 @@ public class AddItemDialog extends javax.swing.JDialog {
     public AddItemDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog) {
         super(parent, modal);
         this.catalog = catalog;
+        workNode = null;
+        initComponents();
+        fireCatalogUpdate();
         init();
     }
 
     private void init() {
-        workNode = null;
-        initComponents();
-
         if (catalog != null) {
             Long[] basicGroupPath = {0l, 0l};
             List<XBBlockDecl> list = catalog.getBlocks(((XBCGroupDecl) catalog.findGroupTypeByPath(basicGroupPath, 0)).getGroupSpec().getParent());
@@ -165,6 +165,7 @@ public class AddItemDialog extends javax.swing.JDialog {
 
         blockTypeButtonGroup.add(catalogTypeRadioButton);
         catalogTypeRadioButton.setText(bundle.getString("jRadioButton5.text")); // NOI18N
+        catalogTypeRadioButton.setEnabled(false);
         catalogTypeRadioButton.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 catalogTypeRadioButtonStateChanged(evt);
@@ -186,11 +187,11 @@ public class AddItemDialog extends javax.swing.JDialog {
         typePanel.setLayout(typePanelLayout);
         typePanelLayout.setHorizontalGroup(
             typePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(typePanelLayout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, typePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(typePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(contextTypeRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, catalogTypeRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, contextTypeRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(dataRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, basicTypeRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(typePanelLayout.createSequentialGroup()
@@ -348,7 +349,7 @@ public class AddItemDialog extends javax.swing.JDialog {
         } else if (catalogTypeRadioButton.isSelected()) {
             if (generateDeclarationCheckBox.isSelected()) {
                 XBTSequenceListenerSerialHandler serialHandler = new XBTSequenceListenerSerialHandler();
-                serialHandler.attachXBTEventListener(new XBTListenerToEventListener(new XBTTreeReader(workNode, false)));
+                serialHandler.attachXBTEventListener(new XBTListenerToEventListener(new XBTTreeReader(workNode)));
                 XBDeclaration newDeclaration = new XBDeclaration(((XBDBlockType) catalogBlockType).getBlockDecl());
                 try {
                     newDeclaration.serializeDeclaration(serialHandler);
@@ -494,5 +495,14 @@ public class AddItemDialog extends javax.swing.JDialog {
 
     public int getDialogOption() {
         return dialogOption;
+    }
+
+    public void setCatalog(XBACatalog catalog) {
+        this.catalog = catalog;
+        fireCatalogUpdate();
+    }
+
+    private void fireCatalogUpdate() {
+        catalogTypeRadioButton.setEnabled(catalog != null);
     }
 }

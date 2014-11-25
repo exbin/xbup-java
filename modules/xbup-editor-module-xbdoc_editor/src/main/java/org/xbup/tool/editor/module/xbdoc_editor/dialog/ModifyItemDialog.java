@@ -368,7 +368,7 @@ public class ModifyItemDialog extends javax.swing.JDialog {
         tableModel.fireTableDataChanged();
 //        tableModel.fireTableRowsInserted(tableModel.getParameters().size()-1,tableModel.getParameters().size());
         attributesTable.revalidate();
-        removeButton.setEnabled(true);
+        updateAttributesButtons();
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
@@ -421,7 +421,7 @@ public class ModifyItemDialog extends javax.swing.JDialog {
                 }
             } else {
                 if (attributes.isEmpty()) {
-                    JOptionPane.showMessageDialog(customPanel, "There must be at least one attribute", "Attribute Needed", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "There must be at least one attribute", "Attribute Needed", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 

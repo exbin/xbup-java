@@ -87,6 +87,10 @@ public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandle
                             XBJoinOutputSerial joinSerial = new XBJoinOutputSerial(serial, params);
                             joinSerial.attachXBTEventListener(eventListener);
                             ((XBTChildSerializable) item.getItem()).serializeToXB(joinSerial);
+                        } else if (item.getItem() instanceof XBTSequenceSerializable) {
+                            XBTSequenceListenerSerialHandler serialHandler = new XBTSequenceListenerSerialHandler();
+                            serialHandler.attachXBTEventListener(eventListener);
+                            ((XBTSequenceSerializable) item.getItem()).serializeXB(serialHandler);
                         } else {
                             throw new UnsupportedOperationException("Not supported yet.");
                         }

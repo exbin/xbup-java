@@ -19,6 +19,7 @@ package org.xbup.tool.editor.module.text_editor;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -77,9 +78,6 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
     public static final String XBT_FILE_TYPE = "XBTextEditor.XBTFileType";
     public static final String TXT_FILE_TYPE = "XBTextEditor.TXTFileType";
 
-    /**
-     * Creates new form XBTextEditorFrame
-     */
     public XBTextEditorFrame() {
         resourceBundle = ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/resources/XBTextEditorFrame");
 
@@ -759,7 +757,7 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
         return statusPanel;
     }
 
-    protected javax.swing.JFrame getFrame() {
-        return this;
+    protected Frame getFrame() {
+        return mainFrameManagement.getFrame();
     }
 }

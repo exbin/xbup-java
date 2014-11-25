@@ -59,11 +59,11 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="contextTypeRadioButton" max="32767" attributes="0"/>
                           <Component id="catalogTypeRadioButton" alignment="0" pref="357" max="32767" attributes="0"/>
-                          <Component id="contextTypeRadioButton" alignment="0" max="32767" attributes="0"/>
                           <Component id="dataRadioButton" alignment="1" max="32767" attributes="0"/>
                           <Component id="basicTypeRadioButton" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
@@ -198,6 +198,7 @@
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ItemAddDialog.properties" key="jRadioButton5.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="catalogTypeRadioButtonStateChanged"/>

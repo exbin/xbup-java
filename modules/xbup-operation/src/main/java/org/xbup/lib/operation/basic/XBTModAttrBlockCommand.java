@@ -35,6 +35,7 @@ public class XBTModAttrBlockCommand implements XBTCommand {
     private String caption;
     private List<UBNatural> attrList;
     private XBFixedBlockType blockType;
+    private boolean singleAttributeType = true;
     private int position;
 
     public XBTModAttrBlockCommand(XBTTreeNode node, XBTTreeNode newNode) throws Exception {
@@ -47,6 +48,7 @@ public class XBTModAttrBlockCommand implements XBTCommand {
         }
         attrList = newNode.getAttributes();
         blockType = newNode.getFixedBlockType();
+        singleAttributeType = newNode.getSingleAttributeType();
         position = node.getBlockIndex();
     }
 
@@ -66,6 +68,7 @@ public class XBTModAttrBlockCommand implements XBTCommand {
         List<UBNatural> newList = node.getAttributes();
         node.setAttributes(attrList);
         node.setFixedBlockType(blockType);
+        node.setSingleAttributeType(singleAttributeType);
         attrList = newList;
     }
 

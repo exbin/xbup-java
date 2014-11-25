@@ -17,7 +17,6 @@
 package org.xbup.tool.editor.module.xbdoc_editor.panel;
 
 import java.awt.Component;
-import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.ClipboardOwner;
@@ -41,7 +40,6 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
-import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -61,6 +59,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.XBDocEditorFrame;
 import org.xbup.tool.editor.module.xbdoc_editor.dialog.AddItemDialog;
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * Panel with document tree visualization.
@@ -85,6 +84,8 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
     private Component lastFocusedComponent = null;
     private final Map<String, ActionListener> actionListenerMap = new HashMap<>();
     private final XBDocEditorFrame mainFrame;
+
+    private AddItemDialog addItemDialog = null;
 
     public XBDocTreePanel(XBDocEditorFrame mainFrame, XBTTreeDocument mainDoc, XBACatalog catalog, JPopupMenu popupMenu) {
         this.mainFrame = mainFrame;
@@ -273,6 +274,11 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
             mainDoc.setCatalog(catalog);
             mainDoc.processSpec();
         }
+
+        AddItemDialog dialog = addItemDialog;
+        if (dialog != null) {
+            dialog.setCatalog(catalog);
+        }
     }
 
     public void performCut() {
@@ -336,11 +342,11 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
 
     public void performAdd() {
         XBTTreeNode node = getSelectedItem();
-        AddItemDialog itemAddDialog = new AddItemDialog(getFrame(), true, catalog);
-        itemAddDialog.setLocationRelativeTo(itemAddDialog.getParent());
-        itemAddDialog.setParentNode(node);
-        XBTTreeNode newNode = itemAddDialog.showDialog();
-        if (itemAddDialog.getDialogOption() == JOptionPane.OK_OPTION) {
+        addItemDialog = new AddItemDialog(WindowUtils.getFrame(this), true, catalog);
+        addItemDialog.setLocationRelativeTo(addItemDialog.getParent());
+        addItemDialog.setParentNode(node);
+        XBTTreeNode newNode = addItemDialog.showDialog();
+        if (addItemDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             try {
                 XBTCommand step = new XBTAddBlockCommand(node, newNode);
                 getTreeUndo().performStep(step);
@@ -353,6 +359,7 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
             mainDoc.setModified(true);
             updateItemStatus();
         }
+        addItemDialog = null;
     }
 
     public void performDelete() {
@@ -635,13 +642,5 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
             }
             return true;
         }
-    }
-
-    private Frame getFrame() {
-        Component component = SwingUtilities.getWindowAncestor(this);
-        while (!(component == null || component instanceof Frame)) {
-            component = component.getParent();
-        }
-        return (Frame) component;
     }
 }

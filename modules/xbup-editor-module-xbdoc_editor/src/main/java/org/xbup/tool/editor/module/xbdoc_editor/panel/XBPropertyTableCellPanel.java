@@ -16,11 +16,9 @@
  */
 package org.xbup.tool.editor.module.xbdoc_editor.panel;
 
-import java.awt.Component;
-import java.awt.Frame;
-import javax.swing.SwingUtilities;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.parser_tree.XBTTreeNode;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 import org.xbup.tool.editor.module.xbdoc_editor.dialog.XBPropertyDialog;
 
 /**
@@ -72,7 +70,7 @@ public class XBPropertyTableCellPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editorButtonActionPerformed
-        XBPropertyDialog propertyDialog = new XBPropertyDialog(getFrame(), true);
+        XBPropertyDialog propertyDialog = new XBPropertyDialog(WindowUtils.getFrame(this), true);
         propertyDialog.setCatalog(catalog);
         propertyDialog.setLocationRelativeTo(propertyDialog.getParent());
 
@@ -110,13 +108,5 @@ public class XBPropertyTableCellPanel extends javax.swing.JPanel {
 
     public void setParamIndex(int paramIndex) {
         this.paramIndex = paramIndex;
-    }
-
-    private Frame getFrame() {
-        Component component = SwingUtilities.getWindowAncestor(this);
-        while (!(component == null || component instanceof Frame)) {
-            component = component.getParent();
-        }
-        return (Frame) component;
     }
 }

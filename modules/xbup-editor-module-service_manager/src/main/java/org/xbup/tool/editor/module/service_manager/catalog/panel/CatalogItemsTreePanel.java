@@ -17,7 +17,6 @@
 package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
 import java.awt.Component;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
@@ -35,7 +34,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
-import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.text.DefaultEditorKit;
@@ -65,7 +63,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogNodesTre
 import static org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType.FORMAT;
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
-import org.xbup.tool.editor.base.api.XBEditorFrame;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * Catalog Specification Panel.
@@ -93,11 +91,6 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
     public CatalogItemsTreePanel(XBACatalog catalog, MainFrameManagement mainFrameManagement) {
         this.catalog = catalog;
         this.mainFrameManagement = mainFrameManagement;
-
-        Frame frame = getFrame();
-        if (frame instanceof XBEditorFrame) {
-            mainFrameManagement = ((XBEditorFrame) frame).getMainFrameManagement();
-        }
 
         nameService = null;
         descService = null;
@@ -370,7 +363,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
 
     private void popupEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupEditMenuItemActionPerformed
         if (currentItem != null) {
-            CatalogEditItemDialog editDialog = new CatalogEditItemDialog(getFrame(), true);
+            CatalogEditItemDialog editDialog = new CatalogEditItemDialog(WindowUtils.getFrame(this), true);
             editDialog.setCatalog(catalog);
             editDialog.setCatalogItem(currentItem);
             editDialog.setVisible(true);
@@ -385,7 +378,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
         if (currentItem != null) {
             JFileChooser exportFileChooser = new JFileChooser();
             // exportFileChooser.setAcceptAllFileFilterUsed(true);
-            if (exportFileChooser.showSaveDialog(getFrame()) == JFileChooser.APPROVE_OPTION) {
+            if (exportFileChooser.showSaveDialog(WindowUtils.getFrame(this)) == JFileChooser.APPROVE_OPTION) {
                 FileWriter fileWriter;
                 try {
                     fileWriter = new FileWriter(exportFileChooser.getSelectedFile().getAbsolutePath());
@@ -407,7 +400,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
         if ((currentItem != null) && (currentItem instanceof XBCNode)) {
             JFileChooser importFileChooser = new JFileChooser();
             // exportFileChooser.setAcceptAllFileFilterUsed(true);
-            if (importFileChooser.showOpenDialog(getFrame()) == JFileChooser.APPROVE_OPTION) {
+            if (importFileChooser.showOpenDialog(WindowUtils.getFrame(this)) == JFileChooser.APPROVE_OPTION) {
                 FileInputStream fileStream;
                 try {
                     fileStream = new FileInputStream(importFileChooser.getSelectedFile().getAbsolutePath());
@@ -430,7 +423,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
     }//GEN-LAST:event_popupAddCustomMenuItemActionPerformed
 
     private void popupAddSpecMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupAddSpecMenuItemActionPerformed
-        CatalogAddItemDialog addDialog = new CatalogAddItemDialog(getFrame(), true);
+        CatalogAddItemDialog addDialog = new CatalogAddItemDialog(WindowUtils.getFrame(this), true);
         addDialog.setVisible(true);
         if (addDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             // TODO: Use different transaction management later
@@ -459,8 +452,14 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
                     spec.setXBIndex(newXbIndex == null ? 0 : newXbIndex + 1);
                     break;
                 }
+                default: {
+                    throw new IllegalStateException();
+                }
             }
 
+            if (spec == null) {
+                throw new IllegalStateException();
+            }
             spec.setParent(node);
             specService.persistItem(spec);
             nameService.setDefaultText(spec, addDialog.getItemName());
@@ -611,13 +610,5 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
         }
 
         return false;
-    }
-
-    private Frame getFrame() {
-        Component component = SwingUtilities.getWindowAncestor(this);
-        while (!(component == null || component instanceof Frame)) {
-            component = component.getParent();
-        }
-        return (Frame) component;
     }
 }

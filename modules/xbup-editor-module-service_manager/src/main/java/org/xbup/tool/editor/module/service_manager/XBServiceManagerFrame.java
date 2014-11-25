@@ -268,5 +268,6 @@ public class XBServiceManagerFrame extends javax.swing.JFrame implements XBEdito
 
     void setMainFrameManagement(MainFrameManagement mainFrameManagement) {
         this.mainFrameManagement = mainFrameManagement;
+        activePanel.setMainFrameManagement(mainFrameManagement);
     }
 }

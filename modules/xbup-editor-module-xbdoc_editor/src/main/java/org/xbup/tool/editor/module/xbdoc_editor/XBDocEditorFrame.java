@@ -1612,6 +1612,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     public void actionToolsCatalogBrowser() {
         catalogPanel = new CatalogBrowserPanel();
         catalogPanel.setMenuManagement(menuManagement);
+        catalogPanel.setMainFrameManagement(mainFrameManagement);
         catalogPanel.setCatalog(catalog);
 
         JDialog dialog = new JDialog(mainFrameManagement.getFrame(), true);

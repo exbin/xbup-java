@@ -672,8 +672,8 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
 
     @Override
     public void setAttributesCount(int count) {
+        singleAttributeType = false;
         if (attributes.size() < count) {
-            singleAttributeType = false;
             for (int i = attributes.size(); i < count; i++) {
                 attributes.add(new UBNat32());
             }

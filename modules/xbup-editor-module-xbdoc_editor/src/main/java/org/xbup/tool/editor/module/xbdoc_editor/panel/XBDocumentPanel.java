@@ -20,7 +20,6 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -37,7 +36,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFBlockType;
@@ -69,6 +67,7 @@ import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
 import org.xbup.tool.editor.base.api.ActivePanelUndoable;
 import org.xbup.tool.editor.base.api.ApplicationFilePanel;
 import org.xbup.tool.editor.base.api.FileType;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * Panel with XBUP document visualization.
@@ -358,7 +357,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
                         mainDoc.fromStreamUB(new ByteArrayInputStream(buffer.toByteArray()));
                     } catch (XBProcessingException ex) {
                         Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
-                        JOptionPane.showMessageDialog(getFrame(), ex.getMessage(), "Parse Exception", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(WindowUtils.getFrame(this), ex.getMessage(), "Parse Exception", JOptionPane.ERROR_MESSAGE);
                     } catch (IOException ex) {
                         Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -509,7 +508,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
             Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (XBProcessingException ex) {
             Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(getFrame(), ex.getMessage(), "Parse Exception", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(WindowUtils.getFrame(this), ex.getMessage(), "Parse Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -614,7 +613,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         XBTTreeNode node = getSelectedItem();
         XBTCommand undoStep;
         try {
-            ModifyItemDialog dialog = new ModifyItemDialog(getFrame(), true);
+            ModifyItemDialog dialog = new ModifyItemDialog(WindowUtils.getFrame(this), true);
             dialog.setCatalog(catalog);
             dialog.setPluginRepository(pluginRepository);
             dialog.setLocationRelativeTo(dialog.getParent());
@@ -842,16 +841,8 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
     }
 
     public void actionItemProperties() {
-        ItemPropertiesDialog dialog = new ItemPropertiesDialog(getFrame(), true);
+        ItemPropertiesDialog dialog = new ItemPropertiesDialog(WindowUtils.getFrame(this), true);
         dialog.setCatalog(catalog);
         dialog.runDialog(getSelectedItem());
-    }
-
-    private Frame getFrame() {
-        Component component = SwingUtilities.getWindowAncestor(this);
-        while (!(component == null || component instanceof Frame)) {
-            component = component.getParent();
-        }
-        return (Frame) component;
     }
 }

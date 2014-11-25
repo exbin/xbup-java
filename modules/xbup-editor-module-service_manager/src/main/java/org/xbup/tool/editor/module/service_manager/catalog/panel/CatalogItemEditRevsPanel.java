@@ -16,12 +16,9 @@
  */
 package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
-import java.awt.Component;
-import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.xbup.lib.catalog.entity.XBEItem;
@@ -33,6 +30,7 @@ import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.core.catalog.base.service.XBCXDescService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecRevEditorDialog;
 
 /**
@@ -157,7 +155,7 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        CatalogSpecRevEditorDialog editorDialog = new CatalogSpecRevEditorDialog(getFrame(), true);
+        CatalogSpecRevEditorDialog editorDialog = new CatalogSpecRevEditorDialog(WindowUtils.getFrame(this), true);
         editorDialog.setRevItem(new CatalogRevsTableItem());
         editorDialog.setVisible(true);
 
@@ -187,7 +185,7 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
         int selectedRow = itemRevisionsTable.getSelectedRow();
         CatalogRevsTableItem row = revsModel.getRowItem(selectedRow);
 
-        CatalogSpecRevEditorDialog editorDialog = new CatalogSpecRevEditorDialog(getFrame(), true);
+        CatalogSpecRevEditorDialog editorDialog = new CatalogSpecRevEditorDialog(WindowUtils.getFrame(this), true);
         editorDialog.setRevItem(row);
         editorDialog.setVisible(true);
 
@@ -293,13 +291,5 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
     public void setDefsModel(CatalogDefsTableModel defsModel) {
         this.defsModel = defsModel;
         defsModel.setRevsModel(revsModel);
-    }
-
-    private Frame getFrame() {
-        Component component = SwingUtilities.getWindowAncestor(this);
-        while (!(component == null || component instanceof Frame)) {
-            component = component.getParent();
-        }
-        return (Frame) component;
     }
 }

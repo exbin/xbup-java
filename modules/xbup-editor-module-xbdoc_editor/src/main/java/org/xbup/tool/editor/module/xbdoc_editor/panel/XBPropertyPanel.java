@@ -16,7 +16,6 @@
  */
 package org.xbup.tool.editor.module.xbdoc_editor.panel;
 
-import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
@@ -31,6 +30,7 @@ import org.xbup.lib.core.catalog.base.XBCXDesc;
 import org.xbup.lib.core.catalog.base.service.XBCXDescService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.parser_tree.XBTTreeNode;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemPropertiesDialog;
 
 /**
@@ -279,10 +279,6 @@ public class XBPropertyPanel extends javax.swing.JPanel {
         return valueFillingSemaphore;
     }
 
-    private Frame getFrame() {
-        return null;
-    }
-
 //    // TODO: Prepare values and then fill it property panel
 //    private class PropertyThread extends Thread {
 //
@@ -396,7 +392,7 @@ public class XBPropertyPanel extends javax.swing.JPanel {
     }
 
     public void actionItemProperties() {
-        ItemPropertiesDialog dialog = new ItemPropertiesDialog(getFrame(), true);
+        ItemPropertiesDialog dialog = new ItemPropertiesDialog(WindowUtils.getFrame(this), true);
         dialog.setCatalog(catalog);
         dialog.runDialog(activePanel.getSelectedItem());
     }

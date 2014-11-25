@@ -16,12 +16,9 @@
  */
 package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
-import java.awt.Component;
-import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.xbup.lib.catalog.entity.XBERev;
@@ -35,6 +32,7 @@ import org.xbup.lib.catalog.entity.XBESpecDef;
 import org.xbup.lib.core.catalog.base.service.XBCXDescService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecDefEditorDialog;
 
 /**
@@ -191,7 +189,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        CatalogSpecDefEditorDialog editorDialog = new CatalogSpecDefEditorDialog(getFrame(), true, catalog);
+        CatalogSpecDefEditorDialog editorDialog = new CatalogSpecDefEditorDialog(WindowUtils.getFrame(this), true, catalog);
         editorDialog.setSpec((XBCSpec) catalogItem);
         editorDialog.setDefItem(new CatalogDefsTableItem());
         editorDialog.setVisible(true);
@@ -221,7 +219,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
         int selectedRow = itemDefinitionsTable.getSelectedRow();
         CatalogDefsTableItem row = defsModel.getRowItem(selectedRow);
 
-        CatalogSpecDefEditorDialog editorDialog = new CatalogSpecDefEditorDialog(getFrame(), true, catalog);
+        CatalogSpecDefEditorDialog editorDialog = new CatalogSpecDefEditorDialog(WindowUtils.getFrame(this), true, catalog);
         editorDialog.setSpec((XBCSpec) catalogItem);
         editorDialog.setDefItem(row);
         editorDialog.setVisible(true);
@@ -376,14 +374,6 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
         this.catalog = catalog;
         specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
         defsModel.setCatalog(catalog);
-    }
-
-    private Frame getFrame() {
-        Component component = SwingUtilities.getWindowAncestor(this);
-        while (!(component == null || component instanceof Frame)) {
-            component = component.getParent();
-        }
-        return (Frame) component;
     }
 
     public CatalogDefsTableModel getDefsModel() {

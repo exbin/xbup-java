@@ -18,6 +18,7 @@ package org.xbup.tool.editor.base.api.utils;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.KeyEvent;
@@ -32,6 +33,7 @@ import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
 import org.xbup.tool.editor.base.api.ModuleRepository;
 import org.xbup.tool.editor.base.api.XBEditorApp;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
@@ -147,6 +149,20 @@ public class WindowUtils {
                 return null;
             }
         };
+    }
+
+    /**
+     * Find frame component for given component.
+     *
+     * @param component instantiated component
+     * @return frame instance if found
+     */
+    public static Frame getFrame(Component component) {
+        Component parentComponent = SwingUtilities.getWindowAncestor(component);
+        while (!(parentComponent == null || parentComponent instanceof Frame)) {
+            parentComponent = parentComponent.getParent();
+        }
+        return (Frame) parentComponent;
     }
 
     /**

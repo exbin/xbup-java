@@ -665,7 +665,7 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
     }// </editor-fold>//GEN-END:initComponents
 
     private void optionsColorsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsColorsMenuItemActionPerformed
-        WaveColorDialog dlg = new WaveColorDialog(getFrame(), true, this);
+        WaveColorDialog dlg = new WaveColorDialog(WindowUtils.getFrame(mainPanel), true, this);
         dlg.setLocationRelativeTo(dlg.getParent());
         dlg.showDialog();
         activePanel.repaint();
@@ -854,10 +854,6 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
 
     public FileType newXBSFileType() {
         return new XBWaveEditorFrame.XBSFileType();
-    }
-
-    protected javax.swing.JFrame getFrame() {
-        return null;
     }
 
     public JPanel getStatusPanel() {

@@ -26,7 +26,7 @@ import org.xbup.lib.core.catalog.base.XBCXBlockLine;
 import org.xbup.lib.core.catalog.base.XBCXPlugLine;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.core.catalog.base.manager.XBCXLineManager;
-import org.xbup.lib.core.catalog.client.XBCatalogServiceMessage;
+import org.xbup.lib.client.XBCatalogServiceMessage;
 import org.xbup.lib.client.catalog.remote.XBRBlockRev;
 import org.xbup.lib.client.catalog.remote.XBRXBlockLine;
 import org.xbup.lib.client.catalog.remote.XBRXPlugLine;

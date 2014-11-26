@@ -24,7 +24,7 @@ import org.xbup.lib.core.serial.XBSerializable;
  * Interface is providing serialization methods for serialization into XBUP
  * level 0 protocol using basic parser.
  *
- * @version 0.1.24 2014/08/23
+ * @version 0.1.24 2014/11/26
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBBasicSerializable extends XBSerializable {
@@ -36,7 +36,7 @@ public interface XBBasicSerializable extends XBSerializable {
      * @throws XBProcessingException if proccesing problem encountered
      * @throws IOException if input/output problem encountered
      */
-    public void serializeFromXB(XBBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException;
+    public void serializeFromXB(XBBasicOutputSerialHandler serializationHandler) throws XBProcessingException, IOException;
 
     /**
      * Performs serialization to XBUP protocol.
@@ -45,5 +45,5 @@ public interface XBBasicSerializable extends XBSerializable {
      * @throws XBProcessingException if proccesing problem encountered
      * @throws IOException if input/output problem encountered
      */
-    public void serializeToXB(XBBasicOutputSerialHandler serializationHandler) throws XBProcessingException, IOException;
+    public void serializeToXB(XBBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException;
 }

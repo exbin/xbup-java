@@ -19,7 +19,7 @@ package org.xbup.lib.client.catalog.remote;
 import java.util.Date;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCRoot;
-import org.xbup.lib.core.catalog.client.XBCatalogServiceClient;
+import org.xbup.lib.client.XBCatalogServiceClient;
 
 /**
  *

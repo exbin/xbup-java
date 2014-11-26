@@ -18,7 +18,7 @@ package org.xbup.lib.client.catalog;
 
 import org.xbup.lib.core.catalog.base.service.XBCLimiService;
 import org.xbup.lib.core.catalog.base.service.XBCTranService;
-import org.xbup.lib.core.catalog.client.XBCatalogServiceClient;
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.remote.service.XBRLimiService;
 import org.xbup.lib.client.catalog.remote.service.XBRTranService;
 import org.xbup.lib.core.catalog.XBACatalog;

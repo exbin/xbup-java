@@ -197,7 +197,7 @@ public class XBDeclaration implements XBTSequenceSerializable {
     public class BasicSerializer implements XBTBasicSerializable {
 
         @Override
-        public void serializeFromXB(XBTBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        public void serializeToXB(XBTBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
             serializationHandler.attachXBTConsumer(new XBTConsumer() {
 
                 @Override
@@ -337,7 +337,7 @@ public class XBDeclaration implements XBTSequenceSerializable {
         }
 
         @Override
-        public void serializeToXB(XBTBasicOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        public void serializeFromXB(XBTBasicOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
             serializationHandler.attachXBTProvider(new XBTProvider() {
 
 //            private int position = 0;

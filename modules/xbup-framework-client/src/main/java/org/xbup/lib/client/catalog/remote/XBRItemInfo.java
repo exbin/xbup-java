@@ -20,7 +20,7 @@ import java.sql.Time;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXItemInfo;
 import org.xbup.lib.core.catalog.base.XBCXUser;
-import org.xbup.lib.core.catalog.client.XBCatalogServiceClient;
+import org.xbup.lib.client.XBCatalogServiceClient;
 
 /**
  * Remote catalog item info.

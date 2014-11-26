@@ -28,6 +28,7 @@ import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.XBTokenType;
 import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBPrefixPullProvider;
+import org.xbup.lib.core.serial.XBReadSerialHandler;
 import org.xbup.lib.core.serial.XBSerialException;
 import org.xbup.lib.core.serial.token.XBTokenInputSerialHandler;
 import org.xbup.lib.core.serial.XBSerializable;
@@ -37,16 +38,22 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 0 serialization handler using basic parser mapping to provider.
  *
- * @version 0.1.24 2014/08/23
+ * @version 0.1.24 2014/11/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBChildProviderSerialHandler implements XBChildInputSerialHandler, XBTokenInputSerialHandler {
 
     private XBPullProvider pullProvider;
     private XBChildSerialState state;
+    private XBReadSerialHandler childHandler = null;
 
     public XBChildProviderSerialHandler() {
         state = XBChildSerialState.BLOCK_BEGIN;
+    }
+
+    public XBChildProviderSerialHandler(XBReadSerialHandler childHandler) {
+        this();
+        this.childHandler = childHandler;
     }
 
     @Override
@@ -151,12 +158,15 @@ public class XBChildProviderSerialHandler implements XBChildInputSerialHandler, 
 
         if (child instanceof XBChildSerializable) {
             state = XBChildSerialState.CHILDREN;
-            XBChildProviderSerialHandler childHandler = new XBChildProviderSerialHandler();
-            childHandler.attachXBPullProvider(new XBPrefixPullProvider(pullProvider, prefix));
-            ((XBChildSerializable) child).serializeFromXB(childHandler);
+            XBChildProviderSerialHandler childInput = new XBChildProviderSerialHandler();
+            childInput.attachXBPullProvider(new XBPrefixPullProvider(pullProvider, prefix));
+            ((XBChildSerializable) child).serializeFromXB(childInput);
         } else {
-            // TODO support for other serialization types
-            throw new UnsupportedOperationException("Not supported yet.");
+            if (childHandler != null) {
+                childHandler.read(child);
+            } else {
+                throw new XBProcessingException("Unsupported child serialization", XBProcessingExceptionType.UNKNOWN);
+            }
         }
     }
 

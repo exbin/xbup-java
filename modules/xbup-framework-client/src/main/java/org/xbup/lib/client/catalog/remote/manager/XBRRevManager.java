@@ -28,7 +28,7 @@ import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.manager.XBCRevManager;
-import org.xbup.lib.core.catalog.client.XBCatalogServiceMessage;
+import org.xbup.lib.client.XBCatalogServiceMessage;
 import org.xbup.lib.client.catalog.remote.XBRBlockRev;
 import org.xbup.lib.client.catalog.remote.XBRFormatRev;
 import org.xbup.lib.client.catalog.remote.XBRGroupRev;

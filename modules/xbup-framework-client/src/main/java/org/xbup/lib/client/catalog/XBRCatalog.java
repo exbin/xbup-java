@@ -49,7 +49,7 @@ import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.core.catalog.base.service.XBCService;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXInfoService;
-import org.xbup.lib.core.catalog.client.XBCatalogServiceClient;
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.remote.XBRBlockSpec;
 import org.xbup.lib.client.catalog.remote.XBRFormatSpec;
 import org.xbup.lib.client.catalog.remote.XBRGroupSpec;

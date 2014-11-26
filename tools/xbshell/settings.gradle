@@ -3,6 +3,7 @@ include ":modules:xbup-core"
 include ":modules:xbup-catalog"
 include ":modules:xbup-framework-client"
 include ":modules:xbup-plugin"
+include ":modules:xbup-visual"
 include ":modules:xbup-editor-base"
 include ":modules:xbup-editor-base-api"
 include ":modules:xbup-editor-module-frame"
@@ -15,6 +16,7 @@ if (rootProject.path == ':') {
     project(':modules:xbup-catalog').projectDir = new File(rootProjectDir + "/modules/xbup-catalog")
     project(':modules:xbup-framework-client').projectDir = new File(rootProjectDir + "/modules/xbup-framework-client")
     project(':modules:xbup-plugin').projectDir = new File(rootProjectDir + "/modules/xbup-plugin")
+    project(':modules:xbup-visual').projectDir = new File(rootProjectDir + "/modules/xbup-visual")
     project(':modules:xbup-editor-base').projectDir = new File(rootProjectDir + "/modules/xbup-editor-base")
     project(':modules:xbup-editor-base-api').projectDir = new File(rootProjectDir + "/modules/xbup-editor-base-api")
     project(':modules:xbup-editor-module-frame').projectDir = new File(rootProjectDir + "/modules/xbup-editor-module-frame")

@@ -30,7 +30,7 @@ import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
 import org.xbup.lib.core.catalog.base.XBCSpecDefType;
 import org.xbup.lib.core.catalog.base.manager.XBCSpecManager;
-import org.xbup.lib.core.catalog.client.XBCatalogServiceMessage;
+import org.xbup.lib.client.XBCatalogServiceMessage;
 import org.xbup.lib.client.catalog.remote.XBRBlockCons;
 import org.xbup.lib.client.catalog.remote.XBRBlockJoin;
 import org.xbup.lib.client.catalog.remote.XBRBlockListCons;

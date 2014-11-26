@@ -18,7 +18,7 @@ package org.xbup.lib.client.catalog.remote;
 
 import org.xbup.lib.core.catalog.base.XBCBlockListJoin;
 import org.xbup.lib.core.catalog.base.XBCSpecDefType;
-import org.xbup.lib.core.catalog.client.XBCatalogServiceClient;
+import org.xbup.lib.client.XBCatalogServiceClient;
 
 /**
  *

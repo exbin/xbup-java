@@ -27,8 +27,8 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
-import org.xbup.lib.core.serial.child.XBChildSerialState;
 import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.serial.XBWriteSerialHandler;
 import org.xbup.lib.core.serial.token.XBTTokenOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
@@ -40,16 +40,20 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * XBUP level 1 serialization handler using serialization sequence parser
  * mapping to token listener.
  *
- * @version 0.1.24 2014/10/24
+ * @version 0.1.24 2014/11/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandler, XBTSequenceOutputSerialHandler, XBTSerialSequenceable, XBTTokenOutputSerialHandler {
 
     private XBTEventListener eventListener;
-    private final XBChildSerialState state;
+    private XBWriteSerialHandler childHandler = null;
 
     public XBTSequenceListenerSerialHandler() {
-        state = XBChildSerialState.BLOCK_BEGIN;
+    }
+
+    public XBTSequenceListenerSerialHandler(XBWriteSerialHandler childHandler) {
+        this();
+        this.childHandler = childHandler;
     }
 
     @Override
@@ -111,14 +115,14 @@ public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandle
                     XBSerialSequenceList list = (XBSerialSequenceList) item.getItem();
                     UBNatural count = list.getSize();
                     serial.addAttribute(count);
-                    params.add(new XBSerialSequenceListSerializable(list));
+                    params.add(new XBTSequenceListSerializable(list));
                     break;
                 }
                 case LIST_CONSIST: {
                     XBSerialSequenceIList list = (XBSerialSequenceIList) item.getItem();
                     UBENatural count = list.getSize();
                     serial.addAttribute(new UBNat32(count.getLong()));
-                    params.add(new XBSerialSequenceIListSerializable(list));
+                    params.add(new XBTSequenceIListSerializable(list));
                     break;
                 }
             }

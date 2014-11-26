@@ -31,11 +31,11 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
  * @version 0.1.24 2014/10/24
  * @author XBUP Project (http://xbup.org)
  */
-public class XBSerialSequenceIListSerializable implements XBSerialSequenceIList, XBTChildSerializable {
+public class XBTSequenceIListSerializable implements XBSerialSequenceIList, XBTChildSerializable {
 
     private final XBSerialSequenceIList list;
 
-    public XBSerialSequenceIListSerializable(XBSerialSequenceIList list) {
+    public XBTSequenceIListSerializable(XBSerialSequenceIList list) {
         this.list = list;
     }
 

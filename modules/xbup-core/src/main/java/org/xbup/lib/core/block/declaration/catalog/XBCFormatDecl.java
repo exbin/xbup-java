@@ -25,7 +25,6 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
-import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCFormatRev;
 import org.xbup.lib.core.parser.XBProcessingException;

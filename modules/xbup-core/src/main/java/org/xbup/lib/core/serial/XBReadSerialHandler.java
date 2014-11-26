@@ -14,39 +14,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.client.catalog.remote;
-
-import org.xbup.lib.core.catalog.base.XBCGroupJoin;
-import org.xbup.lib.client.XBCatalogServiceClient;
+package org.xbup.lib.core.serial;
 
 /**
+ * Interface for XBUP serialization reading processor.
  *
- * @version 0.1.22 2013/01/11
+ * @version 0.1.24 2014/11/26
  * @author XBUP Project (http://xbup.org)
  */
-public class XBRGroupJoin extends XBRJoinDef implements XBCGroupJoin {
+public interface XBReadSerialHandler {
 
-    public XBRGroupJoin(XBCatalogServiceClient client, long id) {
-        super(client,id);
-    }
-
-    @Override
-    public XBRGroupRev getTarget() {
-        XBRRev item = super.getTarget();
-        if (item == null) {
-            return null;
-        }
-
-        return new XBRGroupRev(item.client,item.getId());
-    }
-
-    @Override
-    public XBRGroupSpec getSpec() {
-        XBRSpec item = super.getSpec();
-        if (item == null) {
-            return null;
-        }
-        return new XBRGroupSpec(item.client,item.getId());
-    }
-
+    /**
+     * Read data from serializable object.
+     *
+     * @param serial serializable object to process
+     */
+    public void read(XBSerializable serial);
 }

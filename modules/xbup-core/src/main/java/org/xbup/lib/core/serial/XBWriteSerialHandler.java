@@ -14,28 +14,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.catalog.client;
+package org.xbup.lib.core.serial;
 
 /**
- * Connection client handler for remote catalogs.
+ * Interface for XBUP serialization writting processor.
  *
- * @version 0.1.18 2009/10/31
+ * @version 0.1.24 2014/11/26
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBCatalogServiceClient {
+public interface XBWriteSerialHandler {
 
     /**
-     * Executes remote procedure of XBUP Service
+     * Writes data to serializable object.
      *
-     * @param procedureId procedure identification array
-     * @return message handler
+     * @param serial serializable object to process
      */
-    public XBCatalogServiceMessage executeProcedure(long[] procedureId);
-
-    /**
-     * Checks whether connection is valid.
-     *
-     * @return true, if connection is valid
-     */
-    public abstract boolean validate();
+    public void write(XBSerializable serial);
 }

@@ -509,6 +509,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
                     formatDecl.setDefDeclaration(defDecl);
                     XBDeclaration declaration = new XBDeclaration(formatDecl, wavePanel.getWave());
                     XBAPCatalog catalog = new XBAPCatalog();
+                    catalog.setRootContext(declaration.generateContext(catalog));
                     XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
                     encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
                     handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));

@@ -68,11 +68,11 @@ public class XBSerialSequence {
     }
 
     public void listJoin(XBSerialSequenceList item) {
-        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_JOIN, new XBSerialSequenceListSerializable(item)));
+        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_JOIN, new XBTSequenceListSerializable(item)));
     }
 
     public void listConsist(XBSerialSequenceIList item) {
-        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_CONSIST, new XBSerialSequenceIListSerializable(item)));
+        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_CONSIST, new XBTSequenceIListSerializable(item)));
     }
 
     public XBBlockType getBlockType() {

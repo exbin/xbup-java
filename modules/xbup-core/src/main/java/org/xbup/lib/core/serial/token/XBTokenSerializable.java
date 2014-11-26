@@ -16,8 +16,6 @@
  */
 package org.xbup.lib.core.serial.token;
 
-import org.xbup.lib.core.serial.basic.XBBasicInputSerialHandler;
-import org.xbup.lib.core.serial.basic.XBBasicOutputSerialHandler;
 import java.io.IOException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBSerializable;
@@ -38,7 +36,7 @@ public interface XBTokenSerializable extends XBSerializable {
      * @throws XBProcessingException if proccesing problem encountered
      * @throws IOException if input/output problem encountered
      */
-    public void serializeFromXB(XBBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException;
+    public void serializeFromXB(XBTokenInputSerialHandler serializationHandler) throws XBProcessingException, IOException;
 
     /**
      * Performs serialization to XBUP protocol using particular method.
@@ -47,5 +45,5 @@ public interface XBTokenSerializable extends XBSerializable {
      * @throws XBProcessingException if proccesing problem encountered
      * @throws IOException if input/output problem encountered
      */
-    public void serializeToXB(XBBasicOutputSerialHandler serializationHandler) throws XBProcessingException, IOException;
+    public void serializeToXB(XBTokenOutputSerialHandler serializationHandler) throws XBProcessingException, IOException;
 }

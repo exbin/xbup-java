@@ -18,6 +18,8 @@ package org.xbup.lib.core.catalog;
 
 import java.util.List;
 import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.XBDBlockType;
+import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
@@ -34,14 +36,20 @@ import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 /**
  * XBUP level 2 limited path supporting catalog.
  *
- * @version 0.1.24 2014/11/24
+ * @version 0.1.24 2014/11/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBAPCatalog implements XBACatalog {
 
+    private XBContext rootContext;
+
     @Override
     public XBContext getRootContext() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return rootContext;
+    }
+
+    public void setRootContext(XBContext rootContext) {
+        this.rootContext = rootContext;
     }
 
     @Override
@@ -101,11 +109,21 @@ public class XBAPCatalog implements XBACatalog {
 
     @Override
     public XBFixedBlockType findFixedType(XBContext context, XBBlockDecl decl) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return context.getFixedBlockType(decl);
     }
 
     @Override
     public XBFixedBlockType findFixedType(XBContext context, XBBlockType type) {
+        if (type == null) {
+            return new XBFixedBlockType();
+        }
+        if (type instanceof XBDBlockType) {
+            return context.getFixedBlockType(((XBDBlockType) type).getBlockDecl());
+        }
+        if (type instanceof XBFixedBlockType) {
+            return (XBFixedBlockType) type;
+        }
+
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

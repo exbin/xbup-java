@@ -26,7 +26,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
-import org.xbup.lib.core.serial.child.XBChildSerialState;
+import org.xbup.lib.core.serial.XBReadSerialHandler;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.token.XBTTokenInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildProvider;
@@ -41,16 +41,20 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
  * XBUP level 1 serialization handler using serialization sequence parser
  * mapping to token provider.
  *
- * @version 0.1.24 2014/09/29
+ * @version 0.1.24 2014/11/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTSequenceProviderSerialHandler implements XBTSequenceSerialHandler, XBTSequenceInputSerialHandler, XBTSerialSequenceable, XBTTokenInputSerialHandler {
 
     private XBTPullProvider pullProvider;
-    private final XBChildSerialState state;
+    private XBReadSerialHandler childHandler = null;
 
     public XBTSequenceProviderSerialHandler() {
-        state = XBChildSerialState.BLOCK_BEGIN;
+    }
+
+    public XBTSequenceProviderSerialHandler(XBReadSerialHandler childHandler) {
+        this();
+        this.childHandler = childHandler;
     }
 
     @Override
@@ -111,14 +115,14 @@ public class XBTSequenceProviderSerialHandler implements XBTSequenceSerialHandle
                     XBSerialSequenceList list = (XBSerialSequenceList) seqItem.getItem();
                     UBNatural count = handler.nextAttribute();
                     list.setSize(count);
-                    children.add(new XBSerialSequenceListSerializable(list));
+                    children.add(new XBTSequenceListSerializable(list));
                     break;
                 }
                 case LIST_CONSIST: {
                     XBSerialSequenceIList list = (XBSerialSequenceIList) seqItem.getItem();
                     UBENatural count = new UBENat32(handler.nextAttribute().getInt()); // TODO: Handle infinity
                     list.setSize(count);
-                    children.add(new XBSerialSequenceIListSerializable(list));
+                    children.add(new XBTSequenceIListSerializable(list));
                     break;
                 }
             }

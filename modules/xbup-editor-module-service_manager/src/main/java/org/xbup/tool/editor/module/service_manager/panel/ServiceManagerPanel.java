@@ -41,7 +41,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXPaneService;
 import org.xbup.lib.core.catalog.base.service.XBCXPlugService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
-import org.xbup.lib.core.catalog.client.XBCatalogNetServiceClient;
+import org.xbup.lib.client.XBCatalogNetServiceClient;
 import org.xbup.lib.client.catalog.remote.service.XBRXDescService;
 import org.xbup.lib.client.catalog.remote.service.XBRXFileService;
 import org.xbup.lib.client.catalog.remote.service.XBRXHDocService;

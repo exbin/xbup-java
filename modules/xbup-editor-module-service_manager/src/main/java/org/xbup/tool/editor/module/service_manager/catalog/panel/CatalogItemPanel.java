@@ -49,7 +49,7 @@ import org.xbup.tool.editor.base.api.MainFrameManagement;
 /**
  * Panel for basic XBItem viewing/editation.
  *
- * @version 0.1.24 2014/11/22
+ * @version 0.1.24 2014/11/26
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemPanel extends javax.swing.JPanel {
@@ -129,7 +129,6 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         generalPanel = new javax.swing.JPanel();
         basicItemScrollPane = new javax.swing.JScrollPane();
         basicItemDataPanel = new javax.swing.JPanel();
-        itemIconLabel = new javax.swing.JLabel();
         itemTitleLabel = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         itemNameLabel = new javax.swing.JLabel();
@@ -142,6 +141,8 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         itemDescriptionTextField = new javax.swing.JTextField();
         itemCreatedLabel = new javax.swing.JLabel();
         itemCreatedTextField = new javax.swing.JTextField();
+        iconPanel = new javax.swing.JPanel();
+        itemIconLabel = new javax.swing.JLabel();
         documentationPanel = new javax.swing.JPanel();
         itemHDocScrollPane = new javax.swing.JScrollPane();
         itemHDocEditorPane = new javax.swing.JEditorPane();
@@ -177,10 +178,6 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         basicItemScrollPane.setName("basicItemScrollPane"); // NOI18N
 
         basicItemDataPanel.setName("basicItemDataPanel"); // NOI18N
-
-        itemIconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/service_manager/resources/images/empty.png"))); // NOI18N
-        itemIconLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        itemIconLabel.setName("itemIconLabel"); // NOI18N
 
         itemTitleLabel.setText("Unknown item");
         itemTitleLabel.setName("itemTitleLabel"); // NOI18N
@@ -218,6 +215,14 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         itemCreatedTextField.setEditable(false);
         itemCreatedTextField.setName("itemCreatedTextField"); // NOI18N
 
+        iconPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        iconPanel.setName("iconPanel"); // NOI18N
+        iconPanel.setLayout(new java.awt.BorderLayout());
+
+        itemIconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/service_manager/resources/images/empty.png"))); // NOI18N
+        itemIconLabel.setName("itemIconLabel"); // NOI18N
+        iconPanel.add(itemIconLabel, java.awt.BorderLayout.CENTER);
+
         javax.swing.GroupLayout basicItemDataPanelLayout = new javax.swing.GroupLayout(basicItemDataPanel);
         basicItemDataPanel.setLayout(basicItemDataPanelLayout);
         basicItemDataPanelLayout.setHorizontalGroup(
@@ -226,11 +231,11 @@ public class CatalogItemPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(basicItemDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(basicItemDataPanelLayout.createSequentialGroup()
-                        .addComponent(itemIconLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(itemTitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE))
+                        .addComponent(iconPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(itemTitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jSeparator1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, basicItemDataPanelLayout.createSequentialGroup()
+                    .addGroup(basicItemDataPanelLayout.createSequentialGroup()
                         .addGroup(basicItemDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(itemPathLabel)
                             .addComponent(itemNameLabel)
@@ -239,24 +244,21 @@ public class CatalogItemPanel extends javax.swing.JPanel {
                             .addComponent(itemTypeLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(basicItemDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(itemCreatedTextField)
-                            .addComponent(itemNameTextField)
+                            .addComponent(itemCreatedTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
                             .addComponent(itemPathTextField)
                             .addComponent(itemTypeTextField)
-                            .addComponent(itemDescriptionTextField))))
+                            .addComponent(itemDescriptionTextField)
+                            .addComponent(itemNameTextField))))
                 .addContainerGap())
         );
         basicItemDataPanelLayout.setVerticalGroup(
             basicItemDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(basicItemDataPanelLayout.createSequentialGroup()
-                .addGroup(basicItemDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(basicItemDataPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(itemIconLabel))
-                    .addGroup(basicItemDataPanelLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(itemTitleLabel)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap()
+                .addGroup(basicItemDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(itemTitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(iconPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(basicItemDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -278,7 +280,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
                 .addGroup(basicItemDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(itemCreatedTextField)
                     .addComponent(itemCreatedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
 
         basicItemScrollPane.setViewportView(basicItemDataPanel);
@@ -300,11 +302,11 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         documentationPanel.setLayout(documentationPanelLayout);
         documentationPanelLayout.setHorizontalGroup(
             documentationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(itemHDocScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+            .addComponent(itemHDocScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE)
         );
         documentationPanelLayout.setVerticalGroup(
             documentationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(itemHDocScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
+            .addComponent(itemHDocScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
         );
 
         mainTabbedPane.addTab("Documentation", documentationPanel);
@@ -356,6 +358,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
     private javax.swing.JPopupMenu definitionPopupMenu;
     private javax.swing.JPanel documentationPanel;
     private javax.swing.JPanel generalPanel;
+    private javax.swing.JPanel iconPanel;
     private javax.swing.JLabel itemCreatedLabel;
     private javax.swing.JTextField itemCreatedTextField;
     private javax.swing.JScrollPane itemDefinitionScrollPane;

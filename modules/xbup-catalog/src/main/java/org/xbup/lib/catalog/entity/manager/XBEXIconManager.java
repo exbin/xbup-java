@@ -36,7 +36,7 @@ import org.xbup.lib.catalog.entity.XBEXIconMode;
 /**
  * XBUP catalog icon manager.
  *
- * @version 0.1.21 2012/01/01
+ * @version 0.1.24 2014/11/26
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -83,7 +83,7 @@ public class XBEXIconManager extends XBEDefaultManager<XBEXIcon> implements XBCX
     public XBEXIcon getDefaultIcon(XBCItem item) {
         try {
             return (XBEXIcon) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXIcon as o WHERE o.parent.id = " + item.getId()
-                    + " AND NOT EXISTS(SELECT b.id FROM XBXIcon as b WHERE b.parent.id = " + item.getId() + " AND (b.mode.id < o.mode.id OR (b.mode.id = o.mode.id AND b.id < o.id)))").getSingleResult();
+                    + " AND NOT EXISTS(SELECT b.id FROM XBXIcon as b WHERE b.parent.id = " + item.getId() + " AND (b.mode.id > o.mode.id OR (b.mode.id = o.mode.id AND b.id > o.id)))").getSingleResult();
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {
@@ -103,9 +103,9 @@ public class XBEXIconManager extends XBEDefaultManager<XBEXIcon> implements XBCX
     }
 
     @Override
-    public XBEXIconMode getIconMode(Long type) {
+    public XBEXIconMode getIconMode(Long modeId) {
         try {
-            return (XBEXIconMode) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXIconMode as o WHERE o.id = " + type).getSingleResult();
+            return (XBEXIconMode) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXIconMode as o WHERE o.id = " + modeId).getSingleResult();
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {
@@ -126,5 +126,47 @@ public class XBEXIconManager extends XBEDefaultManager<XBEXIcon> implements XBCX
             return null;
         }
         return fileManager.getFileAsImageIcon(file);
+    }
+
+    @Override
+    public XBCXIcon getDefaultBigIcon(XBCItem item) {
+        XBEXIcon icon;
+        try {
+            icon = (XBEXIcon) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXIcon as o, XBXIconMode as m WHERE o.parent.id = " + item.getId() + " AND o.mode = m AND m.caption = 'PNG 32x32'").getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        } catch (Exception ex) {
+            Logger.getLogger(XBEXIconManager.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+
+        return icon;
+    }
+
+    @Override
+    public XBCXIcon getDefaultSmallIcon(XBCItem item) {
+        XBEXIcon icon;
+        try {
+            icon = (XBEXIcon) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXIcon as o, XBXIconMode as m WHERE o.parent.id = " + item.getId() + " AND o.mode = m AND m.caption = 'PNG 16x16'").getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        } catch (Exception ex) {
+            Logger.getLogger(XBEXIconManager.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+
+        return icon;
+    }
+
+    @Override
+    public byte[] getDefaultBigIconData(XBCItem item) {
+        XBEXIcon icon = (XBEXIcon) getDefaultBigIcon(item);
+        return icon == null || icon.getIconFile() == null ? null : icon.getIconFile().getContent();
+    }
+
+    @Override
+    public byte[] getDefaultSmallIconData(XBCItem item) {
+        XBEXIcon icon = (XBEXIcon) getDefaultSmallIcon(item);
+        return icon == null || icon.getIconFile() == null ? null : icon.getIconFile().getContent();
     }
 }

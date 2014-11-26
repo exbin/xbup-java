@@ -73,7 +73,7 @@ public class XBRXIcon implements XBCXIcon {
         return id;
     }
 
-    @Override
+/*    @Override
     public Long getXBIndex() {
         try {
             XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.XBINDEX_ICON_PROCEDURE);
@@ -91,7 +91,7 @@ public class XBRXIcon implements XBCXIcon {
             Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-    }
+    } */
 
     @Override
     public XBCXIconMode getMode() {

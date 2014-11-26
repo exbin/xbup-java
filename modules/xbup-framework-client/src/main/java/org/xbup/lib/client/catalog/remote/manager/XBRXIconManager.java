@@ -43,7 +43,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Manager class for XBRXIcon catalog items.
  *
- * @version 0.1.21 2012/01/01
+ * @version 0.1.24 2014/11/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXIconManager extends XBRDefaultManager<XBRXIcon> implements XBCXIconManager<XBRXIcon> {
@@ -54,25 +54,25 @@ public class XBRXIconManager extends XBRDefaultManager<XBRXIcon> implements XBCX
 
     public Long getAllIconsCount() {
         throw new UnsupportedOperationException("Not supported yet.");
-/*        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SPECSCOUNT_SPEC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            Long index = checker.attribXB().getLong();
-            checker.endXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getExtensionName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getExtensionName()).log(Level.SEVERE, null, ex);
-        }
-        return null; */
+        /*        try {
+         XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SPECSCOUNT_SPEC_PROCEDURE);
+         XBListener listener = message.getXBOutput();
+         listener.endXB();
+         XBStreamChecker checker = message.getXBInput();
+         Long index = checker.attribXB().getLong();
+         checker.endXB();
+         message.close();
+         return index;
+         } catch (XBProcessingException ex) {
+         Logger.getLogger(XBRItem.class.getExtensionName()).log(Level.SEVERE, null, ex);
+         } catch (IOException ex) {
+         Logger.getLogger(XBRItem.class.getExtensionName()).log(Level.SEVERE, null, ex);
+         }
+         return null; */
     }
 
     public Long[] getFileXBPath(XBCXFile file) {
-        ArrayList<Long> list = new ArrayList<Long>();
+        ArrayList<Long> list = new ArrayList<>();
         XBCNode parent = file.getNode();
         while (parent != null) {
             if (parent.getParent() != null) {
@@ -102,9 +102,7 @@ public class XBRXIconManager extends XBRDefaultManager<XBRXIcon> implements XBCX
                 return null;
             }
             return new XBRXIcon(client, index);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -136,7 +134,7 @@ public class XBRXIconManager extends XBRDefaultManager<XBRXIcon> implements XBCX
 
     @Override
     public ImageIcon getDefaultImageIcon(XBCItem item) {
-        XBRXFileManager fileManager = (XBRXFileManager)catalog.getCatalogManager(XBCXFileManager.class);
+        XBRXFileManager fileManager = (XBRXFileManager) catalog.getCatalogManager(XBCXFileManager.class);
         XBCXIcon icon = getDefaultIcon(item);
         if (icon == null) {
             return null;
@@ -147,5 +145,25 @@ public class XBRXIconManager extends XBRDefaultManager<XBRXIcon> implements XBCX
         }
         // TODO: This is ugly copy, catalog instance should be passed?
         return fileManager.getFileAsImageIcon(file);
+    }
+
+    @Override
+    public XBCXIcon getDefaultBigIcon(XBCItem item) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBCXIcon getDefaultSmallIcon(XBCItem item) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public byte[] getDefaultBigIconData(XBCItem item) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public byte[] getDefaultSmallIconData(XBCItem item) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -49,9 +50,6 @@ public class XBPicturePanel extends javax.swing.JPanel implements XBTChildSerial
 
     private final JFileChooser openFC, saveFC;
 
-    /**
-     * Creates new form XBPicturePanel
-     */
     public XBPicturePanel() {
         initComponents();
 
@@ -70,7 +68,7 @@ public class XBPicturePanel extends javax.swing.JPanel implements XBTChildSerial
         saveFC.setAcceptAllFileFilterUsed(true);
 //        openFC.setFileFilter(openFC.getAcceptAllFileFilter());
 //        saveFC.setFileFilter(saveFC.getAcceptAllFileFilter());
-        jLabel1.setIcon(new ImageIcon());
+        imageLabel.setIcon(new ImageIcon());
     }
 
     /**
@@ -82,26 +80,26 @@ public class XBPicturePanel extends javax.swing.JPanel implements XBTChildSerial
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton2 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jLabel1 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        imageScrollPane = new javax.swing.JScrollPane();
+        imageLabel = new javax.swing.JLabel();
+        importButton = new javax.swing.JButton();
+        exportButton = new javax.swing.JButton();
 
-        jButton2.setText("Import...");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        imageLabel.setAutoscrolls(true);
+        imageLabel.setDoubleBuffered(true);
+        imageScrollPane.setViewportView(imageLabel);
+
+        importButton.setText("Import...");
+        importButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                importButtonActionPerformed(evt);
             }
         });
 
-        jLabel1.setAutoscrolls(true);
-        jLabel1.setDoubleBuffered(true);
-        jScrollPane1.setViewportView(jLabel1);
-
-        jButton3.setText("Export...");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        exportButton.setText("Export...");
+        exportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                exportButtonActionPerformed(evt);
             }
         });
 
@@ -111,11 +109,11 @@ public class XBPicturePanel extends javax.swing.JPanel implements XBTChildSerial
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                .addComponent(imageScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(exportButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(importButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -123,22 +121,22 @@ public class XBPicturePanel extends javax.swing.JPanel implements XBTChildSerial
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                    .addComponent(imageScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(importButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)))
+                        .addComponent(exportButton)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+private void importButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importButtonActionPerformed
     if (openFC.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-        jLabel1.setIcon(new ImageIcon(openFC.getSelectedFile().getAbsolutePath()));
+        imageLabel.setIcon(new ImageIcon(openFC.getSelectedFile().getAbsolutePath()));
     }
-}//GEN-LAST:event_jButton2ActionPerformed
+}//GEN-LAST:event_importButtonActionPerformed
 
-private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
     if (saveFC.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
         try {
             File file = new File(saveFC.getSelectedFile().getAbsolutePath());
@@ -146,19 +144,19 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             if (saveFC.getFileFilter() instanceof ImageFileFilter) {
                 ext = ((ImageFileFilter) saveFC.getFileFilter()).getExt();
             }
-            ImageIO.write(toBufferedImage(((ImageIcon) jLabel1.getIcon()).getImage()), ext, file);
-            jLabel1.setIcon(new ImageIcon(openFC.getSelectedFile().getAbsolutePath()));
+            ImageIO.write(toBufferedImage(((ImageIcon) imageLabel.getIcon()).getImage()), ext, file);
+            imageLabel.setIcon(new ImageIcon(saveFC.getSelectedFile().getAbsolutePath()));
         } catch (IOException ex) {
             Logger.getLogger(XBPicturePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-}//GEN-LAST:event_jButton3ActionPerformed
+}//GEN-LAST:event_exportButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton exportButton;
+    private javax.swing.JLabel imageLabel;
+    private javax.swing.JScrollPane imageScrollPane;
+    private javax.swing.JButton importButton;
     // End of variables declaration//GEN-END:variables
 
     // This method returns a buffered image with the contents of an image
@@ -233,16 +231,24 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         return cm.hasAlpha();
     }
 
+    public Icon getIcon() {
+        return imageLabel.getIcon();
+    }
+
+    public void setIcon(Icon icon) {
+        imageLabel.setIcon(icon);
+    }
+    
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         XBBufferedImage image = new XBBufferedImage();
         image.serializeFromXB(serializationHandler);
-        ((ImageIcon) jLabel1.getIcon()).setImage(image.getImage());
+        ((ImageIcon) imageLabel.getIcon()).setImage(image.getImage());
     }
 
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(((ImageIcon) jLabel1.getIcon()).getImage()));
+        XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(((ImageIcon) imageLabel.getIcon()).getImage()));
         bufferedImage.serializeToXB(serializationHandler);
     }
 }

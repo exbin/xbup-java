@@ -44,14 +44,19 @@ import org.xbup.lib.catalog.entity.XBEItem;
 import org.xbup.lib.catalog.entity.XBENode;
 import org.xbup.lib.catalog.entity.XBEXFile;
 import org.xbup.lib.catalog.entity.XBEXHDoc;
+import org.xbup.lib.catalog.entity.XBEXIcon;
+import org.xbup.lib.catalog.entity.XBEXIconMode;
 import org.xbup.lib.catalog.entity.XBEXLanguage;
 import org.xbup.lib.catalog.entity.service.XBEXFileService;
 import org.xbup.lib.catalog.entity.service.XBEXHDocService;
+import org.xbup.lib.catalog.entity.service.XBEXIconService;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.XBCXHDoc;
+import org.xbup.lib.core.catalog.base.XBCXIcon;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.core.catalog.base.service.XBCXFileService;
 import org.xbup.lib.core.catalog.base.service.XBCXHDocService;
+import org.xbup.lib.core.catalog.base.service.XBCXIconService;
 import org.xbup.lib.core.catalog.base.service.XBCXLangService;
 import sun.swing.DefaultLookup;
 
@@ -179,8 +184,8 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
         tableModel.addRow(new String[]{"StringId", pathName});
         tableModel.addRow(new String[]{"HDoc", ""});
 
-        tableModel.addRow(new String[]{"Big Icon", ""});
-        tableModel.addRow(new String[]{"Small Icon", ""});
+        tableModel.addRow(new String[]{"Big Icon (32x32)", ""});
+        tableModel.addRow(new String[]{"Small Icon (16x16)", ""});
 
         TableColumnModel columns = propertiesTable.getColumnModel();
         docCellPanel = new CatalogDocPropertyTableCellPanel(catalog);
@@ -326,6 +331,78 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
 
                 ((XBEXFileService) fileService).persistItem((XBEXFile) itemHDocFile);
                 ((XBEXHDocService) hdocService).persistItem((XBEXHDoc) itemHDoc);
+            }
+        }
+
+        byte[] bigIcon = bIconCellPanel.getIcon();
+        if (bigIcon != null) {
+            XBCXFileService fileService = (XBCXFileService) catalog.getCatalogService(XBCXFileService.class);
+            XBCXIconService iconService = (XBCXIconService) catalog.getCatalogService(XBCXIconService.class);
+
+            XBCXIcon itemIcon = iconService.getDefaultBigIcon(catalogItem);
+            if (bigIcon.length == 0) {
+                if (itemIcon != null) {
+                    fileService.removeItem(itemIcon.getIconFile());
+                    ((XBEXIcon) itemIcon).setIconFile(null);
+                    iconService.removeItem(itemIcon);
+                }
+            } else {
+                if (itemIcon == null) {
+                    itemIcon = new XBEXIcon();
+                    ((XBEXIcon) itemIcon).setParent((XBEItem) catalogItem);
+                    ((XBEXIcon) itemIcon).setMode((XBEXIconMode) iconService.getIconMode(2l));
+                }
+
+                XBCXFile itemIconFile = itemIcon.getIconFile();
+                if (itemIconFile == null) {
+                    XBCXStri stringId = striService.getItemStringId(catalogItem);
+                    String itemPath = stringId == null ? "" : stringId.getText();
+                    itemIconFile = (XBCXFile) fileService.createItem();
+                    ((XBEXFile) itemIconFile).setFilename("bicon-" + itemPath);
+                    ((XBEXFile) itemIconFile).setNode((XBENode) catalogItem.getParent());
+                    ((XBEXIcon) itemIcon).setIconFile((XBEXFile) itemIconFile);
+                }
+
+                ((XBEXFile) itemIconFile).setContent(bigIcon);
+
+                ((XBEXFileService) fileService).persistItem((XBEXFile) itemIconFile);
+                ((XBEXIconService) iconService).persistItem((XBEXIcon) itemIcon);
+            }
+        }
+
+        byte[] smallIcon = sIconCellPanel.getIcon();
+        if (smallIcon != null) {
+            XBCXFileService fileService = (XBCXFileService) catalog.getCatalogService(XBCXFileService.class);
+            XBCXIconService iconService = (XBCXIconService) catalog.getCatalogService(XBCXIconService.class);
+
+            XBCXIcon itemIcon = iconService.getDefaultSmallIcon(catalogItem);
+            if (smallIcon.length == 0) {
+                if (itemIcon != null) {
+                    fileService.removeItem(itemIcon.getIconFile());
+                    ((XBEXIcon) itemIcon).setIconFile(null);
+                    iconService.removeItem(itemIcon);
+                }
+            } else {
+                if (itemIcon == null) {
+                    itemIcon = new XBEXIcon();
+                    ((XBEXIcon) itemIcon).setParent((XBEItem) catalogItem);
+                    ((XBEXIcon) itemIcon).setMode((XBEXIconMode) iconService.getIconMode(1l));
+                }
+
+                XBCXFile itemIconFile = itemIcon.getIconFile();
+                if (itemIconFile == null) {
+                    XBCXStri stringId = striService.getItemStringId(catalogItem);
+                    String itemPath = stringId == null ? "" : stringId.getText();
+                    itemIconFile = (XBCXFile) fileService.createItem();
+                    ((XBEXFile) itemIconFile).setFilename("sicon-" + itemPath);
+                    ((XBEXFile) itemIconFile).setNode((XBENode) catalogItem.getParent());
+                    ((XBEXIcon) itemIcon).setIconFile((XBEXFile) itemIconFile);
+                }
+
+                ((XBEXFile) itemIconFile).setContent(smallIcon);
+
+                ((XBEXFileService) fileService).persistItem((XBEXFile) itemIconFile);
+                ((XBEXIconService) iconService).persistItem((XBEXIcon) itemIcon);
             }
         }
     }

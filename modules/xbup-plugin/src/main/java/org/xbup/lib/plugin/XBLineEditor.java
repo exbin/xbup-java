@@ -24,5 +24,4 @@ package org.xbup.lib.plugin;
  */
 public interface XBLineEditor {
 
-
 }

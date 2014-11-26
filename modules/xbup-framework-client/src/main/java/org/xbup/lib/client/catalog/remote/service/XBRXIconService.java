@@ -32,7 +32,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRXIconManager;
 /**
  * Interface for XBRXIcon items service.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.24 2014/11/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXIconService extends XBRDefaultService<XBRXIcon> implements XBCXIconService<XBRXIcon> {
@@ -45,22 +45,22 @@ public class XBRXIconService extends XBRDefaultService<XBRXIcon> implements XBCX
 
     @Override
     public List<XBCXIcon> getBlockSpecIcons(XBCBlockSpec icon) {
-        return ((XBRXIconManager)itemManager).getBlockSpecIcons(icon);
+        return ((XBRXIconManager) itemManager).getBlockSpecIcons(icon);
     }
 
     @Override
     public XBRXIcon getDefaultIcon(XBCItem item) {
-        return ((XBRXIconManager)itemManager).getDefaultIcon(item);
+        return ((XBRXIconManager) itemManager).getDefaultIcon(item);
     }
 
     @Override
     public ImageIcon getDefaultImageIcon(XBCItem item) {
-        return ((XBRXIconManager)itemManager).getDefaultImageIcon(item);
+        return ((XBRXIconManager) itemManager).getDefaultImageIcon(item);
     }
 
     @Override
     public XBRXIconMode getIconMode(Long type) {
-        return ((XBRXIconManager)itemManager).getIconMode(type);
+        return ((XBRXIconManager) itemManager).getIconMode(type);
     }
 
     @Override
@@ -73,4 +73,23 @@ public class XBRXIconService extends XBRDefaultService<XBRXIcon> implements XBCX
         ((XBCExtension) itemManager).initializeExtension();
     }
 
+    @Override
+    public XBCXIcon getDefaultBigIcon(XBCItem item) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBCXIcon getDefaultSmallIcon(XBCItem item) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public byte[] getDefaultBigIconData(XBCItem item) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public byte[] getDefaultSmallIconData(XBCItem item) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

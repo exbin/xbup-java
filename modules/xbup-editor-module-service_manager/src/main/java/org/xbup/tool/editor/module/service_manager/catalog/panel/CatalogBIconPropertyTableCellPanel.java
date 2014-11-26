@@ -23,11 +23,12 @@ import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.service.XBCXIconService;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogEditIconDialog;
 
 /**
  * Catalog Big Icon Property Cell Panel.
  *
- * @version 0.1.24 2014/11/25
+ * @version 0.1.24 2014/11/26
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogBIconPropertyTableCellPanel extends PropetyTableCellPanel {
@@ -48,23 +49,23 @@ public class CatalogBIconPropertyTableCellPanel extends PropetyTableCellPanel {
     }
 
     public void performEditorAction() {
-        /* CatalogEditIconDialog docDialog = new CatalogEditIconDialog(WindowUtils.getFrame(this), true, catalog, icon);
-        docDialog.setLocationRelativeTo(this);
-        docDialog.setVisible(true);
+        CatalogEditIconDialog iconDialog = new CatalogEditIconDialog(WindowUtils.getFrame(this), true, catalog, icon);
+        iconDialog.setLocationRelativeTo(this);
+        iconDialog.setVisible(true);
 
-        if (docDialog.getDialogOption() == JOptionPane.OK_OPTION) {
-            icon = docDialog.getIcon();
-            setDocLabel();
-        } */
+        if (iconDialog.getDialogOption() == JOptionPane.OK_OPTION) {
+            icon = iconDialog.getIcon();
+            setPropertyLabel();
+        }
     }
 
     public void setCatalogItem(XBCItem catalogItem) {
         XBCXIconService iconService = (XBCXIconService) catalog.getCatalogService(XBCXIconService.class);
-        //icon = iconService.getDefaultBigIcon(catalogItem);
-        setDocLabel();
+        icon = iconService.getDefaultBigIconData(catalogItem);
+        setPropertyLabel();
     }
 
-    private void setDocLabel() {
+    private void setPropertyLabel() {
         setPropertyText(icon == null || icon.length == 0 ? "" : "[" + icon.length + " bytes]");
     }
 

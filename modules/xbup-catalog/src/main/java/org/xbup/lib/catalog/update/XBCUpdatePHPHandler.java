@@ -980,7 +980,6 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                     tx.begin();
                     icon = new XBEXIcon();
                     icon.setParent(item);
-                    icon.setXBIndex(itemIcon.getXBIndex());
                     icon.setIconFile(file);
                     icon.setMode(iconService.getIconMode(itemIcon.getMode()));
                     em.persist(icon);

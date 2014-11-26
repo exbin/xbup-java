@@ -21,29 +21,60 @@ import net.xeoh.plugins.base.Plugin;
 /**
  * XBUP Editor plugin - provides editing panel for XBUP data.
  *
- * @version 0.1.19 2010/08/02
+ * @version 0.1.24 2014/11/26
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBPlugin extends Plugin {
 
-    /** @return Identification catalog path of this plugin file */
+    /**
+     * Gets catalog path of this plugin.
+     *
+     * @return Identification catalog path of this plugin file
+     */
     public String getPluginPath();
 
-    /** Get count of line editors */
+    /**
+     * Gets count of line editors.
+     *
+     * @return count of line editor
+     */
     public long getLineEditorsCount();
 
-    /** Get specific line editor */
+    /**
+     * Gets specific line editor.
+     *
+     * @param index line editor index
+     * @return line editor
+     */
     public XBLineEditor getLineEditor(long index);
 
-    /** Get count of panel editors */
+    /**
+     * Gets count of panel editors.
+     *
+     * @return count of panel editors
+     */
     public long getPanelEditorsCount();
 
-    /** Get specific panel editor */
+    /**
+     * Gets specific panel editor.
+     *
+     * @param index panel editor index
+     * @return panel editor
+     */
     public XBPanelEditor getPanelEditor(long index);
 
-    /** Get count of panel editors */
+    /**
+     * Gets count of transformations.
+     *
+     * @return transformation
+     */
     public long getTransformationCount();
 
-    /** Get specific panel editor */
+    /**
+     * Gets specific transformation.
+     *
+     * @param index transformation index
+     * @return transformation
+     */
     public XBTransformation getTransformation(long index);
 }

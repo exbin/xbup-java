@@ -36,7 +36,7 @@ import org.xbup.lib.catalog.entity.manager.XBEXIconManager;
 /**
  * Interface for XBEXIcon items service.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.24 2014/11/26
  * @author XBUP Project (http://xbup.org)
  */
 @Service
@@ -62,22 +62,22 @@ public class XBEXIconService extends XBEDefaultService<XBEXIcon> implements XBCX
 
     @Override
     public List<XBCXIcon> getBlockSpecIcons(XBCBlockSpec icon) {
-        return ((XBEXIconManager)itemManager).getBlockSpecIcons(icon);
+        return ((XBEXIconManager) itemManager).getBlockSpecIcons(icon);
     }
 
     @Override
     public XBEXIcon getDefaultIcon(XBCItem item) {
-        return ((XBEXIconManager)itemManager).getDefaultIcon(item);
+        return ((XBEXIconManager) itemManager).getDefaultIcon(item);
     }
 
     @Override
     public ImageIcon getDefaultImageIcon(XBCItem item) {
-        return ((XBEXIconManager)itemManager).getDefaultImageIcon(item);
+        return ((XBEXIconManager) itemManager).getDefaultImageIcon(item);
     }
 
     @Override
     public XBEXIconMode getIconMode(Long type) {
-        return ((XBEXIconManager)itemManager).getIconMode(type);
+        return ((XBEXIconManager) itemManager).getIconMode(type);
     }
 
     @Override
@@ -88,5 +88,25 @@ public class XBEXIconService extends XBEDefaultService<XBEXIcon> implements XBCX
     @Override
     public void initializeExtension() {
         ((XBCExtension) itemManager).initializeExtension();
+    }
+
+    @Override
+    public XBCXIcon getDefaultBigIcon(XBCItem item) {
+        return ((XBEXIconManager) itemManager).getDefaultBigIcon(item);
+    }
+
+    @Override
+    public XBCXIcon getDefaultSmallIcon(XBCItem item) {
+        return ((XBEXIconManager) itemManager).getDefaultSmallIcon(item);
+    }
+
+    @Override
+    public byte[] getDefaultBigIconData(XBCItem item) {
+        return ((XBEXIconManager) itemManager).getDefaultBigIconData(item);
+    }
+
+    @Override
+    public byte[] getDefaultSmallIconData(XBCItem item) {
+        return ((XBEXIconManager) itemManager).getDefaultSmallIconData(item);
     }
 }

@@ -28,16 +28,15 @@ import org.xbup.lib.core.catalog.base.XBCXIcon;
 /**
  * Item icon database entity.
  *
- * @version 0.1.23 2014/05/19
+ * @version 0.1.23 2014/11/26
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBXIcon")
+@Entity(name = "XBXIcon")
 public class XBEXIcon implements XBCXIcon, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    private Long xbIndex;
     @ManyToOne
     @JoinColumn(name = "OWNER_ID")
     private XBEItem parent;
@@ -46,7 +45,6 @@ public class XBEXIcon implements XBCXIcon, Serializable {
     @ManyToOne
     private XBEXFile iconFile;
 
-    /** Creates a new instance of XBESpec */
     public XBEXIcon() {
     }
 
@@ -59,62 +57,29 @@ public class XBEXIcon implements XBCXIcon, Serializable {
         this.id = id;
     }
 
-    /**
-     * @return the xbIndex
-     */
-    @Override
-    public Long getXBIndex() {
-        return xbIndex;
-    }
-
-    /**
-     * @param xbIndex the xbIndex to set
-     */
-    public void setXBIndex(Long xbIndex) {
-        this.xbIndex = xbIndex;
-    }
-
-    /**
-     * @return the parent
-     */
     @Override
     public XBEItem getParent() {
         return parent;
     }
 
-    /**
-     * @param parent the parent to set
-     */
     public void setParent(XBEItem parent) {
         this.parent = parent;
     }
 
-    /**
-     * @return the mode
-     */
     @Override
     public XBEXIconMode getMode() {
         return mode;
     }
 
-    /**
-     * @param mode the mode to set
-     */
     public void setMode(XBEXIconMode mode) {
         this.mode = mode;
     }
 
-    /**
-     * @return the iconFile
-     */
     @Override
     public XBEXFile getIconFile() {
         return iconFile;
     }
 
-    /**
-     * @param iconFile the iconFile to set
-     */
     public void setIconFile(XBEXFile iconFile) {
         this.iconFile = iconFile;
     }

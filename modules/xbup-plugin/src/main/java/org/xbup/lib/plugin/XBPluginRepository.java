@@ -47,12 +47,12 @@ import org.xbup.lib.core.util.CopyStreamUtils;
  */
 public class XBPluginRepository {
 
-    private PluginManager pluginManager;
-    private Map<Long, XBPlugin> plugins;
+    private final PluginManager pluginManager;
+    private final Map<Long, XBPlugin> plugins;
     private XBACatalog catalog;
 
     public XBPluginRepository() {
-        plugins = new HashMap<Long, XBPlugin>();
+        plugins = new HashMap<>();
         pluginManager = PluginManagerFactory.createPluginManager();
     }
 
@@ -73,16 +73,10 @@ public class XBPluginRepository {
         }
     }
 
-    /**
-     * @return the catalog
-     */
     public XBACatalog getCatalog() {
         return catalog;
     }
 
-    /**
-     * @param catalog the catalog to set
-     */
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
     }
@@ -107,10 +101,10 @@ public class XBPluginRepository {
         java.io.File tmpFile = null;
         try {
             tmpFile = java.io.File.createTempFile("jspfplugindownload", ".jar");
-            FileOutputStream oStream = new FileOutputStream(tmpFile);
-            CopyStreamUtils.copyInputStreamToOutputStream(iStream, oStream);
-            iStream.close();
-            oStream.close();
+            try (FileOutputStream oStream = new FileOutputStream(tmpFile)) {
+                CopyStreamUtils.copyInputStreamToOutputStream(iStream, oStream);
+                iStream.close();
+            }
         } catch (IOException ex) {
             Logger.getLogger(XBPluginRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -118,13 +112,13 @@ public class XBPluginRepository {
             return null;
         }
         pluginManager.addPluginsFrom(tmpFile.getAbsoluteFile().toURI());
-        GetPluginOption plugOpt = new OptionPluginSelector<XBPlugin>(new XBPluginSelector(filePath));
+        GetPluginOption plugOpt = new OptionPluginSelector<>(new XBPluginSelector(filePath));
         return (XBPlugin) pluginManager.getPlugin(XBPlugin.class, plugOpt);
     }
 
     public class XBPluginSelector implements PluginSelector<XBPlugin> {
 
-        private String filePath;
+        private final String filePath;
 
         public XBPluginSelector(String filePath) {
             this.filePath = filePath;

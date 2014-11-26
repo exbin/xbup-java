@@ -2680,7 +2680,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             result.attribXBT(new UBNat32(0));
             result.attribXBT(new UBNat32(0));
-            result.attribXBT(new UBNat32(icon.getXBIndex()));
+            result.attribXBT(new UBNat32(0)); // icon.getXBIndex()
             result.endXBT();
         }
     }

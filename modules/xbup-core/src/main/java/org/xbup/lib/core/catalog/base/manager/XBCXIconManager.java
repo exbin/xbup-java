@@ -27,19 +27,11 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 /**
  * Interface for XBCXIcon catalog manager.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.24 2014/11/26
  * @author XBUP Project (http://xbup.org)
  * @param <T> icon entity
  */
 public interface XBCXIconManager<T extends XBCXIcon> extends XBCManager<T>, XBCExtension {
-
-    /**
-     * Gets default icon for item.
-     *
-     * @param item
-     * @return icon
-     */
-    public XBCXIcon getDefaultIcon(XBCItem item);
 
     /**
      * Gets icon mode by unique index.
@@ -58,10 +50,50 @@ public interface XBCXIconManager<T extends XBCXIcon> extends XBCManager<T>, XBCE
     public List<XBCXIcon> getBlockSpecIcons(XBCBlockSpec blockSpec);
 
     /**
+     * Gets default icon for item.
+     *
+     * @param item
+     * @return icon
+     */
+    public XBCXIcon getDefaultIcon(XBCItem item);
+
+    /**
      * Gets default icon for given item.
      *
      * @param item item we want to get icon of
      * @return icon instance or null
      */
     public ImageIcon getDefaultImageIcon(XBCItem item);
+
+    /**
+     * Gets default big icon.
+     *
+     * @param item catalog item
+     * @return icon data or null
+     */
+    public XBCXIcon getDefaultBigIcon(XBCItem item);
+
+    /**
+     * Gets default small icon.
+     *
+     * @param item catalog item
+     * @return icon data or null
+     */
+    public XBCXIcon getDefaultSmallIcon(XBCItem item);
+
+    /**
+     * Gets default big icon.
+     *
+     * @param item catalog item
+     * @return icon data or null
+     */
+    public byte[] getDefaultBigIconData(XBCItem item);
+
+    /**
+     * Gets default small icon.
+     *
+     * @param item catalog item
+     * @return icon data or null
+     */
+    public byte[] getDefaultSmallIconData(XBCItem item);
 }

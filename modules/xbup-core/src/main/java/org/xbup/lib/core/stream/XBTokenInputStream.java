@@ -30,7 +30,7 @@ import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 public abstract class XBTokenInputStream implements Closeable, XBPullProvider {
 
     /**
-     * Reset source - jump to beginning of stream.
+     * Resets source - jump to beginning of stream.
      *
      * @throws IOException if not possible to reset
      */

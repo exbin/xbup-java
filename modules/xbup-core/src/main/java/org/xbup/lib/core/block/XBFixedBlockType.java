@@ -21,6 +21,8 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * Block type defined as fixed group and block indexes.
+ * 
+ * Class is supposed to be immutable.
  *
  * @version 0.1.24 2014/10/07
  * @author XBUP Project (http://xbup.org)

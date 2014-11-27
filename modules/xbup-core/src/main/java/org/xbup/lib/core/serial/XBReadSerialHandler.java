@@ -25,7 +25,7 @@ package org.xbup.lib.core.serial;
 public interface XBReadSerialHandler {
 
     /**
-     * Read data from serializable object.
+     * Reads data from serializable object.
      *
      * @param serial serializable object to process
      */

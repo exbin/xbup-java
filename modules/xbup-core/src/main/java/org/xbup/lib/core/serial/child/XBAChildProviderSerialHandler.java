@@ -31,6 +31,7 @@ import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPrefixPullProvider;
+import org.xbup.lib.core.serial.XBReadSerialHandler;
 import org.xbup.lib.core.serial.XBSerialException;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.token.XBTTokenInputSerialHandler;
@@ -48,9 +49,15 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
     private XBTPullProvider pullProvider;
     private XBChildSerialState state;
     private XBTToken prefix = null;
+    private XBReadSerialHandler childHandler = null;
 
     public XBAChildProviderSerialHandler() {
         state = XBChildSerialState.BLOCK_BEGIN;
+    }
+
+    public XBAChildProviderSerialHandler(XBReadSerialHandler childHandler) {
+        this();
+        this.childHandler = childHandler;
     }
 
     @Override
@@ -179,12 +186,15 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
 
         if (child instanceof XBAChildSerializable) {
             state = XBChildSerialState.CHILDREN;
-            XBAChildProviderSerialHandler childHandler = new XBAChildProviderSerialHandler();
-            childHandler.attachXBTPullProvider(new XBTPrefixPullProvider(pullProvider, prefix));
-            ((XBAChildSerializable) child).serializeFromXB(childHandler);
+            XBAChildProviderSerialHandler childInput = new XBAChildProviderSerialHandler();
+            childInput.attachXBTPullProvider(new XBTPrefixPullProvider(pullProvider, prefix));
+            ((XBAChildSerializable) child).serializeFromXB(childInput);
         } else {
-            // TODO support for other serialization types
-            throw new UnsupportedOperationException("Not supported yet.");
+            if (childHandler != null) {
+                childHandler.read(child);
+            } else {
+                throw new XBProcessingException("Unsupported child serialization", XBProcessingExceptionType.UNKNOWN);
+            }
         }
 
         prefix = null;

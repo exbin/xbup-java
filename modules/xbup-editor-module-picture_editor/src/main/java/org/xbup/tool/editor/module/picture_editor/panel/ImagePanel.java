@@ -62,7 +62,7 @@ import org.xbup.lib.core.block.declaration.XBGroupDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBPFormatDecl;
 import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
 import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
-import org.xbup.lib.core.catalog.XBAPCatalog;
+import org.xbup.lib.core.catalog.XBPCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
@@ -424,7 +424,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                 
                 formatDecl.setDefDeclaration(defDecl);
                 XBDeclaration declaration = new XBDeclaration(formatDecl, new XBBufferedImage(toBufferedImage(image)));
-                XBAPCatalog catalog = new XBAPCatalog();
+                XBPCatalog catalog = new XBPCatalog();
                 XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
                 encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
                 handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));

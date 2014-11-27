@@ -32,7 +32,7 @@ import org.xbup.lib.core.serial.token.XBTokenSerializable;
 /**
  * Interface for XBUP serialization input handler.
  *
- * @version 0.1.24 2014/11/26
+ * @version 0.1.24 2014/11/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBSerialReader implements XBReadSerialHandler {
@@ -70,8 +70,19 @@ public class XBSerialReader implements XBReadSerialHandler {
                 Logger.getLogger(XBSerialWriter.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("Serialization method " + serial.getClass().getCanonicalName() + " not supported.");
         }
     }
 
+    /**
+     * Check if writer supports serializable object.
+     *
+     * @param serial object to test
+     * @return true if serialization supported
+     */
+    public static boolean isValidSerializableObject(XBSerializable serial) {
+        return serial instanceof XBBasicSerializable
+                || serial instanceof XBTokenSerializable
+                || serial instanceof XBChildSerializable;
+    }
 }

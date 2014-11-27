@@ -21,66 +21,45 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
-import org.xbup.lib.core.parser.token.pull.convert.XBTPullProviderToProvider;
-import org.xbup.lib.core.serial.basic.XBTBasicSerializable;
-import org.xbup.lib.core.serial.basic.XBTProviderSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildSerializable;
-import org.xbup.lib.core.serial.sequence.XBTSequenceProviderSerialHandler;
-import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
-import org.xbup.lib.core.serial.token.XBTPullProviderSerialHandler;
-import org.xbup.lib.core.serial.token.XBTTokenSerializable;
+import org.xbup.lib.core.parser.token.pull.convert.XBTPullPreLoader;
+import org.xbup.lib.core.serial.child.XBAChildProviderSerialHandler;
+import org.xbup.lib.core.serial.child.XBAChildSerializable;
 
 /**
  * Interface for XBUP serialization input handler.
  *
- * @version 0.1.24 2014/11/26
+ * @version 0.1.24 2014/11/27
  * @author XBUP Project (http://xbup.org)
  */
-public class XBASerialReader implements XBReadSerialHandler {
+public class XBASerialReader extends XBTSerialReader implements XBReadSerialHandler {
 
-    private final XBTPullProvider pullProvider;
-
-    public XBASerialReader(XBTPullProvider pullListener) {
-        this.pullProvider = pullListener;
+    public XBASerialReader(XBTPullProvider pullProvider) {
+        super(pullProvider instanceof XBTPullPreLoader ? pullProvider : new XBTPullPreLoader(pullProvider));
     }
 
     @Override
     public void read(XBSerializable serial) {
-        if (serial instanceof XBTBasicSerializable) {
-            XBTProviderSerialHandler listenerHandler = new XBTProviderSerialHandler();
-            listenerHandler.attachXBTProvider(new XBTPullProviderToProvider(pullProvider));
-            try {
-                ((XBTBasicSerializable) serial).serializeFromXB(listenerHandler);
-            } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBSerialReader.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else if (serial instanceof XBTTokenSerializable) {
-            XBTPullProviderSerialHandler listenerHandler = new XBTPullProviderSerialHandler();
-            listenerHandler.attachXBTPullProvider(pullProvider);
-            try {
-                ((XBTTokenSerializable) serial).serializeFromXB(listenerHandler);
-            } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBSerialReader.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else if (serial instanceof XBTChildSerializable) {
-            XBTChildProviderSerialHandler childOutput = new XBTChildProviderSerialHandler(this);
+        if (serial instanceof XBAChildSerializable) {
+            XBAChildProviderSerialHandler childOutput = new XBAChildProviderSerialHandler(this);
             childOutput.attachXBTPullProvider(pullProvider);
             try {
-                ((XBTChildSerializable) serial).serializeFromXB(childOutput);
+                ((XBAChildSerializable) serial).serializeFromXB(childOutput);
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBTSerialReader.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if (serial instanceof XBTSequenceSerializable) {
-            XBTSequenceProviderSerialHandler listenerHandler = new XBTSequenceProviderSerialHandler(this);
-            listenerHandler.attachXBTPullProvider(pullProvider);
-            try {
-                ((XBTSequenceSerializable) serial).serializeXB(listenerHandler);
-            } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBTSerialReader.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
+        // TODO
+
+        super.read(serial);
+    }
+
+    /**
+     * Check if writer supports serializable object.
+     *
+     * @param serial object to test
+     * @return true if serialization supported
+     */
+    public static boolean isValidSerializableObject(XBSerializable serial) {
+        return serial instanceof XBAChildSerializable || XBSerialReader.isValidSerializableObject(serial);
     }
 }

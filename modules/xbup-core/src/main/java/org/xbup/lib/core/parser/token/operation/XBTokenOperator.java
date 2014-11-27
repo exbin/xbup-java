@@ -46,7 +46,7 @@ public abstract class XBTokenOperator<T extends TypedToken, U extends TypedToken
     public abstract T getToken() throws IOException;
 
     /**
-     * Reset processing.
+     * Resets processing.
      */
     public abstract void reset();
 

@@ -30,22 +30,29 @@ import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.serial.XBSerialException;
 import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.serial.XBWriteSerialHandler;
 import org.xbup.lib.core.serial.token.XBTTokenOutputSerialHandler;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 2 serialization handler using basic parser mapping to listener.
  *
- * @version 0.1.24 2014/10/24
+ * @version 0.1.24 2014/10/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBAChildListenerSerialHandler implements XBAChildOutputSerialHandler, XBTTokenOutputSerialHandler {
 
     private XBTEventListener eventListener;
     private XBChildSerialState state;
+    private XBWriteSerialHandler childHandler = null;
 
     public XBAChildListenerSerialHandler() {
         state = XBChildSerialState.BLOCK_BEGIN;
+    }
+
+    public XBAChildListenerSerialHandler(XBWriteSerialHandler childHandler) {
+        this();
+        this.childHandler = childHandler;
     }
 
     @Override
@@ -117,8 +124,11 @@ public class XBAChildListenerSerialHandler implements XBAChildOutputSerialHandle
             childOutput.attachXBTEventListener(eventListener);
             ((XBAChildSerializable) child).serializeToXB(childOutput);
         } else {
-            // TODO Support different types of serialization methods
-            throw new UnsupportedOperationException("Not supported yet.");
+            if (childHandler != null) {
+                childHandler.write(child);
+            } else {
+                throw new XBProcessingException("Unsupported child serialization", XBProcessingExceptionType.UNKNOWN);
+            }
         }
 
         state = XBChildSerialState.CHILDREN;

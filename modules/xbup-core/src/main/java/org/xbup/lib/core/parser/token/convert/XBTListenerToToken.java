@@ -22,10 +22,12 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.basic.XBTSListener;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
 import org.xbup.lib.core.parser.token.XBTEndToken;
+import org.xbup.lib.core.parser.token.XBTSBeginToken;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.ubnumber.UBNatural;
@@ -34,10 +36,10 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  * XBUP level 1 listener to token convertor and static method for reverse
  * operation.
  *
- * @version 0.1.23 2014/02/07
+ * @version 0.1.24 2014/11/27
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTListenerToToken implements XBTListener {
+public class XBTListenerToToken implements XBTListener, XBTSListener {
 
     private XBTToken token;
 
@@ -52,6 +54,11 @@ public class XBTListenerToToken implements XBTListener {
     @Override
     public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         token = new XBTBeginToken(terminationMode);
+    }
+
+    @Override
+    public void beginXBT(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
+        token = new XBTSBeginToken(terminationMode, blockSize);
     }
 
     @Override
@@ -85,7 +92,12 @@ public class XBTListenerToToken implements XBTListener {
     public static void tokenToListener(XBTToken token, XBTListener listener) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {
-                listener.beginXBT(((XBTBeginToken) token).getTerminationMode());
+                if ((token instanceof XBTSBeginToken) && (listener instanceof XBTSListener)) {
+                    ((XBTSListener) listener).beginXBT(((XBTSBeginToken) token).getTerminationMode(), ((XBTSBeginToken) token).getBlockSize());
+                } else {
+                    listener.beginXBT(((XBTBeginToken) token).getTerminationMode());
+                }
+
                 break;
             }
 

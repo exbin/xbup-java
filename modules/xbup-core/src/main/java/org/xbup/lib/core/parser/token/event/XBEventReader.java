@@ -94,7 +94,7 @@ public class XBEventReader implements XBEventProducer {
     }
 
     /**
-     * Read single node and all its child nodes.
+     * Reads single node and all its child nodes.
      *
      * If parent node is in terminated mode, this might just close parent node.
      */
@@ -174,7 +174,7 @@ public class XBEventReader implements XBEventProducer {
     }
 
     /**
-     * Close input stream.
+     * Closes input stream.
      *
      * @throws IOException
      */

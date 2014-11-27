@@ -75,7 +75,7 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
     }
 
     /**
-     * Reset source and all parsing properties.
+     * Resets source and all parsing properties.
      */
     private void resetParser() {
         pullReader.reset();

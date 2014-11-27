@@ -23,6 +23,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.convert.XBTListenerToConsumer;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
+import org.xbup.lib.core.parser.token.event.convert.XBToXBTEventWrapper;
 import org.xbup.lib.core.serial.basic.XBTBasicSerializable;
 import org.xbup.lib.core.serial.basic.XBTConsumerSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
@@ -35,12 +36,12 @@ import org.xbup.lib.core.serial.token.XBTTokenSerializable;
 /**
  * Interface for XBUP serialization input handler.
  *
- * @version 0.1.24 2014/11/26
+ * @version 0.1.24 2014/11/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTSerialWriter implements XBWriteSerialHandler {
 
-    private final XBTEventListener eventListener;
+    protected final XBTEventListener eventListener;
 
     public XBTSerialWriter(XBTEventListener eventListener) {
         this.eventListener = eventListener;
@@ -80,8 +81,26 @@ public class XBTSerialWriter implements XBWriteSerialHandler {
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBTSerialWriter.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else if (XBSerialWriter.isValidSerializableObject(serial)) {
+            XBToXBTEventWrapper eventWrapper = new XBToXBTEventWrapper(eventListener);
+            XBSerialWriter serialWriter = new XBSerialWriter(eventWrapper);
+            serialWriter.write(serial);
         } else {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("Serialization method " + serial.getClass().getCanonicalName() + " not supported.");
         }
+    }
+
+    /**
+     * Check if writer supports serializable object.
+     *
+     * @param serial object to test
+     * @return true if serialization supported
+     */
+    public static boolean isValidSerializableObject(XBSerializable serial) {
+        return serial instanceof XBTBasicSerializable
+                || serial instanceof XBTTokenSerializable
+                || serial instanceof XBTChildSerializable
+                || serial instanceof XBTSequenceSerializable
+                || XBSerialWriter.isValidSerializableObject(serial);
     }
 }

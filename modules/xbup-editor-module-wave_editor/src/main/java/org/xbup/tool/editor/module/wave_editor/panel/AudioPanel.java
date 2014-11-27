@@ -67,7 +67,7 @@ import org.xbup.lib.core.block.declaration.catalog.XBPFormatDecl;
 import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
 import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
 import org.xbup.lib.core.block.definition.local.XBDFormatDef;
-import org.xbup.lib.core.catalog.XBAPCatalog;
+import org.xbup.lib.core.catalog.XBPCatalog;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
 import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
@@ -508,7 +508,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
                     //XBDGroupDecl 
                     formatDecl.setDefDeclaration(defDecl);
                     XBDeclaration declaration = new XBDeclaration(formatDecl, wavePanel.getWave());
-                    XBAPCatalog catalog = new XBAPCatalog();
+                    XBPCatalog catalog = new XBPCatalog();
                     catalog.setRootContext(declaration.generateContext(catalog));
                     XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
                     encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));

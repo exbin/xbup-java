@@ -23,18 +23,20 @@ import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.basic.XBSListener;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBEndToken;
+import org.xbup.lib.core.parser.token.XBSBeginToken;
 import org.xbup.lib.core.parser.token.event.XBEventListener;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * Event listener to listener convertor for XBUP protocol level 0.
  *
- * @version 0.1.23 2014/02/06
+ * @version 0.1.24 2014/11/27
  * @author XBUP Project (http://xbup.org)
  */
-public class XBEventListenerToListener implements XBListener {
+public class XBEventListenerToListener implements XBListener, XBSListener {
 
     private final XBEventListener eventListener;
 
@@ -50,6 +52,11 @@ public class XBEventListenerToListener implements XBListener {
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         eventListener.putXBToken(new XBBeginToken(terminationMode));
+    }
+
+    @Override
+    public void beginXB(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
+        eventListener.putXBToken(new XBSBeginToken(terminationMode, blockSize));
     }
 
     @Override

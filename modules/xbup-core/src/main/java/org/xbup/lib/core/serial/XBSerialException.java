@@ -22,31 +22,58 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
 /**
  * Exception for XBUP protocol serialization errors.
  *
- * @version 0.1.23 2014/03/01
+ * @version 0.1.24 2014/11/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBSerialException extends XBProcessingException {
 
+    private Object serializedObject = null;
+
     public XBSerialException() {
+        super();
     }
 
     public XBSerialException(String message) {
         super(message);
     }
 
-    public XBSerialException(String message, int errorNo) {
-        super(message, errorNo);
+    public XBSerialException(String message, XBProcessingExceptionType errorType) {
+        super(message, errorType);
     }
 
-    public XBSerialException(String message, XBProcessingExceptionType type) {
-        super(message, type);
+    public XBSerialException(String message, long[] treePath) {
+        super(message, treePath);
     }
 
-    public XBSerialException(String message, int errorNo, int position) {
-        super(message, errorNo, position);
+    public XBSerialException(String message, XBProcessingExceptionType errorType, long[] treePath) {
+        super(message, errorType, treePath);
     }
 
-    public XBSerialException(String message, XBProcessingExceptionType type, int position) {
-        super(message, type, position);
+    public XBSerialException(Object serializedObject) {
+        super();
+    }
+
+    public XBSerialException(String message, Object serializedObject) {
+        super(message);
+        this.serializedObject = serializedObject;
+    }
+
+    public XBSerialException(String message, XBProcessingExceptionType errorType, Object serializedObject) {
+        super(message, errorType);
+        this.serializedObject = serializedObject;
+    }
+
+    public XBSerialException(String message, long[] treePath, Object serializedObject) {
+        super(message, treePath);
+        this.serializedObject = serializedObject;
+    }
+
+    public XBSerialException(String message, XBProcessingExceptionType errorType, long[] treePath, Object serializedObject) {
+        super(message, errorType, treePath);
+        this.serializedObject = serializedObject;
+    }
+
+    public Object getSerializedObject() {
+        return serializedObject;
     }
 }

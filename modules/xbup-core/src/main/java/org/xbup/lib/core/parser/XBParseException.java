@@ -19,10 +19,12 @@ package org.xbup.lib.core.parser;
 /**
  * Exception for XBUP protocol parsing.
  *
- * @version 0.1.23 2013/11/30
+ * @version 0.1.24 2014/11/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBParseException extends XBProcessingException {
+
+    private long position = -1;
 
     public XBParseException() {
         super();
@@ -32,19 +34,39 @@ public class XBParseException extends XBProcessingException {
         super(message);
     }
 
-    public XBParseException(String message, int errorNo) {
-        super(message, errorNo);
+    public XBParseException(String message, XBProcessingExceptionType errorType) {
+        super(message, errorType);
     }
 
-    public XBParseException(String message, XBProcessingExceptionType type) {
-        super(message, type);
+    public XBParseException(String message, long[] treePath) {
+        super(message, treePath);
     }
 
-    public XBParseException(String message, int errorNo, int position) {
-        super(message, errorNo, position);
+    public XBParseException(String message, XBProcessingExceptionType errorType, long[] treePath) {
+        super(message, errorType, treePath);
     }
 
-    public XBParseException(String message, XBProcessingExceptionType type, int position) {
-        super(message, type, position);
+    public XBParseException(String message, long position) {
+        super(message);
+        this.position = position;
+    }
+
+    public XBParseException(String message, XBProcessingExceptionType errorType, long position) {
+        super(message, errorType);
+        this.position = position;
+    }
+
+    public XBParseException(String message, long[] treePath, long position) {
+        super(message, treePath);
+        this.position = position;
+    }
+
+    public XBParseException(String message, XBProcessingExceptionType errorType, long[] treePath, long position) {
+        super(message, errorType, treePath);
+        this.position = position;
+    }
+
+    public long getPosition() {
+        return position;
     }
 }

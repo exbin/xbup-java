@@ -90,7 +90,7 @@ public class XBProviderReader implements XBProvider {
     }
 
     /**
-     * Reset input stream and parser state.
+     * Resets input stream and parser state.
      *
      * @throws IOException
      */
@@ -99,7 +99,7 @@ public class XBProviderReader implements XBProvider {
     }
 
     /**
-     * Close input stream.
+     * Closes input stream.
      *
      * @throws IOException
      */

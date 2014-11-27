@@ -19,53 +19,41 @@ package org.xbup.lib.core.parser;
 /**
  * Exception class for XBUP protocol processing.
  *
- * @version 0.1.23 2014/02/01
+ * @version 0.1.24 2014/11/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBProcessingException extends RuntimeException {
 
-    private final int errorNo;
-    private final int position;
+    private XBProcessingExceptionType errorType = XBProcessingExceptionType.UNKNOWN;
+    private long[] treePath = null;
 
     public XBProcessingException() {
-        errorNo = 0;
-        position = 0;
+        super();
     }
 
     public XBProcessingException(String message) {
         super(message);
-        errorNo = 0;
-        position = 0;
     }
 
-    public XBProcessingException(String message, int errorNo) {
-        super(message);
-        this.errorNo = errorNo;
-        position = 0;
+    public XBProcessingException(String message, XBProcessingExceptionType errorType) {
+        this(message);
+        this.errorType = errorType;
     }
 
-    public XBProcessingException(String message, XBProcessingExceptionType type) {
-        super(message);
-        this.errorNo = type.ordinal();
-        position = 0;
+    public XBProcessingException(String message, long[] treePath) {
+        this(message);
+        this.treePath = treePath;
     }
 
-    public XBProcessingException(String message, int errorNo, int position) {
-        super(message);
-        this.errorNo = errorNo;
-        this.position = position;
-    }
-
-    public XBProcessingException(String message, XBProcessingExceptionType type, int position) {
-        super(message);
-        this.errorNo = type.ordinal();
-        this.position = position;
+    public XBProcessingException(String message, XBProcessingExceptionType errorType, long[] treePath) {
+        this(message, errorType);
+        this.treePath = treePath;
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof XBProcessingException) {
-            return (getMessage().equals(((XBProcessingException) obj).getMessage()) && (getErrorNo() == ((XBProcessingException) obj).getErrorNo()));
+            return (getMessage().equals(((XBProcessingException) obj).getMessage()) && (errorType == ((XBProcessingException) obj).getErrorType()));
         }
 
         return super.equals(obj);
@@ -74,16 +62,15 @@ public class XBProcessingException extends RuntimeException {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 47 * hash + this.getErrorNo();
-        hash = 47 * hash + this.getPosition();
+        hash = 47 * hash + this.getErrorType().ordinal();
         return hash;
     }
 
-    public int getErrorNo() {
-        return errorNo;
+    public XBProcessingExceptionType getErrorType() {
+        return errorType;
     }
 
-    public int getPosition() {
-        return position;
+    public long[] getTreePath() {
+        return treePath;
     }
 }

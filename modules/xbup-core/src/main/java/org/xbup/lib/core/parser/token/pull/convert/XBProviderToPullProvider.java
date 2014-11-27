@@ -19,13 +19,14 @@ package org.xbup.lib.core.parser.token.pull.convert;
 import java.io.IOException;
 import java.io.InputStream;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.basic.XBProvider;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.basic.XBSListener;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBEndToken;
+import org.xbup.lib.core.parser.token.XBSBeginToken;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 import org.xbup.lib.core.ubnumber.UBNatural;
@@ -33,7 +34,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * Provider To pull provider convertor for XBUP protocol level 0.
  *
- * @version 0.1.23 2014/02/06
+ * @version 0.1.24 2014/11/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBProviderToPullProvider implements XBPullProvider {
@@ -47,10 +48,15 @@ public class XBProviderToPullProvider implements XBPullProvider {
 
     @Override
     public XBToken pullXBToken() throws XBProcessingException, IOException {
-        provider.produceXB(new XBListener() {
+        provider.produceXB(new XBSListener() {
             @Override
             public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
                 token = new XBBeginToken(terminationMode);
+            }
+
+            @Override
+            public void beginXB(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
+                token = new XBSBeginToken(terminationMode, blockSize);
             }
 
             @Override

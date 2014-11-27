@@ -20,9 +20,11 @@ import java.io.IOException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTProvider;
+import org.xbup.lib.core.parser.basic.XBTSListener;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
+import org.xbup.lib.core.parser.token.XBTSBeginToken;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
@@ -30,7 +32,7 @@ import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 /**
  * Pull provider to provider convertor for XBUP protocol level 0.
  *
- * @version 0.1.23 2014/02/06
+ * @version 0.1.24 2014/11/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTPullProviderToProvider implements XBTProvider {
@@ -46,7 +48,12 @@ public class XBTPullProviderToProvider implements XBTProvider {
         XBTToken token = pullProvider.pullXBTToken();
         switch (token.getTokenType()) {
             case BEGIN: {
-                listener.beginXBT(((XBTBeginToken) token).getTerminationMode());
+                if ((token instanceof XBTSBeginToken) && (listener instanceof XBTSListener)) {
+                    ((XBTSListener) listener).beginXBT(((XBTSBeginToken) token).getTerminationMode(), ((XBTSBeginToken) token).getBlockSize());
+                } else {
+                    listener.beginXBT(((XBTBeginToken) token).getTerminationMode());
+                }
+
                 break;
             }
 

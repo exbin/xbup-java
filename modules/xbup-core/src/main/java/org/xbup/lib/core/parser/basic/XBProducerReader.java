@@ -92,7 +92,7 @@ public class XBProducerReader implements XBProducer {
     }
 
     /**
-     * Read single node and all its child nodes.
+     * Reads single node and all its child nodes.
      *
      * If parent node is in terminated mode, this might just close parent node.
      */
@@ -172,7 +172,7 @@ public class XBProducerReader implements XBProducer {
     }
 
     /**
-     * Reset input stream and parser state.
+     * Resets input stream and parser state.
      *
      * @throws IOException
      */
@@ -180,7 +180,7 @@ public class XBProducerReader implements XBProducer {
     }
 
     /**
-     * Close input stream.
+     * Closes input stream.
      *
      * @throws IOException
      */

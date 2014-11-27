@@ -19,7 +19,6 @@ package org.xbup.lib.core.catalog;
 import java.util.List;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBDBlockType;
-import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
@@ -34,12 +33,12 @@ import org.xbup.lib.core.catalog.base.service.XBCService;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 
 /**
- * XBUP level 2 limited path supporting catalog.
+ * XBUP level 1 limited path supporting catalog.
  *
  * @version 0.1.24 2014/11/26
  * @author XBUP Project (http://xbup.org)
  */
-public class XBAPCatalog implements XBACatalog {
+public class XBPCatalog implements XBCatalog {
 
     private XBContext rootContext;
 

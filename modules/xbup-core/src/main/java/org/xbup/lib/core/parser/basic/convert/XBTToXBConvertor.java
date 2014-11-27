@@ -29,15 +29,17 @@ import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.basic.XBProducer;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.basic.XBSListener;
+import org.xbup.lib.core.parser.basic.XBTSListener;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 1 to level 0 convertor.
  *
- * @version 0.1.24 2014/10/04
+ * @version 0.1.24 2014/11/27
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTToXBConvertor implements XBTListener, XBProducer {
+public class XBTToXBConvertor implements XBTListener, XBTSListener, XBProducer {
 
     private XBListener listener;
     private UBNatural block;
@@ -56,13 +58,27 @@ public class XBTToXBConvertor implements XBTListener, XBProducer {
     }
 
     @Override
-    public void beginXBT(XBBlockTerminationMode terminatinationMode) throws XBProcessingException, IOException {
+    public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         if (block != null) {
             listener.attribXB(block);
             block = null;
         }
 
-        listener.beginXB(terminatinationMode);
+        listener.beginXB(terminationMode);
+    }
+
+    @Override
+    public void beginXBT(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
+        if (block != null) {
+            listener.attribXB(block);
+            block = null;
+        }
+
+        if (listener instanceof XBSListener) {
+            ((XBSListener) listener).beginXB(terminationMode, blockSize);
+        } else {
+            listener.beginXB(terminationMode);
+        }
     }
 
     @Override

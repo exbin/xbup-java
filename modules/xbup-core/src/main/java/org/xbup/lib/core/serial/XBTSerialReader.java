@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullProviderToProvider;
+import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullUnwrapper;
 import org.xbup.lib.core.serial.basic.XBTBasicSerializable;
 import org.xbup.lib.core.serial.basic.XBTProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
@@ -34,12 +35,12 @@ import org.xbup.lib.core.serial.token.XBTTokenSerializable;
 /**
  * Interface for XBUP serialization input handler.
  *
- * @version 0.1.24 2014/11/26
+ * @version 0.1.24 2014/11/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTSerialReader implements XBReadSerialHandler {
 
-    private final XBTPullProvider pullProvider;
+    protected final XBTPullProvider pullProvider;
 
     public XBTSerialReader(XBTPullProvider pullProvider) {
         this.pullProvider = pullProvider;
@@ -79,8 +80,26 @@ public class XBTSerialReader implements XBReadSerialHandler {
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBTSerialReader.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else if (XBSerialReader.isValidSerializableObject(serial)) {
+            XBToXBTPullUnwrapper pullWrapper = new XBToXBTPullUnwrapper(pullProvider);
+            XBSerialReader serialReader = new XBSerialReader(pullWrapper);
+            serialReader.read(serial);
         } else {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("Serialization method " + serial.getClass().getCanonicalName() + " not supported.");
         }
+    }
+
+    /**
+     * Check if writer supports serializable object.
+     *
+     * @param serial object to test
+     * @return true if serialization supported
+     */
+    public static boolean isValidSerializableObject(XBSerializable serial) {
+        return serial instanceof XBTBasicSerializable
+                || serial instanceof XBTTokenSerializable
+                || serial instanceof XBTChildSerializable
+                || serial instanceof XBTSequenceSerializable
+                || XBSerialReader.isValidSerializableObject(serial);
     }
 }

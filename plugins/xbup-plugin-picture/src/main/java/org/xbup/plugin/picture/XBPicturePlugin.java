@@ -27,42 +27,52 @@ import org.xbup.lib.visual.xbplugins.XBPicturePanel;
 /**
  * XBUP Editor plugin - provides editing panel for XBUP data.
  *
- * @version 0.1.22 2013/08/31
+ * @version 0.1.24 2014/11/27
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
 public class XBPicturePlugin implements XBPlugin {
 
+    @Override
     public String getPluginPath() {
         return "xbup/visual/picture/XBPicturePlugin.jar";
     }
 
+    @Override
     public long getLineEditorsCount() {
         return 0;
     }
 
+    @Override
     public XBLineEditor getLineEditor(long index) {
         return null;
     }
 
+    @Override
     public long getPanelEditorsCount() {
         return 1;
     }
 
+    @Override
     public XBPanelEditor getPanelEditor(long index) {
-        if (index == 0) return new XBPanelEditor() {
+        if (index == 0) {
+            return new XBPanelEditor() {
 
-            public JPanel getPanel() {
-                return new XBPicturePanel();
-            }
-        };
+                @Override
+                public JPanel getPanel() {
+                    return new XBPicturePanel();
+                }
+            };
+        }
         return null;
     }
 
+    @Override
     public long getTransformationCount() {
         return 0;
     }
 
+    @Override
     public XBTransformation getTransformation(long index) {
         return null;
     }

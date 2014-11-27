@@ -23,8 +23,10 @@ import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.basic.XBSListener;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBEndToken;
+import org.xbup.lib.core.parser.token.XBSBeginToken;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
@@ -32,10 +34,10 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  * XBUP level 0 listener to single token convertor and static method for reverse
  * operation.
  *
- * @version 0.1.23 2014/02/07
+ * @version 0.1.24 2014/11/27
  * @author XBUP Project (http://xbup.org)
  */
-public class XBListenerToToken implements XBListener {
+public class XBListenerToToken implements XBListener, XBSListener {
 
     private XBToken token;
 
@@ -54,6 +56,11 @@ public class XBListenerToToken implements XBListener {
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         token = new XBBeginToken(terminationMode);
+    }
+
+    @Override
+    public void beginXB(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
+        token = new XBSBeginToken(terminationMode, blockSize);
     }
 
     @Override
@@ -82,7 +89,12 @@ public class XBListenerToToken implements XBListener {
     public static void tokenToListener(XBToken token, XBListener listener) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {
-                listener.beginXB(((XBBeginToken) token).getTerminationMode());
+                if ((token instanceof XBSBeginToken) && (listener instanceof XBSListener)) {
+                    ((XBSListener) listener).beginXB(((XBSBeginToken) token).getTerminationMode(), ((XBSBeginToken) token).getBlockSize());
+                } else {
+                    listener.beginXB(((XBBeginToken) token).getTerminationMode());
+                }
+
                 break;
             }
 

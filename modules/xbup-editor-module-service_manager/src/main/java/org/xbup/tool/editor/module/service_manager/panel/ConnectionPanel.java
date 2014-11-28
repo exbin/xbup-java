@@ -24,12 +24,13 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import org.xbup.tool.editor.module.service_manager.dialog.AddConnectionDialog;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.module.service_manager.dialog.EditConnectionDialog;
 
 /**
  * Connection Management Panel.
  *
- * @version 0.1.24 2014/11/14
+ * @version 0.1.24 2014/11/28
  * @author XBUP Project (http://xbup.org)
  */
 public class ConnectionPanel extends javax.swing.JPanel {
@@ -50,8 +51,6 @@ public class ConnectionPanel extends javax.swing.JPanel {
 
             @Override
             public void contentsChanged(ListDataEvent e) {
-//                jButton5.setEnabled(b);
-//                jButton4.setEnabled(!jList1.isSelectionEmpty());
                 selectAllButton.setEnabled(connectionsList.getModel().getSize() > 0);
             }
         });
@@ -62,6 +61,7 @@ public class ConnectionPanel extends javax.swing.JPanel {
                 if (!e.getValueIsAdjusting()) {
                     boolean emptySelection = connectionsList.isSelectionEmpty();
                     removeButton.setEnabled(!emptySelection);
+                    modifyButton.setEnabled(!emptySelection && connectionsList.getSelectionModel().getMinSelectionIndex() == connectionsList.getSelectionModel().getMaxSelectionIndex());
                     selectAllButton.setEnabled(connectionsList.getModel().getSize() > 0);
                     if (!emptySelection) {
                         int[] indices = connectionsList.getSelectedIndices();
@@ -75,7 +75,7 @@ public class ConnectionPanel extends javax.swing.JPanel {
             }
         });
 
-        setConnectionList(new ArrayList<String>());
+        ((ConnectionsListModel) connectionsList.getModel()).setConnections(new ArrayList<String>());
     }
 
     /**
@@ -95,7 +95,7 @@ public class ConnectionPanel extends javax.swing.JPanel {
         addButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
         selectAllButton = new javax.swing.JButton();
-        customAddButton = new javax.swing.JButton();
+        modifyButton = new javax.swing.JButton();
 
         setName("Form"); // NOI18N
 
@@ -153,9 +153,14 @@ public class ConnectionPanel extends javax.swing.JPanel {
             }
         });
 
-        customAddButton.setText(bundle.getString("customAddButton.text")); // NOI18N
-        customAddButton.setEnabled(false);
-        customAddButton.setName("customAddButton"); // NOI18N
+        modifyButton.setText(bundle.getString("modifyButton.text")); // NOI18N
+        modifyButton.setEnabled(false);
+        modifyButton.setName("modifyButton"); // NOI18N
+        modifyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modifyButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout connectionsControlPanelLayout = new javax.swing.GroupLayout(connectionsControlPanel);
         connectionsControlPanel.setLayout(connectionsControlPanelLayout);
@@ -164,7 +169,7 @@ public class ConnectionPanel extends javax.swing.JPanel {
             .addGroup(connectionsControlPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(connectionsControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(customAddButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, Short.MAX_VALUE)
+                    .addComponent(modifyButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
                     .addComponent(addButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
                     .addComponent(removeButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
                     .addComponent(selectAllButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
@@ -182,12 +187,12 @@ public class ConnectionPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(selectAllButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(removeButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(addButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(customAddButton)
-                .addContainerGap(283, Short.MAX_VALUE))
+                .addComponent(modifyButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(removeButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -211,7 +216,7 @@ public class ConnectionPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        AddConnectionDialog dialog = new AddConnectionDialog(null, true); // XBManager.getApplication().getMainFrame()
+        EditConnectionDialog dialog = new EditConnectionDialog(WindowUtils.getFrame(this), true);
         dialog.setLocationRelativeTo(dialog.getParent());
         dialog.setVisible(true);
         if (dialog.getDialogOption() == JOptionPane.OK_OPTION) {
@@ -268,6 +273,19 @@ public class ConnectionPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_selectAllButtonActionPerformed
 
+    private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
+        EditConnectionDialog dialog = new EditConnectionDialog(WindowUtils.getFrame(this), true);
+        dialog.setConnection((String) connectionsList.getSelectedValue());
+        dialog.setLocationRelativeTo(dialog.getParent());
+        dialog.setVisible(true);
+        int modifiedRowIndex = connectionsList.getSelectedIndex();
+        if (dialog.getDialogOption() == JOptionPane.OK_OPTION) {
+            ((ConnectionsListModel) connectionsList.getModel()).remove(modifiedRowIndex);
+            ((ConnectionsListModel) connectionsList.getModel()).add(modifiedRowIndex, dialog.getConnection());
+            connectionsList.setSelectedIndex(modifiedRowIndex);
+        }
+    }//GEN-LAST:event_modifyButtonActionPerformed
+
     public void setConnectionList(List<String> list) {
         ((ConnectionsListModel) connectionsList.getModel()).setConnections(list);
     }
@@ -281,8 +299,8 @@ public class ConnectionPanel extends javax.swing.JPanel {
     private javax.swing.JPanel connectionsControlPanel;
     private javax.swing.JList connectionsList;
     private javax.swing.JScrollPane connectionsScrollPane;
-    private javax.swing.JButton customAddButton;
     private javax.swing.JButton downButton;
+    private javax.swing.JButton modifyButton;
     private javax.swing.JButton removeButton;
     private javax.swing.JButton selectAllButton;
     private javax.swing.JButton upButton;
@@ -305,16 +323,10 @@ public class ConnectionPanel extends javax.swing.JPanel {
             return connections.get(index);
         }
 
-        /**
-         * @return the charsets
-         */
         public List<String> getConnections() {
             return connections;
         }
 
-        /**
-         * @param charsets the charsets to set
-         */
         public void setConnections(List<String> charsets) {
             this.connections = charsets;
             fireContentsChanged(this, 0, charsets.size());

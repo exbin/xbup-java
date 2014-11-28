@@ -14,47 +14,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.catalog.update;
+package org.xbup.lib.catalog.update;
+
+import java.util.EventListener;
 
 /**
- * Catalog item information record.
+ * Listener interface for processing web service handler starting communication
+ * with WS service.
  *
- * @version 0.1.17 2009/06/09
+ * @version 0.1.15 2007/05/30
  * @author XBUP Project (http://xbup.org)
  */
-public class ItemInfo {
+public interface XBCUpdateListener extends EventListener {
 
-    private Long xbIndex;
-    private String name;
-    private String desc;
-
-    public ItemInfo() {
-        xbIndex = null;
-        name = null;
-        desc = null;
-    }
-
-    public Long getXbIndex() {
-        return xbIndex;
-    }
-
-    public void setXbIndex(Long xbIndex) {
-        this.xbIndex = xbIndex;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
+    /** Indicates if web service is started to use. */
+    public void webServiceUsage(boolean status);
 }

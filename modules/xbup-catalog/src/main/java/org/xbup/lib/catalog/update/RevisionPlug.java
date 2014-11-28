@@ -14,28 +14,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.catalog.update;
+package org.xbup.lib.catalog.update;
 
 /**
- * Catalog plugin information record.
+ * Path to revision plugin.
  *
  * @version 0.1.19 2010/07/17
  * @author XBUP Project (http://xbup.org)
  */
-public class ItemPlugin {
+public class RevisionPlug {
 
     private Long id;
+    private Long itemId;
+    private Long plugId;
     private Long plugin;
-    private Long nodeId;
-    private Long fileId;
-    private Long fileNode;
-    private String filename;
+    private Long plugNode;
 
-    public ItemPlugin() {
+    public RevisionPlug() {
         id = null;
+        itemId = null;
+        plugId = null;
         plugin = null;
-        nodeId = null;
-        fileId = null;
     }
 
     public Long getId() {
@@ -46,6 +45,22 @@ public class ItemPlugin {
         this.id = id;
     }
 
+    public Long getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
+    }
+
+    public Long getPlugId() {
+        return plugId;
+    }
+
+    public void setPlugId(Long plugId) {
+        this.plugId = plugId;
+    }
+
     public Long getPlugin() {
         return plugin;
     }
@@ -54,35 +69,11 @@ public class ItemPlugin {
         this.plugin = plugin;
     }
 
-    public Long getNodeId() {
-        return nodeId;
+    public Long getPlugNode() {
+        return plugNode;
     }
 
-    public void setNodeId(Long nodeId) {
-        this.nodeId = nodeId;
-    }
-
-    public Long getFileId() {
-        return fileId;
-    }
-
-    public void setFileId(Long fileId) {
-        this.fileId = fileId;
-    }
-
-    public Long getFileNode() {
-        return fileNode;
-    }
-
-    public void setFileNode(Long fileNode) {
-        this.fileNode = fileNode;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setPlugNode(Long plugNode) {
+        this.plugNode = plugNode;
     }
 }

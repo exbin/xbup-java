@@ -9,9 +9,15 @@ if (!hasProperty('mainClass')) {
 }
 
 task run(type : JavaExec ){
-   main = mainClass
-   classpath = sourceSets.main.runtimeClasspath
-   args appArgs
+    main = mainClass
+    classpath = sourceSets.main.runtimeClasspath
+    args appArgs
+}
+
+task debug(type : JavaExec ){
+    main = mainClass
+    classpath = sourceSets.main.runtimeClasspath
+    args appArgs
 }
 
 tasks.withType(JavaCompile) {

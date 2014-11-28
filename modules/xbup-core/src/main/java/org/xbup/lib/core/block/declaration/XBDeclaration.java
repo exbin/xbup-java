@@ -31,6 +31,7 @@ import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
 import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
 import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
 import org.xbup.lib.core.catalog.XBCatalog;
+import org.xbup.lib.core.catalog.base.XBCGroupRev;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBTConsumer;
@@ -125,9 +126,12 @@ public class XBDeclaration implements XBTSequenceSerializable {
         if (groupDecl != null) {
             XBGroup group = new XBGroup();
             // TODO revision
-            List<XBBlockDecl> blocks = catalog.getBlocks(((XBCGroupDecl) groupDecl).getGroupSpec().getParent());
-            for (XBBlockDecl block : blocks) {
-                group.getBlocks().add((XBCBlockDecl) block);
+            XBCGroupRev groupSpec = ((XBCGroupDecl) groupDecl).getGroupSpec();
+            List<XBBlockDecl> blocks = groupSpec != null ? catalog.getBlocks(groupSpec.getParent()) : null;
+            if (blocks != null) {
+                for (XBBlockDecl block : blocks) {
+                    group.getBlocks().add((XBCBlockDecl) block);
+                }
             }
 
             return group;

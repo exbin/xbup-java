@@ -14,6 +14,12 @@ task run(type : JavaExec) {
    args appArgs
 }
 
+task debug(type : JavaExec) {
+   main = mainClass
+   classpath = sourceSets.main.runtimeClasspath
+   args appArgs
+}
+
 tasks.withType(JavaCompile) {
     doFirst {
         options.fork = true

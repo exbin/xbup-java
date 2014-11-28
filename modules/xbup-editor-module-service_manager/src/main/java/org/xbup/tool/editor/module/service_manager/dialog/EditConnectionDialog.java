@@ -22,14 +22,15 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Add Connection Dialog.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.1.24 2014/11/28
  * @author XBUP Project (http://xbup.org)
  */
-public class AddConnectionDialog extends javax.swing.JDialog {
+public class EditConnectionDialog extends javax.swing.JDialog {
 
+    java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/dialog/resources/EditConnectionDialog");
     protected int dialogOption = JOptionPane.CLOSED_OPTION;
 
-    public AddConnectionDialog(java.awt.Frame parent, boolean modal) {
+    public EditConnectionDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         init();
@@ -42,10 +43,6 @@ public class AddConnectionDialog extends javax.swing.JDialog {
 
     public int getDialogOption() {
         return dialogOption;
-    }
-
-    public String getConnection() {
-        return connectionHostTextField.getText() + ":" + String.valueOf((Integer) connectionPortSpinner.getValue());
     }
 
     /**
@@ -65,7 +62,7 @@ public class AddConnectionDialog extends javax.swing.JDialog {
         cancelButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/dialog/resources/AddConnectionDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/dialog/resources/EditConnectionDialog"); // NOI18N
         setTitle(bundle.getString("Form.title")); // NOI18N
 
         connectionHostLabel.setText(bundle.getString("connectionHostLabel.text")); // NOI18N
@@ -80,7 +77,6 @@ public class AddConnectionDialog extends javax.swing.JDialog {
         });
 
         cancelButton.setText(bundle.getString("cancelButton.text")); // NOI18N
-        cancelButton.setToolTipText(bundle.getString("cancelButton.toolTipText")); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
@@ -139,8 +135,9 @@ public class AddConnectionDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        WindowUtils.invokeWindow(new AddConnectionDialog(new javax.swing.JFrame(), true));
+        WindowUtils.invokeWindow(new EditConnectionDialog(new javax.swing.JFrame(), true));
     }
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JLabel connectionHostLabel;
@@ -149,4 +146,16 @@ public class AddConnectionDialog extends javax.swing.JDialog {
     private javax.swing.JSpinner connectionPortSpinner;
     private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables
+
+    public String getConnection() {
+        return connectionHostTextField.getText() + ":" + String.valueOf((Integer) connectionPortSpinner.getValue());
+    }
+
+    public void setConnection(String string) {
+        int colonPos = string.indexOf(":");
+        connectionHostTextField.setText(string.substring(0, colonPos));
+        connectionPortSpinner.setValue(Integer.valueOf(string.substring(colonPos + 1)));
+        setTitle(bundle.getString("setForm.title"));
+        okButton.setText(bundle.getString("setButton.text"));
+    }
 }

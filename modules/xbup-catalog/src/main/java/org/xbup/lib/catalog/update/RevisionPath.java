@@ -14,57 +14,55 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.catalog.update;
+package org.xbup.lib.catalog.update;
 
 /**
- * Catalog item file information record.
+ * Path to revision structure.
  *
- * @version 0.1.18 2009/12/29
+ * @version 0.1.16 2009/06/14
  * @author XBUP Project (http://xbup.org)
  */
-public class ItemFile {
+public class RevisionPath {
 
-    private Long id;
-    private Long xbIndex;
-    private String fileName;
-    private Long mode;
+    private Long[] path;
+    private Long specId;
+    private Long revXBId;
+    private Long bindType;
 
-    public ItemFile() {
-        id = null;
-        xbIndex = null;
-        fileName = null;
-        mode = null;
+    public RevisionPath() {
+        path = null;
+        specId = null;
     }
 
-    public Long getXBIndex() {
-        return xbIndex;
+    public Long[] getPath() {
+        return path;
     }
 
-    public void setXBIndex(Long xbIndex) {
-        this.xbIndex = xbIndex;
+    public void setPath(Long[] path) {
+        this.path = path;
     }
 
-    public String getFileName() {
-        return fileName;
+    public Long getSpecId() {
+        return specId;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setSpecId(Long specId) {
+        this.specId = specId;
     }
 
-    public Long getMode() {
-        return mode;
+    public Long getRevXBId() {
+        return revXBId;
     }
 
-    public void setMode(Long mode) {
-        this.mode = mode;
+    public void setRevXBId(Long revXBId) {
+        this.revXBId = revXBId;
     }
 
-    public Long getId() {
-        return id;
+    public Long getBindType() {
+        return bindType;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setBindType(Long bindType) {
+        this.bindType = bindType;
     }
 }

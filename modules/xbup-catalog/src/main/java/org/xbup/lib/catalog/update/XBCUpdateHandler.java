@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.catalog.update;
+package org.xbup.lib.catalog.update;
 
 import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;

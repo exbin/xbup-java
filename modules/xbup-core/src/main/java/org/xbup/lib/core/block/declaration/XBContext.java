@@ -29,13 +29,11 @@ import org.xbup.lib.core.block.XBFixedBlockType;
  */
 public class XBContext {
 
-    private XBContext parent;
+    private XBContext parent = null;
     private int startFrom = 1;
-    private List<XBGroup> groups;
+    private List<XBGroup> groups = new ArrayList<>();
 
     public XBContext() {
-        parent = null;
-        groups = new ArrayList<>();
     }
 
     public XBGroup getGroupForId(int groupId) {

@@ -70,7 +70,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="customAddButton" alignment="1" pref="118" max="32767" attributes="0"/>
+                      <Component id="modifyButton" alignment="1" pref="118" max="32767" attributes="0"/>
                       <Component id="addButton" alignment="1" pref="118" max="32767" attributes="0"/>
                       <Component id="removeButton" alignment="1" pref="118" max="32767" attributes="0"/>
                       <Component id="selectAllButton" alignment="1" pref="118" max="32767" attributes="0"/>
@@ -91,12 +91,12 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="selectAllButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="removeButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="addButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="customAddButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="283" max="32767" attributes="0"/>
+                  <Component id="modifyButton" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="removeButton" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -164,14 +164,17 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="selectAllButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="customAddButton">
+        <Component class="javax.swing.JButton" name="modifyButton">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/editor/module/service_manager/panel/resources/ConnectionPanel.properties" key="customAddButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/xbup/tool/editor/module/service_manager/panel/resources/ConnectionPanel.properties" key="modifyButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
-            <Property name="name" type="java.lang.String" value="customAddButton" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="modifyButton" noResource="true"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modifyButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

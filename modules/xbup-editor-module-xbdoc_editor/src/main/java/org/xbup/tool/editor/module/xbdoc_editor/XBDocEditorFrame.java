@@ -95,7 +95,7 @@ import org.xbup.lib.client.catalog.remote.service.XBRXNameService;
 import org.xbup.lib.client.catalog.remote.service.XBRXPaneService;
 import org.xbup.lib.client.catalog.remote.service.XBRXPlugService;
 import org.xbup.lib.client.catalog.remote.service.XBRXStriService;
-import org.xbup.lib.core.catalog.update.XBCUpdateListener;
+import org.xbup.lib.catalog.update.XBCUpdateListener;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.catalog.XBAECatalog;
@@ -398,7 +398,6 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                             }
                         }
 
-                        ((XBAECatalog) catalog).initContext();
                         setCatalog(catalog);
                     } catch (Exception ex) {
                         Logger.getLogger(XBDocEditorFrame.class.getName()).log(Level.SEVERE, null, ex);

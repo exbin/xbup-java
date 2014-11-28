@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.catalog.update;
+package org.xbup.lib.catalog.update;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -48,7 +48,7 @@ import org.xbup.lib.core.parser.basic.XBHead;
 public class XBCUpdatePHPPort {
 
     private String catalogPrefix = "http://catalog-php-dev.xbup.org";
-    private String catalogURL = catalogPrefix + "/interface/wr23-0.php";
+    private String catalogURL = catalogPrefix + "/interface/wr24-0.php";
     private String catalogRepo = catalogPrefix + "/root";
 
     private BufferedReader compositeReader;

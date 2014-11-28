@@ -61,14 +61,14 @@ import org.xbup.lib.catalog.entity.service.XBEXStriService;
 import org.xbup.lib.service.XBServiceServer;
 
 /**
- * Console class for XBUP Service.
+ * Console class for XBUP framework service.
  *
  * @version 0.1.22 2013/08/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBService {
 
-    private static final ResourceBundle myBundle = ResourceBundle.getBundle("org/xbup/service/messages");
+    private static final ResourceBundle myBundle = ResourceBundle.getBundle("org/xbup/service/XBService");
     private static final Preferences preferences = Preferences.userNodeForPackage(XBService.class);
     private static boolean shallUpdate;
     private static boolean verboseMode;
@@ -80,7 +80,6 @@ public class XBService {
     private static String tcpipInterface;
     private static XBAECatalog catalog = null;
 
-    /** Creates a new instance of XBService */
     public XBService() {
     }
 
@@ -111,7 +110,7 @@ public class XBService {
             BasicParser parser = new BasicParser();
             CommandLine cl = parser.parse(opt, args);
 
-            if ( cl.hasOption('h') ) {
+            if (cl.hasOption('h')) {
                 logger.addHandler(new XBHead.XBLogHandler(verboseMode));
                 logger.addHandler(new XBServiceServer.XBServiceLogHandler(true));
                 Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, myBundle.getString("service_head"));
@@ -142,14 +141,13 @@ public class XBService {
 
                 initCatalog();
             }
-        }
-        catch (ParseException ex) {
+        } catch (ParseException ex) {
             Logger.getLogger(XBService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     private static void initCatalog() {
-        Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, (myBundle.getString("init_catalog")+"..."));
+        Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, (myBundle.getString("init_catalog") + "..."));
         try {
             derbyMode = false;
             EntityManagerFactory emf;
@@ -166,7 +164,7 @@ public class XBService {
                     emf = Persistence.createEntityManagerFactory("XBServicePU");
                     catalog = new XBAECatalog(emf.createEntityManager(), preferences.get("catalog_repository_path", System.getProperty("user.home") + "/.XBUP/repository"));
                 }
-            } catch (DatabaseException e) {
+            } catch (DatabaseException | javax.persistence.PersistenceException e) {
                 System.setProperty("derby.system.home", System.getProperty("user.home") + "/.java/.userPrefs/" + preferences.absolutePath());
                 emf = Persistence.createEntityManagerFactory("XBServiceDerbyPU");
                 catalog = new XBAECatalog(emf.createEntityManager(), preferences.get("catalog_repository_path", System.getProperty("user.home") + "/.XBUP/repository"));
@@ -196,7 +194,7 @@ public class XBService {
                 catalog.initCatalog();
             }
         } catch (DatabaseException e) {
-            System.err.println(myBundle.getString("init_catalog_failed")+": "+e);
+            System.err.println(myBundle.getString("init_catalog_failed") + ": " + e);
         }
     }
 
@@ -209,7 +207,7 @@ public class XBService {
             Logger.getLogger(XBService.class.getName()).log(Level.SEVERE, "{0}{1}: {2}", new Object[]{myBundle.getString("error_warning"), myBundle.getString("error_tcpip_port"), tcpipPort});
         }
 
-        Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, (myBundle.getString("init_service")+" "+tcpipInterface+":"+Integer.toString(tcpipPortInt)+"..."));
+        Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, (myBundle.getString("init_service") + " " + tcpipInterface + ":" + Integer.toString(tcpipPortInt) + "..."));
         // TODO: Only single connection for testing purposes (no connection pooling yet)
         XBServiceServer serviceHandler = new XBServiceServer(catalog);
         shallUpdate = (serviceHandler.shallUpdate() || forceUpdate) && (!rootCatalogMode);
@@ -254,11 +252,11 @@ public class XBService {
                 Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, "");
             }
             serviceHandler.run();
-            Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, (myBundle.getString("stop_service_success")+"."));
+            Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, (myBundle.getString("stop_service_success") + "."));
         } catch (XBProcessingException ex) {
             Logger.getLogger(XBService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException e) {
-            Logger.getLogger(XBService.class.getName()).log(Level.WARNING, (myBundle.getString("init_service_failed")+": "+e));
+            Logger.getLogger(XBService.class.getName()).log(Level.WARNING, (myBundle.getString("init_service_failed") + ": " + e));
         }
     }
 }

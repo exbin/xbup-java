@@ -47,15 +47,6 @@ import org.xbup.lib.core.catalog.base.service.XBCXLineService;
 import org.xbup.lib.core.catalog.base.service.XBCXPaneService;
 import org.xbup.lib.core.catalog.base.service.XBCXPlugService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
-import org.xbup.lib.core.catalog.update.ItemFile;
-import org.xbup.lib.core.catalog.update.ItemInfo;
-import org.xbup.lib.core.catalog.update.ItemPlugin;
-import org.xbup.lib.core.catalog.update.ItemRevision;
-import org.xbup.lib.core.catalog.update.RevisionPath;
-import org.xbup.lib.core.catalog.update.RevisionPlug;
-import org.xbup.lib.core.catalog.update.XBCUpdateHandler;
-import org.xbup.lib.core.catalog.update.XBCUpdateListener;
-import org.xbup.lib.core.catalog.update.XBCUpdatePHPPort;
 import org.xbup.lib.core.util.CopyStreamUtils;
 import org.xbup.lib.catalog.XBAECatalog;
 import org.xbup.lib.catalog.entity.XBEBlockCons;
@@ -112,13 +103,10 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
     private Long lang;
     private XBEXLanguage localLang;
     private EntityManager em;
-    private List<XBCUpdateListener> wsListeners = new ArrayList<XBCUpdateListener>();
+    private List<XBCUpdateListener> wsListeners = new ArrayList<>();
     private boolean usage;
     private Map<XBCRev, Long> revCache;
 
-    /**
-     * Creates a new instance of XBCatalogPHPHandler
-     */
     public XBCUpdatePHPHandler(XBAECatalog catalog) {
         this.catalog = catalog;
         em = catalog.getEntityManager();

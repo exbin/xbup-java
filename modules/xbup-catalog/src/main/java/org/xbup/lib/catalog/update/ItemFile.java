@@ -14,24 +14,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.catalog.update;
+package org.xbup.lib.catalog.update;
 
 /**
- * Catalog item revision information record.
+ * Catalog item file information record.
  *
- * @version 0.1.19 2010/07/17
+ * @version 0.1.18 2009/12/29
  * @author XBUP Project (http://xbup.org)
  */
-public class ItemRevision {
+public class ItemFile {
 
     private Long id;
     private Long xbIndex;
-    private Long xbLimit;
+    private String fileName;
+    private Long mode;
 
-    public ItemRevision() {
+    public ItemFile() {
         id = null;
         xbIndex = null;
-        xbLimit = null;
+        fileName = null;
+        mode = null;
     }
 
     public Long getXBIndex() {
@@ -42,12 +44,20 @@ public class ItemRevision {
         this.xbIndex = xbIndex;
     }
 
-    public Long getXBLimit() {
-        return xbLimit;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setXBLimit(Long xbLimit) {
-        this.xbLimit = xbLimit;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public Long getMode() {
+        return mode;
+    }
+
+    public void setMode(Long mode) {
+        this.mode = mode;
     }
 
     public Long getId() {

@@ -14,55 +14,47 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.catalog.update;
+package org.xbup.lib.catalog.update;
 
 /**
- * Path to revision structure.
+ * Catalog item revision information record.
  *
- * @version 0.1.16 2009/06/14
+ * @version 0.1.19 2010/07/17
  * @author XBUP Project (http://xbup.org)
  */
-public class RevisionPath {
+public class ItemRevision {
 
-    private Long[] path;
-    private Long specId;
-    private Long revXBId;
-    private Long bindType;
+    private Long id;
+    private Long xbIndex;
+    private Long xbLimit;
 
-    public RevisionPath() {
-        path = null;
-        specId = null;
+    public ItemRevision() {
+        id = null;
+        xbIndex = null;
+        xbLimit = null;
     }
 
-    public Long[] getPath() {
-        return path;
+    public Long getXBIndex() {
+        return xbIndex;
     }
 
-    public void setPath(Long[] path) {
-        this.path = path;
+    public void setXBIndex(Long xbIndex) {
+        this.xbIndex = xbIndex;
     }
 
-    public Long getSpecId() {
-        return specId;
+    public Long getXBLimit() {
+        return xbLimit;
     }
 
-    public void setSpecId(Long specId) {
-        this.specId = specId;
+    public void setXBLimit(Long xbLimit) {
+        this.xbLimit = xbLimit;
     }
 
-    public Long getRevXBId() {
-        return revXBId;
+    public Long getId() {
+        return id;
     }
 
-    public void setRevXBId(Long revXBId) {
-        this.revXBId = revXBId;
-    }
-
-    public Long getBindType() {
-        return bindType;
-    }
-
-    public void setBindType(Long bindType) {
-        this.bindType = bindType;
+    public void setId(Long id) {
+        this.id = id;
     }
 }

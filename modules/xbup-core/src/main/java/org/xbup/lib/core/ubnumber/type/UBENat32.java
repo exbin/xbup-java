@@ -111,6 +111,11 @@ public class UBENat32 implements UBENatural {
     }
 
     @Override
+    public boolean isZero() {
+        return infinity == false && value == 0;
+    }
+
+    @Override
     public long getSegmentCount() {
         return 1;
     }
@@ -301,7 +306,6 @@ public class UBENat32 implements UBENatural {
      serial.end();
      }
      } */
-
     // TODO: Or should be singleton?
     public static UBENat32 Infinity() {
         UBENat32 value = new UBENat32();

@@ -43,6 +43,13 @@ public interface UBEReal {
     public long getLong() throws UBOverFlowException;
 
     /**
+     * Returns if value is zero.
+     *
+     * @return true if value equals zero
+     */
+    public boolean isZero();
+
+    /**
      * Gets float value.
      *
      * @return float value
@@ -57,7 +64,7 @@ public interface UBEReal {
      * @throws UBOverFlowException if value is out of range
      */
     public double getDouble() throws UBOverFlowException;
-    
+
     /**
      * Sets integer value.
      *
@@ -66,7 +73,7 @@ public interface UBEReal {
     public void setValue(int value) throws UBOverFlowException;
 
     /**
-     * Setting long integer value.
+     * Sets long integer value.
      *
      * @param value long integer value
      */

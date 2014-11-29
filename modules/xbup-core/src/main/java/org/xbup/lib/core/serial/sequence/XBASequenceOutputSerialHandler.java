@@ -14,29 +14,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.ubnumber;
+package org.xbup.lib.core.serial.sequence;
 
-import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
+import org.xbup.lib.core.serial.XBOutputSerialHandler;
+import org.xbup.lib.core.serial.token.XBTTokenOutputSerialHandler;
 
 /**
- * Interface for LRUB-encoded boolean value.
+ * Interface for XBUP level 2 serialization output handler using serialization
+ * sequence.
  *
- * @version 0.1.24 2014/06/07
+ * @version 0.1.24 2014/11/29
  * @author XBUP Project (http://xbup.org)
  */
-public interface UBBoolean {
-
-    /**
-     * Gets boolean value.
-     *
-     * @return value
-     */
-    public boolean getBoolean() throws UBOverFlowException;
-
-    /**
-     * Sets boolean value.
-     *
-     * @param value
-     */
-    public void setValue(boolean value) throws UBOverFlowException;
+public interface XBASequenceOutputSerialHandler extends XBOutputSerialHandler, XBASerialSequenceable, XBTTokenOutputSerialHandler {
 }

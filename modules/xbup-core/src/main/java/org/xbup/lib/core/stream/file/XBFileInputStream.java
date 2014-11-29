@@ -39,7 +39,6 @@ public class XBFileInputStream extends XBTokenInputStream {
     private FileInputStream source;
     private XBPullReader reader;
 
-    /** Creates a new instance of XBFileInputStream */
     public XBFileInputStream(File file) throws FileNotFoundException, IOException {
         source = new FileInputStream(file);
         reader = new XBPullReader();

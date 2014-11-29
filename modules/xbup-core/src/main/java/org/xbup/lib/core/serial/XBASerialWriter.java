@@ -24,11 +24,13 @@ import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTCompactingEventFilter;
 import org.xbup.lib.core.serial.child.XBAChildListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBAChildSerializable;
+import org.xbup.lib.core.serial.sequence.XBASequenceListenerSerialHandler;
+import org.xbup.lib.core.serial.sequence.XBASequenceSerializable;
 
 /**
  * Interface for XBUP serialization input handler.
  *
- * @version 0.1.24 2014/11/27
+ * @version 0.1.24 2014/11/29
  * @author XBUP Project (http://xbup.org)
  */
 public class XBASerialWriter extends XBTSerialWriter implements XBWriteSerialHandler {
@@ -47,8 +49,15 @@ public class XBASerialWriter extends XBTSerialWriter implements XBWriteSerialHan
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBASerialWriter.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else if (serial instanceof XBASequenceSerializable) {
+            XBASequenceListenerSerialHandler childOutput = new XBASequenceListenerSerialHandler(this);
+            childOutput.attachXBTEventListener(eventListener);
+            try {
+                ((XBASequenceSerializable) serial).serializeXB(childOutput);
+            } catch (XBProcessingException | IOException ex) {
+                Logger.getLogger(XBASerialWriter.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        // TODO
 
         super.write(serial);
     }

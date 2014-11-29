@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
-import org.xbup.lib.core.parser.XBProcessingException;
 
 /**
  * This interface provides methods for object conversion from and to stream in
@@ -47,7 +46,7 @@ public interface UBStreamable extends Serializable {
      * @return count of bytes read from stream
      * @throws IOException if stream throws it
      */
-    public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException;
+    public int fromStreamUB(InputStream stream) throws IOException;
 
     /**
      * Returns size of data which would be saved in byte stream.

@@ -86,6 +86,11 @@ public class UBNat32 implements UBNatural, XBTChildSerializable {
     }
 
     @Override
+    public boolean isZero() {
+        return value == 0;
+    }
+
+    @Override
     public long getSegmentCount() {
         return 1;
     }

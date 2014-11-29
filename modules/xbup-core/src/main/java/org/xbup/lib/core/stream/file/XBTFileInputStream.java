@@ -42,7 +42,6 @@ public class XBTFileInputStream extends XBTInputTokenStream {
     private FileInputStream source;
     private XBTPullReader reader;
 
-    /** Creates a new instance of XBFileInputStream */
     public XBTFileInputStream(File file, XBCatalog catalog) throws FileNotFoundException, IOException {
         source = new FileInputStream(file);
         reader = new XBTPullReader(catalog);

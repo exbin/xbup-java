@@ -44,6 +44,13 @@ public interface UBNatural extends Serializable, UBStreamable {
     public long getLong() throws UBOverFlowException;
 
     /**
+     * Returns if value is zero.
+     *
+     * @return true if value equals zero
+     */
+    public boolean isZero();
+
+    /**
      * Sets integer value.
      *
      * @param value integer value

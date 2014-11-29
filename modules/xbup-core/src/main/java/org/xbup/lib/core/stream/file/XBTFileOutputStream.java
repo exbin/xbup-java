@@ -38,7 +38,6 @@ public class XBTFileOutputStream extends XBTOutputStream {
     private XBTToXBEventConvertor convertor;
     private XBEventWriter writer;
 
-    /** Creates a new instance of XBFileOutputStream */
     public XBTFileOutputStream(File file) throws FileNotFoundException, IOException {
         target = new FileOutputStream(file);
         writer = new XBEventWriter();

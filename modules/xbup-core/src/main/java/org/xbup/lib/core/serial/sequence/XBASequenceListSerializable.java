@@ -19,23 +19,23 @@ package org.xbup.lib.core.serial.sequence;
 import java.io.IOException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildSerializable;
+import org.xbup.lib.core.serial.child.XBAChildInputSerialHandler;
+import org.xbup.lib.core.serial.child.XBAChildOutputSerialHandler;
+import org.xbup.lib.core.serial.child.XBAChildSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * XBUP level 2 serialization sequence serializable list.
  *
- * @version 0.1.24 2014/10/24
+ * @version 0.1.24 2014/11/29
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTSequenceListSerializable implements XBSerialSequenceList, XBTChildSerializable {
+public class XBASequenceListSerializable implements XBSerialSequenceList, XBAChildSerializable {
 
     private final XBSerialSequenceList list;
 
-    public XBTSequenceListSerializable(XBSerialSequenceList list) {
+    public XBASequenceListSerializable(XBSerialSequenceList list) {
         this.list = list;
     }
 
@@ -60,7 +60,7 @@ public class XBTSequenceListSerializable implements XBSerialSequenceList, XBTChi
     }
 
     @Override
-    public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+    public void serializeFromXB(XBAChildInputSerialHandler serial) throws XBProcessingException, IOException {
         UBNatural count = getSize();
         while (count.getLong() != 0) {
             serial.nextChild(next());
@@ -69,7 +69,7 @@ public class XBTSequenceListSerializable implements XBSerialSequenceList, XBTChi
     }
 
     @Override
-    public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+    public void serializeToXB(XBAChildOutputSerialHandler serial) throws XBProcessingException, IOException {
         UBNatural count = getSize();
         while (count.getLong() != 0) {
             serial.addChild(next());

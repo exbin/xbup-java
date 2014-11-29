@@ -48,6 +48,11 @@ public class UBInt32 implements UBInteger {
     }
 
     @Override
+    public boolean isZero() {
+        return value == 0;
+    }
+
+    @Override
     public void setValue(int value) throws UBOverFlowException {
         this.value = value;
     }

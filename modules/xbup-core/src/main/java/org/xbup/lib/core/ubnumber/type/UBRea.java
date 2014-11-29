@@ -64,6 +64,21 @@ public class UBRea implements UBReal {
     }
 
     @Override
+    public UBInteger getBase() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public UBInteger getMantissa() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean isZero() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public void setValue(int value) throws UBOverFlowException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -80,16 +95,6 @@ public class UBRea implements UBReal {
 
     @Override
     public void setValue(double value) throws UBOverFlowException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public UBInteger getBase() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public UBInteger getMantissa() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

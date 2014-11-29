@@ -27,7 +27,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 public interface UBRatio {
 
     /**
-     * Getting short integer value.
+     * Gets short integer value.
      *
      * @return integer value
      * @throws UBOverFlowException if value is out of range
@@ -35,7 +35,7 @@ public interface UBRatio {
     public int getInt() throws UBOverFlowException;
 
     /**
-     * Getting long integer value.
+     * Gets long integer value.
      *
      * @return long integer value
      * @throws UBOverFlowException if value is out of range
@@ -43,7 +43,7 @@ public interface UBRatio {
     public long getLong() throws UBOverFlowException;
 
     /**
-     * Getting float value.
+     * Gets float value.
      *
      * @return float value
      * @throws UBOverFlowException if value is out of range
@@ -51,7 +51,7 @@ public interface UBRatio {
     public float getFloat() throws UBOverFlowException;
 
     /**
-     * Getting double value.
+     * Gets double value.
      *
      * @return double value
      * @throws UBOverFlowException if value is out of range
@@ -59,28 +59,35 @@ public interface UBRatio {
     public double getDouble() throws UBOverFlowException;
 
     /**
-     * Setting integer value.
+     * Returns if value is zero.
+     *
+     * @return true if value equals zero
+     */
+    public boolean isZero();
+
+    /**
+     * Sets integer value.
      *
      * @param value integer value
      */
     public void setValue(int value) throws UBOverFlowException;
 
     /**
-     * Setting long integer value.
+     * Sets long integer value.
      *
      * @param value long integer value
      */
     public void setValue(long value) throws UBOverFlowException;
 
     /**
-     * Setting float value.
+     * Sets float value.
      *
      * @param value float value
      */
     public void setValue(float value) throws UBOverFlowException;
 
     /**
-     * Setting double value.
+     * Sets double value.
      *
      * @param value double value
      */

@@ -36,7 +36,6 @@ public class XBFileOutputStream extends XBTokenOutputStream {
     private FileOutputStream target;
     private XBEventWriter writer = new XBEventWriter();
 
-    /** Creates a new instance of XBFileOutputStream */
     public XBFileOutputStream(File file) throws FileNotFoundException, IOException {
         target = new FileOutputStream(file);
         writer.open(target);

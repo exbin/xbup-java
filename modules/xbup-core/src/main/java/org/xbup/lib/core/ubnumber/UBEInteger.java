@@ -50,7 +50,7 @@ public interface UBEInteger {
     public void setValue(int value) throws UBOverFlowException;
 
     /**
-     * Setting long integer value.
+     * Sets long integer value.
      *
      * @param value long integer value
      */

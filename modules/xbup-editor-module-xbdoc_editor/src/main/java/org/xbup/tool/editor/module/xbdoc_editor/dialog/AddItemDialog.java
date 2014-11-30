@@ -238,6 +238,7 @@ public class AddItemDialog extends javax.swing.JDialog {
         generateDeclarationCheckBox.setText("Generate Declaration");
 
         prefillCheckBox.setText("Prefill Default Values");
+        prefillCheckBox.setEnabled(false);
 
         org.jdesktop.layout.GroupLayout conditionsPanelLayout = new org.jdesktop.layout.GroupLayout(conditionsPanel);
         conditionsPanel.setLayout(conditionsPanelLayout);

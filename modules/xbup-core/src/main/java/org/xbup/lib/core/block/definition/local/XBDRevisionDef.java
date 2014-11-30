@@ -16,39 +16,26 @@
  */
 package org.xbup.lib.core.block.definition.local;
 
+import java.util.List;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
+import org.xbup.lib.core.block.definition.XBRevisionParam;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**
- * XBUP level 1 revision definition.
+ * XBUP level 1 group definition.
  *
- * @version 0.1.21 2011/12/02
+ * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDRevisionDef implements XBSerializable, XBRevisionDef {
 
-    private long revision;
-
-    public XBDRevisionDef(long revision) {
-        this.revision = revision;
-    }
+    private List<XBRevisionParam> revs;
 
     public XBDRevisionDef() {
-        this(0);
     }
 
-    /**
-     * @return the revision
-     */
     @Override
-    public long getRevision() {
-        return revision;
-    }
-
-    /**
-     * @param revision the revision to set
-     */
-    public void setRevision(long revision) {
-        this.revision = revision;
+    public List<XBRevisionParam> getRevParams() {
+        return revs;
     }
 }

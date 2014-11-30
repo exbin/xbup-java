@@ -21,7 +21,12 @@ import com.lightdev.app.shtm.SHTMLPanel;
 import com.lightdev.app.shtm.SHTMLPanelImpl;
 import com.lightdev.app.shtm.TextResources;
 import com.lightdev.app.shtm.Util;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.Properties;
@@ -33,7 +38,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * XBManager Catalog Specification Selection Dialog.
  *
- * @version 0.1.24 2014/11/22
+ * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogEditDocumentationDialog extends javax.swing.JDialog {
@@ -50,6 +55,22 @@ public class CatalogEditDocumentationDialog extends javax.swing.JDialog {
         SHTMLPanelImpl.setTextResources(createResources());
         SHTMLPanel.getResources();
         mainPanel = SHTMLPanel.createSHTMLPanel();
+        mainPanel.setOpenHyperlinkHandler(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+                if (desktop.isSupported(java.awt.Desktop.Action.BROWSE)) {
+                    try {
+                        java.net.URI uri = new java.net.URI(e.getActionCommand());
+                        desktop.browse(uri);
+                    } catch (IOException | URISyntaxException ex) {
+                        Util.errMsg((Component) e.getSource(), ex.getMessage(), ex);
+                    }
+                }
+            }
+        });
+
         mainPanel.setCurrentDocumentContent(documentation);
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 

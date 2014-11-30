@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBTBlock;
-import org.xbup.lib.core.block.param.XBParamDecl;
+import org.xbup.lib.core.block.definition.XBBlockParam;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.param.XBParamConvertor;
@@ -40,7 +40,7 @@ public class XBTreeParamExtractor implements XBParamListener {
     private final XBTBlock source;
     private final long targetParam;
 
-    private XBParamDecl paramType;
+    private XBBlockParam paramType;
     private long attributeStart = 0;
     private long attributeCount = 0;
     private long blockStart = 0;
@@ -77,7 +77,7 @@ public class XBTreeParamExtractor implements XBParamListener {
     }
 
     @Override
-    public void beginXBParam(XBParamDecl type) throws XBProcessingException, IOException {
+    public void beginXBParam(XBBlockParam type) throws XBProcessingException, IOException {
         if (currentParam == targetParam) {
             paramType = type;
         }
@@ -108,7 +108,7 @@ public class XBTreeParamExtractor implements XBParamListener {
         XBTTreeNode output = new XBTTreeNode();
         output.setBlockDecl(paramType.getBlockDecl());
         output.setChildren(new ArrayList<XBTBlock>());
-        if (paramType.isJoinFlag()) {
+        if (paramType.getParamType().isJoin()) {
             long attribute = attributeStart;
             if (attribute < source.getAttributesCount()) {
                 output.addAttribute(new UBNat32(source.getAttribute((int) attribute)));
@@ -132,7 +132,7 @@ public class XBTreeParamExtractor implements XBParamListener {
         return output;
     }
 
-    public XBParamDecl getParamType() {
+    public XBBlockParam getParamType() {
         return paramType;
     }
 

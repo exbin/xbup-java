@@ -16,11 +16,27 @@
  */
 package org.xbup.lib.core.block.declaration;
 
+import org.xbup.lib.core.block.definition.XBBlockDef;
+
 /**
  * Block declaration interface, either for catalog or local definition.
  *
- * @version 0.1.24 2014/08/26
+ * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBBlockDecl {
+
+    /**
+     * Returns linked block definition.
+     *
+     * @return
+     */
+    public XBBlockDef getBlockDef();
+
+    /**
+     * Returns linked revision.
+     *
+     * @return
+     */
+    public long getRevision();
 }

@@ -20,31 +20,29 @@ import java.util.List;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.block.definition.XBBlockDef;
-import org.xbup.lib.core.block.param.XBParamDecl;
+import org.xbup.lib.core.block.definition.XBBlockParam;
+import org.xbup.lib.core.block.definition.XBRevisionDef;
+import org.xbup.lib.core.block.definition.XBRevisionParam;
 import org.xbup.lib.core.parser.param.XBParamPosition;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * XBUP level 1 block definition.
  *
- * @version 0.1.21 2011/12/02
+ * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDBlockDef implements XBBlockDef, XBSerializable {
 
-    private List<XBParamDecl> params;
-    private List<XBDRevisionDef> revisionDefs;
+    private List<XBBlockParam> params;
+    private XBDRevisionDef revisionDef;
 
     public XBDBlockDef() {
     }
 
     @Override
-    public List<XBDRevisionDef> getRevisionDefs() {
-        return revisionDefs;
-    }
-
-    public void setRevisionDefs(List<XBDRevisionDef> revisionDefs) {
-        this.revisionDefs = revisionDefs;
+    public List<XBRevisionParam> getRevisionDefs() {
+        return revisionDef.getRevParams();
     }
 
     @Override
@@ -73,22 +71,27 @@ public class XBDBlockDef implements XBBlockDef, XBSerializable {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void setParams(List<XBParamDecl> params) {
+    public void setParams(List<XBBlockParam> params) {
         this.params = params;
     }
 
     @Override
-    public XBParamDecl getParamDecl(int index) {
+    public XBBlockParam getParamDecl(int index) {
         return params.get(index);
     }
 
     @Override
-    public List<XBParamDecl> getParamDecls() {
+    public List<XBBlockParam> getBlockParams() {
         return params;
     }
 
     @Override
     public long getParamCount() {
         return params.size();
+    }
+
+    @Override
+    public XBRevisionDef getRevisionDef() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

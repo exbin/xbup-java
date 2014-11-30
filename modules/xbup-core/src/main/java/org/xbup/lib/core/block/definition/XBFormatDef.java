@@ -17,30 +17,16 @@
 package org.xbup.lib.core.block.definition;
 
 import java.util.List;
-import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
-import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 1 format definition interface.
  *
- * @version 0.1.24 2014/10/03
+ * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBFormatDef {
 
-    /**
-     * @return the consistSkip
-     */
-    public UBNatural getConsistSkip();
+    public List<XBFormatParam> getFormatParams();
 
-    /**
-     * @return the formats
-     */
-    public List<XBDFormatDecl> getFormats();
-
-    /**
-     * @return the joinCount
-     */
-    public UBNatural getJoinCount();
-    
+    public XBRevisionDef getRevisionDef();
 }

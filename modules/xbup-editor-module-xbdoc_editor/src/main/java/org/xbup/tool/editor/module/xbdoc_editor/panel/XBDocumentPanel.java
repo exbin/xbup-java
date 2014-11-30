@@ -40,7 +40,7 @@ import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
-import org.xbup.lib.core.block.param.XBParamDecl;
+import org.xbup.lib.core.block.definition.XBBlockParam;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
@@ -710,7 +710,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         XBParamConvertor convertor = new XBParamConvertor(new XBParamListener() {
 
             @Override
-            public void beginXBParam(XBParamDecl type) throws XBProcessingException, IOException {
+            public void beginXBParam(XBBlockParam type) throws XBProcessingException, IOException {
                 System.out.println("Param begin");
             }
 

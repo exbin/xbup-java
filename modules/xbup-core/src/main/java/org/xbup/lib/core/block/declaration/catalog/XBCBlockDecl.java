@@ -22,6 +22,8 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
+import org.xbup.lib.core.block.definition.XBBlockDef;
+import org.xbup.lib.core.block.definition.catalog.XBCBlockDef;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -35,7 +37,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Block type declaration defined by catalog specification.
  *
- * @version 0.1.24 2014/10/02
+ * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCBlockDecl implements XBBlockDecl, XBTChildSerializable {
@@ -130,5 +132,15 @@ public class XBCBlockDecl implements XBBlockDecl, XBTChildSerializable {
 
     public void setBlockSpec(XBCBlockRev blockSpec) {
         this.blockSpecRev = blockSpec;
+    }
+
+    @Override
+    public XBBlockDef getBlockDef() {
+        return new XBCBlockDef(catalog, blockSpecRev.getParent());
+    }
+
+    @Override
+    public long getRevision() {
+        return blockSpecRev.getXBIndex();
     }
 }

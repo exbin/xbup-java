@@ -18,6 +18,7 @@ package org.xbup.lib.core.block.declaration.catalog;
 
 import java.util.Arrays;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
+import org.xbup.lib.core.block.definition.XBBlockDef;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.ubnumber.UBNatural;
@@ -114,10 +115,16 @@ public class XBPBlockDecl implements XBBlockDecl {
         setCatalogObjectPath(path);
     }
 
-    public int getRevision() {
+    @Override
+    public long getRevision() {
         return revision;
     }
 
+    @Override
+    public XBBlockDef getBlockDef() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
     public void setRevision(int revision) {
         this.revision = revision;
     }

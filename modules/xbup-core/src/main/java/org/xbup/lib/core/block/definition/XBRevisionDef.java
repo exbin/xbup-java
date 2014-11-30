@@ -16,17 +16,15 @@
  */
 package org.xbup.lib.core.block.definition;
 
+import java.util.List;
+
 /**
  * XBUP level 1 revision definition interface.
  *
- * @version 0.1.24 2014/10/03
+ * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBRevisionDef {
 
-    /**
-     * @return the revision
-     */
-    public long getRevision();
-    
+    public List<XBRevisionParam> getRevParams();
 }

@@ -14,30 +14,39 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.parser.token.param;
+package org.xbup.lib.core.block.definition;
 
-import org.xbup.lib.core.block.definition.XBBlockParam;
+import org.xbup.lib.core.block.declaration.XBBlockDecl;
 
 /**
- * XBUP protocol level 1 parameter begin token.
+ * XBUP level 1 block list join parameter.
  *
- * @version 0.1.23 2013/11/29
+ * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
-public class XBBeginParamToken extends XBParamToken {
+public class XBBlockParamListJoin implements XBBlockParam {
 
-    private final XBBlockParam paramType;
+    private XBBlockDecl blockDecl;
 
-    public XBBeginParamToken(XBBlockParam paramType) {
-        this.paramType = paramType;
+    public XBBlockParamListJoin() {
+        this(null);
     }
 
-    public XBBlockParam getParamType() {
-        return paramType;
+    public XBBlockParamListJoin(XBBlockDecl blockDecl) {
+        this.blockDecl = blockDecl;
     }
 
     @Override
-    public XBParamTokenType getTokenType() {
-        return XBParamTokenType.BEGIN;
+    public XBParamType getParamType() {
+        return XBParamType.LIST_JOIN;
+    }
+
+    @Override
+    public XBBlockDecl getBlockDecl() {
+        return blockDecl;
+    }
+
+    public void setBlockDecl(XBBlockDecl blockDecl) {
+        this.blockDecl = blockDecl;
     }
 }

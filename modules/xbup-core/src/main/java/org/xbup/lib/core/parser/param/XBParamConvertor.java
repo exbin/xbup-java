@@ -25,7 +25,7 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.local.XBDBlockDecl;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.block.param.XBParamDecl;
+import org.xbup.lib.core.block.definition.XBBlockParam;
 import org.xbup.lib.core.block.definition.XBBlockDef;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -51,7 +51,7 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
     private final XBACatalog catalog;
 
     private XBBlockDef blockDef;
-    private XBParamDecl nextParam;
+    private XBBlockParam nextParam;
     private XBParamProcessor paramProcessor;
     private int paramIndex;
     private long depthLevel;
@@ -80,7 +80,7 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
         if (type instanceof XBDeclBlockType) {
             XBBlockDecl blockDecl = ((XBDeclBlockType) type).getBlockDecl();
             if (blockDecl instanceof XBCBlockDecl) {
-                blockDef = new XBCBlockDef(catalog, ((XBCBlockDecl) blockDecl).getBlockSpec());
+                blockDef = new XBCBlockDef(catalog, ((XBCBlockDecl) blockDecl).getBlockSpec().getParent());
             } else if (blockDecl instanceof XBDBlockDecl) {
                 blockDef = ((XBDBlockDecl) blockDecl).getBlockDef();
             } else {
@@ -88,7 +88,7 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
             }
         } else if (type instanceof XBFixedBlockType) {
             XBCBlockDecl blockDecl = (XBCBlockDecl) catalog.getRootContext().getBlockDecl((XBFBlockType) type);
-            blockDef = new XBCBlockDef(catalog, blockDecl.getBlockSpec());
+            blockDef = new XBCBlockDef(catalog, blockDecl.getBlockSpec().getParent());
         } else {
             throw new UnsupportedOperationException("Not supported yet.");
         }
@@ -155,14 +155,14 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
      */
     public class XBParamProcessor implements XBParamProducer {
 
-        private XBParamDecl paramDecl = null;
+        private XBBlockParam paramDecl = null;
         private XBParamListener listener;
         private XBParamProcessor childProcessor;
         private int position;
 
         private UBENat32 listCount;
 
-        public XBParamProcessor(XBParamDecl paramDecl) throws XBProcessingException, IOException {
+        public XBParamProcessor(XBBlockParam paramDecl) throws XBProcessingException, IOException {
             this.paramDecl = paramDecl;
             childProcessor = null;
             position = 0;
@@ -179,11 +179,11 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
                 return;
             }
 
-            if ((position == 0) && (paramDecl.isListFlag())) {
-                if (paramDecl.isJoinFlag()) {
+            if ((position == 0) && (paramDecl.getParamType().isList())) {
+                if (paramDecl.getParamType().isJoin()) {
                     listCount = new UBENat32(value.getLong());
                     while ((childProcessor == null) && (listCount.getLong() == 0)) {
-                        childProcessor = new XBParamProcessor(paramDecl.convertToNonList());
+                        childProcessor = new XBParamProcessor(paramDecl);
                         childProcessor.attachXBParamListener(new XBParamHandler(this));
                         listCount = new UBENat32(listCount.getLong() - 1);
                     }
@@ -212,13 +212,13 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
                 return;
             }
 
-            if (paramDecl.isListFlag()) {
-                if (paramDecl.isJoinFlag()) {
+            if (paramDecl.getParamType().isList()) {
+                if (paramDecl.getParamType().isJoin()) {
                     throw new XBProcessingException("Internal error", XBProcessingExceptionType.UNKNOWN);
                 }
 
                 while ((childProcessor == null) && (listCount.getLong() == 0)) {
-                    childProcessor = new XBParamProcessor(paramDecl.convertToNonList());
+                    childProcessor = new XBParamProcessor(paramDecl);
                     childProcessor.attachXBParamListener(new XBParamHandler(this));
                     listCount = new UBENat32(listCount.getLong() - 1);
                 }
@@ -233,13 +233,13 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
                 return;
             }
 
-            if (paramDecl.isJoinFlag()) {
+            if (paramDecl.getParamType().isJoin()) {
                 if (paramDecl.getBlockDecl() == null) {
                     // Single attribute
                     listener.endXBParam();
                     this.paramDecl = null;
                 } else {
-                    List<XBParamDecl> params = blockDef.getParamDecls();
+                    List<XBBlockParam> params = blockDef.getBlockParams();
                     // TODO: Revision processing
                     while ((childProcessor == null) && (position < params.size())) {
                         nextChildProcessor();
@@ -263,8 +263,8 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
          * Associate next child processor.
          */
         private void nextChildProcessor() throws XBProcessingException, IOException {
-            List<XBParamDecl> params = blockDef.getParamDecls();
-            XBParamDecl childParam = params.get(position);
+            List<XBBlockParam> params = blockDef.getBlockParams();
+            XBBlockParam childParam = params.get(position);
             listener.beginXBParam(childParam);
             childProcessor = new XBParamProcessor(childParam);
             childProcessor.attachXBParamListener(new XBParamHandler(this));
@@ -275,7 +275,7 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
         public void attachXBParamListener(XBParamListener listener) {
             try {
                 this.listener = listener;
-                if ((paramDecl == null) || ((!paramDecl.isListFlag()) && (!paramDecl.isJoinFlag()))) {
+                if ((paramDecl == null) || ((!paramDecl.getParamType().isList()) && (!paramDecl.getParamType().isJoin()))) {
                     // Any block or data block
                     listener.blockXBParam();
                     listener.endXBParam();
@@ -283,7 +283,7 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
                     return;
                 }
 
-                if (!paramDecl.isListFlag()) {
+                if (!paramDecl.getParamType().isList()) {
                     nextChildProcessor();
                 }
             } catch (XBProcessingException | IOException ex) {
@@ -311,7 +311,7 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
         }
 
         @Override
-        public void beginXBParam(XBParamDecl type) throws XBProcessingException, IOException {
+        public void beginXBParam(XBBlockParam type) throws XBProcessingException, IOException {
         }
 
         @Override

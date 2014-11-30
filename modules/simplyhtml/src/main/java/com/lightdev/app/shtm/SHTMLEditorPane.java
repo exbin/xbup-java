@@ -162,6 +162,9 @@ public class SHTMLEditorPane extends JEditorPane implements DropTargetListener, 
         super();
         setCaretColor(Color.black);
         setNavigationFilter(new MyNavigationFilter());
+
+        int metaMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+        final int metaKey = metaMask == KeyEvent.META_DOWN_MASK ? KeyEvent.VK_META : KeyEvent.VK_CONTROL;
         addMouseListener(new MouseAdapter() {
             public void mousePressed(final MouseEvent e) {
                 maybeShowPopup(e);
@@ -172,7 +175,7 @@ public class SHTMLEditorPane extends JEditorPane implements DropTargetListener, 
             }
 
             public void mouseClicked(final MouseEvent ev) {
-                if ((ev.getModifiers() & MouseEvent.CTRL_MASK) != 0) {
+                if ((ev.getModifiers() & metaKey) != 0) {
                     final String linkURL = getURLOfExistingLink();
                     if (linkURL != null) {
                         final SHTMLPanelImpl panel = SHTMLPanelImpl.getOwnerSHTMLPanel((Component) ev.getSource());

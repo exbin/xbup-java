@@ -17,21 +17,16 @@
 package org.xbup.lib.core.block.definition;
 
 import java.util.List;
-import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
-import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 1 group definition interface.
  *
- * @version 0.1.24 2014/10/03
+ * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBGroupDef {
 
-    public UBNatural getConsistSkip();
+    public List<XBGroupParam> getGroupParams();
 
-    public List<XBDGroupDecl> getGroups();
-
-    public UBNatural getJoinCount();
-    
+    public XBRevisionDef getRevisionDef();
 }

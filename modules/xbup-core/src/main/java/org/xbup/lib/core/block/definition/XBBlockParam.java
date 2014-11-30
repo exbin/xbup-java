@@ -14,42 +14,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.block.param;
+package org.xbup.lib.core.block.definition;
 
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 
 /**
- * XBUP level 1 parameter definition.
+ * XBUP level 1 parameter definition interface.
  * 
- * Parameter is in one of four modes: Join, Consist, Join List, Consist List.
+ * Parameter is one of four types: Join, Consist, Join List, Consist List.
  * Without declaration (blockDecl) it means single atribute for join and data
  * block for consist mode and their lists respectively.
  *
- * @version 0.1.20 2010/12/18
+ * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBParamDecl {
-
-    /**
-     * Gets block declaration.
-     *
-     * @return block declaration
-     */
-    public XBBlockDecl getBlockDecl();
-
-    /**
-     * Gets flag whether parameter is list of items.
-     *
-     * @return true if parameter is list
-     */
-    public boolean isListFlag();
-
-    /**
-     * Gets flag whether parameter is joined.
-     *
-     * @return true if parameter is joined
-     */
-    public boolean isJoinFlag();
+public interface XBBlockParam {
 
     /**
      * Gets type of this parameter.
@@ -59,9 +38,9 @@ public interface XBParamDecl {
     public XBParamType getParamType();
 
     /**
-     * Gets new instance of the same declaration, but as list.
+     * Gets block declaration.
      *
-     * @return parameter declaration
+     * @return block declaration
      */
-    public XBParamDecl convertToNonList();
+    public XBBlockDecl getBlockDecl();
 }

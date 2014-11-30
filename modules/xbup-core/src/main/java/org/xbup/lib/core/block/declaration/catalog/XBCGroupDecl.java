@@ -24,6 +24,8 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
+import org.xbup.lib.core.block.definition.XBGroupDef;
+import org.xbup.lib.core.block.definition.catalog.XBCGroupDef;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCGroupRev;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -37,23 +39,23 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 group specification.
  *
- * @version 0.1.24 2014/09/02
+ * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCGroupDecl implements XBGroupDecl, XBTChildSerializable {
 
-    private XBCGroupRev groupSpec;
+    private XBCGroupRev groupSpecRev;
     private final XBCatalog catalog;
 
     public XBCGroupDecl(XBCGroupRev groupSpec, XBCatalog catalog) {
-        this.groupSpec = groupSpec;
+        this.groupSpecRev = groupSpec;
         this.catalog = catalog;
     }
 
     public List<XBBlockDecl> getGroups() {
-        return catalog.getBlocks(groupSpec.getParent());
+        return catalog.getBlocks(groupSpecRev.getParent());
     }
-    
+
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin();
@@ -69,7 +71,7 @@ public class XBCGroupDecl implements XBGroupDecl, XBTChildSerializable {
         }
 
         XBCGroupDecl group = (XBCGroupDecl) catalog.findGroupTypeByPath(path, 0);
-        groupSpec = group.getGroupSpec();
+        groupSpecRev = group.getGroupSpec();
         serializationHandler.end();
     }
 
@@ -77,17 +79,27 @@ public class XBCGroupDecl implements XBGroupDecl, XBTChildSerializable {
     public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
         serializationHandler.setType(new XBFixedBlockType(XBBasicBlockType.GROUP_DECLARATION_LINK));
-        Long[] path = catalog.getSpecPath(groupSpec.getParent());
+        Long[] path = catalog.getSpecPath(groupSpecRev.getParent());
         serializationHandler.addAttribute(new UBNat32(path.length - 1));
         for (Long pathIndex : path) {
             serializationHandler.addAttribute(new UBNat32(pathIndex));
         }
 
-        serializationHandler.addAttribute(new UBNat32(groupSpec.getXBIndex()));
+        serializationHandler.addAttribute(new UBNat32(groupSpecRev.getXBIndex()));
         serializationHandler.end();
     }
 
     public XBCGroupRev getGroupSpec() {
-        return groupSpec;
+        return groupSpecRev;
+    }
+
+    @Override
+    public XBGroupDef getGroupDef() {
+        return new XBCGroupDef(catalog, groupSpecRev.getParent());
+    }
+
+    @Override
+    public long getRevision() {
+        return groupSpecRev.getXBIndex();
     }
 }

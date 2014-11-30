@@ -14,30 +14,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.parser.token.param;
-
-import org.xbup.lib.core.block.definition.XBBlockParam;
+package org.xbup.lib.core.block.definition;
 
 /**
- * XBUP protocol level 1 parameter begin token.
+ * XBUP level 1 format parameter definition interface.
  *
- * @version 0.1.23 2013/11/29
+ * Parameter is in one of two modes: Join, Consist
+ *
+ * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
-public class XBBeginParamToken extends XBParamToken {
+public interface XBFormatParam {
 
-    private final XBBlockParam paramType;
+    /**
+     * Gets type of this parameter.
+     *
+     * @return type of this parameter
+     */
+    public XBParamType getParamType();
 
-    public XBBeginParamToken(XBBlockParam paramType) {
-        this.paramType = paramType;
-    }
-
-    public XBBlockParam getParamType() {
-        return paramType;
-    }
-
-    @Override
-    public XBParamTokenType getTokenType() {
-        return XBParamTokenType.BEGIN;
-    }
 }

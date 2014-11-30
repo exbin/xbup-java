@@ -14,39 +14,39 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.block.definition.local;
+package org.xbup.lib.core.block.definition.catalog;
 
-import org.xbup.lib.core.block.definition.XBFormatDef;
 import java.util.List;
+import org.xbup.lib.core.block.definition.XBFormatDef;
 import org.xbup.lib.core.block.definition.XBFormatParam;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
+import org.xbup.lib.core.catalog.XBCatalog;
+import org.xbup.lib.core.catalog.base.XBCFormatSpec;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**
- * XBUP level 1 format definition.
+ * XBUP level 1 block definition.
  *
  * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
-public class XBDFormatDef implements XBSerializable, XBFormatDef {
+public class XBCFormatDef implements XBFormatDef, XBSerializable {
 
-    private List<XBFormatParam> formats;
-    private XBDRevisionDef revisionDef;
+    private final XBCatalog catalog;
+    private final XBCFormatSpec formatSpec;
 
-    public XBDFormatDef() {
+    public XBCFormatDef(XBCatalog catalog, XBCFormatSpec formatSpec) {
+        this.catalog = catalog;
+        this.formatSpec = formatSpec;
     }
 
     @Override
     public List<XBFormatParam> getFormatParams() {
-        return formats;
-    }
-
-    public void setFormats(List<XBFormatParam> formats) {
-        this.formats = formats;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public XBRevisionDef getRevisionDef() {
-        return revisionDef;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -16,11 +16,27 @@
  */
 package org.xbup.lib.core.block.declaration;
 
+import org.xbup.lib.core.block.definition.XBGroupDef;
+
 /**
  * Group declaration interface, either for catalog or local definition.
  *
- * @version 0.1.24 2014/08/28
+ * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBGroupDecl {
+
+    /**
+     * Returns linked group definition.
+     *
+     * @return
+     */
+    public XBGroupDef getGroupDef();
+
+    /**
+     * Returns linked revision.
+     *
+     * @return
+     */
+    public long getRevision();
 }

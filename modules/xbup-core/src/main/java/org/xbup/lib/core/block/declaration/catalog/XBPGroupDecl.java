@@ -18,6 +18,7 @@ package org.xbup.lib.core.block.declaration.catalog;
 
 import java.util.Arrays;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
+import org.xbup.lib.core.block.definition.XBGroupDef;
 
 /**
  * XBUP level 1 group declaration using catalog path.
@@ -78,27 +79,36 @@ public class XBPGroupDecl implements XBGroupDecl {
         setCatalogObjectPath(path);
     }
 
-/*
-    public void processSpec() {
-        getBlocks().clear();
-        XBGroupSpecificationBind elem;
-        for (Iterator it = spec.getBlocks().iterator(); it.hasNext();) {
-            elem = (XBGroupSpecificationBind) it.next();
-            if (elem.getXbIndex()!=null) {
-                if (getBlocks().size() <= elem.getXbIndex().intValue()) setListSize(elem.getXbIndex().intValue()+1); // TODO GetMaxXBIndex
-                XBCTypeBlock typeBlock = new XBCTypeBlock(xbCatalog);
-                getBlocks().set(elem.getXbIndex().intValue(),typeBlock);
-                typeBlock.processSpec(elem.getHasBlock());
-            }
-        }    public void setCatalogPath(Long[] path) {
-        setCatalogObjectPath(path);
+    /*
+     public void processSpec() {
+     getBlocks().clear();
+     XBGroupSpecificationBind elem;
+     for (Iterator it = spec.getBlocks().iterator(); it.hasNext();) {
+     elem = (XBGroupSpecificationBind) it.next();
+     if (elem.getXbIndex()!=null) {
+     if (getBlocks().size() <= elem.getXbIndex().intValue()) setListSize(elem.getXbIndex().intValue()+1); // TODO GetMaxXBIndex
+     XBCTypeBlock typeBlock = new XBCTypeBlock(xbCatalog);
+     getBlocks().set(elem.getXbIndex().intValue(),typeBlock);
+     typeBlock.processSpec(elem.getHasBlock());
+     }
+     }    public void setCatalogPath(Long[] path) {
+     setCatalogObjectPath(path);
+     }
+
+     }
+
+     public void processSpec(XBGroupSpecification spec) {
+     setSpec(spec);
+     processSpec();
+     }
+     */
+    @Override
+    public XBGroupDef getGroupDef() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public long getRevision() {
+        return revision;
     }
-
-    public void processSpec(XBGroupSpecification spec) {
-        setSpec(spec);
-        processSpec();
-    }
-*/
 }

@@ -108,7 +108,7 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
 /**
  * XBEditor Main Frame.
  *
- * @version 0.1.24 2014/11/12
+ * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
 public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, MainFrameManagement {
@@ -118,7 +118,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
     public static final String PREFERENCES_RECENFILE_MODE_PREFIX = "recentFile.mode.";
 
     private AboutDialog aboutDialog;
-    private OptionsDialog optionsDialog;
+    private final OptionsDialog optionsDialog;
     private final String DIALOG_MENU_SUFIX = "...";
 
     private XBEditorApp appEditor;
@@ -129,7 +129,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
     private List<String> toolBarButtonText;
 
     java.util.ResourceBundle resourceBundle;
-    private JFileChooser openFC, saveFC;
+    private final JFileChooser openFC, saveFC;
 
     public static final String ALLFILESFILTER = "MainFrame.AllFilesFilter";
 
@@ -139,6 +139,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
     private CaretListener textComponentCaretListener;
     private PropertyChangeListener textComponentPCL;
 
+    int metaMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
     private ActionMap defaultTextActionMap;
     private DefaultPopupClipboardAction defaultCutAction;
     private DefaultPopupClipboardAction defaultCopyAction;
@@ -492,7 +493,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         actionMap = new ActionMap();
         cutAction = new PassingTextAction(new DefaultEditorKit.CutAction());
         cutAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/cut.png")));
-        cutAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
+        cutAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, metaMask));
         cutAction.putValue(Action.NAME, resourceBundle.getString("actionEditCut.Action.text"));
         cutAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditCut.Action.shortDescription"));
         cutAction.setEnabled(false);
@@ -500,7 +501,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
 
         copyAction = new PassingTextAction(new DefaultEditorKit.CopyAction());
         copyAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/copy.png")));
-        copyAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        copyAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, metaMask));
         copyAction.putValue(Action.NAME, resourceBundle.getString("actionEditCopy.Action.text"));
         copyAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditCopy.Action.shortDescription"));
         copyAction.setEnabled(false);
@@ -508,7 +509,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
 
         pasteAction = new PassingTextAction(new DefaultEditorKit.PasteAction());
         pasteAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/paste.png")));
-        pasteAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        pasteAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, metaMask));
         pasteAction.putValue(Action.NAME, resourceBundle.getString("actionEditPaste.Action.text"));
         pasteAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditPaste.Action.shortDescription"));
         pasteAction.setEnabled(false);
@@ -541,7 +542,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
                 }
             }
         });
-        selectAllAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        selectAllAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, metaMask));
         selectAllAction.putValue(Action.NAME, resourceBundle.getString("actionEditSelectAll.Action.text"));
         selectAllAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditSelectAll.Action.shortDescription"));
         actionMap.put("selectAll", selectAllAction);
@@ -553,7 +554,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
             }
         };
         undoAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/Undo16.gif")));
-        undoAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
+        undoAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, metaMask));
         undoAction.putValue(Action.NAME, resourceBundle.getString("actionEditUndo.Action.text"));
         undoAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditUndo.Action.shortDescription"));
         undoAction.setEnabled(false);
@@ -566,7 +567,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
             }
         };
         redoAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/Redo16.gif")));
-        redoAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        redoAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.SHIFT_MASK | metaMask));
         redoAction.putValue(Action.NAME, resourceBundle.getString("actionEditRedo.Action.text"));
         redoAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditRedo.Action.shortDescription"));
         redoAction.setEnabled(false);
@@ -597,7 +598,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
             }
         };
         defaultCutAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/cut.png")));
-        defaultCutAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
+        defaultCutAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, metaMask));
         defaultCutAction.putValue(Action.NAME, resourceBundle.getString("actionEditCut.Action.text"));
         defaultCutAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditCut.Action.shortDescription"));
         defaultCutAction.setEnabled(false);
@@ -615,7 +616,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
             }
         };
         defaultCopyAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/copy.png")));
-        defaultCopyAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        defaultCopyAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, metaMask));
         defaultCopyAction.putValue(Action.NAME, resourceBundle.getString("actionEditCopy.Action.text"));
         defaultCopyAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditCopy.Action.shortDescription"));
         defaultCopyAction.setEnabled(false);
@@ -633,7 +634,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
             }
         };
         defaultPasteAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/paste.png")));
-        defaultPasteAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        defaultPasteAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, metaMask));
         defaultPasteAction.putValue(Action.NAME, resourceBundle.getString("actionEditPaste.Action.text"));
         defaultPasteAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditPaste.Action.shortDescription"));
         defaultPasteAction.setEnabled(false);
@@ -668,7 +669,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
                 setEnabled(clipboardHandler.canSelectAll());
             }
         };
-        defaultSelectAllAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        defaultSelectAllAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, metaMask));
         defaultSelectAllAction.putValue(Action.NAME, resourceBundle.getString("actionEditSelectAll.Action.text"));
         defaultSelectAllAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditSelectAll.Action.shortDescription"));
         defaultTextActionMap.put("selectAll", defaultSelectAllAction);

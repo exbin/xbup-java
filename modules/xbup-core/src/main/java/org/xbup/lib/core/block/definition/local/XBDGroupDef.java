@@ -18,50 +18,35 @@ package org.xbup.lib.core.block.definition.local;
 
 import org.xbup.lib.core.block.definition.XBGroupDef;
 import java.util.List;
-import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
+import org.xbup.lib.core.block.definition.XBGroupParam;
+import org.xbup.lib.core.block.definition.XBRevisionDef;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.ubnumber.UBNatural;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * XBUP level 1 group definition.
  *
- * @version 0.1.21 2011/12/02
+ * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDGroupDef implements XBSerializable, XBGroupDef {
 
-    private UBNatural consistSkip = new UBNat32(0);
-    private UBNatural joinCount = new UBNat32(0);
-    private List<XBDGroupDecl> groups;
+    private List<XBGroupParam> groups;
+    private XBDRevisionDef revisionDef;
 
     public XBDGroupDef() {
     }
 
     @Override
-    public UBNatural getConsistSkip() {
-        return consistSkip;
-    }
-
-    public void setConsistSkip(UBNatural consistSkip) {
-        this.consistSkip = consistSkip;
-    }
-
-    @Override
-    public UBNatural getJoinCount() {
-        return joinCount;
-    }
-
-    public void setJoinCount(UBNatural joinCount) {
-        this.joinCount = joinCount;
-    }
-
-    @Override
-    public List<XBDGroupDecl> getGroups() {
+    public List<XBGroupParam> getGroupParams() {
         return groups;
     }
 
-    public void setGroups(List<XBDGroupDecl> groups) {
+    public void setGroups(List<XBGroupParam> groups) {
         this.groups = groups;
+    }
+
+    @Override
+    public XBRevisionDef getRevisionDef() {
+        return revisionDef;
     }
 }

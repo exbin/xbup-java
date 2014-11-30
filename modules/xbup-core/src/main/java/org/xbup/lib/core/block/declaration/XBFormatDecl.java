@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.core.block.declaration;
 
+import org.xbup.lib.core.block.definition.XBFormatDef;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**
@@ -25,4 +26,18 @@ import org.xbup.lib.core.serial.XBSerializable;
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBFormatDecl extends XBSerializable {
+
+    /**
+     * Returns linked format definition.
+     *
+     * @return
+     */
+    public XBFormatDef getFormatDef();
+
+    /**
+     * Returns linked revision.
+     *
+     * @return
+     */
+    public long getRevision();
 }

@@ -25,6 +25,8 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
+import org.xbup.lib.core.block.definition.XBFormatDef;
+import org.xbup.lib.core.block.definition.catalog.XBCFormatDef;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCFormatRev;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -37,21 +39,21 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 format declaration represented by catalog.
  *
- * @version 0.1.24 2014/09/03
+ * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCFormatDecl implements XBFormatDecl, XBTChildSerializable {
 
-    private XBCFormatRev formatSpec;
+    private XBCFormatRev formatSpecRev;
     private final XBCatalog catalog;
 
     public XBCFormatDecl(XBCFormatRev formatSpec, XBCatalog catalog) {
-        this.formatSpec = formatSpec;
+        this.formatSpecRev = formatSpec;
         this.catalog = catalog;
     }
-    
+
     public List<XBGroupDecl> getGroups() {
-        return formatSpec == null ? new ArrayList<XBGroupDecl>() : catalog.getGroups(formatSpec.getParent());
+        return formatSpecRev == null ? new ArrayList<XBGroupDecl>() : catalog.getGroups(formatSpecRev.getParent());
     }
 
     @Override
@@ -69,23 +71,23 @@ public class XBCFormatDecl implements XBFormatDecl, XBTChildSerializable {
             catalogPath[i] = serializationHandler.nextAttribute().getLong();
         }
         long revision = serializationHandler.nextAttribute().getLong();
-        
+
         XBCFormatDecl format = (XBCFormatDecl) catalog.findFormatTypeByPath(catalogPath, (int) revision);
-        formatSpec = format == null ? null : format.getFormatSpec();
-        
+        formatSpecRev = format == null ? null : format.getFormatSpec();
+
         /* TODO
-        if (type.getAsBasicType() != XBBasicBlockType.FORMAT_DECLARATION_LINK) {
-            throw new XBProcessingException("Unexpected block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
-        }
+         if (type.getAsBasicType() != XBBasicBlockType.FORMAT_DECLARATION_LINK) {
+         throw new XBProcessingException("Unexpected block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
+         }
 
-        UBNatural pathLength = serializationHandler.nextAttribute();
-        Long[] path = new Long[pathLength.getInt()];
-        for (int i = 0; i < pathLength.getInt(); i++) {
-            path[i] = serializationHandler.nextAttribute().getLong();
-        }
+         UBNatural pathLength = serializationHandler.nextAttribute();
+         Long[] path = new Long[pathLength.getInt()];
+         for (int i = 0; i < pathLength.getInt(); i++) {
+         path[i] = serializationHandler.nextAttribute().getLong();
+         }
 
-        XBCFormatDecl format = (XBCFormatDecl) catalog.findFormatTypeByPath(path, 0);
-        formatSpec = format == null ? null : format.getFormatSpec(); */
+         XBCFormatDecl format = (XBCFormatDecl) catalog.findFormatTypeByPath(path, 0);
+         formatSpecRev = format == null ? null : format.getFormatSpec(); */
         serializationHandler.end();
     }
 
@@ -93,17 +95,27 @@ public class XBCFormatDecl implements XBFormatDecl, XBTChildSerializable {
     public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
         serializationHandler.setType(new XBFixedBlockType(XBBasicBlockType.FORMAT_DECLARATION_LINK));
-        Long[] path = catalog.getSpecPath(formatSpec.getParent());
+        Long[] path = catalog.getSpecPath(formatSpecRev.getParent());
         serializationHandler.addAttribute(new UBNat32(path.length - 1));
         for (Long pathIndex : path) {
             serializationHandler.addAttribute(new UBNat32(pathIndex));
         }
 
-        serializationHandler.addAttribute(new UBNat32(formatSpec.getXBIndex()));
+        serializationHandler.addAttribute(new UBNat32(formatSpecRev.getXBIndex()));
         serializationHandler.end();
     }
 
     public XBCFormatRev getFormatSpec() {
-        return formatSpec;
+        return formatSpecRev;
+    }
+
+    @Override
+    public XBFormatDef getFormatDef() {
+        return new XBCFormatDef(catalog, formatSpecRev.getParent());
+    }
+
+    @Override
+    public long getRevision() {
+        return formatSpecRev.getXBIndex();
     }
 }

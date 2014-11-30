@@ -16,17 +16,15 @@
  */
 package org.xbup.lib.core.block.definition;
 
-import org.xbup.lib.core.block.definition.local.XBDRevisionDef;
 import java.util.List;
 import org.xbup.lib.core.block.XBTBlock;
-import org.xbup.lib.core.block.param.XBParamDecl;
 import org.xbup.lib.core.parser.param.XBParamPosition;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * XBUP level 1 block definition interface.
  *
- * @version 0.1.24 2014/10/02
+ * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBBlockDef {
@@ -36,7 +34,7 @@ public interface XBBlockDef {
      *
      * @return list of parameters
      */
-    public List<XBParamDecl> getParamDecls();
+    public List<XBBlockParam> getBlockParams();
 
     /**
      * Gets specific parameter declaration.
@@ -44,7 +42,7 @@ public interface XBBlockDef {
      * @param index parameter declaration index
      * @return list of parameters
      */
-    public XBParamDecl getParamDecl(int index);
+    public XBBlockParam getParamDecl(int index);
 
     /**
      * Gets count of parameter's declarations.
@@ -67,7 +65,7 @@ public interface XBBlockDef {
      *
      * @return list of revisions
      */
-    public List<XBDRevisionDef> getRevisionDefs();
+    public List<XBRevisionParam> getRevisionDefs();
 
     /**
      * Gets n-th parameter of the given block.
@@ -85,4 +83,6 @@ public interface XBBlockDef {
      * @return count of defined parameters
      */
     public int getParametersCount(XBTBlock block);
+
+    public XBRevisionDef getRevisionDef();
 }

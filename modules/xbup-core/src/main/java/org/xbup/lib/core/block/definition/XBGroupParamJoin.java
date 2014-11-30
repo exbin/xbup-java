@@ -14,33 +14,37 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.block.param;
+package org.xbup.lib.core.block.definition;
+
+import org.xbup.lib.core.block.declaration.XBGroupDecl;
+import org.xbup.lib.core.block.definition.XBGroupParam;
+import org.xbup.lib.core.block.definition.XBParamType;
 
 /**
- * XBUP level 1 parameter type enumeration.
+ * XBUP level 1 group join parameter.
  *
- * @version 0.1.23 2013/11/06
+ * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
-public enum XBParamType {
+public class XBGroupParamJoin implements XBGroupParam {
 
-    /**
-     * Add given block as subblock or data block if unspecified.
-     */
-    CONSIST,
-    /**
-     * Append attributes and subblocks of given block or single attribute if
-     * unspecified.
-     */
-    JOIN,
-    /**
-     * List of given block starting with count of blocks as UBENatural
-     * (including infinity).
-     */
-    LIST_CONSIST,
-    /**
-     * Append finite list of attributes and subblocks of given block type or
-     * list of attributes.
-     */
-    LIST_JOIN
+    private XBGroupDecl groupDecl;
+
+    public XBGroupParamJoin(XBGroupDecl groupDecl) {
+        this.groupDecl = groupDecl;
+    }
+
+    @Override
+    public XBParamType getParamType() {
+        return XBParamType.CONSIST;
+    }
+
+    public XBGroupDecl getGroupDecl() {
+        return groupDecl;
+    }
+
+    public void setGroupDecl(XBGroupDecl groupDecl) {
+        this.groupDecl = groupDecl;
+    }
+
 }

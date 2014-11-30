@@ -49,7 +49,6 @@ import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.StyleSheet;
 
 import com.sun.demo.ExampleFileFilter;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -60,7 +59,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.io.Serializable;
-import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
@@ -68,7 +66,6 @@ import javax.swing.Action;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 import javax.swing.plaf.TextUI;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -201,25 +198,6 @@ class DocumentPane extends JPanel implements DocumentListener, ChangeListener {
         LinkController linkController = new LinkController();
         editorPane.addMouseMotionListener(linkController);
         editorPane.addMouseListener(linkController);
-        editorPane.addHyperlinkListener(new HyperlinkListener() {
-
-            @Override
-            public void hyperlinkUpdate(HyperlinkEvent e) {
-                if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                    java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
-                    if (desktop.isSupported(java.awt.Desktop.Action.BROWSE)) {
-                        try {
-                            java.net.URI uri = new java.net.URI(e.getURL().toExternalForm());
-                            desktop.browse(uri);
-                        } catch (IOException ex) {
-                            Util.errMsg((Component) e.getSource(), ex.getMessage(), ex);
-                        } catch (URISyntaxException ex) {
-                            Util.errMsg((Component) e.getSource(), ex.getMessage(), ex);
-                        }
-                    }
-                }
-            }
-        });
 
         int metaMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
         int metaKey = metaMask == KeyEvent.META_DOWN_MASK ? KeyEvent.VK_META : KeyEvent.VK_CONTROL;
@@ -1013,30 +991,9 @@ class DocumentPane extends JPanel implements DocumentListener, ChangeListener {
     public class LinkController extends MouseAdapter implements MouseMotionListener, Serializable {
 
         private final transient Position.Bias[] bias = new Position.Bias[1];
-        private Element curElem = null;
-        private int metaMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+        private final int metaMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
 
         public void mouseClicked(MouseEvent e) {
-            JEditorPane editor = (JEditorPane) e.getSource();
-            HTMLDocument hdoc = (HTMLDocument) editor.getDocument();
-
-            if (editor.isEditable() && editor.isEnabled()
-                    && SwingUtilities.isLeftMouseButton(e)
-                    && (e.getModifiers() & metaMask) == metaMask) {
-                Point pt = e.getPoint();
-                int pos = editor.viewToModel(pt);
-                if (pos >= 0) {
-                    Element element = hdoc.getCharacterElement(pos);
-                    AttributeSet aTag = element.getAttributes();
-                    AttributeSet anchor = (AttributeSet) aTag.getAttribute(HTML.Tag.A);
-                    String href = (String) anchor.getAttribute(HTML.Attribute.HREF);
-                    try {
-                        editor.fireHyperlinkUpdate(new HyperlinkEvent(editor, HyperlinkEvent.EventType.ACTIVATED, new URL(href)));
-                    } catch (MalformedURLException ex) {
-                        Logger.getLogger(DocumentPane.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
         }
 
         public void mouseMoved(MouseEvent e) {
@@ -1064,7 +1021,7 @@ class DocumentPane extends JPanel implements DocumentListener, ChangeListener {
                         elem = null;
                     }
 
-                    String href = null;
+                    String href;
                     if (elem != null) {
                         AttributeSet a = elem.getAttributes();
                         AttributeSet anchor = (AttributeSet) a.

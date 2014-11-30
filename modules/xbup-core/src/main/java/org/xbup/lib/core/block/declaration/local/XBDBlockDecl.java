@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.core.block.declaration.local;
 
+import org.xbup.lib.core.block.definition.XBBlockParamJoin;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import java.io.IOException;
 import java.util.List;
@@ -25,9 +26,7 @@ import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.block.definition.XBBlockDef;
-import org.xbup.lib.core.block.definition.local.XBDRevisionDef;
-import org.xbup.lib.core.block.param.XBDParamDecl;
-import org.xbup.lib.core.block.param.XBParamDecl;
+import org.xbup.lib.core.block.definition.XBBlockParam;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.sequence.XBSerialSequence;
@@ -74,7 +73,8 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
         return false;
     }
 
-    public int getRevision() {
+    @Override
+    public long getRevision() {
         return revision.getInt();
     }
 
@@ -107,6 +107,7 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
          return hash; */
     }
 
+    @Override
     public XBBlockDef getBlockDef() {
         return blockDef;
     }
@@ -151,12 +152,12 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
 
                 @Override
                 public void setSize(UBENatural count) {
-                    List<XBParamDecl> paramDecls = blockDef.getParamDecls();
+                    List<XBBlockParam> paramDecls = blockDef.getBlockParams();
                     int i = count.getInt() - paramDecls.size();
 
                     if (i > 0) {
                         while (i > 0) {
-                            paramDecls.add(new XBDParamDecl());
+                            paramDecls.add(new XBBlockParamJoin());
                             i--;
                         }
                     } else {
@@ -169,7 +170,7 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
 
                 @Override
                 public UBENatural getSize() {
-                    List<XBParamDecl> blocks = blockDef.getParamDecls();
+                    List<XBBlockParam> blocks = blockDef.getBlockParams();
                     if (blocks == null) {
                         return new UBENat32();
                     }
@@ -179,7 +180,8 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
 
                 @Override
                 public XBSerializable next() {
-                    return (XBDParamDecl) blockDef.getParamDecl(position++);
+                    throw new UnsupportedOperationException("Not supported yet.");
+                    // return (XBBlockParamJoin) blockDef.getParamDecl(position++);
                 }
 
                 @Override
@@ -195,34 +197,38 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
 
                 @Override
                 public void setSize(UBENatural count) {
-                    List<XBDRevisionDef> blockDefs = blockDef.getRevisionDefs();
-                    int i = count.getInt() - blockDefs.size();
+                    throw new UnsupportedOperationException("Not supported yet.");
+                    /*
+                     List<XBDRevisionDef> blockDefs = blockDef.getRevisionDefs();
+                     int i = count.getInt() - blockDefs.size();
 
-                    if (i > 0) {
-                        while (i > 0) {
-                            blockDefs.add(new XBDRevisionDef());
-                            i--;
-                        }
-                    } else {
-                        while (i < 0) {
-                            blockDefs.remove(blockDefs.size() - 1);
-                            i++;
-                        }
-                    }
+                     if (i > 0) {
+                     while (i > 0) {
+                     blockDefs.add(new XBDRevisionDef());
+                     i--;
+                     }
+                     } else {
+                     while (i < 0) {
+                     blockDefs.remove(blockDefs.size() - 1);
+                     i++;
+                     }
+                     } */
                 }
 
                 @Override
                 public UBENatural getSize() {
-                    List<XBDRevisionDef> blockDefs = blockDef.getRevisionDefs();
-                    if (blockDefs == null) {
-                        return new UBENat32();
-                    }
-                    return new UBENat32(blockDefs.size());
+                    throw new UnsupportedOperationException("Not supported yet.");
+                    /*List<XBDRevisionDef> blockDefs = blockDef.getRevisionDefs();
+                     if (blockDefs == null) {
+                     return new UBENat32();
+                     }
+                     return new UBENat32(blockDefs.size()); */
                 }
 
                 @Override
                 public XBSerializable next() {
-                    return ((XBDRevisionDef) blockDef.getRevisionDefs().get(position++));
+                    throw new UnsupportedOperationException("Not supported yet.");
+                    // return ((XBDRevisionDef) blockDef.getRevisionDefs().get(position++));
                 }
 
                 @Override
@@ -238,35 +244,41 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
 
                 @Override
                 public void setSize(UBENatural count) {
-                    List<XBDRevisionDef> revisionDefs = blockDef.getRevisionDefs();
-                    int i = count.getInt() - revisionDefs.size();
+                    throw new UnsupportedOperationException("Not supported yet.");
+                    /*
+                     List<XBDRevisionDef> revisionDefs = blockDef.getRevisionDefs();
+                     int i = count.getInt() - revisionDefs.size();
 
-                    if (i > 0) {
-                        while (i > 0) {
-                            revisionDefs.add(new XBDRevisionDef());
-                            i--;
-                        }
-                    } else {
-                        while (i < 0) {
-                            revisionDefs.remove(revisionDefs.size() - 1);
-                            i++;
-                        }
-                    }
+                     if (i > 0) {
+                     while (i > 0) {
+                     revisionDefs.add(new XBDRevisionDef());
+                     i--;
+                     }
+                     } else {
+                     while (i < 0) {
+                     revisionDefs.remove(revisionDefs.size() - 1);
+                     i++;
+                     }
+                     } */
                 }
 
                 @Override
                 public UBENatural getSize() {
-                    List<XBDRevisionDef> revisionDefs = blockDef.getRevisionDefs();
-                    if (revisionDefs == null) {
-                        return new UBENat32();
-                    }
+                    throw new UnsupportedOperationException("Not supported yet.");
+                    /*
+                     List<XBDRevisionDef> revisionDefs = blockDef.getRevisionDefs();
+                     if (revisionDefs == null) {
+                     return new UBENat32();
+                     }
 
-                    return new UBENat32(revisionDefs.size());
+                     return new UBENat32(revisionDefs.size());
+                     */
                 }
 
                 @Override
                 public XBSerializable next() {
-                    return blockDef.getRevisionDefs().get(position++);
+                    throw new UnsupportedOperationException("Not supported yet.");
+                    // return blockDef.getRevisionDefs().get(position++);
                 }
 
                 @Override

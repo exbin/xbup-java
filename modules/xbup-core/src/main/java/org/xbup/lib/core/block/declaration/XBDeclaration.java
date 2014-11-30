@@ -79,7 +79,8 @@ public class XBDeclaration implements XBTSequenceSerializable {
 
     public XBDeclaration(XBGroupDecl group, XBSerializable rootBlock) {
         this(new XBDFormatDecl(), rootBlock);
-        ((XBDFormatDecl) format).getGroups().add(group);
+        throw new UnsupportedOperationException("Not supported yet.");
+        // TODO ((XBDFormatDecl) format).getGroups().add(group);
     }
 
     public XBDeclaration(XBBlockDecl blockDecl) {
@@ -88,7 +89,8 @@ public class XBDeclaration implements XBTSequenceSerializable {
 
     public XBDeclaration(XBBlockDecl block, XBSerializable rootNode) {
         this(new XBDGroupDecl(), rootNode);
-        ((XBDGroupDecl) ((XBDFormatDecl) format).getGroups().get(0)).getBlocks().add(block);
+        throw new UnsupportedOperationException("Not supported yet.");
+        // TODO ((XBDGroupDecl) ((XBDFormatDecl) format).getGroups().get(0)).getBlocks().add(block);
     }
 
     public XBContext generateContext(XBCatalog catalog) {

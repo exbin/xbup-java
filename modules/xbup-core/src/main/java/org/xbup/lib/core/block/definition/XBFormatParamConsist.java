@@ -14,30 +14,35 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.parser.token.param;
+package org.xbup.lib.core.block.definition;
 
-import org.xbup.lib.core.block.definition.XBBlockParam;
+import org.xbup.lib.core.block.declaration.XBGroupDecl;
 
 /**
- * XBUP protocol level 1 parameter begin token.
+ * XBUP level 1 format consist parameter.
  *
- * @version 0.1.23 2013/11/29
+ * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
-public class XBBeginParamToken extends XBParamToken {
+public class XBFormatParamConsist implements XBFormatParam {
 
-    private final XBBlockParam paramType;
+    private XBGroupDecl groupDecl;
 
-    public XBBeginParamToken(XBBlockParam paramType) {
-        this.paramType = paramType;
-    }
-
-    public XBBlockParam getParamType() {
-        return paramType;
+    public XBFormatParamConsist(XBGroupDecl groupDecl) {
+        this.groupDecl = groupDecl;
     }
 
     @Override
-    public XBParamTokenType getTokenType() {
-        return XBParamTokenType.BEGIN;
+    public XBParamType getParamType() {
+        return XBParamType.CONSIST;
     }
+
+    public XBGroupDecl getGroupDecl() {
+        return groupDecl;
+    }
+
+    public void setGroupDecl(XBGroupDecl groupDecl) {
+        this.groupDecl = groupDecl;
+    }
+
 }

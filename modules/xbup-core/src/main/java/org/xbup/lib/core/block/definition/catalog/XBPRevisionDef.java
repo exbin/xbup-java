@@ -14,46 +14,36 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.block.definition.local;
+package org.xbup.lib.core.block.definition.catalog;
 
-import java.util.ArrayList;
-import org.xbup.lib.core.block.definition.XBFormatDef;
 import java.util.List;
-import org.xbup.lib.core.block.declaration.XBGroupDecl;
-import org.xbup.lib.core.block.definition.XBFormatParam;
-import org.xbup.lib.core.block.definition.XBFormatParamConsist;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
+import org.xbup.lib.core.block.definition.XBRevisionParam;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**
- * XBUP level 1 format definition.
+ * XBUP level 1 revision definition.
  *
  * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
-public class XBDFormatDef implements XBSerializable, XBFormatDef {
+public class XBPRevisionDef implements XBRevisionDef, XBSerializable {
 
-    private List<XBFormatParam> formats = new ArrayList<>();
-    private XBDRevisionDef revisionDef;
+    private long[] catalogPath;
+    private SpecType specType;
 
-    public XBDFormatDef() {
-    }
-
-    public XBDFormatDef(XBGroupDecl groupDecl) {
-        formats.add(new XBFormatParamConsist(groupDecl));
-    }
-
-    @Override
-    public List<XBFormatParam> getFormatParams() {
-        return formats;
-    }
-
-    public void setFormats(List<XBFormatParam> formats) {
-        this.formats = formats;
+    public XBPRevisionDef(long[] catalogPath, SpecType specType) {
+        this.catalogPath = catalogPath;
+        this.specType = specType;
     }
 
     @Override
-    public XBRevisionDef getRevisionDef() {
-        return revisionDef;
+    public List<XBRevisionParam> getRevParams() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public enum SpecType {
+
+        FORMAT, GROUP, BLOCK
     }
 }

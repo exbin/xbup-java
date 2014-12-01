@@ -30,7 +30,7 @@ import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
-import org.xbup.lib.core.parser.token.pull.convert.XBTPrefixPullProvider;
+import org.xbup.lib.core.parser.token.pull.convert.XBTPullPreLoader;
 import org.xbup.lib.core.serial.XBReadSerialHandler;
 import org.xbup.lib.core.serial.XBSerialException;
 import org.xbup.lib.core.serial.XBSerializable;
@@ -41,14 +41,13 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 2 serialization handler using basic parser mapping to provider.
  *
- * @version 0.1.24 2014/10/24
+ * @version 0.1.24 2014/12/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler, XBTTokenInputSerialHandler {
 
-    private XBTPullProvider pullProvider;
+    private XBTPullPreLoader pullProvider;
     private XBChildSerialState state;
-    private XBTToken prefix = null;
     private XBReadSerialHandler childHandler = null;
 
     public XBAChildProviderSerialHandler() {
@@ -62,7 +61,7 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
 
     @Override
     public void attachXBTPullProvider(XBTPullProvider pullProvider) {
-        this.pullProvider = pullProvider;
+        this.pullProvider = (pullProvider instanceof XBTPullPreLoader ? (XBTPullPreLoader) pullProvider : new XBTPullPreLoader(pullProvider));
     }
 
     @Override
@@ -100,6 +99,16 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
     }
 
     @Override
+    public XBBlockType matchType(XBBlockType blockType) throws XBProcessingException, IOException {
+        XBBlockType type = getType();
+        if (blockType.equals(type)) {
+            return type;
+        }
+
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public XBBlockType matchType(List<XBBlockType> blockTypes) throws XBProcessingException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -125,7 +134,6 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
         switch (token.getTokenType()) {
             case BEGIN: {
                 state = XBChildSerialState.CHILDREN;
-                prefix = token;
                 break;
             }
             case ATTRIBUTE: {
@@ -173,31 +181,21 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
             }
         }
 
-        if (state == XBChildSerialState.ATTRIBUTES && prefix == null) {
-            // TODO: Skip attributes
-            prefix = pullProvider.pullXBTToken();
-            while (prefix.getTokenType() == XBTTokenType.ATTRIBUTE) {
-                prefix = pullProvider.pullXBTToken();
+        if (state == XBChildSerialState.ATTRIBUTES) {
+            skipAttributes();
+            if (pullProvider.getNextTokenType() != XBTTokenType.BEGIN) {
+                throw new UnsupportedOperationException("Not supported yet.");
+                // TODO empty blocks throw new XBSerialException("Missing child", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
-            if (prefix.getTokenType() != XBTTokenType.BEGIN) {
-                throw new XBSerialException("Missing child", XBProcessingExceptionType.UNEXPECTED_ORDER);
-            }
-        }
 
-        if (child instanceof XBAChildSerializable) {
             state = XBChildSerialState.CHILDREN;
-            XBAChildProviderSerialHandler childInput = new XBAChildProviderSerialHandler();
-            childInput.attachXBTPullProvider(new XBTPrefixPullProvider(pullProvider, prefix));
-            ((XBAChildSerializable) child).serializeFromXB(childInput);
-        } else {
-            if (childHandler != null) {
-                childHandler.read(child);
-            } else {
-                throw new XBProcessingException("Unsupported child serialization", XBProcessingExceptionType.UNKNOWN);
-            }
         }
 
-        prefix = null;
+        if (childHandler != null) {
+            childHandler.read(child);
+        } else {
+            throw new XBProcessingException("Unsupported child serialization", XBProcessingExceptionType.UNKNOWN);
+        }
     }
 
     @Override
@@ -232,12 +230,57 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
-        // TODO Skip rest
+        if (state == XBChildSerialState.ATTRIBUTES) {
+            skipAttributes();
+        } else if (state == XBChildSerialState.CHILDREN) {
+            skipChildren();
+        }
+
         XBTToken token = pullProvider.pullXBTToken();
         if (token.getTokenType() != XBTTokenType.END) {
             throw new XBSerialException("End token was expected but not received", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
         state = XBChildSerialState.EOF;
+    }
+
+    // TODO: Make it later, that more effective skip is used when source
+    // supports it
+    /**
+     * Skip remaining attributes if child is requested.
+     */
+    private void skipAttributes() throws XBProcessingException, IOException {
+        while (pullProvider.getNextTokenType() == XBTTokenType.ATTRIBUTE) {
+            pullProvider.pullXBTToken();
+        }
+    }
+
+    /**
+     * Skip children until end token is reached.
+     */
+    private void skipChildren() throws XBProcessingException, IOException {
+        while (pullProvider.getNextTokenType() == XBTTokenType.BEGIN) {
+            skipChild();
+        }
+    }
+
+    /**
+     * Skip single child.
+     */
+    private void skipChild() throws XBProcessingException, IOException {
+        int depth = 0;
+        do {
+            XBTToken token = pullProvider.pullXBTToken();
+            switch (token.getTokenType()) {
+                case BEGIN: {
+                    depth++;
+                    break;
+                }
+                case END: {
+                    depth--;
+                    break;
+                }
+            }
+        } while (depth > 0);
     }
 }

@@ -17,10 +17,12 @@
 package org.xbup.lib.core.parser.token.pull.convert;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBTToken;
+import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.pull.XBTPullFilter;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 
@@ -29,7 +31,7 @@ import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
  *
  * This filter should be usable for level 2 expanding conversions.
  *
- * @version 0.1.24 2014/11/27
+ * @version 0.1.24 2014/12/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTPullPreLoader implements XBTPullFilter {
@@ -37,13 +39,18 @@ public class XBTPullPreLoader implements XBTPullFilter {
     private XBTToken nextToken;
     private int depth = 0;
     private XBTPullProvider pullProvider;
+    private List<XBTToken> prefixBuffer = null;
 
     public XBTPullPreLoader(XBTPullProvider pullProvider) {
-        this.pullProvider = pullProvider;
+        attachProvider(pullProvider);
     }
-    
+
     @Override
     public void attachXBTPullProvider(XBTPullProvider pullProvider) {
+        attachProvider(pullProvider);
+    }
+
+    private void attachProvider(XBTPullProvider pullProvider) {
         this.pullProvider = pullProvider;
         try {
             nextToken = pullProvider.pullXBTToken();
@@ -54,7 +61,17 @@ public class XBTPullPreLoader implements XBTPullFilter {
 
     @Override
     public XBTToken pullXBTToken() throws XBProcessingException, IOException {
-        XBTToken returnToken = nextToken;
+        XBTToken returnToken;
+        if (prefixBuffer != null) {
+            if (!prefixBuffer.isEmpty()) {
+                returnToken = prefixBuffer.get(0);
+                prefixBuffer.remove(0);
+                return returnToken;
+            }
+
+            prefixBuffer = null;
+        }
+        returnToken = nextToken;
         switch (nextToken.getTokenType()) {
             case BEGIN: {
                 depth++;
@@ -75,5 +92,17 @@ public class XBTPullPreLoader implements XBTPullFilter {
 
     public XBTToken getNextToken() {
         return nextToken;
+    }
+
+    public XBTTokenType getNextTokenType() {
+        return nextToken != null ? nextToken.getTokenType() : null;
+    }
+
+    public List<XBTToken> getPrefixBuffer() {
+        return prefixBuffer;
+    }
+
+    public void setPrefixBuffer(List<XBTToken> prefixBuffer) {
+        this.prefixBuffer = prefixBuffer;
     }
 }

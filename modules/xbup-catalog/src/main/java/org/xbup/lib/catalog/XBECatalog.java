@@ -16,7 +16,6 @@
  */
 package org.xbup.lib.catalog;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -70,14 +69,13 @@ import org.xbup.lib.core.catalog.base.service.XBCService;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXInfoService;
 import org.xbup.lib.catalog.update.XBCUpdateHandler;
-import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
-import org.xbup.lib.core.serial.sequence.XBTSequenceProviderSerialHandler;
+import org.xbup.lib.core.serial.XBASerialReader;
 
 /**
  * Basic level 1 catalog class using Java persistence.
  *
- * @version 0.1.24 2014/11/28
+ * @version 0.1.24 2014/12/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBECatalog implements XBCatalog {
@@ -522,13 +520,8 @@ public class XBECatalog implements XBCatalog {
     @Override
     public XBContext processDeclaration(XBContext parent, XBTPullProvider blockProvider) {
         XBDeclaration declaration = new XBDeclaration(new XBCFormatDecl(null, this));
-        try {
-            XBTSequenceProviderSerialHandler serialHandler = new XBTSequenceProviderSerialHandler();
-            serialHandler.attachXBTPullProvider(blockProvider);
-            declaration.serializeDeclaration(serialHandler);
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBECatalog.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        XBASerialReader serialHandler = new XBASerialReader(blockProvider);
+        serialHandler.read(declaration);
 
         XBContext context = declaration.generateContext(this);
         /*declaration.se

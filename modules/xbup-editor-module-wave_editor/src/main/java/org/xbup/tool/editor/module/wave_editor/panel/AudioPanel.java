@@ -65,13 +65,11 @@ import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBPFormatDecl;
 import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
-import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
-import org.xbup.lib.core.block.definition.local.XBDFormatDef;
 import org.xbup.lib.core.catalog.XBPCatalog;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
+import org.xbup.lib.core.serial.XBASerialWriter;
 import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
-import org.xbup.lib.core.serial.sequence.XBTSequenceListenerSerialHandler;
 import org.xbup.tool.editor.module.wave_editor.XBWaveEditorFrame;
 import org.xbup.tool.editor.module.wave_editor.dialog.WaveResizeDialog;
 import org.xbup.tool.editor.base.api.ApplicationFilePanel;
@@ -500,7 +498,6 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         if (XBWaveEditorFrame.XBSFILETYPE.equals(fileType.getFileTypeId())) {
             try {
                 try (XBFileOutputStream output = new XBFileOutputStream(file)) {
-                    XBTSequenceListenerSerialHandler handler = new XBTSequenceListenerSerialHandler();
 
                     XBPFormatDecl formatDecl = new XBPFormatDecl(new long[]{1, 4, 0, 1});
                     XBDFormatDecl defDecl = new XBDFormatDecl();
@@ -512,8 +509,8 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
                     catalog.setRootContext(declaration.generateContext(catalog));
                     XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
                     encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
-                    handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));
-                    declaration.serializeXB(handler);
+                    XBASerialWriter writer = new XBASerialWriter(new XBTListenerToEventListener(encapsulator));
+                    writer.write(declaration);
                 }
             } catch (IOException ex) {
                 Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);

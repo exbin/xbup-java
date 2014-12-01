@@ -34,10 +34,18 @@ import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
  */
 public class XBDGroupDecl implements XBGroupDecl, XBTSequenceSerializable {
 
-    private long revision;
+    private long revision = 0;
     private XBDGroupDef groupDef;
 
     public XBDGroupDecl() {
+    }
+
+    public XBDGroupDecl(XBDGroupDef groupDef) {
+        this.groupDef = groupDef;
+    }
+    
+    public XBDGroupDecl(XBBlockDecl block) {
+        groupDef = new XBDGroupDef(block);
     }
 
     public List<XBBlockDecl> getBlocks() {

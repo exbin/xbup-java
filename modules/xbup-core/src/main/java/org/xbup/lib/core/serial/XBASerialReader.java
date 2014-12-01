@@ -57,13 +57,13 @@ public class XBASerialReader extends XBTSerialReader implements XBReadSerialHand
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBTSerialReader.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else {
+            super.read(serial);
         }
-
-        super.read(serial);
     }
 
     /**
-     * Check if writer supports serializable object.
+     * Checks if writer supports serializable object.
      *
      * @param serial object to test
      * @return true if serialization supported

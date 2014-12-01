@@ -18,10 +18,7 @@ package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 
 import java.awt.CardLayout;
 import java.awt.Frame;
-import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.xbup.lib.core.block.XBBasicBlockType;
@@ -39,9 +36,8 @@ import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
-import org.xbup.lib.core.serial.sequence.XBTSequenceListenerSerialHandler;
+import org.xbup.lib.core.serial.XBASerialWriter;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.parser_tree.XBTTreeReader;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSelectSpecDialog;
@@ -51,7 +47,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Dialog for adding new item into given document.
  *
- * @version 0.1.24 2014/11/24
+ * @version 0.1.24 2014/12/01
  * @author XBUP Project (http://xbup.org)
  */
 public class AddItemDialog extends javax.swing.JDialog {
@@ -349,14 +345,9 @@ public class AddItemDialog extends javax.swing.JDialog {
             workNode.setBlockType(contextBlockType);
         } else if (catalogTypeRadioButton.isSelected()) {
             if (generateDeclarationCheckBox.isSelected()) {
-                XBTSequenceListenerSerialHandler serialHandler = new XBTSequenceListenerSerialHandler();
-                serialHandler.attachXBTEventListener(new XBTListenerToEventListener(new XBTTreeReader(workNode)));
+                XBASerialWriter writer = new XBASerialWriter(new XBTListenerToEventListener(new XBTTreeReader(workNode)));
                 XBDeclaration newDeclaration = new XBDeclaration(((XBDBlockType) catalogBlockType).getBlockDecl());
-                try {
-                    newDeclaration.serializeDeclaration(serialHandler);
-                } catch (XBProcessingException | IOException ex) {
-                    Logger.getLogger(AddItemDialog.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                writer.write(newDeclaration);
                 XBTTreeNode newNode = new XBTTreeNode();
                 newNode.setBlockType(catalogBlockType);
                 workNode.getChildren().add(newNode);

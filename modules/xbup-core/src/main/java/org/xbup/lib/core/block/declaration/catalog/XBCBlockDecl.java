@@ -19,7 +19,6 @@ package org.xbup.lib.core.block.declaration.catalog;
 import java.io.IOException;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.definition.XBBlockDef;
@@ -27,10 +26,9 @@ import org.xbup.lib.core.block.definition.catalog.XBCBlockDef;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.XBProcessingExceptionType;
-import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildSerializable;
+import org.xbup.lib.core.serial.child.XBAChildInputSerialHandler;
+import org.xbup.lib.core.serial.child.XBAChildOutputSerialHandler;
+import org.xbup.lib.core.serial.child.XBAChildSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
@@ -40,7 +38,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * @version 0.1.24 2014/11/30
  * @author XBUP Project (http://xbup.org)
  */
-public class XBCBlockDecl implements XBBlockDecl, XBTChildSerializable {
+public class XBCBlockDecl implements XBBlockDecl, XBAChildSerializable {
 
     private XBCBlockRev blockSpecRev;
     private final XBCatalog catalog;
@@ -51,12 +49,9 @@ public class XBCBlockDecl implements XBBlockDecl, XBTChildSerializable {
     }
 
     @Override
-    public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeFromXB(XBAChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin();
-        XBBlockType type = serializationHandler.getType();
-        if (type.getAsBasicType() != XBBasicBlockType.BLOCK_DECLARATION_LINK) {
-            throw new XBProcessingException("Unexpected block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
-        }
+        serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION_LINK));
 
         UBNatural pathLength = serializationHandler.nextAttribute();
         Long[] path = new Long[pathLength.getInt()];
@@ -70,7 +65,7 @@ public class XBCBlockDecl implements XBBlockDecl, XBTChildSerializable {
     }
 
     @Override
-    public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeToXB(XBAChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
         serializationHandler.setType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION_LINK));
         Long[] path = catalog.getSpecPath(blockSpecRev.getParent());

@@ -27,7 +27,6 @@ import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.XBTokenType;
 import org.xbup.lib.core.parser.token.pull.XBPullProvider;
-import org.xbup.lib.core.parser.token.pull.convert.XBPrefixPullProvider;
 import org.xbup.lib.core.serial.XBReadSerialHandler;
 import org.xbup.lib.core.serial.XBSerialException;
 import org.xbup.lib.core.serial.token.XBTokenInputSerialHandler;
@@ -38,7 +37,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 0 serialization handler using basic parser mapping to provider.
  *
- * @version 0.1.24 2014/11/26
+ * @version 0.1.24 2014/12/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBChildProviderSerialHandler implements XBChildInputSerialHandler, XBTokenInputSerialHandler {
@@ -144,22 +143,10 @@ public class XBChildProviderSerialHandler implements XBChildInputSerialHandler, 
             }
         }
 
-        XBToken prefix = null;
-        if (state == XBChildSerialState.ATTRIBUTES) {
-            // TODO: Skip attributes
-            prefix = pullProvider.pullXBToken();
-            while (prefix.getTokenType() == XBTokenType.ATTRIBUTE) {
-                prefix = pullProvider.pullXBToken();
-            }
-            if (prefix.getTokenType() != XBTokenType.BEGIN) {
-                throw new XBSerialException("Missing child", XBProcessingExceptionType.UNEXPECTED_ORDER);
-            }
-        }
-
         if (child instanceof XBChildSerializable) {
             state = XBChildSerialState.CHILDREN;
             XBChildProviderSerialHandler childInput = new XBChildProviderSerialHandler();
-            childInput.attachXBPullProvider(new XBPrefixPullProvider(pullProvider, prefix));
+            childInput.attachXBPullProvider(pullProvider);
             ((XBChildSerializable) child).serializeFromXB(childInput);
         } else {
             if (childHandler != null) {
@@ -203,7 +190,6 @@ public class XBChildProviderSerialHandler implements XBChildInputSerialHandler, 
         }
 
         // TODO process extended area
-        // TODO Skip rest
         XBToken token = pullProvider.pullXBToken();
         if (token.getTokenType() != XBTokenType.END) {
             throw new XBSerialException("End method was expected but not received", XBProcessingExceptionType.UNEXPECTED_ORDER);

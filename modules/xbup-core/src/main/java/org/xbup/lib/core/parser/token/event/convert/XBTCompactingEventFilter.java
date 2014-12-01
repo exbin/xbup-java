@@ -40,7 +40,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  *
  * This should be usable for level 2 compacting conversions.
  *
- * @version 0.1.24 2014/11/27
+ * @version 0.1.24 2014/12/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCompactingEventFilter implements XBTEventFilter {
@@ -54,11 +54,15 @@ public class XBTCompactingEventFilter implements XBTEventFilter {
     private XBBlockTerminationMode blockMode;
 
     public XBTCompactingEventFilter(XBTEventListener eventListener) {
-        this.eventListener = eventListener;
+        attachListener(eventListener);
     }
 
     @Override
     public void attachXBTEventListener(XBTEventListener eventListener) {
+        attachListener(eventListener);
+    }
+
+    private void attachListener(XBTEventListener eventListener) {
         this.eventListener = eventListener;
     }
 

@@ -76,7 +76,7 @@ public class XBSerialWriter implements XBWriteSerialHandler {
     }
 
     /**
-     * Check if writer supports serializable object.
+     * Checks if writer supports serializable object.
      *
      * @param serial object to test
      * @return true if serialization supported

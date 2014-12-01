@@ -16,24 +16,31 @@
  */
 package org.xbup.lib.core.block.definition.local;
 
+import java.util.ArrayList;
 import org.xbup.lib.core.block.definition.XBGroupDef;
 import java.util.List;
+import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.definition.XBGroupParam;
+import org.xbup.lib.core.block.definition.XBGroupParamConsist;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * XBUP level 1 group definition.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.24 2014/12/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDGroupDef implements XBSerializable, XBGroupDef {
 
-    private List<XBGroupParam> groups;
+    private List<XBGroupParam> groups = new ArrayList<>();
     private XBDRevisionDef revisionDef;
 
     public XBDGroupDef() {
+    }
+
+    public XBDGroupDef(XBBlockDecl block) {
+        groups.add(new XBGroupParamConsist(block));
     }
 
     @Override

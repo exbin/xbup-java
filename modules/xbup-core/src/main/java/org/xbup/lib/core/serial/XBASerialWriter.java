@@ -57,13 +57,13 @@ public class XBASerialWriter extends XBTSerialWriter implements XBWriteSerialHan
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBASerialWriter.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else {
+            super.write(serial);
         }
-
-        super.write(serial);
     }
 
     /**
-     * Check if writer supports serializable object.
+     * Checks if writer supports serializable object.
      *
      * @param serial object to test
      * @return true if serialization supported

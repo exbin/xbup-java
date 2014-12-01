@@ -16,32 +16,20 @@
  */
 package org.xbup.lib.core.block.declaration.local;
 
-import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import java.io.IOException;
 import org.xbup.lib.core.block.definition.local.XBDFormatDef;
-import java.util.ArrayList;
 import java.util.List;
-import org.xbup.lib.core.block.XBBasicBlockType;
-import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
-import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
-import org.xbup.lib.core.block.definition.local.XBDRevisionDef;
-import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.block.definition.XBFormatDef;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.sequence.XBSerialSequence;
-import org.xbup.lib.core.serial.sequence.XBSerialSequenceIList;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
-import org.xbup.lib.core.ubnumber.UBENatural;
-import org.xbup.lib.core.ubnumber.type.UBENat32;
 
 /**
  * XBUP level 1 format declaration.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.24 2014/12/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
@@ -52,6 +40,15 @@ public class XBDFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
     public XBDFormatDecl() {
     }
 
+    public XBDFormatDecl(XBFormatDef formatDef) {
+        this.formatDef = formatDef;
+    }
+    
+    public XBDFormatDecl(XBGroupDecl groupDecl) {
+        formatDef = new XBDFormatDef(groupDecl);
+    }
+    
+    
     /*
     public static XBDFormatDecl processDeclaration(XBTBlock specBlock) {
         if (specBlock.getDataMode() == XBBlockDataMode.NODE_BLOCK) {

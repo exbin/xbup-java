@@ -27,7 +27,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 1 child serialization listener interface.
  *
- * @version 0.1.24 2014/08/23
+ * @version 0.1.24 2014/12/02
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTChildListener {
@@ -39,7 +39,7 @@ public interface XBTChildListener {
      * @throws XBProcessingException
      * @throws IOException
      */
-    public void begin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
+    public void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
 
     /**
      * Puts block type.
@@ -48,7 +48,7 @@ public interface XBTChildListener {
      * @throws XBProcessingException
      * @throws IOException
      */
-    public void setType(XBBlockType type) throws XBProcessingException, IOException;
+    public void putType(XBBlockType type) throws XBProcessingException, IOException;
 
     /**
      * Puts block attribute.
@@ -57,7 +57,46 @@ public interface XBTChildListener {
      * @throws XBProcessingException
      * @throws IOException
      */
-    public void addAttribute(UBNatural attribute) throws XBProcessingException, IOException;
+    public void putAttribute(UBNatural attribute) throws XBProcessingException, IOException;
+
+    /**
+     * Puts block attribute.
+     *
+     * @param attributeValue attribute value
+     * @throws XBProcessingException
+     * @throws IOException
+     */
+    public void putAttribute(byte attributeValue) throws XBProcessingException, IOException;
+
+    /**
+     * Puts block attribute.
+     *
+     * @param attributeValue attribute value, only non-negative values are
+     * accepted
+     * @throws XBProcessingException
+     * @throws IOException
+     */
+    public void putAttribute(short attributeValue) throws XBProcessingException, IOException;
+
+    /**
+     * Puts block attribute.
+     *
+     * @param attributeValue attribute value, only non-negative values are
+     * accepted
+     * @throws XBProcessingException
+     * @throws IOException
+     */
+    public void putAttribute(int attributeValue) throws XBProcessingException, IOException;
+
+    /**
+     * Puts block attribute.
+     *
+     * @param attributeValue attribute value, only non-negative values are
+     * accepted
+     * @throws XBProcessingException
+     * @throws IOException
+     */
+    public void putAttribute(long attributeValue) throws XBProcessingException, IOException;
 
     /**
      * Puts block's child.
@@ -66,7 +105,7 @@ public interface XBTChildListener {
      * @throws XBProcessingException
      * @throws IOException
      */
-    public void addChild(XBSerializable child) throws XBProcessingException, IOException;
+    public void putChild(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
      * Puts block data.
@@ -75,7 +114,7 @@ public interface XBTChildListener {
      * @throws XBProcessingException
      * @throws IOException
      */
-    public void addData(InputStream data) throws XBProcessingException, IOException;
+    public void putData(InputStream data) throws XBProcessingException, IOException;
 
     /**
      * Puts end of block.
@@ -83,5 +122,5 @@ public interface XBTChildListener {
      * @throws XBProcessingException
      * @throws IOException
      */
-    public void end() throws XBProcessingException, IOException;
+    public void putEnd() throws XBProcessingException, IOException;
 }

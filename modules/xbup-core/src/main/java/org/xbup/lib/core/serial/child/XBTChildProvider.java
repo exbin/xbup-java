@@ -27,61 +27,61 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 1 child serialization provider interface.
  *
- * @version 0.1.24 2014/08/23
+ * @version 0.1.24 2014/12/12
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTChildProvider {
 
     /**
-     * Gets beggining of block.
+     * Pulls beggining of block.
      *
      * @return terminated block flag
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public XBBlockTerminationMode begin() throws XBProcessingException, IOException;
+    public XBBlockTerminationMode pullBegin() throws XBProcessingException, IOException;
 
     /**
-     * Gets block type.
+     * Pulls block type.
      *
      * @return block type
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public XBBlockType getType() throws XBProcessingException, IOException;
+    public XBBlockType pullType() throws XBProcessingException, IOException;
 
     /**
-     * Gets block attribute.
+     * Pulls block attribute.
      *
      * @return attribute value
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public UBNatural nextAttribute() throws XBProcessingException, IOException;
+    public UBNatural pullAttribute() throws XBProcessingException, IOException;
 
     /**
-     * Gets block child.
+     * Pulls block child.
      *
      * @param child serializable block
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public void nextChild(XBSerializable child) throws XBProcessingException, IOException;
+    public void pullChild(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
-     * Gets block data.
+     * Pulls block data.
      *
      * @return block data stream
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public InputStream nextData() throws XBProcessingException, IOException;
+    public InputStream pullData() throws XBProcessingException, IOException;
 
     /**
-     * Gets end of block.
+     * Pulls end of block.
      *
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public void end() throws XBProcessingException, IOException;
+    public void pullEnd() throws XBProcessingException, IOException;
 }

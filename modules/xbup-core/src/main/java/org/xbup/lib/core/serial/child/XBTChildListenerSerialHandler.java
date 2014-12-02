@@ -33,11 +33,12 @@ import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.XBWriteSerialHandler;
 import org.xbup.lib.core.serial.token.XBTTokenOutputSerialHandler;
 import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * XBUP level 1 serialization handler using basic parser mapping to listener.
  *
- * @version 0.1.24 2014/11/26
+ * @version 0.1.24 2014/12/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandler, XBTTokenOutputSerialHandler {
@@ -61,7 +62,7 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
     }
 
     @Override
-    public void begin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+    public void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -74,7 +75,7 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
     }
 
     @Override
-    public void setType(XBBlockType type) throws XBProcessingException, IOException {
+    public void putType(XBBlockType type) throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -87,7 +88,7 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
     }
 
     @Override
-    public void addAttribute(UBNatural attribute) throws XBSerialException, XBProcessingException, IOException {
+    public void putAttribute(UBNatural attribute) throws XBSerialException, XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -103,7 +104,7 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
     }
 
     @Override
-    public void addChild(XBSerializable child) throws XBProcessingException, IOException {
+    public void putChild(XBSerializable child) throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -130,7 +131,7 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
     }
 
     @Override
-    public void addData(InputStream data) throws XBProcessingException, IOException {
+    public void putData(InputStream data) throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -157,7 +158,7 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
     }
 
     @Override
-    public void end() throws XBProcessingException, IOException {
+    public void putEnd() throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -166,5 +167,25 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
         }
 
         eventListener.putXBTToken(new XBTEndToken());
+    }
+
+    @Override
+    public void putAttribute(byte attributeValue) throws XBProcessingException, IOException {
+        putAttribute(new UBNat32(attributeValue));
+    }
+
+    @Override
+    public void putAttribute(short attributeValue) throws XBProcessingException, IOException {
+        putAttribute(new UBNat32(attributeValue));
+    }
+
+    @Override
+    public void putAttribute(int attributeValue) throws XBProcessingException, IOException {
+        putAttribute(new UBNat32(attributeValue));
+    }
+
+    @Override
+    public void putAttribute(long attributeValue) throws XBProcessingException, IOException {
+        putAttribute(new UBNat32(attributeValue));
     }
 }

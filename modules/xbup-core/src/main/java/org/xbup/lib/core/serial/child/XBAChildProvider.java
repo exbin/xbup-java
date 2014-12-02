@@ -28,81 +28,117 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 2 child serialization provider interface.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.24 2014/12/02
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBAChildProvider {
 
     /**
-     * Gets beggining of block.
+     * Pulls beggining of block.
      *
      * @return terminated block flag
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public XBBlockTerminationMode begin() throws XBProcessingException, IOException;
+    public XBBlockTerminationMode pullBegin() throws XBProcessingException, IOException;
 
     /**
-     * Get block type.
+     * Pulls block type.
      *
      * @return block type
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public XBBlockType getType() throws XBProcessingException, IOException;
+    public XBBlockType pullType() throws XBProcessingException, IOException;
 
     /**
-     * Matches block type.
-     *
-     * @param blockTypes list of block types to match to
-     * @return block type
-     * @throws XBProcessingException if not matching
-     * @throws IOException if input/output exception occurs
-     */
-    public XBBlockType matchType(XBBlockType blockTypes) throws XBProcessingException, IOException;
-
-    /**
-     * Matches one of block types.
+     * Pulls and matches block type.
      *
      * @param blockTypes list of block types to match to
      * @return block type
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public XBBlockType matchType(List<XBBlockType> blockTypes) throws XBProcessingException, IOException;
+    public XBBlockType pullMatchingType(XBBlockType blockTypes) throws XBProcessingException, IOException;
 
     /**
-     * Gets block attribute.
+     * Pulls and matches one of block types.
+     *
+     * @param blockTypes list of block types to match to
+     * @return block type
+     * @throws XBProcessingException if not matching
+     * @throws IOException if input/output exception occurs
+     */
+    public XBBlockType pullMatchingType(List<XBBlockType> blockTypes) throws XBProcessingException, IOException;
+
+    /**
+     * Pulls block attribute.
      *
      * @return attribute value
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public UBNatural nextAttribute() throws XBProcessingException, IOException;
+    public UBNatural pullAttribute() throws XBProcessingException, IOException;
 
     /**
-     * Gets block child.
+     * Pulls block attribute.
+     *
+     * @return attribute value
+     * @throws XBProcessingException if not matching
+     * @throws IOException if input/output exception occurs
+     */
+    public byte pullByteAttribute() throws XBProcessingException, IOException;
+
+    /**
+     * Pulls block attribute.
+     *
+     * @return attribute value
+     * @throws XBProcessingException if not matching
+     * @throws IOException if input/output exception occurs
+     */
+    public short pullShortAttribute() throws XBProcessingException, IOException;
+
+    /**
+     * Pulls block attribute.
+     *
+     * @return attribute value
+     * @throws XBProcessingException if not matching
+     * @throws IOException if input/output exception occurs
+     */
+    public int pullIntAttribute() throws XBProcessingException, IOException;
+
+    /**
+     * Pulls block attribute.
+     *
+     * @return attribute value
+     * @throws XBProcessingException if not matching
+     * @throws IOException if input/output exception occurs
+     */
+    public long pullLongAttribute() throws XBProcessingException, IOException;
+
+    /**
+     * Pulls block child.
      *
      * @param child serializable block
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public void nextChild(XBSerializable child) throws XBProcessingException, IOException;
+    public void pullChild(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
-     * Gets block data.
+     * Pulls block data.
      *
      * @return block data stream
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public InputStream nextData() throws XBProcessingException, IOException;
+    public InputStream pullData() throws XBProcessingException, IOException;
 
     /**
-     * Gets end of block.
+     * Pulls end of block.
      *
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public void end() throws XBProcessingException, IOException;
+    public void pullEnd() throws XBProcessingException, IOException;
 }

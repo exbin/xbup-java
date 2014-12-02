@@ -23,7 +23,6 @@ import org.xbup.lib.core.serial.child.XBAChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBAChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBAChildSerializable;
 import org.xbup.lib.core.ubnumber.UBENatural;
-import org.xbup.lib.core.ubnumber.type.UBENat32;
 
 /**
  * XBUP level 2 serialization sequence serializable list.
@@ -67,11 +66,11 @@ public class XBASequenceIListSerializable implements XBSerialSequenceIList, XBAC
             do {
                 block = next();
                 // TODO: Handle infinite lists (Process termination by empty data block)
-                serial.nextChild(next());
+                serial.pullChild(next());
             } while (block != null);
         } else {
             for (long i = 0; i < count.getLong(); i++) {
-                serial.nextChild(next());
+                serial.pullChild(next());
             }
         }
     }
@@ -84,12 +83,12 @@ public class XBASequenceIListSerializable implements XBSerialSequenceIList, XBAC
             do {
                 block = next();
                 if (block == null) {
-                    serial.addChild(block);
+                    serial.putChild(block);
                 }
             } while (block != null);
         } else {
             for (long i = 0; i < count.getLong(); i++) {
-                serial.addChild(next());
+                serial.putChild(next());
             }
         }
     }

@@ -41,7 +41,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 2 serialization handler using basic parser mapping to provider.
  *
- * @version 0.1.24 2014/12/01
+ * @version 0.1.24 2014/12/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler, XBTTokenInputSerialHandler {
@@ -65,7 +65,7 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
     }
 
     @Override
-    public XBBlockTerminationMode begin() throws XBProcessingException, IOException {
+    public XBBlockTerminationMode pullBegin() throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -80,7 +80,7 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
     }
 
     @Override
-    public XBBlockType getType() throws XBProcessingException, IOException {
+    public XBBlockType pullType() throws XBProcessingException, IOException {
         if (state != XBChildSerialState.BLOCK_BEGIN && state != XBChildSerialState.ATTRIBUTE_PART) {
             throw new XBSerialException("Block type must be read before attributes", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -99,8 +99,8 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
     }
 
     @Override
-    public XBBlockType matchType(XBBlockType blockType) throws XBProcessingException, IOException {
-        XBBlockType type = getType();
+    public XBBlockType pullMatchingType(XBBlockType blockType) throws XBProcessingException, IOException {
+        XBBlockType type = pullType();
         if (blockType.equals(type)) {
             return type;
         }
@@ -109,12 +109,12 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
     }
 
     @Override
-    public XBBlockType matchType(List<XBBlockType> blockTypes) throws XBProcessingException, IOException {
+    public XBBlockType pullMatchingType(List<XBBlockType> blockTypes) throws XBProcessingException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public UBNatural nextAttribute() throws XBProcessingException, IOException {
+    public UBNatural pullAttribute() throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -165,7 +165,7 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
     }
 
     @Override
-    public void nextChild(XBSerializable child) throws XBProcessingException, IOException {
+    public void pullChild(XBSerializable child) throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -182,7 +182,7 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
         }
 
         if (state == XBChildSerialState.ATTRIBUTES) {
-            skipAttributes();
+            pullProvider.skipAttributes();
             if (pullProvider.getNextTokenType() != XBTTokenType.BEGIN) {
                 throw new UnsupportedOperationException("Not supported yet.");
                 // TODO empty blocks throw new XBSerialException("Missing child", XBProcessingExceptionType.UNEXPECTED_ORDER);
@@ -199,7 +199,7 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
     }
 
     @Override
-    public InputStream nextData() throws XBProcessingException, IOException {
+    public InputStream pullData() throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -225,15 +225,15 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
     }
 
     @Override
-    public void end() throws XBProcessingException, IOException {
+    public void pullEnd() throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
         if (state == XBChildSerialState.ATTRIBUTES) {
-            skipAttributes();
+            pullProvider.skipAttributes();
         } else if (state == XBChildSerialState.CHILDREN) {
-            skipChildren();
+            pullProvider.skipChildren();
         }
 
         XBTToken token = pullProvider.pullXBTToken();
@@ -244,43 +244,23 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
         state = XBChildSerialState.EOF;
     }
 
-    // TODO: Make it later, that more effective skip is used when source
-    // supports it
-    /**
-     * Skip remaining attributes if child is requested.
-     */
-    private void skipAttributes() throws XBProcessingException, IOException {
-        while (pullProvider.getNextTokenType() == XBTTokenType.ATTRIBUTE) {
-            pullProvider.pullXBTToken();
-        }
+    @Override
+    public byte pullByteAttribute() throws XBProcessingException, IOException {
+        return (byte) pullAttribute().getInt();
     }
 
-    /**
-     * Skip children until end token is reached.
-     */
-    private void skipChildren() throws XBProcessingException, IOException {
-        while (pullProvider.getNextTokenType() == XBTTokenType.BEGIN) {
-            skipChild();
-        }
+    @Override
+    public short pullShortAttribute() throws XBProcessingException, IOException {
+        return (short) pullAttribute().getInt();
     }
 
-    /**
-     * Skip single child.
-     */
-    private void skipChild() throws XBProcessingException, IOException {
-        int depth = 0;
-        do {
-            XBTToken token = pullProvider.pullXBTToken();
-            switch (token.getTokenType()) {
-                case BEGIN: {
-                    depth++;
-                    break;
-                }
-                case END: {
-                    depth--;
-                    break;
-                }
-            }
-        } while (depth > 0);
+    @Override
+    public int pullIntAttribute() throws XBProcessingException, IOException {
+        return pullAttribute().getInt();
+    }
+
+    @Override
+    public long pullLongAttribute() throws XBProcessingException, IOException {
+        return pullAttribute().getLong();
     }
 }

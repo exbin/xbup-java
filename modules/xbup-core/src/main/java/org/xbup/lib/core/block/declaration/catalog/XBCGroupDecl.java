@@ -58,35 +58,35 @@ public class XBCGroupDecl implements XBGroupDecl, XBTChildSerializable {
 
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        serializationHandler.begin();
-        XBBlockType type = serializationHandler.getType();
+        serializationHandler.pullBegin();
+        XBBlockType type = serializationHandler.pullType();
         if (type.getAsBasicType() != XBBasicBlockType.GROUP_DECLARATION_LINK) {
             throw new XBProcessingException("Unexpected block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
         }
 
-        UBNatural pathLength = serializationHandler.nextAttribute();
+        UBNatural pathLength = serializationHandler.pullAttribute();
         Long[] path = new Long[pathLength.getInt()];
         for (int i = 0; i < pathLength.getInt(); i++) {
-            path[i] = serializationHandler.nextAttribute().getLong();
+            path[i] = serializationHandler.pullAttribute().getLong();
         }
 
         XBCGroupDecl group = (XBCGroupDecl) catalog.findGroupTypeByPath(path, 0);
         groupSpecRev = group.getGroupSpec();
-        serializationHandler.end();
+        serializationHandler.pullEnd();
     }
 
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        serializationHandler.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serializationHandler.setType(new XBFixedBlockType(XBBasicBlockType.GROUP_DECLARATION_LINK));
+        serializationHandler.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
+        serializationHandler.putType(new XBFixedBlockType(XBBasicBlockType.GROUP_DECLARATION_LINK));
         Long[] path = catalog.getSpecPath(groupSpecRev.getParent());
-        serializationHandler.addAttribute(new UBNat32(path.length - 1));
+        serializationHandler.putAttribute(new UBNat32(path.length - 1));
         for (Long pathIndex : path) {
-            serializationHandler.addAttribute(new UBNat32(pathIndex));
+            serializationHandler.putAttribute(new UBNat32(pathIndex));
         }
 
-        serializationHandler.addAttribute(new UBNat32(groupSpecRev.getXBIndex()));
-        serializationHandler.end();
+        serializationHandler.putAttribute(new UBNat32(groupSpecRev.getXBIndex()));
+        serializationHandler.putEnd();
     }
 
     public XBCGroupRev getGroupSpec() {

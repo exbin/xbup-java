@@ -40,7 +40,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * XBUP level 1 serialization handler using serialization sequence parser
  * mapping to token listener.
  *
- * @version 0.1.24 2014/11/26
+ * @version 0.1.24 2014/12/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandler, XBTSequenceOutputSerialHandler, XBTSerialSequenceable, XBTTokenOutputSerialHandler {
@@ -66,15 +66,15 @@ public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandle
         XBTChildOutputSerialHandler handler = new XBTChildListenerSerialHandler();
         handler.attachXBTEventListener(eventListener);
 
-        handler.begin(sequence.getTerminationMode());
-        handler.setType(sequence.getBlockType());
+        handler.putBegin(sequence.getTerminationMode());
+        handler.putType(sequence.getBlockType());
 
         List<XBSerializable> params = new ArrayList<>();
         serializeToXBSequence(sequence, handler, params);
         for (Iterator<XBSerializable> it = params.iterator(); it.hasNext();) {
-            handler.addChild(it.next());
+            handler.putChild(it.next());
         }
-        handler.end();
+        handler.putEnd();
     }
 
     public void serializeToXBSequence(XBSerialSequence sequence, XBTChildListener serial, List<XBSerializable> params) throws XBProcessingException, IOException {
@@ -114,19 +114,144 @@ public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandle
                 case LIST_JOIN: {
                     XBSerialSequenceList list = (XBSerialSequenceList) item.getItem();
                     UBNatural count = list.getSize();
-                    serial.addAttribute(count);
+                    serial.putAttribute(count);
                     params.add(new XBTSequenceListSerializable(list));
                     break;
                 }
                 case LIST_CONSIST: {
                     XBSerialSequenceIList list = (XBSerialSequenceIList) item.getItem();
                     UBENatural count = list.getSize();
-                    serial.addAttribute(new UBNat32(count.getLong()));
+                    serial.putAttribute(new UBNat32(count.getLong()));
                     params.add(new XBTSequenceIListSerializable(list));
                     break;
                 }
             }
         }
+    }
+
+    @Override
+    public XBTSerialSequenceable.SerializationMode getSerializationMode() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void begin() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void end() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void matchType(XBBlockType blockType) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void attribute(UBNatural attributeValue) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void child(XBSerializable child) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void append(XBSerializable child) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void matchChild(XBSerializable child) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void appendSequence(XBSerialSequence sequence) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putType(XBBlockType type) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putAttribute(UBNatural attribute) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putAttribute(byte attributeValue) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putAttribute(short attributeValue) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putAttribute(int attributeValue) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putAttribute(long attributeValue) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putChild(XBSerializable child) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putData(InputStream data) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putEnd() throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBBlockTerminationMode pullBegin() throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBBlockType pullType() throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public UBNatural pullAttribute() throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void pullChild(XBSerializable child) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public InputStream pullData() throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void pullEnd() throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private class XBJoinOutputSerial implements XBTChildOutputSerialHandler, XBTChildListener, XBTTokenOutputSerialHandler {
@@ -147,31 +272,51 @@ public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandle
         }
 
         @Override
-        public void begin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+        public void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         }
 
         @Override
-        public void setType(XBBlockType type) throws XBProcessingException, IOException {
-            serial.setType(type);
+        public void putType(XBBlockType type) throws XBProcessingException, IOException {
+            serial.putType(type);
         }
 
         @Override
-        public void addAttribute(UBNatural attr) throws XBProcessingException, IOException {
-            serial.addAttribute(attr);
+        public void putAttribute(UBNatural attr) throws XBProcessingException, IOException {
+            serial.putAttribute(attr);
         }
 
         @Override
-        public void addChild(XBSerializable child) throws XBProcessingException, IOException {
+        public void putChild(XBSerializable child) throws XBProcessingException, IOException {
             params.add(child);
         }
 
         @Override
-        public void addData(InputStream data) throws XBProcessingException, IOException {
-            serial.addData(data);
+        public void putData(InputStream data) throws XBProcessingException, IOException {
+            serial.putData(data);
         }
 
         @Override
-        public void end() throws XBProcessingException, IOException {
+        public void putEnd() throws XBProcessingException, IOException {
+        }
+
+        @Override
+        public void putAttribute(byte attributeValue) throws XBProcessingException, IOException {
+            serial.putAttribute(new UBNat32(attributeValue));
+        }
+
+        @Override
+        public void putAttribute(short attributeValue) throws XBProcessingException, IOException {
+            serial.putAttribute(new UBNat32(attributeValue));
+        }
+
+        @Override
+        public void putAttribute(int attributeValue) throws XBProcessingException, IOException {
+            serial.putAttribute(new UBNat32(attributeValue));
+        }
+
+        @Override
+        public void putAttribute(long attributeValue) throws XBProcessingException, IOException {
+            serial.putAttribute(new UBNat32(attributeValue));
         }
     }
 }

@@ -665,21 +665,21 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         return new XBTChildSerializable() {
             @Override
             public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-                serial.getType();
-                serial.nextAttribute();
-                serial.nextAttribute();
-                serial.nextAttribute();
-                serial.nextChild(new XBTChildSerializable() {
+                serial.pullType();
+                serial.pullAttribute();
+                serial.pullAttribute();
+                serial.pullAttribute();
+                serial.pullChild(new XBTChildSerializable() {
                     @Override
                     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-                        serial.getType();
-                        serial.nextAttribute();
-                        serial.nextAttribute();
-                        serial.nextAttribute();
-                        serial.nextAttribute();
-                        serial.nextAttribute();
-                        serial.nextAttribute();
-                        serial.end();
+                        serial.pullType();
+                        serial.pullAttribute();
+                        serial.pullAttribute();
+                        serial.pullAttribute();
+                        serial.pullAttribute();
+                        serial.pullAttribute();
+                        serial.pullAttribute();
+                        serial.pullEnd();
                     }
 
                     @Override
@@ -688,7 +688,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                     }
                 });
 
-                serial.nextChild(new XBTChildSerializable() {
+                serial.pullChild(new XBTChildSerializable() {
                     @Override
                     public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
                         XBBufferedImage srcImage = new XBBufferedImage();
@@ -707,7 +707,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                     }
                 });
 
-                serial.end();
+                serial.pullEnd();
             }
 
             @Override

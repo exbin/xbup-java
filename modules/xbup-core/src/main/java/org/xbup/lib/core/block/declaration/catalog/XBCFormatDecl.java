@@ -58,19 +58,19 @@ public class XBCFormatDecl implements XBFormatDecl, XBTChildSerializable {
 
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        serializationHandler.begin();
-        XBBlockType type = serializationHandler.getType();
+        serializationHandler.pullBegin();
+        XBBlockType type = serializationHandler.pullType();
         if (type.getAsBasicType() != XBBasicBlockType.FORMAT_DECLARATION) {
             throw new XBProcessingException("Unexpected block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
         }
 
-        long groupLimit = serializationHandler.nextAttribute().getLong();
-        Long[] catalogPath = new Long[serializationHandler.nextAttribute().getInt()];
+        long groupLimit = serializationHandler.pullAttribute().getLong();
+        Long[] catalogPath = new Long[serializationHandler.pullAttribute().getInt()];
         int i;
         for (i = 0; i < catalogPath.length; i++) {
-            catalogPath[i] = serializationHandler.nextAttribute().getLong();
+            catalogPath[i] = serializationHandler.pullAttribute().getLong();
         }
-        long revision = serializationHandler.nextAttribute().getLong();
+        long revision = serializationHandler.pullAttribute().getLong();
 
         XBCFormatDecl format = (XBCFormatDecl) catalog.findFormatTypeByPath(catalogPath, (int) revision);
         formatSpecRev = format == null ? null : format.getFormatSpec();
@@ -80,29 +80,29 @@ public class XBCFormatDecl implements XBFormatDecl, XBTChildSerializable {
          throw new XBProcessingException("Unexpected block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
          }
 
-         UBNatural pathLength = serializationHandler.nextAttribute();
+         UBNatural pathLength = serializationHandler.pullAttribute();
          Long[] path = new Long[pathLength.getInt()];
          for (int i = 0; i < pathLength.getInt(); i++) {
-         path[i] = serializationHandler.nextAttribute().getLong();
+         path[i] = serializationHandler.pullAttribute().getLong();
          }
 
          XBCFormatDecl format = (XBCFormatDecl) catalog.findFormatTypeByPath(path, 0);
          formatSpecRev = format == null ? null : format.getFormatSpec(); */
-        serializationHandler.end();
+        serializationHandler.pullEnd();
     }
 
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        serializationHandler.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serializationHandler.setType(new XBFixedBlockType(XBBasicBlockType.FORMAT_DECLARATION_LINK));
+        serializationHandler.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
+        serializationHandler.putType(new XBFixedBlockType(XBBasicBlockType.FORMAT_DECLARATION_LINK));
         Long[] path = catalog.getSpecPath(formatSpecRev.getParent());
-        serializationHandler.addAttribute(new UBNat32(path.length - 1));
+        serializationHandler.putAttribute(new UBNat32(path.length - 1));
         for (Long pathIndex : path) {
-            serializationHandler.addAttribute(new UBNat32(pathIndex));
+            serializationHandler.putAttribute(new UBNat32(pathIndex));
         }
 
-        serializationHandler.addAttribute(new UBNat32(formatSpecRev.getXBIndex()));
-        serializationHandler.end();
+        serializationHandler.putAttribute(new UBNat32(formatSpecRev.getXBIndex()));
+        serializationHandler.putEnd();
     }
 
     public XBCFormatRev getFormatSpec() {

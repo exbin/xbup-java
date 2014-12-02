@@ -106,24 +106,24 @@ public class UBPath32 implements UBStreamable, XBTChildSerializable {
 
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.begin();
-        UBNatural length = serial.nextAttribute();
+        serial.pullBegin();
+        UBNatural length = serial.pullAttribute();
         path = new long[length.getInt()];
         for (int i = 0; i < path.length; i++) {
-            path[i] = serial.nextAttribute().getLong();
+            path[i] = serial.pullAttribute().getLong();
         }
 
-        serial.end();
+        serial.pullEnd();
     }
 
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serial.addAttribute(new UBNat32(path.length));
+        serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
+        serial.putAttribute(new UBNat32(path.length));
         for (int i = 0; i < path.length; i++) {
-            serial.addAttribute(new UBNat32(path[i]));
+            serial.putAttribute(new UBNat32(path[i]));
         }
 
-        serial.end();
+        serial.putEnd();
     }
 }

@@ -232,16 +232,16 @@ public class UBNat32 implements UBNatural, XBTChildSerializable {
 
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.begin();
-        UBNatural newValue = serial.nextAttribute();
+        serial.pullBegin();
+        UBNatural newValue = serial.pullAttribute();
         setValue(newValue.getLong());
-        serial.end();
+        serial.pullEnd();
     }
 
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serial.addAttribute(this);
-        serial.end();
+        serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
+        serial.putAttribute(this);
+        serial.putEnd();
     }
 }

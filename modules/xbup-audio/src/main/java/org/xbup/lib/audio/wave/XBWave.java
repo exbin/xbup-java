@@ -121,18 +121,18 @@ public class XBWave implements XBTChildSerializable {
 
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.getType(); //setType(new XBCBlockDecl(xbBlockPath));
-        UBNatural sampleRate = serial.nextAttribute();
-        UBNatural sampleSizeInBits = serial.nextAttribute();
-        UBNatural channels = serial.nextAttribute();
-        UBNatural signed = serial.nextAttribute();
-        UBNatural bigEndian = serial.nextAttribute();
+        serial.pullType(); //setType(new XBCBlockDecl(xbBlockPath));
+        UBNatural sampleRate = serial.pullAttribute();
+        UBNatural sampleSizeInBits = serial.pullAttribute();
+        UBNatural channels = serial.pullAttribute();
+        UBNatural signed = serial.pullAttribute();
+        UBNatural bigEndian = serial.pullAttribute();
         audioFormat = new AudioFormat(sampleRate.getInt(), sampleSizeInBits.getInt(), channels.getInt(), signed.getInt() == 1, bigEndian.getInt() == 1);
-        serial.nextChild(new XBTChildSerializable() {
+        serial.pullChild(new XBTChildSerializable() {
             @Override
             public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-                loadRawFromStream(serial.nextData());
-                serial.end();
+                loadRawFromStream(serial.pullData());
+                serial.pullEnd();
             }
 
             @Override
@@ -140,18 +140,18 @@ public class XBWave implements XBTChildSerializable {
                 throw new IllegalStateException();
             }
         });
-        serial.end();
+        serial.pullEnd();
     }
 
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.setType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
-        serial.addAttribute(new UBNat32((long) audioFormat.getSampleRate()));
-        serial.addAttribute(new UBNat32(audioFormat.getSampleSizeInBits()));
-        serial.addAttribute(new UBNat32(audioFormat.getChannels()));
-        serial.addAttribute(new UBNat32(audioFormat.getEncoding() == AudioFormat.Encoding.PCM_SIGNED ? 1 : 0));
-        serial.addAttribute(new UBNat32(audioFormat.isBigEndian() ? 1 : 0));
-        serial.addChild(new XBTChildSerializable() {
+        serial.putType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
+        serial.putAttribute(new UBNat32((long) audioFormat.getSampleRate()));
+        serial.putAttribute(new UBNat32(audioFormat.getSampleSizeInBits()));
+        serial.putAttribute(new UBNat32(audioFormat.getChannels()));
+        serial.putAttribute(new UBNat32(audioFormat.getEncoding() == AudioFormat.Encoding.PCM_SIGNED ? 1 : 0));
+        serial.putAttribute(new UBNat32(audioFormat.isBigEndian() ? 1 : 0));
+        serial.putChild(new XBTChildSerializable() {
             @Override
             public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
                 throw new IllegalStateException();
@@ -159,12 +159,12 @@ public class XBWave implements XBTChildSerializable {
 
             @Override
             public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-                serial.addData(new WaveInputStream());
-                serial.end();
+                serial.putData(new WaveInputStream());
+                serial.putEnd();
             }
         });
 
-        serial.end();
+        serial.putEnd();
     }
 
     public void performTransformReverse() {

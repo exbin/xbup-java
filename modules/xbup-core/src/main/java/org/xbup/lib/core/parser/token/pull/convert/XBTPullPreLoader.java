@@ -31,7 +31,7 @@ import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
  *
  * This filter should be usable for level 2 expanding conversions.
  *
- * @version 0.1.24 2014/12/01
+ * @version 0.1.24 2014/12/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTPullPreLoader implements XBTPullFilter {
@@ -104,5 +104,51 @@ public class XBTPullPreLoader implements XBTPullFilter {
 
     public void setPrefixBuffer(List<XBTToken> prefixBuffer) {
         this.prefixBuffer = prefixBuffer;
+    }
+
+    // TODO: Make it later, that more effective skip is used when source
+    // supports it
+    /**
+     * Skip remaining attributes if child is requested.
+     *
+     * @throws java.io.IOException if input/output error
+     */
+    public void skipAttributes() throws XBProcessingException, IOException {
+        while (getNextTokenType() == XBTTokenType.ATTRIBUTE) {
+            pullXBTToken();
+        }
+    }
+
+    /**
+     * Skip children until end token is reached.
+     *
+     * @throws java.io.IOException if input/output error
+     */
+    public void skipChildren() throws XBProcessingException, IOException {
+        while (getNextTokenType() == XBTTokenType.BEGIN) {
+            skipChild();
+        }
+    }
+
+    /**
+     * Skip single child.
+     *
+     * @throws java.io.IOException if input/output error
+     */
+    public void skipChild() throws XBProcessingException, IOException {
+        int subDepth = 0;
+        do {
+            XBTToken token = pullXBTToken();
+            switch (token.getTokenType()) {
+                case BEGIN: {
+                    subDepth++;
+                    break;
+                }
+                case END: {
+                    subDepth--;
+                    break;
+                }
+            }
+        } while (subDepth > 0);
     }
 }

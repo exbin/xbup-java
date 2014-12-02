@@ -17,15 +17,87 @@
 package org.xbup.lib.core.serial.sequence;
 
 import java.io.IOException;
+import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.serial.child.XBTChildListener;
+import org.xbup.lib.core.serial.child.XBTChildProvider;
+import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 1 serialization sequence access interface.
  *
- * @version 0.1.23 2014/03/03
+ * @version 0.1.24 2014/12/02
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBTSerialSequenceable {
+public interface XBTSerialSequenceable extends XBTChildListener, XBTChildProvider {
+
+    /**
+     * Returns currently used serialization mode.
+     *
+     * @return sequencing mode depending on whether data are serialized from or
+     * to token stream
+     */
+    public SerializationMode getSerializationMode();
+
+    /**
+     * Performs begin token with default termination mode behavior.
+     */
+    public void begin();
+
+    /**
+     * Performs end token.
+     */
+    public void end();
+
+    /**
+     * Performs matching to given block type.
+     *
+     * Reading will check if value fully equals, writting will write it.
+     *
+     * @param blockType block type to match to
+     */
+    public void matchType(XBBlockType blockType);
+
+    /**
+     * Performs attribute token using attributeValue, either as source or
+     * target.
+     *
+     * @param attributeValue
+     */
+    public void attribute(UBNatural attributeValue);
+
+    /**
+     * Performs serialization of child.
+     *
+     * @param child serializable object
+     */
+    public void child(XBSerializable child);
+
+    /**
+     * Performs serialization of child adding both attributes and child blocks.
+     *
+     * @param child serializable object
+     */
+    public void append(XBSerializable child);
+
+    /**
+     * Performs serialization matching child value.
+     *
+     * Reading will check if value fully equals, writting will write it.
+     *
+     * @param child serializable object to match value to
+     */
+    public void matchChild(XBSerializable child);
+
+    /**
+     * Appends sequence record.
+     *
+     * @param sequence
+     * @throws XBProcessingException
+     * @throws IOException
+     */
+    public void appendSequence(XBSerialSequence sequence) throws XBProcessingException, IOException;
 
     /**
      * Puts sequence record.
@@ -35,4 +107,13 @@ public interface XBTSerialSequenceable {
      * @throws IOException
      */
     public void sequenceXB(XBSerialSequence sequence) throws XBProcessingException, IOException;
+
+    /**
+     * Serialization mode to distinguish if serialization is performed from or
+     * to token stream.
+     */
+    public enum SerializationMode {
+
+        READ, WRITE
+    }
 }

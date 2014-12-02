@@ -63,7 +63,7 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
     }
 
     @Override
-    public XBBlockTerminationMode begin() throws XBProcessingException, IOException {
+    public XBBlockTerminationMode pullBegin() throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -78,7 +78,7 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
     }
 
     @Override
-    public XBBlockType getType() throws XBProcessingException, IOException {
+    public XBBlockType pullType() throws XBProcessingException, IOException {
         if (state != XBChildSerialState.BLOCK_BEGIN && state != XBChildSerialState.ATTRIBUTE_PART) {
             throw new XBSerialException("Block type must be read before attributes", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -97,7 +97,7 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
     }
 
     @Override
-    public UBNatural nextAttribute() throws XBProcessingException, IOException {
+    public UBNatural pullAttribute() throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -148,7 +148,7 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
     }
 
     @Override
-    public void nextChild(XBSerializable child) throws XBProcessingException, IOException {
+    public void pullChild(XBSerializable child) throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -179,7 +179,7 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
     }
 
     @Override
-    public InputStream nextData() throws XBProcessingException, IOException {
+    public InputStream pullData() throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -205,7 +205,7 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
     }
 
     @Override
-    public void end() throws XBProcessingException, IOException {
+    public void pullEnd() throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }

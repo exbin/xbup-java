@@ -63,7 +63,7 @@ public class XBASequenceListSerializable implements XBSerialSequenceList, XBAChi
     public void serializeFromXB(XBAChildInputSerialHandler serial) throws XBProcessingException, IOException {
         UBNatural count = getSize();
         while (count.getLong() != 0) {
-            serial.nextChild(next());
+            serial.pullChild(next());
             count = new UBNat32(count.getLong() - 1);
         }
     }
@@ -72,7 +72,7 @@ public class XBASequenceListSerializable implements XBSerialSequenceList, XBAChi
     public void serializeToXB(XBAChildOutputSerialHandler serial) throws XBProcessingException, IOException {
         UBNatural count = getSize();
         while (count.getLong() != 0) {
-            serial.addChild(next());
+            serial.putChild(next());
             count = new UBNat32(count.getLong() - 1);
         }
     }

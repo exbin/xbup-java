@@ -54,7 +54,7 @@ public class XBWritableRaster extends WritableRaster implements XBTChildSerializ
     }
 
     public static void serializeXBWritableRasterToXBT(final WritableRaster source, XBTChildListener serial) throws XBProcessingException, IOException {
-        serial.addData(new InputStream() {
+        serial.putData(new InputStream() {
 
             private int posX, posY, val;
 
@@ -99,7 +99,7 @@ public class XBWritableRaster extends WritableRaster implements XBTChildSerializ
                 return size;
             }
         });
-        serial.end();
+        serial.putEnd();
     }
 
     public static void serializeXBWritableRasterFromXBT(WritableRaster source, XBTChildProvider serial) throws XBProcessingException, IOException {
@@ -108,7 +108,7 @@ public class XBWritableRaster extends WritableRaster implements XBTChildSerializ
         posY = 0;
         val = 0;
 
-        InputStream stream = serial.nextData();
+        InputStream stream = serial.pullData();
         while (true) {
             int input = stream.read();
             source.setSample(posX, posY, val, input);
@@ -129,7 +129,7 @@ public class XBWritableRaster extends WritableRaster implements XBTChildSerializ
                 val++;
             }
         }
-        serial.end();
+        serial.pullEnd();
     }
 
     public static XBSerializable getXBWritableRasterSerializator(WritableRaster source) {

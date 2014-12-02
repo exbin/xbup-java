@@ -64,17 +64,17 @@ public class XBString implements XBTChildSerializable {
 
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.begin();
-        serial.nextChild(new DataBlockSerializator());
-        serial.end();
+        serial.pullBegin();
+        serial.pullChild(new DataBlockSerializator());
+        serial.pullEnd();
     }
 
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serial.setType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
-        serial.addChild(new DataBlockSerializator());
-        serial.end();
+        serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
+        serial.putType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
+        serial.putChild(new DataBlockSerializator());
+        serial.putEnd();
     }
 
     public class ChildSerializer implements XBChildSerializable {
@@ -109,8 +109,8 @@ public class XBString implements XBTChildSerializable {
 
         @Override
         public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-            serial.begin();
-            InputStream source = serial.nextData();
+            serial.pullBegin();
+            InputStream source = serial.pullData();
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             try {
                 CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
@@ -119,19 +119,19 @@ public class XBString implements XBTChildSerializable {
             }
 
             setValue(new String(stream.toByteArray()));
-            serial.end();
+            serial.pullEnd();
         }
 
         @Override
         public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-            serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
+            serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
             if (getValue() != null) {
-                serial.addData(new ByteArrayInputStream(getValue().getBytes()));
+                serial.putData(new ByteArrayInputStream(getValue().getBytes()));
             } else {
-                serial.addData(new ByteArrayInputStream(new byte[0]));
+                serial.putData(new ByteArrayInputStream(new byte[0]));
             }
 
-            serial.end();
+            serial.putEnd();
         }
     }
 }

@@ -66,25 +66,25 @@ public class XBInt implements XBTChildSerializable {
 
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.begin();
-        serial.nextChild(new DataBlockSerializator());
-        serial.end();
+        serial.pullBegin();
+        serial.pullChild(new DataBlockSerializator());
+        serial.pullEnd();
     }
 
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serial.setType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
-        serial.addChild(new DataBlockSerializator());
-        serial.end();
+        serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
+        serial.putType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
+        serial.putChild(new DataBlockSerializator());
+        serial.putEnd();
     }
 
     public class DataBlockSerializator implements XBTChildSerializable {
 
         @Override
         public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-            serial.begin();
-            InputStream source = serial.nextData();
+            serial.pullBegin();
+            InputStream source = serial.pullData();
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             try {
                 CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
@@ -92,14 +92,14 @@ public class XBInt implements XBTChildSerializable {
                 Logger.getLogger(XBInt.class.getName()).log(Level.SEVERE, null, ex);
             }
             //                setValue(new String(stream.toByteArray()));
-            serial.end();
+            serial.pullEnd();
         }
 
         @Override
         public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-            serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
-            //                serial.addData(new ByteArrayInputStream(getValue().getBytes()));
-            serial.end();
+            serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
+            //                serial.putData(new ByteArrayInputStream(getValue().getBytes()));
+            serial.putEnd();
         }
     }
 }

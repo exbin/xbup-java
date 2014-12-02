@@ -76,29 +76,29 @@ public class XBByte implements XBTChildSerializable {
 
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.begin();
-        if (!serial.getType().equals(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)))) {
+        serial.pullBegin();
+        if (!serial.pullType().equals(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)))) {
             throw new XBProcessingException("Unexpected type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
         }
 
-        serial.nextChild(new DataBlockSerializator());
-        serial.end();
+        serial.pullChild(new DataBlockSerializator());
+        serial.pullEnd();
     }
 
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serial.setType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
-        serial.addChild(new DataBlockSerializator());
-        serial.end();
+        serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
+        serial.putType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
+        serial.putChild(new DataBlockSerializator());
+        serial.putEnd();
     }
 
     public class DataBlockSerializator implements XBTChildSerializable {
 
         @Override
         public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-            serial.begin();
-            InputStream source = serial.nextData();
+            serial.pullBegin();
+            InputStream source = serial.pullData();
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             try {
                 CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
@@ -108,16 +108,16 @@ public class XBByte implements XBTChildSerializable {
 
             byte[] newValue = stream.toByteArray();
             setValue(newValue[0]);
-            serial.end();
+            serial.pullEnd();
         }
 
         @Override
         public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-            serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
+            serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
             byte[] data = new byte[1];
             data[0] = value;
-            serial.addData(new ByteArrayInputStream(data));
-            serial.end();
+            serial.putData(new ByteArrayInputStream(data));
+            serial.putEnd();
         }
     }
 }

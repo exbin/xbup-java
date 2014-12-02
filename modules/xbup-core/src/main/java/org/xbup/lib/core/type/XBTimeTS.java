@@ -72,25 +72,25 @@ public class XBTimeTS implements XBTChildSerializable {
 
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.begin();
-        serial.nextChild(new DataBlockSerializator());
-        serial.end();
+        serial.pullBegin();
+        serial.pullChild(new DataBlockSerializator());
+        serial.pullEnd();
     }
 
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serial.setType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
-        serial.addChild(new DataBlockSerializator());
-        serial.end();
+        serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
+        serial.putType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
+        serial.putChild(new DataBlockSerializator());
+        serial.putEnd();
     }
 
     public class DataBlockSerializator implements XBTChildSerializable {
 
         @Override
         public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-            serial.begin();
-            InputStream source = serial.nextData();
+            serial.pullBegin();
+            InputStream source = serial.pullData();
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             try {
                 CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
@@ -99,17 +99,17 @@ public class XBTimeTS implements XBTChildSerializable {
             }
             byte[] newValue = stream.toByteArray();
             setValue(newValue[1] >> 8 + newValue[0]);
-            serial.end();
+            serial.pullEnd();
         }
 
         @Override
         public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-            serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
+            serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
             byte[] data = new byte[2];
             data[0] = (byte) (value & 0xFF);
             data[1] = (byte) (value << 8);
-            serial.addData(new ByteArrayInputStream(data));
-            serial.end();
+            serial.putData(new ByteArrayInputStream(data));
+            serial.putEnd();
         }
     }
 }

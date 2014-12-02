@@ -67,11 +67,11 @@ public class XBTSequenceIListSerializable implements XBSerialSequenceIList, XBTC
             do {
                 block = next();
                 // TODO: Handle infinite lists (Process termination by empty data block)
-                serial.nextChild(next());
+                serial.pullChild(next());
             } while (block != null);
         } else {
             while (count.getLong() != 0) {
-                serial.nextChild(next());
+                serial.pullChild(next());
                 count = new UBENat32(count.getLong() - 1);
             }
         }
@@ -85,14 +85,14 @@ public class XBTSequenceIListSerializable implements XBSerialSequenceIList, XBTC
             do {
                 block = next();
                 if (block == null) {
-                    serial.addChild(block);
+                    serial.putChild(block);
                 } else {
-                    serial.addChild(null); // TODO: Add empty block as terminator
+                    serial.putChild(null); // TODO: Add empty block as terminator
                 }
             } while (block != null);
         } else {
             while (count.getLong() != 0) {
-                serial.addChild(next());
+                serial.putChild(next());
                 count = new UBENat32(count.getLong() - 1);
             }
         }

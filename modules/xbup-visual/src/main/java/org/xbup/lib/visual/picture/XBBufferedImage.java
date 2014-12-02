@@ -73,22 +73,22 @@ public class XBBufferedImage implements XBTChildSerializable {
 
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.getType(); //setType(new XBCBlockDecl(xbBlockPath));
-        UBNatural width = serial.nextAttribute();
-        UBNatural height = serial.nextAttribute();
+        serial.pullType(); //setType(new XBCBlockDecl(xbBlockPath));
+        UBNatural width = serial.pullAttribute();
+        UBNatural height = serial.pullAttribute();
         BufferedImage result = new BufferedImage(width.getInt(), height.getInt(), BufferedImage.TYPE_INT_RGB);
-        serial.nextChild(XBWritableRaster.getXBWritableRasterSerializator(result.getRaster()));
+        serial.pullChild(XBWritableRaster.getXBWritableRasterSerializator(result.getRaster()));
         setImage(result);
-        serial.end();
+        serial.pullEnd();
     }
 
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.setType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
+        serial.putType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
         WritableRaster raster = image.getRaster();
-        serial.addAttribute(new UBNat32(raster.getWidth()));
-        serial.addAttribute(new UBNat32(raster.getHeight()));
-        serial.addChild(XBWritableRaster.getXBWritableRasterSerializator(raster));
-        serial.end();
+        serial.putAttribute(new UBNat32(raster.getWidth()));
+        serial.putAttribute(new UBNat32(raster.getHeight()));
+        serial.putChild(XBWritableRaster.getXBWritableRasterSerializator(raster));
+        serial.putEnd();
     }
 }

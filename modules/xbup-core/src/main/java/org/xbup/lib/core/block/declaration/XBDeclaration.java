@@ -33,15 +33,17 @@ import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.child.XBAChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBAChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBAChildSerializable;
+import org.xbup.lib.core.serial.sequence.XBASequenceSerialHandler;
+import org.xbup.lib.core.serial.sequence.XBASequenceSerializable;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * Representation of declaration block.
  *
- * @version 0.1 wr24.0 2014/12/01
+ * @version 0.1 wr24.0 2014/12/02
  * @author XBUP Project (http://xbup.org)
  */
-public class XBDeclaration implements XBAChildSerializable {
+public class XBDeclaration implements XBASequenceSerializable, XBAChildSerializable {
 
     private XBFormatDecl format;
     private XBSerializable rootBlock;
@@ -160,28 +162,43 @@ public class XBDeclaration implements XBAChildSerializable {
     }
 
     @Override
-    public void serializeFromXB(XBAChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeXB(XBASequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin();
         serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.DECLARATION));
-        groupsReserved.setValue(serializationHandler.nextAttribute().getLong());
-        preserveCount.setValue(serializationHandler.nextAttribute().getLong());
-        serializationHandler.nextChild(format);
+        serializationHandler.attribute(groupsReserved);
+        serializationHandler.attribute(preserveCount);
         if (rootBlock != null) {
-            serializationHandler.nextChild(rootBlock);
+            serializationHandler.child(rootBlock);
         }
         serializationHandler.end();
     }
 
+    // TODO Will be replaced by sequence serialization
+    @Override
+    public void serializeFromXB(XBAChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        serializationHandler.pullBegin();
+        serializationHandler.pullMatchingType(new XBFixedBlockType(XBBasicBlockType.DECLARATION));
+        groupsReserved.setValue(serializationHandler.pullAttribute().getLong());
+        preserveCount.setValue(serializationHandler.pullAttribute().getLong());
+        serializationHandler.pullChild(format);
+        if (rootBlock != null) {
+            serializationHandler.pullChild(rootBlock);
+        }
+        serializationHandler.pullEnd();
+    }
+
+    // TODO Will be replaced by sequence serialization
     @Override
     public void serializeToXB(XBAChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        serializationHandler.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serializationHandler.setType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION_LINK));
-        serializationHandler.addAttribute(groupsReserved);
-        serializationHandler.addAttribute(preserveCount);
+        serializationHandler.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
+        serializationHandler.putType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION_LINK));
+        serializationHandler.putAttribute(groupsReserved);
+        serializationHandler.putAttribute(preserveCount);
+        serializationHandler.putChild(format);
         if (rootBlock != null) {
-            serializationHandler.addChild(rootBlock);
+            serializationHandler.putChild(rootBlock);
         }
-        serializationHandler.end();
+        serializationHandler.putEnd();
     }
 
     public XBFormatDecl getFormat() {

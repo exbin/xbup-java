@@ -77,7 +77,6 @@ public class XBEXStriService extends XBEDefaultService<XBEXStri> implements XBCX
         ((XBCExtension) itemManager).initializeExtension();
     }
 
-    @Override
     public void setItemStringIdText(XBCItem item, String text) {
         XBEXStri stringId = getItemStringId(item);
         if (text == null || text.isEmpty()) {

@@ -47,9 +47,12 @@ import org.xbup.lib.catalog.entity.XBEXHDoc;
 import org.xbup.lib.catalog.entity.XBEXIcon;
 import org.xbup.lib.catalog.entity.XBEXIconMode;
 import org.xbup.lib.catalog.entity.XBEXLanguage;
+import org.xbup.lib.catalog.entity.service.XBEXDescService;
 import org.xbup.lib.catalog.entity.service.XBEXFileService;
 import org.xbup.lib.catalog.entity.service.XBEXHDocService;
 import org.xbup.lib.catalog.entity.service.XBEXIconService;
+import org.xbup.lib.catalog.entity.service.XBEXNameService;
+import org.xbup.lib.catalog.entity.service.XBEXStriService;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.XBCXHDoc;
 import org.xbup.lib.core.catalog.base.XBCXIcon;
@@ -266,8 +269,8 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
         XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
 
         DefaultTableModel tableModel = (DefaultTableModel) propertiesTable.getModel();
-        nameService.setDefaultText(catalogItem, (String) tableModel.getValueAt(0, 1));
-        descService.setDefaultText(catalogItem, (String) tableModel.getValueAt(1, 1));
+        ((XBEXNameService) nameService).setDefaultText(catalogItem, (String) tableModel.getValueAt(0, 1));
+        ((XBEXDescService) descService).setDefaultText(catalogItem, (String) tableModel.getValueAt(1, 1));
         if (catalogItem instanceof XBEItem) {
             String xbIndex = (String) tableModel.getValueAt(3, 1);
             if (xbIndex != null) {
@@ -286,7 +289,7 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
             itemService.persistItem((XBCBase) catalogItem);
         }
 
-        striService.setItemStringIdText(catalogItem, (String) tableModel.getValueAt(4, 1));
+        ((XBEXStriService) striService).setItemStringIdText(catalogItem, (String) tableModel.getValueAt(4, 1));
 
         String document = docCellPanel.getDocument();
         if (document != null) {

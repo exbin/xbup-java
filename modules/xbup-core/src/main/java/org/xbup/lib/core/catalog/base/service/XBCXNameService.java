@@ -37,7 +37,7 @@ public interface XBCXNameService<T extends XBCXName> extends XBCService<T>, XBCE
      * @param item item
      * @return name
      */
-    public XBCXName getItemName(XBCItem item);
+    public XBCXName getDefaultItemName(XBCItem item);
 
     /**
      * Returns name for given item and language.
@@ -63,14 +63,6 @@ public interface XBCXNameService<T extends XBCXName> extends XBCService<T>, XBCE
      * @return string caption
      */
     public String getDefaultText(XBCItem item);
-
-    /**
-     * Sets name text for default language and given item.
-     *
-     * @param item item to set name for
-     * @param text text to set
-     */
-    public void setDefaultText(XBCItem item, String text);
 
     /**
      * Gets name path as a list of dot separated name sequence.

@@ -60,7 +60,6 @@ public class XBRXStriService extends XBRDefaultService<XBRXStri> implements XBCX
         ((XBCExtension) itemManager).initializeExtension();
     }
 
-    @Override
     public void setItemStringIdText(XBCItem item, String text) {
         XBRXStri stringId = getItemStringId(item);
         if (text == null || text.isEmpty()) {

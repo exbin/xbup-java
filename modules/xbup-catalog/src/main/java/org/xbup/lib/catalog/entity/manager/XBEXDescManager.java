@@ -55,7 +55,7 @@ public class XBEXDescManager extends XBEDefaultManager<XBEXDesc> implements XBCX
     }
 
     @Override
-    public XBEXDesc getItemDesc(XBCItem item) {
+    public XBEXDesc getDefaultItemDesc(XBCItem item) {
         if (!(item instanceof XBEItem)) {
             return null;
         }
@@ -149,7 +149,7 @@ public class XBEXDescManager extends XBEDefaultManager<XBEXDesc> implements XBCX
     }
 
     public String getDefaultText(XBCItem item) {
-        XBEXDesc desc = getItemDesc(item);
+        XBEXDesc desc = getDefaultItemDesc(item);
         if (desc == null) {
             return "";
         }

@@ -27,7 +27,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 1 child serialization provider interface.
  *
- * @version 0.1.24 2014/12/12
+ * @version 0.1.24 2014/12/03
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTChildProvider {
@@ -58,6 +58,42 @@ public interface XBTChildProvider {
      * @throws IOException if input/output exception occurs
      */
     public UBNatural pullAttribute() throws XBProcessingException, IOException;
+
+    /**
+     * Pulls block attribute.
+     *
+     * @return attribute value
+     * @throws XBProcessingException if not matching
+     * @throws IOException if input/output exception occurs
+     */
+    public byte pullByteAttribute() throws XBProcessingException, IOException;
+
+    /**
+     * Pulls block attribute.
+     *
+     * @return attribute value
+     * @throws XBProcessingException if not matching
+     * @throws IOException if input/output exception occurs
+     */
+    public short pullShortAttribute() throws XBProcessingException, IOException;
+
+    /**
+     * Pulls block attribute.
+     *
+     * @return attribute value
+     * @throws XBProcessingException if not matching
+     * @throws IOException if input/output exception occurs
+     */
+    public int pullIntAttribute() throws XBProcessingException, IOException;
+
+    /**
+     * Pulls block attribute.
+     *
+     * @return attribute value
+     * @throws XBProcessingException if not matching
+     * @throws IOException if input/output exception occurs
+     */
+    public long pullLongAttribute() throws XBProcessingException, IOException;
 
     /**
      * Pulls block child.

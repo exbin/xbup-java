@@ -27,7 +27,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 1 serialization sequence access interface.
  *
- * @version 0.1.24 2014/12/02
+ * @version 0.1.24 2014/12/03
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTSerialSequenceable extends XBTChildListener, XBTChildProvider {
@@ -42,13 +42,17 @@ public interface XBTSerialSequenceable extends XBTChildListener, XBTChildProvide
 
     /**
      * Performs begin token with default termination mode behavior.
+     *
+     * @throws java.io.IOException
      */
-    public void begin();
+    public void begin() throws XBProcessingException, IOException;
 
     /**
      * Performs end token.
+     *
+     * @throws java.io.IOException
      */
-    public void end();
+    public void end() throws XBProcessingException, IOException;
 
     /**
      * Performs matching to given block type.
@@ -56,30 +60,26 @@ public interface XBTSerialSequenceable extends XBTChildListener, XBTChildProvide
      * Reading will check if value fully equals, writting will write it.
      *
      * @param blockType block type to match to
+     * @throws java.io.IOException
      */
-    public void matchType(XBBlockType blockType);
+    public void matchType(XBBlockType blockType) throws XBProcessingException, IOException;
 
     /**
      * Performs attribute token using attributeValue, either as source or
      * target.
      *
      * @param attributeValue
+     * @throws java.io.IOException
      */
-    public void attribute(UBNatural attributeValue);
+    public void attribute(UBNatural attributeValue) throws XBProcessingException, IOException;
 
     /**
      * Performs serialization of child.
      *
      * @param child serializable object
+     * @throws java.io.IOException
      */
-    public void child(XBSerializable child);
-
-    /**
-     * Performs serialization of child adding both attributes and child blocks.
-     *
-     * @param child serializable object
-     */
-    public void append(XBSerializable child);
+    public void child(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
      * Performs serialization matching child value.
@@ -87,8 +87,9 @@ public interface XBTSerialSequenceable extends XBTChildListener, XBTChildProvide
      * Reading will check if value fully equals, writting will write it.
      *
      * @param child serializable object to match value to
+     * @throws java.io.IOException
      */
-    public void matchChild(XBSerializable child);
+    public void matchChild(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
      * Appends sequence record.
@@ -100,20 +101,11 @@ public interface XBTSerialSequenceable extends XBTChildListener, XBTChildProvide
     public void appendSequence(XBSerialSequence sequence) throws XBProcessingException, IOException;
 
     /**
-     * Puts sequence record.
-     *
-     * @param sequence
-     * @throws XBProcessingException
-     * @throws IOException
-     */
-    public void sequenceXB(XBSerialSequence sequence) throws XBProcessingException, IOException;
-
-    /**
      * Serialization mode to distinguish if serialization is performed from or
      * to token stream.
      */
     public enum SerializationMode {
 
-        READ, WRITE
+        PULL, PUSH
     }
 }

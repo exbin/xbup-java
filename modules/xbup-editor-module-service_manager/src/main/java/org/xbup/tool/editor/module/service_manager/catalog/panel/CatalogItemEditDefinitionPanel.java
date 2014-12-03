@@ -29,6 +29,9 @@ import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.catalog.entity.XBESpecDef;
+import org.xbup.lib.catalog.entity.service.XBEXDescService;
+import org.xbup.lib.catalog.entity.service.XBEXNameService;
+import org.xbup.lib.catalog.entity.service.XBEXStriService;
 import org.xbup.lib.core.catalog.base.service.XBCXDescService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
@@ -38,7 +41,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecDef
 /**
  * XBManager Catalog Item Edit Documentation Panel.
  *
- * @version 0.1.24 2014/11/18
+ * @version 0.1.24 2014/12/03
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
@@ -209,7 +212,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
                 updateList.add(defItem);
             }
 
-            defsModel.getDefs().add(defItem);
+            defsModel.addDefs(defItem);
             defsModel.fireTableDataChanged();
             updateItemStatus();
         }
@@ -322,9 +325,9 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
 
             specService.persistItem(specDef);
 
-            nameService.setDefaultText(specDef, defItem.getName());
-            descService.setDefaultText(specDef, defItem.getDescription());
-            striService.setItemStringIdText(specDef, defItem.getStringId());
+            ((XBEXNameService) nameService).setDefaultText(specDef, defItem.getName());
+            ((XBEXDescService) descService).setDefaultText(specDef, defItem.getDescription());
+            ((XBEXStriService) striService).setItemStringIdText(specDef, defItem.getStringId());
         }
 
         for (CatalogDefsTableItem defItem : removeList) {

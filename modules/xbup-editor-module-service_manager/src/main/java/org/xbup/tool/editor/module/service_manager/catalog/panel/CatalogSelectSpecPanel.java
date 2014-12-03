@@ -58,7 +58,7 @@ public class CatalogSelectSpecPanel extends javax.swing.JPanel {
                 if (value instanceof XBCNode) {
                     XBCNode node = (XBCNode) value;
                     if (nameService != null) {
-                        XBCXName name = nameService.getItemName(node);
+                        XBCXName name = nameService.getDefaultItemName(node);
                         if (name == null) {
                             retValue.setText("unknown name");
                         } else {
@@ -70,7 +70,7 @@ public class CatalogSelectSpecPanel extends javax.swing.JPanel {
                 } else if (value instanceof XBCSpec) {
                     XBCSpec spec = (XBCSpec) value;
                     if (nameService != null) {
-                        XBCXName name = nameService.getItemName(spec);
+                        XBCXName name = nameService.getDefaultItemName(spec);
                         if (name == null) {
                             retValue.setText("unknown name");
                         } else {

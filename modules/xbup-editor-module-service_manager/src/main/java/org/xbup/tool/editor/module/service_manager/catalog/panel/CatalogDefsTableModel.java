@@ -38,7 +38,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 /**
  * Table model for catalog bindings.
  *
- * @version 0.1.24 2014/11/17
+ * @version 0.1.24 2014/12/03
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogDefsTableModel extends AbstractTableModel {
@@ -140,7 +140,7 @@ public class CatalogDefsTableModel extends AbstractTableModel {
                 if (specDef.getTarget() != null) {
                     XBCSpec targetSpec = (XBCSpec) specDef.getTarget().getParent();
                     if (targetSpec != null) {
-                        XBCXName name = nameService.getItemName(targetSpec);
+                        XBCXName name = nameService.getDefaultItemName(targetSpec);
                         if (name != null) {
                             tableItem.setType(name.getText());
                         }
@@ -153,12 +153,10 @@ public class CatalogDefsTableModel extends AbstractTableModel {
                 tableItem.setDescription(descService.getDefaultText(specDef));
                 tableItem.setStringId(striService.getItemStringIdText(specDef));
 
-                if (revsModel != null) {
-                    tableItem.setRevision(revsModel.getRevisionForIndex(specDef.getXBIndex()));
-                }
-
                 items.add(tableItem);
             }
+
+            updateDefRevisions();
         }
 
         fireTableDataChanged();
@@ -174,7 +172,7 @@ public class CatalogDefsTableModel extends AbstractTableModel {
             }
         } else if (specDef instanceof XBCBlockCons) {
             if (specDef.getTarget() == null) {
-                operation = "Data Block";
+                operation = "Any";
             } else {
                 operation = "Consist";
             }
@@ -203,6 +201,11 @@ public class CatalogDefsTableModel extends AbstractTableModel {
         if (catalogItem != null) {
             setCatalogItem(catalogItem);
         }
+    }
+
+    void addDefs(CatalogDefsTableItem defItem) {
+        items.add(defItem);
+        defItem.setRevision(revsModel.getRevisionForIndex(defItem.getXbIndex()));
     }
 
     public void removeItem(XBCSpecDef specDef) {
@@ -237,5 +240,17 @@ public class CatalogDefsTableModel extends AbstractTableModel {
         if (catalogItem != null) {
             setCatalogItem(catalogItem);
         }
+    }
+
+    public void updateDefRevisions() {
+        for (CatalogDefsTableItem tableItem : items) {
+            if (revsModel != null) {
+                tableItem.setRevision(revsModel.getRevisionForIndex(tableItem.getXbIndex()));
+            } else {
+                tableItem.setRevision(null);
+            }
+        }
+
+        fireTableDataChanged();
     }
 }

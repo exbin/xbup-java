@@ -49,8 +49,8 @@ public class XBRXNameService extends XBRDefaultService<XBRXName> implements XBCX
     }
 
     @Override
-    public XBRXName getItemName(XBCItem item) {
-        return ((XBRXNameManager) itemManager).getItemName(item);
+    public XBRXName getDefaultItemName(XBCItem item) {
+        return ((XBRXNameManager) itemManager).getDefaultItemName(item);
     }
 
     @Override
@@ -73,9 +73,8 @@ public class XBRXNameService extends XBRDefaultService<XBRXName> implements XBCX
         ((XBCExtension) itemManager).initializeExtension();
     }
 
-    @Override
     public void setDefaultText(XBCItem item, String text) {
-        XBRXName name = getItemName(item);
+        XBRXName name = getDefaultItemName(item);
         if (text == null || text.isEmpty()) {
             if (name != null) {
                 removeItem(name);

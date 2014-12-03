@@ -25,7 +25,7 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 /**
  * Interface for XBCXDesc catalog manager.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.24 2014/12/03
  * @author XBUP Project (http://xbup.org)
  * @param <T> description entity
  */
@@ -37,7 +37,7 @@ public interface XBCXDescManager<T extends XBCXDesc> extends XBCManager<T>, XBCE
      * @param item
      * @return description
      */
-    public XBCXDesc getItemDesc(XBCItem item);
+    public XBCXDesc getDefaultItemDesc(XBCItem item);
 
     /**
      * Returns description for given item and language.

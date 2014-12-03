@@ -47,6 +47,9 @@ import org.xbup.lib.catalog.entity.XBENode;
 import org.xbup.lib.catalog.entity.XBERev;
 import org.xbup.lib.catalog.entity.XBESpec;
 import org.xbup.lib.catalog.entity.XBESpecDef;
+import org.xbup.lib.catalog.entity.service.XBEXDescService;
+import org.xbup.lib.catalog.entity.service.XBEXNameService;
+import org.xbup.lib.catalog.entity.service.XBEXStriService;
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -216,13 +219,13 @@ public class XBCatalogYaml {
         XBCXHDocService hdocService = (XBCXHDocService) catalog.getCatalogService(XBCXHDocService.class);
 
         String stringId = (String) blockData.get("id");
-        striService.setItemStringIdText(target, stringId);
+        ((XBEXStriService) striService).setItemStringIdText(target, stringId);
 
         String name = (String) blockData.get("name");
-        nameService.setDefaultText(target, name);
+        ((XBEXNameService) nameService).setDefaultText(target, name);
 
         String desc = (String) blockData.get("description");
-        descService.setDefaultText(target, desc);
+        ((XBEXDescService) descService).setDefaultText(target, desc);
     }
 
     public void importSpec(Map<String, Object> specData, XBESpec target) {

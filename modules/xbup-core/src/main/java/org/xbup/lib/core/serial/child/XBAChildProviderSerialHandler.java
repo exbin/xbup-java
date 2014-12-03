@@ -41,7 +41,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 2 serialization handler using basic parser mapping to provider.
  *
- * @version 0.1.24 2014/12/02
+ * @version 0.1.24 2014/12/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler, XBTTokenInputSerialHandler {
@@ -165,6 +165,26 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
     }
 
     @Override
+    public byte pullByteAttribute() throws XBProcessingException, IOException {
+        return (byte) pullAttribute().getInt();
+    }
+
+    @Override
+    public short pullShortAttribute() throws XBProcessingException, IOException {
+        return (short) pullAttribute().getInt();
+    }
+
+    @Override
+    public int pullIntAttribute() throws XBProcessingException, IOException {
+        return pullAttribute().getInt();
+    }
+
+    @Override
+    public long pullLongAttribute() throws XBProcessingException, IOException {
+        return pullAttribute().getLong();
+    }
+
+    @Override
     public void pullChild(XBSerializable child) throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
@@ -232,7 +252,9 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
 
         if (state == XBChildSerialState.ATTRIBUTES) {
             pullProvider.skipAttributes();
-        } else if (state == XBChildSerialState.CHILDREN) {
+            state = XBChildSerialState.CHILDREN;
+        }
+        if (state == XBChildSerialState.CHILDREN) {
             pullProvider.skipChildren();
         }
 
@@ -242,25 +264,5 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
         }
 
         state = XBChildSerialState.EOF;
-    }
-
-    @Override
-    public byte pullByteAttribute() throws XBProcessingException, IOException {
-        return (byte) pullAttribute().getInt();
-    }
-
-    @Override
-    public short pullShortAttribute() throws XBProcessingException, IOException {
-        return (short) pullAttribute().getInt();
-    }
-
-    @Override
-    public int pullIntAttribute() throws XBProcessingException, IOException {
-        return pullAttribute().getInt();
-    }
-
-    @Override
-    public long pullLongAttribute() throws XBProcessingException, IOException {
-        return pullAttribute().getLong();
     }
 }

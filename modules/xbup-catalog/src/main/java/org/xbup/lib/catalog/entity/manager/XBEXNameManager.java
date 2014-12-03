@@ -55,7 +55,7 @@ public class XBEXNameManager extends XBEDefaultManager<XBEXName> implements XBCX
     }
 
     @Override
-    public XBEXName getItemName(XBCItem item) {
+    public XBEXName getDefaultItemName(XBCItem item) {
         if (!(item instanceof XBEItem)) {
             return null;
         }
@@ -153,7 +153,7 @@ public class XBEXNameManager extends XBEDefaultManager<XBEXName> implements XBCX
 
     @Override
     public String getDefaultText(XBCItem item) {
-        XBCXName name = getItemName(item);
+        XBCXName name = getDefaultItemName(item);
         if (name == null) {
             return "";
         }

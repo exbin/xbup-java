@@ -127,7 +127,7 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
 
             @Override
             public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                serializationHandler.sequenceXB(new XBSerialSequence(new XBDeclBlockType(new XBPBlockDecl(xbGroupLimitBlockType, getBlocksLimit()))));
+                serializationHandler.appendSequence(new XBSerialSequence(new XBDeclBlockType(new XBPBlockDecl(xbGroupLimitBlockType, getBlocksLimit()))));
             }
         });
 
@@ -139,7 +139,7 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
             @Override
             public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
                 XBSerialSequence subSequence = new XBSerialSequence(new XBDeclBlockType(new XBPBlockDecl(xbRevisionBlockType, revision)));
-                serializationHandler.sequenceXB(subSequence);
+                serializationHandler.appendSequence(subSequence);
             }
         });
 
@@ -288,6 +288,6 @@ public class XBDBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
             });
         }
 
-        serializationHandler.sequenceXB(seq);
+        serializationHandler.appendSequence(seq);
     }
 }

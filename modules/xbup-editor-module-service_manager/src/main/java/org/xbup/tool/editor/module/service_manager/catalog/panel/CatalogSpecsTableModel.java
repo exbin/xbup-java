@@ -100,7 +100,7 @@ public class CatalogSpecsTableModel extends AbstractTableModel {
          if (item==null) {
          return null;
          }
-         XBCXName name = nameService.getItemName(item);
+         XBCXName name = nameService.getDefaultItemName(item);
          return (name==null)?"":name.getText();
          } else {
          return "spec";
@@ -234,7 +234,7 @@ public class CatalogSpecsTableModel extends AbstractTableModel {
                 if (item == null) {
                     name = null;
                 } else {
-                    XBCXName itemName = nameService.getItemName(item);
+                    XBCXName itemName = nameService.getDefaultItemName(item);
                     name = (itemName == null) ? "" : itemName.getText();
                 }
             } else {

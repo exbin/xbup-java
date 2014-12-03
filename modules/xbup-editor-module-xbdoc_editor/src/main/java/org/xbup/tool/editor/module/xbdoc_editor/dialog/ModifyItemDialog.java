@@ -635,7 +635,7 @@ public class ModifyItemDialog extends javax.swing.JDialog {
                     String specType = "";
 
                     if (bind != null) {
-                        XBCXName bindName = nameService.getItemName(bind);
+                        XBCXName bindName = nameService.getDefaultItemName(bind);
                         if (bindName != null) {
                             specName = bindName.getText();
                         }
@@ -643,7 +643,7 @@ public class ModifyItemDialog extends javax.swing.JDialog {
                         XBCRev rowRev = bind.getTarget();
                         XBCSpec rowSpec = rowRev.getParent();
 
-                        XBCXName typeName = nameService.getItemName(rowSpec);
+                        XBCXName typeName = nameService.getDefaultItemName(rowSpec);
                         if (typeName != null) {
                             specType = typeName.getText();
                         }

@@ -428,9 +428,9 @@ public class CatalogItemPanel extends javax.swing.JPanel {
 //            jLabel6.setText((xbIndex==null)?"":xbIndex.toString());
             Long itemId = ((XBCItem) item).getId();
 //            jLabel7.setText((itemId==null)?"":itemId.toString());
-            itemName = nameService.getItemName(item);
+            itemName = nameService.getDefaultItemName(item);
             itemNameTextField.setText((itemName == null) ? "" : itemName.getText());
-            itemDesc = descService.getItemDesc(item);
+            itemDesc = descService.getDefaultItemDesc(item);
             itemDescriptionTextField.setText((itemDesc == null) ? "" : itemDesc.getText());
             itemTitleLabel.setText(((itemName == null) ? "-" : itemName.getText()) + " (" + ((xbIndex == null) ? "" : xbIndex.toString()) + ")");
 

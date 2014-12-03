@@ -19,7 +19,7 @@ package org.xbup.lib.core.parser;
 /**
  * Enumeration of XBUP protocol processing exception types.
  *
- * @version 0.1.23 2014/02/06
+ * @version 0.1.24 2014/12/03
  * @author XBUP Project (http://xbup.org)
  */
 public enum XBProcessingExceptionType {
@@ -67,5 +67,9 @@ public enum XBProcessingExceptionType {
     /**
      * Currently unsupported feature.
      */
-    UNSUPPORTED
+    UNSUPPORTED,
+    /**
+     * Attempt to perform disallowed operation.
+     */
+    ILLEGAL_OPERATION
 }

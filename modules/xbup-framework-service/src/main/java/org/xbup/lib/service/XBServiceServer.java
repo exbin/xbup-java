@@ -2107,7 +2107,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             result.attribXBT(new UBNat32(0));
             result.attribXBT(new UBNat32(0));
-            XBEXName itemName = ((XBEXName) ((XBEXNameService) getCatalog().getCatalogService(XBCXNameService.class)).getItemName(item));
+            XBEXName itemName = ((XBEXName) ((XBEXNameService) getCatalog().getCatalogService(XBCXNameService.class)).getDefaultItemName(item));
             if (itemName != null) {
                 result.attribXBT(new UBNat32(itemName.getId()));
             } else {
@@ -2309,7 +2309,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             result.attribXBT(new UBNat32(0));
             result.attribXBT(new UBNat32(0));
-            XBEXDesc desc = ((XBEXDesc) ((XBEXDescService) getCatalog().getCatalogService(XBCXDescService.class)).getItemDesc(item));
+            XBEXDesc desc = ((XBEXDesc) ((XBEXDescService) getCatalog().getCatalogService(XBCXDescService.class)).getDefaultItemDesc(item));
             if (desc != null) {
                 result.attribXBT(new UBNat32(desc.getId()));
             } else {

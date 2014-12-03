@@ -49,7 +49,7 @@ public class XBRXNameManager extends XBRDefaultManager<XBRXName> implements XBCX
     }
 
     @Override
-    public XBRXName getItemName(XBCItem item) {
+    public XBRXName getDefaultItemName(XBCItem item) {
         try {
             XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.ITEMNAME_NAME_PROCEDURE);
             XBListener listener = message.getXBOutput();
@@ -152,7 +152,7 @@ public class XBRXNameManager extends XBRDefaultManager<XBRXName> implements XBCX
      } */
     @Override
     public String getDefaultText(XBCItem item) {
-        XBCXName name = getItemName(item);
+        XBCXName name = getDefaultItemName(item);
         if (name == null) {
             return null;
         }

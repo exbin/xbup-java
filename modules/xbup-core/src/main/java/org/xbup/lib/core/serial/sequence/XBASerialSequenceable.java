@@ -42,13 +42,17 @@ public interface XBASerialSequenceable extends XBAChildListener, XBAChildProvide
 
     /**
      * Performs begin token with default termination mode behavior.
+     *
+     * @throws java.io.IOException
      */
-    public void begin();
+    public void begin() throws XBProcessingException, IOException;
 
     /**
      * Performs end token.
+     *
+     * @throws java.io.IOException
      */
-    public void end();
+    public void end() throws XBProcessingException, IOException;
 
     /**
      * Performs matching to given block type.
@@ -56,30 +60,34 @@ public interface XBASerialSequenceable extends XBAChildListener, XBAChildProvide
      * Reading will check if value fully equals, writting will write it.
      *
      * @param blockType block type to match to
+     * @throws java.io.IOException
      */
-    public void matchType(XBBlockType blockType);
+    public void matchType(XBBlockType blockType) throws XBProcessingException, IOException;
 
     /**
      * Performs attribute token using attributeValue, either as source or
      * target.
      *
      * @param attributeValue
+     * @throws java.io.IOException
      */
-    public void attribute(UBNatural attributeValue);
+    public void attribute(UBNatural attributeValue) throws XBProcessingException, IOException;
 
     /**
      * Performs serialization of child.
      *
      * @param child serializable object
+     * @throws java.io.IOException
      */
-    public void child(XBSerializable child);
+    public void child(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
      * Performs serialization of child adding both attributes and child blocks.
      *
      * @param child serializable object
+     * @throws java.io.IOException
      */
-    public void append(XBSerializable child);
+    public void append(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
      * Performs serialization matching child value.
@@ -87,8 +95,9 @@ public interface XBASerialSequenceable extends XBAChildListener, XBAChildProvide
      * Reading will check if value fully equals, writting will write it.
      *
      * @param child serializable object to match value to
+     * @throws java.io.IOException
      */
-    public void matchChild(XBSerializable child);
+    public void matchChild(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
      * Appends sequence record.
@@ -105,6 +114,6 @@ public interface XBASerialSequenceable extends XBAChildListener, XBAChildProvide
      */
     public enum SerializationMode {
 
-        READ, WRITE
+        PULL, PUSH
     }
 }

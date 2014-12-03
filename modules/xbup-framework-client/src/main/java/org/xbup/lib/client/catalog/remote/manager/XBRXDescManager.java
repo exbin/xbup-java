@@ -49,7 +49,7 @@ public class XBRXDescManager extends XBRDefaultManager<XBRXDesc> implements XBCX
     }
 
     @Override
-    public XBRXDesc getItemDesc(XBCItem item) {
+    public XBRXDesc getDefaultItemDesc(XBCItem item) {
         try {
             XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.ITEMDESC_DESC_PROCEDURE);
             XBListener listener = message.getXBOutput();

@@ -39,7 +39,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 serialization handler using basic parser mapping to provider.
  *
- * @version 0.1.24 2014/12/01
+ * @version 0.1.24 2014/12/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler, XBTTokenInputSerialHandler {
@@ -145,6 +145,26 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
 
         state = XBChildSerialState.ATTRIBUTES;
         return new UBNat32();
+    }
+
+    @Override
+    public byte pullByteAttribute() throws XBProcessingException, IOException {
+        return (byte) pullAttribute().getInt();
+    }
+
+    @Override
+    public short pullShortAttribute() throws XBProcessingException, IOException {
+        return (short) pullAttribute().getInt();
+    }
+
+    @Override
+    public int pullIntAttribute() throws XBProcessingException, IOException {
+        return pullAttribute().getInt();
+    }
+
+    @Override
+    public long pullLongAttribute() throws XBProcessingException, IOException {
+        return pullAttribute().getLong();
     }
 
     @Override

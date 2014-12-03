@@ -36,7 +36,7 @@ import org.xbup.lib.catalog.entity.manager.XBEXNameManager;
 /**
  * Interface for XBEXName items service.
  *
- * @version 0.1.24 2014/11/17
+ * @version 0.1.24 2014/12/03
  * @author XBUP Project (http://xbup.org)
  */
 @Service
@@ -61,8 +61,8 @@ public class XBEXNameService extends XBEDefaultService<XBEXName> implements XBCX
     }
 
     @Override
-    public XBEXName getItemName(XBCItem item) {
-        return ((XBEXNameManager) itemManager).getItemName(item);
+    public XBEXName getDefaultItemName(XBCItem item) {
+        return ((XBEXNameManager) itemManager).getDefaultItemName(item);
     }
 
     @Override
@@ -90,9 +90,8 @@ public class XBEXNameService extends XBEDefaultService<XBEXName> implements XBCX
         return ((XBEXNameManager) itemManager).getDefaultText(item);
     }
 
-    @Override
     public void setDefaultText(XBCItem item, String text) {
-        XBEXName name = getItemName(item);
+        XBEXName name = getDefaultItemName(item);
         if (text == null || text.isEmpty()) {
             if (name != null) {
                 removeItem(name);

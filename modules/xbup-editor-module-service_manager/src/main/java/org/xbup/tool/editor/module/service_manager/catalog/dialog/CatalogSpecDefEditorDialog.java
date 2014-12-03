@@ -28,14 +28,13 @@ import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDefType;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType;
-import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogDefsTableItem;
 
 /**
  * XBManager Catalog Specification Definition Editor Dialog.
  *
- * @version 0.1.24 2014/11/17
+ * @version 0.1.24 2014/12/03
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
@@ -230,7 +229,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         XBCRev target = targetRev;
 
         if (target == null && ("Consist".equals(operation) || "Join".equals(operation))) {
-            JOptionPane.showMessageDialog(this, "Target Type is required", "Set is not allowed", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Target type is required", "Set is not allowed", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -289,7 +288,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     public void setSpec(XBCSpec spec) {
         this.spec = spec;
         if (spec instanceof XBCBlockSpec) {
-            operationComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Consist", "Join", "Attribute", "Blob", "List Consist", "List Join"}));
+            operationComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Consist", "Join", "Attribute", "Any", "List Consist", "List Join"}));
             switchSpecDefType(CatalogSpecItemType.BLOCK);
         } else {
             operationComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Consist", "Join"}));
@@ -320,7 +319,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
 
         switch (defItem.getDefType()) {
             case CONS: {
-                operationComboBox.setSelectedIndex((defItem.getTarget() == null) && (operationComboBox.getItemCount() > 3) ? 3 : 0);
+                operationComboBox.setSelectedIndex((defItem.getTarget() == null) && (operationComboBox.getItemCount() > 2) ? 3 : 0);
                 break;
             }
             case JOIN: {

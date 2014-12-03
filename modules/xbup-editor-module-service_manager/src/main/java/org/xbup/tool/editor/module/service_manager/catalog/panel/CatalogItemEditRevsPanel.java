@@ -23,6 +23,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.xbup.lib.catalog.entity.XBEItem;
 import org.xbup.lib.catalog.entity.XBERev;
+import org.xbup.lib.catalog.entity.service.XBEXDescService;
+import org.xbup.lib.catalog.entity.service.XBEXNameService;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCNode;
@@ -36,7 +38,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecRev
 /**
  * XBManager Catalog Item Edit Revisions Panel.
  *
- * @version 0.1.24 2014/11/17
+ * @version 0.1.24 2014/12/03
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
@@ -176,8 +178,8 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
 
             revsModel.getRevs().add(revItem);
             revsModel.fireTableDataChanged();
+            defsModel.updateDefRevisions();
             updateItemStatus();
-            defsModel.setRevsModel(revsModel);
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
@@ -195,8 +197,8 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
                 updateList.add(revItem);
             }
 
+            defsModel.updateDefRevisions();
             updateItemStatus();
-            defsModel.setRevsModel(revsModel);
         }
     }//GEN-LAST:event_modifyButtonActionPerformed
 
@@ -211,8 +213,8 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
         removeList.add(revItem);
         revsModel.getRevs().remove(revItem);
         revsModel.fireTableDataChanged();
+        defsModel.updateDefRevisions();
         updateItemStatus();
-        defsModel.setRevsModel(revsModel);
     }//GEN-LAST:event_removeDefButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -235,13 +237,14 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
                 rev = (XBERev) revService.createRev((XBCSpec) catalogItem);
                 rev.setParent((XBEItem) catalogItem);
                 rev.setXBIndex(revItem.getXbIndex());
-                rev.setXBLimit(revItem.getLimit());
             }
+
+            rev.setXBLimit(revItem.getLimit());
 
             revService.persistItem(rev);
 
-            nameService.setDefaultText(rev, revItem.getName());
-            descService.setDefaultText(rev, revItem.getDescription());
+            ((XBEXNameService) nameService).setDefaultText(rev, revItem.getName());
+            ((XBEXDescService) descService).setDefaultText(rev, revItem.getDescription());
         }
 
         for (CatalogRevsTableItem revItem : removeList) {

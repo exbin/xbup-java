@@ -54,6 +54,7 @@ import org.xbup.lib.catalog.entity.XBENode;
 import org.xbup.lib.catalog.entity.XBESpec;
 import org.xbup.lib.catalog.entity.XBEXDesc;
 import org.xbup.lib.catalog.entity.XBEXName;
+import org.xbup.lib.catalog.entity.service.XBEXNameService;
 import org.xbup.lib.catalog.yaml.XBCatalogYaml;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpec;
@@ -462,7 +463,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
             }
             spec.setParent(node);
             specService.persistItem(spec);
-            nameService.setDefaultText(spec, addDialog.getItemName());
+            ((XBEXNameService) nameService).setDefaultText(spec, addDialog.getItemName());
             em.flush();
             transaction.commit();
 

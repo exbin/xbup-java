@@ -61,8 +61,8 @@ public class XBEXDescService extends XBEDefaultService<XBEXDesc> implements XBCX
     }
 
     @Override
-    public XBEXDesc getItemDesc(XBCItem item) {
-        return ((XBEXDescManager) itemManager).getItemDesc(item);
+    public XBEXDesc getDefaultItemDesc(XBCItem item) {
+        return ((XBEXDescManager) itemManager).getDefaultItemDesc(item);
     }
 
     @Override
@@ -90,9 +90,8 @@ public class XBEXDescService extends XBEDefaultService<XBEXDesc> implements XBCX
         return ((XBEXDescManager) itemManager).getDefaultText(item);
     }
 
-    @Override
     public void setDefaultText(XBCItem item, String text) {
-        XBEXDesc desc = getItemDesc(item);
+        XBEXDesc desc = getDefaultItemDesc(item);
         if (text == null || text.isEmpty()) {
             if (desc != null) {
                 removeItem(desc);

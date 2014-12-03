@@ -37,7 +37,7 @@ public interface XBCXNameManager<T extends XBCXName> extends XBCManager<T>, XBCE
      * @param item
      * @return name
      */
-    public XBCXName getItemName(XBCItem item);
+    public XBCXName getDefaultItemName(XBCItem item);
 
     /**
      * Returns name for given item and language.

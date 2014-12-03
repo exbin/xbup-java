@@ -331,7 +331,7 @@ public class XBPropertyPanel extends javax.swing.JPanel {
 //                    return;
 //                }
 //                if (spec != null) {
-//                    XBCXDesc desc = descService.getItemDesc(spec);
+//                    XBCXDesc desc = descService.getDefaultItemDesc(spec);
 //                    if (propertyThread != this) {
 //                        return;
 //                    }
@@ -349,7 +349,7 @@ public class XBPropertyPanel extends javax.swing.JPanel {
 //                                if (bind != null) {
 //                                    XBCRev rowRev = bind.getTarget();
 //                                    XBCSpec rowSpec = rowRev.getParent();
-//                                    XBCXName rowName = nameService.getItemName(rowSpec);
+//                                    XBCXName rowName = nameService.getDefaultItemName(rowSpec);
 //                                    if (rowName != null) {
 //                                        row[0] = rowName.getText();
 //                                    }
@@ -458,7 +458,7 @@ public class XBPropertyPanel extends javax.swing.JPanel {
                 XBCBlockSpec spec = ((XBCBlockDecl) decl).getBlockSpec().getParent();
 
                 XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
-                XBCXDesc desc = descService.getItemDesc(spec);
+                XBCXDesc desc = descService.getDefaultItemDesc(spec);
                 return desc.getText();
             }
         }

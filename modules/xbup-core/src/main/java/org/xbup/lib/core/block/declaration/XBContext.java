@@ -102,4 +102,8 @@ public class XBContext {
     public void setGroups(List<XBGroup> groups) {
         this.groups = groups;
     }
+
+    public int getGroupsCount() {
+        return groups.size();
+    }
 }

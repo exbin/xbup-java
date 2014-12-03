@@ -47,14 +47,6 @@ public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCE
     public String getItemStringIdText(XBCItem item);
 
     /**
-     * Sets string id text for given item.
-     *
-     * @param item item to set stri for
-     * @param text text to set
-     */
-    public void setItemStringIdText(XBCItem item, String text);
-
-    /**
      * Returns full stringId path including leading slash symbol.
      *
      * @param itemString stringId item

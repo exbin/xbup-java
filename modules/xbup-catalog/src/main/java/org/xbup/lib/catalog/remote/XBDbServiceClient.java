@@ -54,21 +54,24 @@ public class XBDbServiceClient implements XBServiceClient {
     private XBTListener target;
 
     /*
-    private enum commandTypeEnum {
-        SERVICE, INFO, CATALOG
-    };
-    private enum serviceCommandEnum {
-        STOP, PING, LOGIN, RESTART
-    };
-    private enum serviceInfoEnum {
-        VERSION
-    };
-*/
-    /** Perform login to the server
+     private enum commandTypeEnum {
+     SERVICE, INFO, CATALOG
+     };
+     private enum serviceCommandEnum {
+     STOP, PING, LOGIN, RESTART
+     };
+     private enum serviceInfoEnum {
+     VERSION
+     };
+     */
+    /**
+     * Perform login to the server
+     *
      * @param user
      * @param password
      * @return
-     * @throws java.io.IOException  */
+     * @throws java.io.IOException
+     */
     @Override
     public int login(String user, char[] password) throws IOException {
         init();
@@ -84,13 +87,12 @@ public class XBDbServiceClient implements XBServiceClient {
     public void init() throws IOException, ConnectException {
     }
 
-/*    public XBL2CatalogHandler getCatalog() {
-        return catalog;
-    } */
-
+    /*    public XBL2CatalogHandler getCatalog() {
+     return catalog;
+     } */
     @Override
     public String getVersion() {
-        return "0.1 wr 23";
+        return "0.1.24";
     }
 
     public void stop() {
@@ -103,38 +105,39 @@ public class XBDbServiceClient implements XBServiceClient {
     @Override
     public void ping() {
     }
-/*
-    public void respondMessage(XBL0InputStream input, XBL0OutputStream output) throws IOException, XBProcessingException {
+    /*
+     public void respondMessage(XBL0InputStream input, XBL0OutputStream output) throws IOException, XBProcessingException {
 
-        UBNat32 type = (UBNat32) source.attribXBT();
-        UBNat32 command = (UBNat32) source.attribXBT();
-        switch (commandTypeEnum.values()[type.toInt()]) {
-            case SERVICE: { // System commands
-                switch (serviceCommandEnum.values()[command.toInt()]) {
-                    case STOP: {
-                        System.out.println("Service is shutting down.");
-                        break;
-                    }
-                    default: throw new XBProcessingException("Unsupported command");
-                }
-                break;
-            }
-            case INFO: {
-                switch (serviceInfoEnum.values()[command.toInt()]) {
-                    case VERSION: {
-                        break;
-                    }
-                    default: throw new XBProcessingException("Unsupported command");
-                }
-                break;
-            }
-            default: throw new XBProcessingException("Unexpected command");
-        }
-        source.endXBT();
-        output.close();
-        input.close();
-    }
-  */
+     UBNat32 type = (UBNat32) source.attribXBT();
+     UBNat32 command = (UBNat32) source.attribXBT();
+     switch (commandTypeEnum.values()[type.toInt()]) {
+     case SERVICE: { // System commands
+     switch (serviceCommandEnum.values()[command.toInt()]) {
+     case STOP: {
+     System.out.println("Service is shutting down.");
+     break;
+     }
+     default: throw new XBProcessingException("Unsupported command");
+     }
+     break;
+     }
+     case INFO: {
+     switch (serviceInfoEnum.values()[command.toInt()]) {
+     case VERSION: {
+     break;
+     }
+     default: throw new XBProcessingException("Unsupported command");
+     }
+     break;
+     }
+     default: throw new XBProcessingException("Unexpected command");
+     }
+     source.endXBT();
+     output.close();
+     input.close();
+     }
+     */
+
     @Override
     public String getHost() {
         return "localhost";
@@ -175,7 +178,9 @@ public class XBDbServiceClient implements XBServiceClient {
         return entityManagerFactory;
     }
 
-    /** TODO: Temporary first end event skipping filter */
+    /**
+     * TODO: Temporary first end event skipping filter
+     */
     public class MyXBTEventListener implements XBTEventListener {
 
         private XBTEventListener listener;
@@ -207,7 +212,9 @@ public class XBDbServiceClient implements XBServiceClient {
         }
     }
 
-    /** TODO: Temporary static translation of XBService format */
+    /**
+     * TODO: Temporary static translation of XBService format
+     */
     public class XBServiceContext extends XBContext {
 
         public XBServiceContext() {
@@ -233,7 +240,7 @@ public class XBDbServiceClient implements XBServiceClient {
                     if (path.length != 5) {
                         return new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK);
                     } else {
-                        return new XBFixedBlockType(path[2]+1, path[3]);
+                        return new XBFixedBlockType(path[2] + 1, path[3]);
                     }
                 }
             }

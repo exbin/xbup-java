@@ -47,7 +47,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Dialog for adding new item into given document.
  *
- * @version 0.1.24 2014/12/01
+ * @version 0.1.24 2014/12/03
  * @author XBUP Project (http://xbup.org)
  */
 public class AddItemDialog extends javax.swing.JDialog {
@@ -143,6 +143,7 @@ public class AddItemDialog extends javax.swing.JDialog {
 
         blockTypeButtonGroup.add(contextTypeRadioButton);
         contextTypeRadioButton.setText(bundle.getString("contextTypeRadioButton.text")); // NOI18N
+        contextTypeRadioButton.setEnabled(false);
         contextTypeRadioButton.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 contextTypeRadioButtonStateChanged(evt);
@@ -231,6 +232,7 @@ public class AddItemDialog extends javax.swing.JDialog {
 
         mainPanel.add(typePanel, "type");
 
+        generateDeclarationCheckBox.setSelected(true);
         generateDeclarationCheckBox.setText("Generate Declaration");
 
         prefillCheckBox.setText("Prefill Default Values");
@@ -483,6 +485,7 @@ public class AddItemDialog extends javax.swing.JDialog {
 
     public void setParentNode(XBTTreeNode parentNode) {
         this.parentNode = parentNode;
+        contextTypeRadioButton.setEnabled(parentNode.getContext().getGroupsCount() > 1);
     }
 
     public int getDialogOption() {

@@ -343,7 +343,7 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
                                 if (bind != null) {
                                     XBCRev rowRev = bind.getTarget();
                                     XBCSpec rowSpec = rowRev.getParent();
-                                    XBCXName rowName = nameService.getItemName(rowSpec);
+                                    XBCXName rowName = nameService.getDefaultItemName(rowSpec);
                                     if (rowName != null) {
                                         row[0] = rowName.getText();
                                     }

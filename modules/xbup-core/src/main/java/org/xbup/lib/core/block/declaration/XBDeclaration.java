@@ -19,7 +19,6 @@ package org.xbup.lib.core.block.declaration;
 import java.io.IOException;
 import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
@@ -30,9 +29,6 @@ import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCGroupRev;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.child.XBAChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBAChildOutputSerialHandler;
-import org.xbup.lib.core.serial.child.XBAChildSerializable;
 import org.xbup.lib.core.serial.sequence.XBASequenceSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBASequenceSerializable;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -40,10 +36,10 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Representation of declaration block.
  *
- * @version 0.1 wr24.0 2014/12/02
+ * @version 0.1 wr24.0 2014/12/03
  * @author XBUP Project (http://xbup.org)
  */
-public class XBDeclaration implements XBASequenceSerializable, XBAChildSerializable {
+public class XBDeclaration implements XBASequenceSerializable {
 
     private XBFormatDecl format;
     private XBSerializable rootBlock;
@@ -167,38 +163,11 @@ public class XBDeclaration implements XBASequenceSerializable, XBAChildSerializa
         serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.DECLARATION));
         serializationHandler.attribute(groupsReserved);
         serializationHandler.attribute(preserveCount);
+        serializationHandler.child(format);
         if (rootBlock != null) {
             serializationHandler.child(rootBlock);
         }
         serializationHandler.end();
-    }
-
-    // TODO Will be replaced by sequence serialization
-    @Override
-    public void serializeFromXB(XBAChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        serializationHandler.pullBegin();
-        serializationHandler.pullMatchingType(new XBFixedBlockType(XBBasicBlockType.DECLARATION));
-        groupsReserved.setValue(serializationHandler.pullAttribute().getLong());
-        preserveCount.setValue(serializationHandler.pullAttribute().getLong());
-        serializationHandler.pullChild(format);
-        if (rootBlock != null) {
-            serializationHandler.pullChild(rootBlock);
-        }
-        serializationHandler.pullEnd();
-    }
-
-    // TODO Will be replaced by sequence serialization
-    @Override
-    public void serializeToXB(XBAChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        serializationHandler.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serializationHandler.putType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION_LINK));
-        serializationHandler.putAttribute(groupsReserved);
-        serializationHandler.putAttribute(preserveCount);
-        serializationHandler.putChild(format);
-        if (rootBlock != null) {
-            serializationHandler.putChild(rootBlock);
-        }
-        serializationHandler.putEnd();
     }
 
     public XBFormatDecl getFormat() {

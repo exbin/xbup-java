@@ -25,6 +25,7 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBFixedBlockType;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.serial.XBReadSerialHandler;
 import org.xbup.lib.core.serial.XBSerializable;
@@ -41,42 +42,174 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
  * XBUP level 1 serialization handler using serialization sequence parser
  * mapping to token provider.
  *
- * @version 0.1.24 2014/12/02
+ * @version 0.1.24 2014/12/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTSequenceProviderSerialHandler implements XBTSequenceSerialHandler, XBTSequenceInputSerialHandler, XBTSerialSequenceable, XBTTokenInputSerialHandler {
 
-    private XBTPullProvider pullProvider;
+    private final XBTChildProviderSerialHandler provider;
     private XBReadSerialHandler childHandler = null;
 
     public XBTSequenceProviderSerialHandler() {
+        provider = new XBTChildProviderSerialHandler();
     }
 
     public XBTSequenceProviderSerialHandler(XBReadSerialHandler childHandler) {
-        this();
+        provider = new XBTChildProviderSerialHandler(childHandler);
         this.childHandler = childHandler;
     }
 
     @Override
     public void attachXBTPullProvider(XBTPullProvider pullProvider) {
-        this.pullProvider = pullProvider;
+        provider.attachXBTPullProvider(pullProvider);
     }
 
     @Override
-    public void sequenceXB(XBSerialSequence sequence) throws XBProcessingException, IOException {
-        XBTChildInputSerialHandler handler = new XBTChildProviderSerialHandler();
-        handler.attachXBTPullProvider(pullProvider);
+    public XBTSerialSequenceable.SerializationMode getSerializationMode() {
+        return XBTSerialSequenceable.SerializationMode.PULL;
+    }
 
-        handler.pullBegin();
-        XBBlockType blockType = handler.pullType();
-        List<XBSerializable> children = serializeFromXBSequence(sequence, handler);
+    @Override
+    public void begin() throws XBProcessingException, IOException {
+        pullBegin();
+    }
+
+    @Override
+    public void end() throws XBProcessingException, IOException {
+        pullEnd();
+    }
+
+    @Override
+    public void matchType(XBBlockType blockType) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void attribute(UBNatural attributeValue) throws XBProcessingException, IOException {
+        attributeValue.setValue(pullAttribute().getLong());
+    }
+
+    @Override
+    public void child(XBSerializable child) throws XBProcessingException, IOException {
+        pullChild(child);
+    }
+
+    @Override
+    public void matchChild(XBSerializable child) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+        throw new XBProcessingException("Pushing data not allowed in pulling mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
+    }
+
+    @Override
+    public void putType(XBBlockType type) throws XBProcessingException, IOException {
+        throw new XBProcessingException("Pushing data not allowed in pulling mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
+    }
+
+    @Override
+    public void putAttribute(UBNatural attribute) throws XBProcessingException, IOException {
+        throw new XBProcessingException("Pushing data not allowed in pulling mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
+    }
+
+    @Override
+    public void putAttribute(byte attributeValue) throws XBProcessingException, IOException {
+        throw new XBProcessingException("Pushing data not allowed in pulling mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
+    }
+
+    @Override
+    public void putAttribute(short attributeValue) throws XBProcessingException, IOException {
+        throw new XBProcessingException("Pushing data not allowed in pulling mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
+    }
+
+    @Override
+    public void putAttribute(int attributeValue) throws XBProcessingException, IOException {
+        throw new XBProcessingException("Pushing data not allowed in pulling mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
+    }
+
+    @Override
+    public void putAttribute(long attributeValue) throws XBProcessingException, IOException {
+        throw new XBProcessingException("Pushing data not allowed in pulling mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
+    }
+
+    @Override
+    public void putChild(XBSerializable child) throws XBProcessingException, IOException {
+        throw new XBProcessingException("Pushing data not allowed in pulling mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
+    }
+
+    @Override
+    public void putData(InputStream data) throws XBProcessingException, IOException {
+        throw new XBProcessingException("Pushing data not allowed in pulling mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
+    }
+
+    @Override
+    public void putEnd() throws XBProcessingException, IOException {
+        throw new XBProcessingException("Pushing data not allowed in pulling mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
+    }
+
+    @Override
+    public XBBlockTerminationMode pullBegin() throws XBProcessingException, IOException {
+        return provider.pullBegin();
+    }
+
+    @Override
+    public XBBlockType pullType() throws XBProcessingException, IOException {
+        return provider.pullType();
+    }
+
+    @Override
+    public UBNatural pullAttribute() throws XBProcessingException, IOException {
+        return provider.pullAttribute();
+    }
+
+    @Override
+    public byte pullByteAttribute() throws XBProcessingException, IOException {
+        return (byte) pullAttribute().getInt();
+    }
+
+    @Override
+    public short pullShortAttribute() throws XBProcessingException, IOException {
+        return (short) pullAttribute().getInt();
+    }
+
+    @Override
+    public int pullIntAttribute() throws XBProcessingException, IOException {
+        return pullAttribute().getInt();
+    }
+
+    @Override
+    public long pullLongAttribute() throws XBProcessingException, IOException {
+        return pullAttribute().getLong();
+    }
+
+    @Override
+    public void pullChild(XBSerializable child) throws XBProcessingException, IOException {
+        provider.pullChild(child);
+    }
+
+    @Override
+    public InputStream pullData() throws XBProcessingException, IOException {
+        return provider.pullData();
+    }
+
+    @Override
+    public void pullEnd() throws XBProcessingException, IOException {
+        provider.pullEnd();
+    }
+
+    @Override
+    public void appendSequence(XBSerialSequence sequence) throws XBProcessingException, IOException {
+        provider.pullBegin();
+        XBBlockType blockType = provider.pullType();
+        List<XBSerializable> children = serializeFromXBSequence(sequence, provider);
 
         for (XBSerializable child : children) {
-            handler.pullChild(child);
+            provider.pullChild(child);
         }
 
-        // TODO: SKIP additional blocks and don't report them?
-        // handler.pullEnd();
+        provider.pullEnd();
     }
 
     public List<XBSerializable> serializeFromXBSequence(XBSerialSequence sequence, XBTChildProvider handler) throws XBProcessingException, IOException {
@@ -131,131 +264,6 @@ public class XBTSequenceProviderSerialHandler implements XBTSequenceSerialHandle
         return children;
     }
 
-    @Override
-    public XBTSerialSequenceable.SerializationMode getSerializationMode() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void begin() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void end() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void matchType(XBBlockType blockType) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void attribute(UBNatural attributeValue) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void child(XBSerializable child) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void append(XBSerializable child) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void matchChild(XBSerializable child) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void appendSequence(XBSerialSequence sequence) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void putType(XBBlockType type) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void putAttribute(UBNatural attribute) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void putAttribute(byte attributeValue) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void putAttribute(short attributeValue) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void putAttribute(int attributeValue) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void putAttribute(long attributeValue) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void putChild(XBSerializable child) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void putData(InputStream data) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void putEnd() throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBBlockTerminationMode pullBegin() throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBBlockType pullType() throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public UBNatural pullAttribute() throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void pullChild(XBSerializable child) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public InputStream pullData() throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void pullEnd() throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     private class XBJoinInputStream implements XBTChildInputSerialHandler {
 
         private int depth = 0;
@@ -291,6 +299,26 @@ public class XBTSequenceProviderSerialHandler implements XBTSequenceSerialHandle
         @Override
         public UBNatural pullAttribute() throws XBProcessingException, IOException {
             return serial.pullAttribute();
+        }
+
+        @Override
+        public byte pullByteAttribute() throws XBProcessingException, IOException {
+            return (byte) pullAttribute().getInt();
+        }
+
+        @Override
+        public short pullShortAttribute() throws XBProcessingException, IOException {
+            return (short) pullAttribute().getInt();
+        }
+
+        @Override
+        public int pullIntAttribute() throws XBProcessingException, IOException {
+            return pullAttribute().getInt();
+        }
+
+        @Override
+        public long pullLongAttribute() throws XBProcessingException, IOException {
+            return pullAttribute().getLong();
         }
 
         @Override

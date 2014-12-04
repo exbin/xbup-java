@@ -2224,7 +2224,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
 
     public void actionHelpAbout() {
         if (aboutDialog == null) {
-            aboutDialog = new AboutDialog(null, true, appEditor);
+            aboutDialog = new AboutDialog(getFrame(), true, appEditor);
         }
 
         aboutDialog.setLocationRelativeTo(aboutDialog.getParent());

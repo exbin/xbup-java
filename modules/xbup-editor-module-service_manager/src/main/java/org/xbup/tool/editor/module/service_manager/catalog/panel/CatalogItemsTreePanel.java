@@ -17,6 +17,7 @@
 package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
 import java.awt.Component;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
@@ -69,7 +70,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Catalog Specification Panel.
  *
- * @version 0.1.24 2014/11/12
+ * @version 0.1.24 2014/12/04
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActivePanelActionHandling {
@@ -150,10 +151,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
                     catalogTree.setSelectionPath(nodePath);
                     // TODO doesn't properly select tree node
 
-                    int specRow = specsModel.getIndexOfItem(specsModel.new CatalogSpecTableItem(spec));
-                    if (specRow >= 0) {
-                        catalogSpecListTable.setRowSelectionInterval(specRow, specRow);
-                    }
+                    selectSpecTableRow(spec);
                 }
             }
         });
@@ -359,6 +357,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
             }
             em.flush();
             transaction.commit();
+            selectSpecTableRow(newNode);
         }
     }//GEN-LAST:event_popupAddNodeMenuItemActionPerformed
 
@@ -370,7 +369,15 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
             editDialog.setVisible(true);
 
             if (editDialog.getDialogOption() == JOptionPane.OK_OPTION) {
+                EntityManager em = ((XBECatalog) catalog).getEntityManager();
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                editDialog.persist();
                 setItem(currentItem);
+                em.flush();
+                transaction.commit();
+                specsModel.setNode(specsModel.getNode());
+                selectSpecTableRow(currentItem);
             }
         }
     }//GEN-LAST:event_popupEditMenuItemActionPerformed
@@ -468,7 +475,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
             transaction.commit();
 
             setNode(specsModel.getNode());
-            repaint();
+            selectSpecTableRow(spec);
         }
     }//GEN-LAST:event_popupAddSpecMenuItemActionPerformed
 
@@ -536,6 +543,14 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
 
     public JPopupMenu getPopupMenu() {
         return catalogTreePopupMenu;
+    }
+
+    private void selectSpecTableRow(XBCItem item) {
+        int specRow = specsModel.getIndexOfItem(specsModel.new CatalogSpecTableItem(item));
+        if (specRow >= 0) {
+            catalogSpecListTable.setRowSelectionInterval(specRow, specRow);
+            catalogSpecListTable.scrollRectToVisible(new Rectangle(catalogSpecListTable.getCellRect(specRow, 0, true)));
+        }
     }
 
     public void performCut() {

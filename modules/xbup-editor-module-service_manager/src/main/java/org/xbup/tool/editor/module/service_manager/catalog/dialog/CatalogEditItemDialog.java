@@ -132,13 +132,6 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void setButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setButtonActionPerformed
-        propertiesPanel.persist();
-        if (definitionPanel != null) {
-            definitionPanel.persist();
-        }
-        if (revisionsPanel != null) {
-            revisionsPanel.persist();
-        }
         dialogOption = JOptionPane.OK_OPTION;
         WindowUtils.closeWindow(this);
 }//GEN-LAST:event_setButtonActionPerformed
@@ -184,6 +177,16 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
             revisionsPanel.setDefsModel(definitionPanel.getDefsModel());
             initComponent(definitionPanel);
             mainTabbedPane.add(definitionPanel, "Definition");
+        }
+    }
+
+    public void persist() {
+        propertiesPanel.persist();
+        if (definitionPanel != null) {
+            definitionPanel.persist();
+        }
+        if (revisionsPanel != null) {
+            revisionsPanel.persist();
         }
     }
 

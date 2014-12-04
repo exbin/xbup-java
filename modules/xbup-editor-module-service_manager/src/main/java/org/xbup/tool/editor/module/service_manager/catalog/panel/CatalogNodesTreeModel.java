@@ -177,10 +177,7 @@ public class CatalogNodesTreeModel implements TreeModel {
                 return false;
             }
             final CatalogNodesTreeItem other = (CatalogNodesTreeItem) obj;
-            if (!Objects.equals(this.node, other.node)) {
-                return false;
-            }
-            return true;
+            return Objects.equals(this.node, other.node);
         }
     }
 }

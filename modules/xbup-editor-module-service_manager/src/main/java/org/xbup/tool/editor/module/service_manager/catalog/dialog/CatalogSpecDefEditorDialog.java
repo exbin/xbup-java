@@ -16,6 +16,7 @@
  */
 package org.xbup.tool.editor.module.service_manager.catalog.dialog;
 
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogDefOperationType;
 import java.awt.Frame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -34,7 +35,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogDefsTabl
 /**
  * XBManager Catalog Specification Definition Editor Dialog.
  *
- * @version 0.1.24 2014/12/03
+ * @version 0.1.24 2014/12/04
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
@@ -53,7 +54,6 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         targetType = CatalogSpecItemType.BLOCK;
         initComponents();
 
-        // TODO change listener for definitionTypeComboBox.
         this.catalog = catalog;
         targetRev = null;
 
@@ -225,10 +225,11 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-        String operation = (String) operationComboBox.getModel().getSelectedItem();
+        String operationCaption = (String) operationComboBox.getModel().getSelectedItem();
         XBCRev target = targetRev;
 
-        if (target == null && ("Consist".equals(operation) || "Join".equals(operation))) {
+        CatalogDefOperationType operation = getOperation();
+        if (target == null && getOperationRequireTarget(operation)) {
             JOptionPane.showMessageDialog(this, "Target type is required", "Set is not allowed", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -237,7 +238,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         defItem.setDescription(descriptionTextField.getText());
         defItem.setStringId(stringIdTextField.getText());
         defItem.setDefType(getSpecDefType());
-        defItem.setOperation(operation);
+        defItem.setOperation(operationCaption);
         defItem.setTarget(target);
 
         XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
@@ -288,10 +289,10 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     public void setSpec(XBCSpec spec) {
         this.spec = spec;
         if (spec instanceof XBCBlockSpec) {
-            operationComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Consist", "Join", "Attribute", "Any", "List Consist", "List Join"}));
+            operationComboBox.setModel(new javax.swing.DefaultComboBoxModel(CatalogDefOperationType.getAsArray()));
             switchSpecDefType(CatalogSpecItemType.BLOCK);
         } else {
-            operationComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Consist", "Join"}));
+            operationComboBox.setModel(new javax.swing.DefaultComboBoxModel(CatalogDefOperationType.getAsArray(2)));
             if (spec instanceof XBCGroupSpec) {
                 switchSpecDefType(CatalogSpecItemType.BLOCK);
             } else {
@@ -317,48 +318,58 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
             defItem.setDefType(getSpecDefType());
         }
 
+        CatalogDefOperationType operation = CatalogDefOperationType.CONSIST;
         switch (defItem.getDefType()) {
             case CONS: {
-                operationComboBox.setSelectedIndex((defItem.getTarget() == null) && (operationComboBox.getItemCount() > 2) ? 3 : 0);
+                operation = (defItem.getTarget() == null) && (spec instanceof XBCBlockSpec)
+                        ? CatalogDefOperationType.ANY : CatalogDefOperationType.CONSIST;
                 break;
             }
             case JOIN: {
-                operationComboBox.setSelectedIndex((defItem.getTarget() == null) && (operationComboBox.getItemCount() > 2) ? 2 : 1);
+                operation = (defItem.getTarget() == null) && (spec instanceof XBCBlockSpec)
+                        ? CatalogDefOperationType.ATTRIBUTE : CatalogDefOperationType.JOIN;
                 break;
             }
             case LIST_CONS: {
-                operationComboBox.setSelectedIndex(4);
+                operation = (defItem.getTarget() == null)
+                        ? CatalogDefOperationType.ANY_LIST : CatalogDefOperationType.CONSIST_LIST;
                 break;
             }
             case LIST_JOIN: {
-                operationComboBox.setSelectedIndex(5);
+                operation = (defItem.getTarget() == null)
+                        ? CatalogDefOperationType.ATTRIBUTE_LIST : CatalogDefOperationType.JOIN_LIST;
                 break;
             }
         }
+        operationComboBox.setSelectedIndex(operation.getRowIndex());
 
         updateSpecDefType();
     }
 
     public XBCSpecDefType getSpecDefType() {
         if (spec instanceof XBCBlockSpec) {
-            switch (operationComboBox.getSelectedIndex()) {
-                case 0:
+            switch (getOperation()) {
+                case CONSIST:
                     return XBCSpecDefType.CONS;
-                case 1:
+                case JOIN:
                     return XBCSpecDefType.JOIN;
-                case 2:
-                    return XBCSpecDefType.JOIN; // Attribute
-                case 3:
-                    return XBCSpecDefType.CONS; // Blob
-                case 4:
+                case ANY:
+                    return XBCSpecDefType.CONS;
+                case ATTRIBUTE:
+                    return XBCSpecDefType.JOIN;
+                case CONSIST_LIST:
                     return XBCSpecDefType.LIST_CONS;
-                case 5:
+                case JOIN_LIST:
+                    return XBCSpecDefType.LIST_JOIN;
+                case ANY_LIST:
+                    return XBCSpecDefType.LIST_CONS;
+                case ATTRIBUTE_LIST:
                     return XBCSpecDefType.LIST_JOIN;
                 default:
                     return XBCSpecDefType.CONS;
             }
         } else {
-            if (operationComboBox.getSelectedIndex() == 0) {
+            if (getOperation() == CatalogDefOperationType.CONSIST) {
                 return XBCSpecDefType.CONS;
             } else {
                 return XBCSpecDefType.JOIN;
@@ -373,18 +384,20 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
     }
 
     private void updateSpecDefType() {
+        CatalogDefOperationType operation = getOperation();
         if (spec instanceof XBCBlockSpec) {
-            if (operationComboBox.getSelectedIndex() == 2 || operationComboBox.getSelectedIndex() == 3) {
+            if (!getOperationRequireTarget(operation)) {
+                // Used to clear target type value
                 switchSpecDefType(CatalogSpecItemType.BLOCK);
             }
         } else if (spec instanceof XBCGroupSpec) {
-            if (operationComboBox.getSelectedIndex() == 0) {
+            if (operation == CatalogDefOperationType.CONSIST) {
                 switchSpecDefType(CatalogSpecItemType.BLOCK);
             } else {
                 switchSpecDefType(CatalogSpecItemType.GROUP);
             }
         } else if (spec instanceof XBCFormatSpec) {
-            if (operationComboBox.getSelectedIndex() == 0) {
+            if (operation == CatalogDefOperationType.CONSIST) {
                 switchSpecDefType(CatalogSpecItemType.GROUP);
             } else {
                 switchSpecDefType(CatalogSpecItemType.FORMAT);
@@ -392,8 +405,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         }
 
         if (spec instanceof XBCBlockSpec) {
-            boolean enabled = !((operationComboBox.getSelectedIndex() == 2) || (operationComboBox.getSelectedIndex() == 3));
-            selectTargetButton.setEnabled(enabled);
+            selectTargetButton.setEnabled(getOperationRequireTarget(operation));
         } else {
             selectTargetButton.setEnabled(true);
         }
@@ -415,5 +427,16 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         } else {
             definitionTargetTextField.setText("");
         }
+    }
+
+    private CatalogDefOperationType getOperation() {
+        return CatalogDefOperationType.valueOf(operationComboBox.getSelectedIndex());
+    }
+
+    private boolean getOperationRequireTarget(CatalogDefOperationType operation) {
+        return (operation == CatalogDefOperationType.CONSIST)
+                || (operation == CatalogDefOperationType.JOIN)
+                || (operation == CatalogDefOperationType.CONSIST_LIST)
+                || (operation == CatalogDefOperationType.JOIN_LIST);
     }
 }

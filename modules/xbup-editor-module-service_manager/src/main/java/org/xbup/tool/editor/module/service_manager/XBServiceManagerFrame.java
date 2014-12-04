@@ -29,7 +29,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Manager Main Window.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.1.24 2014/12/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBServiceManagerFrame extends javax.swing.JFrame implements XBEditorFrame {
@@ -39,9 +39,6 @@ public class XBServiceManagerFrame extends javax.swing.JFrame implements XBEdito
     private static final Preferences preferences = Preferences.userNodeForPackage(XBServiceManagerFrame.class);
     private MainFrameManagement mainFrameManagement;
 
-    /**
-     * Creates new form XBServiceManagerFrame
-     */
     public XBServiceManagerFrame() {
         initComponents();
         activePanel = new ServiceManagerPanel();
@@ -176,7 +173,7 @@ public class XBServiceManagerFrame extends javax.swing.JFrame implements XBEdito
 
         menuBar.add(serviceMenu);
 
-        for (JMenuItem item : Arrays.asList(connectMenuItem, disconnectMenuItem)) {
+        for (JMenuItem item : Arrays.asList(connectMenuItem)) {
             item.setText(item.getText()+DIALOG_MENU_SUFIX);
         }
 
@@ -224,16 +221,10 @@ public class XBServiceManagerFrame extends javax.swing.JFrame implements XBEdito
         textStatusStateLabel.setText(status);
     }
 
-    /**
-     * @return the statusPanel
-     */
     public javax.swing.JPanel getStatusPanel() {
         return statusPanel;
     }
 
-    /**
-     * @return the activePanel
-     */
     public ServiceManagerPanel getActivePanel() {
         return activePanel;
     }

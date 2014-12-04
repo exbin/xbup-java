@@ -57,6 +57,6 @@ public class XBEBlockListJoin extends XBEJoinDef implements XBCBlockListJoin {
 
     @Override
     public XBCSpecDefType getType() {
-        return null;
+        return XBCSpecDefType.LIST_JOIN;
     }
 }

@@ -36,9 +36,9 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 
 /**
- * Table model for catalog bindings.
+ * Table model for catalog definition bindings.
  *
- * @version 0.1.24 2014/12/03
+ * @version 0.1.24 2014/12/04
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogDefsTableModel extends AbstractTableModel {
@@ -163,32 +163,28 @@ public class CatalogDefsTableModel extends AbstractTableModel {
     }
 
     public String getOperation(XBCSpecDef specDef) {
-        String operation;
+        CatalogDefOperationType operation;
         if (specDef instanceof XBCBlockJoin) {
-            if (specDef.getTarget() == null) {
-                operation = "Attribute";
-            } else {
-                operation = "Join";
-            }
+            operation = specDef.getTarget() == null
+                    ? CatalogDefOperationType.ATTRIBUTE : CatalogDefOperationType.JOIN;
         } else if (specDef instanceof XBCBlockCons) {
-            if (specDef.getTarget() == null) {
-                operation = "Any";
-            } else {
-                operation = "Consist";
-            }
+            operation = specDef.getTarget() == null
+                    ? CatalogDefOperationType.ANY : CatalogDefOperationType.CONSIST;
         } else if (specDef instanceof XBCBlockListJoin) {
-            operation = "Join List";
+            operation = specDef.getTarget() == null
+                    ? CatalogDefOperationType.ATTRIBUTE_LIST : CatalogDefOperationType.JOIN_LIST;
         } else if (specDef instanceof XBCBlockListCons) {
-            operation = "Consist List";
+            operation = specDef.getTarget() == null
+                    ? CatalogDefOperationType.ANY_LIST : CatalogDefOperationType.CONSIST_LIST;
         } else if (specDef instanceof XBCJoinDef) {
-            operation = "Join";
+            operation = CatalogDefOperationType.JOIN;
         } else if (specDef instanceof XBCConsDef) {
-            operation = "Consist";
+            operation = CatalogDefOperationType.CONSIST;
         } else {
-            operation = "Unknown";
+            return "Unknown";
         }
 
-        return operation;
+        return operation.getCaption();
     }
 
     public CatalogDefsTableItem getRowItem(int rowIndex) {

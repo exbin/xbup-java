@@ -41,13 +41,14 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * MainFrame About Dialog.
  *
- * @version 0.1.24 2014/11/19
+ * @version 0.1.24 2014/12/03
  * @author XBUP Project (http://xbup.org)
  */
 public class AboutDialog extends javax.swing.JDialog implements HyperlinkListener {
 
     private final XBEditorApp appEditor;
     private ResourceBundle appBundle;
+    private final ResourceBundle bundle = ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/dialog/resources/AboutDialog");
 
     public AboutDialog(java.awt.Frame parent, boolean modal, XBEditorApp appEditor) {
         super(parent, modal);
@@ -69,6 +70,22 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         attribs.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
 
         // Fill system properties tab
+        environmentTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                new String[]{
+                    bundle.getString("environmentTable.propertyColumn"), bundle.getString("environmentTable.valueColumn")
+                }
+        ) {
+            boolean[] canEdit = new boolean[]{
+                false, false
+            };
+
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+        });
+
         Properties systemProperties = System.getProperties();
         DefaultTableModel tableModel = (DefaultTableModel) environmentTable.getModel();
         Set<java.util.Map.Entry<Object, Object>> items = systemProperties.entrySet();
@@ -80,6 +97,30 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         }
 
         // Fill list of modules
+        modulesTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                new String[]{
+                    bundle.getString("modulesTable.moduleNameColumn"), bundle.getString("modulesTable.moduleProviderColumn")
+                }
+        ) {
+            Class[] types = new Class[]{
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean[]{
+                false, false
+            };
+
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+        });
+
         if (appEditor.getModuleRepository() != null) {
             DefaultTableModel modulesTableModel = (DefaultTableModel) modulesTable.getModel();
             List<ApplicationModuleInfo> modulesList = appEditor.getModuleRepository().getModulesList();
@@ -97,7 +138,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         } catch (IOException ex) {
             Logger.getLogger(AboutDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, closeButton);
     }
@@ -325,31 +366,6 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         modulesPanel.setName("modulesPanel"); // NOI18N
 
         modulesScrollPane.setName("modulesScrollPane"); // NOI18N
-
-        modulesTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Module Name", "Provider"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        modulesTable.setName("modulesTable"); // NOI18N
         modulesScrollPane.setViewportView(modulesTable);
 
         javax.swing.GroupLayout modulesPanelLayout = new javax.swing.GroupLayout(modulesPanel);
@@ -385,7 +401,6 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
                 return canEdit [columnIndex];
             }
         });
-        environmentTable.setName("environmentTable"); // NOI18N
         environmentScrollPane.setViewportView(environmentTable);
 
         javax.swing.GroupLayout environmentPanelLayout = new javax.swing.GroupLayout(environmentPanel);

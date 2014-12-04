@@ -282,10 +282,7 @@ public class CatalogSpecsTableModel extends AbstractTableModel {
                 return false;
             }
             final CatalogSpecTableItem other = (CatalogSpecTableItem) obj;
-            if (!Objects.equals(this.item.getId(), other.item.getId())) {
-                return false;
-            }
-            return true;
+            return Objects.equals(this.item.getId(), other.item.getId());
         }
     }
 }

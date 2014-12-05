@@ -462,7 +462,7 @@ public class XBESpecManager extends XBEDefaultManager<XBESpec> implements XBCSpe
             return null;
         }
         try {
-            return (Long) em.createQuery("SELECT max(o.xbindex) FROM XBSpecDef as o WHERE o.parent.id = " + ((XBESpec) spec).getId()).getSingleResult();
+            return (Long) em.createQuery("SELECT max(o.xbIndex) FROM XBSpecDef as o WHERE o.parent.id = " + ((XBESpec) spec).getId()).getSingleResult();
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {

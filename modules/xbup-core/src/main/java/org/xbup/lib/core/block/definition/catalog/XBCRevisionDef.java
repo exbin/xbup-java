@@ -20,23 +20,23 @@ import java.util.List;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
 import org.xbup.lib.core.block.definition.XBRevisionParam;
 import org.xbup.lib.core.catalog.XBCatalog;
-import org.xbup.lib.core.catalog.base.XBCRev;
+import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * XBUP level 1 revision definition.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.24 2014/12/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCRevisionDef implements XBRevisionDef, XBSerializable {
 
     private final XBCatalog catalog;
-    private final XBCRev specRev;
+    private final XBCSpec spec;
 
-    public XBCRevisionDef(XBCatalog catalog, XBCRev specRev) {
+    public XBCRevisionDef(XBCatalog catalog, XBCSpec spec) {
         this.catalog = catalog;
-        this.specRev = specRev;
+        this.spec = spec;
     }
 
     @Override

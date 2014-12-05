@@ -18,7 +18,6 @@ package org.xbup.lib.core.block.declaration.catalog;
 
 import java.io.IOException;
 import org.xbup.lib.core.block.XBBasicBlockType;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.definition.XBBlockDef;
@@ -26,19 +25,18 @@ import org.xbup.lib.core.block.definition.catalog.XBCBlockDef;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.child.XBAChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBAChildOutputSerialHandler;
-import org.xbup.lib.core.serial.child.XBAChildSerializable;
-import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.serial.sequence.XBASequenceSerialHandler;
+import org.xbup.lib.core.serial.sequence.XBASequenceSerializable;
+import org.xbup.lib.core.serial.sequence.XBASerialSequenceable;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * Block type declaration defined by catalog specification.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.24 2014/12/05
  * @author XBUP Project (http://xbup.org)
  */
-public class XBCBlockDecl implements XBBlockDecl, XBAChildSerializable {
+public class XBCBlockDecl implements XBBlockDecl, XBASequenceSerializable {
 
     private XBCBlockRev blockSpecRev;
     private final XBCatalog catalog;
@@ -49,33 +47,28 @@ public class XBCBlockDecl implements XBBlockDecl, XBAChildSerializable {
     }
 
     @Override
-    public void serializeFromXB(XBAChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        serializationHandler.pullBegin();
-        serializationHandler.pullMatchingType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION_LINK));
+    public void serializeXB(XBASequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        serializationHandler.begin();
+        serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION));
+        if (serializationHandler.getSerializationMode() == XBASerialSequenceable.SerializationMode.PULL) {
+            Long[] catalogPath = new Long[serializationHandler.pullAttribute().getInt()];
+            int i;
+            for (i = 0; i < catalogPath.length; i++) {
+                catalogPath[i] = serializationHandler.pullAttribute().getLong();
+            }
+            long revision = serializationHandler.pullAttribute().getLong();
+            XBCBlockDecl blockDecl = (XBCBlockDecl) catalog.findBlockTypeByPath(catalogPath, (int) revision);
+            blockSpecRev = blockDecl == null ? null : blockDecl.getBlockSpec();
+        } else {
+            Long[] path = catalog.getSpecPath(blockSpecRev.getParent());
+            serializationHandler.putAttribute(new UBNat32(path.length - 1));
+            for (Long pathIndex : path) {
+                serializationHandler.putAttribute(new UBNat32(pathIndex));
+            }
 
-        UBNatural pathLength = serializationHandler.pullAttribute();
-        Long[] path = new Long[pathLength.getInt()];
-        for (int i = 0; i < pathLength.getInt(); i++) {
-            path[i] = serializationHandler.pullAttribute().getLong();
+            serializationHandler.putAttribute(new UBNat32(blockSpecRev.getXBIndex()));
         }
-
-        XBCBlockDecl block = (XBCBlockDecl) catalog.findBlockTypeByPath(path, 0);
-        blockSpecRev = block.getBlockSpec();
-        serializationHandler.pullEnd();
-    }
-
-    @Override
-    public void serializeToXB(XBAChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        serializationHandler.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serializationHandler.putType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION_LINK));
-        Long[] path = catalog.getSpecPath(blockSpecRev.getParent());
-        serializationHandler.putAttribute(new UBNat32(path.length - 1));
-        for (Long pathIndex : path) {
-            serializationHandler.putAttribute(new UBNat32(pathIndex));
-        }
-
-        serializationHandler.putAttribute(new UBNat32(blockSpecRev.getXBIndex()));
-        serializationHandler.putEnd();
+        serializationHandler.end();
     }
 
     @Override

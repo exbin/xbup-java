@@ -20,6 +20,7 @@ import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -37,6 +38,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTree;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
@@ -64,6 +66,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogEditIte
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogNodesTreeModel.CatalogNodesTreeItem;
 import static org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType.FORMAT;
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
+import org.xbup.tool.editor.base.api.FileType;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
@@ -89,6 +92,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
     private MainFrameManagement mainFrameManagement;
 
     private Map<String, ActionListener> actionListenerMap = new HashMap<>();
+    public static final String YAML_FILE_TYPE = "CatalogItemsTreePanel.YamlFileType";
 
     public CatalogItemsTreePanel(XBACatalog catalog, MainFrameManagement mainFrameManagement) {
         this.catalog = catalog;
@@ -385,7 +389,8 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
     private void popupExportItemMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupExportItemMenuItemActionPerformed
         if (currentItem != null) {
             JFileChooser exportFileChooser = new JFileChooser();
-            // exportFileChooser.setAcceptAllFileFilterUsed(true);
+            exportFileChooser.addChoosableFileFilter(new YamlFileType());
+            exportFileChooser.setAcceptAllFileFilterUsed(true);
             if (exportFileChooser.showSaveDialog(WindowUtils.getFrame(this)) == JFileChooser.APPROVE_OPTION) {
                 FileWriter fileWriter;
                 try {
@@ -407,7 +412,8 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
     private void popupImportItemMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupImportItemMenuItemActionPerformed
         if ((currentItem != null) && (currentItem instanceof XBCNode)) {
             JFileChooser importFileChooser = new JFileChooser();
-            // exportFileChooser.setAcceptAllFileFilterUsed(true);
+            importFileChooser.addChoosableFileFilter(new YamlFileType());
+            importFileChooser.setAcceptAllFileFilterUsed(true);
             if (importFileChooser.showOpenDialog(WindowUtils.getFrame(this)) == JFileChooser.APPROVE_OPTION) {
                 FileInputStream fileStream;
                 try {
@@ -626,5 +632,53 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
         }
 
         return false;
+    }
+
+    /**
+     * Gets the extension part of file name.
+     *
+     * @param file Source file
+     * @return extension part of file name
+     */
+    public static String getExtension(File file) {
+        String ext = null;
+        String str = file.getName();
+        int i = str.lastIndexOf('.');
+
+        if (i > 0 && i < str.length() - 1) {
+            ext = str.substring(i + 1).toLowerCase();
+        }
+        return ext;
+    }
+
+    public class YamlFileType extends FileFilter implements FileType {
+
+        @Override
+        public boolean accept(File f) {
+            if (f.isDirectory()) {
+                return true;
+            }
+
+            String extension = getExtension(f);
+            if (extension != null) {
+                if (extension.length() < 3) {
+                    return false;
+                }
+
+                return extension.length() >= 4 && "yaml".contains(extension.substring(0, 4));
+            }
+
+            return false;
+        }
+
+        @Override
+        public String getDescription() {
+            return "YAML File (*.yaml)";
+        }
+
+        @Override
+        public String getFileTypeId() {
+            return YAML_FILE_TYPE;
+        }
     }
 }

@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * XBUP basic specification block types enumeration.
  *
- * @version 0.1.24 2014/11/11
+ * @version 0.1.24 2014/12/05
  * @author XBUP Project (http://xbup.org)
  */
 public enum XBBasicBlockType {
@@ -40,57 +40,61 @@ public enum XBBasicBlockType {
      */
     FORMAT_DECLARATION(2),
     /**
-     * Group declaration.
-     */
-    GROUP_DECLARATION(3),
-    /**
-     * Block declaration.
-     */
-    BLOCK_DECLARATION(4),
-    /**
      * Definition of format.
      */
-    FORMAT_DEFINITION(5),
+    FORMAT_DEFINITION(3),
+    /**
+     * Format join parameter.
+     */
+    FORMAT_JOIN_PARAMETER(4),
+    /**
+     * Format consist parameter.
+     */
+    FORMAT_CONSIST_PARAMETER(5),
+    /**
+     * Group declaration.
+     */
+    GROUP_DECLARATION(6),
     /**
      * Definition of group.
      */
-    GROUP_DEFINITION(6),
+    GROUP_DEFINITION(7),
+    /**
+     * Group join parameter.
+     */
+    GROUP_JOIN_PARAMETER(8),
+    /**
+     * Group consist parameter.
+     */
+    GROUP_CONSIST_PARAMETER(9),
+    /**
+     * Block declaration.
+     */
+    BLOCK_DECLARATION(10),
     /**
      * Definition of block.
      */
-    BLOCK_DEFINITION(7),
+    BLOCK_DEFINITION(11),
     /**
-     * Definition of list.
+     * Block join parameter.
      */
-    LIST_DEFINITION(8),
+    BLOCK_JOIN_PARAMETER(12),
+    /**
+     * Block consist parameter.
+     */
+    BLOCK_CONSIST_PARAMETER(13),
+    /**
+     * Block list join parameter.
+     */
+    BLOCK_LIST_JOIN_PARAMETER(14),
+    /**
+     * Block list consist parameter.
+     */
+    BLOCK_LIST_CONSIST_PARAMETER(15),
     /**
      * Definition of revision.
      */
-    REVISION_DEFINITION(9),
-    /**
-     * Link to Format Declaration in catalog.
-     */
-    FORMAT_DECLARATION_LINK(10),
-    /**
-     * Link to Group Declaration in catalog.
-     */
-    GROUP_DECLARATION_LINK(11),
-    /**
-     * Link to Block Declaration in catalog.
-     */
-    BLOCK_DECLARATION_LINK(12),
-    /**
-     * Link to Format Definition in catalog.
-     */
-    FORMAT_DEFINITION_LINK(13),
-    /**
-     * Link to Group Definition in catalog.
-     */
-    GROUP_DEFINITION_LINK(14),
-    /**
-     * Link to Block Definition in catalog.
-     */
-    BLOCK_DEFINITION_LINK(15);
+    REVISION_DEFINITION(16);
 
     private final int blockId;
 

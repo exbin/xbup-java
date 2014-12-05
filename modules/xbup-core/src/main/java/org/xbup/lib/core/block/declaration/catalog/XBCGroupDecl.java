@@ -19,8 +19,6 @@ package org.xbup.lib.core.block.declaration.catalog;
 import java.io.IOException;
 import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
@@ -29,20 +27,18 @@ import org.xbup.lib.core.block.definition.catalog.XBCGroupDef;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCGroupRev;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.XBProcessingExceptionType;
-import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildSerializable;
-import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.serial.sequence.XBASequenceSerialHandler;
+import org.xbup.lib.core.serial.sequence.XBASequenceSerializable;
+import org.xbup.lib.core.serial.sequence.XBASerialSequenceable;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * XBUP level 1 group specification.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.24 2014/12/05
  * @author XBUP Project (http://xbup.org)
  */
-public class XBCGroupDecl implements XBGroupDecl, XBTChildSerializable {
+public class XBCGroupDecl implements XBGroupDecl, XBASequenceSerializable {
 
     private XBCGroupRev groupSpecRev;
     private final XBCatalog catalog;
@@ -57,36 +53,28 @@ public class XBCGroupDecl implements XBGroupDecl, XBTChildSerializable {
     }
 
     @Override
-    public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        serializationHandler.pullBegin();
-        XBBlockType type = serializationHandler.pullType();
-        if (type.getAsBasicType() != XBBasicBlockType.GROUP_DECLARATION_LINK) {
-            throw new XBProcessingException("Unexpected block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
+    public void serializeXB(XBASequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        serializationHandler.begin();
+        serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.GROUP_DECLARATION));
+        if (serializationHandler.getSerializationMode() == XBASerialSequenceable.SerializationMode.PULL) {
+            Long[] catalogPath = new Long[serializationHandler.pullAttribute().getInt()];
+            int i;
+            for (i = 0; i < catalogPath.length; i++) {
+                catalogPath[i] = serializationHandler.pullAttribute().getLong();
+            }
+            long revision = serializationHandler.pullAttribute().getLong();
+            XBCGroupDecl groupDecl = (XBCGroupDecl) catalog.findGroupTypeByPath(catalogPath, (int) revision);
+            groupSpecRev = groupDecl == null ? null : groupDecl.getGroupSpec();
+        } else {
+            Long[] path = catalog.getSpecPath(groupSpecRev.getParent());
+            serializationHandler.putAttribute(new UBNat32(path.length - 1));
+            for (Long pathIndex : path) {
+                serializationHandler.putAttribute(new UBNat32(pathIndex));
+            }
+
+            serializationHandler.putAttribute(new UBNat32(groupSpecRev.getXBIndex()));
         }
-
-        UBNatural pathLength = serializationHandler.pullAttribute();
-        Long[] path = new Long[pathLength.getInt()];
-        for (int i = 0; i < pathLength.getInt(); i++) {
-            path[i] = serializationHandler.pullAttribute().getLong();
-        }
-
-        XBCGroupDecl group = (XBCGroupDecl) catalog.findGroupTypeByPath(path, 0);
-        groupSpecRev = group.getGroupSpec();
-        serializationHandler.pullEnd();
-    }
-
-    @Override
-    public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        serializationHandler.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serializationHandler.putType(new XBFixedBlockType(XBBasicBlockType.GROUP_DECLARATION_LINK));
-        Long[] path = catalog.getSpecPath(groupSpecRev.getParent());
-        serializationHandler.putAttribute(new UBNat32(path.length - 1));
-        for (Long pathIndex : path) {
-            serializationHandler.putAttribute(new UBNat32(pathIndex));
-        }
-
-        serializationHandler.putAttribute(new UBNat32(groupSpecRev.getXBIndex()));
-        serializationHandler.putEnd();
+        serializationHandler.end();
     }
 
     public XBCGroupRev getGroupSpec() {

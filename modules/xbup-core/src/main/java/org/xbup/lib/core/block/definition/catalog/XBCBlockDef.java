@@ -28,6 +28,7 @@ import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
+import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.parser.param.XBParamPosition;
 import org.xbup.lib.core.serial.XBSerializable;
@@ -72,17 +73,19 @@ public class XBCBlockDef implements XBBlockDef, XBSerializable {
 
     @Override
     public List<XBBlockParam> getBlockParams() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        return specService.getSpecDefs(blockSpec);
     }
 
     @Override
     public long getParamCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        return specService.findMaxSpecDefXB(blockSpec);
     }
 
     @Override
     public XBRevisionDef getRevisionDef() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new XBCRevisionDef(catalog, blockSpec);
     }
 
     @Override

@@ -105,6 +105,15 @@ public interface XBTChildProvider {
     public void pullChild(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
+     * Pulls serializable block using join method.
+     *
+     * @param serial serializable block
+     * @throws XBProcessingException if not matching
+     * @throws IOException if input/output exception occurs
+     */
+    public void pullJoin(XBSerializable serial) throws XBProcessingException, IOException;
+
+    /**
      * Pulls block data.
      *
      * @return block data stream

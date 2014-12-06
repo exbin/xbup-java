@@ -16,13 +16,12 @@
  */
 package org.xbup.lib.core.serial.child;
 
-import org.xbup.lib.core.serial.token.XBTTokenInputSerialHandler;
-
 /**
- * Interface for XBUP level 2 serialization input handler using basic child serialization.
+ * Interface for XBUP level 2 serialization input handler using basic child
+ * serialization.
  *
- * @version 0.1.24 2014/10/24
+ * @version 0.1.24 2014/12/06
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBAChildInputSerialHandler extends XBAChildProvider, XBTTokenInputSerialHandler {
+public interface XBAChildInputSerialHandler extends XBTChildInputSerialHandler, XBAChildProvider {
 }

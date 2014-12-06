@@ -26,11 +26,12 @@ import org.xbup.lib.core.block.declaration.XBGroupDecl;
 import org.xbup.lib.core.block.definition.XBFormatDef;
 import org.xbup.lib.core.block.definition.catalog.XBCFormatDef;
 import org.xbup.lib.core.catalog.XBCatalog;
+import org.xbup.lib.core.catalog.XBPCatalog;
 import org.xbup.lib.core.catalog.base.XBCFormatRev;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.sequence.XBASequenceSerialHandler;
-import org.xbup.lib.core.serial.sequence.XBASequenceSerializable;
-import org.xbup.lib.core.serial.sequence.XBASerialSequenceable;
+import org.xbup.lib.core.serial.sequence.XBSerializationMode;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -39,11 +40,15 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * @version 0.1.24 2014/12/05
  * @author XBUP Project (http://xbup.org)
  */
-public class XBCFormatDecl implements XBFormatDecl, XBASequenceSerializable {
+public class XBCFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
 
     private XBCFormatRev formatSpecRev;
     private final XBCatalog catalog;
 
+    public XBCFormatDecl() {
+        this(null, new XBPCatalog());
+    }
+    
     public XBCFormatDecl(XBCFormatRev formatSpec, XBCatalog catalog) {
         this.formatSpecRev = formatSpec;
         this.catalog = catalog;
@@ -68,10 +73,10 @@ public class XBCFormatDecl implements XBFormatDecl, XBASequenceSerializable {
     }
 
     @Override
-    public void serializeXB(XBASequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin();
         serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.FORMAT_DECLARATION));
-        if (serializationHandler.getSerializationMode() == XBASerialSequenceable.SerializationMode.PULL) {
+        if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
             Long[] catalogPath = new Long[serializationHandler.pullAttribute().getInt()];
             int i;
             for (i = 0; i < catalogPath.length; i++) {

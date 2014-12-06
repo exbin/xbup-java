@@ -14,27 +14,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.serial.child;
-
-import java.io.IOException;
-import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.parser.XBProcessingException;
+package org.xbup.lib.core.serial.sequence;
 
 /**
- * XBUP level 2 child serialization listener interface.
+ * Serialization mode to distinguish if serialization is performed from or to
+ * token stream.
  *
  * @version 0.1.24 2014/12/06
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBAChildListener extends XBTChildListener {
+public enum XBSerializationMode {
 
-    /**
-     * Puts block type and request it to be converted to given type.
-     *
-     * @param type block type
-     * @param targetType requested target type
-     * @throws XBProcessingException
-     * @throws IOException
-     */
-    public void putType(XBBlockType type, XBBlockType targetType) throws XBProcessingException, IOException;
+    PULL, PUSH
 }

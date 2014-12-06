@@ -29,8 +29,8 @@ import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCGroupRev;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.sequence.XBASequenceSerialHandler;
-import org.xbup.lib.core.serial.sequence.XBASequenceSerializable;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -39,7 +39,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * @version 0.1 wr24.0 2014/12/03
  * @author XBUP Project (http://xbup.org)
  */
-public class XBDeclaration implements XBASequenceSerializable {
+public class XBDeclaration implements XBTSequenceSerializable {
 
     private XBFormatDecl format;
     private XBSerializable rootBlock;
@@ -158,7 +158,7 @@ public class XBDeclaration implements XBASequenceSerializable {
     }
 
     @Override
-    public void serializeXB(XBASequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin();
         serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.DECLARATION));
         serializationHandler.attribute(groupsReserved);

@@ -131,6 +131,11 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
     }
 
     @Override
+    public void putJoin(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public void putData(InputStream data) throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);

@@ -26,7 +26,7 @@ import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 /**
  * Block consist database entity.
  *
- * @version 0.1.22 2012/12/31
+ * @version 0.1.24 2014/12/06
  * @author XBUP Project (http://xbup.org)
  */
 @Entity(name="XBBlockCons")

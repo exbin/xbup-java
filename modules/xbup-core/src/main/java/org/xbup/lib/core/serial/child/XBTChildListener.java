@@ -108,6 +108,15 @@ public interface XBTChildListener {
     public void putChild(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
+     * Puts object using join method.
+     *
+     * @param serial serializable object
+     * @throws XBProcessingException
+     * @throws IOException
+     */
+    public void putJoin(XBSerializable serial) throws XBProcessingException, IOException;
+
+    /**
      * Puts block data.
      *
      * @param data data stream

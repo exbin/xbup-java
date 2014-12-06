@@ -20,22 +20,15 @@ import org.xbup.lib.core.block.declaration.XBBlockDecl;
 
 /**
  * XBUP level 1 parameter definition interface.
- * 
+ *
  * Parameter is one of four types: Join, Consist, Join List, Consist List.
  * Without declaration (blockDecl) it means single atribute for join and data
  * block for consist mode and their lists respectively.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.24 2014/12/06
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBBlockParam {
-
-    /**
-     * Gets type of this parameter.
-     *
-     * @return type of this parameter
-     */
-    public XBParamType getParamType();
+public interface XBBlockParam extends XBSpecParam {
 
     /**
      * Gets block declaration.

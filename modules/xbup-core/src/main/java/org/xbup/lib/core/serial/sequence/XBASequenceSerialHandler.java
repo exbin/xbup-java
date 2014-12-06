@@ -16,14 +16,12 @@
  */
 package org.xbup.lib.core.serial.sequence;
 
-import org.xbup.lib.core.serial.XBSerialHandler;
-
 /**
  * Interface for XBUP level 2 serialization handler using serialization
  * sequence.
  *
- * @version 0.1.24 2014/11/29
+ * @version 0.1.24 2014/12/06
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBASequenceSerialHandler extends XBASerialSequenceable, XBSerialHandler {
+public interface XBASequenceSerialHandler extends XBTSequenceSerialHandler, XBASerialSequenceable {
 }

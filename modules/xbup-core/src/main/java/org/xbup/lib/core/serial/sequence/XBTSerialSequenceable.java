@@ -38,7 +38,7 @@ public interface XBTSerialSequenceable extends XBTChildListener, XBTChildProvide
      * @return sequencing mode depending on whether data are serialized from or
      * to token stream
      */
-    public SerializationMode getSerializationMode();
+    public XBSerializationMode getSerializationMode();
 
     /**
      * Performs begin token with default termination mode behavior.
@@ -82,6 +82,14 @@ public interface XBTSerialSequenceable extends XBTChildListener, XBTChildProvide
     public void child(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
+     * Performs serialization of child adding both attributes and child blocks.
+     *
+     * @param child serializable object
+     * @throws java.io.IOException
+     */
+    public void join(XBSerializable child) throws XBProcessingException, IOException;
+
+    /**
      * Performs serialization matching child value.
      *
      * Reading will check if value fully equals, writting will write it.
@@ -100,12 +108,4 @@ public interface XBTSerialSequenceable extends XBTChildListener, XBTChildProvide
      */
     public void appendSequence(XBSerialSequence sequence) throws XBProcessingException, IOException;
 
-    /**
-     * Serialization mode to distinguish if serialization is performed from or
-     * to token stream.
-     */
-    public enum SerializationMode {
-
-        PULL, PUSH
-    }
 }

@@ -21,16 +21,8 @@ package org.xbup.lib.core.block.definition;
  *
  * Parameter is in one of two modes: Join, Consist
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.24 2014/12/06
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBGroupParam {
-
-    /**
-     * Gets type of this parameter.
-     *
-     * @return type of this parameter
-     */
-    public XBParamType getParamType();
-
+public interface XBGroupParam extends XBSpecParam {
 }

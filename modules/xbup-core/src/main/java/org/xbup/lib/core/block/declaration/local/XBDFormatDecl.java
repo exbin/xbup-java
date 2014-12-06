@@ -19,25 +19,31 @@ package org.xbup.lib.core.block.declaration.local;
 import java.io.IOException;
 import org.xbup.lib.core.block.definition.local.XBDFormatDef;
 import java.util.List;
+import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
 import org.xbup.lib.core.block.definition.XBFormatDef;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
-import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
+import org.xbup.lib.core.serial.sequence.XBASequenceSerialHandler;
+import org.xbup.lib.core.serial.sequence.XBASequenceSerializable;
+import org.xbup.lib.core.serial.sequence.XBSerializationMode;
 
 /**
  * XBUP level 1 format declaration.
  *
- * @version 0.1.24 2014/12/01
+ * @version 0.1.24 2014/12/06
  * @author XBUP Project (http://xbup.org)
  */
-public class XBDFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
+public class XBDFormatDecl implements XBFormatDecl, XBASequenceSerializable {
 
     private long revision;
     private XBFormatDef formatDef;
+    private XBCFormatDecl formatDecl;
 
     public XBDFormatDecl() {
+        formatDef = new XBDFormatDef();
     }
 
     public XBDFormatDecl(XBFormatDef formatDef) {
@@ -96,9 +102,25 @@ public class XBDFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    public XBCFormatDecl getFormatDecl() {
+        return formatDecl;
+    }
+
+    public void setFormatDecl(XBCFormatDecl formatDecl) {
+        this.formatDecl = formatDecl;
+    }
+    
     @Override
-    public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void serializeXB(XBASequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        serializationHandler.begin();
+        serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.FORMAT_DECLARATION));
+        if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
+            formatDecl = (XBCFormatDecl) serializationHandler.pullNullJoin(formatDecl != null ? formatDecl : new XBCFormatDecl());
+        } else {
+            serializationHandler.putJoin(formatDecl != null ? formatDecl : new XBCFormatDecl());
+        }
+        serializationHandler.join(formatDef);
+        serializationHandler.end();
     }
     
 //    @Override

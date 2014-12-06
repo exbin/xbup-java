@@ -41,7 +41,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * XBUP level 1 serialization handler using serialization sequence parser
  * mapping to token listener.
  *
- * @version 0.1.24 2014/12/02
+ * @version 0.1.24 2014/12/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandler, XBTSequenceOutputSerialHandler, XBTSerialSequenceable, XBTTokenOutputSerialHandler {
@@ -63,8 +63,8 @@ public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandle
     }
 
     @Override
-    public XBTSerialSequenceable.SerializationMode getSerializationMode() {
-        return XBTSerialSequenceable.SerializationMode.PUSH;
+    public XBSerializationMode getSerializationMode() {
+        return XBSerializationMode.PUSH;
     }
 
     @Override
@@ -89,6 +89,11 @@ public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandle
 
     @Override
     public void child(XBSerializable child) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void join(XBSerializable child) throws XBProcessingException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -138,6 +143,11 @@ public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandle
     }
 
     @Override
+    public void putJoin(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public void putData(InputStream data) throws XBProcessingException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -149,17 +159,17 @@ public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandle
 
     @Override
     public XBBlockTerminationMode pullBegin() throws XBProcessingException, IOException {
-            throw new XBProcessingException("Pulling data not allowed in pushing mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
+        throw new XBProcessingException("Pulling data not allowed in pushing mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
 
     @Override
     public XBBlockType pullType() throws XBProcessingException, IOException {
-            throw new XBProcessingException("Pulling data not allowed in pushing mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
+        throw new XBProcessingException("Pulling data not allowed in pushing mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
 
     @Override
     public UBNatural pullAttribute() throws XBProcessingException, IOException {
-            throw new XBProcessingException("Pulling data not allowed in pushing mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
+        throw new XBProcessingException("Pulling data not allowed in pushing mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
 
     @Override
@@ -188,13 +198,18 @@ public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandle
     }
 
     @Override
+    public void pullJoin(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public InputStream pullData() throws XBProcessingException, IOException {
-            throw new XBProcessingException("Pulling data not allowed in pushing mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
+        throw new XBProcessingException("Pulling data not allowed in pushing mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
 
     @Override
     public void pullEnd() throws XBProcessingException, IOException {
-            throw new XBProcessingException("Pulling data not allowed in pushing mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
+        throw new XBProcessingException("Pulling data not allowed in pushing mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
 
     @Override
@@ -299,6 +314,11 @@ public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandle
         @Override
         public void putChild(XBSerializable child) throws XBProcessingException, IOException {
             params.add(child);
+        }
+
+        @Override
+        public void putJoin(XBSerializable serial) throws XBProcessingException, IOException {
+            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override

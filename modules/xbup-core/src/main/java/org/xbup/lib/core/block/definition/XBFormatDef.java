@@ -17,16 +17,27 @@
 package org.xbup.lib.core.block.definition;
 
 import java.util.List;
+import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * XBUP level 1 format definition interface.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.24 2014/12/06
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBFormatDef {
+public interface XBFormatDef extends XBSerializable {
 
+    /**
+     * Gets list of format parameters.
+     *
+     * @return list of format parameters
+     */
     public List<XBFormatParam> getFormatParams();
 
+    /**
+     * Returns list of revision definition.
+     *
+     * @return revision definition
+     */
     public XBRevisionDef getRevisionDef();
 }

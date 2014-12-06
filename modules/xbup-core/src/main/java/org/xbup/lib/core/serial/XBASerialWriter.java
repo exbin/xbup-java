@@ -24,13 +24,15 @@ import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTCompactingEventFilter;
 import org.xbup.lib.core.serial.child.XBAChildListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBAChildSerializable;
+import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.core.serial.sequence.XBASequenceListenerSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBASequenceSerializable;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 
 /**
  * Interface for XBUP serialization input handler.
  *
- * @version 0.1.24 2014/11/29
+ * @version 0.1.24 2014/12/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBASerialWriter extends XBTSerialWriter implements XBWriteSerialHandler {
@@ -54,6 +56,22 @@ public class XBASerialWriter extends XBTSerialWriter implements XBWriteSerialHan
             childOutput.attachXBTEventListener(eventListener);
             try {
                 ((XBASequenceSerializable) serial).serializeXB(childOutput);
+            } catch (XBProcessingException | IOException ex) {
+                Logger.getLogger(XBASerialWriter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (serial instanceof XBTChildSerializable) {
+            XBAChildListenerSerialHandler childOutput = new XBAChildListenerSerialHandler(this);
+            childOutput.attachXBTEventListener(eventListener);
+            try {
+                ((XBTChildSerializable) serial).serializeToXB(childOutput);
+            } catch (XBProcessingException | IOException ex) {
+                Logger.getLogger(XBASerialWriter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (serial instanceof XBTSequenceSerializable) {
+            XBASequenceListenerSerialHandler childOutput = new XBASequenceListenerSerialHandler(this);
+            childOutput.attachXBTEventListener(eventListener);
+            try {
+                ((XBTSequenceSerializable) serial).serializeXB(childOutput);
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBASerialWriter.class.getName()).log(Level.SEVERE, null, ex);
             }

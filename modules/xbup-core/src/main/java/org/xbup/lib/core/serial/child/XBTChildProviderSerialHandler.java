@@ -39,7 +39,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 serialization handler using basic parser mapping to provider.
  *
- * @version 0.1.24 2014/12/03
+ * @version 0.1.24 2014/12/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler, XBTTokenInputSerialHandler {
@@ -196,6 +196,11 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
                 throw new XBProcessingException("Unsupported child serialization", XBProcessingExceptionType.UNKNOWN);
             }
         }
+    }
+
+    @Override
+    public void pullJoin(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Group as a list of block declarations.
+ * Group structure as a list of block declarations.
  *
  * @version 0.1.24 2014/09/03
  * @author XBUP Project (http://xbup.org)

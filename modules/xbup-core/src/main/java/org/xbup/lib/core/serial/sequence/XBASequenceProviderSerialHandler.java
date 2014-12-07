@@ -43,7 +43,7 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
  * XBUP level 2 serialization handler using serialization sequence parser
  * mapping to token provider.
  *
- * @version 0.1.24 2014/12/06
+ * @version 0.1.24 2014/12/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBASequenceProviderSerialHandler implements XBASequenceSerialHandler, XBASequenceInputSerialHandler, XBASerialSequenceable, XBTTokenInputSerialHandler {
@@ -100,7 +100,7 @@ public class XBASequenceProviderSerialHandler implements XBASequenceSerialHandle
 
     @Override
     public void join(XBSerializable child) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        pullJoin(child);
     }
 
     @Override
@@ -195,22 +195,22 @@ public class XBASequenceProviderSerialHandler implements XBASequenceSerialHandle
 
     @Override
     public byte pullByteAttribute() throws XBProcessingException, IOException {
-        return (byte) pullAttribute().getInt();
+        return provider.pullByteAttribute();
     }
 
     @Override
     public short pullShortAttribute() throws XBProcessingException, IOException {
-        return (short) pullAttribute().getInt();
+        return provider.pullShortAttribute();
     }
 
     @Override
     public int pullIntAttribute() throws XBProcessingException, IOException {
-        return pullAttribute().getInt();
+        return provider.pullIntAttribute();
     }
 
     @Override
     public long pullLongAttribute() throws XBProcessingException, IOException {
-        return pullAttribute().getLong();
+        return provider.pullLongAttribute();
     }
 
     @Override

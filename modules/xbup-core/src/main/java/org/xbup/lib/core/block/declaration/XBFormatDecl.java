@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.core.block.declaration;
 
+import java.util.List;
 import org.xbup.lib.core.block.definition.XBFormatDef;
 import org.xbup.lib.core.serial.XBSerializable;
 
@@ -30,14 +31,21 @@ public interface XBFormatDecl extends XBSerializable {
     /**
      * Returns linked format definition.
      *
-     * @return
+     * @return format definition
      */
     public XBFormatDef getFormatDef();
 
     /**
+     * Returns list of group declarations.
+     *
+     * @return list of group declarations
+     */
+    public List<XBGroupDecl> getGroups();
+
+    /**
      * Returns linked revision.
      *
-     * @return
+     * @return revision
      */
     public long getRevision();
 }

@@ -22,6 +22,8 @@ import java.util.TreeMap;
 /**
  * Specification's header declaration using catalog link.
  *
+ * TODO: this should be finished later
+ *
  * @version 0.1.19 2010/06/02
  * @author XBUP Project (http://xbup.org)
  */

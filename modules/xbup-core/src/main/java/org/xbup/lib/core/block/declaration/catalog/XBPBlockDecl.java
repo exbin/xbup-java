@@ -16,20 +16,28 @@
  */
 package org.xbup.lib.core.block.declaration.catalog;
 
+import java.io.IOException;
 import java.util.Arrays;
+import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.definition.XBBlockDef;
+import org.xbup.lib.core.block.definition.catalog.XBPBlockDef;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.serial.sequence.XBSerializationMode;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 1 block declaration using catalog path.
  *
- * @version 0.1.24 2014/10/21
+ * @version 0.1.24 2014/12/07
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPBlockDecl implements XBBlockDecl {
+public class XBPBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
 
     private long[] catalogPath;
     private int revision;
@@ -86,6 +94,27 @@ public class XBPBlockDecl implements XBBlockDecl {
         return hash;
     }
 
+    @Override
+    public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        serializationHandler.begin();
+        serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION));
+        if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
+            catalogPath = new long[serializationHandler.pullAttribute().getInt()];
+            for (int pathPosition = 0; pathPosition < catalogPath.length; pathPosition++) {
+                catalogPath[pathPosition] = serializationHandler.pullLongAttribute();
+            }
+            revision = serializationHandler.pullAttribute().getInt();
+        } else {
+            serializationHandler.putAttribute(catalogPath.length - 1);
+            for (long pathIndex : catalogPath) {
+                serializationHandler.putAttribute(pathIndex);
+            }
+
+            serializationHandler.putAttribute(revision);
+        }
+        serializationHandler.end();
+    }
+
     public XBCBlockSpec getBlockSpec(XBCatalog catalog) {
         return (XBCBlockSpec) catalog.findBlockTypeByPath(getCatalogObjectPath(), revision);
     }
@@ -122,27 +151,10 @@ public class XBPBlockDecl implements XBBlockDecl {
 
     @Override
     public XBBlockDef getBlockDef() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new XBPBlockDef(catalogPath);
     }
-    
+
     public void setRevision(int revision) {
         this.revision = revision;
     }
-
-    /*    public boolean produceXBT() {
-     throw new UnsupportedOperationException("Not supported yet.");
-     try {
-     eventListener.beginXBL1(false);
-     eventListener.typeXBL1(new XBL1SBBlockDecl(XBBasicBlockTypeEnum.BLOCK_CATALOG_LINK));
-     eventListener.attribXBL1(new UBNat32(path.length-1));
-     for (int i = 0; i < path.length; i++) {
-     eventListener.attribXBL1(new UBNat32(path[i]));
-     }
-     eventListener.endXBL1();
-     } catch (XBProcessingException ex) {
-     Logger.getLogger(XBL1CFormatDecl.class.getName()).log(Level.SEVERE, null, ex);
-     } catch (IOException ex) {
-     Logger.getLogger(XBL1CFormatDecl.class.getName()).log(Level.SEVERE, null, ex);
-     }
-     } */
 }

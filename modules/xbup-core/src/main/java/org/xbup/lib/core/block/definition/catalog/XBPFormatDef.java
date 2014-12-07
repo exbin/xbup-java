@@ -17,6 +17,7 @@
 package org.xbup.lib.core.block.definition.catalog;
 
 import java.util.List;
+import org.xbup.lib.core.block.declaration.XBGroupDecl;
 import org.xbup.lib.core.block.definition.XBFormatDef;
 import org.xbup.lib.core.block.definition.XBFormatParam;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
@@ -43,6 +44,11 @@ public class XBPFormatDef implements XBFormatDef, XBSerializable {
 
     @Override
     public XBRevisionDef getRevisionDef() {
+        return new XBPRevisionDef(catalogPath, XBPRevisionDef.SpecType.FORMAT);
+    }
+
+    @Override
+    public XBGroupDecl getGroupDecl(int groupId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

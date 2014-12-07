@@ -29,14 +29,14 @@ public interface XBGroupDecl {
     /**
      * Returns linked group definition.
      *
-     * @return
+     * @return grouo definition
      */
     public XBGroupDef getGroupDef();
 
     /**
      * Returns linked revision.
      *
-     * @return
+     * @return revision
      */
     public long getRevision();
 }

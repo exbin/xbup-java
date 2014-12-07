@@ -29,6 +29,7 @@ import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.XBWriteSerialHandler;
 import org.xbup.lib.core.serial.child.XBAChildListener;
+import org.xbup.lib.core.serial.child.XBAChildListenerSerialHandler;
 import org.xbup.lib.core.serial.token.XBTTokenOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.core.ubnumber.UBENatural;
@@ -39,20 +40,20 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * XBUP level 2 serialization handler using serialization sequence parser
  * mapping to token listener.
  *
- * @version 0.1.24 2014/12/06
+ * @version 0.1.24 2014/12/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBASequenceListenerSerialHandler implements XBASequenceSerialHandler, XBASequenceOutputSerialHandler, XBASerialSequenceable, XBTTokenOutputSerialHandler {
 
-    private final XBTSequenceListenerSerialHandler listener;
+    private final XBAChildListenerSerialHandler listener;
     private XBWriteSerialHandler childHandler = null;
 
     public XBASequenceListenerSerialHandler() {
-        listener = new XBTSequenceListenerSerialHandler();
+        listener = new XBAChildListenerSerialHandler();
     }
 
     public XBASequenceListenerSerialHandler(XBWriteSerialHandler childHandler) {
-        listener = new XBTSequenceListenerSerialHandler(childHandler);
+        listener = new XBAChildListenerSerialHandler(childHandler);
         this.childHandler = childHandler;
     }
 
@@ -142,7 +143,7 @@ public class XBASequenceListenerSerialHandler implements XBASequenceSerialHandle
 
     @Override
     public void matchType(XBBlockType blockType) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        listener.putType(blockType);
     }
 
     @Override
@@ -157,7 +158,7 @@ public class XBASequenceListenerSerialHandler implements XBASequenceSerialHandle
 
     @Override
     public void join(XBSerializable child) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        listener.putJoin(child);
     }
 
     @Override
@@ -177,12 +178,12 @@ public class XBASequenceListenerSerialHandler implements XBASequenceSerialHandle
 
     @Override
     public void putType(XBBlockType type, XBBlockType targetType) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        listener.putType(type, targetType);
     }
 
     @Override
     public void putAttribute(UBNatural attribute) throws XBProcessingException, IOException {
-        listener.pullAttribute();
+        listener.putAttribute(attribute);
     }
 
     @Override
@@ -217,12 +218,12 @@ public class XBASequenceListenerSerialHandler implements XBASequenceSerialHandle
 
     @Override
     public void putData(InputStream data) throws XBProcessingException, IOException {
-        listener.pullData();
+        listener.putData(data);
     }
 
     @Override
     public void putEnd() throws XBProcessingException, IOException {
-        listener.end();
+        listener.putEnd();
     }
 
     @Override

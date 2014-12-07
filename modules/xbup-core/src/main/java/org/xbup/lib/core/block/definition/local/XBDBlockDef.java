@@ -22,7 +22,6 @@ import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.block.definition.XBBlockDef;
 import org.xbup.lib.core.block.definition.XBBlockParam;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
-import org.xbup.lib.core.block.definition.XBRevisionParam;
 import org.xbup.lib.core.parser.param.XBParamPosition;
 import org.xbup.lib.core.serial.XBSerializable;
 
@@ -38,11 +37,6 @@ public class XBDBlockDef implements XBBlockDef, XBSerializable {
     private XBDRevisionDef revisionDef;
 
     public XBDBlockDef() {
-    }
-
-    @Override
-    public List<XBRevisionParam> getRevisionDefs() {
-        return revisionDef.getRevParams();
     }
 
     @Override
@@ -92,6 +86,6 @@ public class XBDBlockDef implements XBBlockDef, XBSerializable {
 
     @Override
     public XBRevisionDef getRevisionDef() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return revisionDef;
     }
 }

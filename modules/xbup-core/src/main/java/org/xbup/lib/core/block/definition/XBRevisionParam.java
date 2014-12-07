@@ -24,6 +24,7 @@ package org.xbup.lib.core.block.definition;
  */
 public class XBRevisionParam {
 
+    // TODO rename to definition count
     private long limit;
 
     public long getLimit() {

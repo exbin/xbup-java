@@ -61,13 +61,6 @@ public interface XBBlockDef {
     public XBParamPosition getParamPosition(XBSerializable source, int index);
 
     /**
-     * Gets list of revisions in order of appliance.
-     *
-     * @return list of revisions
-     */
-    public List<XBRevisionParam> getRevisionDefs();
-
-    /**
      * Gets n-th parameter of the given block.
      *
      * @param block block to get parameter from
@@ -84,5 +77,10 @@ public interface XBBlockDef {
      */
     public int getParametersCount(XBTBlock block);
 
+    /**
+     * Gets revision definition.
+     *
+     * @return revision definition
+     */
     public XBRevisionDef getRevisionDef();
 }

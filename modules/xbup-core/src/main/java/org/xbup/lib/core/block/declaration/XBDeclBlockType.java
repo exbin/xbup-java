@@ -20,7 +20,7 @@ import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBDBlockType;
 
 /**
- * Block type defined with block declaration.
+ * Block type defined using block declaration.
  *
  * @version 0.1.24 2014/10/03
  * @author XBUP Project (http://xbup.org)

@@ -21,7 +21,6 @@ import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.definition.XBBlockDef;
 import org.xbup.lib.core.block.definition.XBBlockParam;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
-import org.xbup.lib.core.block.definition.XBRevisionParam;
 import org.xbup.lib.core.parser.param.XBParamPosition;
 import org.xbup.lib.core.serial.XBSerializable;
 
@@ -71,11 +70,6 @@ public class XBPBlockDef implements XBBlockDef, XBSerializable {
 
     @Override
     public XBRevisionDef getRevisionDef() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<XBRevisionParam> getRevisionDefs() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new XBPRevisionDef(catalogPath, XBPRevisionDef.SpecType.BLOCK);
     }
 }

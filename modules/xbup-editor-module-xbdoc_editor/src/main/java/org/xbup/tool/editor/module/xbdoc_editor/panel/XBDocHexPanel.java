@@ -38,19 +38,16 @@ import org.xbup.lib.parser_tree.XBTTreeNode;
  */
 public class XBDocHexPanel extends javax.swing.JPanel {
 
-    private XBTTreeDocument mainDoc;
-    private List<ActionListener> updateEventList;
+    private final XBTTreeDocument mainDoc;
+    private final List<ActionListener> updateEventList;
     private boolean editEnabled;
     private boolean addEnabled;
 
-    private HexEditPanel hexPanel;
+    private final HexEditPanel hexPanel;
 
-    /**
-     * Creates new form XBDocTreePanel
-     */
     public XBDocHexPanel(XBTTreeDocument doc) {
         mainDoc = doc;
-        updateEventList = new ArrayList<ActionListener>();
+        updateEventList = new ArrayList<>();
 
         initComponents();
 

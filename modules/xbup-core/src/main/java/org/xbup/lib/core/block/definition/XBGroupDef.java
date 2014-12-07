@@ -17,16 +17,35 @@
 package org.xbup.lib.core.block.definition;
 
 import java.util.List;
+import org.xbup.lib.core.block.declaration.XBBlockDecl;
 
 /**
  * XBUP level 1 group definition interface.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.24 2014/12/07
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBGroupDef {
 
+    /**
+     * Gets list of group parameters.
+     *
+     * @return list of group parameters
+     */
     public List<XBGroupParam> getGroupParams();
 
+    /**
+     * Gets revision definition.
+     *
+     * @return revision definition
+     */
     public XBRevisionDef getRevisionDef();
+
+    /**
+     * Gets block declaration for given block index.
+     *
+     * @param blockId block index
+     * @return block declaration
+     */
+    public XBBlockDecl getBlockDecl(int blockId);
 }

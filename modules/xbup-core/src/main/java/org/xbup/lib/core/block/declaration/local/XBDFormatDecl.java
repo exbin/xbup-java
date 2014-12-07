@@ -17,6 +17,7 @@
 package org.xbup.lib.core.block.declaration.local;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import org.xbup.lib.core.block.definition.local.XBDFormatDef;
 import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
@@ -33,7 +34,7 @@ import org.xbup.lib.core.serial.sequence.XBSerializationMode;
 /**
  * XBUP level 1 format declaration.
  *
- * @version 0.1.24 2014/12/06
+ * @version 0.1.24 2014/12/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDFormatDecl implements XBFormatDecl, XBASequenceSerializable {
@@ -49,33 +50,31 @@ public class XBDFormatDecl implements XBFormatDecl, XBASequenceSerializable {
     public XBDFormatDecl(XBFormatDef formatDef) {
         this.formatDef = formatDef;
     }
-    
+
     public XBDFormatDecl(XBGroupDecl groupDecl) {
         formatDef = new XBDFormatDef(groupDecl);
     }
-    
-    
+
     /*
-    public static XBDFormatDecl processDeclaration(XBTBlock specBlock) {
-        if (specBlock.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
-            if (specBlock.getAttributesCount() > 1) {
-                if ((specBlock.getBlockType().getAsBasicType() == XBBasicBlockType.FORMAT_DECLARATION)) {
-                    XBDFormatDecl decl = new XBDFormatDecl();
-                    decl.setGroupsLimit(specBlock.getAttribute(0).getLong());
-                    Long[] catalogPath = new Long[specBlock.getAttribute(1).getInt()];
-                    int i;
-                    for (i = 0; i < catalogPath.length; i++) {
-                        catalogPath[i] = specBlock.getAttribute(i + 2).getLong();
-                    }
-                    decl.setRevision(specBlock.getAttribute(i + 2).getLong());
-                    return decl;
-                }
-            }
-        }
+     public static XBDFormatDecl processDeclaration(XBTBlock specBlock) {
+     if (specBlock.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
+     if (specBlock.getAttributesCount() > 1) {
+     if ((specBlock.getBlockType().getAsBasicType() == XBBasicBlockType.FORMAT_DECLARATION)) {
+     XBDFormatDecl decl = new XBDFormatDecl();
+     decl.setGroupsLimit(specBlock.getAttribute(0).getLong());
+     Long[] catalogPath = new Long[specBlock.getAttribute(1).getInt()];
+     int i;
+     for (i = 0; i < catalogPath.length; i++) {
+     catalogPath[i] = specBlock.getAttribute(i + 2).getLong();
+     }
+     decl.setRevision(specBlock.getAttribute(i + 2).getLong());
+     return decl;
+     }
+     }
+     }
 
-        return null;
-    }*/
-
+     return null;
+     }*/
     @Override
     public long getRevision() {
         return revision;
@@ -94,10 +93,21 @@ public class XBDFormatDecl implements XBFormatDecl, XBASequenceSerializable {
         this.formatDef = formatDef;
     }
 
+    @Override
     public List<XBGroupDecl> getGroups() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (formatDecl != null) {
+            return formatDecl.getGroups();
+        } else {
+            int revisionLimit = formatDef.getRevisionDef().getRevisionLimit(revision);
+            List<XBGroupDecl> result = new ArrayList<>();
+            for (int groupId = 0; groupId <= revisionLimit; groupId++) {
+                result.add(formatDef.getGroupDecl(groupId));
+            }
+
+            return result;
+        }
     }
-    
+
     public int getGroupsLimit() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -109,7 +119,7 @@ public class XBDFormatDecl implements XBFormatDecl, XBASequenceSerializable {
     public void setFormatDecl(XBCFormatDecl formatDecl) {
         this.formatDecl = formatDecl;
     }
-    
+
     @Override
     public void serializeXB(XBASequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin();
@@ -122,7 +132,7 @@ public class XBDFormatDecl implements XBFormatDecl, XBASequenceSerializable {
         serializationHandler.join(formatDef);
         serializationHandler.end();
     }
-    
+
 //    @Override
 //    public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
 //        XBSerialSequence seq = new XBSerialSequence(new XBFixedBlockType(XBBasicBlockType.FORMAT_DECLARATION));

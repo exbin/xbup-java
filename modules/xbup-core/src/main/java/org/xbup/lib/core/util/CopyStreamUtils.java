@@ -145,7 +145,7 @@ public abstract class CopyStreamUtils {
     }
 
     /**
-     * Copies all data from input stream to output stream using 1k buffer.
+     * Copies all data from input stream to two output streams using 1k buffer.
      *
      * @param source input stream
      * @param target output stream

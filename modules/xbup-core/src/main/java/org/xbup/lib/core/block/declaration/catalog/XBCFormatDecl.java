@@ -35,7 +35,7 @@ import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * XBUP level 1 format declaration represented by catalog.
+ * XBUP level 1 format declaration defined by catalog specification.
  *
  * @version 0.1.24 2014/12/05
  * @author XBUP Project (http://xbup.org)
@@ -48,12 +48,13 @@ public class XBCFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
     public XBCFormatDecl() {
         this(null, new XBPCatalog());
     }
-    
+
     public XBCFormatDecl(XBCFormatRev formatSpec, XBCatalog catalog) {
         this.formatSpecRev = formatSpec;
         this.catalog = catalog;
     }
 
+    @Override
     public List<XBGroupDecl> getGroups() {
         return formatSpecRev == null ? new ArrayList<XBGroupDecl>() : catalog.getGroups(formatSpecRev.getParent());
     }
@@ -77,19 +78,18 @@ public class XBCFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
         serializationHandler.begin();
         serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.FORMAT_DECLARATION));
         if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
-            Long[] catalogPath = new Long[serializationHandler.pullAttribute().getInt()];
-            int i;
-            for (i = 0; i < catalogPath.length; i++) {
-                catalogPath[i] = serializationHandler.pullAttribute().getLong();
+            Long[] catalogPath = new Long[serializationHandler.pullIntAttribute()];
+            for (int pathPosition = 0; pathPosition < catalogPath.length; pathPosition++) {
+                catalogPath[pathPosition] = serializationHandler.pullLongAttribute();
             }
-            long revision = serializationHandler.pullAttribute().getLong();
+            long revision = serializationHandler.pullLongAttribute();
             XBCFormatDecl format = (XBCFormatDecl) catalog.findFormatTypeByPath(catalogPath, (int) revision);
             formatSpecRev = format == null ? null : format.getFormatSpec();
         } else {
             Long[] path = catalog.getSpecPath(formatSpecRev.getParent());
-            serializationHandler.putAttribute(new UBNat32(path.length - 1));
+            serializationHandler.putAttribute(path.length - 1);
             for (Long pathIndex : path) {
-                serializationHandler.putAttribute(new UBNat32(pathIndex));
+                serializationHandler.putAttribute(pathIndex);
             }
 
             serializationHandler.putAttribute(new UBNat32(formatSpecRev.getXBIndex()));

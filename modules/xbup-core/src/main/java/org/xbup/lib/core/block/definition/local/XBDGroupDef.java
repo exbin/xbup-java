@@ -56,4 +56,9 @@ public class XBDGroupDef implements XBSerializable, XBGroupDef {
     public XBRevisionDef getRevisionDef() {
         return revisionDef;
     }
+
+    @Override
+    public XBBlockDecl getBlockDecl(int blockId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

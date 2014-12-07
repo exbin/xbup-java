@@ -17,12 +17,13 @@
 package org.xbup.lib.core.block.definition;
 
 import java.util.List;
+import org.xbup.lib.core.block.declaration.XBGroupDecl;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * XBUP level 1 format definition interface.
  *
- * @version 0.1.24 2014/12/06
+ * @version 0.1.24 2014/12/07
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBFormatDef extends XBSerializable {
@@ -35,9 +36,17 @@ public interface XBFormatDef extends XBSerializable {
     public List<XBFormatParam> getFormatParams();
 
     /**
-     * Returns list of revision definition.
+     * Returns revision definition.
      *
      * @return revision definition
      */
     public XBRevisionDef getRevisionDef();
+
+    /**
+     * Gets group declaration for given group index.
+     *
+     * @param groupId group index
+     * @return group declaration
+     */
+    public XBGroupDecl getGroupDecl(int groupId);
 }

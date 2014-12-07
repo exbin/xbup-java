@@ -30,11 +30,10 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.sequence.XBSerializationMode;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
-import org.xbup.lib.core.serial.sequence.XBTSerialSequenceable;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * XBUP level 1 group specification.
+ * XBUP level 1 group declaration defined by catalog specification.
  *
  * @version 0.1.24 2014/12/05
  * @author XBUP Project (http://xbup.org)
@@ -58,19 +57,18 @@ public class XBCGroupDecl implements XBGroupDecl, XBTSequenceSerializable {
         serializationHandler.begin();
         serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.GROUP_DECLARATION));
         if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
-            Long[] catalogPath = new Long[serializationHandler.pullAttribute().getInt()];
-            int i;
-            for (i = 0; i < catalogPath.length; i++) {
-                catalogPath[i] = serializationHandler.pullAttribute().getLong();
+            Long[] catalogPath = new Long[serializationHandler.pullIntAttribute()];
+            for (int pathPosition = 0; pathPosition < catalogPath.length; pathPosition++) {
+                catalogPath[pathPosition] = serializationHandler.pullLongAttribute();
             }
-            long revision = serializationHandler.pullAttribute().getLong();
+            long revision = serializationHandler.pullLongAttribute();
             XBCGroupDecl groupDecl = (XBCGroupDecl) catalog.findGroupTypeByPath(catalogPath, (int) revision);
             groupSpecRev = groupDecl == null ? null : groupDecl.getGroupSpec();
         } else {
             Long[] path = catalog.getSpecPath(groupSpecRev.getParent());
-            serializationHandler.putAttribute(new UBNat32(path.length - 1));
+            serializationHandler.putAttribute(path.length - 1);
             for (Long pathIndex : path) {
-                serializationHandler.putAttribute(new UBNat32(pathIndex));
+                serializationHandler.putAttribute(pathIndex);
             }
 
             serializationHandler.putAttribute(new UBNat32(groupSpecRev.getXBIndex()));

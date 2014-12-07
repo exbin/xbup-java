@@ -42,6 +42,11 @@ public class XBPRevisionDef implements XBRevisionDef, XBSerializable {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public int getRevisionLimit(long revision) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     public enum SpecType {
 
         FORMAT, GROUP, BLOCK

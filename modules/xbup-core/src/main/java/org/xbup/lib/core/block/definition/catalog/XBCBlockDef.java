@@ -27,7 +27,6 @@ import org.xbup.lib.core.block.definition.XBBlockParamConsist;
 import org.xbup.lib.core.block.definition.XBBlockParamListConsist;
 import org.xbup.lib.core.block.definition.XBBlockParamListJoin;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
-import org.xbup.lib.core.block.definition.XBRevisionParam;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
@@ -112,10 +111,5 @@ public class XBCBlockDef implements XBBlockDef, XBSerializable {
     @Override
     public XBRevisionDef getRevisionDef() {
         return new XBCRevisionDef(catalog, blockSpec);
-    }
-
-    @Override
-    public List<XBRevisionParam> getRevisionDefs() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

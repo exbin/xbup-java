@@ -23,6 +23,7 @@ import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBPFormatDecl;
 import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
 import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
 import org.xbup.lib.core.catalog.XBCatalog;
@@ -94,6 +95,12 @@ public class XBDeclaration implements XBTSequenceSerializable {
             }
         } else if (format instanceof XBCFormatDecl) {
             XBCFormatDecl formatDecl = (XBCFormatDecl) format;
+            List<XBGroupDecl> formatGroups = formatDecl.getGroups();
+            for (XBGroupDecl formatGroup : formatGroups) {
+                groups.add(convertCatalogGroup((XBCGroupDecl) formatGroup, catalog));
+            }
+        } else if (format instanceof XBPFormatDecl) {
+            XBPFormatDecl formatDecl = (XBPFormatDecl) format;
             List<XBGroupDecl> formatGroups = formatDecl.getGroups();
             for (XBGroupDecl formatGroup : formatGroups) {
                 groups.add(convertCatalogGroup((XBCGroupDecl) formatGroup, catalog));

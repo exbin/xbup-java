@@ -29,14 +29,14 @@ public interface XBBlockDecl {
     /**
      * Returns linked block definition.
      *
-     * @return
+     * @return block definition
      */
     public XBBlockDef getBlockDef();
 
     /**
      * Returns linked revision.
      *
-     * @return
+     * @return revision
      */
     public long getRevision();
 }

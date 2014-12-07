@@ -17,8 +17,6 @@
 package org.xbup.lib.core.block.definition;
 
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
-import org.xbup.lib.core.block.definition.XBGroupParam;
-import org.xbup.lib.core.block.definition.XBParamType;
 
 /**
  * XBUP level 1 group join parameter.
@@ -46,5 +44,4 @@ public class XBGroupParamJoin implements XBGroupParam {
     public void setGroupDecl(XBGroupDecl groupDecl) {
         this.groupDecl = groupDecl;
     }
-
 }

@@ -165,6 +165,7 @@ public class XBPullReader extends XBTokenInputStream implements Closeable, XBPul
      * Main pull reader parser processing method.
      *
      * @return next recognized event item in stream
+     * @throws java.io.IOException
      */
     @Override
     public XBToken pullXBToken() throws XBProcessingException, IOException {

@@ -62,9 +62,14 @@ import org.xbup.lib.core.stream.file.XBFileOutputStream;
 import org.xbup.lib.audio.swing.XBWavePanel;
 import org.xbup.lib.audio.wave.XBWave;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
-import org.xbup.lib.core.block.declaration.XBGroupDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBPFormatDecl;
 import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
+import org.xbup.lib.core.block.definition.XBFormatParamConsist;
+import org.xbup.lib.core.block.definition.XBGroupParamConsist;
+import org.xbup.lib.core.block.definition.local.XBDFormatDef;
+import org.xbup.lib.core.block.definition.local.XBDGroupDef;
 import org.xbup.lib.core.catalog.XBPCatalog;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
 import org.xbup.lib.core.serial.XBASerialWriter;
@@ -500,10 +505,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
                 try (XBFileOutputStream output = new XBFileOutputStream(file)) {
 
                     XBPFormatDecl formatDecl = new XBPFormatDecl(new long[]{1, 4, 0, 1});
-                    XBDFormatDecl defDecl = new XBDFormatDecl();
-                    List<XBGroupDecl> groups = defDecl.getGroups();
-                    //XBDGroupDecl 
-                    formatDecl.setDefDeclaration(defDecl);
+                    formatDecl.setDefDeclaration(getStubFormatDecl());
                     XBDeclaration declaration = new XBDeclaration(formatDecl, wavePanel.getWave());
                     XBPCatalog catalog = new XBPCatalog();
                     catalog.setRootContext(declaration.generateContext(catalog));
@@ -751,6 +753,20 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         XBWave wave = wavePanel.getWave();
         wave.performTransformReverse();
         repaint();
+    }
+
+    private XBDFormatDecl getStubFormatDecl() {
+        XBDGroupDef rgbBitmapGroupDef = new XBDGroupDef();
+        rgbBitmapGroupDef.getGroupParams().add(new XBGroupParamConsist(new XBPBlockDecl(new long[]{1, 4, 0, 0, 1}))); // ItemBitmap
+        rgbBitmapGroupDef.getGroupParams().add(new XBGroupParamConsist(new XBPBlockDecl(new long[]{1, 4, 0, 0, 2}))); // PixelPlane
+        XBDGroupDef rgbPaletteGroupDef = new XBDGroupDef();
+        rgbPaletteGroupDef.getGroupParams().add(new XBGroupParamConsist(new XBPBlockDecl(new long[]{1, 4, 0, 1, 1}))); // DefaultRGBPalette
+        rgbPaletteGroupDef.getGroupParams().add(new XBGroupParamConsist(new XBPBlockDecl(new long[]{1, 4, 0, 1, 2}))); // DefaultRGBAPalette
+        
+        XBDFormatDef formatDef = new XBDFormatDef();
+        formatDef.getFormatParams().add(new XBFormatParamConsist(new XBDGroupDecl(rgbBitmapGroupDef)));
+        formatDef.getFormatParams().add(new XBFormatParamConsist(new XBDGroupDecl(rgbPaletteGroupDef)));
+        return new XBDFormatDecl(formatDef);
     }
 
     class PlayThread extends Thread {

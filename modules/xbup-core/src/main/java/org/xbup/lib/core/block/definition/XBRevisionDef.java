@@ -21,10 +21,23 @@ import java.util.List;
 /**
  * XBUP level 1 revision definition interface.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.24 2014/12/07
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBRevisionDef {
 
+    /**
+     * Gets list of revision parameters.
+     *
+     * @return list of revision parameters
+     */
     public List<XBRevisionParam> getRevParams();
+
+    /**
+     * Returns revision group limit for given revision.
+     *
+     * @param revision revision index
+     * @return group count
+     */
+    public int getRevisionLimit(long revision);
 }

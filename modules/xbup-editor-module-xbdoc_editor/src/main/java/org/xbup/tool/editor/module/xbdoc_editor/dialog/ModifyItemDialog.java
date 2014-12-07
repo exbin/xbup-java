@@ -593,7 +593,7 @@ public class ModifyItemDialog extends javax.swing.JDialog {
             return null;
         }
         XBCXPlugin plugin = plugPane.getPlugin();
-        XBPlugin pluginHandler = null;
+        XBPlugin pluginHandler;
 
         // This part is stub for Java Webstart, uncomment it if needed
         /*if ("XBPicturePlugin.jar".equals(plugin.getPluginFile().getFilename())) {
@@ -630,17 +630,17 @@ public class ModifyItemDialog extends javax.swing.JDialog {
                 // TODO: if (desc != null) descTextField.setText(desc.getText());
                 for (int i = 0; i < bindCount; i++) {
                     // TODO: Exclusive lock
-                    XBCSpecDef bind = specService.getSpecDefByOrder(spec, i);
+                    XBCSpecDef specDef = specService.getSpecDefByOrder(spec, i);
                     String specName = "";
                     String specType = "";
 
-                    if (bind != null) {
-                        XBCXName bindName = nameService.getDefaultItemName(bind);
-                        if (bindName != null) {
-                            specName = bindName.getText();
+                    if (specDef != null) {
+                        XBCXName specDefName = nameService.getDefaultItemName(specDef);
+                        if (specDefName != null) {
+                            specName = specDefName.getText();
                         }
 
-                        XBCRev rowRev = bind.getTarget();
+                        XBCRev rowRev = specDef.getTarget();
                         XBCSpec rowSpec = rowRev.getParent();
 
                         XBCXName typeName = nameService.getDefaultItemName(rowSpec);

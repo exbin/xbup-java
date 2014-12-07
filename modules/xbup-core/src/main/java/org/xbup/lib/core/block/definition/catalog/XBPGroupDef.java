@@ -17,6 +17,7 @@
 package org.xbup.lib.core.block.definition.catalog;
 
 import java.util.List;
+import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.definition.XBGroupDef;
 import org.xbup.lib.core.block.definition.XBGroupParam;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
@@ -43,6 +44,11 @@ public class XBPGroupDef implements XBGroupDef, XBSerializable {
 
     @Override
     public XBRevisionDef getRevisionDef() {
+        return new XBPRevisionDef(catalogPath, XBPRevisionDef.SpecType.GROUP);
+    }
+
+    @Override
+    public XBBlockDecl getBlockDecl(int blockId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

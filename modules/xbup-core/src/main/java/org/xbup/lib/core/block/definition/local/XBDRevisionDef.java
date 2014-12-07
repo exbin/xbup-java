@@ -38,4 +38,9 @@ public class XBDRevisionDef implements XBSerializable, XBRevisionDef {
     public List<XBRevisionParam> getRevParams() {
         return revs;
     }
+
+    @Override
+    public int getRevisionLimit(long revision) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

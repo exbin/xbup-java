@@ -76,7 +76,7 @@ public class XBContext {
             }
         }
 
-        return startFrom > 0 ? parent.getFixedBlockType(blockDecl, startFrom - 1) : null;
+        return startFrom > 0 && parent != null ? parent.getFixedBlockType(blockDecl, startFrom - 1) : null;
     }
 
     public XBContext getParent() {

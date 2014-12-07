@@ -16,18 +16,28 @@
  */
 package org.xbup.lib.core.block.definition.catalog;
 
+import java.util.ArrayList;
 import java.util.List;
+import org.xbup.lib.core.block.declaration.XBGroupDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
 import org.xbup.lib.core.block.definition.XBFormatDef;
 import org.xbup.lib.core.block.definition.XBFormatParam;
+import org.xbup.lib.core.block.definition.XBFormatParamConsist;
+import org.xbup.lib.core.block.definition.XBFormatParamJoin;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
 import org.xbup.lib.core.catalog.XBCatalog;
+import org.xbup.lib.core.catalog.base.XBCFormatRev;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
+import org.xbup.lib.core.catalog.base.XBCGroupRev;
+import org.xbup.lib.core.catalog.base.XBCSpecDef;
+import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * XBUP level 1 block definition.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.24 2014/12/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCFormatDef implements XBFormatDef, XBSerializable {
@@ -42,11 +52,31 @@ public class XBCFormatDef implements XBFormatDef, XBSerializable {
 
     @Override
     public List<XBFormatParam> getFormatParams() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        List<XBFormatParam> resultList = new ArrayList<>();
+        List<XBCSpecDef> specDefs = specService.getSpecDefs(formatSpec);
+        for (XBCSpecDef specDef : specDefs) {
+            switch (specDef.getType()) {
+                case CONS: {
+                    resultList.add(new XBFormatParamConsist(new XBCGroupDecl((XBCGroupRev) specDef.getTarget(), catalog)));
+                    break;
+                }
+                case JOIN: {
+                    resultList.add(new XBFormatParamJoin(new XBCFormatDecl((XBCFormatRev) specDef.getTarget(), catalog)));
+                    break;
+                }
+            }
+        }
+        return resultList;
     }
 
     @Override
     public XBRevisionDef getRevisionDef() {
+        return new XBCRevisionDef(catalog, formatSpec);
+    }
+
+    @Override
+    public XBGroupDecl getGroupDecl(int groupId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -17,8 +17,6 @@
 package org.xbup.lib.core.block.definition;
 
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.block.definition.XBGroupParam;
-import org.xbup.lib.core.block.definition.XBParamType;
 
 /**
  * XBUP level 1 group consist parameter.
@@ -46,5 +44,4 @@ public class XBGroupParamConsist implements XBGroupParam {
     public void setBlockDecl(XBBlockDecl blockDecl) {
         this.blockDecl = blockDecl;
     }
-
 }

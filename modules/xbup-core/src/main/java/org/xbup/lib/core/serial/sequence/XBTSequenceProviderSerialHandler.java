@@ -49,6 +49,7 @@ public class XBTSequenceProviderSerialHandler implements XBTSequenceSerialHandle
 
     private final XBTChildProviderSerialHandler provider;
     private XBReadSerialHandler childHandler = null;
+    private XBTPullProvider pullProvider;
 
     public XBTSequenceProviderSerialHandler() {
         provider = new XBTChildProviderSerialHandler();
@@ -61,6 +62,7 @@ public class XBTSequenceProviderSerialHandler implements XBTSequenceSerialHandle
 
     @Override
     public void attachXBTPullProvider(XBTPullProvider pullProvider) {
+        this.pullProvider = pullProvider;
         provider.attachXBTPullProvider(pullProvider);
     }
 
@@ -204,7 +206,7 @@ public class XBTSequenceProviderSerialHandler implements XBTSequenceSerialHandle
 
     @Override
     public void pullJoin(XBSerializable serial) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        provider.pullJoin(serial);
     }
 
     @Override
@@ -240,6 +242,7 @@ public class XBTSequenceProviderSerialHandler implements XBTSequenceSerialHandle
                         children.addAll(serializeFromXBSequence((XBSerialSequence) item, handler));
                     } else if (item instanceof XBTChildSerializable) {
                         XBJoinInputStream joinSerial = new XBJoinInputStream(handler);
+                        joinSerial.attachXBTPullProvider(pullProvider);
                         ((XBTChildSerializable) item).serializeFromXB(joinSerial);
                         children.addAll(joinSerial.getChildren());
                     } else {

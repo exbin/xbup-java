@@ -59,7 +59,7 @@ public interface XBEditableBlock extends XBBlock {
     /**
      * Sets attribute of given index.
      *
-     * If index greater than current count of attributes, new zero attributes
+     * If index is greater than current count of attributes, new zero attributes
      * will be filled.
      *
      * @param attribute attribute value
@@ -86,8 +86,8 @@ public interface XBEditableBlock extends XBBlock {
     /**
      * Sets children of given index.
      *
-     * If index greater than current count of children, new empty blocks will be
-     * filled.
+     * If index is greater than current count of children, new empty blocks will
+     * be filled.
      *
      * @param block child block
      * @param childIndex index of child block

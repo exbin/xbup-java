@@ -28,7 +28,6 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.sequence.XBSerializationMode;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
-import org.xbup.lib.core.serial.sequence.XBTSerialSequenceable;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -52,19 +51,18 @@ public class XBCBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
         serializationHandler.begin();
         serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION));
         if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
-            Long[] catalogPath = new Long[serializationHandler.pullAttribute().getInt()];
-            int i;
-            for (i = 0; i < catalogPath.length; i++) {
-                catalogPath[i] = serializationHandler.pullAttribute().getLong();
+            Long[] catalogPath = new Long[serializationHandler.pullIntAttribute()];
+            for (int pathPosition = 0; pathPosition < catalogPath.length; pathPosition++) {
+                catalogPath[pathPosition] = serializationHandler.pullLongAttribute();
             }
-            long revision = serializationHandler.pullAttribute().getLong();
+            long revision = serializationHandler.pullLongAttribute();
             XBCBlockDecl blockDecl = (XBCBlockDecl) catalog.findBlockTypeByPath(catalogPath, (int) revision);
             blockSpecRev = blockDecl == null ? null : blockDecl.getBlockSpec();
         } else {
             Long[] path = catalog.getSpecPath(blockSpecRev.getParent());
-            serializationHandler.putAttribute(new UBNat32(path.length - 1));
+            serializationHandler.putAttribute(path.length - 1);
             for (Long pathIndex : path) {
-                serializationHandler.putAttribute(new UBNat32(pathIndex));
+                serializationHandler.putAttribute(pathIndex);
             }
 
             serializationHandler.putAttribute(new UBNat32(blockSpecRev.getXBIndex()));

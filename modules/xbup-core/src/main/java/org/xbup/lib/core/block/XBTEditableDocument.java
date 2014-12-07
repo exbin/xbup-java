@@ -56,7 +56,7 @@ public interface XBTEditableDocument extends XBTDocument {
     /**
      * Creates new instance of block as next child for given block.
      *
-     * @param parent block which would be set as parent block. Null for root
+     * @param parent block which would be set as parent block, null for root
      * node
      * @return newly created instance of this document
      */

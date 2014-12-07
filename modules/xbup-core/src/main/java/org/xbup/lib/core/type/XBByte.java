@@ -36,7 +36,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.core.util.CopyStreamUtils;
 
 /**
- * Encapsulation class for natural numbers - 8 bits (known as byte).
+ * Encapsulation class for natural numbers - 8 bits.
  *
  * @version 0.1.24 2014/08/23
  * @author XBUP Project (http://xbup.org)

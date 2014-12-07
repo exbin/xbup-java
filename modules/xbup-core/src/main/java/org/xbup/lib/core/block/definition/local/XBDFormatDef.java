@@ -56,4 +56,9 @@ public class XBDFormatDef implements XBSerializable, XBFormatDef {
     public XBRevisionDef getRevisionDef() {
         return revisionDef;
     }
+
+    @Override
+    public XBGroupDecl getGroupDecl(int groupId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

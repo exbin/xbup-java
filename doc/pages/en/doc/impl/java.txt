@@ -1,6 +1,6 @@
 ====== Java Implementation Documentation ======
 
-Implementation is organized into modules and can be build using Gradle build tool.
+Implementation in Java programming language was chosen as primary environment for prototype implementation. It is organized into modules and can be build using [[http://gradle.org|Gradle]] build tool.
 
 ===== Libraries =====
 
@@ -8,7 +8,7 @@ There are basic libraries with functionality related to protocol itself and serv
 
 ===== Basic Libraries =====
 
-  * [[en:doc:impl:java:lib:xbup-core|xbup-core]] - Core library with basic support for xbup encoding
+  * [[en:doc:impl:java:lib:xbup-core|xbup-core]] - Core library with basic support for XBUP encoding
   * [[en:doc:impl:java:lib:xbup-catalog|xbup-catalog]] - Library for catalog of types
   * [[en:doc:impl:java:lib:xbup-framework-client|xbup-framework-client]] - Library for framework clients
   * [[en:doc:impl:java:lib:xbup-framework-service|xbup-framework-service]] - Library for framework service
@@ -43,6 +43,7 @@ Implementation includes following tools for manipulation with XBUP-encoded docum
 
   * [[en:doc:impl:java:tool:xbeditor|XBEditor]] - Basic editor allowing to view and edit document as a tree or text file or in hexadecimal mode
   * [[en:doc:impl:java:tool:xbmanager|XBManager]] - Tool for accessing XBUP catalog or framework services
+  * [[en:doc:impl:java:tool:xbservice|XBService]] - Tool for service runtime control
   * [[en:doc:impl:java:tool:xbshell|XBShell]] - Support for browsing content of document on the text command line
 
 ==== Sample Editors ====

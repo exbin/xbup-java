@@ -19,6 +19,7 @@ package org.xbup.tool.editor.module.service_manager.catalog.panel;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractListModel;
+import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCBase;
 import org.xbup.lib.core.catalog.base.service.XBCService;
@@ -27,22 +28,16 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 /**
  * List Model for Catalog Extensions.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.24 2014/12/08
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogExtensionsListModel extends AbstractListModel {
 
-    private final XBCatalog catalog;
+    private XBCatalog catalog;
     private final List<XBCService<? extends XBCBase>> extensions;
 
-    public CatalogExtensionsListModel(XBCatalog catalog) {
-        this.catalog = catalog;
+    public CatalogExtensionsListModel() {
         extensions = new ArrayList<>();
-        for (XBCService<? extends XBCBase> service : catalog.getCatalogServices()) {
-            if (service instanceof XBCExtension) {
-                extensions.add(service);
-            }
-        }
     }
 
     @Override
@@ -53,5 +48,20 @@ public class CatalogExtensionsListModel extends AbstractListModel {
     @Override
     public String getElementAt(int index) {
         return ((XBCExtension) extensions.get(index)).getExtensionName();
+    }
+
+    void setCatalog(XBACatalog catalog) {
+        this.catalog = catalog;
+
+        extensions.clear();
+        if (catalog != null) {
+            for (XBCService<? extends XBCBase> service : catalog.getCatalogServices()) {
+                if (service instanceof XBCExtension) {
+                    extensions.add(service);
+                }
+            }
+            
+            fireContentsChanged(this, 0, extensions.size() - 1);
+        }
     }
 }

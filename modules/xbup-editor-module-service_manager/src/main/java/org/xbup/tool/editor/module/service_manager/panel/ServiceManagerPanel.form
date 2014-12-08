@@ -18,7 +18,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <EmptySpace min="0" pref="711" max="32767" attributes="0"/>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-              <Component id="jSplitPane1" alignment="0" pref="711" max="32767" attributes="0"/>
+              <Component id="mainSplitPane" alignment="0" pref="711" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -26,23 +26,23 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <EmptySpace min="0" pref="620" max="32767" attributes="0"/>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-              <Component id="jSplitPane1" alignment="0" pref="620" max="32767" attributes="0"/>
+              <Component id="mainSplitPane" alignment="0" pref="620" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JSplitPane" name="jSplitPane1">
+    <Container class="javax.swing.JSplitPane" name="mainSplitPane">
       <Properties>
         <Property name="dividerLocation" type="int" value="150"/>
-        <Property name="name" type="java.lang.String" value="jSplitPane1" noResource="true"/>
+        <Property name="name" type="java.lang.String" value="mainSplitPane" noResource="true"/>
       </Properties>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout"/>
       <SubComponents>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+        <Container class="javax.swing.JScrollPane" name="managerTreeScrollPane">
           <Properties>
-            <Property name="name" type="java.lang.String" value="jScrollPane1" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="managerTreeScrollPane" noResource="true"/>
           </Properties>
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -63,9 +63,9 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane3">
+        <Container class="javax.swing.JScrollPane" name="serviceInfoScrollPane">
           <Properties>
-            <Property name="name" type="java.lang.String" value="jScrollPane3" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="serviceInfoScrollPane" noResource="true"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout$JSplitPaneConstraintsDescription">
@@ -101,7 +101,7 @@
                                   <Component id="managerInfoBorderPanel" alignment="1" max="32767" attributes="0"/>
                                   <Component id="connectionInfoBorderPanel" alignment="0" max="32767" attributes="0"/>
                                   <Component id="serviceInfoPanelLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="serviceInfoBorderPanel" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="serviceInformationBorderPanel" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -114,7 +114,7 @@
                               <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                               <Component id="connectionInfoBorderPanel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="serviceInfoBorderPanel" min="-2" max="-2" attributes="0"/>
+                              <Component id="serviceInformationBorderPanel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="managerInfoBorderPanel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
@@ -145,7 +145,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jPanel13" max="32767" attributes="1"/>
+                                  <Component id="connectionInfoPanel" max="32767" attributes="1"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -153,16 +153,16 @@
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jPanel13" min="-2" max="-2" attributes="0"/>
+                                  <Component id="connectionInfoPanel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace pref="16" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Container class="javax.swing.JPanel" name="jPanel13">
+                        <Container class="javax.swing.JPanel" name="connectionInfoPanel">
                           <Properties>
-                            <Property name="name" type="java.lang.String" value="jPanel13" noResource="true"/>
+                            <Property name="name" type="java.lang.String" value="connectionInfoPanel" noResource="true"/>
                           </Properties>
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
@@ -230,7 +230,7 @@
                         </Container>
                       </SubComponents>
                     </Container>
-                    <Container class="javax.swing.JPanel" name="serviceInfoBorderPanel">
+                    <Container class="javax.swing.JPanel" name="serviceInformationBorderPanel">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -239,7 +239,7 @@
                             </TitledBorder>
                           </Border>
                         </Property>
-                        <Property name="name" type="java.lang.String" value="serviceInfoBorderPanel" noResource="true"/>
+                        <Property name="name" type="java.lang.String" value="serviceInformationBorderPanel" noResource="true"/>
                       </Properties>
 
                       <Layout>
@@ -247,7 +247,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jPanel14" max="32767" attributes="0"/>
+                                  <Component id="serviceInformationPanel" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -255,16 +255,16 @@
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jPanel14" min="-2" max="-2" attributes="0"/>
+                                  <Component id="serviceInformationPanel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace pref="16" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Container class="javax.swing.JPanel" name="jPanel14">
+                        <Container class="javax.swing.JPanel" name="serviceInformationPanel">
                           <Properties>
-                            <Property name="name" type="java.lang.String" value="jPanel14" noResource="true"/>
+                            <Property name="name" type="java.lang.String" value="serviceInformationPanel" noResource="true"/>
                           </Properties>
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
@@ -363,21 +363,21 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jPanel15" max="32767" attributes="0"/>
+                                  <Component id="managerInfoPanel" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jPanel15" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="managerInfoPanel" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Container class="javax.swing.JPanel" name="jPanel15">
+                        <Container class="javax.swing.JPanel" name="managerInfoPanel">
                           <Properties>
-                            <Property name="name" type="java.lang.String" value="jPanel15" noResource="true"/>
+                            <Property name="name" type="java.lang.String" value="managerInfoPanel" noResource="true"/>
                           </Properties>
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
@@ -518,8 +518,8 @@
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="jPanel12" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jPanel11" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="updatingModePanel" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="startupControlPanel" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -528,23 +528,23 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jPanel11" min="-2" max="-2" attributes="0"/>
+                              <Component id="startupControlPanel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jPanel12" min="-2" max="-2" attributes="0"/>
+                              <Component id="updatingModePanel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Container class="javax.swing.JPanel" name="jPanel11">
+                    <Container class="javax.swing.JPanel" name="startupControlPanel">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder title="Startup"/>
                           </Border>
                         </Property>
-                        <Property name="name" type="java.lang.String" value="jPanel11" noResource="true"/>
+                        <Property name="name" type="java.lang.String" value="startupControlPanel" noResource="true"/>
                       </Properties>
 
                       <Layout>
@@ -554,19 +554,19 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jCheckBox1" max="32767" attributes="0"/>
+                                          <Component id="runOnSystemStartCheckBox" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                                          <Component id="jCheckBox2" max="32767" attributes="0"/>
+                                          <Component id="runOnSystemLoginCheckBox2" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
+                                          <Component id="runAsLabel" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jComboBox1" max="32767" attributes="0"/>
+                                          <Component id="runAsComboBox" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -576,20 +576,20 @@
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="runOnSystemStartCheckBox" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jCheckBox2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="runOnSystemLoginCheckBox2" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
+                                  <Component id="runAsLabel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="runAsComboBox" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace pref="20" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+                        <Component class="javax.swing.JCheckBox" name="runOnSystemStartCheckBox">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Run on system startup"/>
                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -601,10 +601,10 @@
                             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
                               <Insets value="[0, 0, 0, 0]"/>
                             </Property>
-                            <Property name="name" type="java.lang.String" value="jCheckBox1" noResource="true"/>
+                            <Property name="name" type="java.lang.String" value="runOnSystemStartCheckBox" noResource="true"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JCheckBox" name="jCheckBox2">
+                        <Component class="javax.swing.JCheckBox" name="runOnSystemLoginCheckBox2">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Run on system login"/>
                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -616,16 +616,16 @@
                             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
                               <Insets value="[0, 0, 0, 0]"/>
                             </Property>
-                            <Property name="name" type="java.lang.String" value="jCheckBox2" noResource="true"/>
+                            <Property name="name" type="java.lang.String" value="runOnSystemLoginCheckBox2" noResource="true"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel15">
+                        <Component class="javax.swing.JLabel" name="runAsLabel">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Run as"/>
-                            <Property name="name" type="java.lang.String" value="jLabel15" noResource="true"/>
+                            <Property name="name" type="java.lang.String" value="runAsLabel" noResource="true"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JComboBox" name="jComboBox1">
+                        <Component class="javax.swing.JComboBox" name="runAsComboBox">
                           <Properties>
                             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                               <StringArray count="4">
@@ -636,19 +636,19 @@
                               </StringArray>
                             </Property>
                             <Property name="enabled" type="boolean" value="false"/>
-                            <Property name="name" type="java.lang.String" value="jComboBox1" noResource="true"/>
+                            <Property name="name" type="java.lang.String" value="runAsComboBox" noResource="true"/>
                           </Properties>
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Container class="javax.swing.JPanel" name="jPanel12">
+                    <Container class="javax.swing.JPanel" name="updatingModePanel">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder title="Updating"/>
                           </Border>
                         </Property>
-                        <Property name="name" type="java.lang.String" value="jPanel12" noResource="true"/>
+                        <Property name="name" type="java.lang.String" value="updatingModePanel" noResource="true"/>
                       </Properties>
 
                       <Layout>
@@ -657,9 +657,9 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jCheckBox3" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jComboBox2" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="checkForNewVersionheckBox" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="updatingSourceLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="updatingSourceComboBox" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
@@ -668,18 +668,18 @@
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jCheckBox3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="checkForNewVersionheckBox" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
+                                  <Component id="updatingSourceLabel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jComboBox2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="updatingSourceComboBox" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace pref="20" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JCheckBox" name="jCheckBox3">
+                        <Component class="javax.swing.JCheckBox" name="checkForNewVersionheckBox">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Check for newer version on startup"/>
                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -691,16 +691,16 @@
                             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
                               <Insets value="[0, 0, 0, 0]"/>
                             </Property>
-                            <Property name="name" type="java.lang.String" value="jCheckBox3" noResource="true"/>
+                            <Property name="name" type="java.lang.String" value="checkForNewVersionheckBox" noResource="true"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel16">
+                        <Component class="javax.swing.JLabel" name="updatingSourceLabel">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Updating source"/>
-                            <Property name="name" type="java.lang.String" value="jLabel16" noResource="true"/>
+                            <Property name="name" type="java.lang.String" value="updatingSourceLabel" noResource="true"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JComboBox" name="jComboBox2">
+                        <Component class="javax.swing.JComboBox" name="updatingSourceComboBox">
                           <Properties>
                             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                               <StringArray count="4">
@@ -711,7 +711,7 @@
                               </StringArray>
                             </Property>
                             <Property name="enabled" type="boolean" value="false"/>
-                            <Property name="name" type="java.lang.String" value="jComboBox2" noResource="true"/>
+                            <Property name="name" type="java.lang.String" value="updatingSourceComboBox" noResource="true"/>
                           </Properties>
                         </Component>
                       </SubComponents>
@@ -748,8 +748,8 @@
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="jPanel9" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jPanel8" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="logMessagesPanel" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="serviceStatusPanel" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -759,23 +759,23 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jPanel8" min="-2" max="-2" attributes="0"/>
+                              <Component id="serviceStatusPanel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jPanel9" max="32767" attributes="0"/>
+                              <Component id="logMessagesPanel" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Container class="javax.swing.JPanel" name="jPanel8">
+                    <Container class="javax.swing.JPanel" name="serviceStatusPanel">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder title="Service Status"/>
                           </Border>
                         </Property>
-                        <Property name="name" type="java.lang.String" value="jPanel8" noResource="true"/>
+                        <Property name="name" type="java.lang.String" value="serviceStatusPanel" noResource="true"/>
                       </Properties>
 
                       <Layout>
@@ -783,11 +783,11 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="startServiceButton" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="stopServiceButton" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="restartServiceButton" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -797,9 +797,9 @@
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="restartServiceButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="stopServiceButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="startServiceButton" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
@@ -807,40 +807,40 @@
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JButton" name="jButton1">
+                        <Component class="javax.swing.JButton" name="restartServiceButton">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Restart"/>
                             <Property name="enabled" type="boolean" value="false"/>
-                            <Property name="name" type="java.lang.String" value="jButton1" noResource="true"/>
+                            <Property name="name" type="java.lang.String" value="restartServiceButton" noResource="true"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JButton" name="jButton2">
+                        <Component class="javax.swing.JButton" name="stopServiceButton">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Stop"/>
                             <Property name="enabled" type="boolean" value="false"/>
-                            <Property name="name" type="java.lang.String" value="jButton2" noResource="true"/>
+                            <Property name="name" type="java.lang.String" value="stopServiceButton" noResource="true"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stopServiceButtonActionPerformed"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JButton" name="jButton3">
+                        <Component class="javax.swing.JButton" name="startServiceButton">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Start"/>
                             <Property name="enabled" type="boolean" value="false"/>
-                            <Property name="name" type="java.lang.String" value="jButton3" noResource="true"/>
+                            <Property name="name" type="java.lang.String" value="startServiceButton" noResource="true"/>
                           </Properties>
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Container class="javax.swing.JPanel" name="jPanel9">
+                    <Container class="javax.swing.JPanel" name="logMessagesPanel">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder title="Log Messages"/>
                           </Border>
                         </Property>
-                        <Property name="name" type="java.lang.String" value="jPanel9" noResource="true"/>
+                        <Property name="name" type="java.lang.String" value="logMessagesPanel" noResource="true"/>
                       </Properties>
 
                       <Layout>
@@ -848,7 +848,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jScrollPane2" pref="193" max="32767" attributes="0"/>
+                                  <Component id="logMessagesScrollPane" pref="193" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -857,16 +857,16 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jScrollPane2" pref="23" max="32767" attributes="0"/>
+                                  <Component id="logMessagesScrollPane" pref="23" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+                        <Container class="javax.swing.JScrollPane" name="logMessagesScrollPane">
                           <Properties>
-                            <Property name="name" type="java.lang.String" value="jScrollPane2" noResource="true"/>
+                            <Property name="name" type="java.lang.String" value="logMessagesScrollPane" noResource="true"/>
                           </Properties>
                           <AuxValues>
                             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -874,12 +874,12 @@
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                           <SubComponents>
-                            <Component class="javax.swing.JTextArea" name="jTextArea1">
+                            <Component class="javax.swing.JTextArea" name="logMessagesTextArea">
                               <Properties>
-                                <Property name="columns" type="int" value="20"/>
                                 <Property name="editable" type="boolean" value="false"/>
+                                <Property name="columns" type="int" value="20"/>
                                 <Property name="rows" type="int" value="5"/>
-                                <Property name="name" type="java.lang.String" value="jTextArea1" noResource="true"/>
+                                <Property name="name" type="java.lang.String" value="logMessagesTextArea" noResource="true"/>
                               </Properties>
                             </Component>
                           </SubComponents>

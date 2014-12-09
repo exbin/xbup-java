@@ -89,7 +89,6 @@ public class XBServiceManagerModule implements ApplicationModule {
         statusManagement.addStatusPanel(editorFrame.getStatusPanel());
 
         editorFrame.setMainFrameManagement(management.getMainFrameManagement());
-        activePanel.setMainFrameManagement(management.getMainFrameManagement());
     }
 
     /**

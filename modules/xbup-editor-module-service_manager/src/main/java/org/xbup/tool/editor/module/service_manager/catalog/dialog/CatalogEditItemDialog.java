@@ -20,16 +20,19 @@ import java.awt.Container;
 import javax.swing.JOptionPane;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
+import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCSpec;
+import org.xbup.tool.editor.base.api.MenuManagement;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditDefinitionPanel;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditPanel;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditFilesPanel;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditRevsPanel;
 
 /**
  * XBManager Catalog Item Properties Dialog.
  *
- * @version 0.1.24 2014/11/22
+ * @version 0.1.24 2014/12/10
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogEditItemDialog extends javax.swing.JDialog {
@@ -41,6 +44,8 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
     private CatalogItemEditPanel propertiesPanel;
     private CatalogItemEditRevsPanel revisionsPanel;
     private CatalogItemEditDefinitionPanel definitionPanel;
+    private CatalogItemEditFilesPanel filesPanel;
+    private MenuManagement menuManagement;
 
     public CatalogEditItemDialog(java.awt.Frame frame, boolean modal) {
         super(frame, modal);
@@ -177,6 +182,16 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
             revisionsPanel.setDefsModel(definitionPanel.getDefsModel());
             initComponent(definitionPanel);
             mainTabbedPane.add(definitionPanel, "Definition");
+        } else if (item instanceof XBCNode) {
+            filesPanel = new CatalogItemEditFilesPanel();
+            filesPanel.setCatalog(catalog);
+            filesPanel.setNode((XBCNode) item);
+            if (menuManagement != null) {
+                filesPanel.setMenuManagement(menuManagement);
+            }
+
+            initComponent(filesPanel);
+            mainTabbedPane.add(filesPanel, "Files");
         }
     }
 
@@ -187,6 +202,14 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
         }
         if (revisionsPanel != null) {
             revisionsPanel.persist();
+        }
+    }
+
+    public void setMenuManagement(MenuManagement menuManagement) {
+        this.menuManagement = menuManagement;
+
+        if (filesPanel != null) {
+            filesPanel.setMenuManagement(menuManagement);
         }
     }
 
@@ -204,6 +227,9 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
         }
         if (definitionPanel != null) {
             definitionPanel.setCatalog(catalog);
+        }
+        if (filesPanel != null) {
+            filesPanel.setCatalog(catalog);
         }
     }
 }

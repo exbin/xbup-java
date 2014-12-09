@@ -17,11 +17,14 @@
 package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
 import java.awt.Component;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JPopupMenu;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -30,6 +33,7 @@ import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
 import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.XBCItem;
+import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCXDesc;
@@ -45,6 +49,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXIconService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * Panel for basic XBItem viewing/editation.
@@ -58,6 +63,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
 
     private final CatalogDefsTableModel defsModel;
     private final CatalogRevsTableModel revsModel;
+    private final CatalogFilesTableModel filesModel;
     private XBCXNameService nameService;
     private XBCXDescService descService;
     private XBCXStriService striService;
@@ -73,6 +79,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
     public CatalogItemPanel() {
         defsModel = new CatalogDefsTableModel();
         revsModel = new CatalogRevsTableModel();
+        filesModel = new CatalogFilesTableModel();
         initComponents();
     }
 
@@ -88,6 +95,9 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         definitionPopupMenu = new javax.swing.JPopupMenu();
         jumpToMenuItem = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        filesPopupMenu = new javax.swing.JPopupMenu();
+        exportFileMenuItem = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
         mainTabbedPane = new javax.swing.JTabbedPane();
         generalPanel = new javax.swing.JPanel();
         basicItemScrollPane = new javax.swing.JScrollPane();
@@ -115,11 +125,15 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         definitionPanel = new javax.swing.JPanel();
         itemDefinitionScrollPane = new javax.swing.JScrollPane();
         itemDefinitionTable = new javax.swing.JTable();
+        filesPanel = new javax.swing.JPanel();
+        itemFilesScrollPane = new javax.swing.JScrollPane();
+        itemFilesTable = new javax.swing.JTable();
 
         definitionPopupMenu.setName("definitionPopupMenu"); // NOI18N
 
         jumpToMenuItem.setText("Jump To Type");
         jumpToMenuItem.setToolTipText("Navigate to type of selected definition row");
+        jumpToMenuItem.setEnabled(false);
         jumpToMenuItem.setName("jumpToMenuItem"); // NOI18N
         jumpToMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,6 +144,22 @@ public class CatalogItemPanel extends javax.swing.JPanel {
 
         jSeparator2.setName("jSeparator2"); // NOI18N
         definitionPopupMenu.add(jSeparator2);
+
+        filesPopupMenu.setName("filesPopupMenu"); // NOI18N
+
+        exportFileMenuItem.setText("Export...");
+        exportFileMenuItem.setToolTipText("Export content of the remote file to local file");
+        exportFileMenuItem.setEnabled(false);
+        exportFileMenuItem.setName("exportFileMenuItem"); // NOI18N
+        exportFileMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportFileMenuItemActionPerformed(evt);
+            }
+        });
+        filesPopupMenu.add(exportFileMenuItem);
+
+        jSeparator3.setName("jSeparator3"); // NOI18N
+        filesPopupMenu.add(jSeparator3);
 
         setLayout(new java.awt.BorderLayout());
 
@@ -290,6 +320,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         definitionPanel.setName("definitionPanel"); // NOI18N
         definitionPanel.setLayout(new java.awt.BorderLayout());
 
+        itemDefinitionScrollPane.setComponentPopupMenu(definitionPopupMenu);
         itemDefinitionScrollPane.setName("itemDefinitionScrollPane"); // NOI18N
 
         itemDefinitionTable.setModel(defsModel);
@@ -301,6 +332,21 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         definitionPanel.add(itemDefinitionScrollPane, java.awt.BorderLayout.CENTER);
 
         mainTabbedPane.addTab("Definition", definitionPanel);
+
+        filesPanel.setName("filesPanel"); // NOI18N
+        filesPanel.setLayout(new java.awt.BorderLayout());
+
+        itemFilesScrollPane.setComponentPopupMenu(filesPopupMenu);
+        itemFilesScrollPane.setName("itemFilesScrollPane"); // NOI18N
+
+        itemFilesTable.setModel(filesModel);
+        itemFilesTable.setComponentPopupMenu(filesPopupMenu);
+        itemFilesTable.setName("itemFilesTable"); // NOI18N
+        itemFilesScrollPane.setViewportView(itemFilesTable);
+
+        filesPanel.add(itemFilesScrollPane, java.awt.BorderLayout.CENTER);
+
+        mainTabbedPane.addTab("Files", filesPanel);
 
         add(mainTabbedPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -314,12 +360,36 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jumpToMenuItemActionPerformed
 
+    private void exportFileMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportFileMenuItemActionPerformed
+        XBCXFile file = filesModel.getItem(itemFilesTable.getSelectedRow());
+        JFileChooser exportFileChooser = new JFileChooser(file.getFilename());
+        exportFileChooser.setAcceptAllFileFilterUsed(true);
+        if (exportFileChooser.showSaveDialog(WindowUtils.getFrame(this)) == JFileChooser.APPROVE_OPTION) {
+            FileOutputStream fileStream;
+            try {
+                fileStream = new FileOutputStream(exportFileChooser.getSelectedFile().getAbsolutePath());
+                try {
+                    fileStream.write(file.getContent());
+                } finally {
+                    fileStream.close();
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(CatalogItemPanel.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(CatalogItemPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_exportFileMenuItemActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel basicItemDataPanel;
     private javax.swing.JScrollPane basicItemScrollPane;
     private javax.swing.JPanel definitionPanel;
     private javax.swing.JPopupMenu definitionPopupMenu;
     private javax.swing.JPanel documentationPanel;
+    private javax.swing.JMenuItem exportFileMenuItem;
+    private javax.swing.JPanel filesPanel;
+    private javax.swing.JPopupMenu filesPopupMenu;
     private javax.swing.JPanel generalPanel;
     private javax.swing.JPanel iconPanel;
     private javax.swing.JLabel itemCreatedLabel;
@@ -328,6 +398,8 @@ public class CatalogItemPanel extends javax.swing.JPanel {
     private javax.swing.JTable itemDefinitionTable;
     private javax.swing.JLabel itemDescriptionLabel;
     private javax.swing.JTextField itemDescriptionTextField;
+    private javax.swing.JScrollPane itemFilesScrollPane;
+    private javax.swing.JTable itemFilesTable;
     private javax.swing.JEditorPane itemHDocEditorPane;
     private javax.swing.JScrollPane itemHDocScrollPane;
     private javax.swing.JLabel itemIconLabel;
@@ -342,6 +414,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
     private javax.swing.JTextField itemTypeTextField;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JMenuItem jumpToMenuItem;
     private javax.swing.JTabbedPane mainTabbedPane;
     private javax.swing.JPanel revisionsPanel;
@@ -430,9 +503,12 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         }
 
         revsModel.setSpec(item instanceof XBCSpec ? (XBCSpec) item : null);
-
         defsModel.setCatalogItem(item);
         defsModel.setRevsModel(revsModel);
+        definitionTableUpdated();
+        filesModel.setNode(item instanceof XBCNode ? (XBCNode) item : null);
+        itemFilesTable.revalidate();
+        fileTableUpdated();
     }
 
     public JumpActionListener getJumpActionListener() {
@@ -443,27 +519,44 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         this.jumpActionListener = jumpActionListener;
     }
 
-    void setMainFrameManagement(MainFrameManagement mainFrameManagement) {
+    public void setMainFrameManagement(MainFrameManagement mainFrameManagement) {
         JPopupMenu defaultTextPopupMenu = mainFrameManagement.getDefaultTextPopupMenu();
         for (Component menuComponent : defaultTextPopupMenu.getComponents()) {
             definitionPopupMenu.add(mainFrameManagement.duplicateMenuComponent(menuComponent));
+            filesPopupMenu.add(mainFrameManagement.duplicateMenuComponent(menuComponent));
         }
 
         mainFrameManagement.initPopupMenu(definitionPopupMenu);
+        mainFrameManagement.initPopupMenu(filesPopupMenu);
         itemDefinitionTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                int rowIndex = itemDefinitionTable.getSelectedRow();
-                if (rowIndex >= 0) {
-                    if (defsModel.getRowItem(rowIndex).getTarget() != null) {
-                        jumpToMenuItem.setEnabled(true);
-                        return;
-                    }
-                }
-
-                jumpToMenuItem.setEnabled(false);
+                definitionTableUpdated();
             }
         });
+        itemFilesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                fileTableUpdated();
+            }
+        });
+    }
+
+    private void definitionTableUpdated() {
+        int rowIndex = itemDefinitionTable.getSelectedRow();
+        if (rowIndex >= 0) {
+            if (defsModel.getRowItem(rowIndex).getTarget() != null) {
+                jumpToMenuItem.setEnabled(true);
+                return;
+            }
+        }
+
+        jumpToMenuItem.setEnabled(false);
+    }
+
+    private void fileTableUpdated() {
+        int rowIndex = itemFilesTable.getSelectedRow();
+        exportFileMenuItem.setEnabled(rowIndex >= 0);
     }
 
     void setCatalog(XBACatalog catalog) {
@@ -476,6 +569,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
 
         defsModel.setCatalog(catalog);
         revsModel.setCatalog(catalog);
+        filesModel.setCatalog(catalog);
         reloadItem();
     }
 

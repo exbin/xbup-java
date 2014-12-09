@@ -16,6 +16,9 @@
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="addItemMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="addItemMenuItem,toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="name" type="java.lang.String" value="popupAddItemMenu" noResource="true"/>
           </Properties>
           <SubComponents>
@@ -36,6 +39,9 @@
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="addBlockMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="addSpecMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
                 <Property name="name" type="java.lang.String" value="popupAddSpecMenuItem" noResource="true"/>
               </Properties>
               <Events>
@@ -46,6 +52,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="addNodeMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="addNodeMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="popupAddNodeMenuItem" noResource="true"/>
               </Properties>
@@ -60,6 +69,9 @@
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="editMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="editMenuItem,toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="name" type="java.lang.String" value="popupEditMenuItem" noResource="true"/>
           </Properties>
           <Events>
@@ -68,8 +80,12 @@
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="popupRefreshMenuItem">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Refresh"/>
-            <Property name="toolTipText" type="java.lang.String" value="Reload and refresh list of items"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="refreshMenuItem,text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="refreshMenuItem,toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="name" type="java.lang.String" value="popupRefreshMenuItem" noResource="true"/>
           </Properties>
           <Events>
@@ -88,8 +104,12 @@
         </Component>
         <MenuItem class="javax.swing.JMenuItem" name="popupImportItemMenuItem">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Import..."/>
-            <Property name="toolTipText" type="java.lang.String" value="Import record from external file"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="importItemMenuItem,text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="importItemMenuItem,toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="name" type="java.lang.String" value="popupImportItemMenuItem" noResource="true"/>
           </Properties>
           <Events>
@@ -98,8 +118,12 @@
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="popupExportItemMenuItem">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Export..."/>
-            <Property name="toolTipText" type="java.lang.String" value="Export record to external file"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="exportItemMenuItem,text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel.properties" key="exportItemMenuItem,toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
             <Property name="name" type="java.lang.String" value="popupExportItemMenuItem" noResource="true"/>
           </Properties>
           <Events>

@@ -38,7 +38,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 /**
  * Table model for catalog definition bindings.
  *
- * @version 0.1.24 2014/12/04
+ * @version 0.1.24 2014/12/09
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogDefsTableModel extends AbstractTableModel {
@@ -55,8 +55,7 @@ public class CatalogDefsTableModel extends AbstractTableModel {
         java.lang.Long.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class
     };
 
-    public CatalogDefsTableModel(XBACatalog catalog) {
-        this.catalog = catalog;
+    public CatalogDefsTableModel() {
     }
 
     @Override

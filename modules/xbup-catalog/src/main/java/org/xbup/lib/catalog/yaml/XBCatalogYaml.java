@@ -55,22 +55,16 @@ import org.yaml.snakeyaml.Yaml;
 /**
  * XB Catalog import and export to yaml.
  *
- * @version 0.1.24 2014/11/17
+ * @version 0.1.24 2014/12/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCatalogYaml {
 
-    private final XBACatalog catalog;
+    private XBACatalog catalog;
     private XBCXNameService nameService;
     private XBCXDescService descService;
 
-    public XBCatalogYaml(XBACatalog catalog) {
-        this.catalog = catalog;
-        if (catalog != null) {
-            nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-            descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
-            // TODO: OnAddExtension
-        }
+    public XBCatalogYaml() {
     }
 
     public void exportCatalogItem(XBCItem item, Writer writer) {
@@ -403,5 +397,12 @@ public class XBCatalogYaml {
         }
 
         return null;
+    }
+
+    public void setCatalog(XBACatalog catalog) {
+        this.catalog = catalog;
+
+        nameService = catalog == null ? null : (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+        descService = catalog == null ? null : (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
     }
 }

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.swing.table.AbstractTableModel;
+import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
@@ -33,12 +34,12 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 /**
  * Table model for catalog specifications.
  *
- * @version 0.1.22 2013/04/10
+ * @version 0.1.24 2014/12/09
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSpecsTableModel extends AbstractTableModel {
 
-    private final XBCatalog catalog;
+    private XBCatalog catalog;
     private XBCXNameService nameService;
     private XBCNode node;
 
@@ -49,25 +50,13 @@ public class CatalogSpecsTableModel extends AbstractTableModel {
 
     private List<CatalogSpecTableItem> items = new ArrayList<>();
 
-    // private long formatCount, groupCount, blockCount, limitCount;
-    public CatalogSpecsTableModel(XBCatalog catalog) {
-        this.catalog = catalog;
+    public CatalogSpecsTableModel() {
         node = null;
-        nameService = null;
-        if (catalog != null) {
-            nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-            // TODO: OnAddExtension
-        }
     }
 
     @Override
     public int getRowCount() {
         return items.size();
-        /*if (node==null) {
-         return 0;
-         }
-         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
-         return (int) specService.getSpecsCount(node)+1; */
     }
 
     @Override
@@ -89,48 +78,6 @@ public class CatalogSpecsTableModel extends AbstractTableModel {
             }
         }
         return "";
-
-        /*switch (columnIndex) {
-         case 0: {
-         if (rowIndex==0) {
-         return ".";
-         }
-         XBCItem item = getItem(rowIndex);
-         if (nameService!=null) {
-         if (item==null) {
-         return null;
-         }
-         XBCXName name = nameService.getDefaultItemName(item);
-         return (name==null)?"":name.getText();
-         } else {
-         return "spec";
-         }
-         }
-         case 1: {
-         if (rowIndex==0) {
-         return "Node";
-         }
-         if (rowIndex<formatCount+1) {
-         return "Format";
-         }
-         if (rowIndex<formatCount+groupCount+1) {
-         return "Group";
-         }
-         if (rowIndex<formatCount+groupCount+blockCount+1) {
-         return "Block";
-         }
-         return "Limitation";
-         }
-
-         case 2: {
-         XBCItem item = getItem(rowIndex);
-         if (item!=null) {
-         return item.getXBIndex();
-         }
-         return null;
-         }
-         default: return null;
-         } */
     }
 
     @Override
@@ -150,9 +97,6 @@ public class CatalogSpecsTableModel extends AbstractTableModel {
     public void setNode(XBCNode node) {
         this.node = node;
         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
-        /*formatCount = specService.getFormatSpecsCount(node);
-         groupCount = specService.getGroupSpecsCount(node);
-         blockCount = specService.getBlockSpecsCount(node); */
 
         items = new ArrayList<>();
         if (node != null) {
@@ -177,21 +121,16 @@ public class CatalogSpecsTableModel extends AbstractTableModel {
 
     public XBCItem getItem(int index) {
         return items.get(index).getItem();
-        /*if (index==0) {
-         return node;
-         }
-         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
-         if (index<formatCount+1) {
-         return specService.getFormatSpec(node,index-1);
-         }
-         if (index<formatCount+groupCount+1) {
-         return specService.getGroupSpec(node,index-formatCount-1);
-         }
-         return specService.getBlockSpec(node,index-formatCount-groupCount-1); */
     }
 
     public int getIndexOfItem(CatalogSpecTableItem item) {
         return items.indexOf(item);
+    }
+
+    public void setCatalog(XBACatalog catalog) {
+        this.catalog = catalog;
+
+        nameService = catalog == null ? null : (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
     }
 
     public class CatalogSpecTableItem {

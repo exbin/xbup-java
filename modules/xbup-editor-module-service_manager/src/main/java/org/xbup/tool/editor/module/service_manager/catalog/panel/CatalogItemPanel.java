@@ -49,15 +49,15 @@ import org.xbup.tool.editor.base.api.MainFrameManagement;
 /**
  * Panel for basic XBItem viewing/editation.
  *
- * @version 0.1.24 2014/11/26
+ * @version 0.1.24 2014/12/09
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemPanel extends javax.swing.JPanel {
 
     private XBCItem item;
 
-    private CatalogDefsTableModel defsModel;
-    private CatalogRevsTableModel revsModel;
+    private final CatalogDefsTableModel defsModel;
+    private final CatalogRevsTableModel revsModel;
     private XBCXNameService nameService;
     private XBCXDescService descService;
     private XBCXStriService striService;
@@ -70,46 +70,9 @@ public class CatalogItemPanel extends javax.swing.JPanel {
     private XBCXIcon itemIcon;
     private JumpActionListener jumpActionListener = null;
 
-    public CatalogItemPanel(XBACatalog catalog, MainFrameManagement mainFrameManagement) {
-        nameService = null;
-        descService = null;
-        if (catalog != null) {
-            striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
-            nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-            descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
-            hDocService = (XBCXHDocService) catalog.getCatalogService(XBCXHDocService.class);
-            fileService = (XBCXFileService) catalog.getCatalogService(XBCXFileService.class);
-            iconService = (XBCXIconService) catalog.getCatalogService(XBCXIconService.class);
-            // TODO: OnAddExtension
-        }
-
-        defsModel = new CatalogDefsTableModel(catalog);
-        revsModel = new CatalogRevsTableModel(catalog);
-        initComponents();
-
-        JPopupMenu defaultTextPopupMenu = mainFrameManagement.getDefaultTextPopupMenu();
-        for (Component menuComponent : defaultTextPopupMenu.getComponents()) {
-            definitionPopupMenu.add(mainFrameManagement.duplicateMenuComponent(menuComponent));
-        }
-
-        mainFrameManagement.initPopupMenu(definitionPopupMenu);
-        itemDefinitionTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                int rowIndex = itemDefinitionTable.getSelectedRow();
-                if (rowIndex >= 0) {
-                    if (defsModel.getRowItem(rowIndex).getTarget() != null) {
-                        jumpToMenuItem.setEnabled(true);
-                        return;
-                    }
-                }
-
-                jumpToMenuItem.setEnabled(false);
-            }
-        });
-    }
-
     public CatalogItemPanel() {
+        defsModel = new CatalogDefsTableModel();
+        revsModel = new CatalogRevsTableModel();
         initComponents();
     }
 
@@ -478,6 +441,42 @@ public class CatalogItemPanel extends javax.swing.JPanel {
 
     public void setJumpActionListener(JumpActionListener jumpActionListener) {
         this.jumpActionListener = jumpActionListener;
+    }
+
+    void setMainFrameManagement(MainFrameManagement mainFrameManagement) {
+        JPopupMenu defaultTextPopupMenu = mainFrameManagement.getDefaultTextPopupMenu();
+        for (Component menuComponent : defaultTextPopupMenu.getComponents()) {
+            definitionPopupMenu.add(mainFrameManagement.duplicateMenuComponent(menuComponent));
+        }
+
+        mainFrameManagement.initPopupMenu(definitionPopupMenu);
+        itemDefinitionTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int rowIndex = itemDefinitionTable.getSelectedRow();
+                if (rowIndex >= 0) {
+                    if (defsModel.getRowItem(rowIndex).getTarget() != null) {
+                        jumpToMenuItem.setEnabled(true);
+                        return;
+                    }
+                }
+
+                jumpToMenuItem.setEnabled(false);
+            }
+        });
+    }
+
+    void setCatalog(XBACatalog catalog) {
+        striService = catalog == null ? null : (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
+        nameService = catalog == null ? null : (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+        descService = catalog == null ? null : (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
+        hDocService = catalog == null ? null : (XBCXHDocService) catalog.getCatalogService(XBCXHDocService.class);
+        fileService = catalog == null ? null : (XBCXFileService) catalog.getCatalogService(XBCXFileService.class);
+        iconService = catalog == null ? null : (XBCXIconService) catalog.getCatalogService(XBCXIconService.class);
+
+        defsModel.setCatalog(catalog);
+        revsModel.setCatalog(catalog);
+        reloadItem();
     }
 
     public interface JumpActionListener {

@@ -38,7 +38,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecRev
 /**
  * XBManager Catalog Item Edit Revisions Panel.
  *
- * @version 0.1.24 2014/12/03
+ * @version 0.1.24 2014/12/09
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
@@ -52,7 +52,7 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
     private List<CatalogRevsTableItem> updateList;
 
     public CatalogItemEditRevsPanel() {
-        revsModel = new CatalogRevsTableModel(null);
+        revsModel = new CatalogRevsTableModel();
         initComponents();
 
         itemRevisionsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {

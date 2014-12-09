@@ -62,16 +62,12 @@ public class CatalogFilesTreePanel extends javax.swing.JPanel {
     private XBCNode currentNode;
     private XBCatalogYaml catalogYaml;
 
-    public CatalogFilesTreePanel(XBACatalog catalog) {
-        this.catalog = catalog;
-        nameService = null;
-        if (catalog != null) {
+    public CatalogFilesTreePanel() {
             nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
             fileService = (XBCXFileService) catalog.getCatalogService(XBCXFileService.class);
-        }
-        nodesModel = new CatalogNodesTreeModel(catalog);
-        filesModel = new CatalogFilesTableModel(catalog);
-        catalogYaml = new XBCatalogYaml(catalog);
+        nodesModel = new CatalogNodesTreeModel();
+        filesModel = new CatalogFilesTableModel();
+        catalogYaml = new XBCatalogYaml();
 
         initComponents();
         catalogTree.setCellRenderer(new DefaultTreeCellRenderer() {
@@ -385,5 +381,16 @@ public class CatalogFilesTreePanel extends javax.swing.JPanel {
 
     public JPopupMenu getPopupMenu() {
         return catalogTreePopupMenu;
+    }
+    
+    public void setCatalog(XBACatalog catalog) {
+        this.catalog = catalog;
+        
+        nameService = catalog == null ? null : (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+        fileService = catalog == null ? null : (XBCXFileService) catalog.getCatalogService(XBCXFileService.class);
+
+        nodesModel.setCatalog(catalog);
+        filesModel.setCatalog(catalog);
+        catalogYaml.setCatalog(catalog);
     }
 }

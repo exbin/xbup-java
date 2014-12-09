@@ -66,6 +66,16 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="popupEditMenuItemActionPerformed"/>
           </Events>
         </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="popupRefreshMenuItem">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Refresh"/>
+            <Property name="toolTipText" type="java.lang.String" value="Reload and refresh list of items"/>
+            <Property name="name" type="java.lang.String" value="popupRefreshMenuItem" noResource="true"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="popupRefreshMenuItemActionPerformed"/>
+          </Events>
+        </MenuItem>
         <Component class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
           <Properties>
             <Property name="name" type="java.lang.String" value="jSeparator1" noResource="true"/>
@@ -79,6 +89,7 @@
         <MenuItem class="javax.swing.JMenuItem" name="popupImportItemMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" value="Import..."/>
+            <Property name="toolTipText" type="java.lang.String" value="Import record from external file"/>
             <Property name="name" type="java.lang.String" value="popupImportItemMenuItem" noResource="true"/>
           </Properties>
           <Events>
@@ -88,6 +99,7 @@
         <MenuItem class="javax.swing.JMenuItem" name="popupExportItemMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" value="Export..."/>
+            <Property name="toolTipText" type="java.lang.String" value="Export record to external file"/>
             <Property name="name" type="java.lang.String" value="popupExportItemMenuItem" noResource="true"/>
           </Properties>
           <Events>

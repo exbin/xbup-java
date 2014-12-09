@@ -20,9 +20,7 @@ import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogFilesTreePanel;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemsTreePanel;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogStatusPanel;
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
 import org.xbup.tool.editor.base.api.MenuManagement;
@@ -30,21 +28,17 @@ import org.xbup.tool.editor.base.api.MenuManagement;
 /**
  * Simple Browser for catalog data.
  *
- * @version 0.1.24 2014/10/03
+ * @version 0.1.24 2014/12/09
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogBrowserPanel extends javax.swing.JPanel implements ActivePanelActionHandling {
 
-    private XBACatalog catalog;
-    private CatalogItemsTreePanel catalogSpecificationsPanel;
-    private CatalogFilesTreePanel catalogFilesPanel;
-    private MenuManagement menuManagement;
-    private MainFrameManagement mainFrameManagement;
+    private XBACatalog catalog = null;
+    private final CatalogItemsTreePanel catalogItemTreePanel = new CatalogItemsTreePanel();
 
     public CatalogBrowserPanel() {
         initComponents();
-        catalog = null;
-        reloadCatalog();
+        add(catalogItemTreePanel, "catalog");
     }
 
     /**
@@ -61,7 +55,6 @@ public class CatalogBrowserPanel extends javax.swing.JPanel implements ActivePan
         progressBarPanel = new javax.swing.JPanel();
         loadingProgressBar = new javax.swing.JProgressBar();
         loadingCatalogLabel = new javax.swing.JLabel();
-        tabbedPane = new javax.swing.JTabbedPane();
 
         setLayout(new java.awt.CardLayout());
 
@@ -108,7 +101,6 @@ public class CatalogBrowserPanel extends javax.swing.JPanel implements ActivePan
         catalogLoadingPanel.add(progressBarPanel, new java.awt.GridBagConstraints());
 
         add(catalogLoadingPanel, "catalogLoading");
-        add(tabbedPane, "catalog");
 
         getAccessibleContext().setAccessibleName("catalog");
     }// </editor-fold>//GEN-END:initComponents
@@ -119,7 +111,6 @@ public class CatalogBrowserPanel extends javax.swing.JPanel implements ActivePan
     private javax.swing.JProgressBar loadingProgressBar;
     private javax.swing.JLabel notAvailableLabel;
     private javax.swing.JPanel progressBarPanel;
-    private javax.swing.JTabbedPane tabbedPane;
     // End of variables declaration//GEN-END:variables
 
     public XBACatalog getCatalog() {
@@ -131,54 +122,32 @@ public class CatalogBrowserPanel extends javax.swing.JPanel implements ActivePan
             ((CardLayout) getLayout()).show(this, "notAvailable");
         } else {
             ((CardLayout) getLayout()).show(this, "catalogLoading");
-            tabbedPane.removeAll();
             this.catalog = catalog;
-            reloadCatalog();
+            catalogItemTreePanel.setCatalog(catalog);
             ((CardLayout) getLayout()).show(this, "catalog");
-        }
-    }
-
-    private void reloadCatalog() {
-        if (catalog != null) {
-            catalogSpecificationsPanel = new CatalogItemsTreePanel(catalog, mainFrameManagement);
-            catalogFilesPanel = new CatalogFilesTreePanel(catalog);
-            menuManagement.insertMainPopupMenu(catalogSpecificationsPanel.getPopupMenu(), 3);
-            menuManagement.insertMainPopupMenu(catalogFilesPanel.getPopupMenu(), 5);
-            tabbedPane.add(catalogSpecificationsPanel, "Specifications");
-            tabbedPane.add(catalogFilesPanel, "Files");
         }
     }
 
     @Override
     public boolean updateActionStatus(Component component) {
-        if (tabbedPane.getSelectedComponent() instanceof CatalogItemsTreePanel) {
-            return catalogSpecificationsPanel.updateActionStatus(component);
-        }
-
-        return false;
+        return catalogItemTreePanel.updateActionStatus(component);
     }
 
     @Override
     public void releaseActionStatus() {
-        if (tabbedPane.getSelectedComponent() instanceof CatalogItemsTreePanel) {
-            catalogSpecificationsPanel.releaseActionStatus();
-        }
+        catalogItemTreePanel.releaseActionStatus();
     }
 
     @Override
     public boolean performAction(String eventName, ActionEvent event) {
-        if (tabbedPane.getSelectedComponent() instanceof CatalogItemsTreePanel) {
-            return catalogSpecificationsPanel.performAction(eventName, event);
-        }
-
-        return false;
+        return catalogItemTreePanel.performAction(eventName, event);
     }
 
     public void setMainFrameManagement(MainFrameManagement mainFrameManagement) {
-        this.mainFrameManagement = mainFrameManagement;
+        catalogItemTreePanel.setMainFrameManagement(mainFrameManagement);
     }
 
     public void setMenuManagement(MenuManagement menuManagement) {
-        this.menuManagement = menuManagement;
+        catalogItemTreePanel.setMenuManagement(menuManagement);
     }
 }

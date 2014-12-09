@@ -34,7 +34,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
 import javax.swing.JTree;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -68,49 +67,40 @@ import static org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogS
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
 import org.xbup.tool.editor.base.api.FileType;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
+import org.xbup.tool.editor.base.api.MenuManagement;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * Catalog Specification Panel.
  *
- * @version 0.1.24 2014/12/04
+ * @version 0.1.24 2014/12/09
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActivePanelActionHandling {
 
+    private XBCItem currentItem;
+
     private XBACatalog catalog;
+    private MainFrameManagement mainFrameManagement;
+    private CatalogNodesTreeModel nodesModel;
+    private CatalogSpecsTableModel specsModel;
+    private final CatalogItemPanel itemPanel;
+    private XBCatalogYaml catalogYaml;
+
+    // Cached values
     private XBCNodeService nodeService;
     private XBCSpecService specService;
     private XBCXNameService nameService;
     private XBCXDescService descService;
     private XBCXStriService striService;
-    private CatalogNodesTreeModel nodesModel;
-    private CatalogSpecsTableModel specsModel;
-    private final CatalogItemPanel itemPanel;
-    private XBCItem currentItem;
-    private XBCatalogYaml catalogYaml;
-    private MainFrameManagement mainFrameManagement;
 
     private Map<String, ActionListener> actionListenerMap = new HashMap<>();
     public static final String YAML_FILE_TYPE = "CatalogItemsTreePanel.YamlFileType";
 
-    public CatalogItemsTreePanel(XBACatalog catalog, MainFrameManagement mainFrameManagement) {
-        this.catalog = catalog;
-        this.mainFrameManagement = mainFrameManagement;
-
-        nameService = null;
-        descService = null;
-        if (catalog != null) {
-            nodeService = (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
-            specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
-            nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-            descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
-            striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
-            // TODO: OnAddExtension
-        }
-        nodesModel = new CatalogNodesTreeModel(catalog);
-        specsModel = new CatalogSpecsTableModel(catalog);
-        catalogYaml = new XBCatalogYaml(catalog);
+    public CatalogItemsTreePanel() {
+        nodesModel = new CatalogNodesTreeModel();
+        specsModel = new CatalogSpecsTableModel();
+        catalogYaml = new XBCatalogYaml();
 
         initComponents();
         catalogTree.setCellRenderer(new DefaultTreeCellRenderer() {
@@ -143,7 +133,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
             }
         });
 
-        itemPanel = new CatalogItemPanel(catalog, mainFrameManagement);
+        itemPanel = new CatalogItemPanel();
         catalogItemSplitPane.setRightComponent(itemPanel);
         itemPanel.setJumpActionListener(new CatalogItemPanel.JumpActionListener() {
             @Override
@@ -206,6 +196,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
         popupAddSpecMenuItem = new javax.swing.JMenuItem();
         popupAddNodeMenuItem = new javax.swing.JMenuItem();
         popupEditMenuItem = new javax.swing.JMenuItem();
+        popupRefreshMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         popupImportItemMenuItem = new javax.swing.JMenuItem();
@@ -262,6 +253,16 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
         });
         catalogTreePopupMenu.add(popupEditMenuItem);
 
+        popupRefreshMenuItem.setText("Refresh");
+        popupRefreshMenuItem.setToolTipText("Reload and refresh list of items");
+        popupRefreshMenuItem.setName("popupRefreshMenuItem"); // NOI18N
+        popupRefreshMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popupRefreshMenuItemActionPerformed(evt);
+            }
+        });
+        catalogTreePopupMenu.add(popupRefreshMenuItem);
+
         jSeparator1.setName("jSeparator1"); // NOI18N
         catalogTreePopupMenu.add(jSeparator1);
 
@@ -269,6 +270,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
         catalogTreePopupMenu.add(jSeparator2);
 
         popupImportItemMenuItem.setText("Import...");
+        popupImportItemMenuItem.setToolTipText("Import record from external file");
         popupImportItemMenuItem.setName("popupImportItemMenuItem"); // NOI18N
         popupImportItemMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -278,6 +280,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
         catalogTreePopupMenu.add(popupImportItemMenuItem);
 
         popupExportItemMenuItem.setText("Export...");
+        popupExportItemMenuItem.setToolTipText("Export record to external file");
         popupExportItemMenuItem.setName("popupExportItemMenuItem"); // NOI18N
         popupExportItemMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -485,6 +488,15 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
         }
     }//GEN-LAST:event_popupAddSpecMenuItemActionPerformed
 
+    private void popupRefreshMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupRefreshMenuItemActionPerformed
+        Component invoker = catalogTreePopupMenu.getInvoker();
+        if (invoker == catalogTree) {
+            reloadNodesTree();
+        } else {
+            setNode((XBCNode) (currentItem == null || currentItem instanceof XBCNode ? currentItem : currentItem.getParent()));
+        }
+    }//GEN-LAST:event_popupRefreshMenuItemActionPerformed
+
     public void setNode(XBCNode node) {
         setItem(node);
         specsModel.setNode(node);
@@ -526,6 +538,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
 
     public void setMainFrameManagement(MainFrameManagement mainFrameManagement) {
         this.mainFrameManagement = mainFrameManagement;
+        itemPanel.setMainFrameManagement(mainFrameManagement);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -545,10 +558,22 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
     private javax.swing.JMenuItem popupEditMenuItem;
     private javax.swing.JMenuItem popupExportItemMenuItem;
     private javax.swing.JMenuItem popupImportItemMenuItem;
+    private javax.swing.JMenuItem popupRefreshMenuItem;
     // End of variables declaration//GEN-END:variables
 
-    public JPopupMenu getPopupMenu() {
-        return catalogTreePopupMenu;
+    public void setCatalog(XBACatalog catalog) {
+        this.catalog = catalog;
+
+        nodeService = catalog == null ? null : (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
+        specService = catalog == null ? null : (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        nameService = catalog == null ? null : (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+        descService = catalog == null ? null : (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
+        striService = catalog == null ? null : (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
+
+        reloadNodesTree();
+        specsModel.setCatalog(catalog);
+        catalogYaml.setCatalog(catalog);
+        itemPanel.setCatalog(catalog);
     }
 
     private void selectSpecTableRow(XBCItem item) {
@@ -649,6 +674,18 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
             ext = str.substring(i + 1).toLowerCase();
         }
         return ext;
+    }
+
+    public void setMenuManagement(MenuManagement menuManagement) {
+        menuManagement.insertMainPopupMenu(catalogTreePopupMenu, 4);
+        // menuManagement.insertMainPopupMenu(catalogFilesPanel.getPopupMenu(), 5);
+    }
+
+    private void reloadNodesTree() {
+        XBCNode rootNode = nodeService.getRootNode();            
+        nodesModel = new CatalogNodesTreeModel(rootNode);
+        nodesModel.setCatalog(catalog);
+        catalogTree.setModel(nodesModel);
     }
 
     public class YamlFileType extends FileFilter implements FileType {

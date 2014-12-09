@@ -29,7 +29,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 /**
  * Table model for catalog revisions.
  *
- * @version 0.1.24 2014/11/13
+ * @version 0.1.24 2014/12/09
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogRevsTableModel extends AbstractTableModel {
@@ -43,8 +43,7 @@ public class CatalogRevsTableModel extends AbstractTableModel {
     };
     private final List<CatalogRevsTableItem> revs = new ArrayList<>();
 
-    public CatalogRevsTableModel(XBCatalog catalog) {
-        this.catalog = catalog;
+    public CatalogRevsTableModel() {
     }
 
     @Override
@@ -110,7 +109,7 @@ public class CatalogRevsTableModel extends AbstractTableModel {
                 revs.add(item);
             }
         }
-        
+
         fireTableDataChanged();
     }
 

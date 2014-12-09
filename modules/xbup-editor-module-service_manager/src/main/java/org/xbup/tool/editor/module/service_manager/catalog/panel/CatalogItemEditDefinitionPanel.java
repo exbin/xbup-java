@@ -41,7 +41,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecDef
 /**
  * XBManager Catalog Item Edit Documentation Panel.
  *
- * @version 0.1.24 2014/12/03
+ * @version 0.1.24 2014/12/09
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
@@ -54,7 +54,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
     private List<CatalogDefsTableItem> updateList;
 
     public CatalogItemEditDefinitionPanel() {
-        defsModel = new CatalogDefsTableModel(null);
+        defsModel = new CatalogDefsTableModel();
         initComponents();
 
         itemDefinitionsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {

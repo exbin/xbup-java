@@ -28,12 +28,12 @@ import org.xbup.lib.catalog.entity.XBEXFile;
 /**
  * Table model for catalog specifications.
  *
- * @version 0.1.22 2013/07/28
+ * @version 0.1.24 2014/12/09
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogFilesTableModel extends AbstractTableModel {
 
-    private final XBCatalog catalog;
+    private XBCatalog catalog;
     private XBCXFileService fileService;
     private XBCNode node;
 
@@ -44,14 +44,8 @@ public class CatalogFilesTableModel extends AbstractTableModel {
 
     private List<XBCXFile> items = new ArrayList<>();
 
-    public CatalogFilesTableModel(XBCatalog catalog) {
-        this.catalog = catalog;
+    public CatalogFilesTableModel() {
         node = null;
-        fileService = null;
-        if (catalog != null) {
-            fileService = (XBCXFileService) catalog.getCatalogService(XBCXFileService.class);
-            // TODO: OnAddExtension
-        }
     }
 
     @Override
@@ -111,5 +105,11 @@ public class CatalogFilesTableModel extends AbstractTableModel {
 
     public XBCXFile getItem(int index) {
         return items.get(index);
+    }
+
+    public void setCatalog(XBCatalog catalog) {
+        this.catalog = catalog;
+
+        fileService = catalog == null ? null : (XBCXFileService) catalog.getCatalogService(XBCXFileService.class);
     }
 }

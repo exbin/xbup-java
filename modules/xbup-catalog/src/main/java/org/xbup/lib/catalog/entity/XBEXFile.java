@@ -32,11 +32,11 @@ import org.xbup.lib.core.catalog.base.XBCXFile;
  * @version 0.1.22 2013/07/28
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBXFile")
+@Entity(name = "XBXFile")
 public class XBEXFile implements XBCXFile, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     private XBENode node;
@@ -49,6 +49,15 @@ public class XBEXFile implements XBCXFile, Serializable {
     }
 
     @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
     public XBCNode getNode() {
         return (XBCNode) node;
     }
@@ -56,15 +65,6 @@ public class XBEXFile implements XBCXFile, Serializable {
     @Override
     public String getFilename() {
         return filename;
-    }
-
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public void setNode(XBENode node) {

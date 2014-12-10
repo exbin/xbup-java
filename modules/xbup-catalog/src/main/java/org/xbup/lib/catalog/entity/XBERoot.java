@@ -34,12 +34,12 @@ import org.xbup.lib.core.catalog.base.XBCRoot;
  * @version 0.1.22 2013/08/17
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBRoot")
+@Entity(name = "XBRoot")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class XBERoot implements XBCRoot, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
     @ManyToOne
@@ -53,11 +53,21 @@ public class XBERoot implements XBCRoot, Serializable {
     public XBERoot() {
     }
 
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     /**
      * Returns a hash code value for the object.
-     * This implementation computes a hash code value based on the id fields
-     * in this object.
-     * 
+     *
+     * This implementation computes a hash code value based on the id fields in
+     * this object.
+     *
      * @return a hash code value for this object.
      */
     @Override
@@ -69,9 +79,10 @@ public class XBERoot implements XBCRoot, Serializable {
 
     /**
      * Determines whether another object is equal to this Item.
+     *
      * The result is <code>true</code> if and only if the argument is not null
      * and is a Item object that has the same id field values as this object.
-     * 
+     *
      * @param object the reference object with which to compare
      * @return <code>true</code> if this object is the same as the argument;
      * <code>false</code> otherwise.
@@ -83,28 +94,21 @@ public class XBERoot implements XBCRoot, Serializable {
             return false;
         }
 
-        XBERoot other = (XBERoot)object;
+        XBERoot other = (XBERoot) object;
         return this.id == other.id || (this.id != null && this.id.equals(other.id));
     }
 
     /**
      * Returns a string representation of the object.
-     * This implementation constructs that representation based on the id fields.
-     * 
+     *
+     * This implementation constructs that representation based on the id
+     * fields.
+     *
      * @return a string representation of the object
      */
     @Override
     public String toString() {
         return "org.xbup.catalog.entity.Item[id=" + id + "]";
-    }
-
-    @Override
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     @Override

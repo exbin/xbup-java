@@ -31,12 +31,12 @@ import org.xbup.tool.editor.base.api.MenuManagement;
  * @version 0.1.24 2014/12/09
  * @author XBUP Project (http://xbup.org)
  */
-public class CatalogBrowserPanel extends javax.swing.JPanel implements ActivePanelActionHandling {
+public class CatalogBrowserManagerPanel extends javax.swing.JPanel implements ActivePanelActionHandling {
 
     private XBACatalog catalog = null;
     private final CatalogItemsTreePanel catalogItemTreePanel = new CatalogItemsTreePanel();
 
-    public CatalogBrowserPanel() {
+    public CatalogBrowserManagerPanel() {
         initComponents();
         add(catalogItemTreePanel, "catalog");
     }

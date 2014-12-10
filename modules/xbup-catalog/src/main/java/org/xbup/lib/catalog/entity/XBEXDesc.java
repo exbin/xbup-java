@@ -32,11 +32,11 @@ import org.xbup.lib.core.catalog.base.XBCXLanguage;
  * @version 0.1.21 2011/11/16
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBXDesc")
+@Entity(name = "XBXDesc")
 public class XBEXDesc implements XBCXDesc, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -48,6 +48,15 @@ public class XBEXDesc implements XBCXDesc, Serializable {
     private String text;
 
     public XBEXDesc() {
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override
@@ -67,25 +76,16 @@ public class XBEXDesc implements XBCXDesc, Serializable {
 
     @Override
     public void setItem(XBCItem item) {
-        this.item = (XBEItem)item;
+        this.item = (XBEItem) item;
     }
 
     @Override
     public void setLang(XBCXLanguage lang) {
-        this.lang = (XBEXLanguage)lang;
+        this.lang = (XBEXLanguage) lang;
     }
 
     @Override
     public void setText(String text) {
         this.text = text;
-    }
-
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }

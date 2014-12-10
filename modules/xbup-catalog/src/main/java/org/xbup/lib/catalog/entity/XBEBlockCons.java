@@ -29,7 +29,7 @@ import org.xbup.lib.core.catalog.base.XBCBlockSpec;
  * @version 0.1.24 2014/12/06
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBBlockCons")
+@Entity(name = "XBBlockCons")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class XBEBlockCons extends XBEConsDef implements XBCBlockCons {
 

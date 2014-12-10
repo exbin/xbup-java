@@ -28,17 +28,26 @@ import org.xbup.lib.core.catalog.base.XBCXLanguage;
  * @version 0.1.21 2012/04/15
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBXLanguage")
+@Entity(name = "XBXLanguage")
 public class XBEXLanguage implements XBCXLanguage, java.io.Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String langCode;
     private String name;
 
     public XBEXLanguage() {
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override
@@ -49,15 +58,6 @@ public class XBEXLanguage implements XBCXLanguage, java.io.Serializable {
     @Override
     public void setLangCode(String langCode) {
         this.langCode = langCode;
-    }
-
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     @Override

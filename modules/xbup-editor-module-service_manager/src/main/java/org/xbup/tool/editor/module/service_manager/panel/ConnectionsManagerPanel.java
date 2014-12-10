@@ -33,9 +33,9 @@ import org.xbup.tool.editor.module.service_manager.dialog.EditConnectionDialog;
  * @version 0.1.24 2014/11/28
  * @author XBUP Project (http://xbup.org)
  */
-public class ConnectionPanel extends javax.swing.JPanel {
+public class ConnectionsManagerPanel extends javax.swing.JPanel {
 
-    public ConnectionPanel() {
+    public ConnectionsManagerPanel() {
         initComponents();
         connectionsList.getModel().addListDataListener(new ListDataListener() {
 

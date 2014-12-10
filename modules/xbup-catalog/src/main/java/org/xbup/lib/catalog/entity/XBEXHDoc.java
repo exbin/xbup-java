@@ -31,11 +31,11 @@ import org.xbup.lib.core.catalog.base.XBCXHDoc;
  * @version 0.1.21 2012/01/27
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBXHDoc")
+@Entity(name = "XBXHDoc")
 public class XBEXHDoc implements XBCXHDoc, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

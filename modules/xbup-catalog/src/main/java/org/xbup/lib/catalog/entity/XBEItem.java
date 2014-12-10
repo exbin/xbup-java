@@ -39,8 +39,9 @@ import org.xbup.lib.core.catalog.base.XBCItem;
 public class XBEItem implements XBCItem, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
+
     private Long xbIndex;
 
     @ManyToOne
@@ -48,6 +49,15 @@ public class XBEItem implements XBCItem, Serializable {
     private XBEItem parent;
 
     public XBEItem() {
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
@@ -91,15 +101,6 @@ public class XBEItem implements XBCItem, Serializable {
     @Override
     public String toString() {
         return "org.xbup.catalog.entity.Item[id=" + id + "]";
-    }
-
-    @Override
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     @Override

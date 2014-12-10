@@ -110,15 +110,40 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        controlPanel = new javax.swing.JPanel();
-        cancelButton = new javax.swing.JButton();
-        selectButton = new javax.swing.JButton();
         mainPanel = new javax.swing.JPanel();
         revisionSelectionPanel = new javax.swing.JPanel();
         targetRevisionComboBox = new javax.swing.JComboBox();
+        controlPanel = new javax.swing.JPanel();
+        cancelButton = new javax.swing.JButton();
+        selectButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Select Specification");
+
+        mainPanel.setLayout(new java.awt.BorderLayout());
+
+        targetRevisionComboBox.setModel(revsModel);
+
+        javax.swing.GroupLayout revisionSelectionPanelLayout = new javax.swing.GroupLayout(revisionSelectionPanel);
+        revisionSelectionPanel.setLayout(revisionSelectionPanelLayout);
+        revisionSelectionPanelLayout.setHorizontalGroup(
+            revisionSelectionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(revisionSelectionPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(targetRevisionComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        revisionSelectionPanelLayout.setVerticalGroup(
+            revisionSelectionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, revisionSelectionPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(targetRevisionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        mainPanel.add(revisionSelectionPanel, java.awt.BorderLayout.PAGE_END);
+
+        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
         cancelButton.setText("Cancel");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -157,31 +182,6 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
         );
 
         getContentPane().add(controlPanel, java.awt.BorderLayout.PAGE_END);
-
-        mainPanel.setLayout(new java.awt.BorderLayout());
-
-        targetRevisionComboBox.setModel(revsModel);
-
-        javax.swing.GroupLayout revisionSelectionPanelLayout = new javax.swing.GroupLayout(revisionSelectionPanel);
-        revisionSelectionPanel.setLayout(revisionSelectionPanelLayout);
-        revisionSelectionPanelLayout.setHorizontalGroup(
-            revisionSelectionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(revisionSelectionPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(targetRevisionComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        revisionSelectionPanelLayout.setVerticalGroup(
-            revisionSelectionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, revisionSelectionPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(targetRevisionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        mainPanel.add(revisionSelectionPanel, java.awt.BorderLayout.PAGE_END);
-
-        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
         setSize(new java.awt.Dimension(410, 330));
         setLocationRelativeTo(null);

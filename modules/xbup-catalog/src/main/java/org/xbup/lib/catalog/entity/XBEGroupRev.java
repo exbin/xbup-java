@@ -28,7 +28,7 @@ import org.xbup.lib.core.catalog.base.XBCGroupSpec;
  * @version 0.1.21 2011/08/21
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBGroupRev")
+@Entity(name = "XBGroupRev")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class XBEGroupRev extends XBERev implements XBCGroupRev {
 

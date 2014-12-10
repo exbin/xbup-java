@@ -18,6 +18,7 @@ package org.xbup.lib.catalog.entity;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,11 +33,11 @@ import org.xbup.lib.core.catalog.base.XBCXItemInfo;
  * @version 0.1.21 2012/01/28
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBItemInfo")
+@Entity(name = "XBItemInfo")
 public class XBEXItemInfo implements XBCXItemInfo, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     private XBEItem item;
@@ -46,7 +47,8 @@ public class XBEXItemInfo implements XBCXItemInfo, Serializable {
     private XBEXUser createdByUser;
     private Time creationDate;
 
-    public XBEXItemInfo() {}
+    public XBEXItemInfo() {
+    }
 
     @Override
     public Long getId() {
@@ -58,10 +60,9 @@ public class XBEXItemInfo implements XBCXItemInfo, Serializable {
     }
 
     /**
-     * Returns a hash code value for the object.
-     * This implementation computes a hash code value based on the id fields
-     * in this object.
-     * 
+     * Returns a hash code value for the object. This implementation computes a
+     * hash code value based on the id fields in this object.
+     *
      * @return a hash code value for this object.
      */
     @Override
@@ -72,10 +73,10 @@ public class XBEXItemInfo implements XBCXItemInfo, Serializable {
     }
 
     /**
-     * Determines whether another object is equal to this Item.
-     * The result is <code>true</code> if and only if the argument is not null
-     * and is a Item object that has the same id field values as this object.
-     * 
+     * Determines whether another object is equal to this Item. The result is
+     * <code>true</code> if and only if the argument is not null and is a Item
+     * object that has the same id field values as this object.
+     *
      * @param object the reference object with which to compare
      * @return <code>true</code> if this object is the same as the argument;
      * <code>false</code> otherwise.
@@ -86,17 +87,14 @@ public class XBEXItemInfo implements XBCXItemInfo, Serializable {
         if (!(object instanceof XBEXItemInfo)) {
             return false;
         }
-        XBEXItemInfo other = (XBEXItemInfo)object;
-        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        XBEXItemInfo other = (XBEXItemInfo) object;
+        return !(!Objects.equals(this.id, other.id) && (this.id == null || !this.id.equals(other.id)));
     }
 
     /**
-     * Returns a string representation of the object.
-     * This implementation constructs that representation based on the id fields.
-     * 
+     * Returns a string representation of the object. This implementation
+     * constructs that representation based on the id fields.
+     *
      * @return a string representation of the object
      */
     @Override

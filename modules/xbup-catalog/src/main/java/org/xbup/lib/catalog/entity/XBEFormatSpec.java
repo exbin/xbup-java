@@ -28,7 +28,7 @@ import org.xbup.lib.core.catalog.base.XBCNode;
  * @version 0.1.22 2012/12/31
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBFormatSpec")
+@Entity(name = "XBFormatSpec")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class XBEFormatSpec extends XBESpec implements XBCFormatSpec {
 

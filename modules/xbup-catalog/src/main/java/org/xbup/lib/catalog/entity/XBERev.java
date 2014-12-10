@@ -28,7 +28,7 @@ import org.xbup.lib.core.catalog.base.XBCSpec;
  * @version 0.1.21 2011/08/21
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBRev")
+@Entity(name = "XBRev")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class XBERev extends XBEItem implements XBCRev {
 
@@ -36,7 +36,7 @@ public class XBERev extends XBEItem implements XBCRev {
 
     /**
      * Returns maximum XBIndex of specification bind
-     * 
+     *
      * @return the XBLimit
      */
     @Override

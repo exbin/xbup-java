@@ -29,7 +29,7 @@ import org.xbup.lib.core.catalog.base.XBCGroupRev;
  * @version 0.1.22 2012/12/31
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBFormatCons")
+@Entity(name = "XBFormatCons")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class XBEFormatCons extends XBEConsDef implements XBCFormatCons {
 

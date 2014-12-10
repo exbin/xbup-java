@@ -115,7 +115,7 @@ import org.xbup.lib.plugin.XBPluginRepository;
 import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemPropertiesDialog;
 import org.xbup.tool.editor.module.xbdoc_editor.dialog.DocPropertiesDialog;
 import org.xbup.tool.editor.module.xbdoc_editor.panel.XBDocumentPanel;
-import org.xbup.tool.editor.module.service_manager.panel.CatalogBrowserPanel;
+import org.xbup.tool.editor.module.service_manager.panel.CatalogEditorManagerPanel;
 import org.xbup.tool.editor.module.text_editor.dialog.FindTextDialog;
 import org.xbup.tool.editor.module.text_editor.dialog.FontDialog;
 import org.xbup.tool.editor.module.text_editor.dialog.GotoDialog;
@@ -143,7 +143,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     private FindTextDialog findDialog = null;
     private GotoDialog gotoDialog = null;
     private ItemPropertiesDialog propertiesDialog = null;
-    private CatalogBrowserPanel catalogPanel = null;
+    private CatalogEditorManagerPanel catalogPanel = null;
 
     private final String DIALOG_MENU_SUFIX = "...";
 
@@ -1609,7 +1609,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     }
 
     public void actionToolsCatalogBrowser() {
-        catalogPanel = new CatalogBrowserPanel();
+        catalogPanel = new CatalogEditorManagerPanel();
         catalogPanel.setMenuManagement(menuManagement);
         catalogPanel.setMainFrameManagement(mainFrameManagement);
         catalogPanel.setCatalog(catalog);

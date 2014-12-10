@@ -32,11 +32,11 @@ import org.xbup.lib.core.catalog.base.XBCXPlugin;
  * @version 0.1.21 2011/08/21
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBXPlugin")
+@Entity(name = "XBXPlugin")
 public class XBEXPlugin implements XBCXPlugin, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     private XBENode owner;
@@ -48,17 +48,17 @@ public class XBEXPlugin implements XBCXPlugin, Serializable {
     }
 
     @Override
-    public XBCNode getOwner() {
-        return (XBCNode) owner;
-    }
-
-    @Override
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public XBCNode getOwner() {
+        return (XBCNode) owner;
     }
 
     public void setOwner(XBENode owner) {

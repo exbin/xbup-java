@@ -29,11 +29,11 @@ import org.xbup.lib.core.catalog.base.XBCXIconMode;
  * @version 0.1.21 2011/08/21
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBXIconMode")
+@Entity(name = "XBXIconMode")
 public class XBEXIconMode implements XBCXIconMode, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long type;
     private String mIME;

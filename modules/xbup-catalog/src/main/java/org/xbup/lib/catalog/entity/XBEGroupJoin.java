@@ -29,11 +29,13 @@ import org.xbup.lib.core.catalog.base.XBCGroupSpec;
  * @version 0.1.22 2012/12/31
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBGroupJoin")
+@Entity(name = "XBGroupJoin")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class XBEGroupJoin extends XBEJoinDef implements XBCGroupJoin {
 
-    /** Creates a new instance of XBEBindBlock */
+    /**
+     * Creates a new instance of XBEBindBlock
+     */
     public XBEGroupJoin() {
     }
 

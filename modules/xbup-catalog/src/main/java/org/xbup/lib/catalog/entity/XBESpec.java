@@ -29,7 +29,7 @@ import org.xbup.lib.core.catalog.base.XBCSpec;
  * @version 0.1.22 2012/12/31
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBSpec")
+@Entity(name = "XBSpec")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class XBESpec extends XBEItem implements XBCSpec, Serializable {
 

@@ -18,7 +18,7 @@ package org.xbup.tool.editor.module.service_manager.dialog;
 
 import java.util.List;
 import javax.swing.JOptionPane;
-import org.xbup.tool.editor.module.service_manager.panel.ConnectionPanel;
+import org.xbup.tool.editor.module.service_manager.panel.ConnectionsManagerPanel;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
@@ -29,14 +29,14 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
  */
 public class ConnectionListDialog extends javax.swing.JDialog {
 
-    private final ConnectionPanel connectionPanel;
+    private final ConnectionsManagerPanel connectionPanel;
     private int dialogOption = JOptionPane.CLOSED_OPTION;
 
     public ConnectionListDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 
-        connectionPanel = new ConnectionPanel();
+        connectionPanel = new ConnectionsManagerPanel();
         mainPanel.add(connectionPanel);
         init();
     }
@@ -50,8 +50,8 @@ public class ConnectionListDialog extends javax.swing.JDialog {
         return dialogOption;
     }
 
-    public ConnectionPanel getEncodingPanel() {
-        return (ConnectionPanel) mainPanel.getComponent(0);
+    public ConnectionsManagerPanel getEncodingPanel() {
+        return (ConnectionsManagerPanel) mainPanel.getComponent(0);
     }
 
     /**

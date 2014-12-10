@@ -32,18 +32,21 @@ import org.xbup.lib.core.catalog.base.XBCXBlockLine;
  * @version 0.1.21 2011/08/21
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBXBlockLine")
+@Entity(name = "XBXBlockLine")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class XBEXBlockLine implements XBCXBlockLine, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     private XBEBlockRev blockRev;
     @ManyToOne
     private XBEXPlugLine line;
     private Long priority;
+
+    public XBEXBlockLine() {
+    }
 
     @Override
     public Long getId() {

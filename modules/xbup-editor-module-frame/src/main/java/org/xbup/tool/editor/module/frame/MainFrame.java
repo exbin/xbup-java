@@ -108,7 +108,7 @@ import org.xbup.tool.editor.base.api.XBEditorFrame;
 /**
  * XBEditor Main Frame.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.24 2014/12/10
  * @author XBUP Project (http://xbup.org)
  */
 public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, MainFrameManagement {
@@ -1358,10 +1358,10 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         mainStatusPanel = new javax.swing.JPanel();
         statusLabel = new javax.swing.JLabel();
         progressStatusPanel = new javax.swing.JPanel();
-        jProgressBar1 = new javax.swing.JProgressBar();
-        jButton4 = new javax.swing.JButton();
+        statusProgressBar = new javax.swing.JProgressBar();
+        stopProgressButton = new javax.swing.JButton();
         busyStatusPanel = new javax.swing.JPanel();
-        jProgressBar2 = new javax.swing.JProgressBar();
+        busyProgressBar = new javax.swing.JProgressBar();
         mainPanel = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
@@ -1601,53 +1601,43 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
 
         progressStatusPanel.setName("progressStatusPanel"); // NOI18N
 
-        jProgressBar1.setIndeterminate(true);
-        jProgressBar1.setMinimumSize(new java.awt.Dimension(10, 10));
-        jProgressBar1.setName("jProgressBar1"); // NOI18N
-        jProgressBar1.setRequestFocusEnabled(false);
-        jProgressBar1.setStringPainted(true);
+        statusProgressBar.setIndeterminate(true);
+        statusProgressBar.setMinimumSize(new java.awt.Dimension(10, 10));
+        statusProgressBar.setName("statusProgressBar"); // NOI18N
+        statusProgressBar.setRequestFocusEnabled(false);
+        statusProgressBar.setStringPainted(true);
 
-        jButton4.setText("Stop");
-        jButton4.setEnabled(false);
-        jButton4.setMinimumSize(new java.awt.Dimension(67, 15));
-        jButton4.setName("jButton4"); // NOI18N
-        jButton4.setPreferredSize(new java.awt.Dimension(75, 20));
+        stopProgressButton.setText("Stop");
+        stopProgressButton.setEnabled(false);
+        stopProgressButton.setMinimumSize(new java.awt.Dimension(67, 15));
+        stopProgressButton.setName("stopProgressButton"); // NOI18N
+        stopProgressButton.setPreferredSize(new java.awt.Dimension(75, 20));
 
         javax.swing.GroupLayout progressStatusPanelLayout = new javax.swing.GroupLayout(progressStatusPanel);
         progressStatusPanel.setLayout(progressStatusPanelLayout);
         progressStatusPanelLayout.setHorizontalGroup(
             progressStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, progressStatusPanelLayout.createSequentialGroup()
-                .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
+                .addComponent(statusProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(stopProgressButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         progressStatusPanelLayout.setVerticalGroup(
             progressStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(progressStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
-                .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE))
+            .addComponent(stopProgressButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(statusProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         statusPanel.add(progressStatusPanel, "initCat");
 
         busyStatusPanel.setName("busyStatusPanel"); // NOI18N
+        busyStatusPanel.setLayout(new java.awt.BorderLayout());
 
-        jProgressBar2.setIndeterminate(true);
-        jProgressBar2.setName("jProgressBar2"); // NOI18N
-        jProgressBar2.setRequestFocusEnabled(false);
-        jProgressBar2.setStringPainted(true);
-
-        javax.swing.GroupLayout busyStatusPanelLayout = new javax.swing.GroupLayout(busyStatusPanel);
-        busyStatusPanel.setLayout(busyStatusPanelLayout);
-        busyStatusPanelLayout.setHorizontalGroup(
-            busyStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jProgressBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE)
-        );
-        busyStatusPanelLayout.setVerticalGroup(
-            busyStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jProgressBar2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
-        );
+        busyProgressBar.setIndeterminate(true);
+        busyProgressBar.setName("busyProgressBar"); // NOI18N
+        busyProgressBar.setRequestFocusEnabled(false);
+        busyProgressBar.setStringPainted(true);
+        busyStatusPanel.add(busyProgressBar, java.awt.BorderLayout.CENTER);
 
         statusPanel.add(busyStatusPanel, "busy");
 
@@ -2018,6 +2008,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
     private javax.swing.JMenuItem basicPopupDeleteMenuItem;
     private javax.swing.JMenuItem basicPopupPasteMenuItem;
     private javax.swing.JMenuItem basicPopupSelectAllMenuItem;
+    private javax.swing.JProgressBar busyProgressBar;
     private javax.swing.JPanel busyStatusPanel;
     private javax.swing.JPopupMenu defaultPopupMenu;
     private javax.swing.JMenuItem editCopyMenuItem;
@@ -2033,9 +2024,6 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
     private javax.swing.JMenu fileOpenRecentMenu;
     private javax.swing.JMenuItem fileSaveAsMenuItem;
     private javax.swing.JMenuItem fileSaveMenuItem;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JProgressBar jProgressBar1;
-    private javax.swing.JProgressBar jProgressBar2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JToolBar.Separator jSeparator11;
@@ -2062,6 +2050,8 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
     private javax.swing.JPanel statusBar;
     private javax.swing.JLabel statusLabel;
     private javax.swing.JPanel statusPanel;
+    private javax.swing.JProgressBar statusProgressBar;
+    private javax.swing.JButton stopProgressButton;
     private javax.swing.JToolBar toolBar;
     private javax.swing.JButton toolbarEditCopyButton;
     private javax.swing.JButton toolbarEditCutButton;

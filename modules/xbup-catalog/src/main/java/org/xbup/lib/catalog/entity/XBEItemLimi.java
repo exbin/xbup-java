@@ -32,11 +32,11 @@ import org.xbup.lib.core.catalog.base.XBCLimitSpec;
  * @version 0.1.21 2011/08/21
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBItemLimi")
+@Entity(name = "XBItemLimi")
 public class XBEItemLimi implements XBCItemLimi, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     private XBEBlockSpec owner;
@@ -49,17 +49,17 @@ public class XBEItemLimi implements XBCItemLimi, Serializable {
     }
 
     @Override
-    public XBCBlockSpec getOwner() {
-        return (XBCBlockSpec) owner;
-    }
-
-    @Override
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public XBCBlockSpec getOwner() {
+        return (XBCBlockSpec) owner;
     }
 
     @Override

@@ -294,6 +294,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
         catalogTreePopupMenu.add(popupExportItemMenuItem);
 
         setName("Form"); // NOI18N
+        setLayout(new java.awt.BorderLayout());
 
         panelSplitPane.setDividerLocation(100);
         panelSplitPane.setName("panelSplitPane"); // NOI18N
@@ -329,16 +330,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
 
         panelSplitPane.setRightComponent(catalogItemSplitPane);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
-        );
+        add(panelSplitPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void catalogTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_catalogTreeValueChanged

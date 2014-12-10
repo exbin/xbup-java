@@ -237,7 +237,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
                             .addComponent(itemTypeLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(basicItemDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(itemCreatedTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                            .addComponent(itemCreatedTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
                             .addComponent(itemPathTextField)
                             .addComponent(itemTypeTextField)
                             .addComponent(itemDescriptionTextField)
@@ -273,7 +273,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
                 .addGroup(basicItemDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(itemCreatedTextField)
                     .addComponent(itemCreatedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addContainerGap(120, Short.MAX_VALUE))
         );
 
         basicItemScrollPane.setViewportView(basicItemDataPanel);
@@ -295,11 +295,11 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         documentationPanel.setLayout(documentationPanelLayout);
         documentationPanelLayout.setHorizontalGroup(
             documentationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(itemHDocScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE)
+            .addComponent(itemHDocScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
         );
         documentationPanelLayout.setVerticalGroup(
             documentationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(itemHDocScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
+            .addComponent(itemHDocScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
         );
 
         mainTabbedPane.addTab("Documentation", documentationPanel);

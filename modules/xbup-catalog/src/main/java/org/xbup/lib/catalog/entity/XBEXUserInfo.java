@@ -32,11 +32,11 @@ import org.xbup.lib.core.catalog.base.XBCXUserInfo;
  * @version 0.1.21 2011/08/30
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBXUserInfo")
+@Entity(name = "XBXUserInfo")
 public class XBEXUserInfo implements Serializable, XBCXUserInfo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne
     private XBEXUser user;
@@ -55,6 +55,10 @@ public class XBEXUserInfo implements Serializable, XBCXUserInfo {
     @Override
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

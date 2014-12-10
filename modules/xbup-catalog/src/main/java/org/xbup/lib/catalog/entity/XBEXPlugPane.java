@@ -32,16 +32,19 @@ import org.xbup.lib.core.catalog.base.XBCXPlugPane;
  * @version 0.1.21 2011/08/21
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBXPlugPane")
+@Entity(name = "XBXPlugPane")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class XBEXPlugPane implements XBCXPlugPane, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     private XBEXPlugin plugin;
     private Long paneIndex;
+
+    public XBEXPlugPane() {
+    }
 
     @Override
     public Long getId() {

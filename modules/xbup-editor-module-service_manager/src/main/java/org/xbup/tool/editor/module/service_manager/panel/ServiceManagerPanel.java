@@ -74,33 +74,35 @@ import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogStatusPa
 /**
  * XBManager Service Management Panel.
  *
- * @version 0.1.24 2014/12/08
+ * @version 0.1.24 2014/12/10
  * @author XBUP Project (http://xbup.org)
  */
 public class ServiceManagerPanel extends javax.swing.JPanel implements ApplicationPanel, ActivePanelActionHandling {
 
     private XBServiceClient service;
-    private final CatalogBrowserPanel catalogPanel;
     private final CatalogStatusPanel catalogStatusPanel;
+    private final CatalogEditorManagerPanel catalogEditorPanel;
+    private final CatalogSearchManagerPanel catalogSearchPanel;
     private MenuManagement menuManagement;
 
     public ServiceManagerPanel() {
         initComponents();
 
-        catalogPanel = new CatalogBrowserPanel();
         catalogStatusPanel = new CatalogStatusPanel(null);
+        catalogEditorPanel = new CatalogEditorManagerPanel();
+        catalogSearchPanel = new CatalogSearchManagerPanel();
         
         cardPanel.add(catalogStatusPanel, "catalog");
-        cardPanel.add(catalogPanel, "catalog_editor");
-        cardPanel.add(new CatalogUpdatePanel(), "update");
-        cardPanel.add(new TransformationPluginsPanel(), "transplug");
+        cardPanel.add(catalogEditorPanel, "catalog_editor");
+        cardPanel.add(catalogSearchPanel, "catalog_search");
+        cardPanel.add(new CatalogUpdateManagerPanel(), "update");
+        cardPanel.add(new TransformationPluginsManagerPanel(), "transplug");
         managerTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         MutableTreeNode top = new MutableTreeNode("Root", "");
         createNodes(top);
         managerTree.setModel(new DefaultTreeModel(top, true));
         managerTree.getSelectionModel().addTreeSelectionListener(new MySelectionListener());
         managerTree.setSelectionRow(0);
-
     }
 
     private void createNodes(DefaultMutableTreeNode top) {
@@ -112,6 +114,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
         item = new MutableTreeNode("Service Startup", "startup");
         top.add(item);
         item = new MutableTreeNode("Catalog", "catalog");
+        item.add(new MutableTreeNode("Search", "catalog_search"));
         item.add(new MutableTreeNode("Editor", "catalog_editor"));
         item.add(new MutableTreeNode("Update Service", "update"));
         top.add(item);
@@ -138,8 +141,6 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             managerNetworkIPTextField.setText(unknown);
             managerSystemTextField.setText(unknown);
             managerHardwareTextField.setText(unknown);
-
-            getCatalogPanel().setCatalog(null);
 
             return;
         }
@@ -210,21 +211,15 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
         }
 
         catalogStatusPanel.setCatalog(catalog);
-        catalogPanel.setCatalog(catalog);
-    }
-
-    /**
-     * @return the catalogPanel
-     */
-    public CatalogBrowserPanel getCatalogPanel() {
-        return catalogPanel;
+        catalogSearchPanel.setCatalog(catalog);
+        catalogEditorPanel.setCatalog(catalog);
     }
 
     @Override
     public boolean updateActionStatus(Component component) {
         // String test = ((CardLayout) cardPanel.getLayout()).toString();
         // if ("catalog".equals(test)) {
-        catalogPanel.updateActionStatus(component);
+        catalogEditorPanel.updateActionStatus(component);
         // }
 
         return false;
@@ -233,14 +228,14 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
     @Override
     public void releaseActionStatus() {
         // if ("catalog".equals(((CardLayout) cardPanel.getLayout()).toString())) {
-        catalogPanel.releaseActionStatus();
+        catalogEditorPanel.releaseActionStatus();
         // }
     }
 
     @Override
     public boolean performAction(String eventName, ActionEvent event) {
         // if ("catalog".equals(((CardLayout) cardPanel.getLayout()).toString())) {
-        return catalogPanel.performAction(eventName, event);
+        return catalogEditorPanel.performAction(eventName, event);
         // }
 
         // return false;
@@ -248,11 +243,13 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
 
     public void setMenuManagement(MenuManagement menuManagement) {
         this.menuManagement = menuManagement;
-        catalogPanel.setMenuManagement(menuManagement);
+        catalogEditorPanel.setMenuManagement(menuManagement);
+        catalogSearchPanel.setMenuManagement(menuManagement);
     }
 
     public void setMainFrameManagement(MainFrameManagement mainFramenManagement) {
-        catalogPanel.setMainFrameManagement(mainFramenManagement);
+        catalogEditorPanel.setMainFrameManagement(mainFramenManagement);
+        catalogSearchPanel.setMainFrameManagement(mainFramenManagement);
     }
 
     private class MutableTreeNode extends DefaultMutableTreeNode {

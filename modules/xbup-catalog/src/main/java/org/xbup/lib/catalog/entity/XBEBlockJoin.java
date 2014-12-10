@@ -29,7 +29,7 @@ import org.xbup.lib.core.catalog.base.XBCBlockSpec;
  * @version 0.1.22 2012/12/31
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBBlockJoin")
+@Entity(name = "XBBlockJoin")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class XBEBlockJoin extends XBEJoinDef implements XBCBlockJoin {
 

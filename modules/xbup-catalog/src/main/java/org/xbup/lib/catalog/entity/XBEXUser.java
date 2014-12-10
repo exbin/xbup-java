@@ -34,7 +34,7 @@ import org.xbup.lib.core.catalog.base.XBCXUser;
 public class XBEXUser implements Serializable, XBCXUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(length = 64, nullable = false)
     private String login;
@@ -51,6 +51,10 @@ public class XBEXUser implements Serializable, XBCXUser {
     @Override
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

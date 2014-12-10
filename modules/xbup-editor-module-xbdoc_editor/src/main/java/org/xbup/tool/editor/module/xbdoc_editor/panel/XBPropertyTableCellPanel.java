@@ -49,7 +49,6 @@ public class XBPropertyTableCellPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         editorButton = new javax.swing.JButton();
-        valueTextField = new javax.swing.JTextField();
 
         setName("Form"); // NOI18N
         setLayout(new java.awt.BorderLayout());
@@ -63,10 +62,6 @@ public class XBPropertyTableCellPanel extends javax.swing.JPanel {
             }
         });
         add(editorButton, java.awt.BorderLayout.EAST);
-
-        valueTextField.setBorder(null);
-        valueTextField.setName("valueTextField"); // NOI18N
-        add(valueTextField, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void editorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editorButtonActionPerformed
@@ -83,7 +78,6 @@ public class XBPropertyTableCellPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton editorButton;
-    private javax.swing.JTextField valueTextField;
     // End of variables declaration//GEN-END:variables
 
     public XBACatalog getCatalog() {

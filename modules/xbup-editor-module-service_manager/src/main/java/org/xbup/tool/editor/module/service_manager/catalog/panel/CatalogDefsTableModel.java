@@ -198,7 +198,7 @@ public class CatalogDefsTableModel extends AbstractTableModel {
         }
     }
 
-    void addDefs(CatalogDefsTableItem defItem) {
+    public void addDefs(CatalogDefsTableItem defItem) {
         items.add(defItem);
         defItem.setRevision(revsModel.getRevisionForIndex(defItem.getXbIndex()));
     }

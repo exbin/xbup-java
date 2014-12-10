@@ -30,7 +30,7 @@ import org.xbup.lib.core.catalog.base.XBCSpecDefType;
  * @version 0.1.22 2013/01/11
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBJoinDef")
+@Entity(name = "XBJoinDef")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class XBEJoinDef extends XBESpecDef implements Serializable, XBCJoinDef {
 

@@ -22,9 +22,9 @@ package org.xbup.tool.editor.module.service_manager.panel;
  * @version 0.1.22 2012/11/29
  * @author XBUP Project (http://xbup.org)
  */
-public class PluginsPanel extends javax.swing.JPanel {
+public class PluginsManagerPanel extends javax.swing.JPanel {
 
-    public PluginsPanel() {
+    public PluginsManagerPanel() {
         initComponents();
     }
 

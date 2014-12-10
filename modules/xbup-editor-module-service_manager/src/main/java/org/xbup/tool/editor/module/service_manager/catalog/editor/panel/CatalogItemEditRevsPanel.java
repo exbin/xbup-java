@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.tool.editor.module.service_manager.catalog.panel;
+package org.xbup.tool.editor.module.service_manager.catalog.editor.panel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +34,9 @@ import org.xbup.lib.core.catalog.base.service.XBCXDescService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecRevEditorDialog;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogDefsTableModel;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogRevsTableItem;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogRevsTableModel;
 
 /**
  * XBManager Catalog Item Edit Revisions Panel.

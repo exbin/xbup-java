@@ -31,11 +31,11 @@ import org.xbup.lib.core.catalog.base.XBCXStri;
  * @version 0.1.21 2012/04/18
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBXStri")
+@Entity(name = "XBXStri")
 public class XBEXStri implements XBCXStri, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -65,7 +65,7 @@ public class XBEXStri implements XBCXStri, Serializable {
 
     @Override
     public void setItem(XBCItem item) {
-        this.item = (XBEItem)item;
+        this.item = (XBEItem) item;
     }
 
     @Override

@@ -29,11 +29,13 @@ import org.xbup.lib.core.catalog.base.XBCFormatSpec;
  * @version 0.1.22 2012/12/31
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBFormatJoin")
+@Entity(name = "XBFormatJoin")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class XBEFormatJoin extends XBEJoinDef implements XBCFormatJoin {
 
-    /** Creates a new instance of XBEBindBlock */
+    /**
+     * Creates a new instance of XBEBindBlock
+     */
     public XBEFormatJoin() {
     }
 

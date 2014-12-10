@@ -32,18 +32,21 @@ import org.xbup.lib.core.catalog.base.XBCXBlockPane;
  * @version 0.1.21 2011/08/21
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBXBlockPane")
+@Entity(name = "XBXBlockPane")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class XBEXBlockPane implements XBCXBlockPane, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     private XBEBlockRev blockRev;
     @ManyToOne
     private XBEXPlugPane pane;
     private Long priority;
+
+    public XBEXBlockPane() {
+    }
 
     @Override
     public Long getId() {

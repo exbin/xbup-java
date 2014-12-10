@@ -26,6 +26,7 @@
     <class>org.xbup.lib.catalog.entity.XBELimitSpec</class>
     <class>org.xbup.lib.catalog.entity.XBERoot</class>
     <class>org.xbup.lib.catalog.entity.XBENode</class>
+    <class>org.xbup.lib.catalog.entity.XBENodeTree</class>
     <class>org.xbup.lib.catalog.entity.XBERev</class>
     <class>org.xbup.lib.catalog.entity.XBESpec</class>
     <class>org.xbup.lib.catalog.entity.XBESpecDef</class>
@@ -78,6 +79,7 @@
     <class>org.xbup.lib.catalog.entity.XBELimitSpec</class>
     <class>org.xbup.lib.catalog.entity.XBERoot</class>
     <class>org.xbup.lib.catalog.entity.XBENode</class>
+    <class>org.xbup.lib.catalog.entity.XBENodeTree</class>
     <class>org.xbup.lib.catalog.entity.XBERev</class>
     <class>org.xbup.lib.catalog.entity.XBESpec</class>
     <class>org.xbup.lib.catalog.entity.XBESpecDef</class>
@@ -129,6 +131,7 @@
     <class>org.xbup.lib.catalog.entity.XBELimitSpec</class>
     <class>org.xbup.lib.catalog.entity.XBERoot</class>
     <class>org.xbup.lib.catalog.entity.XBENode</class>
+    <class>org.xbup.lib.catalog.entity.XBENodeTree</class>
     <class>org.xbup.lib.catalog.entity.XBERev</class>
     <class>org.xbup.lib.catalog.entity.XBESpec</class>
     <class>org.xbup.lib.catalog.entity.XBESpecDef</class>

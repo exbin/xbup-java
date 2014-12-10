@@ -30,14 +30,14 @@ import org.xbup.lib.core.catalog.base.XBCNodeTree;
 /**
  * Node tree database entity.
  *
- * @version 0.1.24 2014/09/07
+ * @version 0.1.24 2014/12/10
  * @author XBUP Project (http://xbup.org)
  */
 @Entity(name = "XBNodeTree")
 public class XBENodeTree implements XBCNodeTree, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -53,6 +53,15 @@ public class XBENodeTree implements XBCNodeTree, Serializable {
     private Integer depthLevel;
 
     public XBENodeTree() {
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
@@ -89,15 +98,6 @@ public class XBENodeTree implements XBCNodeTree, Serializable {
     }
 
     @Override
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Override
     public XBENode getNode() {
         return node;
     }
@@ -131,5 +131,9 @@ public class XBENodeTree implements XBCNodeTree, Serializable {
 
     public void setDepthLevel(Integer depthLevel) {
         this.depthLevel = depthLevel;
+    }
+    
+    public static GenerationType getGenerationType() {
+        return GenerationType.AUTO;
     }
 }

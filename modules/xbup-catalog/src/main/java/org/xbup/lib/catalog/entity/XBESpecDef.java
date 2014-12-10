@@ -32,7 +32,7 @@ import org.xbup.lib.core.catalog.base.XBCSpecDefType;
  * @version 0.1.22 2013/01/11
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBSpecDef")
+@Entity(name = "XBSpecDef")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class XBESpecDef extends XBEItem implements Serializable, XBCSpecDef {
 

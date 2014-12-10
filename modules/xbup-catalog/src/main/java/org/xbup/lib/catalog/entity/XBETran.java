@@ -30,11 +30,11 @@ import org.xbup.lib.core.catalog.base.XBCTran;
  * @version 0.1.21 2011/08/21
  * @author XBUP Project (http://xbup.org)
  */
-@Entity(name="XBTran")
+@Entity(name = "XBTran")
 public class XBETran implements XBCTran, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     private XBEBlockSpec owner;

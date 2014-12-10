@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.tool.editor.module.service_manager.catalog.panel;
+package org.xbup.tool.editor.module.service_manager.catalog.editor.panel;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -32,11 +32,11 @@ import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.service.XBCXFileService;
-import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.catalog.entity.XBENode;
 import org.xbup.lib.catalog.entity.XBEXFile;
 import org.xbup.tool.editor.base.api.MenuManagement;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogFilesTableModel;
 
 /**
  * Catalog Specification Panel.
@@ -49,7 +49,6 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 public class CatalogItemEditFilesPanel extends javax.swing.JPanel {
 
     private XBACatalog catalog;
-    private XBCXNameService nameService;
     private XBCXFileService fileService;
     private CatalogFilesTableModel filesModel;
     private XBCXFile currentItem;
@@ -256,7 +255,6 @@ public class CatalogItemEditFilesPanel extends javax.swing.JPanel {
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
 
-        nameService = catalog == null ? null : (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
         fileService = catalog == null ? null : (XBCXFileService) catalog.getCatalogService(XBCXFileService.class);
 
         filesModel.setCatalog(catalog);

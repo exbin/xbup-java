@@ -35,7 +35,7 @@ import org.xbup.lib.core.catalog.base.XBCXIcon;
 public class XBEXIcon implements XBCXIcon, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     @JoinColumn(name = "OWNER_ID")

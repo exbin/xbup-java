@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.tool.editor.module.service_manager.catalog.panel;
+package org.xbup.tool.editor.module.service_manager.catalog.editor.panel;
 
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -61,6 +61,9 @@ import org.xbup.lib.core.catalog.base.service.XBCXFileService;
 import org.xbup.lib.core.catalog.base.service.XBCXHDocService;
 import org.xbup.lib.core.catalog.base.service.XBCXIconService;
 import org.xbup.lib.core.catalog.base.service.XBCXLangService;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogBIconPropertyTableCellPanel;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogDocPropertyTableCellPanel;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSIconPropertyTableCellPanel;
 import sun.swing.DefaultLookup;
 
 /**

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.tool.editor.module.service_manager.catalog.panel;
+package org.xbup.tool.editor.module.service_manager.catalog.editor.panel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +37,8 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecDefEditorDialog;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogDefsTableItem;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogDefsTableModel;
 
 /**
  * XBManager Catalog Item Edit Documentation Panel.

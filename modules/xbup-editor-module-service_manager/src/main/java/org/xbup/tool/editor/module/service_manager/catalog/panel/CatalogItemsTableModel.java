@@ -16,41 +16,89 @@
  */
 package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
+import org.xbup.lib.catalog.entity.manager.XBItemWithDetail;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import javax.swing.table.AbstractTableModel;
+import org.xbup.lib.catalog.entity.service.XBEItemService;
 import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
-import org.xbup.lib.core.catalog.base.XBCNode;
-import org.xbup.lib.core.catalog.base.XBCXName;
-import org.xbup.lib.core.catalog.base.service.XBCXNameService;
+import org.xbup.lib.core.catalog.base.service.XBCItemService;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSearchTableModel.CatalogSearchTableItem;
 
 /**
  * Table model for catalog specifications.
  *
- * @version 0.1.24 2014/12/10
+ * @version 0.1.24 2014/12/11
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemsTableModel extends AbstractTableModel {
 
-    private XBCatalog catalog;
-    private XBCXNameService nameService;
+    private XBCItemService itemService;
 
     final static String[] columnNames = new String[]{"Name", "StringId", "Type", "Description"};
     final static Class[] columnClasses = new Class[]{
         java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
     };
+    final static int pageSize = 20;
 
-    private List<CatalogSpecTableItem> items = new ArrayList<>();
+    private final List<List<XBItemWithDetail>> itemPages = new ArrayList<>();
+    private String filterCondition = "";
+    private int itemCount = 0;
 
     public CatalogItemsTableModel() {
     }
 
     @Override
     public int getRowCount() {
-        return items.size();
+        return itemCount;
+    }
+
+    public XBItemWithDetail getRow(int rowIndex) {
+        int pageIndex = rowIndex / pageSize;
+        int rowInPage = rowIndex % pageSize;
+
+        List<XBItemWithDetail> page = itemPages.get(pageIndex);
+        if (page == null) {
+            page = ((XBEItemService) itemService).findAllPaged(pageIndex * pageSize, pageSize, filterCondition, null);
+            itemPages.set(pageIndex, page);
+        }
+
+        return page.get(rowInPage);
+    }
+
+    public void performLoad() {
+        itemCount = ((XBEItemService) itemService).findAllPagedCount(filterCondition);
+        itemPages.clear();
+        for (int i = 0; i <= itemCount / pageSize; i++) {
+            itemPages.add(null);
+        }
+
+        fireTableDataChanged();
+    }
+
+    public void performSearch(CatalogSearchTableItem filter) {
+        if (filter != null) {
+            StringBuilder builder = new StringBuilder();
+            if (!(filter.getName() == null || filter.getName().isEmpty())) {
+                builder.append("LOWER(name.text) LIKE '%").append(filter.getName().toLowerCase().replace("'", "''")).append("%'");
+            }
+            if (!(filter.getDescription() == null || filter.getDescription().isEmpty())) {
+                builder.append("LOWER(desc.text) LIKE '%").append(filter.getDescription().toLowerCase().replace("'", "''")).append("%'");
+            }
+            if (!(filter.getStringId() == null || filter.getStringId().isEmpty())) {
+                builder.append("LOWER(stri.text) LIKE '%").append(filter.getStringId().toLowerCase().replace("'", "''")).append("%'");
+            }
+            if (!(filter.getType() == null || filter.getType().isEmpty())) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            filterCondition = builder.toString();
+        } else {
+            filterCondition = "";
+        }
+
+        performLoad();
     }
 
     @Override
@@ -62,16 +110,16 @@ public class CatalogItemsTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0: {
-                return items.get(rowIndex).getName();
+                return getRow(rowIndex).getName();
             }
             case 1: {
-                return items.get(rowIndex).getStringId();
+                return getRow(rowIndex).getStringId();
             }
             case 2: {
-                return items.get(rowIndex).getType();
+                return getRow(rowIndex).getType();
             }
             case 3: {
-                return items.get(rowIndex).getDescription();
+                return getRow(rowIndex).getDescription();
             }
         }
         return "";
@@ -87,135 +135,15 @@ public class CatalogItemsTableModel extends AbstractTableModel {
         return columnClasses[columnIndex];
     }
 
-    public XBCNode getNode() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void setNode(XBCNode node) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     public XBCItem getItem(int index) {
-        return items.get(index).getItem();
+        return getRow(index).getItem();
     }
 
-    public int getIndexOfItem(CatalogSpecTableItem item) {
-        return items.indexOf(item);
+    public int getIndexOfItem(XBItemWithDetail item) {
+        return itemPages.indexOf(item);
     }
 
     public void setCatalog(XBACatalog catalog) {
-        this.catalog = catalog;
-
-        nameService = catalog == null ? null : (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-    }
-
-    public class CatalogSpecTableItem {
-
-        private XBCItem item;
-        private String name;
-        private String description;
-        private String stringId;
-        private String type;
-
-        public CatalogSpecTableItem(XBCItem item) {
-            this(item, CatalogSpecItemType.NODE);
-        }
-
-        public CatalogSpecTableItem(XBCItem item, CatalogSpecItemType itemType) {
-            this.item = item;
-            switch (itemType) {
-                case NODE: {
-                    type = "Node";
-                    break;
-                }
-                case FORMAT: {
-                    type = "Format";
-                    break;
-                }
-                case GROUP: {
-                    type = "Group";
-                    break;
-                }
-                case BLOCK: {
-                    type = "Block";
-                    break;
-                }
-                default: {
-                    type = "Unknown";
-                }
-            }
-
-            if (itemType == CatalogSpecItemType.NODE) {
-                name = ".";
-            } else if (nameService != null) {
-                if (item == null) {
-                    name = null;
-                } else {
-                    XBCXName itemName = nameService.getDefaultItemName(item);
-                    name = (itemName == null) ? "" : itemName.getText();
-                }
-            } else {
-                name = "spec";
-            }
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public String getStringId() {
-            return stringId;
-        }
-
-        public void setStringId(String stringId) {
-            this.stringId = stringId;
-        }
-        
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public XBCItem getItem() {
-            return item;
-        }
-
-        public void setItem(XBCItem item) {
-            this.item = item;
-        }
-
-        @Override
-        public int hashCode() {
-            int hash = 7;
-            hash = 23 * hash + Objects.hashCode(this.item.getId());
-            return hash;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            final CatalogSpecTableItem other = (CatalogSpecTableItem) obj;
-            return Objects.equals(this.item.getId(), other.item.getId());
-        }
+        itemService = catalog == null ? null : (XBCItemService) catalog.getCatalogService(XBCItemService.class);
     }
 }

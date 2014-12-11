@@ -17,6 +17,7 @@
 package org.xbup.lib.catalog.entity.service;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,11 +26,12 @@ import org.xbup.lib.core.catalog.base.service.XBCItemService;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBEItem;
 import org.xbup.lib.catalog.entity.manager.XBEItemManager;
+import org.xbup.lib.catalog.entity.manager.XBItemWithDetail;
 
 /**
  * Interface for XBEItem items service.
  *
- * @version 0.1.21 2012/01/01
+ * @version 0.1.24 2014/12/11
  * @author XBUP Project (http://xbup.org)
  */
 @Service
@@ -37,11 +39,11 @@ public class XBEItemService extends XBEDefaultService<XBEItem> implements XBCIte
 
     @Autowired
     private XBEItemManager manager;
-    
+
     public XBEItemService() {
         super();
     }
-    
+
     public XBEItemService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBEItemManager(catalog);
@@ -51,5 +53,13 @@ public class XBEItemService extends XBEDefaultService<XBEItem> implements XBCIte
     @PostConstruct
     public void init() {
         itemManager = manager;
+    }
+
+    public List<XBItemWithDetail> findAllPaged(int startFrom, int maxResults, String filterCondition, String orderCondition) {
+        return ((XBEItemManager) itemManager).findAllPaged(startFrom, maxResults, filterCondition, orderCondition);
+    }
+
+    public int findAllPagedCount(String filterCondition) {
+        return ((XBEItemManager) itemManager).findAllPagedCount(filterCondition);
     }
 }

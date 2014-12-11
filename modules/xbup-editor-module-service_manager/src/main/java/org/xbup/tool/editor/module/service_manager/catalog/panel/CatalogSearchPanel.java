@@ -61,7 +61,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Catalog Specification Panel.
  *
- * @version 0.1.24 2014/12/10
+ * @version 0.1.24 2014/12/11
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePanelActionHandling {
@@ -84,6 +84,7 @@ public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePane
     private Map<String, ActionListener> actionListenerMap = new HashMap<>();
     public static final String YAML_FILE_TYPE = "CatalogItemsTreePanel.YamlFileType";
     private MenuManagement menuManagement;
+    private CatalogSearchTableModel.CatalogSearchTableItem searchConditions = null;
 
     public CatalogSearchPanel() {
         itemsModel = new CatalogItemsTableModel();
@@ -100,12 +101,12 @@ public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePane
             column.setCellEditor(defaultCellEditor);
         }
 
-        catalogSpecListTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        catalogItemsListTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-                    if (catalogSpecListTable.getSelectedRow() >= 0) {
-                        setItem(itemsModel.getItem(catalogSpecListTable.getSelectedRow()));
+                    if (catalogItemsListTable.getSelectedRow() >= 0) {
+                        setItem(itemsModel.getItem(catalogItemsListTable.getSelectedRow()));
                     } else {
                         setItem(null);
                     }
@@ -164,7 +165,7 @@ public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePane
         catalogSearchTable = new javax.swing.JTable();
         searchButton = new javax.swing.JButton();
         catalogItemListScrollPane = new javax.swing.JScrollPane();
-        catalogSpecListTable = new javax.swing.JTable();
+        catalogItemsListTable = new javax.swing.JTable();
 
         catalogTreePopupMenu.setName("catalogTreePopupMenu"); // NOI18N
 
@@ -220,23 +221,29 @@ public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePane
 
         searchButton.setText("Search");
         searchButton.setName("searchButton"); // NOI18N
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout searchPanelLayout = new javax.swing.GroupLayout(searchPanel);
         searchPanel.setLayout(searchPanelLayout);
         searchPanelLayout.setHorizontalGroup(
             searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(searchPanelLayout.createSequentialGroup()
-                .addComponent(catalogSearchScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(searchButton))
+                .addGap(0, 409, Short.MAX_VALUE)
+                .addComponent(searchButton)
+                .addContainerGap())
+            .addComponent(catalogSearchScrollPane)
         );
         searchPanelLayout.setVerticalGroup(
             searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(searchPanelLayout.createSequentialGroup()
-                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(catalogSearchScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(catalogSearchScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(searchButton)
+                .addContainerGap())
         );
 
         add(searchPanel, java.awt.BorderLayout.NORTH);
@@ -244,10 +251,10 @@ public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePane
         catalogItemListScrollPane.setComponentPopupMenu(catalogTreePopupMenu);
         catalogItemListScrollPane.setName("catalogItemListScrollPane"); // NOI18N
 
-        catalogSpecListTable.setModel(itemsModel);
-        catalogSpecListTable.setComponentPopupMenu(catalogTreePopupMenu);
-        catalogSpecListTable.setName("catalogSpecListTable"); // NOI18N
-        catalogItemListScrollPane.setViewportView(catalogSpecListTable);
+        catalogItemsListTable.setModel(itemsModel);
+        catalogItemsListTable.setComponentPopupMenu(catalogTreePopupMenu);
+        catalogItemsListTable.setName("catalogItemsListTable"); // NOI18N
+        catalogItemListScrollPane.setViewportView(catalogItemsListTable);
 
         add(catalogItemListScrollPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -277,7 +284,7 @@ public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePane
 
     private void popupRefreshMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupRefreshMenuItemActionPerformed
         Component invoker = catalogTreePopupMenu.getInvoker();
-        setNode((XBCNode) (currentItem == null || currentItem instanceof XBCNode ? currentItem : currentItem.getParent()));
+        reload();
     }//GEN-LAST:event_popupRefreshMenuItemActionPerformed
 
     private void popupEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupEditMenuItemActionPerformed
@@ -303,14 +310,10 @@ public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePane
 //        }
     }//GEN-LAST:event_popupEditMenuItemActionPerformed
 
-    public void setNode(XBCNode node) {
-        setItem(node);
-        itemsModel.setNode(node);
-        if (node != null) {
-            catalogSpecListTable.setRowSelectionInterval(0, 0);
-        }
-        catalogSpecListTable.revalidate();
-    }
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        searchConditions = searchModel.getSearchConditions();
+        reload();
+    }//GEN-LAST:event_searchButtonActionPerformed
 
     public void setItem(XBCItem item) {
         currentItem = item;
@@ -345,11 +348,15 @@ public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePane
         this.mainFrameManagement = mainFrameManagement;
     }
 
+    private void reload() {
+        itemsModel.performSearch(searchConditions);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane catalogItemListScrollPane;
+    private javax.swing.JTable catalogItemsListTable;
     private javax.swing.JScrollPane catalogSearchScrollPane;
     private javax.swing.JTable catalogSearchTable;
-    private javax.swing.JTable catalogSpecListTable;
     private javax.swing.JPopupMenu catalogTreePopupMenu;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
@@ -426,7 +433,7 @@ public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePane
             em.flush();
             transaction.commit();
 
-            setNode(itemsModel.getNode());
+            reload();
             repaint();
         }
     }

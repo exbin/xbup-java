@@ -17,28 +17,19 @@
 package org.xbup.tool.editor.module.service_manager.panel;
 
 import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
 import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemsTreePanel;
-import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
-import org.xbup.tool.editor.base.api.MainFrameManagement;
-import org.xbup.tool.editor.base.api.MenuManagement;
 
 /**
- * Simple Browser for catalog data.
+ * Simple panel with catalog availability message.
  *
- * @version 0.1.24 2014/12/09
+ * @version 0.1.24 2014/12/12
  * @author XBUP Project (http://xbup.org)
  */
-public class CatalogBrowserManagerPanel extends javax.swing.JPanel implements ActivePanelActionHandling {
+public class CatalogAvailabilityPanel extends javax.swing.JPanel {
 
-    private XBACatalog catalog = null;
-    private final CatalogItemsTreePanel catalogItemTreePanel = new CatalogItemsTreePanel();
-
-    public CatalogBrowserManagerPanel() {
+    public CatalogAvailabilityPanel() {
         initComponents();
-        add(catalogItemTreePanel, "catalog");
+        setNoCatalog();
     }
 
     /**
@@ -113,41 +104,15 @@ public class CatalogBrowserManagerPanel extends javax.swing.JPanel implements Ac
     private javax.swing.JPanel progressBarPanel;
     // End of variables declaration//GEN-END:variables
 
-    public XBACatalog getCatalog() {
-        return catalog;
+    private void setNoCatalog() {
+        ((CardLayout) getLayout()).show(this, "notAvailable");
     }
 
     public void setCatalog(XBACatalog catalog) {
         if (catalog == null) {
-            ((CardLayout) getLayout()).show(this, "notAvailable");
+            setNoCatalog();
         } else {
             ((CardLayout) getLayout()).show(this, "catalogLoading");
-            this.catalog = catalog;
-            catalogItemTreePanel.setCatalog(catalog);
-            ((CardLayout) getLayout()).show(this, "catalog");
         }
-    }
-
-    @Override
-    public boolean updateActionStatus(Component component) {
-        return catalogItemTreePanel.updateActionStatus(component);
-    }
-
-    @Override
-    public void releaseActionStatus() {
-        catalogItemTreePanel.releaseActionStatus();
-    }
-
-    @Override
-    public boolean performAction(String eventName, ActionEvent event) {
-        return catalogItemTreePanel.performAction(eventName, event);
-    }
-
-    public void setMainFrameManagement(MainFrameManagement mainFrameManagement) {
-        catalogItemTreePanel.setMainFrameManagement(mainFrameManagement);
-    }
-
-    public void setMenuManagement(MenuManagement menuManagement) {
-        catalogItemTreePanel.setMenuManagement(menuManagement);
     }
 }

@@ -17,8 +17,19 @@
 package org.xbup.lib.catalog.entity.manager;
 
 import java.util.Objects;
+import org.xbup.lib.core.catalog.base.XBCBlockCons;
+import org.xbup.lib.core.catalog.base.XBCBlockJoin;
+import org.xbup.lib.core.catalog.base.XBCBlockListCons;
+import org.xbup.lib.core.catalog.base.XBCBlockListJoin;
+import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.core.catalog.base.XBCFormatCons;
+import org.xbup.lib.core.catalog.base.XBCFormatJoin;
+import org.xbup.lib.core.catalog.base.XBCFormatRev;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
+import org.xbup.lib.core.catalog.base.XBCGroupCons;
+import org.xbup.lib.core.catalog.base.XBCGroupJoin;
+import org.xbup.lib.core.catalog.base.XBCGroupRev;
 import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCNode;
@@ -108,6 +119,28 @@ public class XBItemWithDetail {
             type = "Group Specification";
         } else if (item instanceof XBCBlockSpec) {
             type = "Block Specification";
+        } else if (item instanceof XBCFormatRev) {
+            type = "Format Revision";
+        } else if (item instanceof XBCGroupRev) {
+            type = "Group Revision";
+        } else if (item instanceof XBCBlockRev) {
+            type = "Block Revision";
+        } else if (item instanceof XBCFormatJoin) {
+            type = "Format Join";
+        } else if (item instanceof XBCFormatCons) {
+            type = "Format Consist";
+        } else if (item instanceof XBCGroupJoin) {
+            type = "Group Join";
+        } else if (item instanceof XBCGroupCons) {
+            type = "Group Consist";
+        } else if (item instanceof XBCBlockJoin) {
+            type = "Block Join";
+        } else if (item instanceof XBCBlockCons) {
+            type = "Block Consist";
+        } else if (item instanceof XBCBlockListJoin) {
+            type = "Block List Join";
+        } else if (item instanceof XBCBlockListCons) {
+            type = "Block List Consist";
         } else {
             type = "TODO:" + item.getClass().getName();
         }

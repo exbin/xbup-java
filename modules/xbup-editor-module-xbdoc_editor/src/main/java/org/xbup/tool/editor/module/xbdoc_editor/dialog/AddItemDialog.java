@@ -40,9 +40,9 @@ import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.serial.XBASerialWriter;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.parser_tree.XBTTreeReader;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSelectSpecDialog;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * Dialog for adding new item into given document.

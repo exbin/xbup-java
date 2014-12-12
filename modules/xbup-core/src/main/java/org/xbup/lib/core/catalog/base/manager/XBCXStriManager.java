@@ -16,7 +16,6 @@
  */
 package org.xbup.lib.core.catalog.base.manager;
 
-import java.util.List;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXStri;
 import org.xbup.lib.core.catalog.base.XBCExtension;

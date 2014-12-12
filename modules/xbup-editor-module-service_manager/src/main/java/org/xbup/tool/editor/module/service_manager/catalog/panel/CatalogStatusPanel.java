@@ -26,7 +26,7 @@ import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 /**
  * Panel for catalog status.
  *
- * @version 0.1.24 2014/12/08
+ * @version 0.1.24 2014/12/12
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogStatusPanel extends javax.swing.JPanel {
@@ -34,8 +34,7 @@ public class CatalogStatusPanel extends javax.swing.JPanel {
     private XBACatalog catalog;
     private final CatalogExtensionsListModel extModel;
 
-    public CatalogStatusPanel(XBACatalog catalog) {
-        this.catalog = catalog;
+    public CatalogStatusPanel() {
         extModel = new CatalogExtensionsListModel();
         initComponents();
 
@@ -47,10 +46,6 @@ public class CatalogStatusPanel extends javax.swing.JPanel {
         extensionsScrollPane.setViewportView(extensionsList);
     }
 
-    public CatalogStatusPanel() {
-        this(null);
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -59,124 +54,127 @@ public class CatalogStatusPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        catalogStatusBorderPanel = new javax.swing.JPanel();
         catalogStatusPanel = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
-        extensionsPanel = new javax.swing.JPanel();
+        itemsCountLabel = new javax.swing.JLabel();
+        itemsCountTextField = new javax.swing.JTextField();
+        nodesCountLabel = new javax.swing.JLabel();
+        nodesCountTextField = new javax.swing.JTextField();
+        specsCountLabel = new javax.swing.JLabel();
+        specsCountTextField = new javax.swing.JTextField();
+        formatsCountLabel = new javax.swing.JLabel();
+        formatsCountTextField = new javax.swing.JTextField();
+        groupsCountLabel = new javax.swing.JLabel();
+        groupsCountTextField = new javax.swing.JTextField();
+        blocksCountLabel = new javax.swing.JLabel();
+        blocksCountTextField = new javax.swing.JTextField();
+        defsCountLabel = new javax.swing.JLabel();
+        defsCountTextField = new javax.swing.JTextField();
+        revsCountLabel = new javax.swing.JLabel();
+        revsCountTextField = new javax.swing.JTextField();
+        extensionsBorderPanel = new javax.swing.JPanel();
         extensionsScrollPane = new javax.swing.JScrollPane();
-        extensionsList = new javax.swing.JList();
+        extensionsList = new JList<>();
 
-        catalogStatusPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Catalog Status"));
+        catalogStatusBorderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Catalog Status"));
 
-        jPanel2.setLayout(new java.awt.GridLayout(8, 2));
+        catalogStatusPanel.setLayout(new java.awt.GridLayout(8, 2));
 
-        jLabel1.setText("Count of Items");
-        jPanel2.add(jLabel1);
+        itemsCountLabel.setText("Count of Items");
+        catalogStatusPanel.add(itemsCountLabel);
 
-        jTextField1.setEditable(false);
-        jTextField1.setText("unknown");
-        jTextField1.setBorder(null);
-        jPanel2.add(jTextField1);
+        itemsCountTextField.setEditable(false);
+        itemsCountTextField.setText("unknown");
+        itemsCountTextField.setBorder(null);
+        catalogStatusPanel.add(itemsCountTextField);
 
-        jLabel2.setText("Nodes");
-        jPanel2.add(jLabel2);
+        nodesCountLabel.setText("Nodes");
+        catalogStatusPanel.add(nodesCountLabel);
 
-        jTextField2.setEditable(false);
-        jTextField2.setText("unknown");
-        jTextField2.setBorder(null);
-        jPanel2.add(jTextField2);
+        nodesCountTextField.setEditable(false);
+        nodesCountTextField.setText("unknown");
+        nodesCountTextField.setBorder(null);
+        catalogStatusPanel.add(nodesCountTextField);
 
-        jLabel3.setText("Specifications");
-        jPanel2.add(jLabel3);
+        specsCountLabel.setText("Specifications");
+        catalogStatusPanel.add(specsCountLabel);
 
-        jTextField3.setEditable(false);
-        jTextField3.setText("unknown");
-        jTextField3.setBorder(null);
-        jPanel2.add(jTextField3);
+        specsCountTextField.setEditable(false);
+        specsCountTextField.setText("unknown");
+        specsCountTextField.setBorder(null);
+        catalogStatusPanel.add(specsCountTextField);
 
-        jLabel5.setText("Formats");
-        jPanel2.add(jLabel5);
+        formatsCountLabel.setText("Formats");
+        catalogStatusPanel.add(formatsCountLabel);
 
-        jTextField5.setEditable(false);
-        jTextField5.setText("unknown");
-        jTextField5.setBorder(null);
-        jPanel2.add(jTextField5);
+        formatsCountTextField.setEditable(false);
+        formatsCountTextField.setText("unknown");
+        formatsCountTextField.setBorder(null);
+        catalogStatusPanel.add(formatsCountTextField);
 
-        jLabel6.setText("Groups");
-        jPanel2.add(jLabel6);
+        groupsCountLabel.setText("Groups");
+        catalogStatusPanel.add(groupsCountLabel);
 
-        jTextField6.setEditable(false);
-        jTextField6.setText("unknown");
-        jTextField6.setBorder(null);
-        jPanel2.add(jTextField6);
+        groupsCountTextField.setEditable(false);
+        groupsCountTextField.setText("unknown");
+        groupsCountTextField.setBorder(null);
+        catalogStatusPanel.add(groupsCountTextField);
 
-        jLabel7.setText("Blocks");
-        jPanel2.add(jLabel7);
+        blocksCountLabel.setText("Blocks");
+        catalogStatusPanel.add(blocksCountLabel);
 
-        jTextField7.setEditable(false);
-        jTextField7.setText("unknown");
-        jTextField7.setBorder(null);
-        jPanel2.add(jTextField7);
+        blocksCountTextField.setEditable(false);
+        blocksCountTextField.setText("unknown");
+        blocksCountTextField.setBorder(null);
+        catalogStatusPanel.add(blocksCountTextField);
 
-        jLabel4.setText("Defs");
-        jPanel2.add(jLabel4);
+        defsCountLabel.setText("Defs");
+        catalogStatusPanel.add(defsCountLabel);
 
-        jTextField4.setEditable(false);
-        jTextField4.setText("unknown");
-        jTextField4.setBorder(null);
-        jPanel2.add(jTextField4);
+        defsCountTextField.setEditable(false);
+        defsCountTextField.setText("unknown");
+        defsCountTextField.setBorder(null);
+        catalogStatusPanel.add(defsCountTextField);
 
-        jLabel8.setText("Revisions");
-        jPanel2.add(jLabel8);
+        revsCountLabel.setText("Revisions");
+        catalogStatusPanel.add(revsCountLabel);
 
-        jTextField8.setEditable(false);
-        jTextField8.setText("unknown");
-        jTextField8.setBorder(null);
-        jPanel2.add(jTextField8);
+        revsCountTextField.setEditable(false);
+        revsCountTextField.setText("unknown");
+        revsCountTextField.setBorder(null);
+        catalogStatusPanel.add(revsCountTextField);
 
-        javax.swing.GroupLayout catalogStatusPanelLayout = new javax.swing.GroupLayout(catalogStatusPanel);
-        catalogStatusPanel.setLayout(catalogStatusPanelLayout);
-        catalogStatusPanelLayout.setHorizontalGroup(
-            catalogStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        javax.swing.GroupLayout catalogStatusBorderPanelLayout = new javax.swing.GroupLayout(catalogStatusBorderPanel);
+        catalogStatusBorderPanel.setLayout(catalogStatusBorderPanelLayout);
+        catalogStatusBorderPanelLayout.setHorizontalGroup(
+            catalogStatusBorderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(catalogStatusBorderPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(catalogStatusPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
-        catalogStatusPanelLayout.setVerticalGroup(
-            catalogStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+        catalogStatusBorderPanelLayout.setVerticalGroup(
+            catalogStatusBorderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(catalogStatusPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
         );
 
-        extensionsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Extensions"));
+        extensionsBorderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Extensions"));
 
         extensionsScrollPane.setViewportView(extensionsList);
 
-        javax.swing.GroupLayout extensionsPanelLayout = new javax.swing.GroupLayout(extensionsPanel);
-        extensionsPanel.setLayout(extensionsPanelLayout);
-        extensionsPanelLayout.setHorizontalGroup(
-            extensionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, extensionsPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout extensionsBorderPanelLayout = new javax.swing.GroupLayout(extensionsBorderPanel);
+        extensionsBorderPanel.setLayout(extensionsBorderPanelLayout);
+        extensionsBorderPanelLayout.setHorizontalGroup(
+            extensionsBorderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, extensionsBorderPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(extensionsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(extensionsScrollPane)
                 .addContainerGap())
         );
-        extensionsPanelLayout.setVerticalGroup(
-            extensionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(extensionsPanelLayout.createSequentialGroup()
-                .addComponent(extensionsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+        extensionsBorderPanelLayout.setVerticalGroup(
+            extensionsBorderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(extensionsBorderPanelLayout.createSequentialGroup()
+                .addComponent(extensionsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -184,39 +182,45 @@ public class CatalogStatusPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(catalogStatusPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(extensionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(extensionsBorderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(catalogStatusBorderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(catalogStatusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(catalogStatusBorderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(extensionsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(extensionsBorderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel blocksCountLabel;
+    private javax.swing.JTextField blocksCountTextField;
+    private javax.swing.JPanel catalogStatusBorderPanel;
     private javax.swing.JPanel catalogStatusPanel;
-    private javax.swing.JList extensionsList;
-    private javax.swing.JPanel extensionsPanel;
+    private javax.swing.JLabel defsCountLabel;
+    private javax.swing.JTextField defsCountTextField;
+    private javax.swing.JPanel extensionsBorderPanel;
+    private javax.swing.JList<String> extensionsList;
     private javax.swing.JScrollPane extensionsScrollPane;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
+    private javax.swing.JLabel formatsCountLabel;
+    private javax.swing.JTextField formatsCountTextField;
+    private javax.swing.JLabel groupsCountLabel;
+    private javax.swing.JTextField groupsCountTextField;
+    private javax.swing.JLabel itemsCountLabel;
+    private javax.swing.JTextField itemsCountTextField;
+    private javax.swing.JLabel nodesCountLabel;
+    private javax.swing.JTextField nodesCountTextField;
+    private javax.swing.JLabel revsCountLabel;
+    private javax.swing.JTextField revsCountTextField;
+    private javax.swing.JLabel specsCountLabel;
+    private javax.swing.JTextField specsCountTextField;
     // End of variables declaration//GEN-END:variables
 
     public void setCatalog(XBACatalog catalog) {
@@ -227,20 +231,20 @@ public class CatalogStatusPanel extends javax.swing.JPanel {
     private void updateCatalog() {
         extModel.setCatalog(catalog);
         Long count = catalog == null ? null : ((XBCItemService) catalog.getCatalogService(XBCItemService.class)).getItemsCount();
-        jTextField1.setText(count == null ? "unknown" : count.toString());
+        itemsCountTextField.setText(count == null ? "unknown" : count.toString());
         count = catalog == null ? null : ((XBCNodeService) catalog.getCatalogService(XBCNodeService.class)).getItemsCount();
-        jTextField2.setText(count == null ? "unknown" : count.toString());
+        nodesCountTextField.setText(count == null ? "unknown" : count.toString());
         count = catalog == null ? null : ((XBCSpecService) catalog.getCatalogService(XBCSpecService.class)).getItemsCount();
-        jTextField3.setText(count == null ? "unknown" : count.toString());
+        specsCountTextField.setText(count == null ? "unknown" : count.toString());
         count = catalog == null ? null : ((XBCSpecService) catalog.getCatalogService(XBCSpecService.class)).getDefsCount();
-        jTextField4.setText(count == null ? "unknown" : count.toString());
+        defsCountTextField.setText(count == null ? "unknown" : count.toString());
         count = catalog == null ? null : ((XBCSpecService) catalog.getCatalogService(XBCSpecService.class)).getAllFormatSpecsCount();
-        jTextField5.setText(count == null ? "unknown" : count.toString());
+        formatsCountTextField.setText(count == null ? "unknown" : count.toString());
         count = catalog == null ? null : ((XBCSpecService) catalog.getCatalogService(XBCSpecService.class)).getAllGroupSpecsCount();
-        jTextField6.setText(count == null ? "unknown" : count.toString());
+        groupsCountTextField.setText(count == null ? "unknown" : count.toString());
         count = catalog == null ? null : ((XBCSpecService) catalog.getCatalogService(XBCSpecService.class)).getAllBlockSpecsCount();
-        jTextField7.setText(count == null ? "unknown" : count.toString());
+        blocksCountTextField.setText(count == null ? "unknown" : count.toString());
         count = catalog == null ? null : ((XBCRevService) catalog.getCatalogService(XBCRevService.class)).getItemsCount();
-        jTextField8.setText(count == null ? "unknown" : count.toString());
+        revsCountTextField.setText(count == null ? "unknown" : count.toString());
     }
 }

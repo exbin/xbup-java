@@ -32,7 +32,7 @@ import org.xbup.lib.core.catalog.base.manager.XBCXLangManager;
 /**
  * XBUP catalog item manager.
  *
- * @version 0.1.24 2014/12/11
+ * @version 0.1.24 2014/12/12
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -46,7 +46,7 @@ public class XBEItemManager extends XBEDefaultManager<XBEItem> implements XBCIte
         super(catalog);
     }
 
-    public List<XBItemWithDetail> findAllPaged(int startFrom, int maxResults, String filterCondition, String orderCondition) {
+    public List<XBItemWithDetail> findAllPaged(int startFrom, int maxResults, String filterCondition, String orderCondition, String specType) {
         XBEXLangManager langManager = ((XBEXLangManager) catalog.getCatalogManager(XBCXLangManager.class));
         long languageId = langManager.getDefaultLang().getId();
         if (orderCondition == null) {
@@ -54,7 +54,7 @@ public class XBEItemManager extends XBEDefaultManager<XBEItem> implements XBCIte
         }
 
         Query query = em.createQuery(
-                "SELECT item, name, dsc, stri FROM XBItem item"
+                "SELECT item, name, dsc, stri FROM " + (specType == null ? "XBItem" : specType) + " item"
                 + " LEFT JOIN XBXName name ON name.item = item AND name.lang.id = " + languageId
                 + " LEFT JOIN XBXDesc dsc ON dsc.item = item AND name.lang.id = " + languageId
                 + " LEFT JOIN XBXStri stri ON stri.item = item"
@@ -83,7 +83,7 @@ public class XBEItemManager extends XBEDefaultManager<XBEItem> implements XBCIte
         return results;
     }
 
-    public int findAllPagedCount(String filterCondition) {
+    public int findAllPagedCount(String filterCondition, String specType) {
         XBEXLangManager langManager = ((XBEXLangManager) catalog.getCatalogManager(XBCXLangManager.class));
         long languageId = langManager.getDefaultLang().getId();
 
@@ -116,7 +116,7 @@ public class XBEItemManager extends XBEDefaultManager<XBEItem> implements XBCIte
         }
 
         Query query = em.createQuery(
-                "SELECT COUNT(item) from XBItem item"
+                "SELECT COUNT(item) FROM " + (specType == null ? "XBItem" : specType) + " item"
                 + (filterCondition == null
                 || filterCondition.isEmpty() ? ""
                         : " WHERE ")

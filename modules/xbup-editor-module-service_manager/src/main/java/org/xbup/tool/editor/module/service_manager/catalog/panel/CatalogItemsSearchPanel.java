@@ -30,9 +30,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.table.TableColumn;
 import javax.swing.text.DefaultEditorKit;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
@@ -47,28 +55,28 @@ import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBEXDesc;
 import org.xbup.lib.catalog.entity.XBEXName;
 import org.xbup.lib.catalog.yaml.XBCatalogYaml;
-import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
 import org.xbup.tool.editor.base.api.FileType;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
 import org.xbup.tool.editor.base.api.MenuManagement;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogEditItemDialog;
+import org.xbup.tool.editor.module.service_manager.panel.CatalogManagerPanelable;
 
 /**
  * Catalog Specification Panel.
  *
- * @version 0.1.24 2014/12/10
+ * @version 0.1.24 2014/12/12
  * @author XBUP Project (http://xbup.org)
  */
-public class CatalogItemsSearchPanel extends javax.swing.JPanel implements ActivePanelActionHandling {
+public class CatalogItemsSearchPanel extends javax.swing.JPanel implements ActivePanelActionHandling, CatalogManagerPanelable {
 
     private XBCItem currentItem;
 
     private XBACatalog catalog;
     private MainFrameManagement mainFrameManagement;
-    private final CatalogSearchPanel searchPanel;
-    private final CatalogSpecsTableModel specsModel;
-    private final CatalogItemPanel itemPanel;
+    private CatalogItemsTableModel itemsModel;
+    private final CatalogSearchTableModel searchModel;
     private final XBCatalogYaml catalogYaml;
 
     // Cached values
@@ -78,24 +86,50 @@ public class CatalogItemsSearchPanel extends javax.swing.JPanel implements Activ
     private XBCXDescService descService;
     private XBCXStriService striService;
 
-    private Map<String, ActionListener> actionListenerMap = new HashMap<>();
+    private final Map<String, ActionListener> actionListenerMap = new HashMap<>();
     public static final String YAML_FILE_TYPE = "CatalogItemsTreePanel.YamlFileType";
     private MenuManagement menuManagement;
+    private CatalogSearchTableModel.CatalogSearchTableItem searchConditions = null;
+    private SelectionListener selectionListener;
 
     public CatalogItemsSearchPanel() {
-        searchPanel = new CatalogSearchPanel();
-        specsModel = new CatalogSpecsTableModel();
+        itemsModel = new CatalogItemsTableModel();
+        searchModel = new CatalogSearchTableModel();
         catalogYaml = new XBCatalogYaml();
-        itemPanel = new CatalogItemPanel();
 
         initComponents();
 
-        catalogItemSplitPane.setLeftComponent(searchPanel);
-        catalogItemSplitPane.setRightComponent(itemPanel);
-        itemPanel.setJumpActionListener(new CatalogItemPanel.JumpActionListener() {
+        DefaultCellEditor defaultCellEditor = new DefaultCellEditor(new JTextField());
+        defaultCellEditor.setClickCountToStart(0);
+        defaultCellEditor.addCellEditorListener(new CellEditorListener() {
+
             @Override
-            public void jumpToRev(XBCRev rev) {
-                throw new UnsupportedOperationException("Not supported yet.");
+            public void editingStopped(ChangeEvent e) {
+                if (catalogItemsListTable.getSelectedRowCount() == 0) {
+                    performSearch();
+                }
+            }
+
+            @Override
+            public void editingCanceled(ChangeEvent e) {
+            }
+        });
+        int columnCount = catalogSearchTable.getColumnModel().getColumnCount();
+        for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+            TableColumn column = catalogSearchTable.getColumnModel().getColumn(columnIndex);
+            column.setCellEditor(defaultCellEditor);
+        }
+
+        catalogItemsListTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    if (catalogItemsListTable.getSelectedRow() >= 0) {
+                        setItem(itemsModel.getItem(catalogItemsListTable.getSelectedRow()));
+                    } else {
+                        setItem(null);
+                    }
+                }
             }
         });
 
@@ -131,6 +165,12 @@ public class CatalogItemsSearchPanel extends javax.swing.JPanel implements Activ
         });
     }
 
+    public void switchToSpecTypeMode(CatalogSpecItemType specType) {
+        itemsModel.setSpecType(specType);
+        catalogItemsListTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        catalogSearchTable.changeSelection(0, 0, false, false);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -141,10 +181,16 @@ public class CatalogItemsSearchPanel extends javax.swing.JPanel implements Activ
 
         catalogTreePopupMenu = new javax.swing.JPopupMenu();
         popupRefreshMenuItem = new javax.swing.JMenuItem();
+        popupEditMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         popupExportItemMenuItem = new javax.swing.JMenuItem();
-        catalogItemSplitPane = new javax.swing.JSplitPane();
+        searchPanel = new javax.swing.JPanel();
+        catalogSearchScrollPane = new javax.swing.JScrollPane();
+        catalogSearchTable = new javax.swing.JTable();
+        searchButton = new javax.swing.JButton();
+        catalogItemListScrollPane = new javax.swing.JScrollPane();
+        catalogItemsListTable = new javax.swing.JTable();
 
         catalogTreePopupMenu.setName("catalogTreePopupMenu"); // NOI18N
 
@@ -158,6 +204,16 @@ public class CatalogItemsSearchPanel extends javax.swing.JPanel implements Activ
             }
         });
         catalogTreePopupMenu.add(popupRefreshMenuItem);
+
+        popupEditMenuItem.setText(bundle.getString("editMenuItem.text")); // NOI18N
+        popupEditMenuItem.setToolTipText(bundle.getString("editMenuItem,toolTipText")); // NOI18N
+        popupEditMenuItem.setName("popupEditMenuItem"); // NOI18N
+        popupEditMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popupEditMenuItemActionPerformed(evt);
+            }
+        });
+        catalogTreePopupMenu.add(popupEditMenuItem);
 
         jSeparator1.setName("jSeparator1"); // NOI18N
         catalogTreePopupMenu.add(jSeparator1);
@@ -178,10 +234,53 @@ public class CatalogItemsSearchPanel extends javax.swing.JPanel implements Activ
         setName("Form"); // NOI18N
         setLayout(new java.awt.BorderLayout());
 
-        catalogItemSplitPane.setDividerLocation(180);
-        catalogItemSplitPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
-        catalogItemSplitPane.setName("catalogItemSplitPane"); // NOI18N
-        add(catalogItemSplitPane, java.awt.BorderLayout.CENTER);
+        searchPanel.setName("searchPanel"); // NOI18N
+
+        catalogSearchScrollPane.setName("catalogSearchScrollPane"); // NOI18N
+
+        catalogSearchTable.setModel(searchModel);
+        catalogSearchTable.setName("catalogSearchTable"); // NOI18N
+        catalogSearchTable.setRowSelectionAllowed(false);
+        catalogSearchScrollPane.setViewportView(catalogSearchTable);
+
+        searchButton.setText("Search");
+        searchButton.setName("searchButton"); // NOI18N
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout searchPanelLayout = new javax.swing.GroupLayout(searchPanel);
+        searchPanel.setLayout(searchPanelLayout);
+        searchPanelLayout.setHorizontalGroup(
+            searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(searchPanelLayout.createSequentialGroup()
+                .addGap(0, 409, Short.MAX_VALUE)
+                .addComponent(searchButton)
+                .addContainerGap())
+            .addComponent(catalogSearchScrollPane)
+        );
+        searchPanelLayout.setVerticalGroup(
+            searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(searchPanelLayout.createSequentialGroup()
+                .addComponent(catalogSearchScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(searchButton)
+                .addContainerGap())
+        );
+
+        add(searchPanel, java.awt.BorderLayout.NORTH);
+
+        catalogItemListScrollPane.setComponentPopupMenu(catalogTreePopupMenu);
+        catalogItemListScrollPane.setName("catalogItemListScrollPane"); // NOI18N
+
+        catalogItemsListTable.setModel(itemsModel);
+        catalogItemsListTable.setComponentPopupMenu(catalogTreePopupMenu);
+        catalogItemsListTable.setName("catalogItemsListTable"); // NOI18N
+        catalogItemListScrollPane.setViewportView(catalogItemsListTable);
+
+        add(catalogItemListScrollPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void popupExportItemMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupExportItemMenuItemActionPerformed
@@ -209,12 +308,48 @@ public class CatalogItemsSearchPanel extends javax.swing.JPanel implements Activ
 
     private void popupRefreshMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupRefreshMenuItemActionPerformed
         Component invoker = catalogTreePopupMenu.getInvoker();
-        throw new UnsupportedOperationException("Not supported yet.");
+        reload();
     }//GEN-LAST:event_popupRefreshMenuItemActionPerformed
+
+    private void popupEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupEditMenuItemActionPerformed
+        if (currentItem != null) {
+            CatalogEditItemDialog editDialog = new CatalogEditItemDialog(WindowUtils.getFrame(this), true);
+            editDialog.setMenuManagement(menuManagement);
+            editDialog.setCatalog(catalog);
+            editDialog.setCatalogItem(currentItem);
+            editDialog.setVisible(true);
+
+            if (editDialog.getDialogOption() == JOptionPane.OK_OPTION) {
+                EntityManager em = ((XBECatalog) catalog).getEntityManager();
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                editDialog.persist();
+                setItem(currentItem);
+                em.flush();
+                transaction.commit();
+                reload();
+            }
+        }
+    }//GEN-LAST:event_popupEditMenuItemActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        searchConditions = searchModel.getSearchConditions();
+        reload();
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    public void performSearch() {
+        WindowUtils.doButtonClick(searchButton);
+    }
 
     public void setItem(XBCItem item) {
         currentItem = item;
-        itemPanel.setItem(item);
+
+        popupEditMenuItem.setEnabled(item != null);
+        popupExportItemMenuItem.setEnabled(item != null);
+
+        if (selectionListener != null) {
+            selectionListener.selectedItem(item);
+        }
 
         if (mainFrameManagement != null) {
             updateActionStatus(mainFrameManagement.getLastFocusOwner());
@@ -242,20 +377,35 @@ public class CatalogItemsSearchPanel extends javax.swing.JPanel implements Activ
         return false;
     }
 
+    @Override
     public void setMainFrameManagement(MainFrameManagement mainFrameManagement) {
         this.mainFrameManagement = mainFrameManagement;
-        itemPanel.setMainFrameManagement(mainFrameManagement);
+    }
+
+    private void reload() {
+        if (catalogSearchTable.getCellEditor() != null) {
+            catalogSearchTable.getCellEditor().stopCellEditing();
+        }
+
+        itemsModel.performSearch(searchConditions);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JSplitPane catalogItemSplitPane;
+    private javax.swing.JScrollPane catalogItemListScrollPane;
+    private javax.swing.JTable catalogItemsListTable;
+    private javax.swing.JScrollPane catalogSearchScrollPane;
+    private javax.swing.JTable catalogSearchTable;
     private javax.swing.JPopupMenu catalogTreePopupMenu;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JMenuItem popupEditMenuItem;
     private javax.swing.JMenuItem popupExportItemMenuItem;
     private javax.swing.JMenuItem popupRefreshMenuItem;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JPanel searchPanel;
     // End of variables declaration//GEN-END:variables
 
+    @Override
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
 
@@ -265,10 +415,8 @@ public class CatalogItemsSearchPanel extends javax.swing.JPanel implements Activ
         descService = catalog == null ? null : (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
         striService = catalog == null ? null : (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
 
-        specsModel.setCatalog(catalog);
+        itemsModel.setCatalog(catalog);
         catalogYaml.setCatalog(catalog);
-        itemPanel.setCatalog(catalog);
-        searchPanel.setCatalog(catalog);
     }
 
     public void performCut() {
@@ -324,6 +472,7 @@ public class CatalogItemsSearchPanel extends javax.swing.JPanel implements Activ
             em.flush();
             transaction.commit();
 
+            reload();
             repaint();
         }
     }
@@ -362,10 +511,14 @@ public class CatalogItemsSearchPanel extends javax.swing.JPanel implements Activ
         return ext;
     }
 
+    @Override
     public void setMenuManagement(MenuManagement menuManagement) {
         this.menuManagement = menuManagement;
-        menuManagement.insertMainPopupMenu(catalogTreePopupMenu, 4);
-        searchPanel.setMenuManagement(menuManagement);
+        menuManagement.insertMainPopupMenu(catalogTreePopupMenu, 3);
+    }
+
+    public XBCItem getItem() {
+        return currentItem;
     }
 
     public class YamlFileType extends FileFilter implements FileType {
@@ -397,5 +550,14 @@ public class CatalogItemsSearchPanel extends javax.swing.JPanel implements Activ
         public String getFileTypeId() {
             return YAML_FILE_TYPE;
         }
+    }
+
+    public void setSelectionListener(SelectionListener selectionListener) {
+        this.selectionListener = selectionListener;
+    }
+
+    public interface SelectionListener {
+
+        void selectedItem(XBCItem item);
     }
 }

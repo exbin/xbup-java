@@ -23,11 +23,11 @@ import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.tool.editor.base.api.MenuManagement;
-import org.xbup.tool.editor.module.service_manager.catalog.editor.panel.CatalogItemEditDefinitionPanel;
-import org.xbup.tool.editor.module.service_manager.catalog.editor.panel.CatalogItemEditPanel;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditDefinitionPanel;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditPanel;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
-import org.xbup.tool.editor.module.service_manager.catalog.editor.panel.CatalogItemEditFilesPanel;
-import org.xbup.tool.editor.module.service_manager.catalog.editor.panel.CatalogItemEditRevsPanel;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditFilesPanel;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditRevsPanel;
 
 /**
  * XBManager Catalog Item Properties Dialog.

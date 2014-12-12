@@ -21,6 +21,7 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreeSelectionModel;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCNode;
@@ -31,26 +32,25 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 /**
  * XBManager Catalog Specification Selection Panel.
  *
- * @version 0.1.24 2014/11/20
+ * @version 0.1.24 2014/12/12
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSelectSpecPanel extends javax.swing.JPanel {
 
-    private XBCXNameService nameService;
+    private XBCXNameService nameService = null;
     private CatalogSelectSpecTreeModel treeModel;
     private SelectionListener selectionListener;
-    private XBCSpec spec;
+    private XBCItem selectedItem;
+    private final CatalogSpecItemType specType;
 
-    public CatalogSelectSpecPanel(XBACatalog catalog, CatalogSpecItemType specType) {
-        nameService = null;
-        if (catalog != null) {
-            nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-        }
-        treeModel = new CatalogSelectSpecTreeModel(catalog, specType);
-        spec = null;
+    public CatalogSelectSpecPanel(final CatalogSpecItemType specType) {
+        this.specType = specType;
+        treeModel = new CatalogSelectSpecTreeModel(null, specType);
+        selectedItem = null;
 
         initComponents();
 
+        specSelectTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         specSelectTree.setCellRenderer(new DefaultTreeCellRenderer() {
             @Override
             public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
@@ -90,22 +90,28 @@ public class CatalogSelectSpecPanel extends javax.swing.JPanel {
             @Override
             public void valueChanged(TreeSelectionEvent e) {
                 XBCItem item = (XBCItem) specSelectTree.getLastSelectedPathComponent();
-                if (item instanceof XBCNode) {
+                if ((item instanceof XBCNode) && (specType != CatalogSpecItemType.NODE)) {
                     item = null;
                 }
                 if (item == null) {
-                    if (spec != null) {
-                        spec = null;
-                        selectionListener.selectedItem(spec);
+                    if (selectedItem != null) {
+                        selectedItem = null;
+                        selectionListener.selectedItem(selectedItem);
                     }
                 } else {
-                    if (spec != item) {
-                        spec = (XBCSpec) item;
-                        selectionListener.selectedItem(spec);
+                    if (selectedItem != item) {
+                        selectedItem = item;
+                        selectionListener.selectedItem(selectedItem);
                     }
                 }
             }
         });
+    }
+
+    public void setCatalog(XBACatalog catalog) {
+        treeModel = new CatalogSelectSpecTreeModel(catalog, specType);
+        specSelectTree.setModel(treeModel);
+        nameService = catalog == null ? null : (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
     }
 
     /**
@@ -150,6 +156,6 @@ public class CatalogSelectSpecPanel extends javax.swing.JPanel {
 
     public interface SelectionListener {
 
-        void selectedItem(XBCSpec spec);
+        void selectedItem(XBCItem item);
     }
 }

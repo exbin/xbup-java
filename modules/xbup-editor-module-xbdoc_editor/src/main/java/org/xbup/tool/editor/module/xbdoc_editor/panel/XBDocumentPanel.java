@@ -47,27 +47,27 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.param.XBParamConvertor;
 import org.xbup.lib.core.parser.param.XBParamListener;
-import org.xbup.lib.parser_tree.XBTTreeDocument;
-import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.lib.parser_tree.XBTTreeWriter;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.operation.XBTCommand;
 import org.xbup.lib.operation.basic.XBTModAttrBlockCommand;
 import org.xbup.lib.operation.basic.XBTModDataBlockCommand;
 import org.xbup.lib.operation.basic.XBTModifyBlockCommand;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
+import org.xbup.lib.parser_tree.XBTTreeDocument;
+import org.xbup.lib.parser_tree.XBTTreeNode;
+import org.xbup.lib.parser_tree.XBTTreeWriter;
 import org.xbup.lib.plugin.XBPluginRepository;
-import org.xbup.tool.editor.module.xbdoc_editor.XBDocEditorFrame;
-import org.xbup.tool.editor.module.xbdoc_editor.dialog.ModifyItemDialog;
-import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemPropertiesDialog;
-import org.xbup.tool.editor.module.text_editor.dialog.FindTextDialog;
-import org.xbup.tool.editor.module.text_editor.dialog.FontDialog;
-import org.xbup.tool.editor.module.text_editor.panel.TextPanel;
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
 import org.xbup.tool.editor.base.api.ActivePanelUndoable;
 import org.xbup.tool.editor.base.api.ApplicationFilePanel;
 import org.xbup.tool.editor.base.api.FileType;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.module.text_editor.dialog.FindTextDialog;
+import org.xbup.tool.editor.module.text_editor.dialog.FontDialog;
+import org.xbup.tool.editor.module.text_editor.panel.TextPanel;
+import org.xbup.tool.editor.module.xbdoc_editor.XBDocEditorFrame;
+import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemPropertiesDialog;
+import org.xbup.tool.editor.module.xbdoc_editor.dialog.ModifyItemDialog;
 
 /**
  * Panel with XBUP document visualization.

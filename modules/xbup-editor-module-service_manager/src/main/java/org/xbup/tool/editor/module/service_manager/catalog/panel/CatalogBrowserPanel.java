@@ -20,18 +20,11 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.text.DefaultEditorKit;
@@ -47,12 +40,13 @@ import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBEXDesc;
 import org.xbup.lib.catalog.entity.XBEXName;
-import org.xbup.lib.catalog.yaml.XBCatalogYaml;
+import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogEditItemDialog;
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
 import org.xbup.tool.editor.base.api.FileType;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
 import org.xbup.tool.editor.base.api.MenuManagement;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.module.service_manager.panel.CatalogManagerPanelable;
 
 /**
  * Catalog Specification Panel.
@@ -60,16 +54,12 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
  * @version 0.1.24 2014/12/12
  * @author XBUP Project (http://xbup.org)
  */
-public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePanelActionHandling {
+public class CatalogBrowserPanel extends javax.swing.JPanel implements ActivePanelActionHandling, CatalogManagerPanelable {
 
     private XBCItem currentItem;
 
     private XBACatalog catalog;
     private MainFrameManagement mainFrameManagement;
-    private final CatalogItemsSearchPanel searchPanel;
-    private final CatalogSpecsTableModel specsModel;
-    private final CatalogItemPanel itemPanel;
-    private final XBCatalogYaml catalogYaml;
 
     // Cached values
     private XBCNodeService nodeService;
@@ -82,24 +72,10 @@ public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePane
     public static final String YAML_FILE_TYPE = "CatalogItemsTreePanel.YamlFileType";
     private MenuManagement menuManagement;
 
-    public CatalogSearchPanel() {
-        searchPanel = new CatalogItemsSearchPanel();
-        specsModel = new CatalogSpecsTableModel();
-        catalogYaml = new XBCatalogYaml();
-        itemPanel = new CatalogItemPanel();
-
+    public CatalogBrowserPanel() {
         initComponents();
 
-        catalogItemSplitPane.setLeftComponent(searchPanel);
-        catalogItemSplitPane.setRightComponent(itemPanel);
-
-        searchPanel.setSelectionListener(new CatalogItemsSearchPanel.SelectionListener() {
-
-            @Override
-            public void selectedItem(XBCItem item) {
-                itemPanel.setItem(item);
-            }
-        });
+        updateItem();
 
         actionListenerMap.put(DefaultEditorKit.cutAction, new ActionListener() {
             @Override
@@ -142,15 +118,26 @@ public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePane
     private void initComponents() {
 
         catalogTreePopupMenu = new javax.swing.JPopupMenu();
+        popupEditMenuItem = new javax.swing.JMenuItem();
         popupRefreshMenuItem = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        popupExportItemMenuItem = new javax.swing.JMenuItem();
+        panelSplitPane = new javax.swing.JSplitPane();
         catalogItemSplitPane = new javax.swing.JSplitPane();
+        temporaryPanel = new javax.swing.JPanel();
+        temporaryLabel = new javax.swing.JLabel();
 
         catalogTreePopupMenu.setName("catalogTreePopupMenu"); // NOI18N
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel"); // NOI18N
+        popupEditMenuItem.setText(bundle.getString("editMenuItem.text")); // NOI18N
+        popupEditMenuItem.setToolTipText(bundle.getString("editMenuItem,toolTipText")); // NOI18N
+        popupEditMenuItem.setName("popupEditMenuItem"); // NOI18N
+        popupEditMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popupEditMenuItemActionPerformed(evt);
+            }
+        });
+        catalogTreePopupMenu.add(popupEditMenuItem);
+
         popupRefreshMenuItem.setText(bundle.getString("refreshMenuItem,text")); // NOI18N
         popupRefreshMenuItem.setToolTipText(bundle.getString("refreshMenuItem,toolTipText")); // NOI18N
         popupRefreshMenuItem.setName("popupRefreshMenuItem"); // NOI18N
@@ -161,113 +148,102 @@ public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePane
         });
         catalogTreePopupMenu.add(popupRefreshMenuItem);
 
-        jSeparator1.setName("jSeparator1"); // NOI18N
-        catalogTreePopupMenu.add(jSeparator1);
-
-        jSeparator2.setName("jSeparator2"); // NOI18N
-        catalogTreePopupMenu.add(jSeparator2);
-
-        popupExportItemMenuItem.setText(bundle.getString("exportItemMenuItem,text")); // NOI18N
-        popupExportItemMenuItem.setToolTipText(bundle.getString("exportItemMenuItem,toolTipText")); // NOI18N
-        popupExportItemMenuItem.setName("popupExportItemMenuItem"); // NOI18N
-        popupExportItemMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                popupExportItemMenuItemActionPerformed(evt);
-            }
-        });
-        catalogTreePopupMenu.add(popupExportItemMenuItem);
-
         setName("Form"); // NOI18N
         setLayout(new java.awt.BorderLayout());
+
+        panelSplitPane.setDividerLocation(100);
+        panelSplitPane.setName("panelSplitPane"); // NOI18N
 
         catalogItemSplitPane.setDividerLocation(180);
         catalogItemSplitPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         catalogItemSplitPane.setName("catalogItemSplitPane"); // NOI18N
-        add(catalogItemSplitPane, java.awt.BorderLayout.CENTER);
+        panelSplitPane.setLeftComponent(catalogItemSplitPane);
+
+        temporaryPanel.setName("temporaryPanel"); // NOI18N
+        temporaryPanel.setLayout(new java.awt.BorderLayout());
+
+        temporaryLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        temporaryLabel.setText("TBD");
+        temporaryLabel.setName("temporaryLabel"); // NOI18N
+        temporaryPanel.add(temporaryLabel, java.awt.BorderLayout.CENTER);
+
+        panelSplitPane.setRightComponent(temporaryPanel);
+
+        add(panelSplitPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void popupExportItemMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupExportItemMenuItemActionPerformed
+    private void popupEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupEditMenuItemActionPerformed
         if (currentItem != null) {
-            JFileChooser exportFileChooser = new JFileChooser();
-            exportFileChooser.addChoosableFileFilter(new YamlFileType());
-            exportFileChooser.setAcceptAllFileFilterUsed(true);
-            if (exportFileChooser.showSaveDialog(WindowUtils.getFrame(this)) == JFileChooser.APPROVE_OPTION) {
-                FileWriter fileWriter;
-                try {
-                    fileWriter = new FileWriter(exportFileChooser.getSelectedFile().getAbsolutePath());
-                    try {
-                        catalogYaml.exportCatalogItem(currentItem, fileWriter);
-                    } finally {
-                        fileWriter.close();
-                    }
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(CatalogSearchPanel.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(CatalogSearchPanel.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            CatalogEditItemDialog editDialog = new CatalogEditItemDialog(WindowUtils.getFrame(this), true);
+            editDialog.setMenuManagement(menuManagement);
+            editDialog.setCatalog(catalog);
+            editDialog.setCatalogItem(currentItem);
+            editDialog.setVisible(true);
+
+            if (editDialog.getDialogOption() == JOptionPane.OK_OPTION) {
+                EntityManager em = ((XBECatalog) catalog).getEntityManager();
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                editDialog.persist();
+                setItem(currentItem);
+                em.flush();
+                transaction.commit();
             }
         }
-    }//GEN-LAST:event_popupExportItemMenuItemActionPerformed
+    }//GEN-LAST:event_popupEditMenuItemActionPerformed
 
     private void popupRefreshMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupRefreshMenuItemActionPerformed
         Component invoker = catalogTreePopupMenu.getInvoker();
-        throw new UnsupportedOperationException("Not supported yet.");
+        reloadNodesTree();
     }//GEN-LAST:event_popupRefreshMenuItemActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        JDialog dialog = new JDialog(new javax.swing.JFrame(), true);
-        dialog.setSize(600, 400);
-        dialog.getContentPane().add(new CatalogSearchPanel());
-        WindowUtils.invokeWindow(dialog);
+    public void setNode(XBCNode node) {
+        setItem(node);
     }
 
     public void setItem(XBCItem item) {
         currentItem = item;
-        itemPanel.setItem(item);
 
         if (mainFrameManagement != null) {
             updateActionStatus(mainFrameManagement.getLastFocusOwner());
         }
+
+        updateItem();
     }
 
     @Override
     public boolean updateActionStatus(Component component) {
-//        if (component == catalogTree) {
-//            // clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-//
-//            if (mainFrameManagement != null) {
-//                mainFrameManagement.getCutAction().setEnabled(currentItem != null);
-//                mainFrameManagement.getCopyAction().setEnabled(currentItem != null);
-//                mainFrameManagement.getPasteAction().setEnabled(false); // TODO clipboard.isDataFlavorAvailable(xbFlavor));
-//                mainFrameManagement.getDeleteAction().setEnabled(currentItem != null);
-//                mainFrameManagement.getSelectAllAction().setEnabled(false);
-//            }
-//
-//            // frameManagement.getUndoAction().setEnabled(treeUndo.canUndo());
-//            // frameManagement.getRedoAction().setEnabled(treeUndo.canRedo());
-//            return true;
-//        }
+        // clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 
-        return false;
+        if (mainFrameManagement != null) {
+            mainFrameManagement.getCutAction().setEnabled(currentItem != null);
+            mainFrameManagement.getCopyAction().setEnabled(currentItem != null);
+            mainFrameManagement.getPasteAction().setEnabled(false); // TODO clipboard.isDataFlavorAvailable(xbFlavor));
+            mainFrameManagement.getDeleteAction().setEnabled(currentItem != null);
+            mainFrameManagement.getSelectAllAction().setEnabled(false);
+        }
+
+        // frameManagement.getUndoAction().setEnabled(treeUndo.canUndo());
+        // frameManagement.getRedoAction().setEnabled(treeUndo.canRedo());
+        return true;
     }
 
+    @Override
     public void setMainFrameManagement(MainFrameManagement mainFrameManagement) {
         this.mainFrameManagement = mainFrameManagement;
-        itemPanel.setMainFrameManagement(mainFrameManagement);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSplitPane catalogItemSplitPane;
     private javax.swing.JPopupMenu catalogTreePopupMenu;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JPopupMenu.Separator jSeparator2;
-    private javax.swing.JMenuItem popupExportItemMenuItem;
+    private javax.swing.JSplitPane panelSplitPane;
+    private javax.swing.JMenuItem popupEditMenuItem;
     private javax.swing.JMenuItem popupRefreshMenuItem;
+    private javax.swing.JLabel temporaryLabel;
+    private javax.swing.JPanel temporaryPanel;
     // End of variables declaration//GEN-END:variables
 
+    @Override
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
 
@@ -277,10 +253,7 @@ public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePane
         descService = catalog == null ? null : (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
         striService = catalog == null ? null : (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
 
-        specsModel.setCatalog(catalog);
-        catalogYaml.setCatalog(catalog);
-        itemPanel.setCatalog(catalog);
-        searchPanel.setCatalog(catalog);
+        reloadNodesTree();
     }
 
     public void performCut() {
@@ -374,10 +347,18 @@ public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePane
         return ext;
     }
 
+    @Override
     public void setMenuManagement(MenuManagement menuManagement) {
         this.menuManagement = menuManagement;
         menuManagement.insertMainPopupMenu(catalogTreePopupMenu, 4);
-        searchPanel.setMenuManagement(menuManagement);
+    }
+
+    private void reloadNodesTree() {
+        XBCNode rootNode = nodeService.getRootNode();
+    }
+
+    private void updateItem() {
+        popupEditMenuItem.setEnabled(currentItem != null);
     }
 
     public class YamlFileType extends FileFilter implements FileType {

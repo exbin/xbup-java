@@ -29,7 +29,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSearchTa
 /**
  * Table model for catalog specifications.
  *
- * @version 0.1.24 2014/12/11
+ * @version 0.1.24 2014/12/12
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemsTableModel extends AbstractTableModel {
@@ -45,6 +45,7 @@ public class CatalogItemsTableModel extends AbstractTableModel {
     private final List<List<XBItemWithDetail>> itemPages = new ArrayList<>();
     private String filterCondition = "";
     private int itemCount = 0;
+    private String specType = null;
 
     public CatalogItemsTableModel() {
     }
@@ -60,7 +61,7 @@ public class CatalogItemsTableModel extends AbstractTableModel {
 
         List<XBItemWithDetail> page = itemPages.get(pageIndex);
         if (page == null) {
-            page = ((XBEItemService) itemService).findAllPaged(pageIndex * pageSize, pageSize, filterCondition, null);
+            page = ((XBEItemService) itemService).findAllPaged(pageIndex * pageSize, pageSize, filterCondition, null, specType);
             itemPages.set(pageIndex, page);
         }
 
@@ -68,7 +69,7 @@ public class CatalogItemsTableModel extends AbstractTableModel {
     }
 
     public void performLoad() {
-        itemCount = ((XBEItemService) itemService).findAllPagedCount(filterCondition);
+        itemCount = ((XBEItemService) itemService).findAllPagedCount(filterCondition, specType);
         itemPages.clear();
         for (int i = 0; i <= itemCount / pageSize; i++) {
             itemPages.add(null);
@@ -84,9 +85,15 @@ public class CatalogItemsTableModel extends AbstractTableModel {
                 builder.append("LOWER(name.text) LIKE '%").append(filter.getName().toLowerCase().replace("'", "''")).append("%'");
             }
             if (!(filter.getDescription() == null || filter.getDescription().isEmpty())) {
+                if (builder.length() > 0) {
+                    builder.append(" AND ");
+                }
                 builder.append("LOWER(desc.text) LIKE '%").append(filter.getDescription().toLowerCase().replace("'", "''")).append("%'");
             }
             if (!(filter.getStringId() == null || filter.getStringId().isEmpty())) {
+                if (builder.length() > 0) {
+                    builder.append(" AND ");
+                }
                 builder.append("LOWER(stri.text) LIKE '%").append(filter.getStringId().toLowerCase().replace("'", "''")).append("%'");
             }
             if (!(filter.getType() == null || filter.getType().isEmpty())) {
@@ -145,5 +152,26 @@ public class CatalogItemsTableModel extends AbstractTableModel {
 
     public void setCatalog(XBACatalog catalog) {
         itemService = catalog == null ? null : (XBCItemService) catalog.getCatalogService(XBCItemService.class);
+    }
+
+    void setSpecType(CatalogSpecItemType catalogSpecType) {
+        switch (catalogSpecType) {
+            case FORMAT: {
+                specType = "XBFormatSpec";
+                break;
+            }
+            case GROUP: {
+                specType = "XBGroupSpec";
+                break;
+            }
+            case BLOCK: {
+                specType = "XBBlockSpec";
+                break;
+            }
+            case NODE: {
+                specType = "XBNode";
+                break;
+            }
+        }
     }
 }

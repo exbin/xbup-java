@@ -242,4 +242,8 @@ public class WindowUtils {
             }
         }
     }
+    
+    public static void doButtonClick(JButton button) {
+        button.doClick(BUTTON_CLICK_TIME);
+    }
 }

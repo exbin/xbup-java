@@ -32,7 +32,6 @@ import org.xbup.lib.core.remote.XBServiceClient;
 import org.xbup.lib.core.remote.XBTCPServiceClient;
 import org.xbup.lib.catalog.remote.XBDbServiceClient;
 import org.xbup.tool.editor.module.service_manager.XBServiceManagerFrame;
-import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**

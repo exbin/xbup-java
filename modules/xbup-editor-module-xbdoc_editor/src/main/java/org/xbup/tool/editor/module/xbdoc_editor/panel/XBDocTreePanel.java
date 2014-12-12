@@ -49,17 +49,17 @@ import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
-import org.xbup.lib.parser_tree.XBTTreeDocument;
-import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.operation.XBTCommand;
 import org.xbup.lib.operation.basic.XBTAddBlockCommand;
 import org.xbup.lib.operation.basic.XBTDeleteBlockCommand;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
-import org.xbup.tool.editor.module.xbdoc_editor.XBDocEditorFrame;
-import org.xbup.tool.editor.module.xbdoc_editor.dialog.AddItemDialog;
+import org.xbup.lib.parser_tree.XBTTreeDocument;
+import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.module.xbdoc_editor.XBDocEditorFrame;
+import org.xbup.tool.editor.module.xbdoc_editor.dialog.AddItemDialog;
 
 /**
  * Panel with document tree visualization.

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.tool.editor.module.service_manager.catalog.editor.panel;
+package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -36,7 +36,6 @@ import org.xbup.lib.catalog.entity.XBENode;
 import org.xbup.lib.catalog.entity.XBEXFile;
 import org.xbup.tool.editor.base.api.MenuManagement;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogFilesTableModel;
 
 /**
  * Catalog Specification Panel.

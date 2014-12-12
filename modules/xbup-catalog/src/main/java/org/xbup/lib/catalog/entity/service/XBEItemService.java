@@ -55,11 +55,11 @@ public class XBEItemService extends XBEDefaultService<XBEItem> implements XBCIte
         itemManager = manager;
     }
 
-    public List<XBItemWithDetail> findAllPaged(int startFrom, int maxResults, String filterCondition, String orderCondition) {
-        return ((XBEItemManager) itemManager).findAllPaged(startFrom, maxResults, filterCondition, orderCondition);
+    public List<XBItemWithDetail> findAllPaged(int startFrom, int maxResults, String filterCondition, String orderCondition, String specType) {
+        return ((XBEItemManager) itemManager).findAllPaged(startFrom, maxResults, filterCondition, orderCondition, specType);
     }
 
-    public int findAllPagedCount(String filterCondition) {
-        return ((XBEItemManager) itemManager).findAllPagedCount(filterCondition);
+    public int findAllPagedCount(String filterCondition, String specType) {
+        return ((XBEItemManager) itemManager).findAllPagedCount(filterCondition, specType);
     }
 }

@@ -22,6 +22,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -71,33 +72,6 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
-import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.client.catalog.XBARCatalog;
-import org.xbup.lib.core.catalog.base.service.XBCNodeService;
-import org.xbup.lib.core.catalog.base.service.XBCXDescService;
-import org.xbup.lib.core.catalog.base.service.XBCXFileService;
-import org.xbup.lib.core.catalog.base.service.XBCXHDocService;
-import org.xbup.lib.core.catalog.base.service.XBCXIconService;
-import org.xbup.lib.core.catalog.base.service.XBCXLangService;
-import org.xbup.lib.core.catalog.base.service.XBCXLineService;
-import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.core.catalog.base.service.XBCXPaneService;
-import org.xbup.lib.core.catalog.base.service.XBCXPlugService;
-import org.xbup.lib.core.catalog.base.service.XBCXStriService;
-import org.xbup.lib.client.XBCatalogNetServiceClient;
-import org.xbup.lib.client.catalog.remote.service.XBRXDescService;
-import org.xbup.lib.client.catalog.remote.service.XBRXFileService;
-import org.xbup.lib.client.catalog.remote.service.XBRXHDocService;
-import org.xbup.lib.client.catalog.remote.service.XBRXIconService;
-import org.xbup.lib.client.catalog.remote.service.XBRXLangService;
-import org.xbup.lib.client.catalog.remote.service.XBRXLineService;
-import org.xbup.lib.client.catalog.remote.service.XBRXNameService;
-import org.xbup.lib.client.catalog.remote.service.XBRXPaneService;
-import org.xbup.lib.client.catalog.remote.service.XBRXPlugService;
-import org.xbup.lib.client.catalog.remote.service.XBRXStriService;
-import org.xbup.lib.catalog.update.XBCUpdateListener;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.catalog.XBAECatalog;
 import org.xbup.lib.catalog.entity.XBERoot;
 import org.xbup.lib.catalog.entity.service.XBEXDescService;
@@ -110,28 +84,57 @@ import org.xbup.lib.catalog.entity.service.XBEXNameService;
 import org.xbup.lib.catalog.entity.service.XBEXPaneService;
 import org.xbup.lib.catalog.entity.service.XBEXPlugService;
 import org.xbup.lib.catalog.entity.service.XBEXStriService;
+import org.xbup.lib.catalog.update.XBCUpdateListener;
 import org.xbup.lib.catalog.update.XBCUpdatePHPHandler;
+import org.xbup.lib.client.XBCatalogNetServiceClient;
+import org.xbup.lib.client.catalog.XBARCatalog;
+import org.xbup.lib.client.catalog.remote.service.XBRXDescService;
+import org.xbup.lib.client.catalog.remote.service.XBRXFileService;
+import org.xbup.lib.client.catalog.remote.service.XBRXHDocService;
+import org.xbup.lib.client.catalog.remote.service.XBRXIconService;
+import org.xbup.lib.client.catalog.remote.service.XBRXLangService;
+import org.xbup.lib.client.catalog.remote.service.XBRXLineService;
+import org.xbup.lib.client.catalog.remote.service.XBRXNameService;
+import org.xbup.lib.client.catalog.remote.service.XBRXPaneService;
+import org.xbup.lib.client.catalog.remote.service.XBRXPlugService;
+import org.xbup.lib.client.catalog.remote.service.XBRXStriService;
+import org.xbup.lib.core.catalog.XBACatalog;
+import org.xbup.lib.core.catalog.base.service.XBCNodeService;
+import org.xbup.lib.core.catalog.base.service.XBCXDescService;
+import org.xbup.lib.core.catalog.base.service.XBCXFileService;
+import org.xbup.lib.core.catalog.base.service.XBCXHDocService;
+import org.xbup.lib.core.catalog.base.service.XBCXIconService;
+import org.xbup.lib.core.catalog.base.service.XBCXLangService;
+import org.xbup.lib.core.catalog.base.service.XBCXLineService;
+import org.xbup.lib.core.catalog.base.service.XBCXNameService;
+import org.xbup.lib.core.catalog.base.service.XBCXPaneService;
+import org.xbup.lib.core.catalog.base.service.XBCXPlugService;
+import org.xbup.lib.core.catalog.base.service.XBCXStriService;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.plugin.XBPluginRepository;
-import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemPropertiesDialog;
-import org.xbup.tool.editor.module.xbdoc_editor.dialog.DocPropertiesDialog;
-import org.xbup.tool.editor.module.xbdoc_editor.panel.XBDocumentPanel;
-import org.xbup.tool.editor.module.service_manager.panel.CatalogEditorManagerPanel;
+import org.xbup.tool.editor.base.api.FileType;
+import org.xbup.tool.editor.base.api.MainFrameManagement;
+import org.xbup.tool.editor.base.api.MenuManagement;
+import org.xbup.tool.editor.base.api.XBEditorApp;
+import org.xbup.tool.editor.base.api.XBEditorFrame;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogEditorPanel;
+import org.xbup.tool.editor.module.service_manager.panel.CatalogAvailabilityPanel;
+import org.xbup.tool.editor.module.service_manager.panel.CatalogManagerPanelable;
 import org.xbup.tool.editor.module.text_editor.dialog.FindTextDialog;
 import org.xbup.tool.editor.module.text_editor.dialog.FontDialog;
 import org.xbup.tool.editor.module.text_editor.dialog.GotoDialog;
 import org.xbup.tool.editor.module.text_editor.dialog.TextColorDialog;
 import org.xbup.tool.editor.module.text_editor.panel.TextColorPanelFrame;
 import org.xbup.tool.editor.module.text_editor.panel.TextFontPanelFrame;
-import org.xbup.tool.editor.base.api.FileType;
-import org.xbup.tool.editor.base.api.MainFrameManagement;
-import org.xbup.tool.editor.base.api.MenuManagement;
-import org.xbup.tool.editor.base.api.XBEditorApp;
-import org.xbup.tool.editor.base.api.XBEditorFrame;
+import org.xbup.tool.editor.module.xbdoc_editor.dialog.DocPropertiesDialog;
+import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemPropertiesDialog;
+import org.xbup.tool.editor.module.xbdoc_editor.panel.XBDocumentPanel;
 
 /**
  * XBDocEditor Main Frame.
  *
- * @version 0.1.24 2014/11/23
+ * @version 0.1.24 2014/12/12
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFrame, TextColorPanelFrame, TextFontPanelFrame {
@@ -143,7 +146,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     private FindTextDialog findDialog = null;
     private GotoDialog gotoDialog = null;
     private ItemPropertiesDialog propertiesDialog = null;
-    private CatalogEditorManagerPanel catalogPanel = null;
+    private CatalogEditorDialog catalogEditorDialog = null;
 
     private final String DIALOG_MENU_SUFIX = "...";
 
@@ -429,8 +432,8 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
             propertiesDialog.setCatalog(catalog);
         }
 
-        if (catalogPanel != null) {
-            catalogPanel.setCatalog(catalog);
+        if (catalogEditorDialog != null) {
+            catalogEditorDialog.setCatalog(catalog);
         }
     }
 
@@ -1609,20 +1612,13 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     }
 
     public void actionToolsCatalogBrowser() {
-        catalogPanel = new CatalogEditorManagerPanel();
-        catalogPanel.setMenuManagement(menuManagement);
-        catalogPanel.setMainFrameManagement(mainFrameManagement);
-        catalogPanel.setCatalog(catalog);
+        catalogEditorDialog = new CatalogEditorDialog(mainFrameManagement.getFrame(), true);
+        catalogEditorDialog.setMenuManagement(menuManagement);
+        catalogEditorDialog.setMainFrameManagement(mainFrameManagement);
+        catalogEditorDialog.setCatalog(catalog);
+        catalogEditorDialog.setVisible(true);
 
-        JDialog dialog = new JDialog(mainFrameManagement.getFrame(), true);
-        dialog.setTitle("Catalog Browser");
-        dialog.setSize(500, 700);
-        dialog.setIconImage(mainFrameManagement.getFrameIcon());
-        dialog.add(catalogPanel);
-        dialog.setLocationRelativeTo(dialog.getParent());
-        dialog.setVisible(true);
-
-        catalogPanel = null;
+        catalogEditorDialog = null;
     }
 
     public MenuManagement getMenuManagement() {
@@ -1657,5 +1653,57 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     private void setConnectionStatus(ConnectionStatus status) {
         connectionStatusLabel.setIcon(new ImageIcon(getClass().getResource(connectionStatusIcons[status.ordinal()])));
         connectionStatusLabel.setToolTipText(resourceBundle.getString("connectionStatusLabel.toolTipText" + String.valueOf(status.ordinal())));
+    }
+
+    public class CatalogEditorDialog extends JDialog implements CatalogManagerPanelable {
+
+        private final CatalogEditorPanel catalogEditorPanel;
+        private final CatalogAvailabilityPanel catalogAvailabilityPanel;
+        private XBACatalog catalog = null;
+
+        public CatalogEditorDialog(Frame owner, boolean modal) {
+            super(owner, modal);
+            setTitle("Catalog Browser");
+            setSize(900, 600);
+            setIconImage(mainFrameManagement.getFrameIcon());
+            setLocationRelativeTo(mainFrameManagement.getFrame());
+            catalogEditorPanel = new CatalogEditorPanel();
+            catalogAvailabilityPanel = new CatalogAvailabilityPanel();
+
+            getContentPane().add(catalogAvailabilityPanel, BorderLayout.CENTER);
+        }
+
+        @Override
+        public void setCatalog(XBACatalog catalog) {
+            if (this.catalog == null && catalog != null) {
+                catalogAvailabilityPanel.setCatalog(catalog);
+                catalogEditorPanel.setCatalog(catalog);
+                getContentPane().removeAll();
+                getContentPane().add(catalogEditorPanel, BorderLayout.CENTER);
+                revalidate();
+                repaint();
+            } else if (this.catalog != null && catalog == null) {
+                catalogAvailabilityPanel.setCatalog(catalog);
+                getContentPane().removeAll();
+                getContentPane().add(catalogAvailabilityPanel, BorderLayout.CENTER);
+                revalidate();
+                repaint();
+                catalogEditorPanel.setCatalog(catalog);
+            } else {
+                catalogEditorPanel.setCatalog(catalog);
+            }
+
+            this.catalog = catalog;
+        }
+
+        @Override
+        public void setMenuManagement(MenuManagement menuManagement) {
+            catalogEditorPanel.setMenuManagement(menuManagement);
+        }
+
+        @Override
+        public void setMainFrameManagement(MainFrameManagement mainFrameManagement) {
+            catalogEditorPanel.setMainFrameManagement(mainFrameManagement);
+        }
     }
 }

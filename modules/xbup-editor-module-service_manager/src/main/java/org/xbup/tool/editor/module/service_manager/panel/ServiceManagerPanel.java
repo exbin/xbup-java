@@ -16,10 +16,11 @@
  */
 package org.xbup.tool.editor.module.service_manager.panel;
 
-import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
@@ -69,34 +70,53 @@ import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
 import org.xbup.tool.editor.base.api.ApplicationPanel;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
 import org.xbup.tool.editor.base.api.MenuManagement;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogEditorPanel;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogBrowserPanel;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSearchPanel;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogStatusPanel;
 
 /**
  * XBManager Service Management Panel.
  *
- * @version 0.1.24 2014/12/10
+ * @version 0.1.24 2014/12/12
  * @author XBUP Project (http://xbup.org)
  */
 public class ServiceManagerPanel extends javax.swing.JPanel implements ApplicationPanel, ActivePanelActionHandling {
 
     private XBServiceClient service;
     private final CatalogStatusPanel catalogStatusPanel;
-    private final CatalogEditorManagerPanel catalogEditorPanel;
-    private final CatalogSearchManagerPanel catalogSearchPanel;
+    private final CatalogAvailabilityPanel catalogAvailabilityPanel;
+    private final CatalogBrowserPanel catalogBrowserPanel;
+    private final CatalogEditorPanel catalogEditorPanel;
+    private final CatalogSearchPanel catalogSearchPanel;
     private MenuManagement menuManagement;
+    private String currentPanelCode;
+
+    private final Map<String, Component> panelMap = new HashMap<>();
+    private XBACatalog catalog = null;
 
     public ServiceManagerPanel() {
         initComponents();
 
-        catalogStatusPanel = new CatalogStatusPanel(null);
-        catalogEditorPanel = new CatalogEditorManagerPanel();
-        catalogSearchPanel = new CatalogSearchManagerPanel();
-        
-        cardPanel.add(catalogStatusPanel, "catalog");
-        cardPanel.add(catalogEditorPanel, "catalog_editor");
-        cardPanel.add(catalogSearchPanel, "catalog_search");
-        cardPanel.add(new CatalogUpdateManagerPanel(), "update");
-        cardPanel.add(new TransformationPluginsManagerPanel(), "transplug");
+        serviceInfoScrollPane.setViewportView(serviceInfoPanel);
+        panelMap.put("info", serviceInfoPanel);
+        panelMap.put("startup", serviceStartupPanel);
+        panelMap.put("empty", emptyPanel);
+        panelMap.put("control", serviceControlPanel);
+
+        catalogStatusPanel = new CatalogStatusPanel();
+        catalogAvailabilityPanel = new CatalogAvailabilityPanel();
+        catalogBrowserPanel = new CatalogBrowserPanel();
+        catalogEditorPanel = new CatalogEditorPanel();
+        catalogSearchPanel = new CatalogSearchPanel();
+
+        panelMap.put("catalog", catalogStatusPanel);
+        panelMap.put("catalog_availability", catalogAvailabilityPanel);
+        panelMap.put("catalog_browse", catalogBrowserPanel);
+        panelMap.put("catalog_editor", catalogEditorPanel);
+        panelMap.put("catalog_search", catalogSearchPanel);
+        panelMap.put("update", new CatalogUpdateManagerPanel());
+        panelMap.put("transplug", new TransformationPluginsManagerPanel());
         managerTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         MutableTreeNode top = new MutableTreeNode("Root", "");
         createNodes(top);
@@ -114,8 +134,9 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
         item = new MutableTreeNode("Service Startup", "startup");
         top.add(item);
         item = new MutableTreeNode("Catalog", "catalog");
-        item.add(new MutableTreeNode("Search", "catalog_search"));
+        item.add(new MutableTreeNode("Browse", "catalog_browse"));
         item.add(new MutableTreeNode("Editor", "catalog_editor"));
+        item.add(new MutableTreeNode("Search", "catalog_search"));
         item.add(new MutableTreeNode("Update Service", "update"));
         top.add(item);
         item = new MutableTreeNode("Plugin", "empty");
@@ -145,7 +166,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             return;
         }
 
-        XBACatalog catalog = null;
+        XBACatalog connectedCatalog = null;
         if (service instanceof XBDbServiceClient) {
             serviceVersionTextField.setText(service.getVersion());
             connectionHostTextField.setText(service.getHost());
@@ -159,24 +180,24 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             managerHardwareTextField.setText(System.getProperty("os.arch"));
             EntityManagerFactory emf = ((XBDbServiceClient) service).getEntityManagerFactory();
             try {
-                catalog = new XBAECatalog(emf.createEntityManager(), System.getProperty("user.home") + "/.XBUP/repository"); // TODO: Kill on failure
-                if (((XBAECatalog) catalog).isShallInit()) {
-                    ((XBAECatalog) catalog).initCatalog();
+                connectedCatalog = new XBAECatalog(emf.createEntityManager(), System.getProperty("user.home") + "/.XBUP/repository"); // TODO: Kill on failure
+                if (((XBAECatalog) connectedCatalog).isShallInit()) {
+                    ((XBAECatalog) connectedCatalog).initCatalog();
                 }
-                ((XBAECatalog) catalog).addCatalogService(XBCXLangService.class, new XBEXLangService((XBAECatalog) catalog));
-                ((XBAECatalog) catalog).addCatalogService(XBCXStriService.class, new XBEXStriService((XBAECatalog) catalog));
-                ((XBAECatalog) catalog).addCatalogService(XBCXNameService.class, new XBEXNameService((XBAECatalog) catalog));
-                ((XBAECatalog) catalog).addCatalogService(XBCXDescService.class, new XBEXDescService((XBAECatalog) catalog));
+                ((XBAECatalog) connectedCatalog).addCatalogService(XBCXLangService.class, new XBEXLangService((XBAECatalog) connectedCatalog));
+                ((XBAECatalog) connectedCatalog).addCatalogService(XBCXStriService.class, new XBEXStriService((XBAECatalog) connectedCatalog));
+                ((XBAECatalog) connectedCatalog).addCatalogService(XBCXNameService.class, new XBEXNameService((XBAECatalog) connectedCatalog));
+                ((XBAECatalog) connectedCatalog).addCatalogService(XBCXDescService.class, new XBEXDescService((XBAECatalog) connectedCatalog));
 
-                ((XBAECatalog) catalog).addCatalogService(XBCXFileService.class, new XBEXFileService((XBAECatalog) catalog));
-                ((XBAECatalog) catalog).addCatalogService(XBCXIconService.class, new XBEXIconService((XBAECatalog) catalog));
-                ((XBAECatalog) catalog).addCatalogService(XBCXPlugService.class, new XBEXPlugService((XBAECatalog) catalog));
-                ((XBAECatalog) catalog).addCatalogService(XBCXLineService.class, new XBEXLineService((XBAECatalog) catalog));
-                ((XBAECatalog) catalog).addCatalogService(XBCXPaneService.class, new XBEXPaneService((XBAECatalog) catalog));
-                ((XBAECatalog) catalog).addCatalogService(XBCXHDocService.class, new XBEXHDocService((XBAECatalog) catalog));
+                ((XBAECatalog) connectedCatalog).addCatalogService(XBCXFileService.class, new XBEXFileService((XBAECatalog) connectedCatalog));
+                ((XBAECatalog) connectedCatalog).addCatalogService(XBCXIconService.class, new XBEXIconService((XBAECatalog) connectedCatalog));
+                ((XBAECatalog) connectedCatalog).addCatalogService(XBCXPlugService.class, new XBEXPlugService((XBAECatalog) connectedCatalog));
+                ((XBAECatalog) connectedCatalog).addCatalogService(XBCXLineService.class, new XBEXLineService((XBAECatalog) connectedCatalog));
+                ((XBAECatalog) connectedCatalog).addCatalogService(XBCXPaneService.class, new XBEXPaneService((XBAECatalog) connectedCatalog));
+                ((XBAECatalog) connectedCatalog).addCatalogService(XBCXHDocService.class, new XBEXHDocService((XBAECatalog) connectedCatalog));
             } catch (Exception ex) {
                 Logger.getLogger(ServiceManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-                catalog = null;
+                connectedCatalog = null;
             }
         } else {
             if (service.validate()) {
@@ -193,26 +214,24 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
                 stopServiceButton.setEnabled(true);
                 XBCatalogNetServiceClient serviceClient = new XBCatalogNetServiceClient(service.getHost(), service.getPort());
                 if (serviceClient.validate()) {
-                    catalog = new XBARCatalog(serviceClient); // 22594 is 0x5842 (XB)
-                    ((XBARCatalog) catalog).addCatalogService(XBCXLangService.class, new XBRXLangService((XBARCatalog) catalog));
-                    ((XBARCatalog) catalog).addCatalogService(XBCXStriService.class, new XBRXStriService((XBARCatalog) catalog));
-                    ((XBARCatalog) catalog).addCatalogService(XBCXNameService.class, new XBRXNameService((XBARCatalog) catalog));
-                    ((XBARCatalog) catalog).addCatalogService(XBCXDescService.class, new XBRXDescService((XBARCatalog) catalog));
-                    ((XBARCatalog) catalog).addCatalogService(XBCXFileService.class, new XBRXFileService((XBARCatalog) catalog));
-                    ((XBARCatalog) catalog).addCatalogService(XBCXIconService.class, new XBRXIconService((XBARCatalog) catalog));
-                    ((XBARCatalog) catalog).addCatalogService(XBCXPlugService.class, new XBRXPlugService((XBARCatalog) catalog));
-                    ((XBARCatalog) catalog).addCatalogService(XBCXLineService.class, new XBRXLineService((XBARCatalog) catalog));
-                    ((XBARCatalog) catalog).addCatalogService(XBCXPaneService.class, new XBRXPaneService((XBARCatalog) catalog));
-                    ((XBARCatalog) catalog).addCatalogService(XBCXHDocService.class, new XBRXHDocService((XBARCatalog) catalog));
+                    connectedCatalog = new XBARCatalog(serviceClient); // 22594 is 0x5842 (XB)
+                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXLangService.class, new XBRXLangService((XBARCatalog) connectedCatalog));
+                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXStriService.class, new XBRXStriService((XBARCatalog) connectedCatalog));
+                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXNameService.class, new XBRXNameService((XBARCatalog) connectedCatalog));
+                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXDescService.class, new XBRXDescService((XBARCatalog) connectedCatalog));
+                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXFileService.class, new XBRXFileService((XBARCatalog) connectedCatalog));
+                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXIconService.class, new XBRXIconService((XBARCatalog) connectedCatalog));
+                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXPlugService.class, new XBRXPlugService((XBARCatalog) connectedCatalog));
+                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXLineService.class, new XBRXLineService((XBARCatalog) connectedCatalog));
+                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXPaneService.class, new XBRXPaneService((XBARCatalog) connectedCatalog));
+                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXHDocService.class, new XBRXHDocService((XBARCatalog) connectedCatalog));
                 } else {
-                    catalog = null;
+                    connectedCatalog = null;
                 }
             }
         }
 
-        catalogStatusPanel.setCatalog(catalog);
-        catalogSearchPanel.setCatalog(catalog);
-        catalogEditorPanel.setCatalog(catalog);
+        setCatalog(connectedCatalog);
     }
 
     @Override
@@ -243,13 +262,31 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
 
     public void setMenuManagement(MenuManagement menuManagement) {
         this.menuManagement = menuManagement;
+        catalogBrowserPanel.setMenuManagement(menuManagement);
         catalogEditorPanel.setMenuManagement(menuManagement);
         catalogSearchPanel.setMenuManagement(menuManagement);
     }
 
     public void setMainFrameManagement(MainFrameManagement mainFramenManagement) {
+        catalogBrowserPanel.setMainFrameManagement(mainFramenManagement);
         catalogEditorPanel.setMainFrameManagement(mainFramenManagement);
         catalogSearchPanel.setMainFrameManagement(mainFramenManagement);
+    }
+
+    public void setCatalog(XBACatalog catalog) {
+        catalogAvailabilityPanel.setCatalog(catalog);
+        catalogStatusPanel.setCatalog(catalog);
+        catalogBrowserPanel.setCatalog(catalog);
+        catalogEditorPanel.setCatalog(catalog);
+        catalogSearchPanel.setCatalog(catalog);
+
+        if (this.catalog == null && catalog != null) {
+            Component panel = panelMap.get(currentPanelCode);
+            serviceInfoScrollPane.setViewportView(panel);
+            panel.revalidate();
+        }
+
+        this.catalog = catalog;
     }
 
     private class MutableTreeNode extends DefaultMutableTreeNode {
@@ -299,12 +336,21 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             if (itemPath != null) {
                 lastPath = itemPath;
                 managerTree.expandPath(itemPath);
-                String caption = ((MutableTreeNode) managerTree.getLastSelectedPathComponent()).getCaption();
-                if (caption != null) {
-                    ((CardLayout) cardPanel.getLayout()).show(cardPanel, caption);
+                String panelStringCode = ((MutableTreeNode) managerTree.getLastSelectedPathComponent()).getCaption();
+                if (panelStringCode != null) {
+                    currentPanelCode = panelStringCode;
+                    Component panel = panelMap.get(panelStringCode);
+                    if (panel instanceof CatalogManagerPanelable && catalog == null) {
+                        panel = panelMap.get("catalog_availability");
+
+                    }
+
+                    serviceInfoScrollPane.setViewportView(panel);
+                    panel.revalidate();
                 } else {
-                    ((CardLayout) cardPanel.getLayout()).show(cardPanel, "empty");
+                    serviceInfoScrollPane.setViewportView(panelMap.get("empty"));
                 }
+                serviceInfoScrollPane.revalidate();
             }
         }
     }
@@ -318,11 +364,6 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        mainSplitPane = new javax.swing.JSplitPane();
-        managerTreeScrollPane = new javax.swing.JScrollPane();
-        managerTree = new javax.swing.JTree();
-        serviceInfoScrollPane = new javax.swing.JScrollPane();
-        cardPanel = new javax.swing.JPanel();
         serviceInfoPanel = new javax.swing.JPanel();
         serviceInfoPanelLabel = new javax.swing.JLabel();
         connectionInfoBorderPanel = new javax.swing.JPanel();
@@ -376,22 +417,10 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
         logMessagesPanel = new javax.swing.JPanel();
         logMessagesScrollPane = new javax.swing.JScrollPane();
         logMessagesTextArea = new javax.swing.JTextArea();
-
-        mainSplitPane.setDividerLocation(150);
-        mainSplitPane.setName("mainSplitPane"); // NOI18N
-
-        managerTreeScrollPane.setName("managerTreeScrollPane"); // NOI18N
-
-        managerTree.setName("managerTree"); // NOI18N
-        managerTree.setRootVisible(false);
-        managerTreeScrollPane.setViewportView(managerTree);
-
-        mainSplitPane.setLeftComponent(managerTreeScrollPane);
-
-        serviceInfoScrollPane.setName("serviceInfoScrollPane"); // NOI18N
-
-        cardPanel.setName("cardPanel"); // NOI18N
-        cardPanel.setLayout(new java.awt.CardLayout());
+        mainSplitPane = new javax.swing.JSplitPane();
+        managerTreeScrollPane = new javax.swing.JScrollPane();
+        managerTree = new javax.swing.JTree();
+        serviceInfoScrollPane = new javax.swing.JScrollPane();
 
         serviceInfoPanel.setName("serviceInfoPanel"); // NOI18N
 
@@ -447,7 +476,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             connectionInfoBorderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(connectionInfoBorderPanelLayout.createSequentialGroup()
                 .addComponent(connectionInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         serviceInformationBorderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("serviceInfoBorderPanel.border.title"))); // NOI18N
@@ -502,7 +531,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             serviceInformationBorderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(serviceInformationBorderPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(serviceInformationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(serviceInformationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
                 .addContainerGap())
         );
         serviceInformationBorderPanelLayout.setVerticalGroup(
@@ -599,17 +628,22 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             .addGroup(serviceInfoPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(serviceInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(managerInfoBorderPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(connectionInfoBorderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(serviceInfoPanelLabel)
-                    .addComponent(serviceInformationBorderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(serviceInfoPanelLayout.createSequentialGroup()
+                        .addComponent(serviceInfoPanelLabel)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, serviceInfoPanelLayout.createSequentialGroup()
+                        .addGroup(serviceInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(serviceInformationBorderPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(connectionInfoBorderPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(managerInfoBorderPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         serviceInfoPanelLayout.setVerticalGroup(
             serviceInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(serviceInfoPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(serviceInfoPanelLabel)
-                .addGap(5, 5, 5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(connectionInfoBorderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(serviceInformationBorderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -617,8 +651,6 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
                 .addComponent(managerInfoBorderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        cardPanel.add(serviceInfoPanel, "info");
 
         serviceStartupPanel.setEnabled(false);
         serviceStartupPanel.setName("serviceStartupPanel"); // NOI18N
@@ -653,7 +685,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
                 .addGroup(startupControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(startupControlPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(runOnSystemStartCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(runOnSystemStartCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE))
                     .addGroup(startupControlPanelLayout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addComponent(runOnSystemLoginCheckBox2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -724,8 +756,9 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, serviceStartupPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(serviceStartupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(updatingModePanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(startupControlPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(updatingModePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(startupControlPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         serviceStartupPanelLayout.setVerticalGroup(
             serviceStartupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -737,12 +770,9 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        cardPanel.add(serviceStartupPanel, "startup");
-
         emptyPanel.setEnabled(false);
         emptyPanel.setName("emptyPanel"); // NOI18N
         emptyPanel.setLayout(new java.awt.BorderLayout());
-        cardPanel.add(emptyPanel, "empty");
 
         serviceControlPanel.setEnabled(false);
         serviceControlPanel.setName("serviceControlPanel"); // NOI18N
@@ -808,14 +838,14 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             logMessagesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(logMessagesPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(logMessagesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                .addComponent(logMessagesScrollPane)
                 .addContainerGap())
         );
         logMessagesPanelLayout.setVerticalGroup(
             logMessagesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(logMessagesPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(logMessagesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                .addComponent(logMessagesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -840,25 +870,33 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
                 .addContainerGap())
         );
 
-        cardPanel.add(serviceControlPanel, "control");
+        mainSplitPane.setDividerLocation(150);
+        mainSplitPane.setName("mainSplitPane"); // NOI18N
 
-        serviceInfoScrollPane.setViewportView(cardPanel);
+        managerTreeScrollPane.setName("managerTreeScrollPane"); // NOI18N
 
+        managerTree.setName("managerTree"); // NOI18N
+        managerTree.setRootVisible(false);
+        managerTreeScrollPane.setViewportView(managerTree);
+
+        mainSplitPane.setLeftComponent(managerTreeScrollPane);
+
+        serviceInfoScrollPane.setName("serviceInfoScrollPane"); // NOI18N
         mainSplitPane.setRightComponent(serviceInfoScrollPane);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 711, Short.MAX_VALUE)
+            .addGap(0, 314, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(mainSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 711, Short.MAX_VALUE))
+                .addComponent(mainSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 620, Short.MAX_VALUE)
+            .addGap(0, 148, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(mainSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE))
+                .addComponent(mainSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -867,7 +905,6 @@ private void stopServiceButtonActionPerformed(java.awt.event.ActionEvent evt) {/
 }//GEN-LAST:event_stopServiceButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel cardPanel;
     private javax.swing.JCheckBox checkForNewVersionheckBox;
     private javax.swing.JLabel connectionHostLabel;
     private javax.swing.JTextField connectionHostTextField;

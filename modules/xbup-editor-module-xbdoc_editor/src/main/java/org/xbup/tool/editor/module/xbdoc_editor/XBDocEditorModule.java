@@ -17,9 +17,6 @@
 package org.xbup.tool.editor.module.xbdoc_editor;
 
 import net.xeoh.plugins.base.annotations.PluginImplementation;
-import org.xbup.tool.editor.module.xbdoc_editor.panel.CatalogConnectionPanel;
-import org.xbup.tool.editor.module.text_editor.panel.TextColorOptionsPanel;
-import org.xbup.tool.editor.module.text_editor.panel.TextFontOptionsPanel;
 import org.xbup.tool.editor.base.api.ApplicationModule;
 import org.xbup.tool.editor.base.api.ApplicationModuleInfo;
 import org.xbup.tool.editor.base.api.BasicMenuType;
@@ -30,6 +27,9 @@ import org.xbup.tool.editor.base.api.ModuleManagement;
 import org.xbup.tool.editor.base.api.OptionsManagement;
 import org.xbup.tool.editor.base.api.StatusManagement;
 import org.xbup.tool.editor.base.api.XBEditorApp;
+import org.xbup.tool.editor.module.text_editor.panel.TextColorOptionsPanel;
+import org.xbup.tool.editor.module.text_editor.panel.TextFontOptionsPanel;
+import org.xbup.tool.editor.module.xbdoc_editor.panel.CatalogConnectionPanel;
 
 /**
  * XB Document Editor Module.

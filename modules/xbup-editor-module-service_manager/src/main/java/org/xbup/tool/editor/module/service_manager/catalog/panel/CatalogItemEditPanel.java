@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.tool.editor.module.service_manager.catalog.editor.panel;
+package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -53,6 +53,7 @@ import org.xbup.lib.catalog.entity.service.XBEXHDocService;
 import org.xbup.lib.catalog.entity.service.XBEXIconService;
 import org.xbup.lib.catalog.entity.service.XBEXNameService;
 import org.xbup.lib.catalog.entity.service.XBEXStriService;
+import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.XBCXHDoc;
 import org.xbup.lib.core.catalog.base.XBCXIcon;
@@ -61,15 +62,12 @@ import org.xbup.lib.core.catalog.base.service.XBCXFileService;
 import org.xbup.lib.core.catalog.base.service.XBCXHDocService;
 import org.xbup.lib.core.catalog.base.service.XBCXIconService;
 import org.xbup.lib.core.catalog.base.service.XBCXLangService;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogBIconPropertyTableCellPanel;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogDocPropertyTableCellPanel;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSIconPropertyTableCellPanel;
 import sun.swing.DefaultLookup;
 
 /**
  * Panel for properties of the catalog item.
  *
- * @version 0.1.24 2014/11/25
+ * @version 0.1.24 2014/12/12
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemEditPanel extends javax.swing.JPanel {
@@ -77,6 +75,7 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
     private XBACatalog catalog;
     private XBCItem catalogItem;
     private CatalogDocPropertyTableCellPanel docCellPanel = null;
+    private CatalogParentPropertyTableCellPanel parentCellPanel = null;
     private CatalogBIconPropertyTableCellPanel bIconCellPanel = null;
     private CatalogSIconPropertyTableCellPanel sIconCellPanel = null;
 
@@ -174,7 +173,7 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
         }
         tableModel.addRow(new String[]{"Name", nameService.getDefaultText(catalogItem)});
         tableModel.addRow(new String[]{"Description", descService.getDefaultText(catalogItem)});
-        tableModel.addRow(new String[]{"ParentId", parentId});
+        tableModel.addRow(new String[]{"Parent Node", parentId});
         String itemIndex = null;
         Long xbIndex = catalogItem.getXBIndex();
         if (xbIndex != null) {
@@ -196,6 +195,8 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
         TableColumnModel columns = propertiesTable.getColumnModel();
         docCellPanel = new CatalogDocPropertyTableCellPanel(catalog);
         docCellPanel.setCatalogItem(catalogItem);
+        parentCellPanel = new CatalogParentPropertyTableCellPanel(catalog);
+        parentCellPanel.setCatalogItem(catalogItem);
         bIconCellPanel = new CatalogBIconPropertyTableCellPanel(catalog);
         bIconCellPanel.setCatalogItem(catalogItem);
         sIconCellPanel = new CatalogSIconPropertyTableCellPanel(catalog);
@@ -206,6 +207,11 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
             public Component getTableCellRendererComponent(JTable table, Object value,
                     boolean isSelected, boolean hasFocus, int row, int column) {
                 switch (row) {
+                    case 2: {
+                        parentCellPanel.setBackground(isSelected ? table.getSelectionBackground() : table.getBackground());
+                        parentCellPanel.getCellComponent().setBorder(null);
+                        return parentCellPanel;
+                    }
                     case 5: {
                         docCellPanel.setBackground(isSelected ? table.getSelectionBackground() : table.getBackground());
                         docCellPanel.getCellComponent().setBorder(null);
@@ -232,6 +238,11 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
             @Override
             public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
                 switch (row) {
+                    case 2: {
+                        parentCellPanel.setBackground(table.getSelectionBackground());
+                        parentCellPanel.getCellComponent().setBorder(DefaultLookup.getBorder(parentCellPanel.getCellComponent(), ui, "Table.focusCellHighlightBorder"));
+                        return parentCellPanel;
+                    }
                     case 5: {
                         docCellPanel.setBackground(table.getSelectionBackground());
                         docCellPanel.getCellComponent().setBorder(DefaultLookup.getBorder(docCellPanel.getCellComponent(), ui, "Table.focusCellHighlightBorder"));
@@ -282,11 +293,9 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
                 ((XBEItem) catalogItem).setXBIndex(null);
             }
 
-            String parentId = (String) tableModel.getValueAt(2, 1);
-            if ((!"".equals(parentId)) && (parentId != null)) {
-                ((XBEItem) catalogItem).setParent((XBEItem) itemService.getItem(Long.parseLong(parentId)));
-            } else {
-                ((XBEItem) catalogItem).setParent(null);
+            XBCNode parentNode = parentCellPanel.getParentNode();
+            if (((XBEItem) catalogItem).getParent() != parentNode) {
+                ((XBEItem) catalogItem).setParent((XBENode) parentNode);
             }
 
             itemService.persistItem((XBCBase) catalogItem);

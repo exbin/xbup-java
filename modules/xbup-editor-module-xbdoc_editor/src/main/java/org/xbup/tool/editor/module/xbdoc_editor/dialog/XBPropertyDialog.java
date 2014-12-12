@@ -20,8 +20,8 @@ import javax.swing.JPopupMenu;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.tool.editor.module.xbdoc_editor.panel.XBDocumentPanel;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.module.xbdoc_editor.panel.XBDocumentPanel;
 
 /**
  * Document node property dialog.

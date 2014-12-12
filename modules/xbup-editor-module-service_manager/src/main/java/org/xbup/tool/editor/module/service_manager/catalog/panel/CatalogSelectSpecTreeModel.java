@@ -21,7 +21,7 @@ import java.util.List;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-import org.xbup.lib.core.catalog.XBCatalog;
+import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.service.XBCNodeService;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
@@ -32,28 +32,26 @@ import static org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogS
 /**
  * Table Model for Catalog Tree.
  *
- * @version 0.1.22 2013/05/19
+ * @version 0.1.24 2014/12/12
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSelectSpecTreeModel implements TreeModel {
 
-    private final XBCatalog catalog;
-    private final XBCNodeService nodeService;
-    private final XBCSpecService specService;
+    private XBCNodeService nodeService = null;
+    private XBCSpecService specService = null;
     private final List<TreeModelListener> treeModelListeners = new ArrayList<>();
     private final CatalogSpecItemType specType;
 
-    public CatalogSelectSpecTreeModel(XBCatalog catalog, CatalogSpecItemType specType) {
-        this.catalog = catalog;
+    public CatalogSelectSpecTreeModel(XBACatalog catalog, CatalogSpecItemType specType) {
         this.specType = specType;
 
-        nodeService = (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
-        specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        nodeService = catalog == null ? null : (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
+        specService = catalog == null ? null : (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
     }
 
     @Override
     public Object getRoot() {
-        return nodeService.getRootNode();
+        return nodeService == null ? null : nodeService.getRootNode();
     }
 
     @Override

@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JPopupMenu;
 import javax.swing.event.ListSelectionEvent;
@@ -54,7 +55,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Panel for basic XBItem viewing/editation.
  *
- * @version 0.1.24 2014/12/09
+ * @version 0.1.24 2014/12/12
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemPanel extends javax.swing.JPanel {
@@ -166,7 +167,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         mainTabbedPane.setName("mainTabbedPane"); // NOI18N
 
         generalPanel.setName("generalPanel"); // NOI18N
-        generalPanel.setLayout(new java.awt.CardLayout());
+        generalPanel.setLayout(new java.awt.BorderLayout());
 
         basicItemScrollPane.setName("basicItemScrollPane"); // NOI18N
 
@@ -226,7 +227,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
                     .addGroup(basicItemDataPanelLayout.createSequentialGroup()
                         .addComponent(iconPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(itemTitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(itemTitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE))
                     .addComponent(jSeparator1)
                     .addGroup(basicItemDataPanelLayout.createSequentialGroup()
                         .addGroup(basicItemDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -237,7 +238,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
                             .addComponent(itemTypeLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(basicItemDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(itemCreatedTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
+                            .addComponent(itemCreatedTextField)
                             .addComponent(itemPathTextField)
                             .addComponent(itemTypeTextField)
                             .addComponent(itemDescriptionTextField)
@@ -273,12 +274,12 @@ public class CatalogItemPanel extends javax.swing.JPanel {
                 .addGroup(basicItemDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(itemCreatedTextField)
                     .addComponent(itemCreatedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         basicItemScrollPane.setViewportView(basicItemDataPanel);
 
-        generalPanel.add(basicItemScrollPane, "card2");
+        generalPanel.add(basicItemScrollPane, java.awt.BorderLayout.CENTER);
 
         mainTabbedPane.addTab("Basic", generalPanel);
 
@@ -295,11 +296,11 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         documentationPanel.setLayout(documentationPanelLayout);
         documentationPanelLayout.setHorizontalGroup(
             documentationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(itemHDocScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+            .addComponent(itemHDocScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
         );
         documentationPanelLayout.setVerticalGroup(
             documentationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(itemHDocScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+            .addComponent(itemHDocScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
         );
 
         mainTabbedPane.addTab("Documentation", documentationPanel);
@@ -419,6 +420,16 @@ public class CatalogItemPanel extends javax.swing.JPanel {
     private javax.swing.JTabbedPane mainTabbedPane;
     private javax.swing.JPanel revisionsPanel;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        JDialog dialog = new JDialog(new javax.swing.JFrame(), true);
+        dialog.setSize(600, 400);
+        dialog.getContentPane().add(new CatalogItemPanel());
+        WindowUtils.invokeWindow(dialog);
+    }
 
     public XBCItem getItem() {
         return item;
@@ -543,11 +554,13 @@ public class CatalogItemPanel extends javax.swing.JPanel {
     }
 
     private void definitionTableUpdated() {
-        int rowIndex = itemDefinitionTable.getSelectedRow();
-        if (rowIndex >= 0) {
-            if (defsModel.getRowItem(rowIndex).getTarget() != null) {
-                jumpToMenuItem.setEnabled(true);
-                return;
+        if (jumpActionListener != null) {
+            int rowIndex = itemDefinitionTable.getSelectedRow();
+            if (rowIndex >= 0) {
+                if (defsModel.getRowItem(rowIndex).getTarget() != null) {
+                    jumpToMenuItem.setEnabled(true);
+                    return;
+                }
             }
         }
 
@@ -559,7 +572,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         exportFileMenuItem.setEnabled(rowIndex >= 0);
     }
 
-    void setCatalog(XBACatalog catalog) {
+    public void setCatalog(XBACatalog catalog) {
         striService = catalog == null ? null : (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
         nameService = catalog == null ? null : (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
         descService = catalog == null ? null : (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);

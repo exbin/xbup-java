@@ -68,14 +68,18 @@ import org.xbup.tool.editor.base.api.FileType;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
 import org.xbup.tool.editor.base.api.MenuManagement;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemPanel;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogNodesTreeModel;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecsTableModel;
+import org.xbup.tool.editor.module.service_manager.panel.CatalogManagerPanelable;
 
 /**
  * Catalog Specification Panel.
  *
- * @version 0.1.24 2014/12/09
+ * @version 0.1.24 2014/12/12
  * @author XBUP Project (http://xbup.org)
  */
-public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActivePanelActionHandling {
+public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePanelActionHandling, CatalogManagerPanelable {
 
     private XBCItem currentItem;
 
@@ -97,7 +101,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
     public static final String YAML_FILE_TYPE = "CatalogItemsTreePanel.YamlFileType";
     private MenuManagement menuManagement;
 
-    public CatalogItemsTreePanel() {
+    public CatalogEditorPanel() {
         nodesModel = new CatalogNodesTreeModel();
         specsModel = new CatalogSpecsTableModel();
         catalogYaml = new XBCatalogYaml();
@@ -149,6 +153,8 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
                 }
             }
         });
+
+        updateItem();
 
         actionListenerMap.put(DefaultEditorKit.cutAction, new ActionListener() {
             @Override
@@ -401,9 +407,9 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
                         fileWriter.close();
                     }
                 } catch (FileNotFoundException ex) {
-                    Logger.getLogger(CatalogItemsTreePanel.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(CatalogEditorPanel.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
-                    Logger.getLogger(CatalogItemsTreePanel.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(CatalogEditorPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -424,9 +430,8 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
                         fileStream.close();
                     }
                 } catch (FileNotFoundException ex) {
-                    Logger.getLogger(CatalogItemsTreePanel.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
-                    Logger.getLogger(CatalogItemsTreePanel.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(CatalogEditorPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -510,6 +515,8 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
         if (mainFrameManagement != null) {
             updateActionStatus(mainFrameManagement.getLastFocusOwner());
         }
+
+        updateItem();
     }
 
     @Override
@@ -533,6 +540,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
         return false;
     }
 
+    @Override
     public void setMainFrameManagement(MainFrameManagement mainFrameManagement) {
         this.mainFrameManagement = mainFrameManagement;
         itemPanel.setMainFrameManagement(mainFrameManagement);
@@ -558,6 +566,7 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
     private javax.swing.JMenuItem popupRefreshMenuItem;
     // End of variables declaration//GEN-END:variables
 
+    @Override
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
 
@@ -673,16 +682,23 @@ public class CatalogItemsTreePanel extends javax.swing.JPanel implements ActiveP
         return ext;
     }
 
+    @Override
     public void setMenuManagement(MenuManagement menuManagement) {
         this.menuManagement = menuManagement;
         menuManagement.insertMainPopupMenu(catalogTreePopupMenu, 4);
     }
 
     private void reloadNodesTree() {
-        XBCNode rootNode = nodeService.getRootNode();
-        nodesModel = new CatalogNodesTreeModel(rootNode);
+        nodesModel = new CatalogNodesTreeModel(catalog == null ? null : nodeService.getRootNode());
         nodesModel.setCatalog(catalog);
         catalogTree.setModel(nodesModel);
+    }
+
+    private void updateItem() {
+        popupEditMenuItem.setEnabled(currentItem != null);
+        popupExportItemMenuItem.setEnabled(currentItem != null);
+        popupAddItemMenu.setEnabled(currentItem instanceof XBCNode);
+        popupImportItemMenuItem.setEnabled(currentItem instanceof XBCNode);
     }
 
     public class YamlFileType extends FileFilter implements FileType {

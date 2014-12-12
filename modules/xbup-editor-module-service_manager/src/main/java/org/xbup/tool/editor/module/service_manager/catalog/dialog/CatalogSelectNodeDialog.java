@@ -17,38 +17,40 @@
 package org.xbup.tool.editor.module.service_manager.catalog.dialog;
 
 import java.awt.BorderLayout;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.visual.xbplugins.XBPicturePanel;
-import static org.xbup.lib.visual.xbplugins.XBPicturePanel.toBufferedImage;
+import org.xbup.lib.core.catalog.base.XBCItem;
+import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSelectSpecPanel;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType;
 
 /**
  * XBManager Catalog Specification Selection Dialog.
  *
- * @version 0.1.24 2014/11/26
+ * @version 0.1.24 2014/12/12
  * @author XBUP Project (http://xbup.org)
  */
-public class CatalogEditIconDialog extends javax.swing.JDialog {
+public class CatalogSelectNodeDialog extends javax.swing.JDialog {
 
     private int dialogOption = JOptionPane.CLOSED_OPTION;
-    private byte[] icon;
-    private final XBPicturePanel mainPanel;
+    private XBCNode node;
+    private final CatalogSelectSpecPanel mainPanel;
 
-    public CatalogEditIconDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog, byte[] icon) {
+    public CatalogSelectNodeDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog, XBCNode node) {
         super(parent, modal);
-        this.icon = icon;
+        this.node = node;
         initComponents();
-        mainPanel = new XBPicturePanel();
+        mainPanel = new CatalogSelectSpecPanel(CatalogSpecItemType.NODE);
+        mainPanel.setCatalog(catalog);
+        mainPanel.setSelectionListener(new CatalogSelectSpecPanel.SelectionListener() {
+
+            @Override
+            public void selectedItem(XBCItem item) {
+                okButton.setEnabled(item != null);
+            }
+        });
         getContentPane().add(mainPanel, BorderLayout.CENTER);
-        mainPanel.setIcon(icon != null ? new ImageIcon(icon) : null);
 
         init();
     }
@@ -74,10 +76,9 @@ public class CatalogEditIconDialog extends javax.swing.JDialog {
         controlPanel = new javax.swing.JPanel();
         cancelButton = new javax.swing.JButton();
         okButton = new javax.swing.JButton();
-        removeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Icon Editor");
+        setTitle("Node Selection Editor");
 
         cancelButton.setText("Cancel");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -87,16 +88,10 @@ public class CatalogEditIconDialog extends javax.swing.JDialog {
         });
 
         okButton.setText("Set");
+        okButton.setEnabled(false);
         okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 okButtonActionPerformed(evt);
-            }
-        });
-
-        removeButton.setText("Remove Icon");
-        removeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeButtonActionPerformed(evt);
             }
         });
 
@@ -105,9 +100,7 @@ public class CatalogEditIconDialog extends javax.swing.JDialog {
         controlPanelLayout.setHorizontalGroup(
             controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(removeButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
+                .addContainerGap(306, Short.MAX_VALUE)
                 .addComponent(okButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cancelButton)
@@ -119,8 +112,7 @@ public class CatalogEditIconDialog extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
-                    .addComponent(okButton)
-                    .addComponent(removeButton))
+                    .addComponent(okButton))
                 .addContainerGap())
         );
 
@@ -139,42 +131,23 @@ public class CatalogEditIconDialog extends javax.swing.JDialog {
         dialogOption = JOptionPane.OK_OPTION;
         WindowUtils.closeWindow(this);
 
-        Icon imageIcon = mainPanel.getIcon();
-        if (imageIcon != null) {
-            ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
-            try {
-                ImageIO.write(toBufferedImage(((ImageIcon) imageIcon).getImage()), "png", arrayOutputStream);
-                icon = arrayOutputStream.toByteArray();
-            } catch (IOException ex) {
-                Logger.getLogger(CatalogEditIconDialog.class.getName()).log(Level.SEVERE, null, ex);
-                icon = null;
-            }
-        } else {
-            icon = null;
-        }
+        node = (XBCNode) mainPanel.getSpec();
     }//GEN-LAST:event_okButtonActionPerformed
 
-    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-        icon = new byte[0];
-        dialogOption = JOptionPane.OK_OPTION;
-        WindowUtils.closeWindow(this);
-    }//GEN-LAST:event_removeButtonActionPerformed
-
-    public byte[] getIcon() {
-        return icon;
+    public XBCNode getNode() {
+        return node;
     }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        WindowUtils.invokeWindow(new CatalogEditIconDialog(new javax.swing.JFrame(), true, null, null));
+        WindowUtils.invokeWindow(new CatalogSelectNodeDialog(new javax.swing.JFrame(), true, null, null));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JPanel controlPanel;
     private javax.swing.JButton okButton;
-    private javax.swing.JButton removeButton;
     // End of variables declaration//GEN-END:variables
 }

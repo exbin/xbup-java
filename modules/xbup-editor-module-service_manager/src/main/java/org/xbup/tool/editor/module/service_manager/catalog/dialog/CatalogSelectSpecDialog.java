@@ -25,21 +25,21 @@ import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.service.XBCRevService;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSelectSpecPanel;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemsSearchPanel;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogRevsComboBoxModel;
 
 /**
  * XBManager Catalog Specification Selection Dialog.
  *
- * @version 0.1.24 2014/11/20
+ * @version 0.1.24 2014/12/12
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSelectSpecDialog extends javax.swing.JDialog {
 
     private XBCRevService revService;
-    private final CatalogSelectSpecPanel selectSpecPanel;
+    private final CatalogItemsSearchPanel selectSpecPanel;
     private int dialogOption = JOptionPane.CLOSED_OPTION;
     private XBCItem specification;
     private CatalogRevsComboBoxModel revsModel;
@@ -53,12 +53,13 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
             revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
         }
 
-        selectSpecPanel = new CatalogSelectSpecPanel(catalog, specType);
+        selectSpecPanel = new CatalogItemsSearchPanel();
+        selectSpecPanel.setCatalog(catalog);
         mainPanel.add(selectSpecPanel);
-        selectSpecPanel.setSelectionListener(new CatalogSelectSpecPanel.SelectionListener() {
+        selectSpecPanel.setSelectionListener(new CatalogItemsSearchPanel.SelectionListener() {
 
             @Override
-            public void selectedItem(XBCSpec spec) {
+            public void selectedItem(XBCItem spec) {
                 if (spec != null) {
                     if (spec instanceof XBCSpec) {
                         revsModel.setRevs(revService.getRevs((XBCSpec) spec));
@@ -90,6 +91,8 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
         });
 
         init();
+        
+        selectSpecPanel.switchToSpecTypeMode(specType);
     }
 
     private void init() {
@@ -130,7 +133,7 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
             revisionSelectionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(revisionSelectionPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(targetRevisionComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(targetRevisionComboBox, 0, 484, Short.MAX_VALUE)
                 .addContainerGap())
         );
         revisionSelectionPanelLayout.setVerticalGroup(
@@ -165,7 +168,7 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
         controlPanelLayout.setHorizontalGroup(
             controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
-                .addContainerGap(217, Short.MAX_VALUE)
+                .addContainerGap(325, Short.MAX_VALUE)
                 .addComponent(selectButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cancelButton)
@@ -183,7 +186,7 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
 
         getContentPane().add(controlPanel, java.awt.BorderLayout.PAGE_END);
 
-        setSize(new java.awt.Dimension(410, 330));
+        setSize(new java.awt.Dimension(518, 431));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -193,7 +196,7 @@ public class CatalogSelectSpecDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
-        specification = selectSpecPanel.getSpec();
+        specification = selectSpecPanel.getItem();
         if (specification != null) {
             dialogOption = JOptionPane.OK_OPTION;
             WindowUtils.closeWindow(this);

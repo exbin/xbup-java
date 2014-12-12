@@ -74,11 +74,11 @@ public class XBServiceManagerFrame extends javax.swing.JFrame implements XBEdito
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 574, Short.MAX_VALUE)
+            .addGap(0, 634, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 441, Short.MAX_VALUE)
+            .addGap(0, 577, Short.MAX_VALUE)
         );
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
@@ -102,7 +102,7 @@ public class XBServiceManagerFrame extends javax.swing.JFrame implements XBEdito
         textStatusPanelLayout.setHorizontalGroup(
             textStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, textStatusPanelLayout.createSequentialGroup()
-                .addComponent(textStatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
+                .addComponent(textStatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(textStatusStateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -120,7 +120,7 @@ public class XBServiceManagerFrame extends javax.swing.JFrame implements XBEdito
         emptyStatusPanel.setLayout(emptyStatusPanelLayout);
         emptyStatusPanelLayout.setHorizontalGroup(
             emptyStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 574, Short.MAX_VALUE)
+            .addGap(0, 634, Short.MAX_VALUE)
         );
         emptyStatusPanelLayout.setVerticalGroup(
             emptyStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

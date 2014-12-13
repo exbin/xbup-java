@@ -243,38 +243,23 @@ public class XBPropertyPanel extends javax.swing.JPanel {
         descTextField.setText(getDescription(node));
     }
 
-    /**
-     * @return the catalog
-     */
     public XBACatalog getCatalog() {
         return catalog;
     }
 
-    /**
-     * @param catalog the catalog to set
-     */
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
         propertiesPanel.setCatalog(catalog);
     }
 
-    /**
-     * @return the propertyThread
-     */
     private Thread getPropertyThread() {
         return propertyThread;
     }
 
-    /**
-     * @param propertyThread the propertyThread to set
-     */
     private void setPropertyThread(Thread propertyThread) {
         this.propertyThread = propertyThread;
     }
 
-    /**
-     * @return the valueFillingSemaphore
-     */
     private Semaphore getValueFillingSemaphore() {
         return valueFillingSemaphore;
     }
@@ -454,12 +439,10 @@ public class XBPropertyPanel extends javax.swing.JPanel {
         if (node != null) {
             XBBlockDecl decl = node.getBlockDecl();
             if (decl instanceof XBCBlockDecl) {
-                XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
                 XBCBlockSpec spec = ((XBCBlockDecl) decl).getBlockSpec().getParent();
-
                 XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
                 XBCXDesc desc = descService.getDefaultItemDesc(spec);
-                return desc.getText();
+                return desc == null ? "" : desc.getText();
             }
         }
 

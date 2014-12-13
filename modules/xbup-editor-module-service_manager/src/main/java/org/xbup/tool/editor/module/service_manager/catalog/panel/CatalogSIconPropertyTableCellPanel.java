@@ -31,7 +31,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogEditIco
  * @version 0.1.24 2014/11/26
  * @author XBUP Project (http://xbup.org)
  */
-public class CatalogSIconPropertyTableCellPanel extends PropetyTableCellPanel {
+public class CatalogSIconPropertyTableCellPanel extends PropertyTableCellPanel {
 
     private XBACatalog catalog;
     private byte[] icon;

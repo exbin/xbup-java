@@ -31,7 +31,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogEditDoc
  * @version 0.1.24 2014/11/25
  * @author XBUP Project (http://xbup.org)
  */
-public class CatalogDocPropertyTableCellPanel extends PropetyTableCellPanel {
+public class CatalogDocPropertyTableCellPanel extends PropertyTableCellPanel {
 
     private XBACatalog catalog;
     private String doc;

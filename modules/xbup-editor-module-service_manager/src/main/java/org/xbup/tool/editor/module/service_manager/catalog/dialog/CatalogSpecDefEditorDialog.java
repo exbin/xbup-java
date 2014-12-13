@@ -35,7 +35,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogDefsTabl
 /**
  * XBManager Catalog Specification Definition Editor Dialog.
  *
- * @version 0.1.24 2014/12/04
+ * @version 0.1.24 2014/12/13
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
@@ -312,8 +312,6 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         descriptionTextField.setText(defItem.getDescription());
         stringIdTextField.setText(defItem.getStringId());
 
-        setTargetRev(defItem.getTarget());
-
         if (defItem.getDefType() == null) {
             defItem.setDefType(getSpecDefType());
         }
@@ -344,6 +342,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         operationComboBox.setSelectedIndex(operation.getRowIndex());
 
         updateSpecDefType();
+        setTargetRev(defItem.getTarget());
     }
 
     public XBCSpecDefType getSpecDefType() {

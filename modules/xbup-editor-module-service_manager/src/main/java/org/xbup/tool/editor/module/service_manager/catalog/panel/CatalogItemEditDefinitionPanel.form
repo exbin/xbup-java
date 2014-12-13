@@ -100,7 +100,6 @@
                       <Component id="moveDownDefButton" alignment="0" max="32767" attributes="0"/>
                       <Component id="modifyButton" alignment="0" max="32767" attributes="0"/>
                       <Component id="removeDefButton" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jumpToDefButton" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -117,9 +116,7 @@
                   <Component id="modifyButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="removeDefButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jumpToDefButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="90" max="32767" attributes="0"/>
+                  <EmptySpace pref="121" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -131,14 +128,6 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modifyButtonActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="jumpToDefButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Jump to"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jumpToDefButtonActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="removeDefButton">

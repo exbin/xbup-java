@@ -90,8 +90,7 @@ public class ParametersTableModel extends AbstractTableModel {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         if (rowIndex < getRowCount()) {
-            if (columnIndex == 1) {
-                throw new UnsupportedOperationException("Not supported yet.");
+            if (columnIndex == 3) {
                 // ((UBNat32) parameters.get(rowIndex)).setValue((Integer) aValue);
             } else {
                 throw new IllegalStateException();

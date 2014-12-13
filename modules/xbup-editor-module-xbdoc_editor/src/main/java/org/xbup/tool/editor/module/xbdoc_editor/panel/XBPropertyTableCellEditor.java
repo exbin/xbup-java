@@ -17,70 +17,40 @@
 package org.xbup.tool.editor.module.xbdoc_editor.panel;
 
 import java.awt.Component;
-import java.util.ArrayList;
-import java.util.EventObject;
-import java.util.List;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComponent;
 import javax.swing.JTable;
-import javax.swing.event.CellEditorListener;
-import javax.swing.table.TableCellEditor;
+import javax.swing.JTextField;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.parser_tree.XBTTreeNode;
+import sun.swing.DefaultLookup;
 
 /**
  * Property Table Cell Renderer.
  *
- * @version 0.1.24 2014/11/10
+ * @version 0.1.24 2014/12/13
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPropertyTableCellEditor implements TableCellEditor {
+public class XBPropertyTableCellEditor extends DefaultCellEditor {
 
-    private final List<CellEditorListener> cellEditorListeners;
     private XBACatalog catalog;
     private XBTTreeNode node;
 
     public XBPropertyTableCellEditor(XBACatalog catalog, XBTTreeNode node) {
+        super(new JTextField());
+        setClickCountToStart(0);
         this.catalog = catalog;
         this.node = node;
-        cellEditorListeners = new ArrayList<>();
     }
 
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-        return new XBPropertyTableCellPanel(catalog, node);
-    }
-
-    @Override
-    public Object getCellEditorValue() {
-        return "";
-    }
-
-    @Override
-    public boolean isCellEditable(EventObject anEvent) {
-        return true;
-    }
-
-    @Override
-    public boolean shouldSelectCell(EventObject anEvent) {
-        return false;
-    }
-
-    @Override
-    public boolean stopCellEditing() {
-        return true;
-    }
-
-    @Override
-    public void cancelCellEditing() {
-    }
-
-    @Override
-    public void addCellEditorListener(CellEditorListener l) {
-        cellEditorListeners.add(l);
-    }
-
-    @Override
-    public void removeCellEditorListener(CellEditorListener l) {
-        cellEditorListeners.remove(l);
+        Component defaultComponent = super.getTableCellEditorComponent(table, value, isSelected, row, column);
+        defaultComponent.setEnabled(false);
+        XBPropertyTableCellPanel cellPanel = new XBPropertyTableCellPanel((JComponent) defaultComponent, catalog, node);
+        cellPanel.setBackground(table.getSelectionBackground());
+        cellPanel.getCellComponent().setBorder(DefaultLookup.getBorder(cellPanel.getCellComponent(), cellPanel.getUI(), "Table.focusCellHighlightBorder"));
+        return cellPanel;
     }
 
     public void setCatalog(XBACatalog catalog) {

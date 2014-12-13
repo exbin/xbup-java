@@ -32,7 +32,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSelectN
  * @version 0.1.24 2014/12/12
  * @author XBUP Project (http://xbup.org)
  */
-public class CatalogParentPropertyTableCellPanel extends PropetyTableCellPanel {
+public class CatalogParentPropertyTableCellPanel extends PropertyTableCellPanel {
 
     private XBACatalog catalog;
     private XBCNode parent;

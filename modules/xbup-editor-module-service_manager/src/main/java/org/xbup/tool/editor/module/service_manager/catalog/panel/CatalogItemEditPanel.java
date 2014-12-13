@@ -250,12 +250,12 @@ public class CatalogItemEditPanel extends javax.swing.JPanel {
                     }
                     case 6: {
                         bIconCellPanel.setBackground(table.getSelectionBackground());
-                        bIconCellPanel.getCellComponent().setBorder(DefaultLookup.getBorder(docCellPanel.getCellComponent(), ui, "Table.focusCellHighlightBorder"));
+                        bIconCellPanel.getCellComponent().setBorder(DefaultLookup.getBorder(bIconCellPanel.getCellComponent(), ui, "Table.focusCellHighlightBorder"));
                         return bIconCellPanel;
                     }
                     case 7: {
                         sIconCellPanel.setBackground(table.getSelectionBackground());
-                        sIconCellPanel.getCellComponent().setBorder(DefaultLookup.getBorder(docCellPanel.getCellComponent(), ui, "Table.focusCellHighlightBorder"));
+                        sIconCellPanel.getCellComponent().setBorder(DefaultLookup.getBorder(sIconCellPanel.getCellComponent(), ui, "Table.focusCellHighlightBorder"));
                         return sIconCellPanel;
                     }
                 }

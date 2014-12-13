@@ -37,13 +37,11 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecDefEditorDialog;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogDefsTableItem;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogDefsTableModel;
 
 /**
  * XBManager Catalog Item Edit Documentation Panel.
  *
- * @version 0.1.24 2014/12/09
+ * @version 0.1.24 2014/12/13
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
@@ -84,7 +82,6 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
         addButton = new javax.swing.JButton();
         definitionControlSidePanel = new javax.swing.JPanel();
         modifyButton = new javax.swing.JButton();
-        jumpToDefButton = new javax.swing.JButton();
         removeDefButton = new javax.swing.JButton();
         moveUpDefButton = new javax.swing.JButton();
         moveDownDefButton = new javax.swing.JButton();
@@ -132,13 +129,6 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
             }
         });
 
-        jumpToDefButton.setText("Jump to");
-        jumpToDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jumpToDefButtonActionPerformed(evt);
-            }
-        });
-
         removeDefButton.setText("Remove");
         removeDefButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -170,8 +160,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
                     .addComponent(moveUpDefButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(moveDownDefButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(modifyButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(removeDefButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jumpToDefButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(removeDefButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         definitionControlSidePanelLayout.setVerticalGroup(
@@ -185,9 +174,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
                 .addComponent(modifyButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(removeDefButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jumpToDefButton)
-                .addContainerGap(90, Short.MAX_VALUE))
+                .addContainerGap(121, Short.MAX_VALUE))
         );
 
         add(definitionControlSidePanel, java.awt.BorderLayout.EAST);
@@ -288,17 +275,12 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
         itemDefinitionsTable.setRowSelectionInterval(selectedRow + 1, selectedRow + 1);
     }//GEN-LAST:event_moveDownDefButtonActionPerformed
 
-    private void jumpToDefButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jumpToDefButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jumpToDefButtonActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JPanel definitionControlPanel;
     private javax.swing.JPanel definitionControlSidePanel;
     private javax.swing.JScrollPane itemDefinitionsScrollPane;
     private javax.swing.JTable itemDefinitionsTable;
-    private javax.swing.JButton jumpToDefButton;
     private javax.swing.JButton modifyButton;
     private javax.swing.JButton moveDownDefButton;
     private javax.swing.JButton moveUpDefButton;
@@ -347,13 +329,11 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
             moveDownDefButton.setEnabled(selectedRow < rowsCount - 1);
             modifyButton.setEnabled(true);
             removeDefButton.setEnabled(true);
-            jumpToDefButton.setEnabled(true);
         } else {
             moveUpDefButton.setEnabled(false);
             moveDownDefButton.setEnabled(false);
             modifyButton.setEnabled(false);
             removeDefButton.setEnabled(false);
-            jumpToDefButton.setEnabled(false);
         }
         itemDefinitionsTable.repaint();
     }

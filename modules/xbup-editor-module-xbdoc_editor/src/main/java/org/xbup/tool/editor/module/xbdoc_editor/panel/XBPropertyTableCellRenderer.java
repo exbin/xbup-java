@@ -25,7 +25,7 @@ import org.xbup.lib.parser_tree.XBTTreeNode;
 /**
  * Property Table Cell Renderer.
  *
- * @version 0.1.24 2014/11/10
+ * @version 0.1.24 2014/12/13
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyTableCellRenderer implements TableCellRenderer {
@@ -40,7 +40,10 @@ public class XBPropertyTableCellRenderer implements TableCellRenderer {
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        return new XBPropertyTableCellPanel(catalog, node);
+        XBPropertyTableCellPanel cellPanel = new XBPropertyTableCellPanel(catalog, node);
+        cellPanel.setBackground(isSelected ? table.getSelectionBackground() : table.getBackground());
+        cellPanel.getCellComponent().setBorder(null);
+        return cellPanel;
     }
 
     public void setCatalog(XBACatalog catalog) {

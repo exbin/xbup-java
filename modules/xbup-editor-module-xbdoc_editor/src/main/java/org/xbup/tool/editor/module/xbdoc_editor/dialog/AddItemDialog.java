@@ -73,11 +73,11 @@ public class AddItemDialog extends javax.swing.JDialog {
             Long[] basicGroupPath = {0l, 0l};
             List<XBBlockDecl> list = catalog.getBlocks(((XBCGroupDecl) catalog.findGroupTypeByPath(basicGroupPath, 0)).getGroupSpec().getParent());
 
-            XBCXNameService nameExtension = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-            for (int i = 1; i < list.size(); i++) {
-                XBBlockDecl decl = list.get(i);
+            XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+            for (int xbIndex = 1; xbIndex < list.size(); xbIndex++) {
+                XBBlockDecl decl = list.get(xbIndex);
                 if (decl instanceof XBCBlockSpec) {
-                    basicTypeComboBox.addItem(nameExtension.getDefaultText((XBCBlockSpec) decl));
+                    basicTypeComboBox.addItem(nameService.getDefaultText((XBCBlockSpec) decl));
                 }
             }
         }

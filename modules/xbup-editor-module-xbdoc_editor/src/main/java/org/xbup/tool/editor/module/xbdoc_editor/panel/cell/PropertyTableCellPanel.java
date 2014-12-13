@@ -14,23 +14,32 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.tool.editor.module.service_manager.catalog.panel;
+package org.xbup.tool.editor.module.xbdoc_editor.panel.cell;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 
 /**
- * Property column panel with label and extending button.
+ * Empty property column panel with operation button.
  *
- * @version 0.1.24 2014/11/25
+ * @version 0.1.24 2014/12/13
  * @author XBUP Project (http://xbup.org)
  */
-public class PropetyTableCellPanel extends javax.swing.JPanel {
+public class PropertyTableCellPanel extends javax.swing.JPanel {
 
     private int paramIndex;
+    private JComponent cellComponent;
 
-    public PropetyTableCellPanel() {
+    public PropertyTableCellPanel() {
+        this(new JLabel());
+    }
+
+    public PropertyTableCellPanel(JComponent cellComponent) {
+        this.cellComponent = cellComponent;
         initComponents();
+        add(cellComponent, BorderLayout.CENTER);
     }
 
     /**
@@ -43,7 +52,6 @@ public class PropetyTableCellPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         editorButton = new javax.swing.JButton();
-        propertyLabel = new javax.swing.JLabel();
 
         setName("Form"); // NOI18N
         setLayout(new java.awt.BorderLayout());
@@ -52,26 +60,14 @@ public class PropetyTableCellPanel extends javax.swing.JPanel {
         editorButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
         editorButton.setName("editorButton"); // NOI18N
         add(editorButton, java.awt.BorderLayout.EAST);
-
-        propertyLabel.setBackground(javax.swing.UIManager.getDefaults().getColor("TextField.background"));
-        propertyLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/catalog/panel/Bundle"); // NOI18N
-        propertyLabel.setText(bundle.getString("PropetyTableCellPanel.propertyLabel.text")); // NOI18N
-        propertyLabel.setName("propertyLabel"); // NOI18N
-        add(propertyLabel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton editorButton;
-    private javax.swing.JLabel propertyLabel;
     // End of variables declaration//GEN-END:variables
 
     public void setEditorAction(ActionListener actionListener) {
         editorButton.addActionListener(actionListener);
-    }
-
-    public void setPropertyText(String text) {
-        propertyLabel.setText(text);
     }
 
     public int getParamIndex() {
@@ -83,6 +79,6 @@ public class PropetyTableCellPanel extends javax.swing.JPanel {
     }
 
     public JComponent getCellComponent() {
-        return propertyLabel;
+        return cellComponent;
     }
 }

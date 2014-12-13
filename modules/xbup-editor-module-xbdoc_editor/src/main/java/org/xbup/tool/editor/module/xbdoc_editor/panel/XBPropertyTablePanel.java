@@ -41,7 +41,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemPropertiesDialog;
 /**
  * Panel for properties of the actual panel.
  *
- * @version 0.1.24 2014/11/10
+ * @version 0.1.24 2014/12/13
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyTablePanel extends javax.swing.JPanel {
@@ -60,6 +60,7 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
         initComponents();
 
 //        jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        //propertiesTable.getSelectionModel().
         TableColumnModel columns = propertiesTable.getColumnModel();
         columns.getColumn(0).setPreferredWidth(190);
         columns.getColumn(1).setPreferredWidth(190);

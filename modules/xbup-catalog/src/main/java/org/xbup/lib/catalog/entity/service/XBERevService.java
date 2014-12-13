@@ -42,7 +42,6 @@ import org.xbup.lib.core.catalog.base.manager.XBCXDescManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXHDocManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXNameManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXStriManager;
-import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 
 /**
  * Interface for XBERev items service.
@@ -127,7 +126,7 @@ public class XBERevService extends XBEDefaultService<XBERev> implements XBCRevSe
             hdocManager.removeItem(itemHDoc);
         }
 
-        ((XBCSpecService) this).removeItem(rev);
+        ((XBCRevService) this).removeItem(rev);
     }
 
     @Override

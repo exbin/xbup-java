@@ -22,10 +22,12 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * Interface for UBNatural attribute.
  *
- * @version 0.1.24 2014/06/07
+ * @version 0.1.24 2014/12/15
  * @author XBUP Project (http://xbup.org)
  */
 public interface UBNatural extends Serializable, UBStreamable {
+
+    public static long[] XBUP_BLOCK_TYPE = {0, 0, 0};
 
     /**
      * Gets short integer value.

@@ -238,7 +238,7 @@ private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     public void setIcon(Icon icon) {
         imageLabel.setIcon(icon);
     }
-    
+
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         XBBufferedImage image = new XBBufferedImage();

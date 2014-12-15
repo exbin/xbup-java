@@ -151,11 +151,6 @@
               </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="basicTypeComboBox">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Unknown&quot;, &quot;Declaration&quot;, &quot;Format Declaration&quot;, &quot;Group Declaration&quot;, &quot;Block Declaration&quot;, &quot;Format Definition&quot;, &quot;Group Definition&quot;, &quot;Block Definition&quot;, &quot;List Definition&quot;, &quot;Revision Definition&quot; })" type="code"/>
-                </Property>
-              </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JComboBox&lt;&gt;();"/>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

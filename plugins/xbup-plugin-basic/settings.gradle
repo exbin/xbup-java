@@ -1,4 +1,4 @@
-rootProject.name = 'xbup-plugin-time'
+rootProject.name = 'xbup-plugin-basic'
 include ":modules:xbup-core"
 include ":modules:xbup-plugin"
 

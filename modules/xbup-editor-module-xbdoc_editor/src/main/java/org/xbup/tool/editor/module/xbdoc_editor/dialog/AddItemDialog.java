@@ -19,6 +19,7 @@ package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 import java.awt.CardLayout;
 import java.awt.Frame;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.xbup.lib.core.block.XBBasicBlockType;
@@ -69,18 +70,7 @@ public class AddItemDialog extends javax.swing.JDialog {
     }
 
     private void init() {
-        if (catalog != null) {
-            Long[] basicGroupPath = {0l, 0l};
-            List<XBBlockDecl> list = catalog.getBlocks(((XBCGroupDecl) catalog.findGroupTypeByPath(basicGroupPath, 0)).getGroupSpec().getParent());
-
-            XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-            for (int xbIndex = 1; xbIndex < list.size(); xbIndex++) {
-                XBBlockDecl decl = list.get(xbIndex);
-                if (decl instanceof XBCBlockSpec) {
-                    basicTypeComboBox.addItem(nameService.getDefaultText((XBCBlockSpec) decl));
-                }
-            }
-        }
+        reloadBasicTypes();
         ((CardLayout) mainPanel.getLayout()).show(mainPanel, "type");
 
         WindowUtils.initWindow(this);
@@ -138,8 +128,6 @@ public class AddItemDialog extends javax.swing.JDialog {
                 basicTypeRadioButtonStateChanged(evt);
             }
         });
-
-        basicTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Unknown", "Declaration", "Format Declaration", "Group Declaration", "Block Declaration", "Format Definition", "Group Definition", "Block Definition", "List Definition", "Revision Definition" }));
 
         blockTypeButtonGroup.add(contextTypeRadioButton);
         contextTypeRadioButton.setText(bundle.getString("contextTypeRadioButton.text")); // NOI18N
@@ -485,7 +473,7 @@ public class AddItemDialog extends javax.swing.JDialog {
 
     public void setParentNode(XBTTreeNode parentNode) {
         this.parentNode = parentNode;
-        contextTypeRadioButton.setEnabled(parentNode.getContext().getGroupsCount() > 1);
+        contextTypeRadioButton.setEnabled(parentNode != null && parentNode.getContext().getGroupsCount() > 1);
     }
 
     public int getDialogOption() {
@@ -494,10 +482,25 @@ public class AddItemDialog extends javax.swing.JDialog {
 
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
+        reloadBasicTypes();
         fireCatalogUpdate();
     }
 
     private void fireCatalogUpdate() {
         catalogTypeRadioButton.setEnabled(catalog != null);
+    }
+
+    private void reloadBasicTypes() {
+        DefaultComboBoxModel<String> model = (DefaultComboBoxModel) basicTypeComboBox.getModel();
+        model.removeAllElements();
+        if (catalog != null) {
+            Long[] basicGroupPath = {0l, 0l};
+            List<XBBlockDecl> list = catalog.getBlocks(((XBCGroupDecl) catalog.findGroupTypeByPath(basicGroupPath, 0)).getGroupSpec().getParent());
+
+            XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+            for (XBBlockDecl decl : list) {
+                model.addElement(nameService.getDefaultText(((XBCBlockDecl) decl).getBlockSpec().getParent()));
+            }
+        }
     }
 }

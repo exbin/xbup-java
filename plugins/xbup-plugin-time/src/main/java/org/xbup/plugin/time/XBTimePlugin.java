@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.plugin.picture;
+package org.xbup.plugin.time;
 
 import javax.swing.JPanel;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
@@ -22,20 +22,19 @@ import org.xbup.lib.plugin.XBLineEditor;
 import org.xbup.lib.plugin.XBPanelEditor;
 import org.xbup.lib.plugin.XBPlugin;
 import org.xbup.lib.plugin.XBTransformation;
-import org.xbup.lib.visual.xbplugins.XBPicturePanel;
 
 /**
- * XBUP Editor plugin - provides editing panel for XBUP data.
+ * XBUP Editor plugin - provides panels for basic XBUP data types.
  *
- * @version 0.1.24 2014/11/27
+ * @version 0.1.24 2014/12/15
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
-public class XBPicturePlugin implements XBPlugin {
+public class XBTimePlugin implements XBPlugin {
 
     @Override
     public String getPluginPath() {
-        return "xbup/visual/picture/XBPicturePlugin.jar";
+        return "xbup/time/XBTimePlugin.jar";
     }
 
     @Override
@@ -45,6 +44,11 @@ public class XBPicturePlugin implements XBPlugin {
 
     @Override
     public XBLineEditor getLineEditor(long index) {
+        switch ((int) index) {
+            case 0: {
+                return null;
+            }
+        }
         return null;
     }
 
@@ -60,7 +64,7 @@ public class XBPicturePlugin implements XBPlugin {
 
                 @Override
                 public JPanel getPanel() {
-                    return new XBPicturePanel();
+                    throw new UnsupportedOperationException("Not supported yet.");
                 }
             };
         }

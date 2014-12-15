@@ -90,6 +90,14 @@ public interface XBTSerialSequenceable extends XBTChildListener, XBTChildProvide
     public void join(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
+     * Performs appending of all serialization tokens of child.
+     *
+     * @param child serializable object
+     * @throws java.io.IOException
+     */
+    public void append(XBSerializable child) throws XBProcessingException, IOException;
+
+    /**
      * Performs serialization matching child value.
      *
      * Reading will check if value fully equals, writting will write it.

@@ -22,6 +22,7 @@ include ":modules:xbup-editor-module-wave_editor"
 include ":modules:xbup-editor-module-service_manager"
 include ":modules:xbup-editor-module-xbdoc_editor"
 
+include ":plugins:xbup-plugin-basic"
 include ":plugins:xbup-plugin-picture"
 
 include ":tools:xbcatalogweb"

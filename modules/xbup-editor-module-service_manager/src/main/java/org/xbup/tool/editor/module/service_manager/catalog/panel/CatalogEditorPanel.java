@@ -68,9 +68,6 @@ import org.xbup.tool.editor.base.api.FileType;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
 import org.xbup.tool.editor.base.api.MenuManagement;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemPanel;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogNodesTreeModel;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecsTableModel;
 import org.xbup.tool.editor.module.service_manager.panel.CatalogManagerPanelable;
 
 /**

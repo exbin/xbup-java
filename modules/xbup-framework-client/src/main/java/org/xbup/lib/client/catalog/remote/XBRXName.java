@@ -84,7 +84,7 @@ public class XBRXName implements XBCXName {
             XBString text = new XBString();
             XBChildInputSerialHandler handler = new XBChildProviderSerialHandler();
             handler.attachXBPullProvider(input);
-            text.new ChildSerializer().serializeFromXB(handler);
+            text.new DataBlockSerializator().serializeFromXB(handler);
             checker.endXB();
             checker.endXB();
             message.close();

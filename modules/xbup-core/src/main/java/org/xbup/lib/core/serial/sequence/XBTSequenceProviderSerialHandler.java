@@ -105,6 +105,11 @@ public class XBTSequenceProviderSerialHandler implements XBTSequenceSerialHandle
     }
 
     @Override
+    public void append(XBSerializable child) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public void matchChild(XBSerializable child) throws XBProcessingException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }

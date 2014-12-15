@@ -20,27 +20,26 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.serial.child.XBChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBChildSerializable;
-import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildSerializable;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 import org.xbup.lib.core.util.CopyStreamUtils;
 
 /**
- * Encapsulation class for String. TODO: Encoding support
+ * Encapsulation class for UTF-8 String.
  *
- * @version 0.1.24 2014/08/23
+ * @version 0.1.24 2014/12/15
  * @author XBUP Project (http://xbup.org)
  */
-public class XBString implements XBTChildSerializable {
+public class XBString implements XBTSequenceSerializable {
 
     private String value;
     public static long[] XB_BLOCK_PATH = {1, 3, 1, 2, 2}; // Testing only
@@ -63,21 +62,14 @@ public class XBString implements XBTChildSerializable {
     }
 
     @Override
-    public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.pullBegin();
-        serial.pullChild(new DataBlockSerializator());
-        serial.pullEnd();
-    }
+    public void serializeXB(XBTSequenceSerialHandler serial) throws XBProcessingException, IOException {
+        serial.begin();
+        serial.matchType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
+        serial.child(new DataBlockSerializator());
+        serial.end();
+   }
 
-    @Override
-    public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serial.putType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
-        serial.putChild(new DataBlockSerializator());
-        serial.putEnd();
-    }
-
-    public class ChildSerializer implements XBChildSerializable {
+    public class DataBlockSerializator implements XBChildSerializable {
 
         @Override
         public void serializeFromXB(XBChildInputSerialHandler serial) throws XBProcessingException, IOException {
@@ -89,49 +81,19 @@ public class XBString implements XBTChildSerializable {
                 Logger.getLogger(XBString.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            setValue(new String(stream.toByteArray()));
+            setValue(new String(stream.toByteArray(), Charset.forName("UTF-8")));
             serial.end();
         }
 
         @Override
         public void serializeToXB(XBChildOutputSerialHandler serial) throws XBProcessingException, IOException {
             if (getValue() != null) {
-                serial.addData(new ByteArrayInputStream(getValue().getBytes()));
+                serial.addData(new ByteArrayInputStream(getValue().getBytes(Charset.forName("UTF-8"))));
             } else {
                 serial.addData(new ByteArrayInputStream(new byte[0]));
             }
 
             serial.end();
-        }
-    }
-
-    public class DataBlockSerializator implements XBTChildSerializable {
-
-        @Override
-        public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-            serial.pullBegin();
-            InputStream source = serial.pullData();
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            try {
-                CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
-            } catch (IOException ex) {
-                Logger.getLogger(XBString.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            setValue(new String(stream.toByteArray()));
-            serial.pullEnd();
-        }
-
-        @Override
-        public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-            serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
-            if (getValue() != null) {
-                serial.putData(new ByteArrayInputStream(getValue().getBytes()));
-            } else {
-                serial.putData(new ByteArrayInputStream(new byte[0]));
-            }
-
-            serial.putEnd();
         }
     }
 }

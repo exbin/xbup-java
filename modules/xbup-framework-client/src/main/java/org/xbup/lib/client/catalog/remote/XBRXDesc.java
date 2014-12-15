@@ -84,7 +84,7 @@ public class XBRXDesc implements XBCXDesc {
             XBString text = new XBString();
             XBChildInputSerialHandler handler = new XBChildProviderSerialHandler();
             handler.attachXBPullProvider(input);
-            text.new ChildSerializer().serializeFromXB(handler);
+            text.new DataBlockSerializator().serializeFromXB(handler);
 //            new XBL1ToL0DefaultStreamConvertor(new XBL2ToL1DefaultStreamConvertor(text)).readXBStream(input);
             checker.endXB();
             checker.endXB();

@@ -43,6 +43,7 @@ import org.xbup.lib.core.catalog.base.XBCXHDoc;
 import org.xbup.lib.core.catalog.base.XBCXIcon;
 import org.xbup.lib.core.catalog.base.XBCXName;
 import org.xbup.lib.core.catalog.base.XBCXStri;
+import org.xbup.lib.core.catalog.base.service.XBCNodeService;
 import org.xbup.lib.core.catalog.base.service.XBCXDescService;
 import org.xbup.lib.core.catalog.base.service.XBCXFileService;
 import org.xbup.lib.core.catalog.base.service.XBCXHDocService;
@@ -55,7 +56,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Panel for basic XBItem viewing/editation.
  *
- * @version 0.1.24 2014/12/12
+ * @version 0.1.24 2014/12/15
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemPanel extends javax.swing.JPanel {
@@ -65,6 +66,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
     private final CatalogDefsTableModel defsModel;
     private final CatalogRevsTableModel revsModel;
     private final CatalogFilesTableModel filesModel;
+    private XBCNodeService nodeService;
     private XBCXNameService nameService;
     private XBCXDescService descService;
     private XBCXStriService striService;
@@ -76,6 +78,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
     private XBCXHDoc itemHDoc;
     private XBCXIcon itemIcon;
     private JumpActionListener jumpActionListener = null;
+    private XBACatalog catalog;
 
     public CatalogItemPanel() {
         defsModel = new CatalogDefsTableModel();
@@ -113,6 +116,8 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         itemTypeTextField = new javax.swing.JTextField();
         itemDescriptionLabel = new javax.swing.JLabel();
         itemDescriptionTextField = new javax.swing.JTextField();
+        fullPathLabel = new javax.swing.JLabel();
+        fullPathTextField = new javax.swing.JTextField();
         itemCreatedLabel = new javax.swing.JLabel();
         itemCreatedTextField = new javax.swing.JTextField();
         iconPanel = new javax.swing.JPanel();
@@ -203,6 +208,17 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         itemDescriptionTextField.setEditable(false);
         itemDescriptionTextField.setName("itemDescriptionTextField"); // NOI18N
 
+        fullPathLabel.setText(bundle.getString("fullPathLabel.text")); // NOI18N
+        fullPathLabel.setName("fullPathLabel"); // NOI18N
+
+        fullPathTextField.setEditable(false);
+        fullPathTextField.setName("fullPathTextField"); // NOI18N
+        fullPathTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                fullPathTextFieldFocusGained(evt);
+            }
+        });
+
         itemCreatedLabel.setText(bundle.getString("itemCreatedLabel.text")); // NOI18N
         itemCreatedLabel.setName("itemCreatedLabel"); // NOI18N
 
@@ -230,14 +246,16 @@ public class CatalogItemPanel extends javax.swing.JPanel {
                         .addComponent(itemTitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE))
                     .addComponent(jSeparator1)
                     .addGroup(basicItemDataPanelLayout.createSequentialGroup()
-                        .addGroup(basicItemDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(itemPathLabel)
-                            .addComponent(itemNameLabel)
-                            .addComponent(itemCreatedLabel)
-                            .addComponent(itemDescriptionLabel)
-                            .addComponent(itemTypeLabel))
+                        .addGroup(basicItemDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(itemDescriptionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(fullPathLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(itemCreatedLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(itemTypeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(itemPathLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(itemNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(basicItemDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fullPathTextField)
                             .addComponent(itemCreatedTextField)
                             .addComponent(itemPathTextField)
                             .addComponent(itemTypeTextField)
@@ -272,9 +290,13 @@ public class CatalogItemPanel extends javax.swing.JPanel {
                     .addComponent(itemDescriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(basicItemDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(itemCreatedTextField)
+                    .addComponent(fullPathTextField)
+                    .addComponent(fullPathLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(basicItemDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(itemCreatedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(itemCreatedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         basicItemScrollPane.setViewportView(basicItemDataPanel);
@@ -300,7 +322,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         );
         documentationPanelLayout.setVerticalGroup(
             documentationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(itemHDocScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+            .addComponent(itemHDocScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
         );
 
         mainTabbedPane.addTab("Documentation", documentationPanel);
@@ -382,6 +404,10 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_exportFileMenuItemActionPerformed
 
+    private void fullPathTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fullPathTextFieldFocusGained
+        fullPathTextField.selectAll();
+    }//GEN-LAST:event_fullPathTextFieldFocusGained
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel basicItemDataPanel;
     private javax.swing.JScrollPane basicItemScrollPane;
@@ -391,6 +417,8 @@ public class CatalogItemPanel extends javax.swing.JPanel {
     private javax.swing.JMenuItem exportFileMenuItem;
     private javax.swing.JPanel filesPanel;
     private javax.swing.JPopupMenu filesPopupMenu;
+    private javax.swing.JLabel fullPathLabel;
+    private javax.swing.JTextField fullPathTextField;
     private javax.swing.JPanel generalPanel;
     private javax.swing.JPanel iconPanel;
     private javax.swing.JLabel itemCreatedLabel;
@@ -480,6 +508,23 @@ public class CatalogItemPanel extends javax.swing.JPanel {
             itemDesc = descService.getDefaultItemDesc(item);
             itemDescriptionTextField.setText((itemDesc == null) ? "" : itemDesc.getText());
             itemTitleLabel.setText(((itemName == null) ? "-" : itemName.getText()) + " (" + ((xbIndex == null) ? "" : xbIndex.toString()) + ")");
+            String fullPath = "";
+            if ((item instanceof XBCSpec) || (item instanceof XBCNode)) {
+                Long[] specPath = item instanceof XBCNode
+                        ? nodeService.getNodeXBPath((XBCNode) item)
+                        : catalog.getSpecPath((XBCSpec) item);
+                StringBuilder pathBuilder = new StringBuilder();
+                for (Long pathIndex : specPath) {
+                    if (pathBuilder.length() > 0) {
+                        pathBuilder.append(", ");
+                    }
+                    pathBuilder.append(pathIndex);
+                }
+
+                fullPath = "{" + pathBuilder.toString() + "}";
+            }
+
+            fullPathTextField.setText(fullPath);
 
             XBCXStri stringId = striService.getItemStringId(item);
             itemPathTextField.setText(stringId == null ? "" : stringId.getText());
@@ -511,6 +556,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
             itemNameTextField.setText("");
             itemDescriptionTextField.setText("");
             itemHDocEditorPane.setText("");
+            fullPathTextField.setText("");
         }
 
         revsModel.setSpec(item instanceof XBCSpec ? (XBCSpec) item : null);
@@ -573,6 +619,8 @@ public class CatalogItemPanel extends javax.swing.JPanel {
     }
 
     public void setCatalog(XBACatalog catalog) {
+        this.catalog = catalog;
+        nodeService = catalog == null ? null : (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
         striService = catalog == null ? null : (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
         nameService = catalog == null ? null : (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
         descService = catalog == null ? null : (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);

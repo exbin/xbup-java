@@ -16,12 +16,15 @@
  */
 package org.xbup.lib.plugin;
 
+import javax.swing.JComponent;
+
 /**
- * XBUP Transformation Plugin Base Interface.
+ * XBUP Line Editor Plugin Base Interface.
  *
- * @version 0.1.19 2010/06/19
+ * @version 0.1.24 2014/12/15
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBLineEditor {
 
+    public JComponent getComponent();
 }

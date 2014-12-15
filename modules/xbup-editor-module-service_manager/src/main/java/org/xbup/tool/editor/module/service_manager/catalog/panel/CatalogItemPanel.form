@@ -67,7 +67,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,1,0,0,1,84"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,59,0,0,1,84"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
@@ -128,15 +128,17 @@
                                   </Group>
                                   <Component id="jSeparator1" alignment="0" max="32767" attributes="1"/>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="itemPathLabel" alignment="0" min="-2" max="-2" attributes="1"/>
-                                          <Component id="itemNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="itemCreatedLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="itemDescriptionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="itemTypeLabel" alignment="0" min="-2" max="-2" attributes="1"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="itemDescriptionLabel" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="fullPathLabel" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="itemCreatedLabel" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="itemTypeLabel" alignment="0" max="32767" attributes="1"/>
+                                          <Component id="itemPathLabel" alignment="0" max="32767" attributes="1"/>
+                                          <Component id="itemNameLabel" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="fullPathTextField" max="32767" attributes="0"/>
                                           <Component id="itemCreatedTextField" max="32767" attributes="0"/>
                                           <Component id="itemPathTextField" alignment="0" max="32767" attributes="0"/>
                                           <Component id="itemTypeTextField" alignment="0" max="32767" attributes="0"/>
@@ -181,10 +183,15 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="itemCreatedTextField" max="32767" attributes="1"/>
-                                  <Component id="itemCreatedLabel" alignment="0" min="-2" pref="19" max="-2" attributes="1"/>
+                                  <Component id="fullPathTextField" alignment="0" max="32767" attributes="1"/>
+                                  <Component id="fullPathLabel" alignment="0" min="-2" pref="19" max="-2" attributes="1"/>
                               </Group>
-                              <EmptySpace pref="22" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="itemCreatedTextField" alignment="3" min="-2" max="-2" attributes="1"/>
+                                  <Component id="itemCreatedLabel" alignment="3" min="-2" pref="19" max="-2" attributes="1"/>
+                              </Group>
+                              <EmptySpace pref="56" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -253,6 +260,23 @@
                         <Property name="name" type="java.lang.String" value="itemDescriptionTextField" noResource="true"/>
                       </Properties>
                     </Component>
+                    <Component class="javax.swing.JLabel" name="fullPathLabel">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                          <ResourceString bundle="org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemPanel.properties" key="fullPathLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                        </Property>
+                        <Property name="name" type="java.lang.String" value="fullPathLabel" noResource="true"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="fullPathTextField">
+                      <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
+                        <Property name="name" type="java.lang.String" value="fullPathTextField" noResource="true"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="fullPathTextFieldFocusGained"/>
+                      </Events>
+                    </Component>
                     <Component class="javax.swing.JLabel" name="itemCreatedLabel">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
@@ -320,7 +344,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="itemHDocScrollPane" alignment="0" pref="212" max="32767" attributes="0"/>
+                  <Component id="itemHDocScrollPane" alignment="0" pref="270" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>

@@ -19,24 +19,23 @@ package org.xbup.lib.core.ubnumber.type;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
-import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildSerializable;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 
 /**
  * UBNatural stored as long value (limited value capacity to 32 bits).
  *
- * @version 0.1.24 2014/08/23
+ * @version 0.1.24 2014/12/15
  * @author XBUP Project (http://xbup.org)
  */
-public class UBNat32 implements UBNatural, XBTChildSerializable {
+public class UBNat32 implements UBNatural, XBTSequenceSerializable {
 
-    private static long MAX_VALUE = 4294967295l;
+    public static long MAX_VALUE = 4294967295l;
     private long value;
 
     public UBNat32() {
@@ -231,17 +230,10 @@ public class UBNat32 implements UBNatural, XBTChildSerializable {
     }
 
     @Override
-    public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.pullBegin();
-        UBNatural newValue = serial.pullAttribute();
-        setValue(newValue.getLong());
-        serial.pullEnd();
-    }
-
-    @Override
-    public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serial.putAttribute(this);
-        serial.putEnd();
+    public void serializeXB(XBTSequenceSerialHandler serial) throws XBProcessingException, IOException {
+        serial.begin();
+        serial.matchType(new XBDeclBlockType(XBUP_BLOCK_TYPE));
+        serial.attribute(this);
+        serial.end();
     }
 }

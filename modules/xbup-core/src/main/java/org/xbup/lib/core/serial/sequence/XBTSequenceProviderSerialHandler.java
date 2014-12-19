@@ -42,7 +42,7 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
  * XBUP level 1 serialization handler using serialization sequence parser
  * mapping to token provider.
  *
- * @version 0.1.24 2014/12/06
+ * @version 0.1.24 2014/12/16
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTSequenceProviderSerialHandler implements XBTSequenceSerialHandler, XBTSequenceInputSerialHandler, XBTSerialSequenceable, XBTTokenInputSerialHandler {
@@ -160,6 +160,11 @@ public class XBTSequenceProviderSerialHandler implements XBTSequenceSerialHandle
     }
 
     @Override
+    public void putAppend(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new XBProcessingException("Pushing data not allowed in pulling mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
+    }
+
+    @Override
     public void putData(InputStream data) throws XBProcessingException, IOException {
         throw new XBProcessingException("Pushing data not allowed in pulling mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
@@ -212,6 +217,11 @@ public class XBTSequenceProviderSerialHandler implements XBTSequenceSerialHandle
     @Override
     public void pullJoin(XBSerializable serial) throws XBProcessingException, IOException {
         provider.pullJoin(serial);
+    }
+
+    @Override
+    public void pullAppend(XBSerializable serial) throws XBProcessingException, IOException {
+        provider.pullAppend(serial);
     }
 
     @Override
@@ -354,6 +364,11 @@ public class XBTSequenceProviderSerialHandler implements XBTSequenceSerialHandle
 
         @Override
         public void pullJoin(XBSerializable serial) throws XBProcessingException, IOException {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void pullAppend(XBSerializable serial) throws XBProcessingException, IOException {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 

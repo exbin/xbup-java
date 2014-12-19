@@ -16,13 +16,11 @@
  */
 package org.xbup.tool.editor.module.xbdoc_editor.panel;
 
-import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
@@ -30,37 +28,39 @@ import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCRev;
-import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
 import org.xbup.lib.core.catalog.base.XBCXName;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.parser_tree.XBTTreeNode;
+import org.xbup.tool.editor.base.api.utils.WindowUtils;
 import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemPropertiesDialog;
+import org.xbup.tool.editor.module.xbdoc_editor.dialog.ParametersTableItem;
 
 /**
  * Panel for properties of the actual panel.
  *
- * @version 0.1.24 2014/12/13
+ * @version 0.1.24 2014/12/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyTablePanel extends javax.swing.JPanel {
 
     private XBACatalog catalog;
-    private Thread propertyThread;
-    private final Semaphore valueFillingSemaphore;
     private final List<XBCBlockSpec> specList;
     private XBDocumentPanel activePanel;
+    private final XBPropertyTableModel tableModel;
     private final XBPropertyTableCellRenderer cellRenderer;
     private final XBPropertyTableCellEditor cellEditor;
 
+    private Thread propertyThread;
+    private final Semaphore valueFillingSemaphore;
+
     public XBPropertyTablePanel(XBACatalog catalog) {
         this.catalog = catalog;
+        tableModel = new XBPropertyTableModel();
 
         initComponents();
 
-//        jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        //propertiesTable.getSelectionModel().
         TableColumnModel columns = propertiesTable.getColumnModel();
         columns.getColumn(0).setPreferredWidth(190);
         columns.getColumn(1).setPreferredWidth(190);
@@ -70,7 +70,6 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
         columns.getColumn(1).setCellRenderer(cellRenderer);
         cellEditor = new XBPropertyTableCellEditor(catalog, null);
         columns.getColumn(1).setCellEditor(cellEditor);
-//        columns.getColumn(1).setModelIndex();
 
         propertyThread = null;
         valueFillingSemaphore = new Semaphore(1);
@@ -188,29 +187,7 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
 
         mainScrollPane.setName("mainScrollPane"); // NOI18N
 
-        propertiesTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Property", "Value"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        propertiesTable.setModel(tableModel);
         propertiesTable.setComponentPopupMenu(propertyPopupMenu);
         propertiesTable.setName("propertiesTable"); // NOI18N
         mainScrollPane.setViewportView(propertiesTable);
@@ -256,29 +233,24 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
         cellEditor.setCatalog(catalog);
     }
 
-    /**
-     * @return the propertyThread
-     */
+    public XBDocumentPanel getActivePanel() {
+        return activePanel;
+    }
+
+    public void setActivePanel(XBDocumentPanel activePanel) {
+        this.activePanel = activePanel;
+    }
+
     private Thread getPropertyThread() {
         return propertyThread;
     }
 
-    /**
-     * @param propertyThread the propertyThread to set
-     */
     private void setPropertyThread(Thread propertyThread) {
         this.propertyThread = propertyThread;
     }
 
-    /**
-     * @return the valueFillingSemaphore
-     */
     private Semaphore getValueFillingSemaphore() {
         return valueFillingSemaphore;
-    }
-
-    private Frame getFrame() {
-        return null;
     }
 
     // TODO: Prepare values and then fill it to property panel
@@ -286,7 +258,6 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
 
         private final XBPropertyTablePanel propertyPanel;
         private final XBTTreeNode node;
-        private DefaultTableModel tableModel;
 
         public PropertyThread(XBPropertyTablePanel propertyPanel, XBTTreeNode node) {
             super();
@@ -299,7 +270,6 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
             super.start();
             try {
                 getValueFillingSemaphore().acquire();
-                tableModel = ((DefaultTableModel) propertiesTable.getModel());
                 for (int i = tableModel.getRowCount() - 1; i >= 0; i--) {
                     tableModel.removeRow(i);
                 }
@@ -339,17 +309,19 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
                             // TODO: if (desc != null) descTextField.setText(desc.getText());
                             for (int i = 0; i < bindCount; i++) {
                                 // TODO: Exclusive lock
+                                String rowNameText = "";
                                 XBCSpecDef bind = specService.getSpecDefByOrder(spec, i);
-                                Object[] row = new Object[2];
+                                XBPropertyTableItem row;
+                                XBCBlockSpec rowSpec = null;
                                 if (bind != null) {
                                     XBCRev rowRev = bind.getTarget();
-                                    XBCSpec rowSpec = rowRev.getParent();
+                                    rowSpec = (XBCBlockSpec) rowRev.getParent();
                                     XBCXName rowName = nameService.getDefaultItemName(rowSpec);
                                     if (rowName != null) {
-                                        row[0] = rowName.getText();
+                                        rowNameText = rowName.getText();
                                     }
                                 }
-                                row[1] = "";
+                                row = new XBPropertyTableItem(rowSpec, rowNameText, "");
                                 tableModel.addRow(row);
                                 specList.add(spec);
                             }
@@ -390,7 +362,7 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
     }
 
     public void actionItemProperties() {
-        ItemPropertiesDialog dialog = new ItemPropertiesDialog(getFrame(), true);
+        ItemPropertiesDialog dialog = new ItemPropertiesDialog(WindowUtils.getFrame(this), true);
         dialog.setCatalog(catalog);
         dialog.runDialog(activePanel.getSelectedItem());
     }

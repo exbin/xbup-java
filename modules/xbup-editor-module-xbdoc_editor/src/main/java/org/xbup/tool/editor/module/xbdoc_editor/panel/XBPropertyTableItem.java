@@ -14,23 +14,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.tool.editor.module.xbdoc_editor.dialog;
+package org.xbup.tool.editor.module.xbdoc_editor.panel;
 
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 
 /**
  * Parameters list table item record.
  *
- * @version 0.1.24 2014/11/10
+ * @version 0.1.24 2014/12/19
  * @author XBUP Project (http://xbup.org)
  */
-public class ParametersTableItem {
+public class XBPropertyTableItem {
 
     private XBCBlockSpec spec;
     private String name;
     private String type;
 
-    public ParametersTableItem(XBCBlockSpec spec, String name, String type) {
+    public XBPropertyTableItem(XBCBlockSpec spec, String name, String type) {
         this.spec = spec;
         this.name = name;
         this.type = type;

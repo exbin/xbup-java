@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.tool.editor.module.xbdoc_editor.dialog;
+package org.xbup.tool.editor.module.xbdoc_editor.panel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,23 +24,23 @@ import javax.swing.table.AbstractTableModel;
 /**
  * Parameters list table model for item editing.
  *
- * @version 0.1.24 2014/11/19
+ * @version 0.1.24 2014/12/19
  * @author XBUP Project (http://xbup.org)
  */
-public class ParametersTableModel extends AbstractTableModel {
+public class XBPropertyTableModel extends AbstractTableModel {
 
     private final ResourceBundle resourceBundle;
-    private List<ParametersTableItem> parameters;
+    private List<XBPropertyTableItem> parameters;
 
     private final String[] columnNames;
     private Class[] columnTypes = new Class[]{
-        java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+        java.lang.String.class, java.lang.Object.class
     };
-    private final boolean[] columnsEditable = new boolean[]{false, false, false, true};
+    private final boolean[] columnsEditable = new boolean[]{false, true};
 
-    public ParametersTableModel() {
+    public XBPropertyTableModel() {
         resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ItemModifyDialog");
-        columnNames = new String[]{resourceBundle.getString("parametersTableModel.itemOrder"), resourceBundle.getString("parametersTableModel.itemName"), resourceBundle.getString("parametersTableModel.itemType"), resourceBundle.getString("parametersTableModel.itemValue")};
+        columnNames = new String[]{"Property", "Value"};
         parameters = new ArrayList<>();
     }
 
@@ -73,34 +73,29 @@ public class ParametersTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return rowIndex;
-            case 1:
                 return getParameter(rowIndex).getName();
-            case 2:
-                return getParameter(rowIndex).getType();
-            case 3:
-                return "";
+            case 1:
+                return null;
             default:
                 return "";
         }
     }
 
-    @Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        if (rowIndex < getRowCount()) {
-            if (columnIndex == 3) {
-                // ((UBNat32) parameters.get(rowIndex)).setValue((Integer) aValue);
-            } else {
-                throw new IllegalStateException();
-            }
-        }
+    public void removeRow(int rowIndex) {
+        parameters.remove(rowIndex);
+        fireTableRowsDeleted(rowIndex, rowIndex);
     }
 
-    public List<ParametersTableItem> getParameters() {
+    public void addRow(XBPropertyTableItem rowData) {
+        parameters.add(rowData);
+        fireTableRowsInserted(parameters.size() - 1, parameters.size() - 1);
+    }
+
+    public List<XBPropertyTableItem> getParameters() {
         return parameters;
     }
 
-    public void setParameters(List<ParametersTableItem> attributes) {
+    public void setParameters(List<XBPropertyTableItem> attributes) {
         this.parameters = attributes;
     }
 
@@ -112,7 +107,7 @@ public class ParametersTableModel extends AbstractTableModel {
         this.columnTypes = types;
     }
 
-    public ParametersTableItem getParameter(int index) {
+    public XBPropertyTableItem getParameter(int index) {
         if (index >= parameters.size()) {
             return null;
         }

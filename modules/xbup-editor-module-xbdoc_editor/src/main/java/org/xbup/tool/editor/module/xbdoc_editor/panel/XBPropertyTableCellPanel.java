@@ -28,27 +28,30 @@ import org.xbup.tool.editor.module.xbdoc_editor.dialog.XBPropertyDialog;
 /**
  * Properties table cell panel.
  *
- * @version 0.1.24 2014/12/13
+ * @version 0.1.24 2014/12/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyTableCellPanel extends PropertyTableCellPanel {
 
     private XBACatalog catalog;
     private XBTTreeNode node;
+    private final int row;
 
-    public XBPropertyTableCellPanel(JComponent cellComponent, XBACatalog catalog, XBTTreeNode node) {
+    public XBPropertyTableCellPanel(JComponent cellComponent, XBACatalog catalog, XBTTreeNode node, int row) {
         super(cellComponent);
 
         this.catalog = catalog;
         this.node = node;
+        this.row = row;
         init();
     }
 
-    public XBPropertyTableCellPanel(XBACatalog catalog, XBTTreeNode node) {
+    public XBPropertyTableCellPanel(XBACatalog catalog, XBTTreeNode node, int row) {
         super();
 
         this.catalog = catalog;
         this.node = node;
+        this.row = row;
         init();
     }
 

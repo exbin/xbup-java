@@ -47,7 +47,7 @@ public class XBPropertyTableCellEditor extends DefaultCellEditor {
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
         Component defaultComponent = super.getTableCellEditorComponent(table, value, isSelected, row, column);
         defaultComponent.setEnabled(false);
-        XBPropertyTableCellPanel cellPanel = new XBPropertyTableCellPanel((JComponent) defaultComponent, catalog, node);
+        XBPropertyTableCellPanel cellPanel = new XBPropertyTableCellPanel((JComponent) defaultComponent, catalog, node, row);
         cellPanel.setBackground(table.getSelectionBackground());
         cellPanel.getCellComponent().setBorder(DefaultLookup.getBorder(cellPanel.getCellComponent(), cellPanel.getUI(), "Table.focusCellHighlightBorder"));
         return cellPanel;

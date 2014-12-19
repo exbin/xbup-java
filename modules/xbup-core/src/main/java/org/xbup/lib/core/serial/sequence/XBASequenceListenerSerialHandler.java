@@ -40,7 +40,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * XBUP level 2 serialization handler using serialization sequence parser
  * mapping to token listener.
  *
- * @version 0.1.24 2014/12/07
+ * @version 0.1.24 2014/12/16
  * @author XBUP Project (http://xbup.org)
  */
 public class XBASequenceListenerSerialHandler implements XBASequenceSerialHandler, XBASequenceOutputSerialHandler, XBASerialSequenceable, XBTTokenOutputSerialHandler {
@@ -163,7 +163,7 @@ public class XBASequenceListenerSerialHandler implements XBASequenceSerialHandle
 
     @Override
     public void append(XBSerializable child) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        listener.putAppend(child);
     }
 
     @Override
@@ -219,6 +219,11 @@ public class XBASequenceListenerSerialHandler implements XBASequenceSerialHandle
     @Override
     public void putJoin(XBSerializable serial) throws XBProcessingException, IOException {
         listener.putJoin(serial);
+    }
+
+    @Override
+    public void putAppend(XBSerializable serial) throws XBProcessingException, IOException {
+        listener.putAppend(serial);
     }
 
     @Override
@@ -287,6 +292,11 @@ public class XBASequenceListenerSerialHandler implements XBASequenceSerialHandle
     }
 
     @Override
+    public void pullAppend(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new XBProcessingException("Pulling data not allowed in pushing mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
+    }
+
+    @Override
     public XBSerializable pullNullJoin(XBSerializable serial) {
         throw new XBProcessingException("Pulling data not allowed in pushing mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
@@ -337,6 +347,11 @@ public class XBASequenceListenerSerialHandler implements XBASequenceSerialHandle
 
         @Override
         public void putJoin(XBSerializable serial) throws XBProcessingException, IOException {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void putAppend(XBSerializable serial) throws XBProcessingException, IOException {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 

@@ -36,6 +36,8 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFBlockType;
@@ -123,6 +125,13 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
                 if (propertyChangeListener != null) {
                     propertyChangeListener.propertyChange(evt);
                 }
+            }
+        });
+
+        treePanel.addTreeSelectionListener(new TreeSelectionListener() {
+
+            @Override
+            public void valueChanged(TreeSelectionEvent e) {
                 if (propertyPanel.isEnabled()) {
                     propertyPanel.setActiveNode(treePanel.getSelectedItem());
                 }
@@ -682,6 +691,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
      */
     public void setPluginRepository(XBPluginRepository pluginRepository) {
         this.pluginRepository = pluginRepository;
+        propertyPanel.setPluginRepository(pluginRepository);
     }
 
     public String getHex(byte b) {

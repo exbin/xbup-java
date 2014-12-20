@@ -389,6 +389,10 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
     private javax.swing.JTree mainTree;
     // End of variables declaration//GEN-END:variables
 
+    public void addTreeSelectionListener(TreeSelectionListener listener) {
+        mainTree.getSelectionModel().addTreeSelectionListener(listener);
+    }
+    
     public void setEditEnabled(boolean editEnabled) {
         if (editEnabled != this.editEnabled) {
             this.editEnabled = editEnabled;

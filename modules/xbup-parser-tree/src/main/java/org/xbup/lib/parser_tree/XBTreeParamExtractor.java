@@ -32,10 +32,10 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Extracting specified parameters from XBUP level 1 blocks.
  *
- * @version 0.1.23 2014/02/20
+ * @version 0.1.24 2014/12/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTreeParamExtractor implements XBParamListener {
+public class XBTreeParamExtractor {
 
     private final XBTBlock source;
     private final long targetParam;
@@ -48,10 +48,41 @@ public class XBTreeParamExtractor implements XBParamListener {
 
     private long currentParam = 0;
 
-    public XBTreeParamExtractor(XBTBlock source, XBACatalog catalog, long targetParam) {
-        this.targetParam = targetParam;
+    public XBTreeParamExtractor(XBTBlock source, XBACatalog catalog, long targetParamValue) {
+        this.targetParam = targetParamValue;
         this.source = source;
-        XBParamConvertor convertor = new XBParamConvertor(this, catalog);
+        XBParamConvertor convertor = new XBParamConvertor(new XBParamListener() {
+
+            @Override
+            public void beginXBParam(XBBlockParam type) throws XBProcessingException, IOException {
+                if (currentParam == targetParam) {
+                    paramType = type;
+                }
+            }
+
+            @Override
+            public void blockXBParam() throws XBProcessingException, IOException {
+                if (currentParam < targetParam) {
+                    blockStart++;
+                } else {
+                    if (currentParam == targetParam) {
+                        blockCount++;
+                    }
+                }
+            }
+
+            @Override
+            public void listXBParam() throws XBProcessingException, IOException {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void endXBParam() throws XBProcessingException, IOException {
+                currentParam++;
+            }
+
+        }, catalog);
+
         try {
             convertor.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             convertor.typeXBT(source.getBlockType());
@@ -74,34 +105,6 @@ public class XBTreeParamExtractor implements XBParamListener {
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBTreeParamExtractor.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    @Override
-    public void beginXBParam(XBBlockParam type) throws XBProcessingException, IOException {
-        if (currentParam == targetParam) {
-            paramType = type;
-        }
-    }
-
-    @Override
-    public void blockXBParam() throws XBProcessingException, IOException {
-        if (currentParam < targetParam) {
-            blockStart++;
-        } else {
-            if (currentParam == targetParam) {
-                blockCount++;
-            }
-        }
-    }
-
-    @Override
-    public void listXBParam() throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void endXBParam() throws XBProcessingException, IOException {
-        currentParam++;
     }
 
     public XBTTreeNode getOutput() {

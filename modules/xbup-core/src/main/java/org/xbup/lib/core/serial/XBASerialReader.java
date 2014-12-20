@@ -30,7 +30,7 @@ import org.xbup.lib.core.serial.sequence.XBASequenceSerializable;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 
 /**
- * Interface for XBUP serialization input handler.
+ * XBUP level 2 serialization object from stream writer.
  *
  * @version 0.1.24 2014/12/06
  * @author XBUP Project (http://xbup.org)

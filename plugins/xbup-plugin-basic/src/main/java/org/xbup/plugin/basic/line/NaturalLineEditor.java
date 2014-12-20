@@ -19,21 +19,19 @@ package org.xbup.plugin.basic.line;
 import java.io.IOException;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
-import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
-import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.plugin.XBLineEditor;
 
 /**
  * XBUP Editor plugin - provides panels for basic XBUP data types.
  *
- * @version 0.1.24 2014/12/15
+ * @version 0.1.24 2014/12/20
  * @author XBUP Project (http://xbup.org)
  */
-public class NaturalLineEditor extends JTextField implements XBLineEditor, XBTSequenceSerializable {
+public class NaturalLineEditor implements XBLineEditor, XBTSequenceSerializable {
 
     private UBNat32 value = new UBNat32();
 
@@ -44,6 +42,29 @@ public class NaturalLineEditor extends JTextField implements XBLineEditor, XBTSe
 
     @Override
     public JComponent getComponent() {
-        return this;
+        JTextField component = new JTextField(String.valueOf(value.getLong()));
+        component.setEditable(false);
+        return component;
+    }
+
+    @Override
+    public JComponent getEditor() {
+        JTextField component = new JTextField(String.valueOf(value.getLong()));
+        return component;
+    }
+
+    @Override
+    public boolean finishEditor(JComponent editor) {
+        JTextField component = (JTextField) editor;
+        value.setValue(Long.valueOf(component.getText()));
+        return true;
+    }
+
+    public UBNat32 getValue() {
+        return value;
+    }
+
+    public void setValue(UBNat32 value) {
+        this.value = value;
     }
 }

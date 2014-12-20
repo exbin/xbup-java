@@ -27,11 +27,12 @@ import org.xbup.lib.core.catalog.base.XBCXDesc;
 import org.xbup.lib.core.catalog.base.service.XBCXDescService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.parser_tree.XBTTreeNode;
+import org.xbup.lib.plugin.XBPluginRepository;
 
 /**
  * Panel for properties of the actual panel.
  *
- * @version 0.1.24 2014/12/18
+ * @version 0.1.24 2014/12/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyPanel extends javax.swing.JPanel {
@@ -268,5 +269,9 @@ public class XBPropertyPanel extends javax.swing.JPanel {
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
         propertiesPanel.setCatalog(catalog);
+    }
+
+    void setPluginRepository(XBPluginRepository pluginRepository) {
+        propertiesPanel.setPluginRepository(pluginRepository);
     }
 }

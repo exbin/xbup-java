@@ -24,7 +24,7 @@ import javax.swing.table.AbstractTableModel;
 /**
  * Parameters list table model for item editing.
  *
- * @version 0.1.24 2014/12/19
+ * @version 0.1.24 2014/12/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyTableModel extends AbstractTableModel {
@@ -73,12 +73,16 @@ public class XBPropertyTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return getParameter(rowIndex).getName();
+                return getRow(rowIndex).getName();
             case 1:
                 return null;
             default:
                 return "";
         }
+    }
+
+    public XBPropertyTableItem getRow(int rowIndex) {
+        return parameters.get(rowIndex);
     }
 
     public void removeRow(int rowIndex) {
@@ -105,13 +109,5 @@ public class XBPropertyTableModel extends AbstractTableModel {
 
     public void setTypes(Class[] types) {
         this.columnTypes = types;
-    }
-
-    public XBPropertyTableItem getParameter(int index) {
-        if (index >= parameters.size()) {
-            return null;
-        }
-
-        return parameters.get(index);
     }
 }

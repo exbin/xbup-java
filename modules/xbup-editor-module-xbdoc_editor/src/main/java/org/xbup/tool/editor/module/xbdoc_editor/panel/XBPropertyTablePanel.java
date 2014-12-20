@@ -23,24 +23,34 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.TableColumnModel;
 import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
+import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
-import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.catalog.base.XBCXName;
+import org.xbup.lib.core.catalog.base.XBCXBlockLine;
+import org.xbup.lib.core.catalog.base.XBCXPlugLine;
+import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
+import org.xbup.lib.core.catalog.base.service.XBCXLineService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
+import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
+import org.xbup.lib.core.parser.token.pull.convert.XBTProviderToPullProvider;
+import org.xbup.lib.core.serial.XBASerialReader;
 import org.xbup.lib.parser_tree.XBTTreeNode;
+import org.xbup.lib.parser_tree.XBTTreeWriter;
+import org.xbup.lib.plugin.XBLineEditor;
+import org.xbup.lib.plugin.XBPlugin;
+import org.xbup.lib.plugin.XBPluginRepository;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemPropertiesDialog;
-import org.xbup.tool.editor.module.xbdoc_editor.dialog.ParametersTableItem;
 
 /**
  * Panel for properties of the actual panel.
  *
- * @version 0.1.24 2014/12/18
+ * @version 0.1.24 2014/12/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyTablePanel extends javax.swing.JPanel {
@@ -51,9 +61,12 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
     private final XBPropertyTableModel tableModel;
     private final XBPropertyTableCellRenderer cellRenderer;
     private final XBPropertyTableCellEditor cellEditor;
+    private XBCXLineService lineService = null;
+    private XBPluginRepository pluginRepository = null;
 
     private Thread propertyThread;
     private final Semaphore valueFillingSemaphore;
+    private XBTTreeNode node;
 
     public XBPropertyTablePanel(XBACatalog catalog) {
         this.catalog = catalog;
@@ -218,6 +231,7 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     public void setActiveNode(XBTTreeNode node) {
+        this.node = node;
         cellRenderer.setNode(node);
         cellEditor.setNode(node);
         new PropertyThread(this, node).start();
@@ -229,6 +243,9 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
 
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
+
+        lineService = catalog == null ? null : (XBCXLineService) catalog.getCatalogService(XBCXLineService.class);
+
         cellRenderer.setCatalog(catalog);
         cellEditor.setCatalog(catalog);
     }
@@ -305,23 +322,34 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
                     long bindCount = specService.getSpecDefsCount(spec);
                     try {
                         getValueFillingSemaphore().acquire();
+
                         if (propertyPanel.getPropertyThread() == this) {
-                            // TODO: if (desc != null) descTextField.setText(desc.getText());
-                            for (int i = 0; i < bindCount; i++) {
-                                // TODO: Exclusive lock
+                            for (int parameterIndex = 0; parameterIndex < bindCount; parameterIndex++) {
                                 String rowNameText = "";
-                                XBCSpecDef bind = specService.getSpecDefByOrder(spec, i);
                                 XBPropertyTableItem row;
-                                XBCBlockSpec rowSpec = null;
-                                if (bind != null) {
-                                    XBCRev rowRev = bind.getTarget();
-                                    rowSpec = (XBCBlockSpec) rowRev.getParent();
-                                    XBCXName rowName = nameService.getDefaultItemName(rowSpec);
-                                    if (rowName != null) {
-                                        rowNameText = rowName.getText();
+                                XBCSpecDef def = specService.getSpecDefByOrder(spec, parameterIndex);
+                                XBCBlockSpec rowSpec;
+                                XBLineEditor lineEditor = null;
+                                if (def != null) {
+                                    rowNameText = nameService.getDefaultText(def);
+                                    XBCBlockRev rowRev = (XBCBlockRev) def.getTarget();
+                                    if (rowRev != null) {
+                                        rowSpec = rowRev.getParent();
+                                        if (rowNameText.isEmpty()) {
+                                            rowNameText = nameService.getDefaultText(rowSpec);
+                                        }
+
+                                        lineEditor = getCustomEditor(rowRev);
+                                        if (lineEditor != null) {
+                                            /*XBTBlock paramBlock = node.getParam(catalog, parameterIndex);
+                                            XBTPullProvider pullProvider = new XBTProviderToPullProvider(new XBTTreeWriter(paramBlock));
+                                            XBASerialReader serialReader = new XBASerialReader(pullProvider);
+                                            serialReader.read(lineEditor);*/
+                                        }
                                     }
                                 }
-                                row = new XBPropertyTableItem(rowSpec, rowNameText, "");
+
+                                row = new XBPropertyTableItem(def, rowNameText, "", lineEditor);
                                 tableModel.addRow(row);
                                 specList.add(spec);
                             }
@@ -333,6 +361,30 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
                 }
             }
         }
+    }
+
+    private XBLineEditor getCustomEditor(XBCBlockRev rev) {
+        if (rev == null || catalog == null) {
+            return null;
+        }
+
+        XBCXBlockLine blockLine = lineService.findLineByPR(rev, 0);
+        if (blockLine == null) {
+            return null;
+        }
+        XBCXPlugLine plugLine = blockLine.getLine();
+        if (plugLine == null) {
+            return null;
+        }
+        XBCXPlugin plugin = plugLine.getPlugin();
+        XBPlugin pluginHandler;
+
+        pluginHandler = pluginRepository.getPluginHandler(plugin);
+        if (pluginHandler == null) {
+            return null;
+        }
+
+        return pluginHandler.getLineEditor(plugLine.getLineIndex());
     }
 
     public void actionEditUndo() {
@@ -418,5 +470,13 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
 
     public boolean isFalse() {
         return false;
+    }
+
+    public XBPluginRepository getPluginRepository() {
+        return pluginRepository;
+    }
+
+    public void setPluginRepository(XBPluginRepository pluginRepository) {
+        this.pluginRepository = pluginRepository;
     }
 }

@@ -23,18 +23,21 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.parser_tree.XBTTreeNode;
+import org.xbup.lib.plugin.XBLineEditor;
 import sun.swing.DefaultLookup;
 
 /**
  * Property Table Cell Renderer.
  *
- * @version 0.1.24 2014/12/13
+ * @version 0.1.24 2014/12/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyTableCellEditor extends DefaultCellEditor {
 
     private XBACatalog catalog;
     private XBTTreeNode node;
+    private XBLineEditor lineEditor = null;
+    private JComponent lineEditorComponent = null;
 
     public XBPropertyTableCellEditor(XBACatalog catalog, XBTTreeNode node) {
         super(new JTextField());
@@ -45,12 +48,30 @@ public class XBPropertyTableCellEditor extends DefaultCellEditor {
 
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-        Component defaultComponent = super.getTableCellEditorComponent(table, value, isSelected, row, column);
-        defaultComponent.setEnabled(false);
-        XBPropertyTableCellPanel cellPanel = new XBPropertyTableCellPanel((JComponent) defaultComponent, catalog, node, row);
+        XBPropertyTableItem tableItem = ((XBPropertyTableModel) table.getModel()).getRow(row);
+        lineEditor = tableItem.getLineEditor();
+        lineEditorComponent = lineEditor == null ? null : lineEditor.getEditor();
+        XBPropertyTableCellPanel cellPanel;
+        if (lineEditorComponent == null) {
+            JComponent defaultComponent = (JComponent) super.getTableCellEditorComponent(table, value, isSelected, row, column);
+            defaultComponent.setEnabled(false);
+            cellPanel = new XBPropertyTableCellPanel(defaultComponent, catalog, node, row);
+        } else {
+            cellPanel = new XBPropertyTableCellPanel(lineEditorComponent, catalog, node, row);
+        }
+
         cellPanel.setBackground(table.getSelectionBackground());
         cellPanel.getCellComponent().setBorder(DefaultLookup.getBorder(cellPanel.getCellComponent(), cellPanel.getUI(), "Table.focusCellHighlightBorder"));
         return cellPanel;
+    }
+
+    @Override
+    public boolean stopCellEditing() {
+        if (lineEditor != null) {
+            lineEditor.finishEditor(lineEditorComponent);
+        }
+
+        return super.stopCellEditing();
     }
 
     public void setCatalog(XBACatalog catalog) {

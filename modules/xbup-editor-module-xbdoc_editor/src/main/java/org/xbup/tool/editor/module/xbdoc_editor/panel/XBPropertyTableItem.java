@@ -16,32 +16,39 @@
  */
 package org.xbup.tool.editor.module.xbdoc_editor.panel;
 
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.core.catalog.base.XBCSpecDef;
+import org.xbup.lib.plugin.XBLineEditor;
 
 /**
  * Parameters list table item record.
  *
- * @version 0.1.24 2014/12/19
+ * @version 0.1.24 2014/12/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyTableItem {
 
-    private XBCBlockSpec spec;
+    private XBCSpecDef def;
     private String name;
     private String type;
+    private XBLineEditor lineEditor;
 
-    public XBPropertyTableItem(XBCBlockSpec spec, String name, String type) {
-        this.spec = spec;
+    public XBPropertyTableItem(XBCSpecDef def, String name, String type, XBLineEditor lineEditor) {
+        this.def = def;
         this.name = name;
         this.type = type;
+        this.lineEditor = lineEditor;
     }
 
-    public XBCBlockSpec getSpec() {
-        return spec;
+    public XBPropertyTableItem(XBCSpecDef def, String name, String type) {
+        this(def, name, type, null);
     }
 
-    public void setSpec(XBCBlockSpec spec) {
-        this.spec = spec;
+    public XBCSpecDef getSpecDef() {
+        return def;
+    }
+
+    public void setSpecDef(XBCSpecDef def) {
+        this.def = def;
     }
 
     public String getName() {
@@ -58,5 +65,13 @@ public class XBPropertyTableItem {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public XBLineEditor getLineEditor() {
+        return lineEditor;
+    }
+
+    public void setLineEditor(XBLineEditor lineEditor) {
+        this.lineEditor = lineEditor;
     }
 }

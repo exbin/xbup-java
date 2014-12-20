@@ -62,52 +62,52 @@ public class XBEXLineService extends XBEDefaultService<XBEXBlockLine> implements
 
     @Override
     public XBEXBlockLine findById(long id) {
-        return ((XBEXLineManager)itemManager).findById(id);
+        return ((XBEXLineManager) itemManager).findById(id);
     }
 
     @Override
     public XBEXBlockLine findLineByPR(XBCBlockRev rev, long priority) {
-        return ((XBEXLineManager)itemManager).findLineByPR(rev, priority);
+        return ((XBEXLineManager) itemManager).findLineByPR(rev, priority);
     }
 
     @Override
     public XBEXPlugLine findPlugLineById(long id) {
-        return ((XBEXLineManager)itemManager).findPlugLineById(id);
+        return ((XBEXLineManager) itemManager).findPlugLineById(id);
     }
 
     @Override
     public Long getAllLinesCount() {
-        return ((XBEXLineManager)itemManager).getAllLinesCount();
+        return ((XBEXLineManager) itemManager).getAllLinesCount();
     }
 
     @Override
     public Long getAllPlugLinesCount() {
-        return ((XBEXLineManager)itemManager).getAllPlugLinesCount();
+        return ((XBEXLineManager) itemManager).getAllPlugLinesCount();
     }
 
     @Override
     public List<XBCXBlockLine> getLines(XBCBlockRev rev) {
-        return ((XBEXLineManager)itemManager).getLines(rev);
+        return ((XBEXLineManager) itemManager).getLines(rev);
     }
 
     @Override
     public long getLinesCount(XBCBlockRev rev) {
-        return ((XBEXLineManager)itemManager).getLinesCount(rev);
+        return ((XBEXLineManager) itemManager).getLinesCount(rev);
     }
 
     @Override
     public XBEXPlugLine getPlugLine(XBCXPlugin plugin, long lineIndex) {
-        return ((XBEXLineManager)itemManager).getPlugLine(plugin, lineIndex);
+        return ((XBEXLineManager) itemManager).getPlugLine(plugin, lineIndex);
     }
 
     @Override
     public List<XBCXPlugLine> getPlugLines(XBCXPlugin plugin) {
-        return ((XBEXLineManager)itemManager).getPlugLines(plugin);
+        return ((XBEXLineManager) itemManager).getPlugLines(plugin);
     }
 
     @Override
     public long getPlugLinesCount(XBCXPlugin plugin) {
-        return ((XBEXLineManager)itemManager).getPlugLinesCount(plugin);
+        return ((XBEXLineManager) itemManager).getPlugLinesCount(plugin);
     }
 
     @Override

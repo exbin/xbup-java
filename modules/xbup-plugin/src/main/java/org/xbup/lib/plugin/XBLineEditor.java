@@ -17,14 +17,35 @@
 package org.xbup.lib.plugin;
 
 import javax.swing.JComponent;
+import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * XBUP Line Editor Plugin Base Interface.
  *
- * @version 0.1.24 2014/12/15
+ * @version 0.1.24 2014/12/20
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBLineEditor {
+public interface XBLineEditor extends XBSerializable {
 
+    /**
+     * Returns instance of value representation component.
+     *
+     * @return component
+     */
     public JComponent getComponent();
+
+    /**
+     * Returns instance of value editing component.
+     *
+     * @return component
+     */
+    public JComponent getEditor();
+
+    /**
+     * Loads data from given editor.
+     *
+     * @param editor editor component
+     * @return true, if value was changed or cannot compare values
+     */
+    public boolean finishEditor(JComponent editor);
 }

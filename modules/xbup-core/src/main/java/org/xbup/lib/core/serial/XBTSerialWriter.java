@@ -34,7 +34,7 @@ import org.xbup.lib.core.serial.token.XBTEventListenerSerialHandler;
 import org.xbup.lib.core.serial.token.XBTTokenSerializable;
 
 /**
- * Interface for XBUP serialization input handler.
+ * XBUP level 1 serialization object to stream writer.
  *
  * @version 0.1.24 2014/11/27
  * @author XBUP Project (http://xbup.org)

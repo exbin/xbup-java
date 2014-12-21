@@ -28,7 +28,7 @@ import org.xbup.lib.plugin.XBLineEditor;
 /**
  * XBUP Editor plugin - provides panels for basic XBUP data types.
  *
- * @version 0.1.24 2014/12/20
+ * @version 0.1.24 2014/12/21
  * @author XBUP Project (http://xbup.org)
  */
 public class NaturalLineEditor implements XBLineEditor, XBTSequenceSerializable {
@@ -44,12 +44,14 @@ public class NaturalLineEditor implements XBLineEditor, XBTSequenceSerializable 
     public JComponent getComponent() {
         JTextField component = new JTextField(String.valueOf(value.getLong()));
         component.setEditable(false);
+        component.setOpaque(false);
         return component;
     }
 
     @Override
     public JComponent getEditor() {
         JTextField component = new JTextField(String.valueOf(value.getLong()));
+        component.selectAll();
         return component;
     }
 

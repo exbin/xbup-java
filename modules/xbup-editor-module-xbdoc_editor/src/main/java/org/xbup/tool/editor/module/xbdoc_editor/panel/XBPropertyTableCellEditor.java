@@ -19,17 +19,17 @@ package org.xbup.tool.editor.module.xbdoc_editor.panel;
 import java.awt.Component;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.plugin.XBLineEditor;
-import sun.swing.DefaultLookup;
 
 /**
  * Property Table Cell Renderer.
  *
- * @version 0.1.24 2014/12/20
+ * @version 0.1.24 2014/12/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyTableCellEditor extends DefaultCellEditor {
@@ -61,14 +61,18 @@ public class XBPropertyTableCellEditor extends DefaultCellEditor {
         }
 
         cellPanel.setBackground(table.getSelectionBackground());
-        cellPanel.getCellComponent().setBorder(DefaultLookup.getBorder(cellPanel.getCellComponent(), cellPanel.getUI(), "Table.focusCellHighlightBorder"));
+        cellPanel.getCellComponent().setBorder(null);
         return cellPanel;
     }
 
     @Override
     public boolean stopCellEditing() {
         if (lineEditor != null) {
-            lineEditor.finishEditor(lineEditorComponent);
+            try {
+                lineEditor.finishEditor(lineEditorComponent);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(editorComponent, ex.toString(), "Cell Input", JOptionPane.ERROR_MESSAGE);
+            }
         }
 
         return super.stopCellEditing();

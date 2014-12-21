@@ -140,6 +140,27 @@ public class XBCUpdatePHPPort {
         }
     }
 
+    public InputStream getFileContent(String path) {
+        try {
+            URL myURL;
+            Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("FILE: "+path));
+            if (!path.startsWith("/")) {
+                path = '/' + path;
+            }
+            myURL = new URL((catalogURL + "?op=filecontent&path=" + path).replace(" ", "%20"));
+            URLDataSource dataSource = new URLDataSource(myURL);
+            return dataSource.getInputStream();
+        } catch (FileNotFoundException ex) {
+            return null;
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } catch (IOException ex) {
+            Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
     public Long getLanguageId(@WebParam(name = "language") String language) {
         try {
             BufferedReader br;

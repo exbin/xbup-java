@@ -35,7 +35,7 @@ public class XBPicturePlugin implements XBPlugin {
 
     @Override
     public String getPluginPath() {
-        return "xbup/visual/picture/XBPicturePlugin.jar";
+        return "xbup/visual/picture/xbup-plugin-picture-0.1.24-SNAPSHOT.jar";
     }
 
     @Override

@@ -886,8 +886,8 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                     file.setFilename(itemFile.getFileName());
                     file.setNode(node);
                     em.persist(file);
-                    if ((node != null) && (fileService != null)) {
-                        InputStream istream = port.getRepoFile(parentPath + "/" + itemFile.getFileName());
+                    if (fileService != null) {
+                        InputStream istream = port.getFileContent(parentPath + "/" + itemFile.getFileName());
                         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
                         if (istream != null) {
                             try {

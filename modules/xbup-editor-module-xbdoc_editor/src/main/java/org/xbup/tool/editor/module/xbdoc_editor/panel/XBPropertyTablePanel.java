@@ -16,14 +16,17 @@
  */
 package org.xbup.tool.editor.module.xbdoc_editor.panel;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComponent;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
@@ -36,11 +39,7 @@ import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXLineService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
-import org.xbup.lib.core.parser.token.pull.convert.XBTProviderToPullProvider;
-import org.xbup.lib.core.serial.XBASerialReader;
 import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.lib.parser_tree.XBTTreeWriter;
 import org.xbup.lib.plugin.XBLineEditor;
 import org.xbup.lib.plugin.XBPlugin;
 import org.xbup.lib.plugin.XBPluginRepository;
@@ -83,6 +82,18 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
         columns.getColumn(1).setCellRenderer(cellRenderer);
         cellEditor = new XBPropertyTableCellEditor(catalog, null);
         columns.getColumn(1).setCellEditor(cellEditor);
+
+        propertiesTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (component instanceof JComponent) {
+                    ((JComponent) component).setBorder(noFocusBorder);
+                }
+
+                return component;
+            }
+        });
 
         propertyThread = null;
         valueFillingSemaphore = new Semaphore(1);
@@ -203,6 +214,7 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
         propertiesTable.setModel(tableModel);
         propertiesTable.setComponentPopupMenu(propertyPopupMenu);
         propertiesTable.setName("propertiesTable"); // NOI18N
+        propertiesTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         mainScrollPane.setViewportView(propertiesTable);
 
         add(mainScrollPane, java.awt.BorderLayout.CENTER);
@@ -341,10 +353,10 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
 
                                         lineEditor = getCustomEditor(rowRev);
                                         if (lineEditor != null) {
-                                            /*XBTBlock paramBlock = node.getParam(catalog, parameterIndex);
-                                            XBTPullProvider pullProvider = new XBTProviderToPullProvider(new XBTTreeWriter(paramBlock));
-                                            XBASerialReader serialReader = new XBASerialReader(pullProvider);
-                                            serialReader.read(lineEditor);*/
+                                            // XBTBlock paramBlock = node.getParam(catalog, parameterIndex);
+                                            // XBTPullProvider pullProvider = new XBTProviderToPullProvider(new XBTTreeWriter(paramBlock));
+                                            // XBASerialReader serialReader = new XBASerialReader(pullProvider);
+                                            // serialReader.read(lineEditor);
                                         }
                                     }
                                 }

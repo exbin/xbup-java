@@ -41,8 +41,10 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
 
 /**
  * Basic filter providing parameter sequence from typed tokens.
+ * 
+ * TODO: Abolish
  *
- * @version 0.1.24 2014/10/02
+ * @version 0.1.24 2014/12/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBParamConvertor implements XBTListener, XBParamProducer {
@@ -184,7 +186,7 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
                     listCount = new UBENat32(value.getLong());
                     while ((childProcessor == null) && (listCount.getLong() == 0)) {
                         childProcessor = new XBParamProcessor(paramDecl);
-                        childProcessor.attachXBParamListener(new XBParamHandler(this));
+//                        childProcessor.attachXBParamListener(new XBParamHandler(this));
                         listCount = new UBENat32(listCount.getLong() - 1);
                     }
 
@@ -198,10 +200,10 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
                 } else {
                     listCount = UBENat32.ConvertFromNatural(value);
                     if (listCount.isInfinity()) {
-                        listener.listXBParam();
+//                        listener.listXBParam();
                     } else {
                         while (listCount.getLong() != 0) {
-                            listener.blockXBParam();
+//                            listener.blockXBParam();
                             listCount = new UBENat32(listCount.getLong() - 1);
                         }
                     }
@@ -219,7 +221,7 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
 
                 while ((childProcessor == null) && (listCount.getLong() == 0)) {
                     childProcessor = new XBParamProcessor(paramDecl);
-                    childProcessor.attachXBParamListener(new XBParamHandler(this));
+//                    childProcessor.attachXBParamListener(new XBParamHandler(this));
                     listCount = new UBENat32(listCount.getLong() - 1);
                 }
 
@@ -267,7 +269,7 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
             XBBlockParam childParam = params.get(position);
             listener.beginXBParam(childParam);
             childProcessor = new XBParamProcessor(childParam);
-            childProcessor.attachXBParamListener(new XBParamHandler(this));
+            //childProcessor.attachXBParamListener(new XBParamHandler(this));
             position++;
         }
 
@@ -277,7 +279,7 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
                 this.listener = listener;
                 if ((paramDecl == null) || ((!paramDecl.getParamType().isList()) && (!paramDecl.getParamType().isJoin()))) {
                     // Any block or data block
-                    listener.blockXBParam();
+                    //listener.blockXBParam();
                     listener.endXBParam();
                     this.paramDecl = null;
                     return;
@@ -296,37 +298,6 @@ public class XBParamConvertor implements XBTListener, XBParamProducer {
              } catch (IOException ex) {
              Logger.getLogger(XBParamConvertor.class.getName()).log(Level.SEVERE, null, ex);
              }*/
-        }
-    }
-
-    /**
-     * Handler class for parameter sequence processing.
-     */
-    public class XBParamHandler implements XBParamListener {
-
-        private final XBParamProcessor processor;
-
-        public XBParamHandler(XBParamProcessor processor) {
-            this.processor = processor;
-        }
-
-        @Override
-        public void beginXBParam(XBBlockParam type) throws XBProcessingException, IOException {
-        }
-
-        @Override
-        public void blockXBParam() throws XBProcessingException, IOException {
-            processor.listener.blockXBParam();
-        }
-
-        @Override
-        public void listXBParam() throws XBProcessingException, IOException {
-            processor.listener.listXBParam();
-        }
-
-        @Override
-        public void endXBParam() throws XBProcessingException, IOException {
-            processor.childProcessor = null;
         }
     }
 }

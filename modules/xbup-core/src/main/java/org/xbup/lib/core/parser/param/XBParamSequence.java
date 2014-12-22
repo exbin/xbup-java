@@ -16,35 +16,13 @@
  */
 package org.xbup.lib.core.parser.param;
 
-import java.io.IOException;
-import org.xbup.lib.core.block.definition.XBBlockParam;
-import org.xbup.lib.core.parser.XBProcessingException;
-
 /**
- * XBUP protocol level 1 parameter listener.
- *
- * Use this listener along-side XBTListener to process sequence of parameters
- * processed during attributes processing (non-recursive).
+ * XBUP protocol level 1 parameter token sequence.
  *
  * @version 0.1.24 2014/12/22
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBParamListener {
+public enum XBParamSequence {
 
-    /**
-     * Reports parameter begin.
-     *
-     * @param paramType type of parameter
-     * @throws XBProcessingException
-     * @throws IOException
-     */
-    public void beginXBParam(XBBlockParam paramType) throws XBProcessingException, IOException;
-
-    /**
-     * Reports parameter end.
-     *
-     * @throws XBProcessingException
-     * @throws IOException
-     */
-    public void endXBParam() throws XBProcessingException, IOException;
+    ATTRIBUTE, BLOCK
 }

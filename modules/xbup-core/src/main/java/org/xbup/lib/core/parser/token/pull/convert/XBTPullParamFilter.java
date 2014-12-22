@@ -17,62 +17,61 @@
 package org.xbup.lib.core.parser.token.pull.convert;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.definition.XBBlockParam;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.parser.XBParserState;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
-import org.xbup.lib.core.parser.param.XBParamConvertor;
-import org.xbup.lib.core.parser.param.XBParamListener;
+import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTEndToken;
 import org.xbup.lib.core.parser.token.XBTToken;
+import org.xbup.lib.core.parser.token.XBTTokenType;
+import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.pull.XBTPullFilter;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 
 /**
  * XBUP level 1 parameter filter.
- * 
- * TODO: Emulate behavior of XBTreeParamExtractor
  *
- * @version 0.1.24 2014/12/20
+ * @version 0.1.24 2014/12/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTPullParamFilter implements XBTPullFilter {
 
     private XBTPullPreLoader pullProvider;
-    private final XBParamConvertor paramConvertor;
     private int currentParameter = 0;
+    private XBBlockParam currentParamType;
     private int targetParameter = 0;
     private XBParserState state = XBParserState.START;
+    private XBBlockType blockType;
+    private final List<XBTAttributeToken> attributeList;
 
     public XBTPullParamFilter(XBACatalog catalog) {
-        paramConvertor = new XBParamConvertor(new XBParamListener() {
-
-            @Override
-            public void beginXBParam(XBBlockParam paramType) throws XBProcessingException, IOException {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-
-            @Override
-            public void blockXBParam() throws XBProcessingException, IOException {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-
-            @Override
-            public void listXBParam() throws XBProcessingException, IOException {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-
-            @Override
-            public void endXBParam() throws XBProcessingException, IOException {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-        }, catalog);
+        attributeList = new ArrayList<>();
     }
 
     @Override
-    public void attachXBTPullProvider(XBTPullProvider pullProvider) {
-        this.pullProvider = (pullProvider instanceof XBTPullPreLoader ? (XBTPullPreLoader) pullProvider : new XBTPullPreLoader(pullProvider));
+    public void attachXBTPullProvider(XBTPullProvider provider) {
+        pullProvider = (provider instanceof XBTPullPreLoader ? (XBTPullPreLoader) provider : new XBTPullPreLoader(provider));
+    }
+
+    public void init() throws XBProcessingException, IOException {
+        if (pullProvider.pullXBTToken().getTokenType() != XBTTokenType.BEGIN) {
+            throw new XBProcessingException("Begin token was expected for parameters processing", XBProcessingExceptionType.UNEXPECTED_ORDER);
+        }
+        XBTToken typeToken = pullProvider.pullXBTToken();
+        if (typeToken.getTokenType() != XBTTokenType.TYPE) {
+            throw new XBProcessingException("Type token was expected for parameters processing", XBProcessingExceptionType.UNEXPECTED_ORDER);
+        }
+
+        blockType = ((XBTTypeToken) typeToken).getBlockType();
+        attributeList.clear();
+        while (pullProvider.getNextTokenType() == XBTTokenType.ATTRIBUTE) {
+            attributeList.add((XBTAttributeToken) pullProvider.pullXBTToken());
+        }
     }
 
     @Override
@@ -80,11 +79,11 @@ public class XBTPullParamFilter implements XBTPullFilter {
         if (state == XBParserState.START) {
             return new XBTEndToken();
         }
-        
+
         if (currentParameter == targetParameter) {
             return pullProvider.pullXBTToken();
         }
-        
+
         return new XBTEndToken();
     }
 
@@ -95,5 +94,4 @@ public class XBTPullParamFilter implements XBTPullFilter {
 
         targetParameter = parameterIndex;
     }
-
 }

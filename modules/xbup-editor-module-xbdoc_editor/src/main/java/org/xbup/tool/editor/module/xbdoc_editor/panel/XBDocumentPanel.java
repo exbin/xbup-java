@@ -724,7 +724,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
                 System.out.println("Param begin");
             }
 
-            @Override
+/*            @Override
             public void blockXBParam() throws XBProcessingException, IOException {
                 System.out.println("Param block");
             }
@@ -732,7 +732,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
             @Override
             public void listXBParam() throws XBProcessingException, IOException {
                 System.out.println("Param list");
-            }
+            } */
 
             @Override
             public void endXBParam() throws XBProcessingException, IOException {

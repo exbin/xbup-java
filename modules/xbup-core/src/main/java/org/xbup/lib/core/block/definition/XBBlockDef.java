@@ -18,8 +18,6 @@ package org.xbup.lib.core.block.definition;
 
 import java.util.List;
 import org.xbup.lib.core.block.XBTBlock;
-import org.xbup.lib.core.parser.param.XBParamPosition;
-import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * XBUP level 1 block definition interface.
@@ -50,15 +48,6 @@ public interface XBBlockDef {
      * @return count of declarations
      */
     public long getParamCount();
-
-    /**
-     * Gets n-th parameter of the given block.
-     *
-     * @param source block to get parameter from
-     * @param index index of the requested parameter
-     * @return instance of block
-     */
-    public XBParamPosition getParamPosition(XBSerializable source, int index);
 
     /**
      * Gets n-th parameter of the given block.

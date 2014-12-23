@@ -32,7 +32,6 @@ import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
-import org.xbup.lib.core.parser.param.XBParamPosition;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**
@@ -58,11 +57,6 @@ public class XBCBlockDef implements XBBlockDef, XBSerializable {
 
     @Override
     public int getParametersCount(XBTBlock block) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBParamPosition getParamPosition(XBSerializable source, int index) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

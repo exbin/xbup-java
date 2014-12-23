@@ -21,7 +21,6 @@ import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.definition.XBBlockDef;
 import org.xbup.lib.core.block.definition.XBBlockParam;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
-import org.xbup.lib.core.parser.param.XBParamPosition;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**
@@ -32,7 +31,7 @@ import org.xbup.lib.core.serial.XBSerializable;
  */
 public class XBPBlockDef implements XBBlockDef, XBSerializable {
 
-    private long[] catalogPath;
+    private final long[] catalogPath;
 
     public XBPBlockDef(long[] catalogPath) {
         this.catalogPath = catalogPath;
@@ -45,11 +44,6 @@ public class XBPBlockDef implements XBBlockDef, XBSerializable {
 
     @Override
     public int getParametersCount(XBTBlock block) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBParamPosition getParamPosition(XBSerializable source, int index) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

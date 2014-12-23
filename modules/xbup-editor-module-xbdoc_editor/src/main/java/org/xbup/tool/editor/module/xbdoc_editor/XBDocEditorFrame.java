@@ -661,7 +661,6 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         jSeparator16 = new JPopupMenu.Separator();
         popupItemPropertiesMenuItem = new JMenuItem();
         popupDevelopmentMenu = new JMenu();
-        parametrListMenuItem = new JMenuItem();
         viewAsbuttonGroup = new ButtonGroup();
         mainPanel = new JPanel();
         toolBar = new JToolBar();
@@ -764,16 +763,6 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
         popupDevelopmentMenu.setText(bundle.getString("popupDevelopmentMenu.text")); // NOI18N
         popupDevelopmentMenu.setName("popupDevelopmentMenu"); // NOI18N
-
-        parametrListMenuItem.setText(bundle.getString("parametrListMenuItem.text")); // NOI18N
-        parametrListMenuItem.setName("parametrListMenuItem"); // NOI18N
-        parametrListMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                parametrListMenuItemActionPerformed(evt);
-            }
-        });
-        popupDevelopmentMenu.add(parametrListMenuItem);
-
         mainPopupMenu.add(popupDevelopmentMenu);
 
         for (JMenuItem item : Arrays.asList(popupItemAddMenuItem, popupItemModifyMenuItem, popupItemPropertiesMenuItem, popupItemOpenMenuItem, popupItemExportMenuItem, popupItemImportMenuItem)) {
@@ -1205,10 +1194,6 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         activePanel.updateItem();
     }//GEN-LAST:event_fileOpenPicSampleMenuItemActionPerformed
 
-    private void parametrListMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_parametrListMenuItemActionPerformed
-        activePanel.testParamList();
-    }//GEN-LAST:event_parametrListMenuItemActionPerformed
-
     private void viewAsTreeMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_viewAsTreeMenuItemActionPerformed
         actionViewAsTree();
     }//GEN-LAST:event_viewAsTreeMenuItemActionPerformed
@@ -1433,7 +1418,6 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     private JMenuItem optionsColorsMenuItem;
     private JMenuItem optionsFontMenuItem;
     public JMenu optionsMenu;
-    private JMenuItem parametrListMenuItem;
     private JMenu popupDevelopmentMenu;
     private JMenuItem popupItemAddMenuItem;
     private JMenuItem popupItemExportMenuItem;

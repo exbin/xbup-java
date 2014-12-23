@@ -36,7 +36,7 @@ import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 /**
  * XBUP level 1 parameter filter.
  *
- * @version 0.1.24 2014/12/22
+ * @version 0.1.24 2014/12/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTPullParamFilter implements XBTPullFilter {

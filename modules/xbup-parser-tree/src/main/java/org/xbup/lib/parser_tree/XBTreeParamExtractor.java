@@ -16,21 +16,16 @@
  */
 package org.xbup.lib.parser_tree;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.definition.XBBlockParam;
 import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.param.XBParamConvertor;
-import org.xbup.lib.core.parser.param.XBParamListener;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * Extracting specified parameters from XBUP level 1 blocks.
+ *
+ * TODO
  *
  * @version 0.1.24 2014/12/20
  * @author XBUP Project (http://xbup.org)
@@ -51,60 +46,6 @@ public class XBTreeParamExtractor {
     public XBTreeParamExtractor(XBTBlock source, XBACatalog catalog, long targetParamValue) {
         this.targetParam = targetParamValue;
         this.source = source;
-        XBParamConvertor convertor = new XBParamConvertor(new XBParamListener() {
-
-            @Override
-            public void beginXBParam(XBBlockParam type) throws XBProcessingException, IOException {
-                if (currentParam == targetParam) {
-                    paramType = type;
-                }
-            }
-
-/*            @Override
-            public void blockXBParam() throws XBProcessingException, IOException {
-                if (currentParam < targetParam) {
-                    blockStart++;
-                } else {
-                    if (currentParam == targetParam) {
-                        blockCount++;
-                    }
-                }
-            }
-
-            @Override
-            public void listXBParam() throws XBProcessingException, IOException {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-*/
-            @Override
-            public void endXBParam() throws XBProcessingException, IOException {
-                currentParam++;
-            }
-
-        }, catalog);
-
-        try {
-            convertor.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-            convertor.typeXBT(source.getBlockType());
-            int attribute = 0;
-            while (currentParam <= targetParam) {
-                if (attribute < source.getAttributesCount()) {
-                    convertor.attribXBT(source.getAttribute(attribute));
-                } else {
-                    convertor.attribXBT(new UBNat32());
-                }
-                attribute++;
-                if (currentParam < targetParam) {
-                    attributeStart++;
-                } else {
-                    if (currentParam == targetParam) {
-                        attributeCount++;
-                    }
-                }
-            }
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBTreeParamExtractor.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public XBTTreeNode getOutput() {

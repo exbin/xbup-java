@@ -42,13 +42,10 @@ import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
-import org.xbup.lib.core.block.definition.XBBlockParam;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.param.XBParamConvertor;
-import org.xbup.lib.core.parser.param.XBParamListener;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.operation.XBTCommand;
 import org.xbup.lib.operation.basic.XBTModAttrBlockCommand;
@@ -57,7 +54,6 @@ import org.xbup.lib.operation.basic.XBTModifyBlockCommand;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
 import org.xbup.lib.parser_tree.XBTTreeDocument;
 import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.lib.parser_tree.XBTTreeWriter;
 import org.xbup.lib.plugin.XBPluginRepository;
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
 import org.xbup.tool.editor.base.api.ActivePanelUndoable;
@@ -714,41 +710,6 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
             }
         }
         return "Unknown" + " (" + Integer.toString(((XBFBlockType) blockType).getGroupID().getInt()) + ", " + Integer.toString(((XBFBlockType) blockType).getBlockID().getInt()) + ")";
-    }
-
-    public void testParamList() {
-        XBParamConvertor convertor = new XBParamConvertor(new XBParamListener() {
-
-            @Override
-            public void beginXBParam(XBBlockParam type) throws XBProcessingException, IOException {
-                System.out.println("Param begin");
-            }
-
-/*            @Override
-            public void blockXBParam() throws XBProcessingException, IOException {
-                System.out.println("Param block");
-            }
-
-            @Override
-            public void listXBParam() throws XBProcessingException, IOException {
-                System.out.println("Param list");
-            } */
-
-            @Override
-            public void endXBParam() throws XBProcessingException, IOException {
-                System.out.println("Param end");
-            }
-        }, catalog);
-
-        XBTTreeNode node = getSelectedItem();
-        if (node != null) {
-            try {
-                XBTTreeWriter writer = new XBTTreeWriter(node);
-                writer.produceXBT(convertor);
-            } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
     }
 
     @Override

@@ -125,4 +125,9 @@ public class XBRRevService extends XBRDefaultService<XBRRev> implements XBCRevSe
 
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public long getRevsLimitSum(XBCSpec spec, long revision) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

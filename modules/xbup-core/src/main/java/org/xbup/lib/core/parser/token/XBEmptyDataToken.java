@@ -14,21 +14,34 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.parser.token.param;
+package org.xbup.lib.core.parser.token;
+
+import java.io.ByteArrayInputStream;
 
 /**
- * XBUP protocol level 1 parameter list token.
+ * XBUP protocol level 0 empty data token.
  *
- * @version 0.1.23 2013/11/29
+ * @version 0.1.24 2015/01/04
  * @author XBUP Project (http://xbup.org)
  */
-public class XBListParamToken extends XBParamToken {
+public class XBEmptyDataToken extends XBDataToken {
 
-    public XBListParamToken() {
+    private static XBEmptyDataToken cachedEmptyToken = null;
+
+    public XBEmptyDataToken() {
+        super(new ByteArrayInputStream(new byte[0]));
     }
 
     @Override
-    public XBParamTokenType getTokenType() {
-        return XBParamTokenType.LIST;
+    public boolean isEmpty() {
+        return true;
+    }
+
+    public static XBEmptyDataToken getEmptyToken() {
+        if (cachedEmptyToken == null) {
+            cachedEmptyToken = new XBEmptyDataToken();
+        }
+
+        return cachedEmptyToken;
     }
 }

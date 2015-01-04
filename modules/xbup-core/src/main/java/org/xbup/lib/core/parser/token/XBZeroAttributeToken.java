@@ -14,21 +14,36 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.parser.token.param;
+package org.xbup.lib.core.parser.token;
+
+import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * XBUP protocol level 1 parameter end token.
+ * XBUP protocol level 0 attribute token.
  *
- * @version 0.1.23 2013/11/01
+ * This class carry single UBNatural with zero value.
+ *
+ * @version 0.1.24 2014/01/05
  * @author XBUP Project (http://xbup.org)
  */
-public class XBEndParamToken extends XBParamToken {
+public class XBZeroAttributeToken extends XBAttributeToken {
 
-    public XBEndParamToken() {
+    private static XBZeroAttributeToken cachedZeroToken = null;
+
+    public XBZeroAttributeToken() {
+        super(new UBNat32());
     }
 
     @Override
-    public XBParamTokenType getTokenType() {
-        return XBParamTokenType.END;
+    public boolean isZero() {
+        return super.isZero();
+    }
+
+    public static XBZeroAttributeToken getZeroToken() {
+        if (cachedZeroToken == null) {
+            cachedZeroToken = new XBZeroAttributeToken();
+        }
+
+        return cachedZeroToken;
     }
 }

@@ -14,23 +14,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.parser.token.param;
-
-import org.xbup.lib.core.parser.token.TypedToken;
+package org.xbup.lib.core.parser.param;
 
 /**
- * XBUP protocol level 1 parameter token.
+ * Enumeration of parameter processing states.
  *
- * @version 0.1.23 2013/11/29
+ * @version 0.1.24 2015/01/03
  * @author XBUP Project (http://xbup.org)
  */
-public abstract class XBParamToken extends TypedToken {
+public enum XBParamProcessingState {
 
-    /**
-     * Gets type of this token.
-     *
-     * @return current token type.
-     */
-    @Override
-    public abstract XBParamTokenType getTokenType();
+    BEGIN, TYPE, CONTENT, END
 }

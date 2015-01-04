@@ -33,7 +33,7 @@ import org.xbup.lib.catalog.entity.XBESpec;
 /**
  * XBUP catalog specification revision manager.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.24 2015/01/05
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -107,6 +107,19 @@ public class XBERevManager extends XBEDefaultManager<XBERev> implements XBCRevMa
     public long getRevsCount(XBCSpec spec) {
         try {
             return (Long) em.createQuery("SELECT count(o) FROM XBRev as o WHERE o.parent.id = " + ((XBESpec) spec).getId()).getSingleResult();
+        } catch (NoResultException ex) {
+            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        } catch (Exception ex) {
+            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
+    }
+
+    @Override
+    public long getRevsLimitSum(XBCSpec spec, long revision) {
+        try {
+            return (Long) em.createQuery("SELECT sum(o.xbLimit) FROM XBRev as o WHERE o.parent.id = " + ((XBESpec) spec).getId() + " AND o.xbIndex <= " + revision).getSingleResult();
         } catch (NoResultException ex) {
             Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
             return 0;

@@ -29,7 +29,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSelectN
 /**
  * Catalog Parent Cell Panel.
  *
- * @version 0.1.24 2014/12/12
+ * @version 0.1.24 2015/01/04
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogParentPropertyTableCellPanel extends PropertyTableCellPanel {
@@ -50,6 +50,11 @@ public class CatalogParentPropertyTableCellPanel extends PropertyTableCellPanel 
     }
 
     public void performEditorAction() {
+        if (parent == null) {
+            JOptionPane.showMessageDialog(this, "You cannot move root node", "Editing not allowed", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         CatalogSelectNodeDialog nodeDialog = new CatalogSelectNodeDialog(WindowUtils.getFrame(this), true, catalog, parent);
         nodeDialog.setLocationRelativeTo(this);
         nodeDialog.setVisible(true);
@@ -74,7 +79,10 @@ public class CatalogParentPropertyTableCellPanel extends PropertyTableCellPanel 
             targetCaption += " ";
         }
 
-        targetCaption += "(" + Long.toString(parent.getId()) + ")";
+        if (parent != null) {
+            targetCaption += "(" + Long.toString(parent.getId()) + ")";
+        }
+
         setPropertyText(targetCaption);
     }
 

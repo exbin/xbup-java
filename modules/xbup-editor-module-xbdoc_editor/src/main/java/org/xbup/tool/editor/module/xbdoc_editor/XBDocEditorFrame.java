@@ -99,6 +99,7 @@ import org.xbup.lib.client.catalog.remote.service.XBRXPaneService;
 import org.xbup.lib.client.catalog.remote.service.XBRXPlugService;
 import org.xbup.lib.client.catalog.remote.service.XBRXStriService;
 import org.xbup.lib.core.catalog.XBACatalog;
+import org.xbup.lib.core.catalog.base.XBCRoot;
 import org.xbup.lib.core.catalog.base.service.XBCNodeService;
 import org.xbup.lib.core.catalog.base.service.XBCXDescService;
 import org.xbup.lib.core.catalog.base.service.XBCXFileService;
@@ -134,7 +135,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.panel.XBDocumentPanel;
 /**
  * XBDocEditor Main Frame.
  *
- * @version 0.1.24 2014/12/12
+ * @version 0.1.24 2015/01/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFrame, TextColorPanelFrame, TextFontPanelFrame {
@@ -329,18 +330,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                         EntityManager em = emf.createEntityManager();
                         em.setFlushMode(FlushModeType.AUTO);
 
-                        catalog = new XBAECatalog(em, System.getProperty("user.home") + "/.XBUP/repository");
-
-                        ((XBAECatalog) catalog).addCatalogService(XBCXLangService.class, new XBEXLangService((XBAECatalog) catalog));
-                        ((XBAECatalog) catalog).addCatalogService(XBCXStriService.class, new XBEXStriService((XBAECatalog) catalog));
-                        ((XBAECatalog) catalog).addCatalogService(XBCXNameService.class, new XBEXNameService((XBAECatalog) catalog));
-                        ((XBAECatalog) catalog).addCatalogService(XBCXDescService.class, new XBEXDescService((XBAECatalog) catalog));
-                        ((XBAECatalog) catalog).addCatalogService(XBCXFileService.class, new XBEXFileService((XBAECatalog) catalog));
-                        ((XBAECatalog) catalog).addCatalogService(XBCXIconService.class, new XBEXIconService((XBAECatalog) catalog));
-                        ((XBAECatalog) catalog).addCatalogService(XBCXPlugService.class, new XBEXPlugService((XBAECatalog) catalog));
-                        ((XBAECatalog) catalog).addCatalogService(XBCXLineService.class, new XBEXLineService((XBAECatalog) catalog));
-                        ((XBAECatalog) catalog).addCatalogService(XBCXPaneService.class, new XBEXPaneService((XBAECatalog) catalog));
-                        ((XBAECatalog) catalog).addCatalogService(XBCXHDocService.class, new XBEXHDocService((XBAECatalog) catalog));
+                        catalog = createCatalog(em);
 
                         if (((XBAECatalog) catalog).isShallInit()) {
                             operationProgressBar.setString(resourceBundle.getString("main_defaultcat") + "...");
@@ -359,21 +349,23 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                                 wsHandler.getPort().getLanguageId("en");
                                 ((XBAECatalog) catalog).setUpdateHandler(wsHandler);
                                 XBCNodeService nodeService = (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
-                                Date localLastUpdate = nodeService.getRoot().getLastUpdate();
+                                XBCRoot catalogRoot = nodeService.getRoot();
+                                Date localLastUpdate = catalogRoot.getLastUpdate();
                                 Date lastUpdate = wsHandler.getPort().getRootLastUpdate();
                                 if (localLastUpdate == null || localLastUpdate.before(lastUpdate)) {
-                                    if (localLastUpdate != null) {
+                                    if (catalogRoot != null) {
                                         // TODO: As there is currently no diff update available - wipe out entire database instead
+                                        em.close();
                                         EntityManagerFactory emfDrop = Persistence.createEntityManagerFactory("XBEditorPU-drop");
                                         EntityManager emDrop = emfDrop.createEntityManager();
                                         emDrop.setFlushMode(FlushModeType.AUTO);
+                                        catalog = createCatalog(emDrop);
                                         ((XBAECatalog) catalog).initCatalog();
-                                        wsHandler.reinit();
+                                        nodeService = (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
+                                        wsHandler = new XBCUpdatePHPHandler((XBAECatalog) catalog);
+                                        wsHandler.init();
+                                        wsHandler.getPort().getLanguageId("en");
                                     }
-
-                                    XBERoot root = (XBERoot) nodeService.getRoot();
-                                    root.setLastUpdate(lastUpdate);
-                                    em.persist(root);
 
                                     wsHandler.fireUsageEvent(false);
                                     wsHandler.addWSListener(new XBCUpdateListener() {
@@ -392,7 +384,8 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                                             }
                                         }
                                     });
-                                    wsHandler.processAllData(new Long[0]);
+                                    catalogRoot = nodeService.getRoot();
+                                    wsHandler.updateCatalog((XBERoot) catalogRoot, lastUpdate);
                                 }
                                 setConnectionStatus(ConnectionStatus.INTERNET);
                             } catch (Exception ex) {
@@ -417,6 +410,22 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                 }
 
                 ((CardLayout) statusPanel.getLayout()).first(statusPanel);
+            }
+
+            private XBACatalog createCatalog(EntityManager em) {
+                XBACatalog catalog = new XBAECatalog(em, System.getProperty("user.home") + "/.XBUP/repository");
+
+                ((XBAECatalog) catalog).addCatalogService(XBCXLangService.class, new XBEXLangService((XBAECatalog) catalog));
+                ((XBAECatalog) catalog).addCatalogService(XBCXStriService.class, new XBEXStriService((XBAECatalog) catalog));
+                ((XBAECatalog) catalog).addCatalogService(XBCXNameService.class, new XBEXNameService((XBAECatalog) catalog));
+                ((XBAECatalog) catalog).addCatalogService(XBCXDescService.class, new XBEXDescService((XBAECatalog) catalog));
+                ((XBAECatalog) catalog).addCatalogService(XBCXFileService.class, new XBEXFileService((XBAECatalog) catalog));
+                ((XBAECatalog) catalog).addCatalogService(XBCXIconService.class, new XBEXIconService((XBAECatalog) catalog));
+                ((XBAECatalog) catalog).addCatalogService(XBCXPlugService.class, new XBEXPlugService((XBAECatalog) catalog));
+                ((XBAECatalog) catalog).addCatalogService(XBCXLineService.class, new XBEXLineService((XBAECatalog) catalog));
+                ((XBAECatalog) catalog).addCatalogService(XBCXPaneService.class, new XBEXPaneService((XBAECatalog) catalog));
+                ((XBAECatalog) catalog).addCatalogService(XBCXHDocService.class, new XBEXHDocService((XBAECatalog) catalog));
+                return catalog;
             }
         });
         catInitThread.start();

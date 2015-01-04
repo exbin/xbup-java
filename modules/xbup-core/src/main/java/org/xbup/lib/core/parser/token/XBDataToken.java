@@ -16,7 +16,10 @@
  */
 package org.xbup.lib.core.parser.token;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * XBUP protocol level 0 data token.
@@ -24,7 +27,7 @@ import java.io.InputStream;
  * Class carry data represented as byte stream available via InputStream class.
  * You have to process data before processing next event.
  *
- * @version 0.1.22 2013/11/01
+ * @version 0.1.24 2015/01/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDataToken extends XBToken {
@@ -37,6 +40,23 @@ public class XBDataToken extends XBToken {
 
     public InputStream getData() {
         return data;
+    }
+
+    /**
+     * Returns true if this is empty data token.
+     *
+     * This method is supposed to be called only before data was processed.
+     *
+     * @return true if data are empty
+     */
+    public boolean isEmpty() {
+        try {
+            return data == null || (data.available() == 0);
+        } catch (IOException ex) {
+            Logger.getLogger(XBDataToken.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return false;
     }
 
     @Override

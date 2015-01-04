@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -66,6 +67,7 @@ import org.xbup.lib.catalog.entity.XBEGroupSpec;
 import org.xbup.lib.catalog.entity.XBEItem;
 import org.xbup.lib.catalog.entity.XBENode;
 import org.xbup.lib.catalog.entity.XBERev;
+import org.xbup.lib.catalog.entity.XBERoot;
 import org.xbup.lib.catalog.entity.XBESpec;
 import org.xbup.lib.catalog.entity.XBEXBlockLine;
 import org.xbup.lib.catalog.entity.XBEXBlockPane;
@@ -503,7 +505,6 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         // First nodes, specifications, files
         // Second plugins
         // Third binds, line editors and pane editors
-
         // Optimalization for root node:
         revCache = new HashMap<XBCRev, Long>();
         XBENode node = nodeService.findNodeByXBPath(path);
@@ -1114,5 +1115,16 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
 
     private boolean isRootPath(Long[] path) {
         return (path.length == 0);
+    }
+
+    public void updateCatalog(XBERoot root, Date lastUpdate) {
+        processAllData(new Long[0]);
+
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        root.setLastUpdate(lastUpdate);
+        em.persist(root);
+        em.flush();
+        tx.commit();
     }
 }

@@ -46,7 +46,7 @@ import org.xbup.lib.core.catalog.base.manager.XBCXStriManager;
 /**
  * Interface for XBERev items service.
  *
- * @version 0.1.24 2014/11/20
+ * @version 0.1.24 2015/01/04
  * @author XBUP Project (http://xbup.org)
  */
 @Service
@@ -140,5 +140,10 @@ public class XBERevService extends XBEDefaultService<XBERev> implements XBCRevSe
         }
 
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public long getRevsLimitSum(XBCSpec spec, long revision) {
+        return ((XBERevManager) itemManager).getRevsLimitSum(spec, revision);
     }
 }

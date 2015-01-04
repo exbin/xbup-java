@@ -111,6 +111,10 @@ public class XBEXNameService extends XBEDefaultService<XBEXName> implements XBCX
 
     @Override
     public String getItemNamePath(XBCItem item) {
+        if (item == null) {
+            return "";
+        }
+
         StringBuilder builder = new StringBuilder();
         builder.append(getDefaultText(item));
 

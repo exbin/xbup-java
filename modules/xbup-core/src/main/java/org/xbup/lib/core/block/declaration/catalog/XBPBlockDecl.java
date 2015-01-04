@@ -34,7 +34,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 1 block declaration using catalog path.
  *
- * @version 0.1.24 2014/12/07
+ * @version 0.1.24 2015/01/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
@@ -81,6 +81,8 @@ public class XBPBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
     public boolean equals(Object obj) {
         if (obj instanceof XBPBlockDecl) {
             return Arrays.equals(((XBPBlockDecl) obj).catalogPath, catalogPath) && (((XBPBlockDecl) obj).revision == revision);
+        } else if (obj instanceof XBCBlockDecl) {
+            return ((XBCBlockDecl) obj).equals(this);
         }
 
         return super.equals(obj);

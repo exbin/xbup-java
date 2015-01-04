@@ -21,12 +21,13 @@ import org.xbup.lib.core.block.definition.XBRevisionDef;
 import org.xbup.lib.core.block.definition.XBRevisionParam;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCSpec;
+import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * XBUP level 1 revision definition.
  *
- * @version 0.1.24 2014/12/05
+ * @version 0.1.24 2015/01/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCRevisionDef implements XBRevisionDef, XBSerializable {
@@ -46,6 +47,7 @@ public class XBCRevisionDef implements XBRevisionDef, XBSerializable {
 
     @Override
     public int getRevisionLimit(long revision) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        XBCRevService revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
+        return (int) revService.getRevsLimitSum(spec, revision);
     }
 }

@@ -190,4 +190,9 @@ public class XBRRevManager extends XBRDefaultManager<XBRRev> implements XBCRevMa
         return 0;
     }
 
+    @Override
+    public long getRevsLimitSum(XBCSpec spec, long revision) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

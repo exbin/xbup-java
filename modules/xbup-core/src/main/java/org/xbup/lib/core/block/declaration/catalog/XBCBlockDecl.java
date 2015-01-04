@@ -100,7 +100,7 @@ public class XBCBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
                 }
             }
 
-            return true;
+            return blockSpecRev.getXBIndex().equals(((XBPBlockDecl) obj).getRevision());
         } else {
             return false;
         }

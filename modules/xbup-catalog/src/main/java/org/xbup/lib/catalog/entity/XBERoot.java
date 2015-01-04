@@ -31,7 +31,7 @@ import org.xbup.lib.core.catalog.base.XBCRoot;
 /**
  * Root node database entity.
  *
- * @version 0.1.22 2013/08/17
+ * @version 0.1.24 2015/01/04
  * @author XBUP Project (http://xbup.org)
  */
 @Entity(name = "XBRoot")
@@ -47,7 +47,7 @@ public class XBERoot implements XBCRoot, Serializable {
 
     private String url;
 
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date lastUpdate;
 
     public XBERoot() {

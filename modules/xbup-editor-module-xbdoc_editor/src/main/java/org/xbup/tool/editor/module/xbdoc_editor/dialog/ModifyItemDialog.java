@@ -503,8 +503,8 @@ public class ModifyItemDialog extends javax.swing.JDialog {
                 loadParameters(srcNode);
                 TableColumnModel columnModel = parametersTable.getColumnModel();
                 TableColumn column = columnModel.getColumn(3);
-                column.setCellEditor(new XBPropertyTableCellEditor(catalog, newNode));
-                column.setCellRenderer(new XBPropertyTableCellRenderer(catalog, newNode));
+                column.setCellEditor(new ParametersTableCellEditor(catalog, newNode));
+                column.setCellRenderer(new ParametersTableCellRenderer(catalog, newNode));
             }
 
             mainTabbedPane.addTab(paramEditorPanelTitle, paramEditorPanel);

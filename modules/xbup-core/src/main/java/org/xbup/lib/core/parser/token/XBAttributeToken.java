@@ -20,10 +20,10 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP protocol level 0 attribute token.
- * 
+ *
  * This class carry single UBNatural value.
  *
- * @version 0.1.23 2013/11/01
+ * @version 0.1.24 2015/01/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBAttributeToken extends XBToken {
@@ -36,6 +36,15 @@ public class XBAttributeToken extends XBToken {
 
     public UBNatural getAttribute() {
         return attribute;
+    }
+
+    /**
+     * Returns true if this is attribute is zero.
+     *
+     * @return true if attribute is zero
+     */
+    public boolean isZero() {
+        return attribute == null || attribute.isZero();
     }
 
     @Override

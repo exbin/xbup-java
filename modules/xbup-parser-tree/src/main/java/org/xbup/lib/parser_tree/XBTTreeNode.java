@@ -36,7 +36,6 @@ import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
-import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -555,11 +554,6 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
 
     private int typeSizeUB() {
         return singleAttributeType ? blockType.getGroupID().getSizeUB() : blockType.getSizeUB();
-    }
-
-    public XBTBlock getParam(XBACatalog catalog, long paramId) {
-        XBTreeParamExtractor extractor = new XBTreeParamExtractor(this, catalog, paramId);
-        return extractor.getOutput();
     }
 
     @Override

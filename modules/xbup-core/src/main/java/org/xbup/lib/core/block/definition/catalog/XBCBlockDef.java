@@ -37,7 +37,7 @@ import org.xbup.lib.core.serial.XBSerializable;
 /**
  * XBUP level 1 block definition.
  *
- * @version 0.1.24 2014/12/06
+ * @version 0.1.24 2015/01/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCBlockDef implements XBBlockDef, XBSerializable {
@@ -64,7 +64,7 @@ public class XBCBlockDef implements XBBlockDef, XBSerializable {
     public XBBlockParam getParamDecl(int index) {
         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
         XBCSpecDef specDef = specService.getSpecDefByOrder(blockSpec, index);
-        return new XBBlockParamJoin(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
+        return specDef == null ? null : new XBBlockParamJoin(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
     }
 
     @Override

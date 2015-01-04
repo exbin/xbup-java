@@ -39,10 +39,10 @@ import org.xbup.lib.core.parser.basic.XBHead;
 
 /**
  * Catalog update handler using some primitive PHP interface.
- * 
+ *
  * TODO: This is really horrible temporary stub for dummy PHP XBCatalog.
  *
- * @version 0.1.22 2013/08/20
+ * @version 0.1.24 2015/01/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCUpdatePHPPort {
@@ -80,7 +80,7 @@ public class XBCUpdatePHPPort {
     }
 
     public BufferedReader callCatalog(String params) throws IOException {
-        Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("CALL: "+params));
+        Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("CALL: " + params));
         if (compoundCall != null) {
             return compoundCall;
         }
@@ -91,7 +91,7 @@ public class XBCUpdatePHPPort {
             if (compositeReader != null) {
                 return compositeReader;
             }
-            return new BufferedReader(new InputStreamReader(dataSource.getInputStream(),Charset.forName("UTF-8")));
+            return new BufferedReader(new InputStreamReader(dataSource.getInputStream(), Charset.forName("UTF-8")));
         } catch (MalformedURLException ex) {
             Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -101,13 +101,13 @@ public class XBCUpdatePHPPort {
     public BufferedReader compoundCallCatalog(String params) throws IOException {
         try {
             URL myURL;
-            Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("CALL: "+params));
+            Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("CALL: " + params));
             myURL = new URL(catalogURL + params);
             URLDataSource dataSource = new URLDataSource(myURL);
             if (compositeReader != null) {
                 return compositeReader;
             }
-            compoundCall = new BufferedReader(new InputStreamReader(dataSource.getInputStream(),Charset.forName("UTF-8")));
+            compoundCall = new BufferedReader(new InputStreamReader(dataSource.getInputStream(), Charset.forName("UTF-8")));
             return compoundCall;
         } catch (MalformedURLException ex) {
             Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
@@ -122,7 +122,7 @@ public class XBCUpdatePHPPort {
     public InputStream getRepoFile(String path) {
         try {
             URL myURL;
-            Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("FILE: "+path));
+            Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("FILE: " + path));
             if (!path.startsWith("/")) {
                 path = '/' + path;
             }
@@ -143,7 +143,7 @@ public class XBCUpdatePHPPort {
     public InputStream getFileContent(String path) {
         try {
             URL myURL;
-            Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("FILE: "+path));
+            Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("FILE: " + path));
             if (!path.startsWith("/")) {
                 path = '/' + path;
             }
@@ -194,10 +194,10 @@ public class XBCUpdatePHPPort {
     public ItemInfo getCatalogNodeInfo(Long[] path, Long langId) {
         try {
             ItemInfo info = new ItemInfo();
-            BufferedReader br = callCatalog("?op=getnode&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getnode&path=" + getParamPath(path));
             String line;
             String itemId = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                 } else if ("xbindex".equals(line)) {
@@ -209,16 +209,16 @@ public class XBCUpdatePHPPort {
             if (info.getXbIndex() == null) {
                 return info;
             }
-            br = callCatalog("?op=getname&id="+itemId+"&lang="+langId);
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            br = callCatalog("?op=getname&id=" + itemId + "&lang=" + langId);
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("text".equals(line)) {
                     info.setName(br.readLine());
                 } else {
                     br.readLine();
                 }
             }
-            br = callCatalog("?op=getdesc&id="+itemId+"&lang="+langId);
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            br = callCatalog("?op=getdesc&id=" + itemId + "&lang=" + langId);
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("text".equals(line)) {
                     info.setDesc(br.readLine());
                 } else {
@@ -234,10 +234,10 @@ public class XBCUpdatePHPPort {
 
     public ItemFile getCatalogNodeFile(Long[] path) {
         try {
-            BufferedReader br = callCatalog("?op=getnode&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getnode&path=" + getParamPath(path));
             String line;
             String itemId = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                 } else {
@@ -248,9 +248,9 @@ public class XBCUpdatePHPPort {
                 return null;
             }
             ItemFile file = new ItemFile();
-            br = callCatalog("?op=getstri&id="+itemId);
+            br = callCatalog("?op=getstri&id=" + itemId);
             itemId = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                 } else if ("text".equals(line)) {
@@ -268,10 +268,10 @@ public class XBCUpdatePHPPort {
 
     public Long getCatalogNodeId(Long[] path) {
         try {
-            BufferedReader br = callCatalog("?op=getnode&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getnode&path=" + getParamPath(path));
             String line;
             String itemId = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                 } else {
@@ -287,10 +287,10 @@ public class XBCUpdatePHPPort {
 
     public Long getCatalogFormatSpecId(Long[] path, Long xbIndex) {
         try {
-            BufferedReader br = callCatalog("?op=getspec&spec="+xbIndex.toString()+"&dtype=0&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getspec&spec=" + xbIndex.toString() + "&dtype=0&path=" + getParamPath(path));
             String line;
             String itemId = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                 } else {
@@ -306,10 +306,10 @@ public class XBCUpdatePHPPort {
 
     public Long getCatalogGroupSpecId(Long[] path, Long xbIndex) {
         try {
-            BufferedReader br = callCatalog("?op=getspec&spec="+xbIndex.toString()+"&dtype=1&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getspec&spec=" + xbIndex.toString() + "&dtype=1&path=" + getParamPath(path));
             String line;
             String itemId = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                 } else {
@@ -325,10 +325,10 @@ public class XBCUpdatePHPPort {
 
     public Long getCatalogBlockSpecId(Long[] path, Long xbIndex) {
         try {
-            BufferedReader br = callCatalog("?op=getspec&spec="+xbIndex.toString()+"&dtype=2&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getspec&spec=" + xbIndex.toString() + "&dtype=2&path=" + getParamPath(path));
             String line;
             String itemId = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                 } else {
@@ -344,10 +344,10 @@ public class XBCUpdatePHPPort {
 
     public Long getCatalogLimitationSpecId(Long[] path, Long xbIndex) {
         try {
-            BufferedReader br = callCatalog("?op=getspec&spec="+xbIndex.toString()+"&dtype=3&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getspec&spec=" + xbIndex.toString() + "&dtype=3&path=" + getParamPath(path));
             String line;
             String itemId = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                 } else {
@@ -364,10 +364,10 @@ public class XBCUpdatePHPPort {
     public ItemInfo getFormatCatalogSpecInfo(Long[] path, Long specId, Long langId) {
         try {
             ItemInfo info = new ItemInfo();
-            BufferedReader br = callCatalog("?op=getspec&spec="+specId+"&dtype=0&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=0&path=" + getParamPath(path));
             String line;
             String itemId = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                 } else if ("xbindex".equals(line)) {
@@ -377,16 +377,16 @@ public class XBCUpdatePHPPort {
                 }
             }
             if (!("".equals(itemId))) {
-                br = callCatalog("?op=getname&id="+itemId+"&lang="+langId);
-                while (!("".equals(line = br.readLine()))&&(line!=null)) {
+                br = callCatalog("?op=getname&id=" + itemId + "&lang=" + langId);
+                while (!("".equals(line = br.readLine())) && (line != null)) {
                     if ("text".equals(line)) {
                         info.setName(br.readLine());
                     } else {
                         br.readLine();
                     }
                 }
-                br = callCatalog("?op=getdesc&id="+itemId+"&lang="+langId);
-                while (!("".equals(line = br.readLine()))&&(line!=null)) {
+                br = callCatalog("?op=getdesc&id=" + itemId + "&lang=" + langId);
+                while (!("".equals(line = br.readLine())) && (line != null)) {
                     if ("text".equals(line)) {
                         info.setDesc(br.readLine());
                     } else {
@@ -404,10 +404,10 @@ public class XBCUpdatePHPPort {
     public ItemInfo getGroupCatalogSpecInfo(Long[] path, Long specId, Long langId) {
         try {
             ItemInfo info = new ItemInfo();
-            BufferedReader br = callCatalog("?op=getspec&spec="+specId+"&dtype=1&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=1&path=" + getParamPath(path));
             String line;
             String itemId = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                 } else if ("xbindex".equals(line)) {
@@ -417,16 +417,16 @@ public class XBCUpdatePHPPort {
                 }
             }
             if (!("".equals(itemId))) {
-                br = callCatalog("?op=getname&id="+itemId+"&lang="+langId);
-                while (!("".equals(line = br.readLine()))&&(line!=null)) {
+                br = callCatalog("?op=getname&id=" + itemId + "&lang=" + langId);
+                while (!("".equals(line = br.readLine())) && (line != null)) {
                     if ("text".equals(line)) {
                         info.setName(br.readLine());
                     } else {
                         br.readLine();
                     }
                 }
-                br = callCatalog("?op=getdesc&id="+itemId+"&lang="+langId);
-                while (!("".equals(line = br.readLine()))&&(line!=null)) {
+                br = callCatalog("?op=getdesc&id=" + itemId + "&lang=" + langId);
+                while (!("".equals(line = br.readLine())) && (line != null)) {
                     if ("text".equals(line)) {
                         info.setDesc(br.readLine());
                     } else {
@@ -444,10 +444,10 @@ public class XBCUpdatePHPPort {
     public ItemInfo getBlockCatalogSpecInfo(Long[] path, Long specId, Long langId) {
         try {
             ItemInfo info = new ItemInfo();
-            BufferedReader br = callCatalog("?op=getspec&spec="+specId+"&dtype=2&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=2&path=" + getParamPath(path));
             String line;
             String itemId = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                 } else if ("xbindex".equals(line)) {
@@ -457,16 +457,16 @@ public class XBCUpdatePHPPort {
                 }
             }
             if (!("".equals(itemId))) {
-                br = callCatalog("?op=getname&id="+itemId+"&lang="+langId);
-                while (!("".equals(line = br.readLine()))&&(line!=null)) {
+                br = callCatalog("?op=getname&id=" + itemId + "&lang=" + langId);
+                while (!("".equals(line = br.readLine())) && (line != null)) {
                     if ("text".equals(line)) {
                         info.setName(br.readLine());
                     } else {
                         br.readLine();
                     }
                 }
-                br = callCatalog("?op=getdesc&id="+itemId+"&lang="+langId);
-                while (!("".equals(line = br.readLine()))&&(line!=null)) {
+                br = callCatalog("?op=getdesc&id=" + itemId + "&lang=" + langId);
+                while (!("".equals(line = br.readLine())) && (line != null)) {
                     if ("text".equals(line)) {
                         info.setDesc(br.readLine());
                     } else {
@@ -486,10 +486,10 @@ public class XBCUpdatePHPPort {
             return null;
         }
         try {
-            BufferedReader br = callCatalog("?op=getnodemax&dtype=0&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getnodemax&dtype=0&path=" + getParamPath(path));
             String line;
             Long result = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -508,10 +508,10 @@ public class XBCUpdatePHPPort {
 
     public Long getFormatCatalogSpecMaxIndex(Long[] path) {
         try {
-            BufferedReader br = callCatalog("?op=getnodemax&dtype=1&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getnodemax&dtype=1&path=" + getParamPath(path));
             String line;
             Long result = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -530,10 +530,10 @@ public class XBCUpdatePHPPort {
 
     public Long getGroupCatalogSpecMaxIndex(Long[] path) {
         try {
-            BufferedReader br = callCatalog("?op=getnodemax&dtype=2&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getnodemax&dtype=2&path=" + getParamPath(path));
             String line;
             Long result = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -552,10 +552,10 @@ public class XBCUpdatePHPPort {
 
     public Long getBlockCatalogSpecMaxIndex(Long[] path) {
         try {
-            BufferedReader br = callCatalog("?op=getnodemax&dtype=3&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getnodemax&dtype=3&path=" + getParamPath(path));
             String line;
             Long result = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -574,105 +574,106 @@ public class XBCUpdatePHPPort {
 
     public Long getLimitCatalogSpecMaxIndex(Long[] path) {
         throw new UnsupportedOperationException("Not supported yet.");
-/*        try {
-            BufferedReader br = callCatalog("?op=getnodemax&dtype=4&path="+getParamPath(path));
-            String line;
-            Long result = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
-                if ("max".equals(line)) {
-                    line = br.readLine();
-                    if (!line.equals("")) result = new Long(line);
-                } else br.readLine();
-            }
-            return result;
-        } catch (IOException ex) {
-            Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        } */
+        /*        try {
+         BufferedReader br = callCatalog("?op=getnodemax&dtype=4&path="+getParamPath(path));
+         String line;
+         Long result = null;
+         while (!("".equals(line = br.readLine()))&&(line!=null)) {
+         if ("max".equals(line)) {
+         line = br.readLine();
+         if (!line.equals("")) result = new Long(line);
+         } else br.readLine();
+         }
+         return result;
+         } catch (IOException ex) {
+         Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
+         return null;
+         } */
     }
 
     public Long getFormatCatalogSubMaxIndex(Long[] path) {
         throw new UnsupportedOperationException("Not supported yet.");
-/*        try {
-            BufferedReader br = callCatalog("?op=getnode&dtype=0&path="+getParamPath(path));
-            String line;
-            Long result = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
-                if ("xblimit".equals(line)) {
-                    line = br.readLine();
-                    if (!line.equals("")) result = new Long(line);
-                } else br.readLine();
-            }
-            return result;
-        } catch (IOException ex) {
-            Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        } */
+        /*        try {
+         BufferedReader br = callCatalog("?op=getnode&dtype=0&path="+getParamPath(path));
+         String line;
+         Long result = null;
+         while (!("".equals(line = br.readLine()))&&(line!=null)) {
+         if ("xblimit".equals(line)) {
+         line = br.readLine();
+         if (!line.equals("")) result = new Long(line);
+         } else br.readLine();
+         }
+         return result;
+         } catch (IOException ex) {
+         Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
+         return null;
+         } */
     }
 
     public Long getGroupCatalogSubMaxIndex(Long[] path) {
         throw new UnsupportedOperationException("Not supported yet.");
         /*try {
-            BufferedReader br = callCatalog("?op=getnode&dtype=1&path="+getParamPath(path));
-            String line;
-            Long result = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
-                if ("xblimit".equals(line)) {
-                    line = br.readLine();
-                    if (!line.equals("")) result = new Long(line);
-                } else br.readLine();
-            }
-            return result;
-        } catch (IOException ex) {
-            Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        } */
+         BufferedReader br = callCatalog("?op=getnode&dtype=1&path="+getParamPath(path));
+         String line;
+         Long result = null;
+         while (!("".equals(line = br.readLine()))&&(line!=null)) {
+         if ("xblimit".equals(line)) {
+         line = br.readLine();
+         if (!line.equals("")) result = new Long(line);
+         } else br.readLine();
+         }
+         return result;
+         } catch (IOException ex) {
+         Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
+         return null;
+         } */
     }
 
     public Long getBlockCatalogSubMaxIndex(Long[] path) {
         throw new UnsupportedOperationException("Not supported yet.");
         /*try {
-            BufferedReader br = callCatalog("?op=getnode&dtype=2&path="+getParamPath(path));
-            String line;
-            Long result = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
-                if ("xblimit".equals(line)) {
-                    line = br.readLine();
-                    if (!line.equals("")) result = new Long(line);
-                } else br.readLine();
-            }
-            return result;
-        } catch (IOException ex) {
-            Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        } */
+         BufferedReader br = callCatalog("?op=getnode&dtype=2&path="+getParamPath(path));
+         String line;
+         Long result = null;
+         while (!("".equals(line = br.readLine()))&&(line!=null)) {
+         if ("xblimit".equals(line)) {
+         line = br.readLine();
+         if (!line.equals("")) result = new Long(line);
+         } else br.readLine();
+         }
+         return result;
+         } catch (IOException ex) {
+         Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
+         return null;
+         } */
     }
-/*
-    public Long getAttribCatalogSubMaxIndex(Long[] path) {
-        try {
-            BufferedReader br = callCatalog("?op=getnode&dtype=3&path="+getParamPath(path));
-            String line;
-            Long result = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
-                if ("xblimit".equals(line)) {
-                    line = br.readLine();
-                    if (!line.equals("")) result = new Long(line);
-                } else br.readLine();
-            }
-            return result;
-        } catch (IOException ex) {
-            Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-*/
+    /*
+     public Long getAttribCatalogSubMaxIndex(Long[] path) {
+     try {
+     BufferedReader br = callCatalog("?op=getnode&dtype=3&path="+getParamPath(path));
+     String line;
+     Long result = null;
+     while (!("".equals(line = br.readLine()))&&(line!=null)) {
+     if ("xblimit".equals(line)) {
+     line = br.readLine();
+     if (!line.equals("")) result = new Long(line);
+     } else br.readLine();
+     }
+     return result;
+     } catch (IOException ex) {
+     Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
+     return null;
+     }
+     }
+     */
+
     public Long getFormatCatalogSpecMaxBindId(Long[] path, Long specId) {
         try {
-            BufferedReader br = callCatalog("?op=getspec&spec="+specId+"&dtype=0&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=0&path=" + getParamPath(path));
             String line;
             Long result = null;
             Long itemId = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -683,8 +684,8 @@ public class XBCUpdatePHPPort {
                 }
             }
             if (itemId != null) {
-                br = callCatalog("?op=getdefmax&origin="+itemId.toString());
-                while (!("".equals(line = br.readLine()))&&(line!=null)) {
+                br = callCatalog("?op=getdefmax&origin=" + itemId.toString());
+                while (!("".equals(line = br.readLine())) && (line != null)) {
                     if ("max".equals(line)) {
                         line = br.readLine();
                         if (!line.isEmpty()) {
@@ -704,11 +705,11 @@ public class XBCUpdatePHPPort {
 
     public Long getGroupCatalogSpecMaxBindId(Long[] path, Long specId) {
         try {
-            BufferedReader br = callCatalog("?op=getspec&spec="+specId+"&dtype=1&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=1&path=" + getParamPath(path));
             String line;
             Long result = null;
             Long itemId = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -719,8 +720,8 @@ public class XBCUpdatePHPPort {
                 }
             }
             if (itemId != null) {
-                br = callCatalog("?op=getdefmax&origin="+itemId.toString());
-                while (!("".equals(line = br.readLine()))&&(line!=null)) {
+                br = callCatalog("?op=getdefmax&origin=" + itemId.toString());
+                while (!("".equals(line = br.readLine())) && (line != null)) {
                     if ("max".equals(line)) {
                         line = br.readLine();
                         if (!line.isEmpty()) {
@@ -740,11 +741,11 @@ public class XBCUpdatePHPPort {
 
     public Long getBlockCatalogSpecMaxBindId(Long[] path, Long specId) {
         try {
-            BufferedReader br = callCatalog("?op=getspec&spec="+specId+"&dtype=2&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=2&path=" + getParamPath(path));
             String line;
             Long result = null;
             Long itemId = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -755,8 +756,8 @@ public class XBCUpdatePHPPort {
                 }
             }
             if (itemId != null) {
-                br = callCatalog("?op=getdefmax&origin="+itemId.toString());
-                while (!("".equals(line = br.readLine()))&&(line!=null)) {
+                br = callCatalog("?op=getdefmax&origin=" + itemId.toString());
+                while (!("".equals(line = br.readLine())) && (line != null)) {
                     if ("max".equals(line)) {
                         line = br.readLine();
                         if (!line.isEmpty()) {
@@ -776,11 +777,11 @@ public class XBCUpdatePHPPort {
 
     public Long getFormatCatalogSpecMaxRevIndex(Long[] path, Long specId) {
         try {
-            BufferedReader br = callCatalog("?op=getspec&spec="+specId+"&dtype=0&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=0&path=" + getParamPath(path));
             String line;
             Long result = null;
             Long itemId = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -791,8 +792,8 @@ public class XBCUpdatePHPPort {
                 }
             }
             if (itemId != null) {
-                br = callCatalog("?op=getrevmax&owner="+itemId);
-                while (!("".equals(line = br.readLine()))&&(line!=null)) {
+                br = callCatalog("?op=getrevmax&owner=" + itemId);
+                while (!("".equals(line = br.readLine())) && (line != null)) {
                     if ("max".equals(line)) {
                         line = br.readLine();
                         if (!line.isEmpty()) {
@@ -812,11 +813,11 @@ public class XBCUpdatePHPPort {
 
     public Long getGroupCatalogSpecMaxRevIndex(Long[] path, Long specId) {
         try {
-            BufferedReader br = callCatalog("?op=getspec&spec="+specId+"&dtype=1&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=1&path=" + getParamPath(path));
             String line;
             Long result = null;
             Long itemId = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -827,8 +828,8 @@ public class XBCUpdatePHPPort {
                 }
             }
             if (itemId != null) {
-                br = callCatalog("?op=getrevmax&owner="+itemId);
-                while (!("".equals(line = br.readLine()))&&(line!=null)) {
+                br = callCatalog("?op=getrevmax&owner=" + itemId);
+                while (!("".equals(line = br.readLine())) && (line != null)) {
                     if ("max".equals(line)) {
                         line = br.readLine();
                         if (!line.isEmpty()) {
@@ -848,11 +849,11 @@ public class XBCUpdatePHPPort {
 
     public Long getBlockCatalogSpecMaxRevIndex(Long[] path, Long specId) {
         try {
-            BufferedReader br = callCatalog("?op=getspec&spec="+specId+"&dtype=2&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=2&path=" + getParamPath(path));
             String line;
             Long result = null;
             Long itemId = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -863,8 +864,8 @@ public class XBCUpdatePHPPort {
                 }
             }
             if (itemId != null) {
-                br = callCatalog("?op=getrevmax&owner="+itemId);
-                while (!("".equals(line = br.readLine()))&&(line!=null)) {
+                br = callCatalog("?op=getrevmax&owner=" + itemId);
+                while (!("".equals(line = br.readLine())) && (line != null)) {
                     if ("max".equals(line)) {
                         line = br.readLine();
                         if (!line.isEmpty()) {
@@ -884,11 +885,11 @@ public class XBCUpdatePHPPort {
 
     public ItemRevision getFormatSpecRevision(Long[] path, Long specId, Long revId) {
         try {
-            BufferedReader br = callCatalog("?op=getspec&spec="+specId+"&dtype=0&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=0&path=" + getParamPath(path));
             String line;
             ItemRevision result = null;
             Long itemId = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -900,8 +901,8 @@ public class XBCUpdatePHPPort {
             }
             if (itemId != null) {
                 result = new ItemRevision();
-                br = callCatalog("?op=getrev&owner="+itemId+"&xbindex=" + revId);
-                while (!("".equals(line = br.readLine()))&&(line!=null)) {
+                br = callCatalog("?op=getrev&owner=" + itemId + "&xbindex=" + revId);
+                while (!("".equals(line = br.readLine())) && (line != null)) {
                     if ("id".equals(line)) {
                         line = br.readLine();
                         result.setId(new Long(line));
@@ -925,11 +926,11 @@ public class XBCUpdatePHPPort {
 
     public ItemRevision getGroupSpecRevision(Long[] path, Long specId, Long revId) {
         try {
-            BufferedReader br = callCatalog("?op=getspec&spec="+specId+"&dtype=1&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=1&path=" + getParamPath(path));
             String line;
             ItemRevision result = null;
             Long itemId = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -941,8 +942,8 @@ public class XBCUpdatePHPPort {
             }
             if (itemId != null) {
                 result = new ItemRevision();
-                br = callCatalog("?op=getrev&owner="+itemId+"&xbindex=" + revId);
-                while (!("".equals(line = br.readLine()))&&(line!=null)) {
+                br = callCatalog("?op=getrev&owner=" + itemId + "&xbindex=" + revId);
+                while (!("".equals(line = br.readLine())) && (line != null)) {
                     if ("xbindex".equals(line)) {
                         line = br.readLine();
                         result.setXBIndex(new Long(line));
@@ -963,11 +964,11 @@ public class XBCUpdatePHPPort {
 
     public ItemRevision getBlockSpecRevision(Long[] path, Long specId, Long revId) {
         try {
-            BufferedReader br = callCatalog("?op=getspec&spec="+specId+"&dtype=2&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=2&path=" + getParamPath(path));
             String line;
             ItemRevision result = null;
             Long itemId = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -979,8 +980,8 @@ public class XBCUpdatePHPPort {
             }
             if (itemId != null) {
                 result = new ItemRevision();
-                br = callCatalog("?op=getrev&owner="+itemId+"&xbindex=" + revId);
-                while (!("".equals(line = br.readLine()))&&(line!=null)) {
+                br = callCatalog("?op=getrev&owner=" + itemId + "&xbindex=" + revId);
+                while (!("".equals(line = br.readLine())) && (line != null)) {
                     if ("id".equals(line)) {
                         line = br.readLine();
                         result.setId(new Long(line));
@@ -1004,21 +1005,21 @@ public class XBCUpdatePHPPort {
 
     public RevisionPath getFormatCatalogBindTargetPath(Long[] path, Long specId, Long bindId) {
         try {
-            BufferedReader br = callCatalog("?op=getspec&spec="+specId+"&dtype=0&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=0&path=" + getParamPath(path));
             String line;
             String itemId = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                 } else {
                     br.readLine();
                 }
             }
-            br = callCatalog("?op=getdef&origin="+itemId+"&xbindex="+bindId);
+            br = callCatalog("?op=getdef&origin=" + itemId + "&xbindex=" + bindId);
             String targetSpec = "";
             Long revXB = null;
             Long bindType = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("spec".equals(line)) {
                     targetSpec = br.readLine();
                 } else if ("revxb".equals(line)) {
@@ -1032,9 +1033,9 @@ public class XBCUpdatePHPPort {
             if ("".equals(targetSpec)) {
                 return null;
             }
-            br = callCatalog("?op=getnodepath&node="+targetSpec);
+            br = callCatalog("?op=getnodepath&node=" + targetSpec);
             String nodePath = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("path".equals(line)) {
                     nodePath = br.readLine();
                 } else {
@@ -1044,9 +1045,9 @@ public class XBCUpdatePHPPort {
             List<Long> myPath = new ArrayList<Long>();
             int prev = 0;
             for (int i = 0; i < nodePath.length(); i++) {
-                if (nodePath.charAt(i)=='/') {
-                    myPath.add(new Long(nodePath.substring(prev,i)));
-                    prev = i+1;
+                if (nodePath.charAt(i) == '/') {
+                    myPath.add(new Long(nodePath.substring(prev, i)));
+                    prev = i + 1;
                 }
             }
             Long xbIndex = new Long(nodePath.substring(prev));
@@ -1064,21 +1065,21 @@ public class XBCUpdatePHPPort {
 
     public RevisionPath getGroupCatalogBindTargetPath(@WebParam(name = "path") Long[] path, @WebParam(name = "specId") Long specId, @WebParam(name = "bindId") Long bindId) {
         try {
-            BufferedReader br = callCatalog("?op=getspec&spec="+specId+"&dtype=1&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=1&path=" + getParamPath(path));
             String line;
             String itemId = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                 } else {
                     br.readLine();
                 }
             }
-            br = callCatalog("?op=getdef&origin="+itemId+"&xbindex="+bindId);
+            br = callCatalog("?op=getdef&origin=" + itemId + "&xbindex=" + bindId);
             String targetSpec = "";
             Long revXB = null;
             Long bindType = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("spec".equals(line)) {
                     targetSpec = br.readLine();
                 } else if ("revxb".equals(line)) {
@@ -1092,9 +1093,9 @@ public class XBCUpdatePHPPort {
             if ("".equals(targetSpec)) {
                 return null;
             }
-            br = callCatalog("?op=getnodepath&node="+targetSpec);
+            br = callCatalog("?op=getnodepath&node=" + targetSpec);
             String nodePath = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("path".equals(line)) {
                     nodePath = br.readLine();
                 } else {
@@ -1104,9 +1105,9 @@ public class XBCUpdatePHPPort {
             List<Long> myPath = new ArrayList<Long>();
             int prev = 0;
             for (int i = 0; i < nodePath.length(); i++) {
-                if (nodePath.charAt(i)=='/') {
-                    myPath.add(new Long(nodePath.substring(prev,i)));
-                    prev = i+1;
+                if (nodePath.charAt(i) == '/') {
+                    myPath.add(new Long(nodePath.substring(prev, i)));
+                    prev = i + 1;
                 }
             }
             Long xbIndex = new Long(nodePath.substring(prev));
@@ -1124,21 +1125,21 @@ public class XBCUpdatePHPPort {
 
     public RevisionPath getBlockCatalogBindTargetPath(@WebParam(name = "path") Long[] path, @WebParam(name = "specId") Long specId, @WebParam(name = "bindId") Long bindId) {
         try {
-            BufferedReader br = callCatalog("?op=getspec&spec="+specId+"&dtype=2&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=2&path=" + getParamPath(path));
             String line;
             String itemId = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                 } else {
                     br.readLine();
                 }
             }
-            br = callCatalog("?op=getdef&origin="+itemId+"&xbindex="+bindId);
+            br = callCatalog("?op=getdef&origin=" + itemId + "&xbindex=" + bindId);
             String targetSpec = "";
             Long revXB = null;
             Long bindType = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("spec".equals(line)) {
                     targetSpec = br.readLine();
                 } else if ("revxb".equals(line)) {
@@ -1152,9 +1153,9 @@ public class XBCUpdatePHPPort {
             if ("".equals(targetSpec)) {
                 return null;
             }
-            br = callCatalog("?op=getnodepath&node="+targetSpec);
+            br = callCatalog("?op=getnodepath&node=" + targetSpec);
             String nodePath = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("path".equals(line)) {
                     nodePath = br.readLine();
                 } else {
@@ -1164,9 +1165,9 @@ public class XBCUpdatePHPPort {
             List<Long> myPath = new ArrayList<Long>();
             int prev = 0;
             for (int i = 0; i < nodePath.length(); i++) {
-                if (nodePath.charAt(i)=='/') {
-                    myPath.add(new Long(nodePath.substring(prev,i)));
-                    prev = i+1;
+                if (nodePath.charAt(i) == '/') {
+                    myPath.add(new Long(nodePath.substring(prev, i)));
+                    prev = i + 1;
                 }
             }
             Long xbIndex = new Long(nodePath.substring(prev));
@@ -1184,10 +1185,10 @@ public class XBCUpdatePHPPort {
 
     public ItemFile getCatalogFile(Long[] path, Long prev) {
         try {
-            BufferedReader br = callCatalog("?op=getnode&path="+getParamPath(path));
+            BufferedReader br = callCatalog("?op=getnode&path=" + getParamPath(path));
             String line;
             String itemId = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                 } else {
@@ -1198,9 +1199,9 @@ public class XBCUpdatePHPPort {
                 return null;
             }
             ItemFile itemFile = new ItemFile();
-            br = callCatalog("?op=getfile&node="+itemId+(prev==null?"":"&prev="+prev.toString()));
+            br = callCatalog("?op=getfile&node=" + itemId + (prev == null ? "" : "&prev=" + prev.toString()));
             itemId = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                     itemFile.setId(new Long(itemId));
@@ -1225,10 +1226,10 @@ public class XBCUpdatePHPPort {
             return null;
         }
         try {
-            BufferedReader br = callCatalog("?op=geticonmax&owner="+itemId);
+            BufferedReader br = callCatalog("?op=geticonmax&owner=" + itemId);
             String line;
             Long result = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -1250,10 +1251,10 @@ public class XBCUpdatePHPPort {
             return null;
         }
         try {
-            BufferedReader br = callCatalog("?op=geticon&owner="+itemId+"&xbindex="+i);
+            BufferedReader br = callCatalog("?op=geticon&owner=" + itemId + "&xbindex=" + i);
             String line;
             ItemFile result = new ItemFile();
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     result.setId(new Long(br.readLine()));
                 } else if ("mode".equals(line)) {
@@ -1307,11 +1308,11 @@ public class XBCUpdatePHPPort {
             Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } finally {
- /*           try {
-                br.close();
-            } catch (IOException ex) {
-                Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
-            } */
+            /*           try {
+             br.close();
+             } catch (IOException ex) {
+             Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
+             } */
         }
         return myPath.toArray(new Long[0]);
     }
@@ -1321,10 +1322,10 @@ public class XBCUpdatePHPPort {
             return null;
         }
         try {
-            BufferedReader br = callCatalog("?op=getlinemax&rev="+revId);
+            BufferedReader br = callCatalog("?op=getlinemax&rev=" + revId);
             String line;
             Long result = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -1346,10 +1347,10 @@ public class XBCUpdatePHPPort {
             return null;
         }
         try {
-            BufferedReader br = callCatalog("?op=getpanemax&rev="+revId);
+            BufferedReader br = callCatalog("?op=getpanemax&rev=" + revId);
             String line;
             Long result = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -1371,10 +1372,10 @@ public class XBCUpdatePHPPort {
             return null;
         }
         try {
-            BufferedReader br = callCatalog("?op=getline&rev="+revId+"&prior="+i);
+            BufferedReader br = callCatalog("?op=getline&rev=" + revId + "&prior=" + i);
             String line;
             RevisionPlug result = new RevisionPlug();
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -1416,10 +1417,10 @@ public class XBCUpdatePHPPort {
             return null;
         }
         try {
-            BufferedReader br = callCatalog("?op=getpane&rev="+revId+"&prior="+i);
+            BufferedReader br = callCatalog("?op=getpane&rev=" + revId + "&prior=" + i);
             String line;
             RevisionPlug result = new RevisionPlug();
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -1461,10 +1462,10 @@ public class XBCUpdatePHPPort {
             return null;
         }
         try {
-            BufferedReader br = callCatalog("?op=getplugmax&node="+nodeId);
+            BufferedReader br = callCatalog("?op=getplugmax&node=" + nodeId);
             String line;
             Long result = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -1489,11 +1490,11 @@ public class XBCUpdatePHPPort {
             return null;
         }
         try {
-            BufferedReader br = callCatalog("?op=getplug&node="+nodeId+"&plugin="+i);
+            BufferedReader br = callCatalog("?op=getplug&node=" + nodeId + "&plugin=" + i);
             String line;
             ItemPlugin result = new ItemPlugin();
             result.setNodeId(nodeId);
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -1535,10 +1536,10 @@ public class XBCUpdatePHPPort {
             return null;
         }
         try {
-            BufferedReader br = callCatalog("?op=getpluglinemax&plug="+itemId);
+            BufferedReader br = callCatalog("?op=getpluglinemax&plug=" + itemId);
             String line;
             Long result = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -1560,10 +1561,10 @@ public class XBCUpdatePHPPort {
             return null;
         }
         try {
-            BufferedReader br = callCatalog("?op=getplugline&plug="+itemId+"&line="+plugLine);
+            BufferedReader br = callCatalog("?op=getplugline&plug=" + itemId + "&line=" + plugLine);
             String line;
             Long result = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -1585,10 +1586,10 @@ public class XBCUpdatePHPPort {
             return null;
         }
         try {
-            BufferedReader br = callCatalog("?op=getplugpanemax&plug="+itemId);
+            BufferedReader br = callCatalog("?op=getplugpanemax&plug=" + itemId);
             String line;
             Long result = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -1610,10 +1611,10 @@ public class XBCUpdatePHPPort {
             return null;
         }
         try {
-            BufferedReader br = callCatalog("?op=getplugpane&plug="+itemId+"&pane="+plugPane);
+            BufferedReader br = callCatalog("?op=getplugpane&plug=" + itemId + "&pane=" + plugPane);
             String line;
             Long result = null;
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
@@ -1634,7 +1635,7 @@ public class XBCUpdatePHPPort {
         if (compoundCall != null) {
             try {
                 String line;
-                while (!("".equals(line = compoundCall.readLine()))&&(line!=null)) {
+                while (!("".equals(line = compoundCall.readLine())) && (line != null)) {
                     compoundCall.readLine();
                 }
             } catch (IOException ex) {
@@ -1648,7 +1649,7 @@ public class XBCUpdatePHPPort {
             BufferedReader br = callCatalog("?op=getroot");
             String line;
             String lastUpdateString = "";
-            while (!("".equals(line = br.readLine()))&&(line!=null)) {
+            while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("lastupdate".equals(line)) {
                     lastUpdateString = br.readLine();
                 } else {
@@ -1661,7 +1662,12 @@ public class XBCUpdatePHPPort {
             }
             Calendar cal = Calendar.getInstance();
             cal.setTimeInMillis(0);
-            cal.set(Integer.valueOf(lastUpdateString.substring(0,4)), Integer.valueOf(lastUpdateString.substring(5,7)), Integer.valueOf(lastUpdateString.substring(8,10)), 0,0,0);
+            cal.set(Integer.valueOf(lastUpdateString.substring(0, 4)),
+                    Integer.valueOf(lastUpdateString.substring(5, 7)),
+                    Integer.valueOf(lastUpdateString.substring(8, 10)),
+                    Integer.valueOf(lastUpdateString.substring(11, 13)),
+                    Integer.valueOf(lastUpdateString.substring(14, 16)),
+                    Integer.valueOf(lastUpdateString.substring(17, 19)));
             return cal.getTime();
         } catch (IOException ex) {
             Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);

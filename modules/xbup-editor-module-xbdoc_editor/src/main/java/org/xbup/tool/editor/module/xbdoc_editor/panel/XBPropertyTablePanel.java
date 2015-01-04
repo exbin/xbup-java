@@ -39,6 +39,8 @@ import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXLineService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
+import org.xbup.lib.core.serial.XBASerialReader;
+import org.xbup.lib.parser_tree.XBATreeParamExtractor;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.plugin.XBLineEditor;
 import org.xbup.lib.plugin.XBPlugin;
@@ -334,6 +336,7 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
                     long bindCount = specService.getSpecDefsCount(spec);
                     try {
                         getValueFillingSemaphore().acquire();
+                        XBATreeParamExtractor paramExtractor = new XBATreeParamExtractor(node, catalog);
 
                         if (propertyPanel.getPropertyThread() == this) {
                             for (int parameterIndex = 0; parameterIndex < bindCount; parameterIndex++) {
@@ -353,10 +356,9 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
 
                                         lineEditor = getCustomEditor(rowRev);
                                         if (lineEditor != null) {
-                                            // XBTBlock paramBlock = node.getParam(catalog, parameterIndex);
-                                            // XBTPullProvider pullProvider = new XBTProviderToPullProvider(new XBTTreeWriter(paramBlock));
-                                            // XBASerialReader serialReader = new XBASerialReader(pullProvider);
-                                            // serialReader.read(lineEditor);
+                                            paramExtractor.setParameterIndex(parameterIndex);
+                                            XBASerialReader serialReader = new XBASerialReader(paramExtractor);
+                                            serialReader.read(lineEditor);
                                         }
                                     }
                                 }

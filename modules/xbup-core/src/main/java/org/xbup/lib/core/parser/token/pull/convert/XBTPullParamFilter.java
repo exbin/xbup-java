@@ -43,8 +43,8 @@ public class XBTPullParamFilter implements XBTPullFilter {
 
     private XBTPullPreLoader pullProvider;
     private int currentParameter = 0;
-    private XBBlockParam currentParamType;
     private int targetParameter = 0;
+    private XBBlockParam currentParamType;
     private XBParserState state = XBParserState.START;
     private XBBlockType blockType;
     private final List<XBTAttributeToken> attributeList;

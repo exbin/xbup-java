@@ -49,6 +49,10 @@ public class ParametersTableModel extends AbstractTableModel {
         return parameters.size();
     }
 
+    public ParametersTableItem getRow(int index) {
+        return parameters.get(index);
+    }
+
     @Override
     public int getColumnCount() {
         return columnNames.length;

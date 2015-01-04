@@ -23,7 +23,7 @@ import org.xbup.lib.core.catalog.base.XBCSpec;
 /**
  * Interface for XBCRev catalog manager.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.24 2015/01/04
  * @author XBUP Project (http://xbup.org)
  * @param <T> revision entity
  */
@@ -77,4 +77,13 @@ public interface XBCRevManager<T extends XBCRev> extends XBCCatalogManager<T> {
      * @return count of revisions
      */
     public Long getAllRevisionsCount();
+
+    /**
+     * Gets sum of all up to defined revisions in catalog.
+     *
+     * @param spec parent specification
+     * @param revision maximum revision xb index to sum up to
+     * @return sum of revision's limits
+     */
+    public long getRevsLimitSum(XBCSpec spec, long revision);
 }

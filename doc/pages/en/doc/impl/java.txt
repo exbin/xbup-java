@@ -17,7 +17,7 @@ There are basic libraries with functionality related to protocol itself and serv
 
 ===== Additional Libraries =====
 
-  * [[en:doc:impl:java:lib:xbup-plugin|xbup-plugin]] - Library for plugins
+  * [[en:doc:impl:java:lib:xbup-plugin|xbup-plugin]] - Library for plugins support
   * [[en:doc:impl:java:lib:xbup-operation|xbup-operation]] - Library for undo/redo and complex operations handling
   * [[en:doc:impl:java:lib:xbup-audio|xbup-audio]] - Library for functionality related to audio data processing
   * [[en:doc:impl:java:lib:xbup-visual|xbup-visual]] - Library for functionality related to visual data processing
@@ -45,6 +45,7 @@ Implementation includes following tools for manipulation with XBUP-encoded docum
   * [[en:doc:impl:java:tool:xbmanager|XBManager]] - Tool for accessing XBUP catalog or framework services
   * [[en:doc:impl:java:tool:xbservice|XBService]] - Tool for service runtime control
   * [[en:doc:impl:java:tool:xbshell|XBShell]] - Support for browsing content of document on the text command line
+  * [[en:doc:impl:java:tool:xbcatalogweb|XBCatalogWeb]] - Web service for accessing XBUP catalog or framework service
 
 ==== Sample Editors ====
 

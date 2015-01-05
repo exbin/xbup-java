@@ -1,2 +1,2 @@
-====== XBUP Catalog Library ======
+====== XBUP Catalog Library (Java) ======
 

@@ -1,4 +1,4 @@
-====== XBEditor ======
+====== XBEditor (Java) ======
 
 XBEditor is basic editor for visualization and editing of XBUP based documents. Basic editing is provided as tree view allowing browsing the structure and performing various operations. 
 

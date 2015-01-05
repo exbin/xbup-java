@@ -1,8 +1,6 @@
-====== XBUP Core Library ======
+====== XBUP Core Library (Java) ======
 
-Core library provides set of interfaces and functions to support XBUP-encoded document's handling. It provides basic parsers, declarations and catalog access, basic types and support for serialization, streaming and remote procedure calls (RPC).
-
-FIXME
+Core library provides set of interfaces and functions to support handling of the XBUP-encoded documents. It provides basic parsers, declarations and catalog access, basic types and support for serialization, streaming and remote procedure calls (RPC).
 
 ===== Basic Interfaces =====
 
@@ -18,7 +16,9 @@ Implementation of pull and event parsers is included in core library in "org.xbu
 
 [[en:doc:protocol:parsers|See more about protocol parser.]]
 
-Java implementation provides two ways how to process tokens. One way is via wide interface XBListener for level 0 which provides single method for each token type.
+===== Basic Parser =====
+
+Basic parsers uses wide interface XBListener for level 0 which provides single method for each token type.
 
   public void begin(XBBlockTerminationMode terminationMode)
   public void attrib(UBNatural attribute)
@@ -29,17 +29,69 @@ For level 1, there is similar interface XBTListener, which also includes additio
 
   public void typeXBT(XBBlockType blockType)
 
-Other way uses token classes as defined in "org.xbup.lib.core.parser.token" package and interfaces with single method.
+==== Usage Examples ====
 
-  * For level 0:
+  * Writting single node to file
+
+  try (XBListenerWriter writer = new XBListenerWriter()) {
+      writer.open(new FileOutputStream("test.xb"));
+      writer.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
+      writer.attribXB(new UBNat32(1));
+      writer.attribXB(new UBNat32(2));
+      writer.endXB();
+      writer.closeXB();
+  } catch (IOException | XBProcessingException ex) {
+      // Process exception
+  }
+
+  * Reading from file
+
+  try {
+      XBProducerReader reader = new XBProducerReader();
+      reader.open(new FileInputStream("test.xb"));
+      reader.attachXBListener(new XBListener() {
+          @Override
+          public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+              // Process your data
+          }
+  
+          @Override
+          public void attribXB(UBNatural attribute) throws XBProcessingException, IOException {
+              // Process your data
+          }
+  
+          @Override
+          public void dataXB(InputStream data) throws XBProcessingException, IOException {
+              // Process your data
+          }
+  
+          @Override
+          public void endXB() throws XBProcessingException, IOException {
+              // Process your data
+          }
+      });
+      reader.read();
+      reader.close();
+  } catch (IOException | XBProcessingException ex) {
+      // Process exception
+  }
+
+
+===== Token Parsers =====
+
+Variant of parsing using tokens is defined in "org.xbup.lib.core.parser.token" package and provides interfaces with single method handing token valus.
+
+  * For level 0 (XBToken):
 
   XBBeginToken, XBAttributeToken, XBDataToken, XBEndToken
 
-  * For level 1:
+  * For level 1 (XBTToken):
 
   XBTBeginToken, XBTTypeToken, XBTAttributeToken, XBTDataToken, XBTEndToken
 
 For different ways and directions of handling tokens there are defined interfaces for each case:
+
+==== Usage Examples ====
 
 
 

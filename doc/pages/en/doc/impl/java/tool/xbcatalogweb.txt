@@ -1,0 +1,11 @@
+====== XBUP Catalog Web Service (Java) ======
+
+Catalog web service is Java web service providing access to catalog or framework service via web interface. Application is created using following technologies:
+
+  * Spring Framework
+  * EclipseLink (ORM mapping)
+  * Richfaces
+  * JPA/JTA with database using MySQL or Apache Derby database
+
+===== Provided Functionality =====
+

@@ -1,0 +1,29 @@
+====== XBService (Java) ======
+
+XBService tool is a runtime service and service control tool, which allows to run local framework service. This implementation provides access interface using network/UDP access.
+
+===== Provided Functinality =====
+
+Service can provide following functions:
+
+  * Start framework service at default or given port
+  * Test status of running service
+  * Stop running framework service
+  * Install/uninstall framework service as a system service
+  * Control various aspects of running service including:
+    * Performing catalog and modules update
+
+FIXME
+
+===== Usage =====
+
+Application acts as a remote service call service by the general interface of the data stream. For testing purposes, normal network interface and UDP will be used.
+
+FIXME
+
+==== Framework Service ====
+
+TODO Move to framework-service lib:
+
+The major part of the documentation will describe communication interface, which is used for communication using data transmitting via the XBUP. By default, network service is running on port 22594 and uses defined [[en:doc:catalog:interfaces|catalog interface]].
+

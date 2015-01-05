@@ -1,4 +1,4 @@
-====== XBManager ======
+====== XBManager (Java) ======
 
 XBManager is management tool for framework and catalog services. It allows to browse available functionality and add/remove new items into data storage.
 
@@ -13,3 +13,4 @@ The primary window contains a tree of manageable items and the window for their 
 Application allows to connect to the framework service running on local or remote computer.
 
 FIXME
+

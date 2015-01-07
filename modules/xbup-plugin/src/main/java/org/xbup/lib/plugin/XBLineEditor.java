@@ -22,7 +22,7 @@ import org.xbup.lib.core.serial.XBSerializable;
 /**
  * XBUP Line Editor Plugin Base Interface.
  *
- * @version 0.1.24 2014/12/20
+ * @version 0.1.24 2015/01/06
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBLineEditor extends XBSerializable {
@@ -48,4 +48,19 @@ public interface XBLineEditor extends XBSerializable {
      * @return true, if value was changed or cannot compare values
      */
     public boolean finishEditor(JComponent editor);
+
+    /**
+     * Attaches change listener.
+     *
+     * @param listener change listener
+     */
+    public void attachChangeListener(ChangeListener listener);
+
+    /**
+     * Change listener interface.
+     */
+    public interface ChangeListener {
+
+        void valueChanged();
+    }
 }

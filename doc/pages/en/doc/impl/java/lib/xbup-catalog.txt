@@ -1,2 +1,49 @@
 ====== XBUP Catalog Library (Java) ======
 
+Catalog library provides object-relational mapping for XBUP catalog and methods for performing update from another framework/catalog service.
+
+Implementation has following propeties:
+
+  * Java Persistence for entity classes
+  * Multi-layered classes
+    * Service classes (also know as bussiness classes)
+    * Manager classes (also know as DAO classes)
+  * Catalog class with management classes repository (alternativelly Spring IoC can be used instead)
+
+[[en:doc:protocol:catalog|See more information about catalog.]]
+
+===== ORM Mapping Classes =====
+
+Default manager and service provides following methods for specific entity management operations:
+
+  * createItem() - returns new instance of entity
+  * removeItem(item) - removes item from catalog
+  * getAllItems() - returns list of all entities stored in database
+  * getItem(index) - returns entity with given index from database
+  * getItemsCount() - returns count of all entities of the same type stored in database
+  * persistItem(item) - updates database entity to have same values as in given item
+
+===== Catalog Update Classes =====
+
+There is currently only stub update using PHP catalog available. It requires PHP catalog web running on address:
+
+[[http://catalog-php.xbup.org]] or [[http://catalog-dev-php.xbup.org]]
+
+Interface is using HTTP GET methods to pass parameters and result is typically text output with alternating rows with value names and values.
+
+For work release 24, requests are passed to interface/wr-24-0.php accepting parameters:
+
+  * op - operation
+  * path - the path to the element in a text string sequence of XBIndexes separated by "/" characters
+  * id, spec, dtype, parent - numerical parameters of id element, or the value type
+
+Some of the operations are:
+
+  * **getnode (path) : id, xbindex, xblimit** - For given path returns basic item database index
+  * **getspec (path, spec, dtype) : id, xbindex, xblimit** - For given path returns specification of relevant xbindexu (spec) and type (dtype):\\ 0 - format\\ 1 - group\\ 2 - block\\
+  * **getbind (origin, xbindex) : id, target** - For given specification's id and xbindex returns relevant bind
+  * **getnodepath (node) : path** - For given id (node) returns relevant path string
+  * **getlang (code) : id, caption** - For given language identification (code) returns information about language
+  * **getname (id, lang) : id, text** - For the item and returns the text and language of the extension called Name
+  * **getdesc (id, lang) : id, text** - For the item and returns the text and language of the extension called Desc
+  * **getcomm (id, lang) : id, text** - For the item and returns the text and language of the extension called Comm

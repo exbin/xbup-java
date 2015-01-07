@@ -23,15 +23,16 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.plugin.XBAbstractLineEditor;
 import org.xbup.lib.plugin.XBLineEditor;
 
 /**
  * XBUP Editor plugin - provides panels for basic XBUP data types.
  *
- * @version 0.1.24 2014/12/21
+ * @version 0.1.24 2015/01/06
  * @author XBUP Project (http://xbup.org)
  */
-public class NaturalLineEditor implements XBLineEditor, XBTSequenceSerializable {
+public class NaturalLineEditor extends XBAbstractLineEditor implements XBLineEditor, XBTSequenceSerializable {
 
     private UBNat32 value = new UBNat32();
 
@@ -59,6 +60,7 @@ public class NaturalLineEditor implements XBLineEditor, XBTSequenceSerializable 
     public boolean finishEditor(JComponent editor) {
         JTextField component = (JTextField) editor;
         value.setValue(Long.valueOf(component.getText()));
+        fireValueChange();
         return true;
     }
 

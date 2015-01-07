@@ -14,15 +14,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.parser.param;
+package org.xbup.lib.plugin;
 
 /**
- * Enumeration of parameter processing states.
+ * XBUP Line Editor Plugin Base Abstract Class.
  *
  * @version 0.1.24 2015/01/06
  * @author XBUP Project (http://xbup.org)
  */
-public enum XBParamProcessingState {
+public abstract class XBAbstractLineEditor implements XBLineEditor {
 
-    BEGIN, TYPE, ATTRIBUTES, CHILDREN, END
+    private ChangeListener changeListener = null;
+
+    public void fireValueChange() {
+        if (changeListener != null) {
+            changeListener.valueChanged();
+        }
+    }
+
+    @Override
+    public void attachChangeListener(ChangeListener listener) {
+        changeListener = listener;
+    }
 }

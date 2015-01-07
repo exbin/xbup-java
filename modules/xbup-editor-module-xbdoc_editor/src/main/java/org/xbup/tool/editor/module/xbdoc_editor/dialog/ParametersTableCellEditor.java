@@ -16,7 +16,6 @@
  */
 package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 
-import org.xbup.tool.editor.module.xbdoc_editor.panel.*;
 import java.awt.Component;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComponent;
@@ -26,6 +25,7 @@ import javax.swing.JTextField;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.plugin.XBLineEditor;
+import org.xbup.tool.editor.module.xbdoc_editor.panel.XBPropertyTableCellPanel;
 
 /**
  * Property Table Cell Renderer.
@@ -50,7 +50,7 @@ public class ParametersTableCellEditor extends DefaultCellEditor {
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
         ParametersTableItem tableItem = ((ParametersTableModel) table.getModel()).getRow(row);
-        lineEditor = null; // TODO tableItem.getLineEditor();
+        lineEditor = tableItem.getLineEditor();
         lineEditorComponent = lineEditor == null ? null : lineEditor.getEditor();
         XBPropertyTableCellPanel cellPanel;
         if (lineEditorComponent == null) {

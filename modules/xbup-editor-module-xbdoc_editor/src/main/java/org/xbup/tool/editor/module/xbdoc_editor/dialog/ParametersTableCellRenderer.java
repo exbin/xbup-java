@@ -17,6 +17,7 @@
 package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 
 import java.awt.Component;
+import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 import org.xbup.lib.core.catalog.XBACatalog;
@@ -26,7 +27,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.panel.XBPropertyTableCellPanel;
 /**
  * Property Table Cell Renderer.
  *
- * @version 0.1.24 2015/01/04
+ * @version 0.1.24 2015/01/06
  * @author XBUP Project (http://xbup.org)
  */
 public class ParametersTableCellRenderer implements TableCellRenderer {
@@ -42,9 +43,8 @@ public class ParametersTableCellRenderer implements TableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         ParametersTableItem tableItem = ((ParametersTableModel) table.getModel()).getRow(row);
-//        JComponent component = tableItem.getLineEditor() == null ? null : tableItem.getLineEditor().getComponent();
-//        XBPropertyTableCellPanel cellPanel = component == null ? new XBPropertyTableCellPanel(catalog, node, row) : new XBPropertyTableCellPanel(component, catalog, node, row);
-        XBPropertyTableCellPanel cellPanel = new XBPropertyTableCellPanel(catalog, node, row);
+        JComponent component = tableItem.getLineEditor() == null ? null : tableItem.getLineEditor().getComponent();
+        XBPropertyTableCellPanel cellPanel = component == null ? new XBPropertyTableCellPanel(catalog, node, row) : new XBPropertyTableCellPanel(component, catalog, node, row);
         cellPanel.setBackground(isSelected ? table.getSelectionBackground() : table.getBackground());
         cellPanel.getCellComponent().setBorder(null);
         return cellPanel;

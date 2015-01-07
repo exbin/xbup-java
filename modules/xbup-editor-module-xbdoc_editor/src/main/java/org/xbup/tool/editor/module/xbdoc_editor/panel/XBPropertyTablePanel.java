@@ -40,6 +40,7 @@ import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXLineService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.serial.XBASerialReader;
+import org.xbup.lib.core.serial.XBASerialWriter;
 import org.xbup.lib.parser_tree.XBATreeParamExtractor;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.plugin.XBLineEditor;
@@ -359,6 +360,8 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
                                             paramExtractor.setParameterIndex(parameterIndex);
                                             XBASerialReader serialReader = new XBASerialReader(paramExtractor);
                                             serialReader.read(lineEditor);
+
+                                            lineEditor.attachChangeListener(new LineEditorChangeListener(lineEditor, paramExtractor, parameterIndex));
                                         }
                                     }
                                 }
@@ -492,5 +495,25 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
 
     public void setPluginRepository(XBPluginRepository pluginRepository) {
         this.pluginRepository = pluginRepository;
+    }
+
+    private class LineEditorChangeListener implements XBLineEditor.ChangeListener {
+
+        private final XBATreeParamExtractor paramExtractor;
+        private final int parameterIndex;
+        private final XBLineEditor lineEditor;
+
+        private LineEditorChangeListener(XBLineEditor lineEditor, XBATreeParamExtractor paramExtractor, int parameterIndex) {
+            this.lineEditor = lineEditor;
+            this.paramExtractor = paramExtractor;
+            this.parameterIndex = parameterIndex;
+        }
+
+        @Override
+        public void valueChanged() {
+            paramExtractor.setParameterIndex(parameterIndex);
+            XBASerialWriter serialWriter = new XBASerialWriter(paramExtractor);
+            serialWriter.write(lineEditor);
+        }
     }
 }

@@ -17,11 +17,12 @@
 package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.plugin.XBLineEditor;
 
 /**
  * Parameters list table item record.
  *
- * @version 0.1.24 2014/11/10
+ * @version 0.1.24 2015/01/06
  * @author XBUP Project (http://xbup.org)
  */
 public class ParametersTableItem {
@@ -29,11 +30,17 @@ public class ParametersTableItem {
     private XBCBlockSpec spec;
     private String name;
     private String type;
+    private XBLineEditor lineEditor;
 
-    public ParametersTableItem(XBCBlockSpec spec, String name, String type) {
+    public ParametersTableItem(XBCBlockSpec spec, String name, String type, XBLineEditor lineEditor) {
         this.spec = spec;
         this.name = name;
         this.type = type;
+        this.lineEditor = lineEditor;
+    }
+
+    public ParametersTableItem(XBCBlockSpec spec, String name, String type) {
+        this(spec, name, type, null);
     }
 
     public XBCBlockSpec getSpec() {
@@ -58,5 +65,13 @@ public class ParametersTableItem {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public XBLineEditor getLineEditor() {
+        return lineEditor;
+    }
+
+    public void setLineEditor(XBLineEditor lineEditor) {
+        this.lineEditor = lineEditor;
     }
 }

@@ -48,7 +48,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Extracting specified parameters from XBUP level 2 blocks.
  *
- * @version 0.1.24 2015/01/06
+ * @version 0.1.24 2015/01/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener {
@@ -64,21 +64,27 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
     private XBTTreeReader childReader;
     private final XBTListenerToToken childConvertor = new XBTListenerToToken();
 
-    private int attributePosition;
-    private int childPosition;
-
-    private int targetParameter = 0;
+    private final ParameterInfo position;
 
     public XBATreeParamExtractor(XBTBlock source, XBACatalog catalog) {
         this.source = source;
+        position = new ParameterInfo();
+
+        XBBlockType blockType = source.getBlockType();
+        if (blockType instanceof XBDeclBlockType) {
+            position.blockDecl = ((XBDeclBlockType) blockType).getBlockDecl();
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
         reset();
     }
 
     private void reset() {
         currentParameter = 0;
         currentParameterInfo = null;
-        attributePosition = 0;
-        childPosition = 0;
+        position.attributeCount = 0;
+        position.childCount = 0;
         currentProcessingState = XBParamProcessingState.BEGIN;
         childWriter = null;
         childReader = null;
@@ -86,28 +92,19 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
 
     @Override
     public XBTToken pullXBTToken() throws XBProcessingException, IOException {
-        alignPosition();
-
         if (childWriter != null) {
             return getChildToken();
         }
 
         if (parameterType == null) {
-            XBBlockType blockType = source.getBlockType();
-            if (blockType instanceof XBDeclBlockType) {
-                XBBlockDecl blockDecl = ((XBDeclBlockType) blockType).getBlockDecl();
-                if (blockDecl instanceof XBCBlockDecl) {
-                    XBBlockDef blockDef = ((XBCBlockDecl) blockDecl).getBlockDef();
+            XBBlockDef blockDef = position.blockDecl.getBlockDef();
+            if (blockDef != null) {
+                parameterType = blockDef.getParamDecl(currentParameter);
 
-                    if (blockDef != null) {
-                        parameterType = blockDef.getParamDecl(currentParameter);
-                    }
+                if (parameterType == null) {
+                    throw new XBProcessingException("Unable to process parameter " + currentParameter, XBProcessingExceptionType.UNSUPPORTED);
                 }
             }
-        }
-
-        if (parameterType == null) {
-            throw new XBProcessingException("Unable to process parameter " + currentParameter, XBProcessingExceptionType.UNSUPPORTED);
         }
 
         switch (parameterType.getParamType()) {
@@ -130,10 +127,6 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
                     }
 
                     case ATTRIBUTES: {
-                        if (currentParameterInfo.attributeCount + currentParameterInfo.childCount == 1) {
-                            currentProcessingState = XBParamProcessingState.END;
-                        }
-
                         if (currentParameterInfo.attributeCount > 0) {
                             currentParameterInfo.attributeCount--;
                             if (currentParameterInfo.attributeCount == 0) {
@@ -146,11 +139,11 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
                     }
 
                     case CHILDREN: {
-                        if (currentParameterInfo.childCount == 1) {
-                            currentProcessingState = XBParamProcessingState.END;
-                        }
-
                         if (currentParameterInfo.childCount > 0) {
+                            if (currentParameterInfo.childCount == 1) {
+                                currentProcessingState = XBParamProcessingState.END;
+                            }
+
                             childWriter = new XBTTreeWriter(getNextChild());
                             return getChildToken();
                         }
@@ -191,33 +184,24 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
 
     @Override
     public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
-        alignPosition();
-
         if (childReader != null) {
             XBTListenerToToken.tokenToListener(token, childReader);
             if (childReader.isClosed()) {
                 childReader = null;
+                currentParameterInfo.childCount--;
             }
 
             return;
         }
 
         if (parameterType == null) {
-            XBBlockType blockType = source.getBlockType();
-            if (blockType instanceof XBDeclBlockType) {
-                XBBlockDecl blockDecl = ((XBDeclBlockType) blockType).getBlockDecl();
-                if (blockDecl instanceof XBCBlockDecl) {
-                    XBBlockDef blockDef = ((XBCBlockDecl) blockDecl).getBlockDef();
-
-                    if (blockDef != null) {
-                        parameterType = blockDef.getParamDecl(currentParameter);
-                    }
+            XBBlockDef blockDef = position.blockDecl.getBlockDef();
+            if (blockDef != null) {
+                parameterType = blockDef.getParamDecl(currentParameter);
+                if (parameterType == null) {
+                    throw new XBProcessingException("Unable to process parameter " + currentParameter, XBProcessingExceptionType.UNSUPPORTED);
                 }
             }
-        }
-
-        if (parameterType == null) {
-            throw new XBProcessingException("Unable to process parameter " + currentParameter, XBProcessingExceptionType.UNSUPPORTED);
         }
 
         switch (parameterType.getParamType()) {
@@ -244,7 +228,9 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
                         }
 
                         if (currentProcessingState == XBParamProcessingState.CHILDREN) {
-
+                            childReader = new XBTTreeReader(getNextChild());
+                            childReader.beginXBT(((XBTBeginToken) token).getTerminationMode());
+                            return;
                         }
 
                         throw new XBProcessingException("Unexpected join processing order", XBProcessingExceptionType.UNEXPECTED_ORDER);
@@ -274,7 +260,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
                     case DATA: {
                         throw new IllegalStateException("Unexpected data node");
                     }
-                    
+
                     case END: {
                         if (currentProcessingState == XBParamProcessingState.ATTRIBUTES || currentProcessingState == XBParamProcessingState.CHILDREN) {
                             while (currentParameterInfo.attributeCount > 0) {
@@ -319,30 +305,6 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
         throw new XBProcessingException("Unexpected processing state", XBProcessingExceptionType.UNKNOWN);
     }
 
-    private void alignPosition() {
-        if (currentParameter > targetParameter) {
-            reset();
-        }
-
-        if (currentParameter != targetParameter) {
-            if (currentParameterInfo != null) {
-                attributePosition += currentParameterInfo.attributeCount;
-                childPosition += currentParameterInfo.childCount;
-                currentParameter++;
-                currentParameterInfo = null;
-            }
-
-            while (currentParameter < targetParameter) {
-                ParameterInfo parameterInfo = processParameterInfo();
-                attributePosition += parameterInfo.attributeCount;
-                childPosition += parameterInfo.childCount;
-                currentParameter++;
-            }
-
-            currentProcessingState = XBParamProcessingState.BEGIN;
-        }
-    }
-
     private XBTToken getChildToken() throws XBProcessingException, IOException {
         childWriter.produceXBT(childConvertor);
         if (childWriter.isFinished()) {
@@ -359,56 +321,74 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
         ParameterInfo parameterInfo = new ParameterInfo();
 
         ProcessingState processingState = new ProcessingState(null);
-        XBBlockType blockType = source.getBlockType();
-        XBBlockDecl blockDecl = ((XBDeclBlockType) blockType).getBlockDecl();
-        if (blockDecl instanceof XBCBlockDecl) {
-            XBBlockDef blockDef = ((XBCBlockDecl) blockDecl).getBlockDef();
+        XBBlockDef blockDef = position.blockDecl.getBlockDef();
 
-            if (blockDef != null) {
-                XBBlockParam paramDecl = blockDef.getParamDecl(currentParameter);
-                processingState.blockDecl = (XBCBlockDecl) paramDecl.getBlockDecl();
-                parameterInfo.blockDecl = (XBCBlockDecl) paramDecl.getBlockDecl();
-                long revision = processingState.blockDecl.getRevision();
-                processingState.parametersCount = processingState.blockDecl.getBlockDef().getRevisionDef().getRevisionLimit(revision);
-                processingStates.add(processingState);
-                processState(parameterInfo);
-            }
+        if (blockDef != null) {
+            XBBlockParam paramDecl = blockDef.getParamDecl(currentParameter);
+            processingState.blockDecl = (XBCBlockDecl) paramDecl.getBlockDecl();
+            parameterInfo.blockDecl = (XBCBlockDecl) paramDecl.getBlockDecl();
+            long revision = processingState.blockDecl.getRevision();
+            processingState.parametersCount = processingState.blockDecl.getBlockDef().getRevisionDef().getRevisionLimit(revision);
+            processingStates.add(processingState);
+            processState(parameterInfo);
         }
 
         return parameterInfo;
     }
 
     private XBTAttributeToken getNextAttributeToken() {
-        if (attributePosition >= source.getAttributesCount()) {
-            attributePosition++;
+        if (position.attributeCount >= source.getAttributesCount()) {
+            position.attributeCount++;
             return new XBTZeroAttributeToken();
         }
 
-        XBTAttributeToken attributeToken = new XBTAttributeToken(source.getAttribute(attributePosition));
-        attributePosition++;
+        XBTAttributeToken attributeToken = new XBTAttributeToken(source.getAttribute(position.attributeCount));
+        position.attributeCount++;
         return attributeToken;
     }
 
     private void setNextAttributeToken(UBNatural attribute) {
-        ((XBTEditableBlock) source).setAttribute(attribute, attributePosition);
-        attributePosition++;
+        ((XBTEditableBlock) source).setAttribute(attribute, position.attributeCount);
+        position.attributeCount++;
     }
 
     private XBTTreeNode getNextChild() {
-        if (childPosition >= source.getChildCount()) {
+        if (position.childCount >= source.getChildCount()) {
             XBTTreeNode emptyNode = new XBTTreeNode();
             emptyNode.setDataMode(XBBlockDataMode.DATA_BLOCK);
-            childPosition++;
+            position.childCount++;
             return emptyNode;
         }
 
-        XBTTreeNode childNode = (XBTTreeNode) source.getChildAt(childPosition);
-        childPosition++;
+        XBTTreeNode childNode = (XBTTreeNode) source.getChildAt(position.childCount);
+        position.childCount++;
         return childNode;
     }
 
-    public void setParameterIndex(int parameterIndex) throws XBProcessingException {
-        targetParameter = parameterIndex;
+    public void setParameterIndex(int targetParameter) throws XBProcessingException {
+        if (targetParameter <= currentParameter) {
+            reset();
+        }
+
+        if (targetParameter > currentParameter) {
+            // Finish currently processed parameter
+            if (currentParameterInfo != null) {
+                position.attributeCount += currentParameterInfo.attributeCount;
+                position.childCount += currentParameterInfo.childCount;
+                currentParameter++;
+                currentParameterInfo = null;
+            }
+
+            while (targetParameter > currentParameter) {
+                ParameterInfo parameterInfo = processParameterInfo();
+                position.attributeCount += parameterInfo.attributeCount;
+                position.childCount += parameterInfo.childCount;
+                currentParameter++;
+            }
+
+            currentProcessingState = XBParamProcessingState.BEGIN;
+        }
+
         parameterType = null;
         currentParameterInfo = null;
     }

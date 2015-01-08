@@ -16,16 +16,19 @@
  */
 package org.xbup.lib.core.ubnumber;
 
+import java.io.Serializable;
 import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 
 /**
  * Interface for LRUB-encoded integer value.
  *
- * @version 0.1.24 2014/06/07
+ * @version 0.1.24 2015/01/07
  * @author XBUP Project (http://xbup.org)
  */
-public interface UBInteger {
+public interface UBInteger extends Serializable, UBStreamable {
 
+    public static long[] XBUP_BLOCK_TYPE = {0, 0, 2};
+    
     /**
      * Gets short integer value.
      *

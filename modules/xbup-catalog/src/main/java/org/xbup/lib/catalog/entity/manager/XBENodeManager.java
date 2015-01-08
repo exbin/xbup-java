@@ -101,10 +101,10 @@ public class XBENodeManager extends XBEDefaultManager<XBENode> implements XBCNod
     }
 
     @Override
-    public XBENode findNodeByXBPath(Long[] xbCatalogPath) {
+    public XBENode findNodeByXBPath(Long[] catalogPath) {
         XBENode node = getRootNode();
-        for (Long xbCatalogPath1 : xbCatalogPath) {
-            node = (XBENode) getSubNode(node, xbCatalogPath1);
+        for (Long pathComponent : catalogPath) {
+            node = (XBENode) getSubNode(node, pathComponent);
             if (node == null) {
                 break;
             }
@@ -113,13 +113,13 @@ public class XBENodeManager extends XBEDefaultManager<XBENode> implements XBCNod
     }
 
     @Override
-    public XBENode findParentByXBPath(Long[] xbCatalogPath) {
-        if (xbCatalogPath.length == 0) {
+    public XBENode findParentByXBPath(Long[] catalogPath) {
+        if (catalogPath.length == 0) {
             return null;
         }
         XBENode node = getRootNode();
-        for (int i = 0; i < xbCatalogPath.length - 1; i++) {
-            node = (XBENode) getSubNode(node, xbCatalogPath[i]);
+        for (int i = 0; i < catalogPath.length - 1; i++) {
+            node = (XBENode) getSubNode(node, catalogPath[i]);
             if (node == null) {
                 break;
             }

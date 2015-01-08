@@ -63,8 +63,23 @@ public class XBCBlockDef implements XBBlockDef, XBSerializable {
     @Override
     public XBBlockParam getParamDecl(int index) {
         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
-        XBCSpecDef specDef = specService.getSpecDefByOrder(blockSpec, index);
-        return specDef == null ? null : new XBBlockParamJoin(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
+        XBCSpecDef specDef = specService.findSpecDefByXB(blockSpec, index);
+        if (specDef == null) {
+            return null;
+        }
+
+        switch (specDef.getType()) {
+            case JOIN:
+                return new XBBlockParamJoin(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
+            case CONS:
+                return new XBBlockParamConsist(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
+            case LIST_JOIN:
+                return new XBBlockParamListJoin(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
+            case LIST_CONS:
+                return new XBBlockParamListConsist(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
+        }
+
+        return null;
     }
 
     @Override

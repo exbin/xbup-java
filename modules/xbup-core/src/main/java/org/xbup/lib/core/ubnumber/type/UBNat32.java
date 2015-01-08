@@ -30,7 +30,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * UBNatural stored as long value (limited value capacity to 32 bits).
  *
- * @version 0.1.24 2014/12/15
+ * @version 0.1.24 2015/01/07
  * @author XBUP Project (http://xbup.org)
  */
 public class UBNat32 implements UBNatural, XBTSequenceSerializable {
@@ -111,17 +111,17 @@ public class UBNat32 implements UBNatural, XBTSequenceSerializable {
         }
         long input = (char) buf[0] & 0xFF;
         if (input < 0x80) {
-            value = buf[0];
+            value = input;
             return 1;
         } else if (input < 0xC0) {
-            value = (input & 0x7F) << 8;
+            value = (input & 0x3F) << 8;
             if (stream.read(buf) < 0) {
                 throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
             }
             value += (buf[0] & 0xFF) + 0x80;
             return 2;
         } else if (input < 0xE0) {
-            value = (input & 0x3F) << 16;
+            value = (input & 0x1F) << 16;
             if (stream.read(buf) < 0) {
                 throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
             }
@@ -132,7 +132,7 @@ public class UBNat32 implements UBNatural, XBTSequenceSerializable {
             value += (buf[0] & 0xFF) + 0x4080;
             return 3;
         } else if (input < 0xF0) {
-            value = (input & 0x1F) << 24;
+            value = (input & 0xF) << 24;
             if (stream.read(buf) < 0) {
                 throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
             }
@@ -147,7 +147,7 @@ public class UBNat32 implements UBNatural, XBTSequenceSerializable {
             value += (buf[0] & 0xFF) + 0x204080;
             return 4;
         } else if (input < 0xF8) {
-            value = (input & 0x0F) << 32;
+            value = (input & 0x7) << 32;
             if (stream.read(buf) < 0) {
                 throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
             }
@@ -164,9 +164,7 @@ public class UBNat32 implements UBNatural, XBTSequenceSerializable {
                 throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
             }
             value += (buf[0] & 0xFF) + 0x10204080;
-            if (value >= 0x10204080) {
-                return 5;
-            }
+            return 5;
         }
 
         throw new XBProcessingException("Value is too big for 32-bit value", XBProcessingExceptionType.UNSUPPORTED);

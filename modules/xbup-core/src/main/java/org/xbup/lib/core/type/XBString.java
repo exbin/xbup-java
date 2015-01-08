@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -36,14 +37,13 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Encapsulation class for UTF-8 String.
  *
- * @version 0.1.24 2014/12/15
+ * @version 0.1.24 2015/01/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBString implements XBTSequenceSerializable {
 
     private String value;
-    public static long[] XB_BLOCK_PATH = {1, 3, 1, 2, 2}; // Testing only
-    public static long[] XB_FORMAT_PATH = {1, 3, 1, 2, 0}; // Testing only
+    public static long[] XBUP_BLOCK_TYPE = {1, 3, 1, 2, 0};
 
     public XBString() {
         this.value = "";
@@ -64,7 +64,7 @@ public class XBString implements XBTSequenceSerializable {
     @Override
     public void serializeXB(XBTSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
-        serial.matchType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
+        serial.matchType(new XBDeclBlockType(new XBPBlockDecl(XBUP_BLOCK_TYPE)));
         serial.child(new DataBlockSerializator());
         serial.end();
    }
@@ -87,6 +87,7 @@ public class XBString implements XBTSequenceSerializable {
 
         @Override
         public void serializeToXB(XBChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+            serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
             if (getValue() != null) {
                 serial.addData(new ByteArrayInputStream(getValue().getBytes(Charset.forName("UTF-8"))));
             } else {

@@ -16,18 +16,28 @@
  */
 package org.xbup.lib.core.ubnumber.type;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.serial.sequence.XBSerializationMode;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
+import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 import org.xbup.lib.core.ubnumber.UBInteger;
+import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 
 /**
  * UBInteger stored as int value (limited value capacity to 32 bits).
  *
- * @version 0.1.24 2014/06/07
+ * @version 0.1.24 2015/01/07
  * @author XBUP Project (http://xbup.org)
  */
-public class UBInt32 implements UBInteger {
+public class UBInt32 implements UBInteger, XBTSequenceSerializable {
 
-    private int value;
+    private long value;
 
     public UBInt32() {
         value = 0;
@@ -39,7 +49,7 @@ public class UBInt32 implements UBInteger {
 
     @Override
     public int getInt() throws UBOverFlowException {
-        return value;
+        return (int) value;
     }
 
     @Override
@@ -76,29 +86,248 @@ public class UBInt32 implements UBInteger {
         return value;
     }
 
-    // TODO
-    /*
-     @Override
-     public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-     return serialType == XBSerializationType.FROM_XB
-     ? Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()})
-     : Arrays.asList(new XBSerialMethod[]{new XBTChildListenerSerialMethod()});
-     }
+    @Override
+    public void serializeXB(XBTSequenceSerialHandler serial) throws XBProcessingException, IOException {
+        serial.begin();
+        serial.matchType(new XBDeclBlockType(XBUP_BLOCK_TYPE));
+        if (serial.getSerializationMode() == XBSerializationMode.PULL) {
+            convertFromNatural(serial.pullAttribute());
+        } else {
+            serial.putAttribute(convertToNatural());
+        }
+        serial.end();
+    }
+    
+    public void convertFromNatural(UBNatural nat) {
+        long natLong = nat.getLong();
+        if (natLong < 0x40) {
+            value = natLong;
+        } else if (natLong < 0x80) {
+            value = 0x80 - natLong;
+        } else if (natLong < 0x2080) {
+            value = natLong - 0x40;
+        } else if (natLong < 0x4080) {
+            value = 0x4080 + 0x40 - natLong;
+        } else if (natLong < 0x104080) {
+            value = natLong - 0x2080;
+        } else if (natLong < 0x204080) {
+            value = 0x204080 + 0x2080 - natLong;
+        } else if (natLong < 0x8204080) {
+            value = natLong - 0x104080;
+        } else if (natLong < 0x10204080) {
+            value = 0x10204080 + 0x104080 - natLong;
+        } else {
+            value = natLong - 0x8204080;
+        }
+    }
+    
+    public UBNatural convertToNatural() {
+        if (value < 0) {
+            if (value >= -0x40) {
+                return new UBNat32(0x80 - value);
+            } else if (value >= -0x2040) {
+                return new UBNat32(0x2080 - value);
+            } else if (value >= -0x102040) {
+                return new UBNat32(0x102080 - value);
+            } else if (value >= -0x8102040) {
+                return new UBNat32(0x8102080 - value);
+            } else {
+                throw new UBOverFlowException("Unable to convert big negative value to natural");
+            }
+        } else {
+            if (value < 0x40) {
+                return new UBNat32(value);
+            } else if (value < 0x2040) {
+                return new UBNat32(value + 0x40);
+            } else if (value < 0x8102040) {
+                return new UBNat32(value + 0x2040);
+            } else {
+                return new UBNat32(value + 0x8102040);
+            }
+        }
+    }
 
-     @Override
-     public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-     if (serialType == XBSerializationType.FROM_XB) {
-     XBTChildProvider serial = (XBTChildProvider) serializationHandler;
-     serial.begin();
-     UBNatural newValue = serial.nextAttribute();
-     // TODO setValue(newValue.getLong());
-     serial.end();
-     } else {
-     XBTChildListener serial = (XBTChildListener) serializationHandler;
-     serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
-     // TODO serial.addAttribute(this);
-     serial.end();
-     }
-     }
-     */
+    @Override
+    public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
+        byte buf[] = new byte[1];
+        if (stream.read(buf) < 0) {
+            throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+        }
+        long input = (char) buf[0] & 0xFF;
+        if (input < 0x80) {
+            boolean negativeValue = (input & 0x40) > 0;
+            value = input & 0x3F;
+            value = negativeValue ? value -= 0x40 : value;
+            return 1;
+        } else if (input < 0xC0) {
+            boolean negativeValue = (input & 0x20) > 0;
+            value = (input & 0x1F) << 8;
+            if (stream.read(buf) < 0) {
+                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+            }
+            value += (buf[0] & 0xFF);
+            value = negativeValue ? value -= 0x2040 : value + 0x40;
+            return 2;
+        } else if (input < 0xE0) {
+            boolean negativeValue = (input & 0x10) > 0;
+            value = (input & 0xF) << 16;
+            if (stream.read(buf) < 0) {
+                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+            }
+            value += (buf[0] & 0xFF) << 8;
+            if (stream.read(buf) < 0) {
+                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+            }
+            value += (buf[0] & 0xFF);
+            value = negativeValue ? value -= 0x102040 : value + 0x2040;
+            return 3;
+        } else if (input < 0xF0) {
+            boolean negativeValue = (input & 0x8) > 0;
+            value = (input & 0x7) << 24;
+            if (stream.read(buf) < 0) {
+                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+            }
+            value += (buf[0] & 0xFF) << 16;
+            if (stream.read(buf) < 0) {
+                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+            }
+            value += (buf[0] & 0xFF) << 8;
+            if (stream.read(buf) < 0) {
+                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+            }
+            value += (buf[0] & 0xFF);
+            value = negativeValue ? value -= 0x8102040 : value + 0x102040;
+            return 4;
+        } else if (input < 0xF8) {
+            boolean negativeValue = (input & 0x4) > 0;
+            if (negativeValue) {
+                throw new XBProcessingException("Value is too big for 32-bit value", XBProcessingExceptionType.UNSUPPORTED);
+            }
+            value = (input & 0x3) << 32;
+            if (stream.read(buf) < 0) {
+                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+            }
+            value += (buf[0] & 0xFF) << 24;
+            if (stream.read(buf) < 0) {
+                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+            }
+            value += (buf[0] & 0xFF) << 16;
+            if (stream.read(buf) < 0) {
+                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+            }
+            value += (buf[0] & 0xFF) << 8;
+            if (stream.read(buf) < 0) {
+                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+            }
+            value += (buf[0] & 0xFF);
+            value += 0x8102040;
+            return 5;
+        }
+
+        throw new XBProcessingException("Value is too big for 32-bit value", XBProcessingExceptionType.UNSUPPORTED);
+    }
+
+    @Override
+    public int toStreamUB(OutputStream stream) throws IOException {
+        if (value < 0) {
+            if (value >= -0x40) {
+                stream.write((char) (0x80 + value));
+                return 1;
+            } else if (value >= -0x2040) {
+                byte[] out = new byte[2];
+                long outValue = 0x4040 + value; // 4080 -40
+                out[0] = (byte) ((outValue >> 8) + 0x80);
+                out[1] = (byte) (outValue & 0xFF);
+                stream.write(out);
+                return 2;
+            } else if (value >= -0x102040) {
+                long outValue = 0x202040 + value;
+                byte[] out = new byte[3];
+                out[0] = (byte) ((outValue >> 16) + 0xC0);
+                out[1] = (byte) ((outValue >> 8) & 0xFF);
+                out[2] = (byte) (outValue & 0xFF);
+                stream.write(out);
+                return 3;
+            } else if (value >= -0x8102040) {
+                long outValue = 0x10102040 + value;
+                byte[] out = new byte[4];
+                out[0] = (byte) ((outValue >> 24) + 0xE0);
+                out[1] = (byte) ((outValue >> 16) & 0xFF);
+                out[2] = (byte) ((outValue >> 8) & 0xFF);
+                out[3] = (byte) (outValue & 0xFF);
+                stream.write(out);
+                return 4;
+            } else {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        } else {
+            if (value < 0x40) {
+                stream.write((char) value);
+                return 1;
+            } else if (value < 0x2040) {
+                byte[] out = new byte[2];
+                long outValue = value - 0x40;
+                out[0] = (byte) ((outValue >> 8) + 0x80);
+                out[1] = (byte) (outValue & 0xFF);
+                stream.write(out);
+                return 2;
+            } else if (value < 0x102040) {
+                long outValue = value - 0x2040;
+                byte[] out = new byte[3];
+                out[0] = (byte) ((outValue >> 16) + 0xC0);
+                out[1] = (byte) ((outValue >> 8) & 0xFF);
+                out[2] = (byte) (outValue & 0xFF);
+                stream.write(out);
+                return 3;
+            } else if (value < 0x8102040) {
+                long outValue = value - 0x102040;
+                byte[] out = new byte[4];
+                out[0] = (byte) ((outValue >> 24) + 0xE0);
+                out[1] = (byte) ((outValue >> 16) & 0xFF);
+                out[2] = (byte) ((outValue >> 8) & 0xFF);
+                out[3] = (byte) (outValue & 0xFF);
+                stream.write(out);
+                return 4;
+            } else {
+                long outValue = value - 0x8102040;
+                byte[] out = new byte[5];
+                out[0] = (byte) ((outValue >> 32) + 0xF0);
+                out[1] = (byte) ((outValue >> 24) & 0xFF);
+                out[2] = (byte) ((outValue >> 16) & 0xFF);
+                out[3] = (byte) ((outValue >> 8) & 0xFF);
+                out[4] = (byte) (outValue & 0xFF);
+                stream.write(out);
+                return 5;
+            }
+        }
+    }
+
+    @Override
+    public int getSizeUB() {
+        if (value < 0) {
+            if (value >= -0x40) {
+                return 1;
+            } else if (value >= -0x2040) {
+                return 2;
+            } else if (value >= -0x102040) {
+                return 3;
+            } else if (value >= -0x8102040) {
+                return 4;
+            } else {
+                return 5;
+            }
+        } else {
+            if (value < 0x40) {
+                return 1;
+            } else if (value < 0x2040) {
+                return 2;
+            } else if (value < 0x102040) {
+                return 3;
+            } else if (value < 0x8102040) {
+                return 4;
+            } else {
+                return 5;
+            }
+        }
+    }
 }

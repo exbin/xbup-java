@@ -106,13 +106,14 @@ public class XBTCompactingEventFilter implements XBTEventFilter {
                 break;
             }
             case DATA: {
-                if (((XBTDataToken) token).getData().available() == 0) {
+                if (((XBTDataToken) token).isEmpty()) {
                     emptyNodes.add(blockMode);
                     break;
                 } else {
                     flushEmptyNodes();
                 }
 
+                eventListener.putXBTToken(new XBTBeginToken(blockMode));
                 eventListener.putXBTToken(token);
                 break;
             }

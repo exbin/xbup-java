@@ -95,7 +95,7 @@ import org.xbup.lib.catalog.entity.service.XBEXStriService;
 /**
  * Handler for processing Web Service Calls with PHP Catalog interface.
  *
- * @version 0.1.22 2013/08/18
+ * @version 0.1.24 2015/01/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCUpdatePHPHandler implements XBCUpdateHandler {
@@ -579,8 +579,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                     XBEBlockSpec spec = (XBEBlockSpec) it.next();
                     processBlockSpecBinds(spec);
                     List<XBCRev> revisions = revService.getRevs(spec);
-                    for (Iterator<XBCRev> it1 = revisions.iterator(); it1.hasNext();) {
-                        XBCRev rev = it1.next();
+                    for (XBCRev rev : revisions) {
                         processRevLines(rev);
                         processRevPanes(rev);
                     }
@@ -682,7 +681,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         if (maxIndex != null) {
             for (long index = 0; index <= maxIndex; index++) {
                 RevisionPath revPath = port.getFormatCatalogBindTargetPath(path, spec.getXBIndex(), index);
-                if (revPath != null) {
+                if (revPath != null && revPath.getSpecId() != null) {
                     XBENode specNode = nodeService.findNodeByXBPath(revPath.getPath());
                     if (revPath.getBindType() == 0) {
                         XBEGroupSpec target = specService.findGroupSpecByXB(specNode, revPath.getSpecId());
@@ -726,7 +725,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         if (maxIndex != null) {
             for (long index = 0; index <= maxIndex; index++) {
                 RevisionPath revPath = port.getGroupCatalogBindTargetPath(path, spec.getXBIndex(), index);
-                if (revPath != null) {
+                if (revPath != null && revPath.getSpecId() != null) {
                     XBENode specNode = nodeService.findNodeByXBPath(revPath.getPath());
                     if (revPath.getBindType() == 0) {
                         XBEBlockSpec target = specService.findBlockSpecByXB(specNode, revPath.getSpecId());
@@ -771,11 +770,14 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
             for (long index = 0; index <= maxIndex; index++) {
                 RevisionPath revPath = port.getBlockCatalogBindTargetPath(path, spec.getXBIndex(), index);
                 if (revPath != null) {
-                    XBENode specNode = nodeService.findNodeByXBPath(revPath.getPath());
+                    XBENode specNode = null;
+                    if (revPath.getSpecId() != null) {
+                        specNode = nodeService.findNodeByXBPath(revPath.getPath());
+                    }
                     if (revPath.getBindType() == 0) {
-                        XBEBlockSpec target = specService.findBlockSpecByXB(specNode, revPath.getSpecId());
                         XBEBlockRev rev = null;
-                        if (revPath.getRevXBId() != null) {
+                        if (revPath.getSpecId() != null) {
+                            XBEBlockSpec target = specService.findBlockSpecByXB(specNode, revPath.getSpecId());
                             rev = (XBEBlockRev) revService.findRevByXB(target, revPath.getRevXBId());
                         }
                         EntityTransaction tx = em.getTransaction();
@@ -787,9 +789,9 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                         em.persist(bind);
                         tx.commit();
                     } else if (revPath.getBindType() == 1) {
-                        XBEBlockSpec target = specService.findBlockSpecByXB(specNode, revPath.getSpecId());
                         XBEBlockRev rev = null;
-                        if (revPath.getRevXBId() != null) {
+                        if (revPath.getSpecId() != null) {
+                            XBEBlockSpec target = specService.findBlockSpecByXB(specNode, revPath.getSpecId());
                             rev = (XBEBlockRev) revService.findRevByXB(target, revPath.getRevXBId());
                         }
                         EntityTransaction tx = em.getTransaction();
@@ -801,9 +803,9 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                         em.persist(bind);
                         tx.commit();
                     } else if (revPath.getBindType() == 2) {
-                        XBEBlockSpec target = specService.findBlockSpecByXB(specNode, revPath.getSpecId());
                         XBEBlockRev rev = null;
-                        if (revPath.getRevXBId() != null) {
+                        if (revPath.getSpecId() != null) {
+                            XBEBlockSpec target = specService.findBlockSpecByXB(specNode, revPath.getSpecId());
                             rev = (XBEBlockRev) revService.findRevByXB(target, revPath.getRevXBId());
                         }
                         EntityTransaction tx = em.getTransaction();

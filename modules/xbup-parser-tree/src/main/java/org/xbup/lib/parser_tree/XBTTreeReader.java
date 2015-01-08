@@ -166,12 +166,13 @@ public class XBTTreeReader implements XBTListener {
                 parserState = XBParserState.BLOCK_END;
                 level--;
                 target = (XBTTreeNode) target.getParent();
-                if (level == 0) {
-                    finished = true;
-                    parserState = XBParserState.EOF;
-                }
-                return;
             }
+
+            if (level == 0) {
+                finished = true;
+                parserState = XBParserState.EOF;
+            }
+            return;
         }
 
         throw new XBParseException("Unexpected block end event", XBProcessingExceptionType.UNEXPECTED_ORDER);

@@ -42,7 +42,7 @@ import org.xbup.lib.core.parser.basic.XBHead;
  *
  * TODO: This is really horrible temporary stub for dummy PHP XBCatalog.
  *
- * @version 0.1.24 2015/01/04
+ * @version 0.1.24 2015/01/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCUpdatePHPPort {
@@ -1023,39 +1023,45 @@ public class XBCUpdatePHPPort {
                 if ("spec".equals(line)) {
                     targetSpec = br.readLine();
                 } else if ("revxb".equals(line)) {
-                    revXB = new Long(br.readLine());
+                    line = br.readLine();
+                    revXB = line.isEmpty() ? null : new Long(line);
                 } else if ("btype".equals(line)) {
-                    bindType = new Long(br.readLine());
+                    line = br.readLine();
+                    bindType = line.isEmpty() ? null : new Long(line);
                 } else {
                     br.readLine();
                 }
             }
-            if ("".equals(targetSpec)) {
+
+            if (bindType == null) {
                 return null;
             }
-            br = callCatalog("?op=getnodepath&node=" + targetSpec);
-            String nodePath = "";
-            while (!("".equals(line = br.readLine())) && (line != null)) {
-                if ("path".equals(line)) {
-                    nodePath = br.readLine();
-                } else {
-                    br.readLine();
-                }
-            }
-            List<Long> myPath = new ArrayList<Long>();
-            int prev = 0;
-            for (int i = 0; i < nodePath.length(); i++) {
-                if (nodePath.charAt(i) == '/') {
-                    myPath.add(new Long(nodePath.substring(prev, i)));
-                    prev = i + 1;
-                }
-            }
-            Long xbIndex = new Long(nodePath.substring(prev));
+
             RevisionPath result = new RevisionPath();
             result.setBindType(bindType);
-            result.setPath((Long[]) myPath.toArray(new Long[myPath.size()]));
-            result.setSpecId(xbIndex);
-            result.setRevXBId(revXB);
+            if (!"".equals(targetSpec)) {
+                br = callCatalog("?op=getnodepath&node=" + targetSpec);
+                String nodePath = "";
+                while (!("".equals(line = br.readLine())) && (line != null)) {
+                    if ("path".equals(line)) {
+                        nodePath = br.readLine();
+                    } else {
+                        br.readLine();
+                    }
+                }
+                List<Long> myPath = new ArrayList<>();
+                int prev = 0;
+                for (int i = 0; i < nodePath.length(); i++) {
+                    if (nodePath.charAt(i) == '/') {
+                        myPath.add(new Long(nodePath.substring(prev, i)));
+                        prev = i + 1;
+                    }
+                }
+                Long xbIndex = new Long(nodePath.substring(prev));
+                result.setPath((Long[]) myPath.toArray(new Long[myPath.size()]));
+                result.setSpecId(xbIndex);
+                result.setRevXBId(revXB);
+            }
             return result;
         } catch (IOException ex) {
             Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
@@ -1083,39 +1089,45 @@ public class XBCUpdatePHPPort {
                 if ("spec".equals(line)) {
                     targetSpec = br.readLine();
                 } else if ("revxb".equals(line)) {
-                    revXB = new Long(br.readLine());
+                    line = br.readLine();
+                    revXB = line.isEmpty() ? null : new Long(line);
                 } else if ("btype".equals(line)) {
-                    bindType = new Long(br.readLine());
+                    line = br.readLine();
+                    bindType = line.isEmpty() ? null : new Long(line);
                 } else {
                     br.readLine();
                 }
             }
-            if ("".equals(targetSpec)) {
+
+            if (bindType == null) {
                 return null;
             }
-            br = callCatalog("?op=getnodepath&node=" + targetSpec);
-            String nodePath = "";
-            while (!("".equals(line = br.readLine())) && (line != null)) {
-                if ("path".equals(line)) {
-                    nodePath = br.readLine();
-                } else {
-                    br.readLine();
-                }
-            }
-            List<Long> myPath = new ArrayList<Long>();
-            int prev = 0;
-            for (int i = 0; i < nodePath.length(); i++) {
-                if (nodePath.charAt(i) == '/') {
-                    myPath.add(new Long(nodePath.substring(prev, i)));
-                    prev = i + 1;
-                }
-            }
-            Long xbIndex = new Long(nodePath.substring(prev));
+
             RevisionPath result = new RevisionPath();
             result.setBindType(bindType);
-            result.setPath((Long[]) myPath.toArray(new Long[myPath.size()]));
-            result.setSpecId(xbIndex);
-            result.setRevXBId(revXB);
+            if (!"".equals(targetSpec)) {
+                br = callCatalog("?op=getnodepath&node=" + targetSpec);
+                String nodePath = "";
+                while (!("".equals(line = br.readLine())) && (line != null)) {
+                    if ("path".equals(line)) {
+                        nodePath = br.readLine();
+                    } else {
+                        br.readLine();
+                    }
+                }
+                List<Long> myPath = new ArrayList<>();
+                int prev = 0;
+                for (int i = 0; i < nodePath.length(); i++) {
+                    if (nodePath.charAt(i) == '/') {
+                        myPath.add(new Long(nodePath.substring(prev, i)));
+                        prev = i + 1;
+                    }
+                }
+                Long xbIndex = new Long(nodePath.substring(prev));
+                result.setPath((Long[]) myPath.toArray(new Long[myPath.size()]));
+                result.setSpecId(xbIndex);
+                result.setRevXBId(revXB);
+            }
             return result;
         } catch (IOException ex) {
             Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
@@ -1143,39 +1155,45 @@ public class XBCUpdatePHPPort {
                 if ("spec".equals(line)) {
                     targetSpec = br.readLine();
                 } else if ("revxb".equals(line)) {
-                    revXB = new Long(br.readLine());
+                    line = br.readLine();
+                    revXB = line.isEmpty() ? null : new Long(line);
                 } else if ("btype".equals(line)) {
-                    bindType = new Long(br.readLine());
+                    line = br.readLine();
+                    bindType = line.isEmpty() ? null : new Long(line);
                 } else {
                     br.readLine();
                 }
             }
-            if ("".equals(targetSpec)) {
+
+            if (bindType == null) {
                 return null;
             }
-            br = callCatalog("?op=getnodepath&node=" + targetSpec);
-            String nodePath = "";
-            while (!("".equals(line = br.readLine())) && (line != null)) {
-                if ("path".equals(line)) {
-                    nodePath = br.readLine();
-                } else {
-                    br.readLine();
-                }
-            }
-            List<Long> myPath = new ArrayList<Long>();
-            int prev = 0;
-            for (int i = 0; i < nodePath.length(); i++) {
-                if (nodePath.charAt(i) == '/') {
-                    myPath.add(new Long(nodePath.substring(prev, i)));
-                    prev = i + 1;
-                }
-            }
-            Long xbIndex = new Long(nodePath.substring(prev));
+
             RevisionPath result = new RevisionPath();
             result.setBindType(bindType);
-            result.setPath((Long[]) myPath.toArray(new Long[myPath.size()]));
-            result.setSpecId(xbIndex);
-            result.setRevXBId(revXB);
+            if (!"".equals(targetSpec)) {
+                br = callCatalog("?op=getnodepath&node=" + targetSpec);
+                String nodePath = "";
+                while (!("".equals(line = br.readLine())) && (line != null)) {
+                    if ("path".equals(line)) {
+                        nodePath = br.readLine();
+                    } else {
+                        br.readLine();
+                    }
+                }
+                List<Long> myPath = new ArrayList<>();
+                int prev = 0;
+                for (int i = 0; i < nodePath.length(); i++) {
+                    if (nodePath.charAt(i) == '/') {
+                        myPath.add(new Long(nodePath.substring(prev, i)));
+                        prev = i + 1;
+                    }
+                }
+                Long xbIndex = new Long(nodePath.substring(prev));
+                result.setPath((Long[]) myPath.toArray(new Long[myPath.size()]));
+                result.setSpecId(xbIndex);
+                result.setRevXBId(revXB);
+            }
             return result;
         } catch (IOException ex) {
             Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
@@ -1281,7 +1299,7 @@ public class XBCUpdatePHPPort {
 
     public Long[] getNodePath(Long nodeId) {
         BufferedReader br;
-        List<Long> myPath = new ArrayList<Long>();
+        List<Long> myPath = new ArrayList<>();
         try {
             if (nodeId == null) {
                 return null;

@@ -17,6 +17,8 @@
 package org.xbup.tool.editor.module.xbdoc_editor.panel;
 
 import java.awt.Component;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -71,6 +73,7 @@ public class XBPropertyTableCellEditor extends DefaultCellEditor {
             try {
                 lineEditor.finishEditor(lineEditorComponent);
             } catch (Exception ex) {
+                Logger.getLogger(XBPropertyTableCellEditor.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(editorComponent, ex.toString(), "Cell Input", JOptionPane.ERROR_MESSAGE);
             }
         }

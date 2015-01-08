@@ -72,18 +72,18 @@ public class XBENodeService extends XBEDefaultService<XBENode> implements XBCNod
     }
 
     @Override
-    public XBENode findNodeByXBPath(Long[] xbCatalogPath) {
-        return ((XBENodeManager) itemManager).findNodeByXBPath(xbCatalogPath);
+    public XBENode findNodeByXBPath(Long[] catalogPath) {
+        return ((XBENodeManager) itemManager).findNodeByXBPath(catalogPath);
     }
 
     @Override
-    public XBENode findOwnerByXBPath(Long[] xbCatalogPath) {
-        return ((XBENodeManager) itemManager).findOwnerByXBPath(xbCatalogPath);
+    public XBENode findOwnerByXBPath(Long[] catalogPath) {
+        return ((XBENodeManager) itemManager).findOwnerByXBPath(catalogPath);
     }
 
     @Override
-    public XBENode findParentByXBPath(Long[] xbCatalogPath) {
-        return ((XBENodeManager) itemManager).findParentByXBPath(xbCatalogPath);
+    public XBENode findParentByXBPath(Long[] catalogPath) {
+        return ((XBENodeManager) itemManager).findParentByXBPath(catalogPath);
     }
 
     @Override

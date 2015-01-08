@@ -22,7 +22,9 @@ import org.xbup.lib.plugin.XBLineEditor;
 import org.xbup.lib.plugin.XBPanelEditor;
 import org.xbup.lib.plugin.XBPlugin;
 import org.xbup.lib.plugin.XBTransformation;
+import org.xbup.plugin.basic.line.IntegerLineEditor;
 import org.xbup.plugin.basic.line.NaturalLineEditor;
+import org.xbup.plugin.basic.line.StringLineEditor;
 
 /**
  * XBUP Editor plugin - provides panels for basic XBUP data types.
@@ -40,7 +42,7 @@ public class XBBasicPlugin implements XBPlugin {
 
     @Override
     public long getLineEditorsCount() {
-        return 0;
+        return 3;
     }
 
     @Override
@@ -48,6 +50,12 @@ public class XBBasicPlugin implements XBPlugin {
         switch ((int) index) {
             case 0: {
                 return new NaturalLineEditor();
+            }
+            case 1: {
+                return new IntegerLineEditor();
+            }
+            case 2: {
+                return new StringLineEditor();
             }
         }
         return null;

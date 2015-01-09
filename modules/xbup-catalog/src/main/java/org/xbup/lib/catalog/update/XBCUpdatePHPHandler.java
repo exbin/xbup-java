@@ -73,6 +73,7 @@ import org.xbup.lib.catalog.entity.XBEXBlockLine;
 import org.xbup.lib.catalog.entity.XBEXBlockPane;
 import org.xbup.lib.catalog.entity.XBEXDesc;
 import org.xbup.lib.catalog.entity.XBEXFile;
+import org.xbup.lib.catalog.entity.XBEXHDoc;
 import org.xbup.lib.catalog.entity.XBEXIcon;
 import org.xbup.lib.catalog.entity.XBEXIconMode;
 import org.xbup.lib.catalog.entity.XBEXLanguage;
@@ -84,13 +85,18 @@ import org.xbup.lib.catalog.entity.XBEXStri;
 import org.xbup.lib.catalog.entity.service.XBENodeService;
 import org.xbup.lib.catalog.entity.service.XBERevService;
 import org.xbup.lib.catalog.entity.service.XBESpecService;
+import org.xbup.lib.catalog.entity.service.XBEXDescService;
 import org.xbup.lib.catalog.entity.service.XBEXFileService;
 import org.xbup.lib.catalog.entity.service.XBEXIconService;
 import org.xbup.lib.catalog.entity.service.XBEXLangService;
 import org.xbup.lib.catalog.entity.service.XBEXLineService;
+import org.xbup.lib.catalog.entity.service.XBEXNameService;
 import org.xbup.lib.catalog.entity.service.XBEXPaneService;
 import org.xbup.lib.catalog.entity.service.XBEXPlugService;
 import org.xbup.lib.catalog.entity.service.XBEXStriService;
+import org.xbup.lib.core.catalog.base.XBCSpecDef;
+import org.xbup.lib.core.catalog.base.service.XBCXDescService;
+import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 
 /**
  * Handler for processing Web Service Calls with PHP Catalog interface.
@@ -530,7 +536,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
         if (node != null) {
             processNodeFiles(node);
-            processNodeIcons(node);
+            processNode(node);
             Long[] path = nodeService.getNodeXBPath(node);
             Long max = port.getSubNodeCatalogMaxIndex(path);
             if (max != null) {
@@ -680,7 +686,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         Long maxIndex = port.getFormatCatalogSpecMaxBindId(path, spec.getXBIndex());
         if (maxIndex != null) {
             for (long index = 0; index <= maxIndex; index++) {
-                RevisionPath revPath = port.getFormatCatalogBindTargetPath(path, spec.getXBIndex(), index);
+                RevisionPath revPath = port.getFormatCatalogBindTargetPath(path, spec.getXBIndex(), index, lang);
                 if (revPath != null && revPath.getSpecId() != null) {
                     XBENode specNode = nodeService.findNodeByXBPath(revPath.getPath());
                     if (revPath.getBindType() == 0) {
@@ -695,6 +701,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                         bind.setXBIndex(index);
                         em.persist(bind);
                         tx.commit();
+                        setSpecDefInfo(bind, revPath);
                     } else {
                         XBEFormatSpec target = specService.findFormatSpecByXB(specNode, revPath.getSpecId());
 //                    if (target == null) break;
@@ -707,6 +714,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                         bind.setXBIndex(index);
                         em.persist(bind);
                         tx.commit();
+                        setSpecDefInfo(bind, revPath);
                     }
                 }
             }
@@ -724,7 +732,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         Long maxIndex = port.getGroupCatalogSpecMaxBindId(path, spec.getXBIndex());
         if (maxIndex != null) {
             for (long index = 0; index <= maxIndex; index++) {
-                RevisionPath revPath = port.getGroupCatalogBindTargetPath(path, spec.getXBIndex(), index);
+                RevisionPath revPath = port.getGroupCatalogBindTargetPath(path, spec.getXBIndex(), index, lang);
                 if (revPath != null && revPath.getSpecId() != null) {
                     XBENode specNode = nodeService.findNodeByXBPath(revPath.getPath());
                     if (revPath.getBindType() == 0) {
@@ -739,6 +747,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                         bind.setXBIndex(index);
                         em.persist(bind);
                         tx.commit();
+                        setSpecDefInfo(bind, revPath);
                     } else {
                         XBEGroupSpec target = specService.findGroupSpecByXB(specNode, revPath.getSpecId());
 //                    if (target == null) break;
@@ -751,6 +760,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                         bind.setXBIndex(index);
                         em.persist(bind);
                         tx.commit();
+                        setSpecDefInfo(bind, revPath);
                     }
                 }
             }
@@ -768,7 +778,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         Long maxIndex = port.getBlockCatalogSpecMaxBindId(path, spec.getXBIndex());
         if (maxIndex != null) {
             for (long index = 0; index <= maxIndex; index++) {
-                RevisionPath revPath = port.getBlockCatalogBindTargetPath(path, spec.getXBIndex(), index);
+                RevisionPath revPath = port.getBlockCatalogBindTargetPath(path, spec.getXBIndex(), index, lang);
                 if (revPath != null) {
                     XBENode specNode = null;
                     if (revPath.getSpecId() != null) {
@@ -788,6 +798,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                         bind.setXBIndex(index);
                         em.persist(bind);
                         tx.commit();
+                        setSpecDefInfo(bind, revPath);
                     } else if (revPath.getBindType() == 1) {
                         XBEBlockRev rev = null;
                         if (revPath.getSpecId() != null) {
@@ -802,6 +813,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                         bind.setXBIndex(index);
                         em.persist(bind);
                         tx.commit();
+                        setSpecDefInfo(bind, revPath);
                     } else if (revPath.getBindType() == 2) {
                         XBEBlockRev rev = null;
                         if (revPath.getSpecId() != null) {
@@ -816,6 +828,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                         bind.setXBIndex(index);
                         em.persist(bind);
                         tx.commit();
+                        setSpecDefInfo(bind, revPath);
                     } else if (revPath.getBindType() == 3) {
                         XBEBlockSpec target = specService.findBlockSpecByXB(specNode, revPath.getSpecId());
                         XBEBlockRev rev = null;
@@ -830,10 +843,23 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                         bind.setXBIndex(index);
                         em.persist(bind);
                         tx.commit();
+                        setSpecDefInfo(bind, revPath);
                     }
                 }
             }
         }
+    }
+
+    public void setSpecDefInfo(XBCSpecDef bind, RevisionPath revPath) {
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        XBEXNameService nameService = (XBEXNameService) catalog.getCatalogService(XBCXNameService.class);
+        XBEXDescService descService = (XBEXDescService) catalog.getCatalogService(XBCXDescService.class);
+        XBEXStriService striService = (XBEXStriService) catalog.getCatalogService(XBCXStriService.class);
+        nameService.setDefaultText(bind, revPath.getName());
+        descService.setDefaultText(bind, revPath.getDesc());
+        striService.setItemStringIdText(bind, revPath.getStri());
+        tx.commit();
     }
 
     private void processNodeFiles(XBENode node) {
@@ -915,13 +941,13 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         }
     }
 
-    private void processNodeIcons(XBENode node) {
+    private void processNode(XBENode node) {
         if (node == null) {
             return;
         }
         XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
         Long[] path = nodeService.getNodeXBPath(node);
-        processItemIcons(node, port.getCatalogNodeId(path));
+        processItem(node, port.getCatalogNodeId(path));
     }
 
     private void processFormatSpecIcons(XBEFormatSpec spec) {
@@ -930,7 +956,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         }
         XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
         Long[] path = nodeService.getNodeXBPath(spec.getParent());
-        processItemIcons(spec, port.getCatalogFormatSpecId(path, spec.getXBIndex()));
+        processItem(spec, port.getCatalogFormatSpecId(path, spec.getXBIndex()));
     }
 
     private void processGroupSpecIcons(XBEGroupSpec spec) {
@@ -939,7 +965,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         }
         XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
         Long[] path = nodeService.getNodeXBPath(spec.getParent());
-        processItemIcons(spec, port.getCatalogGroupSpecId(path, spec.getXBIndex()));
+        processItem(spec, port.getCatalogGroupSpecId(path, spec.getXBIndex()));
     }
 
     private void processBlockSpecIcons(XBEBlockSpec spec) {
@@ -948,21 +974,21 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         }
         XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
         Long[] path = nodeService.getNodeXBPath(spec.getParent());
-        processItemIcons(spec, port.getCatalogBlockSpecId(path, spec.getXBIndex()));
+        processItem(spec, port.getCatalogBlockSpecId(path, spec.getXBIndex()));
     }
 
-    private void processItemIcons(XBEItem item, Long itemId) {
+    private void processItem(XBEItem item, Long itemId) {
         if (itemId == null) {
             return;
         }
         XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
-        XBEXIcon icon;
         Long max = port.getItemIconMaxIndex(itemId);
         if (max != null) {
             for (Long i = new Long(0); i.intValue() <= max; i = new Long(i.longValue() + 1)) {
                 EntityTransaction tx = em.getTransaction();
                 ItemFile itemIcon = port.getItemIcon(itemId, i);
                 if (itemIcon != null) {
+                    XBEXIcon icon;
                     Long[] path = port.getNodePath(itemIcon.getXBIndex());
                     XBENode node = nodeService.findNodeByXBPath(path);
                     XBEXFileService fileService = (XBEXFileService) catalog.getCatalogService(XBCXFileService.class);
@@ -976,6 +1002,25 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                     em.persist(icon);
                     tx.commit();
                 }
+            }
+        }
+
+        EntityTransaction tx = em.getTransaction();
+        ItemFile itemHdoc = port.getItemHdoc(itemId, lang);
+        if (itemHdoc != null) {
+            XBEXHDoc hdoc;
+            Long[] path = port.getNodePath(itemHdoc.getXBIndex());
+            XBENode node = nodeService.findNodeByXBPath(path);
+            XBEXFileService fileService = (XBEXFileService) catalog.getCatalogService(XBCXFileService.class);
+            XBEXFile file = (XBEXFile) fileService.findFile(node, itemHdoc.getFileName());
+            if (file != null) {
+                tx.begin();
+                hdoc = new XBEXHDoc();
+                hdoc.setItem(item);
+                hdoc.setDocFile(file);
+                hdoc.setLang(localLang);
+                em.persist(hdoc);
+                tx.commit();
             }
         }
     }

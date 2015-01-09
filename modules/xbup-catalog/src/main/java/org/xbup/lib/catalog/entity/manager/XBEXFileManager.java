@@ -78,7 +78,7 @@ public class XBEXFileManager extends XBEDefaultManager<XBEXFile> implements XBCX
 
     @Override
     public Long[] getFileXBPath(XBCXFile file) {
-        ArrayList<Long> list = new ArrayList<Long>();
+        ArrayList<Long> list = new ArrayList<>();
         XBCNode parent = file.getNode();
         while (parent != null) {
             if (parent.getParent() != null) {
@@ -170,8 +170,8 @@ public class XBEXFileManager extends XBEDefaultManager<XBEXFile> implements XBCX
 
     private static class OutputStreamImpl extends OutputStream {
 
-        private XBCXFile file;
-        private ByteArrayOutputStream outputStream;
+        private final XBCXFile file;
+        private final ByteArrayOutputStream outputStream;
 
         public OutputStreamImpl(XBCXFile file) {
             this.file = file;

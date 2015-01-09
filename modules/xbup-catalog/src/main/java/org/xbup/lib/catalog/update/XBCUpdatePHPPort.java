@@ -42,7 +42,7 @@ import org.xbup.lib.core.parser.basic.XBHead;
  *
  * TODO: This is really horrible temporary stub for dummy PHP XBCatalog.
  *
- * @version 0.1.24 2015/01/07
+ * @version 0.1.24 2015/01/08
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCUpdatePHPPort {
@@ -184,8 +184,8 @@ public class XBCUpdatePHPPort {
 
     public String getParamPath(Long[] path) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < path.length; i++) {
-            sb.append(path[i]);
+        for (Long pathComponent : path) {
+            sb.append(pathComponent);
             sb.append('/');
         }
         return sb.toString();
@@ -209,22 +209,8 @@ public class XBCUpdatePHPPort {
             if (info.getXbIndex() == null) {
                 return info;
             }
-            br = callCatalog("?op=getname&id=" + itemId + "&lang=" + langId);
-            while (!("".equals(line = br.readLine())) && (line != null)) {
-                if ("text".equals(line)) {
-                    info.setName(br.readLine());
-                } else {
-                    br.readLine();
-                }
-            }
-            br = callCatalog("?op=getdesc&id=" + itemId + "&lang=" + langId);
-            while (!("".equals(line = br.readLine())) && (line != null)) {
-                if ("text".equals(line)) {
-                    info.setDesc(br.readLine());
-                } else {
-                    br.readLine();
-                }
-            }
+            info.setName(getItemName(itemId, langId));
+            info.setDesc(getItemDesc(itemId, langId));
             return info;
         } catch (IOException ex) {
             Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
@@ -377,22 +363,8 @@ public class XBCUpdatePHPPort {
                 }
             }
             if (!("".equals(itemId))) {
-                br = callCatalog("?op=getname&id=" + itemId + "&lang=" + langId);
-                while (!("".equals(line = br.readLine())) && (line != null)) {
-                    if ("text".equals(line)) {
-                        info.setName(br.readLine());
-                    } else {
-                        br.readLine();
-                    }
-                }
-                br = callCatalog("?op=getdesc&id=" + itemId + "&lang=" + langId);
-                while (!("".equals(line = br.readLine())) && (line != null)) {
-                    if ("text".equals(line)) {
-                        info.setDesc(br.readLine());
-                    } else {
-                        br.readLine();
-                    }
-                }
+                info.setName(getItemName(itemId, langId));
+                info.setDesc(getItemDesc(itemId, langId));
             }
             return info;
         } catch (IOException ex) {
@@ -417,22 +389,8 @@ public class XBCUpdatePHPPort {
                 }
             }
             if (!("".equals(itemId))) {
-                br = callCatalog("?op=getname&id=" + itemId + "&lang=" + langId);
-                while (!("".equals(line = br.readLine())) && (line != null)) {
-                    if ("text".equals(line)) {
-                        info.setName(br.readLine());
-                    } else {
-                        br.readLine();
-                    }
-                }
-                br = callCatalog("?op=getdesc&id=" + itemId + "&lang=" + langId);
-                while (!("".equals(line = br.readLine())) && (line != null)) {
-                    if ("text".equals(line)) {
-                        info.setDesc(br.readLine());
-                    } else {
-                        br.readLine();
-                    }
-                }
+                info.setName(getItemName(itemId, langId));
+                info.setDesc(getItemDesc(itemId, langId));
             }
             return info;
         } catch (IOException ex) {
@@ -457,22 +415,8 @@ public class XBCUpdatePHPPort {
                 }
             }
             if (!("".equals(itemId))) {
-                br = callCatalog("?op=getname&id=" + itemId + "&lang=" + langId);
-                while (!("".equals(line = br.readLine())) && (line != null)) {
-                    if ("text".equals(line)) {
-                        info.setName(br.readLine());
-                    } else {
-                        br.readLine();
-                    }
-                }
-                br = callCatalog("?op=getdesc&id=" + itemId + "&lang=" + langId);
-                while (!("".equals(line = br.readLine())) && (line != null)) {
-                    if ("text".equals(line)) {
-                        info.setDesc(br.readLine());
-                    } else {
-                        br.readLine();
-                    }
-                }
+                info.setName(getItemName(itemId, langId));
+                info.setDesc(getItemDesc(itemId, langId));
             }
             return info;
         } catch (IOException ex) {
@@ -1003,7 +947,7 @@ public class XBCUpdatePHPPort {
         }
     }
 
-    public RevisionPath getFormatCatalogBindTargetPath(Long[] path, Long specId, Long bindId) {
+    public RevisionPath getFormatCatalogBindTargetPath(Long[] path, Long specId, Long bindId, Long langId) {
         try {
             BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=0&path=" + getParamPath(path));
             String line;
@@ -1016,11 +960,14 @@ public class XBCUpdatePHPPort {
                 }
             }
             br = callCatalog("?op=getdef&origin=" + itemId + "&xbindex=" + bindId);
+            String specDefId = "";
             String targetSpec = "";
             Long revXB = null;
             Long bindType = null;
             while (!("".equals(line = br.readLine())) && (line != null)) {
-                if ("spec".equals(line)) {
+                if ("id".equals(line)) {
+                    specDefId = br.readLine();
+                } else if ("spec".equals(line)) {
                     targetSpec = br.readLine();
                 } else if ("revxb".equals(line)) {
                     line = br.readLine();
@@ -1039,6 +986,9 @@ public class XBCUpdatePHPPort {
 
             RevisionPath result = new RevisionPath();
             result.setBindType(bindType);
+            result.setName(getItemName(specDefId, langId));
+            result.setDesc(getItemDesc(specDefId, langId));
+            result.setStri(getItemStri(specDefId));
             if (!"".equals(targetSpec)) {
                 br = callCatalog("?op=getnodepath&node=" + targetSpec);
                 String nodePath = "";
@@ -1069,7 +1019,7 @@ public class XBCUpdatePHPPort {
         }
     }
 
-    public RevisionPath getGroupCatalogBindTargetPath(@WebParam(name = "path") Long[] path, @WebParam(name = "specId") Long specId, @WebParam(name = "bindId") Long bindId) {
+    public RevisionPath getGroupCatalogBindTargetPath(@WebParam(name = "path") Long[] path, @WebParam(name = "specId") Long specId, @WebParam(name = "bindId") Long bindId, Long langId) {
         try {
             BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=1&path=" + getParamPath(path));
             String line;
@@ -1082,11 +1032,14 @@ public class XBCUpdatePHPPort {
                 }
             }
             br = callCatalog("?op=getdef&origin=" + itemId + "&xbindex=" + bindId);
+            String specDefId = "";
             String targetSpec = "";
             Long revXB = null;
             Long bindType = null;
             while (!("".equals(line = br.readLine())) && (line != null)) {
-                if ("spec".equals(line)) {
+                if ("id".equals(line)) {
+                    specDefId = br.readLine();
+                } else if ("spec".equals(line)) {
                     targetSpec = br.readLine();
                 } else if ("revxb".equals(line)) {
                     line = br.readLine();
@@ -1105,6 +1058,9 @@ public class XBCUpdatePHPPort {
 
             RevisionPath result = new RevisionPath();
             result.setBindType(bindType);
+            result.setName(getItemName(specDefId, langId));
+            result.setDesc(getItemDesc(specDefId, langId));
+            result.setStri(getItemStri(specDefId));
             if (!"".equals(targetSpec)) {
                 br = callCatalog("?op=getnodepath&node=" + targetSpec);
                 String nodePath = "";
@@ -1135,7 +1091,7 @@ public class XBCUpdatePHPPort {
         }
     }
 
-    public RevisionPath getBlockCatalogBindTargetPath(@WebParam(name = "path") Long[] path, @WebParam(name = "specId") Long specId, @WebParam(name = "bindId") Long bindId) {
+    public RevisionPath getBlockCatalogBindTargetPath(@WebParam(name = "path") Long[] path, @WebParam(name = "specId") Long specId, @WebParam(name = "bindId") Long bindId, Long langId) {
         try {
             BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=2&path=" + getParamPath(path));
             String line;
@@ -1148,11 +1104,14 @@ public class XBCUpdatePHPPort {
                 }
             }
             br = callCatalog("?op=getdef&origin=" + itemId + "&xbindex=" + bindId);
+            String specDefId = "";
             String targetSpec = "";
             Long revXB = null;
             Long bindType = null;
             while (!("".equals(line = br.readLine())) && (line != null)) {
-                if ("spec".equals(line)) {
+                if ("id".equals(line)) {
+                    specDefId = br.readLine();
+                } else if ("spec".equals(line)) {
                     targetSpec = br.readLine();
                 } else if ("revxb".equals(line)) {
                     line = br.readLine();
@@ -1171,6 +1130,9 @@ public class XBCUpdatePHPPort {
 
             RevisionPath result = new RevisionPath();
             result.setBindType(bindType);
+            result.setName(getItemName(specDefId, langId));
+            result.setDesc(getItemDesc(specDefId, langId));
+            result.setStri(getItemStri(specDefId));
             if (!"".equals(targetSpec)) {
                 br = callCatalog("?op=getnodepath&node=" + targetSpec);
                 String nodePath = "";
@@ -1297,6 +1259,35 @@ public class XBCUpdatePHPPort {
         }
     }
 
+    public ItemFile getItemHdoc(Long itemId, long langId) {
+        if (itemId == null) {
+            return null;
+        }
+        try {
+            BufferedReader br = callCatalog("?op=gethdoc&owner=" + itemId + "&lang=" + langId);
+            String line;
+            ItemFile result = new ItemFile();
+            while (!("".equals(line = br.readLine())) && (line != null)) {
+                if ("id".equals(line)) {
+                    result.setId(new Long(br.readLine()));
+                } else if ("node".equals(line)) {
+                    result.setXBIndex(new Long(br.readLine()));
+                } else if ("filename".equals(line)) {
+                    result.setFileName(br.readLine());
+                } else {
+                    br.readLine();
+                }
+            }
+            if (result.getId() == null) {
+                return null;
+            }
+            return result;
+        } catch (IOException ex) {
+            Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
     public Long[] getNodePath(Long nodeId) {
         BufferedReader br;
         List<Long> myPath = new ArrayList<>();
@@ -1321,7 +1312,9 @@ public class XBCUpdatePHPPort {
                     prev = i + 1;
                 }
             }
-            myPath.add(new Long(nodePath.substring(prev)));
+            if (!nodePath.isEmpty()) {
+                myPath.add(new Long(nodePath.substring(prev)));
+            }
         } catch (IOException ex) {
             Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -1638,6 +1631,63 @@ public class XBCUpdatePHPPort {
                     if (!line.isEmpty()) {
                         result = new Long(line);
                     }
+                } else {
+                    br.readLine();
+                }
+            }
+            return result;
+        } catch (IOException ex) {
+            Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    public String getItemName(String itemId, long langId) {
+        try {
+            String result = null;
+            String line;
+            BufferedReader br = callCatalog("?op=getname&id=" + itemId + "&lang=" + langId);
+            while (!("".equals(line = br.readLine())) && (line != null)) {
+                if ("text".equals(line)) {
+                    result = br.readLine();
+                } else {
+                    br.readLine();
+                }
+            }
+            return result;
+        } catch (IOException ex) {
+            Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    public String getItemDesc(String itemId, long langId) {
+        try {
+            String result = null;
+            String line;
+            BufferedReader br = callCatalog("?op=getdesc&id=" + itemId + "&lang=" + langId);
+            while (!("".equals(line = br.readLine())) && (line != null)) {
+                if ("text".equals(line)) {
+                    result = br.readLine();
+                } else {
+                    br.readLine();
+                }
+            }
+            return result;
+        } catch (IOException ex) {
+            Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    public String getItemStri(String itemId) {
+        try {
+            String result = null;
+            String line;
+            BufferedReader br = callCatalog("?op=getstri&id=" + itemId);
+            while (!("".equals(line = br.readLine())) && (line != null)) {
+                if ("text".equals(line)) {
+                    result = br.readLine();
                 } else {
                     br.readLine();
                 }

@@ -23,6 +23,7 @@ import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -52,7 +53,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemPropertiesDialog;
 /**
  * Panel for properties of the actual panel.
  *
- * @version 0.1.24 2014/12/20
+ * @version 0.1.24 2015/01/08
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyTablePanel extends javax.swing.JPanel {
@@ -374,6 +375,8 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
                         getValueFillingSemaphore().release();
                     } catch (InterruptedException ex) {
                         Logger.getLogger(XBPropertyTablePanel.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(propertyPanel, ex.getMessage(), "Exception in property panel", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }

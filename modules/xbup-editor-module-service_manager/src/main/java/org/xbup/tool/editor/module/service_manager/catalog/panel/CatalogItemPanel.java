@@ -531,7 +531,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
 
             itemHDocEditorPane.setText(null);
             itemHDoc = hDocService.getDocumentation(item);
-            if (itemHDoc != null) {
+            if (itemHDoc != null && itemHDoc.getDocFile() != null) {
                 XBCXFile itemHDocFile = itemHDoc.getDocFile();
                 InputStream fileStream = fileService.getFile(itemHDocFile);
                 try {

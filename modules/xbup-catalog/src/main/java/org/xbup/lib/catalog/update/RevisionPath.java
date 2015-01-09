@@ -19,7 +19,7 @@ package org.xbup.lib.catalog.update;
 /**
  * Path to revision structure.
  *
- * @version 0.1.16 2009/06/14
+ * @version 0.1.24 2015/01/08
  * @author XBUP Project (http://xbup.org)
  */
 public class RevisionPath {
@@ -28,6 +28,9 @@ public class RevisionPath {
     private Long specId;
     private Long revXBId;
     private Long bindType;
+    private String name;
+    private String desc;
+    private String stri;
 
     public RevisionPath() {
         path = null;
@@ -64,5 +67,29 @@ public class RevisionPath {
 
     public void setBindType(Long bindType) {
         this.bindType = bindType;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getStri() {
+        return stri;
+    }
+
+    public void setStri(String stri) {
+        this.stri = stri;
     }
 }

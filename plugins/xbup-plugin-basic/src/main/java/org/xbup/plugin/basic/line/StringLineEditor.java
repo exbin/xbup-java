@@ -16,6 +16,8 @@
  */
 package org.xbup.plugin.basic.line;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.IOException;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
@@ -29,7 +31,7 @@ import org.xbup.lib.plugin.XBLineEditor;
 /**
  * XBUP Editor plugin - provides panels for basic XBUP data types.
  *
- * @version 0.1.24 2015/01/07
+ * @version 0.1.24 2015/01/09
  * @author XBUP Project (http://xbup.org)
  */
 public class StringLineEditor extends XBAbstractLineEditor implements XBLineEditor, XBTSequenceSerializable {
@@ -52,13 +54,23 @@ public class StringLineEditor extends XBAbstractLineEditor implements XBLineEdit
     @Override
     public JComponent getEditor() {
         JTextField component = new JTextField(value.getValue());
-        component.selectAll();
+        component.addFocusListener(new FocusListener() {
+            @Override
+            public void focusLost(final FocusEvent fe) {
+            }
+
+            @Override
+            public void focusGained(final FocusEvent fe) {
+                ((JTextField) fe.getComponent()).selectAll();
+            }
+        });
         return component;
     }
 
     @Override
     public boolean finishEditor(JComponent editor) {
         JTextField component = (JTextField) editor;
+        component.setCaretPosition(0);
         value.setValue(component.getText());
         fireValueChange();
         return true;

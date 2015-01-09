@@ -17,6 +17,7 @@
 package org.xbup.lib.catalog.entity.service;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ import org.xbup.lib.catalog.entity.manager.XBENodeManager;
 /**
  * Interface for XBENode items service.
  *
- * @version 0.1.22 2013/08/17
+ * @version 0.1.24 2015/01/09
  * @author XBUP Project (http://xbup.org)
  */
 @Service
@@ -114,5 +115,14 @@ public class XBENodeService extends XBEDefaultService<XBENode> implements XBCNod
     @Override
     public long getSubNodesSeq(XBCNode node) {
         return ((XBENodeManager) itemManager).getSubNodesSeq(node);
+    }
+
+    @Override
+    public Date getLastUpdate() {
+        return getRoot().getLastUpdate();
+    }
+
+    public void setLastUpdateToNow() {
+        ((XBENodeManager) itemManager).setLastUpdateToNow();
     }
 }

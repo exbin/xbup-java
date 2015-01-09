@@ -16,7 +16,12 @@
  */
 package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
+import java.util.Date;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.swing.JList;
+import org.xbup.lib.catalog.XBECatalog;
+import org.xbup.lib.catalog.entity.service.XBENodeService;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.service.XBCItemService;
 import org.xbup.lib.core.catalog.base.service.XBCNodeService;
@@ -26,7 +31,7 @@ import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 /**
  * Panel for catalog status.
  *
- * @version 0.1.24 2014/12/12
+ * @version 0.1.24 2015/01/09
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogStatusPanel extends javax.swing.JPanel {
@@ -72,13 +77,17 @@ public class CatalogStatusPanel extends javax.swing.JPanel {
         defsCountTextField = new javax.swing.JTextField();
         revsCountLabel = new javax.swing.JLabel();
         revsCountTextField = new javax.swing.JTextField();
+        lastUpdateLabel = new javax.swing.JLabel();
+        lastUpdatePanel = new javax.swing.JPanel();
+        lastUpdateTextField = new javax.swing.JTextField();
+        lastUpdateNowButton = new javax.swing.JButton();
         extensionsBorderPanel = new javax.swing.JPanel();
         extensionsScrollPane = new javax.swing.JScrollPane();
         extensionsList = new JList<>();
 
         catalogStatusBorderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Catalog Status"));
 
-        catalogStatusPanel.setLayout(new java.awt.GridLayout(8, 2));
+        catalogStatusPanel.setLayout(new java.awt.GridLayout(9, 2));
 
         itemsCountLabel.setText("Count of Items");
         catalogStatusPanel.add(itemsCountLabel);
@@ -144,13 +153,44 @@ public class CatalogStatusPanel extends javax.swing.JPanel {
         revsCountTextField.setBorder(null);
         catalogStatusPanel.add(revsCountTextField);
 
+        lastUpdateLabel.setText("Last Update");
+        catalogStatusPanel.add(lastUpdateLabel);
+
+        lastUpdateTextField.setEditable(false);
+        lastUpdateTextField.setText("unknown");
+        lastUpdateTextField.setBorder(null);
+
+        lastUpdateNowButton.setText("Set Now");
+        lastUpdateNowButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lastUpdateNowButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout lastUpdatePanelLayout = new javax.swing.GroupLayout(lastUpdatePanel);
+        lastUpdatePanel.setLayout(lastUpdatePanelLayout);
+        lastUpdatePanelLayout.setHorizontalGroup(
+            lastUpdatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(lastUpdatePanelLayout.createSequentialGroup()
+                .addComponent(lastUpdateTextField)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lastUpdateNowButton))
+        );
+        lastUpdatePanelLayout.setVerticalGroup(
+            lastUpdatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lastUpdateNowButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(lastUpdateTextField)
+        );
+
+        catalogStatusPanel.add(lastUpdatePanel);
+
         javax.swing.GroupLayout catalogStatusBorderPanelLayout = new javax.swing.GroupLayout(catalogStatusBorderPanel);
         catalogStatusBorderPanel.setLayout(catalogStatusBorderPanelLayout);
         catalogStatusBorderPanelLayout.setHorizontalGroup(
             catalogStatusBorderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(catalogStatusBorderPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(catalogStatusPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(catalogStatusPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
                 .addContainerGap())
         );
         catalogStatusBorderPanelLayout.setVerticalGroup(
@@ -174,7 +214,7 @@ public class CatalogStatusPanel extends javax.swing.JPanel {
         extensionsBorderPanelLayout.setVerticalGroup(
             extensionsBorderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(extensionsBorderPanelLayout.createSequentialGroup()
-                .addComponent(extensionsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                .addComponent(extensionsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -199,6 +239,20 @@ public class CatalogStatusPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void lastUpdateNowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastUpdateNowButtonActionPerformed
+        XBCNodeService nodeService = catalog == null ? null : ((XBCNodeService) catalog.getCatalogService(XBCNodeService.class));
+        if (nodeService instanceof XBENodeService) {
+            EntityManager em = ((XBECatalog) catalog).getEntityManager();
+            EntityTransaction transaction = em.getTransaction();
+            transaction.begin();
+            ((XBENodeService) nodeService).setLastUpdateToNow();
+            transaction.commit();
+            em.refresh(nodeService.getRoot());
+            lastUpdateTextField.setText(nodeService.getLastUpdate().toString());
+        }
+    }//GEN-LAST:event_lastUpdateNowButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel blocksCountLabel;
     private javax.swing.JTextField blocksCountTextField;
@@ -215,6 +269,10 @@ public class CatalogStatusPanel extends javax.swing.JPanel {
     private javax.swing.JTextField groupsCountTextField;
     private javax.swing.JLabel itemsCountLabel;
     private javax.swing.JTextField itemsCountTextField;
+    private javax.swing.JLabel lastUpdateLabel;
+    private javax.swing.JButton lastUpdateNowButton;
+    private javax.swing.JPanel lastUpdatePanel;
+    private javax.swing.JTextField lastUpdateTextField;
     private javax.swing.JLabel nodesCountLabel;
     private javax.swing.JTextField nodesCountTextField;
     private javax.swing.JLabel revsCountLabel;
@@ -230,21 +288,36 @@ public class CatalogStatusPanel extends javax.swing.JPanel {
 
     private void updateCatalog() {
         extModel.setCatalog(catalog);
+        XBCNodeService nodeService = null;
+        XBCSpecService specService = null;
+        XBCRevService revService = null;
+        if (catalog != null) {
+            nodeService = ((XBCNodeService) catalog.getCatalogService(XBCNodeService.class));
+            specService = ((XBCSpecService) catalog.getCatalogService(XBCSpecService.class));
+            revService = ((XBCRevService) catalog.getCatalogService(XBCRevService.class));
+        }
+        
+        lastUpdateNowButton.setEnabled(catalog instanceof XBECatalog);
+
         Long count = catalog == null ? null : ((XBCItemService) catalog.getCatalogService(XBCItemService.class)).getItemsCount();
         itemsCountTextField.setText(count == null ? "unknown" : count.toString());
-        count = catalog == null ? null : ((XBCNodeService) catalog.getCatalogService(XBCNodeService.class)).getItemsCount();
+        count = nodeService == null ? null : nodeService.getItemsCount();
         nodesCountTextField.setText(count == null ? "unknown" : count.toString());
-        count = catalog == null ? null : ((XBCSpecService) catalog.getCatalogService(XBCSpecService.class)).getItemsCount();
+        count = specService == null ? null : specService.getItemsCount();
         specsCountTextField.setText(count == null ? "unknown" : count.toString());
-        count = catalog == null ? null : ((XBCSpecService) catalog.getCatalogService(XBCSpecService.class)).getDefsCount();
+        count = specService == null ? null : specService.getDefsCount();
         defsCountTextField.setText(count == null ? "unknown" : count.toString());
-        count = catalog == null ? null : ((XBCSpecService) catalog.getCatalogService(XBCSpecService.class)).getAllFormatSpecsCount();
+        count = specService == null ? null : specService.getAllFormatSpecsCount();
         formatsCountTextField.setText(count == null ? "unknown" : count.toString());
-        count = catalog == null ? null : ((XBCSpecService) catalog.getCatalogService(XBCSpecService.class)).getAllGroupSpecsCount();
+        count = specService == null ? null : specService.getAllGroupSpecsCount();
         groupsCountTextField.setText(count == null ? "unknown" : count.toString());
-        count = catalog == null ? null : ((XBCSpecService) catalog.getCatalogService(XBCSpecService.class)).getAllBlockSpecsCount();
+        count = specService == null ? null : specService.getAllBlockSpecsCount();
         blocksCountTextField.setText(count == null ? "unknown" : count.toString());
-        count = catalog == null ? null : ((XBCRevService) catalog.getCatalogService(XBCRevService.class)).getItemsCount();
+        count = revService == null ? null : revService.getItemsCount();
         revsCountTextField.setText(count == null ? "unknown" : count.toString());
+        count = revService == null ? null : revService.getItemsCount();
+        revsCountTextField.setText(count == null ? "unknown" : count.toString());
+        Date date = nodeService == null ? null : nodeService.getLastUpdate();
+        lastUpdateTextField.setText(date == null ? "unknown" : date.toString());
     }
 }

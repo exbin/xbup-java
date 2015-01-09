@@ -49,12 +49,14 @@ import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
+import org.xbup.lib.core.catalog.base.XBCXBlockLine;
 import org.xbup.lib.core.catalog.base.XBCXBlockPane;
 import org.xbup.lib.core.catalog.base.XBCXName;
+import org.xbup.lib.core.catalog.base.XBCXPlugLine;
 import org.xbup.lib.core.catalog.base.XBCXPlugPane;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
-import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
+import org.xbup.lib.core.catalog.base.service.XBCXLineService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXPaneService;
 import org.xbup.lib.core.parser.XBParserMode;
@@ -73,17 +75,16 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.parser_tree.XBTTreeDocument;
 import org.xbup.lib.parser_tree.XBTTreeNode;
+import org.xbup.lib.plugin.XBLineEditor;
 import org.xbup.lib.plugin.XBPanelEditor;
 import org.xbup.lib.plugin.XBPlugin;
 import org.xbup.lib.plugin.XBPluginRepository;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
-import org.xbup.tool.editor.module.xbdoc_editor.panel.XBPropertyTableCellEditor;
-import org.xbup.tool.editor.module.xbdoc_editor.panel.XBPropertyTableCellRenderer;
 
 /**
  * Dialog for modifying item attributes or data.
  *
- * @version 0.1.24 2014/11/19
+ * @version 0.1.24 2015/01/09
  * @author XBUP Project (http://xbup.org)
  */
 public class ModifyItemDialog extends javax.swing.JDialog {
@@ -574,7 +575,6 @@ public class ModifyItemDialog extends javax.swing.JDialog {
         if (srcNode.getBlockDecl() == null) {
             return null;
         }
-        XBCRevService revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
         XBCXPaneService paneService = (XBCXPaneService) catalog.getCatalogService(XBCXPaneService.class);
         XBCBlockDecl decl = (XBCBlockDecl) srcNode.getBlockDecl();
         if (decl == null) {
@@ -624,6 +624,7 @@ public class ModifyItemDialog extends javax.swing.JDialog {
         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
         if (decl instanceof XBCBlockDecl) {
             XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+            XBCXLineService lineService = (XBCXLineService) catalog.getCatalogService(XBCXLineService.class);
             XBCBlockSpec spec = ((XBCBlockDecl) decl).getBlockSpec().getParent();
             if (spec != null) {
                 long bindCount = specService.getSpecDefsCount(spec);
@@ -633,6 +634,7 @@ public class ModifyItemDialog extends javax.swing.JDialog {
                     XBCSpecDef specDef = specService.getSpecDefByOrder(spec, i);
                     String specName = "";
                     String specType = "";
+                    XBLineEditor lineEditor = null;
 
                     if (specDef != null) {
                         XBCXName specDefName = nameService.getDefaultItemName(specDef);
@@ -641,18 +643,43 @@ public class ModifyItemDialog extends javax.swing.JDialog {
                         }
 
                         XBCRev rowRev = specDef.getTarget();
-                        XBCSpec rowSpec = rowRev.getParent();
+                        if (rowRev != null) {
+                            XBCSpec rowSpec = rowRev.getParent();
+                            lineEditor = getCustomEditor((XBCBlockRev) rowRev, lineService);
 
-                        XBCXName typeName = nameService.getDefaultItemName(rowSpec);
-                        if (typeName != null) {
+                            XBCXName typeName = nameService.getDefaultItemName(rowSpec);
                             specType = typeName.getText();
                         }
                     }
 
-                    ParametersTableItem itemRecord = new ParametersTableItem(spec, specName, specType);
+                    ParametersTableItem itemRecord = new ParametersTableItem(spec, specName, specType, lineEditor);
                     parameters.add(itemRecord);
                 }
             }
         }
+    }
+
+    private XBLineEditor getCustomEditor(XBCBlockRev rev, XBCXLineService lineService) {
+        if (rev == null || catalog == null) {
+            return null;
+        }
+
+        XBCXBlockLine blockLine = lineService.findLineByPR(rev, 0);
+        if (blockLine == null) {
+            return null;
+        }
+        XBCXPlugLine plugLine = blockLine.getLine();
+        if (plugLine == null) {
+            return null;
+        }
+        XBCXPlugin plugin = plugLine.getPlugin();
+        XBPlugin pluginHandler;
+
+        pluginHandler = pluginRepository.getPluginHandler(plugin);
+        if (pluginHandler == null) {
+            return null;
+        }
+
+        return pluginHandler.getLineEditor(plugLine.getLineIndex());
     }
 }

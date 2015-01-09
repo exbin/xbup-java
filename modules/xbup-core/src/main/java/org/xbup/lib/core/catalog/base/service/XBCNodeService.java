@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.core.catalog.base.service;
 
+import java.util.Date;
 import java.util.List;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCRoot;
@@ -23,7 +24,7 @@ import org.xbup.lib.core.catalog.base.XBCRoot;
 /**
  * Interface for XBCNode items service.
  *
- * @version 0.1.24 2014/10/19
+ * @version 0.1.24 2015/01/09
  * @author XBUP Project (http://xbup.org)
  * @param <T> node class
  */
@@ -124,4 +125,11 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * @return root record
      */
     public XBCRoot getRoot();
+
+    /**
+     * Gets time of the last update.
+     *
+     * @return time of last update
+     */
+    public Date getLastUpdate();
 }

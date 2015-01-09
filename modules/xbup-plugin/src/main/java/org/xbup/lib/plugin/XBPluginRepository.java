@@ -42,7 +42,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * XBUP Transformation Plugin Base Class.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.24 2015/01/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPluginRepository {
@@ -113,7 +113,11 @@ public class XBPluginRepository {
         }
         pluginManager.addPluginsFrom(tmpFile.getAbsoluteFile().toURI());
         GetPluginOption plugOpt = new OptionPluginSelector<>(new XBPluginSelector(filePath));
-        return (XBPlugin) pluginManager.getPlugin(XBPlugin.class, plugOpt);
+        XBPlugin processedPlugin = (XBPlugin) pluginManager.getPlugin(XBPlugin.class, plugOpt);
+        if (processedPlugin != null) {
+            plugins.put(plugFile.getId(), processedPlugin);
+        }
+        return processedPlugin;
     }
 
     public class XBPluginSelector implements PluginSelector<XBPlugin> {
@@ -126,7 +130,7 @@ public class XBPluginRepository {
 
         @Override
         public boolean selectPlugin(XBPlugin plugin) {
-            System.out.println("Plugin filename:" + filePath);
+            // System.out.println("Plugin filename:" + filePath);
             String plugPath = "/" + plugin.getPluginPath();
             if (plugPath == null) {
                 return false;

@@ -33,7 +33,7 @@ import org.xbup.lib.catalog.entity.XBERoot;
 /**
  * XBUP catalog node manager.
  *
- * @version 0.1.22 2013/08/17
+ * @version 0.1.24 2015/01/09
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -210,6 +210,19 @@ public class XBENodeManager extends XBEDefaultManager<XBENode> implements XBCNod
         } catch (Exception ex) {
             Logger.getLogger(XBENodeManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        }
+    }
+
+    /**
+     * Set last update time mark to current database time.
+     *
+     * UPDATE XBROOT SET LASTUPDATE = CURRENT_TIMESTAMP() WHERE url IS NULL
+     */
+    public void setLastUpdateToNow() {
+        try {
+            em.createQuery("UPDATE XBRoot AS o SET o.lastUpdate = CURRENT_TIMESTAMP WHERE o.url IS NULL").executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(XBENodeManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -362,7 +362,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
                         mainDoc.fromStreamUB(new ByteArrayInputStream(buffer.toByteArray()));
                     } catch (XBProcessingException ex) {
                         Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
-                        JOptionPane.showMessageDialog(WindowUtils.getFrame(this), ex.getMessage(), "Parse Exception", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(WindowUtils.getFrame(this), ex.getMessage(), "Parsing Exception", JOptionPane.ERROR_MESSAGE);
                     } catch (IOException ex) {
                         Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -513,7 +513,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
             Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (XBProcessingException ex) {
             Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(WindowUtils.getFrame(this), ex.getMessage(), "Parse Exception", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(WindowUtils.getFrame(this), ex.getMessage(), "Parsing Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
 

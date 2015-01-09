@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.client.catalog.remote.service;
 
+import java.util.Date;
 import java.util.List;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCNode;
@@ -28,7 +29,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRNodeManager;
 /**
  * Interface for XBRNode items service.
  *
- * @version 0.1.22 2013/08/17
+ * @version 0.1.24 2015/01/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRNodeService extends XBRDefaultService<XBRNode> implements XBCNodeService<XBRNode> {
@@ -41,61 +42,66 @@ public class XBRNodeService extends XBRDefaultService<XBRNode> implements XBCNod
 
     @Override
     public XBRNode getRootNode() {
-        return ((XBRNodeManager)itemManager).getRootNode();
+        return ((XBRNodeManager) itemManager).getRootNode();
     }
 
     @Override
     public Long findMaxSubNodeXB(XBCNode node) {
-        return ((XBRNodeManager)itemManager).findMaxSubNodeXB(node);
+        return ((XBRNodeManager) itemManager).findMaxSubNodeXB(node);
     }
 
     @Override
     public XBRNode findNodeByXBPath(Long[] xbCatalogPath) {
-        return ((XBRNodeManager)itemManager).findNodeByXBPath(xbCatalogPath);
+        return ((XBRNodeManager) itemManager).findNodeByXBPath(xbCatalogPath);
     }
 
     @Override
     public XBRNode findOwnerByXBPath(Long[] xbCatalogPath) {
-        return ((XBRNodeManager)itemManager).findOwnerByXBPath(xbCatalogPath);
+        return ((XBRNodeManager) itemManager).findOwnerByXBPath(xbCatalogPath);
     }
 
     @Override
     public XBRNode findParentByXBPath(Long[] xbCatalogPath) {
-        return ((XBRNodeManager)itemManager).findParentByXBPath(xbCatalogPath);
+        return ((XBRNodeManager) itemManager).findParentByXBPath(xbCatalogPath);
     }
 
     @Override
     public Long[] getNodeXBPath(XBCNode node) {
-        return ((XBRNodeManager)itemManager).getNodeXBPath(node);
+        return ((XBRNodeManager) itemManager).getNodeXBPath(node);
     }
 
     @Override
     public XBRNode getSubNode(XBCNode node, long index) {
-        return ((XBRNodeManager)itemManager).getSubNode(node, index);
+        return ((XBRNodeManager) itemManager).getSubNode(node, index);
     }
 
     @Override
     public XBRNode getSubNodeSeq(XBCNode node, long seq) {
-        return ((XBRNodeManager)itemManager).getSubNodeSeq(node, seq);
+        return ((XBRNodeManager) itemManager).getSubNodeSeq(node, seq);
     }
 
     @Override
     public List<XBCNode> getSubNodes(XBCNode node) {
-        return ((XBRNodeManager)itemManager).getSubNodes(node);
+        return ((XBRNodeManager) itemManager).getSubNodes(node);
     }
 
     @Override
     public long getSubNodesCount(XBCNode node) {
-        return ((XBRNodeManager)itemManager).getSubNodesCount(node);
+        return ((XBRNodeManager) itemManager).getSubNodesCount(node);
     }
 
     @Override
     public long getSubNodesSeq(XBCNode node) {
-        return ((XBRNodeManager)itemManager).getSubNodesSeq(node);
+        return ((XBRNodeManager) itemManager).getSubNodesSeq(node);
     }
 
     @Override
     public XBCRoot getRoot() {
-        return ((XBRNodeManager)itemManager).getRoot();
+        return ((XBRNodeManager) itemManager).getRoot();
+    }
+
+    @Override
+    public Date getLastUpdate() {
+        return getRoot().getLastUpdate();
     }
 }

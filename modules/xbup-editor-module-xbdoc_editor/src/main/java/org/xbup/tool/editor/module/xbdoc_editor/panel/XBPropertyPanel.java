@@ -38,7 +38,6 @@ import org.xbup.lib.plugin.XBPluginRepository;
 public class XBPropertyPanel extends javax.swing.JPanel {
 
     private XBACatalog catalog;
-    // private final XBPropertyTableCellRenderer cellRenderer;
     private final XBPropertyTablePanel propertiesPanel;
 
     public XBPropertyPanel(XBACatalog catalog) {

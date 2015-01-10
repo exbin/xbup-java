@@ -73,7 +73,7 @@ public class XBPropertyTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return getRow(rowIndex).getName();
+                return getRow(rowIndex).getValueName();
             case 1:
                 return null;
             default:

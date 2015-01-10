@@ -39,7 +39,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.text.JTextComponent;
 import org.xbup.lib.core.block.XBBlockDataMode;
-import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
@@ -84,10 +83,13 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Dialog for modifying item attributes or data.
  *
- * @version 0.1.24 2015/01/09
+ * @version 0.1.24 2015/01/10
  * @author XBUP Project (http://xbup.org)
  */
 public class ModifyItemDialog extends javax.swing.JDialog {
+
+    private XBACatalog catalog;
+    private XBPluginRepository pluginRepository;
 
     private final AttributesTableModel tableModel = new AttributesTableModel();
     private final ParametersTableModel parametersTableModel = new ParametersTableModel();
@@ -95,8 +97,6 @@ public class ModifyItemDialog extends javax.swing.JDialog {
     private XBTTreeNode newNode = null;
     private final HexEditPanel hexPanel;
     private JPanel customPanel;
-    private XBACatalog catalog;
-    private XBPluginRepository pluginRepository;
 
     private XBBlockDataMode dataMode = XBBlockDataMode.NODE_BLOCK;
     private List<UBNatural> attributes;
@@ -504,8 +504,8 @@ public class ModifyItemDialog extends javax.swing.JDialog {
                 loadParameters(srcNode);
                 TableColumnModel columnModel = parametersTable.getColumnModel();
                 TableColumn column = columnModel.getColumn(3);
-                column.setCellEditor(new ParametersTableCellEditor(catalog, newNode));
-                column.setCellRenderer(new ParametersTableCellRenderer(catalog, newNode));
+                column.setCellEditor(new ParametersTableCellEditor(catalog, pluginRepository, newNode));
+                column.setCellRenderer(new ParametersTableCellRenderer(catalog, pluginRepository, newNode));
             }
 
             mainTabbedPane.addTab(paramEditorPanelTitle, paramEditorPanel);
@@ -613,14 +613,13 @@ public class ModifyItemDialog extends javax.swing.JDialog {
     }
 
     private void loadParameters(XBTTreeNode node) {
-        List<ParametersTableItem> parameters = parametersTableModel.getParameters();
+        parametersTableModel.clear();
 
         if (node == null) {
             return;
         }
-        XBBlockType type = node.getBlockType();
-        XBBlockDecl decl = node.getBlockDecl();
 
+        XBBlockDecl decl = node.getBlockDecl();
         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
         if (decl instanceof XBCBlockDecl) {
             XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
@@ -629,9 +628,9 @@ public class ModifyItemDialog extends javax.swing.JDialog {
             if (spec != null) {
                 long bindCount = specService.getSpecDefsCount(spec);
                 // TODO: if (desc != null) descTextField.setText(desc.getText());
-                for (int i = 0; i < bindCount; i++) {
+                for (int paramIndex = 0; paramIndex < bindCount; paramIndex++) {
                     // TODO: Exclusive lock
-                    XBCSpecDef specDef = specService.getSpecDefByOrder(spec, i);
+                    XBCSpecDef specDef = specService.getSpecDefByOrder(spec, paramIndex);
                     String specName = "";
                     String specType = "";
                     XBLineEditor lineEditor = null;
@@ -652,8 +651,9 @@ public class ModifyItemDialog extends javax.swing.JDialog {
                         }
                     }
 
-                    ParametersTableItem itemRecord = new ParametersTableItem(spec, specName, specType, lineEditor);
-                    parameters.add(itemRecord);
+                    ParametersTableItem itemRecord = new ParametersTableItem(specDef, specName, specType, lineEditor);
+                    itemRecord.setTypeName(itemRecord.getDefTypeName());
+                    parametersTableModel.addRow(itemRecord);
                 }
             }
         }

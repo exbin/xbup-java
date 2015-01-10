@@ -19,9 +19,11 @@ package org.xbup.lib.parser_tree;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
@@ -32,6 +34,7 @@ import org.xbup.lib.core.block.definition.XBBlockParam;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.parser.param.XBParamListProcessingState;
 import org.xbup.lib.core.parser.param.XBParamProcessingState;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
@@ -43,12 +46,13 @@ import org.xbup.lib.core.parser.token.convert.XBTListenerToToken;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * Extracting specified parameters from XBUP level 2 blocks.
  *
- * @version 0.1.24 2015/01/07
+ * @version 0.1.24 2015/01/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener {
@@ -57,6 +61,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
 
     private final List<ProcessingState> processingStates = new ArrayList<>();
     private XBParamProcessingState currentProcessingState;
+    private XBParamListProcessingState currentListProcessingState;
     private int currentParameter;
     private XBBlockParam parameterType = null;
     private ParameterInfo currentParameterInfo;
@@ -86,6 +91,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
         position.attributeCount = 0;
         position.childCount = 0;
         currentProcessingState = XBParamProcessingState.BEGIN;
+        currentListProcessingState = XBParamListProcessingState.BEGIN;
         childWriter = null;
         childReader = null;
     }
@@ -171,11 +177,153 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
             }
 
             case LIST_JOIN: {
-                throw new UnsupportedOperationException("Not supported yet.");
+                switch (currentListProcessingState) {
+                    case BEGIN: {
+                        if (currentParameterInfo == null) {
+                            currentParameterInfo = processParameterInfo();
+                            currentListProcessingState = XBParamListProcessingState.TYPE;
+                            return new XBTBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED);
+                        } else {
+                            throw new XBProcessingException("Parameter already processed", XBProcessingExceptionType.READING_AFTER_END);
+                        }
+                    }
+
+                    case TYPE: {
+                        currentListProcessingState = XBParamListProcessingState.LIST_SIZE;
+                        // TODO some sort of customized type later
+                        return new XBTTypeToken(new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK));
+                    }
+
+                    case LIST_SIZE: {
+                        UBNat32 listSize = new UBNat32(currentParameterInfo.listSize);
+                        currentListProcessingState = currentParameterInfo.listSize == 0
+                                ? XBParamListProcessingState.END
+                                : XBParamListProcessingState.ITEMS;
+                        if (currentParameterInfo.attributeCount == 0) {
+                            throw new IllegalStateException();
+                        } else {
+                            currentParameterInfo.attributeCount--;
+                        }
+                        return new XBTAttributeToken(listSize);
+                    }
+
+                    case ITEMS: {
+                        if (currentParameterInfo.listSize >= 0) {
+                            switch (currentProcessingState) {
+                                case BEGIN: {
+                                    currentParameterInfo = processParameterInfo();
+                                    currentProcessingState = XBParamProcessingState.TYPE;
+                                    return new XBTBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED);
+                                }
+
+                                case TYPE: {
+                                    currentProcessingState = currentParameterInfo.isEmpty() ? XBParamProcessingState.END
+                                            : (currentParameterInfo.attributeCount > 0 ? XBParamProcessingState.ATTRIBUTES : XBParamProcessingState.CHILDREN);
+                                    return new XBTTypeToken(new XBDeclBlockType(currentParameterInfo.blockDecl));
+                                }
+
+                                case ATTRIBUTES: {
+                                    if (currentParameterInfo.attributeCount > 0) {
+                                        currentParameterInfo.attributeCount--;
+                                        if (currentParameterInfo.attributeCount == 0) {
+                                            currentProcessingState = currentParameterInfo.childCount > 0 ? XBParamProcessingState.CHILDREN : XBParamProcessingState.END;
+                                        }
+
+                                        return getNextAttributeToken();
+                                    }
+
+                                }
+
+                                case CHILDREN: {
+                                    if (currentParameterInfo.childCount > 0) {
+                                        if (currentParameterInfo.childCount == 1) {
+                                            currentProcessingState = XBParamProcessingState.END;
+                                        }
+
+                                        childWriter = new XBTTreeWriter(getNextChild());
+                                        return getChildToken();
+                                    }
+
+                                    throw new IllegalStateException();
+                                }
+
+                                case END: {
+                                    currentProcessingState = XBParamProcessingState.BEGIN;
+                                    currentParameterInfo.listSize--;
+                                    if (currentParameterInfo.listSize == 0) {
+                                        currentListProcessingState = XBParamListProcessingState.END;
+                                    }
+                                    return new XBTEndToken();
+                                }
+                            }
+                        }
+
+                    }
+                    case END: {
+                        currentListProcessingState = XBParamListProcessingState.BEGIN;
+                        return new XBTEndToken();
+                    }
+                }
+
+                break;
             }
 
             case LIST_CONSIST: {
-                throw new UnsupportedOperationException("Not supported yet.");
+                switch (currentListProcessingState) {
+                    case BEGIN: {
+                        if (currentParameterInfo == null) {
+                            currentParameterInfo = processParameterInfo();
+                            currentListProcessingState = XBParamListProcessingState.TYPE;
+                            return new XBTBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED);
+                        } else {
+                            throw new XBProcessingException("Parameter already processed", XBProcessingExceptionType.READING_AFTER_END);
+                        }
+                    }
+
+                    case TYPE: {
+                        currentListProcessingState = XBParamListProcessingState.LIST_SIZE;
+                        return new XBTTypeToken(new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK));
+                    }
+
+                    case LIST_SIZE: {
+                        UBENat32 listSize = new UBENat32();
+                        if (currentParameterInfo.listSize >= 0) {
+                            listSize.setValue(currentParameterInfo.listSize);
+                        } else {
+                            listSize.setInfinity();
+                        }
+                        currentListProcessingState = currentParameterInfo.listSize == 0
+                                ? XBParamListProcessingState.END
+                                : XBParamListProcessingState.ITEMS;
+                        if (currentParameterInfo.attributeCount == 0) {
+                            throw new IllegalStateException();
+                        } else {
+                            currentParameterInfo.attributeCount--;
+                        }
+                        return new XBTAttributeToken(listSize.convertToNatural());
+                    }
+
+                    case ITEMS: {
+                        if (currentParameterInfo.listSize >= 0) {
+                            childWriter = new XBTTreeWriter(getNextChild());
+                            currentParameterInfo.listSize--;
+                            if (currentParameterInfo.listSize == 0) {
+                                currentListProcessingState = XBParamListProcessingState.END;
+                            }
+                            return getChildToken();
+                        } else {
+                            // TODO process infinite list
+                            throw new UnsupportedOperationException("Not supported yet.");
+                        }
+
+                    }
+                    case END: {
+                        currentListProcessingState = XBParamListProcessingState.BEGIN;
+                        return new XBTEndToken();
+                    }
+                }
+
+                break;
             }
         }
 
@@ -387,6 +535,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
             }
 
             currentProcessingState = XBParamProcessingState.BEGIN;
+            currentListProcessingState = XBParamListProcessingState.BEGIN;
         }
 
         parameterType = null;
@@ -419,11 +568,31 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
                     }
 
                     case LIST_CONSIST: {
-                        throw new UnsupportedOperationException("Not supported yet.");
+                        UBENat32 listSizeNat = new UBENat32();
+                        listSizeNat.convertFromNatural(source.getAttribute(position.attributeCount + parameterInfo.attributeCount));
+                        parameterInfo.attributeCount++;
+                        if (!listSizeNat.isInfinity()) {
+                            parameterInfo.childCount += listSizeNat.getInt();
+                        } else {
+                            throw new UnsupportedOperationException("Not supported yet.");
+                        }
                     }
 
                     case LIST_JOIN: {
-                        throw new UnsupportedOperationException("Not supported yet.");
+                        int listSize = source.getAttribute(position.attributeCount + parameterInfo.attributeCount).getInt();
+                        parameterInfo.attributeCount++;
+                        while (listSize > 0) {
+                            ProcessingState joinState = new ProcessingState((XBCBlockDecl) blockParam.getBlockDecl());
+                            if (joinState.blockDecl.getBlockSpec() == null) {
+                                parameterInfo.attributeCount++;
+                            } else {
+                                long revision = joinState.blockDecl.getRevision();
+                                joinState.parametersCount = joinState.blockDecl.getBlockDef().getRevisionDef().getRevisionLimit(revision);
+                                processingStates.add(joinState);
+                            }
+
+                            listSize--;
+                        }
                     }
                 }
             }
@@ -456,6 +625,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
         public XBBlockDecl blockDecl = null;
         public int attributeCount = 0;
         public int childCount = 0;
+        public int listSize;
 
         public boolean isEmpty() {
             return attributeCount == 0 && childCount == 0;

@@ -18,8 +18,6 @@ package org.xbup.tool.editor.module.xbdoc_editor.panel;
 
 import java.awt.Component;
 import java.awt.HeadlessException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,13 +54,12 @@ import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemPropertiesDialog;
 /**
  * Panel for properties of the actual panel.
  *
- * @version 0.1.24 2015/01/09
+ * @version 0.1.24 2015/01/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyTablePanel extends javax.swing.JPanel {
 
     private XBACatalog catalog;
-    private final List<XBCBlockSpec> specList;
     private XBDocumentPanel activePanel;
     private final XBPropertyTableModel tableModel;
     private final XBPropertyTableCellRenderer valueCellRenderer;
@@ -92,36 +89,15 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 JComponent component = (JComponent) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 XBPropertyTableItem tableItem = ((XBPropertyTableModel) table.getModel()).getRow(row);
-                String typeName = null;
-                if (tableItem.getSpecDef().getTarget() == null) {
-                    switch (tableItem.getSpecDef().getType()) {
-                        case CONS:
-                        case LIST_CONS: {
-                            typeName = "Attribute";
-                            break;
-                        }
-                        case JOIN:
-                        case LIST_JOIN: {
-                            typeName = "Any";
-                            break;
-                        }
-                    }
-                } else {
-                    typeName = tableItem.getType();
-                }
-                if (tableItem.getSpecDef().getType() == XBCSpecDefType.LIST_CONS || tableItem.getSpecDef().getType() == XBCSpecDefType.LIST_JOIN) {
-                    typeName += "[]";
-                }
-
-                component.setToolTipText("(" + typeName + ") " + tableItem.getName());
+                component.setToolTipText("(" + tableItem.getDefTypeName() + ") " + tableItem.getValueName());
                 return component;
             }
 
         };
         columns.getColumn(0).setCellRenderer(nameCellRenderer);
-        valueCellRenderer = new XBPropertyTableCellRenderer(catalog, null);
+        valueCellRenderer = new XBPropertyTableCellRenderer(catalog, pluginRepository, null);
         columns.getColumn(1).setCellRenderer(valueCellRenderer);
-        valueCellEditor = new XBPropertyTableCellEditor(catalog, null);
+        valueCellEditor = new XBPropertyTableCellEditor(catalog, pluginRepository, null);
         columns.getColumn(1).setCellEditor(valueCellEditor);
 
         propertiesTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
@@ -138,7 +114,6 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
 
         propertyThread = null;
         valueFillingSemaphore = new Semaphore(1);
-        specList = new ArrayList<>();
     }
 
     /**
@@ -340,10 +315,9 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
             super.start();
             try {
                 getValueFillingSemaphore().acquire();
-                for (int i = tableModel.getRowCount() - 1; i >= 0; i--) {
-                    tableModel.removeRow(i);
+                for (int rowIndex = tableModel.getRowCount() - 1; rowIndex >= 0; rowIndex--) {
+                    tableModel.removeRow(rowIndex);
                 }
-                specList.clear();
                 propertyPanel.setPropertyThread(this);
                 getValueFillingSemaphore().release();
                 fillPanel();
@@ -412,7 +386,6 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
 
                                 row = new XBPropertyTableItem(def, rowNameText, typeNameText, lineEditor);
                                 tableModel.addRow(row);
-                                specList.add(spec);
                             }
                         }
                         getValueFillingSemaphore().release();

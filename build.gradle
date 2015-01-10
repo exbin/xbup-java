@@ -1,16 +1,62 @@
 apply plugin: 'base'
-apply plugin: 'application'
+apply plugin: 'distribution'
 version = '0.1.24-SNAPSHOT'
 
 task wrapper(type: Wrapper, description: 'Creates and deploys the Gradle wrapper to the current directory.') {
-    gradleVersion = '2.0'
+    gradleVersion = '2.1'
 }
 
-task zip(type:Zip) {
-   baseName project.name
-   from project.rootDir
-   include 'readme.txt', 'lgpl-3.0.txt', 'gpl-3.0.txt'
-}
+subprojects.each { subproject -> evaluationDependsOn(subproject.path) }
 
-// Disable tests on build
-check.dependsOn.remove(test)
+distributions {
+    main {
+        contents {
+            from project.rootDir
+            include 'lgpl-3.0.txt', 'gpl-3.0.txt'
+            duplicatesStrategy = 'exclude'
+
+            into('lib') {
+                from 'lib'
+                include 'jspf.core-1.0.2.jar'
+            }
+            project(':modules').subprojects.each { p ->
+                p.plugins.withType(JavaPlugin) {
+                    into('lib') {
+                        from p.jar.archivePath
+                        include '*'
+                        from p.configurations.runtime
+                        include '*'
+                    }
+                }
+            }
+            project(':tools').subprojects.each { p ->
+                p.plugins.withType(JavaPlugin) {
+                    into('lib') {
+                        if (!project.name.equals("xbcatalogweb")) {
+                            from p.configurations.runtime
+                            include '*'
+                        }
+                    }
+                }
+            }
+            project(':tools').subprojects.each { p ->
+                p.plugins.withType(JavaPlugin) {
+                    into('bin') {
+                        if (!project.name.equals("xbcatalogweb")) {
+                            from p.jar.archivePath
+                            include '*'
+                        }
+                    }
+                }
+            }
+            into('doc') {
+                from 'doc'
+                include '**'
+            }
+            into('resources') {
+                from 'resources'
+                include '**'
+            }
+        }
+    }
+}

@@ -28,3 +28,12 @@ check.dependsOn.remove(test)
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }
+
+jar {
+    manifest {
+        attributes(
+            'Main-Class': mainClass,
+            'Class-Path': configurations.compile.collect {'../lib/' + it.getName() }.join(' ')
+        )
+    }
+}

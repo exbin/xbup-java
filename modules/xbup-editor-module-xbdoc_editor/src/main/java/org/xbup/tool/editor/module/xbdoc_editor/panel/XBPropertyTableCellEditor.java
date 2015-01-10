@@ -27,24 +27,27 @@ import javax.swing.JTextField;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.plugin.XBLineEditor;
+import org.xbup.lib.plugin.XBPluginRepository;
 
 /**
  * Property Table Cell Renderer.
  *
- * @version 0.1.24 2014/12/21
+ * @version 0.1.24 2015/01/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyTableCellEditor extends DefaultCellEditor {
 
     private XBACatalog catalog;
+    private XBPluginRepository pluginRepository;
     private XBTTreeNode node;
     private XBLineEditor lineEditor = null;
     private JComponent lineEditorComponent = null;
 
-    public XBPropertyTableCellEditor(XBACatalog catalog, XBTTreeNode node) {
+    public XBPropertyTableCellEditor(XBACatalog catalog, XBPluginRepository pluginRepository, XBTTreeNode node) {
         super(new JTextField());
         setClickCountToStart(0);
         this.catalog = catalog;
+        this.pluginRepository = pluginRepository;
         this.node = node;
     }
 
@@ -57,9 +60,9 @@ public class XBPropertyTableCellEditor extends DefaultCellEditor {
         if (lineEditorComponent == null) {
             JComponent defaultComponent = (JComponent) super.getTableCellEditorComponent(table, value, isSelected, row, column);
             defaultComponent.setEnabled(false);
-            cellPanel = new XBPropertyTableCellPanel(defaultComponent, catalog, node, row);
+            cellPanel = new XBPropertyTableCellPanel(defaultComponent, catalog, pluginRepository, node, row);
         } else {
-            cellPanel = new XBPropertyTableCellPanel(lineEditorComponent, catalog, node, row);
+            cellPanel = new XBPropertyTableCellPanel(lineEditorComponent, catalog, pluginRepository, node, row);
         }
 
         cellPanel.setBackground(table.getSelectionBackground());

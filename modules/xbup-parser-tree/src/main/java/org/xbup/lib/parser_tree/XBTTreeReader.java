@@ -34,7 +34,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 convertor from tokens to tree node.
  *
- * @version 0.1.24 2014/10/07
+ * @version 0.1.24 2015/01/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTreeReader implements XBTListener {
@@ -160,7 +160,7 @@ public class XBTTreeReader implements XBTListener {
             return;
         }
 
-        if ((parserState == XBParserState.DATA_PART) || (parserState == XBParserState.BLOCK_BEGIN)) {
+        if ((parserState == XBParserState.DATA_PART) || (parserState == XBParserState.ATTRIBUTE_PART) || (parserState == XBParserState.BLOCK_BEGIN)) {
             parserState = XBParserState.BLOCK_END;
             if (level > 0) {
                 parserState = XBParserState.BLOCK_END;

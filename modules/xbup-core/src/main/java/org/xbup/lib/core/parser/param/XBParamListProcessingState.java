@@ -14,15 +14,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.catalog;
+package org.xbup.lib.core.parser.param;
 
 /**
- * XBUP level 2 catalog interface.
+ * Enumeration of list parameter processing states.
  *
- * @version 0.1.24 2015/01/09
+ * @version 0.1.24 2015/01/10
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBACatalog extends XBCatalog {
-    
-    // TODO
+public enum XBParamListProcessingState {
+
+    BEGIN, TYPE, LIST_SIZE, ITEMS, END
 }

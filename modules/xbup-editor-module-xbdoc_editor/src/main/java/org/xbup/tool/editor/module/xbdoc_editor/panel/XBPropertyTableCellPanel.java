@@ -19,37 +19,49 @@ package org.xbup.tool.editor.module.xbdoc_editor.panel;
 import org.xbup.tool.editor.module.xbdoc_editor.panel.cell.PropertyTableCellPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 import org.xbup.lib.core.catalog.XBACatalog;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.token.XBTToken;
+import org.xbup.lib.core.parser.token.convert.XBTListenerToToken;
+import org.xbup.lib.parser_tree.XBATreeParamExtractor;
 import org.xbup.lib.parser_tree.XBTTreeNode;
+import org.xbup.lib.parser_tree.XBTTreeReader;
+import org.xbup.lib.plugin.XBPluginRepository;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
-import org.xbup.tool.editor.module.xbdoc_editor.dialog.XBPropertyDialog;
+import org.xbup.tool.editor.module.xbdoc_editor.dialog.ModifyItemDialog;
 
 /**
  * Properties table cell panel.
  *
- * @version 0.1.24 2014/12/18
+ * @version 0.1.24 2015/01/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyTableCellPanel extends PropertyTableCellPanel {
 
     private XBACatalog catalog;
+    private final XBPluginRepository pluginRepository;
     private XBTTreeNode node;
     private final int row;
 
-    public XBPropertyTableCellPanel(JComponent cellComponent, XBACatalog catalog, XBTTreeNode node, int row) {
+    public XBPropertyTableCellPanel(JComponent cellComponent, XBACatalog catalog, XBPluginRepository pluginRepository, XBTTreeNode node, int row) {
         super(cellComponent);
 
         this.catalog = catalog;
+        this.pluginRepository = pluginRepository;
         this.node = node;
         this.row = row;
         init();
     }
 
-    public XBPropertyTableCellPanel(XBACatalog catalog, XBTTreeNode node, int row) {
+    public XBPropertyTableCellPanel(XBACatalog catalog, XBPluginRepository pluginRepository, XBTTreeNode node, int row) {
         super();
 
         this.catalog = catalog;
+        this.pluginRepository = pluginRepository;
         this.node = node;
         this.row = row;
         init();
@@ -66,16 +78,38 @@ public class XBPropertyTableCellPanel extends PropertyTableCellPanel {
     }
 
     public void performEditorAction() {
-        XBPropertyDialog propertyDialog = new XBPropertyDialog(WindowUtils.getFrame(this), true);
-        propertyDialog.setCatalog(catalog);
-        propertyDialog.setLocationRelativeTo(propertyDialog.getParent());
-
-        // TODO Fix parameters processing
-        /*XBTTreeNode newNode = (XBTTreeNode) node.getParam(catalog, getParamIndex());
-         propertyDialog.setRootBlock(newNode);
-         propertyDialog.getDocumentPanel().reportStructureChange(newNode);
-         propertyDialog.getDocumentPanel().updateItem(); */
-        propertyDialog.setVisible(true);
+        ModifyItemDialog modifyDialog = new ModifyItemDialog(WindowUtils.getFrame(this), true);
+        modifyDialog.setCatalog(catalog);
+        modifyDialog.setPluginRepository(pluginRepository);
+        modifyDialog.setLocationRelativeTo(modifyDialog.getParent());
+        
+        // TODO: Subparting instead of copy until modify operation
+        XBATreeParamExtractor paramExtractor = new XBATreeParamExtractor(node, catalog);
+        paramExtractor.setParameterIndex(row);
+        XBTTreeNode paramNode = new XBTTreeNode();
+        XBTTreeReader reader = new XBTTreeReader(paramNode);
+        int depth = 0;
+        try {
+            do {
+                XBTToken token = paramExtractor.pullXBTToken();
+                switch (token.getTokenType()) {
+                    case BEGIN: {
+                        depth++;
+                        break;
+                    }
+                    case END: {
+                        depth--;
+                        break;
+                    }
+                }
+                XBTListenerToToken.tokenToListener(token, reader);
+            } while (depth > 0);
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBPropertyTableCellPanel.class.getName()).log(Level.SEVERE, null, ex);            
+        }
+        
+        XBTTreeNode newNode = modifyDialog.runDialog(paramNode);
+        // TODO save
     }
 
     public XBACatalog getCatalog() {

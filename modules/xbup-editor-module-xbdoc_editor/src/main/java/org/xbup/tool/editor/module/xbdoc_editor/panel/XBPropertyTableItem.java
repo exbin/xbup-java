@@ -17,54 +17,55 @@
 package org.xbup.tool.editor.module.xbdoc_editor.panel;
 
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
+import org.xbup.lib.core.catalog.base.XBCSpecDefType;
 import org.xbup.lib.plugin.XBLineEditor;
 
 /**
  * Parameters list table item record.
  *
- * @version 0.1.24 2014/12/20
+ * @version 0.1.24 2015/01/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyTableItem {
 
-    private XBCSpecDef def;
-    private String name;
-    private String type;
+    private XBCSpecDef specDef;
+    private String valueName;
+    private String typeName;
     private XBLineEditor lineEditor;
 
-    public XBPropertyTableItem(XBCSpecDef def, String name, String type, XBLineEditor lineEditor) {
-        this.def = def;
-        this.name = name;
-        this.type = type;
+    public XBPropertyTableItem(XBCSpecDef specDef, String valueName, String typeName, XBLineEditor lineEditor) {
+        this.specDef = specDef;
+        this.valueName = valueName;
+        this.typeName = typeName;
         this.lineEditor = lineEditor;
     }
 
-    public XBPropertyTableItem(XBCSpecDef def, String name, String type) {
-        this(def, name, type, null);
+    public XBPropertyTableItem(XBCSpecDef specDef, String name, String type) {
+        this(specDef, name, type, null);
     }
 
     public XBCSpecDef getSpecDef() {
-        return def;
+        return specDef;
     }
 
-    public void setSpecDef(XBCSpecDef def) {
-        this.def = def;
+    public void setSpecDef(XBCSpecDef specDef) {
+        this.specDef = specDef;
     }
 
-    public String getName() {
-        return name;
+    public String getValueName() {
+        return valueName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setValueName(String valueName) {
+        this.valueName = valueName;
     }
 
-    public String getType() {
-        return type;
+    public String getTypeName() {
+        return typeName;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 
     public XBLineEditor getLineEditor() {
@@ -73,5 +74,30 @@ public class XBPropertyTableItem {
 
     public void setLineEditor(XBLineEditor lineEditor) {
         this.lineEditor = lineEditor;
+    }
+
+    public String getDefTypeName() {
+        String defTypeName = "";
+        if (specDef.getTarget() == null) {
+            switch (specDef.getType()) {
+                case CONS:
+                case LIST_CONS: {
+                    defTypeName = "Any";
+                    break;
+                }
+                case JOIN:
+                case LIST_JOIN: {
+                    defTypeName = "Attribute";
+                    break;
+                }
+            }
+        } else {
+            defTypeName = typeName;
+        }
+        if (specDef.getType() == XBCSpecDefType.LIST_CONS || specDef.getType() == XBCSpecDefType.LIST_JOIN) {
+            defTypeName += "[]";
+        }
+        
+        return defTypeName;
     }
 }

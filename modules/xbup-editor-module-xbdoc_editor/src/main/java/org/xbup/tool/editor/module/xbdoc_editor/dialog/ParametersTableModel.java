@@ -24,7 +24,7 @@ import javax.swing.table.AbstractTableModel;
 /**
  * Parameters list table model for item editing.
  *
- * @version 0.1.24 2014/11/19
+ * @version 0.1.24 2015/01/10
  * @author XBUP Project (http://xbup.org)
  */
 public class ParametersTableModel extends AbstractTableModel {
@@ -79,9 +79,9 @@ public class ParametersTableModel extends AbstractTableModel {
             case 0:
                 return rowIndex;
             case 1:
-                return getParameter(rowIndex).getName();
+                return getParameter(rowIndex).getValueName();
             case 2:
-                return getParameter(rowIndex).getType();
+                return getParameter(rowIndex).getTypeName();
             case 3:
                 return "";
             default:
@@ -122,5 +122,13 @@ public class ParametersTableModel extends AbstractTableModel {
         }
 
         return parameters.get(index);
+    }
+    
+    public void clear() {
+        parameters.clear();
+    }
+    
+    public void addRow(ParametersTableItem item) {
+        parameters.add(item);
     }
 }

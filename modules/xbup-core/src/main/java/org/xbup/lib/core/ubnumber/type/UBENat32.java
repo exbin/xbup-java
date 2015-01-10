@@ -28,7 +28,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * UBENatural stored as long value (limited value capacity to 32 bits).
  *
- * @version 0.1.24 2014/06/09
+ * @version 0.1.24 2015/01/10
  * @author XBUP Project (http://xbup.org)
  */
 public class UBENat32 implements UBENatural {
@@ -127,6 +127,27 @@ public class UBENat32 implements UBENatural {
         }
 
         return value;
+    }
+
+    // TODO replace conversion with UBAttribute interface?
+    public void convertFromNatural(UBNatural nat) {
+        if (nat.getLong() < 127) {
+            value = nat.getLong();
+        } else if (nat.getLong() == 127) {
+            setInfinity();
+        }
+
+        value = nat.getLong() - 1;
+    }
+
+    public UBNatural convertToNatural() {
+        if (infinity) {
+            return new UBNat32(127);
+        } else if (value < 127) {
+            return new UBNat32(value);
+        }
+
+        return new UBNat32(value + 1);
     }
 
     @Override
@@ -268,55 +289,10 @@ public class UBENat32 implements UBENatural {
         }
     }
 
-    // TODO
-    /*
-     public static UBENat32 ConvertFromNatural(UBNatural value) {
-     if (value.getLong() == 127) {
-     return UBENat32.Infinity();
-     }
-     return new UBENat32(value.getLong());
-     }
-
-     // TODO: Or should be singleton?
-     public static UBENat32 Infinity() {
-     UBENat32 value = new UBENat32();
-     value.infinity = true;
-     return value;
-     }
-
-     @Override
-     public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-     return serialType == XBSerializationType.FROM_XB
-     ? Arrays.asList(new XBSerialMethod[]{new XBTChildProviderSerialMethod()})
-     : Arrays.asList(new XBSerialMethod[]{new XBTChildListenerSerialMethod()});
-     }
-
-     @Override
-     public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-     if (serialType == XBSerializationType.FROM_XB) {
-     XBTChildProvider serial = (XBTChildProvider) serializationHandler;
-     serial.begin();
-     UBNatural newValue = serial.nextAttribute();
-     setValue(newValue.getLong());
-     serial.end();
-     } else {
-     XBTChildListener serial = (XBTChildListener) serializationHandler;
-     serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
-     serial.addAttribute(this);
-     serial.end();
-     }
-     } */
     // TODO: Or should be singleton?
-    public static UBENat32 Infinity() {
+    public static UBENat32 getInfinity() {
         UBENat32 value = new UBENat32();
         value.infinity = true;
         return value;
-    }
-
-    public static UBENat32 ConvertFromNatural(UBNatural value) {
-        if (value.getLong() == 127) {
-            return UBENat32.Infinity();
-        }
-        return new UBENat32(value.getLong());
     }
 }

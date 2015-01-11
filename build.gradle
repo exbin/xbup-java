@@ -11,9 +11,12 @@ subprojects.each { subproject -> evaluationDependsOn(subproject.path) }
 distributions {
     main {
         contents {
+            duplicatesStrategy = 'exclude'
+
             from project.rootDir
             include 'lgpl-3.0.txt', 'gpl-3.0.txt'
-            duplicatesStrategy = 'exclude'
+            from 'src/dist'
+            include 'readme.txt'
 
             into('lib') {
                 from 'lib'
@@ -45,6 +48,7 @@ distributions {
                         if (!project.name.equals("xbcatalogweb")) {
                             from p.jar.archivePath
                             include '*'
+                            rename { filename -> p.name + ".jar" }
                         }
                     }
                 }
@@ -55,6 +59,10 @@ distributions {
             }
             into('resources') {
                 from 'resources'
+                include '**'
+            }
+            into('bin/help') {
+                from 'tools/xbeditor/help'
                 include '**'
             }
         }

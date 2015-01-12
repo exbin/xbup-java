@@ -157,7 +157,7 @@
                 <Component class="javax.swing.JTable" name="attributesTable">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="tableModel" type="code"/>
+                      <Connection code="attributesTableModel" type="code"/>
                     </Property>
                   </Properties>
                   <AccessibilityProperties>
@@ -167,7 +167,7 @@
                     <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="attributesTablePropertyChange"/>
                   </Events>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JTable(tableModel) {&#xa;            @Override&#xa;        public boolean editCellAt(int row, int column, EventObject e) {&#xa;                boolean result = super.editCellAt(row, column, e);&#xa;                final Component editor = getEditorComponent();&#xa;                if (editor == null || !(editor instanceof JTextComponent)) {&#xa;                    return result;&#xa;                }&#xa;                if (e instanceof MouseEvent) {&#xa;                    EventQueue.invokeLater(new Runnable() {&#xa;&#xa;                        @Override&#xa;        public void run() {&#xa;                            ((JTextComponent) editor).selectAll();&#xa;                        }&#xa;&#xa;                    });&#xa;                } else {&#xa;                    ((JTextComponent) editor).selectAll();&#xa;                }&#xa;                return result;&#xa;            }&#xa;        }"/>
+                    <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JTable(attributesTableModel) {&#xa;            @Override&#xa;        public boolean editCellAt(int row, int column, EventObject e) {&#xa;                boolean result = super.editCellAt(row, column, e);&#xa;                final Component editor = getEditorComponent();&#xa;                if (editor == null || !(editor instanceof JTextComponent)) {&#xa;                    return result;&#xa;                }&#xa;                if (e instanceof MouseEvent) {&#xa;                    EventQueue.invokeLater(new Runnable() {&#xa;&#xa;                        @Override&#xa;        public void run() {&#xa;                            ((JTextComponent) editor).selectAll();&#xa;                        }&#xa;&#xa;                    });&#xa;                } else {&#xa;                    ((JTextComponent) editor).selectAll();&#xa;                }&#xa;                return result;&#xa;            }&#xa;        }"/>
                   </AuxValues>
                 </Component>
               </SubComponents>

@@ -17,12 +17,14 @@
 package org.xbup.lib.catalog.update;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,22 +38,25 @@ import org.xbup.lib.core.catalog.base.XBCXDesc;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.core.catalog.base.XBCXName;
 import org.xbup.lib.core.parser.basic.XBHead;
+import org.xbup.lib.core.util.CopyStreamUtils;
 
 /**
  * Catalog update handler using some primitive PHP interface.
  *
  * TODO: This is really horrible temporary stub for dummy PHP XBCatalog.
  *
- * @version 0.1.24 2015/01/08
+ * @version 0.1.24 2015/01/12
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCUpdatePHPPort {
 
-    private String catalogPrefix = "http://catalog-php-dev.xbup.org";
-    private String catalogURL = catalogPrefix + "/interface/wr24-0.php";
-    private String catalogRepo = catalogPrefix + "/root";
+    private final String catalogServer = "catalog-php-dev.xbup.org";
+    private final String catalogPrefix = "http://" + catalogServer;
+    private final String catalogInterfacePath = "/interface/wr24-0.php";
+    private final String catalogURL = catalogPrefix + catalogInterfacePath;
+    private final String catalogRepo = catalogPrefix + "/root";
 
-    private BufferedReader compositeReader;
+    private final BufferedReader compositeReader;
     private BufferedReader compoundCall;
 
     public XBCUpdatePHPPort() {
@@ -119,7 +124,7 @@ public class XBCUpdatePHPPort {
         compoundCall = null;
     }
 
-    public InputStream getRepoFile(String path) {
+    public byte[] getRepoFile(String path) {
         try {
             URL myURL;
             Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("FILE: " + path));
@@ -128,7 +133,10 @@ public class XBCUpdatePHPPort {
             }
             myURL = new URL((catalogRepo + path).replace(" ", "%20")); // TODO: toURI?
             URLDataSource dataSource = new URLDataSource(myURL);
-            return dataSource.getInputStream();
+
+            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+            CopyStreamUtils.copyInputStreamToOutputStream(dataSource.getInputStream(), byteStream);
+            return byteStream.toByteArray();
         } catch (FileNotFoundException ex) {
             return null;
         } catch (MalformedURLException ex) {
@@ -140,16 +148,29 @@ public class XBCUpdatePHPPort {
         }
     }
 
-    public InputStream getFileContent(String path) {
+    public byte[] getFileContent(String path, int dataLength) {
+        InputStream istream = null;
         try {
-            URL myURL;
             Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("FILE: " + path));
             if (!path.startsWith("/")) {
                 path = '/' + path;
             }
-            myURL = new URL((catalogURL + "?op=filecontent&path=" + path).replace(" ", "%20"));
-            URLDataSource dataSource = new URLDataSource(myURL);
-            return dataSource.getInputStream();
+
+            URL commandURL = new URL(catalogURL + ("?op=filecontent&path=" + path).replace(" ", "%20"));
+            URLConnection uc = commandURL.openConnection();
+            int contentLength = uc.getContentLength();
+            
+            // TODO: This is temporary ugly hack to fix unknown issue with connection
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+
+            istream = uc.getInputStream();
+            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+            CopyStreamUtils.copyInputStreamToOutputStream(istream, byteStream, contentLength);
+            return byteStream.toByteArray();
         } catch (FileNotFoundException ex) {
             return null;
         } catch (MalformedURLException ex) {
@@ -158,6 +179,14 @@ public class XBCUpdatePHPPort {
         } catch (IOException ex) {
             Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        } finally {
+            try {
+                if (istream != null) {
+                    istream.close();
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -1187,6 +1216,8 @@ public class XBCUpdatePHPPort {
                     itemFile.setId(new Long(itemId));
                 } else if ("filename".equals(line)) {
                     itemFile.setFileName(br.readLine());
+                } else if ("size".equals(line)) {
+                    itemFile.setDataSize(Long.valueOf(br.readLine()));
                 } else {
                     br.readLine();
                 }

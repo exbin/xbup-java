@@ -23,6 +23,7 @@ import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.io.InputStream;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
@@ -34,7 +35,7 @@ import org.xbup.lib.core.serial.child.XBTChildSerializable;
 /**
  * Bitmap Picture Raster (Testing only).
  *
- * @version 0.1.23 2014/03/04
+ * @version 0.1.24 2015/01/11
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWritableRaster extends WritableRaster implements XBTChildSerializable {
@@ -54,6 +55,7 @@ public class XBWritableRaster extends WritableRaster implements XBTChildSerializ
     }
 
     public static void serializeXBWritableRasterToXBT(final WritableRaster source, XBTChildListener serial) throws XBProcessingException, IOException {
+        serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
         serial.putData(new InputStream() {
 
             private int posX, posY, val;
@@ -103,6 +105,7 @@ public class XBWritableRaster extends WritableRaster implements XBTChildSerializ
     }
 
     public static void serializeXBWritableRasterFromXBT(WritableRaster source, XBTChildProvider serial) throws XBProcessingException, IOException {
+        serial.pullBegin();
         int posX, posY, val;
         posX = 0;
         posY = 0;

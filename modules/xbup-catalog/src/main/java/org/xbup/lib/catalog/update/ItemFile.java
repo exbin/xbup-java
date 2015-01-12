@@ -19,7 +19,7 @@ package org.xbup.lib.catalog.update;
 /**
  * Catalog item file information record.
  *
- * @version 0.1.18 2009/12/29
+ * @version 0.1.24 2015/01/12
  * @author XBUP Project (http://xbup.org)
  */
 public class ItemFile {
@@ -28,6 +28,7 @@ public class ItemFile {
     private Long xbIndex;
     private String fileName;
     private Long mode;
+    private Long dataSize;
 
     public ItemFile() {
         id = null;
@@ -66,5 +67,13 @@ public class ItemFile {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getDataSize() {
+        return dataSize;
+    }
+
+    public void setDataSize(Long dataSize) {
+        this.dataSize = dataSize;
     }
 }

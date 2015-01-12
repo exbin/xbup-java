@@ -21,6 +21,7 @@ import java.awt.image.IndexColorModel;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.util.List;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
@@ -73,6 +74,7 @@ public class XBBufferedImage implements XBTChildSerializable {
 
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+        serial.pullBegin();
         serial.pullType(); //setType(new XBCBlockDecl(xbBlockPath));
         UBNatural width = serial.pullAttribute();
         UBNatural height = serial.pullAttribute();
@@ -84,6 +86,7 @@ public class XBBufferedImage implements XBTChildSerializable {
 
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+        serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
         serial.putType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
         WritableRaster raster = image.getRaster();
         serial.putAttribute(new UBNat32(raster.getWidth()));

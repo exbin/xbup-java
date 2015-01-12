@@ -38,7 +38,7 @@ import org.xbup.lib.plugin.XBPluginRepository;
 public class XBPropertyTableCellEditor extends DefaultCellEditor {
 
     private XBACatalog catalog;
-    private XBPluginRepository pluginRepository;
+    private final XBPluginRepository pluginRepository;
     private XBTTreeNode node;
     private XBLineEditor lineEditor = null;
     private JComponent lineEditorComponent = null;

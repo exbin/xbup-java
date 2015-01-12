@@ -16,13 +16,7 @@
  */
 package org.xbup.lib.catalog.update;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -48,7 +42,6 @@ import org.xbup.lib.core.catalog.base.service.XBCXLineService;
 import org.xbup.lib.core.catalog.base.service.XBCXPaneService;
 import org.xbup.lib.core.catalog.base.service.XBCXPlugService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
-import org.xbup.lib.core.util.CopyStreamUtils;
 import org.xbup.lib.catalog.XBAECatalog;
 import org.xbup.lib.catalog.entity.XBEBlockCons;
 import org.xbup.lib.catalog.entity.XBEBlockJoin;
@@ -101,7 +94,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 /**
  * Handler for processing Web Service Calls with PHP Catalog interface.
  *
- * @version 0.1.24 2015/01/07
+ * @version 0.1.24 2015/01/12
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCUpdatePHPHandler implements XBCUpdateHandler {
@@ -111,7 +104,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
     private Long lang;
     private XBEXLanguage localLang;
     private EntityManager em;
-    private List<XBCUpdateListener> wsListeners = new ArrayList<>();
+    private final List<XBCUpdateListener> wsListeners = new ArrayList<>();
     private boolean usage;
     private Map<XBCRev, Long> revCache;
 
@@ -143,9 +136,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
             lang = new Long(0);
         }
         XBEXLangService langService = new XBEXLangService(catalog);
-        if (langService != null) {
-            localLang = (XBEXLanguage) langService.getDefaultLang();
-        }
+        localLang = (XBEXLanguage) langService.getDefaultLang();
         if (localLang == null) {
             localLang = new XBEXLanguage();
             localLang.setId(lang);
@@ -302,7 +293,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         XBERev rev;
         Long max = port.getFormatCatalogSpecMaxRevIndex(path, specId);
         if (max != null) {
-            for (Long i = new Long(0); i.intValue() <= max; i = new Long(i.longValue() + 1)) {
+            for (Long i = (long) 0; i.intValue() <= max; i = i + 1) {
                 EntityTransaction tx = em.getTransaction();
                 tx.begin();
                 ItemRevision itemRev = port.getFormatSpecRevision(path, specId, i);
@@ -332,7 +323,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         XBERev rev;
         Long max = port.getGroupCatalogSpecMaxRevIndex(path, specId);
         if (max != null) {
-            for (Long i = new Long(0); i.intValue() <= max; i = new Long(i.longValue() + 1)) {
+            for (Long i = (long) 0; i.intValue() <= max; i = i + 1) {
                 EntityTransaction tx = em.getTransaction();
                 tx.begin();
                 ItemRevision itemRev = port.getGroupSpecRevision(path, specId, i);
@@ -362,7 +353,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         XBERev rev;
         Long max = port.getBlockCatalogSpecMaxRevIndex(path, specId);
         if (max != null) {
-            for (Long i = new Long(0); i.intValue() <= max; i = new Long(i.longValue() + 1)) {
+            for (Long i = (long) 0; i.intValue() <= max; i = i + 1) {
                 EntityTransaction tx = em.getTransaction();
                 tx.begin();
                 ItemRevision itemRev = port.getBlockSpecRevision(path, specId, i);
@@ -379,8 +370,11 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
     }
 
     /**
-     * Adds node from WS Catalog interface
+     * Adds node from WS Catalog interface.
      *
+     * @param node
+     * @param nodeId
+     * @return
      */
     @Override
     public XBENode addNodeFromWS(XBCNode node, Long nodeId) {
@@ -408,12 +402,11 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
         XBENode node = nodeService.getRootNode();
         XBENode parent;
-        for (int i = 0; i < path.length; i++) {
+        for (Long pathComponent : path) {
             parent = node;
-            Long elem = (Long) path[i];
-            node = (XBENode) nodeService.getSubNode(parent, elem);
+            node = (XBENode) nodeService.getSubNode(parent, pathComponent);
             if (node == null) {
-                node = addNodeFromWS(parent, elem);
+                node = addNodeFromWS(parent, pathComponent);
             }
             if (node == null) {
                 return false;
@@ -501,7 +494,9 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
     }
 
     /**
-     * Recursively receive all information about given specification node
+     * Recursively receive all information about given specification node.
+     *
+     * @param path
      */
     @Override
     public void processAllData(Long[] path) {
@@ -512,7 +507,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         // Second plugins
         // Third binds, line editors and pane editors
         // Optimalization for root node:
-        revCache = new HashMap<XBCRev, Long>();
+        revCache = new HashMap<>();
         XBENode node = nodeService.findNodeByXBPath(path);
 
         if (isRootPath(path)) {
@@ -888,7 +883,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                 new File(catalog.getFileRepositoryPath() + parentPath).mkdirs();
             }
 
-            String nodePath = null;
+            String nodePath;
             if (node.getParent() == null) {
                 nodePath = "/";
             } else {
@@ -914,27 +909,11 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                     XBEXFile file = new XBEXFile();
                     file.setFilename(itemFile.getFileName());
                     file.setNode(node);
-                    em.persist(file);
                     if (fileService != null) {
-                        InputStream istream = port.getFileContent(parentPath + "/" + itemFile.getFileName());
-                        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-                        if (istream != null) {
-                            try {
-                                OutputStream ostream = new FileOutputStream(new File(catalog.getFileRepositoryPath() + parentPath + "/" + itemFile.getFileName()));
-                                CopyStreamUtils.copyInputStreamToTwoOutputStreams(istream, ostream, byteStream);
-                                istream.close();
-                                ostream.close();
-                                file.setContent(byteStream.toByteArray());
-                                byteStream.close();
-                            } catch (FileNotFoundException ex) {
-                                Logger.getLogger(XBCUpdatePHPHandler.class.getName()).log(Level.SEVERE, null, ex);
-                            } catch (IOException ex) {
-                                Logger.getLogger(XBCUpdatePHPHandler.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-
+                        file.setContent(port.getFileContent(parentPath + "/" + itemFile.getFileName(), itemFile.getDataSize().intValue()));
                     }
                     prev = itemFile.getId();
+                    em.persist(file);
                 }
             } while (itemFile != null);
             tx.commit();
@@ -984,7 +963,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
         Long max = port.getItemIconMaxIndex(itemId);
         if (max != null) {
-            for (Long i = new Long(0); i.intValue() <= max; i = new Long(i.longValue() + 1)) {
+            for (Long i = (long) 0; i.intValue() <= max; i = i + 1) {
                 EntityTransaction tx = em.getTransaction();
                 ItemFile itemIcon = port.getItemIcon(itemId, i);
                 if (itemIcon != null) {
@@ -1121,7 +1100,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         }
         Long max = port.getPluginCatalogPlugLineMaxIndex(itemId);
         if (max != null) {
-            for (Long i = new Long(0); i.intValue() <= max; i = new Long(i.longValue() + 1)) {
+            for (Long i = (long) 0; i.intValue() <= max; i = i + 1) {
                 Long plugLineId = port.getPluginCatalogPlugLine(itemId, i);
                 if (plugLineId != null) {
                     EntityTransaction tx = em.getTransaction();
@@ -1145,7 +1124,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         }
         Long max = port.getPluginCatalogPlugPaneMaxIndex(itemId);
         if (max != null) {
-            for (Long i = new Long(0); i.intValue() <= max; i = new Long(i.longValue() + 1)) {
+            for (Long i = (long) 0; i.intValue() <= max; i = i + 1) {
                 Long plugPaneId = port.getPluginCatalogPlugPane(itemId, i);
                 if (plugPaneId != null) {
                     EntityTransaction tx = em.getTransaction();

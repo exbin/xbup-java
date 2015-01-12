@@ -83,7 +83,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Dialog for modifying item attributes or data.
  *
- * @version 0.1.24 2015/01/10
+ * @version 0.1.24 2015/01/11
  * @author XBUP Project (http://xbup.org)
  */
 public class ModifyItemDialog extends javax.swing.JDialog {
@@ -91,7 +91,7 @@ public class ModifyItemDialog extends javax.swing.JDialog {
     private XBACatalog catalog;
     private XBPluginRepository pluginRepository;
 
-    private final AttributesTableModel tableModel = new AttributesTableModel();
+    private final AttributesTableModel attributesTableModel = new AttributesTableModel();
     private final ParametersTableModel parametersTableModel = new ParametersTableModel();
     private XBTTreeNode srcNode;
     private XBTTreeNode newNode = null;
@@ -125,18 +125,11 @@ public class ModifyItemDialog extends javax.swing.JDialog {
                 updateAttributesButtons();
             }
         });
-        /*attributesTable.getCellEditor().addCellEditorListener(new CellEditorListener() {
-
-         @Override
-         public void editingStopped(ChangeEvent e) {
-         }
-
-         @Override
-         public void editingCanceled(ChangeEvent e) {
-         attributesTable.setValueAt(((DefaultCellEditor) e.getSource()).getCellEditorValue(), attributesTable.getSelectedRow(), attributesTable.getSelectedColumn());
-         }
-         }); */
-
+        
+        // DefaultCellEditor attributesTableCellEditor = new DefaultCellEditor(new JTextField());
+        // attributesTableCellEditor.setClickCountToStart(0);
+        // attributesTable.getColumnModel().getColumn(1).setCellEditor(attributesTableCellEditor);
+        
         int parametersTableWidth = parametersTable.getWidth();
         parametersTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         parametersTable.getColumnModel().getColumn(0).setPreferredWidth(parametersTableWidth / 6);
@@ -166,7 +159,7 @@ public class ModifyItemDialog extends javax.swing.JDialog {
         parametersTable = new javax.swing.JTable();
         attributesEditorPanel = new javax.swing.JPanel();
         attributesScrollPane = new javax.swing.JScrollPane();
-        attributesTable = new JTable(tableModel) {
+        attributesTable = new JTable(attributesTableModel) {
             @Override
             public boolean editCellAt(int row, int column, EventObject e) {
                 boolean result = super.editCellAt(row, column, e);
@@ -226,7 +219,7 @@ public class ModifyItemDialog extends javax.swing.JDialog {
 
         mainTabbedPane.addTab(bundle.getString("paramEditorPanel.title"), null, paramEditorPanel, "List of parameters on level 1"); // NOI18N
 
-        attributesTable.setModel(tableModel);
+        attributesTable.setModel(attributesTableModel);
         attributesTable.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 attributesTablePropertyChange(evt);
@@ -366,8 +359,7 @@ public class ModifyItemDialog extends javax.swing.JDialog {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         attributes.add(new UBNat32());
-        tableModel.fireTableDataChanged();
-//        tableModel.fireTableRowsInserted(tableModel.getParameters().size()-1,tableModel.getParameters().size());
+        attributesTableModel.fireTableDataChanged();
         attributesTable.revalidate();
         updateAttributesButtons();
     }//GEN-LAST:event_addButtonActionPerformed
@@ -380,7 +372,7 @@ public class ModifyItemDialog extends javax.swing.JDialog {
                 attributes.remove(selectedRows[index]);
             }
 
-            tableModel.fireTableDataChanged();
+            attributesTableModel.fireTableDataChanged();
             attributesTable.clearSelection();
             attributesTable.revalidate();
         }
@@ -475,6 +467,22 @@ public class ModifyItemDialog extends javax.swing.JDialog {
 
             HexEditPanel.loadFromStream(srcNode.getData(), srcNode.getDataSize());
         } else {
+            attributes = new ArrayList<>();
+            XBFixedBlockType fixedBlockType = srcNode.getFixedBlockType();
+            attributes.add(fixedBlockType.getGroupID());
+            if (!srcNode.getSingleAttributeType()) {
+                attributes.add(fixedBlockType.getBlockID());
+                attributes.addAll(srcNode.getAttributes());
+            }
+            attributesTableModel.setAttribs(attributes);
+            updateAttributesButtons();
+
+            loadParameters(srcNode);
+            TableColumnModel columnModel = parametersTable.getColumnModel();
+            TableColumn column = columnModel.getColumn(3);
+            column.setCellEditor(new ParametersTableCellEditor(catalog, pluginRepository, newNode));
+            column.setCellRenderer(new ParametersTableCellRenderer(catalog, pluginRepository, newNode));
+
             customPanel = getCustomPanel(srcNode);
             if (customPanel instanceof XBSerializable) {
                 try {
@@ -490,22 +498,6 @@ public class ModifyItemDialog extends javax.swing.JDialog {
                 } catch (XBProcessingException | IOException ex) {
                     Logger.getLogger(ModifyItemDialog.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } else {
-                attributes = new ArrayList<>();
-                XBFixedBlockType fixedBlockType = srcNode.getFixedBlockType();
-                attributes.add(fixedBlockType.getGroupID());
-                if (!srcNode.getSingleAttributeType()) {
-                    attributes.add(fixedBlockType.getBlockID());
-                    attributes.addAll(srcNode.getAttributes());
-                }
-                tableModel.setAttribs(attributes);
-                updateAttributesButtons();
-
-                loadParameters(srcNode);
-                TableColumnModel columnModel = parametersTable.getColumnModel();
-                TableColumn column = columnModel.getColumn(3);
-                column.setCellEditor(new ParametersTableCellEditor(catalog, pluginRepository, newNode));
-                column.setCellRenderer(new ParametersTableCellRenderer(catalog, pluginRepository, newNode));
             }
 
             mainTabbedPane.addTab(paramEditorPanelTitle, paramEditorPanel);

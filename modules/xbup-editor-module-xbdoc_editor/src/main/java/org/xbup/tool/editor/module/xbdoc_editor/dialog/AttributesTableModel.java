@@ -19,7 +19,6 @@ package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -27,7 +26,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Attributes list table model for item editing.
  *
- * @version 0.1.24 2014/10/07
+ * @version 0.1.24 2015/01/11
  * @author XBUP Project (http://xbup.org)
  */
 public class AttributesTableModel extends AbstractTableModel {
@@ -40,7 +39,6 @@ public class AttributesTableModel extends AbstractTableModel {
         java.lang.Integer.class, java.lang.Integer.class
     };
     private final boolean[] columnsEditable = new boolean[]{false, true};
-    private final List<TableModelListener> tableModelListeners = new ArrayList<>();
 
     public AttributesTableModel() {
         resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ItemModifyDialog");
@@ -107,16 +105,6 @@ public class AttributesTableModel extends AbstractTableModel {
 
     public void setTypes(Class[] types) {
         this.columnTypes = types;
-    }
-
-    @Override
-    public void addTableModelListener(TableModelListener listener) {
-        tableModelListeners.add(listener);
-    }
-
-    @Override
-    public void removeTableModelListener(TableModelListener listener) {
-        tableModelListeners.remove(listener);
     }
 
     public int getAttribute(int index) {

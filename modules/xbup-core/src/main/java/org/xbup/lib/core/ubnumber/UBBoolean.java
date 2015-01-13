@@ -16,15 +16,18 @@
  */
 package org.xbup.lib.core.ubnumber;
 
+import java.io.Serializable;
 import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 
 /**
  * Interface for LRUB-encoded boolean value.
  *
- * @version 0.1.24 2014/06/07
+ * @version 0.1.24 2015/01/13
  * @author XBUP Project (http://xbup.org)
  */
-public interface UBBoolean {
+public interface UBBoolean extends Serializable, UBStreamable {
+
+    public static long[] XBUP_BLOCK_TYPE = {0, 0, 13};
 
     /**
      * Gets boolean value.
@@ -39,4 +42,19 @@ public interface UBBoolean {
      * @param value
      */
     public void setValue(boolean value) throws UBOverFlowException;
+
+    /**
+     * Gets count of long value segments.
+     *
+     * @return count of long segments
+     */
+    public long getSegmentCount();
+
+    /**
+     * Gets long integer segment of value.
+     *
+     * @param segmentIndex index of segment, 0 for lowest value
+     * @return long integer
+     */
+    public long getValueSegment(long segmentIndex);
 }

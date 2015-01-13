@@ -19,7 +19,7 @@ package org.xbup.lib.catalog.update;
 /**
  * Catalog item revision information record.
  *
- * @version 0.1.19 2010/07/17
+ * @version 0.1.24 2015/01/13
  * @author XBUP Project (http://xbup.org)
  */
 public class ItemRevision {
@@ -27,6 +27,8 @@ public class ItemRevision {
     private Long id;
     private Long xbIndex;
     private Long xbLimit;
+    private String name;
+    private String desc;
 
     public ItemRevision() {
         id = null;
@@ -56,5 +58,21 @@ public class ItemRevision {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }

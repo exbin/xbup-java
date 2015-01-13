@@ -45,7 +45,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
  *
  * TODO: This is really horrible temporary stub for dummy PHP XBCatalog.
  *
- * @version 0.1.24 2015/01/12
+ * @version 0.1.24 2015/01/13
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCUpdatePHPPort {
@@ -159,7 +159,7 @@ public class XBCUpdatePHPPort {
             URL commandURL = new URL(catalogURL + ("?op=filecontent&path=" + path).replace(" ", "%20"));
             URLConnection uc = commandURL.openConnection();
             int contentLength = uc.getContentLength();
-            
+
             // TODO: This is temporary ugly hack to fix unknown issue with connection
             try {
                 Thread.sleep(100);
@@ -856,7 +856,7 @@ public class XBCUpdatePHPPort {
         }
     }
 
-    public ItemRevision getFormatSpecRevision(Long[] path, Long specId, Long revId) {
+    public ItemRevision getFormatSpecRevision(Long[] path, Long specId, Long revId, Long langId) {
         try {
             BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=0&path=" + getParamPath(path));
             String line;
@@ -889,6 +889,8 @@ public class XBCUpdatePHPPort {
                         br.readLine();
                     }
                 }
+                result.setName(getItemName(String.valueOf(revId), langId));
+                result.setDesc(getItemDesc(String.valueOf(revId), langId));
             }
             return result;
         } catch (IOException ex) {
@@ -897,7 +899,7 @@ public class XBCUpdatePHPPort {
         }
     }
 
-    public ItemRevision getGroupSpecRevision(Long[] path, Long specId, Long revId) {
+    public ItemRevision getGroupSpecRevision(Long[] path, Long specId, Long revId, Long langId) {
         try {
             BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=1&path=" + getParamPath(path));
             String line;
@@ -927,6 +929,8 @@ public class XBCUpdatePHPPort {
                         br.readLine();
                     }
                 }
+                result.setName(getItemName(String.valueOf(revId), langId));
+                result.setDesc(getItemDesc(String.valueOf(revId), langId));
             }
             return result;
         } catch (IOException ex) {
@@ -935,7 +939,7 @@ public class XBCUpdatePHPPort {
         }
     }
 
-    public ItemRevision getBlockSpecRevision(Long[] path, Long specId, Long revId) {
+    public ItemRevision getBlockSpecRevision(Long[] path, Long specId, Long revId, Long langId) {
         try {
             BufferedReader br = callCatalog("?op=getspec&spec=" + specId + "&dtype=2&path=" + getParamPath(path));
             String line;
@@ -968,6 +972,8 @@ public class XBCUpdatePHPPort {
                         br.readLine();
                     }
                 }
+                result.setName(getItemName(String.valueOf(revId), langId));
+                result.setDesc(getItemDesc(String.valueOf(revId), langId));
             }
             return result;
         } catch (IOException ex) {

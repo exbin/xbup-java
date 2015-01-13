@@ -22,6 +22,7 @@ import org.xbup.lib.plugin.XBLineEditor;
 import org.xbup.lib.plugin.XBPanelEditor;
 import org.xbup.lib.plugin.XBPlugin;
 import org.xbup.lib.plugin.XBTransformation;
+import org.xbup.plugin.basic.line.BooleanLineEditor;
 import org.xbup.plugin.basic.line.IntegerLineEditor;
 import org.xbup.plugin.basic.line.NaturalLineEditor;
 import org.xbup.plugin.basic.line.StringLineEditor;
@@ -42,7 +43,7 @@ public class XBBasicPlugin implements XBPlugin {
 
     @Override
     public long getLineEditorsCount() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -56,6 +57,9 @@ public class XBBasicPlugin implements XBPlugin {
             }
             case 2: {
                 return new StringLineEditor();
+            }
+            case 3: {
+                return new BooleanLineEditor();
             }
         }
         return null;

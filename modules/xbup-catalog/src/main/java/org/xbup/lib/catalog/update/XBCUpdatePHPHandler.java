@@ -296,7 +296,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
             for (Long i = (long) 0; i.intValue() <= max; i = i + 1) {
                 EntityTransaction tx = em.getTransaction();
                 tx.begin();
-                ItemRevision itemRev = port.getFormatSpecRevision(path, specId, i);
+                ItemRevision itemRev = port.getFormatSpecRevision(path, specId, i, lang);
                 rev = new XBEFormatRev();
                 rev.setParent(spec);
                 rev.setXBIndex(itemRev.getXBIndex());
@@ -326,7 +326,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
             for (Long i = (long) 0; i.intValue() <= max; i = i + 1) {
                 EntityTransaction tx = em.getTransaction();
                 tx.begin();
-                ItemRevision itemRev = port.getGroupSpecRevision(path, specId, i);
+                ItemRevision itemRev = port.getGroupSpecRevision(path, specId, i, lang);
                 rev = new XBEGroupRev();
                 rev.setParent(spec);
                 rev.setXBIndex(itemRev.getXBIndex());
@@ -356,7 +356,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
             for (Long i = (long) 0; i.intValue() <= max; i = i + 1) {
                 EntityTransaction tx = em.getTransaction();
                 tx.begin();
-                ItemRevision itemRev = port.getBlockSpecRevision(path, specId, i);
+                ItemRevision itemRev = port.getBlockSpecRevision(path, specId, i, lang);
                 rev = new XBEBlockRev();
                 rev.setParent(spec);
                 rev.setXBIndex(itemRev.getXBIndex());

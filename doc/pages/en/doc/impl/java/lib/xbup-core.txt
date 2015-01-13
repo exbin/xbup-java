@@ -6,9 +6,22 @@ Core library provides set of interfaces and functions to support handling of the
 
 Library contains interfaces for document, block and type declarations.
 
-==== Declarations and Basic Types ====
+==== Declarations ====
 
-Declarations are included in "org.xbup.lib.core.block" package. 
+Declarations are included in "org.xbup.lib.core.block" package and subpackages. It categorized by:
+
+  * Declaration or definition - Suffix **Decl** or **Def**
+  * Catalog or local related - Prefix **XBC** or **XBD**
+
+==== Basic Types ====
+
+There are types related to unary-binary encoding stored in "org.xbup.lib.core.ubnumber" package, which provides values storage and are implementing UBStreamable interface:
+
+  public int toStreamUB(OutputStream stream)
+  public int fromStreamUB(InputStream stream)
+  public int getSizeUB()
+
+In package "org.xbup.lib.core.type" there are some additional classes for various other types.
 
 ===== Parsers =====
 
@@ -76,10 +89,9 @@ For level 1, there is similar interface XBTListener, which also includes additio
       // Process exception
   }
 
-
 ===== Token Parsers =====
 
-Variant of parsing using tokens is defined in "org.xbup.lib.core.parser.token" package and provides interfaces with single method handing token valus.
+Variant of parsing using tokens is defined in "org.xbup.lib.core.parser.token" package and provides interfaces with single method handing token value.
 
   * For level 0 (XBToken):
 
@@ -89,15 +101,53 @@ Variant of parsing using tokens is defined in "org.xbup.lib.core.parser.token" p
 
   XBTBeginToken, XBTTypeToken, XBTAttributeToken, XBTDataToken, XBTEndToken
 
+You have to process content of data token (for example read InputStream) before receiving next token.
+
 For different ways and directions of handling tokens there are defined interfaces for each case:
+
+  * XBTEventListener - token stream goes into class and is controlled by sender
+  * XBTEventProducer - token stream goes from class and is controlled by sender
+  * XBTPullConsumer - token stream goes into class and is controlled by receiver
+  * XBTPullProvider - token stream goes from class and is controlled by receiver
+
+And for conversion of binary data to token stream there are corresponding parser classes:
+
+  * XBTEventReader - binary stream to token stream controlled by sender
+  * XBTEventWriter - token stream to binary stream controlled by sender
+  * XBTPullReader - binary stream to token stream controlled by receiver
+  * XBTPullWriter - token stream to binary stream controlled by receiver
 
 ==== Usage Examples ====
 
+  * Writting single node to file
 
+  try (XBEventWriter writer = new XBEventWriter()) {
+      writer.open(new FileOutputStream("test.xb"));
+      writer.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+      writer.putXBToken(new XBAttributeToken(new UBNat32(1)));
+      writer.putXBToken(new XBAttributeToken(new UBNat32(2)));
+      writer.putXBToken(new XBEndToken());
+      writer.closeXB();
+  } catch (IOException | XBProcessingException ex) {
+      // Process exception
+  }
+
+  * Reading single node from file
+
+  try {
+      XBPullReader reader = new XBPullReader();
+      reader.open(new FileInputStream("test.xb"));
+      XBBeginToken beginToken = (XBBeginToken) reader.pullXBToken();
+      XBAttributeToken attribute1Token = (XBAttributeToken) reader.pullXBToken();
+      XBAttributeToken attribute2Token = (XBAttributeToken) reader.pullXBToken();
+      XBEndToken endToken = (XBEndToken) reader.pullXBToken();
+  } catch (IOException | XBProcessingException ex) {
+      // Process exception
+  }
 
 ===== Serialization =====
 
-Various ways how to perform conversion of object data to protocol and back are included in "org.xbup.lib.core.serial" package.
+Several ways how to perform conversion of object data to protocol and back are included in "org.xbup.lib.core.serial" package.
 
 
 ===== Streaming =====
@@ -112,4 +162,3 @@ Various ways how to perform conversion of object data to protocol and back are i
 
 TODO:
 
-Note: You have to process content of data token (for example read InputStream) before receiving next token.

@@ -31,8 +31,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
@@ -58,22 +60,15 @@ import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXLineService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXPaneService;
-import org.xbup.lib.core.parser.XBParserMode;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.token.event.XBEventWriter;
-import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
-import org.xbup.lib.core.parser.token.pull.XBPullReader;
-import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
+import org.xbup.lib.core.parser.token.pull.convert.XBTProviderToPullProvider;
+import org.xbup.lib.core.serial.XBASerialReader;
+import org.xbup.lib.core.serial.XBASerialWriter;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
-import org.xbup.lib.parser_tree.XBTTreeDocument;
+import org.xbup.lib.parser_tree.XBATreeParamExtractor;
 import org.xbup.lib.parser_tree.XBTTreeNode;
+import org.xbup.lib.parser_tree.XBTTreeWriter;
 import org.xbup.lib.plugin.XBLineEditor;
 import org.xbup.lib.plugin.XBPanelEditor;
 import org.xbup.lib.plugin.XBPlugin;
@@ -83,7 +78,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Dialog for modifying item attributes or data.
  *
- * @version 0.1.24 2015/01/11
+ * @version 0.1.24 2015/01/14
  * @author XBUP Project (http://xbup.org)
  */
 public class ModifyItemDialog extends javax.swing.JDialog {
@@ -96,15 +91,17 @@ public class ModifyItemDialog extends javax.swing.JDialog {
     private XBTTreeNode srcNode;
     private XBTTreeNode newNode = null;
     private final HexEditPanel hexPanel;
-    private JPanel customPanel;
+    private XBPanelEditor customPanel;
 
     private XBBlockDataMode dataMode = XBBlockDataMode.NODE_BLOCK;
-    private List<UBNatural> attributes;
+    private List<UBNatural> attributes = null;
 
     private final String attributesEditorPanelTitle;
     private final String dataEditorPanelTitle;
     private final String paramEditorPanelTitle;
+    private final String customEditorPanelTitle = "Custom";
     private int dialogOption = JOptionPane.CLOSED_OPTION;
+    private boolean dataChanged = false;
 
     public ModifyItemDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -125,17 +122,53 @@ public class ModifyItemDialog extends javax.swing.JDialog {
                 updateAttributesButtons();
             }
         });
-        
+
+        attributesTableModel.attachChangeListener(new AttributesTableModel.ChangeListener() {
+
+            @Override
+            public void valueChanged() {
+                dataChanged = true;
+            }
+        });
+
         // DefaultCellEditor attributesTableCellEditor = new DefaultCellEditor(new JTextField());
         // attributesTableCellEditor.setClickCountToStart(0);
         // attributesTable.getColumnModel().getColumn(1).setCellEditor(attributesTableCellEditor);
-        
         int parametersTableWidth = parametersTable.getWidth();
         parametersTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         parametersTable.getColumnModel().getColumn(0).setPreferredWidth(parametersTableWidth / 6);
         parametersTable.getColumnModel().getColumn(1).setPreferredWidth(parametersTableWidth / 6);
         parametersTable.getColumnModel().getColumn(2).setPreferredWidth(parametersTableWidth / 6);
         parametersTable.getColumnModel().getColumn(3).setPreferredWidth(parametersTableWidth / 2);
+
+        mainTabbedPane.addChangeListener(new ChangeListener() {
+
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                JTabbedPane pane = (JTabbedPane) e.getSource();
+                if (pane.getSelectedIndex() < 0) {
+                    return;
+                }
+
+                String currentTitle = pane.getTitleAt(pane.getSelectedIndex());
+                if (attributesEditorPanelTitle.equals(currentTitle)) {
+                    if (dataChanged || attributes == null) {
+                        reloadAttributes();
+                    }
+                    dataChanged = false;
+                } else if (paramEditorPanelTitle.equals(currentTitle)) {
+                    if (dataChanged || parametersTableModel.isEmpty()) {
+                        reloadParameters();
+                    }
+                    dataChanged = false;
+                } else if (customEditorPanelTitle.equals(currentTitle)) {
+                    if (dataChanged) {
+                        reloadCustomEditor();
+                    }
+                    dataChanged = false;
+                }
+            }
+        });
 
         init();
     }
@@ -395,23 +428,7 @@ public class ModifyItemDialog extends javax.swing.JDialog {
             newNode.setData(new ByteArrayInputStream(stream.toByteArray()));
         } else {
             if (customPanel != null) {
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                XBTTreeDocument doc = new XBTTreeDocument(catalog);
-                try {
-                    // TODO: Do proper loading later
-                    XBTChildOutputSerialHandler handler = new XBTChildListenerSerialHandler();
-                    handler.attachXBTEventListener(new XBTToXBEventConvertor(new XBEventWriter(stream)));
-                    ((XBTChildSerializable) customPanel).serializeToXB(handler);
-                    doc.fromStreamUB(new ByteArrayInputStream(stream.toByteArray()));
-
-                    throw new UnsupportedOperationException("Not supported yet.");
-                    // node = (XBTTreeNode) doc.getRootBlock();
-                    // TODO: Patching node type, should be handled by context later
-                    // node.setAttribute(srcNode.getParameter(0), 0);
-                    // node.setAttribute(srcNode.getParameter(1), 1);
-                } catch (IOException | XBProcessingException ex) {
-                    Logger.getLogger(ModifyItemDialog.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                reloadCustomEditor();
             } else {
                 if (attributes.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "There must be at least one attribute", "Attribute Needed", JOptionPane.ERROR_MESSAGE);
@@ -467,37 +484,24 @@ public class ModifyItemDialog extends javax.swing.JDialog {
 
             HexEditPanel.loadFromStream(srcNode.getData(), srcNode.getDataSize());
         } else {
-            attributes = new ArrayList<>();
-            XBFixedBlockType fixedBlockType = srcNode.getFixedBlockType();
-            attributes.add(fixedBlockType.getGroupID());
-            if (!srcNode.getSingleAttributeType()) {
-                attributes.add(fixedBlockType.getBlockID());
-                attributes.addAll(srcNode.getAttributes());
-            }
-            attributesTableModel.setAttribs(attributes);
-            updateAttributesButtons();
-
-            loadParameters(srcNode);
+            reloadParameters();
             TableColumnModel columnModel = parametersTable.getColumnModel();
             TableColumn column = columnModel.getColumn(3);
             column.setCellEditor(new ParametersTableCellEditor(catalog, pluginRepository, newNode));
             column.setCellRenderer(new ParametersTableCellRenderer(catalog, pluginRepository, newNode));
 
             customPanel = getCustomPanel(srcNode);
-            if (customPanel instanceof XBSerializable) {
-                try {
-                    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-                    srcNode.toStreamUB(ostream);
-                    ByteArrayInputStream stream = new ByteArrayInputStream(ostream.toByteArray());
-                    XBTChildInputSerialHandler handler = new XBTChildProviderSerialHandler();
-                    handler.attachXBTPullProvider(new XBToXBTPullConvertor(new XBPullReader(stream, XBParserMode.SINGLE_BLOCK)));
-                    ((XBTChildSerializable) customPanel).serializeFromXB(handler);
-                    mainTabbedPane.addTab("Default", customPanel);
-                    // defaultEditorPanel.add(customPanel, "custom");
-                    //((CardLayout) defaultEditorPanel.getLayout()).show(defaultEditorPanel, "custom");
-                } catch (XBProcessingException | IOException ex) {
-                    Logger.getLogger(ModifyItemDialog.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            if (customPanel != null) {
+                ((XBPanelEditor) customPanel).attachChangeListener(new XBPanelEditor.ChangeListener() {
+
+                    @Override
+                    public void valueChanged() {
+                        dataChanged = true;
+                    }
+                });
+
+                reloadCustomEditor();
+                mainTabbedPane.addTab(customEditorPanelTitle, customPanel.getPanel());
             }
 
             mainTabbedPane.addTab(paramEditorPanelTitle, paramEditorPanel);
@@ -557,7 +561,7 @@ public class ModifyItemDialog extends javax.swing.JDialog {
         return dialogOption;
     }
 
-    private JPanel getCustomPanel(XBTTreeNode srcNode) {
+    private XBPanelEditor getCustomPanel(XBTTreeNode srcNode) {
         if (catalog == null) {
             return null;
         }
@@ -596,22 +600,29 @@ public class ModifyItemDialog extends javax.swing.JDialog {
             return null;
         }
 
-        XBPanelEditor panelEditor = pluginHandler.getPanelEditor(plugPane.getPaneIndex());
-        if (panelEditor == null) {
-            return null;
-        }
-
-        return panelEditor.getPanel();
+        return pluginHandler.getPanelEditor(plugPane.getPaneIndex());
     }
 
-    private void loadParameters(XBTTreeNode node) {
+    private void reloadAttributes() {
+        attributes = new ArrayList<>();
+        XBFixedBlockType fixedBlockType = srcNode.getFixedBlockType();
+        attributes.add(fixedBlockType.getGroupID());
+        if (!srcNode.getSingleAttributeType()) {
+            attributes.add(fixedBlockType.getBlockID());
+            attributes.addAll(srcNode.getAttributes());
+        }
+        attributesTableModel.setAttribs(attributes);
+        updateAttributesButtons();
+    }
+
+    private void reloadParameters() {
         parametersTableModel.clear();
 
-        if (node == null) {
+        if (srcNode == null) {
             return;
         }
 
-        XBBlockDecl decl = node.getBlockDecl();
+        XBBlockDecl decl = srcNode.getBlockDecl();
         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
         if (decl instanceof XBCBlockDecl) {
             XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
@@ -619,6 +630,7 @@ public class ModifyItemDialog extends javax.swing.JDialog {
             XBCBlockSpec spec = ((XBCBlockDecl) decl).getBlockSpec().getParent();
             if (spec != null) {
                 long bindCount = specService.getSpecDefsCount(spec);
+                XBATreeParamExtractor paramExtractor = new XBATreeParamExtractor(srcNode, catalog);
                 // TODO: if (desc != null) descTextField.setText(desc.getText());
                 for (int paramIndex = 0; paramIndex < bindCount; paramIndex++) {
                     // TODO: Exclusive lock
@@ -637,6 +649,13 @@ public class ModifyItemDialog extends javax.swing.JDialog {
                         if (rowRev != null) {
                             XBCSpec rowSpec = rowRev.getParent();
                             lineEditor = getCustomEditor((XBCBlockRev) rowRev, lineService);
+                            if (lineEditor != null) {
+                                paramExtractor.setParameterIndex(paramIndex);
+                                XBASerialReader serialReader = new XBASerialReader(paramExtractor);
+                                serialReader.read(lineEditor);
+
+                                lineEditor.attachChangeListener(new LineEditorChangeListener(lineEditor, paramExtractor, paramIndex));
+                            }
 
                             XBCXName typeName = nameService.getDefaultItemName(rowSpec);
                             specType = typeName.getText();
@@ -649,6 +668,11 @@ public class ModifyItemDialog extends javax.swing.JDialog {
                 }
             }
         }
+    }
+
+    private void reloadCustomEditor() {
+        XBASerialReader serialReader = new XBASerialReader(new XBTProviderToPullProvider(new XBTTreeWriter(srcNode)));
+        serialReader.read((XBSerializable) customPanel);
     }
 
     private XBLineEditor getCustomEditor(XBCBlockRev rev, XBCXLineService lineService) {
@@ -673,5 +697,26 @@ public class ModifyItemDialog extends javax.swing.JDialog {
         }
 
         return pluginHandler.getLineEditor(plugLine.getLineIndex());
+    }
+
+    private class LineEditorChangeListener implements XBLineEditor.ChangeListener {
+
+        private final XBATreeParamExtractor paramExtractor;
+        private final int parameterIndex;
+        private final XBLineEditor lineEditor;
+
+        private LineEditorChangeListener(XBLineEditor lineEditor, XBATreeParamExtractor paramExtractor, int parameterIndex) {
+            this.lineEditor = lineEditor;
+            this.paramExtractor = paramExtractor;
+            this.parameterIndex = parameterIndex;
+        }
+
+        @Override
+        public void valueChanged() {
+            paramExtractor.setParameterIndex(parameterIndex);
+            XBASerialWriter serialWriter = new XBASerialWriter(paramExtractor);
+            serialWriter.write(lineEditor);
+            dataChanged = true;
+        }
     }
 }

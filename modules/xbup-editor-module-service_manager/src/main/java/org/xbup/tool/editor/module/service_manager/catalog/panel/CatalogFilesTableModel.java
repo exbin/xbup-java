@@ -19,6 +19,7 @@ package org.xbup.tool.editor.module.service_manager.catalog.panel;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import org.xbup.lib.catalog.entity.XBENode;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXFile;
@@ -28,7 +29,7 @@ import org.xbup.lib.catalog.entity.XBEXFile;
 /**
  * Table model for catalog specifications.
  *
- * @version 0.1.24 2014/12/09
+ * @version 0.1.24 2015/01/14
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogFilesTableModel extends AbstractTableModel {
@@ -42,7 +43,7 @@ public class CatalogFilesTableModel extends AbstractTableModel {
         java.lang.String.class, java.lang.Long.class
     };
 
-    private List<XBCXFile> items = new ArrayList<>();
+    private List<FileItemRecord> items = new ArrayList<>();
 
     public CatalogFilesTableModel() {
         node = null;
@@ -51,11 +52,6 @@ public class CatalogFilesTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return items.size();
-        /*if (node==null) {
-         return 0;
-         }
-         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
-         return (int) specService.getSpecsCount(node)+1; */
     }
 
     @Override
@@ -67,15 +63,15 @@ public class CatalogFilesTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0: {
-                return items.get(rowIndex).getFilename();
+                return items.get(rowIndex).fileName;
             }
             case 1: {
-                byte[] data = ((XBEXFile) items.get(rowIndex)).getContent();
+                byte[] data = items.get(rowIndex).modifiedData;
                 if (data == null) {
-                    return 0;
+                    data = ((XBEXFile) items.get(rowIndex).file).getContent();
                 }
 
-                return data.length;
+                return data == null ? 0 : data.length;
             }
         }
         return "";
@@ -99,17 +95,67 @@ public class CatalogFilesTableModel extends AbstractTableModel {
         this.node = node;
         items = new ArrayList<>();
         if (node != null) {
-            items.addAll(fileService.findFilesForNode(node));
+            for (XBCXFile file : ((List<XBCXFile>) fileService.findFilesForNode(node))) {
+                items.add(new FileItemRecord(file));
+            }
         }
     }
 
-    public XBCXFile getItem(int index) {
-        return items.get(index);
+    public XBCXFile getItem(int rowIndex) {
+        return items.get(rowIndex).file;
+    }
+
+    public void addItem(String fileName, byte[] data) {
+        items.add(new FileItemRecord(fileName, data));
+        fireTableDataChanged();
+    }
+
+    public XBCXFile removeItem(int rowIndex) {
+        XBCXFile result = items.remove(rowIndex).file;
+        fireTableDataChanged();
+        return result;
     }
 
     public void setCatalog(XBCatalog catalog) {
         this.catalog = catalog;
 
         fileService = catalog == null ? null : (XBCXFileService) catalog.getCatalogService(XBCXFileService.class);
+    }
+
+    public void persist() {
+        for (FileItemRecord itemRecord : items) {
+            if (itemRecord.file == null) {
+                XBEXFile file = new XBEXFile();
+                file.setNode((XBENode) node);
+                file.setFilename(itemRecord.fileName);
+            }
+            
+            if (itemRecord.modifiedData != null) {
+                ((XBEXFile) itemRecord.file).setContent(itemRecord.modifiedData);
+                fileService.persistItem(itemRecord.file);
+            }
+        }
+    }
+
+    public void setItemData(int rowIndex, byte[] fileContent) {
+        items.get(rowIndex).modifiedData = fileContent;
+        fireTableRowsUpdated(rowIndex, rowIndex);
+    }
+
+    private class FileItemRecord {
+
+        public XBCXFile file = null;
+        public String fileName = null;
+        public byte[] modifiedData = null;
+
+        public FileItemRecord(String fileName, byte[] data) {
+            this.fileName = fileName;
+            modifiedData = data;
+        }
+
+        public FileItemRecord(XBCXFile file) {
+            this.file = file;
+            fileName = file.getFilename();
+        }
     }
 }

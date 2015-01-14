@@ -32,7 +32,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEdit
 /**
  * XBManager Catalog Item Properties Dialog.
  *
- * @version 0.1.24 2014/12/10
+ * @version 0.1.24 2015/01/14
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogEditItemDialog extends javax.swing.JDialog {
@@ -202,6 +202,9 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
         }
         if (revisionsPanel != null) {
             revisionsPanel.persist();
+        }
+        if (filesPanel != null) {
+            filesPanel.persist();
         }
     }
 

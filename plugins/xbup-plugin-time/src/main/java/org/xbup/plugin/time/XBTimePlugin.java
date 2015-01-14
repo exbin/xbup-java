@@ -66,6 +66,11 @@ public class XBTimePlugin implements XBPlugin {
                 public JPanel getPanel() {
                     throw new UnsupportedOperationException("Not supported yet.");
                 }
+
+                @Override
+                public void attachChangeListener(XBPanelEditor.ChangeListener listener) {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
             };
         }
         return null;

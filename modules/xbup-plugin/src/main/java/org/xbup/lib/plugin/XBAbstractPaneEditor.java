@@ -16,37 +16,24 @@
  */
 package org.xbup.lib.plugin;
 
-import javax.swing.JPanel;
-
 /**
- * XBUP Panel Editor Plugin Base Interface.
- *
- * TODO: Move to another library to get rid of jspf dependency
+ * XBUP Line Editor Plugin Base Abstract Class.
  *
  * @version 0.1.24 2015/01/14
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBPanelEditor {
+public abstract class XBAbstractPaneEditor implements XBPanelEditor {
 
-    /**
-     * Returns instance of value representation panel component.
-     *
-     * @return component
-     */
-    public JPanel getPanel();
+    private ChangeListener changeListener = null;
 
-    /**
-     * Attaches change listener.
-     *
-     * @param listener change listener
-     */
-    public void attachChangeListener(ChangeListener listener);
+    public void fireValueChange() {
+        if (changeListener != null) {
+            changeListener.valueChanged();
+        }
+    }
 
-    /**
-     * Change listener interface.
-     */
-    public interface ChangeListener {
-
-        void valueChanged();
+    @Override
+    public void attachChangeListener(ChangeListener listener) {
+        changeListener = listener;
     }
 }

@@ -26,13 +26,14 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Attributes list table model for item editing.
  *
- * @version 0.1.24 2015/01/11
+ * @version 0.1.24 2015/01/15
  * @author XBUP Project (http://xbup.org)
  */
 public class AttributesTableModel extends AbstractTableModel {
 
     private final ResourceBundle resourceBundle;
     private List<UBNatural> attributes;
+    private ChangeListener changeListener = null;
 
     private final String[] columnNames;
     private Class[] columnTypes = new Class[]{
@@ -85,6 +86,7 @@ public class AttributesTableModel extends AbstractTableModel {
         if (rowIndex < getRowCount()) {
             if (columnIndex == 1) {
                 ((UBNat32) attributes.get(rowIndex)).setValue((Integer) aValue);
+                fireDataChanged();
             } else {
                 throw new IllegalStateException();
             }
@@ -97,6 +99,7 @@ public class AttributesTableModel extends AbstractTableModel {
 
     public void setAttribs(List<UBNatural> attributes) {
         this.attributes = attributes;
+        fireTableDataChanged();
     }
 
     public Class[] getTypes() {
@@ -114,5 +117,20 @@ public class AttributesTableModel extends AbstractTableModel {
 
         UBNat32 attribute = (UBNat32) attributes.get(index);
         return attribute != null ? attribute.getInt() : 0;
+    }
+
+    public void fireDataChanged() {
+        if (changeListener != null) {
+            changeListener.valueChanged();
+        }
+    }
+
+    public void attachChangeListener(ChangeListener listener) {
+        changeListener = listener;
+    }
+
+    public interface ChangeListener {
+
+        void valueChanged();
     }
 }

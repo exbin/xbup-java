@@ -350,10 +350,10 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                                 ((XBAECatalog) catalog).setUpdateHandler(wsHandler);
                                 XBCNodeService nodeService = (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
                                 XBCRoot catalogRoot = nodeService.getRoot();
-                                Date localLastUpdate = catalogRoot.getLastUpdate();
-                                Date lastUpdate = wsHandler.getPort().getRootLastUpdate();
-                                if (localLastUpdate == null || localLastUpdate.before(lastUpdate)) {
-                                    if (catalogRoot != null) {
+                                if (catalogRoot != null) {
+                                    Date localLastUpdate = catalogRoot.getLastUpdate();
+                                    Date lastUpdate = wsHandler.getPort().getRootLastUpdate();
+                                    if (localLastUpdate == null || localLastUpdate.before(lastUpdate)) {
                                         // TODO: As there is currently no diff update available - wipe out entire database instead
                                         em.close();
                                         EntityManagerFactory emfDrop = Persistence.createEntityManagerFactory("XBEditorPU-drop");
@@ -365,29 +365,29 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                                         wsHandler = new XBCUpdatePHPHandler((XBAECatalog) catalog);
                                         wsHandler.init();
                                         wsHandler.getPort().getLanguageId("en");
-                                    }
 
-                                    wsHandler.fireUsageEvent(false);
-                                    wsHandler.addWSListener(new XBCUpdateListener() {
-                                        private boolean toolBarVisibleTemp;
+                                        wsHandler.fireUsageEvent(false);
+                                        wsHandler.addWSListener(new XBCUpdateListener() {
+                                            private boolean toolBarVisibleTemp;
 
-                                        @Override
-                                        public void webServiceUsage(boolean status) {
-                                            if (status == true) {
-                                                toolBarVisibleTemp = getStatusBar().isVisible();
-                                                ((CardLayout) statusPanel.getLayout()).show(statusPanel, "updateCat");
-                                                activityProgressBar.setString(resourceBundle.getString("main_updatecat") + "...");
-                                                getStatusBar().setVisible(true);
-                                            } else {
-                                                ((CardLayout) statusPanel.getLayout()).first(statusPanel);
-                                                //                                statusBar.setVisible(toolBarVisibleTemp);
+                                            @Override
+                                            public void webServiceUsage(boolean status) {
+                                                if (status == true) {
+                                                    toolBarVisibleTemp = getStatusBar().isVisible();
+                                                    ((CardLayout) statusPanel.getLayout()).show(statusPanel, "updateCat");
+                                                    activityProgressBar.setString(resourceBundle.getString("main_updatecat") + "...");
+                                                    getStatusBar().setVisible(true);
+                                                } else {
+                                                    ((CardLayout) statusPanel.getLayout()).first(statusPanel);
+                                                    //                                statusBar.setVisible(toolBarVisibleTemp);
+                                                }
                                             }
-                                        }
-                                    });
-                                    catalogRoot = nodeService.getRoot();
-                                    wsHandler.updateCatalog((XBERoot) catalogRoot, lastUpdate);
+                                        });
+                                        catalogRoot = nodeService.getRoot();
+                                        wsHandler.updateCatalog((XBERoot) catalogRoot, lastUpdate);
+                                    }
+                                    setConnectionStatus(ConnectionStatus.INTERNET);
                                 }
-                                setConnectionStatus(ConnectionStatus.INTERNET);
                             } catch (Exception ex) {
                                 Logger.getLogger(XBDocEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
                                 wsHandler = null;

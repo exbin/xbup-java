@@ -43,12 +43,13 @@ import org.xbup.lib.visual.picture.XBBufferedImage;
 /**
  * Preview panel allowing replacing image.
  *
- * @version 0.1.23 2014/03/04
+ * @version 0.1.24 2015/01/14
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPicturePanel extends javax.swing.JPanel implements XBTChildSerializable {
 
     private final JFileChooser openFC, saveFC;
+    private ChangeListener changeListener = null;
 
     public XBPicturePanel() {
         initComponents();
@@ -133,6 +134,7 @@ public class XBPicturePanel extends javax.swing.JPanel implements XBTChildSerial
 private void importButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importButtonActionPerformed
     if (openFC.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
         imageLabel.setIcon(new ImageIcon(openFC.getSelectedFile().getAbsolutePath()));
+        fireChangePerformed();
     }
 }//GEN-LAST:event_importButtonActionPerformed
 
@@ -250,5 +252,20 @@ private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(((ImageIcon) imageLabel.getIcon()).getImage()));
         bufferedImage.serializeToXB(serializationHandler);
+    }
+
+    public void attachChangeListener(ChangeListener listener) {
+        changeListener = listener;
+    }
+
+    public void fireChangePerformed() {
+        if (changeListener != null) {
+            changeListener.valueChanged();
+        }
+    }
+
+    public interface ChangeListener {
+
+        void valueChanged();
     }
 }

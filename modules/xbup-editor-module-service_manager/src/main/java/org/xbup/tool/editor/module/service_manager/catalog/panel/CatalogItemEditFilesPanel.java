@@ -32,25 +32,21 @@ import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.service.XBCXFileService;
-import org.xbup.lib.catalog.entity.XBENode;
-import org.xbup.lib.catalog.entity.XBEXFile;
 import org.xbup.tool.editor.base.api.MenuManagement;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * Catalog Specification Panel.
  *
- * TODO: persisting mode instead of direct
- *
- * @version 0.1.24 2014/12/10
+ * @version 0.1.24 2015/01/15
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemEditFilesPanel extends javax.swing.JPanel {
 
     private XBACatalog catalog;
     private XBCXFileService fileService;
-    private CatalogFilesTableModel filesModel;
-    private XBCXFile currentItem;
+    private final CatalogFilesTableModel filesModel;
+    private int currentItem;
     private XBCNode currentNode;
 
     public CatalogItemEditFilesPanel() {
@@ -62,14 +58,14 @@ public class CatalogItemEditFilesPanel extends javax.swing.JPanel {
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
                     if (catalogFilesListTable.getSelectedRow() >= 0) {
-                        setItem(filesModel.getItem(catalogFilesListTable.getSelectedRow()));
+                        setItem(catalogFilesListTable.getSelectedRow());
                     } else {
-                        setItem(null);
+                        setItem(-1);
                     }
 
-                    popupImportItemMenuItem.setEnabled(currentItem != null);
-                    popupExportItemMenuItem.setEnabled(currentItem != null);
-                    popupPropertiesMenuItem.setEnabled(currentItem != null);
+                    popupImportItemMenuItem.setEnabled(currentItem >= 0);
+                    popupExportItemMenuItem.setEnabled(currentItem >= 0);
+                    popupPropertiesMenuItem.setEnabled(currentItem >= 0);
                 }
             }
         });
@@ -181,7 +177,7 @@ public class CatalogItemEditFilesPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_popupExportItemMenuItemActionPerformed
 
     private void popupImportItemMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupImportItemMenuItemActionPerformed
-        if (currentItem != null) {
+        if (catalogFilesListTable.getSelectedRow() >= 0) {
             JFileChooser importFileChooser = new JFileChooser();
             if (importFileChooser.showOpenDialog(WindowUtils.getFrame(this)) == JFileChooser.APPROVE_OPTION) {
                 FileInputStream fileStream;
@@ -190,8 +186,7 @@ public class CatalogItemEditFilesPanel extends javax.swing.JPanel {
                     byte[] fileContent = new byte[(int) (new File(importFileChooser.getSelectedFile().getAbsolutePath())).length()];
                     DataInputStream dataIs = new DataInputStream(fileStream);
                     dataIs.readFully(fileContent);
-                    ((XBEXFile) currentItem).setContent(fileContent);
-                    fileService.persistItem(currentItem);
+                    filesModel.setItemData(catalogFilesListTable.getSelectedRow(), fileContent);
                 } catch (FileNotFoundException ex) {
                 } catch (IOException ex) {
                     Logger.getLogger(CatalogItemEditFilesPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -207,15 +202,10 @@ public class CatalogItemEditFilesPanel extends javax.swing.JPanel {
                 FileInputStream fileStream;
                 try {
                     fileStream = new FileInputStream(importFileChooser.getSelectedFile().getAbsolutePath());
-                    byte[] imgDataBa = new byte[(int) (new File(importFileChooser.getSelectedFile().getAbsolutePath())).length()];
+                    byte[] fileData = new byte[(int) (new File(importFileChooser.getSelectedFile().getAbsolutePath())).length()];
                     DataInputStream dataIs = new DataInputStream(fileStream);
-                    dataIs.readFully(imgDataBa);
-
-                    XBEXFile file = (XBEXFile) fileService.createItem();
-                    file.setNode((XBENode) currentNode);
-                    file.setFilename(importFileChooser.getSelectedFile().getName());
-                    file.setContent(imgDataBa);
-                    fileService.persistItem(file);
+                    dataIs.readFully(fileData);
+                    filesModel.addItem(importFileChooser.getSelectedFile().getName(), fileData);
                 } catch (FileNotFoundException ex) {
                 } catch (IOException ex) {
                     Logger.getLogger(CatalogItemEditFilesPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -230,7 +220,7 @@ public class CatalogItemEditFilesPanel extends javax.swing.JPanel {
         catalogFilesListTable.revalidate();
     }
 
-    public void setItem(XBCXFile item) {
+    public void setItem(int item) {
         currentItem = item;
         // itemPanel.setItem(item);
     }
@@ -261,5 +251,9 @@ public class CatalogItemEditFilesPanel extends javax.swing.JPanel {
 
     public void setMenuManagement(MenuManagement menuManagement) {
         menuManagement.insertMainPopupMenu(filePopupMenu, 4);
+    }
+
+    public void persist() {
+        filesModel.persist();
     }
 }

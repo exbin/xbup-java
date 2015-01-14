@@ -23,6 +23,7 @@ import org.xbup.lib.plugin.XBPanelEditor;
 import org.xbup.lib.plugin.XBPlugin;
 import org.xbup.lib.plugin.XBTransformation;
 import org.xbup.lib.visual.xbplugins.XBPicturePanel;
+import org.xbup.plugin.picture.pane.PicturePaneEditor;
 
 /**
  * XBUP Editor plugin - provides editing panel for XBUP data.
@@ -56,13 +57,7 @@ public class XBPicturePlugin implements XBPlugin {
     @Override
     public XBPanelEditor getPanelEditor(long index) {
         if (index == 0) {
-            return new XBPanelEditor() {
-
-                @Override
-                public JPanel getPanel() {
-                    return new XBPicturePanel();
-                }
-            };
+            return new PicturePaneEditor();
         }
         return null;
     }

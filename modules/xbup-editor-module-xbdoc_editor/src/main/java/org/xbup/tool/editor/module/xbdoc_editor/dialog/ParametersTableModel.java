@@ -131,4 +131,8 @@ public class ParametersTableModel extends AbstractTableModel {
     public void addRow(ParametersTableItem item) {
         parameters.add(item);
     }
+
+    public boolean isEmpty() {
+        return parameters == null || parameters.isEmpty();
+    }
 }

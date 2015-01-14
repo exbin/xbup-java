@@ -73,7 +73,7 @@ import org.xbup.tool.editor.module.service_manager.panel.CatalogManagerPanelable
 /**
  * Catalog Specification Panel.
  *
- * @version 0.1.24 2014/12/12
+ * @version 0.1.24 2015/01/14
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePanelActionHandling, CatalogManagerPanelable {
@@ -605,8 +605,14 @@ public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePane
             "Cancel"
         };
 
+        String itemIdentification = nameService.getDefaultText(currentItem);
+        if (currentItem instanceof XBCNode) {
+            itemIdentification = "node " + itemIdentification;
+        } else {
+            itemIdentification = "item " + itemIdentification;
+        }
         int result = JOptionPane.showOptionDialog(this,
-                "Are you sure you want to delete this item?",
+                "Are you sure you want to delete " + itemIdentification + "?",
                 "Delete Item",
                 JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE,

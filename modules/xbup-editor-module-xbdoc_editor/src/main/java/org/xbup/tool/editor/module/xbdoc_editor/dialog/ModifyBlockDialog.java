@@ -67,6 +67,7 @@ import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.parser_tree.XBATreeParamExtractor;
+import org.xbup.lib.parser_tree.XBTTreeDocument;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.parser_tree.XBTTreeWriter;
 import org.xbup.lib.plugin.XBLineEditor;
@@ -78,32 +79,35 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Dialog for modifying item attributes or data.
  *
- * @version 0.1.24 2015/01/14
+ * @version 0.1.24 2015/01/16
  * @author XBUP Project (http://xbup.org)
  */
-public class ModifyItemDialog extends javax.swing.JDialog {
+public class ModifyBlockDialog extends javax.swing.JDialog {
 
     private XBACatalog catalog;
     private XBPluginRepository pluginRepository;
 
     private final AttributesTableModel attributesTableModel = new AttributesTableModel();
     private final ParametersTableModel parametersTableModel = new ParametersTableModel();
+    private XBTTreeDocument doc;
     private XBTTreeNode srcNode;
     private XBTTreeNode newNode = null;
+
     private final HexEditPanel hexPanel;
     private XBPanelEditor customPanel;
-
     private XBBlockDataMode dataMode = XBBlockDataMode.NODE_BLOCK;
     private List<UBNatural> attributes = null;
+    private HexEditPanel extAreaHexPanel = null;
 
     private final String attributesEditorPanelTitle;
     private final String dataEditorPanelTitle;
     private final String paramEditorPanelTitle;
+    private final String extAreaEditorPanelTitle;
     private final String customEditorPanelTitle = "Custom";
     private int dialogOption = JOptionPane.CLOSED_OPTION;
     private boolean dataChanged = false;
 
-    public ModifyItemDialog(java.awt.Frame parent, boolean modal) {
+    public ModifyBlockDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 
@@ -114,6 +118,7 @@ public class ModifyItemDialog extends javax.swing.JDialog {
         attributesEditorPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(attributesEditorPanel));
         dataEditorPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(dataEditorPanel));
         paramEditorPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(paramEditorPanel));
+        extAreaEditorPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(extendedAreaPanel));
 
         attributesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
@@ -166,6 +171,10 @@ public class ModifyItemDialog extends javax.swing.JDialog {
                         reloadCustomEditor();
                     }
                     dataChanged = false;
+                } else if (extAreaEditorPanelTitle.equals(currentTitle)) {
+                    if (extAreaHexPanel == null) {
+                        reloadExtendedArea();
+                    }
                 }
             }
         });
@@ -221,6 +230,10 @@ public class ModifyItemDialog extends javax.swing.JDialog {
         saveAsButton = new javax.swing.JButton();
         loadFromButton = new javax.swing.JButton();
         hexEditPanel = new javax.swing.JPanel();
+        extendedAreaPanel = new javax.swing.JPanel();
+        hexEditScrollPane = new javax.swing.JScrollPane();
+        extLoadFromButton = new javax.swing.JButton();
+        extSaveFromButto = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         okButton = new javax.swing.JButton();
 
@@ -350,6 +363,49 @@ public class ModifyItemDialog extends javax.swing.JDialog {
 
         mainTabbedPane.addTab("Data (Level 0)", dataEditorPanel);
 
+        extLoadFromButton.setText(bundle.getString("loadFromButton.text")); // NOI18N
+        extLoadFromButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                extLoadFromButtonActionPerformed(evt);
+            }
+        });
+
+        extSaveFromButto.setText(bundle.getString("saveAsButton.text")); // NOI18N
+        extSaveFromButto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                extSaveFromButtoActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout extendedAreaPanelLayout = new org.jdesktop.layout.GroupLayout(extendedAreaPanel);
+        extendedAreaPanel.setLayout(extendedAreaPanelLayout);
+        extendedAreaPanelLayout.setHorizontalGroup(
+            extendedAreaPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(extendedAreaPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(extendedAreaPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, hexEditScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+                    .add(extendedAreaPanelLayout.createSequentialGroup()
+                        .add(extLoadFromButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(extSaveFromButto)
+                        .add(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        extendedAreaPanelLayout.setVerticalGroup(
+            extendedAreaPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, extendedAreaPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(hexEditScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(extendedAreaPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(extSaveFromButto)
+                    .add(extLoadFromButton))
+                .addContainerGap())
+        );
+
+        mainTabbedPane.addTab(bundle.getString("extendedAreaPanel.tabTitle"), extendedAreaPanel); // NOI18N
+
         cancelButton.setText(bundle.getString("cancelButton.text")); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -419,17 +475,17 @@ public class ModifyItemDialog extends javax.swing.JDialog {
         if (dataMode == XBBlockDataMode.DATA_BLOCK) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             try {
-                HexEditPanel.saveToStream(stream);
+                hexPanel.saveToStream(stream);
             } catch (IOException ex) {
-                Logger.getLogger(ModifyItemDialog.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ModifyBlockDialog.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             newNode = srcNode.cloneNode();
             newNode.setData(new ByteArrayInputStream(stream.toByteArray()));
         } else {
-            if (customPanel != null) {
-                reloadCustomEditor();
-            } else {
+            // TODO: Store active tab
+            String currentTitle = mainTabbedPane.getTitleAt(mainTabbedPane.getSelectedIndex());
+            if (attributesEditorPanelTitle.equals(currentTitle)) {
                 if (attributes.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "There must be at least one attribute", "Attribute Needed", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -446,7 +502,25 @@ public class ModifyItemDialog extends javax.swing.JDialog {
                 for (int attributeIndex = 2; attributeIndex < attributes.size(); attributeIndex++) {
                     newNode.addAttribute(attributes.get(attributeIndex));
                 }
+            } else if (paramEditorPanelTitle.equals(currentTitle)) {
+                // Values stored automatically
+            } else if (customEditorPanelTitle.equals(currentTitle)) {
+                // Values stored automatically
+            } else if (extAreaEditorPanelTitle.equals(currentTitle)) {
+                // No need to store
             }
+        }
+
+        if (srcNode.getParent() == null && extAreaHexPanel != null) {
+            // TODO: Horrible extraction of data from HexEditPanel
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            try {
+                extAreaHexPanel.saveToStream(buffer);
+            } catch (IOException ex) {
+                Logger.getLogger(ModifyBlockDialog.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            doc.setExtendedArea(new ByteArrayInputStream(buffer.toByteArray()));
         }
 
         dialogOption = JOptionPane.OK_OPTION;
@@ -463,16 +537,26 @@ public class ModifyItemDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_attributesTablePropertyChange
 
     private void loadFromButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadFromButtonActionPerformed
-        HexEditPanel.openFile(null);
+        hexPanel.openFile(null);
         hexPanel.repaint();
     }//GEN-LAST:event_loadFromButtonActionPerformed
 
     private void saveAsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsButtonActionPerformed
-        HexEditPanel.saveFile();
+        hexPanel.saveFile();
     }//GEN-LAST:event_saveAsButtonActionPerformed
 
-    public XBTTreeNode runDialog(XBTTreeNode srcNode) {
+    private void extLoadFromButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_extLoadFromButtonActionPerformed
+        extAreaHexPanel.openFile(null);
+        extendedAreaPanel.repaint();
+    }//GEN-LAST:event_extLoadFromButtonActionPerformed
+
+    private void extSaveFromButtoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_extSaveFromButtoActionPerformed
+        extAreaHexPanel.saveFile();
+    }//GEN-LAST:event_extSaveFromButtoActionPerformed
+
+    public XBTTreeNode runDialog(XBTTreeNode srcNode, XBTTreeDocument doc) {
         this.srcNode = srcNode;
+        this.doc = doc;
         newNode = srcNode.cloneNode(true);
 
         mainTabbedPane.removeAll();
@@ -482,13 +566,13 @@ public class ModifyItemDialog extends javax.swing.JDialog {
         if (dataMode == XBBlockDataMode.DATA_BLOCK) {
             mainTabbedPane.addTab(dataEditorPanelTitle, dataEditorPanel);
 
-            HexEditPanel.loadFromStream(srcNode.getData(), srcNode.getDataSize());
+            hexPanel.loadFromStream(srcNode.getData(), srcNode.getDataSize());
         } else {
             reloadParameters();
             TableColumnModel columnModel = parametersTable.getColumnModel();
             TableColumn column = columnModel.getColumn(3);
-            column.setCellEditor(new ParametersTableCellEditor(catalog, pluginRepository, newNode));
-            column.setCellRenderer(new ParametersTableCellRenderer(catalog, pluginRepository, newNode));
+            column.setCellEditor(new ParametersTableCellEditor(catalog, pluginRepository, newNode, doc));
+            column.setCellRenderer(new ParametersTableCellRenderer(catalog, pluginRepository, newNode, doc));
 
             customPanel = getCustomPanel(srcNode);
             if (customPanel != null) {
@@ -508,6 +592,11 @@ public class ModifyItemDialog extends javax.swing.JDialog {
             mainTabbedPane.addTab(attributesEditorPanelTitle, attributesEditorPanel);
         }
 
+        if (srcNode.getParent() == null) {
+            mainTabbedPane.addTab(extAreaEditorPanelTitle, extendedAreaPanel);
+            extAreaHexPanel = null;
+        }
+
         setVisible(true);
         return newNode;
     }
@@ -516,7 +605,7 @@ public class ModifyItemDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        WindowUtils.invokeWindow(new ItemPropertiesDialog(new javax.swing.JFrame(), true));
+        WindowUtils.invokeWindow(new BlockPropertiesDialog(new javax.swing.JFrame(), true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -526,7 +615,11 @@ public class ModifyItemDialog extends javax.swing.JDialog {
     private javax.swing.JTable attributesTable;
     private javax.swing.JButton cancelButton;
     private javax.swing.JPanel dataEditorPanel;
+    private javax.swing.JButton extLoadFromButton;
+    private javax.swing.JButton extSaveFromButto;
+    private javax.swing.JPanel extendedAreaPanel;
     private javax.swing.JPanel hexEditPanel;
+    private javax.swing.JScrollPane hexEditScrollPane;
     private javax.swing.JButton loadFromButton;
     private javax.swing.JTabbedPane mainTabbedPane;
     private javax.swing.JButton okButton;
@@ -667,6 +760,15 @@ public class ModifyItemDialog extends javax.swing.JDialog {
                     parametersTableModel.addRow(itemRecord);
                 }
             }
+        }
+    }
+
+    private void reloadExtendedArea() {
+        extAreaHexPanel = new HexEditPanel((JFrame) WindowUtils.getFrame(this));
+        hexEditScrollPane.setViewportView(extAreaHexPanel);
+
+        if (doc.getExtendedAreaSize() > 0) {
+            extAreaHexPanel.loadFromStream(doc.getExtendedArea(), doc.getExtendedAreaSize());
         }
     }
 

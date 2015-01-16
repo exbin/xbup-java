@@ -48,7 +48,7 @@ import org.xbup.lib.plugin.XBLineEditor;
 import org.xbup.lib.plugin.XBPlugin;
 import org.xbup.lib.plugin.XBPluginRepository;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
-import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemPropertiesDialog;
+import org.xbup.tool.editor.module.xbdoc_editor.dialog.BlockPropertiesDialog;
 
 /**
  * Panel for properties of the actual panel.
@@ -94,9 +94,9 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
 
         };
         columns.getColumn(0).setCellRenderer(nameCellRenderer);
-        valueCellRenderer = new XBPropertyTableCellRenderer(catalog, pluginRepository, null);
+        valueCellRenderer = new XBPropertyTableCellRenderer(catalog, pluginRepository, null, null);
         columns.getColumn(1).setCellRenderer(valueCellRenderer);
-        valueCellEditor = new XBPropertyTableCellEditor(catalog, pluginRepository, null);
+        valueCellEditor = new XBPropertyTableCellEditor(catalog, pluginRepository, null, null);
         columns.getColumn(1).setCellEditor(valueCellEditor);
 
         propertiesTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
@@ -447,7 +447,7 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
     }
 
     public void actionItemProperties() {
-        ItemPropertiesDialog dialog = new ItemPropertiesDialog(WindowUtils.getFrame(this), true);
+        BlockPropertiesDialog dialog = new BlockPropertiesDialog(WindowUtils.getFrame(this), true);
         dialog.setCatalog(catalog);
         dialog.runDialog(activePanel.getSelectedItem());
     }

@@ -16,6 +16,7 @@
  */
 package org.xbup.web.xbcatalogweb.service;
 
+import java.util.ArrayList;
 import org.xbup.web.xbcatalogweb.base.service.XBCItemRecordService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ import org.xbup.web.xbcatalogweb.entity.XBEItemRecord;
 /**
  * XBEItemRecord service.
  *
- * @version 0.1.24 2014/08/20
+ * @version 0.1.24 2015/01/16
  * @author XBUP Project (http://xbup.org)
  */
 @Service
@@ -99,5 +100,35 @@ public class XBEItemRecordService implements XBCItemRecordService {
     @Override
     public XBEXHDoc getItemDoc(XBEItemRecord selectedItem) {
         return manager.getItemDoc(selectedItem);
+    }
+
+    public Long[] stringToPath(String path) {
+        List<Long> pathList = new ArrayList<Long>();
+        int pos = 0;
+        while (pos < path.length()) {
+            int nextPos = path.indexOf("/", pos);
+            if (nextPos < 0) {
+                nextPos = path.length();
+            }
+            pathList.add(Long.valueOf(path.substring(pos, nextPos)));
+            pos = nextPos + 1;
+        }
+        return pathList.toArray(new Long[0]);
+    }
+
+    public XBCFullItemRecord findNodeByPath(Long[] path) {
+        return manager.findNodeByPath(path);
+    }
+
+    public XBCFullItemRecord findFormatSpecByPath(Long[] path) {
+        return manager.findFormatSpecByPath(path);
+    }
+
+    public XBCFullItemRecord findGroupSpecByPath(Long[] path) {
+        return manager.findGroupSpecByPath(path);
+    }
+
+    public XBCFullItemRecord findBlockSpecByPath(Long[] path) {
+        return manager.findBlockSpecByPath(path);
     }
 }

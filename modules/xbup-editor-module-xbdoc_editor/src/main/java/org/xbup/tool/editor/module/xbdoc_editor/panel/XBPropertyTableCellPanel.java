@@ -28,16 +28,17 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.convert.XBTListenerToToken;
 import org.xbup.lib.parser_tree.XBATreeParamExtractor;
+import org.xbup.lib.parser_tree.XBTTreeDocument;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.parser_tree.XBTTreeReader;
 import org.xbup.lib.plugin.XBPluginRepository;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
-import org.xbup.tool.editor.module.xbdoc_editor.dialog.ModifyItemDialog;
+import org.xbup.tool.editor.module.xbdoc_editor.dialog.ModifyBlockDialog;
 
 /**
  * Properties table cell panel.
  *
- * @version 0.1.24 2015/01/09
+ * @version 0.1.24 2015/01/16
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyTableCellPanel extends PropertyTableCellPanel {
@@ -45,24 +46,27 @@ public class XBPropertyTableCellPanel extends PropertyTableCellPanel {
     private XBACatalog catalog;
     private final XBPluginRepository pluginRepository;
     private XBTTreeNode node;
+    private final XBTTreeDocument doc;
     private final int row;
 
-    public XBPropertyTableCellPanel(JComponent cellComponent, XBACatalog catalog, XBPluginRepository pluginRepository, XBTTreeNode node, int row) {
+    public XBPropertyTableCellPanel(JComponent cellComponent, XBACatalog catalog, XBPluginRepository pluginRepository, XBTTreeNode node, XBTTreeDocument doc, int row) {
         super(cellComponent);
 
         this.catalog = catalog;
         this.pluginRepository = pluginRepository;
         this.node = node;
+        this.doc = doc;
         this.row = row;
         init();
     }
 
-    public XBPropertyTableCellPanel(XBACatalog catalog, XBPluginRepository pluginRepository, XBTTreeNode node, int row) {
+    public XBPropertyTableCellPanel(XBACatalog catalog, XBPluginRepository pluginRepository, XBTTreeNode node, XBTTreeDocument doc, int row) {
         super();
 
         this.catalog = catalog;
         this.pluginRepository = pluginRepository;
         this.node = node;
+        this.doc = doc;
         this.row = row;
         init();
     }
@@ -78,7 +82,7 @@ public class XBPropertyTableCellPanel extends PropertyTableCellPanel {
     }
 
     public void performEditorAction() {
-        ModifyItemDialog modifyDialog = new ModifyItemDialog(WindowUtils.getFrame(this), true);
+        ModifyBlockDialog modifyDialog = new ModifyBlockDialog(WindowUtils.getFrame(this), true);
         modifyDialog.setCatalog(catalog);
         modifyDialog.setPluginRepository(pluginRepository);
         modifyDialog.setLocationRelativeTo(modifyDialog.getParent());
@@ -108,7 +112,7 @@ public class XBPropertyTableCellPanel extends PropertyTableCellPanel {
             Logger.getLogger(XBPropertyTableCellPanel.class.getName()).log(Level.SEVERE, null, ex);            
         }
         
-        XBTTreeNode newNode = modifyDialog.runDialog(paramNode);
+        XBTTreeNode newNode = modifyDialog.runDialog(paramNode, doc);
         // TODO save
     }
 

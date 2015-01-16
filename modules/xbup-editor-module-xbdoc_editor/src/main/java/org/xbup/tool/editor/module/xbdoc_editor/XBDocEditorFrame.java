@@ -129,7 +129,7 @@ import org.xbup.tool.editor.module.text_editor.dialog.TextColorDialog;
 import org.xbup.tool.editor.module.text_editor.panel.TextColorPanelFrame;
 import org.xbup.tool.editor.module.text_editor.panel.TextFontPanelFrame;
 import org.xbup.tool.editor.module.xbdoc_editor.dialog.DocPropertiesDialog;
-import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemPropertiesDialog;
+import org.xbup.tool.editor.module.xbdoc_editor.dialog.BlockPropertiesDialog;
 import org.xbup.tool.editor.module.xbdoc_editor.panel.XBDocumentPanel;
 
 /**
@@ -146,7 +146,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
     private FindTextDialog findDialog = null;
     private GotoDialog gotoDialog = null;
-    private ItemPropertiesDialog propertiesDialog = null;
+    private BlockPropertiesDialog propertiesDialog = null;
     private CatalogEditorDialog catalogEditorDialog = null;
 
     private final String DIALOG_MENU_SUFIX = "...";
@@ -669,7 +669,6 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         popupItemExportMenuItem = new JMenuItem();
         jSeparator16 = new JPopupMenu.Separator();
         popupItemPropertiesMenuItem = new JMenuItem();
-        popupDevelopmentMenu = new JMenu();
         viewAsbuttonGroup = new ButtonGroup();
         mainPanel = new JPanel();
         toolBar = new JToolBar();
@@ -769,10 +768,6 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         popupItemPropertiesMenuItem.setText(bundle.getString("actionItemProperties.Action.text")); // NOI18N
         popupItemPropertiesMenuItem.setName("popupItemPropertiesMenuItem"); // NOI18N
         mainPopupMenu.add(popupItemPropertiesMenuItem);
-
-        popupDevelopmentMenu.setText(bundle.getString("popupDevelopmentMenu.text")); // NOI18N
-        popupDevelopmentMenu.setName("popupDevelopmentMenu"); // NOI18N
-        mainPopupMenu.add(popupDevelopmentMenu);
 
         for (JMenuItem item : Arrays.asList(popupItemAddMenuItem, popupItemModifyMenuItem, popupItemPropertiesMenuItem, popupItemOpenMenuItem, popupItemExportMenuItem, popupItemImportMenuItem)) {
             item.setText(item.getText()+DIALOG_MENU_SUFIX);
@@ -1427,7 +1422,6 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     private JMenuItem optionsColorsMenuItem;
     private JMenuItem optionsFontMenuItem;
     public JMenu optionsMenu;
-    private JMenu popupDevelopmentMenu;
     private JMenuItem popupItemAddMenuItem;
     private JMenuItem popupItemExportMenuItem;
     private JMenuItem popupItemImportMenuItem;
@@ -1585,7 +1579,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     }
 
     public void actionItemProperties() {
-        propertiesDialog = new ItemPropertiesDialog(this, true);
+        propertiesDialog = new BlockPropertiesDialog(this, true);
         propertiesDialog.setCatalog(catalog);
         propertiesDialog.setDevMode(devMode);
         propertiesDialog.runDialog(activePanel.getSelectedItem());

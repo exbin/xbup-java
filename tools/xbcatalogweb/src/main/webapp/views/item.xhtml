@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a4j="http://richfaces.org/a4j">
+    <ui:composition template="/WEB-INF/faces/templates/default.xhtml">
+        <ui:define name="title">XBCatalog - Show Item</ui:define>
+        <ui:define name="contentBody">
+            <a4j:status onstart="#{rich:component('statPane')}.show()"
+                        onstop="#{rich:component('statPane')}.hide()" />
+            <rich:panel id="panel" class="full-panel">
+                <f:facet name="header">
+                    <h:outputText value="Catalog - Show Item" />
+                    <f:param name="node" />
+                </f:facet>
+                <h:form id="itemForm">
+                    <a4j:outputPanel id="mainWrapper">
+                        <ui:include src="/WEB-INF/faces/components/item.xhtml" />
+                    </a4j:outputPanel>
+                </h:form>
+            </rich:panel>
+        </ui:define>
+        <ui:define name="dialogs">
+        </ui:define>
+    </ui:composition>
+</html>

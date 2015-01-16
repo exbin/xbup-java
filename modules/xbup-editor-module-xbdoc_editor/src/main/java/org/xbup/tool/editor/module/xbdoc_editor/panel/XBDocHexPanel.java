@@ -169,13 +169,13 @@ public class XBDocHexPanel extends javax.swing.JPanel {
     }
 
     void loadFromStream(InputStream buf, long size) {
-        HexEditPanel.loadFromStream(buf, size);
+        hexPanel.loadFromStream(buf, size);
         hexPanel.repaint();
     }
 
     void saveToStream(OutputStream buf) {
         try {
-            HexEditPanel.saveToStream(buf);
+            hexPanel.saveToStream(buf);
         } catch (IOException ex) {
             Logger.getLogger(XBDocHexPanel.class.getName()).log(Level.SEVERE, null, ex);
         }

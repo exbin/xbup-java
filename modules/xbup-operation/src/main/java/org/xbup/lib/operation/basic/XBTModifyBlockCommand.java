@@ -91,7 +91,7 @@ public class XBTModifyBlockCommand implements XBTCommand {
             parent.getChildren().remove(node);
         }
 
-        if (position == -1) {
+        if ((position == 0) && (index == -1)) {
             if (document.getRootBlock()==null) {
                 document.setRootBlock(newNode);
 // TODO                    document.processSpec();

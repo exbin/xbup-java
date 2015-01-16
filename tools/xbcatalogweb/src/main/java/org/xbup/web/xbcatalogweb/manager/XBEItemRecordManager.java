@@ -26,12 +26,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.xbup.lib.catalog.entity.XBEItem;
+import org.xbup.lib.catalog.entity.XBENode;
+import org.xbup.lib.catalog.entity.XBESpec;
 import org.xbup.lib.catalog.entity.XBEXDesc;
 import org.xbup.lib.catalog.entity.XBEXFile;
 import org.xbup.lib.catalog.entity.XBEXHDoc;
 import org.xbup.lib.catalog.entity.XBEXName;
 import org.xbup.lib.catalog.entity.XBEXStri;
 import org.xbup.lib.catalog.entity.manager.XBEItemManager;
+import org.xbup.lib.catalog.entity.manager.XBENodeManager;
+import org.xbup.lib.catalog.entity.manager.XBESpecManager;
 import org.xbup.lib.catalog.entity.manager.XBEXDescManager;
 import org.xbup.lib.catalog.entity.manager.XBEXFileManager;
 import org.xbup.lib.catalog.entity.manager.XBEXHDocManager;
@@ -46,7 +50,7 @@ import org.xbup.web.xbcatalogweb.entity.XBEItemRecord;
 /**
  * XBUP catalog XBEItemRecord manager.
  *
- * @version 0.1.24 2014/08/20
+ * @version 0.1.24 2015/01/16
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -58,6 +62,10 @@ public class XBEItemRecordManager implements XBCItemRecordManager {
     private XBEXLangManager langManager;
     @Autowired
     private XBEItemManager itemManager;
+    @Autowired
+    private XBENodeManager nodeManager;
+    @Autowired
+    private XBESpecManager specManager;
     @Autowired
     private XBEXStriManager striManager;
     @Autowired
@@ -145,9 +153,8 @@ public class XBEItemRecordManager implements XBCItemRecordManager {
 
             hdocManager.removeItem(((XBEFullItemRecord) item).getHdoc());
         }
-        
+
         // TODO definition and other extensions
-        
         itemManager.removeItem(item.getItem());
     }
 
@@ -230,7 +237,7 @@ public class XBEItemRecordManager implements XBCItemRecordManager {
                 "SELECT COUNT(item) from XBItem item"
                 + (filterCondition == null
                 || filterCondition.isEmpty() ? ""
-                : " WHERE ")
+                        : " WHERE ")
                 + filterPrefix
                 + filterCondition
                 + filterPostfix
@@ -252,8 +259,8 @@ public class XBEItemRecordManager implements XBCItemRecordManager {
                 + " LEFT JOIN XBXStri stri ON stri.item = item"
                 + (filterCondition == null
                 || filterCondition.isEmpty() ? ""
-                : " WHERE "
-                + filterCondition)
+                        : " WHERE "
+                        + filterCondition)
                 + " ORDER BY " + orderCondition);
         query.setFirstResult(startFrom);
         query.setMaxResults(maxResults);
@@ -347,10 +354,10 @@ public class XBEItemRecordManager implements XBCItemRecordManager {
         hdoc.setLang(langManager.getDefaultLang());
         hdoc.setDocFile(new XBEXFile());
         itemRecord.setHdoc(hdoc);
-        
+
         return itemRecord;
     }
-    
+
     @Override
     public List<XBCItemRecord> findAllByParent(Long selectedPackageId) {
         long languageId = langManager.getDefaultLang().getId();
@@ -385,7 +392,39 @@ public class XBEItemRecordManager implements XBCItemRecordManager {
         if (results.size() > 0) {
             return (XBEXHDoc) results.get(0);
         }
-        
+
         return null;
+    }
+
+    public XBCFullItemRecord findNodeByPath(Long[] path) {
+        XBENode node = nodeManager.findNodeByXBPath(path);
+        return node == null ? null : findForEditById(node.getId());
+    }
+
+    public XBCFullItemRecord findFormatSpecByPath(Long[] path) {
+        if (path.length < 2) {
+            return null;
+        }
+        XBENode node = nodeManager.findParentByXBPath(path);
+        XBESpec spec = specManager.findFormatSpecByXB(node, path[path.length - 1]);
+        return spec == null ? null : findForEditById(spec.getId());
+    }
+
+    public XBCFullItemRecord findGroupSpecByPath(Long[] path) {
+        if (path.length < 2) {
+            return null;
+        }
+        XBENode node = nodeManager.findParentByXBPath(path);
+        XBESpec spec = specManager.findGroupSpecByXB(node, path[path.length - 1]);
+        return spec == null ? null : findForEditById(spec.getId());
+    }
+
+    public XBCFullItemRecord findBlockSpecByPath(Long[] path) {
+        if (path.length < 2) {
+            return null;
+        }
+        XBENode node = nodeManager.findParentByXBPath(path);
+        XBESpec spec = specManager.findBlockSpecByXB(node, path[path.length - 1]);
+        return spec == null ? null : findForEditById(spec.getId());
     }
 }

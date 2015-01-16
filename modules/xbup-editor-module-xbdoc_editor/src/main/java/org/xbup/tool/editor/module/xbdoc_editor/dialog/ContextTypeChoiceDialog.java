@@ -209,7 +209,7 @@ public class ContextTypeChoiceDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        ItemPropertiesDialog propertiesDialog = new ItemPropertiesDialog(new javax.swing.JFrame(), true);
+        BlockPropertiesDialog propertiesDialog = new BlockPropertiesDialog(new javax.swing.JFrame(), true);
         // TODO propertiesDialog.setDevMode(true);
         WindowUtils.invokeWindow(propertiesDialog);
     }

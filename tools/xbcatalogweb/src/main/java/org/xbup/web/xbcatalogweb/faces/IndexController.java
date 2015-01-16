@@ -18,6 +18,7 @@ package org.xbup.web.xbcatalogweb.faces;
 
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,7 @@ import org.xbup.web.xbcatalogweb.service.XBEUserRecordService;
 /**
  * Main Website Index controller.
  *
- * @version 0.1.24 2014/11/19
+ * @version 0.1.24 2015/01/16
  * @author XBUP Project (http://xbup.org)
  */
 @Controller
@@ -46,12 +47,28 @@ public final class IndexController implements Serializable {
     public void init() {
     }
 
-    public String getRedirectTarget(String spec) {
-        if (spec == null || spec.isEmpty()) {
-            return "views/about.xhtml";
+    public String getRedirectTarget(HttpServletRequest request) {
+        String node = request.getParameter("node");
+        String format = request.getParameter("format");
+        String group = request.getParameter("group");
+        String block = request.getParameter("block");
+        if (node != null) {
+            return "views/item.xhtml?node=" + node;
         }
 
-        return "views/browse.xhtml";
+        if (format != null && !format.isEmpty()) {
+            return "views/item.xhtml?format=" + format;
+        }
+
+        if (group != null && !group.isEmpty()) {
+            return "views/item.xhtml?format=" + group;
+        }
+
+        if (block != null && !block.isEmpty()) {
+            return "views/item.xhtml?format=" + block;
+        }
+
+        return "views/about.xhtml";
     }
 
 }

@@ -64,8 +64,8 @@ import org.xbup.tool.editor.module.text_editor.dialog.FindTextDialog;
 import org.xbup.tool.editor.module.text_editor.dialog.FontDialog;
 import org.xbup.tool.editor.module.text_editor.panel.TextPanel;
 import org.xbup.tool.editor.module.xbdoc_editor.XBDocEditorFrame;
-import org.xbup.tool.editor.module.xbdoc_editor.dialog.ItemPropertiesDialog;
-import org.xbup.tool.editor.module.xbdoc_editor.dialog.ModifyItemDialog;
+import org.xbup.tool.editor.module.xbdoc_editor.dialog.BlockPropertiesDialog;
+import org.xbup.tool.editor.module.xbdoc_editor.dialog.ModifyBlockDialog;
 
 /**
  * Panel with XBUP document visualization.
@@ -618,11 +618,11 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         XBTTreeNode node = getSelectedItem();
         XBTCommand undoStep;
         try {
-            ModifyItemDialog dialog = new ModifyItemDialog(WindowUtils.getFrame(this), true);
+            ModifyBlockDialog dialog = new ModifyBlockDialog(WindowUtils.getFrame(this), true);
             dialog.setCatalog(catalog);
             dialog.setPluginRepository(pluginRepository);
             dialog.setLocationRelativeTo(dialog.getParent());
-            XBTTreeNode newNode = dialog.runDialog(node);
+            XBTTreeNode newNode = dialog.runDialog(node, mainDoc);
             if (dialog.getDialogOption() == JOptionPane.OK_OPTION) {
                 if (node.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
                     undoStep = new XBTModDataBlockCommand(node, newNode);
@@ -812,7 +812,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
     }
 
     public void actionItemProperties() {
-        ItemPropertiesDialog dialog = new ItemPropertiesDialog(WindowUtils.getFrame(this), true);
+        BlockPropertiesDialog dialog = new BlockPropertiesDialog(WindowUtils.getFrame(this), true);
         dialog.setCatalog(catalog);
         dialog.runDialog(getSelectedItem());
     }

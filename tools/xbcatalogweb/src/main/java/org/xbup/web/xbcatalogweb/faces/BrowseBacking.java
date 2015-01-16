@@ -23,17 +23,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.xbup.lib.catalog.entity.XBEXHDoc;
 import org.xbup.web.xbcatalogweb.base.XBCItemRecord;
 import org.xbup.web.xbcatalogweb.base.XBCPackageRecord;
 import org.xbup.web.xbcatalogweb.base.service.XBCItemRecordService;
 import org.xbup.web.xbcatalogweb.base.service.XBCPackageRecordService;
-import org.xbup.web.xbcatalogweb.entity.XBEItemRecord;
 
 /**
  * Browse controller.
  *
- * @version 0.1.23 2014/05/30
+ * @version 0.1.24 2015/01/16
  * @author XBUP Project (http://xbup.org)
  */
 @Controller
@@ -45,12 +43,12 @@ public final class BrowseBacking implements Serializable {
     private XBCPackageRecordService packageService;
     @Autowired
     private XBCItemRecordService itemService;
+    @Autowired
+    private ItemBacking itemBacking;
 
     private Long selectedPackageId;
     private XBCPackageRecord selectedPackage;
     private Long selectedItemId;
-    private XBEItemRecord selectedItem;
-    private XBEXHDoc selectedItemDoc;
 
     private List<XBCPackageRecord> packages;
     private List<XBCItemRecord> items;
@@ -74,17 +72,12 @@ public final class BrowseBacking implements Serializable {
     }
 
     public void selectItem() {
-        selectedItem = (XBEItemRecord) itemService.getItem(selectedItemId);
-        selectedItemDoc = itemService.getItemDoc(selectedItem);
+        itemBacking.selectItem(selectedItemId);
     }
 
     public void loadItems() {
         selectedPackage = packageService.getItem(selectedPackageId);
         items = itemService.findAllByParent(selectedPackageId);
-    }
-
-    public String getSelectedItemDocText() {
-        return selectedItemDoc == null ? "" : (selectedItemDoc.getDocFile() == null ? "" : (selectedItemDoc.getDocFile().getContent() == null ? "" : new String(selectedItemDoc.getDocFile().getContent())));
     }
 
     public List<XBCPackageRecord> getPackages() {
@@ -113,17 +106,5 @@ public final class BrowseBacking implements Serializable {
 
     public XBCPackageRecord getSelectedPackage() {
         return selectedPackage;
-    }
-
-    public XBCItemRecord getSelectedItem() {
-        return selectedItem;
-    }
-
-    public XBEXHDoc getSelectedItemDoc() {
-        return selectedItemDoc;
-    }
-
-    public void setSelectedItemDoc(XBEXHDoc selectedItemDoc) {
-        this.selectedItemDoc = selectedItemDoc;
     }
 }

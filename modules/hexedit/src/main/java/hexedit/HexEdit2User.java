@@ -34,15 +34,16 @@ import java.io.IOException;
 
 class HexEdit2User implements ActionListener, Transferable
 {
+    private final HexEdit2 hexEdit;
   /* empty constructor */
 
-  public HexEdit2User() { }
+  public HexEdit2User(HexEdit2 hexEdit) { this.hexEdit = hexEdit; }
 
   /* button listener, dialog boxes, etc */
 
   public void actionPerformed(ActionEvent event)
   {
-    HexEdit2.userButton(event);
+    hexEdit.userButton(event);
   }
 
   /* clipboard data transfer */
@@ -50,10 +51,10 @@ class HexEdit2User implements ActionListener, Transferable
   public Object getTransferData(DataFlavor flavor)
     throws IOException, UnsupportedFlavorException
   {
-    if (HexEdit2.clipString == null)
+    if (hexEdit.clipString == null)
       throw new IOException("no clipboard string created");
     else if (flavor.equals(DataFlavor.stringFlavor))
-      return(HexEdit2.clipString);
+      return(hexEdit.clipString);
     else
       throw new UnsupportedFlavorException(flavor);
   }

@@ -42,27 +42,27 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.tool.editor.base.api.utils.BareBonesBrowserLaunch;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemPanel;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemInfoPanel;
 
 /**
- * Dialog for showing information about items.
+ * Dialog for showing information about document block.
  *
- * @version 0.1.24 2015/01/15
+ * @version 0.1.24 2015/01/16
  * @author XBUP Project (http://xbup.org)
  */
-public class ItemPropertiesDialog extends javax.swing.JDialog {
+public class BlockPropertiesDialog extends javax.swing.JDialog {
 
     private XBTTreeNode node;
     private XBACatalog catalog;
-    private final CatalogItemPanel catalogItemPanel;
+    private final CatalogItemInfoPanel catalogItemPanel;
     private boolean devMode = false;
-    private final ResourceBundle resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ItemPropertiesDialog");
+    private final ResourceBundle resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/BlockPropertiesDialog");
 
-    public ItemPropertiesDialog(java.awt.Frame parent, boolean modal) {
+    public BlockPropertiesDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
-        catalogItemPanel = new CatalogItemPanel();
+
+        catalogItemPanel = new CatalogItemInfoPanel();
         typePanel.add(catalogItemPanel, BorderLayout.CENTER);
         init();
     }
@@ -85,19 +85,25 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
         closeButton = new javax.swing.JButton();
         tabbedPane = new javax.swing.JTabbedPane();
         generalPanel = new javax.swing.JPanel();
-        nodeNameLabel = new javax.swing.JLabel();
-        nodeNameTextField = new javax.swing.JTextField();
+        nodeTypeLabel = new javax.swing.JLabel();
+        nodeTypeTextField = new javax.swing.JTextField();
+        dataModeLabel = new javax.swing.JLabel();
+        dataModeTextField = new javax.swing.JTextField();
+        terminationModeLabel = new javax.swing.JLabel();
+        terminationModeTextField = new javax.swing.JTextField();
         nodeSizeLabel = new javax.swing.JLabel();
         nodeSizeTextField = new javax.swing.JTextField();
+        attributesCountLabel = new javax.swing.JLabel();
+        attributesCountTextField = new javax.swing.JTextField();
         childrenCountLabel = new javax.swing.JLabel();
-        nodeTypeLabel = new javax.swing.JLabel();
-        terminatedFlagCheckBox = new javax.swing.JCheckBox();
-        onlineSpecLinkLabel = new javax.swing.JLabel();
-        onlineSpecLinkLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        onlineSpecLabel = new javax.swing.JLabel();
+        childrenCountTextField = new javax.swing.JTextField();
+        webCatalogLabel = new javax.swing.JLabel();
+        webCatalogLinkScrollPane = new javax.swing.JScrollPane();
+        webCatalogLinkLabel = new javax.swing.JLabel();
+        webCatalogLinkLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         typePanel = new javax.swing.JPanel();
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ItemPropertiesDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/BlockPropertiesDialog"); // NOI18N
         copyLinkMenuItem.setText(bundle.getString("copyLinkMenuItem.text")); // NOI18N
         copyLinkMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,36 +123,47 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
             }
         });
 
-        nodeNameLabel.setText(bundle.getString("jLabel1.text")); // NOI18N
+        nodeTypeLabel.setText(bundle.getString("nodeTypeLabel.text")); // NOI18N
 
-        nodeNameTextField.setEditable(false);
+        nodeTypeTextField.setEditable(false);
 
-        nodeSizeLabel.setText(bundle.getString("jLabel2.text")); // NOI18N
+        dataModeLabel.setText(bundle.getString("dataModeLabel.text")); // NOI18N
+
+        dataModeTextField.setEditable(false);
+
+        terminationModeLabel.setText(bundle.getString("terminationModeLabel.text")); // NOI18N
+
+        terminationModeTextField.setEditable(false);
+
+        nodeSizeLabel.setText(bundle.getString("nodeSizeLabel.text")); // NOI18N
 
         nodeSizeTextField.setEditable(false);
 
-        childrenCountLabel.setText(bundle.getString("jLabel3.text")); // NOI18N
+        attributesCountLabel.setText(bundle.getString("attributesCountLabel.text")); // NOI18N
 
-        nodeTypeLabel.setText(bundle.getString("jLabel4.text")); // NOI18N
+        attributesCountTextField.setEditable(false);
 
-        terminatedFlagCheckBox.setText(bundle.getString("jCheckBox1.text")); // NOI18N
-        terminatedFlagCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        terminatedFlagCheckBox.setEnabled(false);
-        terminatedFlagCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        childrenCountLabel.setText(bundle.getString("childrenCountLabel.text")); // NOI18N
 
-        onlineSpecLinkLabel.setForeground(java.awt.Color.blue);
-        onlineSpecLinkLabel.setText(bundle.getString("onlineSpecLinkLabel.text")); // NOI18N
-        onlineSpecLinkLabel.setComponentPopupMenu(linkPopupMenu);
+        childrenCountTextField.setEditable(false);
+
+        webCatalogLabel.setText(bundle.getString("webCatalogLabell.text")); // NOI18N
+
+        webCatalogLinkScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        webCatalogLinkScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        webCatalogLinkLabel.setForeground(java.awt.Color.blue);
+        webCatalogLinkLabel.setText(bundle.getString("webCatalogLabel.text")); // NOI18N
+        webCatalogLinkLabel.setComponentPopupMenu(linkPopupMenu);
         HashMap<TextAttribute, Object> attribs = new HashMap<TextAttribute, Object>();
         attribs.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
-        onlineSpecLinkLabel.setFont(onlineSpecLinkLabel.getFont().deriveFont(attribs));
-        onlineSpecLinkLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+        webCatalogLinkLabel.setFont(webCatalogLinkLabel.getFont().deriveFont(attribs));
+        webCatalogLinkLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                onlineSpecLinkLabelMouseClicked(evt);
+                webCatalogLinkLabelMouseClicked(evt);
             }
         });
-
-        onlineSpecLabel.setText(bundle.getString("onlineSpecLabel.text")); // NOI18N
+        webCatalogLinkScrollPane.setViewportView(webCatalogLinkLabel);
 
         javax.swing.GroupLayout generalPanelLayout = new javax.swing.GroupLayout(generalPanel);
         generalPanel.setLayout(generalPanelLayout);
@@ -155,47 +172,62 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
             .addGroup(generalPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nodeNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
-                    .addComponent(onlineSpecLinkLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
+                    .addComponent(terminationModeLabel)
+                    .addComponent(nodeSizeLabel)
+                    .addComponent(attributesCountLabel)
+                    .addComponent(childrenCountLabel)
+                    .addComponent(webCatalogLabel)
+                    .addComponent(dataModeLabel)
+                    .addComponent(nodeTypeLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nodeTypeTextField)
+                    .addComponent(dataModeTextField)
+                    .addComponent(childrenCountTextField)
+                    .addComponent(attributesCountTextField)
                     .addComponent(nodeSizeTextField)
-                    .addGroup(generalPanelLayout.createSequentialGroup()
-                        .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(childrenCountLabel)
-                            .addComponent(nodeTypeLabel)
-                            .addComponent(terminatedFlagCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nodeNameLabel)
-                            .addComponent(nodeSizeLabel)
-                            .addComponent(onlineSpecLabel))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(terminationModeTextField)
+                    .addComponent(webCatalogLinkScrollPane))
                 .addContainerGap())
         );
         generalPanelLayout.setVerticalGroup(
             generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(generalPanelLayout.createSequentialGroup()
-                .addComponent(nodeNameLabel)
+                .addContainerGap()
+                .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nodeTypeLabel)
+                    .addComponent(nodeTypeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nodeNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dataModeLabel)
+                    .addComponent(dataModeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nodeSizeLabel)
+                .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(terminationModeLabel)
+                    .addComponent(terminationModeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nodeSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nodeSizeLabel)
+                    .addComponent(nodeSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(childrenCountLabel)
+                .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(attributesCountLabel)
+                    .addComponent(attributesCountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nodeTypeLabel)
+                .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(childrenCountLabel)
+                    .addComponent(childrenCountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(terminatedFlagCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addComponent(onlineSpecLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(onlineSpecLinkLabel)
-                .addContainerGap())
+                .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(webCatalogLabel)
+                    .addComponent(webCatalogLinkScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tabbedPane.addTab(bundle.getString("jPanel1.TabConstraints.tabTitle"), generalPanel); // NOI18N
+        tabbedPane.addTab(bundle.getString("generalPanel.tabTitle"), generalPanel); // NOI18N
 
         typePanel.setLayout(new java.awt.BorderLayout());
-        tabbedPane.addTab(bundle.getString("jPanel2.TabConstraints.tabTitle"), typePanel); // NOI18N
+        tabbedPane.addTab(bundle.getString("typePanel.tabTitle"), typePanel); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -223,7 +255,7 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
         WindowUtils.closeWindow(this);
     }//GEN-LAST:event_closeButtonActionPerformed
 
-    private void onlineSpecLinkLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onlineSpecLinkLabelMouseClicked
+    private void webCatalogLinkLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_webCatalogLinkLabelMouseClicked
         if (!evt.isPopupTrigger()) {
             String targetURL = ((JLabel) evt.getSource()).getText();
             java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
@@ -233,28 +265,30 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
                     java.net.URI uri = new java.net.URI(targetURL);
                     desktop.browse(uri);
                 } catch (IOException | URISyntaxException ex) {
-                    Logger.getLogger(ItemPropertiesDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BlockPropertiesDialog.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 BareBonesBrowserLaunch.openURL(targetURL);
             }
         }
-}//GEN-LAST:event_onlineSpecLinkLabelMouseClicked
+    }//GEN-LAST:event_webCatalogLinkLabelMouseClicked
 
     private void copyLinkMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyLinkMenuItemActionPerformed
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(new StringSelection(onlineSpecLinkLabel.getText()), null);
+        clipboard.setContents(new StringSelection(webCatalogLinkLabel.getText()), null);
     }//GEN-LAST:event_copyLinkMenuItemActionPerformed
 
     public void runDialog(XBTTreeNode srcNode) {
         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
         node = srcNode;
-        nodeNameTextField.setText(getCaption(node));
+        nodeTypeTextField.setText(getCaption(node));
+        dataModeTextField.setText(node.getDataMode() == XBBlockDataMode.DATA_BLOCK ? "DATA_BLOCK" : "NODE_BLOCK");
+        terminationModeTextField.setText(node.getTerminationMode() == XBBlockTerminationMode.TERMINATED_BY_ZERO ? "TERMINATED_BY_ZERO" : "SIZE_SPECIFIED");
         nodeSizeTextField.setText(Integer.toString(node.getSizeUB()));
-        terminatedFlagCheckBox.setSelected(node.getTerminationMode() == XBBlockTerminationMode.TERMINATED_BY_ZERO);
-        String catalogLink = devMode ? "http://catalog-dev.xbup.org/" : "http://catalog.xbup.org/";
-        XBBlockType type = node.getBlockType();
+        attributesCountTextField.setText(String.valueOf(node.getAttributesCount()));
+        childrenCountTextField.setText(String.valueOf(node.getChildCount()));
 
+        String catalogLink = devMode ? "http://catalog-dev.xbup.org/" : "http://catalog.xbup.org/";
         XBBlockDecl decl = node.getBlockDecl();
         if (decl instanceof XBCBlockDecl) {
             XBCBlockSpec spec = ((XBCBlockDecl) decl).getBlockSpec().getParent();
@@ -269,11 +303,12 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
                     }
                     builder.append(path[i]);
                 }
-                catalogLink += "?spec=" + builder.toString();
+                catalogLink += "?block=" + builder.toString();
             }
         }
 
-        onlineSpecLinkLabel.setText(catalogLink);
+        webCatalogLinkLabel.setText(catalogLink);
+        webCatalogLinkLabel.setToolTipText("Link to: " + catalogLink);
         setVisible(true);
     }
 
@@ -281,25 +316,31 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        WindowUtils.invokeWindow(new ItemPropertiesDialog(new javax.swing.JFrame(), true));
+        WindowUtils.invokeWindow(new BlockPropertiesDialog(new javax.swing.JFrame(), true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel attributesCountLabel;
+    private javax.swing.JTextField attributesCountTextField;
     private javax.swing.JLabel childrenCountLabel;
+    private javax.swing.JTextField childrenCountTextField;
     private javax.swing.JButton closeButton;
     private javax.swing.JMenuItem copyLinkMenuItem;
+    private javax.swing.JLabel dataModeLabel;
+    private javax.swing.JTextField dataModeTextField;
     private javax.swing.JPanel generalPanel;
     private javax.swing.JPopupMenu linkPopupMenu;
-    private javax.swing.JLabel nodeNameLabel;
-    private javax.swing.JTextField nodeNameTextField;
     private javax.swing.JLabel nodeSizeLabel;
     private javax.swing.JTextField nodeSizeTextField;
     private javax.swing.JLabel nodeTypeLabel;
-    private javax.swing.JLabel onlineSpecLabel;
-    private javax.swing.JLabel onlineSpecLinkLabel;
+    private javax.swing.JTextField nodeTypeTextField;
     private javax.swing.JTabbedPane tabbedPane;
-    private javax.swing.JCheckBox terminatedFlagCheckBox;
+    private javax.swing.JLabel terminationModeLabel;
+    private javax.swing.JTextField terminationModeTextField;
     private javax.swing.JPanel typePanel;
+    private javax.swing.JLabel webCatalogLabel;
+    private javax.swing.JLabel webCatalogLinkLabel;
+    private javax.swing.JScrollPane webCatalogLinkScrollPane;
     // End of variables declaration//GEN-END:variables
 
     public XBACatalog getCatalog() {
@@ -316,12 +357,7 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
 
     private String getCaption(XBTTreeNode node) {
         if (node.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
-            String blockCaption = resourceBundle.getString("block_caption_data");
-            if (blockCaption == null) {
-                return "Data Block";
-            }
-
-            return blockCaption;
+            return resourceBundle.getString("node_caption_data");
         }
 
         XBBlockType blockType = node.getBlockType();
@@ -330,14 +366,15 @@ public class ItemPropertiesDialog extends javax.swing.JDialog {
 
             XBCBlockDecl blockDecl = (XBCBlockDecl) node.getBlockDecl();
             if (blockDecl == null) {
-                return "Undefined";
+                return resourceBundle.getString("node_caption_undefined");
             }
             XBCBlockSpec blockSpec = blockDecl.getBlockSpec().getParent();
             return nameService.getDefaultText(blockSpec);
         }
         if (blockType == null) {
-            return "Unknown";
+            return resourceBundle.getString("node_caption_unknown");
         }
-        return "Unknown" + " (" + Integer.toString(((XBFBlockType) blockType).getGroupID().getInt()) + ", " + Integer.toString(((XBFBlockType) blockType).getBlockID().getInt()) + ")";
+
+        return resourceBundle.getString("node_caption_unknown") + " (" + Integer.toString(((XBFBlockType) blockType).getGroupID().getInt()) + ", " + Integer.toString(((XBFBlockType) blockType).getBlockID().getInt()) + ")";
     }
 }

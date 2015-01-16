@@ -207,7 +207,7 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
         // TODO: Horrible extraction of data from HexEditPanel
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         try {
-            HexEditPanel.saveToStream(buffer);
+            hexPanel.saveToStream(buffer);
         } catch (IOException ex) {
             Logger.getLogger(DocPropertiesDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -217,22 +217,18 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_closeButtonActionPerformed
 
     private void loadFromButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadFromButtonActionPerformed
-        HexEditPanel.openFile(null);
+        hexPanel.openFile(null);
         hexPanel.repaint();
     }//GEN-LAST:event_loadFromButtonActionPerformed
 
     private void saveFromButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveFromButtonActionPerformed
-        HexEditPanel.saveFile();
+        hexPanel.saveFile();
     }//GEN-LAST:event_saveFromButtonActionPerformed
 
     public void runDialog(XBTEditableDocument doc, String fileName) {
         this.doc = doc;
         fileNameTextField.setText(fileName);
         fileSizeTextField.setText(Long.toString(doc.getDocumentSize()));
-
-        if (doc.getExtendedAreaSize() > 0) {
-            HexEditPanel.loadFromStream(doc.getExtendedArea(), doc.getExtendedAreaSize());
-        }
 
         setVisible(true);
     }
@@ -241,7 +237,7 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        WindowUtils.invokeWindow(new ItemPropertiesDialog(new javax.swing.JFrame(), true));
+        WindowUtils.invokeWindow(new BlockPropertiesDialog(new javax.swing.JFrame(), true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

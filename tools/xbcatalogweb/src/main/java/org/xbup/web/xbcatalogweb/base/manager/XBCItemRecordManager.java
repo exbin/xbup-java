@@ -27,7 +27,7 @@ import org.xbup.web.xbcatalogweb.entity.XBEItemRecord;
 /**
  * XBUP catalog XBEItemRecord manager.
  *
- * @version 0.1.24 2014/08/20
+ * @version 0.1.24 2015/01/16
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCItemRecordManager extends XBCManager<XBCItemRecord>, Serializable {
@@ -43,4 +43,12 @@ public interface XBCItemRecordManager extends XBCManager<XBCItemRecord>, Seriali
     public XBEXHDoc getItemDoc(XBEItemRecord selectedItem);
 
     public XBCFullItemRecord createForEdit();
+
+    public XBCFullItemRecord findNodeByPath(Long[] path);
+
+    public XBCFullItemRecord findBlockSpecByPath(Long[] path);
+
+    public XBCFullItemRecord findGroupSpecByPath(Long[] path);
+
+    public XBCFullItemRecord findFormatSpecByPath(Long[] path);
 }

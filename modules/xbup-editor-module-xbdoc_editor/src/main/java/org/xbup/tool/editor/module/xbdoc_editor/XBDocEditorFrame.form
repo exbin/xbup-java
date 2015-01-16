@@ -102,14 +102,6 @@
             <Property name="name" type="java.lang.String" value="popupItemPropertiesMenuItem" noResource="true"/>
           </Properties>
         </MenuItem>
-        <Menu class="javax.swing.JMenu" name="popupDevelopmentMenu">
-          <Properties>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="popupDevelopmentMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-            </Property>
-            <Property name="name" type="java.lang.String" value="popupDevelopmentMenu" noResource="true"/>
-          </Properties>
-        </Menu>
       </SubComponents>
     </Container>
     <Component class="javax.swing.ButtonGroup" name="viewAsbuttonGroup">

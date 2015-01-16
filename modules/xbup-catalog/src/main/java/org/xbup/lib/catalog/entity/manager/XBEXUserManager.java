@@ -21,10 +21,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 import org.springframework.stereotype.Repository;
-import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.manager.XBCXUserManager;
 import org.xbup.lib.catalog.XBECatalog;
-import org.xbup.lib.catalog.entity.XBENode;
 import org.xbup.lib.catalog.entity.XBEXUser;
 
 /**

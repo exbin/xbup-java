@@ -89,12 +89,14 @@ class HexEdit2Text extends JPanel
   int panelHeight, panelWidth;    // saved panel height and width in pixels
   int panelOffset;                // file offset in bytes for first display row
   int panelRows;                  // number of complete lines (rows) displayed
+  private final HexEdit2 hexEdit;
 
   /* class constructor */
 
-  public HexEdit2Text()
+  public HexEdit2Text(HexEdit2 hexEdit)
   {
     super();                      // initialize our superclass first (JPanel)
+    this.hexEdit = hexEdit;
 
     /* Set class instance variables to undefined values that we will recognize
     if we are called before the layout and first "paint" is complete. */
@@ -117,8 +119,8 @@ class HexEdit2Text extends JPanel
 
     /* Allocate instance arrays.  There is no need to assign initial values. */
 
-    charShifts = new int[HexEdit2.LAST_CHAR + 1]; // use same arrays all fonts
-    charWidths = new int[HexEdit2.LAST_CHAR + 1];
+    charShifts = new int[hexEdit.LAST_CHAR + 1]; // use same arrays all fonts
+    charWidths = new int[hexEdit.LAST_CHAR + 1];
 
     /* Install our keyboard and mouse listeners. */
 
@@ -147,7 +149,7 @@ class HexEdit2Text extends JPanel
     /* If the dump width increases, our current panel offset can sometimes be
     too large with too much empty space in the display. */
 
-    panelOffset = Math.max(0, Math.min(panelOffset, (((HexEdit2.nibbleCount
+    panelOffset = Math.max(0, Math.min(panelOffset, (((hexEdit.nibbleCount
       / (panelDumpWidth * 2)) - panelRows + 1) * panelDumpWidth)));
                                   // limit range of panel offset
     panelOffset -= panelOffset % panelDumpWidth;
@@ -155,15 +157,15 @@ class HexEdit2Text extends JPanel
 
     /* Set values for the scroll bar. */
 
-    HexEdit2.textScroll.setValues((panelOffset / panelDumpWidth), // value
+    hexEdit.textScroll.setValues((panelOffset / panelDumpWidth), // value
       panelRows,                  // extent (visible amount)
       0,                          // minimum: always zero
-      (HexEdit2.nibbleCount / (panelDumpWidth * 2) + 1));
+      (hexEdit.nibbleCount / (panelDumpWidth * 2) + 1));
                                   // maximum: round up to next full row
 
-    HexEdit2.textScroll.setBlockIncrement(Math.max(1, (panelRows - 1)));
+    hexEdit.textScroll.setBlockIncrement(Math.max(1, (panelRows - 1)));
                                   // dump lines/rows per "scroll one page"
-    HexEdit2.textScroll.setUnitIncrement(1); // rows per "scroll one line"
+    hexEdit.textScroll.setUnitIncrement(1); // rows per "scroll one line"
 
   } // end of adjustScrollBar() method
 
@@ -204,7 +206,7 @@ class HexEdit2Text extends JPanel
     int x;                        // adjusted horizontal co-ordinate
 
     mouseTempOnText = event.getX() > (PANEL_MARGIN + (int)
-      ((HexEdit2.OFFSET_DIGITS + (panelDumpWidth * 3) + 2.8) * maxWidth));
+      ((hexEdit.OFFSET_DIGITS + (panelDumpWidth * 3) + 2.8) * maxWidth));
                                   // dividing line, with fuzz
 
     row = (event.getY() - PANEL_MARGIN) / lineHeight; // no fuzzy select for row
@@ -212,7 +214,7 @@ class HexEdit2Text extends JPanel
 
     if (mouseTempOnText)          // if mouse is pointing at ASCII text region
     {
-      x = event.getX() - PANEL_MARGIN - (int) ((HexEdit2.OFFSET_DIGITS
+      x = event.getX() - PANEL_MARGIN - (int) ((hexEdit.OFFSET_DIGITS
         + (panelDumpWidth * 3) + 3.8) * maxWidth);
                                   // shifted horizontal for text, with fuzz
       column = (x / maxWidth) * 2; // nibble offset for text
@@ -223,7 +225,7 @@ class HexEdit2Text extends JPanel
       pair we are pointing at in a three-character width, then which nibble
       inside the pair. */
 
-      x = event.getX() - PANEL_MARGIN - (int) ((HexEdit2.OFFSET_DIGITS + 1.5)
+      x = event.getX() - PANEL_MARGIN - (int) ((hexEdit.OFFSET_DIGITS + 1.5)
         * maxWidth);              // shifted horizontal for pairs, with fuzz
       column = (x / (maxWidth * 3)) * 2;
                                   // nibble offset for high-order digit
@@ -233,7 +235,7 @@ class HexEdit2Text extends JPanel
     column = Math.max(0, Math.min(column, (panelDumpWidth * 2)));
                                   // limit range of column
     mouseTempNibble = (panelOffset + (row * panelDumpWidth)) * 2 + column;
-    mouseTempNibble = Math.min(mouseTempNibble, HexEdit2.nibbleCount);
+    mouseTempNibble = Math.min(mouseTempNibble, hexEdit.nibbleCount);
                                   // selection may include end of nibble data
   } // end of convertMouse() method
 
@@ -294,7 +296,7 @@ class HexEdit2Text extends JPanel
           if (cursorOnText)       // is active cursor on ASCII text region?
             cursorMark -= cursorMark % 2; // force selection to start of byte
           if (event.isControlDown()) // Control-End means end of the file
-            cursorDot = HexEdit2.nibbleCount; // go forward to end-of-file
+            cursorDot = hexEdit.nibbleCount; // go forward to end-of-file
           else                    // plain End means end of this line/row
           {
             cursorDot += panelDumpWidth * 2; // first go forward one row
@@ -305,7 +307,7 @@ class HexEdit2Text extends JPanel
           break;
 
         case (KeyEvent.VK_F3):    // F3 key for "Find Next" (typical Windows)
-          HexEdit2.searchFindNext(); // same as main menu (but not documented)
+          hexEdit.searchFindNext(); // same as main menu (but not documented)
           break;
 
         case (KeyEvent.VK_F6):    // F6 key to switch between dump/text regions
@@ -332,8 +334,8 @@ class HexEdit2Text extends JPanel
           break;
 
         case (KeyEvent.VK_INSERT): // insert toggles with overwrite
-          HexEdit2.overFlag = ! HexEdit2.overFlag; // invert current flag
-          HexEdit2.overDialog.setSelected(HexEdit2.overFlag);
+          hexEdit.overFlag = ! hexEdit.overFlag; // invert current flag
+          hexEdit.overDialog.setSelected(hexEdit.overFlag);
                                   // pass change on to GUI dialog box
           repaint();              // redraw text display as necessary
           break;
@@ -403,7 +405,7 @@ class HexEdit2Text extends JPanel
     }
     catch (OutOfMemoryError oome)
     {
-      HexEdit2.memoryError("keyReleased"); // nicely tell user that we failed
+      hexEdit.memoryError("keyReleased"); // nicely tell user that we failed
     }
   } // end of keyReleased() method
 
@@ -425,45 +427,45 @@ class HexEdit2Text extends JPanel
         switch (ch)
         {
           case (0x01):            // Control-A for "Select All"
-            HexEdit2.selectAll(); // same as main menu for "select all"
+            hexEdit.selectAll(); // same as main menu for "select all"
             break;
 
           case (0x03):            // Control-C for "Copy"
             if (cursorOnText)     // is active cursor on ASCII text region?
-              HexEdit2.copyText(); // yes, same as main menu for "Copy Text"
+              hexEdit.copyText(); // yes, same as main menu for "Copy Text"
             else                  // no, must be on hex dump region
-              HexEdit2.copyHex(); // same as main menu for "Copy Hex"
+              hexEdit.copyHex(); // same as main menu for "Copy Hex"
             break;
 
           case (0x06):            // Control-F for "Find"
-            HexEdit2.showSearchDialog(); // same as main menu
+            hexEdit.showSearchDialog(); // same as main menu
             break;
 
           case (0x07):            // Control-G for "Go To File Offset"
-            HexEdit2.showGotoDialog(); // same as main menu
+            hexEdit.showGotoDialog(); // same as main menu
             break;
 
           case (0x0E):            // Control-N for "Find Next"
-            HexEdit2.searchFindNext(); // same as main menu
+            hexEdit.searchFindNext(); // same as main menu
             break;
 
           case (0x12):            // Control-R for "Replace" (more mnemonic)
-            HexEdit2.searchReplaceThis(); // same as main menu
+            hexEdit.searchReplaceThis(); // same as main menu
             break;
 
           case (0x16):            // Control-V for "Paste"
             if (cursorOnText)     // is active cursor on ASCII text region?
-              HexEdit2.pasteText(); // yes, same as main menu for "Paste Text"
+              hexEdit.pasteText(); // yes, same as main menu for "Paste Text"
             else                  // no, must be on hex dump region
-              HexEdit2.pasteHex(); // same as main menu for "Paste Hex"
+              hexEdit.pasteHex(); // same as main menu for "Paste Hex"
             break;
 
           case (0x18):            // Control-X for "Cut"
             if (cursorOnText)     // is active cursor on ASCII text region?
-              HexEdit2.copyText(); // yes, same as main menu for "Copy Text"
+              hexEdit.copyText(); // yes, same as main menu for "Copy Text"
             else                  // no, must be on hex dump region
-              HexEdit2.copyHex(); // same as main menu for "Copy Hex"
-            HexEdit2.deleteSelected(); // same as main menu for "Delete"
+              hexEdit.copyHex(); // same as main menu for "Copy Hex"
+            hexEdit.deleteSelected(); // same as main menu for "Delete"
             break;
 
           case (0x1A):            // Control-Z for "Undo" (not implemented)
@@ -476,23 +478,23 @@ class HexEdit2Text extends JPanel
       else if (ch == 0x08)        // Backspace key (separate from Control-H)
       {
         if (cursorDot != cursorMark) // is there a selection?
-          HexEdit2.deleteSelected(); // delete current selection and be done
+          hexEdit.deleteSelected(); // delete current selection and be done
         else if (cursorDot > 0)   // no selection, delete previous byte/nibble
         {
           if (cursorOnText)       // is active cursor on ASCII text (bytes)?
           {
             cursorDot --;         // move backward one nibble
             cursorDot -= cursorDot % 2; // then go backward to start of byte
-            if (cursorDot < (HexEdit2.nibbleCount - 1)) // are there 2 nibbles?
-              HexEdit2.nibbleData.delete(cursorDot + 1);
+            if (cursorDot < (hexEdit.nibbleCount - 1)) // are there 2 nibbles?
+              hexEdit.nibbleData.delete(cursorDot + 1);
                                   // backspace always deletes low-order first
-            HexEdit2.nibbleData.delete(cursorDot);
+            hexEdit.nibbleData.delete(cursorDot);
                                   // backspace then deletes high-order nibble
           }
           else                    // no, must be on hex dump region (nibbles)
           {
             cursorDot --;         // move backward one nibble
-            HexEdit2.nibbleData.delete(cursorDot); // delete one nibble only
+            hexEdit.nibbleData.delete(cursorDot); // delete one nibble only
           }
           cursorMark = cursorDot; // both cursors are the same after deletion
           limitCursorRange();     // refresh data size, enforce cursor range
@@ -509,22 +511,22 @@ class HexEdit2Text extends JPanel
       else if (ch == 0x7F)        // Delete key
       {
         if (cursorDot != cursorMark) // is there a selection?
-          HexEdit2.deleteSelected(); // delete current selection and be done
-        else if (cursorDot < HexEdit2.nibbleCount)
+          hexEdit.deleteSelected(); // delete current selection and be done
+        else if (cursorDot < hexEdit.nibbleCount)
                                   // no selection, delete next byte/nibble
         {
           if (cursorOnText)       // is active cursor on ASCII text (bytes)?
           {
             cursorDot -= cursorDot % 2; // go backward to start of byte
-            if (cursorDot < (HexEdit2.nibbleCount - 1)) // are there 2 nibbles?
-              HexEdit2.nibbleData.delete(cursorDot);
+            if (cursorDot < (hexEdit.nibbleCount - 1)) // are there 2 nibbles?
+              hexEdit.nibbleData.delete(cursorDot);
                                   // forward always deletes high-order first
-            HexEdit2.nibbleData.delete(cursorDot);
+            hexEdit.nibbleData.delete(cursorDot);
                                   // then delete low-order using same index
           }
           else                    // no, must be on hex dump region (nibbles)
           {
-            HexEdit2.nibbleData.delete(cursorDot); // delete one nibble only
+            hexEdit.nibbleData.delete(cursorDot); // delete one nibble only
           }
           cursorMark = cursorDot; // both cursors are the same after deletion
           limitCursorRange();     // refresh data size, enforce cursor range
@@ -545,7 +547,7 @@ class HexEdit2Text extends JPanel
         default encoding, and the byte array to nibbles.  As with copy and
         paste, we don't enforce byte boundaries for inserted text. */
 
-        if (HexEdit2.overFlag)    // cancel selection if in overwrite mode
+        if (hexEdit.overFlag)    // cancel selection if in overwrite mode
           cursorDot = cursorMark = Math.min(cursorDot, cursorMark);
 
         byte[] bytes = String.valueOf(ch).getBytes(); // convert to byte array
@@ -553,12 +555,12 @@ class HexEdit2Text extends JPanel
         int used = 0;             // start placing nibbles at this array index
         for (int i = 0; i < bytes.length; i ++) // do all bytes in the string
         {
-          nibbles[used ++] = (bytes[i] >> HexEdit2.NIBBLE_SHIFT)
-            & HexEdit2.NIBBLE_MASK; // high-order nibble in byte
-          nibbles[used ++] = bytes[i] & HexEdit2.NIBBLE_MASK;
+          nibbles[used ++] = (bytes[i] >> hexEdit.NIBBLE_SHIFT)
+            & hexEdit.NIBBLE_MASK; // high-order nibble in byte
+          nibbles[used ++] = bytes[i] & hexEdit.NIBBLE_MASK;
                                   // low-order nibble in byte
         }
-        HexEdit2.pasteNibbles(nibbles, used, HexEdit2.overFlag);
+        hexEdit.pasteNibbles(nibbles, used, hexEdit.overFlag);
                                   // paste nibbles as file data
       }
       else                        // no, must be on hex dump region
@@ -568,29 +570,29 @@ class HexEdit2Text extends JPanel
         make use of the existing paste methods, we create an array of one
         nibble. */
 
-        if (HexEdit2.overFlag)    // cancel selection if in overwrite mode
+        if (hexEdit.overFlag)    // cancel selection if in overwrite mode
           cursorDot = cursorMark = Math.min(cursorDot, cursorMark);
 
-        int hexValue = HexEdit2.charHexValue(ch);
+        int hexValue = hexEdit.charHexValue(ch);
                                   // convert character to value of hex digit
         int[] nibbles = new int[1]; // one nibble if valid input, else zero
         int used = 0;             // will get incremented for valid input
 
         if (hexValue >= 0)        // was it a valid hexadecimal digit?
           nibbles[used ++] = hexValue; // yes, save the nibble value
-        else if (hexValue == HexEdit2.HEX_IGNORE) // ignore space, punctuation?
+        else if (hexValue == hexEdit.HEX_IGNORE) // ignore space, punctuation?
           { /* do nothing */ }
         else                      // illegal character
           Toolkit.getDefaultToolkit().beep(); // warning sound (may not work)
 
         if (used > 0)             // was there a valid hexadecimal digit?
-          HexEdit2.pasteNibbles(nibbles, used, HexEdit2.overFlag);
+          hexEdit.pasteNibbles(nibbles, used, hexEdit.overFlag);
                                   // paste nibbles as file data
       }
     }
     catch (OutOfMemoryError oome)
     {
-      HexEdit2.memoryError("keyTyped"); // nicely tell user that we failed
+      hexEdit.memoryError("keyTyped"); // nicely tell user that we failed
     }
   } // end of keyTyped() method
 
@@ -609,9 +611,9 @@ class HexEdit2Text extends JPanel
 */
   void limitCursorRange()
   {
-    HexEdit2.refreshDataSize();   // refresh total number of nibbles
-    cursorDot = Math.max(0, Math.min(cursorDot, HexEdit2.nibbleCount));
-    cursorMark = Math.max(0, Math.min(cursorMark, HexEdit2.nibbleCount));
+    hexEdit.refreshDataSize();   // refresh total number of nibbles
+    cursorDot = Math.max(0, Math.min(cursorDot, hexEdit.nibbleCount));
+    cursorMark = Math.max(0, Math.min(cursorMark, hexEdit.nibbleCount));
 //  if (cursorOnText)             // is active cursor on ASCII text region?
 //  {
 //    cursorDot -= cursorDot % 2; // yes, go backward to start of byte
@@ -684,7 +686,7 @@ class HexEdit2Text extends JPanel
     else if (event.isControlDown() // control click means show pop-up menu
       || (event.getButton() != MouseEvent.BUTTON1)) // as does right click
     {
-      HexEdit2.showEditMenu(this, event.getX(), event.getY(), true);
+      hexEdit.showEditMenu(this, event.getX(), event.getY(), true);
     }
     else if (event.isShiftDown()) // shift click means "select to here"
     {
@@ -812,14 +814,14 @@ class HexEdit2Text extends JPanel
     switch (event.getScrollType()) // different mice scroll differently
     {
       case (MouseWheelEvent.WHEEL_BLOCK_SCROLL):
-        HexEdit2.textScroll.setValue(HexEdit2.textScroll.getValue()
+        hexEdit.textScroll.setValue(hexEdit.textScroll.getValue()
           + (event.getWheelRotation() * Math.max(1, (panelRows - 1))));
         break;
 
       case (MouseWheelEvent.WHEEL_UNIT_SCROLL):
         int i = Math.max(1, (panelRows - 1)); // maximum rows to scroll
         i = Math.max((-i), Math.min(i, event.getUnitsToScroll())); // limits
-        HexEdit2.textScroll.setValue(HexEdit2.textScroll.getValue() + i);
+        hexEdit.textScroll.setValue(hexEdit.textScroll.getValue() + i);
                                   // scroll using limited local preferences
         break;
 
@@ -857,15 +859,15 @@ class HexEdit2Text extends JPanel
     /* Recalculate panel sizes if any of the following have changed: font name,
     input bytes per dump line, panel height, panel width. */
 
-    if ((HexEdit2.dumpWidth != panelDumpWidth)
-      || (HexEdit2.fontName.equals(panelFontName) == false)
+    if ((hexEdit.dumpWidth != panelDumpWidth)
+      || (hexEdit.fontName.equals(panelFontName) == false)
       || (this.getWidth() != panelWidth))
     {
       /* We need to find a good font size whenever there is a change to the
       dump width (input bytes per line), font name, or panel width. */
 
-      panelDumpWidth = HexEdit2.dumpWidth; // save current input bytes per line
-      panelFontName = HexEdit2.fontName; // save name of current font
+      panelDumpWidth = hexEdit.dumpWidth; // save current input bytes per line
+      panelFontName = hexEdit.fontName; // save name of current font
       panelHeight = this.getHeight(); // save current panel height in pixels
       panelWidth = this.getWidth(); // save current panel width in pixels
 
@@ -874,7 +876,7 @@ class HexEdit2Text extends JPanel
       first need to know how many monospaced text positions are required for
       one complete dump line. */
 
-      panelColumns = HexEdit2.OFFSET_DIGITS // digits in file offset
+      panelColumns = hexEdit.OFFSET_DIGITS // digits in file offset
         + 1                       // space between offset and hex bytes
         + (panelDumpWidth * 3)    // two hex digits per input byte, one space
         + 2                       // two spaces between hex and ASCII text
@@ -906,7 +908,7 @@ class HexEdit2Text extends JPanel
         lineAscent = fm.getAscent(); // number of pixels above baseline
         lineHeight = fm.getHeight(); // height of each display line in pixels
         maxWidth = -1;            // makes everything else look bigger
-        for (i = HexEdit2.FIRST_CHAR; i <= HexEdit2.LAST_CHAR; i ++)
+        for (i = hexEdit.FIRST_CHAR; i <= hexEdit.LAST_CHAR; i ++)
                                   // get widths for printable ASCII characters
         {
           charWidths[i] = fm.charWidth(i); // remember width of each character
@@ -926,7 +928,7 @@ class HexEdit2Text extends JPanel
       shift each character right so that it will be centered in the width of
       the widest character. */
 
-      for (i = HexEdit2.FIRST_CHAR; i <= HexEdit2.LAST_CHAR; i ++)
+      for (i = hexEdit.FIRST_CHAR; i <= hexEdit.LAST_CHAR; i ++)
         charShifts[i] = (maxWidth - charWidths[i]) / 2;
 
       /* Recalculate how many complete rows (lines) of text can be displayed
@@ -977,7 +979,7 @@ class HexEdit2Text extends JPanel
       int rowNibbleCount = panelDumpWidth * 2; // repeatedly used inside loop
       int nibble = selectBegin % rowNibbleCount;
                                   // calculate nibble index (half byte)
-      int rowFirstDumpX = PANEL_MARGIN + maxWidth * (HexEdit2.OFFSET_DIGITS + 2);
+      int rowFirstDumpX = PANEL_MARGIN + maxWidth * (hexEdit.OFFSET_DIGITS + 2);
                                   // horizontal position first nibble, each row
       int thisColumnX = rowFirstDumpX + (maxWidth * (nibble + (nibble / 2)));
                                   // starting horizontal for first selected
@@ -1019,7 +1021,7 @@ class HexEdit2Text extends JPanel
 
       column = (selectBegin % (panelDumpWidth * 2)) / 2;
                                   // calculate column index (full byte)
-      int rowFirstTextX = PANEL_MARGIN + maxWidth * (HexEdit2.OFFSET_DIGITS + (3
+      int rowFirstTextX = PANEL_MARGIN + maxWidth * (hexEdit.OFFSET_DIGITS + (3
         * panelDumpWidth) + 4);   // horizontal for first column on each row
       thisColumnX = rowFirstTextX + (maxWidth * column);
                                   // starting horizontal for first selected
@@ -1057,14 +1059,14 @@ class HexEdit2Text extends JPanel
 
       int cursorX = (cursorDot % (panelDumpWidth * 2)) / 2;
                                   // calculate column index (full byte)
-      cursorX = PANEL_MARGIN + maxWidth * (HexEdit2.OFFSET_DIGITS + (3 * cursorX)
+      cursorX = PANEL_MARGIN + maxWidth * (hexEdit.OFFSET_DIGITS + (3 * cursorX)
         + 2);                     // convert index to horizontal co-ordinate
 
       if ((cursorDot % 2) > 0)    // shift right if second nibble in byte
         cursorX += maxWidth;
 
       context.setColor(cursorOnText ? SHADOW_CURSOR : ACTIVE_CURSOR); // active?
-      if (HexEdit2.overFlag)      // is this an overwrite cursor (box)?
+      if (hexEdit.overFlag)      // is this an overwrite cursor (box)?
       {
         context.drawRect((cursorX - 1), cursorY, (maxWidth + 1),
           (lineHeight - 1));      // regular thin cursor (one pixel width)
@@ -1082,12 +1084,12 @@ class HexEdit2Text extends JPanel
 
       cursorX = (cursorDot % (panelDumpWidth * 2)) / 2;
                                   // calculate column index (full byte)
-      cursorX = PANEL_MARGIN + maxWidth * (HexEdit2.OFFSET_DIGITS + (3
+      cursorX = PANEL_MARGIN + maxWidth * (hexEdit.OFFSET_DIGITS + (3
         * panelDumpWidth) + cursorX + 4);
                                   // convert index to horizontal co-ordinate
 
       context.setColor(cursorOnText ? ACTIVE_CURSOR : SHADOW_CURSOR); // active?
-      if (HexEdit2.overFlag)      // is this an overwrite cursor (box)?
+      if (hexEdit.overFlag)      // is this an overwrite cursor (box)?
       {
         context.drawRect((cursorX - 1), cursorY, (maxWidth + 1),
           (lineHeight - 1));      // regular thin cursor (one pixel width)
@@ -1113,12 +1115,12 @@ class HexEdit2Text extends JPanel
     the user has somewhere to insert text at the end of the file.  There is
     always at least one file offset, even if the file is empty. */
 
-    int maxOffset = HexEdit2.nibbleCount / 2;
+    int maxOffset = hexEdit.nibbleCount / 2;
                                   // don't display offsets past this value
-    int rowLastDigitX = PANEL_MARGIN + (HexEdit2.OFFSET_DIGITS - 1) * maxWidth;
+    int rowLastDigitX = PANEL_MARGIN + (hexEdit.OFFSET_DIGITS - 1) * maxWidth;
                                   // all rows put low-order offset digit here
-    int rowLeftMarkerX = PANEL_MARGIN + maxWidth * ((HexEdit2.OFFSET_DIGITS + 3
-      + (3 * panelDumpWidth))) + charShifts[HexEdit2.MARKER_CHAR];
+    int rowLeftMarkerX = PANEL_MARGIN + maxWidth * ((hexEdit.OFFSET_DIGITS + 3
+      + (3 * panelDumpWidth))) + charShifts[hexEdit.MARKER_CHAR];
                                   // all rows put left text marker here
     int rowRightMarkerX = rowLeftMarkerX + maxWidth * (panelDumpWidth + 1);
                                   // all rows put right text marker here
@@ -1131,20 +1133,20 @@ class HexEdit2Text extends JPanel
         break;                    // yes, escape early from <for> loop
       int shiftedOffset = thisOffset; // copy offset so as to extract digits
       int thisDigitX = rowLastDigitX; // horizontal start for low-order digit
-      for (i = HexEdit2.OFFSET_DIGITS; i > 0; i --)
+      for (i = hexEdit.OFFSET_DIGITS; i > 0; i --)
                                   // extract digits from low-order end
       {
-        char ch = HexEdit2.HEX_DIGITS[shiftedOffset & HexEdit2.NIBBLE_MASK];
+        char ch = hexEdit.HEX_DIGITS[shiftedOffset & hexEdit.NIBBLE_MASK];
                                   // convert nibble to hex text digit
         context.drawString(Character.toString(ch), (thisDigitX
           + charShifts[ch]), rowY); // center this character onto the screen
-        shiftedOffset = shiftedOffset >> HexEdit2.NIBBLE_SHIFT;
+        shiftedOffset = shiftedOffset >> hexEdit.NIBBLE_SHIFT;
                                   // shift down next higher-order nibble
         thisDigitX -= maxWidth;   // back up for next higher-order digit
       }
-      context.drawString(HexEdit2.MARKER_STRING, rowLeftMarkerX, rowY);
+      context.drawString(hexEdit.MARKER_STRING, rowLeftMarkerX, rowY);
                                   // left text marker with centering shift
-      context.drawString(HexEdit2.MARKER_STRING, rowRightMarkerX, rowY);
+      context.drawString(hexEdit.MARKER_STRING, rowRightMarkerX, rowY);
                                   // right text marker with centering shift
       rowY += lineHeight;         // vertical position for next row
       thisOffset += panelDumpWidth; // byte offset for next row
@@ -1156,7 +1158,7 @@ class HexEdit2Text extends JPanel
     file that exactly filled the previous row. */
 
     int nibbleIndex = panelOffset * 2; // index of first data nibble, first row
-    int rowFirstDumpX = PANEL_MARGIN + maxWidth * (HexEdit2.OFFSET_DIGITS + 2);
+    int rowFirstDumpX = PANEL_MARGIN + maxWidth * (hexEdit.OFFSET_DIGITS + 2);
                                   // horizontal position first nibble, each row
     int rowFirstTextX = rowFirstDumpX + maxWidth * ((3 * panelDumpWidth) + 2);
                                   // horizontal position first text, each row
@@ -1170,26 +1172,26 @@ class HexEdit2Text extends JPanel
       {
         /* first nibble of two */
 
-        if (nibbleIndex >= HexEdit2.nibbleCount) // have we gone too far?
+        if (nibbleIndex >= hexEdit.nibbleCount) // have we gone too far?
           break;                  // yes, escape early from <for> loop
-        int thisNibble = HexEdit2.nibbleData.get(nibbleIndex ++);
+        int thisNibble = hexEdit.nibbleData.get(nibbleIndex ++);
                                   // get value of this nibble as integer
-        char ch = HexEdit2.HEX_DIGITS[thisNibble & HexEdit2.NIBBLE_MASK];
+        char ch = hexEdit.HEX_DIGITS[thisNibble & hexEdit.NIBBLE_MASK];
                                   // convert nibble to hex text digit
         context.drawString(Character.toString(ch), (thisDumpX
           + charShifts[ch]), rowY); // center this hex digit onto screen
         thisDumpX += maxWidth;    // horizontal position for next hex digit
 
-        int byteValue = thisNibble << HexEdit2.NIBBLE_SHIFT;
+        int byteValue = thisNibble << hexEdit.NIBBLE_SHIFT;
                                   // first nibble is high-order part of byte
 
         /* second nibble of two (may be missing) */
 
-        if (nibbleIndex < HexEdit2.nibbleCount) // is there a second nibble?
+        if (nibbleIndex < hexEdit.nibbleCount) // is there a second nibble?
         {
-          thisNibble = HexEdit2.nibbleData.get(nibbleIndex ++);
+          thisNibble = hexEdit.nibbleData.get(nibbleIndex ++);
                                   // get value of this nibble as integer
-          ch = HexEdit2.HEX_DIGITS[thisNibble & HexEdit2.NIBBLE_MASK];
+          ch = hexEdit.HEX_DIGITS[thisNibble & hexEdit.NIBBLE_MASK];
                                   // convert nibble to hex text digit
           context.drawString(Character.toString(ch), (thisDumpX
             + charShifts[ch]), rowY); // center this hex digit onto screen
@@ -1204,8 +1206,8 @@ class HexEdit2Text extends JPanel
 
         /* text character (if printable) */
 
-        if ((byteValue < HexEdit2.FIRST_CHAR) || (byteValue > HexEdit2.LAST_CHAR))
-          byteValue = HexEdit2.REPLACE_CHAR; // replace unprintable character
+        if ((byteValue < hexEdit.FIRST_CHAR) || (byteValue > hexEdit.LAST_CHAR))
+          byteValue = hexEdit.REPLACE_CHAR; // replace unprintable character
         context.drawString(Character.toString((char) byteValue), (thisTextX
           + charShifts[byteValue]), rowY); // draw character onto screen
         thisTextX += maxWidth;    // horizontal position for next text char
@@ -1226,7 +1228,7 @@ class HexEdit2Text extends JPanel
   {
     if (panelDumpWidth > 1)       // are we ready to handle this yet?
     {
-      int scroll = HexEdit2.textScroll.getValue(); // scroll bar row position
+      int scroll = hexEdit.textScroll.getValue(); // scroll bar row position
       int newOffset = scroll * panelDumpWidth; // convert rows to input bytes
       if (newOffset != panelOffset) // has drawing position truly changed?
       {

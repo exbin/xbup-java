@@ -250,7 +250,6 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         if (!lookAndFeel.isEmpty()) {
             try {
                 UIManager.setLookAndFeel(lookAndFeel);
-
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -2123,11 +2122,14 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
                     return;
                 }
             }
-            // TODO setFileName(saveFC.getSelectedFile().getAbsolutePath());
-/*            if (saveFC.getFileFilter().getDescription().equals(resourceBundle.getString("filter_file_xbt"))) {
-             activePanel.setFileMode(2);
-             } else activePanel.setFileMode(1); */
-            appEditor.getModuleRepository().saveFile(saveFC);
+
+            try {
+                appEditor.getModuleRepository().saveFile(saveFC);
+            } catch (Exception ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                String errorMessage = ex.getLocalizedMessage();
+                JOptionPane.showMessageDialog(this, "Unable to save file: " + ex.getClass().getCanonicalName() + (errorMessage == null || errorMessage.isEmpty() ? "" : errorMessage), "Unable to save file", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
@@ -2137,6 +2139,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
             if (preferences != null) {
                 saveState(preferences);
             }
+
             System.exit(0);
         }
     }

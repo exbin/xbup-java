@@ -27,14 +27,15 @@ import org.xbup.lib.core.parser.token.event.XBEventWriter;
 import org.xbup.lib.core.stream.XBTokenOutputStream;
 
 /**
+ * XBUP Level 0 File Output Stream.
  *
- * @version 0.1.16 2008/08/02
+ * @version 0.1.24 2015/01/17
  * @author XBUP Project (http://xbup.org)
  */
 public class XBFileOutputStream extends XBTokenOutputStream {
 
-    private FileOutputStream target;
-    private XBEventWriter writer = new XBEventWriter();
+    private final FileOutputStream target;
+    private final XBEventWriter writer = new XBEventWriter();
 
     public XBFileOutputStream(File file) throws FileNotFoundException, IOException {
         target = new FileOutputStream(file);
@@ -61,9 +62,6 @@ public class XBFileOutputStream extends XBTokenOutputStream {
         writer.close();
     }
 
-    /**
-     * @return the target
-     */
     public FileOutputStream getTarget() {
         return target;
     }

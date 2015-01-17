@@ -59,7 +59,7 @@ import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 import org.xbup.tool.editor.module.xbdoc_editor.XBDocEditorFrame;
-import org.xbup.tool.editor.module.xbdoc_editor.dialog.AddItemDialog;
+import org.xbup.tool.editor.module.xbdoc_editor.dialog.AddBlockDialog;
 
 /**
  * Panel with document tree visualization.
@@ -85,7 +85,7 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
     private final Map<String, ActionListener> actionListenerMap = new HashMap<>();
     private final XBDocEditorFrame mainFrame;
 
-    private AddItemDialog addItemDialog = null;
+    private AddBlockDialog addItemDialog = null;
 
     public XBDocTreePanel(XBDocEditorFrame mainFrame, XBTTreeDocument mainDoc, XBACatalog catalog, JPopupMenu popupMenu) {
         this.mainFrame = mainFrame;
@@ -275,7 +275,7 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
             mainDoc.processSpec();
         }
 
-        AddItemDialog dialog = addItemDialog;
+        AddBlockDialog dialog = addItemDialog;
         if (dialog != null) {
             dialog.setCatalog(catalog);
         }
@@ -342,7 +342,7 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
 
     public void performAdd() {
         XBTTreeNode node = getSelectedItem();
-        addItemDialog = new AddItemDialog(WindowUtils.getFrame(this), true, catalog);
+        addItemDialog = new AddBlockDialog(WindowUtils.getFrame(this), true, catalog);
         addItemDialog.setLocationRelativeTo(addItemDialog.getParent());
         addItemDialog.setParentNode(node);
         XBTTreeNode newNode = addItemDialog.showDialog();

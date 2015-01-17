@@ -48,10 +48,10 @@ import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItem
 /**
  * Dialog for adding new item into given document.
  *
- * @version 0.1.24 2014/12/03
+ * @version 0.1.24 2015/01/17
  * @author XBUP Project (http://xbup.org)
  */
-public class AddItemDialog extends javax.swing.JDialog {
+public class AddBlockDialog extends javax.swing.JDialog {
 
     private XBTTreeNode parentNode;
     private XBTTreeNode workNode;
@@ -60,7 +60,7 @@ public class AddItemDialog extends javax.swing.JDialog {
     private XBBlockType catalogBlockType = null;
     private int dialogOption = JOptionPane.CLOSED_OPTION;
 
-    public AddItemDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog) {
+    public AddBlockDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog) {
         super(parent, modal);
         this.catalog = catalog;
         workNode = null;
@@ -107,16 +107,16 @@ public class AddItemDialog extends javax.swing.JDialog {
         prevButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ItemAddDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/AddBlockDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
         setModal(true);
 
         mainPanel.setLayout(new java.awt.CardLayout());
 
-        typePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("jPanel1.border.title"))); // NOI18N
+        typePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("typePanel.border.title"))); // NOI18N
 
         blockTypeButtonGroup.add(dataRadioButton);
-        dataRadioButton.setText(bundle.getString("jRadioButton2.text")); // NOI18N
+        dataRadioButton.setText(bundle.getString("dataRadioButton.text")); // NOI18N
         dataRadioButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
         blockTypeButtonGroup.add(basicTypeRadioButton);
@@ -138,7 +138,7 @@ public class AddItemDialog extends javax.swing.JDialog {
             }
         });
 
-        contextTypeSelectButton.setText(bundle.getString("localTypeAdvancedButton.text")); // NOI18N
+        contextTypeSelectButton.setText(bundle.getString("contextTypeSelectButton.text")); // NOI18N
         contextTypeSelectButton.setEnabled(false);
         contextTypeSelectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -149,7 +149,7 @@ public class AddItemDialog extends javax.swing.JDialog {
         contextTypeTextField.setEditable(false);
 
         blockTypeButtonGroup.add(catalogTypeRadioButton);
-        catalogTypeRadioButton.setText(bundle.getString("jRadioButton5.text")); // NOI18N
+        catalogTypeRadioButton.setText(bundle.getString("catalogTypeRadioButton.text")); // NOI18N
         catalogTypeRadioButton.setEnabled(false);
         catalogTypeRadioButton.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -221,9 +221,9 @@ public class AddItemDialog extends javax.swing.JDialog {
         mainPanel.add(typePanel, "type");
 
         generateDeclarationCheckBox.setSelected(true);
-        generateDeclarationCheckBox.setText("Generate Declaration");
+        generateDeclarationCheckBox.setText(bundle.getString("generateDeclarationCheckBox.text")); // NOI18N
 
-        prefillCheckBox.setText("Prefill Default Values");
+        prefillCheckBox.setText(bundle.getString("prefillCheckBox.text")); // NOI18N
         prefillCheckBox.setEnabled(false);
 
         org.jdesktop.layout.GroupLayout conditionsPanelLayout = new org.jdesktop.layout.GroupLayout(conditionsPanel);
@@ -267,7 +267,7 @@ public class AddItemDialog extends javax.swing.JDialog {
             }
         });
 
-        nextButton.setText("Next >");
+        nextButton.setText(bundle.getString("nextButton.text")); // NOI18N
         nextButton.setEnabled(false);
         nextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -275,7 +275,7 @@ public class AddItemDialog extends javax.swing.JDialog {
             }
         });
 
-        prevButton.setText("< Prev");
+        prevButton.setText(bundle.getString("prevButton.text")); // NOI18N
         prevButton.setEnabled(false);
         prevButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

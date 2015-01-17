@@ -33,14 +33,14 @@ import org.xbup.lib.operation.undo.XBTLinearUndo;
 /**
  * Command for modifying block.
  *
- * @version 0.1.20 2010/09/15
+ * @version 0.1.24 2015/01/17
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTModifyBlockCommand implements XBTCommand {
 
     private String caption;
-    private long position;
-    private long index;
+    private final long position;
+    private final long index;
     private InputStream data;
     XBTTreeNode newNode;
 
@@ -86,7 +86,7 @@ public class XBTModifyBlockCommand implements XBTCommand {
         }
         data = new ByteArrayInputStream(stream.toByteArray());
         if ((position == 0) && (index == -1)) {
-            document.clear();
+            document.setRootBlock(null); // TODO: clear() would also delete extended area
         } else {
             parent.getChildren().remove(node);
         }
@@ -101,7 +101,7 @@ public class XBTModifyBlockCommand implements XBTCommand {
             node = (XBTTreeNode) document.findNodeByIndex(position);
             List<XBTBlock> children = node.getChildren();
             if (children==null) {
-                children = new ArrayList<XBTBlock>();
+                children = new ArrayList<>();
                 node.setChildren(children);
             }
             children.add(newNode);

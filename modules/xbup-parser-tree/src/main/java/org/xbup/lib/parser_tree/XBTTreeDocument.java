@@ -143,7 +143,7 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
 
     @Override
     public void setRootBlock(XBTBlock block) {
-        if (!(block instanceof XBTTreeNode)) {
+        if (block != null && !(block instanceof XBTTreeNode)) {
             throw new IllegalArgumentException("Unsupported type of root block");
         }
 

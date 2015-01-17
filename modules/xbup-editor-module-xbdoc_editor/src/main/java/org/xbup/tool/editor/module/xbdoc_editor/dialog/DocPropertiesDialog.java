@@ -16,33 +16,23 @@
  */
 package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 
-import hexedit.HexEditPanel;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFrame;
 import org.xbup.lib.core.block.XBTEditableDocument;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * Dialog for document properties showing various information about file.
  *
- * @version 0.1.24 2014/11/18
+ * @version 0.1.24 2015/01/17
  * @author XBUP Project (http://xbup.org)
  */
 public class DocPropertiesDialog extends javax.swing.JDialog {
 
     private XBTEditableDocument doc;
-    private final HexEditPanel hexPanel;
 
     public DocPropertiesDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 
-        hexPanel = new HexEditPanel((JFrame) parent);
-        hexEditScrollPane.setViewportView(hexPanel);
         init();
     }
 
@@ -61,20 +51,17 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
 
         closeButton = new javax.swing.JButton();
         propertiesTabbedPane = new javax.swing.JTabbedPane();
-        generalPropertiesPanel = new javax.swing.JPanel();
+        generalPanel = new javax.swing.JPanel();
         fileNameLabel = new javax.swing.JLabel();
         fileNameTextField = new javax.swing.JTextField();
-        fileSizeLabel = new javax.swing.JLabel();
         fileSizeTextField = new javax.swing.JTextField();
         fileTypeLabel = new javax.swing.JLabel();
         fileTypeTextField = new javax.swing.JTextField();
-        extendedAreaPanel = new javax.swing.JPanel();
-        hexEditScrollPane = new javax.swing.JScrollPane();
-        loadFromButton = new javax.swing.JButton();
-        saveFromButton = new javax.swing.JButton();
+        fileSizeLabel = new javax.swing.JLabel();
+        documentTypePanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/PropertiesDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/DocPropertiesDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
         setLocationByPlatform(true);
 
@@ -85,101 +72,67 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
             }
         });
 
-        fileNameLabel.setText(bundle.getString("jLabel1.text")); // NOI18N
+        fileNameLabel.setText(bundle.getString("fileNameLabel.text")); // NOI18N
 
         fileNameTextField.setEditable(false);
 
-        fileSizeLabel.setText(bundle.getString("jLabel2.text")); // NOI18N
-
         fileSizeTextField.setEditable(false);
 
-        fileTypeLabel.setText(bundle.getString("jLabel3.text")); // NOI18N
+        fileTypeLabel.setText(bundle.getString("fileTypeLabel.text")); // NOI18N
 
         fileTypeTextField.setEditable(false);
 
-        javax.swing.GroupLayout generalPropertiesPanelLayout = new javax.swing.GroupLayout(generalPropertiesPanel);
-        generalPropertiesPanel.setLayout(generalPropertiesPanelLayout);
-        generalPropertiesPanelLayout.setHorizontalGroup(
-            generalPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(generalPropertiesPanelLayout.createSequentialGroup()
+        fileSizeLabel.setText(bundle.getString("fileSizeLabel.text")); // NOI18N
+
+        javax.swing.GroupLayout generalPanelLayout = new javax.swing.GroupLayout(generalPanel);
+        generalPanel.setLayout(generalPanelLayout);
+        generalPanelLayout.setHorizontalGroup(
+            generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(generalPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(generalPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(generalPropertiesPanelLayout.createSequentialGroup()
-                        .addGroup(generalPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(fileNameLabel)
-                            .addComponent(fileSizeLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(generalPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(fileNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
-                            .addComponent(fileSizeTextField)))
-                    .addGroup(generalPropertiesPanelLayout.createSequentialGroup()
-                        .addComponent(fileTypeLabel)
-                        .addGap(66, 66, 66)
-                        .addComponent(fileTypeTextField)))
+                .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(fileNameLabel)
+                    .addComponent(fileTypeLabel)
+                    .addComponent(fileSizeLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(fileNameTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(fileTypeTextField)
+                    .addComponent(fileSizeTextField, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
-        generalPropertiesPanelLayout.setVerticalGroup(
-            generalPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(generalPropertiesPanelLayout.createSequentialGroup()
+        generalPanelLayout.setVerticalGroup(
+            generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(generalPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(generalPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fileNameLabel)
                     .addComponent(fileNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(generalPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fileSizeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fileSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fileSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fileSizeLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(generalPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fileTypeLabel)
                     .addComponent(fileTypeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(212, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        propertiesTabbedPane.addTab(bundle.getString("jPanel1.TabConstraints.tabTitle"), generalPropertiesPanel); // NOI18N
+        propertiesTabbedPane.addTab(bundle.getString("generalPanel.tabTitle"), generalPanel); // NOI18N
 
-        loadFromButton.setText(bundle.getString("jButton3.text")); // NOI18N
-        loadFromButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loadFromButtonActionPerformed(evt);
-            }
-        });
-
-        saveFromButton.setText(bundle.getString("jButton2.text")); // NOI18N
-        saveFromButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveFromButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout extendedAreaPanelLayout = new javax.swing.GroupLayout(extendedAreaPanel);
-        extendedAreaPanel.setLayout(extendedAreaPanelLayout);
-        extendedAreaPanelLayout.setHorizontalGroup(
-            extendedAreaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(extendedAreaPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(extendedAreaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(hexEditScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
-                    .addGroup(extendedAreaPanelLayout.createSequentialGroup()
-                        .addComponent(loadFromButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(saveFromButton)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+        javax.swing.GroupLayout documentTypePanelLayout = new javax.swing.GroupLayout(documentTypePanel);
+        documentTypePanel.setLayout(documentTypePanelLayout);
+        documentTypePanelLayout.setHorizontalGroup(
+            documentTypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 533, Short.MAX_VALUE)
         );
-        extendedAreaPanelLayout.setVerticalGroup(
-            extendedAreaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, extendedAreaPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(hexEditScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(extendedAreaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(saveFromButton)
-                    .addComponent(loadFromButton))
-                .addContainerGap())
+        documentTypePanelLayout.setVerticalGroup(
+            documentTypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 342, Short.MAX_VALUE)
         );
 
-        propertiesTabbedPane.addTab(bundle.getString("jPanel2.TabConstraints.tabTitle"), extendedAreaPanel); // NOI18N
+        propertiesTabbedPane.addTab(bundle.getString("documentTypePanel.tabTitle"), documentTypePanel); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -189,7 +142,7 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(closeButton)
                 .addContainerGap())
-            .addComponent(propertiesTabbedPane)
+            .addComponent(propertiesTabbedPane, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,26 +157,8 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
-        // TODO: Horrible extraction of data from HexEditPanel
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        try {
-            hexPanel.saveToStream(buffer);
-        } catch (IOException ex) {
-            Logger.getLogger(DocPropertiesDialog.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        doc.setExtendedArea(new ByteArrayInputStream(buffer.toByteArray()));
         WindowUtils.closeWindow(this);
     }//GEN-LAST:event_closeButtonActionPerformed
-
-    private void loadFromButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadFromButtonActionPerformed
-        hexPanel.openFile(null);
-        hexPanel.repaint();
-    }//GEN-LAST:event_loadFromButtonActionPerformed
-
-    private void saveFromButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveFromButtonActionPerformed
-        hexPanel.saveFile();
-    }//GEN-LAST:event_saveFromButtonActionPerformed
 
     public void runDialog(XBTEditableDocument doc, String fileName) {
         this.doc = doc;
@@ -242,18 +177,15 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton closeButton;
-    private javax.swing.JPanel extendedAreaPanel;
+    private javax.swing.JPanel documentTypePanel;
     private javax.swing.JLabel fileNameLabel;
     private javax.swing.JTextField fileNameTextField;
     private javax.swing.JLabel fileSizeLabel;
     private javax.swing.JTextField fileSizeTextField;
     private javax.swing.JLabel fileTypeLabel;
     private javax.swing.JTextField fileTypeTextField;
-    private javax.swing.JPanel generalPropertiesPanel;
-    private javax.swing.JScrollPane hexEditScrollPane;
-    private javax.swing.JButton loadFromButton;
+    private javax.swing.JPanel generalPanel;
     private javax.swing.JTabbedPane propertiesTabbedPane;
-    private javax.swing.JButton saveFromButton;
     // End of variables declaration//GEN-END:variables
 
 }

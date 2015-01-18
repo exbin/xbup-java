@@ -27,7 +27,7 @@ import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
-import org.xbup.lib.core.block.declaration.local.XBDBlockDecl;
+import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.service.XBCXIconService;
@@ -105,7 +105,9 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
     }
 
     /**
-     * Gets caption for given block type. Use cache if available.
+     * Gets caption for given block type.
+     *
+     * Use cache if available.
      *
      * @param blockDecl
      * @return caption
@@ -121,9 +123,9 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
             String caption = nameService.getDefaultText(blockSpec);
             captionCache.put(blockSpec.getId(), caption);
             return caption;
-        } else if (blockDecl instanceof XBDBlockDecl) {
+        } else if (blockDecl instanceof XBLBlockDecl) {
             // TOOD
-            /* XBCBlockDecl blockDecl = (XBCBlockDecl) ((XBDBlockDecl) blockDecl).getBlockDecl();
+            /* XBCBlockDecl blockDecl = (XBCBlockDecl) ((XBLBlockDecl) blockDecl).getBlockDecl();
              if (blockDecl != null) {
              XBCBlockSpec blockSpec = blockDecl.getBlockSpec().getParent();
              if (captionCache.containsKey(blockSpec.getId())) {

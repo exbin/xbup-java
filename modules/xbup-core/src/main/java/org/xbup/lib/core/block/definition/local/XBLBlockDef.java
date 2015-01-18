@@ -14,41 +14,49 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.block.definition.catalog;
+package org.xbup.lib.core.block.definition.local;
 
 import java.util.List;
-import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.block.definition.XBGroupDef;
-import org.xbup.lib.core.block.definition.XBGroupParam;
+import org.xbup.lib.core.block.definition.XBBlockDef;
+import org.xbup.lib.core.block.definition.XBBlockParam;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**
- * XBUP level 1 block definition.
+ * XBUP level 1 local block definition.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPGroupDef implements XBGroupDef, XBSerializable {
+public class XBLBlockDef implements XBBlockDef, XBSerializable {
 
-    private long[] catalogPath;
+    private List<XBBlockParam> blockParams;
+    private XBLRevisionDef revisionDef;
 
-    public XBPGroupDef(long[] catalogPath) {
-        this.catalogPath = catalogPath;
+    public XBLBlockDef() {
+    }
+
+    public void setParams(List<XBBlockParam> params) {
+        this.blockParams = params;
     }
 
     @Override
-    public List<XBGroupParam> getGroupParams() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<XBBlockParam> getBlockParams() {
+        return blockParams;
+    }
+
+    @Override
+    public long getParamCount() {
+        return blockParams.size();
     }
 
     @Override
     public XBRevisionDef getRevisionDef() {
-        return new XBPRevisionDef(catalogPath, XBPRevisionDef.SpecType.GROUP);
+        return revisionDef;
     }
 
     @Override
-    public XBBlockDecl getBlockDecl(int blockId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public XBBlockParam getBlockParam(int paramIndex) {
+        return blockParams.get(paramIndex);
     }
 }

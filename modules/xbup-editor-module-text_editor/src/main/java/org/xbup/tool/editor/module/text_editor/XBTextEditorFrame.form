@@ -24,9 +24,6 @@
             <Property name="text" type="java.lang.String" value="File"/>
             <Property name="name" type="java.lang.String" value="fileMenu" noResource="true"/>
           </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-          </AuxValues>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="filePropertiesMenuItem">
               <Properties>
@@ -74,9 +71,6 @@
             <Property name="text" type="java.lang.String" value="Edit"/>
             <Property name="name" type="java.lang.String" value="editMenu" noResource="true"/>
           </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-          </AuxValues>
           <SubComponents>
             <MenuItem class="javax.swing.JSeparator" name="jSeparator2">
               <Properties>
@@ -164,9 +158,6 @@
             <Property name="text" type="java.lang.String" value="View"/>
             <Property name="name" type="java.lang.String" value="viewMenu" noResource="true"/>
           </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-          </AuxValues>
           <SubComponents>
             <MenuItem class="javax.swing.JSeparator" name="jSeparator6">
               <Properties>
@@ -194,9 +185,6 @@
             <Property name="text" type="java.lang.String" value="Options"/>
             <Property name="name" type="java.lang.String" value="optionsMenu" noResource="true"/>
           </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-          </AuxValues>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="optionsFontMenuItem">
               <Properties>

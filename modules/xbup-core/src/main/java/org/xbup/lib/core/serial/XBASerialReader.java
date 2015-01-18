@@ -32,10 +32,10 @@ import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 /**
  * XBUP level 2 serialization object from stream writer.
  *
- * @version 0.1.24 2014/12/06
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
-public class XBASerialReader extends XBTSerialReader implements XBReadSerialHandler {
+public class XBASerialReader extends XBTSerialReader implements XBTReadSerialHandler {
 
     public XBASerialReader(XBTPullProvider pullProvider) {
         super(pullProvider instanceof XBTPullPreLoader ? pullProvider : new XBTPullPreLoader(pullProvider));
@@ -78,6 +78,11 @@ public class XBASerialReader extends XBTSerialReader implements XBReadSerialHand
         } else {
             super.read(serial);
         }
+    }
+
+    @Override
+    public void joinRead(XBSerializable serial) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**

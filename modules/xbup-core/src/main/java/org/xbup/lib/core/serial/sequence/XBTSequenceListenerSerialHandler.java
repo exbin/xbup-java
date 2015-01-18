@@ -29,7 +29,7 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBWriteSerialHandler;
+import org.xbup.lib.core.serial.XBTWriteSerialHandler;
 import org.xbup.lib.core.serial.token.XBTTokenOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
@@ -47,14 +47,14 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandler, XBTSequenceOutputSerialHandler, XBTSerialSequenceable, XBTTokenOutputSerialHandler {
 
     private final XBTChildListenerSerialHandler listener;
-    private XBWriteSerialHandler childHandler = null;
+    private XBTWriteSerialHandler childHandler = null;
     private XBTEventListener eventListener;
 
     public XBTSequenceListenerSerialHandler() {
         listener = new XBTChildListenerSerialHandler();
     }
 
-    public XBTSequenceListenerSerialHandler(XBWriteSerialHandler childHandler) {
+    public XBTSequenceListenerSerialHandler(XBTWriteSerialHandler childHandler) {
         listener = new XBTChildListenerSerialHandler(childHandler);
         this.childHandler = childHandler;
     }

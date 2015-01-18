@@ -30,7 +30,7 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
+import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
@@ -154,7 +154,7 @@ public class XBTCPRemoteServer implements XBRemoteServer {
         path[1] = 2;
         path[2] = ((XBFBlockType) blockType).getGroupID().getLong() - 1;
         path[3] = ((XBFBlockType) blockType).getBlockID().getLong();
-        blockType = new XBDeclBlockType(new XBPBlockDecl(path));
+        blockType = new XBDeclBlockType(new XBLBlockDecl(path));
         XBProcedure proc = getProcMap().get(blockType);
         if (proc == null) {
             // TODO: Return NOT FOUND

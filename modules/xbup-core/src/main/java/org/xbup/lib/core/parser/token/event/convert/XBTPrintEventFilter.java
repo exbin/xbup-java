@@ -17,73 +17,62 @@
 package org.xbup.lib.core.parser.token.event.convert;
 
 import java.io.IOException;
-import org.xbup.lib.core.block.XBFBlockType;
+import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.XBProcessingExceptionType;
-import org.xbup.lib.core.parser.token.XBAttributeToken;
-import org.xbup.lib.core.parser.token.XBBeginToken;
-import org.xbup.lib.core.parser.token.XBDataToken;
-import org.xbup.lib.core.parser.token.XBEndToken;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
-import org.xbup.lib.core.parser.token.event.XBEventListener;
-import org.xbup.lib.core.parser.token.event.XBEventProducer;
+import org.xbup.lib.core.parser.token.event.XBTEventFilter;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 
 /**
- * XBUP level 1 to level 0 event convertor.
+ * XBUP level 1 event filter printing out informations about tokens.
  *
  * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTToXBEventConvertor implements XBTEventListener, XBEventProducer {
+public class XBTPrintEventFilter implements XBTEventFilter {
 
-    private XBEventListener target;
+    private XBTEventListener eventListener;
 
-    public XBTToXBEventConvertor(XBEventListener target) {
-        this.target = target;
-    }
-
-    @Override
-    public void attachXBEventListener(XBEventListener eventListener) {
-        target = eventListener;
+    public XBTPrintEventFilter(XBTEventListener eventListener) {
+        this.eventListener = eventListener;
     }
 
     @Override
     public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {
-                target.putXBToken(new XBBeginToken(((XBTBeginToken) token).getTerminationMode()));
+                System.out.println("> Begin (" + ((XBTBeginToken) token).getTerminationMode().toString() + "):");
                 break;
             }
-
             case TYPE: {
-                if (((XBTTypeToken) token).getBlockType() instanceof XBFBlockType) {
-                    target.putXBToken(new XBAttributeToken(((XBFBlockType) ((XBTTypeToken) token).getBlockType()).getGroupID()));
-                    target.putXBToken(new XBAttributeToken(((XBFBlockType) ((XBTTypeToken) token).getBlockType()).getBlockID()));
-                    break;
-                } else {
-                    throw new XBProcessingException("Unexpected block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
-                }
+                XBBlockType blockType = ((XBTTypeToken) token).getBlockType();
+                System.out.println("  Type: " + (blockType instanceof XBFixedBlockType ? "(" + ((XBFixedBlockType) blockType).getGroupID().getInt() + "," + ((XBFixedBlockType) blockType).getBlockID().getInt() + ")" : blockType.getClass().getCanonicalName()));
+                break;
             }
-
             case ATTRIBUTE: {
-                target.putXBToken(new XBAttributeToken(((XBTAttributeToken) token).getAttribute()));
+                System.out.println("  Attribute: " + ((XBTAttributeToken) token).getAttribute().getLong());
                 break;
             }
-
             case DATA: {
-                target.putXBToken(new XBDataToken(((XBTDataToken) token).getData()));
+                System.out.println("  Data:" + ((XBTDataToken) token).getData().available());
                 break;
             }
-
             case END: {
-                target.putXBToken(new XBEndToken());
+                System.out.println("< End.");
                 break;
             }
         }
+
+        eventListener.putXBTToken(token);
+    }
+
+    @Override
+    public void attachXBTEventListener(XBTEventListener eventListener) {
+        this.eventListener = eventListener;
     }
 }

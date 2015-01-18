@@ -27,8 +27,8 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
-import org.xbup.lib.core.serial.XBReadSerialHandler;
 import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.serial.XBTReadSerialHandler;
 import org.xbup.lib.core.serial.child.XBAChildProvider;
 import org.xbup.lib.core.serial.child.XBAChildProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBAChildSerializable;
@@ -43,19 +43,19 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
  * XBUP level 2 serialization handler using serialization sequence parser
  * mapping to token provider.
  *
- * @version 0.1.24 2014/12/16
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBASequenceProviderSerialHandler implements XBASequenceSerialHandler, XBASequenceInputSerialHandler, XBASerialSequenceable, XBTTokenInputSerialHandler {
 
     private final XBAChildProviderSerialHandler provider;
-    private XBReadSerialHandler childHandler = null;
+    private XBTReadSerialHandler childHandler = null;
 
     public XBASequenceProviderSerialHandler() {
         provider = new XBAChildProviderSerialHandler();
     }
 
-    public XBASequenceProviderSerialHandler(XBReadSerialHandler childHandler) {
+    public XBASequenceProviderSerialHandler(XBTReadSerialHandler childHandler) {
         provider = new XBAChildProviderSerialHandler(childHandler);
         this.childHandler = childHandler;
     }

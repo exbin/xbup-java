@@ -17,48 +17,41 @@
 package org.xbup.lib.core.block.definition.local;
 
 import java.util.ArrayList;
-import org.xbup.lib.core.block.definition.XBFormatDef;
 import java.util.List;
-import org.xbup.lib.core.block.declaration.XBGroupDecl;
-import org.xbup.lib.core.block.definition.XBFormatParam;
-import org.xbup.lib.core.block.definition.XBFormatParamConsist;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
+import org.xbup.lib.core.block.definition.XBRevisionParam;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**
- * XBUP level 1 format definition.
+ * XBUP level 1 local group definition.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
-public class XBDFormatDef implements XBSerializable, XBFormatDef {
+public class XBLRevisionDef implements XBSerializable, XBRevisionDef {
 
-    private List<XBFormatParam> formats = new ArrayList<>();
-    private XBDRevisionDef revisionDef;
+    private List<XBRevisionParam> revs;
 
-    public XBDFormatDef() {
-    }
-
-    public XBDFormatDef(XBGroupDecl groupDecl) {
-        formats.add(new XBFormatParamConsist(groupDecl));
+    public XBLRevisionDef() {
+        revs = new ArrayList<>();
     }
 
     @Override
-    public List<XBFormatParam> getFormatParams() {
-        return formats;
-    }
-
-    public void setFormats(List<XBFormatParam> formats) {
-        this.formats = formats;
+    public List<XBRevisionParam> getRevParams() {
+        return revs;
     }
 
     @Override
-    public XBRevisionDef getRevisionDef() {
-        return revisionDef;
-    }
+    public int getRevisionLimit(long revision) {
+        if (revision > revs.size()) {
+            revision = revs.size() - 1;
+        }
 
-    @Override
-    public XBGroupDecl getGroupDecl(int groupId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        int limit = 0;
+        for (int index = 0; index <= revision; index++) {
+           limit += revs.get(index).getLimit();
+        }
+        
+        return limit;
     }
 }

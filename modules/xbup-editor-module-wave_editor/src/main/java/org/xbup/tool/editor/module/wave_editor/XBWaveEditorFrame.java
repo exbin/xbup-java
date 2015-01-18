@@ -26,16 +26,19 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileFilter;
 import org.xbup.lib.audio.swing.XBWavePanel;
+import org.xbup.tool.editor.base.api.BasicMenuType;
 import org.xbup.tool.editor.module.wave_editor.dialog.WaveColorDialog;
 import org.xbup.tool.editor.module.wave_editor.panel.AudioPanel;
 import org.xbup.tool.editor.module.wave_editor.panel.WaveColorPanelFrame;
 import org.xbup.tool.editor.base.api.FileType;
+import org.xbup.tool.editor.base.api.MenuManagement;
+import org.xbup.tool.editor.base.api.MenuPositionMode;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * XBSEditor Main Frame.
  *
- * @version 0.1.24 2014/11/11
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPanelFrame {
@@ -94,16 +97,10 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
         activePanel.setPopupMenu(mainPopupMenu);
     }
 
-    /**
-     * @return the activePanel
-     */
     public AudioPanel getActivePanel() {
         return activePanel;
     }
 
-    /**
-     * @param activePanel the activePanel to set
-     */
     public void setActivePanel(AudioPanel activePanel) {
         this.activePanel = activePanel;
     }
@@ -749,7 +746,7 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel activityStatusPanel;
-    public javax.swing.JMenu audioMenu;
+    private javax.swing.JMenu audioMenu;
     private javax.swing.JMenuItem audioPlayMenuItem;
     private javax.swing.JMenuItem audioResizeMenuItem;
     private javax.swing.JMenuItem audioStopMenuItem;
@@ -757,7 +754,7 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
     private javax.swing.JMenuItem audioTransformReverseMenuItem;
     private javax.swing.JTextField currentTimeTextField;
     private javax.swing.ButtonGroup drawModeButtonGroup;
-    public javax.swing.JMenu fileMenu;
+    private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem filePrintMenuItem;
     private javax.swing.JButton jButton4;
     private javax.swing.JProgressBar jProgressBar1;
@@ -772,7 +769,7 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JPanel operationStatusPanel;
     private javax.swing.JMenuItem optionsColorsMenuItem;
-    public javax.swing.JMenu optionsMenu;
+    private javax.swing.JMenu optionsMenu;
     private javax.swing.JButton playButton;
     private javax.swing.JPanel statusBar;
     private javax.swing.JLabel statusLabel;
@@ -781,7 +778,7 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
     private javax.swing.JPanel toolBarPanel;
     private javax.swing.JRadioButtonMenuItem toolPencilMenuItem;
     private javax.swing.JRadioButtonMenuItem toolSelectionMenuItem;
-    public javax.swing.JMenu toolsMenu;
+    private javax.swing.JMenu toolsMenu;
     private javax.swing.ButtonGroup toolsModeButtonGroup;
     private javax.swing.JRadioButtonMenuItem viewDrawModeDotsMenuItem;
     private javax.swing.JRadioButtonMenuItem viewDrawModeDotsPopupMenuItem;
@@ -791,7 +788,7 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
     private javax.swing.JRadioButtonMenuItem viewDrawModeLinesPopupMenuItem;
     private javax.swing.JMenu viewDrawModeMenu;
     private javax.swing.JMenu viewDrawModePopupMenu;
-    public javax.swing.JMenu viewMenu;
+    private javax.swing.JMenu viewMenu;
     private javax.swing.JRadioButtonMenuItem viewZoom100MenuItem;
     private javax.swing.JRadioButtonMenuItem viewZoom200MenuItem;
     private javax.swing.JRadioButtonMenuItem viewZoom25MenuItem;
@@ -819,6 +816,15 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
             ext = str.substring(i + 1).toLowerCase();
         }
         return ext;
+    }
+
+    void setMenuManagement(MenuManagement menuManagement) {
+        menuManagement.extendMenu(fileMenu, BasicMenuType.FILE, MenuPositionMode.PANEL);
+        menuManagement.extendMenu(viewMenu, BasicMenuType.VIEW, MenuPositionMode.PANEL);
+        menuManagement.extendMenu(optionsMenu, BasicMenuType.OPTIONS, MenuPositionMode.PANEL);
+        menuManagement.insertMenu(audioMenu, MenuPositionMode.PANEL);
+        menuManagement.extendMenu(toolsMenu, BasicMenuType.TOOLS, MenuPositionMode.PANEL);
+        menuManagement.insertMainPopupMenu(mainPopupMenu, 0);
     }
 
     public class XBSFileType extends FileFilter implements FileType {

@@ -25,7 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
+import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.child.XBChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBChildOutputSerialHandler;
@@ -64,7 +64,7 @@ public class XBString implements XBTSequenceSerializable {
     @Override
     public void serializeXB(XBTSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
-        serial.matchType(new XBDeclBlockType(new XBPBlockDecl(XBUP_BLOCK_TYPE)));
+        serial.matchType(new XBDeclBlockType(new XBLBlockDecl(XBUP_BLOCK_TYPE)));
         serial.child(new DataBlockSerializator());
         serial.end();
    }

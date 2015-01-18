@@ -35,7 +35,7 @@ import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
  * @version 0.1.24 2014/12/06
  * @author XBUP Project (http://xbup.org)
  */
-public class XBASerialWriter extends XBTSerialWriter implements XBWriteSerialHandler {
+public class XBASerialWriter extends XBTSerialWriter implements XBTWriteSerialHandler {
 
     public XBASerialWriter(XBTEventListener eventListener) {
         super(eventListener instanceof XBTCompactingEventFilter ? eventListener : new XBTCompactingEventFilter(eventListener));
@@ -78,6 +78,11 @@ public class XBASerialWriter extends XBTSerialWriter implements XBWriteSerialHan
         } else {
             super.write(serial);
         }
+    }
+
+    @Override
+    public void joinWrite(XBSerializable serial) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**

@@ -39,7 +39,7 @@ import org.xbup.lib.core.serial.token.XBTTokenSerializable;
  * @version 0.1.24 2014/11/27
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTSerialWriter implements XBWriteSerialHandler {
+public class XBTSerialWriter implements XBTWriteSerialHandler {
 
     protected final XBTEventListener eventListener;
 
@@ -88,6 +88,11 @@ public class XBTSerialWriter implements XBWriteSerialHandler {
         } else {
             throw new UnsupportedOperationException("Serialization method " + serial.getClass().getCanonicalName() + " not supported.");
         }
+    }
+
+    @Override
+    public void joinWrite(XBSerializable serial) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**

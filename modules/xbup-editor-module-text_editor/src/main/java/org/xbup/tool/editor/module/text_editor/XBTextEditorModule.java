@@ -34,7 +34,7 @@ import org.xbup.tool.editor.base.api.StatusManagement;
 /**
  * XB Text Editor Module.
  *
- * @version 0.1.22 2013/03/17
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -42,7 +42,6 @@ public class XBTextEditorModule implements ApplicationModule {
 
     private XBTextEditorFrame editorFrame;
 
-    /** Constructor */
     public XBTextEditorModule() {
     }
 
@@ -79,21 +78,10 @@ public class XBTextEditorModule implements ApplicationModule {
 
     @Override
     public void init(ModuleManagement management) {
-
         editorFrame = new XBTextEditorFrame();
-
         editorFrame.setMainFrameManagement(management.getMainFrameManagement());
-
         management.registerPanel(editorFrame.getActivePanel());
-
-        // Register menus
-        MenuManagement menuManagement = management.getMenuManagement();
-        menuManagement.extendMenu(editorFrame.fileMenu, BasicMenuType.FILE, MenuPositionMode.PANEL);
-        menuManagement.extendMenu(editorFrame.editMenu, BasicMenuType.EDIT, MenuPositionMode.PANEL);
-        menuManagement.extendMenu(editorFrame.viewMenu, BasicMenuType.VIEW, MenuPositionMode.PANEL);
-        menuManagement.extendMenu(editorFrame.optionsMenu, BasicMenuType.OPTIONS, MenuPositionMode.PANEL);
-        menuManagement.extendToolBar(editorFrame.getToolBar());
-        menuManagement.insertMainPopupMenu(editorFrame.getPopupMenu(), 0);
+        editorFrame.setMenuManagement(management.getMenuManagement());
 
         // Register file types
         FileTypeManagement fileTypeManagement = management.getFileTypeManagement();
@@ -111,5 +99,4 @@ public class XBTextEditorModule implements ApplicationModule {
         optionsManagement.addOptionsPanel(new TextEncodingOptionsPanel(editorFrame));
         optionsManagement.extendAppearanceOptionsPanel(new TextAppearanceOptionsPanel(editorFrame));
     }
-
 }

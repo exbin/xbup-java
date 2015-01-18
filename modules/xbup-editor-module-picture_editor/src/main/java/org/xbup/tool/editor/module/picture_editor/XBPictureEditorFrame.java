@@ -27,31 +27,35 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.filechooser.FileFilter;
+import org.xbup.tool.editor.base.api.ApplicationPanel;
+import org.xbup.tool.editor.base.api.BasicMenuType;
 import org.xbup.tool.editor.module.picture_editor.dialog.ImageResizeDialog;
 import org.xbup.tool.editor.module.picture_editor.dialog.PropertiesDialog;
 import org.xbup.tool.editor.module.picture_editor.dialog.ToolColorDialog;
 import org.xbup.tool.editor.module.picture_editor.panel.ImagePanel;
 import org.xbup.tool.editor.base.api.FileType;
+import org.xbup.tool.editor.base.api.MainFrameManagement;
+import org.xbup.tool.editor.base.api.MenuManagement;
+import org.xbup.tool.editor.base.api.MenuPositionMode;
+import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * XBPictureEditor Main Frame.
  *
- * @version 0.1.22 2013/03/24
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPictureEditorFrame extends javax.swing.JFrame {
+public class XBPictureEditorFrame extends javax.swing.JFrame implements XBEditorFrame {
 
-    public ImagePanel activePanel;
+    private ImagePanel activePanel;
     private final MouseMotionListener mouseMotionListener;
     private final String DIALOG_MENU_SUFIX = "...";
     private ResourceBundle resourceBundle;
+    private MainFrameManagement mainFrameManagement;
 
     public static final String XBPFILETYPE = "XBPictureEditor.XBPFileType";
 
-    /**
-     * Creates new form XBPictureEditorFrame
-     */
     public XBPictureEditorFrame() {
         resourceBundle = ResourceBundle.getBundle("org/xbup/tool/editor/module/picture_editor/resources/XBPictureEditorFrame");
 
@@ -59,17 +63,16 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
 
         initComponents();
 
-        ((CardLayout) statusPanel.getLayout()).show(statusPanel,"default");
+        ((CardLayout) statusPanel.getLayout()).show(statusPanel, "default");
 
         mainPanel.add(activePanel, java.awt.BorderLayout.CENTER);
 
         // Open file from command line
 /*        String fileName = ((XBPEditor) app).getFileName();
-        if (!"".equals(fileName)) {
-            setFileName(fileName);
-            activePanel.loadFromFile();
-        } */
-
+         if (!"".equals(fileName)) {
+         setFileName(fileName);
+         activePanel.loadFromFile();
+         } */
         // Caret position listener
         mouseMotionListener = new MouseMotionListener() {
 
@@ -86,13 +89,13 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
                 if (pos == null) {
                     return;
                 }
-                cursorPositionTextField.setText(Long.toString((long) pos.getX()) +":"+ Long.toString((long) pos.getY()));
+                cursorPositionTextField.setText(Long.toString((long) pos.getX()) + ":" + Long.toString((long) pos.getY()));
             }
         };
 
         activePanel.attachCaretListener(mouseMotionListener);
         activePanel.setPopupMenu(mainPopupMenu);
-     }
+    }
 
     public JPopupMenu getPopupMenu() {
         return mainPopupMenu;
@@ -346,7 +349,7 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_filePrintMenuItemActionPerformed
 
     private void filePropertiesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filePropertiesMenuItemActionPerformed
-        PropertiesDialog dialog = new PropertiesDialog(this, true);
+        PropertiesDialog dialog = new PropertiesDialog(mainFrameManagement.getFrame(), true);
         dialog.setDocument(activePanel);
         dialog.setLocationRelativeTo(dialog.getParent());
         dialog.setVisible(true);
@@ -373,13 +376,13 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_viewZoom400MenuItemActionPerformed
 
     private void pictResizeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pictResizeMenuItemActionPerformed
-        ImageResizeDialog dlg = new ImageResizeDialog(this, true);
+        ImageResizeDialog dlg = new ImageResizeDialog(mainFrameManagement.getFrame(), true);
         dlg.setLocationRelativeTo(dlg.getParent());
         activePanel.showResizeDialog(dlg);
     }//GEN-LAST:event_pictResizeMenuItemActionPerformed
 
     private void optionsColorsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsColorsMenuItemActionPerformed
-        ToolColorDialog dlg = new ToolColorDialog(this, true);
+        ToolColorDialog dlg = new ToolColorDialog(mainFrameManagement.getFrame(), true);
         dlg.setLocationRelativeTo(dlg.getParent());
         dlg.setVisible(true);
         // activePanel.setToolColorDialog(dlg.get);
@@ -394,7 +397,7 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel cursorPositionPanel;
     private javax.swing.JTextField cursorPositionTextField;
-    public javax.swing.JMenu fileMenu;
+    private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem filePrintMenuItem;
     private javax.swing.JMenuItem filePropertiesMenuItem;
     private javax.swing.JSeparator jSeparator1;
@@ -403,8 +406,8 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu mainPopupMenu;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem optionsColorsMenuItem;
-    public javax.swing.JMenu optionsMenu;
-    public javax.swing.JMenu pictMenu;
+    private javax.swing.JMenu optionsMenu;
+    private javax.swing.JMenu pictMenu;
     private javax.swing.JMenuItem pictResizeMenuItem;
     private javax.swing.JMenu pictRotateMenu;
     private javax.swing.JMenuItem pictRotateMirrorMenuItem;
@@ -413,8 +416,8 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
     private javax.swing.ButtonGroup toolButtonGroup;
     private javax.swing.JRadioButtonMenuItem toolLineMenuItem;
     private javax.swing.JRadioButtonMenuItem toolPencilMenuItem;
-    public javax.swing.JMenu toolsMenu;
-    public javax.swing.JMenu viewMenu;
+    private javax.swing.JMenu toolsMenu;
+    private javax.swing.JMenu viewMenu;
     private javax.swing.JMenu viewZoom;
     private javax.swing.JRadioButtonMenuItem viewZoom100MenuItem;
     private javax.swing.JRadioButtonMenuItem viewZoom200MenuItem;
@@ -435,10 +438,14 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
         String str = file.getName();
         int i = str.lastIndexOf('.');
 
-        if (i > 0 &&  i < str.length() - 1) {
-            ext = str.substring(i+1).toLowerCase();
+        if (i > 0 && i < str.length() - 1) {
+            ext = str.substring(i + 1).toLowerCase();
         }
         return ext;
+    }
+
+    public ApplicationPanel getActivePanel() {
+        return activePanel;
     }
 
     public class XBPFileType extends FileFilter implements FileType {
@@ -450,10 +457,10 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
             }
             String extension = getExtension(f);
             if (extension != null) {
-                if (extension.length()<3) {
+                if (extension.length() < 3) {
                     return false;
                 }
-                return "xbp".contains(extension.substring(0,3));
+                return "xbp".contains(extension.substring(0, 3));
             }
             return false;
         }
@@ -475,5 +482,23 @@ public class XBPictureEditorFrame extends javax.swing.JFrame {
 
     public JPanel getStatusPanel() {
         return statusPanel;
+    }
+
+    @Override
+    public MainFrameManagement getMainFrameManagement() {
+        return mainFrameManagement;
+    }
+
+    void setMainFrameManagement(MainFrameManagement mainFrameManagement) {
+        this.mainFrameManagement = mainFrameManagement;
+    }
+
+    public void setMenuManagement(MenuManagement menuManagement) {
+        menuManagement.extendMenu(fileMenu, BasicMenuType.FILE, MenuPositionMode.PANEL);
+        menuManagement.extendMenu(viewMenu, BasicMenuType.VIEW, MenuPositionMode.PANEL);
+        menuManagement.extendMenu(optionsMenu, BasicMenuType.OPTIONS, MenuPositionMode.PANEL);
+        menuManagement.extendMenu(toolsMenu, BasicMenuType.TOOLS, MenuPositionMode.PANEL);
+        menuManagement.insertMenu(pictMenu, MenuPositionMode.PANEL);
+        menuManagement.insertMainPopupMenu(mainPopupMenu, 0);
     }
 }

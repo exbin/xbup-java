@@ -29,9 +29,9 @@ import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
-import org.xbup.lib.core.serial.XBReadSerialHandler;
 import org.xbup.lib.core.serial.XBSerialException;
 import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.serial.XBTReadSerialHandler;
 import org.xbup.lib.core.serial.token.XBTTokenInputSerialHandler;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -39,20 +39,20 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 serialization handler using basic parser mapping to provider.
  *
- * @version 0.1.24 2014/12/16
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler, XBTTokenInputSerialHandler {
 
     private XBTPullProvider pullProvider;
     private XBChildSerialState state;
-    private XBReadSerialHandler childHandler = null;
+    private XBTReadSerialHandler childHandler = null;
 
     public XBTChildProviderSerialHandler() {
         state = XBChildSerialState.BLOCK_BEGIN;
     }
 
-    public XBTChildProviderSerialHandler(XBReadSerialHandler childHandler) {
+    public XBTChildProviderSerialHandler(XBTReadSerialHandler childHandler) {
         this();
         this.childHandler = childHandler;
     }
@@ -200,7 +200,18 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
 
     @Override
     public void pullJoin(XBSerializable serial) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (serial instanceof XBTChildSerializable) {
+            // TODO join
+            XBTChildProviderSerialHandler childInput = new XBTChildProviderSerialHandler();
+            childInput.attachXBTPullProvider(pullProvider);
+            ((XBTChildSerializable) serial).serializeFromXB(childInput);
+        } else {
+            if (childHandler != null) {
+                childHandler.joinRead(serial);
+            } else {
+                throw new XBProcessingException("Unsupported child serialization", XBProcessingExceptionType.UNKNOWN);
+            }
+        }
     }
 
     @Override

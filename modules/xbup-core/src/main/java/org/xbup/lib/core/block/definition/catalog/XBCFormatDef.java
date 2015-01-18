@@ -21,6 +21,7 @@ import java.util.List;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
+import org.xbup.lib.core.block.definition.XBBlockParam;
 import org.xbup.lib.core.block.definition.XBFormatDef;
 import org.xbup.lib.core.block.definition.XBFormatParam;
 import org.xbup.lib.core.block.definition.XBFormatParamConsist;
@@ -37,7 +38,7 @@ import org.xbup.lib.core.serial.XBSerializable;
 /**
  * XBUP level 1 block definition.
  *
- * @version 0.1.24 2014/12/07
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCFormatDef implements XBFormatDef, XBSerializable {
@@ -56,17 +57,9 @@ public class XBCFormatDef implements XBFormatDef, XBSerializable {
         List<XBFormatParam> resultList = new ArrayList<>();
         List<XBCSpecDef> specDefs = specService.getSpecDefs(formatSpec);
         for (XBCSpecDef specDef : specDefs) {
-            switch (specDef.getType()) {
-                case CONS: {
-                    resultList.add(new XBFormatParamConsist(new XBCGroupDecl((XBCGroupRev) specDef.getTarget(), catalog)));
-                    break;
-                }
-                case JOIN: {
-                    resultList.add(new XBFormatParamJoin(new XBCFormatDecl((XBCFormatRev) specDef.getTarget(), catalog)));
-                    break;
-                }
-            }
+            resultList.add(convertParam(specDef));
         }
+
         return resultList;
     }
 
@@ -78,5 +71,29 @@ public class XBCFormatDef implements XBFormatDef, XBSerializable {
     @Override
     public XBGroupDecl getGroupDecl(int groupId) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBFormatParam getFormatParam(int paramIndex) {
+        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        XBCSpecDef specDef = specService.findSpecDefByXB(formatSpec, paramIndex);
+        if (specDef == null) {
+            return null;
+        }
+
+        return convertParam(specDef);
+    }
+
+    public XBFormatParam convertParam(XBCSpecDef specDef) {
+        switch (specDef.getType()) {
+            case CONS: {
+                return new XBFormatParamConsist(new XBCGroupDecl((XBCGroupRev) specDef.getTarget(), catalog));
+            }
+            case JOIN: {
+                return new XBFormatParamJoin(new XBCFormatDecl((XBCFormatRev) specDef.getTarget(), catalog));
+            }
+        }
+
+        throw new IllegalStateException("Unexpected specification definition type");
     }
 }

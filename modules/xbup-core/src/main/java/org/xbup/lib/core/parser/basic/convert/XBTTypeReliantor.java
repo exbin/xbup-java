@@ -92,9 +92,6 @@ public class XBTTypeReliantor implements XBTFilter {
 
         listener.endXBT();
         counter--;
-        if (counter == 0) {
-            listener.endXBT();
-        }
     }
 
     @Override

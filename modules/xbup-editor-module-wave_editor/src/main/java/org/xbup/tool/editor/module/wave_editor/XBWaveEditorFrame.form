@@ -363,9 +363,6 @@
             <Property name="text" type="java.lang.String" value="File" noResource="true"/>
             <Property name="name" type="java.lang.String" value="fileMenu" noResource="true"/>
           </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-          </AuxValues>
           <SubComponents>
             <MenuItem class="javax.swing.JSeparator" name="jSeparator1">
               <Properties>
@@ -396,9 +393,6 @@
             <Property name="text" type="java.lang.String" value="View"/>
             <Property name="name" type="java.lang.String" value="viewMenu" noResource="true"/>
           </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-          </AuxValues>
           <SubComponents>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator3">
               <Properties>
@@ -572,9 +566,6 @@
             </Property>
             <Property name="name" type="java.lang.String" value="audioMenu" noResource="true"/>
           </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-          </AuxValues>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="audioPlayMenuItem">
               <Properties>
@@ -650,9 +641,6 @@
             </Property>
             <Property name="name" type="java.lang.String" value="toolsMenu" noResource="true"/>
           </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-          </AuxValues>
           <SubComponents>
             <MenuItem class="javax.swing.JRadioButtonMenuItem" name="toolSelectionMenuItem">
               <Properties>
@@ -692,9 +680,6 @@
             </Property>
             <Property name="name" type="java.lang.String" value="optionsMenu" noResource="true"/>
           </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-          </AuxValues>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="optionsColorsMenuItem">
               <Properties>

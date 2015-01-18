@@ -55,7 +55,7 @@ public class XBCFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
     }
 
     @Override
-    public List<XBGroupDecl> getGroups() {
+    public List<XBGroupDecl> getGroupDecls() {
         return formatSpecRev == null ? new ArrayList<XBGroupDecl>() : catalog.getGroups(formatSpecRev.getParent());
     }
 

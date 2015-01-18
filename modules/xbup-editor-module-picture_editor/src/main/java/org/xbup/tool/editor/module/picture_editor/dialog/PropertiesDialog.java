@@ -20,9 +20,9 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 import org.xbup.tool.editor.module.picture_editor.panel.ImagePanel;
 
 /**
- * File Properties Dialog.
+ * File properties dialog.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public class PropertiesDialog extends javax.swing.JDialog {
@@ -52,11 +52,12 @@ public class PropertiesDialog extends javax.swing.JDialog {
         fileNameTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/picture_editor/dialog/resources/PropertiesDialog"); // NOI18N
+        setTitle(bundle.getString("title")); // NOI18N
         setLocationByPlatform(true);
         setModal(true);
         setName("Form"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/picture_editor/dialog/resources/PropertiesDialog"); // NOI18N
         closeButton.setText(bundle.getString("closeButton.text")); // NOI18N
         closeButton.setName("closeButton"); // NOI18N
         closeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -65,7 +66,7 @@ public class PropertiesDialog extends javax.swing.JDialog {
             }
         });
 
-        fileNameLabel.setText(bundle.getString("jLabel1.text")); // NOI18N
+        fileNameLabel.setText(bundle.getString("fileNameLabel.text")); // NOI18N
         fileNameLabel.setName("fileNameLabel"); // NOI18N
 
         fileNameTextField.setEditable(false);

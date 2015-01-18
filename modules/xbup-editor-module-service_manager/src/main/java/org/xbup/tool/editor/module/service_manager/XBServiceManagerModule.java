@@ -26,9 +26,9 @@ import org.xbup.tool.editor.base.api.ModuleManagement;
 import org.xbup.tool.editor.base.api.StatusManagement;
 
 /**
- * Picture Editor Module.
+ * XBUP Service Manager Module.
  *
- * @version 0.1.23 2013/09/26
+ * @version 0.1.24 2013/09/26
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -36,7 +36,6 @@ public class XBServiceManagerModule implements ApplicationModule {
 
     private XBServiceManagerFrame editorFrame;
 
-    /** Constructor */
     public XBServiceManagerModule() {
     }
 
@@ -73,9 +72,7 @@ public class XBServiceManagerModule implements ApplicationModule {
 
     @Override
     public void init(ModuleManagement management) {
-
         editorFrame = new XBServiceManagerFrame();
-
         ServiceManagerPanel activePanel = editorFrame.getActivePanel();
         management.registerPanel(activePanel);
         activePanel.setMenuManagement(management.getMenuManagement());
@@ -91,9 +88,6 @@ public class XBServiceManagerModule implements ApplicationModule {
         editorFrame.setMainFrameManagement(management.getMainFrameManagement());
     }
 
-    /**
-     * @return the editorFrame
-     */
     public XBServiceManagerFrame getEditorFrame() {
         return editorFrame;
     }

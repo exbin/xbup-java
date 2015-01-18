@@ -14,62 +14,58 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.block.declaration.catalog;
+package org.xbup.lib.core.block.declaration.local;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.block.definition.XBBlockDef;
-import org.xbup.lib.core.block.definition.catalog.XBPBlockDef;
-import org.xbup.lib.core.catalog.XBCatalog;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.core.block.declaration.XBGroupDecl;
+import org.xbup.lib.core.block.definition.XBGroupDef;
+import org.xbup.lib.core.block.definition.XBGroupParam;
+import org.xbup.lib.core.block.definition.XBGroupParamConsist;
+import org.xbup.lib.core.block.definition.XBGroupParamJoin;
+import org.xbup.lib.core.block.definition.local.XBLGroupDef;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.sequence.XBSerializationMode;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
-import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * XBUP level 1 block declaration using catalog path.
+ * XBUP level 1 local group declaration.
  *
- * @version 0.1.24 2015/01/05
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
+public class XBLGroupDecl implements XBGroupDecl, XBTSequenceSerializable {
 
-    private long[] catalogPath;
+    private long[] catalogPath = null;
     private int revision;
+    private XBGroupDef groupDef = null;
 
-    public XBPBlockDecl() {
+    public XBLGroupDecl() {
         catalogPath = null;
     }
 
-    public XBPBlockDecl(long[] path) {
-        this(path, 0);
-    }
-
-    public XBPBlockDecl(Long[] path) {
-        this(path, 0);
-    }
-
-    public XBPBlockDecl(long[] path, UBNatural revision) {
-        this(path, revision != null ? revision.getInt() : 0);
-    }
-
-    public XBPBlockDecl(Long[] path, UBNatural revision) {
-        this(path, revision != null ? revision.getInt() : 0);
-    }
-
-    public XBPBlockDecl(long[] path, int revision) {
+    public XBLGroupDecl(long[] path) {
         this.catalogPath = path;
     }
 
-    public XBPBlockDecl(Long[] path, int revision) {
+    public XBLGroupDecl(Long[] path) {
         setCatalogObjectPath(path);
     }
 
+    public XBLGroupDecl(XBLGroupDef groupDef) {
+        this.groupDef = groupDef;
+    }
+
+    public XBLGroupDecl(XBBlockDecl block) {
+        groupDef = new XBLGroupDef(block);
+    }
+    
     private void setCatalogObjectPath(Long[] path) {
         catalogPath = new long[path.length];
         for (int i = 0; i < path.length; i++) {
@@ -78,14 +74,24 @@ public class XBPBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof XBPBlockDecl) {
-            return Arrays.equals(((XBPBlockDecl) obj).catalogPath, catalogPath) && (((XBPBlockDecl) obj).revision == revision);
-        } else if (obj instanceof XBCBlockDecl) {
-            return ((XBCBlockDecl) obj).equals(this);
+    public List<XBBlockDecl> getBlockDecls() {
+        List<XBBlockDecl> blocks = new ArrayList<>();
+        int blocksLimit = getBlocksLimit();
+        for (int paramIndex = 0; paramIndex < blocksLimit; paramIndex++) {
+            XBGroupParam groupParam = groupDef.getGroupParam(paramIndex);
+            if (groupParam instanceof XBGroupParamJoin) {
+                XBGroupDecl groupDecl = ((XBGroupParamJoin) groupParam).getGroupDecl();
+                blocks.addAll(groupDecl.getBlockDecls());
+            } else {
+                blocks.add(((XBGroupParamConsist) groupParam).getBlockDecl());
+            }
         }
 
-        return super.equals(obj);
+        return blocks;
+    }
+    
+    public int getBlocksLimit() {
+        return groupDef.getRevisionDef().getRevisionLimit(revision);
     }
 
     @Override
@@ -94,6 +100,15 @@ public class XBPBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
         hash = 47 * hash + Arrays.hashCode(this.catalogPath);
         hash = 47 * hash + this.revision;
         return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof XBLGroupDecl) {
+            return Arrays.equals(((XBLGroupDecl) obj).catalogPath, catalogPath) && (((XBLGroupDecl) obj).revision == revision);
+        }
+
+        return super.equals(obj);
     }
 
     @Override
@@ -117,23 +132,6 @@ public class XBPBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
         serializationHandler.end();
     }
 
-    public XBCBlockSpec getBlockSpec(XBCatalog catalog) {
-        return (XBCBlockSpec) catalog.findBlockTypeByPath(getCatalogObjectPath(), revision);
-    }
-
-    /**
-     * Gets catalog path as array of Long instances.
-     *
-     * @return the catalogPath
-     */
-    public Long[] getCatalogObjectPath() {
-        Long[] objectPath = new Long[catalogPath.length];
-        for (int i = 0; i < objectPath.length; i++) {
-            objectPath[i] = catalogPath[i];
-        }
-        return objectPath;
-    }
-
     public long[] getCatalogPath() {
         return catalogPath;
     }
@@ -147,13 +145,17 @@ public class XBPBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
     }
 
     @Override
-    public long getRevision() {
-        return revision;
+    public XBGroupDef getGroupDef() {
+        return groupDef;
+    }
+
+    public void setGroupDef(XBGroupDef groupDef) {
+        this.groupDef = groupDef;
     }
 
     @Override
-    public XBBlockDef getBlockDef() {
-        return new XBPBlockDef(catalogPath);
+    public long getRevision() {
+        return revision;
     }
 
     public void setRevision(int revision) {

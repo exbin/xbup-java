@@ -39,7 +39,7 @@ public class XBPropertyTableModel extends AbstractTableModel {
     private final boolean[] columnsEditable = new boolean[]{false, true};
 
     public XBPropertyTableModel() {
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ItemModifyDialog");
+        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ModifyBlockDialog");
         columnNames = new String[]{"Property", "Value"};
         parameters = new ArrayList<>();
     }

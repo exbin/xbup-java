@@ -40,7 +40,7 @@ public interface XBFormatDecl extends XBSerializable {
      *
      * @return list of group declarations
      */
-    public List<XBGroupDecl> getGroups();
+    public List<XBGroupDecl> getGroupDecls();
 
     /**
      * Returns linked revision.

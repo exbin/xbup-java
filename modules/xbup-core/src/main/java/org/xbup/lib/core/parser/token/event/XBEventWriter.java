@@ -47,7 +47,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Basic XBUP level 0 event writer - listener.
  *
- * @version 0.1.23 2014/02/19
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBEventListener {
@@ -93,12 +93,12 @@ public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBE
     }
 
     @Override
-    public void close() throws IOException {
+    public void close() throws XBProcessingException, IOException {
         stream.close();
     }
 
     public void closeXB() throws XBProcessingException, IOException {
-        if (parserState != XBParserState.EOF) {
+        if (parserState != XBParserState.EOF && parserState != XBParserState.EXTENDED_AREA) {
             throw new XBParseException("Unexpected end of stream", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
         }
 

@@ -99,7 +99,7 @@ public class XBListenerWriter implements Closeable, XBListener {
     }
 
     public void closeXB() throws XBProcessingException, IOException {
-        if (parserState != XBParserState.EOF) {
+        if (parserState != XBParserState.EOF && parserState != XBParserState.EXTENDED_AREA) {
             throw new XBParseException("Unexpected end of stream", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
         }
 

@@ -27,9 +27,9 @@ import org.xbup.lib.core.parser.token.event.XBEventWriter;
 import org.xbup.lib.core.stream.XBTokenOutputStream;
 
 /**
- * XBUP Level 0 File Output Stream.
+ * XBUP level 0 file output stream.
  *
- * @version 0.1.24 2015/01/17
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBFileOutputStream extends XBTokenOutputStream {
@@ -53,13 +53,13 @@ public class XBFileOutputStream extends XBTokenOutputStream {
     }
 
     @Override
-    public void putXBToken(XBToken item) throws IOException, XBProcessingException {
-        writer.putXBToken(item);
+    public void putXBToken(XBToken token) throws IOException, XBProcessingException {
+        writer.putXBToken(token);
     }
 
     @Override
     public void close() throws IOException {
-        writer.close();
+        writer.closeXB();
     }
 
     public FileOutputStream getTarget() {

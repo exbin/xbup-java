@@ -39,7 +39,7 @@ public class ParametersTableModel extends AbstractTableModel {
     private final boolean[] columnsEditable = new boolean[]{false, false, false, true};
 
     public ParametersTableModel() {
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ItemModifyDialog");
+        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ModifyBlockDialog");
         columnNames = new String[]{resourceBundle.getString("parametersTableModel.itemOrder"), resourceBundle.getString("parametersTableModel.itemName"), resourceBundle.getString("parametersTableModel.itemType"), resourceBundle.getString("parametersTableModel.itemValue")};
         parameters = new ArrayList<>();
     }

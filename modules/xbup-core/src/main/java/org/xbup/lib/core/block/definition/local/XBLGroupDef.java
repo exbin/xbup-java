@@ -23,33 +23,34 @@ import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.definition.XBGroupParam;
 import org.xbup.lib.core.block.definition.XBGroupParamConsist;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
+import org.xbup.lib.core.block.definition.XBRevisionParam;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**
- * XBUP level 1 group definition.
+ * XBUP level 1 local group definition.
  *
- * @version 0.1.24 2014/12/01
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
-public class XBDGroupDef implements XBSerializable, XBGroupDef {
+public class XBLGroupDef implements XBGroupDef, XBSerializable {
 
-    private List<XBGroupParam> groups = new ArrayList<>();
-    private XBDRevisionDef revisionDef;
+    private List<XBGroupParam> groupParams = new ArrayList<>();
+    private XBLRevisionDef revisionDef;
 
-    public XBDGroupDef() {
+    public XBLGroupDef() {
     }
 
-    public XBDGroupDef(XBBlockDecl block) {
-        groups.add(new XBGroupParamConsist(block));
+    public XBLGroupDef(XBBlockDecl block) {
+        groupParams.add(new XBGroupParamConsist(block));
     }
 
     @Override
     public List<XBGroupParam> getGroupParams() {
-        return groups;
+        return groupParams;
     }
 
     public void setGroups(List<XBGroupParam> groups) {
-        this.groups = groups;
+        this.groupParams = groups;
     }
 
     @Override
@@ -60,5 +61,17 @@ public class XBDGroupDef implements XBSerializable, XBGroupDef {
     @Override
     public XBBlockDecl getBlockDecl(int blockId) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBGroupParam getGroupParam(int paramIndex) {
+        return groupParams.get(paramIndex);
+    }
+
+    public void provideRevision() {
+        revisionDef = new XBLRevisionDef();
+        XBRevisionParam revisionParam = new XBRevisionParam();
+        revisionParam.setLimit(groupParams.size());
+        revisionDef.getRevParams().add(revisionParam);
     }
 }

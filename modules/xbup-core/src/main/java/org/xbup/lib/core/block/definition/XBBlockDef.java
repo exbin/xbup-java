@@ -17,12 +17,11 @@
 package org.xbup.lib.core.block.definition;
 
 import java.util.List;
-import org.xbup.lib.core.block.XBTBlock;
 
 /**
  * XBUP level 1 block definition interface.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBBlockDef {
@@ -35,14 +34,6 @@ public interface XBBlockDef {
     public List<XBBlockParam> getBlockParams();
 
     /**
-     * Gets specific parameter declaration.
-     *
-     * @param index parameter declaration index
-     * @return list of parameters
-     */
-    public XBBlockParam getParamDecl(int index);
-
-    /**
      * Gets count of parameter's declarations.
      *
      * @return count of declarations
@@ -50,26 +41,17 @@ public interface XBBlockDef {
     public long getParamCount();
 
     /**
-     * Gets n-th parameter of the given block.
-     *
-     * @param block block to get parameter from
-     * @param index index of the requested parameter
-     * @return instance of block
-     */
-    public XBTBlock getParameter(XBTBlock block, int index);
-
-    /**
-     * Gets count of parameters defined in given block.
-     *
-     * @param block block to get count of parameters from
-     * @return count of defined parameters
-     */
-    public int getParametersCount(XBTBlock block);
-
-    /**
      * Gets revision definition.
      *
      * @return revision definition
      */
     public XBRevisionDef getRevisionDef();
+
+    /**
+     * Returns block parameter of given index.
+     *
+     * @param paramIndex parameter index
+     * @return block parameter
+     */
+    public XBBlockParam getBlockParam(int paramIndex);
 }

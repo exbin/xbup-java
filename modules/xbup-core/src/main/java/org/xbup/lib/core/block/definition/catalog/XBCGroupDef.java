@@ -37,7 +37,7 @@ import org.xbup.lib.core.serial.XBSerializable;
 /**
  * XBUP level 1 block definition.
  *
- * @version 0.1.24 2014/12/07
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCGroupDef implements XBGroupDef, XBSerializable {
@@ -56,17 +56,9 @@ public class XBCGroupDef implements XBGroupDef, XBSerializable {
         List<XBGroupParam> resultList = new ArrayList<>();
         List<XBCSpecDef> specDefs = specService.getSpecDefs(groupSpec);
         for (XBCSpecDef specDef : specDefs) {
-            switch (specDef.getType()) {
-                case CONS: {
-                    resultList.add(new XBGroupParamConsist(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog)));
-                    break;
-                }
-                case JOIN: {
-                    resultList.add(new XBGroupParamJoin(new XBCGroupDecl((XBCGroupRev) specDef.getTarget(), catalog)));
-                    break;
-                }
-            }
+            resultList.add(convertParam(specDef));
         }
+
         return resultList;
     }
 
@@ -78,5 +70,29 @@ public class XBCGroupDef implements XBGroupDef, XBSerializable {
     @Override
     public XBBlockDecl getBlockDecl(int blockId) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBGroupParam getGroupParam(int paramIndex) {
+        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        XBCSpecDef specDef = specService.findSpecDefByXB(groupSpec, paramIndex);
+        if (specDef == null) {
+            return null;
+        }
+
+        return convertParam(specDef);
+    }
+
+    public XBGroupParam convertParam(XBCSpecDef specDef) {
+        switch (specDef.getType()) {
+            case CONS: {
+                return new XBGroupParamConsist(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
+            }
+            case JOIN: {
+                return new XBGroupParamJoin(new XBCGroupDecl((XBCGroupRev) specDef.getTarget(), catalog));
+            }
+        }
+
+        throw new IllegalStateException("Unexpected specification definition type");
     }
 }

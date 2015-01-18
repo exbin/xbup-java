@@ -23,7 +23,7 @@ import org.xbup.lib.core.serial.XBSerializable;
 /**
  * XBUP level 1 format definition interface.
  *
- * @version 0.1.24 2014/12/07
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBFormatDef extends XBSerializable {
@@ -49,4 +49,12 @@ public interface XBFormatDef extends XBSerializable {
      * @return group declaration
      */
     public XBGroupDecl getGroupDecl(int groupId);
+
+    /**
+     * Returns format parameter of given index.
+     *
+     * @param paramIndex parameter index
+     * @return format parameter
+     */
+    public XBFormatParam getFormatParam(int paramIndex);
 }

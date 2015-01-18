@@ -23,7 +23,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * XBPEditor Color Selection Dialog.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public class ImageResizeDialog extends javax.swing.JDialog {
@@ -64,12 +64,13 @@ public class ImageResizeDialog extends javax.swing.JDialog {
         heightTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/picture_editor/dialog/resources/ImageResizeDialog"); // NOI18N
+        setTitle(bundle.getString("title")); // NOI18N
         setLocationByPlatform(true);
         setModal(true);
         setName("Form"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/picture_editor/dialog/resources/ImageResizeDialog"); // NOI18N
-        cancelButton.setText(bundle.getString("jButton1.text")); // NOI18N
+        cancelButton.setText(bundle.getString("cancelButton.text")); // NOI18N
         cancelButton.setName("cancelButton"); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -77,7 +78,7 @@ public class ImageResizeDialog extends javax.swing.JDialog {
             }
         });
 
-        okButton.setText(bundle.getString("jButton2.text")); // NOI18N
+        okButton.setText(bundle.getString("okButton.text")); // NOI18N
         okButton.setName("okButton"); // NOI18N
         okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,15 +89,15 @@ public class ImageResizeDialog extends javax.swing.JDialog {
         resizeImagePanel.setName("resizeImagePanel"); // NOI18N
         resizeImagePanel.setLayout(new java.awt.GridLayout(1, 0));
 
-        imageSizePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("jPanel2.border.title"))); // NOI18N
+        imageSizePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("imageSizePanel.border.title"))); // NOI18N
         imageSizePanel.setName("imageSizePanel"); // NOI18N
 
-        widthLabel.setText(bundle.getString("jLabel1.text")); // NOI18N
+        widthLabel.setText(bundle.getString("widthLabel.text")); // NOI18N
         widthLabel.setName("widthLabel"); // NOI18N
 
         widthTextField.setName("widthTextField"); // NOI18N
 
-        heightLabel.setText(bundle.getString("jLabel2.text")); // NOI18N
+        heightLabel.setText(bundle.getString("heightLabel.text")); // NOI18N
         heightLabel.setName("heightLabel"); // NOI18N
 
         heightTextField.setName("heightTextField"); // NOI18N

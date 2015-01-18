@@ -18,7 +18,7 @@ package org.xbup.lib.core.block.declaration;
 
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBDBlockType;
-import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
+import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 
 /**
  * Block type defined using block declaration.
@@ -35,11 +35,11 @@ public class XBDeclBlockType implements XBDBlockType {
     }
 
     public XBDeclBlockType(long[] blockTypePath) {
-        this.blockDecl = new XBPBlockDecl(blockTypePath);
+        this.blockDecl = new XBLBlockDecl(blockTypePath);
     }
 
     public XBDeclBlockType(Long[] blockTypePath) {
-        this.blockDecl = new XBPBlockDecl(blockTypePath);
+        this.blockDecl = new XBLBlockDecl(blockTypePath);
     }
 
     @Override

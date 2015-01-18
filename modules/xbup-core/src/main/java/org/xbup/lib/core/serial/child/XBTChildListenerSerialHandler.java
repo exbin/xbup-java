@@ -22,6 +22,7 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBTEmptyBlock;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
@@ -30,7 +31,7 @@ import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.serial.XBSerialException;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBWriteSerialHandler;
+import org.xbup.lib.core.serial.XBTWriteSerialHandler;
 import org.xbup.lib.core.serial.token.XBTTokenOutputSerialHandler;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -45,13 +46,13 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
 
     private XBTEventListener eventListener;
     private XBChildSerialState state;
-    private XBWriteSerialHandler childHandler = null;
+    private XBTWriteSerialHandler childHandler = null;
 
     public XBTChildListenerSerialHandler() {
         state = XBChildSerialState.BLOCK_BEGIN;
     }
 
-    public XBTChildListenerSerialHandler(XBWriteSerialHandler childHandler) {
+    public XBTChildListenerSerialHandler(XBTWriteSerialHandler childHandler) {
         this();
         this.childHandler = childHandler;
     }
@@ -136,7 +137,7 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
             ((XBTChildSerializable) child).serializeToXB(this);
         } else {
             if (childHandler != null) {
-                childHandler.write(child);
+                childHandler.write(child == null ? XBTEmptyBlock.getEmptyBlock() : child);
             } else {
                 throw new XBProcessingException("Unsupported child serialization", XBProcessingExceptionType.UNKNOWN);
             }

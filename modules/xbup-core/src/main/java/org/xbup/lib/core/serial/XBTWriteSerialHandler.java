@@ -14,33 +14,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.block.definition.local;
-
-import java.util.List;
-import org.xbup.lib.core.block.definition.XBRevisionDef;
-import org.xbup.lib.core.block.definition.XBRevisionParam;
-import org.xbup.lib.core.serial.XBSerializable;
+package org.xbup.lib.core.serial;
 
 /**
- * XBUP level 1 group definition.
+ * Interface for XBUP level 1 serialization writting processor.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
-public class XBDRevisionDef implements XBSerializable, XBRevisionDef {
+public interface XBTWriteSerialHandler {
 
-    private List<XBRevisionParam> revs;
+    /**
+     * Writes data to serializable object.
+     *
+     * @param serial serializable object to process
+     */
+    public void write(XBSerializable serial);
 
-    public XBDRevisionDef() {
-    }
-
-    @Override
-    public List<XBRevisionParam> getRevParams() {
-        return revs;
-    }
-
-    @Override
-    public int getRevisionLimit(long revision) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    /**
+     * Writes data to serializable object using JOIN operation.
+     *
+     * @param serial serializable object to process
+     */
+    public void joinWrite(XBSerializable serial);
 }

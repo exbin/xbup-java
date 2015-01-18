@@ -20,11 +20,9 @@ import java.awt.image.BufferedImage;
 import java.awt.image.IndexColorModel;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
-import java.util.List;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
+import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
@@ -35,14 +33,15 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * BufferedImage testing serializer.
  *
- * @version 0.1.24 2014/08/24
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBBufferedImage implements XBTChildSerializable {
 
     private BufferedImage image;
 
-    public static long[] XB_BLOCK_PATH = {0, 4, 0, 0}; // Testing only
+    public static long[] XB_BLOCK_PATH = {0, 4, 0, 0};
+    public static long[] XB_FORMAT_PATH = {1, 4, 0, 1};
 
     public XBBufferedImage() {
         image = null;
@@ -68,10 +67,6 @@ public class XBBufferedImage implements XBTChildSerializable {
         this.image = image;
     }
 
-    public List<XBBlockType> getXBTransTypes() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
         serial.pullBegin();
@@ -87,7 +82,7 @@ public class XBBufferedImage implements XBTChildSerializable {
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
         serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serial.putType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
+        serial.putType(new XBDeclBlockType(new XBLBlockDecl(XB_BLOCK_PATH)));
         WritableRaster raster = image.getRaster();
         serial.putAttribute(new UBNat32(raster.getWidth()));
         serial.putAttribute(new UBNat32(raster.getHeight()));

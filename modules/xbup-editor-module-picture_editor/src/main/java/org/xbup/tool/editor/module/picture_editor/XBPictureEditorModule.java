@@ -20,17 +20,14 @@ import javax.imageio.ImageIO;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.tool.editor.base.api.ApplicationModule;
 import org.xbup.tool.editor.base.api.ApplicationModuleInfo;
-import org.xbup.tool.editor.base.api.BasicMenuType;
 import org.xbup.tool.editor.base.api.FileTypeManagement;
-import org.xbup.tool.editor.base.api.MenuManagement;
-import org.xbup.tool.editor.base.api.MenuPositionMode;
 import org.xbup.tool.editor.base.api.ModuleManagement;
 import org.xbup.tool.editor.base.api.StatusManagement;
 
 /**
  * Picture Editor Module.
  *
- * @version 0.1.22 2013/03/10
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -38,7 +35,6 @@ public class XBPictureEditorModule implements ApplicationModule {
 
     private XBPictureEditorFrame editorFrame;
 
-    /** Constructor */
     public XBPictureEditorModule() {
     }
 
@@ -75,29 +71,18 @@ public class XBPictureEditorModule implements ApplicationModule {
 
     @Override
     public void init(ModuleManagement management) {
-
         editorFrame = new XBPictureEditorFrame();
-
-        management.registerPanel(editorFrame.activePanel);
-
-        // Register menus
-        MenuManagement menuManagement = management.getMenuManagement();
-        menuManagement.extendMenu(editorFrame.fileMenu, BasicMenuType.FILE, MenuPositionMode.PANEL);
-//        menuManagement.extendMenu(editorFrame.editMenu, BasicMenuType.EDIT, MenuPositionMode.PANEL);
-        menuManagement.extendMenu(editorFrame.viewMenu, BasicMenuType.VIEW, MenuPositionMode.PANEL);
-        menuManagement.extendMenu(editorFrame.optionsMenu, BasicMenuType.OPTIONS, MenuPositionMode.PANEL);
-        menuManagement.extendMenu(editorFrame.toolsMenu, BasicMenuType.TOOLS, MenuPositionMode.PANEL);
-        menuManagement.insertMenu(editorFrame.pictMenu, MenuPositionMode.PANEL);
-        menuManagement.insertMainPopupMenu(editorFrame.getPopupMenu(), 0);
+        management.registerPanel(editorFrame.getActivePanel());
+        editorFrame.setMainFrameManagement(management.getMainFrameManagement());
+        editorFrame.setMenuManagement(management.getMenuManagement());
 
         // Register file types
         FileTypeManagement fileTypeManagement = management.getFileTypeManagement();
         fileTypeManagement.addFileType(editorFrame.newXBPFilesFilter());
         String[] formats = ImageIO.getReaderFormatNames();
-        for (int i = 0; i < formats.length; i++) {
-            String ext = formats[i];
+        for (String ext : formats) {
             if (ext.toLowerCase().equals(ext)) {
-               fileTypeManagement.addFileType(new PictureFileType(ext));
+                fileTypeManagement.addFileType(new PictureFileType(ext));
             }
         }
 

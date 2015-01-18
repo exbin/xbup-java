@@ -49,7 +49,7 @@ import org.xbup.lib.core.block.declaration.XBGroupDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
-import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
+import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCBase;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
@@ -219,7 +219,7 @@ public class XBECatalog implements XBCatalog {
             XBENode rootNode = nodeService.getRootNode();
             XBENode basicNode = nodeService.getSubNode(rootNode, 0);
             // XBCFormatDecl formatDecl = new XBCFormatDecl((XBCFormatRev) revService.findRevByXB(specService.findFormatSpecByXB(rootNode, 0),0), this);
-            // XBCGroupDecl groupDecl = (XBCGroupDecl) formatDecl.getGroups().get(0);
+            // XBCGroupDecl groupDecl = (XBCGroupDecl) formatDecl.getBlockDecls().get(0);
             XBCGroupDecl groupDecl = new XBCGroupDecl((XBCGroupRev) revService.findRevByXB(specService.findGroupSpecByXB(basicNode, 0), 0), this);
             rootContext = new XBContext();
             rootContext.setStartFrom(0);
@@ -473,8 +473,8 @@ public class XBECatalog implements XBCatalog {
     }
 
     public Long findBlockIdForGroup(XBGroupDecl group, XBBlockDecl decl) {
-        if (group instanceof XBDGroupDecl) {
-            List<XBBlockDecl> blocks = ((XBDGroupDecl) group).getBlocks();
+        if (group instanceof XBLGroupDecl) {
+            List<XBBlockDecl> blocks = ((XBLGroupDecl) group).getBlockDecls();
             for (int blockId = 0; blockId < blocks.size(); blockId++) {
                 XBBlockDecl block = blocks.get(blockId);
                 if (block.equals(decl)) {
@@ -520,6 +520,7 @@ public class XBECatalog implements XBCatalog {
     @Override
     public XBContext processDeclaration(XBContext parent, XBTPullProvider blockProvider) {
         XBDeclaration declaration = new XBDeclaration(new XBCFormatDecl(null, this));
+        declaration.setHeaderMode(true);
         XBASerialReader serialHandler = new XBASerialReader(blockProvider);
         serialHandler.read(declaration);
 

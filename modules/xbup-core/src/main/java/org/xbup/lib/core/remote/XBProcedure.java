@@ -18,7 +18,7 @@ package org.xbup.lib.core.remote;
 
 import java.io.IOException;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.stream.XBTStreamChecker;
@@ -46,7 +46,7 @@ public interface XBProcedure {
      *
      * @return format declaration
      */
-    public XBDFormatDecl getResultDecl();
+    public XBLFormatDecl getResultDecl();
 
     /**
      * Invocates this procedure.

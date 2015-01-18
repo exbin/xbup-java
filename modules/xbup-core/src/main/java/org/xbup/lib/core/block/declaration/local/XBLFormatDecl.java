@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.block.declaration.catalog;
+package org.xbup.lib.core.block.declaration.local;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,36 +24,72 @@ import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
-import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
 import org.xbup.lib.core.block.definition.XBFormatDef;
-import org.xbup.lib.core.block.definition.catalog.XBPFormatDef;
+import org.xbup.lib.core.block.definition.XBFormatParam;
+import org.xbup.lib.core.block.definition.XBFormatParamConsist;
+import org.xbup.lib.core.block.definition.XBFormatParamJoin;
+import org.xbup.lib.core.block.definition.local.XBLFormatDef;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.sequence.XBSerializationMode;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 
 /**
- * XBUP level 1 format declaration using catalog path.
+ * XBUP level 1 local format declaration.
  *
- * @version 0.1.24 2014/12/07
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
+public class XBLFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
 
-    private long[] catalogPath;
+    private long[] catalogPath = null;
     private int revision;
-    private XBDFormatDecl formatDecl;
+    private XBFormatDef formatDef = null;
 
-    public XBPFormatDecl() {
+    public XBLFormatDecl() {
         catalogPath = null;
     }
 
-    public XBPFormatDecl(long[] path) {
+    public XBLFormatDecl(long[] path) {
         this.catalogPath = path;
     }
 
-    public XBPFormatDecl(Long[] path) {
+    public XBLFormatDecl(Long[] path) {
         setCatalogObjectPath(path);
+    }
+
+    public XBLFormatDecl(XBFormatDef formatDef) {
+        this.formatDef = formatDef;
+    }
+
+    public XBLFormatDecl(XBGroupDecl groupDecl) {
+        formatDef = new XBLFormatDef(groupDecl);
+    }
+
+    public XBLFormatDecl(long[] path, XBFormatDef formatDef) {
+        catalogPath = path;
+        this.formatDef = formatDef;
+    }
+    
+    @Override
+    public List<XBGroupDecl> getGroupDecls() {
+        List<XBGroupDecl> groups = new ArrayList<>();
+        int blocksLimit = getGroupsLimit();
+        for (int paramIndex = 0; paramIndex < blocksLimit; paramIndex++) {
+            XBFormatParam formatParam = formatDef.getFormatParam(paramIndex);
+            if (formatParam instanceof XBFormatParamJoin) {
+                XBFormatDecl groupDecl = ((XBFormatParamJoin) formatParam).getFormatDecl();
+                groups.addAll(groupDecl.getGroupDecls());
+            } else {
+                groups.add(((XBFormatParamConsist) formatParam).getGroupDecl());
+            }
+        }
+
+        return groups;
+    }
+
+    public int getGroupsLimit() {
+        return formatDef.getRevisionDef().getRevisionLimit(revision);
     }
 
     private void setCatalogObjectPath(Long[] path) {
@@ -73,8 +109,8 @@ public class XBPFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof XBPFormatDecl) {
-            return Arrays.equals(((XBPFormatDecl) obj).catalogPath, catalogPath) && (((XBPFormatDecl) obj).revision == revision);
+        if (obj instanceof XBLFormatDecl) {
+            return Arrays.equals(((XBLFormatDecl) obj).catalogPath, catalogPath) && (((XBLFormatDecl) obj).revision == revision);
         }
 
         return super.equals(obj);
@@ -83,7 +119,7 @@ public class XBPFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
     @Override
     public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin();
-        serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION));
+        serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.FORMAT_DECLARATION));
         if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
             catalogPath = new long[serializationHandler.pullAttribute().getInt()];
             for (int pathPosition = 0; pathPosition < catalogPath.length; pathPosition++) {
@@ -98,6 +134,7 @@ public class XBPFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
 
             serializationHandler.putAttribute(revision);
         }
+        serializationHandler.join(formatDef);
         serializationHandler.end();
     }
 
@@ -113,36 +150,17 @@ public class XBPFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
         setCatalogObjectPath(path);
     }
 
-    public XBDFormatDecl getDefDeclaration() {
-        return formatDecl;
-    }
-
-    public void setDefDeclaration(XBDFormatDecl formatDef) {
-        this.formatDecl = formatDef;
-    }
-
     @Override
     public XBFormatDef getFormatDef() {
-        return new XBPFormatDef(catalogPath);
+        return formatDef;
+    }
+
+    public void setFormatDef(XBFormatDef formatDef) {
+        this.formatDef = formatDef;
     }
 
     @Override
     public long getRevision() {
         return revision;
-    }
-
-    @Override
-    public List<XBGroupDecl> getGroups() {
-        if (formatDecl != null) {
-            return formatDecl.getGroups();
-        } else {
-            int revisionLimit = getFormatDef().getRevisionDef().getRevisionLimit(revision);
-            List<XBGroupDecl> result = new ArrayList<>();
-            for (int groupId = 0; groupId <= revisionLimit; groupId++) {
-                result.add(getFormatDef().getGroupDecl(groupId));
-            }
-
-            return result;
-        }
     }
 }

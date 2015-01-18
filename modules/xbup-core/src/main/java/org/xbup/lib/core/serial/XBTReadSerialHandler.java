@@ -14,37 +14,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.block.declaration;
-
-import java.util.List;
-import org.xbup.lib.core.block.definition.XBGroupDef;
+package org.xbup.lib.core.serial;
 
 /**
- * Group declaration interface, either for catalog or local definition.
+ * Interface for XBUP level 1 serialization reading processor.
  *
- * @version 0.1.24 2015/01/17
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBGroupDecl {
+public interface XBTReadSerialHandler {
 
     /**
-     * Returns linked group definition.
+     * Reads data from serializable object.
      *
-     * @return grouo definition
+     * @param serial serializable object to process
      */
-    public XBGroupDef getGroupDef();
+    public void read(XBSerializable serial);
 
     /**
-     * Returns linked revision.
+     * Reads data from serializable object using JOIN operation.
      *
-     * @return revision
+     * @param serial serializable object to process
      */
-    public long getRevision();
-
-    /**
-     * Returns list of block declarations.
-     *
-     * @return list of block declarations
-     */
-    public List<XBBlockDecl> getBlockDecls();
+    public void joinRead(XBSerializable serial);
 }

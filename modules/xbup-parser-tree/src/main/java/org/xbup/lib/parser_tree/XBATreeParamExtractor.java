@@ -52,7 +52,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Extracting specified parameters from XBUP level 2 blocks.
  *
- * @version 0.1.24 2015/01/10
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener {
@@ -105,7 +105,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
         if (parameterType == null) {
             XBBlockDef blockDef = position.blockDecl.getBlockDef();
             if (blockDef != null) {
-                parameterType = blockDef.getParamDecl(currentParameter);
+                parameterType = blockDef.getBlockParam(currentParameter);
 
                 if (parameterType == null) {
                     throw new XBProcessingException("Unable to process parameter " + currentParameter, XBProcessingExceptionType.UNSUPPORTED);
@@ -345,7 +345,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
         if (parameterType == null) {
             XBBlockDef blockDef = position.blockDecl.getBlockDef();
             if (blockDef != null) {
-                parameterType = blockDef.getParamDecl(currentParameter);
+                parameterType = blockDef.getBlockParam(currentParameter);
                 if (parameterType == null) {
                     throw new XBProcessingException("Unable to process parameter " + currentParameter, XBProcessingExceptionType.UNSUPPORTED);
                 }
@@ -472,7 +472,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
         XBBlockDef blockDef = position.blockDecl.getBlockDef();
 
         if (blockDef != null) {
-            XBBlockParam paramDecl = blockDef.getParamDecl(currentParameter);
+            XBBlockParam paramDecl = blockDef.getBlockParam(currentParameter);
             processingState.blockDecl = (XBCBlockDecl) paramDecl.getBlockDecl();
             parameterInfo.blockDecl = (XBCBlockDecl) paramDecl.getBlockDecl();
             long revision = processingState.blockDecl.getRevision();
@@ -547,7 +547,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
             ProcessingState processingState = processingStates.get(processingStates.size() - 1);
             if (processingState.processingParameter < processingState.parametersCount) {
                 XBBlockDef blockDef = processingState.blockDecl.getBlockDef();
-                XBBlockParam blockParam = blockDef.getParamDecl(processingState.processingParameter);
+                XBBlockParam blockParam = blockDef.getBlockParam(processingState.processingParameter);
                 switch (blockParam.getParamType()) {
                     case CONSIST: {
                         parameterInfo.childCount++;

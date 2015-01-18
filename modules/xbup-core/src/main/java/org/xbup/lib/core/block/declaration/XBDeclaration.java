@@ -20,16 +20,13 @@ import java.io.IOException;
 import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
-import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
-import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
-import org.xbup.lib.core.block.declaration.catalog.XBPFormatDecl;
-import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
-import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
+import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
 import org.xbup.lib.core.catalog.XBCatalog;
-import org.xbup.lib.core.catalog.base.XBCGroupRev;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.serial.sequence.XBSerializationMode;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -37,19 +34,21 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Representation of declaration block.
  *
- * @version 0.1 wr24.0 2014/12/03
+ * @version 0.1 wr24.0 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDeclaration implements XBTSequenceSerializable {
 
-    private XBFormatDecl format;
+    private XBFormatDecl formatDecl;
+    private XBFormatDecl contextFormatDecl = null;
     private XBSerializable rootBlock;
+    private boolean headerMode = false;
 
     private UBNat32 groupsReserved = new UBNat32(0);
     private UBNat32 preserveCount = new UBNat32(0);
 
-    public XBDeclaration(XBFormatDecl format, XBSerializable rootBlock) {
-        this.format = format;
+    public XBDeclaration(XBFormatDecl formatDecl, XBSerializable rootBlock) {
+        this.formatDecl = formatDecl;
         this.rootBlock = rootBlock;
     }
 
@@ -62,7 +61,7 @@ public class XBDeclaration implements XBTSequenceSerializable {
     }
 
     public XBDeclaration(XBGroupDecl group, XBSerializable rootBlock) {
-        this(new XBDFormatDecl(group), rootBlock);
+        this(new XBLFormatDecl(group), rootBlock);
     }
 
     public XBDeclaration(XBBlockDecl blockDecl) {
@@ -70,7 +69,7 @@ public class XBDeclaration implements XBTSequenceSerializable {
     }
 
     public XBDeclaration(XBBlockDecl block, XBSerializable rootNode) {
-        this(new XBDGroupDecl(block), rootNode);
+        this(new XBLGroupDecl(block), rootNode);
     }
 
     public XBContext generateContext(XBCatalog catalog) {
@@ -83,50 +82,23 @@ public class XBDeclaration implements XBTSequenceSerializable {
         context.setStartFrom(preserveCount.getInt() + 1);
         List<XBGroup> groups = context.getGroups();
 
-        if (format instanceof XBDFormatDecl) {
-            XBDFormatDecl formatDecl = (XBDFormatDecl) format;
-            for (int groupIndex = 0; groupIndex < formatDecl.getGroups().size() && groupIndex < formatDecl.getGroupsLimit() && groupIndex < groupsReserved.getInt(); groupIndex++) {
-                XBGroupDecl group = formatDecl.getGroups().get(groupIndex);
-                if (group instanceof XBDGroupDecl) {
-                    groups.add(new XBGroup(((XBDGroupDecl) group).getBlocks()));
-                } else if (group instanceof XBCGroupDecl) {
-                    groups.add(convertCatalogGroup((XBCGroupDecl) group, catalog));
-                }
-            }
-        } else if (format instanceof XBCFormatDecl) {
-            XBCFormatDecl formatDecl = (XBCFormatDecl) format;
-            List<XBGroupDecl> formatGroups = formatDecl.getGroups();
-            for (XBGroupDecl formatGroup : formatGroups) {
-                groups.add(convertCatalogGroup((XBCGroupDecl) formatGroup, catalog));
-            }
-        } else if (format instanceof XBPFormatDecl) {
-            XBPFormatDecl formatDecl = (XBPFormatDecl) format;
-            List<XBGroupDecl> formatGroups = formatDecl.getGroups();
-            for (XBGroupDecl formatGroup : formatGroups) {
-                groups.add(convertCatalogGroup((XBCGroupDecl) formatGroup, catalog));
-            }
+        XBFormatDecl decl = contextFormatDecl != null ? contextFormatDecl : formatDecl;
+        List<XBGroupDecl> formatGroups = decl.getGroupDecls();
+        for (XBGroupDecl formatGroup : formatGroups) {
+            groups.add(convertCatalogGroup(formatGroup, catalog));
         }
 
         return context;
     }
 
-    public static XBGroup convertCatalogGroup(XBCGroupDecl groupDecl, XBCatalog catalog) {
-        if (groupDecl != null) {
-            XBGroup group = new XBGroup();
-            // TODO revision
-            XBCGroupRev groupSpec = ((XBCGroupDecl) groupDecl).getGroupSpec();
-            List<XBBlockDecl> blocks = groupSpec != null ? catalog.getBlocks(groupSpec.getParent()) : null;
-            if (blocks != null) {
-                for (XBBlockDecl block : blocks) {
-                    group.getBlocks().add((XBCBlockDecl) block);
-                }
-            }
-
-            return group;
+    public static XBGroup convertCatalogGroup(XBGroupDecl groupDecl, XBCatalog catalog) {
+        if (groupDecl == null) {
+            return null;
         }
 
-        // TODO Fix this if it is first time and catalog is still loading
-        return null;
+        XBGroup group = new XBGroup();
+        group.getBlocks().addAll(groupDecl.getBlockDecls());
+        return group;
     }
 
     /**
@@ -139,23 +111,25 @@ public class XBDeclaration implements XBTSequenceSerializable {
     }
 
     public XBGroupDecl getGroup(int group) {
+        XBFormatDecl decl = contextFormatDecl != null ? contextFormatDecl : formatDecl;
+
         if (group == 0) {
             return null;
         }
 //        if ((group <= preserveCount)&&(parent != null)) return parent.getGroup(group);
-        if ((group > preserveCount.getInt()) && (group < preserveCount.getInt() + groupsReserved.getInt() + 1) && (format != null)) {
-            if (format instanceof XBDFormatDecl) {
-                if (group - preserveCount.getInt() - 1 >= ((XBDFormatDecl) format).getGroups().size()) {
+        if ((group > preserveCount.getInt()) && (group < preserveCount.getInt() + groupsReserved.getInt() + 1) && (decl != null)) {
+            if (decl instanceof XBLFormatDecl) {
+                if (group - preserveCount.getInt() - 1 >= ((XBLFormatDecl) decl).getGroupDecls().size()) {
                     return null;
                 }
 
-                return ((XBDFormatDecl) format).getGroups().get(group - preserveCount.getInt() - 1);
-            } else if (format instanceof XBCFormatDecl) {
-                if (group - preserveCount.getInt() - 1 >= ((XBCFormatDecl) format).getGroups().size()) {
+                return ((XBLFormatDecl) decl).getGroupDecls().get(group - preserveCount.getInt() - 1);
+            } else if (decl instanceof XBCFormatDecl) {
+                if (group - preserveCount.getInt() - 1 >= ((XBCFormatDecl) decl).getGroupDecls().size()) {
                     return null;
                 }
 
-                return ((XBCFormatDecl) format).getGroups().get(group - preserveCount.getInt() - 1);
+                return ((XBCFormatDecl) decl).getGroupDecls().get(group - preserveCount.getInt() - 1);
             } else {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
@@ -170,19 +144,29 @@ public class XBDeclaration implements XBTSequenceSerializable {
         serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.DECLARATION));
         serializationHandler.attribute(groupsReserved);
         serializationHandler.attribute(preserveCount);
-        serializationHandler.child(format);
-        if (rootBlock != null) {
-            serializationHandler.child(rootBlock);
+        if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
+            // TODO
+            serializationHandler.child(formatDecl);
+            if (!headerMode) {
+                serializationHandler.child(rootBlock);
+            }
+        } else {
+            serializationHandler.child(formatDecl);
+            if (!headerMode) {
+                serializationHandler.child(rootBlock);
+            }
         }
-        serializationHandler.end();
+        if (!headerMode) {
+            serializationHandler.end();
+        }
     }
 
     public XBFormatDecl getFormat() {
-        return format;
+        return formatDecl;
     }
 
     public void setFormat(XBFormatDecl format) {
-        this.format = format;
+        this.formatDecl = format;
     }
 
     public int getGroupsReserved() {
@@ -207,5 +191,26 @@ public class XBDeclaration implements XBTSequenceSerializable {
 
     public void setRootBlock(XBSerializable rootNode) {
         this.rootBlock = rootNode;
+    }
+
+    public XBFormatDecl getContextFormatDecl() {
+        return contextFormatDecl;
+    }
+
+    public void setContextFormatDecl(XBFormatDecl contextFormatDecl) {
+        this.contextFormatDecl = contextFormatDecl;
+    }
+
+    public void realignReservation() {
+        // TODO more safe approach later
+        groupsReserved = new UBNat32(contextFormatDecl != null ? contextFormatDecl.getGroupDecls().size() : formatDecl.getGroupDecls().size());
+    }
+
+    public boolean isHeaderMode() {
+        return headerMode;
+    }
+
+    public void setHeaderMode(boolean headerMode) {
+        this.headerMode = headerMode;
     }
 }

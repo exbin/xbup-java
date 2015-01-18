@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.core.block.declaration.catalog;
 
+import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import java.io.IOException;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
@@ -87,9 +88,9 @@ public class XBCBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
             }
 
             return blockSpecRev.getId().equals(other.blockSpecRev.getId());
-        } else if (obj instanceof XBPBlockDecl) {
+        } else if (obj instanceof XBLBlockDecl) {
             Long[] catalogPath = catalog.getSpecPath(getBlockSpec().getParent());
-            long[] objCatalogPath = ((XBPBlockDecl) obj).getCatalogPath();
+            long[] objCatalogPath = ((XBLBlockDecl) obj).getCatalogPath();
             if (objCatalogPath.length != catalogPath.length) {
                 return false;
             }
@@ -100,7 +101,7 @@ public class XBCBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
                 }
             }
 
-            return blockSpecRev.getXBIndex().equals(((XBPBlockDecl) obj).getRevision());
+            return blockSpecRev.getXBIndex().equals(((XBLBlockDecl) obj).getRevision());
         } else {
             return false;
         }

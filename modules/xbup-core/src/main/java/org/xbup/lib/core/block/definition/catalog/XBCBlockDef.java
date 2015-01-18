@@ -18,7 +18,6 @@ package org.xbup.lib.core.block.definition.catalog;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.block.definition.XBBlockDef;
 import org.xbup.lib.core.block.definition.XBBlockParamJoin;
@@ -37,7 +36,7 @@ import org.xbup.lib.core.serial.XBSerializable;
 /**
  * XBUP level 1 block definition.
  *
- * @version 0.1.24 2015/01/04
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCBlockDef implements XBBlockDef, XBSerializable {
@@ -51,61 +50,12 @@ public class XBCBlockDef implements XBBlockDef, XBSerializable {
     }
 
     @Override
-    public XBTBlock getParameter(XBTBlock block, int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int getParametersCount(XBTBlock block) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBBlockParam getParamDecl(int index) {
-        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
-        XBCSpecDef specDef = specService.findSpecDefByXB(blockSpec, index);
-        if (specDef == null) {
-            return null;
-        }
-
-        switch (specDef.getType()) {
-            case JOIN:
-                return new XBBlockParamJoin(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
-            case CONS:
-                return new XBBlockParamConsist(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
-            case LIST_JOIN:
-                return new XBBlockParamListJoin(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
-            case LIST_CONS:
-                return new XBBlockParamListConsist(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
-        }
-
-        return null;
-    }
-
-    @Override
     public List<XBBlockParam> getBlockParams() {
         List<XBBlockParam> resultList = new ArrayList<>();
         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
         List<XBCSpecDef> specDefs = specService.getSpecDefs(blockSpec);
         for (XBCSpecDef specDef : specDefs) {
-            switch (specDef.getType()) {
-                case CONS: {
-                    resultList.add(new XBBlockParamConsist(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog)));
-                    break;
-                }
-                case JOIN: {
-                    resultList.add(new XBBlockParamJoin(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog)));
-                    break;
-                }
-                case LIST_CONS: {
-                    resultList.add(new XBBlockParamListConsist(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog)));
-                    break;
-                }
-                case LIST_JOIN: {
-                    resultList.add(new XBBlockParamListJoin(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog)));
-                    break;
-                }
-            }
+            resultList.add(convertParam(specDef));
         }
 
         return resultList;
@@ -120,5 +70,39 @@ public class XBCBlockDef implements XBBlockDef, XBSerializable {
     @Override
     public XBRevisionDef getRevisionDef() {
         return new XBCRevisionDef(catalog, blockSpec);
+    }
+
+    @Override
+    public XBBlockParam getBlockParam(int paramIndex) {
+        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        XBCSpecDef specDef = specService.findSpecDefByXB(blockSpec, paramIndex);
+        if (specDef == null) {
+            return null;
+        }
+
+        return convertParam(specDef);
+    }
+
+    public XBBlockParam convertParam(XBCSpecDef specDef) {
+        if (specDef == null) {
+            return null;
+        }
+
+        switch (specDef.getType()) {
+            case CONS: {
+                return new XBBlockParamConsist(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
+            }
+            case JOIN: {
+                return new XBBlockParamJoin(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
+            }
+            case LIST_CONS: {
+                return new XBBlockParamListConsist(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
+            }
+            case LIST_JOIN: {
+                return new XBBlockParamListJoin(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
+            }
+        }
+        
+        throw new IllegalStateException("Unexpected specification definition type");
     }
 }

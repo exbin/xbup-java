@@ -41,7 +41,6 @@ import java.awt.print.PrinterJob;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -56,13 +55,16 @@ import javax.swing.KeyStroke;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
-import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
-import org.xbup.lib.core.block.declaration.XBGroupDecl;
-import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
-import org.xbup.lib.core.block.declaration.catalog.XBPFormatDecl;
-import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
-import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
+import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
+import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
+import org.xbup.lib.core.block.definition.XBFormatParam;
+import org.xbup.lib.core.block.definition.XBFormatParamConsist;
+import org.xbup.lib.core.block.definition.XBGroupParam;
+import org.xbup.lib.core.block.definition.XBGroupParamConsist;
+import org.xbup.lib.core.block.definition.local.XBLFormatDef;
+import org.xbup.lib.core.block.definition.local.XBLGroupDef;
 import org.xbup.lib.core.catalog.XBPCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
@@ -72,7 +74,7 @@ import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.serial.XBASerialReader;
-import org.xbup.lib.core.serial.XBASerialWriter;
+import org.xbup.lib.core.serial.XBTSerialWriter;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
@@ -89,7 +91,7 @@ import org.xbup.tool.editor.base.api.FileType;
 /**
  * Image panel for XBPEditor.
  *
- * @version 0.1.24 2014/12/01
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePanel {
@@ -115,9 +117,6 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
     private final ToolMode toolMode;
     private PropertyChangeListener propertyChangeListener;
 
-    /**
-     * Creates new form ImagePanel
-     */
     public ImagePanel() {
         initComponents();
         scaleRatio = 1;
@@ -393,10 +392,14 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         if (XBPictureEditorFrame.XBPFILETYPE.equals(fileType.getFileTypeId())) {
             //XBTChildInputSerialHandler handler = new XBTChildProviderSerialHandler();
             try {
+                if (image == null) {
+                    image = createImage(1, 1);
+                }
+
                 XBASerialReader reader = new XBASerialReader(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName()))));
-                XBDeclaration declaration = new XBDeclaration(new XBCFormatDecl(null, null), new XBBufferedImage(toBufferedImage(image)));
+                XBLFormatDecl formatDecl = new XBLFormatDecl(XBBufferedImage.XB_FORMAT_PATH);
+                XBDeclaration declaration = new XBDeclaration(formatDecl, new XBBufferedImage(toBufferedImage(image)));
                 reader.read(declaration);
-                //getStubXBTDataSerializator().serializeFromXB(handler);
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(ImagePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -415,29 +418,43 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         File file = new File(getFileName());
         if (XBPictureEditorFrame.XBPFILETYPE.equals(fileType.getFileTypeId())) {
             try {
-                XBFileOutputStream output = new XBFileOutputStream(file);
-                XBPFormatDecl formatDecl = new XBPFormatDecl(new long[]{1, 4, 0, 1});
-                XBDFormatDecl defDecl = new XBDFormatDecl();
-                List<XBGroupDecl> groups = defDecl.getGroups();
-                XBDGroupDecl bitmapGroup = new XBDGroupDecl();
-                List<XBBlockDecl> bitmapBlocks = bitmapGroup.getBlocks();
-                //bitmapBlocks.a
-                XBDGroupDecl paletteGroup = new XBDGroupDecl();
+                try (XBFileOutputStream output = new XBFileOutputStream(file)) {
+                    // TODO: Until application will have access to framework, definition is included
+                    // TODO: Alternative is to have this structure stored in file
+                    XBLFormatDef formatDef = new XBLFormatDef();
+                    List<XBFormatParam> groups = formatDef.getFormatParams();
+                    XBLGroupDecl bitmapGroup = new XBLGroupDecl(new XBLGroupDef());
+                    List<XBGroupParam> bitmapBlocks = bitmapGroup.getGroupDef().getGroupParams();
+                    bitmapBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 0, 1})));
+                    bitmapBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 0, 2})));
+                    ((XBLGroupDef) bitmapGroup.getGroupDef()).provideRevision();
+                    XBLGroupDecl paletteGroup = new XBLGroupDecl(new XBLGroupDef());
+                    List<XBGroupParam> paletteBlocks = paletteGroup.getGroupDef().getGroupParams();
+                    paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 1})));
+                    paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 1})));
+                    paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 2})));
+                    paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 3})));
+                    paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 4})));
+                    paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 5})));
+                    paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 6})));
+                    paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 7})));
+                    ((XBLGroupDef) paletteGroup.getGroupDef()).provideRevision();
+                    groups.add(new XBFormatParamConsist(bitmapGroup));
+                    groups.add(new XBFormatParamConsist(paletteGroup));
+                    formatDef.realignRevision();
 
-                formatDecl.setDefDeclaration(defDecl);
-                XBDeclaration declaration = new XBDeclaration(formatDecl, new XBBufferedImage(toBufferedImage(image)));
-                XBPCatalog catalog = new XBPCatalog();
-                XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
-                encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
-                XBASerialWriter writer = new XBASerialWriter(new XBTListenerToEventListener(encapsulator));
-                writer.write(declaration);
-                // getStubXBTDataSerializator().serializeToXB(handler);
-                output.close();
-            } catch (XBProcessingException ex) {
-                Logger.getLogger(ImagePanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(ImagePanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
+                    XBLFormatDecl formatDecl = new XBLFormatDecl(XBBufferedImage.XB_FORMAT_PATH);
+                    XBLFormatDecl contextFormatDecl = new XBLFormatDecl(formatDef);
+                    XBDeclaration declaration = new XBDeclaration(formatDecl, new XBBufferedImage(toBufferedImage(image)));
+                    declaration.setContextFormatDecl(contextFormatDecl);
+                    declaration.realignReservation();
+                    XBPCatalog catalog = new XBPCatalog();
+                    XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
+                    encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
+                    XBTSerialWriter writer = new XBTSerialWriter(new XBTListenerToEventListener(encapsulator));
+                    writer.write(declaration);
+                }
+            } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(ImagePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
@@ -525,6 +542,10 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
     // This method returns a buffered image with the contents of an image
     // From: http://www.exampledepot.com/egs/java.awt.image/Image2Buf.html
     public static BufferedImage toBufferedImage(Image image) {
+        if (image == null) {
+            return null;
+        }
+
         if (image instanceof BufferedImage) {
             return (BufferedImage) image;
         }

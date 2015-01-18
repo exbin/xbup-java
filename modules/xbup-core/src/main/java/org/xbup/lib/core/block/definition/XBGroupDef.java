@@ -22,7 +22,7 @@ import org.xbup.lib.core.block.declaration.XBBlockDecl;
 /**
  * XBUP level 1 group definition interface.
  *
- * @version 0.1.24 2014/12/07
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBGroupDef {
@@ -48,4 +48,12 @@ public interface XBGroupDef {
      * @return block declaration
      */
     public XBBlockDecl getBlockDecl(int blockId);
+
+    /**
+     * Returns group parameter of given index.
+     *
+     * @param paramIndex parameter index
+     * @return group parameter
+     */
+    public XBGroupParam getGroupParam(int paramIndex);
 }

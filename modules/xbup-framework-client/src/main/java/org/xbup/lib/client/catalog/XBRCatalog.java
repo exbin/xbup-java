@@ -32,7 +32,7 @@ import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.XBGroup;
-import org.xbup.lib.core.block.declaration.local.XBDGroupDecl;
+import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
 import org.xbup.lib.core.catalog.base.XBCBase;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCExtension;
@@ -316,8 +316,8 @@ public class XBRCatalog implements XBCatalog {
     }
 
     public Long findBlockIdForGroup(XBGroupDecl group, XBBlockDecl decl) {
-        if (group instanceof XBDGroupDecl) {
-            List<XBBlockDecl> blocks = ((XBDGroupDecl) group).getBlocks();
+        if (group instanceof XBLGroupDecl) {
+            List<XBBlockDecl> blocks = ((XBLGroupDecl) group).getBlockDecls();
             for (int blockId = 0; blockId < blocks.size(); blockId++) {
                 XBBlockDecl block = blocks.get(blockId);
                 if (block.equals(decl)) {

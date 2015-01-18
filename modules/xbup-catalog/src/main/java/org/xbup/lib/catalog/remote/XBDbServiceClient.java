@@ -27,9 +27,9 @@ import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
-import org.xbup.lib.core.block.declaration.catalog.XBPFormatDecl;
-import org.xbup.lib.core.block.declaration.local.XBDFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
+import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.token.XBTToken;
@@ -223,9 +223,9 @@ public class XBDbServiceClient implements XBServiceClient {
 
         public XBServiceContext(XBSerializable rootNode) {
             super();
-            XBDeclaration decl = new XBDeclaration(new XBDFormatDecl());
+            XBDeclaration decl = new XBDeclaration(new XBLFormatDecl());
             decl.setRootBlock(rootNode);
-            decl.setFormat(new XBPFormatDecl(XBSERVICE_FORMAT));
+            decl.setFormat(new XBLFormatDecl(XBSERVICE_FORMAT));
             // setDeclaration(decl);
         }
 
@@ -235,8 +235,8 @@ public class XBDbServiceClient implements XBServiceClient {
             }
             if (type instanceof XBDeclBlockType) {
                 XBBlockDecl blockDecl = ((XBDeclBlockType) type).getBlockDecl();
-                if (blockDecl instanceof XBPBlockDecl) {
-                    Long[] path = ((XBPBlockDecl) blockDecl).getCatalogObjectPath();
+                if (blockDecl instanceof XBLBlockDecl) {
+                    Long[] path = ((XBLBlockDecl) blockDecl).getCatalogObjectPath();
                     if (path.length != 5) {
                         return new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK);
                     } else {

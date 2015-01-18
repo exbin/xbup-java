@@ -35,7 +35,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 group declaration defined by catalog specification.
  *
- * @version 0.1.24 2014/12/05
+ * @version 0.1.24 2015/01/17
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCGroupDecl implements XBGroupDecl, XBTSequenceSerializable {
@@ -48,7 +48,8 @@ public class XBCGroupDecl implements XBGroupDecl, XBTSequenceSerializable {
         this.catalog = catalog;
     }
 
-    public List<XBBlockDecl> getGroups() {
+    @Override
+    public List<XBBlockDecl> getBlockDecls() {
         return catalog.getBlocks(groupSpecRev.getParent());
     }
 

@@ -28,13 +28,13 @@ import org.xbup.tool.editor.base.api.FileTypeManagement;
 /**
  * Manager for file types.
  *
- * @version 0.1.22 2013/03/04
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public class FileTypeManager implements FileTypeManagement {
 
-    private BaseModuleRepository moduleRepository;
-    private Map<String, FileType> fileTypes;
+    private final BaseModuleRepository moduleRepository;
+    private final Map<String, FileType> fileTypes;
     private String fileName;
 
     FileTypeManager(BaseModuleRepository moduleRepository) {
@@ -89,7 +89,7 @@ public class FileTypeManager implements FileTypeManagement {
 
     @Override
     public boolean saveFile() {
-        if (("".equals(getFileName()))||(getFileName() == null)) {
+        if (("".equals(getFileName())) || (getFileName() == null)) {
             return false;
         }
         ApplicationFilePanel panel = (ApplicationFilePanel) moduleRepository.getMainFrame().getActivePanel();
@@ -97,16 +97,10 @@ public class FileTypeManager implements FileTypeManagement {
         return true;
     }
 
-    /**
-     * @return the fileName
-     */
     public String getFileName() {
         return fileName;
     }
 
-    /**
-     * @param fileName the fileName to set
-     */
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
@@ -117,11 +111,11 @@ public class FileTypeManager implements FileTypeManagement {
         ApplicationFilePanel panel;
         panel = (ApplicationFilePanel) moduleRepository.getMainFrame().getActivePanel();
         panel.newFile();
-   }
+    }
 
     @Override
     public String getWindowTitle() {
-         ApplicationFilePanel panel = (ApplicationFilePanel) moduleRepository.getMainFrame().getActivePanel();
-         return panel.getWindowTitle(moduleRepository.getMainFrame().getFrameTitle());
+        ApplicationFilePanel panel = (ApplicationFilePanel) moduleRepository.getMainFrame().getActivePanel();
+        return panel.getWindowTitle(moduleRepository.getMainFrame().getFrameTitle());
     }
 }

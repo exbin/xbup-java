@@ -114,9 +114,12 @@ import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.plugin.XBPluginRepository;
+import org.xbup.tool.editor.base.api.ApplicationPanel;
+import org.xbup.tool.editor.base.api.BasicMenuType;
 import org.xbup.tool.editor.base.api.FileType;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
 import org.xbup.tool.editor.base.api.MenuManagement;
+import org.xbup.tool.editor.base.api.MenuPositionMode;
 import org.xbup.tool.editor.base.api.XBEditorApp;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogEditorPanel;
@@ -135,14 +138,13 @@ import org.xbup.tool.editor.module.xbdoc_editor.panel.XBDocumentPanel;
 /**
  * XBDocEditor Main Frame.
  *
- * @version 0.1.24 2015/01/05
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFrame, TextColorPanelFrame, TextFontPanelFrame {
 
     private static final Preferences preferences = Preferences.userNodeForPackage(XBDocEditorFrame.class);
     private JFileChooser openFC, saveFC;
-//    private ChangeListener caretChangeListener;
 
     private FindTextDialog findDialog = null;
     private GotoDialog gotoDialog = null;
@@ -160,7 +162,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     private MainFrameManagement mainFrameManagement;
     private boolean devMode = false;
 
-    public XBDocumentPanel activePanel;
+    private XBDocumentPanel activePanel;
 
     private Thread catInitThread = null;
 
@@ -621,6 +623,10 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
     void setDevMode(boolean devMode) {
         this.devMode = devMode;
+    }
+
+    public ApplicationPanel getActivePanel() {
+        return activePanel;
     }
 
     private class PropertyChangePassing implements PropertyChangeListener {
@@ -1392,9 +1398,9 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     private JMenuItem editGotoMenuItem;
     private JMenuItem editItemAddMenuItem;
     private JMenuItem editItemModifyMenuItem;
-    public JMenu editMenu;
+    private JMenu editMenu;
     private JPanel emptyPanel;
-    public JMenu fileMenu;
+    private JMenu fileMenu;
     private JMenuItem fileNewCustomMenuItem;
     private JMenuItem fileOpenPicSampleMenuItem;
     private JMenu fileOpenSampleMenu;
@@ -1421,7 +1427,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     private JButton operationStopButton;
     private JMenuItem optionsColorsMenuItem;
     private JMenuItem optionsFontMenuItem;
-    public JMenu optionsMenu;
+    private JMenu optionsMenu;
     private JMenuItem popupItemAddMenuItem;
     private JMenuItem popupItemExportMenuItem;
     private JMenuItem popupItemImportMenuItem;
@@ -1436,12 +1442,12 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     private JLabel textStatusLabel;
     private JToolBar toolBar;
     private JMenuItem toolsCatalogBrowserMenuItem;
-    public JMenu toolsMenu;
+    private JMenu toolsMenu;
     private JRadioButtonMenuItem viewAsHexMenuItem;
     private JRadioButtonMenuItem viewAsTextMenuItem;
     private JRadioButtonMenuItem viewAsTreeMenuItem;
     private ButtonGroup viewAsbuttonGroup;
-    public JMenu viewMenu;
+    private JMenu viewMenu;
     private JCheckBoxMenuItem viewPropertiesCheckBoxMenuItem;
     private JCheckBoxMenuItem viewWordWrapCheckBoxMenuItem;
     // End of variables declaration//GEN-END:variables
@@ -1614,6 +1620,14 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
     public void setMenuManagement(MenuManagement menuManagement) {
         this.menuManagement = menuManagement;
+
+        menuManagement.extendMenu(fileMenu, BasicMenuType.FILE, MenuPositionMode.PANEL);
+        menuManagement.extendMenu(editMenu, BasicMenuType.EDIT, MenuPositionMode.PANEL);
+        menuManagement.extendMenu(viewMenu, BasicMenuType.VIEW, MenuPositionMode.PANEL);
+        menuManagement.extendMenu(optionsMenu, BasicMenuType.OPTIONS, MenuPositionMode.PANEL);
+        menuManagement.extendMenu(toolsMenu, BasicMenuType.TOOLS, MenuPositionMode.PANEL);
+        menuManagement.extendToolBar(toolBar);
+        menuManagement.insertMainPopupMenu(mainPopupMenu, 4);
     }
 
     public void actionViewProperties() {

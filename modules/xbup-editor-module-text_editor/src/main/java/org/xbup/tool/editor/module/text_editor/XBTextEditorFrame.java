@@ -40,6 +40,7 @@ import javax.swing.JToolBar;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
+import org.xbup.tool.editor.base.api.BasicMenuType;
 import org.xbup.tool.editor.module.text_editor.dialog.ManageEncodingsDialog;
 import org.xbup.tool.editor.module.text_editor.dialog.FindTextDialog;
 import org.xbup.tool.editor.module.text_editor.dialog.FontDialog;
@@ -54,12 +55,14 @@ import org.xbup.tool.editor.module.text_editor.panel.TextFontPanelFrame;
 import org.xbup.tool.editor.module.text_editor.panel.TextPanel;
 import org.xbup.tool.editor.base.api.FileType;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
+import org.xbup.tool.editor.base.api.MenuManagement;
+import org.xbup.tool.editor.base.api.MenuPositionMode;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
  * XBTEditor Main Frame.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPanelFrame, TextFontPanelFrame, TextEncodingPanelFrame, TextAppearancePanelFrame {
@@ -110,16 +113,10 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
         activePanel.setPopupMenu(mainPopupMenu);
     }
 
-    /**
-     * @return the activePanel
-     */
     public TextPanel getActivePanel() {
         return activePanel;
     }
 
-    /**
-     * @param mainFrameManagement the mainFrameManagement to set
-     */
     public void setMainFrameManagement(MainFrameManagement mainFrameManagement) {
         this.mainFrameManagement = mainFrameManagement;
 
@@ -593,9 +590,9 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
     private javax.swing.JMenuItem editFindMenuItem;
     private javax.swing.JMenuItem editFindReplaceMenuItem;
     private javax.swing.JMenuItem editGotoMenuItem;
-    public javax.swing.JMenu editMenu;
+    private javax.swing.JMenu editMenu;
     private javax.swing.JLabel encodingLabel;
-    public javax.swing.JMenu fileMenu;
+    private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem filePrintMenuItem;
     private javax.swing.JMenuItem filePropertiesMenuItem;
     private javax.swing.JButton findToolButton;
@@ -610,13 +607,13 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem optionsColorsMenuItem;
     private javax.swing.JMenuItem optionsFontMenuItem;
-    public javax.swing.JMenu optionsMenu;
+    private javax.swing.JMenu optionsMenu;
     private javax.swing.JPanel statusBar;
     private javax.swing.JPanel statusPanel;
     private javax.swing.JToolBar toolBar;
     private javax.swing.JMenu toolsEncodingMenu;
     private javax.swing.JRadioButtonMenuItem utfEncodingRadioButtonMenuItem;
-    public javax.swing.JMenu viewMenu;
+    private javax.swing.JMenu viewMenu;
     private javax.swing.JCheckBoxMenuItem viewWordWrapCheckBoxMenuItem;
     // End of variables declaration//GEN-END:variables
 
@@ -690,6 +687,15 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
         if (viewWordWrapCheckBoxMenuItem.isSelected() != mode) {
             viewWordWrapCheckBoxMenuItem.doClick();
         }
+    }
+
+    void setMenuManagement(MenuManagement menuManagement) {
+        menuManagement.extendMenu(fileMenu, BasicMenuType.FILE, MenuPositionMode.PANEL);
+        menuManagement.extendMenu(editMenu, BasicMenuType.EDIT, MenuPositionMode.PANEL);
+        menuManagement.extendMenu(viewMenu, BasicMenuType.VIEW, MenuPositionMode.PANEL);
+        menuManagement.extendMenu(optionsMenu, BasicMenuType.OPTIONS, MenuPositionMode.PANEL);
+        menuManagement.extendToolBar(toolBar);
+        menuManagement.insertMainPopupMenu(mainPopupMenu, 0);
     }
 
     public class XBTFileType extends FileFilter implements FileType {

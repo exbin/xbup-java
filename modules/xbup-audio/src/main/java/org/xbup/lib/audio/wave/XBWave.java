@@ -29,7 +29,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.block.declaration.catalog.XBPBlockDecl;
+import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
@@ -145,7 +145,7 @@ public class XBWave implements XBTChildSerializable {
 
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.putType(new XBDeclBlockType(new XBPBlockDecl(XB_BLOCK_PATH)));
+        serial.putType(new XBDeclBlockType(new XBLBlockDecl(XB_BLOCK_PATH)));
         serial.putAttribute(new UBNat32((long) audioFormat.getSampleRate()));
         serial.putAttribute(new UBNat32(audioFormat.getSampleSizeInBits()));
         serial.putAttribute(new UBNat32(audioFormat.getChannels()));

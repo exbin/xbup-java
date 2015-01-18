@@ -19,10 +19,7 @@ package org.xbup.tool.editor.module.xbdoc_editor;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.tool.editor.base.api.ApplicationModule;
 import org.xbup.tool.editor.base.api.ApplicationModuleInfo;
-import org.xbup.tool.editor.base.api.BasicMenuType;
 import org.xbup.tool.editor.base.api.FileTypeManagement;
-import org.xbup.tool.editor.base.api.MenuManagement;
-import org.xbup.tool.editor.base.api.MenuPositionMode;
 import org.xbup.tool.editor.base.api.ModuleManagement;
 import org.xbup.tool.editor.base.api.OptionsManagement;
 import org.xbup.tool.editor.base.api.StatusManagement;
@@ -79,19 +76,9 @@ public class XBDocEditorModule implements ApplicationModule {
     @Override
     public void init(ModuleManagement management) {
         editorFrame = new XBDocEditorFrame();
-        management.registerPanel(editorFrame.activePanel);
+        management.registerPanel(editorFrame.getActivePanel());
         editorFrame.setMainFrameManagement(management.getMainFrameManagement());
-
-        // Register menus
-        MenuManagement menuManagement = management.getMenuManagement();
-        editorFrame.setMenuManagement(menuManagement);
-        menuManagement.extendMenu(editorFrame.fileMenu, BasicMenuType.FILE, MenuPositionMode.PANEL);
-        menuManagement.extendMenu(editorFrame.editMenu, BasicMenuType.EDIT, MenuPositionMode.PANEL);
-        menuManagement.extendMenu(editorFrame.viewMenu, BasicMenuType.VIEW, MenuPositionMode.PANEL);
-        menuManagement.extendMenu(editorFrame.optionsMenu, BasicMenuType.OPTIONS, MenuPositionMode.PANEL);
-        menuManagement.extendMenu(editorFrame.toolsMenu, BasicMenuType.TOOLS, MenuPositionMode.PANEL);
-        menuManagement.extendToolBar(editorFrame.getToolBar());
-        menuManagement.insertMainPopupMenu(editorFrame.getPopupMenu(), 4);
+        editorFrame.setMenuManagement(management.getMenuManagement());
 
         // Register file types
         FileTypeManagement fileTypeManagement = management.getFileTypeManagement();

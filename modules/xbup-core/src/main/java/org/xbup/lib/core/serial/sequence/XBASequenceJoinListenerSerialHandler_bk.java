@@ -25,8 +25,6 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.child.XBAChildListener;
-import org.xbup.lib.core.serial.child.XBTChildListener;
-import org.xbup.lib.core.serial.token.XBTTokenOutputSerialHandler;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
@@ -37,12 +35,12 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTSequenceJoinListenerSerialHandler implements XBTSequenceSerialHandler, XBTSequenceOutputSerialHandler, XBTSerialSequenceable, XBTTokenOutputSerialHandler {
+public class XBASequenceJoinListenerSerialHandler_bk implements XBASequenceSerialHandler, XBASequenceOutputSerialHandler, XBASerialSequenceable {
 
-    private final XBTChildListener serial;
+    private final XBAChildListener serial;
     private final List<XBSerializable> params;
 
-    public XBTSequenceJoinListenerSerialHandler(XBAChildListener serial, List<XBSerializable> params) {
+    public XBASequenceJoinListenerSerialHandler_bk(XBAChildListener serial, List<XBSerializable> params) {
         this.serial = serial;
         this.params = params;
     }
@@ -217,6 +215,26 @@ public class XBTSequenceJoinListenerSerialHandler implements XBTSequenceSerialHa
 
     @Override
     public void attachXBTEventListener(XBTEventListener listener) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putType(XBBlockType type, XBBlockType targetType) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBBlockType pullMatchingType(XBBlockType blockTypes) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBBlockType pullMatchingType(List<XBBlockType> blockTypes) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBSerializable pullNullJoin(XBSerializable serial) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

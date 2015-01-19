@@ -30,9 +30,9 @@ import org.xbup.lib.core.block.definition.XBFormatParamConsist;
 import org.xbup.lib.core.block.definition.XBFormatParamJoin;
 import org.xbup.lib.core.block.definition.local.XBLFormatDef;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.serial.sequence.XBASequenceSerialHandler;
+import org.xbup.lib.core.serial.sequence.XBASequenceSerializable;
 import org.xbup.lib.core.serial.sequence.XBSerializationMode;
-import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
-import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 
 /**
  * XBUP level 1 local format declaration.
@@ -40,7 +40,7 @@ import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
  * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
-public class XBLFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
+public class XBLFormatDecl implements XBFormatDecl, XBASequenceSerializable {
 
     private long[] catalogPath = null;
     private int revision;
@@ -117,7 +117,7 @@ public class XBLFormatDecl implements XBFormatDecl, XBTSequenceSerializable {
     }
 
     @Override
-    public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeXB(XBASequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin();
         serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.FORMAT_DECLARATION));
         if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {

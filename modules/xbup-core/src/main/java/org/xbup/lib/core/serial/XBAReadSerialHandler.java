@@ -14,27 +14,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.serial.sequence;
-
-import java.io.IOException;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.child.XBAChildListener;
-import org.xbup.lib.core.serial.child.XBAChildProvider;
+package org.xbup.lib.core.serial;
 
 /**
- * XBUP level 2 serialization sequence access interface.
+ * Interface for XBUP level 1 serialization reading processor.
  *
- * @version 0.1.24 2015/01/19
+ * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBASerialSequenceable extends XBTSerialSequenceable, XBAChildListener, XBAChildProvider {
+public interface XBAReadSerialHandler {
 
     /**
-     * Performs serialization of child adding both attributes and child blocks.
+     * Reads data from serializable object.
      *
-     * @param child serializable object
-     * @throws java.io.IOException
+     * @param serial serializable object to process
      */
-    public void join(XBSerializable child) throws XBProcessingException, IOException;
+    public void read(XBSerializable serial);
+
+    /**
+     * Reads data from serializable object using JOIN operation.
+     *
+     * @param serial serializable object to process
+     */
+    public void joinRead(XBSerializable serial);
 }

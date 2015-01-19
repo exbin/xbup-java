@@ -25,7 +25,7 @@ import org.xbup.lib.core.serial.XBSerializable;
 /**
  * XBUP level 2 child serialization provider interface.
  *
- * @version 0.1.24 2014/12/06
+ * @version 0.1.24 2015/01/19
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBAChildProvider extends XBTChildProvider {
@@ -49,6 +49,16 @@ public interface XBAChildProvider extends XBTChildProvider {
      * @throws IOException if input/output exception occurs
      */
     public XBBlockType pullMatchingType(List<XBBlockType> blockTypes) throws XBProcessingException, IOException;
+
+
+    /**
+     * Pulls serializable object using join method.
+     *
+     * @param serial serializable block
+     * @throws XBProcessingException if not matching
+     * @throws IOException if input/output exception occurs
+     */
+    public void pullJoin(XBSerializable serial) throws XBProcessingException, IOException;
 
     /**
      * Pulls serializable object using join operation.

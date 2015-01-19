@@ -22,9 +22,11 @@ import java.util.logging.Logger;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullPreLoader;
+import org.xbup.lib.core.serial.child.XBAChildJoinProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBAChildProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBAChildSerializable;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
+import org.xbup.lib.core.serial.sequence.XBASequenceJoinProviderSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBASequenceProviderSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBASequenceSerializable;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
@@ -32,10 +34,10 @@ import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 /**
  * XBUP level 2 serialization object from stream writer.
  *
- * @version 0.1.24 2015/01/18
+ * @version 0.1.24 2015/01/19
  * @author XBUP Project (http://xbup.org)
  */
-public class XBASerialReader extends XBTSerialReader implements XBTReadSerialHandler {
+public class XBASerialReader extends XBTSerialReader implements XBAReadSerialHandler {
 
     public XBASerialReader(XBTPullProvider pullProvider) {
         super(pullProvider instanceof XBTPullPreLoader ? pullProvider : new XBTPullPreLoader(pullProvider));
@@ -43,35 +45,27 @@ public class XBASerialReader extends XBTSerialReader implements XBTReadSerialHan
 
     @Override
     public void read(XBSerializable serial) {
-        if (serial instanceof XBAChildSerializable) {
+        if (serial instanceof XBTChildSerializable || serial instanceof XBAChildSerializable) {
             XBAChildProviderSerialHandler childOutput = new XBAChildProviderSerialHandler(this);
             childOutput.attachXBTPullProvider(pullProvider);
             try {
-                ((XBAChildSerializable) serial).serializeFromXB(childOutput);
+                if (serial instanceof XBAChildSerializable) {
+                    ((XBAChildSerializable) serial).serializeFromXB(childOutput);
+                } else {
+                    ((XBTChildSerializable) serial).serializeFromXB(childOutput);
+                }
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBTSerialReader.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if (serial instanceof XBASequenceSerializable) {
+        } else if (serial instanceof XBTSequenceSerializable || serial instanceof XBASequenceSerializable) {
             XBASequenceProviderSerialHandler childOutput = new XBASequenceProviderSerialHandler(this);
             childOutput.attachXBTPullProvider(pullProvider);
             try {
-                ((XBASequenceSerializable) serial).serializeXB(childOutput);
-            } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBTSerialReader.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else if (serial instanceof XBTChildSerializable) {
-            XBAChildProviderSerialHandler childOutput = new XBAChildProviderSerialHandler(this);
-            childOutput.attachXBTPullProvider(pullProvider);
-            try {
-                ((XBTChildSerializable) serial).serializeFromXB(childOutput);
-            } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBTSerialReader.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else if (serial instanceof XBTSequenceSerializable) {
-            XBASequenceProviderSerialHandler childOutput = new XBASequenceProviderSerialHandler(this);
-            childOutput.attachXBTPullProvider(pullProvider);
-            try {
-                ((XBTSequenceSerializable) serial).serializeXB(childOutput);
+                if (serial instanceof XBASequenceSerializable) {
+                    ((XBASequenceSerializable) serial).serializeXB(childOutput);
+                } else {
+                    ((XBTSequenceSerializable) serial).serializeXB(childOutput);
+                }
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBTSerialReader.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -82,7 +76,33 @@ public class XBASerialReader extends XBTSerialReader implements XBTReadSerialHan
 
     @Override
     public void joinRead(XBSerializable serial) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (serial instanceof XBTChildSerializable || serial instanceof XBAChildSerializable) {
+            XBAChildJoinProviderSerialHandler childOutput = new XBAChildJoinProviderSerialHandler(this);
+            childOutput.attachXBTPullProvider(pullProvider);
+            try {
+                if (serial instanceof XBAChildSerializable) {
+                    ((XBAChildSerializable) serial).serializeFromXB(childOutput);
+                } else {
+                    ((XBTChildSerializable) serial).serializeFromXB(childOutput);
+                }
+            } catch (XBProcessingException | IOException ex) {
+                Logger.getLogger(XBTSerialReader.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (serial instanceof XBTSequenceSerializable || serial instanceof XBASequenceSerializable) {
+            XBASequenceJoinProviderSerialHandler childOutput = new XBASequenceJoinProviderSerialHandler(this);
+            childOutput.attachXBTPullProvider(pullProvider);
+            try {
+                if (serial instanceof XBASequenceSerializable) {
+                    ((XBASequenceSerializable) serial).serializeXB(childOutput);
+                } else {
+                    ((XBTSequenceSerializable) serial).serializeXB(childOutput);
+                }
+            } catch (XBProcessingException | IOException ex) {
+                Logger.getLogger(XBTSerialReader.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            throw new IllegalStateException("Unable to serialize object using JOIN method");
+        }
     }
 
     /**

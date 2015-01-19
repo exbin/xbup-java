@@ -30,11 +30,4 @@ public interface XBTReadSerialHandler {
      * @param serial serializable object to process
      */
     public void read(XBSerializable serial);
-
-    /**
-     * Reads data from serializable object using JOIN operation.
-     *
-     * @param serial serializable object to process
-     */
-    public void joinRead(XBSerializable serial);
 }

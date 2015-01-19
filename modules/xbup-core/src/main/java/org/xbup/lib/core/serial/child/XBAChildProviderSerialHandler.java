@@ -31,9 +31,9 @@ import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullPreLoader;
+import org.xbup.lib.core.serial.XBAReadSerialHandler;
 import org.xbup.lib.core.serial.XBSerialException;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBTReadSerialHandler;
 import org.xbup.lib.core.serial.token.XBTTokenInputSerialHandler;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -48,13 +48,13 @@ public class XBAChildProviderSerialHandler implements XBAChildInputSerialHandler
 
     private XBTPullPreLoader pullProvider;
     private XBChildSerialState state;
-    private XBTReadSerialHandler childHandler = null;
+    private XBAReadSerialHandler childHandler = null;
 
     public XBAChildProviderSerialHandler() {
         state = XBChildSerialState.BLOCK_BEGIN;
     }
 
-    public XBAChildProviderSerialHandler(XBTReadSerialHandler childHandler) {
+    public XBAChildProviderSerialHandler(XBAReadSerialHandler childHandler) {
         this();
         this.childHandler = childHandler;
     }

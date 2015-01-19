@@ -37,22 +37,22 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * XBUP level 1 serialization handler using basic parser mapping to listener.
+ * XBUP level 2 serialization handler using basic parser mapping to listener.
  *
- * @version 0.1.24 2014/12/16
+ * @version 0.1.24 2015/01/19
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandler, XBTTokenOutputSerialHandler {
+public class XBAChildJoinListenerSerialHandler implements XBAChildOutputSerialHandler, XBTTokenOutputSerialHandler {
 
     private XBTEventListener eventListener;
     private XBChildSerialState state;
     private XBTWriteSerialHandler childHandler = null;
 
-    public XBTChildListenerSerialHandler() {
+    public XBAChildJoinListenerSerialHandler() {
         state = XBChildSerialState.BLOCK_BEGIN;
     }
 
-    public XBTChildListenerSerialHandler(XBTWriteSerialHandler childHandler) {
+    public XBAChildJoinListenerSerialHandler(XBTWriteSerialHandler childHandler) {
         this();
         this.childHandler = childHandler;
     }
@@ -89,6 +89,11 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
     }
 
     @Override
+    public void putType(XBBlockType type, XBBlockType targetType) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public void putAttribute(UBNatural attribute) throws XBSerialException, XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
@@ -116,10 +121,10 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
             throw new XBSerialException("Unable to add child after data", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
-        if (child instanceof XBTChildSerializable) {
-            XBTChildListenerSerialHandler childOutput = new XBTChildListenerSerialHandler();
+        if (child instanceof XBAChildSerializable) {
+            XBAChildJoinListenerSerialHandler childOutput = new XBAChildJoinListenerSerialHandler();
             childOutput.attachXBTEventListener(eventListener);
-            ((XBTChildSerializable) child).serializeToXB(childOutput);
+            ((XBAChildSerializable) child).serializeToXB(childOutput);
         } else {
             if (childHandler != null) {
                 childHandler.write(child);
@@ -132,8 +137,16 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
     }
 
     @Override
-    public void putAppend(XBSerializable serial) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void putJoin(XBSerializable child) throws XBProcessingException, IOException {
+        if (child instanceof XBTChildSerializable) {
+            ((XBTChildSerializable) child).serializeToXB(this);
+        } else {
+            if (childHandler != null) {
+                childHandler.write(child == null ? XBTEmptyBlock.getEmptyBlock() : child);
+            } else {
+                throw new XBProcessingException("Unsupported child serialization", XBProcessingExceptionType.UNKNOWN);
+            }
+        }
     }
 
     @Override
@@ -193,5 +206,18 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
     @Override
     public void putAttribute(long attributeValue) throws XBProcessingException, IOException {
         putAttribute(new UBNat32(attributeValue));
+    }
+
+    @Override
+    public void putAppend(XBSerializable child) throws XBProcessingException, IOException {
+        if (child instanceof XBAChildSerializable) {
+            ((XBAChildSerializable) child).serializeToXB(this);
+        } else {
+            if (childHandler != null) {
+                childHandler.write(child);
+            } else {
+                throw new XBProcessingException("Unsupported child serialization", XBProcessingExceptionType.UNKNOWN);
+            }
+        }
     }
 }

@@ -19,14 +19,24 @@ package org.xbup.lib.core.serial.child;
 import java.io.IOException;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * XBUP level 2 child serialization listener interface.
  *
- * @version 0.1.24 2014/12/06
+ * @version 0.1.24 2015/01/19
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBAChildListener extends XBTChildListener {
+
+    /**
+     * Puts serializable object using join method.
+     *
+     * @param serial serializable object
+     * @throws XBProcessingException
+     * @throws IOException
+     */
+    public void putJoin(XBSerializable serial) throws XBProcessingException, IOException;
 
     /**
      * Puts block type and request it to be converted to given type.

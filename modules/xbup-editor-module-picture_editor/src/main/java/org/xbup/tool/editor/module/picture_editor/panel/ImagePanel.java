@@ -74,7 +74,7 @@ import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.serial.XBASerialReader;
-import org.xbup.lib.core.serial.XBTSerialWriter;
+import org.xbup.lib.core.serial.XBASerialWriter;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
@@ -451,7 +451,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                     XBPCatalog catalog = new XBPCatalog();
                     XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
                     encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
-                    XBTSerialWriter writer = new XBTSerialWriter(new XBTListenerToEventListener(encapsulator));
+                    XBASerialWriter writer = new XBASerialWriter(new XBTListenerToEventListener(encapsulator));
                     writer.write(declaration);
                 }
             } catch (XBProcessingException | IOException ex) {

@@ -18,6 +18,7 @@ package org.xbup.lib.core.serial.child;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
@@ -29,6 +30,7 @@ import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
+import org.xbup.lib.core.parser.token.pull.convert.XBTPullPreLoader;
 import org.xbup.lib.core.serial.XBSerialException;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.XBTReadSerialHandler;
@@ -37,29 +39,29 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * XBUP level 1 serialization handler using basic parser mapping to provider.
+ * XBUP level 2 serialization handler using basic parser mapping to provider.
  *
- * @version 0.1.24 2015/01/18
+ * @version 0.1.24 2015/01/19
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler, XBTTokenInputSerialHandler {
+public class XBAChildJoinProviderSerialHandler implements XBAChildInputSerialHandler, XBTTokenInputSerialHandler {
 
-    private XBTPullProvider pullProvider;
+    private XBTPullPreLoader pullProvider;
     private XBChildSerialState state;
     private XBTReadSerialHandler childHandler = null;
 
-    public XBTChildProviderSerialHandler() {
+    public XBAChildJoinProviderSerialHandler() {
         state = XBChildSerialState.BLOCK_BEGIN;
     }
 
-    public XBTChildProviderSerialHandler(XBTReadSerialHandler childHandler) {
+    public XBAChildJoinProviderSerialHandler(XBTReadSerialHandler childHandler) {
         this();
         this.childHandler = childHandler;
     }
 
     @Override
     public void attachXBTPullProvider(XBTPullProvider pullProvider) {
-        this.pullProvider = pullProvider;
+        this.pullProvider = (pullProvider instanceof XBTPullPreLoader ? (XBTPullPreLoader) pullProvider : new XBTPullPreLoader(pullProvider));
     }
 
     @Override
@@ -94,6 +96,21 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
         state = XBChildSerialState.TYPE;
 
         return ((XBTTypeToken) token).getBlockType();
+    }
+
+    @Override
+    public XBBlockType pullMatchingType(XBBlockType blockType) throws XBProcessingException, IOException {
+        XBBlockType type = pullType();
+        if (blockType.equals(type)) {
+            return type;
+        }
+
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBBlockType pullMatchingType(List<XBBlockType> blockTypes) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -184,14 +201,32 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
             }
         }
 
-        if (child instanceof XBTChildSerializable) {
+        if (state == XBChildSerialState.ATTRIBUTES) {
+            pullProvider.skipAttributes();
+            if (pullProvider.getNextTokenType() != XBTTokenType.BEGIN) {
+                throw new UnsupportedOperationException("Not supported yet.");
+                // TODO empty blocks throw new XBSerialException("Missing child", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            }
+
             state = XBChildSerialState.CHILDREN;
-            XBTChildProviderSerialHandler childInput = new XBTChildProviderSerialHandler();
-            childInput.attachXBTPullProvider(pullProvider);
-            ((XBTChildSerializable) child).serializeFromXB(childInput);
+        }
+
+        if (childHandler != null) {
+            childHandler.read(child);
+        } else {
+            throw new XBProcessingException("Unsupported child serialization", XBProcessingExceptionType.UNKNOWN);
+        }
+    }
+
+    @Override
+    public void pullAppend(XBSerializable serial) throws XBProcessingException, IOException {
+        if (serial instanceof XBAChildSerializable) {
+            ((XBAChildSerializable) serial).serializeFromXB(this);
+        } else if (serial instanceof XBTChildSerializable) {
+            ((XBTChildSerializable) serial).serializeFromXB(this);
         } else {
             if (childHandler != null) {
-                childHandler.read(child);
+                childHandler.read(serial);
             } else {
                 throw new XBProcessingException("Unsupported child serialization", XBProcessingExceptionType.UNKNOWN);
             }
@@ -199,16 +234,13 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
     }
 
     @Override
-    public void pullAppend(XBSerializable child) throws XBProcessingException, IOException {
-        if (child instanceof XBTChildSerializable) {
-            ((XBTChildSerializable) child).serializeFromXB(this);
-        } else {
-            if (childHandler != null) {
-                childHandler.read(child);
-            } else {
-                throw new XBProcessingException("Unsupported child serialization", XBProcessingExceptionType.UNKNOWN);
-            }
-        }
+    public void pullJoin(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBSerializable pullNullJoin(XBSerializable serial) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -241,6 +273,14 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
     public void pullEnd() throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
+        }
+
+        if (state == XBChildSerialState.ATTRIBUTES) {
+            pullProvider.skipAttributes();
+            state = XBChildSerialState.CHILDREN;
+        }
+        if (state == XBChildSerialState.CHILDREN) {
+            pullProvider.skipChildren();
         }
 
         XBTToken token = pullProvider.pullXBTToken();

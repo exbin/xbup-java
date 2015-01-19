@@ -27,13 +27,13 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
+import org.xbup.lib.core.serial.XBAReadSerialHandler;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.XBTReadSerialHandler;
+import org.xbup.lib.core.serial.child.XBAChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBAChildProvider;
 import org.xbup.lib.core.serial.child.XBAChildProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBAChildSerializable;
 import org.xbup.lib.core.serial.token.XBTTokenInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.core.ubnumber.UBENatural;
 import org.xbup.lib.core.ubnumber.UBNatural;
@@ -49,13 +49,13 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
 public class XBASequenceProviderSerialHandler implements XBASequenceSerialHandler, XBASequenceInputSerialHandler, XBASerialSequenceable, XBTTokenInputSerialHandler {
 
     private final XBAChildProviderSerialHandler provider;
-    private XBTReadSerialHandler childHandler = null;
+    private XBAReadSerialHandler childHandler = null;
 
     public XBASequenceProviderSerialHandler() {
         provider = new XBAChildProviderSerialHandler();
     }
 
-    public XBASequenceProviderSerialHandler(XBTReadSerialHandler childHandler) {
+    public XBASequenceProviderSerialHandler(XBAReadSerialHandler childHandler) {
         provider = new XBAChildProviderSerialHandler(childHandler);
         this.childHandler = childHandler;
     }
@@ -319,7 +319,7 @@ public class XBASequenceProviderSerialHandler implements XBASequenceSerialHandle
         return children;
     }
 
-    private class XBJoinInputStream implements XBTChildInputSerialHandler {
+    private class XBJoinInputStream implements XBAChildInputSerialHandler {
 
         private int depth = 0;
         private final XBAChildProvider serial;
@@ -407,6 +407,21 @@ public class XBASequenceProviderSerialHandler implements XBASequenceSerialHandle
 
         @Override
         public void pullAppend(XBSerializable serial) throws XBProcessingException, IOException {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public XBBlockType pullMatchingType(XBBlockType blockTypes) throws XBProcessingException, IOException {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public XBBlockType pullMatchingType(List<XBBlockType> blockTypes) throws XBProcessingException, IOException {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public XBSerializable pullNullJoin(XBSerializable serial) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
     }

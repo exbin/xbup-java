@@ -17,7 +17,6 @@
 package org.xbup.lib.core.serial.sequence;
 
 import org.xbup.lib.core.serial.child.XBTChildListener;
-import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * @version 0.1.24 2014/12/16
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandler, XBTSequenceOutputSerialHandler, XBTSerialSequenceable, XBTTokenOutputSerialHandler {
+public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandler, XBTSequenceOutputSerialHandler, XBTTokenOutputSerialHandler {
 
     private final XBTChildListenerSerialHandler listener;
     private XBTWriteSerialHandler childHandler = null;
@@ -96,11 +95,6 @@ public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandle
     }
 
     @Override
-    public void join(XBSerializable child) throws XBProcessingException, IOException {
-        putJoin(child);
-    }
-
-    @Override
     public void append(XBSerializable child) throws XBProcessingException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -148,11 +142,6 @@ public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandle
     @Override
     public void putChild(XBSerializable child) throws XBProcessingException, IOException {
         listener.putChild(child);
-    }
-
-    @Override
-    public void putJoin(XBSerializable serial) throws XBProcessingException, IOException {
-        listener.putJoin(serial);
     }
 
     @Override
@@ -211,11 +200,6 @@ public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandle
     }
 
     @Override
-    public void pullJoin(XBSerializable serial) throws XBProcessingException, IOException {
-        throw new XBProcessingException("Pulling data not allowed in pushing mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
-    }
-
-    @Override
     public void pullAppend(XBSerializable serial) throws XBProcessingException, IOException {
         throw new XBProcessingException("Pulling data not allowed in pushing mode", XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
@@ -254,9 +238,10 @@ public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandle
                         // XBSerialMethod serialMethod = item.getItem().getSerializationMethods(XBSerializationType.TO_XB);
                         //if (serialMethod instanceof XBTSerialMethodStream) {
                         if (item.getItem() instanceof XBTChildSerializable) {
-                            XBJoinOutputSerial joinSerial = new XBJoinOutputSerial(serial, params);
-                            joinSerial.attachXBTEventListener(eventListener);
-                            ((XBTChildSerializable) item.getItem()).serializeToXB(joinSerial);
+                            // TODO
+                            /* XBJoinOutputSerial joinSerial = new XBJoinOutputSerial(serial, params);
+                             joinSerial.attachXBTEventListener(eventListener);
+                             ((XBTChildSerializable) item.getItem()).serializeToXB(joinSerial); */
                         } else if (item.getItem() instanceof XBTSequenceSerializable) {
                             XBTSequenceListenerSerialHandler serialHandler = new XBTSequenceListenerSerialHandler();
                             serialHandler.attachXBTEventListener(eventListener);
@@ -292,82 +277,6 @@ public class XBTSequenceListenerSerialHandler implements XBTSequenceSerialHandle
                     break;
                 }
             }
-        }
-    }
-
-    private class XBJoinOutputSerial implements XBTChildOutputSerialHandler, XBTChildListener, XBTTokenOutputSerialHandler {
-
-        private XBTEventListener eventListener;
-        private final XBTChildListener serial;
-        private final List<XBSerializable> params;
-
-        public XBJoinOutputSerial(XBTChildListener serial, List<XBSerializable> params) {
-            this.serial = serial;
-            this.params = params;
-        }
-
-        @Override
-        public void attachXBTEventListener(XBTEventListener listener) {
-            eventListener = listener;
-            // TODO: Unused?
-        }
-
-        @Override
-        public void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-        }
-
-        @Override
-        public void putType(XBBlockType type) throws XBProcessingException, IOException {
-            serial.putType(type);
-        }
-
-        @Override
-        public void putAttribute(UBNatural attr) throws XBProcessingException, IOException {
-            serial.putAttribute(attr);
-        }
-
-        @Override
-        public void putChild(XBSerializable child) throws XBProcessingException, IOException {
-            params.add(child);
-        }
-
-        @Override
-        public void putJoin(XBSerializable serial) throws XBProcessingException, IOException {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public void putAppend(XBSerializable serial) throws XBProcessingException, IOException {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public void putData(InputStream data) throws XBProcessingException, IOException {
-            serial.putData(data);
-        }
-
-        @Override
-        public void putEnd() throws XBProcessingException, IOException {
-        }
-
-        @Override
-        public void putAttribute(byte attributeValue) throws XBProcessingException, IOException {
-            serial.putAttribute(new UBNat32(attributeValue));
-        }
-
-        @Override
-        public void putAttribute(short attributeValue) throws XBProcessingException, IOException {
-            serial.putAttribute(new UBNat32(attributeValue));
-        }
-
-        @Override
-        public void putAttribute(int attributeValue) throws XBProcessingException, IOException {
-            serial.putAttribute(new UBNat32(attributeValue));
-        }
-
-        @Override
-        public void putAttribute(long attributeValue) throws XBProcessingException, IOException {
-            serial.putAttribute(new UBNat32(attributeValue));
         }
     }
 }

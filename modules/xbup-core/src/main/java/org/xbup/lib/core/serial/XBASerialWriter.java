@@ -22,9 +22,11 @@ import java.util.logging.Logger;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTCompactingEventFilter;
+import org.xbup.lib.core.serial.child.XBAChildJoinListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBAChildListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBAChildSerializable;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
+import org.xbup.lib.core.serial.sequence.XBASequenceJoinListenerSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBASequenceListenerSerialHandler;
 import org.xbup.lib.core.serial.sequence.XBASequenceSerializable;
 import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
@@ -32,10 +34,10 @@ import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
 /**
  * XBUP level 2 serialization object to stream writer.
  *
- * @version 0.1.24 2014/12/06
+ * @version 0.1.24 2015/01/19
  * @author XBUP Project (http://xbup.org)
  */
-public class XBASerialWriter extends XBTSerialWriter implements XBTWriteSerialHandler {
+public class XBASerialWriter extends XBTSerialWriter implements XBAWriteSerialHandler {
 
     public XBASerialWriter(XBTEventListener eventListener) {
         super(eventListener instanceof XBTCompactingEventFilter ? eventListener : new XBTCompactingEventFilter(eventListener));
@@ -43,35 +45,27 @@ public class XBASerialWriter extends XBTSerialWriter implements XBTWriteSerialHa
 
     @Override
     public void write(XBSerializable serial) {
-        if (serial instanceof XBAChildSerializable) {
+        if (serial instanceof XBTChildSerializable || serial instanceof XBAChildSerializable) {
             XBAChildListenerSerialHandler childOutput = new XBAChildListenerSerialHandler(this);
             childOutput.attachXBTEventListener(eventListener);
             try {
-                ((XBAChildSerializable) serial).serializeToXB(childOutput);
+                if (serial instanceof XBAChildSerializable) {
+                    ((XBAChildSerializable) serial).serializeToXB(childOutput);
+                } else {
+                    ((XBTChildSerializable) serial).serializeToXB(childOutput);
+                }
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBASerialWriter.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if (serial instanceof XBASequenceSerializable) {
+        } else if (serial instanceof XBTSequenceSerializable || serial instanceof XBASequenceSerializable) {
             XBASequenceListenerSerialHandler childOutput = new XBASequenceListenerSerialHandler(this);
             childOutput.attachXBTEventListener(eventListener);
             try {
-                ((XBASequenceSerializable) serial).serializeXB(childOutput);
-            } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBASerialWriter.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else if (serial instanceof XBTChildSerializable) {
-            XBAChildListenerSerialHandler childOutput = new XBAChildListenerSerialHandler(this);
-            childOutput.attachXBTEventListener(eventListener);
-            try {
-                ((XBTChildSerializable) serial).serializeToXB(childOutput);
-            } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBASerialWriter.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else if (serial instanceof XBTSequenceSerializable) {
-            XBASequenceListenerSerialHandler childOutput = new XBASequenceListenerSerialHandler(this);
-            childOutput.attachXBTEventListener(eventListener);
-            try {
-                ((XBTSequenceSerializable) serial).serializeXB(childOutput);
+                if (serial instanceof XBASequenceSerializable) {
+                    ((XBASequenceSerializable) serial).serializeXB(childOutput);
+                } else {
+                    ((XBTSequenceSerializable) serial).serializeXB(childOutput);
+                }
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBASerialWriter.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -82,7 +76,33 @@ public class XBASerialWriter extends XBTSerialWriter implements XBTWriteSerialHa
 
     @Override
     public void joinWrite(XBSerializable serial) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (serial instanceof XBTChildSerializable || serial instanceof XBAChildSerializable) {
+            XBAChildJoinListenerSerialHandler childOutput = new XBAChildJoinListenerSerialHandler(this);
+            childOutput.attachXBTEventListener(eventListener);
+            try {
+                if (serial instanceof XBAChildSerializable) {
+                    ((XBAChildSerializable) serial).serializeToXB(childOutput);
+                } else {
+                    ((XBTChildSerializable) serial).serializeToXB(childOutput);
+                }
+            } catch (XBProcessingException | IOException ex) {
+                Logger.getLogger(XBASerialWriter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (serial instanceof XBTSequenceSerializable || serial instanceof XBASequenceSerializable) {
+            XBASequenceJoinListenerSerialHandler childOutput = new XBASequenceJoinListenerSerialHandler(this);
+            childOutput.attachXBTEventListener(eventListener);
+            try {
+                if (serial instanceof XBASequenceSerializable) {
+                    ((XBASequenceSerializable) serial).serializeXB(childOutput);
+                } else {
+                    ((XBTSequenceSerializable) serial).serializeXB(childOutput);
+                }
+            } catch (XBProcessingException | IOException ex) {
+                Logger.getLogger(XBASerialWriter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            throw new IllegalStateException("Unable to serialize object using JOIN method");
+        }
     }
 
     /**

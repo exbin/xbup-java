@@ -30,11 +30,4 @@ public interface XBTWriteSerialHandler {
      * @param serial serializable object to process
      */
     public void write(XBSerializable serial);
-
-    /**
-     * Writes data to serializable object using JOIN operation.
-     *
-     * @param serial serializable object to process
-     */
-    public void joinWrite(XBSerializable serial);
 }

@@ -16,25 +16,13 @@
  */
 package org.xbup.lib.core.serial.sequence;
 
-import java.io.IOException;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.child.XBAChildListener;
-import org.xbup.lib.core.serial.child.XBAChildProvider;
-
 /**
- * XBUP level 2 serialization sequence access interface.
+ * Serialization state for JOIN operation.
  *
  * @version 0.1.24 2015/01/19
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBASerialSequenceable extends XBTSerialSequenceable, XBAChildListener, XBAChildProvider {
+public enum XBJoinOperationState {
 
-    /**
-     * Performs serialization of child adding both attributes and child blocks.
-     *
-     * @param child serializable object
-     * @throws java.io.IOException
-     */
-    public void join(XBSerializable child) throws XBProcessingException, IOException;
+    BEGIN, TYPE, CONTENT, END
 }

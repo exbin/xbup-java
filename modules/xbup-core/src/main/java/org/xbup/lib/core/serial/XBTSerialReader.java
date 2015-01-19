@@ -35,7 +35,7 @@ import org.xbup.lib.core.serial.token.XBTTokenSerializable;
 /**
  * XBUP level 1 serialization object from stream reader.
  *
- * @version 0.1.24 2015/01/18
+ * @version 0.1.24 2015/01/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTSerialReader implements XBTReadSerialHandler {
@@ -87,11 +87,6 @@ public class XBTSerialReader implements XBTReadSerialHandler {
         } else {
             throw new UnsupportedOperationException("Serialization method " + serial.getClass().getCanonicalName() + " not supported.");
         }
-    }
-
-    @Override
-    public void joinRead(XBSerializable serial) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**

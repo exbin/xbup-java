@@ -41,7 +41,7 @@ import org.xbup.tool.editor.base.api.ApplicationModule;
 /**
  * The main class of the XBEditor application.
  *
- * @version 0.1.22 2013/03/23
+ * @version 0.1.24 2015/01/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEditor extends XBEditorBase {
@@ -82,7 +82,7 @@ public class XBEditor extends XBEditorBase {
                     // Ignore it in java webstart
                 }
 
-                XBEditorApplication  app = new XBEditorApplication();
+                XBEditorApplication app = new XBEditorApplication();
                 app.setAppMode(true);
                 app.setAppPreferences(preferences);
                 app.setAppBundle(bundle);
@@ -94,12 +94,12 @@ public class XBEditor extends XBEditorBase {
 
                 String catalogConnection = cl.getOptionValue("ip");
                 String port = cl.getOptionValue("port");
-                if ((!"".equals(port))&&(port != null)) {
+                if ((!"".equals(port)) && (port != null)) {
                     catalogConnection += ":" + port;
                 }
 
                 List fileArgs = cl.getArgList();
-                if (fileArgs.size()>0) {
+                if (fileArgs.size() > 0) {
                     app.loadFromFile((String) fileArgs.get(0));
                 }
 
@@ -128,7 +128,8 @@ public class XBEditor extends XBEditorBase {
         public void execute() {
             ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
             ((XBDocEditorModule) module).postWindowOpened();
-            
+
+            module = app.getModuleRepository().getPluginHandler(OnlineHelpModule.class);
             try {
                 if (module instanceof OnlineHelpModule) {
                     ((OnlineHelpModule) module).setHelpUrl(new URL(bundle.getString("online_help_url")));

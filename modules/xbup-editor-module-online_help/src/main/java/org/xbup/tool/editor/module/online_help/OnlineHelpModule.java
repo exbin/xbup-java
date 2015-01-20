@@ -35,7 +35,7 @@ import org.xbup.tool.editor.base.api.utils.BareBonesBrowserLaunch;
 /**
  * JavaOnlineHelp module.
  *
- * @version 0.1.22 2013/03/10
+ * @version 0.1.24 2015/01/20
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -46,7 +46,6 @@ public class OnlineHelpModule implements ApplicationModule {
     private JMenuItem helpOnlineMenuItem;
     private ResourceBundle resourceBundle;
 
-    /** Constructor */
     public OnlineHelpModule() {
         resourceBundle = ResourceBundle.getBundle("org/xbup/tool/editor/module/online_help/resources/OnlineHelpModule");
         try {
@@ -100,19 +99,11 @@ public class OnlineHelpModule implements ApplicationModule {
         management.getMenuManagement().addMenuItem(helpOnlineMenuItem, BasicMenuType.HELP, MenuPositionMode.BEFORE_PANEL);
     }
 
-    /**
-     * @return the helpUrl
-     */
     public URL getHelpUrl() {
         return helpUrl;
     }
 
-    /**
-     * @param helpUrl the helpUrl to set
-     */
     public void setHelpUrl(URL helpUrl) {
         this.helpUrl = helpUrl;
     }
-
-
 }

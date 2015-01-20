@@ -32,7 +32,7 @@ import org.xbup.tool.editor.base.manager.BaseModuleRepository;
 /**
  * Main class for XBEditors.
  *
- * @version 0.1.23 2013/12/12
+ * @version 0.1.24 2015/01/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEditorApplication implements XBEditorApp {
@@ -56,8 +56,8 @@ public class XBEditorApplication implements XBEditorApp {
         return firstCommand;
     }
 
-    public void setFirstCommand(XBAppCommand aFirstCommand) {
-        firstCommand = aFirstCommand;
+    public void setFirstCommand(XBAppCommand firstCommand) {
+        this.firstCommand = firstCommand;
     }
 
     public void prepare() {
@@ -162,7 +162,7 @@ public class XBEditorApplication implements XBEditorApp {
     }
 
     /**
-     * Add plugin to list of plugins.
+     * Add plugin to the list of plugins.
      *
      * @param uri URI to plugin.
      */

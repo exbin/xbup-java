@@ -27,9 +27,9 @@ import org.xbup.lib.core.block.definition.catalog.XBCGroupDef;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCGroupRev;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.sequence.XBSerializationMode;
-import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
-import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBSerializationMode;
+import org.xbup.lib.core.serial.param.XBTSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**

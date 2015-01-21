@@ -71,7 +71,7 @@ import org.xbup.lib.core.block.definition.local.XBLFormatDef;
 import org.xbup.lib.core.block.definition.local.XBLGroupDef;
 import org.xbup.lib.core.catalog.XBPCatalog;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
-import org.xbup.lib.core.serial.XBASerialWriter;
+import org.xbup.lib.core.serial.XBPSerialWriter;
 import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.tool.editor.module.wave_editor.XBWaveEditorFrame;
@@ -510,7 +510,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
                     catalog.setRootContext(declaration.generateContext(catalog));
                     XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
                     encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
-                    XBASerialWriter writer = new XBASerialWriter(new XBTListenerToEventListener(encapsulator));
+                    XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(encapsulator));
                     writer.write(declaration);
                 }
             } catch (IOException ex) {

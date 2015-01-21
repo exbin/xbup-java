@@ -28,8 +28,8 @@ import org.xbup.lib.core.serial.basic.XBTBasicSerializable;
 import org.xbup.lib.core.serial.basic.XBTConsumerSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
-import org.xbup.lib.core.serial.sequence.XBTSequenceListenerSerialHandler;
-import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBTSequenceListenerSerialHandler;
+import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
 import org.xbup.lib.core.serial.token.XBTEventListenerSerialHandler;
 import org.xbup.lib.core.serial.token.XBTTokenSerializable;
 

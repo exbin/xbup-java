@@ -38,7 +38,7 @@ import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
-import org.xbup.lib.core.serial.XBASerialWriter;
+import org.xbup.lib.core.serial.XBPSerialWriter;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.parser_tree.XBTTreeReader;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
@@ -335,7 +335,7 @@ public class AddBlockDialog extends javax.swing.JDialog {
             workNode.setBlockType(contextBlockType);
         } else if (catalogTypeRadioButton.isSelected()) {
             if (generateDeclarationCheckBox.isSelected()) {
-                XBASerialWriter writer = new XBASerialWriter(new XBTListenerToEventListener(new XBTTreeReader(workNode)));
+                XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(new XBTTreeReader(workNode)));
                 XBDeclaration newDeclaration = new XBDeclaration(((XBDBlockType) catalogBlockType).getBlockDecl());
                 writer.write(newDeclaration);
                 XBTTreeNode newNode = new XBTTreeNode();

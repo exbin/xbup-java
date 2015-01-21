@@ -61,8 +61,8 @@ import org.xbup.lib.core.catalog.base.service.XBCXLineService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXPaneService;
 import org.xbup.lib.core.parser.token.pull.convert.XBTProviderToPullProvider;
-import org.xbup.lib.core.serial.XBASerialReader;
-import org.xbup.lib.core.serial.XBASerialWriter;
+import org.xbup.lib.core.serial.XBPSerialReader;
+import org.xbup.lib.core.serial.XBPSerialWriter;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -744,7 +744,7 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
                             lineEditor = getCustomEditor((XBCBlockRev) rowRev, lineService);
                             if (lineEditor != null) {
                                 paramExtractor.setParameterIndex(paramIndex);
-                                XBASerialReader serialReader = new XBASerialReader(paramExtractor);
+                                XBPSerialReader serialReader = new XBPSerialReader(paramExtractor);
                                 serialReader.read(lineEditor);
 
                                 lineEditor.attachChangeListener(new LineEditorChangeListener(lineEditor, paramExtractor, paramIndex));
@@ -773,7 +773,7 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
     }
 
     private void reloadCustomEditor() {
-        XBASerialReader serialReader = new XBASerialReader(new XBTProviderToPullProvider(new XBTTreeWriter(srcNode)));
+        XBPSerialReader serialReader = new XBPSerialReader(new XBTProviderToPullProvider(new XBTTreeWriter(srcNode)));
         serialReader.read((XBSerializable) customPanel);
     }
 
@@ -816,7 +816,7 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
         @Override
         public void valueChanged() {
             paramExtractor.setParameterIndex(parameterIndex);
-            XBASerialWriter serialWriter = new XBASerialWriter(paramExtractor);
+            XBPSerialWriter serialWriter = new XBPSerialWriter(paramExtractor);
             serialWriter.write(lineEditor);
             dataChanged = true;
         }

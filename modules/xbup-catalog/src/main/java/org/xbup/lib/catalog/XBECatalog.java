@@ -70,7 +70,7 @@ import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXInfoService;
 import org.xbup.lib.catalog.update.XBCUpdateHandler;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
-import org.xbup.lib.core.serial.XBASerialReader;
+import org.xbup.lib.core.serial.XBPSerialReader;
 
 /**
  * Basic level 1 catalog class using Java persistence.
@@ -521,7 +521,7 @@ public class XBECatalog implements XBCatalog {
     public XBContext processDeclaration(XBContext parent, XBTPullProvider blockProvider) {
         XBDeclaration declaration = new XBDeclaration(new XBCFormatDecl(null, this));
         declaration.setHeaderMode(true);
-        XBASerialReader serialHandler = new XBASerialReader(blockProvider);
+        XBPSerialReader serialHandler = new XBPSerialReader(blockProvider);
         serialHandler.read(declaration);
 
         XBContext context = declaration.generateContext(this);

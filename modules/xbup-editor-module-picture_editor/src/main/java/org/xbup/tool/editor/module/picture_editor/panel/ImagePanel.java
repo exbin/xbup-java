@@ -73,8 +73,8 @@ import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
-import org.xbup.lib.core.serial.XBASerialReader;
-import org.xbup.lib.core.serial.XBASerialWriter;
+import org.xbup.lib.core.serial.XBPSerialReader;
+import org.xbup.lib.core.serial.XBPSerialWriter;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
@@ -396,7 +396,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                     image = createImage(1, 1);
                 }
 
-                XBASerialReader reader = new XBASerialReader(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName()))));
+                XBPSerialReader reader = new XBPSerialReader(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName()))));
                 XBLFormatDecl formatDecl = new XBLFormatDecl(XBBufferedImage.XB_FORMAT_PATH);
                 XBDeclaration declaration = new XBDeclaration(formatDecl, new XBBufferedImage(toBufferedImage(image)));
                 reader.read(declaration);
@@ -451,7 +451,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                     XBPCatalog catalog = new XBPCatalog();
                     XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
                     encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
-                    XBASerialWriter writer = new XBASerialWriter(new XBTListenerToEventListener(encapsulator));
+                    XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(encapsulator));
                     writer.write(declaration);
                 }
             } catch (XBProcessingException | IOException ex) {

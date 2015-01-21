@@ -30,9 +30,9 @@ import org.xbup.lib.core.block.definition.XBFormatParamConsist;
 import org.xbup.lib.core.block.definition.XBFormatParamJoin;
 import org.xbup.lib.core.block.definition.local.XBLFormatDef;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.sequence.XBASequenceSerialHandler;
-import org.xbup.lib.core.serial.sequence.XBASequenceSerializable;
-import org.xbup.lib.core.serial.sequence.XBSerializationMode;
+import org.xbup.lib.core.serial.param.XBASequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBASequenceSerializable;
+import org.xbup.lib.core.serial.param.XBSerializationMode;
 
 /**
  * XBUP level 1 local format declaration.

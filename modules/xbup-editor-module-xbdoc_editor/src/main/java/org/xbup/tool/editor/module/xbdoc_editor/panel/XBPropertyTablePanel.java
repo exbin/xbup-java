@@ -40,8 +40,8 @@ import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXLineService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.core.serial.XBASerialReader;
-import org.xbup.lib.core.serial.XBASerialWriter;
+import org.xbup.lib.core.serial.XBPSerialReader;
+import org.xbup.lib.core.serial.XBPSerialWriter;
 import org.xbup.lib.parser_tree.XBATreeParamExtractor;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.plugin.XBLineEditor;
@@ -372,7 +372,7 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
                                             lineEditor = getCustomEditor(rowRev);
                                             if (lineEditor != null) {
                                                 paramExtractor.setParameterIndex(parameterIndex);
-                                                XBASerialReader serialReader = new XBASerialReader(paramExtractor);
+                                                XBPSerialReader serialReader = new XBPSerialReader(paramExtractor);
                                                 serialReader.read(lineEditor);
 
                                                 lineEditor.attachChangeListener(new LineEditorChangeListener(lineEditor, paramExtractor, parameterIndex));
@@ -528,7 +528,7 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
         @Override
         public void valueChanged() {
             paramExtractor.setParameterIndex(parameterIndex);
-            XBASerialWriter serialWriter = new XBASerialWriter(paramExtractor);
+            XBPSerialWriter serialWriter = new XBPSerialWriter(paramExtractor);
             serialWriter.write(lineEditor);
         }
     }

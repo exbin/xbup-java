@@ -22,8 +22,8 @@ import java.io.OutputStream;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
-import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
-import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBTSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 

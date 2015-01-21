@@ -30,9 +30,9 @@ import org.xbup.lib.core.block.definition.XBGroupParamConsist;
 import org.xbup.lib.core.block.definition.XBGroupParamJoin;
 import org.xbup.lib.core.block.definition.local.XBLGroupDef;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.sequence.XBSerializationMode;
-import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
-import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBSerializationMode;
+import org.xbup.lib.core.serial.param.XBTSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
 
 /**
  * XBUP level 1 local group declaration.

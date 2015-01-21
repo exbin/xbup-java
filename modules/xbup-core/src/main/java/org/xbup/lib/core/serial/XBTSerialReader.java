@@ -27,15 +27,15 @@ import org.xbup.lib.core.serial.basic.XBTBasicSerializable;
 import org.xbup.lib.core.serial.basic.XBTProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
-import org.xbup.lib.core.serial.sequence.XBTSequenceProviderSerialHandler;
-import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBTSequenceProviderSerialHandler;
+import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
 import org.xbup.lib.core.serial.token.XBTPullProviderSerialHandler;
 import org.xbup.lib.core.serial.token.XBTTokenSerializable;
 
 /**
  * XBUP level 1 serialization object from stream reader.
  *
- * @version 0.1.24 2015/01/19
+ * @version 0.1.24 2015/01/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTSerialReader implements XBTReadSerialHandler {

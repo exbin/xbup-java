@@ -103,7 +103,7 @@ import org.xbup.lib.catalog.entity.service.XBEXLangService;
 import org.xbup.lib.catalog.entity.service.XBEXNameService;
 import org.xbup.lib.catalog.entity.service.XBEXStriService;
 import org.xbup.lib.catalog.update.XBCUpdatePHPHandler;
-import org.xbup.lib.core.serial.sequence.XBTSequenceListenerSerialHandler;
+import org.xbup.lib.core.serial.param.XBTSequenceListenerSerialHandler;
 
 /**
  * XBUP service server.

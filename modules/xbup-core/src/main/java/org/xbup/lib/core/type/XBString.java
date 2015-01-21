@@ -30,8 +30,8 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.child.XBChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBChildSerializable;
-import org.xbup.lib.core.serial.sequence.XBTSequenceSerialHandler;
-import org.xbup.lib.core.serial.sequence.XBTSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBTSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
 import org.xbup.lib.core.util.CopyStreamUtils;
 
 /**

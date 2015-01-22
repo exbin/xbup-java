@@ -16,14 +16,25 @@
  */
 package org.xbup.lib.core.serial.param;
 
-import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
+import java.io.IOException;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.serial.XBSerializable;
 
 /**
- * Interface for XBUP level 2 serialization input handler using basic child
- * serialization.
+ * Interface is providing serialization method for serialization from and into
+ * XBUP level 2 protocol using serialization sequence.
  *
- * @version 0.1.24 2014/12/06
+ * @version 0.1.24 2015/01/22
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBPChildInputSerialHandler extends XBTChildInputSerialHandler, XBPProvider {
+public interface XBPSequenceSerializable extends XBSerializable {
+
+    /**
+     * Performs dual-way serialization to XBUP protocol.
+     *
+     * @param serializationHandler serialization resource
+     * @throws XBProcessingException if proccesing problem encountered
+     * @throws IOException if input/output problem encountered
+     */
+    public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException;
 }

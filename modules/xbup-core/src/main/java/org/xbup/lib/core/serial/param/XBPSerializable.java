@@ -27,7 +27,7 @@ import org.xbup.lib.core.serial.XBSerializable;
  * @version 0.1.24 2014/10/24
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBPChildSerializable extends XBSerializable {
+public interface XBPSerializable extends XBSerializable {
 
     /**
      * Performs serialization from XBUP protocol.
@@ -36,7 +36,7 @@ public interface XBPChildSerializable extends XBSerializable {
      * @throws XBProcessingException if proccesing problem encountered
      * @throws IOException if input/output problem encountered
      */
-    public void serializeFromXB(XBPChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException;
+    public void serializeFromXB(XBPInputSerialHandler serializationHandler) throws XBProcessingException, IOException;
 
     /**
      * Performs serialization to XBUP protocol.
@@ -45,5 +45,5 @@ public interface XBPChildSerializable extends XBSerializable {
      * @throws XBProcessingException if proccesing problem encountered
      * @throws IOException if input/output problem encountered
      */
-    public void serializeToXB(XBPChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException;
+    public void serializeToXB(XBPOutputSerialHandler serializationHandler) throws XBProcessingException, IOException;
 }

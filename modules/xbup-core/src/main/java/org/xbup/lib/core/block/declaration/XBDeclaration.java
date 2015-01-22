@@ -26,9 +26,9 @@ import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.serial.param.XBSerializationMode;
-import org.xbup.lib.core.serial.param.XBTSequenceSerialHandler;
-import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -37,7 +37,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * @version 0.1 wr24.0 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
-public class XBDeclaration implements XBTSequenceSerializable {
+public class XBDeclaration implements XBPSequenceSerializable {
 
     private XBFormatDecl formatDecl;
     private XBFormatDecl contextFormatDecl = null;
@@ -139,21 +139,21 @@ public class XBDeclaration implements XBTSequenceSerializable {
     }
 
     @Override
-    public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin();
         serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.DECLARATION));
         serializationHandler.attribute(groupsReserved);
         serializationHandler.attribute(preserveCount);
         if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
             // TODO
-            serializationHandler.child(formatDecl);
+            serializationHandler.consist(formatDecl);
             if (!headerMode) {
-                serializationHandler.child(rootBlock);
+                serializationHandler.consist(rootBlock);
             }
         } else {
-            serializationHandler.child(formatDecl);
+            serializationHandler.consist(formatDecl);
             if (!headerMode) {
-                serializationHandler.child(rootBlock);
+                serializationHandler.consist(rootBlock);
             }
         }
         if (!headerMode) {

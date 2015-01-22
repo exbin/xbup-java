@@ -16,6 +16,8 @@
  */
 package org.xbup.lib.core.serial.param;
 
+import org.xbup.lib.core.serial.sequence.XBSerialSequence;
+import org.xbup.lib.core.serial.sequence.XBSerialSequenceItem;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -23,6 +25,7 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.token.XBTToken;
+import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
@@ -35,7 +38,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
-public class XBASequenceJoinListenerSerialHandler_bk implements XBASequenceSerialHandler, XBASequenceOutputSerialHandler, XBASerialSequenceable {
+public class XBASequenceJoinListenerSerialHandler_bk implements XBPSequenceSerialHandler, XBASequenceOutputSerialHandler, XBASerialSequenceable {
 
     private final XBPListener serial;
     private final List<XBSerializable> params;
@@ -59,7 +62,6 @@ public class XBASequenceJoinListenerSerialHandler_bk implements XBASequenceSeria
         serial.putAttribute(attr);
     }
 
-    @Override
     public void putChild(XBSerializable child) throws XBProcessingException, IOException {
         params.add(child);
     }
@@ -69,7 +71,6 @@ public class XBASequenceJoinListenerSerialHandler_bk implements XBASequenceSeria
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
     public void putAppend(XBSerializable serial) throws XBProcessingException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -128,7 +129,6 @@ public class XBASequenceJoinListenerSerialHandler_bk implements XBASequenceSeria
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
     public void child(XBSerializable child) throws XBProcessingException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -138,17 +138,14 @@ public class XBASequenceJoinListenerSerialHandler_bk implements XBASequenceSeria
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
     public void append(XBSerializable child) throws XBProcessingException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
     public void matchChild(XBSerializable child) throws XBProcessingException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
     public void appendSequence(XBSerialSequence sequence) throws XBProcessingException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -188,7 +185,6 @@ public class XBASequenceJoinListenerSerialHandler_bk implements XBASequenceSeria
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
     public void pullChild(XBSerializable child) throws XBProcessingException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -198,7 +194,6 @@ public class XBASequenceJoinListenerSerialHandler_bk implements XBASequenceSeria
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
     public void pullAppend(XBSerializable serial) throws XBProcessingException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -243,7 +238,6 @@ public class XBASequenceJoinListenerSerialHandler_bk implements XBASequenceSeria
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
     public XBTToken pullToken() throws XBProcessingException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -265,6 +259,26 @@ public class XBASequenceJoinListenerSerialHandler_bk implements XBASequenceSeria
 
     @Override
     public void pullItem(XBSerialSequenceItem item) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void consist(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void listConsist(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void listJoin(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBTToken pullToken(XBTTokenType tokenType) throws XBProcessingException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

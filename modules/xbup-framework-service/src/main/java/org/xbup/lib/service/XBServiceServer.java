@@ -103,12 +103,12 @@ import org.xbup.lib.catalog.entity.service.XBEXLangService;
 import org.xbup.lib.catalog.entity.service.XBEXNameService;
 import org.xbup.lib.catalog.entity.service.XBEXStriService;
 import org.xbup.lib.catalog.update.XBCUpdatePHPHandler;
-import org.xbup.lib.core.serial.param.XBTSequenceListenerSerialHandler;
+import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
 
 /**
  * XBUP service server.
  *
- * @version 0.1.22 2013/08/31
+ * @version 0.1.24 2015/01/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBServiceServer extends XBTCPRemoteServer {
@@ -1913,7 +1913,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
             result.attribXBT(new UBNat32(0));
             result.attribXBT(new UBNat32(0));
             result.attribXBT(new UBNat32(1));
-            XBTSequenceListenerSerialHandler handler = new XBTSequenceListenerSerialHandler();
+            XBPListenerSerialHandler handler = new XBPListenerSerialHandler();
             handler.attachXBTEventListener(new XBTListenerToEventListener(result));
             text.serializeXB(handler);
 //                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
@@ -2049,7 +2049,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
             result.attribXBT(new UBNat32(0));
             result.attribXBT(new UBNat32(0));
             result.attribXBT(new UBNat32(1));
-            XBTSequenceListenerSerialHandler handler = new XBTSequenceListenerSerialHandler();
+            XBPListenerSerialHandler handler = new XBPListenerSerialHandler();
             handler.attachXBTEventListener(new XBTListenerToEventListener(result));
             text.serializeXB(handler);
 //                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
@@ -2251,7 +2251,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
             result.attribXBT(new UBNat32(0));
             result.attribXBT(new UBNat32(0));
             result.attribXBT(new UBNat32(1));
-            XBTSequenceListenerSerialHandler handler = new XBTSequenceListenerSerialHandler();
+            XBPListenerSerialHandler handler = new XBPListenerSerialHandler();
             handler.attachXBTEventListener(new XBTListenerToEventListener(result));
             text.serializeXB(handler);
 //                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
@@ -2569,7 +2569,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
             result.attribXBT(new UBNat32(0));
             result.attribXBT(new UBNat32(0));
             result.attribXBT(new UBNat32(1));
-            XBTSequenceListenerSerialHandler handler = new XBTSequenceListenerSerialHandler();
+            XBPListenerSerialHandler handler = new XBPListenerSerialHandler();
             handler.attachXBTEventListener(new XBTListenerToEventListener(result));
             text.serializeXB(handler);
 //                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
@@ -3378,7 +3378,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
             result.attribXBT(new UBNat32(0));
             result.attribXBT(new UBNat32(0));
             result.attribXBT(new UBNat32(1));
-            XBTSequenceListenerSerialHandler handler = new XBTSequenceListenerSerialHandler();
+            XBPListenerSerialHandler handler = new XBPListenerSerialHandler();
             handler.attachXBTEventListener(new XBTListenerToEventListener(result));
             text.serializeXB(handler);
 //                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
@@ -3413,7 +3413,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
             result.attribXBT(new UBNat32(0));
             result.attribXBT(new UBNat32(0));
             result.attribXBT(new UBNat32(1));
-            XBTSequenceListenerSerialHandler handler = new XBTSequenceListenerSerialHandler();
+            XBPListenerSerialHandler handler = new XBPListenerSerialHandler();
             handler.attachXBTEventListener(new XBTListenerToEventListener(result));
             text.serializeXB(handler);
 //                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);

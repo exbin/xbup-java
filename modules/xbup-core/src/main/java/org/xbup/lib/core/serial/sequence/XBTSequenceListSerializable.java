@@ -14,38 +14,39 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.serial.param;
+package org.xbup.lib.core.serial.sequence;
 
+import org.xbup.lib.core.serial.sequence.XBListJoinSerializable;
 import java.io.IOException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
-import org.xbup.lib.core.ubnumber.UBENatural;
-import org.xbup.lib.core.ubnumber.type.UBENat32;
+import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * XBUP level 1serialization sequence serializable list.
+ * XBUP level 2 serialization sequence serializable list.
  *
  * @version 0.1.24 2014/10/24
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTSequenceIListSerializable implements XBSerialSequenceIList, XBTChildSerializable {
+public class XBTSequenceListSerializable implements XBListJoinSerializable, XBTChildSerializable {
 
-    private final XBSerialSequenceIList list;
+    private final XBListJoinSerializable list;
 
-    public XBTSequenceIListSerializable(XBSerialSequenceIList list) {
+    public XBTSequenceListSerializable(XBListJoinSerializable list) {
         this.list = list;
     }
 
     @Override
-    public void setSize(UBENatural count) {
+    public void setSize(UBNatural count) {
         list.setSize(count);
     }
 
     @Override
-    public UBENatural getSize() {
+    public UBNatural getSize() {
         return list.getSize();
     }
 
@@ -61,40 +62,19 @@ public class XBTSequenceIListSerializable implements XBSerialSequenceIList, XBTC
 
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-        UBENatural count = getSize();
-        if (count.isInfinity()) {
-            XBSerializable block;
-            do {
-                block = next();
-                // TODO: Handle infinite lists (Process termination by empty data block)
-                serial.pullChild(next());
-            } while (block != null);
-        } else {
-            while (count.getLong() != 0) {
-                serial.pullChild(next());
-                count = new UBENat32(count.getLong() - 1);
-            }
+        UBNatural count = getSize();
+        while (count.getLong() != 0) {
+            serial.pullChild(next());
+            count = new UBNat32(count.getLong() - 1);
         }
     }
 
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-        UBENatural count = getSize();
-        if (count.isInfinity()) {
-            XBSerializable block;
-            do {
-                block = next();
-                if (block == null) {
-                    serial.putChild(block);
-                } else {
-                    serial.putChild(null); // TODO: Add empty block as terminator
-                }
-            } while (block != null);
-        } else {
-            while (count.getLong() != 0) {
-                serial.putChild(next());
-                count = new UBENat32(count.getLong() - 1);
-            }
+        UBNatural count = getSize();
+        while (count.getLong() != 0) {
+            serial.putChild(next());
+            count = new UBNat32(count.getLong() - 1);
         }
     }
 }

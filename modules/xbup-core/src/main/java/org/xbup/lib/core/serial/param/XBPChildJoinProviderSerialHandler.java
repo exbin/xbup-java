@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.core.serial.param;
 
+import org.xbup.lib.core.serial.sequence.XBSerialSequenceItem;
 import java.io.IOException;
 import java.io.InputStream;
 import org.xbup.lib.core.block.XBBlockType;
@@ -45,7 +46,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * @version 0.1.24 2015/01/19
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPChildJoinProviderSerialHandler implements XBPChildInputSerialHandler, XBTTokenInputSerialHandler {
+public class XBPChildJoinProviderSerialHandler implements XBPInputSerialHandler, XBTTokenInputSerialHandler {
 
     private XBTPullPreLoader pullProvider;
     private XBChildSerialState state;
@@ -170,7 +171,6 @@ public class XBPChildJoinProviderSerialHandler implements XBPChildInputSerialHan
         return pullAttribute().getLong();
     }
 
-    @Override
     public void pullChild(XBSerializable child) throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
@@ -204,12 +204,12 @@ public class XBPChildJoinProviderSerialHandler implements XBPChildInputSerialHan
         }
     }
 
-    @Override
     public void pullAppend(XBSerializable serial) throws XBProcessingException, IOException {
-        if (serial instanceof XBPChildSerializable) {
-            ((XBPChildSerializable) serial).serializeFromXB(this);
+        if (serial instanceof XBPSerializable) {
+            ((XBPSerializable) serial).serializeFromXB(this);
         } else if (serial instanceof XBTChildSerializable) {
-            ((XBTChildSerializable) serial).serializeFromXB(this);
+            throw new UnsupportedOperationException("Not supported yet.");
+            // ((XBTChildSerializable) serial).serializeFromXB(this);
         } else {
             if (childHandler != null) {
                 childHandler.read(serial);
@@ -273,7 +273,7 @@ public class XBPChildJoinProviderSerialHandler implements XBPChildInputSerialHan
     }
 
     @Override
-    public XBTToken pullToken() throws XBProcessingException, IOException {
+    public XBTToken pullToken(XBTTokenType tokenType) throws XBProcessingException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -294,6 +294,126 @@ public class XBPChildJoinProviderSerialHandler implements XBPChildInputSerialHan
 
     @Override
     public void pullItem(XBSerialSequenceItem item) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBSerializationMode getSerializationMode() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void begin() throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void matchType(XBBlockType blockType) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void end() throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void attribute(UBNatural attributeValue) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void consist(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void join(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void listConsist(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void listJoin(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putType(XBBlockType type) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putAttribute(UBNatural attribute) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putAttribute(byte attributeValue) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putAttribute(short attributeValue) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putAttribute(int attributeValue) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putAttribute(long attributeValue) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putData(InputStream data) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putEnd() throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putToken(XBTToken token) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putConsist(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putJoin(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putListConsist(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putListJoin(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putItem(XBSerialSequenceItem item) throws XBProcessingException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

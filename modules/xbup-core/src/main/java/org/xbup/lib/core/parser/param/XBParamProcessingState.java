@@ -19,10 +19,10 @@ package org.xbup.lib.core.parser.param;
 /**
  * Enumeration of parameter processing states.
  *
- * @version 0.1.24 2015/01/06
+ * @version 0.1.24 2015/01/22
  * @author XBUP Project (http://xbup.org)
  */
 public enum XBParamProcessingState {
 
-    BEGIN, TYPE, ATTRIBUTES, CHILDREN, END
+    START, BEGIN, TYPE, ATTRIBUTES, DATA, CHILDREN, END
 }

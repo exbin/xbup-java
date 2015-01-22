@@ -14,14 +14,42 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.serial.param;
+package org.xbup.lib.core.serial.sequence;
+
+import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * Interface for XBUP level 2 serialization handler using serialization
- * sequence.
+ * XBUP level 1 serialization list for finite list.
  *
- * @version 0.1.24 2014/12/06
+ * @version 0.1.24 2015/01/22
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBASequenceSerialHandler extends XBTSequenceSerialHandler, XBASerialSequenceable {
+public interface XBListJoinSerializable extends XBSerializable {
+
+    /**
+     * Returns size of the list.
+     *
+     * @return size of list
+     */
+    public UBNatural getSize();
+
+    /**
+     * Sets size of the list.
+     *
+     * @param count
+     */
+    public void setSize(UBNatural count);
+
+    /**
+     * Resets position of the list order.
+     */
+    public void reset();
+
+    /**
+     * Gets next item from the list.
+     *
+     * @return next item
+     */
+    public XBSerializable next();
 }

@@ -14,22 +14,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.parser.param;
+package org.xbup.lib.core.serial.param;
 
 import java.io.IOException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBTToken;
-import org.xbup.lib.core.serial.param.XBPChildInputSerialHandler;
-import org.xbup.lib.core.serial.param.XBPChildOutputSerialHandler;
-import org.xbup.lib.core.serial.param.XBPChildSerializable;
 
 /**
  * Token wrapper for level 2 serialization event.
  *
- * @version 0.1.24 2015/01/21
+ * @version 0.1.24 2015/01/22
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPTokenWrapper implements XBPChildSerializable {
+public class XBPTokenWrapper implements XBPSerializable {
 
     private XBTToken token;
 
@@ -46,12 +43,12 @@ public class XBPTokenWrapper implements XBPChildSerializable {
     }
 
     @Override
-    public void serializeFromXB(XBPChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        token = serializationHandler.pullToken();
+    public void serializeFromXB(XBPInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        token = serializationHandler.pullToken(token.getTokenType());
     }
 
     @Override
-    public void serializeToXB(XBPChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeToXB(XBPOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.putToken(token);
     }
 }

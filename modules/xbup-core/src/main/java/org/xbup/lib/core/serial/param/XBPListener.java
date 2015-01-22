@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.core.serial.param;
 
+import org.xbup.lib.core.serial.sequence.XBSerialSequenceItem;
 import java.io.IOException;
 import java.io.InputStream;
 import org.xbup.lib.core.block.XBBlockTerminationMode;

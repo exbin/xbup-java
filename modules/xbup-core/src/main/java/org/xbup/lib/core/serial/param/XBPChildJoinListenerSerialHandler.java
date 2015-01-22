@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.core.serial.param;
 
+import org.xbup.lib.core.serial.sequence.XBSerialSequenceItem;
 import java.io.IOException;
 import java.io.InputStream;
 import org.xbup.lib.core.block.XBBlockType;
@@ -28,6 +29,7 @@ import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
 import org.xbup.lib.core.parser.token.XBTEndToken;
 import org.xbup.lib.core.parser.token.XBTToken;
+import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.serial.XBSerialException;
@@ -45,7 +47,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * @version 0.1.24 2015/01/19
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPChildJoinListenerSerialHandler implements XBPChildOutputSerialHandler, XBTTokenOutputSerialHandler {
+public class XBPChildJoinListenerSerialHandler implements XBPOutputSerialHandler, XBTTokenOutputSerialHandler {
 
     private XBTEventListener eventListener;
     private XBChildSerialState state;
@@ -118,10 +120,10 @@ public class XBPChildJoinListenerSerialHandler implements XBPChildOutputSerialHa
             throw new XBSerialException("Unable to add child after data", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
-        if (child instanceof XBPChildSerializable) {
+        if (child instanceof XBPSerializable) {
             XBPChildJoinListenerSerialHandler childOutput = new XBPChildJoinListenerSerialHandler();
             childOutput.attachXBTEventListener(eventListener);
-            ((XBPChildSerializable) child).serializeToXB(childOutput);
+            ((XBPSerializable) child).serializeToXB(childOutput);
         } else {
             if (childHandler != null) {
                 childHandler.write(child);
@@ -136,7 +138,7 @@ public class XBPChildJoinListenerSerialHandler implements XBPChildOutputSerialHa
     @Override
     public void putJoin(XBSerializable child) throws XBProcessingException, IOException {
         if (child instanceof XBTChildSerializable) {
-            ((XBPChildSerializable) child).serializeToXB(this);
+            ((XBPSerializable) child).serializeToXB(this);
         } else {
             if (childHandler != null) {
                 childHandler.write(child == null ? XBTEmptyBlock.getEmptyBlock() : child);
@@ -206,8 +208,8 @@ public class XBPChildJoinListenerSerialHandler implements XBPChildOutputSerialHa
     }
 
     public void putAppend(XBSerializable child) throws XBProcessingException, IOException {
-        if (child instanceof XBPChildSerializable) {
-            ((XBPChildSerializable) child).serializeToXB(this);
+        if (child instanceof XBPSerializable) {
+            ((XBPSerializable) child).serializeToXB(this);
         } else {
             if (childHandler != null) {
                 childHandler.write(child);
@@ -333,7 +335,7 @@ public class XBPChildJoinListenerSerialHandler implements XBPChildOutputSerialHa
     }
 
     @Override
-    public XBTToken pullToken() throws XBProcessingException, IOException {
+    public XBTToken pullToken(XBTTokenType tokenType) throws XBProcessingException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

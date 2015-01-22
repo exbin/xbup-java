@@ -30,9 +30,9 @@ import org.xbup.lib.core.block.definition.XBGroupParamConsist;
 import org.xbup.lib.core.block.definition.XBGroupParamJoin;
 import org.xbup.lib.core.block.definition.local.XBLGroupDef;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.serial.param.XBSerializationMode;
-import org.xbup.lib.core.serial.param.XBTSequenceSerialHandler;
-import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
 
 /**
  * XBUP level 1 local group declaration.
@@ -40,7 +40,7 @@ import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
  * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
-public class XBLGroupDecl implements XBGroupDecl, XBTSequenceSerializable {
+public class XBLGroupDecl implements XBGroupDecl, XBPSequenceSerializable {
 
     private long[] catalogPath = null;
     private int revision;
@@ -65,7 +65,7 @@ public class XBLGroupDecl implements XBGroupDecl, XBTSequenceSerializable {
     public XBLGroupDecl(XBBlockDecl block) {
         groupDef = new XBLGroupDef(block);
     }
-    
+
     private void setCatalogObjectPath(Long[] path) {
         catalogPath = new long[path.length];
         for (int i = 0; i < path.length; i++) {
@@ -89,7 +89,7 @@ public class XBLGroupDecl implements XBGroupDecl, XBTSequenceSerializable {
 
         return blocks;
     }
-    
+
     public int getBlocksLimit() {
         return groupDef.getRevisionDef().getRevisionLimit(revision);
     }
@@ -112,7 +112,7 @@ public class XBLGroupDecl implements XBGroupDecl, XBTSequenceSerializable {
     }
 
     @Override
-    public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin();
         serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION));
         if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {

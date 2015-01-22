@@ -14,11 +14,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.serial.param;
+package org.xbup.lib.core.serial.sequence;
 
 import java.io.IOException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.serial.param.XBPInputSerialHandler;
+import org.xbup.lib.core.serial.param.XBPOutputSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSerializable;
 import org.xbup.lib.core.ubnumber.UBENatural;
 
 /**
@@ -27,11 +30,11 @@ import org.xbup.lib.core.ubnumber.UBENatural;
  * @version 0.1.24 2014/11/29
  * @author XBUP Project (http://xbup.org)
  */
-public class XBASequenceIListSerializable implements XBSerialSequenceIList, XBPChildSerializable {
+public class XBASequenceIListSerializable implements XBListConsistSerializable, XBPSerializable {
 
-    private final XBSerialSequenceIList list;
+    private final XBListConsistSerializable list;
 
-    public XBASequenceIListSerializable(XBSerialSequenceIList list) {
+    public XBASequenceIListSerializable(XBListConsistSerializable list) {
         this.list = list;
     }
 
@@ -56,24 +59,24 @@ public class XBASequenceIListSerializable implements XBSerialSequenceIList, XBPC
     }
 
     @Override
-    public void serializeFromXB(XBPChildInputSerialHandler serial) throws XBProcessingException, IOException {
+    public void serializeFromXB(XBPInputSerialHandler serial) throws XBProcessingException, IOException {
         UBENatural count = getSize();
         if (count.isInfinity()) {
             XBSerializable block;
             do {
                 block = next();
                 // TODO: Handle infinite lists (Process termination by empty data block)
-                serial.pullChild(next());
+                // TODO serial.pullChild(next());
             } while (block != null);
         } else {
             for (long i = 0; i < count.getLong(); i++) {
-                serial.pullChild(next());
+                // TODO serial.pullChild(next());
             }
         }
     }
 
     @Override
-    public void serializeToXB(XBPChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+    public void serializeToXB(XBPOutputSerialHandler serial) throws XBProcessingException, IOException {
         UBENatural count = getSize();
         if (count.isInfinity()) {
             XBSerializable block;

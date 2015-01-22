@@ -27,9 +27,9 @@ import org.xbup.lib.core.block.definition.XBFormatParamConsist;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
 import org.xbup.lib.core.block.definition.XBRevisionParam;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.serial.param.XBSerializationMode;
-import org.xbup.lib.core.serial.param.XBTSequenceSerialHandler;
-import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
 
 /**
  * XBUP level 1 local format definition.
@@ -37,7 +37,7 @@ import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
  * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
-public class XBLFormatDef implements XBFormatDef, XBTSequenceSerializable {
+public class XBLFormatDef implements XBFormatDef, XBPSequenceSerializable {
 
     private List<XBFormatParam> formatParams = new ArrayList<>();
     private XBLRevisionDef revisionDef;
@@ -85,7 +85,7 @@ public class XBLFormatDef implements XBFormatDef, XBTSequenceSerializable {
     }
 
     @Override
-    public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin();
         if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
             serializationHandler.pullData();

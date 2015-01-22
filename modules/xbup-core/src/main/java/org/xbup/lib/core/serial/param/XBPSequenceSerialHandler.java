@@ -16,37 +16,14 @@
  */
 package org.xbup.lib.core.serial.param;
 
-import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.serial.XBSerialHandler;
 
 /**
- * XBUP level 1 serialization sequence.
+ * Interface for XBUP level 2 serialization handler using serialization
+ * sequence.
  *
- * @version 0.1.23 2014/03/03
+ * @version 0.1.24 2014/12/06
  * @author XBUP Project (http://xbup.org)
  */
-public class XBSerialSequenceItem {
-
-    private XBSerialSequenceOp sequenceOp;
-    private XBSerializable item;
-
-    public XBSerialSequenceItem(XBSerialSequenceOp sequenceOp, XBSerializable item) {
-        this.sequenceOp = sequenceOp;
-        this.item = item;
-    }
-
-    public XBSerialSequenceOp getSequenceOp() {
-        return sequenceOp;
-    }
-
-    public void setSequenceOp(XBSerialSequenceOp sequenceOp) {
-        this.sequenceOp = sequenceOp;
-    }
-
-    public XBSerializable getItem() {
-        return item;
-    }
-
-    public void setItem(XBSerializable item) {
-        this.item = item;
-    }
+public interface XBPSequenceSerialHandler extends XBSerialHandler, XBPSequencer {
 }

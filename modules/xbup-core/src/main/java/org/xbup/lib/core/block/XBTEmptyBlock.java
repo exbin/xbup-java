@@ -22,9 +22,9 @@ import java.util.List;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.token.XBTEmptyDataToken;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.serial.param.XBSerializationMode;
-import org.xbup.lib.core.serial.param.XBTSequenceSerialHandler;
-import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
@@ -33,7 +33,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTEmptyBlock implements XBTBlock, XBTSequenceSerializable {
+public class XBTEmptyBlock implements XBTBlock, XBPSequenceSerializable {
 
     private static XBTEmptyBlock cachedEmptyBlock = null;
 
@@ -116,7 +116,7 @@ public class XBTEmptyBlock implements XBTBlock, XBTSequenceSerializable {
     }
 
     @Override
-    public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin();
         if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
             InputStream pullData = serializationHandler.pullData();

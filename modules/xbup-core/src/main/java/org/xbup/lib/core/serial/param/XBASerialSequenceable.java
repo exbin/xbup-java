@@ -26,7 +26,7 @@ import org.xbup.lib.core.serial.XBSerializable;
  * @version 0.1.24 2015/01/19
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBASerialSequenceable extends XBPSerialSequenceable, XBPListener, XBPProvider {
+public interface XBASerialSequenceable extends XBPListener, XBPProvider {
 
     /**
      * Performs serialization of child adding both attributes and child blocks.

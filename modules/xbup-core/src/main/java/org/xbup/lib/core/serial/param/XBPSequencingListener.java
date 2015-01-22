@@ -16,6 +16,8 @@
  */
 package org.xbup.lib.core.serial.param;
 
+import org.xbup.lib.core.serial.sequence.XBSerialSequenceItem;
+import org.xbup.lib.core.serial.sequence.XBSerialSequenceOp;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -24,7 +26,6 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
-import org.xbup.lib.core.parser.param.XBPTokenWrapper;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
@@ -180,7 +181,7 @@ public class XBPSequencingListener implements XBPListener {
         return new XBPSerialSequenceWrapper(serialSequence);
     }
 
-    public class XBPSerialSequenceWrapper implements XBPChildSerializable {
+    public class XBPSerialSequenceWrapper implements XBPSerializable {
 
         private final List<XBSerialSequenceItem> serialSequence;
 
@@ -189,12 +190,12 @@ public class XBPSequencingListener implements XBPListener {
         }
 
         @Override
-        public void serializeFromXB(XBPChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        public void serializeFromXB(XBPInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
             throw new IllegalStateException();
         }
 
         @Override
-        public void serializeToXB(XBPChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        public void serializeToXB(XBPOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
             for (XBSerialSequenceItem serialItem : serialSequence) {
                 serializationHandler.putItem(serialItem);
             }

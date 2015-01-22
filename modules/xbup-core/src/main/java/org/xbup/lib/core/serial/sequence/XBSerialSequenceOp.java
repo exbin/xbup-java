@@ -14,14 +14,34 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.serial.param;
+package org.xbup.lib.core.serial.sequence;
 
 /**
- * Interface for XBUP level 2 serialization output handler using basic child
- * serialization.
+ * XBUP level 1 serialization sequence operation types enumeration.
  *
  * @version 0.1.24 2015/01/21
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBPChildOutputSerialHandler extends XBPSequencer {
+public enum XBSerialSequenceOp {
+
+    /**
+     * XBTToken operation.
+     */
+    TOKEN,
+    /**
+     * Join block sequence operation.
+     */
+    JOIN,
+    /**
+     * Consist of subblock sequence operation.
+     */
+    CONSIST,
+    /**
+     * Join list of blocks sequence operation.
+     */
+    LIST_JOIN,
+    /**
+     * Consist of list of subblocks sequence operation.
+     */
+    LIST_CONSIST
 }

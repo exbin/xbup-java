@@ -22,8 +22,8 @@ import java.io.OutputStream;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
-import org.xbup.lib.core.serial.param.XBTSequenceSerialHandler;
-import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 
@@ -33,7 +33,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
  * @version 0.1.24 2015/01/07
  * @author XBUP Project (http://xbup.org)
  */
-public class UBNat32 implements UBNatural, XBTSequenceSerializable {
+public class UBNat32 implements UBNatural, XBPSequenceSerializable {
 
     public static long MAX_VALUE = 4294967295l;
     private long value;
@@ -228,7 +228,7 @@ public class UBNat32 implements UBNatural, XBTSequenceSerializable {
     }
 
     @Override
-    public void serializeXB(XBTSequenceSerialHandler serial) throws XBProcessingException, IOException {
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
         serial.matchType(new XBDeclBlockType(XBUP_BLOCK_TYPE));
         serial.attribute(this);

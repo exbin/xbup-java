@@ -25,5 +25,5 @@ import org.xbup.lib.core.serial.XBSerialHandler;
  * @version 0.1.24 2014/08/24
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBTSequenceSerialHandler extends XBPSerialSequenceable, XBSerialHandler {
+public interface XBTSequenceSerialHandler extends XBASerialSequenceable, XBSerialHandler {
 }

@@ -40,7 +40,7 @@ public class StringLineEditor extends XBAbstractLineEditor implements XBLineEdit
 
     @Override
     public void serializeXB(XBTSequenceSerialHandler serial) throws XBProcessingException, IOException {
-        serial.append(value);
+        serial.join(value);
     }
 
     @Override

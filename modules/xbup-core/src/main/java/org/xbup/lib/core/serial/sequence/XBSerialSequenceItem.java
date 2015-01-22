@@ -14,42 +14,39 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.serial.param;
+package org.xbup.lib.core.serial.sequence;
 
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.ubnumber.UBENatural;
 
 /**
- * XBUP level 1 serialization interface for potentionally infinite list.
+ * XBUP level 1 serialization sequence.
  *
- * @version 0.1.23 2014/03/03
+ * @version 0.1.24 2015/01/22
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBSerialSequenceIList {
+public class XBSerialSequenceItem {
 
-    /**
-     * Returns size of the list.
-     *
-     * @return size of list
-     */
-    public UBENatural getSize();
+    private XBSerialSequenceOp sequenceOp;
+    private XBSerializable item;
 
-    /**
-     * Sets size of the list.
-     *
-     * @param count
-     */
-    public void setSize(UBENatural count);
+    public XBSerialSequenceItem(XBSerialSequenceOp sequenceOp, XBSerializable item) {
+        this.sequenceOp = sequenceOp;
+        this.item = item;
+    }
 
-    /**
-     * Resets position of the list order.
-     */
-    public void reset();
+    public XBSerialSequenceOp getSequenceOp() {
+        return sequenceOp;
+    }
 
-    /**
-     * Gets next item from the list.
-     *
-     * @return next item
-     */
-    public XBSerializable next();
+    public void setSequenceOp(XBSerialSequenceOp sequenceOp) {
+        this.sequenceOp = sequenceOp;
+    }
+
+    public XBSerializable getItem() {
+        return item;
+    }
+
+    public void setItem(XBSerializable item) {
+        this.item = item;
+    }
 }

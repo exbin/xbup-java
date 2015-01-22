@@ -16,12 +16,14 @@
  */
 package org.xbup.lib.core.serial.param;
 
+import org.xbup.lib.core.serial.sequence.XBSerialSequenceItem;
 import java.io.IOException;
 import java.io.InputStream;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBTToken;
+import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
@@ -116,11 +118,12 @@ public interface XBPProvider {
     /**
      * Pulls single token.
      *
+     * @param tokenType type of the token
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      * @return token
      */
-    public XBTToken pullToken() throws XBProcessingException, IOException;
+    public XBTToken pullToken(XBTTokenType tokenType) throws XBProcessingException, IOException;
 
     /**
      * Pulls serializable object using consist method.

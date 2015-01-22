@@ -16,40 +16,14 @@
  */
 package org.xbup.lib.core.serial.param;
 
-import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.serial.XBOutputSerialHandler;
 
 /**
- * XBUP level 1 serialization list for finite list.
+ * Interface for XBUP level 2 serialization output handler using parameter
+ * serialization.
  *
- * @version 0.1.23 2014/03/04
+ * @version 0.1.24 2015/01/22
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBSerialSequenceList {
-
-    /**
-     * Returns size of the list.
-     *
-     * @return size of list
-     */
-    public UBNatural getSize();
-
-    /**
-     * Sets size of the list.
-     *
-     * @param count
-     */
-    public void setSize(UBNatural count);
-
-    /**
-     * Resets position of the list order.
-     */
-    public void reset();
-
-    /**
-     * Gets next item from the list.
-     *
-     * @return next item
-     */
-    public XBSerializable next();
+public interface XBPOutputSerialHandler extends XBOutputSerialHandler, XBPSequencer {
 }

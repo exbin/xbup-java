@@ -14,34 +14,42 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.serial.param;
+package org.xbup.lib.core.serial.sequence;
+
+import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.ubnumber.UBENatural;
 
 /**
- * XBUP level 1 serialization sequence operation types enumeration.
+ * XBUP level 1 serialization interface for potentionally infinite list.
  *
- * @version 0.1.24 2015/01/21
+ * @version 0.1.24 2015/01/22
  * @author XBUP Project (http://xbup.org)
  */
-public enum XBSerialSequenceOp {
+public interface XBListConsistSerializable extends XBSerializable {
 
     /**
-     * XBTToken operation.
+     * Returns size of the list.
+     *
+     * @return size of list
      */
-    TOKEN,
+    public UBENatural getSize();
+
     /**
-     * Join block sequence operation.
+     * Sets size of the list.
+     *
+     * @param count
      */
-    JOIN,
+    public void setSize(UBENatural count);
+
     /**
-     * Consist of subblock sequence operation.
+     * Resets position of the list order.
      */
-    CONSIST,
+    public void reset();
+
     /**
-     * Join list of blocks sequence operation.
+     * Gets next item from the list.
+     *
+     * @return next item
      */
-    LIST_JOIN,
-    /**
-     * Consist of list of subblocks sequence operation.
-     */
-    LIST_CONSIST
+    public XBSerializable next();
 }

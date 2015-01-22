@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.serial.param;
+package org.xbup.lib.core.serial.sequence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ import org.xbup.lib.core.serial.XBSerializable;
 /**
  * XBUP level 1 serialization sequence.
  *
- * @version 0.1.24 2014/10/24
+ * @version 0.1.24 2015/01/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBSerialSequence {
@@ -41,7 +41,7 @@ public class XBSerialSequence {
         this();
         this.terminationMode = terminationMode;
     }
-    
+
     public XBSerialSequence(XBBlockType type, XBBlockTerminationMode terminationMode) {
         this(terminationMode);
         this.type = type;
@@ -67,12 +67,12 @@ public class XBSerialSequence {
         items.add(new XBSerialSequenceItem(XBSerialSequenceOp.CONSIST, item));
     }
 
-    public void listJoin(XBSerialSequenceList item) {
-        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_JOIN, new XBTSequenceListSerializable(item)));
+    public void listJoin(XBListJoinSerializable item) {
+        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_JOIN, item));
     }
 
-    public void listConsist(XBSerialSequenceIList item) {
-        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_CONSIST, new XBTSequenceIListSerializable(item)));
+    public void listConsist(XBListConsistSerializable item) {
+        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_CONSIST, item));
     }
 
     public XBBlockType getBlockType() {

@@ -40,7 +40,7 @@ public class IntegerLineEditor extends XBAbstractLineEditor implements XBLineEdi
 
     @Override
     public void serializeXB(XBTSequenceSerialHandler serial) throws XBProcessingException, IOException {
-        serial.append(value);
+        serial.join(value);
     }
 
     @Override

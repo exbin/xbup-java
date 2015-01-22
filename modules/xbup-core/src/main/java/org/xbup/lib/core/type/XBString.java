@@ -30,8 +30,8 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.child.XBChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBChildSerializable;
-import org.xbup.lib.core.serial.param.XBTSequenceSerialHandler;
-import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.util.CopyStreamUtils;
 
 /**
@@ -40,7 +40,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
  * @version 0.1.24 2015/01/07
  * @author XBUP Project (http://xbup.org)
  */
-public class XBString implements XBTSequenceSerializable {
+public class XBString implements XBPSequenceSerializable {
 
     private String value;
     public static long[] XBUP_BLOCK_TYPE = {1, 3, 1, 2, 0};
@@ -62,10 +62,10 @@ public class XBString implements XBTSequenceSerializable {
     }
 
     @Override
-    public void serializeXB(XBTSequenceSerialHandler serial) throws XBProcessingException, IOException {
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
         serial.matchType(new XBDeclBlockType(new XBLBlockDecl(XBUP_BLOCK_TYPE)));
-        serial.child(new DataBlockSerializator());
+        serial.consist(new DataBlockSerializator());
         serial.end();
    }
 

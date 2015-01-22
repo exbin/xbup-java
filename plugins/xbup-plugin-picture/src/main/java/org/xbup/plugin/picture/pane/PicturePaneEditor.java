@@ -47,7 +47,7 @@ public class PicturePaneEditor extends XBAbstractPaneEditor implements XBPanelEd
 
     @Override
     public void serializeXB(XBTSequenceSerialHandler serial) throws XBProcessingException, IOException {
-        serial.append(value);
+        serial.join(value);
     }
 
     @Override

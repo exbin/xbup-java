@@ -26,9 +26,9 @@ import org.xbup.lib.core.block.definition.XBBlockDef;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.serial.param.XBSerializationMode;
-import org.xbup.lib.core.serial.param.XBTSequenceSerialHandler;
-import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
@@ -37,7 +37,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  * @version 0.1.24 2015/01/05
  * @author XBUP Project (http://xbup.org)
  */
-public class XBLBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
+public class XBLBlockDecl implements XBBlockDecl, XBPSequenceSerializable {
 
     private long[] catalogPath;
     private int revision;
@@ -98,7 +98,7 @@ public class XBLBlockDecl implements XBBlockDecl, XBTSequenceSerializable {
     }
 
     @Override
-    public void serializeXB(XBTSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin();
         serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION));
         if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {

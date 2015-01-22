@@ -62,7 +62,7 @@ public class XBPSerialWriter extends XBTSerialWriter implements XBPWriteSerialHa
                 if (serial instanceof XBPSequenceSerializable) {
                     ((XBPSequenceSerializable) serial).serializeXB(childOutput);
                 } else {
-                    ((XBTSequenceSerializable) serial).serializeXB(childOutput);
+                    // TODO ((XBTSequenceSerializable) serial).serializeXB(childOutput);
                 }
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBPSerialWriter.class.getName()).log(Level.SEVERE, null, ex);

@@ -62,7 +62,7 @@ public class XBPSerialReader extends XBTSerialReader implements XBPReadSerialHan
                 if (serial instanceof XBPSequenceSerializable) {
                     ((XBPSequenceSerializable) serial).serializeXB(childOutput);
                 } else {
-                    ((XBTSequenceSerializable) serial).serializeXB(childOutput);
+                    // TODO ((XBTSequenceSerializable) serial).serializeXB(childOutput);
                 }
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBTSerialReader.class.getName()).log(Level.SEVERE, null, ex);

@@ -21,54 +21,36 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
-import org.xbup.lib.core.parser.token.pull.convert.XBTPullPreLoader;
 import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSerializable;
-import org.xbup.lib.core.serial.child.XBTChildSerializable;
-import org.xbup.lib.core.serial.param.XBASequenceProviderSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
-import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
 
 /**
  * XBUP level 2 serialization object from stream writer.
  *
- * @version 0.1.24 2015/01/19
+ * @version 0.1.24 2015/01/23
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPSerialReader extends XBTSerialReader implements XBPReadSerialHandler {
+public class XBPSerialReader implements XBPReadSerialHandler {
+
+    protected final XBTPullProvider pullProvider;
 
     public XBPSerialReader(XBTPullProvider pullProvider) {
-        super(pullProvider instanceof XBTPullPreLoader ? pullProvider : new XBTPullPreLoader(pullProvider));
+        this.pullProvider = pullProvider;
     }
 
     @Override
     public void read(XBSerializable serial) {
-        if (serial instanceof XBTChildSerializable || serial instanceof XBPSerializable) {
+        if (serial instanceof XBPSerializable || serial instanceof XBPSequenceSerializable) {
             XBPProviderSerialHandler childOutput = new XBPProviderSerialHandler(this);
             childOutput.attachXBTPullProvider(pullProvider);
             try {
-                if (serial instanceof XBPSerializable) {
-                    ((XBPSerializable) serial).serializeFromXB(childOutput);
-                } else {
-                    throw new UnsupportedOperationException("Not supported yet.");
-                }
-            } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBTSerialReader.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else if (serial instanceof XBTSequenceSerializable || serial instanceof XBPSequenceSerializable) {
-            XBASequenceProviderSerialHandler childOutput = new XBASequenceProviderSerialHandler(this);
-            childOutput.attachXBTPullProvider(pullProvider);
-            try {
-                if (serial instanceof XBPSequenceSerializable) {
-                    ((XBPSequenceSerializable) serial).serializeXB(childOutput);
-                } else {
-                    // TODO ((XBTSequenceSerializable) serial).serializeXB(childOutput);
-                }
+                childOutput.process(serial);
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBTSerialReader.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            super.read(serial);
+            throw new UnsupportedOperationException("Serialization method " + serial.getClass().getCanonicalName() + " not supported.");
         }
     }
 
@@ -79,6 +61,6 @@ public class XBPSerialReader extends XBTSerialReader implements XBPReadSerialHan
      * @return true if serialization supported
      */
     public static boolean isValidSerializableObject(XBSerializable serial) {
-        return serial instanceof XBPSerializable || XBSerialReader.isValidSerializableObject(serial);
+        return (serial instanceof XBPSerializable) || (serial instanceof XBPSequenceSerializable);
     }
 }

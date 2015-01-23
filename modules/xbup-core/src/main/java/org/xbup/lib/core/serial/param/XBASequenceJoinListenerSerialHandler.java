@@ -75,7 +75,7 @@ public class XBASequenceJoinListenerSerialHandler implements XBPSequenceSerialHa
         List<XBSerializable> params = new ArrayList<>();
         serializeToXBSequence(sequence, this, params);
         for (Iterator<XBSerializable> it = params.iterator(); it.hasNext();) {
-            listener.putChild(it.next());
+            // TODO listener.putChild(it.next());
         }
         listener.putEnd();
     }
@@ -157,7 +157,7 @@ public class XBASequenceJoinListenerSerialHandler implements XBPSequenceSerialHa
     }
 
     public void child(XBSerializable child) throws XBProcessingException, IOException {
-        listener.putChild(child);
+        // TODO listener.putChild(child);
     }
 
     @Override
@@ -209,7 +209,7 @@ public class XBASequenceJoinListenerSerialHandler implements XBPSequenceSerialHa
     }
 
     public void putChild(XBSerializable child) throws XBProcessingException, IOException {
-        listener.putChild(child);
+        // TODO listener.putChild(child);
     }
 
     @Override

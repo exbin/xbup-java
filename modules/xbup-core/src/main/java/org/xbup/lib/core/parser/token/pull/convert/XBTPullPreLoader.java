@@ -106,7 +106,7 @@ public class XBTPullPreLoader implements XBTPullFilter {
         this.prefixBuffer = prefixBuffer;
     }
 
-    // TODO: Make it later, that more effective skip is used when source
+    // TODO: Make it later so, that more effective skip is used when source
     // supports it
     /**
      * Skip remaining attributes if child is requested.

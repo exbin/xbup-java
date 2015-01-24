@@ -75,9 +75,9 @@ import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.serial.XBPSerialReader;
 import org.xbup.lib.core.serial.XBPSerialWriter;
-import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildSerializable;
+import org.xbup.lib.core.serial.param.XBPInputSerialHandler;
+import org.xbup.lib.core.serial.param.XBPOutputSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSerializable;
 import org.xbup.lib.core.stream.file.XBFileOutputStream;
 import org.xbup.lib.visual.picture.XBBufferedImage;
 import org.xbup.tool.editor.module.picture_editor.PictureFileType;
@@ -91,7 +91,7 @@ import org.xbup.tool.editor.base.api.FileType;
 /**
  * Image panel for XBPEditor.
  *
- * @version 0.1.24 2015/01/18
+ * @version 0.1.24 2015/01/24
  * @author XBUP Project (http://xbup.org)
  */
 public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePanel {
@@ -659,10 +659,10 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         }
     }
 
-    public XBTChildSerializable getXBTDataSerializator() {
-        return new XBTChildSerializable() {
+    public XBPSerializable getXBTDataSerializator() {
+        return new XBPSerializable() {
             @Override
-            public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+            public void serializeFromXB(XBPInputSerialHandler serial) throws XBProcessingException, IOException {
                 XBBufferedImage srcImage = new XBBufferedImage();
                 srcImage.serializeFromXB(serial);
                 image = toBufferedImage(srcImage.getImage());
@@ -674,7 +674,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
             }
 
             @Override
-            public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+            public void serializeToXB(XBPOutputSerialHandler serial) throws XBProcessingException, IOException {
                 XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(image));
                 bufferedImage.serializeToXB(serial);
             }
@@ -682,17 +682,17 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
     }
 
     // TODO: This is ugly stub for loaging files skipping definition
-    public XBTChildSerializable getStubXBTDataSerializator() {
-        return new XBTChildSerializable() {
+    public XBPSerializable getStubXBTDataSerializator() {
+        return new XBPSerializable() {
             @Override
-            public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+            public void serializeFromXB(XBPInputSerialHandler serial) throws XBProcessingException, IOException {
                 serial.pullType();
                 serial.pullAttribute();
                 serial.pullAttribute();
                 serial.pullAttribute();
-                serial.pullChild(new XBTChildSerializable() {
+                serial.pullConsist(new XBPSerializable() {
                     @Override
-                    public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+                    public void serializeFromXB(XBPInputSerialHandler serial) throws XBProcessingException, IOException {
                         serial.pullType();
                         serial.pullAttribute();
                         serial.pullAttribute();
@@ -704,14 +704,14 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                     }
 
                     @Override
-                    public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                    public void serializeToXB(XBPOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
                         throw new IllegalStateException();
                     }
                 });
 
-                serial.pullChild(new XBTChildSerializable() {
+                serial.pullConsist(new XBPSerializable() {
                     @Override
-                    public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                    public void serializeFromXB(XBPInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
                         XBBufferedImage srcImage = new XBBufferedImage();
                         srcImage.serializeFromXB(serializationHandler);
                         image = toBufferedImage(srcImage.getImage());
@@ -723,7 +723,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                     }
 
                     @Override
-                    public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+                    public void serializeToXB(XBPOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
                         throw new IllegalStateException();
                     }
                 });
@@ -732,7 +732,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
             }
 
             @Override
-            public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+            public void serializeToXB(XBPOutputSerialHandler serial) throws XBProcessingException, IOException {
                 XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(image));
                 bufferedImage.serializeToXB(serial);
             }

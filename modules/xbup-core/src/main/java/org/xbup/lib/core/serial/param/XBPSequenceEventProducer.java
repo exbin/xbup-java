@@ -22,6 +22,7 @@ import java.util.List;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.param.XBParamProcessingState;
+import org.xbup.lib.core.parser.token.XBTEndToken;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.parser.token.event.XBTEventProducer;
@@ -112,6 +113,16 @@ public class XBPSequenceEventProducer implements XBTEventProducer {
                 break;
             }
         }
+    }
+
+    /**
+     * Passes end token to source listener.
+     *
+     * @throws XBProcessingException
+     * @throws IOException
+     */
+    public void putEnd() throws XBProcessingException, IOException {
+        eventListener.putXBTToken(new XBTEndToken());
     }
 
     public void putChild(XBSerializable child) throws XBProcessingException, IOException {

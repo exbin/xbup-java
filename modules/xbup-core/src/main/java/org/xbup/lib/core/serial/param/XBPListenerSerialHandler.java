@@ -30,6 +30,7 @@ import org.xbup.lib.core.parser.param.XBParamProcessingState;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
+import org.xbup.lib.core.parser.token.XBTEndToken;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
@@ -43,9 +44,9 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * XBUP level 2 serialization handler using basic parser mapping to listener.
+ * XBUP level 2 serialization handler using parameter mapping to listener.
  *
- * @version 0.1.24 2015/01/23
+ * @version 0.1.24 2015/01/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequenceSerialHandler, XBTTokenOutputSerialHandler {
@@ -53,7 +54,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     private XBPWriteSerialHandler childHandler = null;
     private XBPSequenceEventProducer eventListener;
 
-    private final List<List<XBSerializable>> childSequence = new ArrayList<>();
+    private final List<List<XBSerializable>> childSequences = new ArrayList<>();
     private XBPSequencingListener sequencingListener = null;
     private XBParamProcessingState processingState = XBParamProcessingState.START;
 
@@ -174,7 +175,26 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         }
 
         if (processingState == XBParamProcessingState.TYPE || processingState == XBParamProcessingState.ATTRIBUTES || processingState == XBParamProcessingState.DATA) {
+            eventListener.putToken(new XBTEndToken());
             processingState = XBParamProcessingState.END;
+            List<XBSerializable> childSequence = eventListener.getChildSequence();
+            childSequences.add(childSequence);
+
+            while (childSequence.isEmpty()) {
+                childSequences.remove(childSequences.size() - 1);
+                eventListener.putEnd();
+                if (childSequences.isEmpty()) {
+                    break;
+                } else {
+                    childSequence = childSequences.get(childSequences.size() - 1);
+                }
+            }
+
+            if (!childSequence.isEmpty()) {
+                XBSerializable child = childSequence.remove(childSequence.size() - 1);
+                processingState = XBParamProcessingState.START;
+                childHandler.write(child);
+            }
         } else {
             throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -283,7 +303,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     @Override
     public void matchType(XBBlockType blockType) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        putType(blockType);
     }
 
     @Override

@@ -62,14 +62,14 @@ public class Test1 {
             XBTTypeReliantor encapsulator = new XBTTypeReliantor(context, null);
             encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
             handler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator));
-            image.serializeToXB(handler);
+//            image.serializeToXB(handler);
 //            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
             output.close();
             image.setImage(null);
             XBFileInputStream input = new XBFileInputStream("picture.dat");
             XBTChildInputSerialHandler providerHandler = new XBTChildProviderSerialHandler();
             providerHandler.attachXBTPullProvider(new XBToXBTPullConvertor(input));
-            image.serializeFromXB(providerHandler);
+//            image.serializeFromXB(providerHandler);
 
             output = new XBFileOutputStream("picture2.dat");
             XBTChildOutputSerialHandler listenerHandler = new XBTChildListenerSerialHandler();
@@ -78,7 +78,7 @@ public class Test1 {
             XBTTypeReliantor encapsulator1 = new XBTTypeReliantor(context1, null);
             encapsulator1.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
             listenerHandler.attachXBTEventListener(new XBTListenerToEventListener(encapsulator1));
-            image.serializeToXB(listenerHandler);
+//            image.serializeToXB(listenerHandler);
 //            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
             output.close();
         } catch (XBProcessingException ex) {

@@ -40,9 +40,9 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * XBUP level 2 serialization handler using basic parser mapping to provider.
+ * XBUP level 2 serialization handler using parameter mapping to provider.
  *
- * @version 0.1.24 2015/01/23
+ * @version 0.1.24 2015/01/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSequenceSerialHandler, XBTTokenInputSerialHandler {

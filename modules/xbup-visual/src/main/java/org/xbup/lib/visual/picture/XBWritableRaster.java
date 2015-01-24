@@ -26,19 +26,19 @@ import java.io.InputStream;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildListener;
-import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildProvider;
-import org.xbup.lib.core.serial.child.XBTChildSerializable;
+import org.xbup.lib.core.serial.param.XBPInputSerialHandler;
+import org.xbup.lib.core.serial.param.XBPListener;
+import org.xbup.lib.core.serial.param.XBPOutputSerialHandler;
+import org.xbup.lib.core.serial.param.XBPProvider;
+import org.xbup.lib.core.serial.param.XBPSerializable;
 
 /**
  * Bitmap Picture Raster (Testing only).
  *
- * @version 0.1.24 2015/01/11
+ * @version 0.1.24 2015/01/24
  * @author XBUP Project (http://xbup.org)
  */
-public class XBWritableRaster extends WritableRaster implements XBTChildSerializable {
+public class XBWritableRaster extends WritableRaster implements XBPSerializable {
 
     public static long[] XB_BLOCK_PATH = {0, 4, 0, 0}; // Testing only
 
@@ -54,7 +54,7 @@ public class XBWritableRaster extends WritableRaster implements XBTChildSerializ
         super(sampleModel, origin);
     }
 
-    public static void serializeXBWritableRasterToXBT(final WritableRaster source, XBTChildListener serial) throws XBProcessingException, IOException {
+    public static void serializeXBWritableRasterToXBT(final WritableRaster source, XBPListener serial) throws XBProcessingException, IOException {
         serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
         serial.putData(new InputStream() {
 
@@ -104,7 +104,7 @@ public class XBWritableRaster extends WritableRaster implements XBTChildSerializ
         serial.putEnd();
     }
 
-    public static void serializeXBWritableRasterFromXBT(WritableRaster source, XBTChildProvider serial) throws XBProcessingException, IOException {
+    public static void serializeXBWritableRasterFromXBT(WritableRaster source, XBPProvider serial) throws XBProcessingException, IOException {
         serial.pullBegin();
         int posX, posY, val;
         posX = 0;
@@ -140,16 +140,16 @@ public class XBWritableRaster extends WritableRaster implements XBTChildSerializ
     }
 
     @Override
-    public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeFromXB(XBPInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializeXBWritableRasterFromXBT(this, serializationHandler);
     }
 
     @Override
-    public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeToXB(XBPOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializeXBWritableRasterToXBT(this, serializationHandler);
     }
 
-    private static class XBTSerializator implements XBTChildSerializable {
+    private static class XBTSerializator implements XBPSerializable {
 
         private final WritableRaster source;
 
@@ -158,12 +158,12 @@ public class XBWritableRaster extends WritableRaster implements XBTChildSerializ
         }
 
         @Override
-        public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        public void serializeFromXB(XBPInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
             serializeXBWritableRasterFromXBT(source, serializationHandler);
         }
 
         @Override
-        public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        public void serializeToXB(XBPOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
             serializeXBWritableRasterToXBT(source, serializationHandler);
         }
     }

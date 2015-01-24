@@ -35,18 +35,18 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildSerializable;
+import org.xbup.lib.core.serial.param.XBPInputSerialHandler;
+import org.xbup.lib.core.serial.param.XBPOutputSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSerializable;
 import org.xbup.lib.visual.picture.XBBufferedImage;
 
 /**
  * Preview panel allowing replacing image.
  *
- * @version 0.1.24 2015/01/14
+ * @version 0.1.24 2015/01/24
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPicturePanel extends javax.swing.JPanel implements XBTChildSerializable {
+public class XBPicturePanel extends javax.swing.JPanel implements XBPSerializable {
 
     private final JFileChooser openFC, saveFC;
     private ChangeListener changeListener = null;
@@ -242,14 +242,14 @@ private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     }
 
     @Override
-    public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeFromXB(XBPInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         XBBufferedImage image = new XBBufferedImage();
         image.serializeFromXB(serializationHandler);
         ((ImageIcon) imageLabel.getIcon()).setImage(image.getImage());
     }
 
     @Override
-    public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeToXB(XBPOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(((ImageIcon) imageLabel.getIcon()).getImage()));
         bufferedImage.serializeToXB(serializationHandler);
     }

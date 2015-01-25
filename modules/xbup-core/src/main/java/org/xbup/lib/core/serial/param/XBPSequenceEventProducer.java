@@ -32,13 +32,13 @@ import org.xbup.lib.core.serial.XBSerializable;
 /**
  * Level 2 event producer performing block building using sequence operations.
  *
- * @version 0.1.24 2015/01/22
+ * @version 0.1.24 2015/01/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPSequenceEventProducer implements XBTEventProducer {
 
     private XBTCompactingEventFilter eventListener;
-    private final List<XBSerializable> childSequence = new ArrayList<>();
+    private List<XBSerializable> childSequence = new ArrayList<>();
     private XBParamProcessingState processingState = XBParamProcessingState.START;
 
     public XBPSequenceEventProducer() {
@@ -64,7 +64,7 @@ public class XBPSequenceEventProducer implements XBTEventProducer {
     public void putToken(XBTToken token) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {
-                if (processingState == XBParamProcessingState.START) {
+                if (processingState != XBParamProcessingState.BEGIN && processingState != XBParamProcessingState.DATA) {
                     eventListener.putXBTToken(token);
                     processingState = XBParamProcessingState.BEGIN;
                 } else {
@@ -139,5 +139,10 @@ public class XBPSequenceEventProducer implements XBTEventProducer {
 
     public List<XBSerializable> getChildSequence() {
         return childSequence;
+    }
+
+    public void resetSequence() {
+        childSequence = new ArrayList<>();
+        processingState = XBParamProcessingState.START;
     }
 }

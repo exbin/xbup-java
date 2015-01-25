@@ -70,6 +70,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
+import org.xbup.lib.core.parser.token.event.convert.XBTPrintEventFilter;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
@@ -450,7 +451,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                     declaration.realignReservation();
                     XBPCatalog catalog = new XBPCatalog();
                     XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
-                    encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
+                    encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTPrintEventFilter(new XBTToXBEventConvertor(output))));
                     XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(encapsulator));
                     writer.write(declaration);
                 }

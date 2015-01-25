@@ -40,7 +40,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  *
  * This should be usable for level 2 compacting conversions.
  *
- * @version 0.1.24 2014/12/01
+ * @version 0.1.24 2015/01/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCompactingEventFilter implements XBTEventFilter {
@@ -91,14 +91,11 @@ public class XBTCompactingEventFilter implements XBTEventFilter {
                 }
                 possibleDataMode = false;
                 if (!unknownMode) {
-                    if (((XBTAttributeToken) token).getAttribute().getLong() == 0) {
+                    if (((XBTAttributeToken) token).getAttribute().isZero()) {
                         zeroAttributes++;
                         break;
                     } else {
-                        for (int i = 0; i < zeroAttributes; i++) {
-                            eventListener.putXBTToken(new XBTAttributeToken(new UBNat32(0)));
-                        }
-                        zeroAttributes = 0;
+                        flushAttributes();
                     }
                 }
 
@@ -110,6 +107,7 @@ public class XBTCompactingEventFilter implements XBTEventFilter {
                     emptyNodes.add(blockMode);
                     break;
                 } else {
+                    possibleDataMode = false;
                     flushEmptyNodes();
                 }
 
@@ -118,13 +116,20 @@ public class XBTCompactingEventFilter implements XBTEventFilter {
                 break;
             }
             case END: {
-                if (emptyNodes.isEmpty()) {
+                if (!possibleDataMode) {
                     eventListener.putXBTToken(token);
                 }
 
                 break;
             }
         }
+    }
+
+    private void flushAttributes() throws IOException, XBProcessingException {
+        for (int i = 0; i < zeroAttributes; i++) {
+            eventListener.putXBTToken(new XBTAttributeToken(new UBNat32(0)));
+        }
+        zeroAttributes = 0;
     }
 
     private void flushEmptyNodes() {
@@ -137,6 +142,7 @@ public class XBTCompactingEventFilter implements XBTEventFilter {
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBTCompactingEventFilter.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         emptyNodes.clear();
     }
 }

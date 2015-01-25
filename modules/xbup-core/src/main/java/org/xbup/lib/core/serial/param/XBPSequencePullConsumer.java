@@ -20,34 +20,38 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.parser.param.XBParamProcessingState;
+import org.xbup.lib.core.parser.token.XBTEndToken;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.pull.XBTPullConsumer;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullPreLoader;
-import org.xbup.lib.core.serial.XBPReadSerialHandler;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * Level 2 pull consumer performing block building using sequence operations.
  *
- * @version 0.1.24 2015/01/22
+ * @version 0.1.24 2015/01/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPSequencePullConsumer implements XBTPullConsumer {
 
-    private final XBPReadSerialHandler serialHandler;
     private XBTPullPreLoader pullProvider;
-    private XBPSequencingListener sequencingListener;
+    private List<XBSerializable> childSequence = new ArrayList<>();
+    private XBParamProcessingState processingState = XBParamProcessingState.START;
 
-    private final List<XBSerializable> childSequence = new ArrayList<>();
-
-    public XBPSequencePullConsumer(XBPReadSerialHandler serialHandler) {
-        this.serialHandler = serialHandler;
+    public XBPSequencePullConsumer(XBTPullProvider pullProvider) {
+        attachProvider(pullProvider);
     }
 
     @Override
     public void attachXBTPullProvider(XBTPullProvider pullProvider) {
+        attachProvider(pullProvider);
+    }
+
+    private void attachProvider(XBTPullProvider pullProvider) {
         if (pullProvider instanceof XBTPullPreLoader) {
             this.pullProvider = (XBTPullPreLoader) pullProvider;
         } else {
@@ -56,29 +60,82 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
     }
 
     public XBTToken pullToken(XBTTokenType tokenType) throws XBProcessingException, IOException {
-        // TODO or add separate method for attributes?
-        throw new UnsupportedOperationException("Not supported yet.");
-//        if (sequencingListener != null) {
-//            sequencingListener.putToken(token);
-//            if (sequencingListener.isFinished()) {
-//                childSequence.add(sequencingListener.getSequenceSerial());
-//                sequencingListener = null;
-//            }
-//        }
+        switch (tokenType) {
+            case BEGIN: {
+                if (processingState != XBParamProcessingState.START) {
+                    throw new XBProcessingException("Begin token out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                }
 
-        // TODO
+                XBTToken token = pullProvider.pullXBTToken();
+                if (token.getTokenType() != XBTTokenType.BEGIN) {
+                    throw new XBProcessingException("Unexpected token type", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                }
+                processingState = XBParamProcessingState.BEGIN;
+                return token;
+            }
+            case TYPE: {
+                if (processingState != XBParamProcessingState.BEGIN) {
+                    throw new XBProcessingException("Begin token out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                }
+
+                XBTToken token = pullProvider.pullXBTToken();
+                if (token.getTokenType() != XBTTokenType.TYPE) {
+                    throw new XBProcessingException("Unexpected token type", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                }
+                processingState = XBParamProcessingState.TYPE;
+                return token;
+            }
+            case ATTRIBUTE: {
+                if (processingState != XBParamProcessingState.BEGIN && processingState != XBParamProcessingState.ATTRIBUTES) {
+                    throw new XBProcessingException("Begin token out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                }
+
+                XBTToken token = pullProvider.pullXBTToken();
+                if (token.getTokenType() != XBTTokenType.ATTRIBUTE) {
+                    throw new XBProcessingException("Unexpected token type", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                }
+                processingState = XBParamProcessingState.ATTRIBUTES;
+                return token;
+            }
+            case DATA: {
+                if (processingState != XBParamProcessingState.BEGIN) {
+                    throw new XBProcessingException("Begin token out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                }
+
+                XBTToken token = pullProvider.pullXBTToken();
+                if (token.getTokenType() != XBTTokenType.DATA) {
+                    throw new XBProcessingException("Unexpected token type", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                }
+                processingState = XBParamProcessingState.DATA;
+                return token;
+            }
+            case END: {
+                processingState = XBParamProcessingState.END;
+                return new XBTEndToken();
+            }
+        }
+        
+        throw new IllegalStateException();
     }
 
     public void pullChild(XBSerializable child) throws XBProcessingException, IOException {
-        // TODO include it in list until all attributes are processed
-        throw new UnsupportedOperationException("Not supported yet.");
-        /* if (sequencingListener != null) {
-         sequencingListener.putToken(token);
-         if (sequencingListener.isFinished()) {
-         childSequence.add(sequencingListener.getSequenceSerial());
-         sequencingListener = null;
-         }
-         } */
+        if (processingState == XBParamProcessingState.TYPE || processingState == XBParamProcessingState.ATTRIBUTES) {
+            childSequence.add(child);
+        } else {
+            throw new XBProcessingException("Unexpected child event", XBProcessingExceptionType.UNEXPECTED_ORDER);
+        }
+    }
 
+    public boolean isFinished() {
+        return processingState == XBParamProcessingState.END;
+    }
+
+    public List<XBSerializable> getChildSequence() {
+        return childSequence;
+    }
+
+    public void resetSequence() {
+        childSequence = new ArrayList<>();
+        processingState = XBParamProcessingState.START;
     }
 }

@@ -46,7 +46,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 2 serialization handler using parameter mapping to listener.
  *
- * @version 0.1.24 2015/01/24
+ * @version 0.1.24 2015/01/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequenceSerialHandler, XBTTokenOutputSerialHandler {
@@ -179,6 +179,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             processingState = XBParamProcessingState.END;
             List<XBSerializable> childSequence = eventListener.getChildSequence();
             childSequences.add(childSequence);
+            eventListener.resetSequence();
 
             while (childSequence.isEmpty()) {
                 childSequences.remove(childSequences.size() - 1);
@@ -191,9 +192,9 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             }
 
             if (!childSequence.isEmpty()) {
-                XBSerializable child = childSequence.remove(childSequence.size() - 1);
+                XBSerializable child = childSequence.remove(0);
                 processingState = XBParamProcessingState.START;
-                childHandler.write(child);
+                process(child);
             }
         } else {
             throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);

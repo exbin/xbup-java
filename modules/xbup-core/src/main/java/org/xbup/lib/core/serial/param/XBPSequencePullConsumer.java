@@ -22,24 +22,26 @@ import java.util.List;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.param.XBParamProcessingState;
+import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTEndToken;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
+import org.xbup.lib.core.parser.token.XBTZeroAttributeToken;
 import org.xbup.lib.core.parser.token.pull.XBTPullConsumer;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullPreLoader;
-import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * Level 2 pull consumer performing block building using sequence operations.
  *
- * @version 0.1.24 2015/01/25
+ * @version 0.1.24 2015/01/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPSequencePullConsumer implements XBTPullConsumer {
 
     private XBTPullPreLoader pullProvider;
-    private List<XBSerializable> childSequence = new ArrayList<>();
+    private final List<List<XBTAttributeToken>> attributeSequences = new ArrayList<>();
+    private List<XBTAttributeToken> attributeSequence = new ArrayList<>();
     private XBParamProcessingState processingState = XBParamProcessingState.START;
 
     public XBPSequencePullConsumer(XBTPullProvider pullProvider) {
@@ -62,8 +64,14 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
     public XBTToken pullToken(XBTTokenType tokenType) throws XBProcessingException, IOException {
         switch (tokenType) {
             case BEGIN: {
-                if (processingState != XBParamProcessingState.START) {
+                if (processingState == XBParamProcessingState.DATA || processingState == XBParamProcessingState.BEGIN) {
                     throw new XBProcessingException("Begin token out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                }
+
+                if (processingState == XBParamProcessingState.ATTRIBUTES) {
+                    processAttributes();
+                    attributeSequences.add(attributeSequence);
+                    attributeSequence = new ArrayList<>();
                 }
 
                 XBTToken token = pullProvider.pullXBTToken();
@@ -75,7 +83,7 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
             }
             case TYPE: {
                 if (processingState != XBParamProcessingState.BEGIN) {
-                    throw new XBProcessingException("Begin token out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    throw new XBProcessingException("Type token out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
 
                 XBTToken token = pullProvider.pullXBTToken();
@@ -86,8 +94,17 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
                 return token;
             }
             case ATTRIBUTE: {
-                if (processingState != XBParamProcessingState.BEGIN && processingState != XBParamProcessingState.ATTRIBUTES) {
-                    throw new XBProcessingException("Begin token out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                if (processingState == XBParamProcessingState.DATA || processingState == XBParamProcessingState.START) {
+                    throw new XBProcessingException("Attribute token out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                }
+
+                if (pullProvider.getNextTokenType() != XBTTokenType.ATTRIBUTE) {
+                    processingState = XBParamProcessingState.ATTRIBUTES;
+                    if (!attributeSequence.isEmpty()) {
+                        return attributeSequence.remove(0);
+                    } else {
+                        return new XBTZeroAttributeToken();
+                    }
                 }
 
                 XBTToken token = pullProvider.pullXBTToken();
@@ -99,7 +116,7 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
             }
             case DATA: {
                 if (processingState != XBParamProcessingState.BEGIN) {
-                    throw new XBProcessingException("Begin token out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    throw new XBProcessingException("Data token out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
 
                 XBTToken token = pullProvider.pullXBTToken();
@@ -110,19 +127,25 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
                 return token;
             }
             case END: {
+                if (processingState == XBParamProcessingState.BEGIN) {
+                    throw new XBProcessingException("Unexpected token type", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                }
+
                 processingState = XBParamProcessingState.END;
+                if (!attributeSequences.isEmpty()) {
+                    attributeSequence = attributeSequences.remove(attributeSequences.size() - 1);
+                }
+
                 return new XBTEndToken();
             }
         }
-        
+
         throw new IllegalStateException();
     }
 
-    public void pullChild(XBSerializable child) throws XBProcessingException, IOException {
-        if (processingState == XBParamProcessingState.TYPE || processingState == XBParamProcessingState.ATTRIBUTES) {
-            childSequence.add(child);
-        } else {
-            throw new XBProcessingException("Unexpected child event", XBProcessingExceptionType.UNEXPECTED_ORDER);
+    public void processAttributes() {
+        while (pullProvider.getNextTokenType() == XBTTokenType.ATTRIBUTE) {
+            attributeSequence.add((XBTAttributeToken) pullProvider.getNextToken());
         }
     }
 
@@ -130,12 +153,12 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
         return processingState == XBParamProcessingState.END;
     }
 
-    public List<XBSerializable> getChildSequence() {
-        return childSequence;
+    public List<XBTAttributeToken> getAttributeSequence() {
+        return attributeSequence;
     }
 
     public void resetSequence() {
-        childSequence = new ArrayList<>();
+        attributeSequence = new ArrayList<>();
         processingState = XBParamProcessingState.START;
     }
 }

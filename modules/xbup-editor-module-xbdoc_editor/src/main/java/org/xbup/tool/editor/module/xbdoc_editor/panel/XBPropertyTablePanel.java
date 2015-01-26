@@ -53,7 +53,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.dialog.BlockPropertiesDialog;
 /**
  * Panel for properties of the actual panel.
  *
- * @version 0.1.24 2015/01/10
+ * @version 0.1.24 2015/01/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPropertyTablePanel extends javax.swing.JPanel {
@@ -379,6 +379,7 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
                                             }
                                         }
                                     } catch (Exception ex) {
+                                        Logger.getLogger(XBPropertyTablePanel.class.getName()).log(Level.SEVERE, null, ex);
                                         JOptionPane.showMessageDialog(propertyPanel, ex.getMessage(), "Exception in property panel", JOptionPane.ERROR_MESSAGE);
                                     }
                                 }

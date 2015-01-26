@@ -16,13 +16,11 @@
  */
 package org.xbup.plugin.picture;
 
-import javax.swing.JPanel;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.plugin.XBLineEditor;
 import org.xbup.lib.plugin.XBPanelEditor;
 import org.xbup.lib.plugin.XBPlugin;
 import org.xbup.lib.plugin.XBTransformation;
-import org.xbup.lib.visual.xbplugins.XBPicturePanel;
 import org.xbup.plugin.picture.pane.PicturePaneEditor;
 
 /**

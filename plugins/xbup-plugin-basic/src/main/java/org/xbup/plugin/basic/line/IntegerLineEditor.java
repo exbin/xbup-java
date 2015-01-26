@@ -22,8 +22,8 @@ import java.io.IOException;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.param.XBTSequenceSerialHandler;
-import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.ubnumber.type.UBInt32;
 import org.xbup.lib.plugin.XBAbstractLineEditor;
 import org.xbup.lib.plugin.XBLineEditor;
@@ -34,13 +34,13 @@ import org.xbup.lib.plugin.XBLineEditor;
  * @version 0.1.24 2015/01/09
  * @author XBUP Project (http://xbup.org)
  */
-public class IntegerLineEditor extends XBAbstractLineEditor implements XBLineEditor, XBTSequenceSerializable {
+public class IntegerLineEditor extends XBAbstractLineEditor implements XBLineEditor, XBPSequenceSerializable {
 
     private UBInt32 value = new UBInt32();
 
     @Override
-    public void serializeXB(XBTSequenceSerialHandler serial) throws XBProcessingException, IOException {
-        serial.join(value);
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+        serial.append(value);
     }
 
     @Override

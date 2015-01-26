@@ -29,7 +29,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 2 child serialization listener interface.
  *
- * @version 0.1.24 2015/01/21
+ * @version 0.1.24 2015/01/27
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBPListener {
@@ -170,4 +170,13 @@ public interface XBPListener {
      * @throws IOException
      */
     public void putItem(XBSerialSequenceItem item) throws XBProcessingException, IOException;
+
+    /**
+     * Puts serializable object appending all tokens.
+     *
+     * @param serial serializable object
+     * @throws XBProcessingException
+     * @throws IOException
+     */
+    public void putAppend(XBSerializable serial) throws XBProcessingException, IOException;
 }

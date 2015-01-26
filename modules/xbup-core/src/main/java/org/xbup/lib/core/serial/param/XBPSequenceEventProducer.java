@@ -32,14 +32,16 @@ import org.xbup.lib.core.serial.XBSerializable;
 /**
  * Level 2 event producer performing block building using sequence operations.
  *
- * @version 0.1.24 2015/01/25
+ * @version 0.1.24 2015/01/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPSequenceEventProducer implements XBTEventProducer {
 
     private XBTCompactingEventFilter eventListener;
     private List<XBSerializable> childSequence = new ArrayList<>();
+    private final List<List<XBSerializable>> childSequences = new ArrayList<>();
     private XBParamProcessingState processingState = XBParamProcessingState.START;
+    private XBSerializable nextChild;
 
     public XBPSequenceEventProducer() {
     }
@@ -106,6 +108,25 @@ public class XBPSequenceEventProducer implements XBTEventProducer {
             case END: {
                 if (processingState == XBParamProcessingState.TYPE || processingState == XBParamProcessingState.ATTRIBUTES || processingState == XBParamProcessingState.DATA) {
                     processingState = XBParamProcessingState.END;
+
+                    childSequences.add(childSequence);
+                    List<XBSerializable> nextSequence = childSequence;
+                    resetSequence();
+
+                    while (nextSequence.isEmpty()) {
+                        childSequences.remove(childSequences.size() - 1);
+                        putEnd();
+                        if (childSequences.isEmpty()) {
+                            break;
+                        } else {
+                            nextSequence = childSequences.get(childSequences.size() - 1);
+                        }
+                    }
+
+                    if (!nextSequence.isEmpty()) {
+                        nextChild = nextSequence.remove(0);
+                        processingState = XBParamProcessingState.START;
+                    }
                 } else {
                     throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
@@ -144,5 +165,9 @@ public class XBPSequenceEventProducer implements XBTEventProducer {
     public void resetSequence() {
         childSequence = new ArrayList<>();
         processingState = XBParamProcessingState.START;
+    }
+
+    public XBSerializable getNextChild() {
+        return nextChild;
     }
 }

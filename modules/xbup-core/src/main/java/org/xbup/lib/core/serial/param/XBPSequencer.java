@@ -102,4 +102,13 @@ public interface XBPSequencer extends XBPListener, XBPProvider {
      * @throws java.io.IOException
      */
     public void listJoin(XBSerializable serial) throws XBProcessingException, IOException;
+
+    /**
+     * Performs serialization on serializable object.
+     *
+     * @param serial serializable object
+     * @throws XBProcessingException
+     * @throws IOException
+     */
+    public void append(XBSerializable serial) throws XBProcessingException, IOException;
 }

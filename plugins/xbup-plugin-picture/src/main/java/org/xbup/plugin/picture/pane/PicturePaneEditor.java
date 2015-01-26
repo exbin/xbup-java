@@ -19,8 +19,8 @@ package org.xbup.plugin.picture.pane;
 import java.io.IOException;
 import javax.swing.JPanel;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.param.XBTSequenceSerialHandler;
-import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.plugin.XBAbstractPaneEditor;
 import org.xbup.lib.plugin.XBPanelEditor;
 import org.xbup.lib.visual.xbplugins.XBPicturePanel;
@@ -31,7 +31,7 @@ import org.xbup.lib.visual.xbplugins.XBPicturePanel;
  * @version 0.1.24 2015/01/14
  * @author XBUP Project (http://xbup.org)
  */
-public class PicturePaneEditor extends XBAbstractPaneEditor implements XBPanelEditor, XBTSequenceSerializable {
+public class PicturePaneEditor extends XBAbstractPaneEditor implements XBPanelEditor, XBPSequenceSerializable {
 
     private XBPicturePanel value = new XBPicturePanel();
 
@@ -46,8 +46,8 @@ public class PicturePaneEditor extends XBAbstractPaneEditor implements XBPanelEd
     }
 
     @Override
-    public void serializeXB(XBTSequenceSerialHandler serial) throws XBProcessingException, IOException {
-        serial.join(value);
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+        serial.append(value);
     }
 
     @Override

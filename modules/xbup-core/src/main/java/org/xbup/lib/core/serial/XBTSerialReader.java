@@ -27,15 +27,13 @@ import org.xbup.lib.core.serial.basic.XBTBasicSerializable;
 import org.xbup.lib.core.serial.basic.XBTProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
-import org.xbup.lib.core.serial.param.XBTSequenceProviderSerialHandler;
-import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
 import org.xbup.lib.core.serial.token.XBTPullProviderSerialHandler;
 import org.xbup.lib.core.serial.token.XBTTokenSerializable;
 
 /**
  * XBUP level 1 serialization object from stream reader.
  *
- * @version 0.1.24 2015/01/21
+ * @version 0.1.24 2015/01/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTSerialReader implements XBTReadSerialHandler {
@@ -72,14 +70,6 @@ public class XBTSerialReader implements XBTReadSerialHandler {
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBTSerialReader.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if (serial instanceof XBTSequenceSerializable) {
-            XBTSequenceProviderSerialHandler listenerHandler = new XBTSequenceProviderSerialHandler(this);
-            listenerHandler.attachXBTPullProvider(pullProvider);
-            try {
-                ((XBTSequenceSerializable) serial).serializeXB(listenerHandler);
-            } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBTSerialReader.class.getName()).log(Level.SEVERE, null, ex);
-            }
         } else if (XBSerialReader.isValidSerializableObject(serial)) {
             XBToXBTPullUnwrapper pullWrapper = new XBToXBTPullUnwrapper(pullProvider);
             XBSerialReader serialReader = new XBSerialReader(pullWrapper);
@@ -99,7 +89,6 @@ public class XBTSerialReader implements XBTReadSerialHandler {
         return serial instanceof XBTBasicSerializable
                 || serial instanceof XBTTokenSerializable
                 || serial instanceof XBTChildSerializable
-                || serial instanceof XBTSequenceSerializable
                 || XBSerialReader.isValidSerializableObject(serial);
     }
 }

@@ -21,8 +21,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.param.XBTSequenceSerialHandler;
-import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.ubnumber.type.UBBool;
 import org.xbup.lib.plugin.XBAbstractLineEditor;
 import org.xbup.lib.plugin.XBLineEditor;
@@ -33,15 +33,15 @@ import org.xbup.lib.plugin.XBLineEditor;
  * @version 0.1.24 2015/01/13
  * @author XBUP Project (http://xbup.org)
  */
-public class BooleanLineEditor extends XBAbstractLineEditor implements XBLineEditor, XBTSequenceSerializable {
+public class BooleanLineEditor extends XBAbstractLineEditor implements XBLineEditor, XBPSequenceSerializable {
 
     private UBBool value = new UBBool();
     private static final String TRUE_TEXT = "true";
     private static final String FALSE_TEXT = "false";
 
     @Override
-    public void serializeXB(XBTSequenceSerialHandler serial) throws XBProcessingException, IOException {
-        serial.join(value);
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+        serial.append(value);
     }
 
     @Override

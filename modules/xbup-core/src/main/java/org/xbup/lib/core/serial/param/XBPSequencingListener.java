@@ -40,7 +40,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * Level 2 event listener for performing block building using sequence
  * operations.
  *
- * @version 0.1.24 2015/01/21
+ * @version 0.1.24 2015/01/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPSequencingListener implements XBPListener {
@@ -173,12 +173,21 @@ public class XBPSequencingListener implements XBPListener {
         }
     }
 
+    @Override
+    public void putAppend(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new IllegalStateException("Append is not allowed on sequencing");
+    }
+
     public List<XBSerialSequenceItem> getSerialSequence() {
         return serialSequence;
     }
 
     public XBSerializable getSequenceSerial() {
         return new XBPSerialSequenceWrapper(serialSequence);
+    }
+
+    public int getDepth() {
+        return depth;
     }
 
     public class XBPSerialSequenceWrapper implements XBPSerializable {

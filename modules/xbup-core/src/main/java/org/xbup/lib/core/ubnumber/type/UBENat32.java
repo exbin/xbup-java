@@ -129,7 +129,7 @@ public class UBENat32 implements UBENatural {
         return value;
     }
 
-    // TODO replace conversion with UBAttribute interface?
+    @Override
     public void convertFromNatural(UBNatural nat) {
         if (nat.getLong() < 127) {
             value = nat.getLong();
@@ -140,6 +140,7 @@ public class UBENat32 implements UBENatural {
         value = nat.getLong() - 1;
     }
 
+    @Override
     public UBNatural convertToNatural() {
         if (infinity) {
             return new UBNat32(127);

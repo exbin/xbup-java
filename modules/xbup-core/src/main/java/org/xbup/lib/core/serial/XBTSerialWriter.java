@@ -28,15 +28,13 @@ import org.xbup.lib.core.serial.basic.XBTBasicSerializable;
 import org.xbup.lib.core.serial.basic.XBTConsumerSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
-import org.xbup.lib.core.serial.param.XBTSequenceListenerSerialHandler;
-import org.xbup.lib.core.serial.param.XBTSequenceSerializable;
 import org.xbup.lib.core.serial.token.XBTEventListenerSerialHandler;
 import org.xbup.lib.core.serial.token.XBTTokenSerializable;
 
 /**
  * XBUP level 1 serialization object to stream writer.
  *
- * @version 0.1.24 2015/01/19
+ * @version 0.1.24 2015/01/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTSerialWriter implements XBTWriteSerialHandler {
@@ -73,14 +71,6 @@ public class XBTSerialWriter implements XBTWriteSerialHandler {
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBTSerialWriter.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if (serial instanceof XBTSequenceSerializable) {
-            XBTSequenceListenerSerialHandler listenerHandler = new XBTSequenceListenerSerialHandler(this);
-            listenerHandler.attachXBTEventListener(eventListener);
-            try {
-                ((XBTSequenceSerializable) serial).serializeXB(listenerHandler);
-            } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBTSerialWriter.class.getName()).log(Level.SEVERE, null, ex);
-            }
         } else if (XBSerialWriter.isValidSerializableObject(serial)) {
             XBToXBTEventWrapper eventWrapper = new XBToXBTEventWrapper(eventListener);
             XBSerialWriter serialWriter = new XBSerialWriter(eventWrapper);
@@ -100,7 +90,6 @@ public class XBTSerialWriter implements XBTWriteSerialHandler {
         return serial instanceof XBTBasicSerializable
                 || serial instanceof XBTTokenSerializable
                 || serial instanceof XBTChildSerializable
-                || serial instanceof XBTSequenceSerializable
                 || XBSerialWriter.isValidSerializableObject(serial);
     }
 }

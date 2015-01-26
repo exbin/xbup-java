@@ -16,13 +16,17 @@
  */
 package org.xbup.lib.core.serial.param;
 
-import org.xbup.lib.core.serial.sequence.XBSerialSequenceItem;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBFixedBlockType;
+import org.xbup.lib.core.block.definition.XBParamType;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.parser.param.XBParamProcessingState;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
@@ -31,28 +35,33 @@ import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.serial.XBPReadSerialHandler;
-import org.xbup.lib.core.serial.XBSerialException;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.child.XBChildSerialState;
+import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
+import org.xbup.lib.core.serial.child.XBTChildSerializable;
+import org.xbup.lib.core.serial.sequence.XBListConsistSerializable;
+import org.xbup.lib.core.serial.sequence.XBSerialSequenceItem;
 import org.xbup.lib.core.serial.token.XBTTokenInputSerialHandler;
 import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.ubnumber.type.UBENat32;
 
 /**
  * XBUP level 2 serialization handler using parameter mapping to provider.
  *
- * @version 0.1.24 2015/01/25
+ * @version 0.1.24 2015/01/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSequenceSerialHandler, XBTTokenInputSerialHandler {
 
     private XBPSequencePullConsumer pullProvider;
-    private XBChildSerialState state;
     private XBPReadSerialHandler childHandler = null;
+
+    private XBParamProcessingState processingState = XBParamProcessingState.START;
+    private final List<XBParamType> paramTypes = new ArrayList<>();
+    private XBParamType paramType = XBParamType.CONSIST;
 
     private static final String PUSH_NOT_ALLOWED_EXCEPTION = "Pushing data not allowed in pulling mode";
 
     public XBPProviderSerialHandler() {
-        state = XBChildSerialState.BLOCK_BEGIN;
     }
 
     public XBPProviderSerialHandler(XBPReadSerialHandler childHandler) {
@@ -65,6 +74,8 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
             ((XBPSerializable) serial).serializeFromXB(this);
         } else if (serial instanceof XBPSequenceSerializable) {
             ((XBPSequenceSerializable) serial).serializeXB(this);
+        } else if (serial instanceof XBTChildSerializable) {
+            ((XBTChildSerializable) serial).serializeFromXB(new XBTChildInputSerialHandlerImpl(this));
         } else {
             throw new UnsupportedOperationException("Serialization method " + serial.getClass().getCanonicalName() + " not supported.");
         }
@@ -81,46 +92,31 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
 
     @Override
     public XBBlockTerminationMode pullBegin() throws XBProcessingException, IOException {
-        if (state == XBChildSerialState.EOF) {
-            throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
+        processingState = XBParamProcessingState.BEGIN;
+        if (paramType.isJoin()) {
+            return XBBlockTerminationMode.SIZE_SPECIFIED;
         }
 
-        XBTToken token = pullProvider.pullToken(XBTTokenType.BEGIN);
-        state = XBChildSerialState.ATTRIBUTE_PART;
-        return ((XBTBeginToken) token).getTerminationMode();
+        XBTBeginToken token = (XBTBeginToken) pullProvider.pullToken(XBTTokenType.BEGIN);
+        return token.getTerminationMode();
     }
 
     @Override
     public XBBlockType pullType() throws XBProcessingException, IOException {
-        if (state != XBChildSerialState.BLOCK_BEGIN && state != XBChildSerialState.ATTRIBUTE_PART) {
-            throw new XBSerialException("Block type must be read before attributes", XBProcessingExceptionType.UNEXPECTED_ORDER);
+        processingState = XBParamProcessingState.TYPE;
+        if (paramType.isJoin()) {
+            return new XBFixedBlockType();
         }
-        if (state == XBChildSerialState.BLOCK_BEGIN) {
-            pullProvider.pullToken(XBTTokenType.BEGIN);
-        }
-        XBTToken token = pullProvider.pullToken(XBTTokenType.TYPE);
-        state = XBChildSerialState.TYPE;
 
-        return ((XBTTypeToken) token).getBlockType();
+        XBTTypeToken token = (XBTTypeToken) pullProvider.pullToken(XBTTokenType.TYPE);
+        return token.getBlockType();
     }
 
     @Override
     public UBNatural pullAttribute() throws XBProcessingException, IOException {
-        if (state == XBChildSerialState.EOF) {
-            throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
-        }
-        if (state == XBChildSerialState.DATA) {
-            throw new XBSerialException("Unable to get attribute after data", XBProcessingExceptionType.UNEXPECTED_ORDER);
-        }
-        if (state == XBChildSerialState.CHILDREN) {
-            throw new XBSerialException("Unable to get attribute after children", XBProcessingExceptionType.UNEXPECTED_ORDER);
-        }
-        if (state == XBChildSerialState.BLOCK_BEGIN) {
-            pullProvider.pullToken(XBTTokenType.BEGIN);
-        }
-
-        XBTToken token = pullProvider.pullToken(XBTTokenType.ATTRIBUTE);
-        return ((XBTAttributeToken) token).getAttribute();
+        XBTAttributeToken token = (XBTAttributeToken) pullProvider.pullToken(XBTTokenType.ATTRIBUTE);
+        processingState = XBParamProcessingState.ATTRIBUTES;
+        return token.getAttribute();
     }
 
     @Override
@@ -145,32 +141,23 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
 
     @Override
     public InputStream pullData() throws XBProcessingException, IOException {
-        if (state == XBChildSerialState.EOF) {
-            throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
-        }
-        if (state == XBChildSerialState.ATTRIBUTES) {
-            throw new XBSerialException("No data block allowed after attributes", XBProcessingExceptionType.UNEXPECTED_ORDER);
-        }
-        if (state == XBChildSerialState.DATA) {
-            throw new XBSerialException("No data block allowed after data", XBProcessingExceptionType.UNEXPECTED_ORDER);
-        }
-        if (state == XBChildSerialState.BLOCK_BEGIN) {
-            pullProvider.pullToken(XBTTokenType.BEGIN);
-        }
-
-        XBTToken token = pullProvider.pullToken(XBTTokenType.DATA);
-        state = XBChildSerialState.DATA;
-        return ((XBTDataToken) token).getData();
+        XBTDataToken token = (XBTDataToken) pullProvider.pullToken(XBTTokenType.DATA);
+        processingState = XBParamProcessingState.DATA;
+        return token.getData();
     }
 
     @Override
     public void pullEnd() throws XBProcessingException, IOException {
-        if (state == XBChildSerialState.EOF) {
-            throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
+        processingState = XBParamProcessingState.END;
+        if (paramType.isConsist()) {
+            pullProvider.pullToken(XBTTokenType.END);
         }
 
-        pullProvider.pullToken(XBTTokenType.END);
-        state = XBChildSerialState.EOF;
+        if (paramTypes.isEmpty()) {
+            paramType = null;
+        } else {
+            paramType = paramTypes.remove(paramTypes.size() - 1);
+        }
     }
 
     @Override
@@ -179,39 +166,75 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
     }
 
     @Override
-    public void pullConsist(XBSerializable child) throws XBProcessingException, IOException {
-        if (state == XBChildSerialState.EOF) {
-            throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
-        }
-        if (state == XBChildSerialState.BLOCK_END) {
-            throw new XBSerialException("No more children available", XBProcessingExceptionType.UNEXPECTED_ORDER);
-        }
-        if (state == XBChildSerialState.DATA) {
-            throw new XBSerialException("No children after data allowed", XBProcessingExceptionType.UNEXPECTED_ORDER);
-        }
-        
-        pullProvider.pullChild(child);
-        state = XBChildSerialState.CHILDREN;
+    public void pullConsist(XBSerializable serial) throws XBProcessingException, IOException {
+        paramTypes.add(paramType);
+        paramType = XBParamType.CONSIST;
+        process(serial);
     }
 
     @Override
     public void pullJoin(XBSerializable serial) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        paramTypes.add(paramType);
+        paramType = XBParamType.JOIN;
+        process(serial);
     }
 
     @Override
-    public void pullListConsist(XBSerializable child) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void pullListConsist(XBSerializable serial) throws XBProcessingException, IOException {
+        UBENat32 listSize = new UBENat32();
+        listSize.convertFromNatural(pullAttribute());
+        int listItemCount = listSize.getInt();
+        ((XBListConsistSerializable) serial).reset();
+        for (int i = 0; i < listItemCount; i++) {
+            paramTypes.add(paramType);
+            paramType = XBParamType.CONSIST;
+            process(((XBListConsistSerializable) serial).next());
+        }
     }
 
     @Override
     public void pullListJoin(XBSerializable serial) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        UBNatural listSize = pullAttribute();
+        int listItemCount = listSize.getInt();
+        ((XBListConsistSerializable) serial).reset();
+        for (int i = 0; i < listItemCount; i++) {
+            paramTypes.add(paramType);
+            paramType = XBParamType.JOIN;
+            process(((XBListConsistSerializable) serial).next());
+        }
     }
 
     @Override
     public void pullItem(XBSerialSequenceItem item) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        switch (item.getSequenceOp()) {
+            case TOKEN: {
+                pullToken(((XBPTokenWrapper) item.getItem()).getToken().getTokenType());
+                break;
+            }
+            case CONSIST: {
+                pullConsist(item.getItem());
+                break;
+            }
+            case JOIN: {
+                pullConsist(item.getItem());
+                break;
+            }
+            case LIST_CONSIST: {
+                pullListConsist(item.getItem());
+                break;
+            }
+            case LIST_JOIN: {
+                pullListJoin(item.getItem());
+                break;
+            }
+        }
+
+        throw new IllegalStateException();
+    }
+
+    @Override
+    public void pullAppend(XBSerializable serial) throws XBProcessingException, IOException {
+        process(serial);
     }
 
     @Override
@@ -257,6 +280,11 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
     @Override
     public void listJoin(XBSerializable serial) throws XBProcessingException, IOException {
         pullListJoin(serial);
+    }
+
+    @Override
+    public void append(XBSerializable serial) throws XBProcessingException, IOException {
+        pullAppend(serial);
     }
 
     @Override
@@ -332,5 +360,79 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
     @Override
     public void putItem(XBSerialSequenceItem item) throws XBProcessingException, IOException {
         throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+    }
+
+    @Override
+    public void putAppend(XBSerializable serial) throws XBProcessingException, IOException {
+        throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+    }
+
+    private static class XBTChildInputSerialHandlerImpl implements XBTChildInputSerialHandler {
+
+        private final XBPProviderSerialHandler handler;
+
+        public XBTChildInputSerialHandlerImpl(XBPProviderSerialHandler handler) {
+            this.handler = handler;
+        }
+
+        @Override
+        public XBBlockTerminationMode pullBegin() throws XBProcessingException, IOException {
+            return handler.pullBegin();
+        }
+
+        @Override
+        public XBBlockType pullType() throws XBProcessingException, IOException {
+            return handler.pullType();
+        }
+
+        @Override
+        public UBNatural pullAttribute() throws XBProcessingException, IOException {
+            return handler.pullAttribute();
+        }
+
+        @Override
+        public byte pullByteAttribute() throws XBProcessingException, IOException {
+            return handler.pullByteAttribute();
+        }
+
+        @Override
+        public short pullShortAttribute() throws XBProcessingException, IOException {
+            return handler.pullShortAttribute();
+        }
+
+        @Override
+        public int pullIntAttribute() throws XBProcessingException, IOException {
+            return handler.pullIntAttribute();
+        }
+
+        @Override
+        public long pullLongAttribute() throws XBProcessingException, IOException {
+            return handler.pullLongAttribute();
+        }
+
+        @Override
+        public void pullChild(XBSerializable child) throws XBProcessingException, IOException {
+            handler.pullConsist(child);
+        }
+
+        @Override
+        public void pullAppend(XBSerializable serial) throws XBProcessingException, IOException {
+            handler.process(serial);
+        }
+
+        @Override
+        public InputStream pullData() throws XBProcessingException, IOException {
+            return handler.pullData();
+        }
+
+        @Override
+        public void pullEnd() throws XBProcessingException, IOException {
+            handler.pullEnd();
+        }
+
+        @Override
+        public void attachXBTPullProvider(XBTPullProvider provider) {
+            throw new IllegalStateException();
+        }
     }
 }

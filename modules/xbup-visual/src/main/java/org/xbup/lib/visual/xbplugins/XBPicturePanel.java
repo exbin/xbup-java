@@ -244,14 +244,14 @@ private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     @Override
     public void serializeFromXB(XBPInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         XBBufferedImage image = new XBBufferedImage();
-        image.serializeFromXB(serializationHandler);
+        serializationHandler.append(image);
         ((ImageIcon) imageLabel.getIcon()).setImage(image.getImage());
     }
 
     @Override
     public void serializeToXB(XBPOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(((ImageIcon) imageLabel.getIcon()).getImage()));
-        bufferedImage.serializeToXB(serializationHandler);
+        serializationHandler.append(bufferedImage);
     }
 
     public void attachChangeListener(ChangeListener listener) {

@@ -93,4 +93,22 @@ public interface UBENatural extends Serializable, UBStreamable {
      * Sets value to infinity constant.
      */
     public void setInfinity();
+
+    /**
+     * Convert this value to UBNatural form.
+     *
+     * TODO replace conversion with UBAttribute interface?
+     *
+     * @param natural
+     */
+    public void convertFromNatural(UBNatural natural);
+
+    /**
+     * Convert this value to UBNatural form.
+     *
+     * TODO replace conversion with UBAttribute interface?
+     *
+     * @return natural value
+     */
+    public UBNatural convertToNatural();
 }

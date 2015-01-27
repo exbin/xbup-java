@@ -72,7 +72,6 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     }
 
     public void process(XBSerializable serial) throws IOException, XBProcessingException {
-        paramType = XBParamType.CONSIST;
         if (serial instanceof XBPSerializable) {
             ((XBPSerializable) serial).serializeToXB(this);
         } else if (serial instanceof XBPSequenceSerializable) {
@@ -171,8 +170,10 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
                 eventListener.putToken(new XBTEndToken());
             }
             processingState = XBParamProcessingState.END;
-            if (!eventListener.isFinished()) {
-                process(eventListener.getNextChild());
+            XBSerializable nextChild = eventListener.getNextChild();
+            if (nextChild != null) {
+                processingState = XBParamProcessingState.START;
+                process(nextChild);
             }
         } else {
             throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
@@ -236,6 +237,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             return;
         }
 
+        paramType = XBParamType.CONSIST;
         eventListener.putChild(serial == null ? XBTEmptyBlock.getEmptyBlock() : serial);
     }
 
@@ -247,13 +249,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         }
 
         paramType = XBParamType.JOIN;
-        if (serial instanceof XBPSerializable) {
-            ((XBPSerializable) serial).serializeToXB(this);
-        } else if (serial instanceof XBPSequenceSerializable) {
-            ((XBPSequenceSerializable) serial).serializeXB(this);
-        } else {
-            throw new XBProcessingException("Unsupported child serialization", XBProcessingExceptionType.UNKNOWN);
-        }
+        process(serial);
     }
 
     @Override

@@ -414,6 +414,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
                             while (currentParameterInfo.attributeCount > 0) {
                                 UBNatural zeroAttribute = new UBNat32();
                                 setNextAttributeToken(zeroAttribute);
+                                currentParameterInfo.attributeCount--;
                             }
                             while (currentParameterInfo.childCount > 0) {
                                 throw new UnsupportedOperationException("Not supported yet.");

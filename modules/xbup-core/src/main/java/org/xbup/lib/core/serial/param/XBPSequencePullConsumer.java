@@ -76,7 +76,7 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
 
                 XBTToken token = pullProvider.pullXBTToken();
                 if (token.getTokenType() != XBTTokenType.BEGIN) {
-                    throw new XBProcessingException("Unexpected token type", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    throw new XBProcessingException("Unexpected token type " + token.getTokenType(), XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
                 processingState = XBParamProcessingState.BEGIN;
                 return token;

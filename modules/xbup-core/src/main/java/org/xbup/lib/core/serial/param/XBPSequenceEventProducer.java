@@ -123,10 +123,7 @@ public class XBPSequenceEventProducer implements XBTEventProducer {
                         }
                     }
 
-                    if (!nextSequence.isEmpty()) {
-                        nextChild = nextSequence.remove(0);
-                        processingState = XBParamProcessingState.START;
-                    }
+                    nextChild = nextSequence.isEmpty() ? null : nextSequence.remove(0);
                 } else {
                     throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }

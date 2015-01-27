@@ -70,7 +70,7 @@ public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable {
         catalogPath = path;
         this.formatDef = formatDef;
     }
-    
+
     @Override
     public List<XBGroupDecl> getGroupDecls() {
         List<XBGroupDecl> groups = new ArrayList<>();
@@ -126,6 +126,12 @@ public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable {
                 catalogPath[pathPosition] = serializationHandler.pullLongAttribute();
             }
             revision = serializationHandler.pullAttribute().getInt();
+
+            // TODO
+            if (formatDef == null) {
+                formatDef = new XBLFormatDef();
+            }
+            // serializationHandler.pullConsist(formatDef);
         } else {
             serializationHandler.putAttribute(catalogPath.length - 1);
             for (long pathIndex : catalogPath) {
@@ -133,8 +139,10 @@ public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable {
             }
 
             serializationHandler.putAttribute(revision);
+            if (formatDef != null) {
+                serializationHandler.putConsist(formatDef);
+            }
         }
-        serializationHandler.join(formatDef);
         serializationHandler.end();
     }
 

@@ -16,15 +16,19 @@
  */
 package org.xbup.lib.core.parser.token.pull.convert;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.token.XBTDataToken;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.pull.XBTPullFilter;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
+import org.xbup.lib.core.util.CopyStreamUtils;
 
 /**
  * Level 1 filter providing making accesible next token.
@@ -85,6 +89,11 @@ public class XBTPullPreLoader implements XBTPullFilter {
 
         if (depth > 0) {
             nextToken = pullProvider.pullXBTToken();
+            if (nextToken.getTokenType() == XBTTokenType.DATA) {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                CopyStreamUtils.copyInputStreamToOutputStream(((XBTDataToken) nextToken).getData(), stream);
+                nextToken = new XBTDataToken(new ByteArrayInputStream(stream.toByteArray()));
+            }
         }
 
         return returnToken;

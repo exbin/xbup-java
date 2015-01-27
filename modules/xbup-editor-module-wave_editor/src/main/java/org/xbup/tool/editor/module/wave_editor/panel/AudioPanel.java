@@ -65,7 +65,9 @@ import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
+import org.xbup.lib.core.block.definition.XBFormatParam;
 import org.xbup.lib.core.block.definition.XBFormatParamConsist;
+import org.xbup.lib.core.block.definition.XBGroupParam;
 import org.xbup.lib.core.block.definition.XBGroupParamConsist;
 import org.xbup.lib.core.block.definition.local.XBLFormatDef;
 import org.xbup.lib.core.block.definition.local.XBLGroupDef;
@@ -82,7 +84,7 @@ import org.xbup.tool.editor.base.api.FileType;
 /**
  * XBSEditor audio panel.
  *
- * @version 0.1.24 2014/11/24
+ * @version 0.1.24 2015/01/27
  * @author XBUP Project (http://xbup.org)
  */
 public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePanel {
@@ -502,10 +504,22 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         if (XBWaveEditorFrame.XBSFILETYPE.equals(fileType.getFileTypeId())) {
             try {
                 try (XBFileOutputStream output = new XBFileOutputStream(file)) {
-                    // TODO 
-                    XBLFormatDecl formatDecl = new XBLFormatDecl(new long[]{1, 4, 0, 1});
-                    // formatDecl.setDefDeclaration(getStubFormatDecl());
+                    // TODO: Until application will have access to framework, definition is included
+                    // TODO: Alternative is to have this structure stored in file
+                    XBLFormatDef formatDef = new XBLFormatDef();
+                    List<XBFormatParam> groups = formatDef.getFormatParams();
+                    XBLGroupDecl waveGroup = new XBLGroupDecl(new XBLGroupDef());
+                    List<XBGroupParam> waveBlocks = waveGroup.getGroupDef().getGroupParams();
+                    waveBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 5, 0})));
+                    ((XBLGroupDef) waveGroup.getGroupDef()).provideRevision();
+                    groups.add(new XBFormatParamConsist(waveGroup));
+                    formatDef.realignRevision();
+
+                    XBLFormatDecl formatDecl = new XBLFormatDecl(XBWave.XB_FORMAT_PATH);
+                    XBLFormatDecl contextFormatDecl = new XBLFormatDecl(formatDef);
                     XBDeclaration declaration = new XBDeclaration(formatDecl, wavePanel.getWave());
+                    declaration.setContextFormatDecl(contextFormatDecl);
+                    declaration.realignReservation();
                     XBPCatalog catalog = new XBPCatalog();
                     catalog.setRootContext(declaration.generateContext(catalog));
                     XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
@@ -611,12 +625,14 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         return new XBTChildSerializable() {
             @Override
             public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+                serial.pullBegin();
                 serial.pullType();
                 serial.pullAttribute();
                 serial.pullAttribute();
                 serial.pullChild(new XBTChildSerializable() {
                     @Override
                     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+                        serial.pullBegin();
                         serial.pullType();
                         serial.pullAttribute();
                         serial.pullAttribute();
@@ -761,7 +777,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         XBLGroupDef rgbPaletteGroupDef = new XBLGroupDef();
         rgbPaletteGroupDef.getGroupParams().add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 1}))); // DefaultRGBPalette
         rgbPaletteGroupDef.getGroupParams().add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 2}))); // DefaultRGBAPalette
-        
+
         XBLFormatDef formatDef = new XBLFormatDef();
         formatDef.getFormatParams().add(new XBFormatParamConsist(new XBLGroupDecl(rgbBitmapGroupDef)));
         formatDef.getFormatParams().add(new XBFormatParamConsist(new XBLGroupDecl(rgbPaletteGroupDef)));

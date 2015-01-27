@@ -28,6 +28,7 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -40,12 +41,13 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Simple panel audio wave.
  *
- * @version 0.1.23 2014/03/04
+ * @version 0.1.24 2015/01/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWave implements XBTChildSerializable {
 
     public static long[] XB_BLOCK_PATH = {0, 1000, 0, 0}; // Testing only
+    public static long[] XB_FORMAT_PATH = {1, 5, 0};
     private AudioFormat audioFormat;
     private List<byte[]> data;
     public int chunkSize;
@@ -121,6 +123,7 @@ public class XBWave implements XBTChildSerializable {
 
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+        serial.pullBegin();
         serial.pullType(); //setType(new XBCBlockDecl(xbBlockPath));
         UBNatural sampleRate = serial.pullAttribute();
         UBNatural sampleSizeInBits = serial.pullAttribute();
@@ -131,6 +134,7 @@ public class XBWave implements XBTChildSerializable {
         serial.pullChild(new XBTChildSerializable() {
             @Override
             public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+                serial.pullBegin();
                 loadRawFromStream(serial.pullData());
                 serial.pullEnd();
             }
@@ -145,6 +149,7 @@ public class XBWave implements XBTChildSerializable {
 
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+        serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
         serial.putType(new XBDeclBlockType(new XBLBlockDecl(XB_BLOCK_PATH)));
         serial.putAttribute(new UBNat32((long) audioFormat.getSampleRate()));
         serial.putAttribute(new UBNat32(audioFormat.getSampleSizeInBits()));
@@ -159,6 +164,7 @@ public class XBWave implements XBTChildSerializable {
 
             @Override
             public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+                serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
                 serial.putData(new WaveInputStream());
                 serial.putEnd();
             }
@@ -179,7 +185,7 @@ public class XBWave implements XBTChildSerializable {
             byte[] headBlock = data.get(headBlockIndex);
             byte[] tailBlock = data.get(tailBlockIndex);
             int tailPosition = data.get(tailBlockIndex).length;
-            
+
             while (remaining > 0) {
                 if (headPosition + sampleSize <= chunkSize) {
                     System.arraycopy(headBlock, headPosition, buffer, 0, sampleSize);
@@ -187,7 +193,7 @@ public class XBWave implements XBTChildSerializable {
                 } else {
                     throw new UnsupportedOperationException("Not supported yet.");
                 }
-                
+
                 if (tailPosition >= sampleSize) {
                     System.arraycopy(tailBlock, tailPosition - sampleSize, headBlock, headPosition - sampleSize, sampleSize);
                     System.arraycopy(buffer, 0, tailBlock, tailPosition - sampleSize, sampleSize);
@@ -195,19 +201,19 @@ public class XBWave implements XBTChildSerializable {
                 } else {
                     throw new UnsupportedOperationException("Not supported yet.");
                 }
-                
+
                 if (headPosition == chunkSize) {
                     headPosition = 0;
                     headBlockIndex++;
                     headBlock = data.get(headBlockIndex);
                 }
-                
+
                 if (tailPosition == 0) {
                     tailPosition = chunkSize;
                     tailBlockIndex--;
                     tailBlock = data.get(tailBlockIndex);
                 }
-                
+
                 remaining--;
             }
         }

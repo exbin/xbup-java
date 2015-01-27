@@ -70,7 +70,6 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
-import org.xbup.lib.core.parser.token.event.convert.XBTPrintEventFilter;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
@@ -92,7 +91,7 @@ import org.xbup.tool.editor.base.api.FileType;
 /**
  * Image panel for XBPEditor.
  *
- * @version 0.1.24 2015/01/24
+ * @version 0.1.24 2015/01/27
  * @author XBUP Project (http://xbup.org)
  */
 public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePanel {
@@ -391,7 +390,6 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
     @Override
     public void loadFromFile() {
         if (XBPictureEditorFrame.XBPFILETYPE.equals(fileType.getFileTypeId())) {
-            //XBTChildInputSerialHandler handler = new XBTChildProviderSerialHandler();
             try {
                 if (image == null) {
                     image = createImage(1, 1);
@@ -399,8 +397,10 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
 
                 XBPSerialReader reader = new XBPSerialReader(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName()))));
                 XBLFormatDecl formatDecl = new XBLFormatDecl(XBBufferedImage.XB_FORMAT_PATH);
-                XBDeclaration declaration = new XBDeclaration(formatDecl, new XBBufferedImage(toBufferedImage(image)));
+                XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(image));
+                XBDeclaration declaration = new XBDeclaration(formatDecl, bufferedImage);
                 reader.read(declaration);
+                image = bufferedImage.getImage();
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(ImagePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -451,7 +451,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                     declaration.realignReservation();
                     XBPCatalog catalog = new XBPCatalog();
                     XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
-                    encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTPrintEventFilter(new XBTToXBEventConvertor(output))));
+                    encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
                     XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(encapsulator));
                     writer.write(declaration);
                 }

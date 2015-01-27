@@ -161,4 +161,12 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
         attributeSequence = new ArrayList<>();
         processingState = XBParamProcessingState.START;
     }
+
+    public void pullRest() throws XBProcessingException, IOException {
+        pullProvider.skipChildren();
+        XBTToken token = pullProvider.pullXBTToken();
+        if (token.getTokenType() != XBTTokenType.END) {
+            throw new XBProcessingException("End token was expected, but " + token.getTokenType().name() + " token was received", XBProcessingExceptionType.UNEXPECTED_ORDER);
+        }
+    }
 }

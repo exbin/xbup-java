@@ -69,7 +69,7 @@ import org.xbup.tool.editor.base.api.MainFrameManagement;
 /**
  * Text editor panel.
  *
- * @version 0.1.24 2014/11/23
+ * @version 0.1.24 2015/01/27
  * @author XBUP Project (http://xbup.org)
  */
 public class TextPanel extends javax.swing.JPanel implements ApplicationFilePanel, ActivePanelUndoable {
@@ -346,7 +346,7 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
                     XBFileInputStream fileStream = new XBFileInputStream(file);
                     XBChildInputSerialHandler handler = new XBChildProviderSerialHandler();
                     handler.attachXBPullProvider(fileStream);
-                    new XBL0TextPanelSerializable().serializeFromXB(handler);
+                    new XBTextPanelSerializable().serializeFromXB(handler);
                     break;
                 }
                 case XBTextEditorFrame.TXT_FILE_TYPE: {
@@ -382,7 +382,7 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
                     XBFileOutputStream fileStream = new XBFileOutputStream(file);
                     XBChildListenerSerialHandler handler = new XBChildListenerSerialHandler();
                     handler.attachXBEventListener(fileStream);
-                    new XBL0TextPanelSerializable().serializeToXB(handler);
+                    new XBTextPanelSerializable().serializeToXB(handler);
                     break;
                 }
                 case XBTextEditorFrame.TXT_FILE_TYPE: {
@@ -522,7 +522,7 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
         return frameTitle;
     }
 
-    private class XBL0TextPanelSerializable implements XBChildSerializable {
+    private class XBTextPanelSerializable implements XBChildSerializable {
 
         @Override
         public void serializeFromXB(XBChildInputSerialHandler serial) throws XBProcessingException, IOException {

@@ -151,8 +151,9 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         processingState = XBParamProcessingState.END;
         if (paramType.isConsist()) {
             pullProvider.pullToken(XBTTokenType.END);
+            pullProvider.pullRest();
         }
-
+        
         if (paramTypes.isEmpty()) {
             paramType = null;
         } else {

@@ -24,8 +24,6 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.param.XBPInputSerialHandler;
 import org.xbup.lib.core.serial.param.XBPOutputSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSerializable;
@@ -35,7 +33,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * BufferedImage testing serializer.
  *
- * @version 0.1.24 2015/01/24
+ * @version 0.1.24 2015/01/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBBufferedImage implements XBPSerializable {

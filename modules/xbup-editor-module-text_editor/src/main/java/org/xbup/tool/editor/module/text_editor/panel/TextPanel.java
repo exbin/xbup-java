@@ -29,12 +29,12 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -49,6 +49,15 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Document;
 import javax.swing.text.Highlighter.Highlight;
 import javax.swing.undo.UndoableEdit;
+import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
+import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
+import org.xbup.lib.core.block.definition.XBFormatParam;
+import org.xbup.lib.core.block.definition.XBFormatParamConsist;
+import org.xbup.lib.core.block.definition.XBGroupParam;
+import org.xbup.lib.core.block.definition.XBGroupParamConsist;
+import org.xbup.lib.core.block.definition.local.XBLFormatDef;
+import org.xbup.lib.core.block.definition.local.XBLGroupDef;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.child.XBChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBChildListenerSerialHandler;
@@ -69,27 +78,29 @@ import org.xbup.tool.editor.base.api.MainFrameManagement;
 /**
  * Text editor panel.
  *
- * @version 0.1.24 2015/01/27
+ * @version 0.1.24 2015/01/28
  * @author XBUP Project (http://xbup.org)
  */
 public class TextPanel extends javax.swing.JPanel implements ApplicationFilePanel, ActivePanelUndoable {
 
-    final TextPanelCompoundUndoManager undoManagement;
+    private final TextPanelCompoundUndoManager undoManagement = new TextPanelCompoundUndoManager();
     private String fileName;
     private FileType fileType;
     private boolean modified = false;
     private Object highlight;
     private Color foundTextBackgroundColor;
     private Charset charset;
-    private final Font defaultFont;
-    private final Color[] defaultColors;
+    private Font defaultFont;
+    private Color[] defaultColors;
     private PropertyChangeListener propertyChangeListener;
     private MainFrameManagement mainFrameManagement;
 
     public TextPanel() {
         initComponents();
+        init();
+    }
 
-        undoManagement = new TextPanelCompoundUndoManager();
+    private void init() {
         fileName = "";
         highlight = null;
         foundTextBackgroundColor = Color.YELLOW;
@@ -120,7 +131,7 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
             }
         });
 
-        // Listen for undoManagement and redo events
+        // Listener for undoManagement and redo events
         textArea.getDocument().addUndoableEditListener(new UndoableEditListener() {
             @Override
             public void undoableEditHappened(UndoableEditEvent evt) {
@@ -340,16 +351,29 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
     @Override
     public void loadFromFile() {
         File file = new File(getFileName());
-        try {
-            switch (fileType.getFileTypeId()) {
-                case XBTextEditorFrame.XBT_FILE_TYPE: {
+        switch (fileType.getFileTypeId()) {
+            case XBTextEditorFrame.XBT_FILE_TYPE: {
+                try {
+                    // TODO
+                    /*XBPSerialReader reader = new XBPSerialReader(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName()))));
+                     XBLFormatDecl formatDecl = new XBLFormatDecl(XBBufferedImage.XB_FORMAT_PATH);
+                     XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(image));
+                     XBDeclaration declaration = new XBDeclaration(formatDecl, bufferedImage);
+                     reader.read(declaration);
+                     image = bufferedImage.getImage();
+                     */
+
                     XBFileInputStream fileStream = new XBFileInputStream(file);
                     XBChildInputSerialHandler handler = new XBChildProviderSerialHandler();
                     handler.attachXBPullProvider(fileStream);
                     new XBTextPanelSerializable().serializeFromXB(handler);
-                    break;
+                } catch (XBProcessingException | IOException ex) {
+                    Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                case XBTextEditorFrame.TXT_FILE_TYPE: {
+                break;
+            }
+            case XBTextEditorFrame.TXT_FILE_TYPE: {
+                try {
                     XBFileInputStream fileStream = new XBFileInputStream(file);
                     int gotChars;
                     char[] buffer = new char[32];
@@ -359,56 +383,102 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
                         data.append(buffer, 0, gotChars);
                     }
                     textArea.setText(data.toString());
-                    break;
+                } catch (IOException ex) {
+                    Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                break;
             }
-
-            setModified(false);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        setModified(false);
     }
 
     @Override
     public void saveToFile() {
         File file = new File(getFileName());
-        try {
-            switch (fileType.getFileTypeId()) {
-                case XBTextEditorFrame.XBT_FILE_TYPE: {
+        switch (fileType.getFileTypeId()) {
+            case XBTextEditorFrame.XBT_FILE_TYPE: {
+                /*
+                try {
+                    XBFileOutputStream output = new XBFileOutputStream(file);
+                    XBEncodingString encodingString = new XBEncodingString();
+                    encodingString.setValue(textArea.getText());
+                    encodingString.setCharset(charset);
+
+                    XBLFormatDecl formatDecl = new XBLFormatDecl(XBEncodingString.XB_FORMAT_PATH);
+                    XBDeclaration declaration = new XBDeclaration(formatDecl, encodingString);
+                    declaration.setContextFormatDecl(getContextFormatDecl());
+                    declaration.realignReservation();
+                    XBPCatalog catalog = new XBPCatalog();
+                    XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
+                    encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
+                    XBTListenerToEventListener eventListener = new XBTListenerToEventListener(encapsulator);
+                    XBPSerialWriter writer = new XBPSerialWriter(eventListener);
+                    writer.write(declaration);
+                 // eventListener.putXBTToken(new );
+
+                } catch (XBProcessingException | IOException ex) {
+                    Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } */
+
+                try {
                     XBFileOutputStream fileStream = new XBFileOutputStream(file);
                     XBChildListenerSerialHandler handler = new XBChildListenerSerialHandler();
                     handler.attachXBEventListener(fileStream);
                     new XBTextPanelSerializable().serializeToXB(handler);
-                    break;
+                } catch (XBProcessingException | IOException ex) {
+                    Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                case XBTextEditorFrame.TXT_FILE_TYPE: {
+                break;
+            }
+            case XBTextEditorFrame.TXT_FILE_TYPE: {
+                try {
                     XBFileOutputStream fileStream = new XBFileOutputStream(file);
                     String text = textArea.getText();
-                    try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileStream.getTarget(), charset))) {
-                        int fileLength = text.length();
-                        int offset = 0;
-                        while (offset < fileLength) {
-                            int length = Math.min(1024, fileLength - offset);
-                            writer.write(text, offset, length);
-                            offset += length;
-                        }
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileStream.getTarget(), charset));
+                    int fileLength = text.length();
+                    int offset = 0;
+                    while (offset < fileLength) {
+                        int length = Math.min(1024, fileLength - offset);
+                        writer.write(text, offset, length);
+                        offset += length;
                     }
-                    break;
+                } catch (IOException ex) {
+                    Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                break;
             }
-
-            setModified(false);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        setModified(false);
+    }
+
+    /**
+     * Returns local format declaration when catalog or service is not
+     * available.
+     *
+     * TODO: Move to resources as serialized file
+     *
+     * @return local format declaration
+     */
+    public XBLFormatDecl getContextFormatDecl() {
+        XBLFormatDef formatDef = new XBLFormatDef();
+        List<XBFormatParam> groups = formatDef.getFormatParams();
+        XBLGroupDecl encodingGroup = new XBLGroupDecl(new XBLGroupDef());
+        List<XBGroupParam> bitmapBlocks = encodingGroup.getGroupDef().getGroupParams();
+        bitmapBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 1, 1, 0})));
+        ((XBLGroupDef) encodingGroup.getGroupDef()).provideRevision();
+        XBLGroupDecl stringGroup = new XBLGroupDecl(new XBLGroupDef());
+        List<XBGroupParam> paletteBlocks = stringGroup.getGroupDef().getGroupParams();
+        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 2, 0, 0})));
+        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 1, 1, 0})));
+        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 2, 2, 0})));
+        ((XBLGroupDef) stringGroup.getGroupDef()).provideRevision();
+        groups.add(new XBFormatParamConsist(encodingGroup));
+        groups.add(new XBFormatParamConsist(stringGroup));
+        formatDef.realignRevision();
+
+        return new XBLFormatDecl(formatDef);
     }
 
     @Override

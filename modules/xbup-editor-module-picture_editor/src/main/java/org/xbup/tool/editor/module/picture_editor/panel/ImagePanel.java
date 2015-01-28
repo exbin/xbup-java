@@ -75,9 +75,6 @@ import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.serial.XBPSerialReader;
 import org.xbup.lib.core.serial.XBPSerialWriter;
-import org.xbup.lib.core.serial.param.XBPInputSerialHandler;
-import org.xbup.lib.core.serial.param.XBPOutputSerialHandler;
-import org.xbup.lib.core.serial.param.XBPSerializable;
 import org.xbup.lib.core.stream.file.XBFileOutputStream;
 import org.xbup.lib.visual.picture.XBBufferedImage;
 import org.xbup.tool.editor.module.picture_editor.PictureFileType;
@@ -91,13 +88,12 @@ import org.xbup.tool.editor.base.api.FileType;
 /**
  * Image panel for XBPEditor.
  *
- * @version 0.1.24 2015/01/27
+ * @version 0.1.24 2015/01/28
  * @author XBUP Project (http://xbup.org)
  */
 public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePanel {
 
-    public static int PNG_FILEMODE = 1;
-    public static int XB_FILEMODE = 2;
+    private static final String DEFAULT_PICTURE_FILE_EXT = "PNG";
 
     final UndoManager undo;
     private String fileName;
@@ -133,7 +129,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
          public void insertUpdate(DocumentEvent e) { setModified(true); }
          public void removeUpdate(DocumentEvent e) { setModified(true); }
          }); */
-        // Listen for undo and redo events
+        // Listener for undo and redo events
 /*        imageArea.getDocument().addUndoableEditListener(new UndoableEditListener() {
 
          public void undoableEditHappened(UndoableEditEvent evt) {
@@ -183,22 +179,27 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
     }
 
     public void performCopy() {
+        throw new UnsupportedOperationException("Not supported yet.");
 //        imageArea.copy();
     }
 
     public void performCut() {
+        throw new UnsupportedOperationException("Not supported yet.");
 //        imageArea.cut();
     }
 
     public void performDelete() {
+        throw new UnsupportedOperationException("Not supported yet.");
 //        imageArea.getInputContext().dispatchEvent(new KeyEvent(this, KeyEvent.KEY_PRESSED, 0, 0, KeyEvent.VK_DELETE, KeyEvent.CHAR_UNDEFINED));
     }
 
     public void performPaste() {
+        throw new UnsupportedOperationException("Not supported yet.");
 //        imageArea.paste();
     }
 
     public void performSelectAll() {
+        throw new UnsupportedOperationException("Not supported yet.");
 //        imageArea.selectAll();
     }
 
@@ -356,17 +357,11 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
-    /**
-     * @return the modified
-     */
     @Override
     public boolean isModified() {
         return modified;
     }
 
-    /**
-     * @param modified the modified to set
-     */
     public void setModified(boolean modified) {
         /*        if (highlight != null) {
          imageArea.getHighlighter().removeHighlight(highlight);
@@ -419,42 +414,16 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         File file = new File(getFileName());
         if (XBPictureEditorFrame.XBPFILETYPE.equals(fileType.getFileTypeId())) {
             try {
-                try (XBFileOutputStream output = new XBFileOutputStream(file)) {
-                    // TODO: Until application will have access to framework, definition is included
-                    // TODO: Alternative is to have this structure stored in file
-                    XBLFormatDef formatDef = new XBLFormatDef();
-                    List<XBFormatParam> groups = formatDef.getFormatParams();
-                    XBLGroupDecl bitmapGroup = new XBLGroupDecl(new XBLGroupDef());
-                    List<XBGroupParam> bitmapBlocks = bitmapGroup.getGroupDef().getGroupParams();
-                    bitmapBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 0, 1, 0})));
-                    bitmapBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 0, 2, 0})));
-                    ((XBLGroupDef) bitmapGroup.getGroupDef()).provideRevision();
-                    XBLGroupDecl paletteGroup = new XBLGroupDecl(new XBLGroupDef());
-                    List<XBGroupParam> paletteBlocks = paletteGroup.getGroupDef().getGroupParams();
-                    paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 1, 0})));
-                    paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 1, 0})));
-                    paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 2, 0})));
-                    paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 3, 0})));
-                    paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 4, 0})));
-                    paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 5, 0})));
-                    paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 6, 0})));
-                    paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 7, 0})));
-                    ((XBLGroupDef) paletteGroup.getGroupDef()).provideRevision();
-                    groups.add(new XBFormatParamConsist(bitmapGroup));
-                    groups.add(new XBFormatParamConsist(paletteGroup));
-                    formatDef.realignRevision();
-
-                    XBLFormatDecl formatDecl = new XBLFormatDecl(XBBufferedImage.XB_FORMAT_PATH);
-                    XBLFormatDecl contextFormatDecl = new XBLFormatDecl(formatDef);
-                    XBDeclaration declaration = new XBDeclaration(formatDecl, new XBBufferedImage(toBufferedImage(image)));
-                    declaration.setContextFormatDecl(contextFormatDecl);
-                    declaration.realignReservation();
-                    XBPCatalog catalog = new XBPCatalog();
-                    XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
-                    encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
-                    XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(encapsulator));
-                    writer.write(declaration);
-                }
+                XBFileOutputStream output = new XBFileOutputStream(file);
+                XBLFormatDecl formatDecl = new XBLFormatDecl(XBBufferedImage.XB_FORMAT_PATH);
+                XBDeclaration declaration = new XBDeclaration(formatDecl, new XBBufferedImage(toBufferedImage(image)));
+                declaration.setContextFormatDecl(getContextFormatDecl());
+                declaration.realignReservation();
+                XBPCatalog catalog = new XBPCatalog();
+                XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
+                encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
+                XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(encapsulator));
+                writer.write(declaration);
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(ImagePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -463,14 +432,46 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                 if (fileType instanceof PictureFileType) {
                     ext = ((PictureFileType) fileType).getExt();
                 }
-                if (ext == null) {
-                    ext = "PNG";
-                }
-                ImageIO.write((RenderedImage) image, ext, file);
+
+                ImageIO.write((RenderedImage) image, ext == null ? DEFAULT_PICTURE_FILE_EXT : ext, file);
             } catch (IOException ex) {
                 Logger.getLogger(ImagePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    /**
+     * Returns local format declaration when catalog or service is not
+     * available.
+     *
+     * TODO: Move to resources as serialized file
+     *
+     * @return local format declaration
+     */
+    public XBLFormatDecl getContextFormatDecl() {
+        XBLFormatDef formatDef = new XBLFormatDef();
+        List<XBFormatParam> groups = formatDef.getFormatParams();
+        XBLGroupDecl bitmapGroup = new XBLGroupDecl(new XBLGroupDef());
+        List<XBGroupParam> bitmapBlocks = bitmapGroup.getGroupDef().getGroupParams();
+        bitmapBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 0, 1, 0})));
+        bitmapBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 0, 2, 0})));
+        ((XBLGroupDef) bitmapGroup.getGroupDef()).provideRevision();
+        XBLGroupDecl paletteGroup = new XBLGroupDecl(new XBLGroupDef());
+        List<XBGroupParam> paletteBlocks = paletteGroup.getGroupDef().getGroupParams();
+        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 1, 0})));
+        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 1, 0})));
+        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 2, 0})));
+        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 3, 0})));
+        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 4, 0})));
+        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 5, 0})));
+        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 6, 0})));
+        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 7, 0})));
+        ((XBLGroupDef) paletteGroup.getGroupDef()).provideRevision();
+        groups.add(new XBFormatParamConsist(bitmapGroup));
+        groups.add(new XBFormatParamConsist(paletteGroup));
+        formatDef.realignRevision();
+
+        return new XBLFormatDecl(formatDef);
     }
 
     @Override
@@ -485,17 +486,11 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         setModified(false);
     }
 
-    /**
-     * @return the fileName
-     */
     @Override
     public String getFileName() {
         return fileName;
     }
 
-    /**
-     * @param fileName the fileName to set
-     */
     @Override
     public void setFileName(String fileName) {
         this.fileName = fileName;
@@ -509,9 +504,6 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         imageArea.setComponentPopupMenu(menu);
     }
 
-    /**
-     * @return the defaultFont
-     */
     public Font getDefaultFont() {
         return defaultFont;
     }
@@ -526,16 +518,10 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         imageArea.repaint();
     }
 
-    /**
-     * @return the ext
-     */
     public String getExt() {
         return ext;
     }
 
-    /**
-     * @param ext the ext to set
-     */
     public void setExt(String ext) {
         this.ext = ext;
     }
@@ -651,93 +637,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
             grph = image.getGraphics();
             grph.setColor(toolColor);
             scale(scaleRatio);
-//            scaledImage.flush();
-//            imageArea.repaint();
-/*            ((ImageIcon) imageArea.getIcon()).setImage(scaledImage);
-             imageArea.setSize(width, height);
-             imageArea.repaint(); */
-//            textArea.setForeground(dlg.getMyColor());
         }
-    }
-
-    public XBPSerializable getXBTDataSerializator() {
-        return new XBPSerializable() {
-            @Override
-            public void serializeFromXB(XBPInputSerialHandler serial) throws XBProcessingException, IOException {
-                XBBufferedImage srcImage = new XBBufferedImage();
-                srcImage.serializeFromXB(serial);
-                image = toBufferedImage(srcImage.getImage());
-                scaledImage = image;
-                grph = image.getGraphics();
-                grph.setColor(toolColor);
-                imageArea.setIcon(new ImageIcon(image));
-                scale(scaleRatio);
-            }
-
-            @Override
-            public void serializeToXB(XBPOutputSerialHandler serial) throws XBProcessingException, IOException {
-                XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(image));
-                bufferedImage.serializeToXB(serial);
-            }
-        };
-    }
-
-    // TODO: This is ugly stub for loaging files skipping definition
-    public XBPSerializable getStubXBTDataSerializator() {
-        return new XBPSerializable() {
-            @Override
-            public void serializeFromXB(XBPInputSerialHandler serial) throws XBProcessingException, IOException {
-                serial.pullType();
-                serial.pullAttribute();
-                serial.pullAttribute();
-                serial.pullAttribute();
-                serial.pullConsist(new XBPSerializable() {
-                    @Override
-                    public void serializeFromXB(XBPInputSerialHandler serial) throws XBProcessingException, IOException {
-                        serial.pullType();
-                        serial.pullAttribute();
-                        serial.pullAttribute();
-                        serial.pullAttribute();
-                        serial.pullAttribute();
-                        serial.pullAttribute();
-                        serial.pullAttribute();
-                        serial.pullEnd();
-                    }
-
-                    @Override
-                    public void serializeToXB(XBPOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                        throw new IllegalStateException();
-                    }
-                });
-
-                serial.pullConsist(new XBPSerializable() {
-                    @Override
-                    public void serializeFromXB(XBPInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                        XBBufferedImage srcImage = new XBBufferedImage();
-                        srcImage.serializeFromXB(serializationHandler);
-                        image = toBufferedImage(srcImage.getImage());
-                        scaledImage = image;
-                        grph = image.getGraphics();
-                        grph.setColor(toolColor);
-                        imageArea.setIcon(new ImageIcon(image));
-                        scale(scaleRatio);
-                    }
-
-                    @Override
-                    public void serializeToXB(XBPOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                        throw new IllegalStateException();
-                    }
-                });
-
-                serial.pullEnd();
-            }
-
-            @Override
-            public void serializeToXB(XBPOutputSerialHandler serial) throws XBProcessingException, IOException {
-                XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(image));
-                bufferedImage.serializeToXB(serial);
-            }
-        };
     }
 
     @Override

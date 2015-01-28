@@ -56,8 +56,6 @@ import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
-import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.stream.file.XBFileOutputStream;
 import org.xbup.lib.audio.swing.XBWavePanel;
 import org.xbup.lib.audio.wave.XBWave;
@@ -75,7 +73,6 @@ import org.xbup.lib.core.catalog.XBPCatalog;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
 import org.xbup.lib.core.serial.XBPSerialReader;
 import org.xbup.lib.core.serial.XBPSerialWriter;
-import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.tool.editor.module.wave_editor.XBWaveEditorFrame;
 import org.xbup.tool.editor.module.wave_editor.dialog.WaveResizeDialog;
 import org.xbup.tool.editor.base.api.ApplicationFilePanel;
@@ -84,12 +81,12 @@ import org.xbup.tool.editor.base.api.FileType;
 /**
  * XBSEditor audio panel.
  *
- * @version 0.1.24 2015/01/27
+ * @version 0.1.24 2015/01/28
  * @author XBUP Project (http://xbup.org)
  */
 public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePanel {
 
-    final UndoManager undo;
+    private final UndoManager undo = new UndoManager();
     private String fileName;
     private String ext;
     private javax.sound.sampled.AudioFileFormat.Type audioFormatType;
@@ -99,11 +96,11 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
     private int drawPosition = -1;
     private int wavePosition = -1;
 
-    private final PlayThread playThread;
-    private final WavePaintThread wavePaintThread;
+    private final PlayThread playThread = new PlayThread();
+    private final WavePaintThread wavePaintThread = new WavePaintThread();
 
     private double scaleRatio;
-    private final Color[] defaultColors;
+    private Color[] defaultColors;
     private XBWavePanel wavePanel;
     private SourceDataLine sourceDataLine;
     private AudioInputStream audioInputStream;
@@ -111,13 +108,16 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
     private DataLine.Info targetDataLineInfo;
     private int dataLinePosition;
     private InputMethodListener caretListener;
-    private final List<StatusChangeListener> statusChangeListeners;
-    private final List<WaveRepaintListener> waveRepaintListeners;
+    private final List<StatusChangeListener> statusChangeListeners = new ArrayList<>();
+    private final List<WaveRepaintListener> waveRepaintListeners = new ArrayList<>();
 
     public AudioPanel() {
         initComponents();
+        init();
+    }
+
+    private void init() {
         scaleRatio = 1;
-        undo = new UndoManager();
         fileName = "";
         audioFormatType = null;
 
@@ -151,7 +151,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
          public void insertUpdate(DocumentEvent e) { setModified(true); }
          public void removeUpdate(DocumentEvent e) { setModified(true); }
          }); */
-        // Listen for undo and redo events
+        // Listener for undo and redo events
 /*        imageArea.getDocument().addUndoableEditListener(new UndoableEditListener() {
 
          public void undoableEditHappened(UndoableEditEvent evt) {
@@ -193,15 +193,11 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
          // Bind the redo action to ctl-Y
          imageArea.getInputMap().put(KeyStroke.getKeyStroke("control Y"), "Redo");
          */
-        playThread = new PlayThread();
         playThread.start();
-        wavePaintThread = new WavePaintThread();
         wavePaintThread.start();
         targetDataLineInfo = null;
         audioInputStream = null;
 
-        statusChangeListeners = new ArrayList<>();
-        waveRepaintListeners = new ArrayList<>();
 //        if ( !AudioSystem.isLineSupported( info ) )
     }
 
@@ -419,17 +415,11 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
     private javax.swing.JScrollBar scrollBar;
     // End of variables declaration//GEN-END:variables
 
-    /**
-     * @return the modified
-     */
     @Override
     public boolean isModified() {
         return modified;
     }
 
-    /**
-     * @param modified the modified to set
-     */
     public void setModified(boolean modified) {
         /*        if (highlight != null) {
          imageArea.getHighlighter().removeHighlight(highlight);
@@ -460,6 +450,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
                 XBDeclaration declaration = new XBDeclaration(formatDecl, wave);
                 reader.read(declaration);
                 wavePanel.setWave(wave);
+                scrollBar.setMaximum(wavePanel.getWaveWidth());
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -490,6 +481,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
             targetFormat = audioInputStream.getFormat();
             targetDataLineInfo = new DataLine.Info(SourceDataLine.class, targetFormat);
         }
+
         try {
             sourceDataLine = (SourceDataLine) AudioSystem.getLine(targetDataLineInfo); //(SourceDataLine) AudioSystem.getSourceDataLine(targetFormat, AudioSystem.getMixerInfo()[0]); //Line(targetDataLineInfo);
         } catch (LineUnavailableException ex) {
@@ -506,31 +498,19 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         File file = new File(getFileName());
         if (XBWaveEditorFrame.XBSFILETYPE.equals(fileType.getFileTypeId())) {
             try {
-                try (XBFileOutputStream output = new XBFileOutputStream(file)) {
-                    // TODO: Until application will have access to framework, definition is included
-                    // TODO: Alternative is to have this structure stored in file
-                    XBLFormatDef formatDef = new XBLFormatDef();
-                    List<XBFormatParam> groups = formatDef.getFormatParams();
-                    XBLGroupDecl waveGroup = new XBLGroupDecl(new XBLGroupDef());
-                    List<XBGroupParam> waveBlocks = waveGroup.getGroupDef().getGroupParams();
-                    waveBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 5, 0, 0})));
-                    ((XBLGroupDef) waveGroup.getGroupDef()).provideRevision();
-                    groups.add(new XBFormatParamConsist(waveGroup));
-                    formatDef.realignRevision();
+                XBFileOutputStream output = new XBFileOutputStream(file);
 
-                    XBLFormatDecl formatDecl = new XBLFormatDecl(XBWave.XB_FORMAT_PATH);
-                    XBLFormatDecl contextFormatDecl = new XBLFormatDecl(formatDef);
-                    XBDeclaration declaration = new XBDeclaration(formatDecl, wavePanel.getWave());
-                    declaration.setContextFormatDecl(contextFormatDecl);
-                    declaration.realignReservation();
-                    XBPCatalog catalog = new XBPCatalog();
-                    catalog.setRootContext(declaration.generateContext(catalog));
-                    XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
-                    encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
-                    XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(encapsulator));
-                    writer.write(declaration);
-                }
-            } catch (IOException ex) {
+                XBLFormatDecl formatDecl = new XBLFormatDecl(XBWave.XB_FORMAT_PATH);
+                XBDeclaration declaration = new XBDeclaration(formatDecl, wavePanel.getWave());
+                declaration.setContextFormatDecl(getContextFormatDecl());
+                declaration.realignReservation();
+                XBPCatalog catalog = new XBPCatalog();
+                catalog.setRootContext(declaration.generateContext(catalog));
+                XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
+                encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
+                XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(encapsulator));
+                writer.write(declaration);
+            } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
@@ -540,6 +520,27 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
                 wavePanel.getWave().saveToFile(file, getFileType());
             }
         }
+    }
+
+    /**
+     * Returns local format declaration when catalog or service is not
+     * available.
+     *
+     * TODO: Move to resources as serialized file
+     *
+     * @return local format declaration
+     */
+    public XBLFormatDecl getContextFormatDecl() {
+        XBLFormatDef formatDef = new XBLFormatDef();
+        List<XBFormatParam> groups = formatDef.getFormatParams();
+        XBLGroupDecl waveGroup = new XBLGroupDecl(new XBLGroupDef());
+        List<XBGroupParam> waveBlocks = waveGroup.getGroupDef().getGroupParams();
+        waveBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 5, 0, 0})));
+        ((XBLGroupDef) waveGroup.getGroupDef()).provideRevision();
+        groups.add(new XBFormatParamConsist(waveGroup));
+        formatDef.realignRevision();
+
+        return new XBLFormatDecl(formatDef);
     }
 
     @Override
@@ -598,83 +599,6 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
     public void showResizeDialog(WaveResizeDialog dlg) {
         if (dlg.getDialogOption() == JOptionPane.OK_OPTION) {
         }
-    }
-
-    public XBTChildSerializable getXBTDataSerializator() {
-        return new XBTChildSerializable() {
-            @Override
-            public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                /* TODO                XBBufferedImage srcImage = new XBBufferedImage();
-                 srcImage.serializeFromXBT(serial);
-                 image = toBufferedImage(srcImage.getImage());
-                 scaledImage = image;
-                 grph = image.getGraphics();
-                 grph.setColor(toolColor);
-                 imageArea.setIcon(new ImageIcon(image));
-                 scale(scaleRatio); */
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-
-            @Override
-            public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                // TODO                new XBBufferedImage(toBufferedImage(image)).serializeToXBT(serial);
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-        };
-    }
-
-    // TODO: This is ugly stub for loading files skipping definition
-    public XBTChildSerializable getStubXBTDataSerializator() {
-        return new XBTChildSerializable() {
-            @Override
-            public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-                serial.pullBegin();
-                serial.pullType();
-                serial.pullAttribute();
-                serial.pullAttribute();
-                serial.pullChild(new XBTChildSerializable() {
-                    @Override
-                    public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-                        serial.pullBegin();
-                        serial.pullType();
-                        serial.pullAttribute();
-                        serial.pullAttribute();
-                        serial.pullAttribute();
-                        serial.pullAttribute();
-                        serial.pullAttribute();
-                        serial.pullAttribute();
-                        serial.pullEnd();
-                    }
-
-                    @Override
-                    public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                        throw new UnsupportedOperationException("Not supported yet.");
-                    }
-                });
-
-                serial.pullChild(new XBTChildSerializable() {
-                    @Override
-                    public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                        XBWave srcWave = new XBWave();
-                        srcWave.serializeFromXB(serializationHandler);
-                        wavePanel.setWave(srcWave);
-                        scrollBar.setMaximum(wavePanel.getWaveWidth());
-                    }
-
-                    @Override
-                    public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                        throw new UnsupportedOperationException("Not supported yet.");
-                    }
-                });
-
-                serial.pullEnd();
-            }
-
-            @Override
-            public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                wavePanel.getWave().serializeToXB(serializationHandler);
-            }
-        };
     }
 
     public String getPositionTime() {
@@ -771,20 +695,6 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         XBWave wave = wavePanel.getWave();
         wave.performTransformReverse();
         repaint();
-    }
-
-    private XBLFormatDecl getStubFormatDecl() {
-        XBLGroupDef rgbBitmapGroupDef = new XBLGroupDef();
-        rgbBitmapGroupDef.getGroupParams().add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 0, 1}))); // ItemBitmap
-        rgbBitmapGroupDef.getGroupParams().add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 0, 2}))); // PixelPlane
-        XBLGroupDef rgbPaletteGroupDef = new XBLGroupDef();
-        rgbPaletteGroupDef.getGroupParams().add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 1}))); // DefaultRGBPalette
-        rgbPaletteGroupDef.getGroupParams().add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 2}))); // DefaultRGBAPalette
-
-        XBLFormatDef formatDef = new XBLFormatDef();
-        formatDef.getFormatParams().add(new XBFormatParamConsist(new XBLGroupDecl(rgbBitmapGroupDef)));
-        formatDef.getFormatParams().add(new XBFormatParamConsist(new XBLGroupDecl(rgbPaletteGroupDef)));
-        return new XBLFormatDecl(formatDef);
     }
 
     class PlayThread extends Thread {

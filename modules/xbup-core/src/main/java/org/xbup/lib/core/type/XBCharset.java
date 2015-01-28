@@ -16,35 +16,53 @@
  */
 package org.xbup.lib.core.type;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
-import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBSerializationMode;
 
 /**
  * Encapsulation class for charset.
  *
- * @version 0.1.23 2014/03/03
+ * @version 0.1.24 2015/01/28
  * @author XBUP Project (http://xbup.org)
  */
-public class XBCharset implements XBSerializable {
-
+public class XBCharset implements XBPSequenceSerializable {
+    
     private Charset charset;
     public static long[] XB_BLOCK_PATH = {1, 2, 3, 0}; // Testing only
 
     public XBCharset() {
         charset = Charset.defaultCharset();
     }
-
+    
     public XBCharset(Charset charset) {
         this.charset = charset;
     }
-
+    
     public Charset getCharset() {
         return charset;
     }
-
+    
     public void setCharset(Charset charset) {
         this.charset = charset;
     }
     
-    // TODO Serialization
+    @Override
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+        serial.begin();
+        serial.matchType(new XBDeclBlockType(XB_BLOCK_PATH));
+        if (serial.getSerializationMode() == XBSerializationMode.PULL) {
+            XBString charsetName = new XBString();
+            serial.consist(charsetName);
+            charset = Charset.forName(charsetName.getValue());
+        } else {
+            XBString charsetName = new XBString(charset.name());
+            serial.consist(charsetName);
+        }
+        serial.end();
+    }
 }

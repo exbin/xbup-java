@@ -163,6 +163,7 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
     }
 
     public void pullRest() throws XBProcessingException, IOException {
+        pullProvider.skipAttributes();
         pullProvider.skipChildren();
         XBTToken token = pullProvider.pullXBTToken();
         if (token.getTokenType() != XBTTokenType.END) {

@@ -16,38 +16,30 @@
  */
 package org.xbup.lib.xbprog.grammar;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.xbup.lib.xb.block.XBBlockType;
-import org.xbup.lib.xb.block.XBFixedBlockType;
-import org.xbup.lib.xb.block.declaration.XBDBlockType;
-import org.xbup.lib.xb.block.declaration.XBDeclaration;
-import org.xbup.lib.xb.catalog.XBCatalog;
-import org.xbup.lib.xb.parser.XBProcessingException;
-import org.xbup.lib.xb.serial.XBSerialHandler;
-import org.xbup.lib.xb.serial.XBSerialMethod;
-import org.xbup.lib.xb.serial.XBSerializable;
-import org.xbup.lib.xb.serial.XBSerializationType;
-import org.xbup.lib.xb.stream.XBTInputTokenStream;
-import org.xbup.lib.xb.stream.XBTOutputStream;
+import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
+import org.xbup.lib.core.block.declaration.XBDeclaration;
+import org.xbup.lib.core.catalog.XBCatalog;
+import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * XBUP String-BNF Context-Free Grammar Rule
- * http://en.wikipedia.org/wiki/Backus%E2%80%93Naur_Form
- * TODO: This is simplified version
+ * http://en.wikipedia.org/wiki/Backus%E2%80%93Naur_Form TODO: This is
+ * simplified version
  *
- * Variant 1: ruleName ::= rule1 rule2 ... ruleN (Rule sequence)
- * Variant 2: ruleName ::= rule1 | rule2 | ... | ruleN (Rule alternatives)
- * Variant 3: ruleName ::= terminal (Terminal string)
- * Variant 4: ruleName ::= charA1 .. charAN | charB1 .. char BN | .. | charZ1 .. char ZN (Char ranges)
+ * Variant 1: ruleName ::= rule1 rule2 ... ruleN (Rule sequence) Variant 2:
+ * ruleName ::= rule1 | rule2 | ... | ruleN (Rule alternatives) Variant 3:
+ * ruleName ::= terminal (Terminal string) Variant 4: ruleName ::= charA1 ..
+ * charAN | charB1 .. char BN | .. | charZ1 .. char ZN (Char ranges)
  *
  * @version 0.1.19 2010/06/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBBNFGrammarRule implements XBSerializable {
 
-    public static long[] XB_BLOCK_PATH = { 0,1,1,2 }; // Testing only
+    public static long[] XB_BLOCK_PATH = {0, 1, 1, 2}; // Testing only
 
     private String ruleName;
     private List<String> rules;
@@ -55,11 +47,8 @@ public class XBBNFGrammarRule implements XBSerializable {
     // In alternative mode terminal value is interpreted as sequence defined by pair of characters
     private boolean altMode;
 
-    /**
-     * Creates a new instance of XBRegularGrammarRule
-     */
     public XBBNFGrammarRule() {
-        rules = new ArrayList<String>();
+        rules = new ArrayList<>();
         clear();
     }
 
@@ -68,15 +57,16 @@ public class XBBNFGrammarRule implements XBSerializable {
     }
 
     public XBBlockType getBlockType(XBCatalog catalog) {
-        Long[] path = new Long[xbBlockPath.length];
-        for (int i = 0; i < xbBlockPath.length; i++) {
-            path[i] = new Long(xbBlockPath[i]);
+        Long[] path = new Long[XB_BLOCK_PATH.length];
+        for (int i = 0; i < XB_BLOCK_PATH.length; i++) {
+            path[i] = new Long(XB_BLOCK_PATH[i]);
         }
-        XBBlockType context = new XBDBlockType(catalog.findBlockTypeByPath(path));
-        if (context==null) {
-            context = new XBFixedBlockType();
+        
+        XBBlockType contextType = null; // TODO new XBLBlockType(catalog.findBlockTypeByPath(path));
+        if (contextType == null) {
+            contextType = new XBFixedBlockType();
         } // Empty Context
-        return context;
+        return contextType;
     }
 
     public void clear() {
@@ -140,15 +130,5 @@ public class XBBNFGrammarRule implements XBSerializable {
      */
     public void setAltMode(boolean rangeMode) {
         this.altMode = rangeMode;
-    }
-
-    @Override
-    public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -25,28 +25,18 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.FlushModeType;
 import javax.persistence.Persistence;
-import org.xbup.lib.xb.block.declaration.XBContext;
-import org.xbup.lib.xb.catalog.base.manager.XBCXDescManager;
-import org.xbup.lib.xb.catalog.base.manager.XBCXLangManager;
-import org.xbup.lib.xb.catalog.base.manager.XBCXNameManager;
-import org.xbup.lib.xb.catalog.declaration.XBCDeclaration;
-import org.xbup.lib.xb.parser.XBProcessingException;
-import org.xbup.lib.xb.parser.basic.convert.XBTEncapsulator;
-import org.xbup.lib.xb.parser.token.event.convert.XBTEventListenerToListener;
-import org.xbup.lib.xb.parser.token.event.convert.XBTListenerToEventListener;
-import org.xbup.lib.xb.parser.token.event.convert.XBTToXBEventConvertor;
-import org.xbup.lib.xb.serial.XBSerializationType;
-import org.xbup.lib.xb.serial.token.XBEventListenerSerialHandler;
-import org.xbup.lib.xb.serial.token.XBPullProviderSerialHandler;
-import org.xbup.lib.xb.serial.token.XBTEventListenerSerialHandler;
-import org.xbup.lib.xb.stream.file.XBFileInputStream;
-import org.xbup.lib.xb.stream.file.XBFileOutputStream;
-import org.xbup.lib.xb.stream.filter.XBTEventOutputStream;
-import org.xbup.lib.xbcatalog.XBAECatalog;
-import org.xbup.lib.xbcatalog.entity.manager.XBEXDescManager;
-import org.xbup.lib.xbcatalog.entity.manager.XBEXLangManager;
-import org.xbup.lib.xbcatalog.entity.manager.XBEXNameManager;
-import org.xbup.lib.xbcatalog.update.XBCUpdatePHPHandler;
+import org.xbup.lib.catalog.XBAECatalog;
+import org.xbup.lib.catalog.entity.manager.XBEXDescManager;
+import org.xbup.lib.catalog.entity.manager.XBEXLangManager;
+import org.xbup.lib.catalog.entity.manager.XBEXNameManager;
+import org.xbup.lib.catalog.update.XBCUpdatePHPHandler;
+import org.xbup.lib.core.catalog.base.manager.XBCXDescManager;
+import org.xbup.lib.core.catalog.base.manager.XBCXLangManager;
+import org.xbup.lib.core.catalog.base.manager.XBCXNameManager;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.serial.token.XBPullProviderSerialHandler;
+import org.xbup.lib.core.stream.file.XBFileInputStream;
+import org.xbup.lib.core.stream.file.XBFileOutputStream;
 import org.xbup.lib.xbprog.grammar.XBBNFGrammar;
 import org.xbup.lib.xbprog.grammar.XBBNFGrammarRule;
 import org.xbup.lib.xbprog.grammar.XBRegularGrammar;
@@ -92,32 +82,32 @@ public class GrammarTest {
         //XBTreeNode
         try {
 //            buffer = new XBOMOutputStream(node);
-            System.out.println("Writing output.xb using level 0");
-            fileOutputStream = new XBFileOutputStream("output.xb");
-            XBEventListenerSerialHandler handler = new XBEventListenerSerialHandler();
-            handler.attachXBEventListener(fileOutputStream);
-            regularGrammar.serializeXB(XBSerializationType.TO_XB, 0, handler);
-            fileOutputStream.close();
-            System.out.println("Writing output_cat.xb using level 1");
-            fileOutputStream = new XBFileOutputStream("output_cat.xb");
-            XBCDeclaration declaration = (XBCDeclaration) regularGrammar.getXBDeclaration();
-//            ((XBAECatalog) catalog).
-            Long[] path = declaration.getContextFormat().getCatalogPath().getLongPath();
-            Long[] myPath = new Long[path.length-1];
-            System.arraycopy(path, 0, myPath, 0, path.length-1);
-            catalog.getUpdateHandler().updateFormatSpec(myPath, path[path.length-1]);
-            declaration.setCatalog(catalog);
-            XBTEncapsulator encapsulator = new XBTEncapsulator(new XBContext(catalog, declaration));
-            encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(fileOutputStream)));
-
-            XBTEventListenerSerialHandler handler2 = new XBTEventListenerSerialHandler();
-            handler2.attachXBTEventListener(new XBTEventOutputStream(new XBTListenerToEventListener(encapsulator)));
-            regularGrammar.serializeXB(XBSerializationType.TO_XB, 1, handler);
-            fileOutputStream.close();
+//            System.out.println("Writing output.xb using level 0");
+//            fileOutputStream = new XBFileOutputStream("output.xb");
+//            XBEventListenerSerialHandler handler = new XBEventListenerSerialHandler();
+//            handler.attachXBEventListener(fileOutputStream);
+//            regularGrammar.serializeXB(XBSerializationType.TO_XB, 0, handler);
+//            fileOutputStream.close();
+//            System.out.println("Writing output_cat.xb using level 1");
+//            fileOutputStream = new XBFileOutputStream("output_cat.xb");
+//            XBCDeclaration declaration = (XBCDeclaration) regularGrammar.getXBDeclaration();
+////            ((XBAECatalog) catalog).
+//            Long[] path = declaration.getContextFormat().getCatalogPath().getLongPath();
+//            Long[] myPath = new Long[path.length-1];
+//            System.arraycopy(path, 0, myPath, 0, path.length-1);
+//            catalog.getUpdateHandler().updateFormatSpec(myPath, path[path.length-1]);
+//            declaration.setCatalog(catalog);
+//            XBTEncapsulator encapsulator = new XBTEncapsulator(new XBContext(catalog, declaration));
+//            encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(fileOutputStream)));
+//
+//            XBTEventListenerSerialHandler handler2 = new XBTEventListenerSerialHandler();
+//            handler2.attachXBTEventListener(new XBTEventOutputStream(new XBTListenerToEventListener(encapsulator)));
+//            regularGrammar.serializeXB(XBSerializationType.TO_XB, 1, handler);
+//            fileOutputStream.close();
         } catch (XBProcessingException ex) {
             Logger.getLogger(GrammarTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(GrammarTest.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(GrammarTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         regularGrammar = new XBRegularGrammar();
@@ -129,7 +119,7 @@ public class GrammarTest {
             fileInputStream = new XBFileInputStream("output.xb");
             XBPullProviderSerialHandler handler = new XBPullProviderSerialHandler();
             handler.attachXBPullProvider(fileInputStream);
-            regularGrammar.serializeXB(XBSerializationType.FROM_XB, 0, handler);
+//            regularGrammar.serializeXB(XBSerializationType.FROM_XB, 0, handler);
             // new XBTEncapsulator(regularGrammar.getXBDeclaration(), XBTDefaultEventListener.toXBListener(stream))
             fileInputStream.close();
         } catch (XBProcessingException ex) {

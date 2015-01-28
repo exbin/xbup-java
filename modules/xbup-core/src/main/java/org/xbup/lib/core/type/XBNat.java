@@ -40,8 +40,8 @@ public class XBNat implements XBTChildSerializable {
 
     private UBNatural value;
     private UBNatural bitSize;
-    public static long[] XB_BLOCK_PATH = {1, 1, 1, 0}; // Testing only
-    public static long[] XB_FORMAT_PATH = {0, 1, 3, 1, 2, 0}; // Testing only
+    public static long[] XB_BLOCK_PATH = {1, 1, 1, 0, 0}; // Testing only
+    public static long[] XB_FORMAT_PATH = {0, 1, 3, 1, 2, 0, 0}; // Testing only
 
     public XBNat() {
         this.value = new UBNat32();

@@ -46,8 +46,8 @@ public class XBByte implements XBTChildSerializable {
     private byte value;
 
     public static int MAXIMUM_VALUE = 0xFF;
-    public static long[] XB_BLOCK_PATH = {0, 1, 3, 1, 2, 2}; // Testing only
-    public static long[] XB_FORMAT_PATH = {0, 1, 3, 1, 2, 0}; // Testing only
+    public static long[] XB_BLOCK_PATH = {0, 1, 3, 1, 2, 2, 0}; // Testing only
+    public static long[] XB_FORMAT_PATH = {0, 1, 3, 1, 2, 0, 0}; // Testing only
 
     public XBByte() {
         this.value = 0;

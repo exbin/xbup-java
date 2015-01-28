@@ -43,8 +43,8 @@ public class XBNat32 implements XBTChildSerializable {
 
     private int value;
     public static int maxValue = 0xFFFF;
-    public static long[] XB_BLOCK_PATH = {0, 1, 3, 1, 2, 2}; // Testing only
-    public static long[] XB_FORMAT_PATH = {0, 1, 3, 1, 2, 0}; // Testing only
+    public static long[] XB_BLOCK_PATH = {0, 1, 3, 1, 2, 2, 0}; // Testing only
+    public static long[] XB_FORMAT_PATH = {0, 1, 3, 1, 2, 0, 0}; // Testing only
 
     public XBNat32() {
         this.value = 0;

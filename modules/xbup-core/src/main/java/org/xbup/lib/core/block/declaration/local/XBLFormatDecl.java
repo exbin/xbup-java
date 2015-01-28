@@ -37,7 +37,7 @@ import org.xbup.lib.core.serial.param.XBSerializationMode;
 /**
  * XBUP level 1 local format declaration.
  *
- * @version 0.1.24 2015/01/18
+ * @version 0.1.24 2015/01/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable {
@@ -48,14 +48,27 @@ public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable {
 
     public XBLFormatDecl() {
         catalogPath = null;
+        revision = 0;
     }
 
-    public XBLFormatDecl(long[] path) {
-        this.catalogPath = path;
+    public XBLFormatDecl(long[] revisionPath) {
+        revision = (int) revisionPath[revisionPath.length - 1];
+        catalogPath = Arrays.copyOf(revisionPath, revisionPath.length - 1);
     }
 
-    public XBLFormatDecl(Long[] path) {
-        setCatalogObjectPath(path);
+    public XBLFormatDecl(Long[] revisionPath) {
+        setCatalogObjectPath(Arrays.copyOf(revisionPath, revisionPath.length - 1));
+        revision = revisionPath[revisionPath.length - 1].intValue();
+    }
+
+    public XBLFormatDecl(long[] specPath, int revision) {
+        this.catalogPath = specPath;
+        this.revision = revision;
+    }
+
+    public XBLFormatDecl(Long[] specPath, int revision) {
+        setCatalogObjectPath(specPath);
+        this.revision = revision;
     }
 
     public XBLFormatDecl(XBFormatDef formatDef) {
@@ -66,8 +79,8 @@ public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable {
         formatDef = new XBLFormatDef(groupDecl);
     }
 
-    public XBLFormatDecl(long[] path, XBFormatDef formatDef) {
-        catalogPath = path;
+    public XBLFormatDecl(long[] revisionPath, XBFormatDef formatDef) {
+        this(revisionPath);
         this.formatDef = formatDef;
     }
 
@@ -133,7 +146,7 @@ public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable {
             }
             // serializationHandler.pullConsist(formatDef);
         } else {
-            serializationHandler.putAttribute(catalogPath.length - 1);
+            serializationHandler.putAttribute(catalogPath.length);
             for (long pathIndex : catalogPath) {
                 serializationHandler.putAttribute(pathIndex);
             }

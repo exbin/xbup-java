@@ -37,7 +37,7 @@ import org.xbup.lib.core.serial.param.XBSerializationMode;
 /**
  * XBUP level 1 local group declaration.
  *
- * @version 0.1.24 2015/01/18
+ * @version 0.1.24 2015/01/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBLGroupDecl implements XBGroupDecl, XBPSequenceSerializable {
@@ -48,14 +48,27 @@ public class XBLGroupDecl implements XBGroupDecl, XBPSequenceSerializable {
 
     public XBLGroupDecl() {
         catalogPath = null;
+        revision = 0;
     }
 
-    public XBLGroupDecl(long[] path) {
-        this.catalogPath = path;
+    public XBLGroupDecl(long[] revisionPath) {
+        revision = (int) revisionPath[revisionPath.length - 1];
+        catalogPath = Arrays.copyOf(revisionPath, revisionPath.length - 1);
     }
 
-    public XBLGroupDecl(Long[] path) {
-        setCatalogObjectPath(path);
+    public XBLGroupDecl(Long[] revisionPath) {
+        setCatalogObjectPath(Arrays.copyOf(revisionPath, revisionPath.length - 1));
+        revision = revisionPath[revisionPath.length - 1].intValue();
+    }
+
+    public XBLGroupDecl(long[] specPath, int revision) {
+        this.catalogPath = specPath;
+        this.revision = revision;
+    }
+
+    public XBLGroupDecl(Long[] specPath, int revision) {
+        setCatalogObjectPath(specPath);
+        this.revision = revision;
     }
 
     public XBLGroupDecl(XBLGroupDef groupDef) {

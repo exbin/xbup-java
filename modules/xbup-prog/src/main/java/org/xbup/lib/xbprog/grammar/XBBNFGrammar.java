@@ -16,22 +16,14 @@
  */
 package org.xbup.lib.xbprog.grammar;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.xbup.lib.xb.block.declaration.XBDeclaration;
-import org.xbup.lib.xb.block.declaration.XBFormatDecl;
-import org.xbup.lib.xb.catalog.declaration.XBCDeclaration;
-import org.xbup.lib.xb.parser.XBParseException;
-import org.xbup.lib.xb.parser.XBProcessingException;
-import org.xbup.lib.xb.serial.XBSerialHandler;
-import org.xbup.lib.xb.serial.XBSerialMethod;
-import org.xbup.lib.xb.serial.XBSerializable;
-import org.xbup.lib.xb.serial.XBSerializationType;
-import org.xbup.lib.xb.stream.XBTInputTokenStream;
-import org.xbup.lib.xb.stream.XBTOutputStream;
-import org.xbup.lib.xb.type.XBArrayList;
+import org.xbup.lib.core.block.declaration.XBDeclaration;
+import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
+import org.xbup.lib.core.parser.XBParseException;
+import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * XBUP String-BNF Context-Free Grammar Rule
@@ -41,43 +33,35 @@ import org.xbup.lib.xb.type.XBArrayList;
  */
 public class XBBNFGrammar implements XBSerializable {
 
-    public static long[] XB_FORMAT_PATH = {0, 1, 1, 1}; // Testing only
-    public static long[] XB_BLOCK_PATH = {0, 1, 1, 1}; // Testing only
-    private XBArrayList<XBBNFGrammarRule> rules;
-    private Map<String,XBBNFGrammarRule> nameMap; // Cache
+    public static long[] XB_FORMAT_PATH = {0, 1, 1, 1, 0}; // Testing only
+    public static long[] XB_BLOCK_PATH = {0, 1, 1, 1, 0}; // Testing only
+    private List<XBBNFGrammarRule> rules;
+    private Map<String, XBBNFGrammarRule> nameMap; // Cache
 
-    /** Creates a new instance of XBRegularGrammar */
     public XBBNFGrammar() {
-        rules = new XBArrayList<XBBNFGrammarRule>();
-        nameMap = new HashMap<String, XBBNFGrammarRule>();
+        rules = new ArrayList<>();
+        nameMap = new HashMap<>();
     }
 
     public XBDeclaration getXBDeclaration() {
-        return new XBCDeclaration(new XBFormatDecl(xbFormatPath));
+        return new XBDeclaration(new XBLFormatDecl(XB_FORMAT_PATH));
     }
 
     private void clear() {
         getRules().clear();
     }
 
-    /**
-     * @return the rules
-     */
-    public XBArrayList<XBBNFGrammarRule> getRules() {
+    public List<XBBNFGrammarRule> getRules() {
         return rules;
     }
 
-    /**
-     * @param rules the rules to set
-     */
-    public void setRules(XBArrayList<XBBNFGrammarRule> rules) {
+    public void setRules(List<XBBNFGrammarRule> rules) {
         this.rules = rules;
     }
 
     public String generateGrammarDefinition() {
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < rules.size(); i++) {
-            XBBNFGrammarRule rule = rules.get(i);
+        for (XBBNFGrammarRule rule : rules) {
             builder.append(rule.getRuleName());
             builder.append(" ::= ");
             builder.append(generateGrammarRuleDef(rule));
@@ -93,11 +77,11 @@ public class XBBNFGrammar implements XBSerializable {
             if (rule.isAltMode()) {
                 String term = rule.getTerminal();
                 for (int j = 0; j < term.length() / 2; j++) {
-                    if (j>0) {
+                    if (j > 0) {
                         builder.append(" | ");
                     }
-                    char sChar = term.charAt(j*2);
-                    char eChar = term.charAt(j*2+1);
+                    char sChar = term.charAt(j * 2);
+                    char eChar = term.charAt(j * 2 + 1);
                     if (sChar == eChar) {
                         builder.append("\"");
                         builder.append(sChar);
@@ -115,7 +99,7 @@ public class XBBNFGrammar implements XBSerializable {
             }
         } else {
             for (int j = 0; j < ruleItems.size(); j++) {
-                if (j>0) {
+                if (j > 0) {
                     if (rule.isAltMode()) {
                         builder.append(" | ");
                     } else {
@@ -131,15 +115,15 @@ public class XBBNFGrammar implements XBSerializable {
 
     public void parseGrammarDefinition(String grammar) throws XBParseException {
         String[] lines = grammar.split(System.getProperty("line.separator"));
-        for (int i = 0; i < lines.length; i++) {
-            String[] words = lines[i].split(" ");
+        for (String line : lines) {
+            String[] words = line.split(" ");
             if (words.length < 3) {
-                throw new XBParseException("Missing at least one component: "+lines[i]);
+                throw new XBParseException("Missing at least one component: " + line);
             }
             XBBNFGrammarRule rule = new XBBNFGrammarRule();
             rule.setRuleName(words[0]);
             if (!"::=".equals(words[1])) {
-                throw new XBParseException("Expected \"::=\" :"+lines[i]);
+                throw new XBParseException("Expected \"::=\" :" + line);
             }
             int j = 2;
             boolean merge = false;
@@ -170,15 +154,5 @@ public class XBBNFGrammar implements XBSerializable {
      */
     public void setNameMap(Map<String, XBBNFGrammarRule> nameMap) {
         this.nameMap = nameMap;
-    }
-
-    @Override
-    public List<XBSerialMethod> getSerializationMethods(XBSerializationType serialType) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void serializeXB(XBSerializationType serialType, int methodIndex, XBSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

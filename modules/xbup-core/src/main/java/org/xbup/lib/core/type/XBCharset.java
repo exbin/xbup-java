@@ -28,7 +28,7 @@ import org.xbup.lib.core.serial.XBSerializable;
 public class XBCharset implements XBSerializable {
 
     private Charset charset;
-    public static long[] XB_BLOCK_PATH = {1, 2, 3}; // Testing only
+    public static long[] XB_BLOCK_PATH = {1, 2, 3, 0}; // Testing only
 
     public XBCharset() {
         charset = Charset.defaultCharset();

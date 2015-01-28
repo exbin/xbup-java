@@ -73,8 +73,8 @@ import org.xbup.lib.core.block.definition.local.XBLFormatDef;
 import org.xbup.lib.core.block.definition.local.XBLGroupDef;
 import org.xbup.lib.core.catalog.XBPCatalog;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
+import org.xbup.lib.core.serial.XBPSerialReader;
 import org.xbup.lib.core.serial.XBPSerialWriter;
-import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.tool.editor.module.wave_editor.XBWaveEditorFrame;
 import org.xbup.tool.editor.module.wave_editor.dialog.WaveResizeDialog;
@@ -453,10 +453,13 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
     @Override
     public void loadFromFile() {
         if (XBWaveEditorFrame.XBSFILETYPE.equals(fileType.getFileTypeId())) {
-            XBTChildInputSerialHandler handler = new XBTChildProviderSerialHandler();
             try {
-                handler.attachXBTPullProvider(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName()))));
-                getStubXBTDataSerializator().serializeFromXB(handler);
+                XBPSerialReader reader = new XBPSerialReader(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName()))));
+                XBLFormatDecl formatDecl = new XBLFormatDecl(XBWave.XB_FORMAT_PATH);
+                XBWave wave = new XBWave();
+                XBDeclaration declaration = new XBDeclaration(formatDecl, wave);
+                reader.read(declaration);
+                wavePanel.setWave(wave);
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -510,7 +513,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
                     List<XBFormatParam> groups = formatDef.getFormatParams();
                     XBLGroupDecl waveGroup = new XBLGroupDecl(new XBLGroupDef());
                     List<XBGroupParam> waveBlocks = waveGroup.getGroupDef().getGroupParams();
-                    waveBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 5, 0})));
+                    waveBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 5, 0, 0})));
                     ((XBLGroupDef) waveGroup.getGroupDef()).provideRevision();
                     groups.add(new XBFormatParamConsist(waveGroup));
                     formatDef.realignRevision();

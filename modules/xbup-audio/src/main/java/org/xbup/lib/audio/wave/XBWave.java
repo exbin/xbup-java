@@ -46,8 +46,8 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  */
 public class XBWave implements XBTChildSerializable {
 
-    public static long[] XB_BLOCK_PATH = {0, 1000, 0, 0}; // Testing only
-    public static long[] XB_FORMAT_PATH = {1, 5, 0};
+    public static long[] XB_BLOCK_PATH = {1, 5, 0, 0}; // Testing only
+    public static long[] XB_FORMAT_PATH = {1, 5, 0, 0};
     private AudioFormat audioFormat;
     private List<byte[]> data;
     public int chunkSize;

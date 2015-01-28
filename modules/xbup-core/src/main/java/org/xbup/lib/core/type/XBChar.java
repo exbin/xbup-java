@@ -37,19 +37,17 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Encapsulation class for single character.
  *
+ * TODO: Encoding support
+ *
  * @version 0.1.24 2014/08/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBChar implements XBTChildSerializable {
 
     private Character value;
-    public static long[] XB_BLOCK_PATH = {1, 3, 1, 2, 2}; // Testing only
-    public static long[] XB_FORMAT_PATH = {1, 3, 1, 2, 0}; // Testing only
+    public static long[] XB_BLOCK_PATH = {1, 3, 1, 2, 2, 0}; // Testing only
+    public static long[] XB_FORMAT_PATH = {1, 3, 1, 2, 0, 0}; // Testing only
 
-    // TODO: Encoding support
-    /**
-     * Creates a new instance of XBString
-     */
     public XBChar() {
         this.value = null;
     }

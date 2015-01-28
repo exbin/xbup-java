@@ -40,8 +40,8 @@ public class XBBufferedImage implements XBPSerializable {
 
     private BufferedImage image;
 
-    public static long[] XB_BLOCK_PATH = {0, 4, 0, 0};
-    public static long[] XB_FORMAT_PATH = {1, 4, 0, 1};
+    public static long[] XB_BLOCK_PATH = {1, 4, 0, 0, 2, 0};
+    public static long[] XB_FORMAT_PATH = {1, 4, 0, 1, 0};
 
     public XBBufferedImage() {
         image = null;

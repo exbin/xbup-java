@@ -29,12 +29,11 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.serial.param.XBSerializationMode;
-import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 1 local block declaration.
  *
- * @version 0.1.24 2015/01/05
+ * @version 0.1.24 2015/01/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBLBlockDecl implements XBBlockDecl, XBPSequenceSerializable {
@@ -45,30 +44,27 @@ public class XBLBlockDecl implements XBBlockDecl, XBPSequenceSerializable {
 
     public XBLBlockDecl() {
         catalogPath = null;
+        revision = 0;
     }
 
-    public XBLBlockDecl(long[] path) {
-        this(path, 0);
+    public XBLBlockDecl(long[] revisionPath) {
+        revision = (int) revisionPath[revisionPath.length - 1];
+        catalogPath = Arrays.copyOf(revisionPath, revisionPath.length - 1);
     }
 
-    public XBLBlockDecl(Long[] path) {
-        this(path, 0);
+    public XBLBlockDecl(Long[] revisionPath) {
+        setCatalogObjectPath(Arrays.copyOf(revisionPath, revisionPath.length - 1));
+        revision = revisionPath[revisionPath.length - 1].intValue();
     }
 
-    public XBLBlockDecl(long[] path, UBNatural revision) {
-        this(path, revision != null ? revision.getInt() : 0);
+    public XBLBlockDecl(long[] specPath, int revision) {
+        this.catalogPath = specPath;
+        this.revision = revision;
     }
 
-    public XBLBlockDecl(Long[] path, UBNatural revision) {
-        this(path, revision != null ? revision.getInt() : 0);
-    }
-
-    public XBLBlockDecl(long[] path, int revision) {
-        this.catalogPath = path;
-    }
-
-    public XBLBlockDecl(Long[] path, int revision) {
-        setCatalogObjectPath(path);
+    public XBLBlockDecl(Long[] specPath, int revision) {
+        setCatalogObjectPath(specPath);
+        this.revision = revision;
     }
 
     private void setCatalogObjectPath(Long[] path) {

@@ -38,24 +38,24 @@ import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.util.CopyStreamUtils;
 
 /**
- * Encapsulation class for String using given charset.
+ * Encapsulation class for text using given charset.
  *
- * @version 0.1.24 2015/01/28
+ * @version 0.1.24 2015/01/29
  * @author XBUP Project (http://xbup.org)
  */
-public class XBEncodingString implements XBPSequenceSerializable {
+public class XBEncodingText implements XBPSequenceSerializable {
 
     private String value;
     private XBCharset charset;
     public static long[] XB_FORMAT_PATH = {1, 3, 1, 2, 0, 0};
-    public static long[] XB_BLOCK_PATH = {1, 3, 1, 2, 0, 0};
+    public static long[] XB_BLOCK_PATH = {1, 3, 1, 2, 4, 0};
 
-    public XBEncodingString() {
+    public XBEncodingText() {
         this.value = "";
         charset = new XBCharset();
     }
 
-    public XBEncodingString(String value) {
+    public XBEncodingText(String value) {
         this.value = value;
     }
 
@@ -94,7 +94,7 @@ public class XBEncodingString implements XBPSequenceSerializable {
             try {
                 CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
             } catch (IOException ex) {
-                Logger.getLogger(XBEncodingString.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(XBEncodingText.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             setValue(new String(stream.toByteArray(), charset.getCharset()));
@@ -121,7 +121,7 @@ public class XBEncodingString implements XBPSequenceSerializable {
             try {
                 CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
             } catch (IOException ex) {
-                Logger.getLogger(XBEncodingString.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(XBEncodingText.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             setValue(new String(stream.toByteArray(), charset.getCharset()));

@@ -57,11 +57,11 @@ public class XBCharset implements XBPSequenceSerializable {
         serial.matchType(new XBDeclBlockType(XB_BLOCK_PATH));
         if (serial.getSerializationMode() == XBSerializationMode.PULL) {
             XBString charsetName = new XBString();
-            serial.consist(charsetName);
+            serial.join(charsetName);
             charset = Charset.forName(charsetName.getValue());
         } else {
             XBString charsetName = new XBString(charset.name());
-            serial.consist(charsetName);
+            serial.join(charsetName);
         }
         serial.end();
     }

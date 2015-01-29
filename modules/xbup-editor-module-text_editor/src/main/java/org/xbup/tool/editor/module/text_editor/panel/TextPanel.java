@@ -29,6 +29,7 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -49,6 +50,7 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Document;
 import javax.swing.text.Highlighter.Highlight;
 import javax.swing.undo.UndoableEdit;
+import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
@@ -58,14 +60,23 @@ import org.xbup.lib.core.block.definition.XBGroupParam;
 import org.xbup.lib.core.block.definition.XBGroupParamConsist;
 import org.xbup.lib.core.block.definition.local.XBLFormatDef;
 import org.xbup.lib.core.block.definition.local.XBLGroupDef;
+import org.xbup.lib.core.catalog.XBPCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
+import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
+import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
+import org.xbup.lib.core.parser.token.event.convert.XBTPrintEventFilter;
+import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
+import org.xbup.lib.core.parser.token.pull.XBPullReader;
+import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
+import org.xbup.lib.core.serial.XBPSerialReader;
+import org.xbup.lib.core.serial.XBPSerialWriter;
 import org.xbup.lib.core.serial.child.XBChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBChildListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBChildOutputSerialHandler;
-import org.xbup.lib.core.serial.child.XBChildProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBChildSerializable;
 import org.xbup.lib.core.stream.file.XBFileInputStream;
 import org.xbup.lib.core.stream.file.XBFileOutputStream;
+import org.xbup.lib.core.type.XBEncodingText;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.tool.editor.module.text_editor.XBTextEditorFrame;
 import org.xbup.tool.editor.module.text_editor.dialog.FindTextDialog;
@@ -354,19 +365,18 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
         switch (fileType.getFileTypeId()) {
             case XBTextEditorFrame.XBT_FILE_TYPE: {
                 try {
-                    // TODO
-                    /*XBPSerialReader reader = new XBPSerialReader(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName()))));
-                     XBLFormatDecl formatDecl = new XBLFormatDecl(XBBufferedImage.XB_FORMAT_PATH);
-                     XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(image));
-                     XBDeclaration declaration = new XBDeclaration(formatDecl, bufferedImage);
-                     reader.read(declaration);
-                     image = bufferedImage.getImage();
-                     */
+                    XBPSerialReader reader = new XBPSerialReader(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName()))));
+                    XBLFormatDecl formatDecl = new XBLFormatDecl(XBEncodingText.XB_FORMAT_PATH);
+                    XBEncodingText encodingText = new XBEncodingText();
+                    XBDeclaration declaration = new XBDeclaration(formatDecl, encodingText);
+                    reader.read(declaration);
+                    charset = encodingText.getCharset();
+                    textArea.setText(encodingText.getValue());
 
-                    XBFileInputStream fileStream = new XBFileInputStream(file);
-                    XBChildInputSerialHandler handler = new XBChildProviderSerialHandler();
-                    handler.attachXBPullProvider(fileStream);
-                    new XBTextPanelSerializable().serializeFromXB(handler);
+                    /* XBFileInputStream fileStream = new XBFileInputStream(file);
+                     XBChildInputSerialHandler handler = new XBChildProviderSerialHandler();
+                     handler.attachXBPullProvider(fileStream);
+                     new XBTextPanelSerializable().serializeFromXB(handler); */
                 } catch (XBProcessingException | IOException ex) {
                     Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -398,37 +408,34 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
         File file = new File(getFileName());
         switch (fileType.getFileTypeId()) {
             case XBTextEditorFrame.XBT_FILE_TYPE: {
-                /*
                 try {
                     XBFileOutputStream output = new XBFileOutputStream(file);
-                    XBEncodingString encodingString = new XBEncodingString();
+                    XBEncodingText encodingString = new XBEncodingText();
                     encodingString.setValue(textArea.getText());
                     encodingString.setCharset(charset);
 
-                    XBLFormatDecl formatDecl = new XBLFormatDecl(XBEncodingString.XB_FORMAT_PATH);
+                    XBLFormatDecl formatDecl = new XBLFormatDecl(XBEncodingText.XB_FORMAT_PATH);
                     XBDeclaration declaration = new XBDeclaration(formatDecl, encodingString);
                     declaration.setContextFormatDecl(getContextFormatDecl());
                     declaration.realignReservation();
                     XBPCatalog catalog = new XBPCatalog();
                     XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
-                    encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
+                    encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTPrintEventFilter(new XBTToXBEventConvertor(output))));
                     XBTListenerToEventListener eventListener = new XBTListenerToEventListener(encapsulator);
                     XBPSerialWriter writer = new XBPSerialWriter(eventListener);
                     writer.write(declaration);
-                 // eventListener.putXBTToken(new );
-
-                } catch (XBProcessingException | IOException ex) {
-                    Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);
-                } */
-
-                try {
-                    XBFileOutputStream fileStream = new XBFileOutputStream(file);
-                    XBChildListenerSerialHandler handler = new XBChildListenerSerialHandler();
-                    handler.attachXBEventListener(fileStream);
-                    new XBTextPanelSerializable().serializeToXB(handler);
                 } catch (XBProcessingException | IOException ex) {
                     Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
+                /* try {
+                 XBFileOutputStream fileStream = new XBFileOutputStream(file);
+                 XBChildListenerSerialHandler handler = new XBChildListenerSerialHandler();
+                 handler.attachXBEventListener(fileStream);
+                 new XBTextPanelSerializable().serializeToXB(handler);
+                 } catch (XBProcessingException | IOException ex) {
+                 Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);
+                 } */
                 break;
             }
             case XBTextEditorFrame.TXT_FILE_TYPE: {
@@ -464,17 +471,14 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
     public XBLFormatDecl getContextFormatDecl() {
         XBLFormatDef formatDef = new XBLFormatDef();
         List<XBFormatParam> groups = formatDef.getFormatParams();
-        XBLGroupDecl encodingGroup = new XBLGroupDecl(new XBLGroupDef());
-        List<XBGroupParam> bitmapBlocks = encodingGroup.getGroupDef().getGroupParams();
-        bitmapBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 1, 1, 0})));
-        ((XBLGroupDef) encodingGroup.getGroupDef()).provideRevision();
         XBLGroupDecl stringGroup = new XBLGroupDecl(new XBLGroupDef());
-        List<XBGroupParam> paletteBlocks = stringGroup.getGroupDef().getGroupParams();
-        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 2, 0, 0})));
-        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 1, 1, 0})));
-        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 2, 2, 0})));
+        List<XBGroupParam> stringBlocks = stringGroup.getGroupDef().getGroupParams();
+        stringBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 2, 0, 0})));
+        stringBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 1, 1, 0})));
+        stringBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 2, 2, 0})));
+        stringBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 2, 3, 0})));
+        stringBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 2, 4, 0})));
         ((XBLGroupDef) stringGroup.getGroupDef()).provideRevision();
-        groups.add(new XBFormatParamConsist(encodingGroup));
         groups.add(new XBFormatParamConsist(stringGroup));
         formatDef.realignRevision();
 

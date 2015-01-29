@@ -49,7 +49,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 2 serialization handler using parameter mapping to listener.
  *
- * @version 0.1.24 2015/01/26
+ * @version 0.1.24 2015/01/28
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequenceSerialHandler, XBTTokenOutputSerialHandler {
@@ -227,7 +227,28 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             checkSequencingListener();
         }
 
-        eventListener.putToken(token);
+        switch (token.getTokenType()) {
+            case BEGIN: {
+                putBegin(((XBTBeginToken) token).getTerminationMode());
+                break;
+            }
+            case TYPE: {
+                putType(((XBTTypeToken) token).getBlockType());
+                break;
+            }
+            case ATTRIBUTE: {
+                putAttribute(((XBTAttributeToken) token).getAttribute());
+                break;
+            }
+            case DATA: {
+                putData(((XBTDataToken) token).getData());
+                break;
+            }
+            case END: {
+                putEnd();
+                break;
+            }
+        }
     }
 
     @Override
@@ -319,9 +340,10 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
                 putListJoin(item.getItem());
                 break;
             }
-        }
 
-        throw new IllegalStateException();
+            default:
+                throw new IllegalStateException();
+        }
     }
 
     @Override
@@ -458,8 +480,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     public void pullAppend(XBSerializable serial) throws XBProcessingException, IOException {
         throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
-    
-    
+
     private void checkSequencingListener() throws IOException, XBProcessingException {
         if (sequencingListener.isFinished()) {
             eventListener.putChild(sequencingListener.getSequenceSerial());
@@ -468,13 +489,13 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     }
 
     private class XBTChildOutputSerialHandlerImpl implements XBTChildOutputSerialHandler {
-        
+
         private final XBPListenerSerialHandler handler;
 
         public XBTChildOutputSerialHandlerImpl(XBPListenerSerialHandler handler) {
             this.handler = handler;
         }
-        
+
         @Override
         public void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
             handler.putBegin(terminationMode);

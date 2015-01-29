@@ -38,24 +38,21 @@ import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.util.CopyStreamUtils;
 
 /**
- * Encapsulation class for String using given charset.
+ * Encapsulation class for UTF-8 Text.
  *
- * @version 0.1.24 2015/01/28
+ * @version 0.1.24 2015/01/29
  * @author XBUP Project (http://xbup.org)
  */
-public class XBEncodingString implements XBPSequenceSerializable {
+public class XBText implements XBPSequenceSerializable {
 
     private String value;
-    private XBCharset charset;
-    public static long[] XB_FORMAT_PATH = {1, 3, 1, 2, 0, 0};
-    public static long[] XB_BLOCK_PATH = {1, 3, 1, 2, 0, 0};
+    public static long[] XBUP_BLOCK_TYPE = {1, 3, 1, 2, 3, 0};
 
-    public XBEncodingString() {
+    public XBText() {
         this.value = "";
-        charset = new XBCharset();
     }
 
-    public XBEncodingString(String value) {
+    public XBText(String value) {
         this.value = value;
     }
 
@@ -67,19 +64,10 @@ public class XBEncodingString implements XBPSequenceSerializable {
         this.value = value;
     }
 
-    public Charset getCharset() {
-        return charset.getCharset();
-    }
-
-    public void setCharset(Charset charset) {
-        this.charset.setCharset(charset);
-    }
-
     @Override
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
-        serial.matchType(new XBDeclBlockType(new XBLBlockDecl(XB_BLOCK_PATH)));
-        serial.join(charset);
+        serial.matchType(new XBDeclBlockType(new XBLBlockDecl(XBUP_BLOCK_TYPE)));
         serial.consist(new DataBlockSerializator());
         serial.end();
     }
@@ -94,10 +82,10 @@ public class XBEncodingString implements XBPSequenceSerializable {
             try {
                 CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
             } catch (IOException ex) {
-                Logger.getLogger(XBEncodingString.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(XBText.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            setValue(new String(stream.toByteArray(), charset.getCharset()));
+            setValue(new String(stream.toByteArray(), Charset.forName("UTF-8")));
             serial.end();
         }
 
@@ -105,7 +93,7 @@ public class XBEncodingString implements XBPSequenceSerializable {
         public void serializeToXB(XBChildOutputSerialHandler serial) throws XBProcessingException, IOException {
             serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
             if (getValue() != null) {
-                serial.addData(new ByteArrayInputStream(getValue().getBytes(charset.getCharset())));
+                serial.addData(new ByteArrayInputStream(getValue().getBytes(Charset.forName("UTF-8"))));
             } else {
                 serial.addData(new ByteArrayInputStream(new byte[0]));
             }
@@ -121,10 +109,10 @@ public class XBEncodingString implements XBPSequenceSerializable {
             try {
                 CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
             } catch (IOException ex) {
-                Logger.getLogger(XBEncodingString.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(XBText.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            setValue(new String(stream.toByteArray(), charset.getCharset()));
+            setValue(new String(stream.toByteArray(), Charset.forName("UTF-8")));
             serial.pullEnd();
         }
 
@@ -132,7 +120,7 @@ public class XBEncodingString implements XBPSequenceSerializable {
         public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
             serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
             if (getValue() != null) {
-                serial.putData(new ByteArrayInputStream(getValue().getBytes(charset.getCharset())));
+                serial.putData(new ByteArrayInputStream(getValue().getBytes(Charset.forName("UTF-8"))));
             } else {
                 serial.putData(new ByteArrayInputStream(new byte[0]));
             }

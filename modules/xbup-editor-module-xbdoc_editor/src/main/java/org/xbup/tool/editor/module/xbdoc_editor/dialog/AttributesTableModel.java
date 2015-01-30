@@ -26,7 +26,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Attributes list table model for item editing.
  *
- * @version 0.1.24 2015/01/15
+ * @version 0.1.24 2015/01/30
  * @author XBUP Project (http://xbup.org)
  */
 public class AttributesTableModel extends AbstractTableModel {
@@ -43,7 +43,7 @@ public class AttributesTableModel extends AbstractTableModel {
 
     public AttributesTableModel() {
         resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ModifyBlockDialog");
-        columnNames = new String[]{resourceBundle.getString("itemmod_itemorder"), resourceBundle.getString("itemmod_itemvalue")};
+        columnNames = new String[]{resourceBundle.getString("attributesTableModel.itemOrder"), resourceBundle.getString("attributesTableModel.itemValue")};
         attributes = new ArrayList<>();
     }
 

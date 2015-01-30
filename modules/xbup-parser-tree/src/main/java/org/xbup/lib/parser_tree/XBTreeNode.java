@@ -45,7 +45,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Basic object model parser XBUP level 0 document block / tree node.
  *
- * @version 0.1.24 2014/11/24
+ * @version 0.1.24 2015/01/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
@@ -193,8 +193,9 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
             if (terminable) {
                 return 1; // attrSize.getSizeUB();
             } else {
+                // TODO
                 throw new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR);
-            } // TODO
+            }
         } else {
             UBENat32 dataPartSize = new UBENat32();
             size += dataPartSize.fromStreamUB(stream);
@@ -226,8 +227,8 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
                 } while (itemSize < attrPartSize.getInt());
 
                 attributes = attribs;
-                if (!dataPartSize.isInfinity() && dataPartSize.getInt() > 0) {
-                    size += childrenFromStreamUB(stream, dataPartSize.getInt());
+                if (dataPartSize.isInfinity() || dataPartSize.getInt() > 0) {
+                    size += childrenFromStreamUB(stream, dataPartSize.isInfinity() ? 0 : dataPartSize.getInt());
                 }
             }
         }
@@ -254,10 +255,12 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
         do {
             XBTreeNode child = newNodeInstance(this);
             childSize = child.fromStreamUB(stream, maxSize == 0);
-            getChildren().add(child);
             size += childSize;
-            if (size > maxSize) {
-                throw new XBParseException("Block overreached", XBProcessingExceptionType.BLOCK_OVERFLOW);
+            if (childSize > 1) {
+                getChildren().add(child);
+                if (size > maxSize) {
+                    throw new XBParseException("Block overreached", XBProcessingExceptionType.BLOCK_OVERFLOW);
+                }
             }
         } while (((maxSize == 0) && (childSize != 1)) || ((maxSize > 0) && (size < maxSize)));
 

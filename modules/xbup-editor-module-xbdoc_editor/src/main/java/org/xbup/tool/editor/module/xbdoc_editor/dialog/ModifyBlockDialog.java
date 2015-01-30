@@ -19,6 +19,8 @@ package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 import hexedit.HexEditPanel;
 import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -41,6 +43,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.text.JTextComponent;
 import org.xbup.lib.core.block.XBBlockDataMode;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
@@ -79,7 +82,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * Dialog for modifying item attributes or data.
  *
- * @version 0.1.24 2015/01/16
+ * @version 0.1.24 2015/01/30
  * @author XBUP Project (http://xbup.org)
  */
 public class ModifyBlockDialog extends javax.swing.JDialog {
@@ -99,10 +102,11 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
     private List<UBNatural> attributes = null;
     private HexEditPanel extAreaHexPanel = null;
 
-    private final String attributesEditorPanelTitle;
-    private final String dataEditorPanelTitle;
-    private final String paramEditorPanelTitle;
+    private final String attributesPanelTitle;
+    private final String dataPanelTitle;
+    private final String parametersPanelTitle;
     private final String extAreaEditorPanelTitle;
+    private final String basicPanelTitle;
     private final String customEditorPanelTitle = "Custom";
     private int dialogOption = JOptionPane.CLOSED_OPTION;
     private boolean dataChanged = false;
@@ -115,10 +119,11 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
         customPanel = null;
         hexEditPanel.add(hexPanel);
 
-        attributesEditorPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(attributesEditorPanel));
-        dataEditorPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(dataEditorPanel));
-        paramEditorPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(paramEditorPanel));
+        attributesPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(attributesPanel));
+        dataPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(dataPanel));
+        parametersPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(parametersPanel));
         extAreaEditorPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(extendedAreaPanel));
+        basicPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(basicPanel));
 
         attributesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
@@ -132,6 +137,14 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
 
             @Override
             public void valueChanged() {
+                dataChanged = true;
+            }
+        });
+
+        terminationModeCheckBox.addItemListener(new ItemListener() {
+
+            @Override
+            public void itemStateChanged(ItemEvent e) {
                 dataChanged = true;
             }
         });
@@ -156,12 +169,17 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
                 }
 
                 String currentTitle = pane.getTitleAt(pane.getSelectedIndex());
-                if (attributesEditorPanelTitle.equals(currentTitle)) {
+                if (basicPanelTitle.equals(currentTitle)) {
+                    if (dataChanged) {
+                        reloadBasic();
+                    }
+                    dataChanged = false;
+                } else if (attributesPanelTitle.equals(currentTitle)) {
                     if (dataChanged || attributes == null) {
                         reloadAttributes();
                     }
                     dataChanged = false;
-                } else if (paramEditorPanelTitle.equals(currentTitle)) {
+                } else if (parametersPanelTitle.equals(currentTitle)) {
                     if (dataChanged || parametersTableModel.isEmpty()) {
                         reloadParameters();
                     }
@@ -196,10 +214,12 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         mainTabbedPane = new javax.swing.JTabbedPane();
-        paramEditorPanel = new javax.swing.JPanel();
+        basicPanel = new javax.swing.JPanel();
+        terminationModeCheckBox = new javax.swing.JCheckBox();
+        parametersPanel = new javax.swing.JPanel();
         parametersScrollPane = new javax.swing.JScrollPane();
         parametersTable = new javax.swing.JTable();
-        attributesEditorPanel = new javax.swing.JPanel();
+        attributesPanel = new javax.swing.JPanel();
         attributesScrollPane = new javax.swing.JScrollPane();
         attributesTable = new JTable(attributesTableModel) {
             @Override
@@ -226,7 +246,7 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
         };
         removeButton = new javax.swing.JButton();
         addButton = new javax.swing.JButton();
-        dataEditorPanel = new javax.swing.JPanel();
+        dataPanel = new javax.swing.JPanel();
         saveAsButton = new javax.swing.JButton();
         loadFromButton = new javax.swing.JButton();
         hexEditPanel = new javax.swing.JPanel();
@@ -243,27 +263,48 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
         setLocationByPlatform(true);
         setModal(true);
 
+        terminationModeCheckBox.setText("Block size specified");
+
+        org.jdesktop.layout.GroupLayout basicPanelLayout = new org.jdesktop.layout.GroupLayout(basicPanel);
+        basicPanel.setLayout(basicPanelLayout);
+        basicPanelLayout.setHorizontalGroup(
+            basicPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(basicPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(terminationModeCheckBox, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        basicPanelLayout.setVerticalGroup(
+            basicPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(basicPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(terminationModeCheckBox)
+                .addContainerGap(352, Short.MAX_VALUE))
+        );
+
+        mainTabbedPane.addTab(bundle.getString("basicPanel.title"), basicPanel); // NOI18N
+
         parametersTable.setModel(parametersTableModel);
         parametersScrollPane.setViewportView(parametersTable);
 
-        org.jdesktop.layout.GroupLayout paramEditorPanelLayout = new org.jdesktop.layout.GroupLayout(paramEditorPanel);
-        paramEditorPanel.setLayout(paramEditorPanelLayout);
-        paramEditorPanelLayout.setHorizontalGroup(
-            paramEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(paramEditorPanelLayout.createSequentialGroup()
+        org.jdesktop.layout.GroupLayout parametersPanelLayout = new org.jdesktop.layout.GroupLayout(parametersPanel);
+        parametersPanel.setLayout(parametersPanelLayout);
+        parametersPanelLayout.setHorizontalGroup(
+            parametersPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(parametersPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(parametersScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        paramEditorPanelLayout.setVerticalGroup(
-            paramEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(paramEditorPanelLayout.createSequentialGroup()
+        parametersPanelLayout.setVerticalGroup(
+            parametersPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(parametersPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(parametersScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        mainTabbedPane.addTab(bundle.getString("paramEditorPanel.title"), null, paramEditorPanel, "List of parameters on level 1"); // NOI18N
+        mainTabbedPane.addTab(bundle.getString("parametersPanel.title"), null, parametersPanel, bundle.getString("parametersPanel.toolTip")); // NOI18N
 
         attributesTable.setModel(attributesTableModel);
         attributesTable.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -288,34 +329,34 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
             }
         });
 
-        org.jdesktop.layout.GroupLayout attributesEditorPanelLayout = new org.jdesktop.layout.GroupLayout(attributesEditorPanel);
-        attributesEditorPanel.setLayout(attributesEditorPanelLayout);
-        attributesEditorPanelLayout.setHorizontalGroup(
-            attributesEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(attributesEditorPanelLayout.createSequentialGroup()
+        org.jdesktop.layout.GroupLayout attributesPanelLayout = new org.jdesktop.layout.GroupLayout(attributesPanel);
+        attributesPanel.setLayout(attributesPanelLayout);
+        attributesPanelLayout.setHorizontalGroup(
+            attributesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(attributesPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(attributesEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(attributesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(attributesScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
-                    .add(attributesEditorPanelLayout.createSequentialGroup()
+                    .add(attributesPanelLayout.createSequentialGroup()
                         .add(addButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(removeButton)
                         .add(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        attributesEditorPanelLayout.setVerticalGroup(
-            attributesEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(attributesEditorPanelLayout.createSequentialGroup()
+        attributesPanelLayout.setVerticalGroup(
+            attributesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(attributesPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(attributesScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(attributesEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .add(attributesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(addButton)
                     .add(removeButton))
                 .addContainerGap())
         );
 
-        mainTabbedPane.addTab(bundle.getString("attributesEditorPanel.title"), null, attributesEditorPanel, "List of attributes on level 0"); // NOI18N
+        mainTabbedPane.addTab(bundle.getString("attributesPanel.title"), null, attributesPanel, "List of attributes on level 0"); // NOI18N
 
         saveAsButton.setText(bundle.getString("saveAsButton.text")); // NOI18N
         saveAsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -334,34 +375,34 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
         hexEditPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         hexEditPanel.setLayout(new java.awt.BorderLayout());
 
-        org.jdesktop.layout.GroupLayout dataEditorPanelLayout = new org.jdesktop.layout.GroupLayout(dataEditorPanel);
-        dataEditorPanel.setLayout(dataEditorPanelLayout);
-        dataEditorPanelLayout.setHorizontalGroup(
-            dataEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(dataEditorPanelLayout.createSequentialGroup()
+        org.jdesktop.layout.GroupLayout dataPanelLayout = new org.jdesktop.layout.GroupLayout(dataPanel);
+        dataPanel.setLayout(dataPanelLayout);
+        dataPanelLayout.setHorizontalGroup(
+            dataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(dataPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(dataEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(dataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(hexEditPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
-                    .add(dataEditorPanelLayout.createSequentialGroup()
+                    .add(dataPanelLayout.createSequentialGroup()
                         .add(loadFromButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(saveAsButton)
                         .add(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        dataEditorPanelLayout.setVerticalGroup(
-            dataEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(dataEditorPanelLayout.createSequentialGroup()
+        dataPanelLayout.setVerticalGroup(
+            dataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(dataPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(hexEditPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(dataEditorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .add(dataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(saveAsButton)
                     .add(loadFromButton))
                 .addContainerGap())
         );
 
-        mainTabbedPane.addTab("Data (Level 0)", dataEditorPanel);
+        mainTabbedPane.addTab(bundle.getString("dataPanel.title"), dataPanel); // NOI18N
 
         extLoadFromButton.setText(bundle.getString("loadFromButton.text")); // NOI18N
         extLoadFromButton.addActionListener(new java.awt.event.ActionListener() {
@@ -485,7 +526,9 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
         } else {
             // TODO: Store active tab
             String currentTitle = mainTabbedPane.getTitleAt(mainTabbedPane.getSelectedIndex());
-            if (attributesEditorPanelTitle.equals(currentTitle)) {
+            if (basicPanelTitle.equals(currentTitle)) {
+                srcNode.setTerminationMode(terminationModeCheckBox.isSelected() ? XBBlockTerminationMode.SIZE_SPECIFIED : XBBlockTerminationMode.TERMINATED_BY_ZERO);
+            } else if (attributesPanelTitle.equals(currentTitle)) {
                 if (attributes.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "There must be at least one attribute", "Attribute Needed", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -502,7 +545,7 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
                 for (int attributeIndex = 2; attributeIndex < attributes.size(); attributeIndex++) {
                     newNode.addAttribute(attributes.get(attributeIndex));
                 }
-            } else if (paramEditorPanelTitle.equals(currentTitle)) {
+            } else if (parametersPanelTitle.equals(currentTitle)) {
                 // Values stored automatically
             } else if (customEditorPanelTitle.equals(currentTitle)) {
                 // Values stored automatically
@@ -562,9 +605,11 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
         mainTabbedPane.removeAll();
         customPanel = null;
 
+        reloadBasic();
+        mainTabbedPane.addTab(basicPanelTitle, basicPanel);
         dataMode = srcNode.getDataMode();
         if (dataMode == XBBlockDataMode.DATA_BLOCK) {
-            mainTabbedPane.addTab(dataEditorPanelTitle, dataEditorPanel);
+            mainTabbedPane.addTab(dataPanelTitle, dataPanel);
 
             hexPanel.loadFromStream(srcNode.getData(), srcNode.getDataSize());
         } else {
@@ -588,8 +633,8 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
                 mainTabbedPane.addTab(customEditorPanelTitle, customPanel.getPanel());
             }
 
-            mainTabbedPane.addTab(paramEditorPanelTitle, paramEditorPanel);
-            mainTabbedPane.addTab(attributesEditorPanelTitle, attributesEditorPanel);
+            mainTabbedPane.addTab(parametersPanelTitle, parametersPanel);
+            mainTabbedPane.addTab(attributesPanelTitle, attributesPanel);
         }
 
         if (srcNode.getParent() == null) {
@@ -597,6 +642,7 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
             extAreaHexPanel = null;
         }
 
+        mainTabbedPane.setSelectedIndex(1);
         setVisible(true);
         return newNode;
     }
@@ -610,11 +656,12 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
-    private javax.swing.JPanel attributesEditorPanel;
+    private javax.swing.JPanel attributesPanel;
     private javax.swing.JScrollPane attributesScrollPane;
     private javax.swing.JTable attributesTable;
+    private javax.swing.JPanel basicPanel;
     private javax.swing.JButton cancelButton;
-    private javax.swing.JPanel dataEditorPanel;
+    private javax.swing.JPanel dataPanel;
     private javax.swing.JButton extLoadFromButton;
     private javax.swing.JButton extSaveFromButto;
     private javax.swing.JPanel extendedAreaPanel;
@@ -623,11 +670,12 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
     private javax.swing.JButton loadFromButton;
     private javax.swing.JTabbedPane mainTabbedPane;
     private javax.swing.JButton okButton;
-    private javax.swing.JPanel paramEditorPanel;
+    private javax.swing.JPanel parametersPanel;
     private javax.swing.JScrollPane parametersScrollPane;
     private javax.swing.JTable parametersTable;
     private javax.swing.JButton removeButton;
     private javax.swing.JButton saveAsButton;
+    private javax.swing.JCheckBox terminationModeCheckBox;
     // End of variables declaration//GEN-END:variables
 
     public XBACatalog getCatalog() {
@@ -694,6 +742,10 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
         }
 
         return pluginHandler.getPanelEditor(plugPane.getPaneIndex());
+    }
+
+    private void reloadBasic() {
+        terminationModeCheckBox.setSelected(srcNode.getTerminationMode() == XBBlockTerminationMode.SIZE_SPECIFIED);
     }
 
     private void reloadAttributes() {

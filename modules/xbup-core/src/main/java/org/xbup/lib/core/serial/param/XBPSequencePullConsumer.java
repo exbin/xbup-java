@@ -143,9 +143,9 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
         throw new IllegalStateException();
     }
 
-    public void processAttributes() {
+    public void processAttributes() throws XBProcessingException, IOException {
         while (pullProvider.getNextTokenType() == XBTTokenType.ATTRIBUTE) {
-            attributeSequence.add((XBTAttributeToken) pullProvider.getNextToken());
+            attributeSequence.add((XBTAttributeToken) pullProvider.pullXBTToken());
         }
     }
 

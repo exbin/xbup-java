@@ -19,6 +19,8 @@ package org.xbup.lib.core.serial.param;
 import org.xbup.lib.core.serial.sequence.XBSerialSequenceItem;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
@@ -58,6 +60,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     private XBPSequenceEventProducer eventListener;
 
     private XBPSequencingListener sequencingListener = null;
+    private final List<XBParamProcessingState> processingStates = new ArrayList<>();
     private XBParamProcessingState processingState = XBParamProcessingState.START;
     private XBParamType paramType = XBParamType.CONSIST;
 
@@ -99,14 +102,25 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             return;
         }
 
-        if (processingState == XBParamProcessingState.START) {
-            if (paramType.isConsist()) {
-                eventListener.putToken(new XBTBeginToken(terminationMode));
+        switch (processingState) {
+            case START: {
+                if (paramType.isConsist()) {
+                    eventListener.putToken(new XBTBeginToken(terminationMode));
+                }
+                processingState = XBParamProcessingState.BEGIN;
+                break;
             }
-            processingState = XBParamProcessingState.BEGIN;
-        } else {
-            sequencingListener = new XBPSequencingListener();
-            sequencingListener.putBegin(terminationMode);
+
+            case TYPE:
+            case ATTRIBUTES:
+            case CHILDREN: {
+                sequencingListener = new XBPSequencingListener();
+                sequencingListener.putBegin(terminationMode);
+                break;
+            }
+            default: {
+                throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            }
         }
     }
 
@@ -170,10 +184,16 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
                 eventListener.putToken(new XBTEndToken());
             }
             processingState = XBParamProcessingState.END;
-            XBSerializable nextChild = eventListener.getNextChild();
-            if (nextChild != null) {
-                processingState = XBParamProcessingState.START;
-                process(nextChild);
+            if (processingStates.isEmpty()) {
+                XBSerializable nextChild = eventListener.getNextChild();
+                if (nextChild != null) {
+                    processingState = XBParamProcessingState.START;
+                    paramType = XBParamType.CONSIST;
+                    process(nextChild);
+                }
+            } else {
+                processingState = processingStates.remove(processingStates.size() -1);
+                paramType = processingStates.isEmpty() ? XBParamType.CONSIST : XBParamType.JOIN;
             }
         } else {
             throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
@@ -225,6 +245,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         if (sequencingListener != null) {
             sequencingListener.putToken(token);
             checkSequencingListener();
+            return;
         }
 
         switch (token.getTokenType()) {
@@ -258,7 +279,6 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             return;
         }
 
-        paramType = XBParamType.CONSIST;
         eventListener.putChild(serial == null ? XBTEmptyBlock.getEmptyBlock() : serial);
     }
 
@@ -269,6 +289,8 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             return;
         }
 
+        processingStates.add(processingState);
+        processingState = XBParamProcessingState.START;
         paramType = XBParamType.JOIN;
         process(serial);
     }
@@ -485,6 +507,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         if (sequencingListener.isFinished()) {
             eventListener.putChild(sequencingListener.getSequenceSerial());
             sequencingListener = null;
+
         }
     }
 

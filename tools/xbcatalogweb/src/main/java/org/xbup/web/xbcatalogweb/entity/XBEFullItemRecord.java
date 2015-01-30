@@ -31,7 +31,7 @@ import org.xbup.web.xbcatalogweb.base.XBCDefinitionRecord;
 /**
  * Full item record entity.
  *
- * @version 0.1.23 2014/04/08
+ * @version 0.1.24 2015/01/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEFullItemRecord extends XBEItemRecord implements Serializable, XBCFullItemRecord {
@@ -132,5 +132,19 @@ public class XBEFullItemRecord extends XBEItemRecord implements Serializable, XB
     public List<XBCDefinitionRecord> getDefinitions() {
         // TODO
         return new ArrayList<XBCDefinitionRecord>();
+    }
+
+    public String getHdocBodyText() {
+        String text = getHdocText();
+        if (text.isEmpty()) {
+            return text;
+        }
+
+        int bodyPos = text.indexOf("<body");
+        int startPos = text.indexOf(">", bodyPos + 5);
+        
+        int endPos = text.lastIndexOf("</body>");
+        
+        return text.substring(startPos + 1, endPos);
     }
 }

@@ -24,20 +24,20 @@ import org.xbup.tool.editor.base.api.ApplicationPanel;
 /**
  * Manager for panels.
  *
- * @version 0.1.21 2011/06/15
+ * @version 0.1.24 2015/01/30
  * @author XBUP Project (http://xbup.org)
  */
-class PanelManager {
+public class PanelManager {
 
-    private BaseModuleRepository moduleRepository;
-    private Map<Long,ApplicationPanel> panels;
+    private final BaseModuleRepository moduleRepository;
+    private final Map<Long,ApplicationPanel> panels;
 
     public PanelManager(BaseModuleRepository moduleRepository) {
         this.moduleRepository = moduleRepository;
         panels = new HashMap<>();
     }
 
-    void registerPanel(ApplicationPanel panel) {
+    public void registerPanel(ApplicationPanel panel) {
         panels.put(moduleRepository.getActiveModule(), panel);
         moduleRepository.getMainFrame().setActivePanel((JPanel) panel, panel.getPanelName());
     }

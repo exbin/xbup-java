@@ -402,7 +402,7 @@ public class XBEItemRecordManager implements XBCItemRecordManager {
     }
 
     public XBCFullItemRecord findFormatSpecByPath(Long[] path) {
-        if (path.length < 2) {
+        if (path.length == 0) {
             return null;
         }
         XBENode node = nodeManager.findParentByXBPath(path);

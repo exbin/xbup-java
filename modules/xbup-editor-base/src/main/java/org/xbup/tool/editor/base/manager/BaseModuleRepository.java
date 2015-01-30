@@ -20,7 +20,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.prefs.Preferences;
@@ -46,9 +45,9 @@ public class BaseModuleRepository implements ModuleRepository {
     private long activeModule;
 
     private MainFrame mainFrame;
-    private Map<Long, ApplicationModule> modules;
+    private final Map<Long, ApplicationModule> modules;
 
-    private PluginManager pluginManager;
+    private final PluginManager pluginManager;
     private ModuleManager moduleManager;
 
     public BaseModuleRepository() {
@@ -58,45 +57,44 @@ public class BaseModuleRepository implements ModuleRepository {
 
         // fixed load of modules
 /*        pluginManager.addPluginsFrom(new ClassURI(ScriptEditorModule.class).toURI());
-        pluginManager.addPluginsFrom(new ClassURI(GraphEditorModule.class).toURI());
-        pluginManager.addPluginsFrom(new ClassURI(WaveEditorModule.class).toURI());
-        pluginManager.addPluginsFrom(new ClassURI(JavaHelpModule.class).toURI());
-        pluginManager.addPluginsFrom(new ClassURI(OnlineHelpModule.class).toURI()); */
-/*        File directory = new File("./modules");
-        if (directory.exists()) {
-            System.out.println("Loading plugins from: ./modules");
-            pluginManager.addPluginsFrom(directory.toURI());
-        } else {
-            directory = new File("./../modules");
-            if (directory.exists()) {
-                System.out.println("Loading plugins from:  ./../modules");
-                pluginManager.addPluginsFrom(directory.toURI());
-            } else {
-                addPlugin("GraphEditor.jar");
-                addPlugin("JavaHelp.jar");
-                addPlugin("OnlineHelp.jar");
-                addPlugin("ScriptEditor.jar");
-                addPlugin("WaveEditor.jar");
-            }
-        } */
+         pluginManager.addPluginsFrom(new ClassURI(GraphEditorModule.class).toURI());
+         pluginManager.addPluginsFrom(new ClassURI(WaveEditorModule.class).toURI());
+         pluginManager.addPluginsFrom(new ClassURI(JavaHelpModule.class).toURI());
+         pluginManager.addPluginsFrom(new ClassURI(OnlineHelpModule.class).toURI()); */
+        /*        File directory = new File("./modules");
+         if (directory.exists()) {
+         System.out.println("Loading plugins from: ./modules");
+         pluginManager.addPluginsFrom(directory.toURI());
+         } else {
+         directory = new File("./../modules");
+         if (directory.exists()) {
+         System.out.println("Loading plugins from:  ./../modules");
+         pluginManager.addPluginsFrom(directory.toURI());
+         } else {
+         addPlugin("GraphEditor.jar");
+         addPlugin("JavaHelp.jar");
+         addPlugin("OnlineHelp.jar");
+         addPlugin("ScriptEditor.jar");
+         addPlugin("WaveEditor.jar");
+         }
+         } */
         moduleManager = null;
         activeModule = 0;
     }
 
     @Override
     public void addPluginsFrom(URI uri) {
-            pluginManager.addPluginsFrom(uri);
+        pluginManager.addPluginsFrom(uri);
     }
 
     public void processModules() {
         PluginManagerUtil pmu = new PluginManagerUtil(pluginManager);
         final Collection<ApplicationModule> pluginCol = pmu.getPlugins(ApplicationModule.class);
 
-        for (Iterator<ApplicationModule> module = pluginCol.iterator(); module.hasNext();) {
-            ApplicationModule applicationModule = module.next();
+        for (ApplicationModule applicationModule : pluginCol) {
             ApplicationModuleInfo info = applicationModule.getInfo();
             activeModule++;
-            modules.put(getActiveModule(),applicationModule);
+            modules.put(getActiveModule(), applicationModule);
             applicationModule.init(moduleManager);
         }
 
@@ -105,72 +103,65 @@ public class BaseModuleRepository implements ModuleRepository {
     }
 
     private void addPlugin(String pluginName) {
-/*        try {
-            pluginManager.addPluginsFrom(new URI("http:///modules/"+pluginName)); // classpath://*
-        } catch (URISyntaxException ex1) {
-            Exceptions.printStackTrace(ex1);
-        }
-        InputStream iStream = null;
-        try {
-            String pluginPath = "http:///modules/" + pluginName;
-            iStream = new URL(pluginPath).openStream();
-            java.io.File tmpFile = null;
-            try {
-                tmpFile = java.io.File.createTempFile("jspfplugindownload", ".jar");
-                FileOutputStream oStream = new FileOutputStream(tmpFile);
-                while (iStream.available() > 0) {
-                    oStream.write(iStream.read()); // TODO: buffer read
-                }
-                iStream.close();
-                oStream.close();
-            } catch (IOException ex) {
-                Logger.getLogger(BaseModuleRepository.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if (tmpFile != null) {
-                pluginManager.addPluginsFrom(tmpFile.getAbsoluteFile().toURI());
-            }
-        } catch (MalformedURLException ex) {
-            Exceptions.printStackTrace(ex);
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        } finally {
-            try {
-                iStream.close();
-            } catch (IOException ex) {
-                Exceptions.printStackTrace(ex);
-            }
-        }
-*/    }
+        /*        try {
+         pluginManager.addPluginsFrom(new URI("http:///modules/"+pluginName)); // classpath://*
+         } catch (URISyntaxException ex1) {
+         Exceptions.printStackTrace(ex1);
+         }
+         InputStream iStream = null;
+         try {
+         String pluginPath = "http:///modules/" + pluginName;
+         iStream = new URL(pluginPath).openStream();
+         java.io.File tmpFile = null;
+         try {
+         tmpFile = java.io.File.createTempFile("jspfplugindownload", ".jar");
+         FileOutputStream oStream = new FileOutputStream(tmpFile);
+         while (iStream.available() > 0) {
+         oStream.write(iStream.read()); // TODO: buffer read
+         }
+         iStream.close();
+         oStream.close();
+         } catch (IOException ex) {
+         Logger.getLogger(BaseModuleRepository.class.getName()).log(Level.SEVERE, null, ex);
+         }
+         if (tmpFile != null) {
+         pluginManager.addPluginsFrom(tmpFile.getAbsoluteFile().toURI());
+         }
+         } catch (MalformedURLException ex) {
+         Exceptions.printStackTrace(ex);
+         } catch (IOException ex) {
+         Exceptions.printStackTrace(ex);
+         } finally {
+         try {
+         iStream.close();
+         } catch (IOException ex) {
+         Exceptions.printStackTrace(ex);
+         }
+         } */
+    }
 
     public void setMainFrame(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         moduleManager = new ModuleManager(this);
     }
 
-    /**
-     * @return the mainFrame
-     */
     public MainFrame getMainFrame() {
         return mainFrame;
     }
 
-    /**
-     * @return the activeModule
-     */
     @Override
     public long getActiveModule() {
         return activeModule;
     }
 
-    /**
-     * @return the pluginManager
-     */
     @Override
     public PluginManager getPluginManager() {
         return pluginManager;
     }
 
-    /** Open file using appropriate plugin */
+    /**
+     * Opens file using appropriate plugin.
+     */
     @Override
     public boolean openFile(JFileChooser openFC) {
         boolean fileOpened = moduleManager.getFileTypeManagement().openFile(openFC);
@@ -207,8 +198,7 @@ public class BaseModuleRepository implements ModuleRepository {
     }
 
     public void addPluginsFrom(List<URI> plugins) {
-        for (int i = 0; i < plugins.size(); i++) {
-            URI uri = plugins.get(i);
+        for (URI uri : plugins) {
             addPluginsFrom(uri);
         }
     }
@@ -240,16 +230,13 @@ public class BaseModuleRepository implements ModuleRepository {
         return moduleManager.getFileTypeManagement().saveFile();
     }
 
-    /**
-     * @return the optionsDialog
-     */
     public OptionsDialog getOptionsDialog() {
         return mainFrame.getOptionsDialog();
     }
 
     public class XBPluginSelector implements PluginSelector<ApplicationModule> {
 
-        private String filePath;
+        private final String filePath;
 
         public XBPluginSelector(String filePath) {
             this.filePath = filePath;
@@ -258,9 +245,10 @@ public class BaseModuleRepository implements ModuleRepository {
         @Override
         public boolean selectPlugin(ApplicationModule plugin) {
             String plugPath = "/"; /* + plugin.getPluginPath();
-            if (plugPath == null) {
-                return false;
-            } */
+             if (plugPath == null) {
+             return false;
+             } */
+
             return plugPath.equals(filePath);
         }
     }

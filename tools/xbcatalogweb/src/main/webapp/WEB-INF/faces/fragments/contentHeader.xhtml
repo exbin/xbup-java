@@ -9,7 +9,7 @@
     <ui:composition>
         <h:form id="contentHeaderForm">
             <rich:toolbar id="contentHeaderToolbar" height="30" itemSeparator="line">
-                <h:outputLabel>XBCatalog - 0.1.24 DEV</h:outputLabel>
+                <h:outputLabel><h:outputText value="#{msg['Application.title']}" /> - <h:outputText value="#{msg['Application.version']}" /></h:outputLabel>
                 <rich:toolbarGroup location="right" rendered="#{!authBacking.authenticated}">
                     <rich:dropDownMenu mode="ajax" style="background-color: #88bbff;">
                                 

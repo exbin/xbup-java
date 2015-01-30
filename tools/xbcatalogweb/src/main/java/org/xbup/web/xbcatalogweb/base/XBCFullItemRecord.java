@@ -23,7 +23,7 @@ import org.xbup.lib.catalog.entity.XBEXLanguage;
 /**
  * Full item record entity interface.
  *
- * @version 0.1.24 2014/11/11
+ * @version 0.1.24 2015/01/30
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCFullItemRecord extends XBCItemRecord {
@@ -33,6 +33,8 @@ public interface XBCFullItemRecord extends XBCItemRecord {
     XBEXHDoc getHdoc();
 
     String getHdocText();
+
+    String getHdocBodyText();
 
     String getItemName();
 

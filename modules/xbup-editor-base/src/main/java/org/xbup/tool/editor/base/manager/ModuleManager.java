@@ -69,9 +69,6 @@ public class ModuleManager implements ModuleManagement {
         return fileTypeManager;
     }
 
-    /**
-     * @return the statusManager
-     */
     @Override
     public StatusManagement getStatusManagement() {
         return statusManager;

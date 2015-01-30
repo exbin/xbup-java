@@ -35,12 +35,12 @@ import org.xbup.tool.editor.base.api.MenuPositionMode;
 /**
  * Manager for menus.
  *
- * @version 0.1.22 2013/03/16
+ * @version 0.1.24 2015/01/30
  * @author XBUP Project (http://xbup.org)
  */
 public class MenuManager implements MenuManagement {
 
-    private BaseModuleRepository moduleRepository;
+    private final BaseModuleRepository moduleRepository;
     private MenuManagerMode mode;
 
     private JMenuBar mainBar;
@@ -66,7 +66,7 @@ public class MenuManager implements MenuManagement {
         setMode(MenuManagerMode.SIMPLE);
 
         // Fill menu positions
-        menuGaps = new ArrayList<MenuGap>();
+        menuGaps = new ArrayList<>();
         menuGaps.add(new MenuGap(mainBar.getMenu(BasicMenuType.FILE.ordinal()).getItemCount()-2));
         menuGaps.add(new MenuGap(mainBar.getMenu(BasicMenuType.EDIT.ordinal()).getItemCount()));
         menuGaps.add(new MenuGap(mainBar.getMenu(BasicMenuType.VIEW.ordinal()).getItemCount()));
@@ -144,16 +144,10 @@ public class MenuManager implements MenuManagement {
         return mainBar.getMenu(menuType.ordinal()-1);
     }
 
-    /**
-     * @return the mode
-     */
     public MenuManagerMode getMode() {
         return mode;
     }
 
-    /**
-     * @param mode the mode to set
-     */
     public void setMode(MenuManagerMode mode) {
         this.mode = mode;
         if (mode == MenuManagerMode.SIMPLE) {
@@ -201,9 +195,10 @@ public class MenuManager implements MenuManagement {
 
     public class MenuGap {
 
+        private final Map<Long,Integer> panelItemsCount;
+
         private int gapPosition;
         private int beforeItemsCount;
-        private Map<Long,Integer> panelItemsCount;
         private int afterItemsCount;
 
         public MenuGap(int gapPosition) {
@@ -213,59 +208,35 @@ public class MenuManager implements MenuManagement {
             this.afterItemsCount = 0;
         }
 
-        /**
-         * @return the gapPosition
-         */
         public int getGapPosition() {
             return gapPosition;
         }
 
-        /**
-         * @return the beforeItemsCount
-         */
         public int getBeforeItemsCount() {
             return beforeItemsCount;
         }
 
-        /**
-         * @param beforeItemsCount the beforeItemsCount to set
-         */
         public void setBeforeItemsCount(int beforeItemsCount) {
             this.beforeItemsCount = beforeItemsCount;
         }
 
-        /**
-         * @return the panelItemsCount
-         */
         public int getPanelItemsCount() {
             // TODO
             return 0;
         }
 
-        /**
-         * @param gapPosition the gapPosition to set
-         */
         public void setGapPosition(int gapPosition) {
             this.gapPosition = gapPosition;
         }
 
-        /**
-         * @param panelItemsCount the panelItemsCount to set
-         */
         public void setPanelItemsCount(int panelItemsCount) {
             // TODO this.panelItemsCount = panelItemsCount;
         }
 
-        /**
-         * @return the afterItemsCount
-         */
         public int getAfterItemsCount() {
             return afterItemsCount;
         }
 
-        /**
-         * @param afterItemsCount the afterItemsCount to set
-         */
         public void setAfterItemsCount(int afterItemsCount) {
             this.afterItemsCount = afterItemsCount;
         }

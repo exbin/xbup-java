@@ -61,11 +61,11 @@ public final class IndexController implements Serializable {
         }
 
         if (group != null && !group.isEmpty()) {
-            return "views/item.xhtml?format=" + group;
+            return "views/item.xhtml?group=" + group;
         }
 
         if (block != null && !block.isEmpty()) {
-            return "views/item.xhtml?format=" + block;
+            return "views/item.xhtml?block=" + block;
         }
 
         return "views/about.xhtml";

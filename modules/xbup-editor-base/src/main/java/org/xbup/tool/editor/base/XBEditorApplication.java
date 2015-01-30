@@ -32,7 +32,7 @@ import org.xbup.tool.editor.base.manager.BaseModuleRepository;
 /**
  * Main class for XBEditors.
  *
- * @version 0.1.24 2015/01/20
+ * @version 0.1.24 2015/01/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEditorApplication implements XBEditorApp {
@@ -81,7 +81,7 @@ public class XBEditorApplication implements XBEditorApp {
     }
 
     /**
-     * At startup create and show the main frame of the application.
+     * At startup creates and shows the main frame of the application.
      */
     public void startup() {
         prepare();
@@ -112,6 +112,10 @@ public class XBEditorApplication implements XBEditorApp {
     }
 
     public void setAppBundle(ResourceBundle appBundle) {
+        if (!Locale.getDefault().equals(appBundle.getLocale())) {
+            appBundle = ResourceBundle.getBundle(appBundle.getBaseBundleName());
+        }
+
         this.appBundle = appBundle;
         if (mainFrame != null) {
             mainFrame.setAppEditor(this);
@@ -162,7 +166,7 @@ public class XBEditorApplication implements XBEditorApp {
     }
 
     /**
-     * Add plugin to the list of plugins.
+     * Adds plugin to the list of plugins.
      *
      * @param uri URI to plugin.
      */

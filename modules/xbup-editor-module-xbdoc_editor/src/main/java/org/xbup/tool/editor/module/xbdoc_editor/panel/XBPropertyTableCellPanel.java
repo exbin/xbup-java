@@ -114,7 +114,9 @@ public class XBPropertyTableCellPanel extends PropertyTableCellPanel {
         
         XBTTreeNode newNode = modifyDialog.runDialog(paramNode, doc);
         // TODO save
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (newNode != null) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     public XBACatalog getCatalog() {

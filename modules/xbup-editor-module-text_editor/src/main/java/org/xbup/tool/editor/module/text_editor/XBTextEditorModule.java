@@ -23,10 +23,7 @@ import org.xbup.tool.editor.module.text_editor.panel.TextEncodingOptionsPanel;
 import org.xbup.tool.editor.module.text_editor.panel.TextFontOptionsPanel;
 import org.xbup.tool.editor.base.api.ApplicationModule;
 import org.xbup.tool.editor.base.api.ApplicationModuleInfo;
-import org.xbup.tool.editor.base.api.BasicMenuType;
 import org.xbup.tool.editor.base.api.FileTypeManagement;
-import org.xbup.tool.editor.base.api.MenuManagement;
-import org.xbup.tool.editor.base.api.MenuPositionMode;
 import org.xbup.tool.editor.base.api.ModuleManagement;
 import org.xbup.tool.editor.base.api.OptionsManagement;
 import org.xbup.tool.editor.base.api.StatusManagement;
@@ -34,7 +31,7 @@ import org.xbup.tool.editor.base.api.StatusManagement;
 /**
  * XB Text Editor Module.
  *
- * @version 0.1.24 2015/01/18
+ * @version 0.1.24 2015/01/30
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation

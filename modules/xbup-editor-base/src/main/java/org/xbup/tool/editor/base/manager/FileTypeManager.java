@@ -37,7 +37,7 @@ public class FileTypeManager implements FileTypeManagement {
     private final Map<String, FileType> fileTypes;
     private String fileName;
 
-    FileTypeManager(BaseModuleRepository moduleRepository) {
+    public FileTypeManager(BaseModuleRepository moduleRepository) {
         this.moduleRepository = moduleRepository;
         fileTypes = new HashMap<>();
     }

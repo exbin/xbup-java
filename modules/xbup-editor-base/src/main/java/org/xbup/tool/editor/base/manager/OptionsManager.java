@@ -31,7 +31,7 @@ public class OptionsManager implements OptionsManagement {
 
     private final BaseModuleRepository moduleRepository;
 
-    OptionsManager(BaseModuleRepository moduleRepository) {
+    public OptionsManager(BaseModuleRepository moduleRepository) {
         this.moduleRepository = moduleRepository;
     }
 

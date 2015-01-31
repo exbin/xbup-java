@@ -45,13 +45,13 @@ public class XBHead {
     /**
      * Blob header for files encoded using XBUP protocol.
      *
-     * FE - means cluster size 7<br/>
-     * 00 - Protocol version - means testing release<br/>
-     * 58 - aka 'X' for magic number<br/>
-     * 42 - aka 'B' for magic number<br/>
-     * 00 - Major version<br/>
+     * FE - means cluster size 7<br>
+     * 00 - Protocol version - means testing release<br>
+     * 58 - aka 'X' for magic number<br>
+     * 42 - aka 'B' for magic number<br>
+     * 00 - Major version<br>
      * 02 - Minor version (09 used from wr9, 11 used from wr11, 01 used till
-     * wr16)<br/>
+     * wr16)<br>
      */
     public static byte[] XB_HEADER = {-2, 0, 'X', 'B', 0, 2};
 

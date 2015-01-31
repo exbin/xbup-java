@@ -6,6 +6,8 @@ Implementation in Java programming language was chosen as primary environment fo
 
 There are basic libraries with functionality related to protocol itself and services, additional libraries with some support for various data types and libraries related to editors for demonstration purposes.
 
+For classes and methods documentation please see [[en:doc:impl:java:javadoc|JavaDoc]].
+
 ===== Basic Libraries =====
 
   * [[en:doc:impl:java:lib:xbup-core|xbup-core]] - Core library with basic support for XBUP encoding

@@ -1,6 +1,6 @@
 apply plugin: 'base'
 apply plugin: 'distribution'
-version = '0.1.24-SNAPSHOT'
+version = '0.1.25-SNAPSHOT'
 
 task wrapper(type: Wrapper, description: 'Creates and deploys the Gradle wrapper to the current directory.') {
     gradleVersion = '2.1'

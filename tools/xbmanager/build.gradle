@@ -1,7 +1,7 @@
 apply plugin: 'java'
 
 sourceCompatibility = '1.7'
-version = '0.1.24-SNAPSHOT'
+version = '0.1.25-SNAPSHOT'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 if (!hasProperty('mainClass')) {
     ext.mainClass = 'org.xbup.tool.xbmanager.XBManager'

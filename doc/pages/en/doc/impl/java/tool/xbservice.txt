@@ -25,5 +25,5 @@ FIXME
 
 TODO Move to framework-service lib:
 
-The major part of the documentation will describe communication interface, which is used for communication using data transmitting via the XBUP. By default, network service is running on port 22594 and uses defined [[en:doc:catalog:interfaces|catalog interface]].
+The major part of the documentation will describe communication interface, which is used for communication using data transmitting via the XBUP. By default, network service is running on port 22594 and uses defined catalog interface.
 

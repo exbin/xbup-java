@@ -8,7 +8,7 @@ You can try XBEditor as [[this>../webstart/xbeditor/launch.jnlp|Java Web Start a
 
 Primary purpose of the application is to provide tree view of the document.
 
-{{ :en:doc:support:tools:images:xbeditor.png |XBEditor Screenshot}}
+{{ :en:doc:impl:java:tool:xbeditor.png |XBEditor Screenshot}}
 
 ==== Application Menu ====
 
@@ -25,7 +25,7 @@ Main menu has following items:
 
 Editor provides following basic functionality:
 
-  * Work in tree mode, text mode or hexadecimal mode - only tree mode allow modifications
+  * Work in tree mode, text mode or hexadecimal mode - text mode is experimental and changes won't reflect in document update
   * Connection to running XBService or update from web catalog
   * Adding new node - only few basic block types is currently supported
   * Editing existing node - You can edit list of numeric attributes or panel plugin is loaded if available, property editor is currently limited to read-only basic preview
@@ -43,7 +43,6 @@ Editor provides following basic functionality:
 
   * Only tree operations are currently supported
   * Only numbers up to unsigned long supported
+  * No support for conversions/transformations
   * No support for nodes reordering
-  * No support for termination flag (as defined in specification)
-  * No support for transformations and line editors yet
   * No support for find/replace/goto in tree and hex mode

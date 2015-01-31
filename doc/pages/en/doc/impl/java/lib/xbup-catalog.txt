@@ -1,14 +1,16 @@
 ====== XBUP Catalog Library (Java) ======
 
+FIXME
+
 Catalog library provides object-relational mapping for XBUP catalog and methods for performing update from another framework/catalog service.
 
-Implementation has following propeties:
+Implementation has following properties:
 
   * Java Persistence for entity classes
   * Multi-layered classes
-    * Service classes (also know as bussiness classes)
+    * Service classes (also know as business classes)
     * Manager classes (also know as DAO classes)
-  * Catalog class with management classes repository (alternativelly Spring IoC can be used instead)
+  * Catalog class with management classes repository (alternatively Spring IoC can be used instead)
 
 [[en:doc:protocol:catalog|See more information about catalog.]]
 

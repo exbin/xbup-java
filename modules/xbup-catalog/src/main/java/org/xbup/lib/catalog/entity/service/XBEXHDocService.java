@@ -33,7 +33,7 @@ import org.xbup.lib.catalog.entity.manager.XBEXHDocManager;
 /**
  * Interface for XBEXHDoc items service.
  *
- * @version 0.1.21 2011/02/05
+ * @version 0.1.24 2015/01/31
  * @author XBUP Project (http://xbup.org)
  */
 @Service
@@ -58,16 +58,16 @@ public class XBEXHDocService extends XBEDefaultService<XBEXHDoc> implements XBCX
     }
 
     public XBEXHDoc findById(Long id) {
-        return ((XBEXHDocManager)itemManager).findById(id);
+        return ((XBEXHDocManager) itemManager).findById(id);
     }
 
     public Long getAllHDocsCount() {
-        return ((XBEXHDocManager)itemManager).getAllHDocsCount();
+        return ((XBEXHDocManager) itemManager).getAllHDocsCount();
     }
 
     @Override
     public XBEXHDoc getDocumentation(XBCItem item) {
-        return ((XBEXHDocManager)itemManager).getDocumentation(item);
+        return ((XBEXHDocManager) itemManager).getDocumentation(item);
     }
 
     @Override
@@ -96,6 +96,20 @@ public class XBEXHDocService extends XBEDefaultService<XBEXHDoc> implements XBCX
         } catch (java.util.NoSuchElementException ex) {
             return "";
         }
+    }
 
+    @Override
+    public String getDocumentationBodyText(XBCItem item) {
+        String text = getDocumentationText(item);
+        if (text == null || text.isEmpty()) {
+            return text;
+        }
+
+        int bodyPos = text.indexOf("<body");
+        int startPos = text.indexOf(">", bodyPos + 5);
+
+        int endPos = text.lastIndexOf("</body>");
+
+        return text.substring(startPos + 1, endPos);
     }
 }

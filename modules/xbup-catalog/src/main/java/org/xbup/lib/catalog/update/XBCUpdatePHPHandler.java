@@ -430,13 +430,6 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
     public void setLang(Long lang) {
         this.lang = lang;
     }
-    /*
-     public static List<Object> toObjectList(List<Long> list) {
-     ArrayList<Object> result = new ArrayList<Object>(); // TODO
-     for (Iterator it = list.iterator(); it.hasNext();) result.add(it.next());
-     return result;
-     }
-     */
 
     public void updateItem(XBEItem item, ItemInfo info) {
         EntityTransaction tx = em.getTransaction();

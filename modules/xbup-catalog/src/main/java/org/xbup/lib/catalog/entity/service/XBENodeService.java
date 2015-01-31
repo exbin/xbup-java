@@ -29,6 +29,8 @@ import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBENode;
 import org.xbup.lib.catalog.entity.XBERoot;
 import org.xbup.lib.catalog.entity.manager.XBENodeManager;
+import org.xbup.lib.core.catalog.base.XBCRoot;
+import org.xbup.lib.core.catalog.base.manager.XBCManager;
 
 /**
  * Interface for XBENode items service.
@@ -124,5 +126,10 @@ public class XBENodeService extends XBEDefaultService<XBENode> implements XBCNod
 
     public void setLastUpdateToNow() {
         ((XBENodeManager) itemManager).setLastUpdateToNow();
+    }
+
+    @Override
+    public void persistRoot(XBCRoot root) {
+        ((XBCManager) itemManager).persistItem(root);
     }
 }

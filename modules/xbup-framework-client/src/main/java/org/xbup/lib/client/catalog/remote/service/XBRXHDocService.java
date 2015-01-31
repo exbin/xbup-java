@@ -41,16 +41,16 @@ public class XBRXHDocService extends XBRDefaultService<XBRXHDoc> implements XBCX
     }
 
     public XBRXHDoc findById(Long id) {
-        return ((XBRXHDocManager)itemManager).findById(id);
+        return ((XBRXHDocManager) itemManager).findById(id);
     }
 
     public Long getAllHDocsCount() {
-        return ((XBRXHDocManager)itemManager).getAllHDocsCount();
+        return ((XBRXHDocManager) itemManager).getAllHDocsCount();
     }
 
     @Override
     public XBRXHDoc getDocumentation(XBCItem item) {
-        return ((XBRXHDocManager)itemManager).getDocumentation(item);
+        return ((XBRXHDocManager) itemManager).getDocumentation(item);
     }
 
     @Override
@@ -77,4 +77,18 @@ public class XBRXHDocService extends XBRDefaultService<XBRXHDoc> implements XBCX
         return new java.util.Scanner(fileService.getFile(file)).useDelimiter("\\A").next();
     }
 
+    @Override
+    public String getDocumentationBodyText(XBCItem item) {
+        String text = getDocumentationText(item);
+        if (text == null || text.isEmpty()) {
+            return text;
+        }
+
+        int bodyPos = text.indexOf("<body");
+        int startPos = text.indexOf(">", bodyPos + 5);
+
+        int endPos = text.lastIndexOf("</body>");
+
+        return text.substring(startPos + 1, endPos);
+    }
 }

@@ -24,7 +24,7 @@ import org.xbup.lib.core.catalog.base.XBCRoot;
 /**
  * Interface for XBCNode items service.
  *
- * @version 0.1.24 2015/01/09
+ * @version 0.1.24 2015/01/31
  * @author XBUP Project (http://xbup.org)
  * @param <T> node class
  */
@@ -132,4 +132,13 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * @return time of last update
      */
     public Date getLastUpdate();
+
+    /**
+     * Persist root node item.
+     *
+     * TODO: Root service?
+     *
+     * @param root root node item
+     */
+    public void persistRoot(XBCRoot root);
 }

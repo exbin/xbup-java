@@ -62,7 +62,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * XBTEditor Main Frame.
  *
- * @version 0.1.24 2015/01/18
+ * @version 0.1.24 2015/01/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPanelFrame, TextFontPanelFrame, TextEncodingPanelFrame, TextAppearancePanelFrame {
@@ -111,6 +111,13 @@ public class XBTextEditorFrame extends javax.swing.JFrame implements TextColorPa
 
         activePanel.attachCaretListener(caretChangeListener);
         activePanel.setPopupMenu(mainPopupMenu);
+        activePanel.setCharsetChangeListener(new TextPanel.CharsetChangeListener() {
+
+            @Override
+            public void charsetChanged() {
+                setDocumentCharset(activePanel.getCharset());
+            }
+        });
     }
 
     public TextPanel getActivePanel() {

@@ -136,6 +136,10 @@ public class XBService {
                 logger.addHandler(new XBHead.XBLogHandler(verboseMode));
                 logger.addHandler(new XBServiceServer.XBServiceLogHandler(true));
 
+                // Note
+                Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, "!! XBService is in nonfunctional state and not needed for XBEditor in this release. Please try older release if you want to test this functionality. !!");
+                Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, "");
+
                 Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, myBundle.getString("service_head"));
                 Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, "");
 
@@ -228,7 +232,7 @@ public class XBService {
                 XBCNodeService nodeService = (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
                 Date lastUpdate = serviceHandler.getWsHandler().getPort().getRootLastUpdate();
                 Date localLastUpdate = nodeService.getRoot().getLastUpdate();
-                if (localLastUpdate != null) {
+                if (localLastUpdate == null || localLastUpdate.before(lastUpdate)) {
                     // TODO: As there is currently no diff update available - wipe out entire database instead
                     EntityManagerFactory emfDrop = Persistence.createEntityManagerFactory(derbyMode ? "XBServiceDerbyPU-drop" : "XBServicePU-drop");
                     EntityManager emDrop = emfDrop.createEntityManager();
@@ -245,7 +249,7 @@ public class XBService {
 
                 XBERoot root = (XBERoot) nodeService.getRoot();
                 root.setLastUpdate(lastUpdate);
-                nodeService.persistItem(root);
+                nodeService.persistRoot(root);
 
                 Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, "");
                 Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, myBundle.getString("done_update"));

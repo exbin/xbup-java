@@ -16,20 +16,23 @@
  */
 package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
-import javax.swing.text.html.HTMLDocument;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
+import org.xbup.lib.core.catalog.base.service.XBCXDescService;
+import org.xbup.lib.core.catalog.base.service.XBCXHDocService;
+import org.xbup.lib.core.catalog.base.service.XBCXNameService;
+import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 
 /**
  * Compact information about catalog item Panel.
  *
- * @version 0.1.24 2015/01/16
+ * @version 0.1.24 2015/01/31
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemInfoPanel extends javax.swing.JPanel {
 
     private XBACatalog catalog;
-    
+
     public CatalogItemInfoPanel() {
         initComponents();
     }
@@ -63,11 +66,47 @@ public class CatalogItemInfoPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     public void setItem(XBCItem item) {
-        HTMLDocument document = new HTMLDocument();
-        
-        mainEditorPane.setText(document.toString());
+        XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
+        XBCXDescService descService = (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
+        XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
+        XBCXHDocService hdocService = (XBCXHDocService) catalog.getCatalogService(XBCXHDocService.class);
+
+        String nameOrId = nameService.getDefaultText(item);
+        if (nameOrId == null || nameOrId.isEmpty()) {
+            nameOrId = String.valueOf(item.getId());
+        }
+
+        String stringId = striService.getItemStringIdText(item);
+        String name = nameService.getDefaultText(item);
+        String desc = descService.getDefaultText(item);
+        String hdoc = hdocService.getDocumentationBodyText(item);
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("<html><head></head><body>");
+        builder.append("\n");
+        builder.append("<h1>Block: ").append(nameOrId).append("</h1>");
+        builder.append("\n");
+        builder.append("Id : ").append(String.valueOf(item.getId())).append("<br/>");
+        builder.append("\n");
+        builder.append("String Id : ").append(stringId).append("<br/>");
+        builder.append("\n");
+        builder.append("Name : ").append(name).append("<br/>");
+        builder.append("\n");
+        builder.append("Description : ").append(desc).append("<br/>");
+        builder.append("\n");
+        builder.append("TBD<br/>");
+        builder.append("\n");
+        if (hdoc != null && !hdoc.isEmpty()) {
+            builder.append("<h2>Documentation</h2>");
+            builder.append("\n");
+            builder.append(hdoc);
+            builder.append("\n");
+        }
+        builder.append("</body></html>");
+        builder.append("\n");
+        mainEditorPane.setText(builder.toString());
     }
-            
+
     public XBACatalog getCatalog() {
         return catalog;
     }
@@ -76,5 +115,3 @@ public class CatalogItemInfoPanel extends javax.swing.JPanel {
         this.catalog = catalog;
     }
 }
-
-

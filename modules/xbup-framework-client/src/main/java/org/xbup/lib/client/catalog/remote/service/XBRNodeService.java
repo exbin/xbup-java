@@ -104,4 +104,9 @@ public class XBRNodeService extends XBRDefaultService<XBRNode> implements XBCNod
     public Date getLastUpdate() {
         return getRoot().getLastUpdate();
     }
+
+    @Override
+    public void persistRoot(XBCRoot root) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

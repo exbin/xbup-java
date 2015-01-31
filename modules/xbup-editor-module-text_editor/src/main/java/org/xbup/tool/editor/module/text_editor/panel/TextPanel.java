@@ -97,6 +97,7 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
     private Color[] defaultColors;
     private PropertyChangeListener propertyChangeListener;
     private MainFrameManagement mainFrameManagement;
+    private CharsetChangeListener charsetChangeListener = null;
 
     public TextPanel() {
         initComponents();
@@ -362,7 +363,7 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
                     XBEncodingText encodingText = new XBEncodingText();
                     XBDeclaration declaration = new XBDeclaration(formatDecl, encodingText);
                     reader.read(declaration);
-                    charset = encodingText.getCharset();
+                    changeCharset(encodingText.getCharset());
                     textArea.setText(encodingText.getValue());
                 } catch (XBProcessingException | IOException ex) {
                     Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -572,5 +573,21 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
         }
 
         return frameTitle;
+    }
+
+    public void setCharsetChangeListener(CharsetChangeListener charsetChangeListener) {
+        this.charsetChangeListener = charsetChangeListener;
+    }
+
+    private void changeCharset(Charset charset) {
+        this.charset = charset;
+        if (charsetChangeListener != null) {
+            charsetChangeListener.charsetChanged();
+        }
+    }
+
+    public interface CharsetChangeListener {
+
+        public void charsetChanged();
     }
 }

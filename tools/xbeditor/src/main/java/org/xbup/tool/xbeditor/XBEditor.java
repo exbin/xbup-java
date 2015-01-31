@@ -41,7 +41,7 @@ import org.xbup.tool.editor.base.api.ApplicationModule;
 /**
  * The main class of the XBEditor application.
  *
- * @version 0.1.24 2015/01/20
+ * @version 0.1.24 2015/01/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEditor extends XBEditorBase {
@@ -49,7 +49,8 @@ public class XBEditor extends XBEditorBase {
     private static Preferences preferences;
     private static boolean verboseMode = false;
     private static boolean devMode = false;
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("org/xbup/tool/xbeditor/resources/XBEditor");
+    private static final String APP_BUNDLE_NAME = "org/xbup/tool/xbeditor/resources/XBEditor";
+    private static final ResourceBundle bundle = ResourceBundle.getBundle(APP_BUNDLE_NAME);
 
     /**
      * Main method launching the application.
@@ -85,7 +86,7 @@ public class XBEditor extends XBEditorBase {
                 XBEditorApplication app = new XBEditorApplication();
                 app.setAppMode(true);
                 app.setAppPreferences(preferences);
-                app.setAppBundle(bundle);
+                app.setAppBundle(bundle, APP_BUNDLE_NAME);
                 app.setFirstCommand(new XBEditorFirstCommand(app));
 
                 app.addPlugin(new ClassURI(XBDocEditorModule.class).toURI());

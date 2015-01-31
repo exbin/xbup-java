@@ -35,13 +35,15 @@ import org.xbup.tool.editor.base.XBEditorBase;
 /**
  * The main class of the XBPEditor application.
  *
- * @version 0.1.22 2013/03/10
+ * @version 0.1.24 2015/01/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPEditor extends XBEditorBase {
 
     private static Preferences preferences;
     private static boolean verboseMode = false;
+    private static final String APP_BUNDLE_NAME = "org/xbup/tool/xbpeditor/resources/XBPEditor";
+    private static final ResourceBundle bundle = ResourceBundle.getBundle(APP_BUNDLE_NAME);
 
     public XBPEditor() {
     }
@@ -50,7 +52,6 @@ public class XBPEditor extends XBEditorBase {
      * Main method launching the application.
      */
     public static void main(String[] args) {
-        ResourceBundle bundle = ResourceBundle.getBundle("org/xbup/tool/xbpeditor/resources/XBPEditor");
         try {
             preferences = Preferences.userNodeForPackage(XBPEditor.class);
         } catch (SecurityException ex) {
@@ -81,7 +82,7 @@ public class XBPEditor extends XBEditorBase {
                 XBEditorApplication app = new XBEditorApplication();
                 app.setAppMode(true);
                 app.setAppPreferences(preferences);
-                app.setAppBundle(bundle);
+                app.setAppBundle(bundle, APP_BUNDLE_NAME);
 
                 app.addPlugin(new ClassURI(XBPictureEditorModule.class).toURI());
 

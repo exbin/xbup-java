@@ -30,12 +30,14 @@ import org.apache.commons.cli.ParseException;
 /**
  * Main class for XBEditors.
  *
- * @version 0.1.23 2013/12/12
+ * @version 0.1.24 2015/01/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEditorBase {
 
     private static Preferences preferences;
+    private static final String APP_BUNDLE_NAME = "org/xbup/tool/editor/base/resources/XBEditorBase";
+    private static final ResourceBundle bundle = ResourceBundle.getBundle(APP_BUNDLE_NAME);
 
     public XBEditorBase() {
     }
@@ -46,7 +48,6 @@ public class XBEditorBase {
      * @param args
      */
     public static void main(String[] args) {
-        ResourceBundle bundle = ResourceBundle.getBundle("org/xbup/tool/editor/base/resources/XBEditorBase");
         try {
             preferences = Preferences.userNodeForPackage(XBEditorBase.class);
         } catch (SecurityException ex) {
@@ -82,7 +83,7 @@ public class XBEditorBase {
             XBEditorApplication app = new XBEditorApplication();
             app.setAppMode(true);
             app.setAppPreferences(preferences);
-            app.setAppBundle(bundle);
+            app.setAppBundle(bundle, APP_BUNDLE_NAME);
 
             app.startup();
         } catch (ParseException ex) {

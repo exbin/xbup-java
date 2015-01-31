@@ -35,19 +35,20 @@ import org.xbup.tool.editor.base.XBEditorBase;
 /**
  * The main class of the XBSEditor application.
  *
- * @version 0.1.23 2013/12/09
+ * @version 0.1.24 2015/01/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBSEditor extends XBEditorBase {
 
     private static Preferences preferences;
     private static boolean verboseMode = false;
+    private static final String APP_BUNDLE_NAME = "org/xbup/tool/xbseditor/resources/XBSEditor";
+    private static final ResourceBundle bundle = ResourceBundle.getBundle(APP_BUNDLE_NAME);
 
     /**
      * Main method launching the application.
      */
     public static void main(String[] args) {
-        ResourceBundle bundle = ResourceBundle.getBundle("org/xbup/tool/xbseditor/resources/XBSEditor");
         try {
             preferences = Preferences.userNodeForPackage(XBSEditor.class);
         } catch (SecurityException ex) {
@@ -78,20 +79,20 @@ public class XBSEditor extends XBEditorBase {
                 XBEditorApplication app = new XBEditorApplication();
                 app.setAppMode(true);
                 app.setAppPreferences(preferences);
-                app.setAppBundle(bundle);
+                app.setAppBundle(bundle, APP_BUNDLE_NAME);
 
                 app.addPlugin(new ClassURI(XBWaveEditorModule.class).toURI());
 
                 String catalogConnection = cl.getOptionValue("ip");
                 String port = cl.getOptionValue("port");
-                if ((!"".equals(port))&&(port != null)) {
+                if ((!"".equals(port)) && (port != null)) {
                     catalogConnection += ":" + port;
                 }
 
                 app.startup();
-                
+
                 List fileArgs = cl.getArgList();
-                if (fileArgs.size()>0) {
+                if (fileArgs.size() > 0) {
                     app.loadFromFile((String) fileArgs.get(0));
                 }
 

@@ -40,7 +40,7 @@ import org.xbup.tool.editor.module.online_help.OnlineHelpModule;
 /**
  * The main class of the XBManager application.
  *
- * @version 0.1.24 2014/11/23
+ * @version 0.1.24 2014/11/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBManager extends XBEditorBase {
@@ -48,7 +48,8 @@ public class XBManager extends XBEditorBase {
     private static Preferences preferences;
     private static boolean verboseMode = false;
     private static boolean devMode = false;
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("org/xbup/tool/xbmanager/resources/XBManager");
+    private static final String APP_BUNDLE_NAME = "org/xbup/tool/xbmanager/resources/XBManager";
+    private static final ResourceBundle bundle = ResourceBundle.getBundle(APP_BUNDLE_NAME);
 
     public XBManager() {
     }
@@ -109,7 +110,7 @@ public class XBManager extends XBEditorBase {
             XBEditorApplication app = new XBEditorApplication();
             app.setAppMode(true);
             app.setAppPreferences(preferences);
-            app.setAppBundle(bundle);
+            app.setAppBundle(bundle, APP_BUNDLE_NAME);
 
             app.addPlugin(new ClassURI(XBServiceManagerModule.class).toURI());
             app.addPlugin(new ClassURI(OnlineHelpModule.class).toURI());

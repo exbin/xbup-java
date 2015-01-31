@@ -32,7 +32,7 @@ import org.xbup.tool.editor.base.manager.BaseModuleRepository;
 /**
  * Main class for XBEditors.
  *
- * @version 0.1.24 2015/01/30
+ * @version 0.1.24 2015/01/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEditorApplication implements XBEditorApp {
@@ -111,9 +111,17 @@ public class XBEditorApplication implements XBEditorApp {
         return appBundle;
     }
 
-    public void setAppBundle(ResourceBundle appBundle) {
+    /**
+     * Sets application resource bundle handler.
+     *
+     * @param appBundle application resource bundle
+     * @param bundleName this is workaround for getBaseBundleName method
+     * available only in Java 1.8
+     */
+    public void setAppBundle(ResourceBundle appBundle, String bundleName) {
         if (!Locale.getDefault().equals(appBundle.getLocale())) {
-            appBundle = ResourceBundle.getBundle(appBundle.getBaseBundleName());
+            appBundle = ResourceBundle.getBundle(bundleName);
+            // appBundle = ResourceBundle.getBundle(appBundle.getBaseBundleName());
         }
 
         this.appBundle = appBundle;

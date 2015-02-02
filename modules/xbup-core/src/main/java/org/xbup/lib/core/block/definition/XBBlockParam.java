@@ -17,6 +17,7 @@
 package org.xbup.lib.core.block.definition;
 
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
+import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * XBUP level 1 parameter definition interface.
@@ -25,10 +26,10 @@ import org.xbup.lib.core.block.declaration.XBBlockDecl;
  * Without declaration (blockDecl) it means single atribute for join and data
  * block for consist mode and their lists respectively.
  *
- * @version 0.1.24 2014/12/06
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBBlockParam extends XBSpecParam {
+public interface XBBlockParam extends XBSpecParam, XBSerializable {
 
     /**
      * Gets block declaration.

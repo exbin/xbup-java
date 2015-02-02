@@ -48,30 +48,6 @@ public class XBCBlockDecl implements XBBlockDecl, XBPSequenceSerializable {
     }
 
     @Override
-    public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        serializationHandler.begin();
-        serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION));
-        if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
-            Long[] catalogPath = new Long[serializationHandler.pullIntAttribute()];
-            for (int pathPosition = 0; pathPosition < catalogPath.length; pathPosition++) {
-                catalogPath[pathPosition] = serializationHandler.pullLongAttribute();
-            }
-            long revision = serializationHandler.pullLongAttribute();
-            XBCBlockDecl blockDecl = (XBCBlockDecl) catalog.findBlockTypeByPath(catalogPath, (int) revision);
-            blockSpecRev = blockDecl == null ? null : blockDecl.getBlockSpec();
-        } else {
-            Long[] path = catalog.getSpecPath(blockSpecRev.getParent());
-            serializationHandler.putAttribute(path.length - 1);
-            for (Long pathIndex : path) {
-                serializationHandler.putAttribute(pathIndex);
-            }
-
-            serializationHandler.putAttribute(new UBNat32(blockSpecRev.getXBIndex()));
-        }
-        serializationHandler.end();
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
@@ -112,6 +88,30 @@ public class XBCBlockDecl implements XBBlockDecl, XBPSequenceSerializable {
         int hash = 7;
         hash = 79 * hash + (blockSpecRev != null ? blockSpecRev.hashCode() : 0);
         return hash;
+    }
+
+    @Override
+    public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        serializationHandler.begin();
+        serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION));
+        if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
+            Long[] catalogPath = new Long[serializationHandler.pullIntAttribute()];
+            for (int pathPosition = 0; pathPosition < catalogPath.length; pathPosition++) {
+                catalogPath[pathPosition] = serializationHandler.pullLongAttribute();
+            }
+            long revision = serializationHandler.pullLongAttribute();
+            XBCBlockDecl blockDecl = (XBCBlockDecl) catalog.findBlockTypeByPath(catalogPath, (int) revision);
+            blockSpecRev = blockDecl == null ? null : blockDecl.getBlockSpec();
+        } else {
+            Long[] path = catalog.getSpecPath(blockSpecRev.getParent());
+            serializationHandler.putAttribute(path.length - 1);
+            for (Long pathIndex : path) {
+                serializationHandler.putAttribute(pathIndex);
+            }
+
+            serializationHandler.putAttribute(new UBNat32(blockSpecRev.getXBIndex()));
+        }
+        serializationHandler.end();
     }
 
     public XBCBlockRev getBlockSpec() {

@@ -42,7 +42,6 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -56,15 +55,7 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
-import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
-import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
-import org.xbup.lib.core.block.definition.XBFormatParam;
-import org.xbup.lib.core.block.definition.XBFormatParamConsist;
-import org.xbup.lib.core.block.definition.XBGroupParam;
-import org.xbup.lib.core.block.definition.XBGroupParamConsist;
-import org.xbup.lib.core.block.definition.local.XBLFormatDef;
-import org.xbup.lib.core.block.definition.local.XBLGroupDef;
 import org.xbup.lib.core.catalog.XBPCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
@@ -88,7 +79,7 @@ import org.xbup.tool.editor.base.api.FileType;
 /**
  * Image panel for XBPEditor.
  *
- * @version 0.1.24 2015/01/28
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
 public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePanel {
@@ -444,34 +435,38 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
      * Returns local format declaration when catalog or service is not
      * available.
      *
-     * TODO: Move to resources as serialized file
-     *
      * @return local format declaration
      */
     public XBLFormatDecl getContextFormatDecl() {
-        XBLFormatDef formatDef = new XBLFormatDef();
-        List<XBFormatParam> groups = formatDef.getFormatParams();
-        XBLGroupDecl bitmapGroup = new XBLGroupDecl(new XBLGroupDef());
-        List<XBGroupParam> bitmapBlocks = bitmapGroup.getGroupDef().getGroupParams();
-        bitmapBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 0, 1, 0})));
-        bitmapBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 0, 2, 0})));
-        ((XBLGroupDef) bitmapGroup.getGroupDef()).provideRevision();
-        XBLGroupDecl paletteGroup = new XBLGroupDecl(new XBLGroupDef());
-        List<XBGroupParam> paletteBlocks = paletteGroup.getGroupDef().getGroupParams();
-        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 1, 0})));
-        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 1, 0})));
-        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 2, 0})));
-        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 3, 0})));
-        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 4, 0})));
-        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 5, 0})));
-        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 6, 0})));
-        paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 7, 0})));
-        ((XBLGroupDef) paletteGroup.getGroupDef()).provideRevision();
-        groups.add(new XBFormatParamConsist(bitmapGroup));
-        groups.add(new XBFormatParamConsist(paletteGroup));
-        formatDef.realignRevision();
+        /*XBLFormatDef formatDef = new XBLFormatDef();
+         List<XBFormatParam> groups = formatDef.getFormatParams();
+         XBLGroupDecl bitmapGroup = new XBLGroupDecl(new XBLGroupDef());
+         List<XBGroupParam> bitmapBlocks = bitmapGroup.getGroupDef().getGroupParams();
+         bitmapBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 0, 1, 0})));
+         bitmapBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 0, 2, 0})));
+         ((XBLGroupDef) bitmapGroup.getGroupDef()).provideRevision();
+         XBLGroupDecl paletteGroup = new XBLGroupDecl(new XBLGroupDef());
+         List<XBGroupParam> paletteBlocks = paletteGroup.getGroupDef().getGroupParams();
+         paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 1, 0})));
+         paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 1, 0})));
+         paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 2, 0})));
+         paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 3, 0})));
+         paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 4, 0})));
+         paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 5, 0})));
+         paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 6, 0})));
+         paletteBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 4, 0, 1, 7, 0})));
+         ((XBLGroupDef) paletteGroup.getGroupDef()).provideRevision();
+         groups.add(new XBFormatParamConsist(bitmapGroup));
+         groups.add(new XBFormatParamConsist(paletteGroup));
+         formatDef.realignRevision();
+            
+         XBLFormatDecl formatDecl = new XBLFormatDecl(formatDef);
+         formatDecl.setCatalogPath(XBBufferedImage.XB_FORMAT_PATH);*/
 
-        return new XBLFormatDecl(formatDef);
+        XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/xbup/tool/editor/module/picture_editor/resources/xbp_format_decl.xb"));
+        XBLFormatDecl formatDecl = new XBLFormatDecl();
+        reader.read(formatDecl);
+        return formatDecl;
     }
 
     @Override

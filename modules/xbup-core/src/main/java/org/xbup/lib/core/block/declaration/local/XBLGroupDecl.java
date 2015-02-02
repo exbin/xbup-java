@@ -37,7 +37,7 @@ import org.xbup.lib.core.serial.param.XBSerializationMode;
 /**
  * XBUP level 1 local group declaration.
  *
- * @version 0.1.24 2015/01/27
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBLGroupDecl implements XBGroupDecl, XBPSequenceSerializable {
@@ -120,29 +120,44 @@ public class XBLGroupDecl implements XBGroupDecl, XBPSequenceSerializable {
         if (obj instanceof XBLGroupDecl) {
             return Arrays.equals(((XBLGroupDecl) obj).catalogPath, catalogPath) && (((XBLGroupDecl) obj).revision == revision);
         }
+        if (obj instanceof XBGroupDecl) {
+            return obj.equals(this);
+        }
 
         return super.equals(obj);
     }
 
     @Override
-    public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        serializationHandler.begin();
-        serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION));
-        if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
-            catalogPath = new long[serializationHandler.pullAttribute().getInt()];
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+        serial.begin();
+        serial.matchType(new XBFixedBlockType(XBBasicBlockType.GROUP_DECLARATION));
+        if (serial.getSerializationMode() == XBSerializationMode.PULL) {
+            catalogPath = new long[serial.pullAttribute().getInt()];
             for (int pathPosition = 0; pathPosition < catalogPath.length; pathPosition++) {
-                catalogPath[pathPosition] = serializationHandler.pullLongAttribute();
+                catalogPath[pathPosition] = serial.pullLongAttribute();
             }
-            revision = serializationHandler.pullAttribute().getInt();
+            revision = serial.pullAttribute().getInt();
+
+            if (!serial.pullIfEmptyBlock()) {
+                groupDef = new XBLGroupDef();
+                serial.pullConsist(groupDef);
+            }
         } else {
-            serializationHandler.putAttribute(catalogPath.length - 1);
-            for (long pathIndex : catalogPath) {
-                serializationHandler.putAttribute(pathIndex);
+            if (catalogPath != null) {
+                serial.putAttribute(catalogPath.length);
+                for (long pathIndex : catalogPath) {
+                    serial.putAttribute(pathIndex);
+                }
+            } else {
+                serial.putAttribute(0);
             }
 
-            serializationHandler.putAttribute(revision);
+            serial.putAttribute(revision);
+            if (groupDef != null) {
+                serial.putConsist(groupDef);
+            }
         }
-        serializationHandler.end();
+        serial.end();
     }
 
     public long[] getCatalogPath() {

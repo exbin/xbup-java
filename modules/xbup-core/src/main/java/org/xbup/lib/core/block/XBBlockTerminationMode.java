@@ -21,7 +21,7 @@ package org.xbup.lib.core.block;
  *
  * Block can be either terminated by zero value or there can be size specified.
  *
- * @version 0.1.24 2014/08/26
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
 public enum XBBlockTerminationMode {
@@ -31,7 +31,7 @@ public enum XBBlockTerminationMode {
      */
     SIZE_SPECIFIED,
     /**
-     * Block is terminated by zero value.
+     * Block is terminated by zero value (terminator block).
      */
     TERMINATED_BY_ZERO
 }

@@ -16,22 +16,41 @@
  */
 package org.xbup.lib.core.block.definition;
 
+import java.io.IOException;
+import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBSerializationMode;
+
 /**
  * XBUP level 1 revision parameter.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
-public class XBRevisionParam {
+public class XBRevisionParam implements XBPSequenceSerializable {
 
-    // TODO rename to definition count
-    private long limit;
+    private long paramCount;
 
-    public long getLimit() {
-        return limit;
+    public long getParamCount() {
+        return paramCount;
     }
 
-    public void setLimit(long limit) {
-        this.limit = limit;
+    public void setParamCount(long paramCount) {
+        this.paramCount = paramCount;
+    }
+
+    @Override
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+        serial.begin();
+        serial.matchType(new XBFixedBlockType(XBBasicBlockType.REVISION_PARAMETER));
+        if (serial.getSerializationMode() == XBSerializationMode.PULL) {
+            paramCount = serial.pullLongAttribute();
+        } else {
+            serial.putAttribute(paramCount);
+        }
+        serial.end();
     }
 }

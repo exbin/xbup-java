@@ -37,7 +37,7 @@ import org.xbup.lib.core.serial.param.XBSerializationMode;
 /**
  * XBUP level 1 local format declaration.
  *
- * @version 0.1.24 2015/01/27
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable {
@@ -124,39 +124,44 @@ public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable {
     public boolean equals(Object obj) {
         if (obj instanceof XBLFormatDecl) {
             return Arrays.equals(((XBLFormatDecl) obj).catalogPath, catalogPath) && (((XBLFormatDecl) obj).revision == revision);
+        } else if (obj instanceof XBFormatDecl) {
+            obj.equals(this);
         }
 
         return super.equals(obj);
     }
 
     @Override
-    public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        serializationHandler.begin();
-        serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.FORMAT_DECLARATION));
-        if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
-            catalogPath = new long[serializationHandler.pullAttribute().getInt()];
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+        serial.begin();
+        serial.matchType(new XBFixedBlockType(XBBasicBlockType.FORMAT_DECLARATION));
+        if (serial.getSerializationMode() == XBSerializationMode.PULL) {
+            catalogPath = new long[serial.pullAttribute().getInt()];
             for (int pathPosition = 0; pathPosition < catalogPath.length; pathPosition++) {
-                catalogPath[pathPosition] = serializationHandler.pullLongAttribute();
+                catalogPath[pathPosition] = serial.pullLongAttribute();
             }
-            revision = serializationHandler.pullAttribute().getInt();
+            revision = serial.pullAttribute().getInt();
 
-            // TODO
-            if (formatDef == null) {
+            if (!serial.pullIfEmptyBlock()) {
                 formatDef = new XBLFormatDef();
+                serial.pullConsist(formatDef);
             }
-            // serializationHandler.pullConsist(formatDef);
         } else {
-            serializationHandler.putAttribute(catalogPath.length);
-            for (long pathIndex : catalogPath) {
-                serializationHandler.putAttribute(pathIndex);
+            if (catalogPath != null) {
+                serial.putAttribute(catalogPath.length);
+                for (long pathIndex : catalogPath) {
+                    serial.putAttribute(pathIndex);
+                }
+            } else {
+                serial.putAttribute(0);
             }
 
-            serializationHandler.putAttribute(revision);
+            serial.putAttribute(revision);
             if (formatDef != null) {
-                serializationHandler.putConsist(formatDef);
+                serial.putConsist(formatDef);
             }
         }
-        serializationHandler.end();
+        serial.end();
     }
 
     public long[] getCatalogPath() {

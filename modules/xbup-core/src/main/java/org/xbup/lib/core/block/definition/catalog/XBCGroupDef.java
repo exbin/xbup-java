@@ -16,11 +16,14 @@
  */
 package org.xbup.lib.core.block.definition.catalog;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.xbup.lib.core.block.declaration.XBBlockDecl;
+import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
+import org.xbup.lib.core.block.definition.XBFormatParamJoin;
 import org.xbup.lib.core.block.definition.XBGroupDef;
 import org.xbup.lib.core.block.definition.XBGroupParam;
 import org.xbup.lib.core.block.definition.XBGroupParamConsist;
@@ -32,15 +35,24 @@ import org.xbup.lib.core.catalog.base.XBCGroupRev;
 import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
+import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.serial.param.XBPInputSerialHandler;
+import org.xbup.lib.core.serial.param.XBPOutputSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBPSerializable;
+import org.xbup.lib.core.serial.sequence.XBListConsistSerializable;
+import org.xbup.lib.core.ubnumber.UBENatural;
+import org.xbup.lib.core.ubnumber.type.UBENat32;
 
 /**
  * XBUP level 1 block definition.
  *
- * @version 0.1.24 2015/01/18
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
-public class XBCGroupDef implements XBGroupDef, XBSerializable {
+public class XBCGroupDef implements XBGroupDef, XBPSequenceSerializable {
 
     private final XBCatalog catalog;
     private final XBCGroupSpec groupSpec;
@@ -68,11 +80,6 @@ public class XBCGroupDef implements XBGroupDef, XBSerializable {
     }
 
     @Override
-    public XBBlockDecl getBlockDecl(int blockId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public XBGroupParam getGroupParam(int paramIndex) {
         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
         XBCSpecDef specDef = specService.findSpecDefByXB(groupSpec, paramIndex);
@@ -94,5 +101,56 @@ public class XBCGroupDef implements XBGroupDef, XBSerializable {
         }
 
         throw new IllegalStateException("Unexpected specification definition type");
+    }
+
+    @Override
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+        serial.begin();
+        serial.matchType(new XBFixedBlockType(XBBasicBlockType.GROUP_DEFINITION));
+        serial.join(null);
+        serial.listConsist(new XBListConsistSerializable() {
+
+            private int position = 0;
+
+            @Override
+            public UBENatural getSize() {
+                XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+                return new UBENat32(specService.findMaxSpecDefXB(groupSpec));
+            }
+
+            @Override
+            public void setSize(UBENatural count) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void reset() {
+                position = 0;
+            }
+
+            @Override
+            public XBSerializable next() {
+                return new XBPSerializable() {
+
+                    @Override
+                    public void serializeFromXB(XBPInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                        throw new UnsupportedOperationException("Not supported yet.");
+                    }
+
+                    @Override
+                    public void serializeToXB(XBPOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                        XBGroupParam param = getGroupParam(position);
+                        if (param instanceof XBGroupParamConsist) {
+                            serializationHandler.append((XBGroupParamConsist) param);
+                        } else if (param instanceof XBFormatParamJoin) {
+                            serializationHandler.append((XBGroupParamJoin) param);
+                        } else {
+                            throw new IllegalStateException("Illegal format parameter " + position);
+                        }
+                    }
+                };
+            }
+        });
+        serial.end();
     }
 }

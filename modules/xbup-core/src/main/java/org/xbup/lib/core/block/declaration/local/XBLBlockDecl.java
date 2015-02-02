@@ -21,8 +21,8 @@ import java.util.Arrays;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.block.definition.XBBlockDef;
+import org.xbup.lib.core.block.definition.local.XBLBlockDef;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -33,7 +33,7 @@ import org.xbup.lib.core.serial.param.XBSerializationMode;
 /**
  * XBUP level 1 local block declaration.
  *
- * @version 0.1.24 2015/01/27
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBLBlockDecl implements XBBlockDecl, XBPSequenceSerializable {
@@ -78,8 +78,8 @@ public class XBLBlockDecl implements XBBlockDecl, XBPSequenceSerializable {
     public boolean equals(Object obj) {
         if (obj instanceof XBLBlockDecl) {
             return Arrays.equals(((XBLBlockDecl) obj).catalogPath, catalogPath) && (((XBLBlockDecl) obj).revision == revision);
-        } else if (obj instanceof XBCBlockDecl) {
-            return ((XBCBlockDecl) obj).equals(this);
+        } else if (obj instanceof XBBlockDecl) {
+            return obj.equals(this);
         }
 
         return super.equals(obj);
@@ -94,24 +94,36 @@ public class XBLBlockDecl implements XBBlockDecl, XBPSequenceSerializable {
     }
 
     @Override
-    public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        serializationHandler.begin();
-        serializationHandler.matchType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION));
-        if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
-            catalogPath = new long[serializationHandler.pullAttribute().getInt()];
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+        serial.begin();
+        serial.matchType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION));
+        if (serial.getSerializationMode() == XBSerializationMode.PULL) {
+            catalogPath = new long[serial.pullAttribute().getInt()];
             for (int pathPosition = 0; pathPosition < catalogPath.length; pathPosition++) {
-                catalogPath[pathPosition] = serializationHandler.pullLongAttribute();
+                catalogPath[pathPosition] = serial.pullLongAttribute();
             }
-            revision = serializationHandler.pullAttribute().getInt();
+            revision = serial.pullAttribute().getInt();
+
+            if (!serial.pullIfEmptyBlock()) {
+                blockDef = new XBLBlockDef();
+                serial.pullConsist(blockDef);
+            }
         } else {
-            serializationHandler.putAttribute(catalogPath.length - 1);
-            for (long pathIndex : catalogPath) {
-                serializationHandler.putAttribute(pathIndex);
+            if (catalogPath != null) {
+                serial.putAttribute(catalogPath.length);
+                for (long pathIndex : catalogPath) {
+                    serial.putAttribute(pathIndex);
+                }
+            } else {
+                serial.putAttribute(0);
             }
 
-            serializationHandler.putAttribute(revision);
+            serial.putAttribute(revision);
+            if (blockDef != null) {
+                serial.putConsist(blockDef);
+            }
         }
-        serializationHandler.end();
+        serial.end();
     }
 
     public XBCBlockSpec getBlockSpec(XBCatalog catalog) {

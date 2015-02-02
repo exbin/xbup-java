@@ -16,13 +16,15 @@
  */
 package org.xbup.lib.core.block.definition;
 
+import org.xbup.lib.core.serial.XBSerializable;
+
 /**
  * XBUP level 1 group parameter definition interface.
  *
  * Parameter is in one of two modes: Join, Consist
  *
- * @version 0.1.24 2014/12/06
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBGroupParam extends XBSpecParam {
+public interface XBGroupParam extends XBSpecParam, XBSerializable {
 }

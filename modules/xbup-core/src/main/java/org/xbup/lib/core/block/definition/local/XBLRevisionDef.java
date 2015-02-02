@@ -16,42 +16,88 @@
  */
 package org.xbup.lib.core.block.definition.local;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
 import org.xbup.lib.core.block.definition.XBRevisionParam;
+import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
+import org.xbup.lib.core.serial.sequence.XBListJoinSerializable;
+import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * XBUP level 1 local group definition.
  *
- * @version 0.1.24 2015/01/18
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
-public class XBLRevisionDef implements XBSerializable, XBRevisionDef {
+public class XBLRevisionDef implements XBRevisionDef, XBPSequenceSerializable {
 
-    private List<XBRevisionParam> revs;
+    private final List<XBRevisionParam> revParams;
 
     public XBLRevisionDef() {
-        revs = new ArrayList<>();
+        revParams = new ArrayList<>();
     }
 
     @Override
     public List<XBRevisionParam> getRevParams() {
-        return revs;
+        return revParams;
     }
 
     @Override
     public int getRevisionLimit(long revision) {
-        if (revision > revs.size()) {
-            revision = revs.size() - 1;
+        if (revision > revParams.size()) {
+            revision = revParams.size() - 1;
         }
 
         int limit = 0;
         for (int index = 0; index <= revision; index++) {
-           limit += revs.get(index).getLimit();
+            limit += revParams.get(index).getParamCount();
         }
-        
+
         return limit;
+    }
+
+    @Override
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+        serial.begin();
+        serial.matchType(new XBFixedBlockType(XBBasicBlockType.REVISION_DEFINITION));
+        serial.listJoin(new XBListJoinSerializable() {
+
+            private int position = 0;
+
+            @Override
+            public UBNatural getSize() {
+                return new UBNat32(revParams.size());
+            }
+
+            @Override
+            public void setSize(UBNatural count) {
+                revParams.clear();
+                int size = count.getInt();
+                for (int i = 0; i < size; i++) {
+                    revParams.add(new XBRevisionParam());
+                }
+            }
+
+            @Override
+            public void reset() {
+                position = 0;
+            }
+
+            @Override
+            public XBSerializable next() {
+                XBRevisionParam revParam = revParams.get(position);
+                position++;
+                return revParam;
+            }
+        });
+        serial.end();
     }
 }

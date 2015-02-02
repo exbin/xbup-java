@@ -16,20 +16,29 @@
  */
 package org.xbup.lib.core.block.definition;
 
+import java.io.IOException;
+import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
-import org.xbup.lib.core.block.definition.XBFormatParam;
-import org.xbup.lib.core.block.definition.XBParamType;
+import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 
 /**
  * XBUP level 1 format join parameter.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
-public class XBFormatParamJoin implements XBFormatParam {
+public class XBFormatParamJoin implements XBFormatParam, XBPSequenceSerializable {
 
     private XBFormatDecl formatDecl;
 
+    public XBFormatParamJoin() {
+        formatDecl = new XBLFormatDecl();
+    }
+    
     public XBFormatParamJoin(XBFormatDecl formatDecl) {
         this.formatDecl = formatDecl;
     }
@@ -47,4 +56,11 @@ public class XBFormatParamJoin implements XBFormatParam {
         this.formatDecl = formatDecl;
     }
 
+    @Override
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+        serial.begin();
+        serial.matchType(new XBFixedBlockType(XBBasicBlockType.FORMAT_JOIN_PARAMETER));
+        serial.join(formatDecl);
+        serial.end();
+    }
 }

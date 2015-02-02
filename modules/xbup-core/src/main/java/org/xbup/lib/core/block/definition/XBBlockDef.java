@@ -17,14 +17,15 @@
 package org.xbup.lib.core.block.definition;
 
 import java.util.List;
+import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * XBUP level 1 block definition interface.
  *
- * @version 0.1.24 2015/01/18
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBBlockDef {
+public interface XBBlockDef extends XBSerializable {
 
     /**
      * Gets list of parameters in order of appearance.

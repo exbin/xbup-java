@@ -32,7 +32,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -48,23 +47,13 @@ import javax.swing.text.Document;
 import javax.swing.text.Highlighter.Highlight;
 import javax.swing.undo.UndoableEdit;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
-import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
-import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
-import org.xbup.lib.core.block.definition.XBFormatParam;
-import org.xbup.lib.core.block.definition.XBFormatParamConsist;
-import org.xbup.lib.core.block.definition.XBGroupParam;
-import org.xbup.lib.core.block.definition.XBGroupParamConsist;
-import org.xbup.lib.core.block.definition.local.XBLFormatDef;
-import org.xbup.lib.core.block.definition.local.XBLGroupDef;
 import org.xbup.lib.core.catalog.XBPCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
-import org.xbup.lib.core.parser.token.pull.XBPullReader;
-import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.serial.XBPSerialReader;
 import org.xbup.lib.core.serial.XBPSerialWriter;
 import org.xbup.lib.core.stream.file.XBFileInputStream;
@@ -81,7 +70,7 @@ import org.xbup.tool.editor.base.api.MainFrameManagement;
 /**
  * Text editor panel.
  *
- * @version 0.1.24 2015/01/30
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
 public class TextPanel extends javax.swing.JPanel implements ApplicationFilePanel, ActivePanelUndoable {
@@ -358,7 +347,7 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
         switch (fileType.getFileTypeId()) {
             case XBTextEditorFrame.XBT_FILE_TYPE: {
                 try {
-                    XBPSerialReader reader = new XBPSerialReader(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName()))));
+                    XBPSerialReader reader = new XBPSerialReader(new FileInputStream(getFileName()));
                     XBLFormatDecl formatDecl = new XBLFormatDecl(XBEncodingText.XB_FORMAT_PATH);
                     XBEncodingText encodingText = new XBEncodingText();
                     XBDeclaration declaration = new XBDeclaration(formatDecl, encodingText);
@@ -407,10 +396,10 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
                     declaration.setContextFormatDecl(getContextFormatDecl());
                     declaration.realignReservation();
                     XBPCatalog catalog = new XBPCatalog();
+                    catalog.setRootContext(declaration.generateContext(catalog));
                     XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
                     encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
-                    XBTListenerToEventListener eventListener = new XBTListenerToEventListener(encapsulator);
-                    XBPSerialWriter writer = new XBPSerialWriter(eventListener);
+                    XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(encapsulator));
                     writer.write(declaration);
                 } catch (XBProcessingException | IOException ex) {
                     Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -443,12 +432,10 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
      * Returns local format declaration when catalog or service is not
      * available.
      *
-     * TODO: Move to resources as serialized file
-     *
      * @return local format declaration
      */
     public XBLFormatDecl getContextFormatDecl() {
-        XBLFormatDef formatDef = new XBLFormatDef();
+        /*XBLFormatDef formatDef = new XBLFormatDef();
         List<XBFormatParam> groups = formatDef.getFormatParams();
         XBLGroupDecl stringGroup = new XBLGroupDecl(new XBLGroupDef());
         List<XBGroupParam> stringBlocks = stringGroup.getGroupDef().getGroupParams();
@@ -461,7 +448,14 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
         groups.add(new XBFormatParamConsist(stringGroup));
         formatDef.realignRevision();
 
-        return new XBLFormatDecl(formatDef);
+        XBLFormatDecl formatDecl = new XBLFormatDecl(formatDef);
+        formatDecl.setCatalogPath(XBEncodingText.XB_FORMAT_PATH);
+        return formatDecl;*/
+        
+        XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/xbup/tool/editor/module/text_editor/resources/xbt_format_decl.xb"));
+        XBLFormatDecl formatDecl = new XBLFormatDecl();
+        reader.read(formatDecl);
+        return formatDecl;
     }
 
     @Override

@@ -23,6 +23,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.param.XBParamProcessingState;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
+import org.xbup.lib.core.parser.token.XBTDataToken;
 import org.xbup.lib.core.parser.token.XBTEndToken;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
@@ -34,7 +35,7 @@ import org.xbup.lib.core.parser.token.pull.convert.XBTPullPreLoader;
 /**
  * Level 2 pull consumer performing block building using sequence operations.
  *
- * @version 0.1.24 2015/01/26
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPSequencePullConsumer implements XBTPullConsumer {
@@ -143,14 +144,46 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
         throw new IllegalStateException();
     }
 
+    public boolean pullIfEmpty() throws XBProcessingException, IOException {
+        if (processingState != XBParamProcessingState.BEGIN) {
+            throw new XBProcessingException("Empty data token test out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+        }
+
+        processingState = XBParamProcessingState.BEGIN;
+        XBTToken nextToken = pullProvider.getNextToken();
+        if (nextToken != null && nextToken.getTokenType() == XBTTokenType.DATA) {
+            if (((XBTDataToken) nextToken).isEmpty()) {
+                pullProvider.pullXBTToken();
+                processingState = XBParamProcessingState.DATA;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void processAttributes() throws XBProcessingException, IOException {
         while (pullProvider.getNextTokenType() == XBTTokenType.ATTRIBUTE) {
             attributeSequence.add((XBTAttributeToken) pullProvider.pullXBTToken());
         }
     }
 
+    /**
+     * Returns true if current block was processed.
+     *
+     * @return true if block processed
+     */
     public boolean isFinished() {
         return processingState == XBParamProcessingState.END;
+    }
+
+    /**
+     * Returns true if block will be finished with next token.
+     *
+     * @return true if block will be finished next
+     */
+    public boolean isFinishedNext() {
+        return pullProvider.getNextTokenType() == XBTTokenType.END;
     }
 
     public List<XBTAttributeToken> getAttributeSequence() {

@@ -464,6 +464,16 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     }
 
     @Override
+    public boolean pullIfEmptyData() throws XBProcessingException, IOException {
+        throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+    }
+
+    @Override
+    public boolean pullIfEmptyBlock() throws XBProcessingException, IOException {
+        throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+    }
+
+    @Override
     public void pullEnd() throws XBProcessingException, IOException {
         throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
     }

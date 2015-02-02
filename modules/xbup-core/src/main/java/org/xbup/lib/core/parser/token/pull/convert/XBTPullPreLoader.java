@@ -118,7 +118,7 @@ public class XBTPullPreLoader implements XBTPullFilter {
     // TODO: Make it later so, that more effective skip is used when source
     // supports it
     /**
-     * Skip remaining attributes if child is requested.
+     * Skips remaining attributes if child is requested.
      *
      * @throws java.io.IOException if input/output error
      */
@@ -129,7 +129,7 @@ public class XBTPullPreLoader implements XBTPullFilter {
     }
 
     /**
-     * Skip children until end token is reached.
+     * Skips children until end token is reached.
      *
      * @throws java.io.IOException if input/output error
      */
@@ -140,7 +140,7 @@ public class XBTPullPreLoader implements XBTPullFilter {
     }
 
     /**
-     * Skip single child.
+     * Skips single child.
      *
      * @throws java.io.IOException if input/output error
      */

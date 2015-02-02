@@ -17,14 +17,15 @@
 package org.xbup.lib.core.block.declaration;
 
 import org.xbup.lib.core.block.definition.XBBlockDef;
+import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * Block declaration interface, either for catalog or local definition.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBBlockDecl {
+public interface XBBlockDecl extends XBSerializable {
 
     /**
      * Returns linked block definition.

@@ -16,20 +16,27 @@
  */
 package org.xbup.lib.core.block.definition;
 
+import java.io.IOException;
+import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
+import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 
 /**
  * XBUP level 1 block consist parameter.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
-public class XBBlockParamConsist implements XBBlockParam {
+public class XBBlockParamConsist implements XBBlockParam, XBPSequenceSerializable {
 
     private XBBlockDecl blockDecl;
 
     public XBBlockParamConsist() {
-        this(null);
+        blockDecl = new XBLBlockDecl();
     }
 
     public XBBlockParamConsist(XBBlockDecl blockDecl) {
@@ -48,5 +55,13 @@ public class XBBlockParamConsist implements XBBlockParam {
 
     public void setBlockDecl(XBBlockDecl blockDecl) {
         this.blockDecl = blockDecl;
+    }
+
+    @Override
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+        serial.begin();
+        serial.matchType(new XBFixedBlockType(XBBasicBlockType.BLOCK_CONSIST_PARAMETER));
+        serial.join(blockDecl);
+        serial.end();
     }
 }

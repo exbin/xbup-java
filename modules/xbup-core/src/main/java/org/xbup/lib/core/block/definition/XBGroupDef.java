@@ -17,15 +17,15 @@
 package org.xbup.lib.core.block.definition;
 
 import java.util.List;
-import org.xbup.lib.core.block.declaration.XBBlockDecl;
+import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * XBUP level 1 group definition interface.
  *
- * @version 0.1.24 2015/01/18
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBGroupDef {
+public interface XBGroupDef extends XBSerializable {
 
     /**
      * Gets list of group parameters.
@@ -40,14 +40,6 @@ public interface XBGroupDef {
      * @return revision definition
      */
     public XBRevisionDef getRevisionDef();
-
-    /**
-     * Gets block declaration for given block index.
-     *
-     * @param blockId block index
-     * @return block declaration
-     */
-    public XBBlockDecl getBlockDecl(int blockId);
 
     /**
      * Returns group parameter of given index.

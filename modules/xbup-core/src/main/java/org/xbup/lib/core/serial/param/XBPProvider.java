@@ -30,7 +30,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 2 child serialization provider interface.
  *
- * @version 0.1.24 2015/01/21
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBPProvider {
@@ -106,6 +106,22 @@ public interface XBPProvider {
      * @throws IOException if input/output exception occurs
      */
     public InputStream pullData() throws XBProcessingException, IOException;
+
+    /**
+     * Pulls content of empty data token if present.
+     *
+     * @return true if empty data was present
+     * @throws java.io.IOException
+     */
+    public boolean pullIfEmptyData() throws XBProcessingException, IOException;
+
+    /**
+     * Pulls empty data block if present.
+     *
+     * @return true if empty data was present
+     * @throws java.io.IOException
+     */
+    public boolean pullIfEmptyBlock() throws XBProcessingException, IOException;
 
     /**
      * Pulls end of block.

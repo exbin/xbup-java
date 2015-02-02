@@ -94,7 +94,11 @@ public enum XBBasicBlockType {
     /**
      * Definition of revision.
      */
-    REVISION_DEFINITION(16);
+    REVISION_DEFINITION(16),
+    /**
+     * Revision parameter.
+     */
+    REVISION_PARAMETER(17);
 
     private final int blockId;
 

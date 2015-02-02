@@ -18,14 +18,15 @@ package org.xbup.lib.core.block.declaration;
 
 import java.util.List;
 import org.xbup.lib.core.block.definition.XBGroupDef;
+import org.xbup.lib.core.serial.XBSerializable;
 
 /**
  * Group declaration interface, either for catalog or local definition.
  *
- * @version 0.1.24 2015/01/17
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBGroupDecl {
+public interface XBGroupDecl extends XBSerializable {
 
     /**
      * Returns linked group definition.

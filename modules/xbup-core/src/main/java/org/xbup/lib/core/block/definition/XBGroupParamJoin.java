@@ -16,17 +16,28 @@
  */
 package org.xbup.lib.core.block.definition;
 
+import java.io.IOException;
+import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
+import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 
 /**
  * XBUP level 1 group join parameter.
  *
- * @version 0.1.24 2014/11/30
+ * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
  */
-public class XBGroupParamJoin implements XBGroupParam {
+public class XBGroupParamJoin implements XBGroupParam, XBPSequenceSerializable {
 
     private XBGroupDecl groupDecl;
+
+    public XBGroupParamJoin() {
+        groupDecl = new XBLGroupDecl();
+    }
 
     public XBGroupParamJoin(XBGroupDecl groupDecl) {
         this.groupDecl = groupDecl;
@@ -43,5 +54,13 @@ public class XBGroupParamJoin implements XBGroupParam {
 
     public void setGroupDecl(XBGroupDecl groupDecl) {
         this.groupDecl = groupDecl;
+    }
+
+    @Override
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+        serial.begin();
+        serial.matchType(new XBFixedBlockType(XBBasicBlockType.GROUP_JOIN_PARAMETER));
+        serial.join(groupDecl);
+        serial.end();
     }
 }

@@ -20,9 +20,9 @@ import java.io.File;
 import javax.swing.filechooser.FileFilter;
 
 /**
+ * Image file filter supporting single filename extension.
  *
- *
- * @version 0.1.16 2008/10/02
+ * @version 0.1.25 2015/02/03
  * @author XBUP Project (http://xbup.org)
  */
 public class ImageFileFilter extends FileFilter {
@@ -46,10 +46,9 @@ public class ImageFileFilter extends FileFilter {
         return false;
     }
 
-    //The description of this filter
     @Override
     public String getDescription() {
-        return "Images " + getExt().toUpperCase() + " (*."+getExt()+")";
+        return "Images " + getExt().toUpperCase() + " (*." + getExt() + ")";
     }
 
     public static String getExtension(File f) {
@@ -57,8 +56,8 @@ public class ImageFileFilter extends FileFilter {
         String s = f.getName();
         int i = s.lastIndexOf('.');
 
-        if (i > 0 &&  i < s.length() - 1) {
-            ext = s.substring(i+1).toLowerCase();
+        if (i > 0 && i < s.length() - 1) {
+            ext = s.substring(i + 1).toLowerCase();
         }
         return ext;
     }

@@ -41,12 +41,12 @@ import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
  * @version 0.1.24 2014/11/27
  * @author XBUP Project (http://xbup.org)
  */
-public class XBToXBTPullUnwrapper implements XBPullProvider, XBTPullConsumer {
+public class XBToXBTPullUndefinedConvertor implements XBPullProvider, XBTPullConsumer {
 
     private XBTPullProvider pullProvider;
     private final XBFixedBlockType unknownBlockType = new XBFixedBlockType();
 
-    public XBToXBTPullUnwrapper(XBTPullProvider pullProvider) {
+    public XBToXBTPullUndefinedConvertor(XBTPullProvider pullProvider) {
         this.pullProvider = pullProvider;
     }
 

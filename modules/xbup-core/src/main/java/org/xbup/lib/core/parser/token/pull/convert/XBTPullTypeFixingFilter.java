@@ -36,20 +36,20 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  * @version 0.1.19 2010/06/01
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTPullTypeReliantor implements XBTFilter, XBTProducer, XBTConsumer {
+public class XBTPullTypeFixingFilter implements XBTFilter, XBTProducer, XBTConsumer {
 
     private XBTListener listener;
     private XBTProvider declProvider;
     private XBContext context;
     private long counter;
 
-    public XBTPullTypeReliantor(XBTProvider declProvider) {
+    public XBTPullTypeFixingFilter(XBTProvider declProvider) {
         this.declProvider = declProvider;
         listener = null;
         counter = 0;
     }
 
-    public XBTPullTypeReliantor(XBTProvider declProvider, XBTListener listener) {
+    public XBTPullTypeFixingFilter(XBTProvider declProvider, XBTListener listener) {
         this(declProvider);
         this.listener = listener;
     }

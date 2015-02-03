@@ -42,7 +42,7 @@ public class XBPSerialWriter implements XBPWriteSerialHandler {
     @Override
     public void write(XBSerializable serial) {
         if (serial instanceof XBPSerializable || serial instanceof XBPSequenceSerializable) {
-            XBPListenerSerialHandler childOutput = new XBPListenerSerialHandler(this);
+            XBPListenerSerialHandler childOutput = new XBPListenerSerialHandler();
             childOutput.attachXBTEventListener(eventListener);
             try {
                 childOutput.process(serial);

@@ -31,9 +31,9 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * BufferedImage testing serializer.
+ * BufferedImage serialization wrapper.
  *
- * @version 0.1.24 2015/01/27
+ * @version 0.1.25 2015/02/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBBufferedImage implements XBPSerializable {
@@ -70,7 +70,7 @@ public class XBBufferedImage implements XBPSerializable {
     @Override
     public void serializeFromXB(XBPInputSerialHandler serial) throws XBProcessingException, IOException {
         serial.pullBegin();
-        serial.pullType(); //setType(new XBCBlockDecl(xbBlockPath));
+        serial.matchType(new XBDeclBlockType(new XBLBlockDecl(XB_BLOCK_PATH)));
         UBNatural width = serial.pullAttribute();
         UBNatural height = serial.pullAttribute();
         BufferedImage result = new BufferedImage(width.getInt(), height.getInt(), BufferedImage.TYPE_INT_RGB);

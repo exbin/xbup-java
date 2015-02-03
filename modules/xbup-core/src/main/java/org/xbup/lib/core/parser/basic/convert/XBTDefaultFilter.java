@@ -28,7 +28,8 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * Default XBUP level 1 filter.
  *
- * This filter doesn't change data which are passing thru.
+ * This filter doesn't change data which are passing thru and is intended for
+ * extending.
  *
  * @version 0.1.23 2013/11/15
  * @author XBUP Project (http://xbup.org)

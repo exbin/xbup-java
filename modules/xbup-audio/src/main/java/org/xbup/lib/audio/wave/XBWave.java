@@ -28,23 +28,22 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
-import org.xbup.lib.core.serial.child.XBTChildSerializable;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBSerializationMode;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * Simple panel audio wave.
  *
- * @version 0.1.24 2015/01/27
+ * @version 0.1.25 2015/02/03
  * @author XBUP Project (http://xbup.org)
  */
-public class XBWave implements XBTChildSerializable {
+public class XBWave implements XBPSequenceSerializable {
 
     public static long[] XB_BLOCK_PATH = {1, 5, 0, 0}; // Testing only
     public static long[] XB_FORMAT_PATH = {1, 5, 0, 0};
@@ -122,55 +121,36 @@ public class XBWave implements XBTChildSerializable {
     }
 
     @Override
-    public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.pullBegin();
-        serial.pullType(); //setType(new XBCBlockDecl(xbBlockPath));
-        UBNatural sampleRate = serial.pullAttribute();
-        UBNatural sampleSizeInBits = serial.pullAttribute();
-        UBNatural channels = serial.pullAttribute();
-        UBNatural signed = serial.pullAttribute();
-        UBNatural bigEndian = serial.pullAttribute();
-        audioFormat = new AudioFormat(sampleRate.getInt(), sampleSizeInBits.getInt(), channels.getInt(), signed.getInt() == 1, bigEndian.getInt() == 1);
-        serial.pullChild(new XBTChildSerializable() {
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+        serial.begin();
+        serial.matchType(new XBDeclBlockType(new XBLBlockDecl(XB_BLOCK_PATH)));
+        if (serial.getSerializationMode() == XBSerializationMode.PULL) {
+            UBNatural sampleRate = serial.pullAttribute();
+            UBNatural sampleSizeInBits = serial.pullAttribute();
+            UBNatural channels = serial.pullAttribute();
+            UBNatural signed = serial.pullAttribute();
+            UBNatural bigEndian = serial.pullAttribute();
+            audioFormat = new AudioFormat(sampleRate.getInt(), sampleSizeInBits.getInt(), channels.getInt(), signed.getInt() == 1, bigEndian.getInt() == 1);
+        } else {
+            serial.putAttribute(new UBNat32((long) audioFormat.getSampleRate()));
+            serial.putAttribute(new UBNat32(audioFormat.getSampleSizeInBits()));
+            serial.putAttribute(new UBNat32(audioFormat.getChannels()));
+            serial.putAttribute(new UBNat32(audioFormat.getEncoding() == AudioFormat.Encoding.PCM_SIGNED ? 1 : 0));
+            serial.putAttribute(new UBNat32(audioFormat.isBigEndian() ? 1 : 0));
+        }
+        serial.consist(new XBPSequenceSerializable() {
             @Override
-            public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
-                serial.pullBegin();
-                loadRawFromStream(serial.pullData());
-                serial.pullEnd();
-            }
-
-            @Override
-            public void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                throw new IllegalStateException();
-            }
-        });
-        serial.pullEnd();
-    }
-
-    @Override
-    public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serial.putType(new XBDeclBlockType(new XBLBlockDecl(XB_BLOCK_PATH)));
-        serial.putAttribute(new UBNat32((long) audioFormat.getSampleRate()));
-        serial.putAttribute(new UBNat32(audioFormat.getSampleSizeInBits()));
-        serial.putAttribute(new UBNat32(audioFormat.getChannels()));
-        serial.putAttribute(new UBNat32(audioFormat.getEncoding() == AudioFormat.Encoding.PCM_SIGNED ? 1 : 0));
-        serial.putAttribute(new UBNat32(audioFormat.isBigEndian() ? 1 : 0));
-        serial.putChild(new XBTChildSerializable() {
-            @Override
-            public void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                throw new IllegalStateException();
-            }
-
-            @Override
-            public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
-                serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
-                serial.putData(new WaveInputStream());
-                serial.putEnd();
+            public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+                serial.begin();
+                if (serial.getSerializationMode() == XBSerializationMode.PULL) {
+                    loadRawFromStream(serial.pullData());
+                } else {
+                    serial.putData(new WaveInputStream());
+                }
+                serial.end();
             }
         });
-
-        serial.putEnd();
+        serial.end();
     }
 
     public void performTransformReverse() {
@@ -299,7 +279,7 @@ public class XBWave implements XBTChildSerializable {
     }
 
     /**
-     * Returns data size in bytes;
+     * Returns data size in bytes.
      *
      * @return size in bytes
      */
@@ -347,20 +327,19 @@ public class XBWave implements XBTChildSerializable {
         int pomValue = ((value - (height / 2)) << 16) / height;
         block[offset] = (byte) (pomValue & 255);
         block[offset + 1] = (byte) ((pomValue >> 8) & 255);
+        setBlock(chunk, block);
         /*        int value = 127 + getBlock(chunk)[offset] + (getBlock(chunk)[offset+1] + 127)*256;
          return (int) ((long) value * height) / 65536; */
     }
 
     public byte[] getBlock(int pos) {
-        if (pos >= data.size()) {
-            return null;
-        }
         return data.get(pos);
     }
 
-    /**
-     * @return the audioFormat
-     */
+    public void setBlock(int pos, byte[] block) {
+        data.set(pos, block);
+    }
+
     public AudioFormat getAudioFormat() {
         return audioFormat;
     }

@@ -39,13 +39,13 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * @version 0.1.24 2014/10/04
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTToXBDropper implements XBTListener, XBProducer {
+public class XBTToXBTypeDroppingConvertor implements XBTListener, XBProducer {
 
     private XBListener listener;
     private boolean blockTypeProcessed;
     private XBToken token;
 
-    public XBTToXBDropper(XBListener target) {
+    public XBTToXBTypeDroppingConvertor(XBListener target) {
         this.listener = target;
         blockTypeProcessed = false;
         token = null;
@@ -110,7 +110,7 @@ public class XBTToXBDropper implements XBTListener, XBProducer {
             try {
                 flushToken();
             } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBTToXBDropper.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(XBTToXBTypeDroppingConvertor.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             // TODO trigger.produceXBT();

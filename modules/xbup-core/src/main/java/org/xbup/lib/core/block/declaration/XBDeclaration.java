@@ -145,8 +145,15 @@ public class XBDeclaration implements XBPSequenceSerializable {
         serializationHandler.attribute(groupsReserved);
         serializationHandler.attribute(preserveCount);
         if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
-            // TODO
-            serializationHandler.consist(formatDecl);
+            if (!serializationHandler.pullIfEmptyBlock()) {
+                if (formatDecl == null) {
+                    // TODO Create XBL always?
+                    formatDecl = new XBLFormatDecl();
+                }
+                serializationHandler.consist(formatDecl);
+            } else {
+                formatDecl = null;
+            }
             if (!headerMode) {
                 serializationHandler.consist(rootBlock);
             }

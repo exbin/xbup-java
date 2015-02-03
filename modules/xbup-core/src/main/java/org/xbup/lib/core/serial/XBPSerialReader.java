@@ -56,7 +56,7 @@ public class XBPSerialReader implements XBPReadSerialHandler {
     @Override
     public void read(XBSerializable serial) {
         if (serial instanceof XBPSerializable || serial instanceof XBPSequenceSerializable) {
-            XBPProviderSerialHandler childOutput = new XBPProviderSerialHandler(this);
+            XBPProviderSerialHandler childOutput = new XBPProviderSerialHandler();
             childOutput.attachXBTPullProvider(pullProvider);
             try {
                 childOutput.process(serial);

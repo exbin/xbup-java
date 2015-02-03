@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullProviderToProvider;
-import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullUnwrapper;
+import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullUndefinedConvertor;
 import org.xbup.lib.core.serial.basic.XBTBasicSerializable;
 import org.xbup.lib.core.serial.basic.XBTProviderSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildProviderSerialHandler;
@@ -71,7 +71,7 @@ public class XBTSerialReader implements XBTReadSerialHandler {
                 Logger.getLogger(XBTSerialReader.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (XBSerialReader.isValidSerializableObject(serial)) {
-            XBToXBTPullUnwrapper pullWrapper = new XBToXBTPullUnwrapper(pullProvider);
+            XBToXBTPullUndefinedConvertor pullWrapper = new XBToXBTPullUndefinedConvertor(pullProvider);
             XBSerialReader serialReader = new XBSerialReader(pullWrapper);
             serialReader.read(serial);
         } else {

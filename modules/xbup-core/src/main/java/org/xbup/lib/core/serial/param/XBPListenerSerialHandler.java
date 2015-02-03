@@ -36,7 +36,6 @@ import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
-import org.xbup.lib.core.serial.XBPWriteSerialHandler;
 import org.xbup.lib.core.serial.XBSerialException;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
@@ -51,12 +50,11 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 2 serialization handler using parameter mapping to listener.
  *
- * @version 0.1.24 2015/01/28
+ * @version 0.1.25 2015/02/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequenceSerialHandler, XBTTokenOutputSerialHandler {
 
-    private XBPWriteSerialHandler childHandler = null;
     private XBPSequenceEventProducer eventListener;
 
     private XBPSequencingListener sequencingListener = null;
@@ -67,11 +65,6 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     private static final String PULL_NOT_ALLOWED_EXCEPTION = "Pulling data not allowed in pushing mode";
 
     public XBPListenerSerialHandler() {
-    }
-
-    public XBPListenerSerialHandler(XBPWriteSerialHandler childHandler) {
-        this();
-        this.childHandler = childHandler;
     }
 
     public void process(XBSerializable serial) throws IOException, XBProcessingException {
@@ -192,7 +185,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
                     process(nextChild);
                 }
             } else {
-                processingState = processingStates.remove(processingStates.size() -1);
+                processingState = processingStates.remove(processingStates.size() - 1);
                 paramType = processingStates.isEmpty() ? XBParamType.CONSIST : XBParamType.JOIN;
             }
         } else {

@@ -36,7 +36,6 @@ import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
-import org.xbup.lib.core.serial.XBPReadSerialHandler;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
@@ -50,13 +49,12 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 2 serialization handler using parameter mapping to provider.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.1.25 2015/02/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSequenceSerialHandler, XBTTokenInputSerialHandler {
 
     private XBPSequencePullConsumer pullProvider;
-    private XBPReadSerialHandler childHandler = null;
 
     private XBParamProcessingState processingState = XBParamProcessingState.START;
     private final List<XBParamType> paramTypes = new ArrayList<>();
@@ -66,11 +64,6 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
     private XBTBeginToken beginToken = null;
 
     public XBPProviderSerialHandler() {
-    }
-
-    public XBPProviderSerialHandler(XBPReadSerialHandler childHandler) {
-        this();
-        this.childHandler = childHandler;
     }
 
     public void process(XBSerializable serial) throws IOException, XBProcessingException {
@@ -316,7 +309,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         if (blockType != null && blockType.getAsBasicType() != XBBasicBlockType.UNKNOWN_BLOCK) {
             if (type.getAsBasicType() != XBBasicBlockType.UNKNOWN_BLOCK) {
                 if (!blockType.equals(type)) {
-                    // TODO throw new XBProcessingException("Block type doesn't match", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
+                    throw new XBProcessingException("Block type doesn't match", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
                 }
             }
         }
@@ -355,6 +348,10 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
     @Override
     public void append(XBSerializable serial) throws XBProcessingException, IOException {
         pullAppend(serial);
+    }
+
+    public boolean isFinished() {
+        return processingState == XBParamProcessingState.END && paramTypes.isEmpty();
     }
 
     @Override

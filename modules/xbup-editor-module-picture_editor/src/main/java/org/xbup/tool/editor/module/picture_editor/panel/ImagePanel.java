@@ -58,7 +58,7 @@ import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.catalog.XBPCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
+import org.xbup.lib.core.parser.basic.convert.XBTTypeFixingFilter;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
@@ -411,7 +411,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                 declaration.setContextFormatDecl(getContextFormatDecl());
                 declaration.realignReservation();
                 XBPCatalog catalog = new XBPCatalog();
-                XBTTypeReliantor encapsulator = new XBTTypeReliantor(declaration.generateContext(catalog), catalog);
+                XBTTypeFixingFilter encapsulator = new XBTTypeFixingFilter(declaration.generateContext(catalog), catalog);
                 encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
                 XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(encapsulator));
                 writer.write(declaration);

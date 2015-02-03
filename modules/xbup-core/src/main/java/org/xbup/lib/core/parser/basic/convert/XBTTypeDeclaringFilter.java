@@ -27,61 +27,63 @@ import org.xbup.lib.core.parser.basic.XBTFilter;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.declaration.XBContext;
-import org.xbup.lib.core.block.declaration.XBDeclaration;
+import org.xbup.lib.core.block.declaration.XBLevelContext;
+import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * TODO: Convert block types from fixed types to stand-alone types.
+ * Filter to convert block types from fixed types to stand-alone declared types.
  *
- * @version 0.1.24 2014/10/04
+ * @version 0.1.25 2015/02/03
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTTypeSeparator implements XBTFilter {
+public class XBTTypeDeclaringFilter implements XBTFilter {
 
+    private XBCatalog catalog = null;
     private XBTListener listener = null;
-    private final List<ContextRecord> contexts = new ArrayList<>();
-    private XBDeclaration declaration = null;
-    private XBTListener declListener = null;
+    private final List<XBLevelContext> contexts = new ArrayList<>();
+    private XBLevelContext currentContext = null;
 
-    private long documentDepth = 0;
-    private int mode = 0;
+    private int documentDepth = 0;
     private XBBlockTerminationMode beginTerminationMode;
 
-    public XBTTypeSeparator() {
+    public XBTTypeDeclaringFilter(XBCatalog catalog) {
+        this.catalog = catalog;
     }
 
-    public XBTTypeSeparator(XBContext initialContext) {
-        this();
-        contexts.add(new ContextRecord(initialContext, 0));
+    public XBTTypeDeclaringFilter(XBCatalog catalog, XBContext initialContext) {
+        this(catalog);
+        currentContext = new XBLevelContext(catalog, initialContext, 0);
     }
 
     @Override
     public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         listener.beginXBT(terminationMode);
 
-        if (declListener != null) {
-            declListener.beginXBT(terminationMode);
+        if (currentContext != null && !currentContext.isDeclarationFinished()) {
+            currentContext.beginXBT(terminationMode);
         }
 
         documentDepth++;
         beginTerminationMode = terminationMode;
-        mode = 1;
     }
 
     @Override
     public void typeXBT(XBBlockType type) throws XBProcessingException, IOException {
         listener.typeXBT(type);
 
-        if (declListener != null) {
-            declListener.typeXBT(type);
+        if (currentContext != null && !currentContext.isDeclarationFinished()) {
+            currentContext.typeXBT(type);
         }
 
         if (type.getAsBasicType() == XBBasicBlockType.DECLARATION) {
 
             documentDepth++;
-            mode = 2;
-            declListener.beginXBT(beginTerminationMode);
-            declListener.typeXBT(type);
+            contexts.add(currentContext);
+            currentContext = new XBLevelContext(catalog, currentContext.getContext(), documentDepth);
+            // TODO currentContext.
+            currentContext.beginXBT(beginTerminationMode);
+            currentContext.typeXBT(type);
         } else {
             listener.beginXBT(beginTerminationMode);
             listener.typeXBT(type);
@@ -90,9 +92,8 @@ public class XBTTypeSeparator implements XBTFilter {
 
     @Override
     public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
-        if (documentDepth > 0) {
-            declListener.attribXBT(value);
-            return;
+        if (currentContext != null && !currentContext.isDeclarationFinished()) {
+            currentContext.attribXBT(value);
         }
 
         listener.attribXBT(value);
@@ -100,9 +101,8 @@ public class XBTTypeSeparator implements XBTFilter {
 
     @Override
     public void dataXBT(InputStream data) throws XBProcessingException, IOException {
-        if (documentDepth > 0) {
-            declListener.dataXBT(data);
-            return;
+        if (currentContext != null && !currentContext.isDeclarationFinished()) {
+            currentContext.dataXBT(data);
         }
 
         listener.dataXBT(data);
@@ -110,22 +110,11 @@ public class XBTTypeSeparator implements XBTFilter {
 
     @Override
     public void endXBT() throws XBProcessingException, IOException {
-        if (documentDepth > 0) {
-            declListener.endXBT();
-            documentDepth--;
-
-            if (documentDepth == 1) {
-                mode++;
-            }
-
-            if (mode == 4) {
-                mode = 0;
-                documentDepth = 0;
-            } else {
-                return;
-            }
+        if (currentContext != null && !currentContext.isDeclarationFinished()) {
+            currentContext.endXBT();
         }
 
+        documentDepth--;
         listener.endXBT();
     }
 
@@ -135,21 +124,7 @@ public class XBTTypeSeparator implements XBTFilter {
     }
 
     public XBContext getCurrentContext() {
-        return contexts.size() > 0 ? contexts.get(contexts.size() - 1).context : null;
-    }
-
-    private class ContextRecord {
-
-        public ContextRecord(XBContext context, long documentLevel) {
-            this.context = context;
-            this.documentLevel = documentLevel;
-        }
-
-        public XBContext context;
-        public long documentLevel;
-    }
-
-    private enum ProcessingMode {
-
+        throw new UnsupportedOperationException("Not supported yet.");
+        // return contexts.size() > 0 ? contexts.get(contexts.size() - 1).context : null;
     }
 }

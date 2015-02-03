@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.convert.XBTTypeReliantor;
+import org.xbup.lib.core.parser.basic.convert.XBTTypeFixingFilter;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.XBTokenType;
@@ -191,16 +191,16 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
 //            decl.setFormat(new XBL1FormatDecl(XBServiceClient.XBSERVICE_FORMAT));
 //            decl.setRootNode(new MyXBL1Conversible(procedureId));
             // TODO encapsulator
-            XBTTypeReliantor encapsulator = new XBTTypeReliantor(null, null);
+            XBTTypeFixingFilter encapsulator = new XBTTypeFixingFilter(null, null);
             //new MyXBTConversible(procedureId)));
-//            XBTTypeReliantor encapsulator = new XBTTypeReliantor(new XBL1Context(getCatalog(),decl));
+//            XBTTypeFixingFilter encapsulator = new XBTTypeFixingFilter(new XBL1Context(getCatalog(),decl));
             encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output))); // new MyXBL0EventListener(new XBTToXBEventConvertor(
 
 /*            source = new XBL1StreamChecker(new XBL0ToL1StreamConvertor(new XBPullReader(xbService.getInputStream())));
-            target = new XBTTypeReliantor(new XBServiceContext());
+            target = new XBTTypeFixingFilter(new XBServiceContext());
             OutputStream oStream = xbService.getOutputStream();
             XBPullWriter.writeXBUPHead(oStream);
-            ((XBTTypeReliantor) target).attachXBTListener(XBTDefaultEventListener.toXBTListener(new MyXBL1EventListener(new XBTToXBEventConvertor(new XBPullWriter(oStream)))));
+            ((XBTTypeFixingFilter) target).attachXBTListener(XBTDefaultEventListener.toXBTListener(new MyXBL1EventListener(new XBTToXBEventConvertor(new XBPullWriter(oStream)))));
             target.beginXBT(false); */
         }
 

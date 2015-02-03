@@ -27,7 +27,7 @@ import org.xbup.lib.core.parser.basic.XBTProviderFilter;
  * @version 0.1.24 2014/09/03
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTPullTypeSeparator implements XBTProviderFilter {
+public class XBTPullTypeDeclaringFilter implements XBTProviderFilter {
 
     private XBTProvider provider;
     private XBTListener listener;
@@ -39,7 +39,7 @@ public class XBTPullTypeSeparator implements XBTProviderFilter {
     private boolean beginTerm;
     private XBBlockType type = null;
 
-    public XBTPullTypeSeparator(XBTListener declListener) {
+    public XBTPullTypeDeclaringFilter(XBTListener declListener) {
         this.declListener = declListener;
         mode = 0;
         depth = 0;
@@ -60,9 +60,9 @@ public class XBTPullTypeSeparator implements XBTProviderFilter {
                     listener.typeXBT(type);
                     type = null;
                 } catch (XBProcessingException ex) {
-                    Logger.getLogger(XBTPullTypeSeparator.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(XBTPullTypeDeclaringFilter.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
-                    Logger.getLogger(XBTPullTypeSeparator.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(XBTPullTypeDeclaringFilter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 trigger.produceXBT();

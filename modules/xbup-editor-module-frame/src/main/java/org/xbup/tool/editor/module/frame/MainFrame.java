@@ -106,9 +106,9 @@ import org.xbup.tool.editor.base.api.XBEditorApp;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
 
 /**
- * XBEditor Main Frame.
+ * XBEditor main frame class.
  *
- * @version 0.1.24 2014/12/10
+ * @version 0.1.25 2015/02/03
  * @author XBUP Project (http://xbup.org)
  */
 public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, MainFrameManagement {
@@ -125,8 +125,6 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
     private String activeStatusPanel;
     private JPanel activePanel;
     private List<RecentItem> recentFiles = null;
-
-    private List<String> toolBarButtonText;
 
     java.util.ResourceBundle resourceBundle;
     private final JFileChooser openFC, saveFC;
@@ -155,6 +153,9 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
     private TextAction pasteAction;
     private TextAction deleteAction;
     private Action selectAllAction;
+    private Action newFileAction;
+    private Action openFileAction;
+    private Action saveFileAction;
 
     private Action undoAction;
     private Action redoAction;
@@ -467,16 +468,10 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         return appEditor.getAppPreferences();
     }
 
-    /**
-     * @return the appEditor
-     */
     public XBEditorApp getAppEditor() {
         return appEditor;
     }
 
-    /**
-     * @param appEditor the appEditor to set
-     */
     public void setAppEditor(XBEditorApp appEditor) {
         this.appEditor = appEditor;
         setTitle(appEditor.getAppBundle().getString("Application.name"));
@@ -488,8 +483,9 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
     }
 
     private void initActions() {
-        // Note: There is probably better way for clipboard action's handling
         actionMap = new ActionMap();
+
+        // Note: There is probably better way for clipboard action's handling
         cutAction = new PassingTextAction(new DefaultEditorKit.CutAction());
         cutAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/cut.png")));
         cutAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, metaMask));
@@ -579,6 +575,42 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         // Note: It would be better to mix together both approaches
         KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         kfm.addPropertyChangeListener("permanentFocusOwner", new KeyboardFocusPCL());
+
+        newFileAction = new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actionFileNew();
+            }
+        };
+        newFileAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/New16.gif")));
+        newFileAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, metaMask));
+        newFileAction.putValue(Action.NAME, resourceBundle.getString("actionFileNew.Action.text"));
+        newFileAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionFileNew.Action.shortDescription"));
+
+        openFileAction = new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actionFileOpen();
+            }
+        };
+        openFileAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/Open16.gif")));
+        openFileAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, metaMask));
+        openFileAction.putValue(Action.NAME, resourceBundle.getString("actionFileOpen.Action.text"));
+        openFileAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionFileOpen.Action.shortDescription"));
+
+        saveFileAction = new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actionFileSave();
+            }
+        };
+        saveFileAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/Save16.gif")));
+        saveFileAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, metaMask));
+        saveFileAction.putValue(Action.NAME, resourceBundle.getString("actionFileSave.Action.text"));
+        saveFileAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionFileSave.Action.shortDescription"));
 
         initDefaultPopupMenu();
     }
@@ -1042,57 +1074,36 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         protected abstract void postTextComponentInitialize();
     }
 
-    /**
-     * @return the actionMap
-     */
     @Override
     public ActionMap getActionMap() {
         return actionMap;
     }
 
-    /**
-     * @return the cutAction
-     */
     @Override
     public Action getCutAction() {
         return cutAction;
     }
 
-    /**
-     * @return the copyAction
-     */
     @Override
     public Action getCopyAction() {
         return copyAction;
     }
 
-    /**
-     * @return the pasteAction
-     */
     @Override
     public Action getPasteAction() {
         return pasteAction;
     }
 
-    /**
-     * @return the deleteAction
-     */
     @Override
     public Action getDeleteAction() {
         return deleteAction;
     }
 
-    /**
-     * @return the undoAction
-     */
     @Override
     public Action getUndoAction() {
         return undoAction;
     }
 
-    /**
-     * @return the redoAction
-     */
     @Override
     public Action getRedoAction() {
         return redoAction;
@@ -1102,17 +1113,11 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         return mainPopupMenu;
     }
 
-    /**
-     * @return the selectAllAction
-     */
     @Override
     public Action getSelectAllAction() {
         return selectAllAction;
     }
 
-    /**
-     * @param selectAllAction the selectAllAction to set
-     */
     public void setSelectAllAction(Action selectAllAction) {
         this.selectAllAction = selectAllAction;
     }
@@ -1167,9 +1172,6 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         }
     }
 
-    /**
-     * @return the activePanel
-     */
     public JPanel getActivePanel() {
         return activePanel;
     }
@@ -1190,7 +1192,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
     }
 
     /**
-     * Try to release and warn if document was modified
+     * Try to release current file and warn if document was modified.
      *
      * @return true if successfull
      */
@@ -1219,11 +1221,12 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
 
             actionFileSave();
         }
+
         return true;
     }
 
     /**
-     * Ask whether it's allows to overwrite file.
+     * Asks whether it's allowed to overwrite file.
      *
      * @return true if allowed
      */
@@ -1245,6 +1248,7 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         if (result == JOptionPane.NO_OPTION || result == JOptionPane.CLOSED_OPTION) {
             return false;
         }
+
         return false;
     }
 
@@ -1469,46 +1473,25 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         toolBar.setEnabled(false);
         toolBar.setName("toolBar"); // NOI18N
 
-        toolbarFileNewButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/New16.gif"))); // NOI18N
-        toolbarFileNewButton.setText(bundle.getString("actionFileNew.Action.text")); // NOI18N
-        toolbarFileNewButton.setToolTipText(bundle.getString("actionFileNew.Action.shortDescription")); // NOI18N
+        toolbarFileNewButton.setAction(newFileAction);
         toolbarFileNewButton.setFocusable(false);
         toolbarFileNewButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         toolbarFileNewButton.setName("toolbarFileNewButton"); // NOI18N
         toolbarFileNewButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        toolbarFileNewButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                toolbarFileNewButtonActionPerformed(evt);
-            }
-        });
         toolBar.add(toolbarFileNewButton);
 
-        toolbarFileOpenButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/Open16.gif"))); // NOI18N
-        toolbarFileOpenButton.setText(bundle.getString("actionFileOpen.Action.text")); // NOI18N
-        toolbarFileOpenButton.setToolTipText(bundle.getString("actionFileOpen.Action.shortDescription")); // NOI18N
+        toolbarFileOpenButton.setAction(openFileAction);
         toolbarFileOpenButton.setFocusable(false);
         toolbarFileOpenButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         toolbarFileOpenButton.setName("toolbarFileOpenButton"); // NOI18N
         toolbarFileOpenButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        toolbarFileOpenButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                toolbarFileOpenButtonActionPerformed(evt);
-            }
-        });
         toolBar.add(toolbarFileOpenButton);
 
-        toolbarFileSaveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/Save16.gif"))); // NOI18N
-        toolbarFileSaveButton.setText(bundle.getString("actionFileSave.Action.text")); // NOI18N
-        toolbarFileSaveButton.setToolTipText(bundle.getString("actionFileSave.Action.shortDescription")); // NOI18N
+        toolbarFileSaveButton.setAction(saveFileAction);
         toolbarFileSaveButton.setFocusable(false);
         toolbarFileSaveButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         toolbarFileSaveButton.setName("toolbarFileSaveButton"); // NOI18N
         toolbarFileSaveButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        toolbarFileSaveButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                toolbarFileSaveButtonActionPerformed(evt);
-            }
-        });
         toolBar.add(toolbarFileSaveButton);
 
         jSeparator5.setName("jSeparator5"); // NOI18N
@@ -1653,27 +1636,12 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         fileMenu.setText(bundle.getString("fileMenu.text")); // NOI18N
         fileMenu.setName("fileMenu"); // NOI18N
 
-        fileNewMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/New16.gif"))); // NOI18N
-        fileNewMenuItem.setText(bundle.getString("actionFileNew.Action.text")); // NOI18N
-        fileNewMenuItem.setToolTipText(bundle.getString("actionFileNew.Action.shortDescription")); // NOI18N
+        fileNewMenuItem.setAction(newFileAction);
         fileNewMenuItem.setName("fileNewMenuItem"); // NOI18N
-        fileNewMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fileNewMenuItemActionPerformed(evt);
-            }
-        });
         fileMenu.add(fileNewMenuItem);
 
-        fileOpenMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        fileOpenMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/Open16.gif"))); // NOI18N
-        fileOpenMenuItem.setText(bundle.getString("actionFileOpen.Action.text")); // NOI18N
-        fileOpenMenuItem.setToolTipText(bundle.getString("actionFileOpen.Action.shortDescription")); // NOI18N
+        fileOpenMenuItem.setAction(openFileAction);
         fileOpenMenuItem.setName("fileOpenMenuItem"); // NOI18N
-        fileOpenMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fileOpenMenuItemActionPerformed(evt);
-            }
-        });
         fileMenu.add(fileOpenMenuItem);
 
         fileOpenRecentMenu.setText(bundle.getString("fileOpenRecentMenu.text")); // NOI18N
@@ -1682,16 +1650,8 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         fileOpenRecentMenu.setName("fileOpenRecentMenu"); // NOI18N
         fileMenu.add(fileOpenRecentMenu);
 
-        fileSaveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        fileSaveMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/frame/resources/images/actions/Save16.gif"))); // NOI18N
-        fileSaveMenuItem.setText(bundle.getString("actionFileSave.Action.text")); // NOI18N
-        fileSaveMenuItem.setToolTipText(bundle.getString("actionFileSave.Action.shortDescription")); // NOI18N
+        fileSaveMenuItem.setAction(saveFileAction);
         fileSaveMenuItem.setName("fileSaveMenuItem"); // NOI18N
-        fileSaveMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fileSaveMenuItemActionPerformed(evt);
-            }
-        });
         fileMenu.add(fileSaveMenuItem);
 
         fileSaveAsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
@@ -1839,18 +1799,6 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void fileNewMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileNewMenuItemActionPerformed
-        actionFileNew();
-    }//GEN-LAST:event_fileNewMenuItemActionPerformed
-
-    private void fileOpenMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileOpenMenuItemActionPerformed
-        actionFileOpen();
-    }//GEN-LAST:event_fileOpenMenuItemActionPerformed
-
-    private void fileSaveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSaveMenuItemActionPerformed
-        actionFileSave();
-    }//GEN-LAST:event_fileSaveMenuItemActionPerformed
-
     private void fileSaveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSaveAsMenuItemActionPerformed
         actionFileSaveAs();
     }//GEN-LAST:event_fileSaveAsMenuItemActionPerformed
@@ -1858,18 +1806,6 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         actionExit();
     }//GEN-LAST:event_exitMenuItemActionPerformed
-
-    private void toolbarFileNewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toolbarFileNewButtonActionPerformed
-        actionFileNew();
-    }//GEN-LAST:event_toolbarFileNewButtonActionPerformed
-
-    private void toolbarFileOpenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toolbarFileOpenButtonActionPerformed
-        actionFileOpen();
-    }//GEN-LAST:event_toolbarFileOpenButtonActionPerformed
-
-    private void toolbarFileSaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toolbarFileSaveButtonActionPerformed
-        actionFileSave();
-    }//GEN-LAST:event_toolbarFileSaveButtonActionPerformed
 
     private void viewToolBarCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewToolBarCheckBoxMenuItemActionPerformed
         actionViewToolbar();
@@ -2228,11 +2164,11 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         return toolBar;
     }
 
-    /*
-     * Called by the KeyboardFocus PropertyChangeListener,
-     * before any other focus-change related work is done.
+    /**
+     * Called by the KeyboardFocus PropertyChangeListener, before any other
+     * focus-change related work is done.
      */
-    void updateFocusOwner(JComponent oldOwner, JComponent newOwner) {
+    private void updateFocusOwner(JComponent oldOwner, JComponent newOwner) {
         if (oldOwner instanceof JTextComponent) {
             JTextComponent text = (JTextComponent) oldOwner;
             text.removeCaretListener(textComponentCaretListener);

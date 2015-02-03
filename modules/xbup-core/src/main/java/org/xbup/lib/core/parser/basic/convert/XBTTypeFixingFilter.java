@@ -35,7 +35,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  * @version 0.1.23 2014/10/24
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTTypeReliantor implements XBTFilter {
+public class XBTTypeFixingFilter implements XBTFilter {
 
     private XBTListener listener;
     private final XBCatalog catalog;
@@ -48,7 +48,7 @@ public class XBTTypeReliantor implements XBTFilter {
      * @param context initial context
      * @param catalog catalog used for catalog types
      */
-    public XBTTypeReliantor(XBContext context, XBCatalog catalog) {
+    public XBTTypeFixingFilter(XBContext context, XBCatalog catalog) {
         this.context = context;
         this.catalog = catalog;
         listener = null;

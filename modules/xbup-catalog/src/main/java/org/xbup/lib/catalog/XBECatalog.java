@@ -37,11 +37,9 @@ import org.xbup.lib.catalog.entity.service.XBENodeService;
 import org.xbup.lib.catalog.entity.service.XBERevService;
 import org.xbup.lib.catalog.entity.service.XBESpecService;
 import org.xbup.lib.catalog.entity.service.XBEXInfoService;
-import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
-import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.XBGroup;
@@ -69,13 +67,14 @@ import org.xbup.lib.core.catalog.base.service.XBCService;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXInfoService;
 import org.xbup.lib.catalog.update.XBCUpdateHandler;
+import org.xbup.lib.core.block.XBDBlockType;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.serial.XBPSerialReader;
 
 /**
  * Basic level 1 catalog class using Java persistence.
  *
- * @version 0.1.24 2014/12/01
+ * @version 0.1.25 2015/02/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBECatalog implements XBCatalog {
@@ -223,7 +222,7 @@ public class XBECatalog implements XBCatalog {
             XBCGroupDecl groupDecl = new XBCGroupDecl((XBCGroupRev) revService.findRevByXB(specService.findGroupSpecByXB(basicNode, 0), 0), this);
             rootContext = new XBContext();
             rootContext.setStartFrom(0);
-            rootContext.getGroups().add(XBDeclaration.convertCatalogGroup(groupDecl, this));
+            rootContext.getGroups().add(XBDeclaration.convertCatalogGroup(groupDecl));
         }
 
         return rootContext;
@@ -242,83 +241,6 @@ public class XBECatalog implements XBCatalog {
             XBERoot root = new XBERoot();
             root.setNode(node);
             em.persist(root);
-
-            /*XBEFormatSpec format = new XBEFormatSpec();
-             format.setParent(node);
-             format.setXBIndex(new Long(0));
-             em.persist(format);
-             XBEFormatRev formatRev = new XBEFormatRev();
-             formatRev.setParent(format);
-             formatRev.setXBIndex(new Long(0));
-             formatRev.setXBLimit(new Long(1));
-             em.persist(formatRev);
-
-             XBEGroupSpec group = new XBEGroupSpec();
-             group.setParent(node);
-             group.setXBIndex(new Long(0));
-             em.persist(group);
-             XBEGroupRev groupRev = new XBEGroupRev();
-             groupRev.setParent(group);
-             groupRev.setXBIndex(new Long(0));
-             groupRev.setXBLimit(new Long(1));
-             em.persist(groupRev);
-
-             XBESpecDef formatBind = new XBESpecDef();
-             formatBind.setSpec(format);
-             formatBind.setTarget(groupRev);
-             formatBind.setXBIndex(new Long(0));
-             em.persist(formatBind);
-
-             XBEBlockSpec block = new XBEBlockSpec();
-             block.setParent(node);
-             block.setXBIndex(new Long(0));
-             //            block.setAttrCount(new Long(0));
-             em.persist(block);
-             XBEBlockRev blockRev = new XBEBlockRev();
-             blockRev.setParent(block);
-             blockRev.setXBIndex(new Long(0));
-             blockRev.setXBLimit(new Long(1));
-             em.persist(blockRev);
-
-             XBESpecDef groupBind = new XBESpecDef();
-             groupBind.setSpec(group);
-             groupBind.setTarget(blockRev);
-             groupBind.setXBIndex(new Long(0));
-             em.persist(groupBind);
-
-             block = new XBEBlockSpec();
-             block.setParent(node);
-             block.setXBIndex(new Long(1));
-             //            block.setAttrCount(new Long(0));
-             em.persist(block);
-             blockRev = new XBEBlockRev();
-             blockRev.setParent(block);
-             blockRev.setXBIndex(new Long(0));
-             blockRev.setXBLimit(new Long(1));
-             em.persist(blockRev);
-
-             groupBind = new XBESpecDef();
-             groupBind.setSpec(group);
-             groupBind.setTarget(blockRev);
-             groupBind.setXBIndex(new Long(1));
-             em.persist(groupBind);
-
-             block = new XBEBlockSpec();
-             block.setParent(node);
-             block.setXBIndex(new Long(8));
-             //            block.setAttrCount(new Long(0));
-             em.persist(block);
-             blockRev = new XBEBlockRev();
-             blockRev.setParent(block);
-             blockRev.setXBIndex(new Long(0));
-             blockRev.setXBLimit(new Long(1));
-             em.persist(blockRev);
-
-             groupBind = new XBESpecDef();
-             groupBind.setSpec(group);
-             groupBind.setTarget(blockRev);
-             groupBind.setXBIndex(new Long(8));
-             em.persist(groupBind); */
             tx.commit();
 
             shallInit = false;
@@ -401,56 +323,32 @@ public class XBECatalog implements XBCatalog {
         return (XBCService<? extends XBCBase>) catalogServices.get(type);
     }
 
-    /**
-     * @return the fileRepositoryPath
-     */
     public String getFileRepositoryPath() {
         return fileRepositoryPath;
     }
 
-    /**
-     * @param fileRepositoryPath the fileRepositoryPath to set
-     */
     public void setFileRepositoryPath(String fileRepositoryPath) {
         this.fileRepositoryPath = fileRepositoryPath;
     }
 
     /**
-     * Provide fixed block type for given block declaration.
+     * Provides fixed block type for given declared block type.
      *
      * @param context
-     * @param type block type
+     * @param declType declared block type
      * @return static block type
      */
     @Override
-    public XBFixedBlockType findFixedType(XBContext context, XBBlockType type) {
-        if (type instanceof XBFixedBlockType) {
-            return (XBFixedBlockType) type;
-        } else if (type instanceof XBDeclBlockType) {
-            return findFixedType(context, ((XBDeclBlockType) type).getBlockDecl());
-        } else {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-    }
-
-    /**
-     * Provide fixed block type for given block declaration.
-     *
-     * @param context
-     * @param decl block declaration
-     * @return static block type
-     */
-    @Override
-    public XBFixedBlockType findFixedType(XBContext context, XBBlockDecl decl) {
+    public XBFixedBlockType findFixedType(XBContext context, XBDBlockType declType) {
         XBFixedBlockType blockType = null;
         if (context.getParent() != null) {
-            blockType = findFixedType(context.getParent(), decl);
+            blockType = findFixedType((XBContext) context.getParent(), declType);
         }
 
         if (blockType == null) {
             for (int groupId = 0; groupId < context.getGroups().size(); groupId++) {
                 XBGroup group = context.getGroups().get(groupId);
-                Long blockId = findBlockIdForGroup(group, decl);
+                Long blockId = findBlockIdForGroup(group, declType.getBlockDecl());
                 if (blockId != null) {
                     return new XBFixedBlockType(groupId + context.getStartFrom(), blockId);
                 }
@@ -524,7 +422,7 @@ public class XBECatalog implements XBCatalog {
         XBPSerialReader serialHandler = new XBPSerialReader(blockProvider);
         serialHandler.read(declaration);
 
-        XBContext context = declaration.generateContext(this);
+        XBContext context = declaration.generateContext();
         /*declaration.se
          XBContext context = new XBContext();
          context.setParent(parent);
@@ -537,55 +435,6 @@ public class XBECatalog implements XBCatalog {
         return context;
     }
 
-    /* public static XBDFormatDecl processFormatSpec(XBCatalog catalog, XBTBlock specBlock) {
-     // TODO: Provide nonstatic method to call super
-     XBCNodeService nodeService = (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
-     XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
-     if (specBlock.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
-     if (specBlock.getAttributesCount() > 1) {
-     if ((specBlock.getBlockType().getGroupID().getLong() == 0) && (specBlock.getBlockType().getBlockID().getLong() == XBBasicBlockType.FORMAT_DECLARATION.ordinal())) {
-     XBCFormatDecl decl = new XBCFormatDecl(catalog);
-     decl.setGroupsLimit(specBlock.getAttribute(0).getLong());
-     Long[] catalogPath = new Long[specBlock.getAttribute(1).getInt()];
-     int i;
-     for (i = 0; i < catalogPath.length; i++) {
-     catalogPath[i] = specBlock.getAttribute(i + 2).getLong();
-     }
-     XBCNode node = nodeService.findParentByXBPath(catalogPath);
-     if (node != null) {
-     decl.setFormatSpec(specService.findFormatSpecByXB(node, catalogPath[catalogPath.length - 1]));
-     }
-     decl.setRevision(specBlock.getAttribute(i + 2).getLong());
-     return decl;
-     }
-     }
-     }
-     return null;
-     } */
-
-    /* private void populateBlocks() {
-     XBCSpecService bindService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
-     XBCRevService revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
-     if (groupSpec == null) {
-     return;
-     }
-     XBCRev rev = revService.getRev(groupSpec, getRevision());
-     List<XBBlockDecl> blocks = new ArrayList<XBBlockDecl>();
-     for (int i = 0; i <= rev.getXBLimit(); i++) {
-     XBCSpecDef bind = bindService.findSpecDefByXB(groupSpec, i);
-     if (bind != null) {
-     XBCRev target = bind.getTarget();
-     if (target != null) {
-     blocks.add(new XBCBlockDecl((XBCBlockSpec) target.getParent()));
-     } else {
-     blocks.add(null);
-     }
-     } else {
-     blocks.add(null);
-     }
-     setBlocks(blocks);
-     }
-     } */
     @Override
     public Long[] getSpecPath(XBCSpec spec) {
         XBESpecService specService = (XBESpecService) getCatalogService(XBCSpecService.class);

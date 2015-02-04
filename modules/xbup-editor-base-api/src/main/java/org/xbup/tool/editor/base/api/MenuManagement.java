@@ -30,7 +30,7 @@ import javax.swing.JToolBar;
 public interface MenuManagement {
 
     /**
-     * Add all items from given menu instance into menu manager.
+     * Adds all items from given menu instance into menu manager.
      *
      * @param menu
      * @param positionMode
@@ -39,7 +39,7 @@ public interface MenuManagement {
     public void extendMenu(JMenu menu, BasicMenuType menuType, MenuPositionMode positionMode);
 
     /**
-     * Add given menu component into menu manager.
+     * Adds given menu component into menu manager.
      *
      * @param menuItem
      * @param menuType
@@ -56,7 +56,7 @@ public interface MenuManagement {
     public void insertMenu(JMenu menu, MenuPositionMode positionMode);
 
     /**
-     * Add all items from given toolbar instance into menu manager.
+     * Adds all items from given toolbar instance into menu manager.
      *
      * @param toolBar
      */

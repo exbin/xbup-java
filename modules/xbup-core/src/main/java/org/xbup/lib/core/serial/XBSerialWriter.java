@@ -20,11 +20,10 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.convert.XBListenerToConsumer;
 import org.xbup.lib.core.parser.token.event.XBEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBEventListenerToListener;
 import org.xbup.lib.core.serial.basic.XBBasicSerializable;
-import org.xbup.lib.core.serial.basic.XBConsumerSerialHandler;
+import org.xbup.lib.core.serial.basic.XBListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBChildListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBChildSerializable;
 import org.xbup.lib.core.serial.token.XBEventListenerSerialHandler;
@@ -33,7 +32,7 @@ import org.xbup.lib.core.serial.token.XBTokenSerializable;
 /**
  * Interface for XBUP serialization input handler.
  *
- * @version 0.1.24 2014/11/27
+ * @version 0.1.25 2015/02/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBSerialWriter implements XBWriteSerialHandler {
@@ -47,8 +46,8 @@ public class XBSerialWriter implements XBWriteSerialHandler {
     @Override
     public void write(XBSerializable serial) {
         if (serial instanceof XBBasicSerializable) {
-            XBConsumerSerialHandler listenerHandler = new XBConsumerSerialHandler();
-            listenerHandler.attachXBConsumer(new XBListenerToConsumer(new XBEventListenerToListener(eventListener)));
+            XBListenerSerialHandler listenerHandler = new XBListenerSerialHandler();
+            listenerHandler.attachXBListener(new XBEventListenerToListener(eventListener));
             try {
                 ((XBBasicSerializable) serial).serializeToXB(listenerHandler);
             } catch (XBProcessingException | IOException ex) {

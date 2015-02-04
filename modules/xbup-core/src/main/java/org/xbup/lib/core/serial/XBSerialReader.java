@@ -32,7 +32,7 @@ import org.xbup.lib.core.serial.token.XBTokenSerializable;
 /**
  * Interface for XBUP serialization input handler.
  *
- * @version 0.1.24 2014/11/27
+ * @version 0.1.25 2015/02/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBSerialReader implements XBReadSerialHandler {
@@ -46,18 +46,18 @@ public class XBSerialReader implements XBReadSerialHandler {
     @Override
     public void read(XBSerializable serial) {
         if (serial instanceof XBBasicSerializable) {
-            XBProviderSerialHandler listenerHandler = new XBProviderSerialHandler();
-            listenerHandler.attachXBProvider(new XBPullProviderToProvider(pullProvider));
+            XBProviderSerialHandler providerHandler = new XBProviderSerialHandler();
+            providerHandler.attachXBProvider(new XBPullProviderToProvider(pullProvider));
             try {
-                ((XBBasicSerializable) serial).serializeFromXB(listenerHandler);
+                ((XBBasicSerializable) serial).serializeFromXB(providerHandler);
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBSerialWriter.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (serial instanceof XBTokenSerializable) {
-            XBPullProviderSerialHandler listenerHandler = new XBPullProviderSerialHandler();
-            listenerHandler.attachXBPullProvider(pullProvider);
+            XBPullProviderSerialHandler providerHandler = new XBPullProviderSerialHandler();
+            providerHandler.attachXBPullProvider(pullProvider);
             try {
-                ((XBTokenSerializable) serial).serializeFromXB(listenerHandler);
+                ((XBTokenSerializable) serial).serializeFromXB(providerHandler);
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBSerialWriter.class.getName()).log(Level.SEVERE, null, ex);
             }

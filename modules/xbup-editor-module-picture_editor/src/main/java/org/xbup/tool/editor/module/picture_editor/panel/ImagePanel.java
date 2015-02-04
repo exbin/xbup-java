@@ -63,6 +63,7 @@ import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
+import org.xbup.lib.core.parser.token.pull.convert.XBTPullTypeDeclaringFilter;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.serial.XBPSerialReader;
 import org.xbup.lib.core.serial.XBPSerialWriter;
@@ -381,7 +382,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                     image = createImage(1, 1);
                 }
 
-                XBPSerialReader reader = new XBPSerialReader(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName()))));
+                XBPSerialReader reader = new XBPSerialReader(new XBTPullTypeDeclaringFilter(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName())))));
                 XBLFormatDecl formatDecl = new XBLFormatDecl(XBBufferedImage.XB_FORMAT_PATH);
                 XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(image));
                 XBDeclaration declaration = new XBDeclaration(formatDecl, bufferedImage);
@@ -411,7 +412,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                 declaration.setContextFormatDecl(getContextFormatDecl());
                 declaration.realignReservation();
                 XBPCatalog catalog = new XBPCatalog();
-                XBTTypeFixingFilter encapsulator = new XBTTypeFixingFilter(declaration.generateContext(catalog), catalog);
+                XBTTypeFixingFilter encapsulator = new XBTTypeFixingFilter(declaration.generateContext(), catalog);
                 encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
                 XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(encapsulator));
                 writer.write(declaration);

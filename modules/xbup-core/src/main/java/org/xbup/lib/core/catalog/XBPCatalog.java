@@ -17,7 +17,6 @@
 package org.xbup.lib.core.catalog;
 
 import java.util.List;
-import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBDBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
@@ -107,17 +106,12 @@ public class XBPCatalog implements XBCatalog {
     }
 
     @Override
-    public XBFixedBlockType findFixedType(XBContext context, XBBlockDecl decl) {
-        return context.getFixedBlockType(decl);
-    }
-
-    @Override
-    public XBFixedBlockType findFixedType(XBContext context, XBBlockType type) {
+    public XBFixedBlockType findFixedType(XBContext context, XBDBlockType type) {
         if (type == null) {
             return new XBFixedBlockType();
         }
         if (type instanceof XBDBlockType) {
-            return context.getFixedBlockType(((XBDBlockType) type).getBlockDecl());
+            return context.getFixedBlockType((XBDBlockType) type);
         }
         if (type instanceof XBFixedBlockType) {
             return (XBFixedBlockType) type;

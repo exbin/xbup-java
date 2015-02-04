@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
@@ -30,7 +29,6 @@ import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
-import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.XBGroup;
 import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
 import org.xbup.lib.core.catalog.base.XBCBase;
@@ -60,6 +58,7 @@ import org.xbup.lib.client.catalog.remote.service.XBRItemService;
 import org.xbup.lib.client.catalog.remote.service.XBRNodeService;
 import org.xbup.lib.client.catalog.remote.service.XBRRevService;
 import org.xbup.lib.client.catalog.remote.service.XBRSpecService;
+import org.xbup.lib.core.block.XBDBlockType;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 
@@ -262,38 +261,20 @@ public class XBRCatalog implements XBCatalog {
      * Provides fixed block type for given block declaration.
      *
      * @param context
-     * @param type block type
+     * @param declType block declaration
      * @return static block type
      */
     @Override
-    public XBFixedBlockType findFixedType(XBContext context, XBBlockType type) {
-        if (type instanceof XBFixedBlockType) {
-            return (XBFixedBlockType) type;
-        } else if (type instanceof XBDeclBlockType) {
-            return findFixedType(context, ((XBDeclBlockType) type).getBlockDecl());
-        } else {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-    }
-
-    /**
-     * Provide fixed block type for given block declaration.
-     *
-     * @param context
-     * @param decl block declaration
-     * @return static block type
-     */
-    @Override
-    public XBFixedBlockType findFixedType(XBContext context, XBBlockDecl decl) {
+    public XBFixedBlockType findFixedType(XBContext context, XBDBlockType declType) {
         XBFixedBlockType blockType = null;
         if (context.getParent() != null) {
-            blockType = findFixedType(context.getParent(), decl);
+            blockType = findFixedType((XBContext) context.getParent(), declType);
         }
         
         if (blockType == null) {
             for (int groupId = 0; groupId < context.getGroups().size(); groupId++) {
                 XBGroup group = context.getGroups().get(groupId);
-                Long blockId = findBlockIdForGroup(group, decl);
+                Long blockId = findBlockIdForGroup(group, declType.getBlockDecl());
                 if (blockId != null) {
                     return new XBFixedBlockType(groupId + context.getStartFrom(), blockId);
                 }

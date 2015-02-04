@@ -20,38 +20,37 @@ import java.io.IOException;
 import java.io.InputStream;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
+import org.xbup.lib.core.parser.token.convert.XBTListenerToToken;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
-import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
+import org.xbup.lib.core.serial.basic.XBReceivingFinished;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * Representation of current declaration context for block types.
+ * Representation of current declaration typeConvertor for block types.
  *
- * @version 0.1.25 2015/02/03
+ * @version 0.1.25 2015/02/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBLevelContext implements XBTListener, XBTEventListener {
 
     private int depthLevel = 0;
-    private XBCatalog catalog = null;
-    private XBContext context = null;
-    private XBContext parentContext = null;
+    private XBTypeConvertor typeConvertor = null;
+    private XBTypeConvertor parentContext = null;
     private XBDeclaration declaration = null;
-    private XBPProviderSerialHandler declarationBuilderListener = null;
+    private XBTListener declarationBuilderListener = null;
 
-    public XBLevelContext(XBCatalog catalog, int depthLevel) {
-        this(catalog, null, depthLevel);
+    public XBLevelContext(int depthLevel) {
+        this(null, depthLevel);
     }
 
-    public XBLevelContext(XBCatalog catalog, XBContext initialContext, int depthLevel) {
-        this.catalog = catalog;
+    public XBLevelContext(XBTypeConvertor parentContext, int depthLevel) {
         this.depthLevel = depthLevel;
-        context = initialContext;
+        declaration = new XBDeclaration();
+        typeConvertor = declaration;
     }
 
     public int getDepthLevel() {
@@ -62,19 +61,19 @@ public class XBLevelContext implements XBTListener, XBTEventListener {
         this.depthLevel = depthLevel;
     }
 
-    public XBContext getContext() {
-        return context;
+    public XBTypeConvertor getContext() {
+        return typeConvertor;
     }
 
     public void setContext(XBContext context) {
-        this.context = context;
+        this.typeConvertor = context;
     }
 
     public boolean isDeclarationFinished() {
         return declarationBuilderListener == null;
     }
 
-    public XBContext getParentContext() {
+    public XBTypeConvertor getParentContext() {
         return parentContext;
     }
 
@@ -84,41 +83,41 @@ public class XBLevelContext implements XBTListener, XBTEventListener {
 
     @Override
     public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-        declarationBuilderListener.putBegin(terminationMode);
+        declarationBuilderListener.beginXBT(terminationMode);
     }
 
     @Override
     public void typeXBT(XBBlockType blockType) throws XBProcessingException, IOException {
-        declarationBuilderListener.putType(blockType);
+        declarationBuilderListener.typeXBT(blockType);
     }
 
     @Override
     public void attribXBT(UBNatural attribute) throws XBProcessingException, IOException {
-        declarationBuilderListener.putAttribute(attribute);
+        declarationBuilderListener.attribXBT(attribute);
     }
 
     @Override
     public void dataXBT(InputStream data) throws XBProcessingException, IOException {
-        declarationBuilderListener.putData(data);
+        declarationBuilderListener.dataXBT(data);
     }
 
     @Override
     public void endXBT() throws XBProcessingException, IOException {
-        declarationBuilderListener.putEnd();
+        declarationBuilderListener.endXBT();
         verifyDeclarationFinishing();
     }
 
     @Override
     public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
-        declarationBuilderListener.putToken(token);
+        XBTListenerToToken.tokenToListener(token, declarationBuilderListener);
         if (token.getTokenType() == XBTTokenType.END) {
             verifyDeclarationFinishing();
         }
     }
 
     private void verifyDeclarationFinishing() {
-        if (declarationBuilderListener.isFinished()) {
-            context = declaration.generateContext(context, catalog);
+        if (((XBReceivingFinished) declarationBuilderListener).isFinished()) {
+            typeConvertor = declaration.generateContext(parentContext);
             declarationBuilderListener = null;
         }
     }

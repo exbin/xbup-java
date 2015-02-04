@@ -495,8 +495,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
                 declaration.setContextFormatDecl(getContextFormatDecl());
                 declaration.realignReservation();
                 XBPCatalog catalog = new XBPCatalog();
-                catalog.setRootContext(declaration.generateContext(catalog));
-                XBTTypeFixingFilter encapsulator = new XBTTypeFixingFilter(declaration.generateContext(catalog), catalog);
+                XBTTypeFixingFilter encapsulator = new XBTTypeFixingFilter(declaration.generateContext(), catalog);
                 encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
                 XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(encapsulator));
                 writer.write(declaration);

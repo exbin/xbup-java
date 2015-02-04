@@ -26,6 +26,7 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBTFilter;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBDBlockType;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
@@ -70,7 +71,7 @@ public class XBTTypeFixingFilter implements XBTFilter {
 
     @Override
     public void typeXBT(XBBlockType type) throws XBProcessingException, IOException {
-        XBFixedBlockType fixedType = type instanceof XBFixedBlockType ? (XBFixedBlockType) type : catalog.findFixedType(context, type);
+        XBFixedBlockType fixedType = type instanceof XBFixedBlockType ? (XBFixedBlockType) type : catalog.findFixedType(context, (XBDBlockType) type);
         listener.typeXBT(fixedType == null ? new XBFixedBlockType() : fixedType);
     }
 

@@ -26,20 +26,21 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTFilter;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.declaration.XBContext;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.XBLevelContext;
-import org.xbup.lib.core.catalog.XBCatalog;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * Filter to convert block types from fixed types to stand-alone declared types.
  *
- * @version 0.1.25 2015/02/03
+ * @version 0.1.25 2015/02/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTypeDeclaringFilter implements XBTFilter {
 
-    private XBCatalog catalog = null;
     private XBTListener listener = null;
     private final List<XBLevelContext> contexts = new ArrayList<>();
     private XBLevelContext currentContext = null;
@@ -47,46 +48,47 @@ public class XBTTypeDeclaringFilter implements XBTFilter {
     private int documentDepth = 0;
     private XBBlockTerminationMode beginTerminationMode;
 
-    public XBTTypeDeclaringFilter(XBCatalog catalog) {
-        this.catalog = catalog;
+    public XBTTypeDeclaringFilter() {
     }
 
-    public XBTTypeDeclaringFilter(XBCatalog catalog, XBContext initialContext) {
-        this(catalog);
-        currentContext = new XBLevelContext(catalog, initialContext, 0);
+    public XBTTypeDeclaringFilter(XBContext initialContext) {
+        currentContext = new XBLevelContext(initialContext, 0);
     }
 
     @Override
     public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-        listener.beginXBT(terminationMode);
-
         if (currentContext != null && !currentContext.isDeclarationFinished()) {
             currentContext.beginXBT(terminationMode);
         }
 
+        listener.beginXBT(terminationMode);
         documentDepth++;
         beginTerminationMode = terminationMode;
     }
 
     @Override
-    public void typeXBT(XBBlockType type) throws XBProcessingException, IOException {
-        listener.typeXBT(type);
-
+    public void typeXBT(XBBlockType blockType) throws XBProcessingException, IOException {
         if (currentContext != null && !currentContext.isDeclarationFinished()) {
-            currentContext.typeXBT(type);
+            currentContext.typeXBT(blockType);
         }
 
-        if (type.getAsBasicType() == XBBasicBlockType.DECLARATION) {
-
+        if (blockType.getAsBasicType() == XBBasicBlockType.DECLARATION) {
             documentDepth++;
             contexts.add(currentContext);
-            currentContext = new XBLevelContext(catalog, currentContext.getContext(), documentDepth);
-            // TODO currentContext.
+            currentContext = new XBLevelContext(currentContext == null ? null : currentContext.getContext(), documentDepth);
             currentContext.beginXBT(beginTerminationMode);
-            currentContext.typeXBT(type);
+            currentContext.typeXBT(blockType);
+            listener.typeXBT(blockType);
         } else {
-            listener.beginXBT(beginTerminationMode);
-            listener.typeXBT(type);
+            if (blockType instanceof XBFBlockType) {
+                XBDeclBlockType declType = currentContext.getContext().getDeclBlockType((XBFBlockType) blockType);
+                if (declType == null) {
+                    throw new XBProcessingException("Unable to match block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
+                }
+                listener.typeXBT(declType);
+            } else {
+                listener.typeXBT(blockType);
+            }
         }
     }
 
@@ -114,17 +116,15 @@ public class XBTTypeDeclaringFilter implements XBTFilter {
             currentContext.endXBT();
         }
 
-        documentDepth--;
         listener.endXBT();
+        documentDepth--;
+        if (currentContext != null && currentContext.getDepthLevel() > documentDepth) {
+            currentContext = contexts.size() > 0 ? contexts.remove(contexts.size() - 1) : null;
+        }
     }
 
     @Override
     public void attachXBTListener(XBTListener listener) {
         this.listener = listener;
-    }
-
-    public XBContext getCurrentContext() {
-        throw new UnsupportedOperationException("Not supported yet.");
-        // return contexts.size() > 0 ? contexts.get(contexts.size() - 1).context : null;
     }
 }

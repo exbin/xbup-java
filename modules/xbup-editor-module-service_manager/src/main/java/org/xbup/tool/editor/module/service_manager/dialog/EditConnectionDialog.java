@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
- * Add Connection Dialog.
+ * Adds Connection Dialog.
  *
  * @version 0.1.24 2014/11/28
  * @author XBUP Project (http://xbup.org)

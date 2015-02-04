@@ -17,7 +17,7 @@
 package org.xbup.lib.core.catalog;
 
 import java.util.List;
-import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.XBDBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
@@ -123,7 +123,7 @@ public interface XBCatalog {
     public List<XBCManager<? extends XBCBase>> getCatalogManagers();
 
     /**
-     * Add catalog manager to catalog repository.
+     * Adds catalog manager to catalog repository.
      *
      * Should be used only for internal purposes.
      *
@@ -133,7 +133,7 @@ public interface XBCatalog {
     public void addCatalogManager(Class type, XBCManager<? extends XBCBase> ext);
 
     /**
-     * Add catalog service to catalog repository.
+     * Adds catalog service to catalog repository.
      *
      * @param type type of extension
      * @param ext instance of extension, must implement XBCExtension
@@ -141,22 +141,13 @@ public interface XBCatalog {
     public void addCatalogService(Class type, XBCService<? extends XBCBase> ext);
 
     /**
-     * Provide fixed block type for given block declaration.
-     *
-     * @param context
-     * @param decl block declaration
-     * @return static block type
-     */
-    public XBFixedBlockType findFixedType(XBContext context, XBBlockDecl decl);
-
-    /**
-     * Provide fixed block type for given block declaration.
+     * Provides fixed block type for given block declaration.
      *
      * @param context
      * @param type block type
      * @return static block type
      */
-    public XBFixedBlockType findFixedType(XBContext context, XBBlockType type);
+    public XBFixedBlockType findFixedType(XBContext context, XBDBlockType type);
 
     /**
      * Process declaration block and it's children and construct new context.

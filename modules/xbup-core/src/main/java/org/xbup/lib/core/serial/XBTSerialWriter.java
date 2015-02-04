@@ -25,7 +25,7 @@ import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBToXBTEventWrapper;
 import org.xbup.lib.core.serial.basic.XBTBasicSerializable;
-import org.xbup.lib.core.serial.basic.XBTConsumerSerialHandler;
+import org.xbup.lib.core.serial.basic.XBTListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildListenerSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.core.serial.token.XBTEventListenerSerialHandler;
@@ -34,7 +34,7 @@ import org.xbup.lib.core.serial.token.XBTTokenSerializable;
 /**
  * XBUP level 1 serialization object to stream writer.
  *
- * @version 0.1.24 2015/01/26
+ * @version 0.1.25 2015/02/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTSerialWriter implements XBTWriteSerialHandler {
@@ -48,8 +48,8 @@ public class XBTSerialWriter implements XBTWriteSerialHandler {
     @Override
     public void write(XBSerializable serial) {
         if (serial instanceof XBTBasicSerializable) {
-            XBTConsumerSerialHandler listenerHandler = new XBTConsumerSerialHandler();
-            listenerHandler.attachXBTConsumer(new XBTListenerToConsumer(new XBTEventListenerToListener(eventListener)));
+            XBTListenerSerialHandler listenerHandler = new XBTListenerSerialHandler();
+            listenerHandler.attachXBTListener(new XBTEventListenerToListener(eventListener));
             try {
                 ((XBTBasicSerializable) serial).serializeToXB(listenerHandler);
             } catch (XBProcessingException | IOException ex) {

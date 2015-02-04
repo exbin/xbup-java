@@ -27,7 +27,7 @@ import javax.swing.JPanel;
 public interface StatusManagement {
 
     /**
-     * Add window specific status bar.
+     * Adds window specific status bar.
      *
      * @param panel
      */

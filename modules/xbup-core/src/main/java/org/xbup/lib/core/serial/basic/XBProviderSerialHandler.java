@@ -16,31 +16,28 @@
  */
 package org.xbup.lib.core.serial.basic;
 
-import java.io.IOException;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
+import org.xbup.lib.core.parser.basic.XBConsumer;
 import org.xbup.lib.core.parser.basic.XBProvider;
 
 /**
  * XBUP level 0 serialization handler using basic parser mapping to provider.
  *
- * @version 0.1.24 2014/08/24
+ * @version 0.1.25 2015/02/04
  * @author XBUP Project (http://xbup.org)
  */
-public class XBProviderSerialHandler implements XBProvider, XBBasicOutputSerialHandler {
+public class XBProviderSerialHandler implements XBBasicInputSerialHandler {
 
-    private XBProvider provider;
+    private XBProvider provider = null;
 
     public XBProviderSerialHandler() {
     }
 
-    @Override
     public void attachXBProvider(XBProvider provider) {
         this.provider = provider;
     }
 
     @Override
-    public void produceXB(XBListener listener) throws XBProcessingException, IOException {
-        provider.produceXB(listener);
+    public void process(XBConsumer consumer) {
+        consumer.attachXBProvider(provider);
     }
 }

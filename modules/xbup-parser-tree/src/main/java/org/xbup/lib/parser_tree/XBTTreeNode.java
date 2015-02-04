@@ -41,6 +41,8 @@ import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBDBlockType;
+import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.parser.token.pull.convert.XBTProviderToPullProvider;
@@ -617,12 +619,12 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     public void setBlockType(XBBlockType blockType) {
-        if (blockType instanceof XBFixedBlockType) {
-            blockDecl = context != null ? context.getBlockDecl((XBFixedBlockType) blockType) : null;
+        if (blockType instanceof XBFBlockType) {
+            blockDecl = context != null ? context.getDeclBlockType((XBFBlockType) blockType).getBlockDecl() : null;
             setFixedBlockType(((XBFixedBlockType) blockType));
-        } else if (blockType instanceof XBDeclBlockType) {
-            blockDecl = ((XBDeclBlockType) blockType).getBlockDecl();
-            XBFixedBlockType fixedBlockType = context != null ? context.getFixedBlockType(blockDecl) : null;
+        } else if (blockType instanceof XBDBlockType) {
+            blockDecl = ((XBDBlockType) blockType).getBlockDecl();
+            XBFixedBlockType fixedBlockType = context != null ? context.getFixedBlockType((XBDBlockType) blockType) : null;
             setFixedBlockType(fixedBlockType != null ? fixedBlockType : new XBFixedBlockType());
         } else {
             throw new UnsupportedOperationException("Not supported yet.");
@@ -796,7 +798,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         context = parentContext;
         if (dataMode == XBBlockDataMode.NODE_BLOCK) {
             if (context != null) {
-                blockDecl = context.getBlockDecl(getFixedBlockType());
+                blockDecl = context.getDeclBlockType(getFixedBlockType()).getBlockDecl();
             } else {
                 blockDecl = null;
             }

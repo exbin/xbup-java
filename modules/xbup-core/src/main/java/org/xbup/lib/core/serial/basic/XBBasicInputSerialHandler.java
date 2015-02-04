@@ -22,15 +22,15 @@ import org.xbup.lib.core.serial.XBInputSerialHandler;
 /**
  * Interface for XBUP level 0 serialization input handler using basic parser.
  *
- * @version 0.1.24 2014/09/05
+ * @version 0.1.25 2015/02/04
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBBasicInputSerialHandler extends XBInputSerialHandler {
 
     /**
-     * Attaches listener which will be used as target for serialization.
+     * Processes given source for serialization.
      *
      * @param consumer
      */
-    public void attachXBConsumer(XBConsumer consumer);
+    public void process(XBConsumer consumer);
 }

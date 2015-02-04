@@ -18,18 +18,19 @@ package org.xbup.lib.core.block.declaration;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.xbup.lib.core.block.XBDBlockType;
 import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 
 /**
  * Representation of current declaration context for block types.
  *
- * @version 0.1.24 2014/11/21
+ * @version 0.1.25 2015/02/04
  * @author XBUP Project (http://xbup.org)
  */
-public class XBContext {
+public class XBContext implements XBTypeConvertor {
 
-    private XBContext parent = null;
+    private XBTypeConvertor parent = null;
     private int startFrom = 1;
     private List<XBGroup> groups = new ArrayList<>();
 
@@ -48,23 +49,25 @@ public class XBContext {
         return null;
     }
 
-    public XBBlockDecl getBlockDecl(XBFBlockType blockType) {
+    @Override
+    public XBDeclBlockType getDeclBlockType(XBFBlockType blockType) {
         XBGroup group = getGroupForId(blockType.getGroupID().getInt());
-        return group != null ? group.getBlockForId(blockType.getBlockID().getInt()) : null;
+        return group != null ? new XBDeclBlockType(group.getBlockForId(blockType.getBlockID().getInt())) : null;
     }
 
     /**
      * Traverses thru all groups and check if block declaration matches to any
      * block type declared in current context.
      *
-     * @param blockDecl block declaration
+     * @param declType block declaration
      * @return fixed block type or null if no match
      */
-    public XBFixedBlockType getFixedBlockType(XBBlockDecl blockDecl) {
-        return getFixedBlockType(blockDecl, startFrom + groups.size() - 1);
+    @Override
+    public XBFixedBlockType getFixedBlockType(XBDBlockType declType) {
+        return getFixedBlockType(declType.getBlockDecl(), startFrom + groups.size() - 1);
     }
 
-    private XBFixedBlockType getFixedBlockType(XBBlockDecl blockDecl, int groupIdLimit) {
+    public XBFixedBlockType getFixedBlockType(XBBlockDecl blockDecl, int groupIdLimit) {
         for (int groupIndex = 0; groupIndex <= groupIdLimit - startFrom; groupIndex++) {
             XBGroup group = groups.get(groupIndex);
             List<XBBlockDecl> blocks = group.getBlocks();
@@ -79,11 +82,11 @@ public class XBContext {
         return startFrom > 0 && parent != null ? parent.getFixedBlockType(blockDecl, startFrom - 1) : null;
     }
 
-    public XBContext getParent() {
+    public XBTypeConvertor getParent() {
         return parent;
     }
 
-    public void setParent(XBContext parent) {
+    public void setParent(XBTypeConvertor parent) {
         this.parent = parent;
     }
 

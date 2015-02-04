@@ -16,65 +16,126 @@
  */
 package org.xbup.lib.core.parser.token.pull.convert;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.parser.basic.XBTProvider;
-import org.xbup.lib.core.parser.basic.XBTProviderFilter;
+import org.xbup.lib.core.block.XBFBlockType;
+import org.xbup.lib.core.block.declaration.XBContext;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
+import org.xbup.lib.core.block.declaration.XBLevelContext;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.parser.token.XBTBeginToken;
+import org.xbup.lib.core.parser.token.XBTDataToken;
+import org.xbup.lib.core.parser.token.XBTToken;
+import org.xbup.lib.core.parser.token.XBTTokenType;
+import org.xbup.lib.core.parser.token.XBTTypeToken;
+import org.xbup.lib.core.parser.token.convert.XBTListenerToToken;
+import org.xbup.lib.core.parser.token.pull.XBTPullFilter;
+import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
+import org.xbup.lib.core.util.CopyStreamUtils;
 
 /**
  * Filter to convert block types from fixed types to stand-alone types.
  *
- * @version 0.1.24 2014/09/03
+ * @version 0.1.25 2015/02/04
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTPullTypeDeclaringFilter implements XBTProviderFilter {
+public class XBTPullTypeDeclaringFilter implements XBTPullFilter {
 
-    private XBTProvider provider;
-    private XBTListener listener;
-    private XBTListener declListener;
+    private XBTPullProvider pullProvider;
+    private final List<XBLevelContext> contexts = new ArrayList<>();
+    private XBLevelContext currentContext = null;
 
-    private long depth;
-    private int mode;
-    private boolean finishFlag;
-    private boolean beginTerm;
-    private XBBlockType type = null;
+    private int documentDepth = 0;
+    private XBBlockTerminationMode beginTerminationMode;
 
-    public XBTPullTypeDeclaringFilter(XBTListener declListener) {
-        this.declListener = declListener;
-        mode = 0;
-        depth = 0;
+    public XBTPullTypeDeclaringFilter() {
     }
 
-    public void attachXBTListener(XBTListener listener) {
-        this.listener = listener;
+    public XBTPullTypeDeclaringFilter(XBTPullProvider pullProvider) {
+        this.pullProvider = pullProvider;
     }
 
+    public XBTPullTypeDeclaringFilter(XBContext initialContext) {
+        currentContext = new XBLevelContext(initialContext, 0);
+    }
+
+    public XBTPullTypeDeclaringFilter(XBTPullProvider pullProvider, XBContext initialContext) {
+        this(initialContext);
+        this.pullProvider = pullProvider;
+    }
+    
     @Override
-    public void produceXBT(XBTListener listener) {
-        throw new UnsupportedOperationException("Not supported yet.");
-        /* if (depth > 0) {
-            declProvider.produceXBT();
-        } else {
-            if (type != null) {
-                try {
-                    listener.typeXBT(type);
-                    type = null;
-                } catch (XBProcessingException ex) {
-                    Logger.getLogger(XBTPullTypeDeclaringFilter.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(XBTPullTypeDeclaringFilter.class.getName()).log(Level.SEVERE, null, ex);
-                }
+    public XBTToken pullXBTToken() throws XBProcessingException, IOException {
+        XBTToken token = pullProvider.pullXBTToken();
+        if (currentContext != null && !currentContext.isDeclarationFinished()) {
+            if (token.getTokenType() == XBTTokenType.DATA) {
+                InputStream inputStream = ((XBTDataToken) token).getData();
+                ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
+                CopyStreamUtils.copyInputStreamToOutputStream(inputStream, dataStream);
+                currentContext.dataXBT(new ByteArrayInputStream(dataStream.toByteArray()));
+                token = new XBTDataToken(new ByteArrayInputStream(dataStream.toByteArray()));
             } else {
-                trigger.produceXBT();
-                while (!finishFlag) {
-                    trigger.produceXBT();
-                }
+                XBTListenerToToken.tokenToListener(token, currentContext);
             }
-        } */
+        }
+
+        switch (token.getTokenType()) {
+            case BEGIN: {
+                documentDepth++;
+                beginTerminationMode = ((XBTBeginToken) token).getTerminationMode();
+
+                return token;
+            }
+            case TYPE: {
+                XBBlockType blockType = ((XBTTypeToken) token).getBlockType();
+                if (blockType.getAsBasicType() == XBBasicBlockType.DECLARATION) {
+                    documentDepth++;
+                    contexts.add(currentContext);
+                    currentContext = new XBLevelContext(currentContext == null ? null : currentContext.getContext(), documentDepth);
+                    currentContext.beginXBT(beginTerminationMode);
+                    currentContext.typeXBT(blockType);
+                } else {
+                    if (blockType instanceof XBFBlockType) {
+                        XBDeclBlockType declType = currentContext.getContext().getDeclBlockType((XBFBlockType) blockType);
+                        if (declType == null) {
+                            throw new XBProcessingException("Unable to match block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
+                        }
+
+                        return new XBTTypeToken(declType);
+                    }
+                }
+
+                return token;
+            }
+            case ATTRIBUTE: {
+                return token;
+            }
+            case DATA: {
+                return token;
+            }
+            case END: {
+                documentDepth--;
+                if (currentContext != null && currentContext.getDepthLevel() > documentDepth) {
+                    currentContext = contexts.size() > 0 ? contexts.remove(contexts.size() - 1) : null;
+                }
+
+                return token;
+            }
+        }
+
+        throw new IllegalStateException("Unexpected token type " + token.getTokenType().toString());
     }
 
     @Override
-    public void attachXBTProvider(XBTProvider provider) {
-        this.provider = provider;
+    public void attachXBTPullProvider(XBTPullProvider pullProvider) {
+        this.pullProvider = pullProvider;
     }
 }

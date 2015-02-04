@@ -25,7 +25,7 @@ package org.xbup.lib.core.block.definition;
 public enum XBParamType {
 
     /**
-     * Add given block as subblock or data block if unspecified.
+     * Adds given block as subblock or data block if unspecified.
      */
     CONSIST,
     /**

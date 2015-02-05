@@ -25,7 +25,6 @@ import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
-import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
 import org.xbup.lib.core.block.definition.XBFormatDef;
@@ -48,13 +47,13 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 1 local format declaration.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.1.25 2015/02/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable, XBTBasicReceivingSerializable {
 
     private long[] catalogPath = null;
-    private int revision;
+    private int revision = 0;
     private XBFormatDef formatDef = null;
 
     public XBLFormatDecl() {
@@ -142,6 +141,12 @@ public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable, XBT
         return super.equals(obj);
     }
 
+    public void clear() {
+        catalogPath = null;
+        revision = 0;
+        formatDef = null;
+    }
+
     @Override
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
@@ -184,6 +189,7 @@ public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable, XBT
 
     @Override
     public void serializeRecvFromXB(XBTBasicInputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        clear();
         serializationHandler.process(new RecvSerialization());
     }
 
@@ -195,6 +201,18 @@ public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable, XBT
 
         @Override
         public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+            if (processingState == RecvProcessingState.TYPE || processingState == RecvProcessingState.CATALOG_PATH || processingState == RecvProcessingState.CATALOG_PATH_SIZE || processingState == RecvProcessingState.REVISION) {
+                finishCatalogPath();
+                formatDef = new XBLFormatDef();
+                ((XBLFormatDef) formatDef).serializeRecvFromXB(new XBTBasicInputReceivingSerialHandler() {
+
+                    @Override
+                    public void process(XBTListener listener) {
+                        activeListener = listener;
+                    }
+                });
+            }
+
             if (activeListener != null) {
                 activeListener.beginXBT(terminationMode);
                 return;
@@ -235,10 +253,15 @@ public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable, XBT
             } else if (processingState == RecvProcessingState.CATALOG_PATH_SIZE) {
                 catalogPath[catalogPathPos] = value.getLong();
                 catalogPathPos++;
-                
+
                 if (catalogPathPos == catalogPath.length) {
                     processingState = RecvProcessingState.CATALOG_PATH;
                 }
+            } else if (processingState == RecvProcessingState.CATALOG_PATH) {
+                revision = value.getInt();
+                processingState = RecvProcessingState.REVISION;
+            } else if (processingState == RecvProcessingState.REVISION) {
+                // ignore
             } else {
                 throw new XBProcessingException("Unexpected token: attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
@@ -259,16 +282,27 @@ public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable, XBT
             if (activeListener != null) {
                 activeListener.endXBT();
                 if (((XBReceivingFinished) activeListener).isFinished()) {
-                    throw new UnsupportedOperationException("Not supported yet.");
-                    // TODO
-                    // processingState = RecvProcessingState.ROOT_NODE;
-                    // activeListener = null;
+                    processingState = RecvProcessingState.FORMAT_DEFINITION;
+                    activeListener = null;
                 }
 
                 return;
             }
 
+            if (processingState == RecvProcessingState.START || processingState == RecvProcessingState.BEGIN || processingState == RecvProcessingState.END) {
+                throw new XBProcessingException("Unexpected token: end", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            }
+
+            finishCatalogPath();
             processingState = RecvProcessingState.END;
+        }
+
+        private void finishCatalogPath() {
+            if (processingState == RecvProcessingState.CATALOG_PATH_SIZE) {
+                for (int i = catalogPathPos; i < catalogPath.length; i++) {
+                    catalogPath[i] = 0;
+                }
+            }
         }
 
         @Override

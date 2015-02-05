@@ -22,16 +22,21 @@ import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
 import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.basic.XBTListener;
+import org.xbup.lib.core.parser.basic.convert.XBTTypeReplacingFilter;
+import org.xbup.lib.core.serial.basic.XBTBasicInputReceivingSerialHandler;
+import org.xbup.lib.core.serial.basic.XBTBasicOutputReceivingSerialHandler;
+import org.xbup.lib.core.serial.basic.XBTBasicReceivingSerializable;
 import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 
 /**
  * XBUP level 1 group join parameter.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.1.25 2015/02/05
  * @author XBUP Project (http://xbup.org)
  */
-public class XBGroupParamJoin implements XBGroupParam, XBPSequenceSerializable {
+public class XBGroupParamJoin implements XBGroupParam, XBPSequenceSerializable, XBTBasicReceivingSerializable {
 
     private XBGroupDecl groupDecl;
 
@@ -62,5 +67,21 @@ public class XBGroupParamJoin implements XBGroupParam, XBPSequenceSerializable {
         serial.matchType(new XBFixedBlockType(XBBasicBlockType.GROUP_JOIN_PARAMETER));
         serial.join(groupDecl);
         serial.end();
+    }
+
+    @Override
+    public void serializeRecvFromXB(final XBTBasicInputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        ((XBTBasicReceivingSerializable) groupDecl).serializeRecvFromXB(new XBTBasicInputReceivingSerialHandler() {
+
+            @Override
+            public void process(XBTListener listener) {
+                serializationHandler.process(new XBTTypeReplacingFilter(new XBFixedBlockType(XBBasicBlockType.GROUP_DECLARATION), listener));
+            }
+        });
+    }
+
+    @Override
+    public void serializeRecvToXB(XBTBasicOutputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

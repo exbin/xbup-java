@@ -104,6 +104,11 @@ public class XBTPullTypeDeclaringFilter implements XBTPullFilter {
                     currentContext.typeXBT(blockType);
                 } else {
                     if (blockType instanceof XBFBlockType) {
+                        if (((XBFBlockType) blockType).getGroupID().isZero()) {
+                            // TODO Or convert using catalog?
+                            return token;
+                        }
+
                         XBDeclBlockType declType = currentContext.getContext().getDeclBlockType((XBFBlockType) blockType);
                         if (declType == null) {
                             throw new XBProcessingException("Unable to match block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);

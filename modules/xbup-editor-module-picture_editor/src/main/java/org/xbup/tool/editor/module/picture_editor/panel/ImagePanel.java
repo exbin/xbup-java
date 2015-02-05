@@ -61,6 +61,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeFixingFilter;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
+import org.xbup.lib.core.parser.token.event.convert.XBTPrintPullFilter;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullTypeDeclaringFilter;
@@ -382,7 +383,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                     image = createImage(1, 1);
                 }
 
-                XBPSerialReader reader = new XBPSerialReader(new XBTPullTypeDeclaringFilter(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName())))));
+                XBPSerialReader reader = new XBPSerialReader(new XBTPullTypeDeclaringFilter(new XBTPrintPullFilter(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName()))))));
                 XBLFormatDecl formatDecl = new XBLFormatDecl(XBBufferedImage.XB_FORMAT_PATH);
                 XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(image));
                 XBDeclaration declaration = new XBDeclaration(formatDecl, bufferedImage);

@@ -22,23 +22,28 @@ import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.basic.XBTListener;
+import org.xbup.lib.core.parser.basic.convert.XBTTypeReplacingFilter;
+import org.xbup.lib.core.serial.basic.XBTBasicInputReceivingSerialHandler;
+import org.xbup.lib.core.serial.basic.XBTBasicOutputReceivingSerialHandler;
+import org.xbup.lib.core.serial.basic.XBTBasicReceivingSerializable;
 import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 
 /**
  * XBUP level 1 format join parameter.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.1.25 2015/02/05
  * @author XBUP Project (http://xbup.org)
  */
-public class XBFormatParamJoin implements XBFormatParam, XBPSequenceSerializable {
+public class XBFormatParamJoin implements XBFormatParam, XBPSequenceSerializable, XBTBasicReceivingSerializable {
 
     private XBFormatDecl formatDecl;
 
     public XBFormatParamJoin() {
         formatDecl = new XBLFormatDecl();
     }
-    
+
     public XBFormatParamJoin(XBFormatDecl formatDecl) {
         this.formatDecl = formatDecl;
     }
@@ -62,5 +67,21 @@ public class XBFormatParamJoin implements XBFormatParam, XBPSequenceSerializable
         serial.matchType(new XBFixedBlockType(XBBasicBlockType.FORMAT_JOIN_PARAMETER));
         serial.join(formatDecl);
         serial.end();
+    }
+
+    @Override
+    public void serializeRecvFromXB(final XBTBasicInputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        ((XBTBasicReceivingSerializable) formatDecl).serializeRecvFromXB(new XBTBasicInputReceivingSerialHandler() {
+
+            @Override
+            public void process(XBTListener listener) {
+                serializationHandler.process(new XBTTypeReplacingFilter(new XBFixedBlockType(XBBasicBlockType.FORMAT_DECLARATION), listener));
+            }
+        });
+    }
+
+    @Override
+    public void serializeRecvToXB(XBTBasicOutputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

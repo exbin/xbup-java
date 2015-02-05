@@ -28,6 +28,7 @@ import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
 import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
+import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBTListener;
@@ -45,7 +46,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Representation of declaration block.
  *
- * @version 0.1.25 2015/02/04
+ * @version 0.1.25 2015/02/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceivingSerializable, XBTypeConvertor {
@@ -88,25 +89,41 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
     }
 
     public XBContext generateContext() {
-        return generateContext(null);
+        return generateContext((XBTypeConvertor) null);
+    }
+
+    public XBContext generateContext(XBCatalog catalog) {
+        return generateContext(null, catalog);
     }
 
     public XBContext generateContext(XBTypeConvertor parentContext) {
+        return generateContext(parentContext, null);
+    }
+
+    public XBContext generateContext(XBTypeConvertor parentContext, XBCatalog catalog) {
         XBContext context = new XBContext();
         context.setParent(parentContext);
         context.setStartFrom(preserveCount.getInt() + 1);
-        List<XBGroup> groups = context.getGroups();
 
+        List<XBGroup> groups = context.getGroups();
         XBFormatDecl decl = contextFormatDecl != null ? contextFormatDecl : formatDecl;
+        // TODO Process XBLFormatDecl using catalog if possible
+        if (decl instanceof XBLFormatDecl) {
+            // ((XBLFormatDecl) decl).get
+        }
         List<XBGroupDecl> formatGroups = decl.getGroupDecls();
         for (XBGroupDecl formatGroup : formatGroups) {
-            groups.add(convertCatalogGroup(formatGroup));
+            groups.add(convertCatalogGroup(formatGroup, catalog));
         }
 
         return context;
     }
 
     public static XBGroup convertCatalogGroup(XBGroupDecl groupDecl) {
+        return convertCatalogGroup(groupDecl, null);
+    }
+
+    public static XBGroup convertCatalogGroup(XBGroupDecl groupDecl, XBCatalog catalog) {
         if (groupDecl == null) {
             return null;
         }
@@ -217,6 +234,23 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
 
         @Override
         public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+            if (processingState == RecvProcessingState.GROUPS_RESERVED || processingState == RecvProcessingState.PRESERVE_COUNT) {
+                if (formatDecl == null) {
+                    // TODO Create XBL always?
+                    formatDecl = new XBLFormatDecl();
+                }
+                ((XBTBasicReceivingSerializable) formatDecl).serializeRecvFromXB(new XBTBasicInputReceivingSerialHandler() {
+
+                    @Override
+                    public void process(XBTListener listener) {
+                        activeListener = listener;
+                    }
+                });
+                processingState = RecvProcessingState.PRESERVE_COUNT;
+            } else if (processingState == RecvProcessingState.FORMAT_DECLARATION) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
             if (activeListener != null) {
                 activeListener.beginXBT(terminationMode);
                 return;
@@ -255,13 +289,7 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
                 processingState = RecvProcessingState.GROUPS_RESERVED;
             } else if (processingState == RecvProcessingState.GROUPS_RESERVED) {
                 preserveCount.setValue(value.getLong());
-                if (formatDecl == null) {
-                    // TODO Create XBL always?
-                    formatDecl = new XBLFormatDecl();
-                }
-                // activeListener = formatDecl.seri
                 processingState = RecvProcessingState.PRESERVE_COUNT;
-                throw new UnsupportedOperationException("Not supported yet.");
             } else {
                 throw new XBProcessingException("Unexpected token: attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
@@ -283,10 +311,8 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
                 activeListener.endXBT();
                 if (((XBReceivingFinished) activeListener).isFinished()) {
                     if (processingState == RecvProcessingState.PRESERVE_COUNT) {
-                        throw new UnsupportedOperationException("Not supported yet.");
-                        // TODO
-                        // activeListener = 
-                        // processingState = DeclarationProcessingState.FORMAT_DECLARATION;
+                        activeListener = null;
+                        processingState = RecvProcessingState.FORMAT_DECLARATION;
                     } else {
                         processingState = RecvProcessingState.ROOT_NODE;
                         activeListener = null;
@@ -301,7 +327,7 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
 
         @Override
         public boolean isFinished() {
-            return processingState == RecvProcessingState.END;
+            return processingState == RecvProcessingState.END || (processingState == RecvProcessingState.FORMAT_DECLARATION && headerMode);
         }
     }
 

@@ -17,14 +17,23 @@
 package org.xbup.lib.core.block.definition.local;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
 import org.xbup.lib.core.block.definition.XBRevisionParam;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.serial.basic.XBReceivingFinished;
+import org.xbup.lib.core.serial.basic.XBTBasicInputReceivingSerialHandler;
+import org.xbup.lib.core.serial.basic.XBTBasicOutputReceivingSerialHandler;
+import org.xbup.lib.core.serial.basic.XBTBasicReceivingSerializable;
 import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.serial.sequence.XBListJoinSerializable;
@@ -34,10 +43,10 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 local group definition.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.1.25 2015/02/05
  * @author XBUP Project (http://xbup.org)
  */
-public class XBLRevisionDef implements XBRevisionDef, XBPSequenceSerializable {
+public class XBLRevisionDef implements XBRevisionDef, XBPSequenceSerializable, XBTBasicReceivingSerializable {
 
     private final List<XBRevisionParam> revParams;
 
@@ -62,6 +71,10 @@ public class XBLRevisionDef implements XBRevisionDef, XBPSequenceSerializable {
         }
 
         return limit;
+    }
+
+    public void clear() {
+        revParams.clear();
     }
 
     @Override
@@ -99,5 +112,94 @@ public class XBLRevisionDef implements XBRevisionDef, XBPSequenceSerializable {
             }
         });
         serial.end();
+    }
+
+    private enum RecvProcessingState {
+
+        START, BEGIN, TYPE, REV_PARAMS_SIZE, REV_PARAMS, END
+    }
+
+    @Override
+    public void serializeRecvFromXB(XBTBasicInputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        clear();
+        serializationHandler.process(new RecvSerialization());
+    }
+
+    private class RecvSerialization implements XBTListener, XBReceivingFinished {
+
+        private RecvProcessingState processingState = RecvProcessingState.START;
+        private int revParamsPos = 0;
+
+        @Override
+        public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+            if (processingState != RecvProcessingState.START) {
+                throw new XBProcessingException("Unexpected token: begin", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            }
+
+            processingState = RecvProcessingState.BEGIN;
+        }
+
+        @Override
+        public void typeXBT(XBBlockType type) throws XBProcessingException, IOException {
+            if (processingState != RecvProcessingState.BEGIN) {
+                throw new XBProcessingException("Unexpected token: type", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            }
+
+            processingState = RecvProcessingState.TYPE;
+        }
+
+        @Override
+        public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
+            if (processingState == RecvProcessingState.TYPE) {
+                int listSize = value.getInt();
+                for (int i = 0; i < listSize; i++) {
+                    revParams.add(null);
+                }
+                revParamsPos = 0;
+                processingState = RecvProcessingState.REV_PARAMS_SIZE;
+            } else if (processingState == RecvProcessingState.REV_PARAMS_SIZE) {
+                revParams.set(revParamsPos, new XBRevisionParam());
+                revParamsPos++;
+
+                if (revParamsPos == revParams.size()) {
+                    processingState = RecvProcessingState.REV_PARAMS;
+                }
+            } else {
+                throw new XBProcessingException("Unexpected token: attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            }
+        }
+
+        @Override
+        public void dataXBT(InputStream data) throws XBProcessingException, IOException {
+            throw new XBProcessingException("Unexpected token: data", XBProcessingExceptionType.UNEXPECTED_ORDER);
+        }
+
+        @Override
+        public void endXBT() throws XBProcessingException, IOException {
+            if (processingState == RecvProcessingState.START || processingState == RecvProcessingState.BEGIN || processingState == RecvProcessingState.END) {
+                throw new XBProcessingException("Unexpected token: end", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            }
+
+            finishRevParams();
+            processingState = RecvProcessingState.END;
+        }
+
+        private void finishRevParams() {
+            if (processingState == RecvProcessingState.REV_PARAMS_SIZE) {
+                for (int i = revParamsPos; i < revParams.size(); i++) {
+                    revParams.set(i, new XBRevisionParam());
+                }
+            }
+        }
+
+        @Override
+        public boolean isFinished() {
+            return processingState == RecvProcessingState.END;
+        }
+    }
+
+    @Override
+    public void serializeRecvToXB(XBTBasicOutputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

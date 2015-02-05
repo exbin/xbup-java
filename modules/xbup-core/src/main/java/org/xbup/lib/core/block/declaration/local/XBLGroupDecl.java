@@ -17,10 +17,13 @@
 package org.xbup.lib.core.block.declaration.local;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
@@ -30,17 +33,24 @@ import org.xbup.lib.core.block.definition.XBGroupParamConsist;
 import org.xbup.lib.core.block.definition.XBGroupParamJoin;
 import org.xbup.lib.core.block.definition.local.XBLGroupDef;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.parser.basic.XBTListener;
+import org.xbup.lib.core.serial.basic.XBReceivingFinished;
+import org.xbup.lib.core.serial.basic.XBTBasicInputReceivingSerialHandler;
+import org.xbup.lib.core.serial.basic.XBTBasicOutputReceivingSerialHandler;
+import org.xbup.lib.core.serial.basic.XBTBasicReceivingSerializable;
 import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.serial.param.XBSerializationMode;
+import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 1 local group declaration.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.1.25 2015/02/05
  * @author XBUP Project (http://xbup.org)
  */
-public class XBLGroupDecl implements XBGroupDecl, XBPSequenceSerializable {
+public class XBLGroupDecl implements XBGroupDecl, XBPSequenceSerializable, XBTBasicReceivingSerializable {
 
     private long[] catalogPath = null;
     private int revision;
@@ -127,6 +137,12 @@ public class XBLGroupDecl implements XBGroupDecl, XBPSequenceSerializable {
         return super.equals(obj);
     }
 
+    public void clear() {
+        catalogPath = null;
+        revision = 0;
+        groupDef = null;
+    }
+
     @Override
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
@@ -158,6 +174,138 @@ public class XBLGroupDecl implements XBGroupDecl, XBPSequenceSerializable {
             }
         }
         serial.end();
+    }
+
+    private enum RecvProcessingState {
+
+        START, BEGIN, TYPE, CATALOG_PATH_SIZE, CATALOG_PATH, REVISION, GROUP_DEFINITION, END
+    }
+
+    @Override
+    public void serializeRecvFromXB(XBTBasicInputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        clear();
+        serializationHandler.process(new RecvSerialization());
+    }
+
+    private class RecvSerialization implements XBTListener, XBReceivingFinished {
+
+        private RecvProcessingState processingState = RecvProcessingState.START;
+        private XBTListener activeListener = null;
+        private int catalogPathPos = 0;
+
+        @Override
+        public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+            if (processingState == RecvProcessingState.TYPE || processingState == RecvProcessingState.CATALOG_PATH || processingState == RecvProcessingState.CATALOG_PATH_SIZE || processingState == RecvProcessingState.REVISION) {
+                finishCatalogPath();
+                groupDef = new XBLGroupDef();
+                ((XBLGroupDef) groupDef).serializeRecvFromXB(new XBTBasicInputReceivingSerialHandler() {
+
+                    @Override
+                    public void process(XBTListener listener) {
+                        activeListener = listener;
+                    }
+                });
+            }
+
+            if (activeListener != null) {
+                activeListener.beginXBT(terminationMode);
+                return;
+            }
+
+            if (processingState != RecvProcessingState.START) {
+                throw new XBProcessingException("Unexpected token: begin", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            }
+
+            processingState = RecvProcessingState.BEGIN;
+        }
+
+        @Override
+        public void typeXBT(XBBlockType type) throws XBProcessingException, IOException {
+            if (activeListener != null) {
+                activeListener.typeXBT(type);
+                return;
+            }
+
+            if (processingState != RecvProcessingState.BEGIN) {
+                throw new XBProcessingException("Unexpected token: type", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            }
+
+            processingState = RecvProcessingState.TYPE;
+        }
+
+        @Override
+        public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
+            if (activeListener != null) {
+                activeListener.attribXBT(value);
+                return;
+            }
+
+            if (processingState == RecvProcessingState.TYPE) {
+                catalogPath = new long[value.getInt()];
+                catalogPathPos = 0;
+                processingState = RecvProcessingState.CATALOG_PATH_SIZE;
+            } else if (processingState == RecvProcessingState.CATALOG_PATH_SIZE) {
+                catalogPath[catalogPathPos] = value.getLong();
+                catalogPathPos++;
+
+                if (catalogPathPos == catalogPath.length) {
+                    processingState = RecvProcessingState.CATALOG_PATH;
+                }
+            } else if (processingState == RecvProcessingState.CATALOG_PATH) {
+                revision = value.getInt();
+                processingState = RecvProcessingState.REVISION;
+            } else {
+                throw new XBProcessingException("Unexpected token: attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            }
+        }
+
+        @Override
+        public void dataXBT(InputStream data) throws XBProcessingException, IOException {
+            if (activeListener != null) {
+                activeListener.dataXBT(data);
+                return;
+            }
+
+            throw new XBProcessingException("Unexpected token: data", XBProcessingExceptionType.UNEXPECTED_ORDER);
+        }
+
+        @Override
+        public void endXBT() throws XBProcessingException, IOException {
+            if (activeListener != null) {
+                activeListener.endXBT();
+                if (((XBReceivingFinished) activeListener).isFinished()) {
+                    processingState = RecvProcessingState.GROUP_DEFINITION;
+                    activeListener = null;
+                }
+
+                return;
+            }
+
+            if (processingState == RecvProcessingState.START || processingState == RecvProcessingState.BEGIN || processingState == RecvProcessingState.END) {
+                throw new XBProcessingException("Unexpected token: end", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            }
+
+            finishCatalogPath();
+            processingState = RecvProcessingState.END;
+        }
+
+        private void finishCatalogPath() {
+            if (processingState == RecvProcessingState.CATALOG_PATH_SIZE) {
+                for (int i = catalogPathPos; i < catalogPath.length; i++) {
+                    catalogPath[i] = 0;
+                }
+            }
+        }
+
+        @Override
+        public boolean isFinished() {
+            return processingState == RecvProcessingState.END;
+        }
+    }
+
+    @Override
+    public void serializeRecvToXB(XBTBasicOutputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public long[] getCatalogPath() {

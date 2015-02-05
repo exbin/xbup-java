@@ -18,6 +18,8 @@ package org.xbup.lib.core.block.declaration;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -27,12 +29,13 @@ import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.convert.XBTListenerToToken;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.serial.basic.XBReceivingFinished;
+import org.xbup.lib.core.serial.basic.XBTBasicInputReceivingSerialHandler;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * Representation of current declaration typeConvertor for block types.
  *
- * @version 0.1.25 2015/02/04
+ * @version 0.1.25 2015/02/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBLevelContext implements XBTListener, XBTEventListener {
@@ -50,6 +53,18 @@ public class XBLevelContext implements XBTListener, XBTEventListener {
     public XBLevelContext(XBTypeConvertor parentContext, int depthLevel) {
         this.depthLevel = depthLevel;
         declaration = new XBDeclaration();
+        declaration.setHeaderMode(true);
+        try {
+            declaration.serializeRecvFromXB(new XBTBasicInputReceivingSerialHandler() {
+
+                @Override
+                public void process(XBTListener listener) {
+                    declarationBuilderListener = listener;
+                }
+            });
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBLevelContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
         typeConvertor = declaration;
     }
 

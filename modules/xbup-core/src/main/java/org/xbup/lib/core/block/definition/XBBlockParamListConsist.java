@@ -21,16 +21,21 @@ import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.basic.XBTListener;
+import org.xbup.lib.core.parser.basic.convert.XBTTypeReplacingFilter;
+import org.xbup.lib.core.serial.basic.XBTBasicInputReceivingSerialHandler;
+import org.xbup.lib.core.serial.basic.XBTBasicOutputReceivingSerialHandler;
+import org.xbup.lib.core.serial.basic.XBTBasicReceivingSerializable;
 import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 
 /**
  * XBUP level 1 block consist parameter.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.1.25 2015/02/05
  * @author XBUP Project (http://xbup.org)
  */
-public class XBBlockParamListConsist implements XBBlockParam, XBPSequenceSerializable {
+public class XBBlockParamListConsist implements XBBlockParam, XBPSequenceSerializable, XBTBasicReceivingSerializable {
 
     private XBBlockDecl blockDecl;
 
@@ -62,5 +67,21 @@ public class XBBlockParamListConsist implements XBBlockParam, XBPSequenceSeriali
         serial.matchType(new XBFixedBlockType(XBBasicBlockType.BLOCK_LIST_CONSIST_PARAMETER));
         serial.join(blockDecl);
         serial.end();
+    }
+
+    @Override
+    public void serializeRecvFromXB(final XBTBasicInputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        ((XBTBasicReceivingSerializable) blockDecl).serializeRecvFromXB(new XBTBasicInputReceivingSerialHandler() {
+
+            @Override
+            public void process(XBTListener listener) {
+                serializationHandler.process(new XBTTypeReplacingFilter(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION), listener));
+            }
+        });
+    }
+
+    @Override
+    public void serializeRecvToXB(XBTBasicOutputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

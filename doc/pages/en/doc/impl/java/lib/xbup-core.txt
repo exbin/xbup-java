@@ -8,7 +8,7 @@ Library contains interfaces for document, block and type declarations.
 
 ==== Declarations ====
 
-Declarations are included in "org.xbup.lib.core.block" package and subpackages. It categorized by:
+Declarations are included in "org.xbup.lib.core.block" package and subpackages. It's categorized by:
 
   * Declaration or definition - Suffix **Decl** or **Def**
   * Catalog or local related - Prefix **XBC** or **XBD**
@@ -31,14 +31,14 @@ Implementation of pull and event parsers is included in core library in "org.xbu
 
 ===== Basic Parser =====
 
-Basic parsers uses wide interface XBListener for level 0 which provides single method for each token type.
+Basic parsers use wide interface **XBListener** for level 0 which provides single method for each token type.
 
   public void begin(XBBlockTerminationMode terminationMode)
   public void attrib(UBNatural attribute)
   public void data(InputStream data)
   public void end()
 
-For level 1, there is similar interface XBTListener, which also includes additional method for type:
+For level 1, there is similar interface **XBTListener**, which also includes additional method for type:
 
   public void typeXBT(XBBlockType blockType)
 
@@ -147,18 +147,20 @@ And for conversion of binary data to token stream there are corresponding parser
 
 ===== Serialization =====
 
-Several ways how to perform conversion of object data to protocol and back are included in "org.xbup.lib.core.serial" package.
+Several ways how to perform conversion of object data to protocol and in oposite direction are included in "org.xbup.lib.core.serial" package.
 
+There are few subpackages covering various serialization methods:
+
+  * basic - Serializations using basic parser
+  * token - Serializations using token parser
+  * child - Serialization allowing include other serialized object as child blocks
+  * param - Serialization utilizing block specification and parameters
 
 ===== Streaming =====
 
+FIXME
 
 
 ==== Stream Event Processing ====
 
 ===== Framework and Catalog Access =====
-
-
-
-TODO:
-

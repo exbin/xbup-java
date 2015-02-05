@@ -16,6 +16,8 @@
  */
 package org.xbup.lib.core.catalog;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.xbup.lib.core.block.XBDBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
@@ -23,6 +25,7 @@ import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
+import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.catalog.base.XBCBase;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
 import org.xbup.lib.core.catalog.base.XBCGroupSpec;
@@ -34,12 +37,13 @@ import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 /**
  * XBUP level 1 limited path supporting catalog.
  *
- * @version 0.1.24 2014/11/26
+ * @version 0.1.25 2015/02/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPCatalog implements XBCatalog {
 
     private XBContext rootContext;
+    private final List<XBFormatDecl> formatDecls = new ArrayList<>();
 
     @Override
     public XBContext getRootContext() {
@@ -61,8 +65,16 @@ public class XBPCatalog implements XBCatalog {
     }
 
     @Override
-    public XBFormatDecl findFormatTypeByPath(Long[] xbCatalogPath, int revision) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public XBFormatDecl findFormatTypeByPath(Long[] catalogPath, int revision) {
+        for (XBFormatDecl formatDecl : formatDecls) {
+            if (formatDecl instanceof XBLFormatDecl) {
+                if (Arrays.equals(((XBLFormatDecl) formatDecl).getCatalogPathAsClassArray(), catalogPath) && formatDecl.getRevision() == revision) {
+                    return formatDecl;
+                }
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -130,4 +142,7 @@ public class XBPCatalog implements XBCatalog {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    public void addFormatDecl(XBLFormatDecl formatDecl) {
+        formatDecls.add(formatDecl);
+    }
 }

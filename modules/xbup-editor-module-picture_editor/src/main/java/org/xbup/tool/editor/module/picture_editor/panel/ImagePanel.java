@@ -81,14 +81,14 @@ import org.xbup.tool.editor.base.api.FileType;
 /**
  * Image panel for XBPEditor.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.1.25 2015/02/05
  * @author XBUP Project (http://xbup.org)
  */
 public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePanel {
 
     private static final String DEFAULT_PICTURE_FILE_EXT = "PNG";
 
-    final UndoManager undo;
+    private final UndoManager undo;
     private String fileName;
     private String ext;
     private FileType fileType;
@@ -383,10 +383,14 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                     image = createImage(1, 1);
                 }
 
-                XBPSerialReader reader = new XBPSerialReader(new XBTPullTypeDeclaringFilter(new XBTPrintPullFilter(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName()))))));
+                XBPCatalog catalog = new XBPCatalog();
+                catalog.addFormatDecl(getContextFormatDecl());
                 XBLFormatDecl formatDecl = new XBLFormatDecl(XBBufferedImage.XB_FORMAT_PATH);
                 XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(image));
                 XBDeclaration declaration = new XBDeclaration(formatDecl, bufferedImage);
+                XBTPullTypeDeclaringFilter typeProcessing = new XBTPullTypeDeclaringFilter(catalog);
+                typeProcessing.attachXBTPullProvider(new XBTPrintPullFilter(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName())))));
+                XBPSerialReader reader = new XBPSerialReader(typeProcessing);
                 reader.read(declaration);
                 image = bufferedImage.getImage();
             } catch (XBProcessingException | IOException ex) {
@@ -407,15 +411,15 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         File file = new File(getFileName());
         if (XBPictureEditorFrame.XBPFILETYPE.equals(fileType.getFileTypeId())) {
             try {
-                XBFileOutputStream output = new XBFileOutputStream(file);
-                XBLFormatDecl formatDecl = new XBLFormatDecl(XBBufferedImage.XB_FORMAT_PATH);
-                XBDeclaration declaration = new XBDeclaration(formatDecl, new XBBufferedImage(toBufferedImage(image)));
-                declaration.setContextFormatDecl(getContextFormatDecl());
-                declaration.realignReservation();
                 XBPCatalog catalog = new XBPCatalog();
-                XBTTypeFixingFilter encapsulator = new XBTTypeFixingFilter(declaration.generateContext(), catalog);
-                encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
-                XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(encapsulator));
+                catalog.addFormatDecl(getContextFormatDecl());
+                XBLFormatDecl formatDecl = new XBLFormatDecl(XBBufferedImage.XB_FORMAT_PATH);
+                XBFileOutputStream output = new XBFileOutputStream(file);
+                XBDeclaration declaration = new XBDeclaration(formatDecl, new XBBufferedImage(toBufferedImage(image)));
+                declaration.realignReservation(catalog);
+                XBTTypeFixingFilter typeProcessing = new XBTTypeFixingFilter(declaration.generateContext(catalog), catalog);
+                typeProcessing.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
+                XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(typeProcessing));
                 writer.write(declaration);
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(ImagePanel.class.getName()).log(Level.SEVERE, null, ex);

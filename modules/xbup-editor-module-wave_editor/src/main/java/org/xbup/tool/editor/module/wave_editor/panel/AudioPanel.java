@@ -490,11 +490,11 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
             try {
                 XBFileOutputStream output = new XBFileOutputStream(file);
 
+                XBPCatalog catalog = new XBPCatalog();
+                catalog.addFormatDecl(getContextFormatDecl());
                 XBLFormatDecl formatDecl = new XBLFormatDecl(XBWave.XB_FORMAT_PATH);
                 XBDeclaration declaration = new XBDeclaration(formatDecl, wavePanel.getWave());
-                declaration.setContextFormatDecl(getContextFormatDecl());
-                declaration.realignReservation();
-                XBPCatalog catalog = new XBPCatalog();
+                declaration.realignReservation(catalog);
                 XBTTypeFixingFilter encapsulator = new XBTTypeFixingFilter(declaration.generateContext(), catalog);
                 encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
                 XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(encapsulator));
@@ -519,18 +519,18 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
      */
     public XBLFormatDecl getContextFormatDecl() {
         /*XBLFormatDef formatDef = new XBLFormatDef();
-        List<XBFormatParam> groups = formatDef.getFormatParams();
-        XBLGroupDecl waveGroup = new XBLGroupDecl(new XBLGroupDef());
-        List<XBGroupParam> waveBlocks = waveGroup.getGroupDef().getGroupParams();
-        waveBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 5, 0, 0})));
-        ((XBLGroupDef) waveGroup.getGroupDef()).provideRevision();
-        groups.add(new XBFormatParamConsist(waveGroup));
-        formatDef.realignRevision();
+         List<XBFormatParam> groups = formatDef.getFormatParams();
+         XBLGroupDecl waveGroup = new XBLGroupDecl(new XBLGroupDef());
+         List<XBGroupParam> waveBlocks = waveGroup.getGroupDef().getGroupParams();
+         waveBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 5, 0, 0})));
+         ((XBLGroupDef) waveGroup.getGroupDef()).provideRevision();
+         groups.add(new XBFormatParamConsist(waveGroup));
+         formatDef.realignRevision();
 
-        XBLFormatDecl formatDecl = new XBLFormatDecl(formatDef);
-        formatDecl.setCatalogPath(XBWave.XB_FORMAT_PATH);
-        return formatDecl;*/
-        
+         XBLFormatDecl formatDecl = new XBLFormatDecl(formatDef);
+         formatDecl.setCatalogPath(XBWave.XB_FORMAT_PATH);
+         return formatDecl;*/
+
         XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/xbup/tool/editor/module/wave_editor/resources/xbs_format_decl.xb"));
         XBLFormatDecl formatDecl = new XBLFormatDecl();
         reader.read(formatDecl);

@@ -85,7 +85,7 @@ public class XBDocTreeModel implements TreeModel {
     }
 
     /**
-     * Perform structure change event.
+     * Performs structure change event.
      *
      * The only event raised by this model is TreeStructureChanged with the root
      * as path, i.e. the whole tree has changed.

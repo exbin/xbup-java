@@ -150,7 +150,7 @@ public interface XBCatalog {
     public XBFixedBlockType findFixedType(XBContext context, XBDBlockType type);
 
     /**
-     * Process declaration block and it's children and construct new context.
+     * Processes declaration block and it's children and construct new context.
      * 
      * @param parent parent context
      * @param blockProvider data provider

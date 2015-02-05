@@ -1,0 +1,27 @@
+====== XBUP Tree Parser Library (Java) ======
+
+Tree parser library provides support for parsing XBUP-encoded document creating object model representation in memory.
+
+===== Classes =====
+
+Library provides two sets of classes:
+
+  * For level 0 parsing with prefix **XB**
+  * For level 1 parsing with prefix **XBT**
+
+Classes representing structure:
+
+  * TreeNode - Basic tree node representing single block in protocol
+  * Tree - Structure with single root node
+  * TreeDocument - Extension of tree with additional storage for extended area
+
+This classes provides methods to convert its content to binary stream.
+
+Classes providing conversion to basic / token parsing:
+
+  * TreeReader - Converts basic tokens to tree structure
+  * TreeWriter - Converts tree structure to basic tokens
+
+==== Usage Examples ====
+
+FIXME

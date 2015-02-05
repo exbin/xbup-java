@@ -136,7 +136,7 @@ public class XBProviderReader implements XBProvider {
     }
 
     /**
-     * Indicate parsing completeness.
+     * Indicates parsing completeness.
      *
      * @return true if complete
      */

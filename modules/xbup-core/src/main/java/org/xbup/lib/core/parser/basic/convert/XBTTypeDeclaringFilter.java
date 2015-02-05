@@ -30,17 +30,19 @@ import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.XBLevelContext;
+import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * Filter to convert block types from fixed types to stand-alone declared types.
  *
- * @version 0.1.25 2015/02/04
+ * @version 0.1.25 2015/02/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTypeDeclaringFilter implements XBTFilter {
 
+    private XBCatalog catalog = null;
     private XBTListener listener = null;
     private final List<XBLevelContext> contexts = new ArrayList<>();
     private XBLevelContext currentContext = null;
@@ -48,11 +50,13 @@ public class XBTTypeDeclaringFilter implements XBTFilter {
     private int documentDepth = 0;
     private XBBlockTerminationMode beginTerminationMode;
 
-    public XBTTypeDeclaringFilter() {
+    public XBTTypeDeclaringFilter(XBCatalog catalog) {
+        this.catalog = catalog;
     }
 
-    public XBTTypeDeclaringFilter(XBContext initialContext) {
-        currentContext = new XBLevelContext(initialContext, 0);
+    public XBTTypeDeclaringFilter(XBCatalog catalog, XBContext initialContext) {
+        this.catalog = catalog;
+        currentContext = new XBLevelContext(catalog, initialContext, 0);
     }
 
     @Override
@@ -75,7 +79,7 @@ public class XBTTypeDeclaringFilter implements XBTFilter {
         if (blockType.getAsBasicType() == XBBasicBlockType.DECLARATION) {
             documentDepth++;
             contexts.add(currentContext);
-            currentContext = new XBLevelContext(currentContext == null ? null : currentContext.getContext(), documentDepth);
+            currentContext = new XBLevelContext(catalog, currentContext == null ? null : currentContext.getContext(), documentDepth);
             currentContext.beginXBT(beginTerminationMode);
             currentContext.typeXBT(blockType);
             listener.typeXBT(blockType);

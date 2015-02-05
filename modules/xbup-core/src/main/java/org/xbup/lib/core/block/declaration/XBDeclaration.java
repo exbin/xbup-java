@@ -52,7 +52,6 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceivingSerializable, XBTypeConvertor {
 
     private XBFormatDecl formatDecl;
-    private XBFormatDecl contextFormatDecl = null;
     private XBSerializable rootBlock;
     private boolean headerMode = false;
 
@@ -106,10 +105,14 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
         context.setStartFrom(preserveCount.getInt() + 1);
 
         List<XBGroup> groups = context.getGroups();
-        XBFormatDecl decl = contextFormatDecl != null ? contextFormatDecl : formatDecl;
-        // TODO Process XBLFormatDecl using catalog if possible
+        XBFormatDecl decl = formatDecl;
         if (decl instanceof XBLFormatDecl) {
-            // ((XBLFormatDecl) decl).get
+            if (catalog != null && ((XBLFormatDecl) decl).getFormatDef() == null) {
+                XBFormatDecl catalogFormatDecl = catalog.findFormatTypeByPath(((XBLFormatDecl) decl).getCatalogPathAsClassArray(), (int) decl.getRevision());
+                if (catalogFormatDecl != null) {
+                    decl = catalogFormatDecl;
+                }
+            }
         }
         List<XBGroupDecl> formatGroups = decl.getGroupDecls();
         for (XBGroupDecl formatGroup : formatGroups) {
@@ -160,7 +163,7 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
 
     @Override
     public XBGroup getGroupForId(int groupId) {
-        XBFormatDecl decl = contextFormatDecl != null ? contextFormatDecl : formatDecl;
+        XBFormatDecl decl = formatDecl;
 
         if (groupId == 0) {
             return null;
@@ -368,17 +371,15 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
         this.rootBlock = rootNode;
     }
 
-    public XBFormatDecl getContextFormatDecl() {
-        return contextFormatDecl;
-    }
+    public void realignReservation(XBCatalog catalog) {
+        if (formatDecl.getFormatDef() == null && catalog != null && formatDecl instanceof XBLFormatDecl) {
+            XBFormatDecl catalogFormatDecl = catalog.findFormatTypeByPath(((XBLFormatDecl) formatDecl).getCatalogPathAsClassArray(), (int) formatDecl.getRevision());
+            if (catalogFormatDecl != null) {
+                formatDecl = catalogFormatDecl;
+            }
+        }
 
-    public void setContextFormatDecl(XBFormatDecl contextFormatDecl) {
-        this.contextFormatDecl = contextFormatDecl;
-    }
-
-    public void realignReservation() {
-        // TODO more safe approach later
-        groupsReserved = new UBNat32(contextFormatDecl != null ? contextFormatDecl.getGroupDecls().size() : formatDecl.getGroupDecls().size());
+        groupsReserved = new UBNat32(formatDecl.getGroupDecls().size());
     }
 
     public boolean isHeaderMode() {

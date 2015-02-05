@@ -162,7 +162,7 @@ public interface XBServiceClient {
     public static long[] STRISCOUNT_STRI_PROCEDURE = {0, 2, 18, 5, 0};
 
     /**
-     * Perform login to the server.
+     * Performs login to the server.
      *
      * @param user user name
      * @param password password

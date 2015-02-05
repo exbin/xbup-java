@@ -309,7 +309,8 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         if (blockType != null && blockType.getAsBasicType() != XBBasicBlockType.UNKNOWN_BLOCK) {
             if (type.getAsBasicType() != XBBasicBlockType.UNKNOWN_BLOCK) {
                 if (!blockType.equals(type)) {
-                    throw new XBProcessingException("Block type doesn't match", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
+                    System.out.println("Block type doesn't match");
+                    // throw new XBProcessingException("Block type doesn't match", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
                 }
             }
         }

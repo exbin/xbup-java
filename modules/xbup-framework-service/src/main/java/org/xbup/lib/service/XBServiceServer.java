@@ -264,7 +264,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
     }
 
     /**
-     * Perform update from update source.
+     * Performs update from update source.
      *
      * @return true if update required
      */

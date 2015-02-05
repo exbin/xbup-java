@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.token.XBTToken;
@@ -41,16 +42,18 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 public class XBLevelContext implements XBTListener, XBTEventListener {
 
     private int depthLevel = 0;
+    private XBCatalog catalog = null;
     private XBTypeConvertor typeConvertor = null;
     private XBTypeConvertor parentContext = null;
     private XBDeclaration declaration = null;
     private XBTListener declarationBuilderListener = null;
 
-    public XBLevelContext(int depthLevel) {
-        this(null, depthLevel);
+    public XBLevelContext(XBCatalog catalog, int depthLevel) {
+        this(catalog, null, depthLevel);
     }
 
-    public XBLevelContext(XBTypeConvertor parentContext, int depthLevel) {
+    public XBLevelContext(XBCatalog catalog, XBTypeConvertor parentContext, int depthLevel) {
+        this.catalog = catalog;
         this.depthLevel = depthLevel;
         declaration = new XBDeclaration();
         declaration.setHeaderMode(true);
@@ -132,7 +135,7 @@ public class XBLevelContext implements XBTListener, XBTEventListener {
 
     private void verifyDeclarationFinishing() {
         if (((XBReceivingFinished) declarationBuilderListener).isFinished()) {
-            typeConvertor = declaration.generateContext(parentContext);
+            typeConvertor = declaration.generateContext(parentContext, catalog);
             declarationBuilderListener = null;
         }
     }

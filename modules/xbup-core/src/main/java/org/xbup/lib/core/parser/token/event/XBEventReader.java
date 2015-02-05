@@ -78,7 +78,7 @@ public class XBEventReader implements XBEventProducer {
     }
 
     /**
-     * Process all events and send them to target.
+     * Processes all events and send them to target.
      *
      * @throws XBProcessingException
      * @throws IOException

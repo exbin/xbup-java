@@ -391,11 +391,11 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
                     encodingString.setValue(textArea.getText());
                     encodingString.setCharset(charset);
 
+                    XBPCatalog catalog = new XBPCatalog();
+                    catalog.addFormatDecl(getContextFormatDecl());
                     XBLFormatDecl formatDecl = new XBLFormatDecl(XBEncodingText.XB_FORMAT_PATH);
                     XBDeclaration declaration = new XBDeclaration(formatDecl, encodingString);
-                    declaration.setContextFormatDecl(getContextFormatDecl());
-                    declaration.realignReservation();
-                    XBPCatalog catalog = new XBPCatalog();
+                    declaration.realignReservation(catalog);
                     XBTTypeFixingFilter encapsulator = new XBTTypeFixingFilter(declaration.generateContext(), catalog);
                     encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
                     XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(encapsulator));
@@ -435,22 +435,22 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
      */
     public XBLFormatDecl getContextFormatDecl() {
         /*XBLFormatDef formatDef = new XBLFormatDef();
-        List<XBFormatParam> groups = formatDef.getFormatParams();
-        XBLGroupDecl stringGroup = new XBLGroupDecl(new XBLGroupDef());
-        List<XBGroupParam> stringBlocks = stringGroup.getGroupDef().getGroupParams();
-        stringBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 2, 0, 0})));
-        stringBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 1, 1, 0})));
-        stringBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 2, 2, 0})));
-        stringBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 2, 3, 0})));
-        stringBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 2, 4, 0})));
-        ((XBLGroupDef) stringGroup.getGroupDef()).provideRevision();
-        groups.add(new XBFormatParamConsist(stringGroup));
-        formatDef.realignRevision();
+         List<XBFormatParam> groups = formatDef.getFormatParams();
+         XBLGroupDecl stringGroup = new XBLGroupDecl(new XBLGroupDef());
+         List<XBGroupParam> stringBlocks = stringGroup.getGroupDef().getGroupParams();
+         stringBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 2, 0, 0})));
+         stringBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 1, 1, 0})));
+         stringBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 2, 2, 0})));
+         stringBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 2, 3, 0})));
+         stringBlocks.add(new XBGroupParamConsist(new XBLBlockDecl(new long[]{1, 3, 1, 2, 4, 0})));
+         ((XBLGroupDef) stringGroup.getGroupDef()).provideRevision();
+         groups.add(new XBFormatParamConsist(stringGroup));
+         formatDef.realignRevision();
 
-        XBLFormatDecl formatDecl = new XBLFormatDecl(formatDef);
-        formatDecl.setCatalogPath(XBEncodingText.XB_FORMAT_PATH);
-        return formatDecl;*/
-        
+         XBLFormatDecl formatDecl = new XBLFormatDecl(formatDef);
+         formatDecl.setCatalogPath(XBEncodingText.XB_FORMAT_PATH);
+         return formatDecl;*/
+
         XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/xbup/tool/editor/module/text_editor/resources/xbt_format_decl.xb"));
         XBLFormatDecl formatDecl = new XBLFormatDecl();
         reader.read(formatDecl);

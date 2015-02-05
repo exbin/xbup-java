@@ -32,7 +32,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * UBInteger stored as int value (limited value capacity to 32 bits).
  *
- * @version 0.1.24 2015/01/07
+ * @version 0.1.25 2015/02/05
  * @author XBUP Project (http://xbup.org)
  */
 public class UBInt32 implements UBInteger, XBPSequenceSerializable {
@@ -97,7 +97,7 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
         }
         serial.end();
     }
-    
+
     public void convertFromNatural(UBNatural nat) {
         long natLong = nat.getLong();
         if (natLong < 0x40) {
@@ -120,7 +120,7 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
             value = natLong - 0x8204080;
         }
     }
-    
+
     public UBNatural convertToNatural() {
         if (value < 0) {
             if (value >= -0x40) {
@@ -150,9 +150,7 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
     @Override
     public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
         byte buf[] = new byte[1];
-        if (stream.read(buf) < 0) {
-            throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-        }
+        readBuf(stream, buf);
         long input = (char) buf[0] & 0xFF;
         if (input < 0x80) {
             boolean negativeValue = (input & 0x40) > 0;
@@ -162,39 +160,27 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
         } else if (input < 0xC0) {
             boolean negativeValue = (input & 0x20) > 0;
             value = (input & 0x1F) << 8;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += (buf[0] & 0xFF);
             value = negativeValue ? value -= 0x2040 : value + 0x40;
             return 2;
         } else if (input < 0xE0) {
             boolean negativeValue = (input & 0x10) > 0;
             value = (input & 0xF) << 16;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += (buf[0] & 0xFF) << 8;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += (buf[0] & 0xFF);
             value = negativeValue ? value -= 0x102040 : value + 0x2040;
             return 3;
         } else if (input < 0xF0) {
             boolean negativeValue = (input & 0x8) > 0;
             value = (input & 0x7) << 24;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += (buf[0] & 0xFF) << 16;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += (buf[0] & 0xFF) << 8;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += (buf[0] & 0xFF);
             value = negativeValue ? value -= 0x8102040 : value + 0x102040;
             return 4;
@@ -204,27 +190,25 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
                 throw new XBProcessingException("Value is too big for 32-bit value", XBProcessingExceptionType.UNSUPPORTED);
             }
             value = (input & 0x3) << 32;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += (buf[0] & 0xFF) << 24;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += (buf[0] & 0xFF) << 16;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += (buf[0] & 0xFF) << 8;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += (buf[0] & 0xFF);
             value += 0x8102040;
             return 5;
         }
 
         throw new XBProcessingException("Value is too big for 32-bit value", XBProcessingExceptionType.UNSUPPORTED);
+    }
+
+    private void readBuf(InputStream stream, byte[] buf) throws IOException {
+        if (stream.read(buf) < 0) {
+            throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+        }
     }
 
     @Override

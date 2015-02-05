@@ -1,8 +1,6 @@
 ====== XBUP Catalog Library (Java) ======
 
-FIXME
-
-Catalog library provides object-relational mapping for XBUP catalog and methods for performing update from another framework/catalog service.
+Catalog library provides support for ability to run catalog of types using database service. It provides object-relational mapping for catalog and methods for performing update from another framework/catalog service.
 
 Implementation has following properties:
 
@@ -10,7 +8,7 @@ Implementation has following properties:
   * Multi-layered classes
     * Service classes (also know as business classes)
     * Manager classes (also know as DAO classes)
-  * Catalog class with management classes repository (alternatively Spring IoC can be used instead)
+  * Main catalog class with repository of management classes (alternatively Spring IoC can be used instead)
 
 [[en:doc:protocol:catalog|See more information about catalog.]]
 
@@ -49,3 +47,5 @@ Some of the operations are:
   * **getname (id, lang) : id, text** - For the item and returns the text and language of the extension called Name
   * **getdesc (id, lang) : id, text** - For the item and returns the text and language of the extension called Desc
   * **getcomm (id, lang) : id, text** - For the item and returns the text and language of the extension called Comm
+
+FIXME

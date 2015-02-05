@@ -320,6 +320,15 @@ public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable, XBT
         return catalogPath;
     }
 
+    public Long[] getCatalogPathAsClassArray() {
+        Long[] classCatalogPath = new Long[catalogPath.length];
+        for (int pathIndex = 0; pathIndex < catalogPath.length; pathIndex++) {
+            classCatalogPath[pathIndex] = catalogPath[pathIndex];
+        }
+
+        return classCatalogPath;
+    }
+
     public void setCatalogPath(long[] catalogPath) {
         this.catalogPath = catalogPath;
     }

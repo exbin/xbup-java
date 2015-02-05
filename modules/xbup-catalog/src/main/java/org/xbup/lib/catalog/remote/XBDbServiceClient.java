@@ -29,7 +29,6 @@ import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
-import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.token.XBTToken;
@@ -65,7 +64,7 @@ public class XBDbServiceClient implements XBServiceClient {
      };
      */
     /**
-     * Perform login to the server
+     * Performs login to the server
      *
      * @param user
      * @param password
@@ -92,7 +91,7 @@ public class XBDbServiceClient implements XBServiceClient {
      } */
     @Override
     public String getVersion() {
-        return "0.1.24";
+        return "0.1.25";
     }
 
     public void stop() {

@@ -29,6 +29,7 @@ import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.XBLevelContext;
+import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
@@ -44,34 +45,37 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Filter to convert block types from fixed types to stand-alone types.
  *
- * @version 0.1.25 2015/02/04
+ * @version 0.1.25 2015/02/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTPullTypeDeclaringFilter implements XBTPullFilter {
 
     private XBTPullProvider pullProvider;
+    private XBCatalog catalog;
     private final List<XBLevelContext> contexts = new ArrayList<>();
     private XBLevelContext currentContext = null;
 
     private int documentDepth = 0;
     private XBBlockTerminationMode beginTerminationMode;
 
-    public XBTPullTypeDeclaringFilter() {
+    public XBTPullTypeDeclaringFilter(XBCatalog catalog) {
+        this(catalog, null);
     }
 
-    public XBTPullTypeDeclaringFilter(XBTPullProvider pullProvider) {
+    public XBTPullTypeDeclaringFilter(XBCatalog catalog, XBTPullProvider pullProvider) {
+        this.catalog = catalog;
         this.pullProvider = pullProvider;
     }
 
     public XBTPullTypeDeclaringFilter(XBContext initialContext) {
-        currentContext = new XBLevelContext(initialContext, 0);
+        currentContext = new XBLevelContext(catalog, initialContext, 0);
     }
 
     public XBTPullTypeDeclaringFilter(XBTPullProvider pullProvider, XBContext initialContext) {
         this(initialContext);
         this.pullProvider = pullProvider;
     }
-    
+
     @Override
     public XBTToken pullXBTToken() throws XBProcessingException, IOException {
         XBTToken token = pullProvider.pullXBTToken();
@@ -99,7 +103,7 @@ public class XBTPullTypeDeclaringFilter implements XBTPullFilter {
                 if (blockType.getAsBasicType() == XBBasicBlockType.DECLARATION) {
                     documentDepth++;
                     contexts.add(currentContext);
-                    currentContext = new XBLevelContext(currentContext == null ? null : currentContext.getContext(), documentDepth);
+                    currentContext = new XBLevelContext(catalog, currentContext == null ? null : currentContext.getContext(), documentDepth);
                     currentContext.beginXBT(beginTerminationMode);
                     currentContext.typeXBT(blockType);
                 } else {

@@ -28,7 +28,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * UBENatural stored as long value (limited value capacity to 32 bits).
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.1.25 2015/02/05
  * @author XBUP Project (http://xbup.org)
  */
 public class UBENat32 implements UBENatural {
@@ -155,9 +155,7 @@ public class UBENat32 implements UBENatural {
     public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
         infinity = false;
         byte buf[] = new byte[1];
-        if (stream.read(buf) < 0) {
-            throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-        }
+        readBuf(stream, buf);
         long input = (char) buf[0] & 0xFF;
         if (input < 0x7F) {
             value = buf[0];
@@ -167,54 +165,34 @@ public class UBENat32 implements UBENatural {
             return 1;
         } else if (input < 0xC0) {
             value = (input & 0x7F) << 8;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += ((char) buf[0] & 0xFF) + 0x7F;
             return 2;
         } else if (input < 0xE0) {
             value = (input & 0x3F) << 16;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += ((char) buf[0] & 0xFF) << 8;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += ((char) buf[0] & 0xFF) + 0x407F;
             return 3;
         } else if (input < 0xF0) {
             value = (input & 0x1F) << 24;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += ((char) buf[0] & 0xFF) << 16;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += ((char) buf[0] & 0xFF) << 8;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += ((char) buf[0] & 0xFF) + 0x20407F;
             return 4;
         } else if (input < 0xF8) {
             value = (input & 0x0F) << 32;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += (buf[0] & 0xFF) << 24;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += (buf[0] & 0xFF) << 16;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += (buf[0] & 0xFF) << 8;
-            if (stream.read(buf) < 0) {
-                throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-            }
+            readBuf(stream, buf);
             value += (buf[0] & 0xFF) + 0x1020407F;
             if (value >= 0x1020407F) {
                 return 5;
@@ -222,6 +200,12 @@ public class UBENat32 implements UBENatural {
         }
 
         throw new XBProcessingException("Value is too big for 32-bit value", XBProcessingExceptionType.UNSUPPORTED);
+    }
+
+    private void readBuf(InputStream stream, byte[] buf) throws IOException {
+        if (stream.read(buf) < 0) {
+            throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+        }
     }
 
     @Override

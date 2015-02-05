@@ -29,7 +29,7 @@ import org.xbup.lib.core.parser.token.XBTToken;
 public interface XBTPullProvider {
 
     /**
-     * Pull next token.
+     * Pulls next token.
      *
      * @return next token
      * @throws XBProcessingException

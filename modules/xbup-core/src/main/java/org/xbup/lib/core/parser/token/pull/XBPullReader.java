@@ -144,7 +144,7 @@ public class XBPullReader extends XBTokenInputStream implements Closeable, XBPul
     }
 
     /**
-     * Indicate parsing completeness.
+     * Indicates parsing completeness.
      *
      * @return true if complete
      * @throws IOException

@@ -28,7 +28,7 @@ import org.xbup.lib.core.serial.XBOutputSerialHandler;
 public interface XBTBasicOutputReceivingSerialHandler extends XBOutputSerialHandler {
 
     /**
-     * Process target for serialization.
+     * Processes target for serialization.
      *
      * @param provider
      */

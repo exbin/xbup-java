@@ -46,7 +46,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Representation of declaration block.
  *
- * @version 0.1.25 2015/02/05
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceivingSerializable, XBTypeConvertor {
@@ -372,14 +372,15 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
     }
 
     public void realignReservation(XBCatalog catalog) {
+        XBFormatDecl decl = formatDecl;
         if (formatDecl.getFormatDef() == null && catalog != null && formatDecl instanceof XBLFormatDecl) {
             XBFormatDecl catalogFormatDecl = catalog.findFormatTypeByPath(((XBLFormatDecl) formatDecl).getCatalogPathAsClassArray(), (int) formatDecl.getRevision());
             if (catalogFormatDecl != null) {
-                formatDecl = catalogFormatDecl;
+                decl = catalogFormatDecl;
             }
         }
 
-        groupsReserved = new UBNat32(formatDecl.getGroupDecls().size());
+        groupsReserved = new UBNat32(decl.getGroupDecls().size());
     }
 
     public boolean isHeaderMode() {

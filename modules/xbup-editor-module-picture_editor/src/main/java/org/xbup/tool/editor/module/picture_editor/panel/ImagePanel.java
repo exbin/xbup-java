@@ -61,7 +61,6 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeFixingFilter;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
-import org.xbup.lib.core.parser.token.event.convert.XBTPrintPullFilter;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullTypeDeclaringFilter;
@@ -81,7 +80,7 @@ import org.xbup.tool.editor.base.api.FileType;
 /**
  * Image panel for XBPEditor.
  *
- * @version 0.1.25 2015/02/05
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePanel {
@@ -389,7 +388,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                 XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(image));
                 XBDeclaration declaration = new XBDeclaration(formatDecl, bufferedImage);
                 XBTPullTypeDeclaringFilter typeProcessing = new XBTPullTypeDeclaringFilter(catalog);
-                typeProcessing.attachXBTPullProvider(new XBTPrintPullFilter(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName())))));
+                typeProcessing.attachXBTPullProvider(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName()))));
                 XBPSerialReader reader = new XBPSerialReader(typeProcessing);
                 reader.read(declaration);
                 image = bufferedImage.getImage();
@@ -411,10 +410,11 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         File file = new File(getFileName());
         if (XBPictureEditorFrame.XBPFILETYPE.equals(fileType.getFileTypeId())) {
             try {
+                XBFileOutputStream output = new XBFileOutputStream(file);
+
                 XBPCatalog catalog = new XBPCatalog();
                 catalog.addFormatDecl(getContextFormatDecl());
                 XBLFormatDecl formatDecl = new XBLFormatDecl(XBBufferedImage.XB_FORMAT_PATH);
-                XBFileOutputStream output = new XBFileOutputStream(file);
                 XBDeclaration declaration = new XBDeclaration(formatDecl, new XBBufferedImage(toBufferedImage(image)));
                 declaration.realignReservation(catalog);
                 XBTTypeFixingFilter typeProcessing = new XBTTypeFixingFilter(declaration.generateContext(catalog), catalog);

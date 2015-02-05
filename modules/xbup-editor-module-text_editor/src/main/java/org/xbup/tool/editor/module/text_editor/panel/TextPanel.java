@@ -54,6 +54,9 @@ import org.xbup.lib.core.parser.basic.convert.XBTTypeFixingFilter;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
+import org.xbup.lib.core.parser.token.pull.XBPullReader;
+import org.xbup.lib.core.parser.token.pull.convert.XBTPullTypeDeclaringFilter;
+import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.serial.XBPSerialReader;
 import org.xbup.lib.core.serial.XBPSerialWriter;
 import org.xbup.lib.core.stream.file.XBFileInputStream;
@@ -70,7 +73,7 @@ import org.xbup.tool.editor.base.api.MainFrameManagement;
 /**
  * Text editor panel.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class TextPanel extends javax.swing.JPanel implements ApplicationFilePanel, ActivePanelUndoable {
@@ -347,10 +350,14 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
         switch (fileType.getFileTypeId()) {
             case XBTextEditorFrame.XBT_FILE_TYPE: {
                 try {
-                    XBPSerialReader reader = new XBPSerialReader(new FileInputStream(getFileName()));
+                    XBPCatalog catalog = new XBPCatalog();
+                    catalog.addFormatDecl(getContextFormatDecl());
                     XBLFormatDecl formatDecl = new XBLFormatDecl(XBEncodingText.XB_FORMAT_PATH);
                     XBEncodingText encodingText = new XBEncodingText();
                     XBDeclaration declaration = new XBDeclaration(formatDecl, encodingText);
+                    XBTPullTypeDeclaringFilter typeProcessing = new XBTPullTypeDeclaringFilter(catalog);
+                    typeProcessing.attachXBTPullProvider(new XBToXBTPullConvertor(new XBPullReader(new FileInputStream(getFileName()))));
+                    XBPSerialReader reader = new XBPSerialReader(typeProcessing);
                     reader.read(declaration);
                     changeCharset(encodingText.getCharset());
                     textArea.setText(encodingText.getValue());
@@ -386,19 +393,20 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
         switch (fileType.getFileTypeId()) {
             case XBTextEditorFrame.XBT_FILE_TYPE: {
                 try {
-                    XBFileOutputStream output = new XBFileOutputStream(file);
                     XBEncodingText encodingString = new XBEncodingText();
                     encodingString.setValue(textArea.getText());
                     encodingString.setCharset(charset);
+
+                    XBFileOutputStream output = new XBFileOutputStream(file);
 
                     XBPCatalog catalog = new XBPCatalog();
                     catalog.addFormatDecl(getContextFormatDecl());
                     XBLFormatDecl formatDecl = new XBLFormatDecl(XBEncodingText.XB_FORMAT_PATH);
                     XBDeclaration declaration = new XBDeclaration(formatDecl, encodingString);
                     declaration.realignReservation(catalog);
-                    XBTTypeFixingFilter encapsulator = new XBTTypeFixingFilter(declaration.generateContext(), catalog);
-                    encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
-                    XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(encapsulator));
+                    XBTTypeFixingFilter typeProcessing = new XBTTypeFixingFilter(declaration.generateContext(catalog), catalog);
+                    typeProcessing.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
+                    XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(typeProcessing));
                     writer.write(declaration);
                 } catch (XBProcessingException | IOException ex) {
                     Logger.getLogger(TextPanel.class.getName()).log(Level.SEVERE, null, ex);

@@ -67,14 +67,17 @@ import org.xbup.lib.core.catalog.base.service.XBCService;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXInfoService;
 import org.xbup.lib.catalog.update.XBCUpdateHandler;
+import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBDBlockType;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.serial.XBPSerialReader;
 
 /**
  * Basic level 1 catalog class using Java persistence.
  *
- * @version 0.1.25 2015/02/06
+ * @version 0.1.25 2015/02/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBECatalog implements XBCatalog {
@@ -179,9 +182,9 @@ public class XBECatalog implements XBCatalog {
     }
 
     @Override
-    public XBBlockDecl findBlockTypeByPath(Long[] xbCatalogPath, int revision) {
+    public XBBlockDecl findBlockTypeByPath(Long[] blockSpecCatalogPath, int revision) {
         XBERevService revService = (XBERevService) getCatalogService(XBCRevService.class);
-        XBEBlockSpec spec = findBlockSpecByPath(xbCatalogPath);
+        XBEBlockSpec spec = findBlockSpecByPath(blockSpecCatalogPath);
         if (spec == null) {
             return null;
         }
@@ -418,5 +421,14 @@ public class XBECatalog implements XBCatalog {
     public Long[] getSpecPath(XBCSpec spec) {
         XBESpecService specService = (XBESpecService) getCatalogService(XBCSpecService.class);
         return specService.getSpecXBPath(spec);
+    }
+
+    @Override
+    public XBBlockType getBasicBlockType(XBBasicBlockType blockType) {
+        Long[] catalogBlockPath = new Long[2];
+        catalogBlockPath[0] = 0l;
+        catalogBlockPath[1] = (long) blockType.ordinal();
+        XBBlockDecl blockDecl = findBlockTypeByPath(catalogBlockPath, 0);
+        return blockDecl != null ? new XBDeclBlockType(blockDecl) : new XBFixedBlockType(blockType);
     }
 }

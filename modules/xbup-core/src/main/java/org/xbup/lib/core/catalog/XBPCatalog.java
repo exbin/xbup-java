@@ -19,6 +19,8 @@ package org.xbup.lib.core.catalog;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBDBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
@@ -37,7 +39,7 @@ import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 /**
  * XBUP level 1 limited path supporting catalog.
  *
- * @version 0.1.25 2015/02/05
+ * @version 0.1.25 2015/02/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPCatalog implements XBCatalog {
@@ -144,5 +146,10 @@ public class XBPCatalog implements XBCatalog {
 
     public void addFormatDecl(XBLFormatDecl formatDecl) {
         formatDecls.add(formatDecl);
+    }
+
+    @Override
+    public XBBlockType getBasicBlockType(XBBasicBlockType blockType) {
+        return new XBFixedBlockType(blockType);
     }
 }

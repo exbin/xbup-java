@@ -37,7 +37,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * Filter to convert block types from fixed types to stand-alone declared types.
  *
- * @version 0.1.25 2015/02/05
+ * @version 0.1.25 2015/02/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTypeDeclaringFilter implements XBTFilter {
@@ -96,6 +96,16 @@ public class XBTTypeDeclaringFilter implements XBTFilter {
             listener.typeXBT(blockType);
         } else {
             if (blockType instanceof XBFBlockType) {
+                if (((XBFBlockType) blockType).getGroupID().isZero()) {
+                    if (catalog != null) {
+                        listener.typeXBT(catalog.getBasicBlockType(blockType.getAsBasicType()));
+                        return;
+                    } else {
+                        listener.typeXBT(blockType);
+                        return;
+                    }
+                }
+
                 XBDeclBlockType declType = currentContext.getContext().getDeclBlockType((XBFBlockType) blockType);
                 if (declType == null) {
                     throw new XBProcessingException("Unable to match block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);

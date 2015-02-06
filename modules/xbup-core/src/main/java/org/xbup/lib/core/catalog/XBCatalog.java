@@ -17,6 +17,8 @@
 package org.xbup.lib.core.catalog;
 
 import java.util.List;
+import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBDBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
@@ -34,7 +36,7 @@ import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 /**
  * Interface for XBUP level 1 catalog.
  *
- * @version 0.1.24 2014/08/31
+ * @version 0.1.25 2015/02/07
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCatalog {
@@ -151,7 +153,7 @@ public interface XBCatalog {
 
     /**
      * Processes declaration block and it's children and construct new context.
-     * 
+     *
      * @param parent parent context
      * @param blockProvider data provider
      * @return new context
@@ -165,4 +167,12 @@ public interface XBCatalog {
      * @return path
      */
     public Long[] getSpecPath(XBCSpec spec);
+
+    /**
+     * Returns basic block type for given basic type.
+     *
+     * @param blockType block type
+     * @return
+     */
+    public XBBlockType getBasicBlockType(XBBasicBlockType blockType);
 }

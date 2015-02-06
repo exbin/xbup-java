@@ -58,6 +58,8 @@ import org.xbup.lib.client.catalog.remote.service.XBRItemService;
 import org.xbup.lib.client.catalog.remote.service.XBRNodeService;
 import org.xbup.lib.client.catalog.remote.service.XBRRevService;
 import org.xbup.lib.client.catalog.remote.service.XBRSpecService;
+import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBDBlockType;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
@@ -348,5 +350,10 @@ public class XBRCatalog implements XBCatalog {
     public Long[] getSpecPath(XBCSpec spec) {
         XBRSpecService specService = (XBRSpecService) getCatalogService(XBCSpecService.class);
         return specService.getSpecXBPath(spec);
+    }
+
+    @Override
+    public XBBlockType getBasicBlockType(XBBasicBlockType blockType) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

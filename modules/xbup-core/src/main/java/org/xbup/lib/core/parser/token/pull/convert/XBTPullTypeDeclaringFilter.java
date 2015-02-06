@@ -45,7 +45,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 /**
  * Filter to convert block types from fixed types to stand-alone types.
  *
- * @version 0.1.25 2015/02/05
+ * @version 0.1.25 2015/02/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTPullTypeDeclaringFilter implements XBTPullFilter {
@@ -108,6 +108,14 @@ public class XBTPullTypeDeclaringFilter implements XBTPullFilter {
                     currentContext.typeXBT(blockType);
                 } else {
                     if (blockType instanceof XBFBlockType) {
+                        if (((XBFBlockType) blockType).getGroupID().isZero()) {
+                            if (catalog != null) {
+                                return new XBTTypeToken(catalog.getBasicBlockType(blockType.getAsBasicType()));
+                            } else {
+                                return token;
+                            }
+                        }
+
                         XBDeclBlockType declType = currentContext.getContext().getDeclBlockType((XBFBlockType) blockType);
                         if (declType == null) {
                             throw new XBProcessingException("Unable to match block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);

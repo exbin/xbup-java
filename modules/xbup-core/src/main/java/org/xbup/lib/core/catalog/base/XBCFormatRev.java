@@ -31,5 +31,4 @@ public interface XBCFormatRev extends XBCRev {
      */
     @Override
     public XBCFormatSpec getParent();
-
 }

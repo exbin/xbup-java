@@ -36,5 +36,10 @@ public interface XBCXInfoManager<T extends XBCXItemInfo> extends XBCManager<T> {
      */
     public XBCXItemInfo getNodeInfo(XBCNode node);
 
+    /**
+     * Gets count of all information items.
+     *
+     * @return count of information items
+     */
     public Long getAllInfosCount();
 }

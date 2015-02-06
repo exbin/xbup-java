@@ -19,7 +19,7 @@ package org.xbup.lib.core.parser.token;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * XBUP protocol level 1 attribute token.
+ * XBUP protocol level 1 zero attribute token.
  *
  * This class carry single UBNatural with zero value.
  *

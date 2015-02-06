@@ -50,12 +50,23 @@ public class XBTTypeDeclaringFilter implements XBTFilter {
     private int documentDepth = 0;
     private XBBlockTerminationMode beginTerminationMode;
 
+    /**
+     * Creates a new instance.
+     *
+     * @param catalog catalog used for catalog types
+     */
     public XBTTypeDeclaringFilter(XBCatalog catalog) {
         this.catalog = catalog;
     }
 
+    /**
+     * Creates a new instance.
+     *
+     * @param initialContext initial context
+     * @param catalog catalog used for catalog types
+     */
     public XBTTypeDeclaringFilter(XBCatalog catalog, XBContext initialContext) {
-        this.catalog = catalog;
+        this(catalog);
         currentContext = new XBLevelContext(catalog, initialContext, 0);
     }
 

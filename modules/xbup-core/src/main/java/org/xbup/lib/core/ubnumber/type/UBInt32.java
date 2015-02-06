@@ -89,7 +89,7 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
     @Override
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
-        serial.matchType(new XBDeclBlockType(XBUP_BLOCK_TYPE));
+        serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
         if (serial.getSerializationMode() == XBSerializationMode.PULL) {
             convertFromNatural(serial.pullAttribute());
         } else {

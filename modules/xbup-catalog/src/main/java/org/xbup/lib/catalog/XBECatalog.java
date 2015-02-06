@@ -74,7 +74,7 @@ import org.xbup.lib.core.serial.XBPSerialReader;
 /**
  * Basic level 1 catalog class using Java persistence.
  *
- * @version 0.1.25 2015/02/04
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBECatalog implements XBCatalog {
@@ -82,32 +82,19 @@ public class XBECatalog implements XBCatalog {
     private XBContext rootContext = null;
     private XBCUpdateHandler updateHandler;
     private boolean shallInit;
-    private String fileRepositoryPath;
 
     @PersistenceContext
     protected EntityManager em;
     protected Map<Class, XBCManager<?>> catalogManagers;
     protected Map<Class, XBCService<?>> catalogServices;
 
-    public XBECatalog() {
-        fileRepositoryPath = null;
-    }
-
-    public XBECatalog(EntityManager em) {
-        this.em = em;
-        fileRepositoryPath = null;
-        init();
-    }
-
     /**
      * Creates a new instance of XBECatalog.
      *
      * @param em entity manager
-     * @param fileRepositoryPath path to file repository
      */
-    public XBECatalog(EntityManager em, String fileRepositoryPath) {
+    public XBECatalog(EntityManager em) {
         this.em = em;
-        this.fileRepositoryPath = fileRepositoryPath;
         init();
     }
 
@@ -321,14 +308,6 @@ public class XBECatalog implements XBCatalog {
     @Override
     public XBCService<? extends XBCBase> getCatalogService(Class type) {
         return (XBCService<? extends XBCBase>) catalogServices.get(type);
-    }
-
-    public String getFileRepositoryPath() {
-        return fileRepositoryPath;
-    }
-
-    public void setFileRepositoryPath(String fileRepositoryPath) {
-        this.fileRepositoryPath = fileRepositoryPath;
     }
 
     /**

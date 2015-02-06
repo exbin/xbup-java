@@ -46,7 +46,7 @@ import org.xbup.lib.core.ubnumber.UBENatural;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 
 /**
- * XBUP level 1 block definition.
+ * XBUP level 1 format definition.
  *
  * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
@@ -91,7 +91,7 @@ public class XBCFormatDef implements XBFormatDef, XBPSequenceSerializable {
 
     public XBFormatParam convertParam(XBCSpecDef specDef) {
         switch (specDef.getType()) {
-            case CONS: {
+            case CONSIST: {
                 return new XBFormatParamConsist(new XBCGroupDecl((XBCGroupRev) specDef.getTarget(), catalog));
             }
             case JOIN: {

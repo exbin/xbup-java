@@ -30,7 +30,7 @@ import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.catalog.base.XBCSpecDefType;
+import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.core.catalog.base.manager.XBCSpecManager;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBEBlockCons;
@@ -499,15 +499,15 @@ public class XBESpecManager extends XBEDefaultManager<XBESpec> implements XBCSpe
     }
 
     @Override
-    public XBESpecDef createSpecDef(XBCSpec spec, XBCSpecDefType type) {
+    public XBESpecDef createSpecDef(XBCSpec spec, XBParamType type) {
         try {
             if (spec instanceof XBCBlockSpec) {
                 switch (type) {
-                    case CONS:
+                    case CONSIST:
                         return XBEBlockCons.class.newInstance();
                     case JOIN:
                         return XBEBlockJoin.class.newInstance();
-                    case LIST_CONS:
+                    case LIST_CONSIST:
                         return XBEBlockListCons.class.newInstance();
                     case LIST_JOIN:
                         return XBEBlockListJoin.class.newInstance();
@@ -516,7 +516,7 @@ public class XBESpecManager extends XBEDefaultManager<XBESpec> implements XBCSpe
                 }
             } else if (spec instanceof XBCGroupSpec) {
                 switch (type) {
-                    case CONS:
+                    case CONSIST:
                         return XBEGroupCons.class.newInstance();
                     case JOIN:
                         return XBEGroupJoin.class.newInstance();
@@ -525,7 +525,7 @@ public class XBESpecManager extends XBEDefaultManager<XBESpec> implements XBCSpe
                 }
             } else if (spec instanceof XBCFormatSpec) {
                 switch (type) {
-                    case CONS:
+                    case CONSIST:
                         return XBEFormatCons.class.newInstance();
                     case JOIN:
                         return XBEFormatJoin.class.newInstance();

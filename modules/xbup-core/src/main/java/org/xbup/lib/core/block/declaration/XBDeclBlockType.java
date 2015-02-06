@@ -34,12 +34,12 @@ public class XBDeclBlockType implements XBDBlockType {
         this.blockDecl = blockDecl;
     }
 
-    public XBDeclBlockType(long[] blockTypePath) {
-        this.blockDecl = new XBLBlockDecl(blockTypePath);
+    public XBDeclBlockType(long[] blockRevisionCatalogPath) {
+        this.blockDecl = new XBLBlockDecl(blockRevisionCatalogPath);
     }
 
-    public XBDeclBlockType(Long[] blockTypePath) {
-        this.blockDecl = new XBLBlockDecl(blockTypePath);
+    public XBDeclBlockType(Long[] blockRevisionCatalogPath) {
+        this.blockDecl = new XBLBlockDecl(blockRevisionCatalogPath);
     }
 
     @Override

@@ -384,7 +384,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
 
                 XBPCatalog catalog = new XBPCatalog();
                 catalog.addFormatDecl(getContextFormatDecl());
-                XBLFormatDecl formatDecl = new XBLFormatDecl(XBBufferedImage.XB_FORMAT_PATH);
+                XBLFormatDecl formatDecl = new XBLFormatDecl(XBBufferedImage.XBUP_FORMATREV_CATALOGPATH);
                 XBBufferedImage bufferedImage = new XBBufferedImage(toBufferedImage(image));
                 XBDeclaration declaration = new XBDeclaration(formatDecl, bufferedImage);
                 XBTPullTypeDeclaringFilter typeProcessing = new XBTPullTypeDeclaringFilter(catalog);
@@ -414,10 +414,10 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
 
                 XBPCatalog catalog = new XBPCatalog();
                 catalog.addFormatDecl(getContextFormatDecl());
-                XBLFormatDecl formatDecl = new XBLFormatDecl(XBBufferedImage.XB_FORMAT_PATH);
+                XBLFormatDecl formatDecl = new XBLFormatDecl(XBBufferedImage.XBUP_FORMATREV_CATALOGPATH);
                 XBDeclaration declaration = new XBDeclaration(formatDecl, new XBBufferedImage(toBufferedImage(image)));
                 declaration.realignReservation(catalog);
-                XBTTypeFixingFilter typeProcessing = new XBTTypeFixingFilter(declaration.generateContext(catalog), catalog);
+                XBTTypeFixingFilter typeProcessing = new XBTTypeFixingFilter(catalog);
                 typeProcessing.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
                 XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(typeProcessing));
                 writer.write(declaration);
@@ -467,7 +467,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
          formatDef.realignRevision();
             
          XBLFormatDecl formatDecl = new XBLFormatDecl(formatDef);
-         formatDecl.setCatalogPath(XBBufferedImage.XB_FORMAT_PATH);*/
+         formatDecl.setCatalogPath(XBBufferedImage.XBUP_FORMATREV_CATALOGPATH);*/
 
         XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/xbup/tool/editor/module/picture_editor/resources/xbp_format_decl.xb"));
         XBLFormatDecl formatDecl = new XBLFormatDecl();

@@ -17,7 +17,6 @@
 package org.xbup.lib.core.block.definition;
 
 import java.util.List;
-import org.xbup.lib.core.block.declaration.XBGroupDecl;
 import org.xbup.lib.core.serial.XBSerializable;
 
 /**

@@ -28,7 +28,7 @@ import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.catalog.base.XBCSpecDefType;
+import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.core.catalog.base.manager.XBCSpecManager;
 import org.xbup.lib.client.XBCatalogServiceMessage;
 import org.xbup.lib.client.catalog.remote.XBRBlockCons;
@@ -689,7 +689,7 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
     }
 
     @Override
-    public XBCSpecDef createSpecDef(XBCSpec spec, XBCSpecDefType type) {
+    public XBCSpecDef createSpecDef(XBCSpec spec, XBParamType type) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

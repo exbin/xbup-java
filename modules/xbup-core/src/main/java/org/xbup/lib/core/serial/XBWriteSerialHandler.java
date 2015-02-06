@@ -17,7 +17,7 @@
 package org.xbup.lib.core.serial;
 
 /**
- * Interface for XBUP serialization writting processor.
+ * Interface for XBUP level 0 serialization writting processor.
  *
  * @version 0.1.24 2014/11/26
  * @author XBUP Project (http://xbup.org)

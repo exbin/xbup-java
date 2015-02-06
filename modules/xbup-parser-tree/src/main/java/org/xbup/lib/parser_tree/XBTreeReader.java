@@ -26,7 +26,7 @@ import org.xbup.lib.core.parser.XBParserState;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.convert.XBEventSkipNode;
+import org.xbup.lib.core.parser.basic.convert.XBSkipBlockListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -43,7 +43,7 @@ public class XBTreeReader implements XBListener {
     private final boolean recursive;
     private boolean finished;
     private XBParserState parserState;
-    private XBEventSkipNode skipNode;
+    private XBSkipBlockListener skipNode;
     private long level;
 
     public XBTreeReader(XBTreeNode target, boolean recursive) {
@@ -51,7 +51,7 @@ public class XBTreeReader implements XBListener {
         this.recursive = recursive;
         finished = false;
         if (!recursive) {
-            skipNode = new XBEventSkipNode();
+            skipNode = new XBSkipBlockListener();
         }
 
         parserState = XBParserState.START;
@@ -64,7 +64,7 @@ public class XBTreeReader implements XBListener {
             throw new XBParseException("Block already parsed");
         }
 
-        if ((!recursive) && (!skipNode.isClosed())) {
+        if ((!recursive) && (!skipNode.isSkipped())) {
             skipNode.beginXB(terminationMode);
             return;
         }
@@ -108,7 +108,7 @@ public class XBTreeReader implements XBListener {
             throw new XBParseException("Block already parsed");
         }
 
-        if ((!recursive) && (!skipNode.isClosed())) {
+        if ((!recursive) && (!skipNode.isSkipped())) {
             skipNode.attribXB((UBNatural) value);
             return;
         }
@@ -131,7 +131,7 @@ public class XBTreeReader implements XBListener {
             throw new XBParseException("Block already parsed");
         }
 
-        if ((!recursive) && (!skipNode.isClosed())) {
+        if ((!recursive) && (!skipNode.isSkipped())) {
             skipNode.dataXB(data);
             return;
         }
@@ -151,7 +151,7 @@ public class XBTreeReader implements XBListener {
             throw new XBParseException("Block already parsed");
         }
 
-        if ((!recursive) && (!skipNode.isClosed())) {
+        if ((!recursive) && (!skipNode.isSkipped())) {
             skipNode.endXB();
             return;
         }

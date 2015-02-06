@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
@@ -35,7 +34,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.core.util.CopyStreamUtils;
 
 /**
- * Encapsulation class for natural numbers.
+ * Encapsulation class for integer numbers.
  *
  * @version 0.1.24 2014/08/23
  * @author XBUP Project (http://xbup.org)
@@ -44,8 +43,8 @@ public class XBInt implements XBTChildSerializable {
 
     private UBInteger value;
     private UBNatural bitSize;
-    public static long[] XB_BLOCK_PATH = {1, 1, 1, 1, 0}; // Testing only
-    public static long[] XB_FORMAT_PATH = {0, 1, 3, 1, 2, 0, 0}; // Testing only
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 1, 1, 1, 0}; // Testing only
+    public static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 3, 1, 2, 0, 0}; // Testing only
 
     public XBInt() {
         this.value = new UBInt32();
@@ -74,7 +73,7 @@ public class XBInt implements XBTChildSerializable {
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
         serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serial.putType(new XBDeclBlockType(new XBLBlockDecl(XB_BLOCK_PATH)));
+        serial.putType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
         serial.putChild(new DataBlockSerializator());
         serial.putEnd();
     }

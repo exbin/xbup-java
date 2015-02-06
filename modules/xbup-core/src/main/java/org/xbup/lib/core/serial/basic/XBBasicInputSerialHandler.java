@@ -30,7 +30,7 @@ public interface XBBasicInputSerialHandler extends XBInputSerialHandler {
     /**
      * Processes given source for serialization.
      *
-     * @param consumer
+     * @param consumer consumer
      */
     public void process(XBConsumer consumer);
 }

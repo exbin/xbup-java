@@ -16,7 +16,6 @@
  */
 package org.xbup.lib.catalog.update;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -871,9 +870,6 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
             if (node.getParent() != null) {
                 parentPath = striService.getFullPath(parentStringId);
                 parentPath += "/" + itemFile.getFileName();
-            }
-            if (fileService != null) {
-                new File(catalog.getFileRepositoryPath() + parentPath).mkdirs();
             }
 
             String nodePath;

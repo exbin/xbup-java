@@ -26,7 +26,7 @@ import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBParserState;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.parser.basic.convert.XBEventSkipNode;
+import org.xbup.lib.core.parser.basic.convert.XBSkipBlockListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -43,7 +43,7 @@ public class XBTTreeReader implements XBTListener {
     private final boolean recursive;
     private boolean finished;
     private XBParserState parserState;
-    private XBEventSkipNode skipNode;
+    private XBSkipBlockListener skipNode;
     private long level;
 
     public XBTTreeReader(XBTTreeNode target) {
@@ -55,7 +55,7 @@ public class XBTTreeReader implements XBTListener {
         this.recursive = recursive;
         finished = false;
         if (!recursive) {
-            skipNode = new XBEventSkipNode();
+            skipNode = new XBSkipBlockListener();
         }
         parserState = XBParserState.START;
         level = 0;
@@ -67,7 +67,7 @@ public class XBTTreeReader implements XBTListener {
             throw new XBParseException("Block already parsed", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
-        if ((!recursive) && (!skipNode.isClosed())) {
+        if ((!recursive) && (!skipNode.isSkipped())) {
             skipNode.beginXB(terminationMode);
             return;
         }
@@ -113,7 +113,7 @@ public class XBTTreeReader implements XBTListener {
             throw new XBParseException("Block already parsed", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
-        if ((!recursive) && (!skipNode.isClosed())) {
+        if ((!recursive) && (!skipNode.isSkipped())) {
             skipNode.attribXB(value);
             return;
         }
@@ -136,7 +136,7 @@ public class XBTTreeReader implements XBTListener {
             throw new XBParseException("Block already parsed", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
-        if ((!recursive) && (!skipNode.isClosed())) {
+        if ((!recursive) && (!skipNode.isSkipped())) {
             skipNode.dataXB(data);
             return;
         }
@@ -155,7 +155,7 @@ public class XBTTreeReader implements XBTListener {
             throw new XBParseException("Block already parsed", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
-        if ((!recursive) && (!skipNode.isClosed())) {
+        if ((!recursive) && (!skipNode.isSkipped())) {
             skipNode.endXB();
             return;
         }

@@ -22,7 +22,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import org.xbup.lib.core.catalog.base.XBCConsDef;
 import org.xbup.lib.core.catalog.base.XBCSpec;
-import org.xbup.lib.core.catalog.base.XBCSpecDefType;
+import org.xbup.lib.core.block.definition.XBParamType;
 
 /**
  * Consist database entity.
@@ -43,7 +43,7 @@ public class XBEConsDef extends XBESpecDef implements Serializable, XBCConsDef {
     }
 
     @Override
-    public XBCSpecDefType getType() {
-        return XBCSpecDefType.CONS;
+    public XBParamType getType() {
+        return XBParamType.CONSIST;
     }
 }

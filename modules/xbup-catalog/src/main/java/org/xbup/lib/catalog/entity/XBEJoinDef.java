@@ -22,7 +22,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import org.xbup.lib.core.catalog.base.XBCJoinDef;
 import org.xbup.lib.core.catalog.base.XBCSpec;
-import org.xbup.lib.core.catalog.base.XBCSpecDefType;
+import org.xbup.lib.core.block.definition.XBParamType;
 
 /**
  * Join database database entity.
@@ -43,7 +43,7 @@ public class XBEJoinDef extends XBESpecDef implements Serializable, XBCJoinDef {
     }
 
     @Override
-    public XBCSpecDefType getType() {
-        return XBCSpecDefType.JOIN;
+    public XBParamType getType() {
+        return XBParamType.JOIN;
     }
 }

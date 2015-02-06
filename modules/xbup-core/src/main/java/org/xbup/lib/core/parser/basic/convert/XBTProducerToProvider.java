@@ -27,12 +27,15 @@ import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTProducer;
 import org.xbup.lib.core.parser.basic.XBTProvider;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.basic.XBTSListener;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
 import org.xbup.lib.core.parser.token.XBTEndToken;
+import org.xbup.lib.core.parser.token.XBTSBeginToken;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
+import org.xbup.lib.core.parser.token.convert.XBTListenerToToken;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
@@ -40,7 +43,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  *
  * Uses token buffer stored in memory.
  *
- * @version 0.1.23 2013/11/21
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTProducerToProvider implements XBTProvider {
@@ -49,11 +52,16 @@ public class XBTProducerToProvider implements XBTProvider {
 
     public XBTProducerToProvider(XBTProducer producer) {
         tokens = new ArrayList<>();
-        producer.attachXBTListener(new XBTListener() {
+        producer.attachXBTListener(new XBTSListener() {
 
             @Override
             public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
                 tokens.add(new XBTBeginToken(terminationMode));
+            }
+
+            @Override
+            public void beginXBT(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
+                tokens.add(new XBTSBeginToken(terminationMode, blockSize));
             }
 
             @Override
@@ -82,32 +90,7 @@ public class XBTProducerToProvider implements XBTProvider {
     public void produceXBT(XBTListener listener) throws XBProcessingException, IOException {
         if (tokens.isEmpty()) {
             XBTToken token = tokens.get(0);
-            switch (token.getTokenType()) {
-                case BEGIN: {
-                    listener.beginXBT(((XBTBeginToken) token).getTerminationMode());
-                    break;
-                }
-
-                case TYPE: {
-                    listener.typeXBT(((XBTTypeToken) token).getBlockType());
-                    break;
-                }
-
-                case ATTRIBUTE: {
-                    listener.attribXBT(((XBTAttributeToken) token).getAttribute());
-                    break;
-                }
-
-                case DATA: {
-                    listener.dataXBT(((XBTDataToken) token).getData());
-                    break;
-                }
-
-                case END: {
-                    listener.endXBT();
-                    break;
-                }
-            }
+            XBTListenerToToken.tokenToListener(token, listener);
         } else {
             throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
         }

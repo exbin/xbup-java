@@ -16,11 +16,11 @@
  */
 package org.xbup.lib.core.serial.transform;
 
-import org.xbup.lib.core.serial.param.*;
 import java.io.IOException;
 import java.util.List;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.serial.param.XBPProvider;
 
 /**
  * TODO: XBUP level 2 child serialization provider interface.

@@ -26,7 +26,7 @@ import org.xbup.lib.core.catalog.base.XBCFormatSpec;
 import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpec;
-import org.xbup.lib.core.catalog.base.XBCSpecDefType;
+import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
@@ -318,7 +318,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
 
         CatalogDefOperationType operation = CatalogDefOperationType.CONSIST;
         switch (defItem.getDefType()) {
-            case CONS: {
+            case CONSIST: {
                 operation = (defItem.getTarget() == null) && (spec instanceof XBCBlockSpec)
                         ? CatalogDefOperationType.ANY : CatalogDefOperationType.CONSIST;
                 break;
@@ -328,7 +328,7 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
                         ? CatalogDefOperationType.ATTRIBUTE : CatalogDefOperationType.JOIN;
                 break;
             }
-            case LIST_CONS: {
+            case LIST_CONSIST: {
                 operation = (defItem.getTarget() == null)
                         ? CatalogDefOperationType.ANY_LIST : CatalogDefOperationType.CONSIST_LIST;
                 break;
@@ -345,33 +345,33 @@ public class CatalogSpecDefEditorDialog extends javax.swing.JDialog {
         setTargetRev(defItem.getTarget());
     }
 
-    public XBCSpecDefType getSpecDefType() {
+    public XBParamType getSpecDefType() {
         if (spec instanceof XBCBlockSpec) {
             switch (getOperation()) {
                 case CONSIST:
-                    return XBCSpecDefType.CONS;
+                    return XBParamType.CONSIST;
                 case JOIN:
-                    return XBCSpecDefType.JOIN;
+                    return XBParamType.JOIN;
                 case ANY:
-                    return XBCSpecDefType.CONS;
+                    return XBParamType.CONSIST;
                 case ATTRIBUTE:
-                    return XBCSpecDefType.JOIN;
+                    return XBParamType.JOIN;
                 case CONSIST_LIST:
-                    return XBCSpecDefType.LIST_CONS;
+                    return XBParamType.LIST_CONSIST;
                 case JOIN_LIST:
-                    return XBCSpecDefType.LIST_JOIN;
+                    return XBParamType.LIST_JOIN;
                 case ANY_LIST:
-                    return XBCSpecDefType.LIST_CONS;
+                    return XBParamType.LIST_CONSIST;
                 case ATTRIBUTE_LIST:
-                    return XBCSpecDefType.LIST_JOIN;
+                    return XBParamType.LIST_JOIN;
                 default:
-                    return XBCSpecDefType.CONS;
+                    return XBParamType.CONSIST;
             }
         } else {
             if (getOperation() == CatalogDefOperationType.CONSIST) {
-                return XBCSpecDefType.CONS;
+                return XBParamType.CONSIST;
             } else {
-                return XBCSpecDefType.JOIN;
+                return XBParamType.JOIN;
             }
         }
     }

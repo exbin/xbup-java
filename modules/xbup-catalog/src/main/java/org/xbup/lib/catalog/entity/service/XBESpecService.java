@@ -27,7 +27,7 @@ import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.catalog.base.XBCSpecDefType;
+import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.core.catalog.base.manager.XBCSpecManager;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.catalog.XBECatalog;
@@ -224,7 +224,7 @@ public class XBESpecService extends XBEDefaultService<XBESpec> implements XBCSpe
     }
 
     @Override
-    public XBCSpecDef createSpecDef(XBCSpec spec, XBCSpecDefType type) {
+    public XBCSpecDef createSpecDef(XBCSpec spec, XBParamType type) {
         return ((XBESpecManager) itemManager).createSpecDef(spec, type);
     }
 

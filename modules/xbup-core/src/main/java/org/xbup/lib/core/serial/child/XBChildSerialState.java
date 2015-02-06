@@ -25,7 +25,7 @@ package org.xbup.lib.core.serial.child;
 public enum XBChildSerialState {
 
     /**
-     * Start of the block.
+     * Start of serialization of the given child.
      */
     BLOCK_BEGIN,
     /**
@@ -53,7 +53,7 @@ public enum XBChildSerialState {
      */
     BLOCK_END,
     /**
-     * End of parsing.
+     * End of serialization of the given child.
      */
     EOF,
 }

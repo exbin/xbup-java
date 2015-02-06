@@ -21,64 +21,61 @@ import java.io.InputStream;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * Todo: invalid!
- * Level 0 Skip XBUP Tree Events.
- * It doesn't validate correct order.
+ * Level 0 counting listener reporting one skipped block.
  *
- * @version 0.1.23 2013/11/25
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
-public class XBEventSkipNode implements XBListener {
+public class XBSkipBlockListener implements XBListener {
 
-    private boolean finished;
-    private long level;
+    private boolean isSkipped = false;
+    private long level = 0;
 
-    /** Creates a new instance of XBEventSkipNode */
-    public XBEventSkipNode() {
-        finished = true;
+    public XBSkipBlockListener() {
+        isSkipped = true;
     }
 
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBParseException, IOException {
-        if (finished) {
-            finished = false;
-            level = 0;
-        } else {
-            level++;
+        if (isSkipped) {
+            throw new XBParseException("Unexpected token after block skip", XBProcessingExceptionType.WRITING_AFTER_END);
         }
+
+        level++;
     }
 
     @Override
     public void attribXB(UBNatural value) throws XBParseException, IOException {
-        if (finished) {
-            throw new XBParseException("Unexpected attribute");
+        if (isSkipped) {
+            throw new XBParseException("Unexpected token after block skip", XBProcessingExceptionType.WRITING_AFTER_END);
         }
     }
 
     @Override
     public void dataXB(InputStream data) throws XBParseException, IOException {
-        if (finished) {
-            throw new XBParseException("Unexpected data");
+        if (isSkipped) {
+            throw new XBParseException("Unexpected token after block skip", XBProcessingExceptionType.WRITING_AFTER_END);
         }
     }
 
     @Override
     public void endXB() throws XBParseException, IOException {
-        if (finished) {
-            throw new XBParseException("Unexpected data");
+        if (isSkipped) {
+            throw new XBParseException("Unexpected token after block skip", XBProcessingExceptionType.WRITING_AFTER_END);
         }
 
-        if (level==0) {
-            finished = true;
+        if (level == 0) {
+            isSkipped = true;
         } else {
             level--;
         }
     }
 
-    public boolean isClosed() {
-        return finished;
+    public boolean isSkipped() {
+        return isSkipped;
     }
 }

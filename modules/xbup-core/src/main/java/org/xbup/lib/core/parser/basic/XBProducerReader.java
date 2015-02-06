@@ -97,7 +97,7 @@ public class XBProducerReader implements XBProducer {
      * If parent node is in terminated mode, this might just close parent node.
      */
     private void readNode() throws XBProcessingException, IOException {
-        // Size limits provides list of limits in tree structure
+        // Size limits provide list of limits in tree structure
         // with null value for terminated data parts
         List<Integer> sizeLimits = new ArrayList<>();
 

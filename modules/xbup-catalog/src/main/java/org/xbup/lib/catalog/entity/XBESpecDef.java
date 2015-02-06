@@ -24,7 +24,7 @@ import javax.persistence.ManyToOne;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.catalog.base.XBCSpecDefType;
+import org.xbup.lib.core.block.definition.XBParamType;
 
 /**
  * Specification definition database entity.
@@ -61,7 +61,7 @@ public class XBESpecDef extends XBEItem implements Serializable, XBCSpecDef {
     }
 
     @Override
-    public XBCSpecDefType getType() {
+    public XBParamType getType() {
         return null;
     }
 }

@@ -26,5 +26,4 @@ import org.xbup.lib.core.catalog.base.XBCXUser;
  * @param <T> user entity
  */
 public interface XBCXUserService<T extends XBCXUser> extends XBCService<T> {
-
 }

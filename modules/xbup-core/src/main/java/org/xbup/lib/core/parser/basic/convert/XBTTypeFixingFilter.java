@@ -18,8 +18,10 @@ package org.xbup.lib.core.parser.basic.convert;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
@@ -27,84 +29,117 @@ import org.xbup.lib.core.parser.basic.XBTFilter;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBDBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
+import org.xbup.lib.core.block.declaration.XBLevelContext;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * Convert stand-alone block types to fixed types.
+ * Filter to convert stand-alone block types to fixed types.
  *
- * @version 0.1.23 2014/10/24
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTypeFixingFilter implements XBTFilter {
 
-    private XBTListener listener;
-    private final XBCatalog catalog;
-    private XBContext context;
-    private long counter;
+    private XBCatalog catalog = null;
+    private XBTListener listener = null;
+    private final List<XBLevelContext> contexts = new ArrayList<>();
+    private XBLevelContext currentContext = null;
+
+    private int documentDepth = 0;
+    private XBBlockTerminationMode beginTerminationMode;
 
     /**
      * Creates a new instance.
      *
-     * @param context initial context
      * @param catalog catalog used for catalog types
      */
-    public XBTTypeFixingFilter(XBContext context, XBCatalog catalog) {
-        this.context = context;
+    public XBTTypeFixingFilter(XBCatalog catalog) {
         this.catalog = catalog;
-        listener = null;
-        counter = 0;
+    }
+
+    /**
+     * Creates a new instance.
+     *
+     * @param initialContext initial context
+     * @param catalog catalog used for catalog types
+     */
+    public XBTTypeFixingFilter(XBCatalog catalog, XBContext initialContext) {
+        this(catalog);
+        currentContext = new XBLevelContext(catalog, initialContext, 0);
     }
 
     @Override
     public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-        if (counter == 0) {
-            XBTCountingFilter countingFilter = new XBTCountingFilter(listener);
-            do {
-                // TODO declProvider.produceXBT(countingListener);
-            } while (!countingFilter.isFinished());
+        if (currentContext != null && !currentContext.isDeclarationFinished()) {
+            currentContext.beginXBT(terminationMode);
         }
 
         listener.beginXBT(terminationMode);
-        counter++;
+        documentDepth++;
+        beginTerminationMode = terminationMode;
     }
 
     @Override
-    public void typeXBT(XBBlockType type) throws XBProcessingException, IOException {
-        XBFixedBlockType fixedType = type instanceof XBFixedBlockType ? (XBFixedBlockType) type : catalog.findFixedType(context, (XBDBlockType) type);
-        listener.typeXBT(fixedType == null ? new XBFixedBlockType() : fixedType);
+    public void typeXBT(XBBlockType blockType) throws XBProcessingException, IOException {
+        if (currentContext != null && !currentContext.isDeclarationFinished()) {
+            currentContext.typeXBT(blockType);
+        }
+
+        if (blockType.getAsBasicType() == XBBasicBlockType.DECLARATION) {
+            documentDepth++;
+            contexts.add(currentContext);
+            currentContext = new XBLevelContext(catalog, currentContext == null ? null : currentContext.getContext(), documentDepth);
+            currentContext.beginXBT(beginTerminationMode);
+            currentContext.typeXBT(blockType);
+            listener.typeXBT(blockType);
+        } else {
+            if (blockType instanceof XBDBlockType) {
+                XBFixedBlockType fixedType = currentContext.getContext().getFixedBlockType((XBDBlockType) blockType);
+                if (fixedType == null) {
+                    throw new XBProcessingException("Unable to match block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
+                }
+                listener.typeXBT(fixedType);
+            } else {
+                listener.typeXBT(blockType);
+            }
+        }
     }
 
     @Override
     public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
+        if (currentContext != null && !currentContext.isDeclarationFinished()) {
+            currentContext.attribXBT(value);
+        }
+
         listener.attribXBT(value);
     }
 
     @Override
     public void dataXBT(InputStream data) throws XBProcessingException, IOException {
+        if (currentContext != null && !currentContext.isDeclarationFinished()) {
+            currentContext.dataXBT(data);
+        }
+
         listener.dataXBT(data);
     }
 
     @Override
     public void endXBT() throws XBProcessingException, IOException {
-        if (counter == 0) {
-            throw new XBProcessingException("Unexpected stream flow", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+        if (currentContext != null && !currentContext.isDeclarationFinished()) {
+            currentContext.endXBT();
         }
 
         listener.endXBT();
-        counter--;
+        documentDepth--;
+        if (currentContext != null && currentContext.getDepthLevel() > documentDepth) {
+            currentContext = contexts.size() > 0 ? contexts.remove(contexts.size() - 1) : null;
+        }
     }
 
     @Override
     public void attachXBTListener(XBTListener listener) {
         this.listener = listener;
-    }
-
-    public XBContext getContext() {
-        return context;
-    }
-
-    public void setContext(XBContext context) {
-        this.context = context;
     }
 }

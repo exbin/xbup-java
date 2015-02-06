@@ -130,7 +130,7 @@ public interface MainFrameManagement {
     public void initPopupMenu(JPopupMenu popupMenu);
     
     /**
-     * Get basic default popup menu with clipboard actions.
+     * Gets basic default popup menu with clipboard actions.
      *
      * @return popup menu
      */

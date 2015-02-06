@@ -107,6 +107,7 @@ public class XBLBlockDef implements XBBlockDef, XBPSequenceSerializable, XBTBasi
         serial.listConsist(new XBListConsistSerializable() {
 
             private int position = 0;
+            private boolean infinityMode = false;
 
             @Override
             public UBENatural getSize() {
@@ -116,13 +117,15 @@ public class XBLBlockDef implements XBBlockDef, XBPSequenceSerializable, XBTBasi
             @Override
             public void setSize(UBENatural count) {
                 if (count.isInfinity()) {
-                    throw new UnsupportedOperationException("Not supported yet.");
+                    infinityMode = true;
                 }
 
                 blockParams.clear();
-                int size = count.getInt();
-                for (int i = 0; i < size; i++) {
-                    blockParams.add(null);
+                if (!infinityMode) {
+                    int size = count.getInt();
+                    for (int i = 0; i < size; i++) {
+                        blockParams.add(null);
+                    }
                 }
             }
 
@@ -155,6 +158,10 @@ public class XBLBlockDef implements XBBlockDef, XBPSequenceSerializable, XBTBasi
                                                     : null;
                     if (param == null) {
                         throw new IllegalStateException("Illegal format parameter " + position);
+                    }
+
+                    if (infinityMode) {
+                        blockParams.add(null);
                     }
                     blockParams.set(position, param);
                     serializationHandler.join(param);

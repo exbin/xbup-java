@@ -22,7 +22,7 @@ import javax.persistence.InheritanceType;
 import org.xbup.lib.core.catalog.base.XBCBlockListCons;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
-import org.xbup.lib.core.catalog.base.XBCSpecDefType;
+import org.xbup.lib.core.block.definition.XBParamType;
 
 /**
  * Block list consist database entity.
@@ -56,7 +56,7 @@ public class XBEBlockListCons extends XBEConsDef implements XBCBlockListCons {
     }
 
     @Override
-    public XBCSpecDefType getType() {
-        return XBCSpecDefType.LIST_CONS;
+    public XBParamType getType() {
+        return XBParamType.LIST_CONSIST;
     }
 }

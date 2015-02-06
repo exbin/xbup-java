@@ -45,8 +45,8 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  */
 public class XBWave implements XBPSequenceSerializable {
 
-    public static long[] XB_BLOCK_PATH = {1, 5, 0, 0}; // Testing only
-    public static long[] XB_FORMAT_PATH = {1, 5, 0, 0};
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 5, 0, 0}; // Testing only
+    public static long[] XBUP_FORMATREV_CATALOGPATH = {1, 5, 0, 0};
     private AudioFormat audioFormat;
     private List<byte[]> data;
     public int chunkSize;
@@ -123,7 +123,7 @@ public class XBWave implements XBPSequenceSerializable {
     @Override
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
-        serial.matchType(new XBDeclBlockType(new XBLBlockDecl(XB_BLOCK_PATH)));
+        serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
         if (serial.getSerializationMode() == XBSerializationMode.PULL) {
             UBNatural sampleRate = serial.pullAttribute();
             UBNatural sampleSizeInBits = serial.pullAttribute();

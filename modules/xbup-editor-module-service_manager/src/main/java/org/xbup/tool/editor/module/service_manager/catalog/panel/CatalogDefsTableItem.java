@@ -19,7 +19,7 @@ package org.xbup.tool.editor.module.service_manager.catalog.panel;
 import org.xbup.lib.catalog.entity.XBERev;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.catalog.base.XBCSpecDefType;
+import org.xbup.lib.core.block.definition.XBParamType;
 
 /**
  * Table model for catalog specification definition.
@@ -31,7 +31,7 @@ public class CatalogDefsTableItem {
 
     private XBCSpecDef specDef;
     private Long xbIndex;
-    private XBCSpecDefType defType;
+    private XBParamType defType;
     private XBCRev target;
     private String stringId;
     private String name;
@@ -126,11 +126,11 @@ public class CatalogDefsTableItem {
         this.description = description;
     }
 
-    public XBCSpecDefType getDefType() {
+    public XBParamType getDefType() {
         return defType;
     }
 
-    public void setDefType(XBCSpecDefType defType) {
+    public void setDefType(XBParamType defType) {
         this.defType = defType;
     }
 }

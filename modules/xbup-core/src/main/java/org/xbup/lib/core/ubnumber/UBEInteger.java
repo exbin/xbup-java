@@ -21,10 +21,12 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * Interface for LRUB-encoded integer value with infinity constants.
  *
- * @version 0.1.24 2014/06/07
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public interface UBEInteger {
+
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 0, 3, 0};
 
     /**
      * Gets short integer value.

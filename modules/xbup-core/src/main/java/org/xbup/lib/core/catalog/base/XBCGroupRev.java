@@ -31,5 +31,4 @@ public interface XBCGroupRev extends XBCRev {
      */
     @Override
     public XBCGroupSpec getParent();
-
 }

@@ -26,5 +26,4 @@ import org.xbup.lib.core.catalog.base.XBCItem;
  * @param <T> item class
  */
 public interface XBCItemService<T extends XBCItem> extends XBCService<T> {
-
 }

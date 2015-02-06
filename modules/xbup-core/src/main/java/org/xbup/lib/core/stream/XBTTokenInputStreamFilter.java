@@ -25,5 +25,4 @@ package org.xbup.lib.core.stream;
 public abstract class XBTTokenInputStreamFilter extends XBTInputTokenStream {
 
     public abstract void setXBTInputStream(XBTInputTokenStream source);
-
 }

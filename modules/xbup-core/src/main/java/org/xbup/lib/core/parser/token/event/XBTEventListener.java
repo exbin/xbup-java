@@ -30,7 +30,7 @@ import org.xbup.lib.core.parser.token.XBTToken;
 public interface XBTEventListener extends EventListener {
 
     /**
-     * Invoked when an event occurs.
+     * Puts next token.
      *
      * @param token
      * @throws XBProcessingException

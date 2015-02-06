@@ -30,7 +30,7 @@ public interface XBTokenOutputSerialHandler extends XBOutputSerialHandler {
     /**
      * Attaches event listener to be used as target for serialization.
      *
-     * @param listener
+     * @param listener listener
      */
     public void attachXBEventListener(XBEventListener listener);
 }

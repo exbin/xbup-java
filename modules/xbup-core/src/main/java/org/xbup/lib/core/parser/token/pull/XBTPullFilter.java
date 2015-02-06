@@ -23,5 +23,4 @@ package org.xbup.lib.core.parser.token.pull;
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTPullFilter extends XBTPullConsumer, XBTPullProvider {
-
 }

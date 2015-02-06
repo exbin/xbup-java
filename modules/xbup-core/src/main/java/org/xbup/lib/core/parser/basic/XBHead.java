@@ -59,7 +59,7 @@ public class XBHead {
     public static final Level XB_DEBUG_LEVEL = new XBDebugLevel("XB_DEBUG", 658, defaultBundle);
 
     /**
-     * Write head of XBUP file into stream.
+     * Writes head of XBUP file into stream.
      *
      * @param stream output stream
      * @return count of written bytes
@@ -80,7 +80,7 @@ public class XBHead {
     }
 
     /**
-     * Validate head of XBUP file in stream.
+     * Validates head of XBUP file in stream.
      *
      * @param stream input stream
      * @return count of processed bytes

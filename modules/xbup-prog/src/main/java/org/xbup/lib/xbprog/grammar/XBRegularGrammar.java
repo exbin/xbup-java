@@ -34,8 +34,8 @@ import org.xbup.lib.core.stream.XBTokenInputStream;
  */
 public class XBRegularGrammar implements XBSerializable {
 
-    public static long[] XB_FORMAT_PATH = {0, 1, 1, 1}; // Testing only
-    public static long[] XB_BLOCK_PATH = {0, 1, 1, 1}; // Testing only
+    public static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 1, 1}; // Testing only
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 1, 1}; // Testing only
     private List<XBRegularGrammarRule> rules;
     private long nonterminalCount;
     private long terminalCount;
@@ -45,7 +45,7 @@ public class XBRegularGrammar implements XBSerializable {
     }
 
     public XBDeclaration getXBDeclaration() {
-        return new XBDeclaration(new XBLFormatDecl(XB_FORMAT_PATH));
+        return new XBDeclaration(new XBLFormatDecl(XBUP_FORMATREV_CATALOGPATH));
     }
 
     public List<XBRegularGrammarRule> getRules() {
@@ -177,7 +177,7 @@ public class XBRegularGrammar implements XBSerializable {
      XBTListener listener = (XBTListener) serializationHandler;
      try {
      listener.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-     listener.typeXBT(new XBDBlockType(new XBCPBlockDecl(XB_BLOCK_PATH)));
+     listener.typeXBT(new XBDBlockType(new XBCPBlockDecl(XBUP_BLOCKREV_CATALOGPATH)));
      listener.attribXBT(new UBNat32(nonterminalCount));
      listener.attribXBT(new UBNat32(terminalCount));
      // TODO: pass UBList

@@ -19,28 +19,36 @@ package org.xbup.lib.core.block.definition;
 /**
  * XBUP level 1 parameter type enumeration.
  *
- * @version 0.1.23 2013/11/06
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public enum XBParamType {
 
     /**
-     * Adds given block as subblock or data block if unspecified.
+     * Consist parameter.
+     *
+     * Appends given block as subblock or any block if unspecified.
      */
     CONSIST,
     /**
-     * Append attributes and subblocks of given block or single attribute if
+     * Join parameter.
+     *
+     * Appends attributes and subblocks of given block or single attribute if
      * unspecified.
      */
     JOIN,
     /**
-     * List of given block starting with count of blocks as UBENatural
-     * (including infinity).
+     * List consist parameter.
+     *
+     * Appends list of subblocks of given block type or any block. List size is
+     * included first as UBENatural attribute (including infinity).
      */
     LIST_CONSIST,
     /**
-     * Append finite list of attributes and subblocks of given block type or
-     * list of attributes.
+     * List join parameter.
+     *
+     * Appends list of attributes and subblocks of given block type or plain
+     * attributes. List size is included first as UBNatural attribute.
      */
     LIST_JOIN;
 

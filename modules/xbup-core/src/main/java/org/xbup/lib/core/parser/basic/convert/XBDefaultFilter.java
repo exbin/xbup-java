@@ -22,7 +22,6 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBFilter;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.parser.basic.XBSListener;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
@@ -30,25 +29,16 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  *
  * This filter doesn't change data which are passing thru.
  *
- * @version 0.1.24 2014/11/27
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
-public class XBDefaultFilter implements XBFilter, XBSListener {
+public class XBDefaultFilter implements XBFilter, XBListener {
 
     private XBListener listener = null;
 
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         listener.beginXB(terminationMode);
-    }
-
-    @Override
-    public void beginXB(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
-        if (listener instanceof XBSListener) {
-            ((XBSListener) listener).beginXB(terminationMode, blockSize);
-        } else {
-            listener.beginXB(terminationMode);
-        }
     }
 
     @Override

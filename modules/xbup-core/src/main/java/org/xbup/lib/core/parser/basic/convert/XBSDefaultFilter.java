@@ -18,85 +18,57 @@ package org.xbup.lib.core.parser.basic.convert;
 
 import java.io.IOException;
 import java.io.InputStream;
-import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.basic.XBFilter;
 import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.parser.basic.XBTProducer;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.basic.XBSListener;
-import org.xbup.lib.core.parser.basic.XBTSListener;
 import org.xbup.lib.core.ubnumber.UBNatural;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * XBUP level 1 To level 0 convertor.
+ * Default XBUP level 0 filter.
+ *
+ * This filter doesn't change data which are passing thru. Extend this, if your
+ * filter is capable of managing size precomputed tokens.
  *
  * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
-public class XBToXBTConvertor implements XBListener, XBSListener, XBTProducer {
+public class XBSDefaultFilter implements XBFilter, XBSListener {
 
-    private XBTListener listener;
-    private boolean blockTypeProcessed = false;
-    private UBNatural groupId;
+    private XBListener listener = null;
 
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-        if (!blockTypeProcessed) {
-            listener.typeXBT(new XBFixedBlockType(groupId != null ? groupId.getLong() : 0, 0));
-        }
-
-        listener.beginXBT(terminationMode);
-        blockTypeProcessed = false;
-        groupId = null;
+        listener.beginXB(terminationMode);
     }
 
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
-        if (!blockTypeProcessed) {
-            listener.typeXBT(new XBFixedBlockType(groupId != null ? groupId.getLong() : 0, 0));
-        }
-
-        if (listener instanceof XBTSListener) {
-            ((XBTSListener) listener).beginXBT(terminationMode, blockSize);
+        if (listener instanceof XBSListener) {
+            ((XBSListener) listener).beginXB(terminationMode, blockSize);
         } else {
-            listener.beginXBT(terminationMode);
+            listener.beginXB(terminationMode);
         }
-        blockTypeProcessed = false;
-        groupId = null;
     }
 
     @Override
     public void attribXB(UBNatural value) throws XBProcessingException, IOException {
-        if (blockTypeProcessed) {
-            listener.attribXBT(value);
-        } else {
-            if (groupId != null) {
-                listener.typeXBT(new XBFixedBlockType(groupId.getLong(), value.getLong()));
-                blockTypeProcessed = true;
-            } else {
-                groupId = new UBNat32(value.getLong());
-            }
-        }
+        listener.attribXB(value);
     }
 
     @Override
     public void dataXB(InputStream data) throws XBProcessingException, IOException {
-        listener.dataXBT(data);
+        listener.dataXB(data);
     }
 
     @Override
     public void endXB() throws XBProcessingException, IOException {
-        if (!blockTypeProcessed) {
-            listener.typeXBT(new XBFixedBlockType(groupId != null ? groupId.getLong() : 0, 0));
-        }
-
-        listener.endXBT();
+        listener.endXB();
     }
 
     @Override
-    public void attachXBTListener(XBTListener listener) {
+    public void attachXBListener(XBListener listener) {
         this.listener = listener;
     }
 }

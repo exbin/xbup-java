@@ -352,7 +352,7 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
                 try {
                     XBPCatalog catalog = new XBPCatalog();
                     catalog.addFormatDecl(getContextFormatDecl());
-                    XBLFormatDecl formatDecl = new XBLFormatDecl(XBEncodingText.XB_FORMAT_PATH);
+                    XBLFormatDecl formatDecl = new XBLFormatDecl(XBEncodingText.XBUP_FORMATREV_CATALOGPATH);
                     XBEncodingText encodingText = new XBEncodingText();
                     XBDeclaration declaration = new XBDeclaration(formatDecl, encodingText);
                     XBTPullTypeDeclaringFilter typeProcessing = new XBTPullTypeDeclaringFilter(catalog);
@@ -401,10 +401,10 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
 
                     XBPCatalog catalog = new XBPCatalog();
                     catalog.addFormatDecl(getContextFormatDecl());
-                    XBLFormatDecl formatDecl = new XBLFormatDecl(XBEncodingText.XB_FORMAT_PATH);
+                    XBLFormatDecl formatDecl = new XBLFormatDecl(XBEncodingText.XBUP_FORMATREV_CATALOGPATH);
                     XBDeclaration declaration = new XBDeclaration(formatDecl, encodingString);
                     declaration.realignReservation(catalog);
-                    XBTTypeFixingFilter typeProcessing = new XBTTypeFixingFilter(declaration.generateContext(catalog), catalog);
+                    XBTTypeFixingFilter typeProcessing = new XBTTypeFixingFilter(catalog);
                     typeProcessing.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
                     XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(typeProcessing));
                     writer.write(declaration);
@@ -456,7 +456,7 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
          formatDef.realignRevision();
 
          XBLFormatDecl formatDecl = new XBLFormatDecl(formatDef);
-         formatDecl.setCatalogPath(XBEncodingText.XB_FORMAT_PATH);
+         formatDecl.setCatalogPath(XBEncodingText.XBUP_FORMATREV_CATALOGPATH);
          return formatDecl;*/
 
         XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/xbup/tool/editor/module/text_editor/resources/xbt_format_decl.xb"));

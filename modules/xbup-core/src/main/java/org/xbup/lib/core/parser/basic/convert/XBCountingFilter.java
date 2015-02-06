@@ -17,12 +17,9 @@
 package org.xbup.lib.core.parser.basic.convert;
 
 import java.io.IOException;
-import java.io.InputStream;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.parser.basic.XBFilter;
-import org.xbup.lib.core.parser.basic.XBSListener;
+import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
@@ -30,61 +27,42 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  *
  * Keeps track of current depth level and provides isFinished method.
  *
- * @version 0.1.24 2014/11/27
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
-public class XBCountingFilter implements XBFilter, XBSListener {
+public class XBCountingFilter extends XBSDefaultFilter {
 
     private int depthLevel = 0;
-    private XBListener listener;
 
     public XBCountingFilter() {
+        super();
     }
 
     public XBCountingFilter(XBListener listener) {
-        this();
-        this.listener = listener;
-    }
-
-    @Override
-    public void attachXBListener(XBListener listener) {
-        this.listener = listener;
+        super();
+        attachXBListener(listener);
     }
 
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         depthLevel++;
-        listener.beginXB(terminationMode);
+        super.beginXB(terminationMode);
     }
 
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
         depthLevel++;
-        if (listener instanceof XBSListener) {
-            ((XBSListener) listener).beginXB(terminationMode, blockSize);
-        } else {
-            listener.beginXB(terminationMode);
-        }
-    }
-
-    @Override
-    public void attribXB(UBNatural attribute) throws XBProcessingException, IOException {
-        listener.attribXB(attribute);
-    }
-
-    @Override
-    public void dataXB(InputStream data) throws XBProcessingException, IOException {
-        listener.dataXB(data);
+        super.beginXB(terminationMode, blockSize);
     }
 
     @Override
     public void endXB() throws XBProcessingException, IOException {
         depthLevel--;
-        listener.endXB();
+        super.endXB();
     }
 
     /**
-     * Block completness.
+     * Returns block completness.
      *
      * @return true if no data passed or end of root block passed
      */

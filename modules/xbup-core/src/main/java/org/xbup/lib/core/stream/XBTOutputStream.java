@@ -21,7 +21,7 @@ import java.io.IOException;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 
 /**
- * XB level 1 output stream abstract class.
+ * XBUP level 1 output stream abstract class.
  *
  * @version 0.1.23 2014/02/25
  * @author XBUP Project (http://xbup.org)

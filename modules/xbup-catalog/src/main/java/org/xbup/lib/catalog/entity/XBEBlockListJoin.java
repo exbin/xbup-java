@@ -22,7 +22,7 @@ import javax.persistence.InheritanceType;
 import org.xbup.lib.core.catalog.base.XBCBlockListJoin;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
-import org.xbup.lib.core.catalog.base.XBCSpecDefType;
+import org.xbup.lib.core.block.definition.XBParamType;
 
 /**
  * Block list join database entity.
@@ -56,7 +56,7 @@ public class XBEBlockListJoin extends XBEJoinDef implements XBCBlockListJoin {
     }
 
     @Override
-    public XBCSpecDefType getType() {
-        return XBCSpecDefType.LIST_JOIN;
+    public XBParamType getType() {
+        return XBParamType.LIST_JOIN;
     }
 }

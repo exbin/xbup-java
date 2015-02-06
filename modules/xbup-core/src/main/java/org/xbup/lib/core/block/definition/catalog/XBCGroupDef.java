@@ -47,7 +47,7 @@ import org.xbup.lib.core.ubnumber.UBENatural;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 
 /**
- * XBUP level 1 block definition.
+ * XBUP level 1 group definition.
  *
  * @version 0.1.25 2015/02/02
  * @author XBUP Project (http://xbup.org)
@@ -92,7 +92,7 @@ public class XBCGroupDef implements XBGroupDef, XBPSequenceSerializable {
 
     public XBGroupParam convertParam(XBCSpecDef specDef) {
         switch (specDef.getType()) {
-            case CONS: {
+            case CONSIST: {
                 return new XBGroupParamConsist(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
             }
             case JOIN: {

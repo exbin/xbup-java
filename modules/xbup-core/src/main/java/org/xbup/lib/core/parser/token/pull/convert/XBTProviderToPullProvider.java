@@ -34,7 +34,7 @@ import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * Provider To pull provider convertor for XBUP protocol level 0.
+ * Provider To pull provider convertor for XBUP protocol level 1.
  *
  * @version 0.1.24 2014/11/27
  * @author XBUP Project (http://xbup.org)

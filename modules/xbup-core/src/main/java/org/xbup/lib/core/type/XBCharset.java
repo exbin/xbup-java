@@ -33,7 +33,7 @@ import org.xbup.lib.core.serial.param.XBSerializationMode;
 public class XBCharset implements XBPSequenceSerializable {
     
     private Charset charset;
-    public static long[] XB_BLOCK_PATH = {1, 2, 3, 0}; // Testing only
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 2, 3, 0}; // Testing only
 
     public XBCharset() {
         charset = Charset.defaultCharset();
@@ -54,7 +54,7 @@ public class XBCharset implements XBPSequenceSerializable {
     @Override
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
-        serial.matchType(new XBDeclBlockType(XB_BLOCK_PATH));
+        serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
         if (serial.getSerializationMode() == XBSerializationMode.PULL) {
             XBString charsetName = new XBString();
             serial.join(charsetName);

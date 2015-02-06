@@ -214,7 +214,7 @@ public class UBNat32 implements UBNatural, XBPSequenceSerializable {
     @Override
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
-        serial.matchType(new XBDeclBlockType(XBUP_BLOCK_TYPE));
+        serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
         serial.attribute(this);
         serial.end();
     }

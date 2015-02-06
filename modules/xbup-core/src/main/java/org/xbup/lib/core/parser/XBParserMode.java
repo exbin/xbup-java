@@ -19,25 +19,25 @@ package org.xbup.lib.core.parser;
 /**
  * Enumeration of possible parsing modes.
  *
- * @version 0.1.23 2013/02/05
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public enum XBParserMode {
 
     /**
-     * Parsing include both header and extended part / tail.
+     * Parsing includes both header and extended part / tail.
      */
     FULL,
     /**
-     * Parsing only generate single block - skips both header and tail.
+     * Parsing only generates single block - skips both header and tail.
      */
     SINGLE_BLOCK,
     /**
-     * Skip header.
+     * Skips header.
      */
     SKIP_HEAD,
     /**
-     * Skip extended part / tail.
+     * Skips extended part / tail.
      */
     SKIP_EXTENDED
 }

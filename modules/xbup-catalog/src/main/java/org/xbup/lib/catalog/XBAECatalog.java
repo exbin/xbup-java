@@ -30,24 +30,13 @@ import org.xbup.lib.catalog.entity.service.XBETranService;
 /**
  * Basic level 2 catalog class using Java persistence.
  *
- * @version 0.1.23 2014/03/27
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBAECatalog extends XBECatalog implements XBACatalog {
 
-    public XBAECatalog() {
-        super();
-
-        /*catalogServices.put(XBCLimiService.class, new XBELimiService(this));
-        catalogServices.put(XBCTranService.class, new XBETranService(this)); */
-    }
-    
     public XBAECatalog(EntityManager em) {
-        this(em, null);
-    }
-
-    public XBAECatalog(EntityManager em, String fileRepositoryPath) {
-        super(em, fileRepositoryPath);
+        super(em);
 
         catalogServices.put(XBCLimiService.class, new XBELimiService(this));
         catalogServices.put(XBCTranService.class, new XBETranService(this));
@@ -70,16 +59,16 @@ public class XBAECatalog extends XBECatalog implements XBACatalog {
         try {
             tx.begin();
 
-/*            XBEType node = new XBEType();
-            node.setXBIndex(new Long(0));
-            node.setOwner(null);
-            em.persist(node);
+            /*            XBEType node = new XBEType();
+             node.setXBIndex(new Long(0));
+             node.setOwner(null);
+             em.persist(node);
 
-            XBEAttrib attrib = new XBEAttrib();
-            attrib.setOwner(node);
-            attrib.setXBIndex(new Long(0));
-            em.persist(attrib);
-*/
+             XBEAttrib attrib = new XBEAttrib();
+             attrib.setOwner(node);
+             attrib.setXBIndex(new Long(0));
+             em.persist(attrib);
+             */
             tx.commit();
         } catch (Exception ex) {
             Logger.getLogger(XBAECatalog.class.getName()).log(Level.SEVERE, null, ex);

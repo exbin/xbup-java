@@ -30,7 +30,7 @@ import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 
 /**
- * XBUP level 1 block consist parameter.
+ * XBUP level 1 block list consist parameter.
  *
  * @version 0.1.25 2015/02/05
  * @author XBUP Project (http://xbup.org)

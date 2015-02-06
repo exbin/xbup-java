@@ -40,8 +40,8 @@ public class XBBufferedImage implements XBPSerializable {
 
     private BufferedImage image;
 
-    public static long[] XB_BLOCK_PATH = {1, 4, 0, 0, 2, 0};
-    public static long[] XB_FORMAT_PATH = {1, 4, 0, 1, 0};
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 4, 0, 0, 2, 0};
+    public static long[] XBUP_FORMATREV_CATALOGPATH = {1, 4, 0, 1, 0};
 
     public XBBufferedImage() {
         image = null;
@@ -70,7 +70,7 @@ public class XBBufferedImage implements XBPSerializable {
     @Override
     public void serializeFromXB(XBPInputSerialHandler serial) throws XBProcessingException, IOException {
         serial.pullBegin();
-        serial.matchType(new XBDeclBlockType(new XBLBlockDecl(XB_BLOCK_PATH)));
+        serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
         UBNatural width = serial.pullAttribute();
         UBNatural height = serial.pullAttribute();
         BufferedImage result = new BufferedImage(width.getInt(), height.getInt(), BufferedImage.TYPE_INT_RGB);
@@ -82,7 +82,7 @@ public class XBBufferedImage implements XBPSerializable {
     @Override
     public void serializeToXB(XBPOutputSerialHandler serial) throws XBProcessingException, IOException {
         serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serial.putType(new XBDeclBlockType(new XBLBlockDecl(XB_BLOCK_PATH)));
+        serial.putType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
         WritableRaster raster = image.getRaster();
         serial.putAttribute(new UBNat32(raster.getWidth()));
         serial.putAttribute(new UBNat32(raster.getHeight()));

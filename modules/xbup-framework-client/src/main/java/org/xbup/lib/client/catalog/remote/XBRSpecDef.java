@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.catalog.base.XBCSpecDefType;
+import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.XBCatalogServiceMessage;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -90,7 +90,7 @@ public class XBRSpecDef extends XBRItem implements XBCSpecDef {
     }
 
     @Override
-    public XBCSpecDefType getType() {
+    public XBParamType getType() {
         // TODO
         return null;
     }

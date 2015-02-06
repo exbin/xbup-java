@@ -114,6 +114,7 @@ public class XBLGroupDef implements XBGroupDef, XBPSequenceSerializable, XBTBasi
         serial.listConsist(new XBListConsistSerializable() {
 
             private int position = 0;
+            private boolean infinityMode = false;
 
             @Override
             public UBENatural getSize() {
@@ -123,13 +124,15 @@ public class XBLGroupDef implements XBGroupDef, XBPSequenceSerializable, XBTBasi
             @Override
             public void setSize(UBENatural count) {
                 if (count.isInfinity()) {
-                    throw new UnsupportedOperationException("Not supported yet.");
+                    infinityMode = true;
                 }
 
                 groupParams.clear();
-                int size = count.getInt();
-                for (int i = 0; i < size; i++) {
-                    groupParams.add(null);
+                if (!infinityMode) {
+                    int size = count.getInt();
+                    for (int i = 0; i < size; i++) {
+                        groupParams.add(null);
+                    }
                 }
             }
 
@@ -159,6 +162,10 @@ public class XBLGroupDef implements XBGroupDef, XBPSequenceSerializable, XBTBasi
                             : type.getAsBasicType() == XBBasicBlockType.GROUP_CONSIST_PARAMETER ? new XBGroupParamJoin() : null;
                     if (param == null) {
                         throw new IllegalStateException("Illegal format parameter " + position);
+                    }
+
+                    if (infinityMode) {
+                        groupParams.add(null);
                     }
                     groupParams.set(position, param);
                     serializationHandler.join(param);

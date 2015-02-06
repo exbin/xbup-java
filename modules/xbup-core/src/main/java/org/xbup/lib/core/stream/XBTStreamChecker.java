@@ -23,6 +23,7 @@ import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
@@ -50,7 +51,7 @@ public class XBTStreamChecker implements XBTListener {
         if (token.getTokenType() == XBTTokenType.BEGIN) {
             return ((XBTBeginToken)token).getTerminationMode();
         }
-        throw new XBParseException("Unexpected event order");
+        throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
     }
 
     public XBBlockType typeXBT() throws XBProcessingException, IOException {
@@ -58,7 +59,7 @@ public class XBTStreamChecker implements XBTListener {
         if (token.getTokenType() == XBTTokenType.TYPE) {
             return ((XBTTypeToken)token).getBlockType();
         }
-        throw new XBParseException("Unexpected event order");
+        throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
     }
 
     public UBNatural attribXBT() throws XBProcessingException, IOException {
@@ -66,7 +67,7 @@ public class XBTStreamChecker implements XBTListener {
         if (token.getTokenType() == XBTTokenType.ATTRIBUTE) {
             return ((XBTAttributeToken)token).getAttribute();
         }
-        throw new XBParseException("Unexpected event order");
+        throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
     }
 
     public InputStream dataXBT() throws XBProcessingException, IOException {
@@ -74,7 +75,7 @@ public class XBTStreamChecker implements XBTListener {
         if (token.getTokenType() == XBTTokenType.DATA) {
             return ((XBTDataToken)token).getData();
         }
-        throw new XBParseException("Unexpected event order");
+        throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
     }
 
     @Override
@@ -83,14 +84,14 @@ public class XBTStreamChecker implements XBTListener {
         if (token.getTokenType() == XBTTokenType.END) {
             return;
         }
-        throw new XBParseException("Unexpected event order");
+        throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
     }
 
     @Override
     public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         XBTToken token = getStream().pullXBTToken();
         if (token.getTokenType() != XBTTokenType.BEGIN || terminationMode != ((XBTBeginToken)token).getTerminationMode()) {
-            throw new XBParseException("Unexpected event order");
+            throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
     }
 
@@ -98,7 +99,7 @@ public class XBTStreamChecker implements XBTListener {
     public void typeXBT(XBBlockType type) throws XBProcessingException, IOException {
         XBTToken token = getStream().pullXBTToken();
         if (token.getTokenType() != XBTTokenType.TYPE || !((XBTTypeToken)token).getBlockType().equals(type)) {
-            throw new XBParseException("Unexpected event order");
+            throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
     }
 
@@ -106,7 +107,7 @@ public class XBTStreamChecker implements XBTListener {
     public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
         XBTToken token = getStream().pullXBTToken();
         if (token.getTokenType() != XBTTokenType.ATTRIBUTE || ((XBTAttributeToken)token).getAttribute().getLong() != value.getLong()) {
-            throw new XBParseException("Unexpected event order");
+            throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
     }
 
@@ -114,7 +115,7 @@ public class XBTStreamChecker implements XBTListener {
     public void dataXBT(InputStream data) throws XBProcessingException, IOException {
         XBTToken token = getStream().pullXBTToken();
         if (token.getTokenType() != XBTTokenType.DATA || data != ((XBTDataToken)token).getData()) {
-            throw new XBParseException("Unexpected event order");
+            throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
     }
 
@@ -122,9 +123,6 @@ public class XBTStreamChecker implements XBTListener {
         return getStream() == null;
     }
 
-    /**
-     * @return source stream
-     */
     public XBTInputTokenStream getStream() {
         return stream;
     }

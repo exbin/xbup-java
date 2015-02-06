@@ -17,7 +17,7 @@
 package org.xbup.lib.core.parser;
 
 /**
- * Exception for XBUP protocol parsing.
+ * Exception class for XBUP protocol parsing.
  *
  * @version 0.1.24 2014/11/27
  * @author XBUP Project (http://xbup.org)

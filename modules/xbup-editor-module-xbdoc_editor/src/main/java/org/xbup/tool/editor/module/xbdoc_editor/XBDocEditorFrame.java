@@ -415,7 +415,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
             }
 
             private XBACatalog createCatalog(EntityManager em) {
-                XBACatalog catalog = new XBAECatalog(em, System.getProperty("user.home") + "/.XBUP/repository");
+                XBACatalog catalog = new XBAECatalog(em);
 
                 ((XBAECatalog) catalog).addCatalogService(XBCXLangService.class, new XBEXLangService((XBAECatalog) catalog));
                 ((XBAECatalog) catalog).addCatalogService(XBCXStriService.class, new XBEXStriService((XBAECatalog) catalog));

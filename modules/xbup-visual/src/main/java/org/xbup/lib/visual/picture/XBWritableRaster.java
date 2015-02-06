@@ -40,7 +40,7 @@ import org.xbup.lib.core.serial.param.XBPSerializable;
  */
 public class XBWritableRaster extends WritableRaster implements XBPSerializable {
 
-    public static long[] XB_BLOCK_PATH = {0, 4, 0, 0, 0}; // Testing only
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 4, 0, 0, 0}; // Testing only
 
     public XBWritableRaster(SampleModel sampleModel, DataBuffer dataBuffer, Rectangle aRegion, Point sampleModelTranslate, WritableRaster parent) {
         super(sampleModel, dataBuffer, aRegion, sampleModelTranslate, parent);

@@ -25,5 +25,4 @@ package org.xbup.lib.core.stream;
 public abstract class XBTokenOutputStreamFilter extends XBTokenOutputStream {
 
     public abstract void setXBOutputStream(XBTokenOutputStream source);
-
 }

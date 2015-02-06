@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
@@ -43,8 +42,8 @@ public class XBNat32 implements XBTChildSerializable {
 
     private int value;
     public static int maxValue = 0xFFFF;
-    public static long[] XB_BLOCK_PATH = {0, 1, 3, 1, 2, 2, 0}; // Testing only
-    public static long[] XB_FORMAT_PATH = {0, 1, 3, 1, 2, 0, 0}; // Testing only
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 3, 1, 2, 2, 0}; // Testing only
+    public static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 3, 1, 2, 0, 0}; // Testing only
 
     public XBNat32() {
         this.value = 0;
@@ -81,7 +80,7 @@ public class XBNat32 implements XBTChildSerializable {
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
         serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serial.putType(new XBDeclBlockType(new XBLBlockDecl(XB_BLOCK_PATH)));
+        serial.putType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
         serial.putChild(new DataBlockSerializator());
         serial.putEnd();
     }
@@ -100,16 +99,18 @@ public class XBNat32 implements XBTChildSerializable {
             }
 
             byte[] newValue = stream.toByteArray();
-            setValue(newValue[1] >> 8 + newValue[0]);
+            setValue((newValue[3] >> 24) + (newValue[2] >> 16) + (newValue[1] >> 8) + newValue[0]);
             serial.pullEnd();
         }
 
         @Override
         public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
             serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
-            byte[] data = new byte[2];
+            byte[] data = new byte[4];
             data[0] = (byte) (value & 0xFF);
-            data[1] = (byte) (value << 8);
+            data[1] = (byte) ((value << 8) & 0xFF);
+            data[2] = (byte) ((value << 16) & 0xFF);
+            data[3] = (byte) ((value << 24) & 0xFF);
             serial.putData(new ByteArrayInputStream(data));
             serial.putEnd();
         }

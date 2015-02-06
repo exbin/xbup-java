@@ -25,7 +25,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.child.XBChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBChildOutputSerialHandler;
@@ -47,8 +46,8 @@ public class XBEncodingString implements XBPSequenceSerializable {
 
     private String value;
     private XBCharset charset;
-    public static long[] XB_FORMAT_PATH = {1, 3, 1, 2, 0, 0};
-    public static long[] XB_BLOCK_PATH = {1, 3, 1, 2, 0, 0};
+    public static long[] XBUP_FORMATREV_CATALOGPATH = {1, 3, 1, 2, 0, 0};
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 3, 1, 2, 0, 0};
 
     public XBEncodingString() {
         this.value = "";
@@ -78,7 +77,7 @@ public class XBEncodingString implements XBPSequenceSerializable {
     @Override
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
-        serial.matchType(new XBDeclBlockType(new XBLBlockDecl(XB_BLOCK_PATH)));
+        serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
         serial.join(charset);
         serial.consist(new DataBlockSerializator());
         serial.end();

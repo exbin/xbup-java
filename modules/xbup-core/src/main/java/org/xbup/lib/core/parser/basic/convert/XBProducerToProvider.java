@@ -28,17 +28,20 @@ import org.xbup.lib.core.parser.basic.XBProvider;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.basic.XBSListener;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBEndToken;
+import org.xbup.lib.core.parser.token.XBSBeginToken;
 import org.xbup.lib.core.parser.token.XBToken;
+import org.xbup.lib.core.parser.token.convert.XBListenerToToken;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 0 producer to provider convert.
- * 
+ *
  * Uses token buffer stored in memory.
  *
- * @version 0.1.23 2014/02/06
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBProducerToProvider implements XBProvider {
@@ -47,11 +50,16 @@ public class XBProducerToProvider implements XBProvider {
 
     public XBProducerToProvider(XBProducer producer) {
         tokens = new ArrayList<>();
-        producer.attachXBListener(new XBListener() {
+        producer.attachXBListener(new XBSListener() {
 
             @Override
             public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
                 tokens.add(new XBBeginToken(terminationMode));
+            }
+
+            @Override
+            public void beginXB(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
+                tokens.add(new XBSBeginToken(terminationMode, blockSize));
             }
 
             @Override
@@ -75,27 +83,7 @@ public class XBProducerToProvider implements XBProvider {
     public void produceXB(XBListener listener) throws XBProcessingException, IOException {
         if (tokens.isEmpty()) {
             XBToken token = tokens.get(0);
-            switch (token.getTokenType()) {
-                case BEGIN: {
-                    listener.beginXB(((XBBeginToken) token).getTerminationMode());
-                    break;
-                }
-
-                case ATTRIBUTE: {
-                    listener.attribXB(((XBAttributeToken) token).getAttribute());
-                    break;
-                }
-
-                case DATA: {
-                    listener.dataXB(((XBDataToken) token).getData());
-                    break;
-                }
-
-                case END: {
-                    listener.endXB();
-                    break;
-                }
-            }
+            XBListenerToToken.tokenToListener(token, listener);
         } else {
             throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
         }

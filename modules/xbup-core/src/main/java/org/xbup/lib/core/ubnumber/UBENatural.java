@@ -22,10 +22,12 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * Interface for LRUB-encoded natural value with infinity constant.
  *
- * @version 0.1.24 2014/06/09
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public interface UBENatural extends Serializable, UBStreamable {
+
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 0, 1, 0};
 
     // Size of infinity constant in byte stream
     public static int INFINITY_SIZE_UB = 1;

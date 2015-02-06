@@ -62,37 +62,37 @@ public class XBTCPServiceClient implements XBServiceClient {
     private int port;
 
     /*
-    private enum commandTypeEnum {
-        SERVICE, INFO, CATALOG
-    };
-    private enum serviceCommandEnum {
-        STOP, PING, LOGIN, RESTART
-    };
-    private enum serviceInfoEnum {
-        VERSION
-    };
-*/
+     private enum commandTypeEnum {
+     SERVICE, INFO, CATALOG
+     };
+     private enum serviceCommandEnum {
+     STOP, PING, LOGIN, RESTART
+     };
+     private enum serviceInfoEnum {
+     VERSION
+     };
+     */
     /**
      * Performs login to the server
      *
-     * @param user 
+     * @param user
      * @param password
-     * @return 
-     * @throws IOException 
+     * @return
+     * @throws IOException
      */
     @Override
     public int login(String user, char[] password) throws IOException {
         try {
             init();
             target.typeXBT(new XBDeclBlockType(new XBLBlockDecl(LOGIN_SERVICE_PROCEDURE)));
-/*            XBString userName = new XBString(user);
-            XBTSerialEventProducer eventSerializer = new XBTSerialEventProducer(userName);
-            eventSerializer.attachXBTEventListener(XBTDefaultEventListener.getXBTEventListener(target));
-            eventSerializer.generateXBTEvents();
-            XBString userPass = new XBString(new String(password));
-            eventSerializer = new XBTSerialEventProducer(userPass);
-            eventSerializer.attachXBTEventListener(XBTDefaultEventListener.getXBTEventListener(target));
-            eventSerializer.generateXBTEvents(); */
+            /*            XBString userName = new XBString(user);
+             XBTSerialEventProducer eventSerializer = new XBTSerialEventProducer(userName);
+             eventSerializer.attachXBTEventListener(XBTDefaultEventListener.getXBTEventListener(target));
+             eventSerializer.generateXBTEvents();
+             XBString userPass = new XBString(new String(password));
+             eventSerializer = new XBTSerialEventProducer(userPass);
+             eventSerializer.attachXBTEventListener(XBTDefaultEventListener.getXBTEventListener(target));
+             eventSerializer.generateXBTEvents(); */
             target.endXBT();
             source.beginXBT();
             source.typeXBT(new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK)); // TODO
@@ -115,7 +115,7 @@ public class XBTCPServiceClient implements XBServiceClient {
     @Override
     public void init() throws IOException, ConnectException {
         try {
-            socket = new Socket(getHost(),getPort());
+            socket = new Socket(getHost(), getPort());
             source = new XBTStreamChecker(new XBToXBTStreamConvertor(new XBPullReader(getSocket().getInputStream())));
             target = new XBTTypeFixingFilter(null, null); // new XBServiceContext()
             OutputStream oStream = getSocket().getOutputStream();
@@ -126,10 +126,6 @@ public class XBTCPServiceClient implements XBServiceClient {
             Logger.getLogger(XBTCPServiceClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-/*    public XBL2CatalogHandler getCatalog() {
-        return catalog;
-    } */
 
     @Override
     public String getVersion() {
@@ -188,38 +184,39 @@ public class XBTCPServiceClient implements XBServiceClient {
             Logger.getLogger(XBTCPServiceClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-/*
-    public void respondMessage(XBL0InputStream input, XBL0OutputStream output) throws IOException, XBProcessingException {
+    /*
+     public void respondMessage(XBL0InputStream input, XBL0OutputStream output) throws IOException, XBProcessingException {
 
-        UBNat32 type = (UBNat32) source.attribXBT();
-        UBNat32 command = (UBNat32) source.attribXBT();
-        switch (commandTypeEnum.values()[type.toInt()]) {
-            case SERVICE: { // System commands
-                switch (serviceCommandEnum.values()[command.toInt()]) {
-                    case STOP: {
-                        System.out.println("Service is shutting down.");
-                        break;
-                    }
-                    default: throw new XBProcessingException("Unsupported command");
-                }
-                break;
-            }
-            case INFO: {
-                switch (serviceInfoEnum.values()[command.toInt()]) {
-                    case VERSION: {
-                        break;
-                    }
-                    default: throw new XBProcessingException("Unsupported command");
-                }
-                break;
-            }
-            default: throw new XBProcessingException("Unexpected command");
-        }
-        source.endXBT();
-        output.close();
-        input.close();
-    }
-  */
+     UBNat32 type = (UBNat32) source.attribXBT();
+     UBNat32 command = (UBNat32) source.attribXBT();
+     switch (commandTypeEnum.values()[type.toInt()]) {
+     case SERVICE: { // System commands
+     switch (serviceCommandEnum.values()[command.toInt()]) {
+     case STOP: {
+     System.out.println("Service is shutting down.");
+     break;
+     }
+     default: throw new XBProcessingException("Unsupported command");
+     }
+     break;
+     }
+     case INFO: {
+     switch (serviceInfoEnum.values()[command.toInt()]) {
+     case VERSION: {
+     break;
+     }
+     default: throw new XBProcessingException("Unsupported command");
+     }
+     break;
+     }
+     default: throw new XBProcessingException("Unexpected command");
+     }
+     source.endXBT();
+     output.close();
+     input.close();
+     }
+     */
+
     @Override
     public String getHost() {
         return host;
@@ -249,15 +246,14 @@ public class XBTCPServiceClient implements XBServiceClient {
         return (getSocket() != null);
     }
 
-    /**
-     * @return the socket
-     */
     @Override
     public Socket getSocket() {
         return socket;
     }
 
-    /** TODO: Temporary first end event skipping filter */
+    /**
+     * TODO: Temporary first end event skipping filter
+     */
     public class MyXBTEventListener implements XBTEventListener {
 
         private XBTEventListener listener;
@@ -289,7 +285,9 @@ public class XBTCPServiceClient implements XBServiceClient {
         }
     }
 
-    /** TODO: Temporary static translation of XBService format */
+    /**
+     * TODO: Temporary static translation of XBService format.
+     */
     public class XBServiceContext extends XBContext {
 
         public XBServiceContext() {
@@ -299,9 +297,9 @@ public class XBTCPServiceClient implements XBServiceClient {
         public XBServiceContext(XBSerializable rootNode) {
             super();
             /* XBDeclaration decl = new XBDeclaration();
-            decl.setRootNode(rootNode);
-            decl.setFormat(new XBDFormatDecl(XBSERVICE_FORMAT));
-            setDeclaration(decl); */
+             decl.setRootNode(rootNode);
+             decl.setFormat(new XBDFormatDecl(XBSERVICE_FORMAT));
+             setDeclaration(decl); */
         }
 
         public XBFixedBlockType toStaticType(XBBlockType type) {
@@ -315,7 +313,7 @@ public class XBTCPServiceClient implements XBServiceClient {
                     if (path.length != 5) {
                         return new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK);
                     } else {
-                        return new XBFixedBlockType(path[2]+1, path[3]);
+                        return new XBFixedBlockType(path[2] + 1, path[3]);
                     }
                 }
             }

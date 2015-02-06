@@ -20,19 +20,14 @@ import java.io.IOException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTProvider;
-import org.xbup.lib.core.parser.basic.XBTSListener;
-import org.xbup.lib.core.parser.token.XBTAttributeToken;
-import org.xbup.lib.core.parser.token.XBTBeginToken;
-import org.xbup.lib.core.parser.token.XBTDataToken;
-import org.xbup.lib.core.parser.token.XBTSBeginToken;
 import org.xbup.lib.core.parser.token.XBTToken;
-import org.xbup.lib.core.parser.token.XBTTypeToken;
+import org.xbup.lib.core.parser.token.convert.XBTListenerToToken;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 
 /**
- * Pull provider to provider convertor for XBUP protocol level 0.
+ * Pull provider to provider convertor for XBUP protocol level 1.
  *
- * @version 0.1.24 2014/11/27
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTPullProviderToProvider implements XBTProvider {
@@ -46,36 +41,6 @@ public class XBTPullProviderToProvider implements XBTProvider {
     @Override
     public void produceXBT(XBTListener listener) throws XBProcessingException, IOException {
         XBTToken token = pullProvider.pullXBTToken();
-        switch (token.getTokenType()) {
-            case BEGIN: {
-                if ((token instanceof XBTSBeginToken) && (listener instanceof XBTSListener)) {
-                    ((XBTSListener) listener).beginXBT(((XBTSBeginToken) token).getTerminationMode(), ((XBTSBeginToken) token).getBlockSize());
-                } else {
-                    listener.beginXBT(((XBTBeginToken) token).getTerminationMode());
-                }
-
-                break;
-            }
-
-            case TYPE: {
-                listener.typeXBT(((XBTTypeToken) token).getBlockType());
-                break;
-            }
-
-            case ATTRIBUTE: {
-                listener.attribXBT(((XBTAttributeToken) token).getAttribute());
-                break;
-            }
-
-            case DATA: {
-                listener.dataXBT(((XBTDataToken) token).getData());
-                break;
-            }
-
-            case END: {
-                listener.endXBT();
-                break;
-            }
-        }
+        XBTListenerToToken.tokenToListener(token, listener);
     }
 }

@@ -17,11 +17,7 @@
 package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.catalog.base.XBCSpecDefType;
-import static org.xbup.lib.core.catalog.base.XBCSpecDefType.CONS;
-import static org.xbup.lib.core.catalog.base.XBCSpecDefType.JOIN;
-import static org.xbup.lib.core.catalog.base.XBCSpecDefType.LIST_CONS;
-import static org.xbup.lib.core.catalog.base.XBCSpecDefType.LIST_JOIN;
+import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.plugin.XBLineEditor;
 
 /**
@@ -84,8 +80,8 @@ public class ParametersTableItem {
         String defTypeName = "";
         if (specDef.getTarget() == null) {
             switch (specDef.getType()) {
-                case CONS:
-                case LIST_CONS: {
+                case CONSIST:
+                case LIST_CONSIST: {
                     defTypeName = "Any";
                     break;
                 }
@@ -98,10 +94,10 @@ public class ParametersTableItem {
         } else {
             defTypeName = typeName;
         }
-        if (specDef.getType() == XBCSpecDefType.LIST_CONS || specDef.getType() == XBCSpecDefType.LIST_JOIN) {
+        if (specDef.getType() == XBParamType.LIST_CONSIST || specDef.getType() == XBParamType.LIST_JOIN) {
             defTypeName += "[]";
         }
-        
+
         return defTypeName;
     }
 }

@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.catalog.base.XBCConsDef;
-import org.xbup.lib.core.catalog.base.XBCSpecDefType;
+import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.XBCatalogServiceMessage;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -71,7 +71,7 @@ public class XBRConsDef extends XBRSpecDef implements XBCConsDef {
     }
 
     @Override
-    public XBCSpecDefType getType() {
-        return XBCSpecDefType.CONS;
+    public XBParamType getType() {
+        return XBParamType.CONSIST;
     }
 }

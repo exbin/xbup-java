@@ -64,10 +64,12 @@ public class XBTCPRemoteServer implements XBRemoteServer {
     protected XBACatalog catalog;
     private ServerSocket xbService;
     private boolean stop;
-    private Map<XBBlockType, XBProcedure> procMap;
+    private final Map<XBBlockType, XBProcedure> procMap;
 
     /**
-     * Creates a new instance of XBServiceHandler
+     * Creates a new instance of XBTCPRemoteServer.
+     *
+     * @param catalog catalog
      */
     public XBTCPRemoteServer(XBACatalog catalog) {
         this.catalog = catalog;
@@ -75,18 +77,8 @@ public class XBTCPRemoteServer implements XBRemoteServer {
         procMap = new HashMap<>();
     }
 
-    @Override
-    public void addXBProcedure(XBProcedure procedure) {
-        getProcMap().put(procedure.getType(), procedure);
-    }
-
-    @Override
-    public void removeXBProcedure(XBProcedure procedure) {
-        getProcMap().remove(procedure.getType());
-    }
-
     /**
-     * Opens service handler
+     * Opens service handler.
      *
      * @param port the port number, or 0 to use any free port.
      * @throws IOException if an I/O error occurs when opening the socket.
@@ -96,7 +88,7 @@ public class XBTCPRemoteServer implements XBRemoteServer {
     }
 
     /**
-     * Opens service handler
+     * Opens service handler.
      *
      * @param port the port number, or 0 to use any free port.
      * @param bindAddr the local InetAddress the server will bind to
@@ -107,7 +99,7 @@ public class XBTCPRemoteServer implements XBRemoteServer {
     }
 
     /**
-     * Providing main loop
+     * Server main loop.
      */
     public void run() throws XBProcessingException {
         Socket socket;
@@ -173,44 +165,39 @@ public class XBTCPRemoteServer implements XBRemoteServer {
         }
     }
 
-    /**
-     * @return the catalog
-     */
+    @Override
+    public void addXBProcedure(XBProcedure procedure) {
+        getProcMap().put(procedure.getType(), procedure);
+    }
+
+    @Override
+    public void removeXBProcedure(XBProcedure procedure) {
+        getProcMap().remove(procedure.getType());
+    }
+
     public XBACatalog getCatalog() {
         return catalog;
     }
 
-    /**
-     * @return the xbService
-     */
     public ServerSocket getXbService() {
         return xbService;
     }
 
-    /**
-     * @return the stop
-     */
     public boolean isStop() {
         return stop;
     }
 
-    /**
-     * @return the procMap
-     */
     public Map<XBBlockType, XBProcedure> getProcMap() {
         return procMap;
     }
 
-    /**
-     * @param stop the stop to set
-     */
     public void setStop(boolean stop) {
         this.stop = stop;
     }
 
     public class XBTPullInputStream extends XBTInputTokenStream {
 
-        private XBTPullProvider producer;
+        private final XBTPullProvider producer;
 
         public XBTPullInputStream(XBTPullProvider producer) {
             this.producer = producer;

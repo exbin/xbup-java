@@ -39,7 +39,7 @@ import org.xbup.lib.core.serial.XBSerializable;
  */
 public class XBBNFGrammarRule implements XBSerializable {
 
-    public static long[] XB_BLOCK_PATH = {0, 1, 1, 2}; // Testing only
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 1, 2}; // Testing only
 
     private String ruleName;
     private List<String> rules;
@@ -57,9 +57,9 @@ public class XBBNFGrammarRule implements XBSerializable {
     }
 
     public XBBlockType getBlockType(XBCatalog catalog) {
-        Long[] path = new Long[XB_BLOCK_PATH.length];
-        for (int i = 0; i < XB_BLOCK_PATH.length; i++) {
-            path[i] = new Long(XB_BLOCK_PATH[i]);
+        Long[] path = new Long[XBUP_BLOCKREV_CATALOGPATH.length];
+        for (int i = 0; i < XBUP_BLOCKREV_CATALOGPATH.length; i++) {
+            path[i] = new Long(XBUP_BLOCKREV_CATALOGPATH[i]);
         }
         
         XBBlockType contextType = null; // TODO new XBLBlockType(catalog.findBlockTypeByPath(path));

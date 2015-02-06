@@ -16,7 +16,6 @@
  */
 package org.xbup.lib.core.serial.sequence;
 
-import org.xbup.lib.core.serial.sequence.XBListJoinSerializable;
 import java.io.IOException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBSerializable;

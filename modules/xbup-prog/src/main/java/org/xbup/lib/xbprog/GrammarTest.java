@@ -58,7 +58,7 @@ public class GrammarTest {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("XBMathLibPU");
         EntityManager em = emf.createEntityManager();
         em.setFlushMode(FlushModeType.AUTO);
-        XBAECatalog catalog = new XBAECatalog(em, "");
+        XBAECatalog catalog = new XBAECatalog(em);
         catalog.initCatalog();
         catalog.addCatalogManager(XBCXLangManager.class, new XBEXLangManager(catalog));
         catalog.addCatalogManager(XBCXNameManager.class, new XBEXNameManager(catalog));

@@ -25,7 +25,7 @@ package org.xbup.lib.core.serial.basic;
 public interface XBReceivingFinished {
 
     /**
-     * Return true if serialization is finished.
+     * Returns true if serialization is finished.
      *
      * @return true if finished
      */

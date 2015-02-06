@@ -30,7 +30,7 @@ public interface XBTBasicOutputReceivingSerialHandler extends XBOutputSerialHand
     /**
      * Processes target for serialization.
      *
-     * @param provider
+     * @param provider provider
      */
     public void process(XBTProvider provider);
 }

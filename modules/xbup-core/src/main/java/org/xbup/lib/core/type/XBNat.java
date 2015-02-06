@@ -40,8 +40,8 @@ public class XBNat implements XBTChildSerializable {
 
     private UBNatural value;
     private UBNatural bitSize;
-    public static long[] XB_BLOCK_PATH = {1, 1, 1, 0, 0}; // Testing only
-    public static long[] XB_FORMAT_PATH = {0, 1, 3, 1, 2, 0, 0}; // Testing only
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 1, 1, 0, 0}; // Testing only
+    public static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 3, 1, 2, 0, 0}; // Testing only
 
     public XBNat() {
         this.value = new UBNat32();
@@ -98,38 +98,4 @@ public class XBNat implements XBTChildSerializable {
 
         }
     }
-
-    /*
-     public void readXBL2Stream(XBL2InputStream stream) throws XBProcessingException, XBParseException {
-     try {
-     XBL2StreamChecker checker = new XBL2StreamChecker(stream);
-     checker.beginXBL2();
-     checker.typeXBL2(new XBL1CPBlockDecl(xbBlockPath));
-     checker.attribXBL2((UBNatural) new UBNat32(1)); // Data block pointer
-     checker.beginXBL2();
-     setValue(new String(checker.dataXBL2()));
-     checker.endXBL2();
-     checker.endXBL2();
-     } catch (XBParseException ex) {
-     Logger.getLogger(XBString.class.getName()).log(Level.SEVERE, null, ex);
-     } catch (IOException ex) {
-     Logger.getLogger(XBString.class.getName()).log(Level.SEVERE, null, ex);
-     }
-     }
-
-     public void writeXBL2Stream(XBL2OutputStream stream) throws XBProcessingException, IOException {
-     try {
-     XBL2Listener listener = XBL2DefaultEventListener.toXBL2Listener(stream);
-     listener.beginXBL2(false);
-     listener.typeXBL2(new XBL1CPBlockDecl(xbBlockPath));
-     listener.attribXBL2((UBNatural) new UBNat32(1)); // Data block pointer
-     listener.beginXBL2(false);
-     listener.dataXBL2(getValue().getBytes());
-     listener.endXBL2();
-     listener.endXBL2();
-     } catch (XBParseException ex) {
-     Logger.getLogger(XBString.class.getName()).log(Level.SEVERE, null, ex);
-     }
-     }
-     */
 }

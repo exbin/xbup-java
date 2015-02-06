@@ -22,7 +22,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 /**
  * XBUP protocol level 0 data provider.
  *
- * Execution is listener side controlled (pull).
+ * Execution is receiver side controlled (pull).
  *
  * @version 0.1.23 2014/02/14
  * @author XBUP Project (http://xbup.org)
@@ -30,7 +30,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 public interface XBProvider {
 
     /**
-     * Produce single data.
+     * Produces single data.
      *
      * @param listener listener to send data to
      * @throws XBProcessingException

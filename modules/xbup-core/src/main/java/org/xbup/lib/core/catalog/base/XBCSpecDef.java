@@ -16,6 +16,8 @@
  */
 package org.xbup.lib.core.catalog.base;
 
+import org.xbup.lib.core.block.definition.XBParamType;
+
 /**
  * Interface for catalog specification definition entity.
  *
@@ -43,5 +45,5 @@ public interface XBCSpecDef extends XBCItem {
      *
      * @return specification definition's type
      */
-    public XBCSpecDefType getType();
+    public XBParamType getType();
 }

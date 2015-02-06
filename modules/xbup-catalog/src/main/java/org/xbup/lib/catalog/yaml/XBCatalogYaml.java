@@ -31,7 +31,7 @@ import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.catalog.base.XBCSpecDefType;
+import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.core.catalog.base.service.XBCNodeService;
 import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
@@ -238,7 +238,7 @@ public class XBCatalogYaml {
             Map<String, Object> def = (Map<String, Object>) defs.get(defId);
 
             String bind = (String) def.get("bind");
-            XBCSpecDefType bindType = getBindType(bind);
+            XBParamType bindType = getBindType(bind);
 
             XBESpecDef specDef = (XBESpecDef) specService.createSpecDef(blockSpec, bindType);
             specService.persistItem(specDef);
@@ -330,17 +330,17 @@ public class XBCatalogYaml {
         }
     }
 
-    private String getBindString(XBCSpecDefType type) {
+    private String getBindString(XBParamType type) {
         if (type == null) {
             return null;
         }
 
         switch (type) {
-            case CONS:
+            case CONSIST:
                 return "cons";
             case JOIN:
                 return "join";
-            case LIST_CONS:
+            case LIST_CONSIST:
                 return "listcons";
             case LIST_JOIN:
                 return "listjoin";
@@ -349,18 +349,18 @@ public class XBCatalogYaml {
         }
     }
 
-    private XBCSpecDefType getBindType(String bind) {
+    private XBParamType getBindType(String bind) {
         if ("join".equals(bind)) {
-            return XBCSpecDefType.JOIN;
+            return XBParamType.JOIN;
         }
         if ("cons".equals(bind)) {
-            return XBCSpecDefType.CONS;
+            return XBParamType.CONSIST;
         }
         if ("listcons".equals(bind)) {
-            return XBCSpecDefType.LIST_CONS;
+            return XBParamType.LIST_CONSIST;
         }
         if ("listjoin".equals(bind)) {
-            return XBCSpecDefType.LIST_JOIN;
+            return XBParamType.LIST_JOIN;
         }
         return null;
     }

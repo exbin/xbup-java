@@ -39,5 +39,4 @@ public interface XBCJoinDef extends XBCSpecDef {
      */
     @Override
     public XBCRev getTarget();
-
 }

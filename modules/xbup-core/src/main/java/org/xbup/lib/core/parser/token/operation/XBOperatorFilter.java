@@ -36,19 +36,6 @@ public class XBOperatorFilter<T extends TypedToken, U extends TypedToken> {
     public XBOperatorFilter(XBOperation<T, U> operation) {
         operator = new MyOperator(operation);
     }
-    /*
-     public void attachXBL0EventListener(XBL0EventListener eventListener) {
-     operator.attachXBEventListener(eventListener);
-     }
-
-     public void performXBEvent(T event) throws XBParseException, IOException {
-     operator.performXBEvent(event);
-     }
-
-     public void putXBL0Token(XBL0Token event) throws XBParseException, IOException {
-     throw new UnsupportedOperationException("Not supported yet.");
-     }
-     */
 
     private class MyOperator extends XBTokenOperator<T, U> {
 

@@ -16,94 +16,129 @@
  */
 package org.xbup.lib.core.parser.token.pull.convert;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBTConsumer;
-import org.xbup.lib.core.parser.basic.XBTFilter;
-import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.parser.basic.XBTProducer;
-import org.xbup.lib.core.parser.basic.XBTProvider;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.block.XBDBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
+import org.xbup.lib.core.block.declaration.XBLevelContext;
+import org.xbup.lib.core.catalog.XBCatalog;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.parser.token.XBTBeginToken;
+import org.xbup.lib.core.parser.token.XBTDataToken;
+import org.xbup.lib.core.parser.token.XBTToken;
+import org.xbup.lib.core.parser.token.XBTTokenType;
+import org.xbup.lib.core.parser.token.XBTTypeToken;
+import org.xbup.lib.core.parser.token.convert.XBTListenerToToken;
+import org.xbup.lib.core.parser.token.pull.XBTPullFilter;
+import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
+import org.xbup.lib.core.util.CopyStreamUtils;
 
 /**
  * Filter to convert stand-alone block types to fixed types.
  *
- * @version 0.1.19 2010/06/01
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTPullTypeFixingFilter implements XBTFilter, XBTProducer, XBTConsumer {
+public class XBTPullTypeFixingFilter implements XBTPullFilter {
 
-    private XBTListener listener;
-    private XBTProvider declProvider;
-    private XBContext context;
-    private long counter;
+    private XBTPullProvider pullProvider;
+    private XBCatalog catalog;
+    private final List<XBLevelContext> contexts = new ArrayList<>();
+    private XBLevelContext currentContext = null;
 
-    public XBTPullTypeFixingFilter(XBTProvider declProvider) {
-        this.declProvider = declProvider;
-        listener = null;
-        counter = 0;
+    private int documentDepth = 0;
+    private XBBlockTerminationMode beginTerminationMode;
+
+    public XBTPullTypeFixingFilter(XBCatalog catalog) {
+        this(catalog, null);
     }
 
-    public XBTPullTypeFixingFilter(XBTProvider declProvider, XBTListener listener) {
-        this(declProvider);
-        this.listener = listener;
+    public XBTPullTypeFixingFilter(XBCatalog catalog, XBTPullProvider pullProvider) {
+        this.catalog = catalog;
+        this.pullProvider = pullProvider;
+    }
+
+    public XBTPullTypeFixingFilter(XBContext initialContext) {
+        currentContext = new XBLevelContext(catalog, initialContext, 0);
+    }
+
+    public XBTPullTypeFixingFilter(XBTPullProvider pullProvider, XBContext initialContext) {
+        this(initialContext);
+        this.pullProvider = pullProvider;
     }
 
     @Override
-    public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-        listener.beginXBT(terminationMode);
-        counter++;
-    }
-
-    @Override
-    public void typeXBT(XBBlockType type) throws XBProcessingException, IOException {
-        XBFixedBlockType result = null; // TODO = getContext().toStaticType(type);
-        if (result == null) {
-            result = new XBFixedBlockType();
+    public XBTToken pullXBTToken() throws XBProcessingException, IOException {
+        XBTToken token = pullProvider.pullXBTToken();
+        if (currentContext != null && !currentContext.isDeclarationFinished()) {
+            if (token.getTokenType() == XBTTokenType.DATA) {
+                InputStream inputStream = ((XBTDataToken) token).getData();
+                ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
+                CopyStreamUtils.copyInputStreamToOutputStream(inputStream, dataStream);
+                currentContext.dataXBT(new ByteArrayInputStream(dataStream.toByteArray()));
+                token = new XBTDataToken(new ByteArrayInputStream(dataStream.toByteArray()));
+            } else {
+                XBTListenerToToken.tokenToListener(token, currentContext);
+            }
         }
-        listener.typeXBT(result);
-    }
 
-    @Override
-    public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
-        listener.attribXBT(value);
-    }
+        switch (token.getTokenType()) {
+            case BEGIN: {
+                documentDepth++;
+                beginTerminationMode = ((XBTBeginToken) token).getTerminationMode();
 
-    @Override
-    public void dataXBT(InputStream data) throws XBProcessingException, IOException {
-        listener.dataXBT(data);
-    }
+                return token;
+            }
+            case TYPE: {
+                XBBlockType blockType = ((XBTTypeToken) token).getBlockType();
+                if (blockType.getAsBasicType() == XBBasicBlockType.DECLARATION) {
+                    documentDepth++;
+                    contexts.add(currentContext);
+                    currentContext = new XBLevelContext(catalog, currentContext == null ? null : currentContext.getContext(), documentDepth);
+                    currentContext.beginXBT(beginTerminationMode);
+                    currentContext.typeXBT(blockType);
+                } else {
+                    if (blockType instanceof XBDBlockType) {
+                        XBFixedBlockType fixedType = currentContext.getContext().getFixedBlockType((XBDBlockType) blockType);
+                        if (fixedType == null) {
+                            throw new XBProcessingException("Unable to match block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
+                        }
+                        return new XBTTypeToken(fixedType);
+                    }
+                }
 
-    @Override
-    public void endXBT() throws XBProcessingException, IOException {
-        if (counter == 0) {
-            throw new XBProcessingException("Unexpected stream flow");
+                return token;
+            }
+            case ATTRIBUTE: {
+                return token;
+            }
+            case DATA: {
+                return token;
+            }
+            case END: {
+                documentDepth--;
+                if (currentContext != null && currentContext.getDepthLevel() > documentDepth) {
+                    currentContext = contexts.size() > 0 ? contexts.remove(contexts.size() - 1) : null;
+                }
+
+                return token;
+            }
         }
-        listener.endXBT();
-        counter--;
-//        if (counter == 0) listener.endXBT();
+
+        throw new IllegalStateException("Unexpected token type " + token.getTokenType().toString());
     }
 
     @Override
-    public void attachXBTListener(XBTListener listener) {
-        this.listener = listener;
-    }
-
-    @Override
-    public void attachXBTProvider(XBTProvider provider) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public XBContext getContext() {
-        return context;
-    }
-
-    public void setContext(XBContext context) {
-        this.context = context;
+    public void attachXBTPullProvider(XBTPullProvider pullProvider) {
+        this.pullProvider = pullProvider;
     }
 }

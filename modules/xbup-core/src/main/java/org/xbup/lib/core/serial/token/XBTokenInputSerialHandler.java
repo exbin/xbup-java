@@ -30,7 +30,7 @@ public interface XBTokenInputSerialHandler extends XBInputSerialHandler {
     /**
      * Attaches pull provider to be used as source for serialization.
      *
-     * @param provider
+     * @param provider provider
      */
     public void attachXBPullProvider(XBPullProvider provider);
 }

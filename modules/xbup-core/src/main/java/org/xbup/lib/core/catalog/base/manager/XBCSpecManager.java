@@ -23,7 +23,7 @@ import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.catalog.base.XBCSpecDefType;
+import org.xbup.lib.core.block.definition.XBParamType;
 
 /**
  * Interface for XBCSpec catalog manager.
@@ -282,7 +282,7 @@ public interface XBCSpecManager<T extends XBCSpec> extends XBCCatalogManager<T> 
      * @param type type of definition
      * @return specification definition
      */
-    public XBCSpecDef createSpecDef(XBCSpec spec, XBCSpecDefType type);
+    public XBCSpecDef createSpecDef(XBCSpec spec, XBParamType type);
 
     /**
      * Creates new instance of block specification.

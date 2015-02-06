@@ -26,5 +26,4 @@ import org.xbup.lib.core.catalog.base.XBCItem;
  * @param <T> item entity
  */
 public interface XBCItemManager<T extends XBCItem> extends XBCCatalogManager<T> {
-
 }

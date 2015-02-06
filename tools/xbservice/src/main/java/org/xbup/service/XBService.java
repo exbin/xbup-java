@@ -159,19 +159,18 @@ public class XBService {
                 if (rootCatalogMode) {
                     if (devMode) {
                         emf = Persistence.createEntityManagerFactory("XBServiceMySQLDevPU");
-                        catalog = new XBAECatalog(emf.createEntityManager(), "/var/www/html/catalog-dev/root");
+                        catalog = new XBAECatalog(emf.createEntityManager());
                     } else {
                         emf = Persistence.createEntityManagerFactory("XBServiceMySQLPU");
-                        catalog = new XBAECatalog(emf.createEntityManager(), "/var/www/html/catalog/root");
+                        catalog = new XBAECatalog(emf.createEntityManager());
                     }
                 } else {
                     emf = Persistence.createEntityManagerFactory("XBServicePU");
-                    catalog = new XBAECatalog(emf.createEntityManager(), preferences.get("catalog_repository_path", System.getProperty("user.home") + "/.XBUP/repository"));
+                    catalog = new XBAECatalog(emf.createEntityManager());
                 }
             } catch (DatabaseException | javax.persistence.PersistenceException e) {
-                System.setProperty("derby.system.home", System.getProperty("user.home") + "/.java/.userPrefs/" + preferences.absolutePath());
                 emf = Persistence.createEntityManagerFactory("XBServiceDerbyPU");
-                catalog = new XBAECatalog(emf.createEntityManager(), preferences.get("catalog_repository_path", System.getProperty("user.home") + "/.XBUP/repository"));
+                catalog = new XBAECatalog(emf.createEntityManager());
                 derbyMode = true;
             }
 

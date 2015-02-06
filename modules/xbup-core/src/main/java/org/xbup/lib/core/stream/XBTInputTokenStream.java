@@ -45,7 +45,7 @@ public abstract class XBTInputTokenStream implements Closeable, XBTPullProvider 
     public abstract boolean finished() throws IOException;
 
     /**
-     * Skip given count of tokens in stream.
+     * Skips given count of tokens in stream.
      *
      * @param tokenCount count of tokens
      * @throws IOException

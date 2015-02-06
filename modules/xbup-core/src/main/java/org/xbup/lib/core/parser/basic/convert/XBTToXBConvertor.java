@@ -18,8 +18,6 @@ package org.xbup.lib.core.parser.basic.convert;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.parser.XBParseException;
@@ -42,7 +40,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 public class XBTToXBConvertor implements XBTListener, XBTSListener, XBProducer {
 
     private XBListener listener;
-    private UBNatural block;
+    private UBNatural blockIdAttribute;
 
     public XBTToXBConvertor() {
     }
@@ -59,9 +57,9 @@ public class XBTToXBConvertor implements XBTListener, XBTSListener, XBProducer {
 
     @Override
     public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-        if (block != null) {
-            listener.attribXB(block);
-            block = null;
+        if (blockIdAttribute != null) {
+            listener.attribXB(blockIdAttribute);
+            blockIdAttribute = null;
         }
 
         listener.beginXB(terminationMode);
@@ -69,9 +67,9 @@ public class XBTToXBConvertor implements XBTListener, XBTSListener, XBProducer {
 
     @Override
     public void beginXBT(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
-        if (block != null) {
-            listener.attribXB(block);
-            block = null;
+        if (blockIdAttribute != null) {
+            listener.attribXB(blockIdAttribute);
+            blockIdAttribute = null;
         }
 
         if (listener instanceof XBSListener) {
@@ -83,14 +81,14 @@ public class XBTToXBConvertor implements XBTListener, XBTSListener, XBProducer {
 
     @Override
     public void typeXBT(XBBlockType type) throws XBProcessingException, IOException {
-        if (block != null) {
-            listener.attribXB(block);
-            block = null;
+        if (blockIdAttribute != null) {
+            listener.attribXB(blockIdAttribute);
+            blockIdAttribute = null;
         }
 
         if (type instanceof XBFixedBlockType) {
             listener.attribXB(((XBFixedBlockType) type).getGroupID());
-            block = ((XBFixedBlockType) type).getBlockID();
+            blockIdAttribute = ((XBFixedBlockType) type).getBlockID();
         } else {
             throw new XBParseException("Unable to parse non-static block type", XBProcessingExceptionType.UNSUPPORTED);
         }
@@ -98,9 +96,9 @@ public class XBTToXBConvertor implements XBTListener, XBTSListener, XBProducer {
 
     @Override
     public void attribXBT(UBNatural attribute) throws XBProcessingException, IOException {
-        if (block != null) {
-            listener.attribXB(block);
-            block = null;
+        if (blockIdAttribute != null) {
+            listener.attribXB(blockIdAttribute);
+            blockIdAttribute = null;
         }
 
         listener.attribXB(attribute);
@@ -108,9 +106,9 @@ public class XBTToXBConvertor implements XBTListener, XBTSListener, XBProducer {
 
     @Override
     public void dataXBT(InputStream data) throws XBProcessingException, IOException {
-        if (block != null) {
-            listener.attribXB(block);
-            block = null;
+        if (blockIdAttribute != null) {
+            listener.attribXB(blockIdAttribute);
+            blockIdAttribute = null;
         }
 
         listener.dataXB(data);
@@ -118,9 +116,9 @@ public class XBTToXBConvertor implements XBTListener, XBTSListener, XBProducer {
 
     @Override
     public void endXBT() throws XBProcessingException, IOException {
-        if (block != null) {
-            listener.attribXB(block);
-            block = null;
+        if (blockIdAttribute != null) {
+            listener.attribXB(blockIdAttribute);
+            blockIdAttribute = null;
         }
 
         listener.endXB();
@@ -129,19 +127,5 @@ public class XBTToXBConvertor implements XBTListener, XBTSListener, XBProducer {
     @Override
     public void attachXBListener(XBListener listener) {
         this.listener = listener;
-    }
-
-    public void performXB() {
-        if (block != null) {
-            try {
-                listener.attribXB(block);
-            } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBTToXBConvertor.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            block = null;
-        } else {
-            // TODO trigger.produceXBT();
-        }
     }
 }

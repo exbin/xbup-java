@@ -17,7 +17,7 @@
 package org.xbup.lib.client.catalog.remote;
 
 import org.xbup.lib.core.catalog.base.XBCBlockListCons;
-import org.xbup.lib.core.catalog.base.XBCSpecDefType;
+import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.client.XBCatalogServiceClient;
 
 /**
@@ -50,7 +50,7 @@ public class XBRBlockListCons extends XBRSpecDef implements XBCBlockListCons {
     }
 
     @Override
-    public XBCSpecDefType getType() {
-        return XBCSpecDefType.LIST_CONS;
+    public XBParamType getType() {
+        return XBParamType.LIST_CONSIST;
     }
 }

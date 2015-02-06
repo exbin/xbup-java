@@ -27,7 +27,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
  */
 public interface UBNatural extends Serializable, UBStreamable {
 
-    public static long[] XBUP_BLOCK_TYPE = {0, 0, 0};
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 0, 0, 0};
 
     /**
      * Gets short integer value.

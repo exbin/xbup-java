@@ -29,7 +29,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 public interface XBTBlock {
 
     /**
-     * Get parent block or null if block has no parent.
+     * Gets parent block or null if block has no parent.
      *
      * @return parent block
      */

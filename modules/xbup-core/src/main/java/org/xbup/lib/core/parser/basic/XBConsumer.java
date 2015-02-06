@@ -19,7 +19,7 @@ package org.xbup.lib.core.parser.basic;
 /**
  * XBUP level 0 data consumer.
  *
- * Execution is listener side controlled (pull).
+ * Execution is receiver side controlled (pull).
  *
  * @version 0.1.23 2013/11/07
  * @author XBUP Project (http://xbup.org)

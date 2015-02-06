@@ -47,18 +47,15 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
 
     private final XBPullReader pullReader;
 
-    // Structure for typeTarget
-    private class TypeTargetItem {
-
-        public int skip;
-        public XBContext context;
-    };
-
     private final XBCatalog catalog;
 
-    // List of TypeContexts for current tree path levels.
+    /**
+     * List of TypeContexts for current tree path levels.
+     */
     private final SortedMap<Integer, XBContext> typeMap;
-    // List of TypeContexts for later use.
+    /**
+     * List of TypeContexts for later use.
+     */
     private final SortedMap<Integer, TypeTargetItem> typeTarget;
 
     private XBContext currentContext;
@@ -218,4 +215,13 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
                 throw new XBParseException("Unexpected pull item type", XBProcessingExceptionType.UNKNOWN);
         }
     }
+
+    /**
+     * Structure for typeTarget.
+     */
+    private class TypeTargetItem {
+
+        public int skip;
+        public XBContext context;
+    };
 }

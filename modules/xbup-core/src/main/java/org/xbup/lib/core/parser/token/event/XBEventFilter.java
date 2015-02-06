@@ -23,5 +23,4 @@ package org.xbup.lib.core.parser.token.event;
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBEventFilter extends XBEventListener, XBEventProducer {
-
 }

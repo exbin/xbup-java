@@ -44,5 +44,4 @@ public interface XBCXHDoc extends XBCBase {
      * @return the file
      */
     public XBCXFile getDocFile();
-
 }

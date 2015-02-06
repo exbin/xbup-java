@@ -35,19 +35,16 @@ import org.xbup.lib.core.parser.token.pull.convert.XBTToXBPullConvertor;
  */
 public class XBTPullWriter implements Closeable, XBTPullConsumer {
 
-    // Structure for typeTarget
-    private class TypeTargetItem {
-
-        public int skip;
-        public XBContext context;
-    };
-
     private final XBCatalog catalog;
     private XBPullWriter pullWriter;
 
-    // List of TypeContexts for current tree path levels
+    /**
+     * List of TypeContexts for current tree path levels.
+     */
     private final SortedMap<Integer, XBContext> typeMap;
-    // List of TypeContexts for later use.
+    /**
+     * List of TypeContexts for later use.
+     */
     private final SortedMap<Integer, TypeTargetItem> typeTarget;
 
 //    private int currentGroup;
@@ -93,4 +90,13 @@ public class XBTPullWriter implements Closeable, XBTPullConsumer {
         convertor.attachXBTPullProvider(pullProvider);
         pullWriter.attachXBPullProvider(convertor);
     }
+
+    /**
+     * Structure for typeTarget.
+     */
+    private class TypeTargetItem {
+
+        public int skip;
+        public XBContext context;
+    };
 }

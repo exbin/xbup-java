@@ -17,12 +17,9 @@
 package org.xbup.lib.core.parser.basic.convert;
 
 import java.io.IOException;
-import java.io.InputStream;
-import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.parser.basic.XBTFilter;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
@@ -30,56 +27,42 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  *
  * Keeps track of current depth level and provides isFinished method.
  *
- * @version 0.1.23 2014/10/04
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTCountingFilter implements XBTFilter {
+public class XBTCountingFilter extends XBTSDefaultFilter {
 
     private int level = 0;
-    private XBTListener listener;
 
     public XBTCountingFilter() {
+        super();
     }
 
     public XBTCountingFilter(XBTListener listener) {
-        this();
-        this.listener = listener;
-    }
-
-    @Override
-    public void attachXBTListener(XBTListener listener) {
-        this.listener = listener;
+        super();
+        attachXBTListener(listener);
     }
 
     @Override
     public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         level++;
-        listener.beginXBT(terminationMode);
+        super.beginXBT(terminationMode);
     }
 
     @Override
-    public void typeXBT(XBBlockType blockType) throws XBProcessingException, IOException {
-        listener.typeXBT(blockType);
-    }
-
-    @Override
-    public void attribXBT(UBNatural attribute) throws XBProcessingException, IOException {
-        listener.attribXBT(attribute);
-    }
-
-    @Override
-    public void dataXBT(InputStream data) throws XBProcessingException, IOException {
-        listener.dataXBT(data);
+    public void beginXBT(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
+        level++;
+        super.beginXBT(terminationMode, blockSize);
     }
 
     @Override
     public void endXBT() throws XBProcessingException, IOException {
         level--;
-        listener.endXBT();
+        super.endXBT();
     }
 
     /**
-     * Block completness.
+     * Reports block completness.
      *
      * @return true if no data passed or end of root block passed
      */

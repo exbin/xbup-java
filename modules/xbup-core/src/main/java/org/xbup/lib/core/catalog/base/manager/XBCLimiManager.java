@@ -26,5 +26,4 @@ import org.xbup.lib.core.catalog.base.XBCItemLimi;
  * @param <T> item limitation entity
  */
 public interface XBCLimiManager<T extends XBCItemLimi> extends XBCCatalogManager<T> {
-
 }

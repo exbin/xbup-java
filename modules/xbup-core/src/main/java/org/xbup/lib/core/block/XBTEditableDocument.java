@@ -41,7 +41,7 @@ public interface XBTEditableDocument extends XBTDocument {
     public void setExtendedArea(InputStream source);
 
     /**
-     * Clear all data in this document.
+     * Clears all data in this document.
      */
     public void clear();
 

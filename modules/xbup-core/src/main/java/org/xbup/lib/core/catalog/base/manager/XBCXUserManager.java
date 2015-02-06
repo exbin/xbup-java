@@ -26,5 +26,4 @@ import org.xbup.lib.core.catalog.base.XBCXUser;
  * @param <T> item limitation entity
  */
 public interface XBCXUserManager<T extends XBCXUser> extends XBCManager<T> {
-
 }

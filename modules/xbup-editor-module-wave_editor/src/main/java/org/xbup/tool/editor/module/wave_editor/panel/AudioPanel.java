@@ -439,7 +439,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
             try {
                 XBPCatalog catalog = new XBPCatalog();
                 catalog.addFormatDecl(getContextFormatDecl());
-                XBLFormatDecl formatDecl = new XBLFormatDecl(XBWave.XB_FORMAT_PATH);
+                XBLFormatDecl formatDecl = new XBLFormatDecl(XBWave.XBUP_FORMATREV_CATALOGPATH);
                 XBWave wave = new XBWave();
                 XBDeclaration declaration = new XBDeclaration(formatDecl, wave);
                 XBTPullTypeDeclaringFilter typeProcessing = new XBTPullTypeDeclaringFilter(catalog);
@@ -499,10 +499,10 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
 
                 XBPCatalog catalog = new XBPCatalog();
                 catalog.addFormatDecl(getContextFormatDecl());
-                XBLFormatDecl formatDecl = new XBLFormatDecl(XBWave.XB_FORMAT_PATH);
+                XBLFormatDecl formatDecl = new XBLFormatDecl(XBWave.XBUP_FORMATREV_CATALOGPATH);
                 XBDeclaration declaration = new XBDeclaration(formatDecl, wavePanel.getWave());
                 declaration.realignReservation(catalog);
-                XBTTypeFixingFilter typeProcessing = new XBTTypeFixingFilter(declaration.generateContext(catalog), catalog);
+                XBTTypeFixingFilter typeProcessing = new XBTTypeFixingFilter(catalog);
                 typeProcessing.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
                 XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(typeProcessing));
                 writer.write(declaration);
@@ -535,7 +535,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
          formatDef.realignRevision();
 
          XBLFormatDecl formatDecl = new XBLFormatDecl(formatDef);
-         formatDecl.setCatalogPath(XBWave.XB_FORMAT_PATH);
+         formatDecl.setCatalogPath(XBWave.XBUP_FORMATREV_CATALOGPATH);
          return formatDecl;*/
 
         XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/xbup/tool/editor/module/wave_editor/resources/xbs_format_decl.xb"));

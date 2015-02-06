@@ -23,5 +23,4 @@ package org.xbup.lib.core.catalog.base;
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCFormatSpec extends XBCSpec {
-
 }

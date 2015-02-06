@@ -26,5 +26,4 @@ import org.xbup.lib.core.catalog.base.XBCTran;
  * @param <T> transformation entity
  */
 public interface XBCTranService<T extends XBCTran> extends XBCService<T> {
-
 }

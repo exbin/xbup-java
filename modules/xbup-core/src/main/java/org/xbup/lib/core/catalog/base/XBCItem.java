@@ -37,5 +37,4 @@ public interface XBCItem extends XBCBase {
      * @return XB Index
      */
     public Long getXBIndex();
-
 }

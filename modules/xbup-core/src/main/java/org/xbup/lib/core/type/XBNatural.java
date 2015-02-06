@@ -22,7 +22,6 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
@@ -39,7 +38,7 @@ public class XBNatural implements XBTChildSerializable {
 
     private UBNatural value;
 
-    public static long[] XB_BLOCK_PATH = {0, 0, 0, 0}; // Testing only
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 0, 0, 0}; // Testing only
 
     public XBNatural() {
         this.value = new UBNat32();
@@ -71,7 +70,7 @@ public class XBNatural implements XBTChildSerializable {
     @Override
     public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
         serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
-        serial.putType(new XBDeclBlockType(new XBLBlockDecl(XB_BLOCK_PATH)));
+        serial.putType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
         serial.putAttribute(value);
         serial.putEnd();
     }

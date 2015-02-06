@@ -30,7 +30,7 @@ import org.xbup.lib.core.serial.XBSerializable;
  */
 public class XBRegularGrammarRule implements XBSerializable {
 
-    public static long[] XB_BLOCK_PATH = {0, 1, 1, 2}; // Testing only
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 1, 2}; // Testing only
     public static long xbGroupIndex = 1;
     public static long xbBlockIndex = 2;
 
@@ -47,9 +47,9 @@ public class XBRegularGrammarRule implements XBSerializable {
     }
 
     public XBBlockType getBlockType(XBCatalog catalog) {
-        Long[] path = new Long[XB_BLOCK_PATH.length];
-        for (int i = 0; i < XB_BLOCK_PATH.length; i++) {
-            path[i] = new Long(XB_BLOCK_PATH[i]);
+        Long[] path = new Long[XBUP_BLOCKREV_CATALOGPATH.length];
+        for (int i = 0; i < XBUP_BLOCKREV_CATALOGPATH.length; i++) {
+            path[i] = new Long(XBUP_BLOCKREV_CATALOGPATH[i]);
         }
         XBBlockType context = null; //new XBDBlockType(catalog.findBlockTypeByPath(path));
         if (context == null) {
@@ -187,7 +187,7 @@ public class XBRegularGrammarRule implements XBSerializable {
      XBTListener serial = (XBTListener) serializationHandler;
      try {
      serial.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-     serial.typeXBT(new XBDBlockType(new XBCPBlockDecl(XB_BLOCK_PATH)));
+     serial.typeXBT(new XBDBlockType(new XBCPBlockDecl(XBUP_BLOCKREV_CATALOGPATH)));
      serial.attribXBT(new UBNat32(leftNonterminal)); // TODO: Might spare if zero
      serial.attribXBT(new UBNat32(rightTerminal));
      serial.attribXBT(new UBNat32(rightNonterminal));

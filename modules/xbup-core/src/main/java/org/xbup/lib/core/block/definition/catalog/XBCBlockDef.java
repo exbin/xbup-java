@@ -101,13 +101,13 @@ public class XBCBlockDef implements XBBlockDef, XBPSequenceSerializable {
         }
 
         switch (specDef.getType()) {
-            case CONS: {
+            case CONSIST: {
                 return new XBBlockParamConsist(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
             }
             case JOIN: {
                 return new XBBlockParamJoin(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
             }
-            case LIST_CONS: {
+            case LIST_CONSIST: {
                 return new XBBlockParamListConsist(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
             }
             case LIST_JOIN: {

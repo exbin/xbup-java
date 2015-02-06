@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.parser.token.event.convert;
+package org.xbup.lib.core.parser.token.pull.convert;
 
 import java.io.IOException;
 import org.xbup.lib.core.block.XBBlockType;

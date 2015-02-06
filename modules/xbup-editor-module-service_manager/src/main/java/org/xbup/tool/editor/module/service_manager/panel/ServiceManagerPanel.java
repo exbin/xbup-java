@@ -180,7 +180,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             managerHardwareTextField.setText(System.getProperty("os.arch"));
             EntityManagerFactory emf = ((XBDbServiceClient) service).getEntityManagerFactory();
             try {
-                connectedCatalog = new XBAECatalog(emf.createEntityManager(), System.getProperty("user.home") + "/.XBUP/repository"); // TODO: Kill on failure
+                connectedCatalog = new XBAECatalog(emf.createEntityManager()); // TODO: Kill on failure
                 if (((XBAECatalog) connectedCatalog).isShallInit()) {
                     ((XBAECatalog) connectedCatalog).initCatalog();
                 }

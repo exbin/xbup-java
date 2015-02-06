@@ -21,10 +21,12 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * Interface for LRUB-encoded real value.
  *
- * @version 0.1.24 2014/06/08
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public interface UBReal {
+
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 0, 8, 0};
 
     /**
      * Gets short integer value.

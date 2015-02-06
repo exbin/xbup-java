@@ -17,7 +17,7 @@
 package org.xbup.tool.editor.module.xbdoc_editor.panel;
 
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.catalog.base.XBCSpecDefType;
+import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.plugin.XBLineEditor;
 
 /**
@@ -80,8 +80,8 @@ public class XBPropertyTableItem {
         String defTypeName = "";
         if (specDef.getTarget() == null) {
             switch (specDef.getType()) {
-                case CONS:
-                case LIST_CONS: {
+                case CONSIST:
+                case LIST_CONSIST: {
                     defTypeName = "Any";
                     break;
                 }
@@ -94,7 +94,7 @@ public class XBPropertyTableItem {
         } else {
             defTypeName = typeName;
         }
-        if (specDef.getType() == XBCSpecDefType.LIST_CONS || specDef.getType() == XBCSpecDefType.LIST_JOIN) {
+        if (specDef.getType() == XBParamType.LIST_CONSIST || specDef.getType() == XBParamType.LIST_JOIN) {
             defTypeName += "[]";
         }
         

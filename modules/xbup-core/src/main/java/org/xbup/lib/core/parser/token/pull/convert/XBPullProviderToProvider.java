@@ -20,18 +20,14 @@ import java.io.IOException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.basic.XBProvider;
-import org.xbup.lib.core.parser.basic.XBSListener;
-import org.xbup.lib.core.parser.token.XBAttributeToken;
-import org.xbup.lib.core.parser.token.XBBeginToken;
-import org.xbup.lib.core.parser.token.XBDataToken;
-import org.xbup.lib.core.parser.token.XBSBeginToken;
 import org.xbup.lib.core.parser.token.XBToken;
+import org.xbup.lib.core.parser.token.convert.XBListenerToToken;
 import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 
 /**
  * Pull provider to provider convertor for XBUP protocol level 0.
  *
- * @version 0.1.24 2014/11/27
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPullProviderToProvider implements XBProvider {
@@ -45,31 +41,6 @@ public class XBPullProviderToProvider implements XBProvider {
     @Override
     public void produceXB(XBListener listener) throws XBProcessingException, IOException {
         XBToken token = pullProvider.pullXBToken();
-        switch (token.getTokenType()) {
-            case BEGIN: {
-                if ((token instanceof XBSBeginToken) && (listener instanceof XBSListener)) {
-                    ((XBSListener) listener).beginXB(((XBSBeginToken) token).getTerminationMode(), ((XBSBeginToken) token).getBlockSize());
-                } else {
-                    listener.beginXB(((XBBeginToken) token).getTerminationMode());
-                }
-
-                break;
-            }
-
-            case ATTRIBUTE: {
-                listener.attribXB(((XBAttributeToken) token).getAttribute());
-                break;
-            }
-
-            case DATA: {
-                listener.dataXB(((XBDataToken) token).getData());
-                break;
-            }
-
-            case END: {
-                listener.endXB();
-                break;
-            }
-        }
+        XBListenerToToken.tokenToListener(token, listener);
     }
 }

@@ -26,7 +26,7 @@ import org.xbup.lib.core.parser.XBParseException;
  * @version 0.1.23 2014/03/06
  * @author XBUP Project (http://xbup.org)
  */
-public class FixedDataInputStreamWrapper extends InputStream implements InputStreamWrapper {
+public class FixedDataInputStreamWrapper extends InputStream implements FinishableStream {
 
     private final InputStream source;
 
@@ -88,7 +88,7 @@ public class FixedDataInputStreamWrapper extends InputStream implements InputStr
     }
 
     @Override
-    public int finish() throws IOException, XBParseException {
+    public long finish() throws IOException, XBParseException {
         // Read up remaining data
         if (remaining > 0) {
             byte[] buf = new byte[1024];
@@ -106,7 +106,7 @@ public class FixedDataInputStreamWrapper extends InputStream implements InputStr
     }
 
     @Override
-    public int getLength() {
+    public long getLength() {
         return length;
     }
 }

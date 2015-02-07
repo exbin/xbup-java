@@ -19,14 +19,26 @@ package org.xbup.lib.core.parser.basic.wrapper;
 import java.io.IOException;
 
 /**
- * Output stream wrapper with finish method.
+ * Interface for finishable stream.
  *
- * @version 0.1.23 2014/02/04
+ * @version 0.1.25 2015/02/07
  * @author XBUP Project (http://xbup.org)
  */
-public interface OutputStreamWrapper {
+public interface FinishableStream {
 
-    public int finish() throws IOException;
+    /**
+     * Reads remaining data and returns size of all data processed by this
+     * stream.
+     *
+     * @return size of data in bytes
+     * @throws IOException if input/output error occurs
+     */
+    public long finish() throws IOException;
 
-    public int getLength();
+    /**
+     * Returns size of data processed so far.
+     *
+     * @return size of data in bytes
+     */
+    public long getLength();
 }

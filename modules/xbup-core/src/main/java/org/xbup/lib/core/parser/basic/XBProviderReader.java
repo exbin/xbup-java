@@ -27,7 +27,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.wrapper.ExtendedAreaInputStreamWrapper;
 import org.xbup.lib.core.parser.basic.wrapper.FixedDataInputStreamWrapper;
-import org.xbup.lib.core.parser.basic.wrapper.InputStreamWrapper;
+import org.xbup.lib.core.parser.basic.wrapper.FinishableStream;
 import org.xbup.lib.core.parser.basic.wrapper.TerminatedDataInputStreamWrapper;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
@@ -45,7 +45,7 @@ public class XBProviderReader implements XBProvider {
     private XBParserMode parserMode = XBParserMode.FULL;
 
     private InputStream source;
-    private InputStreamWrapper dataWrapper;
+    private FinishableStream dataWrapper;
 
     private List<Integer> sizeLimits;
     private int attributePartSizeValue;
@@ -164,7 +164,7 @@ public class XBProviderReader implements XBProvider {
     public void produceXB(XBListener listener) throws XBProcessingException, IOException {
         if (dataWrapper != null) {
             dataWrapper.finish();
-            shrinkStatus(dataWrapper.getLength());
+            shrinkStatus((int) dataWrapper.getLength());
             dataWrapper = null;
         }
 

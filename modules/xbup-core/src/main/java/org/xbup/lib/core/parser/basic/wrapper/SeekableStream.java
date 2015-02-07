@@ -17,17 +17,20 @@
 package org.xbup.lib.core.parser.basic.wrapper;
 
 import java.io.IOException;
-import org.xbup.lib.core.parser.XBParseException;
 
 /**
- * Input stream wrapper with finish method.
+ * Interface for seekable stream.
  *
- * @version 0.1.23 2014/02/04
+ * @version 0.1.25 2015/02/07
  * @author XBUP Project (http://xbup.org)
  */
-public interface InputStreamWrapper {
+public interface SeekableStream {
 
-    public int finish() throws IOException, XBParseException;
-
-    public int getLength();
+    /**
+     * Moves position in stream to given position from the start of the stream.
+     *
+     * @param position target position
+     * @throws IOException if input/output error
+     */
+    public void seek(long position) throws IOException;
 }

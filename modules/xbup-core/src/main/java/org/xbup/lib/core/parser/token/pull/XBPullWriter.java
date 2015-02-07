@@ -27,12 +27,12 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.core.parser.basic.wrapper.FixedDataOutputStreamWrapper;
-import org.xbup.lib.core.parser.basic.wrapper.OutputStreamWrapper;
 import org.xbup.lib.core.parser.basic.wrapper.TerminatedDataOutputStreamWrapper;
 import org.xbup.lib.core.parser.token.convert.XBTokenBuffer;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.basic.wrapper.FinishableStream;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.XBTokenType;
@@ -136,7 +136,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
 
                                 CopyStreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), streamWrapper);
 
-                                int dataPartSize = ((OutputStreamWrapper) streamWrapper).finish();
+                                int dataPartSize = (int) ((FinishableStream) streamWrapper).finish();
                                 shrinkStatus(sizeLimits, dataPartSize);
                             }
 

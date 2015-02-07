@@ -22,13 +22,13 @@ import java.io.OutputStream;
 /**
  * Output stream wrapper for terminated data block.
  *
- * Terminator is 0x0000. Sequence 0x00XX for XX &gt; 0 is interpreted as sequence
- * of zeros XX bytes long.
+ * Terminator is 0x0000. Sequence 0x00XX for XX &gt; 0 is interpreted as
+ * sequence of zeros XX bytes long.
  *
  * @version 0.1.23 2014/04/14
  * @author XBUP Project (http://xbup.org)
  */
-public class TerminatedDataOutputStreamWrapper extends OutputStream implements OutputStreamWrapper {
+public class TerminatedDataOutputStreamWrapper extends OutputStream implements FinishableStream {
 
     private final OutputStream stream;
 
@@ -94,7 +94,7 @@ public class TerminatedDataOutputStreamWrapper extends OutputStream implements O
     }
 
     @Override
-    public int finish() throws IOException {
+    public long finish() throws IOException {
         if (zeroCount > 0) {
             stream.write(0);
             stream.write(zeroCount);
@@ -110,7 +110,7 @@ public class TerminatedDataOutputStreamWrapper extends OutputStream implements O
     }
 
     @Override
-    public int getLength() {
+    public long getLength() {
         return length;
     }
 }

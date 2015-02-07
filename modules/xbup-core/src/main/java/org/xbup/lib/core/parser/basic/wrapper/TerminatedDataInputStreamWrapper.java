@@ -24,13 +24,13 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
 /**
  * Input stream wrapper for terminated data block.
  *
- * Terminator is 0x0000. Sequence 0x00XX for XX &gt; 0 is interpreted as sequence
- * of zeros XX bytes long.
+ * Terminator is 0x0000. Sequence 0x00XX for XX &gt; 0 is interpreted as
+ * sequence of zeros XX bytes long.
  *
  * @version 0.1.23 2014/01/10
  * @author XBUP Project (http://xbup.org)
  */
-public class TerminatedDataInputStreamWrapper extends InputStream implements InputStreamWrapper {
+public class TerminatedDataInputStreamWrapper extends InputStream implements FinishableStream {
 
     private final InputStream source;
 
@@ -85,7 +85,7 @@ public class TerminatedDataInputStreamWrapper extends InputStream implements Inp
     }
 
     @Override
-    public int finish() throws IOException, XBParseException {
+    public long finish() throws IOException, XBParseException {
         while (!eof) {
             int blockLength = read();
             if (blockLength < 0) {
@@ -108,7 +108,7 @@ public class TerminatedDataInputStreamWrapper extends InputStream implements Inp
     }
 
     @Override
-    public int getLength() {
+    public long getLength() {
         return length;
     }
 }

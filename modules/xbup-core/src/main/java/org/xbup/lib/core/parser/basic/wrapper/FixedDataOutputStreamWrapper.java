@@ -25,7 +25,7 @@ import java.io.OutputStream;
  * @version 0.1.23 2014/03/06
  * @author XBUP Project (http://xbup.org)
  */
-public class FixedDataOutputStreamWrapper extends OutputStream implements OutputStreamWrapper {
+public class FixedDataOutputStreamWrapper extends OutputStream implements FinishableStream {
 
     private final OutputStream stream;
 
@@ -67,18 +67,18 @@ public class FixedDataOutputStreamWrapper extends OutputStream implements Output
             throw new IOException("Attempt to write more data than specified");
         }
     }
-    
+
     @Override
-    public int finish() throws IOException {
+    public long finish() throws IOException {
         if (remaining > 0) {
             write(0);
         }
-        
+
         return length;
     }
 
     @Override
-    public int getLength() {
+    public long getLength() {
         return length;
     }
 }

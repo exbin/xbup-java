@@ -29,7 +29,7 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.core.parser.basic.wrapper.ExtendedAreaInputStreamWrapper;
 import org.xbup.lib.core.parser.basic.wrapper.FixedDataInputStreamWrapper;
-import org.xbup.lib.core.parser.basic.wrapper.InputStreamWrapper;
+import org.xbup.lib.core.parser.basic.wrapper.FinishableStream;
 import org.xbup.lib.core.parser.basic.wrapper.TerminatedDataInputStreamWrapper;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
@@ -53,7 +53,7 @@ public class XBPullReader extends XBTokenInputStream implements Closeable, XBPul
     private XBParserMode parserMode = XBParserMode.FULL;
 
     private InputStream source;
-    private InputStreamWrapper dataWrapper;
+    private FinishableStream dataWrapper;
 
     private List<Integer> sizeLimits;
     private int attrPartSizeValue;
@@ -171,7 +171,7 @@ public class XBPullReader extends XBTokenInputStream implements Closeable, XBPul
     public XBToken pullXBToken() throws XBProcessingException, IOException {
         if (dataWrapper != null) {
             dataWrapper.finish();
-            shrinkStatus(dataWrapper.getLength());
+            shrinkStatus((int) dataWrapper.getLength());
             dataWrapper = null;
         }
 

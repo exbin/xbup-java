@@ -26,7 +26,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.wrapper.ExtendedAreaInputStreamWrapper;
 import org.xbup.lib.core.parser.basic.wrapper.FixedDataInputStreamWrapper;
-import org.xbup.lib.core.parser.basic.wrapper.InputStreamWrapper;
+import org.xbup.lib.core.parser.basic.wrapper.FinishableStream;
 import org.xbup.lib.core.parser.basic.wrapper.TerminatedDataInputStreamWrapper;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
@@ -129,12 +129,12 @@ public class XBEventReader implements XBEventProducer {
 
                 if (attrPartSizeValue == dataPartSizeLength) {
                     // Process data block
-                    InputStreamWrapper dataWrapper = (dataPartSizeValue == null)
+                    FinishableStream dataWrapper = (dataPartSizeValue == null)
                             ? new TerminatedDataInputStreamWrapper(source)
                             : new FixedDataInputStreamWrapper(source, dataPartSizeValue);
                     listener.putXBToken(new XBDataToken((InputStream) dataWrapper));
                     dataWrapper.finish();
-                    shrinkStatus(sizeLimits, dataWrapper.getLength());
+                    shrinkStatus(sizeLimits, (int) dataWrapper.getLength());
 
                     listener.putXBToken(new XBEndToken());
                 } else {

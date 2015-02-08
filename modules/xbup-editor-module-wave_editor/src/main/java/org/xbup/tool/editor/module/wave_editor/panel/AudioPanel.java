@@ -719,7 +719,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
                     }
 
                     terminated = false;
-                    int bufferLength = wavePanel.getWave().chunkSize / 6; // Workaround for getFramePosition issue in Java 1.6
+                    int bufferLength = wavePanel.getWave().getPageSize() / 6; // Workaround for getFramePosition issue in Java 1.6
                     try {
                         sourceDataLine.open(targetFormat, bufferLength); // wavePanel.getWave().getAudioFormat()
                         sourceDataLine.start();

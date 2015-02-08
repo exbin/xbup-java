@@ -2,6 +2,7 @@
 
 Following documentations are automatically generated.
 
-[[this>../docs/javadoc/XBLib-wr23/index.html|XBLib]] - XBUP Basic Library\\
-[[this>../docs/javadoc/XBCatalogLib-wr23/index.html|XBCatalogLib]] - XBUP Catalog Library
+[[this>../docs/javadoc/xbup-core-0.1.24/index.html|xbup-core]] - XBUP Core Library\\
+[[this>../docs/javadoc/xbup-catalog-0.1.24/index.html|xbup-catalog]] - XBUP Catalog Library\\
+[[this>../docs/javadoc/xbup-parser-tree-0.1.24/index.html|xbup-parser-tree]] - XBUP Tree Parser Library
 

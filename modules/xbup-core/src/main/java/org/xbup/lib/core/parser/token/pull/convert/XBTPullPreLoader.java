@@ -68,9 +68,7 @@ public class XBTPullPreLoader implements XBTPullFilter {
         XBTToken returnToken;
         if (prefixBuffer != null) {
             if (!prefixBuffer.isEmpty()) {
-                returnToken = prefixBuffer.get(0);
-                prefixBuffer.remove(0);
-                return returnToken;
+                return prefixBuffer.remove(0);
             }
 
             prefixBuffer = null;

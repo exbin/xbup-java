@@ -278,8 +278,7 @@ public class XBConsumerWriterTest extends TestCase {
                 @Override
                 public void produceXB(XBListener listener) throws XBProcessingException, IOException {
                     if (tokenList.size() > 0) {
-                        XBToken token = tokenList.get(0);
-                        tokenList.remove(0);
+                        XBToken token = tokenList.remove(0);
                         switch (token.getTokenType()) {
                             case BEGIN: {
                                 System.out.println("> Begin (" + ((XBBeginToken) token).getTerminationMode().toString() + "):");

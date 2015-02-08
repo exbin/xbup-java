@@ -18,6 +18,7 @@ package org.xbup.lib.core.serial.param;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
@@ -42,7 +43,7 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
 
     private XBTPullPreLoader pullProvider;
     private final List<List<XBTAttributeToken>> attributeSequences = new ArrayList<>();
-    private List<XBTAttributeToken> attributeSequence = new ArrayList<>();
+    private List<XBTAttributeToken> attributeSequence = new LinkedList<>();
     private XBParamProcessingState processingState = XBParamProcessingState.START;
 
     public XBPSequencePullConsumer(XBTPullProvider pullProvider) {
@@ -72,7 +73,7 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
                 if (processingState == XBParamProcessingState.ATTRIBUTES) {
                     processAttributes();
                     attributeSequences.add(attributeSequence);
-                    attributeSequence = new ArrayList<>();
+                    attributeSequence = new LinkedList<>();
                 }
 
                 XBTToken token = pullProvider.pullXBTToken();
@@ -191,7 +192,7 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
     }
 
     public void resetSequence() {
-        attributeSequence = new ArrayList<>();
+        attributeSequence = new LinkedList<>();
         processingState = XBParamProcessingState.START;
     }
 

@@ -102,11 +102,18 @@ public interface XBBlock {
     public InputStream getData();
 
     /**
+     * Gets block data.
+     *
+     * @return block data or null
+     */
+    public XBBlockData getBlockData();
+
+    /**
      * Gets data size.
      *
      * @return data size in bytes
      */
-    public int getDataSize();
+    public long getDataSize();
 
     /**
      * Gets block size.

@@ -25,12 +25,13 @@ import org.xbup.lib.core.parser.token.XBTEmptyDataToken;
 import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.serial.param.XBSerializationMode;
+import org.xbup.lib.core.type.XBData;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * Interface for read access to XBUP level 1 block.
  *
- * @version 0.1.24 2015/01/18
+ * @version 0.1.24 2015/02/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTEmptyBlock implements XBTBlock, XBPSequenceSerializable {
@@ -93,7 +94,12 @@ public class XBTEmptyBlock implements XBTBlock, XBPSequenceSerializable {
     }
 
     @Override
-    public int getDataSize() {
+    public XBBlockData getBlockData() {
+        return new XBData();
+    }
+
+    @Override
+    public long getDataSize() {
         return 0;
     }
 

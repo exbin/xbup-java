@@ -21,7 +21,7 @@ import java.io.InputStream;
 /**
  * Interface for editable binary data.
  *
- * @version 0.1.25 2015/02/08
+ * @version 0.1.25 2015/02/09
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBEditableBlockData extends XBBlockData {
@@ -59,6 +59,13 @@ public interface XBEditableBlockData extends XBBlockData {
      * @param insertedData data to insert
      */
     public void insert(long startFrom, XBBlockData insertedData);
+
+    /**
+     * Replaces all data with given data.
+     *
+     * @param newData source data
+     */
+    public void setData(XBBlockData newData);
 
     /**
      * Performs insertion of data but doesn't initialize it's value.
@@ -106,4 +113,12 @@ public interface XBEditableBlockData extends XBBlockData {
      * @param inputStream input stream
      */
     public void loadFromStream(InputStream inputStream);
+
+    /**
+     * Loads data from given stream expecting given size.
+     *
+     * @param inputStream input stream
+     * @param dataSize data size
+     */
+    public void loadFromStream(InputStream inputStream, long dataSize);
 }

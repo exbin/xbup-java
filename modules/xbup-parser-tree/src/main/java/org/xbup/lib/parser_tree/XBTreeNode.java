@@ -16,8 +16,6 @@
  */
 package org.xbup.lib.parser_tree;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -26,26 +24,25 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.tree.TreeNode;
 import org.xbup.lib.core.block.XBBlock;
+import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBEditableBlock;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.type.XBData;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.UBStreamable;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
-import org.xbup.lib.core.util.CopyStreamUtils;
 
 /**
  * Basic object model parser XBUP level 0 document block / tree node.
  *
- * @version 0.1.24 2015/01/30
+ * @version 0.1.25 2015/02/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
@@ -57,7 +54,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
 
     private List<UBNatural> attributes;
     private List<XBBlock> children;
-    private byte[] data;
+    private XBData data;
 
     public XBTreeNode() {
         this(null);
@@ -203,10 +200,9 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
             if (attrPartSize.getInt() == dataPartSize.getSizeUB()) {
                 // Data Block
                 dataMode = XBBlockDataMode.DATA_BLOCK;
-                ByteArrayOutputStream dataStream = new ByteArrayOutputStream(dataPartSize.getInt());
-                CopyStreamUtils.copyFixedSizeInputStreamToOutputStream(stream, dataStream, dataPartSize.getInt());
+                data = new XBData();
+                data.loadFromStream(stream, dataPartSize.getInt());
                 size += dataPartSize.getInt();
-                data = dataStream.toByteArray();
             } else if (attrPartSize.getInt() < dataPartSize.getSizeUB()) {
                 throw new XBParseException("Attribute overreached", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
             } else {
@@ -275,7 +271,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
             int size = attrPartSize.toStreamUB(stream);
             size += dataPartSize.toStreamUB(stream);
             if (data != null) {
-                stream.write(data);
+                data.saveToStream(stream);
             }
 
             size += getDataSize();
@@ -407,58 +403,52 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
     }
 
     @Override
-    public void setData(InputStream source) {
-        if (source == null) {
-            data = null;
-        } else if (source instanceof ByteArrayInputStream) {
-            // data.reset();
-            data = new byte[((ByteArrayInputStream) source).available()];
-            if (data.length > 0) {
-                try {
-                    source.read(data, 0, data.length);
-                } catch (IOException ex) {
-                    Logger.getLogger(XBTreeNode.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        } else {
-            // data.reset();
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            try {
-                CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
-            } catch (IOException ex) {
-                Logger.getLogger(XBTreeNode.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            data = stream.toByteArray();
-        }
-    }
-
-    @Override
     public InputStream getData() {
         if (data == null) {
             return null;
         }
 
-        return new ByteArrayInputStream(data);
+        return data.getDataInputStream();
     }
 
-    public byte[] getDataArray() {
+    @Override
+    public XBBlockData getBlockData() {
         return data;
     }
 
     @Override
-    public int getDataSize() {
+    public long getDataSize() {
         if (data == null) {
             return 0;
         }
 
-        return data.length;
+        return data.getDataSize();
+    }
+
+    @Override
+    public void setData(InputStream source) {
+        if (source == null) {
+            data = null;
+        } else {
+            data = new XBData();
+            data.loadFromStream(source);
+        }
+    }
+
+    @Override
+    public void setData(XBBlockData newData) {
+        data = new XBData();
+        data.setData(newData);
+    }
+
+    public void clearData() {
+        data = null;
     }
 
     public XBTreeNode cloneNode(boolean recursive) {
         XBTreeNode node = new XBTreeNode(parent);
         node.setDataMode(dataMode);
-        node.data = data.clone();
+        node.data = data.copy();
 
         for (UBNatural attribute : attributes) {
             node.addAttribute(new UBNat32(attribute));

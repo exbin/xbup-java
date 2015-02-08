@@ -23,7 +23,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * Interface for editable XBUP level 1 block.
  *
- * @version 0.1.24 2014/10/02
+ * @version 0.1.25 2015/02/09
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTEditableBlock extends XBTBlock {
@@ -109,4 +109,11 @@ public interface XBTEditableBlock extends XBTBlock {
      * @param data data stream
      */
     public void setData(InputStream data);
+
+    /**
+     * Sets block data.
+     *
+     * @param data data stream
+     */
+    public void setData(XBBlockData data);
 }

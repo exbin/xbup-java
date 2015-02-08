@@ -40,7 +40,7 @@ import org.xbup.lib.core.serial.child.XBTChildSerializable;
  * Data are stored using paging. Last page might be shorter than page size, but
  * not empty.
  *
- * @version 0.1.25 2015/02/08
+ * @version 0.1.25 2015/02/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSerializable {
@@ -190,6 +190,12 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
     }
 
     @Override
+    public void setData(XBBlockData newData) {
+        clear();
+        newData.copyTo(this, 0, newData.getDataSize(), 0);
+    }
+
+    @Override
     public void remove(long startFrom, long length) {
         if (length < 0) {
             throw new IllegalArgumentException("Length of removed block must be nonnegative");
@@ -236,7 +242,7 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
         if (size > dataSize) {
             int lastPage = (int) (dataSize / pageSize);
             int lastPageSize = (int) (dataSize % pageSize);
-            long remaining = dataSize - size;
+            long remaining = size - dataSize;
             // extend last page
             if (lastPageSize > 0) {
                 byte[] page = getPage(lastPage);
@@ -332,6 +338,33 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
     }
 
     @Override
+    public void loadFromStream(InputStream inputStream, long dataSize) {
+        try {
+            data.clear();
+            byte[] buffer = new byte[pageSize];
+            int cnt;
+            int offset = 0;
+            while ((cnt = inputStream.read(buffer, offset, buffer.length - offset)) != -1) {
+                if (cnt + offset < pageSize) {
+                    offset = offset + cnt;
+                } else {
+                    data.add(buffer);
+                    buffer = new byte[pageSize];
+                    offset = 0;
+                }
+            }
+
+            if (offset > 0) {
+                byte[] tail = new byte[offset];
+                System.arraycopy(buffer, 0, tail, 0, offset - 1);
+                data.add(tail);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(XBData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
     public void saveToStream(OutputStream outputStream) {
         try {
             for (byte[] dataPage : data) {
@@ -394,6 +427,10 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
                 int copyLength = page.length - srcPos;
                 if (copyLength > length) {
                     copyLength = length;
+                }
+
+                if (copyLength == 0) {
+                    return len - length;
                 }
 
                 System.arraycopy(page, srcPos, output, offset, copyLength);

@@ -70,7 +70,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.dialog.ModifyBlockDialog;
 /**
  * Panel with XBUP document visualization.
  *
- * @version 0.1.24 2014/11/23
+ * @version 0.1.25 2015/02/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFilePanel, ActivePanelUndoable, ActivePanelActionHandling {
@@ -438,9 +438,8 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         result.append(prefix);
         if (node.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
             result.append("[");
-            byte[] data = node.getDataArray();
-            for (int i = 0; i < data.length; i++) {
-                byte b = data[i];
+            for (long i = 0; i < node.getDataSize(); i++) {
+                byte b = node.getBlockData().getByte(i);
                 result.append(getHex(b));
             }
             result.append("]\n");

@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import org.xbup.lib.core.block.XBBlock;
+import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.ubnumber.UBNatural;
@@ -97,7 +98,7 @@ public class XBReaderBlock implements XBBlock, Closeable {
     }
 
     @Override
-    public int getDataSize() {
+    public long getDataSize() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -108,6 +109,11 @@ public class XBReaderBlock implements XBBlock, Closeable {
 
     @Override
     public void close() throws IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBBlockData getBlockData() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

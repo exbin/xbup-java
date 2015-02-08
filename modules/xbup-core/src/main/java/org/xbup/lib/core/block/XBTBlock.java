@@ -23,7 +23,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * Interface for read access to XBUP level 1 block.
  *
- * @version 0.1.24 2014/08/24
+ * @version 0.1.25 2015/02/09
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTBlock {
@@ -110,11 +110,18 @@ public interface XBTBlock {
     public InputStream getData();
 
     /**
+     * Gets block data.
+     *
+     * @return block data or null
+     */
+    public XBBlockData getBlockData();
+
+    /**
      * Gets data size.
      *
      * @return data size in bytes
      */
-    public int getDataSize();
+    public long getDataSize();
 
     /**
      * Gets block position in tree in depth-first scan.

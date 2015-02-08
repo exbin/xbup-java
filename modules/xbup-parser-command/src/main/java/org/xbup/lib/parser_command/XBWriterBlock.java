@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import org.xbup.lib.core.block.XBBlock;
+import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBEditableBlock;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
@@ -98,7 +99,7 @@ public class XBWriterBlock implements XBEditableBlock, Closeable {
     }
 
     @Override
-    public int getDataSize() {
+    public long getDataSize() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -159,6 +160,16 @@ public class XBWriterBlock implements XBEditableBlock, Closeable {
 
     @Override
     public void setData(InputStream data) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setData(XBBlockData data) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBBlockData getBlockData() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

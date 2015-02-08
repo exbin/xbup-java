@@ -74,7 +74,7 @@ public class XBTreeReader implements XBListener {
                 if (target.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
                     target.setAttributesCount(0);
                 } else {
-                    target.setData(null);
+                    target.clearData();
                 }
             } else {
                 target.clear();

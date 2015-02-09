@@ -18,7 +18,7 @@ package org.xbup.lib.core.block;
 
 import java.io.InputStream;
 import java.util.List;
-import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.parser.token.XBAttribute;
 
 /**
  * Interface for read access to XBUP level 1 block.
@@ -62,16 +62,17 @@ public interface XBTBlock {
      *
      * @return list of attributes
      */
-    public List<UBNatural> getAttributes();
+    public List<XBAttribute> getAttributes();
 
     /**
-     * Gets attribute of given index. Returns zero if attribute index greater
-     * than attributes count.
+     * Gets attribute of given index.
+     *
+     * Returns zero if attribute index greater than attributes count.
      *
      * @param attributeIndex index of attribute
      * @return attribute value
      */
-    public UBNatural getAttribute(int attributeIndex);
+    public XBAttribute getAttribute(int attributeIndex);
 
     /**
      * Gets count of attributes.

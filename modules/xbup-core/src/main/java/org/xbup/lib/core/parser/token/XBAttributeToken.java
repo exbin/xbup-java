@@ -16,25 +16,23 @@
  */
 package org.xbup.lib.core.parser.token;
 
-import org.xbup.lib.core.ubnumber.UBNatural;
-
 /**
  * XBUP protocol level 0 attribute token.
  *
  * This class carry single UBNatural value.
  *
- * @version 0.1.24 2015/01/05
+ * @version 0.1.24 2015/02/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBAttributeToken extends XBToken {
 
-    private final UBNatural attribute;
+    private final XBAttribute attribute;
 
-    public XBAttributeToken(UBNatural attribute) {
+    public XBAttributeToken(XBAttribute attribute) {
         this.attribute = attribute;
     }
 
-    public UBNatural getAttribute() {
+    public XBAttribute getAttribute() {
         return attribute;
     }
 
@@ -44,7 +42,7 @@ public class XBAttributeToken extends XBToken {
      * @return true if attribute is zero
      */
     public boolean isZero() {
-        return attribute == null || attribute.isZero();
+        return attribute == null || attribute.isNaturalZero();
     }
 
     @Override

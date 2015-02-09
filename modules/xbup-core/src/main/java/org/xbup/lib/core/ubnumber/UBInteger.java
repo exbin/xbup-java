@@ -17,6 +17,7 @@
 package org.xbup.lib.core.ubnumber;
 
 import java.io.Serializable;
+import org.xbup.lib.core.parser.token.XBEditableAttribute;
 import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 
 /**
@@ -25,7 +26,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
  * @version 0.1.24 2015/01/07
  * @author XBUP Project (http://xbup.org)
  */
-public interface UBInteger extends Serializable, UBStreamable {
+public interface UBInteger extends Serializable, UBStreamable, XBEditableAttribute {
 
     public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 0, 2, 0};
     

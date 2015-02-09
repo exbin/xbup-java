@@ -139,10 +139,10 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
 
             case ATTRIBUTE: {
                 if (attrMode == 0) {
-                    currentGroup = ((XBAttributeToken) item).getAttribute().getInt();
+                    currentGroup = ((XBAttributeToken) item).getAttribute().getNaturalInt();
                     attrMode = 1;
                 } else if (attrMode == 1) {
-                    currentType = ((XBAttributeToken) item).getAttribute().getInt();
+                    currentType = ((XBAttributeToken) item).getAttribute().getNaturalInt();
                     attrMode = 2;
                     // TODO: Block type processing
                 } else {

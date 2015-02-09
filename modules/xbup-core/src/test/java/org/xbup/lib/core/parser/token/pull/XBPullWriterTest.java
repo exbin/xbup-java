@@ -285,7 +285,7 @@ public class XBPullWriterTest extends TestCase {
                                 return token;
                             }
                             case ATTRIBUTE: {
-                                System.out.println("  Attribute: " + ((XBAttributeToken) token).getAttribute().getLong());
+                                System.out.println("  Attribute: " + ((XBAttributeToken) token).getAttribute().getNaturalLong());
                                 return token;
                             }
                             case DATA: {

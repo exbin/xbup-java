@@ -20,14 +20,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.parser.token.XBAttribute;
 
 /**
  * XBUP protocol level 0 data listener.
  *
  * Execution is sender side controlled (push).
  *
- * @version 0.1.23 2014/01/27
+ * @version 0.1.25 2015/02/09
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBListener {
@@ -36,8 +36,8 @@ public interface XBListener {
      * Reports block begin.
      *
      * @param terminationMode Specify whether block is terminated
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws IOException if input/output error
      */
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
 
@@ -45,10 +45,10 @@ public interface XBListener {
      * Reports block attribute.
      *
      * @param attribute given attribute
-     * @throws XBProcessingException if unable to parse attribute value
-     * @throws IOException
+     * @throws XBProcessingException if processing error if unable to parse attribute value
+     * @throws IOException if input/output error
      */
-    public void attribXB(UBNatural attribute) throws XBProcessingException, IOException;
+    public void attribXB(XBAttribute attribute) throws XBProcessingException, IOException;
 
     /**
      * Reports block data.
@@ -56,16 +56,16 @@ public interface XBListener {
      * You have to process data before processing next event.
      *
      * @param data processed data
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws IOException if input/output error
      */
     public void dataXB(InputStream data) throws XBProcessingException, IOException;
 
     /**
      * Reports block end.
      *
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws IOException if input/output error
      */
     public void endXB() throws XBProcessingException, IOException;
 }

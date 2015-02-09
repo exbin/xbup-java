@@ -103,7 +103,7 @@ public class XBTreeReaderTest extends TestCase {
 
         assertEquals(0, instance.getChildCount());
         assertEquals(1, instance.getAttributesCount());
-        assertEquals(0, instance.getAttribute(0).getInt());
+        assertEquals(0, instance.getAttribute(0).getNaturalInt());
     }
 
     /**
@@ -125,7 +125,7 @@ public class XBTreeReaderTest extends TestCase {
 
         assertEquals(0, instance.getChildCount());
         assertEquals(1, instance.getAttributesCount());
-        assertEquals(0, instance.getAttribute(0).getInt());
+        assertEquals(0, instance.getAttribute(0).getNaturalInt());
     }
 
     /**
@@ -244,10 +244,10 @@ public class XBTreeReaderTest extends TestCase {
 
         assertEquals(0, instance.getChildCount());
         assertEquals(4, instance.getAttributesCount());
-        assertEquals(0, instance.getAttribute(0).getInt());
-        assertEquals(0, instance.getAttribute(1).getInt());
-        assertEquals(1, instance.getAttribute(2).getInt());
-        assertEquals(2, instance.getAttribute(3).getInt());
+        assertEquals(0, instance.getAttribute(0).getNaturalInt());
+        assertEquals(0, instance.getAttribute(1).getNaturalInt());
+        assertEquals(1, instance.getAttribute(2).getNaturalInt());
+        assertEquals(2, instance.getAttribute(3).getNaturalInt());
     }
 
     /**
@@ -271,17 +271,17 @@ public class XBTreeReaderTest extends TestCase {
 
         assertEquals(2, rootNode.getChildCount());
         assertEquals(1, rootNode.getAttributesCount());
-        assertEquals(0, rootNode.getAttribute(0).getInt());
+        assertEquals(0, rootNode.getAttribute(0).getNaturalInt());
 
         XBTreeNode node1 = rootNode.getChildAt(0);
         assertEquals(1, node1.getChildCount());
         assertEquals(1, node1.getAttributesCount());
-        assertEquals(0, node1.getAttribute(0).getInt());
+        assertEquals(0, node1.getAttribute(0).getNaturalInt());
 
         XBTreeNode node2 = node1.getChildAt(0);
         assertEquals(1, node2.getChildCount());
         assertEquals(1, node2.getAttributesCount());
-        assertEquals(0, node2.getAttribute(0).getInt());
+        assertEquals(0, node2.getAttribute(0).getNaturalInt());
 
         XBTreeNode node3 = node2.getChildAt(0);
         assertEquals(0, node3.getChildCount());
@@ -291,16 +291,16 @@ public class XBTreeReaderTest extends TestCase {
         XBTreeNode node4 = rootNode.getChildAt(1);
         assertEquals(1, node4.getChildCount());
         assertEquals(1, node4.getAttributesCount());
-        assertEquals(0, node4.getAttribute(0).getInt());
+        assertEquals(0, node4.getAttribute(0).getNaturalInt());
 
         XBTreeNode node5 = node4.getChildAt(0);
         assertEquals(0, node5.getChildCount());
         assertEquals(5, node5.getAttributesCount());
-        assertEquals(0, node5.getAttribute(0).getInt());
-        assertEquals(0, node5.getAttribute(1).getInt());
-        assertEquals(1, node5.getAttribute(2).getInt());
-        assertEquals(2, node5.getAttribute(3).getInt());
-        assertEquals(3, node5.getAttribute(4).getInt());
+        assertEquals(0, node5.getAttribute(0).getNaturalInt());
+        assertEquals(0, node5.getAttribute(1).getNaturalInt());
+        assertEquals(1, node5.getAttribute(2).getNaturalInt());
+        assertEquals(2, node5.getAttribute(3).getNaturalInt());
+        assertEquals(3, node5.getAttribute(4).getNaturalInt());
     }
 
     private class DebugListener implements XBEventListener {
@@ -320,7 +320,7 @@ public class XBTreeReaderTest extends TestCase {
                     break;
                 }
                 case ATTRIBUTE: {
-                    System.out.println("  Attribute: " + ((XBAttributeToken) token).getAttribute().getLong());
+                    System.out.println("  Attribute: " + ((XBAttributeToken) token).getAttribute().getNaturalLong());
                     listener.attribXB(((XBAttributeToken) token).getAttribute());
                     break;
                 }

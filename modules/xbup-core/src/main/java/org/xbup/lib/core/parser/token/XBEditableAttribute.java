@@ -14,48 +14,44 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.ubnumber;
+package org.xbup.lib.core.parser.token;
 
-import java.io.Serializable;
-import org.xbup.lib.core.parser.token.XBEditableAttribute;
+import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 
 /**
- * Interface for LRUB-encoded boolean value.
+ * Interface for single attribute.
  *
- * @version 0.1.24 2015/01/13
+ * @version 0.1.25 2015/02/09
  * @author XBUP Project (http://xbup.org)
  */
-public interface UBBoolean extends Serializable, UBStreamable, XBEditableAttribute {
-
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 0, 13, 0};
+public interface XBEditableAttribute extends XBAttribute {
 
     /**
-     * Gets boolean value.
-     *
-     * @return value
+     * Sets zero value in natural form.
      */
-    public boolean getBoolean() throws UBOverFlowException;
+    public void setNaturalZero();
 
     /**
-     * Sets boolean value.
+     * Gets short integer value of natural form.
      *
-     * @param value
+     * @param intValue integer value to set
+     * @throws UBOverFlowException if value is out of range
      */
-    public void setValue(boolean value) throws UBOverFlowException;
+    public void setNaturalInt(int intValue) throws UBOverFlowException;
 
     /**
-     * Gets count of long value segments.
+     * Gets long integer value of natural form.
      *
-     * @return count of long segments
+     * @param longValue long value to set
+     * @throws UBOverFlowException if value is out of range
      */
-    public long getSegmentCount();
+    public void setNaturalLong(long longValue) throws UBOverFlowException;
 
     /**
-     * Gets long integer segment of value.
+     * Sets this value using conversion from UBNatural form.
      *
-     * @param segmentIndex index of segment, 0 for lowest value
-     * @return long integer
+     * @param natural natural value
      */
-    public long getValueSegment(long segmentIndex);
+    public void convertFromNatural(UBNatural natural);
 }

@@ -32,7 +32,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * UBInteger stored as int value (limited value capacity to 32 bits).
  *
- * @version 0.1.25 2015/02/05
+ * @version 0.1.25 2015/02/09
  * @author XBUP Project (http://xbup.org)
  */
 public class UBInt32 implements UBInteger, XBPSequenceSerializable {
@@ -91,60 +91,11 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
         serial.begin();
         serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
         if (serial.getSerializationMode() == XBSerializationMode.PULL) {
-            convertFromNatural(serial.pullAttribute());
+            convertFromNatural(serial.pullAttribute().convertToNatural());
         } else {
             serial.putAttribute(convertToNatural());
         }
         serial.end();
-    }
-
-    public void convertFromNatural(UBNatural nat) {
-        long natLong = nat.getLong();
-        if (natLong < 0x40) {
-            value = natLong;
-        } else if (natLong < 0x80) {
-            value = 0x80 - natLong;
-        } else if (natLong < 0x2080) {
-            value = natLong - 0x40;
-        } else if (natLong < 0x4080) {
-            value = 0x4080 + 0x40 - natLong;
-        } else if (natLong < 0x104080) {
-            value = natLong - 0x2080;
-        } else if (natLong < 0x204080) {
-            value = 0x204080 + 0x2080 - natLong;
-        } else if (natLong < 0x8204080) {
-            value = natLong - 0x104080;
-        } else if (natLong < 0x10204080) {
-            value = 0x10204080 + 0x104080 - natLong;
-        } else {
-            value = natLong - 0x8204080;
-        }
-    }
-
-    public UBNatural convertToNatural() {
-        if (value < 0) {
-            if (value >= -0x40) {
-                return new UBNat32(0x80 - value);
-            } else if (value >= -0x2040) {
-                return new UBNat32(0x2080 - value);
-            } else if (value >= -0x102040) {
-                return new UBNat32(0x102080 - value);
-            } else if (value >= -0x8102040) {
-                return new UBNat32(0x8102080 - value);
-            } else {
-                throw new UBOverFlowException("Unable to convert big negative value to natural");
-            }
-        } else {
-            if (value < 0x40) {
-                return new UBNat32(value);
-            } else if (value < 0x2040) {
-                return new UBNat32(value + 0x40);
-            } else if (value < 0x8102040) {
-                return new UBNat32(value + 0x2040);
-            } else {
-                return new UBNat32(value + 0x8102040);
-            }
-        }
     }
 
     @Override
@@ -313,5 +264,85 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
                 return 5;
             }
         }
+    }
+
+    @Override
+    public void setNaturalZero() {
+        setNaturalLong(0);
+    }
+
+    @Override
+    public void setNaturalInt(int intValue) throws UBOverFlowException {
+        setNaturalLong(intValue);
+    }
+
+    @Override
+    public void setNaturalLong(long longValue) throws UBOverFlowException {
+        if (longValue < 0x40) {
+            value = longValue;
+        } else if (longValue < 0x80) {
+            value = 0x80 - longValue;
+        } else if (longValue < 0x2080) {
+            value = longValue - 0x40;
+        } else if (longValue < 0x4080) {
+            value = 0x4080 + 0x40 - longValue;
+        } else if (longValue < 0x104080) {
+            value = longValue - 0x2080;
+        } else if (longValue < 0x204080) {
+            value = 0x204080 + 0x2080 - longValue;
+        } else if (longValue < 0x8204080) {
+            value = longValue - 0x104080;
+        } else if (longValue < 0x10204080) {
+            value = 0x10204080 + 0x104080 - longValue;
+        } else {
+            value = longValue - 0x8204080;
+        }
+    }
+
+    @Override
+    public boolean isNaturalZero() {
+        return value == 0;
+    }
+
+    @Override
+    public int getNaturalInt() throws UBOverFlowException {
+        return (int) getNaturalLong();
+    }
+
+    @Override
+    public long getNaturalLong() throws UBOverFlowException {
+        if (value < 0) {
+            if (value >= -0x40) {
+                return 0x80 - value;
+            } else if (value >= -0x2040) {
+                return 0x2080 - value;
+            } else if (value >= -0x102040) {
+                return 0x102080 - value;
+            } else if (value >= -0x8102040) {
+                return 0x8102080 - value;
+            } else {
+                throw new UBOverFlowException("Unable to convert big negative value to natural");
+            }
+        } else {
+            if (value < 0x40) {
+                return value;
+            } else if (value < 0x2040) {
+                return value + 0x40;
+            } else if (value < 0x8102040) {
+                return value + 0x2040;
+            } else {
+                return value + 0x8102040;
+            }
+        }
+    }
+
+    @Override
+    public void convertFromNatural(UBNatural nat) {
+        setNaturalLong(nat.getLong());
+    }
+
+    @Override
+    public UBNatural convertToNatural() {
+        return new UBNat32(getNaturalLong());
     }
 }

@@ -30,7 +30,7 @@ import org.xbup.lib.core.serial.XBSerializable;
  */
 public class XBRegularGrammarRule implements XBSerializable {
 
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 1, 2}; // Testing only
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 1, 2};
     public static long xbGroupIndex = 1;
     public static long xbBlockIndex = 2;
 

@@ -42,6 +42,7 @@ import org.xbup.lib.core.block.XBDBlockType;
 import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.pull.convert.XBTProviderToPullProvider;
 import org.xbup.lib.core.type.XBData;
 import org.xbup.lib.core.ubnumber.UBNatural;
@@ -63,7 +64,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     private XBBlockDataMode dataMode = XBBlockDataMode.NODE_BLOCK;
 
     private XBFixedBlockType blockType;
-    private List<UBNatural> attributes;
+    private List<XBAttribute> attributes;
     private List<XBTBlock> children;
     private XBData data;
 
@@ -272,7 +273,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                 }
 
                 // Load attributes
-                ArrayList<UBNatural> attribs = new ArrayList<>();
+                ArrayList<XBAttribute> attribs = new ArrayList<>();
                 if (attrPartSize.getInt() > itemSize) {
                     do {
                         UBNat32 attribute = new UBNat32();
@@ -327,7 +328,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
 
             // Write attributes
             if (getAttributesCount() > 0) {
-                Iterator<UBNatural> iter = attributes.iterator();
+                Iterator<XBAttribute> iter = attributes.iterator();
                 while (iter.hasNext()) {
                     size += iter.next().toStreamUB(stream);
                 }
@@ -403,7 +404,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     public int attributeSizeUB() {
         if (getAttributesCount() > 0) {
             int size = 0;
-            for (UBNatural attribute : attributes) {
+            for (XBAttribute attribute : attributes) {
                 size += attribute.getSizeUB();
             }
 
@@ -496,8 +497,8 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             node.data = data.copy();
         }
 
-        for (UBNatural attribute : attributes) {
-            node.addAttribute(new UBNat32(attribute));
+        for (XBAttribute attribute : attributes) {
+            node.addAttribute(new UBNat32(attribute.getNaturalLong()));
         }
 
         if (children != null) {
@@ -535,7 +536,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         attributes = new ArrayList<>();
     }
 
-    public void addAttribute(UBNatural attribute) {
+    public void addAttribute(XBAttribute attribute) {
         if (attributes.isEmpty() && singleAttributeType) {
             singleAttributeType = false;
         }
@@ -636,12 +637,12 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     @Override
-    public UBNatural getAttribute(int attributeIndex) {
+    public XBAttribute getAttribute(int attributeIndex) {
         return attributeIndex < attributes.size() ? attributes.get(attributeIndex) : null;
     }
 
     @Override
-    public void setAttribute(UBNatural attribute, int attributeIndex) {
+    public void setAttribute(XBAttribute attribute, int attributeIndex) {
         singleAttributeType = false;
         while (attributes.size() <= attributeIndex) {
             attributes.add(new UBNat32());
@@ -651,7 +652,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     public int getAttributeValue(int attributeIndex) {
-        return attributeIndex < attributes.size() ? attributes.get(attributeIndex).getInt() : 0;
+        return attributeIndex < attributes.size() ? attributes.get(attributeIndex).getNaturalInt() : 0;
     }
 
     @Override
@@ -674,12 +675,12 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     @Override
-    public List<UBNatural> getAttributes() {
+    public List<XBAttribute> getAttributes() {
         return new ArrayList<>(attributes);
     }
 
     @Override
-    public void setAttributes(List<UBNatural> attributes) {
+    public void setAttributes(List<XBAttribute> attributes) {
         if (attributes == null) {
             throw new NullPointerException();
         }
@@ -893,12 +894,12 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         }
 
         @Override
-        public List<UBNatural> getAttributes() {
+        public List<XBAttribute> getAttributes() {
             return block.getAttributes();
         }
 
         @Override
-        public UBNatural getAttribute(int attributeIndex) {
+        public XBAttribute getAttribute(int attributeIndex) {
             return block.getAttribute(attributeIndex);
         }
 

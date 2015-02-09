@@ -35,9 +35,9 @@ import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.basic.wrapper.FinishableStream;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBEndToken;
-import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.core.util.CopyStreamUtils;
@@ -62,7 +62,7 @@ public class XBListenerWriter implements Closeable, XBListener {
 
     private XBBlockTerminationMode terminationMode;
     private XBBlockDataMode dataMode;
-    private final List<UBNatural> attributeList = new ArrayList<>();
+    private final List<XBAttribute> attributeList = new ArrayList<>();
     private int attributePartSizeValue = 0;
 
     public XBListenerWriter() {
@@ -87,7 +87,7 @@ public class XBListenerWriter implements Closeable, XBListener {
      * Opens output byte-stream.
      *
      * @param outputStream output stream
-     * @throws IOException
+     * @throws IOException if input/output error
      */
     public void open(OutputStream outputStream) throws IOException {
         openStream(outputStream);
@@ -147,7 +147,7 @@ public class XBListenerWriter implements Closeable, XBListener {
     }
 
     @Override
-    public void attribXB(UBNatural attribute) throws XBProcessingException, IOException {
+    public void attribXB(XBAttribute attribute) throws XBProcessingException, IOException {
         if (parserState == XBParserState.ATTRIBUTE_PART) {
             dataMode = XBBlockDataMode.NODE_BLOCK;
             if (bufferedFromLevel >= 0) {
@@ -269,7 +269,7 @@ public class XBListenerWriter implements Closeable, XBListener {
             dataPartSize.setInfinity();
             dataPartSize.toStreamUB(stream);
 
-            for (UBNatural attribute : attributeList) {
+            for (XBAttribute attribute : attributeList) {
                 attribute.toStreamUB(stream);
             }
 

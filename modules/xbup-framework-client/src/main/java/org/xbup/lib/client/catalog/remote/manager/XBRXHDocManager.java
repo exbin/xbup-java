@@ -52,7 +52,7 @@ public class XBRXHDocManager extends XBRDefaultManager<XBRXHDoc> implements XBCX
             XBListener listener = message.getXBOutput();
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            Long index = checker.attribXB().getLong();
+            Long index = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return index;
@@ -128,7 +128,7 @@ public class XBRXHDocManager extends XBRDefaultManager<XBRXHDoc> implements XBCX
             listener.attribXB(new UBNat32(((XBRItem) item).getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            Long index = checker.attribXB().getLong();
+            Long index = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             if (index == 0) return null;

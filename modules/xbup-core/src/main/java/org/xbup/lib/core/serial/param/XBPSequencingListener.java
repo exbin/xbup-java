@@ -26,6 +26,7 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
@@ -33,7 +34,6 @@ import org.xbup.lib.core.parser.token.XBTEndToken;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -79,7 +79,7 @@ public class XBPSequencingListener implements XBPListener {
     }
 
     @Override
-    public void putAttribute(UBNatural attribute) throws XBProcessingException, IOException {
+    public void putAttribute(XBAttribute attribute) throws XBProcessingException, IOException {
         validate();
         serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(new XBTAttributeToken(attribute))));
     }

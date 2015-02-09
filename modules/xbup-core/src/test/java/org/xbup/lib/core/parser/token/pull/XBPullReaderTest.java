@@ -95,7 +95,7 @@ public class XBPullReaderTest extends TestCase {
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getInt());
+            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.END, token.getTokenType());
@@ -120,7 +120,7 @@ public class XBPullReaderTest extends TestCase {
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getInt());
+            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.DATA, token.getTokenType());
@@ -241,19 +241,19 @@ public class XBPullReaderTest extends TestCase {
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getInt());
+            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getInt());
+            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(1, ((XBAttributeToken) token).getAttribute().getInt());
+            assertEquals(1, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(2, ((XBAttributeToken) token).getAttribute().getInt());
+            assertEquals(2, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.END, token.getTokenType());
@@ -278,7 +278,7 @@ public class XBPullReaderTest extends TestCase {
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getInt());
+            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.BEGIN, token.getTokenType());
@@ -286,7 +286,7 @@ public class XBPullReaderTest extends TestCase {
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getInt());
+            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.BEGIN, token.getTokenType());
@@ -294,7 +294,7 @@ public class XBPullReaderTest extends TestCase {
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getInt());
+            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.BEGIN, token.getTokenType());
@@ -318,7 +318,7 @@ public class XBPullReaderTest extends TestCase {
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getInt());
+            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.BEGIN, token.getTokenType());
@@ -326,23 +326,23 @@ public class XBPullReaderTest extends TestCase {
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getInt());
+            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getInt());
+            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(1, ((XBAttributeToken) token).getAttribute().getInt());
+            assertEquals(1, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(2, ((XBAttributeToken) token).getAttribute().getInt());
+            assertEquals(2, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(3, ((XBAttributeToken) token).getAttribute().getInt());
+            assertEquals(3, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
             token = provider.pullXBToken();
             assertEquals(XBTokenType.END, token.getTokenType());
@@ -373,7 +373,7 @@ public class XBPullReaderTest extends TestCase {
                     break;
                 }
                 case ATTRIBUTE: {
-                    System.out.println("  Attribute: " + ((XBAttributeToken) token).getAttribute().getLong());
+                    System.out.println("  Attribute: " + ((XBAttributeToken) token).getAttribute().getNaturalLong());
                     break;
                 }
                 case DATA: {

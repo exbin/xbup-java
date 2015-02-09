@@ -246,7 +246,7 @@ public class XBTreeWriterTest extends TestCase {
                     break;
                 }
                 case ATTRIBUTE: {
-                    System.out.println("  Attribute: " + ((XBAttributeToken) token).getAttribute().getLong());
+                    System.out.println("  Attribute: " + ((XBAttributeToken) token).getAttribute().getNaturalLong());
                     listener.putXBToken(token);
                     break;
                 }

@@ -16,15 +16,17 @@
  */
 package org.xbup.lib.core.ubnumber;
 
+import java.io.Serializable;
+import org.xbup.lib.core.parser.token.XBEditableAttribute;
 import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 
 /**
  * Interface for LRUB-encoded real value limited to range [0, 1].
  *
- * @version 0.1.24 2014/06/07
+ * @version 0.1.25 2015/02/09
  * @author XBUP Project (http://xbup.org)
  */
-public interface UBRatio {
+public interface UBRatio extends Serializable, UBStreamable, XBEditableAttribute {
 
     public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 0, 5, 0};
 

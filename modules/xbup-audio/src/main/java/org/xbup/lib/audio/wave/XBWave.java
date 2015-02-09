@@ -43,7 +43,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  */
 public class XBWave implements XBPSequenceSerializable {
 
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 5, 0, 0}; // Testing only
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 5, 0, 0};
     public static long[] XBUP_FORMATREV_CATALOGPATH = {1, 5, 0, 0};
     private AudioFormat audioFormat;
     private final XBData data = new XBData(65520);
@@ -94,11 +94,11 @@ public class XBWave implements XBPSequenceSerializable {
         serial.begin();
         serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
         if (serial.getSerializationMode() == XBSerializationMode.PULL) {
-            UBNatural sampleRate = serial.pullAttribute();
-            UBNatural sampleSizeInBits = serial.pullAttribute();
-            UBNatural channels = serial.pullAttribute();
-            UBNatural signed = serial.pullAttribute();
-            UBNatural bigEndian = serial.pullAttribute();
+            UBNatural sampleRate = serial.pullAttribute().convertToNatural();
+            UBNatural sampleSizeInBits = serial.pullAttribute().convertToNatural();
+            UBNatural channels = serial.pullAttribute().convertToNatural();
+            UBNatural signed = serial.pullAttribute().convertToNatural();
+            UBNatural bigEndian = serial.pullAttribute().convertToNatural();
             audioFormat = new AudioFormat(sampleRate.getInt(), sampleSizeInBits.getInt(), channels.getInt(), signed.getInt() == 1, bigEndian.getInt() == 1);
         } else {
             serial.putAttribute(new UBNat32((long) audioFormat.getSampleRate()));

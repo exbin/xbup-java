@@ -24,6 +24,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
@@ -62,7 +63,7 @@ public class XBTStreamChecker implements XBTListener {
         throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
     }
 
-    public UBNatural attribXBT() throws XBProcessingException, IOException {
+    public XBAttribute attribXBT() throws XBProcessingException, IOException {
         XBTToken token = getStream().pullXBTToken();
         if (token.getTokenType() == XBTTokenType.ATTRIBUTE) {
             return ((XBTAttributeToken)token).getAttribute();
@@ -104,9 +105,9 @@ public class XBTStreamChecker implements XBTListener {
     }
 
     @Override
-    public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
+    public void attribXBT(XBAttribute value) throws XBProcessingException, IOException {
         XBTToken token = getStream().pullXBTToken();
-        if (token.getTokenType() != XBTTokenType.ATTRIBUTE || ((XBTAttributeToken)token).getAttribute().getLong() != value.getLong()) {
+        if (token.getTokenType() != XBTTokenType.ATTRIBUTE || ((XBTAttributeToken)token).getAttribute().getNaturalLong() != value.getNaturalLong()) {
             throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
     }

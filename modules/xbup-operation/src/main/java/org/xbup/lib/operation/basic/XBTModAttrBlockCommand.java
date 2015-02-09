@@ -20,6 +20,7 @@ import java.util.List;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.XBTEditableDocument;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.operation.XBTCommand;
@@ -33,7 +34,7 @@ import org.xbup.lib.operation.XBTCommand;
 public class XBTModAttrBlockCommand implements XBTCommand {
 
     private String caption;
-    private List<UBNatural> attrList;
+    private List<XBAttribute> attrList;
     private XBFixedBlockType blockType;
     private boolean singleAttributeType = true;
     private int position;
@@ -65,7 +66,7 @@ public class XBTModAttrBlockCommand implements XBTCommand {
     @Override
     public void perform(XBTEditableDocument document) {
         XBTTreeNode node = (XBTTreeNode) document.findNodeByIndex(position);
-        List<UBNatural> newList = node.getAttributes();
+        List<XBAttribute> newList = node.getAttributes();
         node.setAttributes(attrList);
         node.setFixedBlockType(blockType);
         node.setSingleAttributeType(singleAttributeType);
@@ -75,7 +76,7 @@ public class XBTModAttrBlockCommand implements XBTCommand {
     @Override
     public void revert(XBTEditableDocument document) throws Exception {
         XBTTreeNode node = (XBTTreeNode) document.findNodeByIndex(position);
-        List<UBNatural> newList = node.getAttributes();
+        List<XBAttribute> newList = node.getAttributes();
         node.setAttributes(attrList);
         node.setBlockType(blockType);
         attrList = newList;

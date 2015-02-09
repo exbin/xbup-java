@@ -22,7 +22,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBFilter;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.parser.token.XBAttribute;
 
 /**
  * Default XBUP level 0 filter.
@@ -42,7 +42,7 @@ public class XBDefaultFilter implements XBFilter, XBListener {
     }
 
     @Override
-    public void attribXB(UBNatural value) throws XBProcessingException, IOException {
+    public void attribXB(XBAttribute value) throws XBProcessingException, IOException {
         listener.attribXB(value);
     }
 

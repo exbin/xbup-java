@@ -18,7 +18,7 @@ package org.xbup.lib.core.block;
 
 import java.io.InputStream;
 import java.util.List;
-import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.parser.token.XBAttribute;
 
 /**
  * Interface for editable XBUP level 1 block.
@@ -54,7 +54,7 @@ public interface XBTEditableBlock extends XBTBlock {
      *
      * @param attributes list of attributes
      */
-    public void setAttributes(List<UBNatural> attributes);
+    public void setAttributes(List<XBAttribute> attributes);
 
     /**
      * Sets attribute of given index.
@@ -65,7 +65,7 @@ public interface XBTEditableBlock extends XBTBlock {
      * @param attribute attribute value
      * @param attributeIndex attribute index
      */
-    public void setAttribute(UBNatural attribute, int attributeIndex);
+    public void setAttribute(XBAttribute attribute, int attributeIndex);
 
     /**
      * Sets count of attributes.

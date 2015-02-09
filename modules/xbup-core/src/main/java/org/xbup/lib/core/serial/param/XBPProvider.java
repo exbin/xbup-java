@@ -22,10 +22,10 @@ import java.io.InputStream;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 2 child serialization provider interface.
@@ -60,7 +60,7 @@ public interface XBPProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public UBNatural pullAttribute() throws XBProcessingException, IOException;
+    public XBAttribute pullAttribute() throws XBProcessingException, IOException;
 
     /**
      * Pulls block attribute.

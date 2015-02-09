@@ -28,6 +28,7 @@ import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTProvider;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.basic.XBTSListener;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
@@ -40,7 +41,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 1 consumer to listener convert.
- * 
+ *
  * Uses token buffer stored in memory.
  *
  * @version 0.1.25 2015/02/06
@@ -82,7 +83,7 @@ public class XBTConsumerToListener implements XBTSListener {
     }
 
     @Override
-    public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
+    public void attribXBT(XBAttribute value) throws XBProcessingException, IOException {
         tokens.add(new XBTAttributeToken(value));
     }
 

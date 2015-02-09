@@ -23,6 +23,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.basic.XBTSListener;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
@@ -47,7 +48,7 @@ public class XBTEventListenerToListener implements XBTListener, XBTSListener {
     }
 
     @Override
-    public void attribXBT(UBNatural attribute) throws XBProcessingException, IOException {
+    public void attribXBT(XBAttribute attribute) throws XBProcessingException, IOException {
         eventListener.putXBTToken(new XBTAttributeToken(attribute));
     }
 

@@ -50,7 +50,7 @@ public class XBRXLangManager extends XBRDefaultManager<XBRXLanguage> implements 
             XBListener listener = message.getXBOutput();
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long langId = checker.attribXB().getLong();
+            long langId = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return new XBRXLanguage(client, langId);
@@ -69,9 +69,9 @@ public class XBRXLangManager extends XBRDefaultManager<XBRXLanguage> implements 
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
             List<XBCXLanguage> result = new ArrayList<XBCXLanguage>();
-            long count = checker.attribXB().getLong();
+            long count = checker.attribXB().getNaturalLong();
             for (int i = 0; i < count; i++) {
-                result.add(new XBRXLanguage(client,checker.attribXB().getLong()));
+                result.add(new XBRXLanguage(client,checker.attribXB().getNaturalLong()));
             }
             checker.endXB();
             message.close();
@@ -90,7 +90,7 @@ public class XBRXLangManager extends XBRDefaultManager<XBRXLanguage> implements 
             XBListener listener = message.getXBOutput();
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long count = checker.attribXB().getLong();
+            long count = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return count;

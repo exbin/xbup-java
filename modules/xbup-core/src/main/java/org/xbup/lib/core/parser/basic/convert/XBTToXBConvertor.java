@@ -29,6 +29,7 @@ import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.basic.XBSListener;
 import org.xbup.lib.core.parser.basic.XBTSListener;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
@@ -95,7 +96,7 @@ public class XBTToXBConvertor implements XBTListener, XBTSListener, XBProducer {
     }
 
     @Override
-    public void attribXBT(UBNatural attribute) throws XBProcessingException, IOException {
+    public void attribXBT(XBAttribute attribute) throws XBProcessingException, IOException {
         if (blockIdAttribute != null) {
             listener.attribXB(blockIdAttribute);
             blockIdAttribute = null;

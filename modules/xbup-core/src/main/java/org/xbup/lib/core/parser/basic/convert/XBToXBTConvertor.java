@@ -26,6 +26,7 @@ import org.xbup.lib.core.parser.basic.XBTProducer;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.basic.XBSListener;
 import org.xbup.lib.core.parser.basic.XBTSListener;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
@@ -68,15 +69,15 @@ public class XBToXBTConvertor implements XBListener, XBSListener, XBTProducer {
     }
 
     @Override
-    public void attribXB(UBNatural value) throws XBProcessingException, IOException {
+    public void attribXB(XBAttribute value) throws XBProcessingException, IOException {
         if (blockTypeProcessed) {
             listener.attribXBT(value);
         } else {
             if (groupId != null) {
-                listener.typeXBT(new XBFixedBlockType(groupId.getLong(), value.getLong()));
+                listener.typeXBT(new XBFixedBlockType(groupId.getLong(), value.getNaturalLong()));
                 blockTypeProcessed = true;
             } else {
-                groupId = new UBNat32(value.getLong());
+                groupId = new UBNat32(value.getNaturalLong());
             }
         }
     }

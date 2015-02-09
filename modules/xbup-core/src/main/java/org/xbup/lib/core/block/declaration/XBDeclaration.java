@@ -32,6 +32,7 @@ import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBTListener;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.basic.XBTBasicInputReceivingSerialHandler;
 import org.xbup.lib.core.serial.basic.XBTBasicOutputReceivingSerialHandler;
@@ -40,7 +41,6 @@ import org.xbup.lib.core.serial.basic.XBReceivingFinished;
 import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.serial.param.XBSerializationMode;
-import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -281,17 +281,17 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
         }
 
         @Override
-        public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
+        public void attribXBT(XBAttribute value) throws XBProcessingException, IOException {
             if (activeListener != null) {
                 activeListener.attribXBT(value);
                 return;
             }
 
             if (processingState == RecvProcessingState.TYPE) {
-                groupsReserved.setValue(value.getLong());
+                groupsReserved.setValue(value.getNaturalLong());
                 processingState = RecvProcessingState.GROUPS_RESERVED;
             } else if (processingState == RecvProcessingState.GROUPS_RESERVED) {
-                preserveCount.setValue(value.getLong());
+                preserveCount.setValue(value.getNaturalLong());
                 processingState = RecvProcessingState.PRESERVE_COUNT;
             } else {
                 throw new XBProcessingException("Unexpected token: attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);

@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 0 child serialization provider interface.
@@ -47,7 +47,7 @@ public interface XBChildProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public UBNatural nextAttribute() throws XBProcessingException, IOException;
+    public XBAttribute nextAttribute() throws XBProcessingException, IOException;
 
     /**
      * Gets block child.

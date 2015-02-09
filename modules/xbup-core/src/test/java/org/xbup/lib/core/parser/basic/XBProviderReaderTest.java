@@ -27,6 +27,7 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.parser.token.XBDataToken;
@@ -371,8 +372,8 @@ public class XBProviderReaderTest extends TestCase {
         }
 
         @Override
-        public void attribXB(UBNatural attribute) throws XBProcessingException, IOException {
-            System.out.println("  Attribute: " + attribute.getLong());
+        public void attribXB(XBAttribute attribute) throws XBProcessingException, IOException {
+            System.out.println("  Attribute: " + attribute.getNaturalLong());
         }
 
         @Override
@@ -408,9 +409,9 @@ public class XBProviderReaderTest extends TestCase {
         }
 
         @Override
-        public void attribXB(UBNatural attribute) throws XBProcessingException, IOException {
+        public void attribXB(XBAttribute attribute) throws XBProcessingException, IOException {
             super.attribXB(attribute);
-            if (token != null && awaiting && token.getTokenType() == XBTokenType.ATTRIBUTE && ((XBAttributeToken) token).getAttribute().getLong() == attribute.getLong()) {
+            if (token != null && awaiting && token.getTokenType() == XBTokenType.ATTRIBUTE && ((XBAttributeToken) token).getAttribute().getNaturalLong() == attribute.getNaturalLong()) {
                 awaiting = false;
                 correct = true;
             } else {

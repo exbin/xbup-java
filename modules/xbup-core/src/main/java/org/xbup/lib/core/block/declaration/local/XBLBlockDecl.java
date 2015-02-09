@@ -31,6 +31,7 @@ import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBTListener;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.serial.basic.XBReceivingFinished;
 import org.xbup.lib.core.serial.basic.XBTBasicInputReceivingSerialHandler;
 import org.xbup.lib.core.serial.basic.XBTBasicOutputReceivingSerialHandler;
@@ -38,7 +39,6 @@ import org.xbup.lib.core.serial.basic.XBTBasicReceivingSerializable;
 import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.serial.param.XBSerializationMode;
-import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 1 local block declaration.
@@ -114,11 +114,11 @@ public class XBLBlockDecl implements XBBlockDecl, XBPSequenceSerializable, XBTBa
         serial.begin();
         serial.matchType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION));
         if (serial.getSerializationMode() == XBSerializationMode.PULL) {
-            catalogPath = new long[serial.pullAttribute().getInt()];
+            catalogPath = new long[serial.pullAttribute().getNaturalInt()];
             for (int pathPosition = 0; pathPosition < catalogPath.length; pathPosition++) {
                 catalogPath[pathPosition] = serial.pullLongAttribute();
             }
-            revision = serial.pullAttribute().getInt();
+            revision = serial.pullAttribute().getNaturalInt();
 
             if (!serial.pullIfEmptyBlock()) {
                 blockDef = new XBLBlockDef();
@@ -200,25 +200,25 @@ public class XBLBlockDecl implements XBBlockDecl, XBPSequenceSerializable, XBTBa
         }
 
         @Override
-        public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
+        public void attribXBT(XBAttribute value) throws XBProcessingException, IOException {
             if (activeListener != null) {
                 activeListener.attribXBT(value);
                 return;
             }
 
             if (processingState == RecvProcessingState.TYPE) {
-                catalogPath = new long[value.getInt()];
+                catalogPath = new long[value.getNaturalInt()];
                 catalogPathPos = 0;
                 processingState = RecvProcessingState.CATALOG_PATH_SIZE;
             } else if (processingState == RecvProcessingState.CATALOG_PATH_SIZE) {
-                catalogPath[catalogPathPos] = value.getLong();
+                catalogPath[catalogPathPos] = value.getNaturalLong();
                 catalogPathPos++;
 
                 if (catalogPathPos == catalogPath.length) {
                     processingState = RecvProcessingState.CATALOG_PATH;
                 }
             } else if (processingState == RecvProcessingState.CATALOG_PATH) {
-                revision = value.getInt();
+                revision = value.getNaturalInt();
                 processingState = RecvProcessingState.REVISION;
             } else {
                 throw new XBProcessingException("Unexpected token: attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);

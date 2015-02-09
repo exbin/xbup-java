@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 import org.xbup.lib.core.block.XBBlock;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -62,7 +62,7 @@ public class XBTreeDocumentTest extends TestCase {
         data = new ByteArrayOutputStream();
         try {
             XBTreeNode node = new XBTreeNode();
-            List<UBNatural> attrs = new ArrayList<>();
+            List<XBAttribute> attrs = new ArrayList<>();
             attrs.add(new UBNat32(10));
             attrs.add(new UBNat32(20));
             attrs.add(new UBNat32(30));

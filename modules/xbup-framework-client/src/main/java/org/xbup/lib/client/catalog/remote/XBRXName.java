@@ -58,7 +58,7 @@ public class XBRXName implements XBCXName {
             listener.attribXB(new UBNat32(getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long ownerId = checker.attribXB().getLong();
+            long ownerId = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return new XBRItem(client, ownerId);
@@ -103,7 +103,7 @@ public class XBRXName implements XBCXName {
             listener.attribXB(new UBNat32(getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getLong();
+            long index = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return new XBRXLanguage(client, index);

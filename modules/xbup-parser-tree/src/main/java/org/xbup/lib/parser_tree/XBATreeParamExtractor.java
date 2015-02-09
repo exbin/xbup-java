@@ -36,6 +36,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.param.XBParamListProcessingState;
 import org.xbup.lib.core.parser.param.XBParamProcessingState;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTEndToken;
@@ -45,6 +46,7 @@ import org.xbup.lib.core.parser.token.XBTZeroAttributeToken;
 import org.xbup.lib.core.parser.token.convert.XBTListenerToToken;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
+import org.xbup.lib.core.ubnumber.UBENatural;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -496,7 +498,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
         return attributeToken;
     }
 
-    private void setNextAttributeToken(UBNatural attribute) {
+    private void setNextAttributeToken(XBAttribute attribute) {
         ((XBTEditableBlock) source).setAttribute(attribute, position.attributeCount);
         position.attributeCount++;
     }
@@ -569,8 +571,14 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
                     }
 
                     case LIST_CONSIST: {
-                        UBENat32 listSizeNat = new UBENat32();
-                        listSizeNat.convertFromNatural(source.getAttribute(position.attributeCount + parameterInfo.attributeCount));
+                        XBAttribute attribute = source.getAttribute(position.attributeCount + parameterInfo.attributeCount);
+                        UBENatural listSizeNat;
+                        if (attribute instanceof UBENatural) {
+                            listSizeNat = (UBENatural) attribute;
+                        } else {
+                            listSizeNat = new UBENat32();
+                            listSizeNat.convertFromNatural(attribute.convertToNatural());
+                        }
                         parameterInfo.attributeCount++;
                         if (!listSizeNat.isInfinity()) {
                             parameterInfo.childCount += listSizeNat.getInt();
@@ -580,7 +588,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
                     }
 
                     case LIST_JOIN: {
-                        int listSize = source.getAttribute(position.attributeCount + parameterInfo.attributeCount).getInt();
+                        int listSize = source.getAttribute(position.attributeCount + parameterInfo.attributeCount).getNaturalInt();
                         parameterInfo.attributeCount++;
                         while (listSize > 0) {
                             ProcessingState joinState = new ProcessingState((XBCBlockDecl) blockParam.getBlockDecl());

@@ -39,7 +39,7 @@ import org.xbup.lib.core.serial.XBSerializable;
  */
 public class XBBNFGrammarRule implements XBSerializable {
 
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 1, 2}; // Testing only
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 1, 2};
 
     private String ruleName;
     private List<String> rules;

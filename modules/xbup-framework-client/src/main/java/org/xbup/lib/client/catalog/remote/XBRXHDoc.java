@@ -54,7 +54,7 @@ public class XBRXHDoc implements XBCXHDoc {
             listener.attribXB(new UBNat32(getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long ownerId = checker.attribXB().getLong();
+            long ownerId = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             if (ownerId == 0) {
@@ -81,7 +81,7 @@ public class XBRXHDoc implements XBCXHDoc {
             listener.attribXB(new UBNat32(getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getLong();
+            long index = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return index;
@@ -101,7 +101,7 @@ public class XBRXHDoc implements XBCXHDoc {
             listener.attribXB(new UBNat32(getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long fileId = checker.attribXB().getLong();
+            long fileId = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             if (fileId == 0) {

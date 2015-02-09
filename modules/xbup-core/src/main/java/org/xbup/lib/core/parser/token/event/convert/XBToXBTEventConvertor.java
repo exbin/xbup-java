@@ -32,7 +32,6 @@ import org.xbup.lib.core.parser.token.event.XBEventListener;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.parser.token.event.XBTEventProducer;
 import org.xbup.lib.core.ubnumber.UBNatural;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * XBUP level 0 to level 1 event convertor.
@@ -73,10 +72,10 @@ public class XBToXBTEventConvertor implements XBEventListener, XBTEventProducer 
             case ATTRIBUTE: {
                 if (expectType) {
                     if (group != null) {
-                        target.putXBTToken(new XBTTypeToken(new XBFixedBlockType(group.getLong(), (((XBAttributeToken) token).getAttribute()).getLong())));
+                        target.putXBTToken(new XBTTypeToken(new XBFixedBlockType(group.getLong(), (((XBAttributeToken) token).getAttribute()).getNaturalLong())));
                         expectType = false;
                     } else {
-                        group = new UBNat32(((XBAttributeToken) token).getAttribute());
+                        group = ((XBAttributeToken) token).getAttribute().convertToNatural();
                     }
                 } else {
                     target.putXBTToken(new XBTAttributeToken(((XBAttributeToken) token).getAttribute()));

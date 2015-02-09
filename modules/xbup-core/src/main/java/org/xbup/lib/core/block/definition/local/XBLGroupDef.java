@@ -36,6 +36,7 @@ import org.xbup.lib.core.block.definition.XBRevisionParam;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBTListener;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.basic.XBReceivingFinished;
 import org.xbup.lib.core.serial.basic.XBTBasicInputReceivingSerialHandler;
@@ -49,7 +50,6 @@ import org.xbup.lib.core.serial.param.XBPSerializable;
 import org.xbup.lib.core.serial.param.XBSerializationMode;
 import org.xbup.lib.core.serial.sequence.XBListConsistSerializable;
 import org.xbup.lib.core.ubnumber.UBENatural;
-import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 
 /**
@@ -254,14 +254,14 @@ public class XBLGroupDef implements XBGroupDef, XBPSequenceSerializable, XBTBasi
         }
 
         @Override
-        public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
+        public void attribXBT(XBAttribute value) throws XBProcessingException, IOException {
             if (activeListener != null) {
                 activeListener.attribXBT(value);
                 return;
             }
 
             if (processingState == RecvProcessingState.TYPE) {
-                revisionDefSize = value.getInt();
+                revisionDefSize = value.getNaturalInt();
                 revisionDefPos = 0;
                 revisionDef = new XBLRevisionDef();
                 revisionDef.serializeRecvFromXB(new XBTBasicInputReceivingSerialHandler() {
@@ -288,7 +288,7 @@ public class XBLGroupDef implements XBGroupDef, XBPSequenceSerializable, XBTBasi
                     processingState = RecvProcessingState.REVISION_DEF;
                 }
             } else if (processingState == RecvProcessingState.REVISION_DEF) {
-                int size = value.getInt();
+                int size = value.getNaturalInt();
                 for (int i = 0; i < size; i++) {
                     groupParams.add(null);
                 }

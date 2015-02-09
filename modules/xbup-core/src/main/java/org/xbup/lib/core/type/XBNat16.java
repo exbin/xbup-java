@@ -42,8 +42,8 @@ public class XBNat16 implements XBTChildSerializable {
 
     private int value;
     public static int maxValue = 0xFFFFFFFF;
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 3, 1, 2, 2, 0}; // Testing only
-    public static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 3, 1, 2, 0, 0}; // Testing only
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 3, 1, 2, 2, 0};
+    public static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 3, 1, 2, 0, 0};
 
     public XBNat16() {
         this.value = 0;

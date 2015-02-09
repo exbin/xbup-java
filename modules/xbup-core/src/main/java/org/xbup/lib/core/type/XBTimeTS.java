@@ -41,8 +41,8 @@ import org.xbup.lib.core.util.CopyStreamUtils;
 public class XBTimeTS implements XBTChildSerializable {
 
     private long value;
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 3, 1, 2, 2, 0}; // Testing only
-    public static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 3, 1, 2, 0, 0}; // Testing only
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 3, 1, 2, 2, 0};
+    public static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 3, 1, 2, 0, 0};
 
     public XBTimeTS() {
         this.value = 0;

@@ -53,7 +53,7 @@ public class XBRXStriManager extends XBRDefaultManager<XBRXStri> implements XBCX
             listener.attribXB(new UBNat32(((XBRItem) item).getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long ownerId = checker.attribXB().getLong();
+            long ownerId = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             if (ownerId == 0) {
@@ -72,7 +72,7 @@ public class XBRXStriManager extends XBRDefaultManager<XBRXStri> implements XBCX
             XBListener listener = message.getXBOutput();
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            Long count = checker.attribXB().getLong();
+            Long count = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return count;

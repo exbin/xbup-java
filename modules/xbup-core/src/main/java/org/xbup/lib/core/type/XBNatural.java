@@ -38,7 +38,7 @@ public class XBNatural implements XBTChildSerializable {
 
     private UBNatural value;
 
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 0, 0, 0}; // Testing only
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 0, 0, 0};
 
     public XBNatural() {
         this.value = new UBNat32();
@@ -63,7 +63,7 @@ public class XBNatural implements XBTChildSerializable {
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
         serial.pullBegin();
-        value = serial.pullAttribute();
+        value = serial.pullAttribute().convertToNatural();
         serial.pullEnd();
     }
 

@@ -108,7 +108,7 @@ public class XBTPullTypeDeclaringFilter implements XBTPullFilter {
                     currentContext.typeXBT(blockType);
                 } else {
                     if (blockType instanceof XBFBlockType) {
-                        if (((XBFBlockType) blockType).getGroupID().isZero()) {
+                        if (((XBFBlockType) blockType).getGroupID().isNaturalZero()) {
                             if (catalog != null) {
                                 return new XBTTypeToken(catalog.getBasicBlockType(blockType.getAsBasicType()));
                             } else {

@@ -22,9 +22,9 @@ import java.io.InputStream;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 2 child serialization listener interface.
@@ -59,7 +59,7 @@ public interface XBPListener {
      * @throws XBProcessingException
      * @throws IOException
      */
-    public void putAttribute(UBNatural attribute) throws XBProcessingException, IOException;
+    public void putAttribute(XBAttribute attribute) throws XBProcessingException, IOException;
 
     /**
      * Puts block attribute.

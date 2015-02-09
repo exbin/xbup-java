@@ -59,7 +59,7 @@ public class XBRRevManager extends XBRDefaultManager<XBRRev> implements XBCRevMa
             XBListener listener = message.getXBOutput();
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            Long index = checker.attribXB().getLong();
+            Long index = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return index;
@@ -80,7 +80,7 @@ public class XBRRevManager extends XBRDefaultManager<XBRRev> implements XBCRevMa
             listener.attribXB(new UBNat32(xbIndex));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long bind = checker.attribXB().getLong();
+            long bind = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return new XBRRev(client,bind);
@@ -101,7 +101,7 @@ public class XBRRevManager extends XBRDefaultManager<XBRRev> implements XBCRevMa
             listener.attribXB(new UBNat32(index));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long rev = checker.attribXB().getLong();
+            long rev = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             if (spec instanceof XBCBlockSpec) {
@@ -131,9 +131,9 @@ public class XBRRevManager extends XBRDefaultManager<XBRRev> implements XBCRevMa
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
             List<XBCRev> result = new ArrayList<XBCRev>();
-            long count = checker.attribXB().getLong();
+            long count = checker.attribXB().getNaturalLong();
             for (int i = 0; i < count; i++) {
-                result.add(new XBRRev(client,checker.attribXB().getLong()));
+                result.add(new XBRRev(client,checker.attribXB().getNaturalLong()));
             }
             checker.endXB();
             message.close();
@@ -158,7 +158,7 @@ public class XBRRevManager extends XBRDefaultManager<XBRRev> implements XBCRevMa
             XBListener listener = message.getXBOutput();
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            Long index = checker.attribXB().getLong();
+            Long index = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return index;
@@ -178,7 +178,7 @@ public class XBRRevManager extends XBRDefaultManager<XBRRev> implements XBCRevMa
             listener.attribXB(new UBNat32(((XBRSpec) spec).getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getLong();
+            long index = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return index;

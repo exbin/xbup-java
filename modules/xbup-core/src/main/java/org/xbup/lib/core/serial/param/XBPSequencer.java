@@ -19,8 +19,8 @@ package org.xbup.lib.core.serial.param;
 import java.io.IOException;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.token.XBEditableAttribute;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 2 bidirectional parameter serialization interface.
@@ -66,10 +66,10 @@ public interface XBPSequencer extends XBPListener, XBPProvider {
      * Performs attribute token using attributeValue, either as source or
      * target.
      *
-     * @param attributeValue
+     * @param attributeValue attribute value
      * @throws java.io.IOException
      */
-    public void attribute(UBNatural attributeValue) throws XBProcessingException, IOException;
+    public void attribute(XBEditableAttribute attributeValue) throws XBProcessingException, IOException;
 
     /**
      * Performs serialization using consist operation.

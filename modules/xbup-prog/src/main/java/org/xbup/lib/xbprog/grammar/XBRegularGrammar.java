@@ -34,8 +34,8 @@ import org.xbup.lib.core.stream.XBTokenInputStream;
  */
 public class XBRegularGrammar implements XBSerializable {
 
-    public static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 1, 1}; // Testing only
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 1, 1}; // Testing only
+    public static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 1, 1};
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 1, 1};
     private List<XBRegularGrammarRule> rules;
     private long nonterminalCount;
     private long terminalCount;

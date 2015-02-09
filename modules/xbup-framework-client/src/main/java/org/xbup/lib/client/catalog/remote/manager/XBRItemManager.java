@@ -47,7 +47,7 @@ public class XBRItemManager extends XBRDefaultManager<XBRItem> implements XBCIte
             XBListener listener = message.getXBOutput();
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getLong();
+            long index = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return index;

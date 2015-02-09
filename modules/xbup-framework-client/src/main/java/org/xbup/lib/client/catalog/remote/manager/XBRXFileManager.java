@@ -58,7 +58,7 @@ public class XBRXFileManager extends XBRDefaultManager<XBRXFile> implements XBCX
             XBListener listener = message.getXBOutput();
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            Long index = checker.attribXB().getLong();
+            Long index = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return index;

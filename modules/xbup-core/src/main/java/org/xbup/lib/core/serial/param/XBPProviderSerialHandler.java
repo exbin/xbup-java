@@ -28,6 +28,8 @@ import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.param.XBParamProcessingState;
+import org.xbup.lib.core.parser.token.XBAttribute;
+import org.xbup.lib.core.parser.token.XBEditableAttribute;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
@@ -43,6 +45,7 @@ import org.xbup.lib.core.serial.sequence.XBListConsistSerializable;
 import org.xbup.lib.core.serial.sequence.XBListJoinSerializable;
 import org.xbup.lib.core.serial.sequence.XBSerialSequenceItem;
 import org.xbup.lib.core.serial.token.XBTTokenInputSerialHandler;
+import org.xbup.lib.core.ubnumber.UBENatural;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 
@@ -117,7 +120,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
     }
 
     @Override
-    public UBNatural pullAttribute() throws XBProcessingException, IOException {
+    public XBAttribute pullAttribute() throws XBProcessingException, IOException {
         XBTAttributeToken token = (XBTAttributeToken) pullProvider.pullToken(XBTTokenType.ATTRIBUTE);
         processingState = XBParamProcessingState.ATTRIBUTES;
         return token.getAttribute();
@@ -125,22 +128,22 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
 
     @Override
     public byte pullByteAttribute() throws XBProcessingException, IOException {
-        return (byte) pullAttribute().getInt();
+        return (byte) pullAttribute().getNaturalInt();
     }
 
     @Override
     public short pullShortAttribute() throws XBProcessingException, IOException {
-        return (short) pullAttribute().getInt();
+        return (short) pullAttribute().getNaturalInt();
     }
 
     @Override
     public int pullIntAttribute() throws XBProcessingException, IOException {
-        return pullAttribute().getInt();
+        return pullAttribute().getNaturalInt();
     }
 
     @Override
     public long pullLongAttribute() throws XBProcessingException, IOException {
-        return pullAttribute().getLong();
+        return pullAttribute().getNaturalLong();
     }
 
     @Override
@@ -235,8 +238,15 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
 
     @Override
     public void pullListConsist(XBSerializable serial) throws XBProcessingException, IOException {
-        UBENat32 listSize = new UBENat32();
-        listSize.convertFromNatural(pullAttribute());
+        XBAttribute attribute = pullAttribute();
+        UBENatural listSize;
+        if (attribute instanceof UBENatural) {
+            listSize = (UBENatural) attribute;
+        } else {
+            listSize = new UBENat32();
+            listSize.convertFromNatural(attribute.convertToNatural());
+        }
+
         ((XBListConsistSerializable) serial).setSize(listSize);
         int listItemCount = listSize.getInt();
         ((XBListConsistSerializable) serial).reset();
@@ -249,7 +259,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
 
     @Override
     public void pullListJoin(XBSerializable serial) throws XBProcessingException, IOException {
-        UBNatural listSize = pullAttribute();
+        UBNatural listSize = pullAttribute().convertToNatural();
         ((XBListJoinSerializable) serial).setSize(listSize);
         int listItemCount = listSize.getInt();
         ((XBListJoinSerializable) serial).reset();
@@ -321,8 +331,12 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
     }
 
     @Override
-    public void attribute(UBNatural attributeValue) throws XBProcessingException, IOException {
-        attributeValue.setValue(pullAttribute().getLong());
+    public void attribute(XBEditableAttribute attributeValue) throws XBProcessingException, IOException {
+        if (attributeValue instanceof UBNatural) {
+            ((UBNatural) attributeValue).setValue(pullAttribute().getNaturalLong());
+        }
+
+        attributeValue.convertFromNatural(pullAttribute().convertToNatural());
     }
 
     @Override
@@ -365,7 +379,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
     }
 
     @Override
-    public void putAttribute(UBNatural attribute) throws XBProcessingException, IOException {
+    public void putAttribute(XBAttribute attribute) throws XBProcessingException, IOException {
         throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
 
@@ -453,7 +467,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         }
 
         @Override
-        public UBNatural pullAttribute() throws XBProcessingException, IOException {
+        public XBAttribute pullAttribute() throws XBProcessingException, IOException {
             return handler.pullAttribute();
         }
 

@@ -55,7 +55,7 @@ public class XBTPrintEventFilter implements XBTEventFilter {
                 break;
             }
             case ATTRIBUTE: {
-                System.out.println("  Attribute: " + ((XBTAttributeToken) token).getAttribute().getLong());
+                System.out.println("  Attribute: " + ((XBTAttributeToken) token).getAttribute().getNaturalLong());
                 break;
             }
             case DATA: {

@@ -43,8 +43,8 @@ public class XBInt implements XBTChildSerializable {
 
     private UBInteger value;
     private UBNatural bitSize;
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 1, 1, 1, 0}; // Testing only
-    public static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 3, 1, 2, 0, 0}; // Testing only
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 1, 1, 1, 0};
+    public static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 3, 1, 2, 0, 0};
 
     public XBInt() {
         this.value = new UBInt32();

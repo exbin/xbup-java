@@ -585,9 +585,9 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
-            index = source.attribXBT().getLong();
+            index = source.attribXBT().getNaturalLong();
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             result.attribXBT(new UBNat32(0));
@@ -618,7 +618,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -649,7 +649,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -676,9 +676,9 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
-            index = source.attribXBT().getLong();
+            index = source.attribXBT().getNaturalLong();
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             result.attribXBT(new UBNat32(0));
@@ -704,7 +704,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -735,9 +735,9 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
-            index = source.attribXBT().getLong();
+            index = source.attribXBT().getNaturalLong();
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             result.attribXBT(new UBNat32(0));
@@ -772,7 +772,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -803,9 +803,9 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
-            index = source.attribXBT().getLong();
+            index = source.attribXBT().getNaturalLong();
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             result.attribXBT(new UBNat32(0));
@@ -840,7 +840,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -871,9 +871,9 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
-            index = source.attribXBT().getLong();
+            index = source.attribXBT().getNaturalLong();
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             result.attribXBT(new UBNat32(0));
@@ -908,7 +908,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -938,10 +938,10 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
-            long count = source.attribXBT().getLong();
+            long count = source.attribXBT().getNaturalLong();
             Long[] nodePath = new Long[(int) count];
             for (int i = 0; i < count; i++) {
-                nodePath[i] = source.attribXBT().getLong();
+                nodePath[i] = source.attribXBT().getNaturalLong();
             }
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -971,7 +971,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -1001,10 +1001,10 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
-            long count = source.attribXBT().getLong();
+            long count = source.attribXBT().getNaturalLong();
             Long[] nodePath = new Long[(int) count];
             for (int i = 0; i < count; i++) {
-                nodePath[i] = source.attribXBT().getLong();
+                nodePath[i] = source.attribXBT().getNaturalLong();
             }
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -1036,7 +1036,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -1063,9 +1063,9 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
-            index = source.attribXBT().getLong();
+            index = source.attribXBT().getNaturalLong();
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             result.attribXBT(new UBNat32(0));
@@ -1100,7 +1100,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -1127,9 +1127,9 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
-            index = source.attribXBT().getLong();
+            index = source.attribXBT().getNaturalLong();
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             result.attribXBT(new UBNat32(0));
@@ -1164,7 +1164,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -1191,9 +1191,9 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
-            index = source.attribXBT().getLong();
+            index = source.attribXBT().getNaturalLong();
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             result.attribXBT(new UBNat32(0));
@@ -1228,7 +1228,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -1255,7 +1255,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -1282,7 +1282,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -1309,7 +1309,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -1336,7 +1336,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -1387,9 +1387,9 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
-            index = source.attribXBT().getLong();
+            index = source.attribXBT().getNaturalLong();
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             result.attribXBT(new UBNat32(0));
@@ -1420,7 +1420,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBENode node = (XBENode) itemService.getItem(index);
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -1446,8 +1446,8 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long itemIndex = source.attribXBT().getLong();
-            Long index = source.attribXBT().getLong();
+            Long itemIndex = source.attribXBT().getNaturalLong();
+            Long index = source.attribXBT().getNaturalLong();
             source.endXBT();
             XBESpec item = specService.getItem(itemIndex);
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -1484,7 +1484,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBESpec spec = specService.getItem(index);
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -1514,7 +1514,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBESpec spec = specService.getItem(index);
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -1540,9 +1540,9 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBESpec spec = specService.getItem(index);
-            index = source.attribXBT().getLong();
+            index = source.attribXBT().getNaturalLong();
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             result.attribXBT(new UBNat32(0));
@@ -1582,9 +1582,9 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
             XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBESpec spec = specService.getItem(index);
-            index = source.attribXBT().getLong();
+            index = source.attribXBT().getNaturalLong();
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
             result.attribXBT(new UBNat32(0));
@@ -1725,7 +1725,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
             XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
-            Long index = source.attribXBT().getLong();
+            Long index = source.attribXBT().getNaturalLong();
             XBESpec spec = specService.getItem(index);
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -1752,8 +1752,8 @@ public class XBServiceServer extends XBTCPRemoteServer {
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
             XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
-            Long itemIndex = source.attribXBT().getLong();
-            Long index = source.attribXBT().getLong();
+            Long itemIndex = source.attribXBT().getNaturalLong();
+            Long index = source.attribXBT().getNaturalLong();
             source.endXBT();
             XBESpec item = specService.getItem(itemIndex);
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);

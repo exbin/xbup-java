@@ -25,6 +25,7 @@ import org.xbup.lib.core.block.XBBlock;
 import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
@@ -63,7 +64,7 @@ public class XBReaderBlock implements XBBlock, Closeable {
     }
 
     @Override
-    public List<UBNatural> getAttributes() {
+    public List<XBAttribute> getAttributes() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

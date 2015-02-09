@@ -52,7 +52,7 @@ public class XBRInfoManager extends XBRDefaultManager<XBRItemInfo> implements XB
             listener.attribXB(new UBNat32(((XBRNode) node).getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long infoId = checker.attribXB().getLong();
+            long infoId = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return new XBRItemInfo(client,infoId);
@@ -71,7 +71,7 @@ public class XBRInfoManager extends XBRDefaultManager<XBRItemInfo> implements XB
             XBListener listener = message.getXBOutput();
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getLong();
+            long index = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return index;

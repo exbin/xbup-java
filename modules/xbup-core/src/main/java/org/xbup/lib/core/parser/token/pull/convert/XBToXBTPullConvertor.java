@@ -81,10 +81,10 @@ public class XBToXBTPullConvertor implements XBPullConsumer, XBTPullProvider {
                     XBFixedBlockType blockType;
 
                     if (buffer.getTokenType() == XBTokenType.ATTRIBUTE) {
-                        blockType = new XBFixedBlockType(((XBAttributeToken) token).getAttribute().getLong(), ((XBAttributeToken) buffer).getAttribute().getLong());
+                        blockType = new XBFixedBlockType(((XBAttributeToken) token).getAttribute().getNaturalLong(), ((XBAttributeToken) buffer).getAttribute().getNaturalLong());
                         buffer = null;
                     } else {
-                        blockType = new XBFixedBlockType(((XBAttributeToken) token).getAttribute().getLong(), 0);
+                        blockType = new XBFixedBlockType(((XBAttributeToken) token).getAttribute().getNaturalLong(), 0);
                     }
 
                     return new XBTTypeToken(blockType);

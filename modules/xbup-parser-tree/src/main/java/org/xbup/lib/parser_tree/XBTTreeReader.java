@@ -28,8 +28,7 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.convert.XBSkipBlockListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.ubnumber.UBNatural;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.core.parser.token.XBAttribute;
 
 /**
  * XBUP level 1 convertor from tokens to tree node.
@@ -108,7 +107,7 @@ public class XBTTreeReader implements XBTListener {
     }
 
     @Override
-    public void attribXBT(UBNatural value) throws XBParseException, IOException {
+    public void attribXBT(XBAttribute value) throws XBParseException, IOException {
         if (finished) {
             throw new XBParseException("Block already parsed", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -124,7 +123,7 @@ public class XBTTreeReader implements XBTListener {
         }
 
         if (parserState == XBParserState.ATTRIBUTE_PART) {
-            target.addAttribute(new UBNat32(value));
+            target.addAttribute(value);
         } else {
             throw new XBParseException("Unexpected attribute event", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }

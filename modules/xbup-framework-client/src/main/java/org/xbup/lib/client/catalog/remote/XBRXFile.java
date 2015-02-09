@@ -55,7 +55,7 @@ public class XBRXFile implements XBCXFile {
             listener.attribXB(new UBNat32(getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long ownerId = checker.attribXB().getLong();
+            long ownerId = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             if (ownerId == 0) {

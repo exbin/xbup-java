@@ -63,6 +63,7 @@ import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXLineService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXPaneService;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.pull.convert.XBTProviderToPullProvider;
 import org.xbup.lib.core.serial.XBPSerialReader;
 import org.xbup.lib.core.serial.XBPSerialWriter;
@@ -99,7 +100,7 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
     private final HexEditPanel hexPanel;
     private XBPanelEditor customPanel;
     private XBBlockDataMode dataMode = XBBlockDataMode.NODE_BLOCK;
-    private List<UBNatural> attributes = null;
+    private List<XBAttribute> attributes = null;
     private HexEditPanel extAreaHexPanel = null;
 
     private final String attributesPanelTitle;
@@ -537,8 +538,8 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
                 newNode = srcNode.cloneNode();
                 newNode.setAttributesCount(0);
 
-                UBNatural groupId = attributes.get(0);
-                UBNatural blockId = attributes.size() > 1 ? attributes.get(1) : new UBNat32();
+                UBNatural groupId = attributes.get(0).convertToNatural();
+                UBNatural blockId = attributes.size() > 1 ? attributes.get(1).convertToNatural() : new UBNat32();
                 newNode.setFixedBlockType(new XBFixedBlockType(groupId, blockId));
                 newNode.setSingleAttributeType(attributes.size() == 1);
 

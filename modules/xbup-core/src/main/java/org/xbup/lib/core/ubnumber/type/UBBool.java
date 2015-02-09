@@ -25,12 +25,13 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.ubnumber.UBBoolean;
+import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 
 /**
  * UBBoolean stored as boolean value.
  *
- * @version 0.1.24 2015/01/13
+ * @version 0.1.25 2015/02/09
  * @author XBUP Project (http://xbup.org)
  */
 public class UBBool implements UBBoolean, XBPSequenceSerializable {
@@ -100,5 +101,49 @@ public class UBBool implements UBBoolean, XBPSequenceSerializable {
         serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
         serial.attribute(new UBNat32(value ? 1 : 0));
         serial.end();
+    }
+
+    @Override
+    public void setNaturalZero() {
+        value = false;
+    }
+
+    @Override
+    public void setNaturalInt(int intValue) throws UBOverFlowException {
+        if (intValue < 0 || intValue > 1) {
+            throw new UBOverFlowException("Value must be in range 0..1 for boolean");
+        }
+    }
+
+    @Override
+    public void setNaturalLong(long longValue) throws UBOverFlowException {
+        if (longValue < 0 || longValue > 1) {
+            throw new UBOverFlowException("Value must be in range 0..1 for boolean");
+        }
+    }
+
+    @Override
+    public boolean isNaturalZero() {
+        return !value;
+    }
+
+    @Override
+    public int getNaturalInt() throws UBOverFlowException {
+        return value ? 1 : 0;
+    }
+
+    @Override
+    public long getNaturalLong() throws UBOverFlowException {
+        return value ? 1 : 0;
+    }
+
+    @Override
+    public void convertFromNatural(UBNatural natural) {
+        setNaturalInt(natural.getInt());
+    }
+
+    @Override
+    public UBNatural convertToNatural() {
+        return new UBNat32(getNaturalInt());
     }
 }

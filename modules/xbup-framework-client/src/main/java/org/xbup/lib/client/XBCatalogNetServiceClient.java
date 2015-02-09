@@ -29,6 +29,7 @@ import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeFixingFilter;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.XBTokenType;
 import org.xbup.lib.core.parser.token.event.XBEventListener;
@@ -42,7 +43,6 @@ import org.xbup.lib.core.remote.XBTCPServiceClient;
 import org.xbup.lib.core.stream.XBTokenInputStream;
 import org.xbup.lib.core.stream.XBTokenOutputStream;
 import org.xbup.lib.core.stream.XBStreamChecker;
-import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -252,7 +252,7 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
         }
 
         @Override
-        public UBNatural attribXB() throws XBProcessingException, IOException {
+        public XBAttribute attribXB() throws XBProcessingException, IOException {
             if (!headChecked) {
                 checkHead();
             }
@@ -260,7 +260,7 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
         }
 
         @Override
-        public void attribXB(UBNatural value) throws XBProcessingException, IOException {
+        public void attribXB(XBAttribute value) throws XBProcessingException, IOException {
             if (!headChecked) {
                 checkHead();
             }

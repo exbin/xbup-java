@@ -25,13 +25,13 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.convert.XBTListenerToToken;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.serial.basic.XBReceivingFinished;
 import org.xbup.lib.core.serial.basic.XBTBasicInputReceivingSerialHandler;
-import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * Representation of current declaration typeConvertor for block types.
@@ -110,7 +110,7 @@ public class XBLevelContext implements XBTListener, XBTEventListener {
     }
 
     @Override
-    public void attribXBT(UBNatural attribute) throws XBProcessingException, IOException {
+    public void attribXBT(XBAttribute attribute) throws XBProcessingException, IOException {
         declarationBuilderListener.attribXBT(attribute);
     }
 

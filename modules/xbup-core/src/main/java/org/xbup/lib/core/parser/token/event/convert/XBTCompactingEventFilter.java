@@ -91,7 +91,7 @@ public class XBTCompactingEventFilter implements XBTEventFilter {
                 }
                 possibleDataMode = false;
                 if (!unknownMode) {
-                    if (((XBTAttributeToken) token).getAttribute().isZero()) {
+                    if (((XBTAttributeToken) token).getAttribute().isNaturalZero()) {
                         zeroAttributes++;
                         break;
                     } else {

@@ -28,6 +28,8 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBTEmptyBlock;
 import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.core.parser.param.XBParamProcessingState;
+import org.xbup.lib.core.parser.token.XBAttribute;
+import org.xbup.lib.core.parser.token.XBEditableAttribute;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
@@ -135,7 +137,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     }
 
     @Override
-    public void putAttribute(UBNatural attribute) throws XBSerialException, XBProcessingException, IOException {
+    public void putAttribute(XBAttribute attribute) throws XBSerialException, XBProcessingException, IOException {
         if (sequencingListener != null) {
             sequencingListener.putAttribute(attribute);
             return;
@@ -387,7 +389,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     }
 
     @Override
-    public void attribute(UBNatural attributeValue) throws XBProcessingException, IOException {
+    public void attribute(XBEditableAttribute attributeValue) throws XBProcessingException, IOException {
         putAttribute(attributeValue);
     }
 

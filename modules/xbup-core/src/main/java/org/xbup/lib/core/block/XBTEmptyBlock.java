@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.util.List;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBTEmptyDataToken;
 import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
@@ -59,7 +60,7 @@ public class XBTEmptyBlock implements XBTBlock, XBPSequenceSerializable {
     }
 
     @Override
-    public List<UBNatural> getAttributes() {
+    public List<XBAttribute> getAttributes() {
         return null;
     }
 

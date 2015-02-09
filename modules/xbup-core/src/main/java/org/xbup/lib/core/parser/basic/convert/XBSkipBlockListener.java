@@ -22,7 +22,7 @@ import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
-import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.parser.token.XBAttribute;
 
 /**
  * Level 0 counting listener reporting one skipped block.
@@ -49,7 +49,7 @@ public class XBSkipBlockListener implements XBListener {
     }
 
     @Override
-    public void attribXB(UBNatural value) throws XBParseException, IOException {
+    public void attribXB(XBAttribute value) throws XBParseException, IOException {
         if (isSkipped) {
             throw new XBParseException("Unexpected token after block skip", XBProcessingExceptionType.WRITING_AFTER_END);
         }

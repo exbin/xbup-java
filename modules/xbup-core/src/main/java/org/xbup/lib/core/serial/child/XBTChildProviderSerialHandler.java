@@ -22,6 +22,7 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
@@ -33,7 +34,6 @@ import org.xbup.lib.core.serial.XBSerialException;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.serial.XBTReadSerialHandler;
 import org.xbup.lib.core.serial.token.XBTTokenInputSerialHandler;
-import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -97,7 +97,7 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
     }
 
     @Override
-    public UBNatural pullAttribute() throws XBProcessingException, IOException {
+    public XBAttribute pullAttribute() throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -149,22 +149,22 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
 
     @Override
     public byte pullByteAttribute() throws XBProcessingException, IOException {
-        return (byte) pullAttribute().getInt();
+        return (byte) pullAttribute().getNaturalInt();
     }
 
     @Override
     public short pullShortAttribute() throws XBProcessingException, IOException {
-        return (short) pullAttribute().getInt();
+        return (short) pullAttribute().getNaturalInt();
     }
 
     @Override
     public int pullIntAttribute() throws XBProcessingException, IOException {
-        return pullAttribute().getInt();
+        return pullAttribute().getNaturalInt();
     }
 
     @Override
     public long pullLongAttribute() throws XBProcessingException, IOException {
-        return pullAttribute().getLong();
+        return pullAttribute().getNaturalLong();
     }
 
     @Override

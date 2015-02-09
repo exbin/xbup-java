@@ -21,10 +21,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
-import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.UBStreamable;
 import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 
@@ -107,10 +107,10 @@ public class UBPath32 implements UBStreamable, XBTChildSerializable {
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
         serial.pullBegin();
-        UBNatural length = serial.pullAttribute();
-        path = new long[length.getInt()];
+        XBAttribute length = serial.pullAttribute();
+        path = new long[length.getNaturalInt()];
         for (int i = 0; i < path.length; i++) {
-            path[i] = serial.pullAttribute().getLong();
+            path[i] = serial.pullAttribute().getNaturalLong();
         }
 
         serial.pullEnd();

@@ -33,8 +33,8 @@ import org.xbup.lib.core.serial.XBSerializable;
  */
 public class XBBNFGrammar implements XBSerializable {
 
-    public static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 1, 1, 0}; // Testing only
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 1, 1, 0}; // Testing only
+    public static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 1, 1, 0};
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 1, 1, 0};
     private List<XBBNFGrammarRule> rules;
     private Map<String, XBBNFGrammarRule> nameMap; // Cache
 

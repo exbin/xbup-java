@@ -20,7 +20,7 @@ import java.io.InputStream;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.parser.token.XBAttribute;
 
 /**
  * TODO: Filter primary document content - process/skip all basic blocks and
@@ -46,7 +46,7 @@ public class XBTRootDocumentFilter implements XBTListener {
     }
 
     @Override
-    public void attribXBT(UBNatural value) {
+    public void attribXBT(XBAttribute value) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 

@@ -26,6 +26,7 @@ import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBEditableBlock;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
@@ -64,7 +65,7 @@ public class XBWriterBlock implements XBEditableBlock, Closeable {
     }
 
     @Override
-    public List<UBNatural> getAttributes() {
+    public List<XBAttribute> getAttributes() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -129,12 +130,12 @@ public class XBWriterBlock implements XBEditableBlock, Closeable {
     }
 
     @Override
-    public void setAttributes(List<UBNatural> attributes) {
+    public void setAttributes(List<XBAttribute> attributes) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void setAttribute(UBNatural attribute, int index) {
+    public void setAttribute(XBAttribute attribute, int index) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

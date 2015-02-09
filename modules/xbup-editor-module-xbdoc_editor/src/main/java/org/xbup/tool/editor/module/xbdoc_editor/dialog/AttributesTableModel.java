@@ -20,8 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.swing.table.AbstractTableModel;
-import org.xbup.lib.core.ubnumber.UBNatural;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.core.parser.token.XBAttribute;
 
 /**
  * Attributes list table model for item editing.
@@ -32,7 +31,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 public class AttributesTableModel extends AbstractTableModel {
 
     private final ResourceBundle resourceBundle;
-    private List<UBNatural> attributes;
+    private List<XBAttribute> attributes;
     private ChangeListener changeListener = null;
 
     private final String[] columnNames;
@@ -75,7 +74,7 @@ public class AttributesTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         if (columnIndex == 1) {
-            return ((UBNat32) getAttribs().get(rowIndex)).getInt();
+            return getAttribs().get(rowIndex).convertToNatural().getInt();
         } else {
             return rowIndex;
         }
@@ -85,7 +84,7 @@ public class AttributesTableModel extends AbstractTableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         if (rowIndex < getRowCount()) {
             if (columnIndex == 1) {
-                ((UBNat32) attributes.get(rowIndex)).setValue((Integer) aValue);
+                attributes.get(rowIndex).convertToNatural().setValue((Integer) aValue);
                 fireDataChanged();
             } else {
                 throw new IllegalStateException();
@@ -93,11 +92,11 @@ public class AttributesTableModel extends AbstractTableModel {
         }
     }
 
-    public List<UBNatural> getAttribs() {
+    public List<XBAttribute> getAttribs() {
         return attributes;
     }
 
-    public void setAttribs(List<UBNatural> attributes) {
+    public void setAttribs(List<XBAttribute> attributes) {
         this.attributes = attributes;
         fireTableDataChanged();
     }
@@ -115,8 +114,8 @@ public class AttributesTableModel extends AbstractTableModel {
             return 0;
         }
 
-        UBNat32 attribute = (UBNat32) attributes.get(index);
-        return attribute != null ? attribute.getInt() : 0;
+        XBAttribute attribute = attributes.get(index);
+        return attribute != null ? attribute.getNaturalInt() : 0;
     }
 
     public void fireDataChanged() {

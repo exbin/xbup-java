@@ -301,7 +301,7 @@ public class XBEventReaderTest extends TestCase {
                     break;
                 }
                 case ATTRIBUTE: {
-                    System.out.println("  Attribute: " + ((XBAttributeToken) token).getAttribute().getLong());
+                    System.out.println("  Attribute: " + ((XBAttributeToken) token).getAttribute().getNaturalLong());
                     break;
                 }
                 case DATA: {
@@ -342,7 +342,7 @@ public class XBEventReaderTest extends TestCase {
                     break;
                 }
                 case ATTRIBUTE: {
-                    if (tokenList != null && position < tokenList.size() && tokenList.get(position).getTokenType() == XBTokenType.ATTRIBUTE && ((XBAttributeToken) tokenList.get(position)).getAttribute().getLong() == (((XBAttributeToken) token).getAttribute()).getLong()) {
+                    if (tokenList != null && position < tokenList.size() && tokenList.get(position).getTokenType() == XBTokenType.ATTRIBUTE && ((XBAttributeToken) tokenList.get(position)).getAttribute().getNaturalLong() == (((XBAttributeToken) token).getAttribute()).getNaturalLong()) {
                         position++;
                         correct = true;
                     } else {

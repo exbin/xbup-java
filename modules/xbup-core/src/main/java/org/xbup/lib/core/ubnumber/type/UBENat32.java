@@ -28,7 +28,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * UBENatural stored as long value (limited value capacity to 32 bits).
  *
- * @version 0.1.25 2015/02/05
+ * @version 0.1.25 2015/02/09
  * @author XBUP Project (http://xbup.org)
  */
 public class UBENat32 implements UBENatural {
@@ -127,28 +127,6 @@ public class UBENat32 implements UBENatural {
         }
 
         return value;
-    }
-
-    @Override
-    public void convertFromNatural(UBNatural nat) {
-        if (nat.getLong() < 127) {
-            value = nat.getLong();
-        } else if (nat.getLong() == 127) {
-            setInfinity();
-        } else {
-            value = nat.getLong() - 1;
-        }
-    }
-
-    @Override
-    public UBNatural convertToNatural() {
-        if (infinity) {
-            return new UBNat32(127);
-        } else if (value < 127) {
-            return new UBNat32(value);
-        }
-
-        return new UBNat32(value + 1);
     }
 
     @Override
@@ -274,10 +252,62 @@ public class UBENat32 implements UBENatural {
         }
     }
 
-    // TODO: Or should be singleton?
     public static UBENat32 getInfinity() {
         UBENat32 value = new UBENat32();
         value.infinity = true;
         return value;
     }
+
+    @Override
+    public void setNaturalZero() {
+        setNaturalLong(0);
+    }
+
+    @Override
+    public void setNaturalInt(int intValue) throws UBOverFlowException {
+        setNaturalLong(value);
+    }
+
+    @Override
+    public void setNaturalLong(long longValue) throws UBOverFlowException {
+        if (longValue < 127) {
+            value = longValue;
+        } else if (longValue == 127) {
+            setInfinity();
+        } else {
+            value = longValue - 1;
+        }
+    }
+
+    @Override
+    public boolean isNaturalZero() {
+        return value == 0;
+    }
+
+    @Override
+    public int getNaturalInt() throws UBOverFlowException {
+        return (int) getNaturalLong();
+    }
+
+    @Override
+    public long getNaturalLong() throws UBOverFlowException {
+        if (infinity) {
+            return 127;
+        } else if (value < 127) {
+            return value;
+        }
+
+        return value + 1;
+    }
+
+    @Override
+    public void convertFromNatural(UBNatural nat) {
+        setNaturalLong(nat.getLong());
+    }
+
+    @Override
+    public UBNatural convertToNatural() {
+        return new UBNat32(getNaturalLong());
+    }
+
 }

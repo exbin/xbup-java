@@ -218,4 +218,44 @@ public class UBNat32 implements UBNatural, XBPSequenceSerializable {
         serial.attribute(this);
         serial.end();
     }
+
+    @Override
+    public void setNaturalZero() {
+        value = 0;
+    }
+
+    @Override
+    public void setNaturalInt(int intValue) throws UBOverFlowException {
+        setValue(intValue);
+    }
+
+    @Override
+    public void setNaturalLong(long longValue) throws UBOverFlowException {
+        setValue(longValue);
+    }
+
+    @Override
+    public void convertFromNatural(UBNatural natural) {
+        setValue(natural.getLong());
+    }
+
+    @Override
+    public boolean isNaturalZero() {
+        return isZero();
+    }
+
+    @Override
+    public int getNaturalInt() throws UBOverFlowException {
+        return getInt();
+    }
+
+    @Override
+    public long getNaturalLong() throws UBOverFlowException {
+        return getLong();
+    }
+
+    @Override
+    public UBNatural convertToNatural() {
+        return this;
+    }
 }

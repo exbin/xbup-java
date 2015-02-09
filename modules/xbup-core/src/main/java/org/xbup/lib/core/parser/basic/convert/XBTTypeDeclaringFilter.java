@@ -32,7 +32,7 @@ import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.XBLevelContext;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
-import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.parser.token.XBAttribute;
 
 /**
  * Filter to convert block types from fixed types to stand-alone declared types.
@@ -118,7 +118,7 @@ public class XBTTypeDeclaringFilter implements XBTFilter {
     }
 
     @Override
-    public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
+    public void attribXBT(XBAttribute value) throws XBProcessingException, IOException {
         if (currentContext != null && !currentContext.isDeclarationFinished()) {
             currentContext.attribXBT(value);
         }

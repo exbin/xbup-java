@@ -33,6 +33,7 @@ import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.basic.wrapper.FinishableStream;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.XBTokenType;
@@ -86,7 +87,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
         List<Integer> sizeLimits = new ArrayList<>();
         XBTokenBuffer tokenWriter = new XBTokenBuffer();
         XBDataToken extendedArea = null;
-        List<UBNatural> attributeList = new ArrayList<>();
+        List<XBAttribute> attributeList = new ArrayList<>();
         int bufferedFromLevel = -1;
         int depthLevel = 0;
 
@@ -157,7 +158,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                             attributeList.clear();
                             int attributePartSizeValue = 0;
                             do {
-                                UBNatural attribute = ((XBAttributeToken) token).getAttribute();
+                                XBAttribute attribute = ((XBAttributeToken) token).getAttribute();
 
                                 if (bufferedFromLevel >= 0) {
                                     tokenWriter.putXBToken(token);
@@ -189,7 +190,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                                 dataPartSize.setInfinity();
                                 dataPartSize.toStreamUB(stream);
 
-                                for (UBNatural attribute : attributeList) {
+                                for (XBAttribute attribute : attributeList) {
                                     attribute.toStreamUB(stream);
                                 }
 

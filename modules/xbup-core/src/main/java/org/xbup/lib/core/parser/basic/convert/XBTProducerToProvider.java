@@ -28,6 +28,7 @@ import org.xbup.lib.core.parser.basic.XBTProducer;
 import org.xbup.lib.core.parser.basic.XBTProvider;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.basic.XBTSListener;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
@@ -70,7 +71,7 @@ public class XBTProducerToProvider implements XBTProvider {
             }
 
             @Override
-            public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
+            public void attribXBT(XBAttribute value) throws XBProcessingException, IOException {
                 tokens.add(new XBTAttributeToken(value));
             }
 

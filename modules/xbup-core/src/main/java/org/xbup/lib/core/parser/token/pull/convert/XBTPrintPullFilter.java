@@ -56,7 +56,7 @@ public class XBTPrintPullFilter implements XBTPullFilter {
                 break;
             }
             case ATTRIBUTE: {
-                System.out.println("  Attribute: " + ((XBTAttributeToken) token).getAttribute().getLong());
+                System.out.println("  Attribute: " + ((XBTAttributeToken) token).getAttribute().getNaturalLong());
                 break;
             }
             case DATA: {

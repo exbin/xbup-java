@@ -57,7 +57,7 @@ public class XBRConsDef extends XBRSpecDef implements XBCConsDef {
             listener.attribXB(new UBNat32(getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long target = checker.attribXB().getLong();
+            long target = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             if (target == 0) {

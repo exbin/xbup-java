@@ -56,7 +56,7 @@ public class XBRXNameManager extends XBRDefaultManager<XBRXName> implements XBCX
             listener.attribXB(new UBNat32(((XBRItem) item).getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long ownerId = checker.attribXB().getLong();
+            long ownerId = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             if (ownerId == 0) {
@@ -78,7 +78,7 @@ public class XBRXNameManager extends XBRDefaultManager<XBRXName> implements XBCX
             listener.attribXB(new UBNat32(((XBRXLanguage) language).getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long ownerId = checker.attribXB().getLong();
+            long ownerId = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             if (ownerId == 0) {
@@ -100,9 +100,9 @@ public class XBRXNameManager extends XBRDefaultManager<XBRXName> implements XBCX
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
             List<XBCXName> result = new ArrayList<>();
-            long count = checker.attribXB().getLong();
+            long count = checker.attribXB().getNaturalLong();
             for (int i = 0; i < count; i++) {
-                result.add(new XBRXName(client, checker.attribXB().getLong()));
+                result.add(new XBRXName(client, checker.attribXB().getNaturalLong()));
             }
             checker.endXB();
             message.close();
@@ -120,7 +120,7 @@ public class XBRXNameManager extends XBRDefaultManager<XBRXName> implements XBCX
             XBListener listener = message.getXBOutput();
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            Long count = checker.attribXB().getLong();
+            Long count = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return count;

@@ -24,6 +24,7 @@ import org.xbup.lib.core.parser.basic.XBTFilter;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.basic.XBTSListener;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
@@ -60,7 +61,7 @@ public class XBTSDefaultFilter implements XBTFilter, XBTSListener {
     }
 
     @Override
-    public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
+    public void attribXBT(XBAttribute value) throws XBProcessingException, IOException {
         listener.attribXBT(value);
     }
 

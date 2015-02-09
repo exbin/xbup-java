@@ -31,7 +31,6 @@ import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.ubnumber.UBNatural;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * XBUP level 0 to level 1 token convertor.
@@ -78,11 +77,11 @@ public class XBToXBTOperation extends XBOperation<XBToken, XBTToken> {
                                 break;
                             }
 
-                            group = new UBNat32(((XBAttributeToken) token).getAttribute());
+                            group = ((XBAttributeToken) token).getAttribute().convertToNatural();
                             token = operator.getToken();
                         }
 
-                        operator.putToken(new XBTTypeToken(new XBFixedBlockType(group.getLong(), ((XBAttributeToken) token).getAttribute().getLong())));
+                        operator.putToken(new XBTTypeToken(new XBFixedBlockType(group.getLong(), ((XBAttributeToken) token).getAttribute().getNaturalLong())));
                         group = null;
                         expectType = false;
                     } else {

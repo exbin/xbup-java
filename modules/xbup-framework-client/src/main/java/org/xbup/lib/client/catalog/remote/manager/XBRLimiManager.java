@@ -57,7 +57,7 @@ public class XBRLimiManager extends XBRDefaultManager<XBRItemLimi> implements XB
             XBListener listener = message.getXBOutput();
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getLong();
+            long index = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return new XBRItemInfo(client,index);
@@ -77,9 +77,9 @@ public class XBRLimiManager extends XBRDefaultManager<XBRItemLimi> implements XB
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
             List<XBCXItemInfo> result = new ArrayList<XBCXItemInfo>();
-            long count = checker.attribXB().getLong();
+            long count = checker.attribXB().getNaturalLong();
             for (int i = 0; i < count; i++) {
-                result.add(new XBRItemInfo(client,checker.attribXB().getLong()));
+                result.add(new XBRItemInfo(client,checker.attribXB().getNaturalLong()));
             }
             checker.endXB();
             message.close();
@@ -100,7 +100,7 @@ public class XBRLimiManager extends XBRDefaultManager<XBRItemLimi> implements XB
             listener.attribXB(new UBNat32(index));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long subnode = checker.attribXB().getLong();
+            long subnode = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             if (subnode == 0) {
@@ -122,7 +122,7 @@ public class XBRLimiManager extends XBRDefaultManager<XBRItemLimi> implements XB
             listener.attribXB(new UBNat32(((XBRItemInfo) node).getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getLong();
+            long index = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return index;
@@ -142,9 +142,9 @@ public class XBRLimiManager extends XBRDefaultManager<XBRItemLimi> implements XB
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
             List<XBCXFile> result = new ArrayList<XBCXFile>();
-            long count = checker.attribXB().getLong();
+            long count = checker.attribXB().getNaturalLong();
             for (int i = 0; i < count; i++) {
-                result.add(new XBRXFile(client,checker.attribXB().getLong()));
+                result.add(new XBRXFile(client,checker.attribXB().getNaturalLong()));
             }
             checker.endXB();
             message.close();
@@ -165,7 +165,7 @@ public class XBRLimiManager extends XBRDefaultManager<XBRItemLimi> implements XB
             listener.attribXB(new UBNat32(index));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long subSpec = checker.attribXB().getLong();
+            long subSpec = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return new XBRXFile(client,subSpec);
@@ -195,7 +195,7 @@ public class XBRLimiManager extends XBRDefaultManager<XBRItemLimi> implements XB
             }
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getLong();
+            long index = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             if (index == 0) return null;
@@ -229,10 +229,10 @@ public class XBRLimiManager extends XBRDefaultManager<XBRItemLimi> implements XB
             listener.attribXB(new UBNat32(((XBRItemInfo) node).getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long count = checker.attribXB().getLong();
+            long count = checker.attribXB().getNaturalLong();
             Long[] result = new Long[(int) count];
             for (int i = 0; i < count; i++) {
-                result[i] = checker.attribXB().getLong();
+                result[i] = checker.attribXB().getNaturalLong();
             }
             checker.endXB();
             message.close();
@@ -255,7 +255,7 @@ public class XBRLimiManager extends XBRDefaultManager<XBRItemLimi> implements XB
             }
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getLong();
+            long index = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return new XBRItemInfo(client, index);
@@ -275,7 +275,7 @@ public class XBRLimiManager extends XBRDefaultManager<XBRItemLimi> implements XB
             listener.attribXB(new UBNat32(xbIndex));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long spec = checker.attribXB().getLong();
+            long spec = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return new XBRItemInfo(client,spec);
@@ -294,7 +294,7 @@ public class XBRLimiManager extends XBRDefaultManager<XBRItemLimi> implements XB
             listener.attribXB(new UBNat32(((XBRItemInfo) node).getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getLong();
+            long index = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return index;
@@ -313,7 +313,7 @@ public class XBRLimiManager extends XBRDefaultManager<XBRItemLimi> implements XB
             listener.attribXB(new UBNat32(((XBRItemInfo) node).getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getLong();
+            long index = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return new XBRXFile(client,index);
@@ -332,7 +332,7 @@ public class XBRLimiManager extends XBRDefaultManager<XBRItemLimi> implements XB
             listener.attribXB(new UBNat32(((XBRItemInfo) node).getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getLong();
+            long index = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return index;
@@ -351,7 +351,7 @@ public class XBRLimiManager extends XBRDefaultManager<XBRItemLimi> implements XB
             listener.attribXB(new UBNat32(((XBRItemInfo) node).getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getLong();
+            long index = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return index;
@@ -369,7 +369,7 @@ public class XBRLimiManager extends XBRDefaultManager<XBRItemLimi> implements XB
             XBListener listener = message.getXBOutput();
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getLong();
+            long index = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return index;

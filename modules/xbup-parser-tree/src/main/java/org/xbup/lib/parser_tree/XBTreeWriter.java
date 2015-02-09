@@ -27,7 +27,7 @@ import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.basic.XBProducer;
 import org.xbup.lib.core.parser.basic.XBProvider;
 import org.xbup.lib.core.parser.basic.convert.XBDefaultFilter;
-import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -112,9 +112,9 @@ public class XBTreeWriter implements XBProvider {
         if (source.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
             listener.dataXB(source.getData());
         } else {
-            Iterator<UBNatural> attributesIter = source.getAttributes().iterator();
+            Iterator<XBAttribute> attributesIter = source.getAttributes().iterator();
             while (attributesIter.hasNext()) {
-                listener.attribXB(new UBNat32(attributesIter.next()));
+                listener.attribXB(new UBNat32(attributesIter.next().getNaturalLong()));
             }
 
             if (recursive && (source.getChildren() != null)) {

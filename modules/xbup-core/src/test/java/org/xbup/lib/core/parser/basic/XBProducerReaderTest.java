@@ -27,13 +27,13 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBEndToken;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.XBTokenType;
-import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -298,8 +298,8 @@ public class XBProducerReaderTest extends TestCase {
         }
 
         @Override
-        public void attribXB(UBNatural attribute) throws XBProcessingException, IOException {
-            System.out.println("  Attribute: " + attribute.getLong());
+        public void attribXB(XBAttribute attribute) throws XBProcessingException, IOException {
+            System.out.println("  Attribute: " + attribute.getNaturalLong());
         }
 
         @Override
@@ -335,9 +335,9 @@ public class XBProducerReaderTest extends TestCase {
         }
 
         @Override
-        public void attribXB(UBNatural attribute) throws XBProcessingException, IOException {
+        public void attribXB(XBAttribute attribute) throws XBProcessingException, IOException {
             super.attribXB(attribute);
-            if (tokenList != null && position < tokenList.size() && tokenList.get(position).getTokenType() == XBTokenType.ATTRIBUTE && ((XBAttributeToken) tokenList.get(position)).getAttribute().getLong() == attribute.getLong()) {
+            if (tokenList != null && position < tokenList.size() && tokenList.get(position).getTokenType() == XBTokenType.ATTRIBUTE && ((XBAttributeToken) tokenList.get(position)).getAttribute().getNaturalLong() == attribute.getNaturalLong()) {
                 position++;
                 correct = true;
             } else {

@@ -71,8 +71,8 @@ public class XBBufferedImage implements XBPSerializable {
     public void serializeFromXB(XBPInputSerialHandler serial) throws XBProcessingException, IOException {
         serial.pullBegin();
         serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
-        UBNatural width = serial.pullAttribute();
-        UBNatural height = serial.pullAttribute();
+        UBNatural width = serial.pullAttribute().convertToNatural();
+        UBNatural height = serial.pullAttribute().convertToNatural();
         BufferedImage result = new BufferedImage(width.getInt(), height.getInt(), BufferedImage.TYPE_INT_RGB);
         serial.pullConsist(XBWritableRaster.getXBWritableRasterSerializator(result.getRaster()));
         setImage(result);

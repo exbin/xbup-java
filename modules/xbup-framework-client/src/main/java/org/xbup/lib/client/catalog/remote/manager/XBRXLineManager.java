@@ -77,7 +77,7 @@ public class XBRXLineManager extends XBRDefaultManager<XBRXBlockLine> implements
             listener.attribXB(new UBNat32(priority));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long itemId = checker.attribXB().getLong();
+            long itemId = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             if (itemId == 0) {
@@ -99,7 +99,7 @@ public class XBRXLineManager extends XBRDefaultManager<XBRXBlockLine> implements
             XBListener listener = message.getXBOutput();
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            Long count = checker.attribXB().getLong();
+            Long count = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return count;
@@ -130,7 +130,7 @@ public class XBRXLineManager extends XBRDefaultManager<XBRXBlockLine> implements
             listener.attribXB(new UBNat32(lineIndex));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long itemId = checker.attribXB().getLong();
+            long itemId = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             if (itemId == 0) {
@@ -152,7 +152,7 @@ public class XBRXLineManager extends XBRDefaultManager<XBRXBlockLine> implements
             XBListener listener = message.getXBOutput();
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            Long count = checker.attribXB().getLong();
+            Long count = checker.attribXB().getNaturalLong();
             checker.endXB();
             message.close();
             return count;

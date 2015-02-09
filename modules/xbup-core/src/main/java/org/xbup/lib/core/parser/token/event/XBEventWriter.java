@@ -35,11 +35,11 @@ import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.basic.wrapper.FinishableStream;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBEndToken;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.stream.XBTokenOutputStream;
-import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.core.util.CopyStreamUtils;
@@ -54,7 +54,7 @@ public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBE
 
     private XBParserState parserState;
     private XBParserMode parserMode = XBParserMode.FULL;
-    
+
     private final XBTokenBuffer tokenWriter = new XBTokenBuffer();
     private XBDataToken extendedArea = null;
     private OutputStream stream;
@@ -64,8 +64,8 @@ public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBE
 
     private XBBlockTerminationMode terminationMode;
     private XBBlockDataMode dataMode;
-    private final List<UBNatural> attributeList = new ArrayList<>();
-    private int attributePartSizeValue = 0;                            
+    private final List<XBAttribute> attributeList = new ArrayList<>();
+    private int attributePartSizeValue = 0;
 
     public XBEventWriter() {
         sizeLimits = new ArrayList<>();
@@ -83,7 +83,7 @@ public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBE
         this.parserMode = parserMode;
         openStream(outputStream);
     }
-    
+
     private void openStream(OutputStream outputStream) throws IOException {
         stream = outputStream;
     }
@@ -104,7 +104,7 @@ public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBE
 
         close();
     }
-    
+
     @Override
     public void putXBToken(XBToken token) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
@@ -145,7 +145,7 @@ public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBE
                 } else {
                     throw new XBParseException("Unexpected begin of block", XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
-                
+
                 break;
             }
 
@@ -166,7 +166,7 @@ public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBE
 
                 break;
             }
-            
+
             case DATA: {
                 if (parserState == XBParserState.ATTRIBUTE_PART) {
                     if (level == 1 && dataMode == XBBlockDataMode.NODE_BLOCK) {
@@ -221,10 +221,10 @@ public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBE
                 } else {
                     throw new XBParseException("Unexpected data token", XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
-                
+
                 break;
             }
-            
+
             case END: {
                 switch (parserState) {
                     case ATTRIBUTE_PART: {
@@ -259,7 +259,7 @@ public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBE
                     default:
                         throw new XBParseException("Unexpected end token", XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
-                
+
                 break;
             }
         }
@@ -275,7 +275,7 @@ public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBE
             dataPartSize.setInfinity();
             dataPartSize.toStreamUB(stream);
 
-            for (UBNatural attribute : attributeList) {
+            for (XBAttribute attribute : attributeList) {
                 attribute.toStreamUB(stream);
             }
 
@@ -284,7 +284,6 @@ public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBE
         }
     }
 
-
     @Override
     public void flush() throws IOException {
         stream.flush();
@@ -292,7 +291,7 @@ public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBE
 
     /**
      * Shrinks limits accross all depths.
-     * 
+     *
      * @param value Value to shrink all limits off
      * @throws XBParseException If limits are breached
      */

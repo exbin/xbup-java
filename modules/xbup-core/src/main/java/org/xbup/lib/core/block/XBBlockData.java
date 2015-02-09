@@ -87,6 +87,7 @@ public interface XBBlockData {
      * Saves data to given stream.
      *
      * @param outputStream output stream
+     * @throws java.io.IOException if input/output error
      */
     public void saveToStream(OutputStream outputStream) throws IOException;
 }

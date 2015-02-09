@@ -27,10 +27,10 @@ import org.xbup.lib.core.parser.basic.XBProducer;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBEndToken;
 import org.xbup.lib.core.parser.token.XBToken;
-import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -70,7 +70,7 @@ public class XBTToXBTypeDroppingConvertor implements XBTListener, XBProducer {
     }
 
     @Override
-    public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
+    public void attribXBT(XBAttribute value) throws XBProcessingException, IOException {
         flushToken();
         listener.attribXB(value);
         blockTypeProcessed = false;

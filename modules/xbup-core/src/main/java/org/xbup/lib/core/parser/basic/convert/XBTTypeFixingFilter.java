@@ -32,7 +32,7 @@ import org.xbup.lib.core.block.XBDBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBLevelContext;
 import org.xbup.lib.core.catalog.XBCatalog;
-import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.parser.token.XBAttribute;
 
 /**
  * Filter to convert stand-alone block types to fixed types.
@@ -108,7 +108,7 @@ public class XBTTypeFixingFilter implements XBTFilter {
     }
 
     @Override
-    public void attribXBT(UBNatural value) throws XBProcessingException, IOException {
+    public void attribXBT(XBAttribute value) throws XBProcessingException, IOException {
         if (currentContext != null && !currentContext.isDeclarationFinished()) {
             currentContext.attribXBT(value);
         }

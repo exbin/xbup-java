@@ -237,7 +237,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                 // Data Block
                 dataMode = XBBlockDataMode.DATA_BLOCK;
                 data = new XBData();
-                data.loadFromStream(stream, dataPartSize.getInt());
+                data.loadFromStream(stream, dataPartSize.getLong());
                 size += dataPartSize.getInt();
             } else if (attrPartSize.getInt() < dataPartSize.getSizeUB()) {
                 throw new XBParseException("Attribute overreached", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);

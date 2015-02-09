@@ -26,36 +26,38 @@ import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlock;
+import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.block.XBEditableDocument;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
+import org.xbup.lib.core.type.XBData;
 import org.xbup.lib.core.ubnumber.UBStreamable;
 import org.xbup.lib.core.util.CopyStreamUtils;
 
 /**
  * Basic object model parser XBUP level 0 document representation.
  *
- * @version 0.1.20 2010/09/26
+ * @version 0.1.25 2015/02/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStreamable {
 
     private boolean modified;
     private String fileName;
-    private byte[] extended;
+    private XBData extendedAreaData;
 
     public XBTreeDocument() {
-        extended = null;
+        extendedAreaData = null;
     }
 
     @Override
     public int toStreamUB(OutputStream stream) throws IOException {
         int size = XBHead.writeXBUPHead(stream);
         size += super.toStreamUB(stream);
-        if (extended != null) {
-            size += extended.length;
-            if (extended.length > 0) {
-                stream.write(extended);
+        if (extendedAreaData != null) {
+            size += extendedAreaData.getDataSize();
+            if (!extendedAreaData.isEmpty()) {
+                extendedAreaData.saveToStream(stream);
             }
         }
         return size;
@@ -82,55 +84,39 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
 
     @Override
     public InputStream getExtendedArea() {
-        if (extended == null) {
+        if (extendedAreaData == null) {
             return null;
         }
-        return new ByteArrayInputStream(extended);
+        return extendedAreaData.getDataInputStream();
     }
 
-    public byte[] getExtendedArray() {
-        return extended;
+    public XBBlockData getExtendedArray() {
+        return extendedAreaData;
     }
 
     @Override
     public void setExtendedArea(InputStream source) {
         if (source == null) {
-            extended = null;
-        } else if (source instanceof ByteArrayInputStream) {
-            // data.reset();
-            extended = new byte[((ByteArrayInputStream) source).available()];
-            if (extended.length > 0) {
-                try {
-                     source.read(extended, 0, extended.length);
-                } catch (IOException ex) {
-                    Logger.getLogger(XBTreeNode.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            extendedAreaData = null;
         } else {
-            // data.reset();
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            try {
-                CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
-            } catch (IOException ex) {
-                Logger.getLogger(XBTreeNode.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            extended = stream.toByteArray();
+            extendedAreaData = new XBData();
+            extendedAreaData.loadFromStream(source);
         }
     }
 
     @Override
     public long getExtendedAreaSize() {
-        if (extended == null) {
+        if (extendedAreaData == null) {
             return 0;
         }
-        return extended.length;
+        return extendedAreaData.getDataSize();
     }
 
     @Override
     public void clear() {
         super.clear();
-        if (extended!=null) {
-            extended = null;
+        if (extendedAreaData!=null) {
+            extendedAreaData = null;
         }
     }
 

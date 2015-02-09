@@ -329,7 +329,7 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
 
             if (offset > 0) {
                 byte[] tail = new byte[offset];
-                System.arraycopy(buffer, 0, tail, 0, offset - 1);
+                System.arraycopy(buffer, 0, tail, 0, offset);
                 data.add(tail);
             }
         } catch (IOException ex) {
@@ -338,26 +338,26 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
     }
 
     @Override
-    public void loadFromStream(InputStream inputStream, long dataSize) {
+    public void loadFromStream(InputStream inputStream, long dataSize) throws IOException {
         try {
             data.clear();
-            byte[] buffer = new byte[pageSize];
-            int cnt;
-            int offset = 0;
-            while ((cnt = inputStream.read(buffer, offset, buffer.length - offset)) != -1) {
-                if (cnt + offset < pageSize) {
-                    offset = offset + cnt;
-                } else {
-                    data.add(buffer);
-                    buffer = new byte[pageSize];
-                    offset = 0;
-                }
-            }
+            while (dataSize > 0) {
+                int blockSize = dataSize < pageSize ? (int) dataSize : pageSize;
+                byte[] page = new byte[blockSize];
 
-            if (offset > 0) {
-                byte[] tail = new byte[offset];
-                System.arraycopy(buffer, 0, tail, 0, offset - 1);
-                data.add(tail);
+                int offset = 0;
+                while (blockSize > 0) {
+                    int red = inputStream.read(page, offset, blockSize);
+                    if (red == -1) {
+                        throw new IOException("Unexpected data processed - " + dataSize + " expected, but not met.");
+                    } else {
+                        offset += red;
+                        blockSize -= red;
+                    }
+                }
+
+                data.add(page);
+                dataSize -= page.length;
             }
         } catch (IOException ex) {
             Logger.getLogger(XBData.class.getName()).log(Level.SEVERE, null, ex);
@@ -365,13 +365,9 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
     }
 
     @Override
-    public void saveToStream(OutputStream outputStream) {
-        try {
-            for (byte[] dataPage : data) {
-                outputStream.write(dataPage);
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(XBData.class.getName()).log(Level.SEVERE, null, ex);
+    public void saveToStream(OutputStream outputStream) throws IOException {
+        for (byte[] dataPage : data) {
+            outputStream.write(dataPage);
         }
     }
 

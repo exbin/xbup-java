@@ -16,33 +16,30 @@
  */
 package org.xbup.lib.parser_tree;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableDocument;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
-import org.xbup.lib.core.util.CopyStreamUtils;
+import org.xbup.lib.core.type.XBData;
 
 /**
  * Basic object model parser XBUP level 1 document representation.
  *
- * @version 0.1.24 2014/11/19
+ * @version 0.1.25 2015/02/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
 
     private boolean modified;
     private String fileName;
-    private byte[] extendedAreaData;
+    private XBData extendedAreaData;
 
     public XBTTreeDocument() {
         super(null);
@@ -58,9 +55,9 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
         int size = XBHead.writeXBUPHead(stream);
         size += super.toStreamUB(stream);
         if (extendedAreaData != null) {
-            size += extendedAreaData.length;
-            if (extendedAreaData.length > 0) {
-                stream.write(extendedAreaData);
+            size += extendedAreaData.getDataSize();
+            if (!extendedAreaData.isEmpty()) {
+                extendedAreaData.saveToStream(stream);
             }
         }
         return size;
@@ -92,10 +89,10 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
         if (extendedAreaData == null) {
             return null;
         }
-        return new ByteArrayInputStream(extendedAreaData);
+        return extendedAreaData.getDataInputStream();
     }
 
-    public byte[] getExtendedArray() {
+    public XBBlockData getExtendedArray() {
         return extendedAreaData;
     }
 
@@ -103,25 +100,9 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
     public void setExtendedArea(InputStream source) {
         if (source == null) {
             extendedAreaData = null;
-        } else if (source instanceof ByteArrayInputStream) {
-            // data.reset();
-            extendedAreaData = new byte[((ByteArrayInputStream) source).available()];
-            if (extendedAreaData.length > 0) {
-                try {
-                    source.read(extendedAreaData, 0, extendedAreaData.length);
-                } catch (IOException ex) {
-                    Logger.getLogger(XBTreeNode.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
         } else {
-            // data.reset();
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            try {
-                CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
-            } catch (IOException ex) {
-                Logger.getLogger(XBTreeNode.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            extendedAreaData = stream.toByteArray();
+            extendedAreaData = new XBData();
+            extendedAreaData.loadFromStream(source);
         }
     }
 
@@ -130,7 +111,7 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
         if (extendedAreaData == null) {
             return 0;
         }
-        return extendedAreaData.length;
+        return extendedAreaData.getDataSize();
     }
 
     @Override

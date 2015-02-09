@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.core.block;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -111,14 +112,16 @@ public interface XBEditableBlockData extends XBBlockData {
      * Loads data from given stream.
      *
      * @param inputStream input stream
+     * @throws java.io.IOException if input/output error
      */
-    public void loadFromStream(InputStream inputStream);
+    public void loadFromStream(InputStream inputStream) throws IOException;
 
     /**
      * Loads data from given stream expecting given size.
      *
      * @param inputStream input stream
      * @param dataSize data size
+     * @throws java.io.IOException if input/output error
      */
-    public void loadFromStream(InputStream inputStream, long dataSize);
+    public void loadFromStream(InputStream inputStream, long dataSize) throws IOException;
 }

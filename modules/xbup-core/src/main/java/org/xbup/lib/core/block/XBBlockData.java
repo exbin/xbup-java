@@ -16,13 +16,14 @@
  */
 package org.xbup.lib.core.block;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
  * Interface for read access to binary data.
  *
- * @version 0.1.25 2015/02/08
+ * @version 0.1.25 2015/02/09
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBBlockData {
@@ -87,5 +88,5 @@ public interface XBBlockData {
      *
      * @param outputStream output stream
      */
-    public void saveToStream(OutputStream outputStream);
+    public void saveToStream(OutputStream outputStream) throws IOException;
 }

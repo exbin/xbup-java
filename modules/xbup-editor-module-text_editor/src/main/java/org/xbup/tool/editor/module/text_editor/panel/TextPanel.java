@@ -59,7 +59,6 @@ import org.xbup.lib.core.parser.token.pull.convert.XBTPullTypeDeclaringFilter;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.serial.XBPSerialReader;
 import org.xbup.lib.core.serial.XBPSerialWriter;
-import org.xbup.lib.core.stream.file.XBFileInputStream;
 import org.xbup.lib.core.stream.file.XBFileOutputStream;
 import org.xbup.lib.core.type.XBEncodingText;
 import org.xbup.tool.editor.module.text_editor.XBTextEditorFrame;
@@ -368,11 +367,11 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
             }
             case XBTextEditorFrame.TXT_FILE_TYPE: {
                 try {
-                    XBFileInputStream fileStream = new XBFileInputStream(file);
+                    FileInputStream fileStream = new FileInputStream(file);
                     int gotChars;
                     char[] buffer = new char[32];
                     StringBuilder data = new StringBuilder();
-                    BufferedReader rdr = new BufferedReader(new InputStreamReader(fileStream.getSource(), charset));
+                    BufferedReader rdr = new BufferedReader(new InputStreamReader(fileStream, charset));
                     while ((gotChars = rdr.read(buffer)) != -1) {
                         data.append(buffer, 0, gotChars);
                     }

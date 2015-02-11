@@ -453,5 +453,10 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
         public long getLength() {
             return position;
         }
+
+        @Override
+        public long getStreamSize() {
+            return getDataSize();
+        }
     }
 }

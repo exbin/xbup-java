@@ -27,7 +27,6 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
 import org.xbup.lib.core.catalog.base.XBCGroupSpec;
@@ -302,11 +301,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             source.endXBT();
             Logger.getLogger(XBServiceServer.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, myBundle.getString("stop_service"));
@@ -319,11 +313,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PING_SERVICE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -341,11 +330,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.LOGIN_SERVICE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -415,11 +399,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -436,11 +415,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.OWNER_ITEM_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -474,11 +448,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             UBNat32 index = (UBNat32) source.attribXBT();
@@ -504,11 +473,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             source.endXBT();
@@ -525,11 +489,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ROOT_NODE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -552,11 +511,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
             source.endXBT();
@@ -574,11 +528,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.SUBNODE_NODE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -610,11 +559,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
@@ -641,11 +585,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
@@ -665,11 +604,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.SPEC_NODE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -696,11 +630,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -724,11 +653,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FORMATSPEC_NODE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -764,11 +688,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -792,11 +711,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.GROUPSPEC_NODE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -832,11 +746,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -860,11 +769,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.BLOCKSPEC_NODE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -900,11 +804,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -928,11 +827,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FINDOWNER_NODE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -963,11 +857,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
@@ -991,11 +880,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FINDNODE_NODE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -1028,11 +912,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
@@ -1052,11 +931,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FINDBLOCKSPEC_NODE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -1092,11 +966,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -1116,11 +985,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FINDGROUPSPEC_NODE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -1156,11 +1020,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -1180,11 +1039,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FINDFORMATSPEC_NODE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -1220,11 +1074,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -1244,11 +1093,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.SPECSCOUNT_NODE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -1274,11 +1118,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -1298,11 +1137,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.GROUPSPECSCOUNT_NODE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -1328,11 +1162,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -1355,11 +1184,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
             source.endXBT();
@@ -1376,11 +1200,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.SUBNODESEQ_NODE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -1412,11 +1231,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
@@ -1436,11 +1250,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.BIND_SPEC_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -1477,11 +1286,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
             Long index = source.attribXBT().getNaturalLong();
@@ -1507,11 +1311,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
             Long index = source.attribXBT().getNaturalLong();
@@ -1530,11 +1329,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FINDBIND_SPEC_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -1574,11 +1368,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
             XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
@@ -1607,11 +1396,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
             source.endXBT();
@@ -1628,11 +1412,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.GROUPSPECSCOUNT_SPEC_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -1655,11 +1434,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
             source.endXBT();
@@ -1676,11 +1450,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.SPECSCOUNT_SPEC_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -1717,11 +1486,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
             XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
@@ -1741,11 +1505,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.REV_SPEC_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -1781,11 +1540,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
             UBNat32 index = (UBNat32) source.attribXBT();
@@ -1816,11 +1570,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
             source.endXBT();
@@ -1837,11 +1586,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.XBLIMIT_REV_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -1875,11 +1619,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
             source.endXBT();
@@ -1896,11 +1635,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.CODE_LANG_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -1929,11 +1663,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -1949,11 +1678,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.LANGS_LANG_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -1979,11 +1703,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -1999,11 +1718,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ITEM_NAME_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -2027,11 +1741,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.TEXT_NAME_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -2065,11 +1774,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
@@ -2090,11 +1794,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ITEMNAME_NAME_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -2124,11 +1823,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             UBNat32 index = (UBNat32) source.attribXBT();
@@ -2149,11 +1843,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ITEMNAMES_NAME_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -2182,11 +1871,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -2202,11 +1886,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ITEM_DESC_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -2230,11 +1909,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.TEXT_DESC_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -2267,11 +1941,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
@@ -2292,11 +1961,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ITEMDESC_DESC_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -2326,11 +1990,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             UBNat32 index = (UBNat32) source.attribXBT();
@@ -2351,11 +2010,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ITEMDESCS_DESC_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -2384,11 +2038,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             source.endXBT();
             result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -2404,11 +2053,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.NODE_INFO_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -2435,11 +2079,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEXInfoService infoService = (XBEXInfoService) catalog.getCatalogService(XBCXInfoService.class);
             source.endXBT();
@@ -2456,11 +2095,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FILENAME_INFO_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -2492,11 +2126,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             /*            XBEInfoService infoService = (XBEInfoService) catalog.getCatalogService(XBCXInfoService.class);
              UBNat32 index = (UBNat32) source.attribXBT();
@@ -2525,11 +2154,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
@@ -2547,11 +2171,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FILENAME_FILE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -2585,11 +2204,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
@@ -2614,11 +2228,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
@@ -2637,11 +2246,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.MODE_ICON_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -2666,11 +2270,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
@@ -2689,11 +2288,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.DEFAULTITEM_ICON_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -2721,11 +2315,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FILE_ICON_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -2759,11 +2348,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
@@ -2782,11 +2366,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FILE_PLUGIN_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -2820,11 +2399,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
@@ -2843,11 +2417,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.LINEPLUGIN_PLUGIN_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -2872,11 +2441,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
@@ -2895,11 +2459,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PANEPLUGIN_PLUGIN_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -2924,11 +2483,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
@@ -2947,11 +2501,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.REV_LINE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -2976,11 +2525,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
@@ -2999,11 +2543,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PRIORITY_LINE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -3028,11 +2567,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             source.endXBT();
             XBCXLineService lineService = (XBCXLineService) getCatalog().getCatalogService(XBCXLineService.class);
@@ -3049,11 +2583,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.REVLINE_LINE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -3085,11 +2614,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             source.endXBT();
             XBCXLineService lineService = (XBCXLineService) getCatalog().getCatalogService(XBCXLineService.class);
@@ -3106,11 +2630,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PLUGLINE_LINE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -3138,11 +2657,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
@@ -3161,11 +2675,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PLUGIN_PANE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -3195,11 +2704,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
@@ -3221,11 +2725,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             source.endXBT();
             XBCXPaneService paneService = (XBCXPaneService) getCatalog().getCatalogService(XBCXPaneService.class);
@@ -3242,11 +2741,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.REVPANE_PANE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -3278,11 +2772,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             source.endXBT();
             XBCXPaneService paneService = (XBCXPaneService) getCatalog().getCatalogService(XBCXPaneService.class);
@@ -3299,11 +2788,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PLUGPANE_PANE_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -3331,11 +2815,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
@@ -3356,11 +2835,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.TEXT_STRI_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -3394,11 +2868,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             UBNat32 index = (UBNat32) source.attribXBT();
             source.endXBT();
@@ -3429,11 +2898,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         }
 
         @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException {
             XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
             UBNat32 index = (UBNat32) source.attribXBT();
@@ -3457,11 +2921,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
         @Override
         public XBBlockType getType() {
             return new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.STRISCOUNT_STRI_PROCEDURE));
-        }
-
-        @Override
-        public XBLFormatDecl getResultDecl() {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override

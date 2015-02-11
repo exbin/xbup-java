@@ -14,30 +14,43 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.parser.basic.wrapper;
+package org.xbup.lib.core.remote;
 
-import java.io.IOException;
+import org.xbup.lib.core.block.declaration.XBBlockDecl;
 
 /**
- * Interface for seekable stream.
+ * Procedure declaration.
  *
  * @version 0.1.25 2015/02/11
  * @author XBUP Project (http://xbup.org)
  */
-public interface SeekableStream {
+public interface XBProcedureDecl {
 
     /**
-     * Moves position in stream to given position from the start of the stream.
+     * Returns block declaration representing this procedure.
      *
-     * @param position target position
-     * @throws IOException if input/output error
+     * @return block declaration
      */
-    public void seek(long position) throws IOException;
+    public XBBlockDecl getBlockDecl();
 
     /**
-     * Returns length of stream.
+     * Returns type of input data parameter.
      *
-     * @return length of stream in bytes
+     * @return declaration of input type
      */
-    public long getStreamSize();
+    public XBBlockDecl getParameterType();
+
+    /**
+     * Returns type of output data returned as result.
+     *
+     * @return declaration of output type
+     */
+    public XBBlockDecl getReturnType();
+
+    /**
+     * Returns type of status data for reporting proper execution or exception.
+     *
+     * @return declaration of execution status type
+     */
+    public XBBlockDecl getStatusType();
 }

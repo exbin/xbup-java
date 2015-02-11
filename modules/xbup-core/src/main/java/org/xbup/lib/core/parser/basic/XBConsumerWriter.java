@@ -134,7 +134,7 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                                 CopyStreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), streamWrapper);
 
                                 int dataPartSize = (int) ((FinishableStream) streamWrapper).finish();
-                                shrinkStatus(sizeLimits, dataPartSize);
+                                  shrinkStatus(sizeLimits, dataPartSize);
                             }
 
                             token = pullToken();

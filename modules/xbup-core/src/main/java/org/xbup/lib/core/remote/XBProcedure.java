@@ -18,7 +18,6 @@ package org.xbup.lib.core.remote;
 
 import java.io.IOException;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.stream.XBTStreamChecker;
@@ -26,7 +25,7 @@ import org.xbup.lib.core.stream.XBTStreamChecker;
 /**
  * XBUP level 1 RPC procedure interface
  *
- * @version 0.1.24 2014/10/20
+ * @version 0.1.25 2015/02/11
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBProcedure {
@@ -37,16 +36,6 @@ public interface XBProcedure {
      * @return type of this procedure
      */
     public XBBlockType getType();
-
-    /**
-     * Returns required declaration for result.
-     *
-     * TODO: Should be joined declaration (for multiple formats, groups and
-     * blocks)
-     *
-     * @return format declaration
-     */
-    public XBLFormatDecl getResultDecl();
 
     /**
      * Invocates this procedure.

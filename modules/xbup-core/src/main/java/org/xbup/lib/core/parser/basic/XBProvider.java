@@ -18,16 +18,17 @@ package org.xbup.lib.core.parser.basic;
 
 import java.io.IOException;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.stream.XBOutput;
 
 /**
  * XBUP protocol level 0 data provider.
  *
  * Execution is receiver side controlled (pull).
  *
- * @version 0.1.23 2014/02/14
+ * @version 0.1.25 2015/02/13
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBProvider {
+public interface XBProvider extends XBOutput {
 
     /**
      * Produces single data.

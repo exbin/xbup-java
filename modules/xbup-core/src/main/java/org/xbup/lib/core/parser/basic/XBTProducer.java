@@ -16,17 +16,19 @@
  */
 package org.xbup.lib.core.parser.basic;
 
+import org.xbup.lib.core.stream.XBOutput;
+
 /**
  * XBUP level 1 data producer.
  *
- * @version 0.1.23 2013/11/15
+ * @version 0.1.25 2015/02/13
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBTProducer {
+public interface XBTProducer extends XBOutput {
 
     /**
      * Attaches data listener.
-     * 
+     *
      * @param listener data listener to attach
      */
     public void attachXBTListener(XBTListener listener);

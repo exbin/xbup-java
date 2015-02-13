@@ -19,14 +19,15 @@ package org.xbup.lib.core.parser.token.pull;
 import java.io.IOException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBToken;
+import org.xbup.lib.core.stream.XBOutput;
 
 /**
  * XBUB level 0 pull provider interface.
  *
- * @version 0.1.23 2013/11/21
+ * @version 0.1.25 2015/02/13
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBPullProvider {
+public interface XBPullProvider extends XBOutput {
 
     /**
      * Pulls next token.

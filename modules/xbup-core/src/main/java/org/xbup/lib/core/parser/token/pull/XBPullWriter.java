@@ -37,7 +37,6 @@ import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.XBTokenType;
-import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.core.util.CopyStreamUtils;

@@ -22,6 +22,7 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.token.XBAttribute;
+import org.xbup.lib.core.stream.XBInput;
 
 /**
  * XBUP protocol level 1 data listener.
@@ -31,7 +32,7 @@ import org.xbup.lib.core.parser.token.XBAttribute;
  * @version 0.1.25 2015/02/09
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBTListener {
+public interface XBTListener extends XBInput {
 
     /**
      * Reports block begin.
@@ -55,7 +56,8 @@ public interface XBTListener {
      * Reports block attribute.
      *
      * @param attribute given attribute
-     * @throws XBProcessingException if processing error if unable to parse attribute value
+     * @throws XBProcessingException if processing error if unable to parse
+     * attribute value
      * @throws IOException if input/output error
      */
     public void attribXBT(XBAttribute attribute) throws XBProcessingException, IOException;

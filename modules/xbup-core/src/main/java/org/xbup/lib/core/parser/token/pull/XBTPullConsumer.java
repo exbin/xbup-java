@@ -16,13 +16,15 @@
  */
 package org.xbup.lib.core.parser.token.pull;
 
+import org.xbup.lib.core.stream.XBInput;
+
 /**
  * XBUP level 1 pull consumer.
  *
- * @version 0.1.23 2013/11/22
+ * @version 0.1.25 2015/02/13
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBTPullConsumer {
+public interface XBTPullConsumer extends XBInput {
 
     /**
      * Attaches pull provider.

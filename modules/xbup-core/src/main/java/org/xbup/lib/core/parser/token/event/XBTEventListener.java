@@ -17,17 +17,17 @@
 package org.xbup.lib.core.parser.token.event;
 
 import java.io.IOException;
-import java.util.EventListener;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBTToken;
+import org.xbup.lib.core.stream.XBInput;
 
 /**
  * Interface for receiving XBUP protocol level 1 events.
  *
- * @version 0.1.23 2013/11/22
+ * @version 0.1.25 2015/02/13
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBTEventListener extends EventListener {
+public interface XBTEventListener extends XBInput {
 
     /**
      * Puts next token.

@@ -16,15 +16,11 @@
  */
 package org.xbup.lib.parser_tree;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlock;
 import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.block.XBEditableDocument;
@@ -32,7 +28,6 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.core.type.XBData;
 import org.xbup.lib.core.ubnumber.UBStreamable;
-import org.xbup.lib.core.util.CopyStreamUtils;
 
 /**
  * Basic object model parser XBUP level 0 document representation.

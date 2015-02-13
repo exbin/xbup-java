@@ -16,15 +16,17 @@
  */
 package org.xbup.lib.core.parser.basic;
 
+import org.xbup.lib.core.stream.XBInput;
+
 /**
  * XBUP level 1 data consumer.
  *
  * Execution is receiver side controlled (pull).
  *
- * @version 0.1.23 2013/11/15
+ * @version 0.1.25 2015/02/13
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBTConsumer {
+public interface XBTConsumer extends XBInput {
 
     /**
      * Attaches provider to use as data source.

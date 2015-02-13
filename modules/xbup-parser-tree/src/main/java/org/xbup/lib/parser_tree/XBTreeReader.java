@@ -30,7 +30,6 @@ import org.xbup.lib.core.parser.basic.convert.XBSkipBlockListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.ubnumber.UBNatural;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * XBUP level 0 convertor from tokens to tree node.

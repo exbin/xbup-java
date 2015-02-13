@@ -16,13 +16,15 @@
  */
 package org.xbup.lib.core.parser.token.event;
 
+import org.xbup.lib.core.stream.XBOutput;
+
 /**
  * XBUP level 1 event producer.
  *
- * @version 0.1.23 2013/11/22
+ * @version 0.1.25 2015/02/13
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBTEventProducer {
+public interface XBTEventProducer extends XBOutput {
 
     /**
      * Attaches event listener.

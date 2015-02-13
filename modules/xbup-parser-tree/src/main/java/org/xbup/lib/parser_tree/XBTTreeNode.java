@@ -45,7 +45,6 @@ import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.pull.convert.XBTProviderToPullProvider;
 import org.xbup.lib.core.type.XBData;
-import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.UBStreamable;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;

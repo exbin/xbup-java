@@ -21,16 +21,17 @@ import java.io.InputStream;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.token.XBAttribute;
+import org.xbup.lib.core.stream.XBInput;
 
 /**
  * XBUP protocol level 0 data listener.
  *
  * Execution is sender side controlled (push).
  *
- * @version 0.1.25 2015/02/09
+ * @version 0.1.25 2015/02/13
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBListener {
+public interface XBListener extends XBInput {
 
     /**
      * Reports block begin.

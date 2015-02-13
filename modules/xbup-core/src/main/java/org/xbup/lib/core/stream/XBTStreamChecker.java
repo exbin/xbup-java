@@ -31,7 +31,6 @@ import org.xbup.lib.core.parser.token.XBTDataToken;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
-import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 1 stream checker.

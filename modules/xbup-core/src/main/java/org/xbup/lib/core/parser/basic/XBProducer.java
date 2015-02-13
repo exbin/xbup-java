@@ -16,15 +16,17 @@
  */
 package org.xbup.lib.core.parser.basic;
 
+import org.xbup.lib.core.stream.XBOutput;
+
 /**
  * XBUP level 0 data producer.
  *
  * Execution is sender side controlled (push).
  *
- * @version 0.1.23 2013/11/08
+ * @version 0.1.25 2015/02/13
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBProducer {
+public interface XBProducer extends XBOutput {
 
     /**
      * Attaches data listener.

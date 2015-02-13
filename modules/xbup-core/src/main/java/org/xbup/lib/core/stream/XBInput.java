@@ -14,28 +14,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.parser.basic;
-
-import java.io.IOException;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.stream.XBOutput;
+package org.xbup.lib.core.stream;
 
 /**
- * XBUP protocol level 1 sata provider.
+ * Input stream parent interface.
  *
- * Execution is receiver side controlled (pull).
+ * Subclasses and interfaces implementing this should accept some form of XB
+ * tokens.
  *
  * @version 0.1.25 2015/02/13
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBTProvider extends XBOutput  {
-
-    /**
-     * Produces single data.
-     *
-     * @param listener listener to send data to
-     * @throws XBProcessingException
-     * @throws IOException
-     */
-    public void produceXBT(XBTListener listener) throws XBProcessingException, IOException;
+public interface XBInput {
 }

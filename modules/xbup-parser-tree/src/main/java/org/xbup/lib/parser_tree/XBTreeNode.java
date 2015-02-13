@@ -35,7 +35,6 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.type.XBData;
-import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.UBStreamable;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;

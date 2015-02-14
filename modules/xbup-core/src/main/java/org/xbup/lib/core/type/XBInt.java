@@ -31,7 +31,7 @@ import org.xbup.lib.core.ubnumber.UBInteger;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBInt32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
-import org.xbup.lib.core.util.CopyStreamUtils;
+import org.xbup.lib.core.util.StreamUtils;
 
 /**
  * Encapsulation class for integer numbers.
@@ -86,7 +86,7 @@ public class XBInt implements XBTChildSerializable {
             InputStream source = serial.pullData();
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             try {
-                CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
+                StreamUtils.copyInputStreamToOutputStream(source, stream);
             } catch (IOException ex) {
                 Logger.getLogger(XBInt.class.getName()).log(Level.SEVERE, null, ex);
             }

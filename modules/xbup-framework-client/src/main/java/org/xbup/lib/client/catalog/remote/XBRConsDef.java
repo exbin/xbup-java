@@ -25,8 +25,8 @@ import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.XBCatalogServiceMessage;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
+import org.xbup.lib.core.parser.basic.XBMatchingProvider;
 import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.stream.XBStreamChecker;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -37,7 +37,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 public class XBRConsDef extends XBRSpecDef implements XBCConsDef {
 
     public XBRConsDef(XBCatalogServiceClient client, long id) {
-        super(client,id);
+        super(client, id);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class XBRConsDef extends XBRSpecDef implements XBCConsDef {
         if (item == null) {
             return null;
         }
-        return new XBRSpec(item.client,item.getId());
+        return new XBRSpec(item.client, item.getId());
     }
 
     @Override
@@ -56,9 +56,9 @@ public class XBRConsDef extends XBRSpecDef implements XBCConsDef {
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long target = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long target = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             if (target == 0) {
                 return null;

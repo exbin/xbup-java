@@ -28,6 +28,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -51,6 +52,7 @@ import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.catalog.XBPCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeFixingFilter;
+import org.xbup.lib.core.parser.token.event.XBEventWriter;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
@@ -59,7 +61,6 @@ import org.xbup.lib.core.parser.token.pull.convert.XBTPullTypeDeclaringFilter;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.serial.XBPSerialReader;
 import org.xbup.lib.core.serial.XBPSerialWriter;
-import org.xbup.lib.core.stream.file.XBFileOutputStream;
 import org.xbup.lib.core.type.XBEncodingText;
 import org.xbup.tool.editor.module.text_editor.XBTextEditorFrame;
 import org.xbup.tool.editor.module.text_editor.dialog.FindTextDialog;
@@ -72,7 +73,7 @@ import org.xbup.tool.editor.base.api.MainFrameManagement;
 /**
  * Text editor panel.
  *
- * @version 0.1.25 2015/02/06
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
 public class TextPanel extends javax.swing.JPanel implements ApplicationFilePanel, ActivePanelUndoable {
@@ -396,7 +397,7 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
                     encodingString.setValue(textArea.getText());
                     encodingString.setCharset(charset);
 
-                    XBFileOutputStream output = new XBFileOutputStream(file);
+                    FileOutputStream output = new FileOutputStream(file);
 
                     XBPCatalog catalog = new XBPCatalog();
                     catalog.addFormatDecl(getContextFormatDecl());
@@ -404,7 +405,7 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
                     XBDeclaration declaration = new XBDeclaration(formatDecl, encodingString);
                     declaration.realignReservation(catalog);
                     XBTTypeFixingFilter typeProcessing = new XBTTypeFixingFilter(catalog);
-                    typeProcessing.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
+                    typeProcessing.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(new XBEventWriter(output))));
                     XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(typeProcessing));
                     writer.write(declaration);
                 } catch (XBProcessingException | IOException ex) {
@@ -414,9 +415,9 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
             }
             case XBTextEditorFrame.TXT_FILE_TYPE: {
                 try {
-                    XBFileOutputStream fileStream = new XBFileOutputStream(file);
+                    FileOutputStream output = new FileOutputStream(file);
                     String text = textArea.getText();
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileStream.getTarget(), charset));
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output, charset));
                     int fileLength = text.length();
                     int offset = 0;
                     while (offset < fileLength) {

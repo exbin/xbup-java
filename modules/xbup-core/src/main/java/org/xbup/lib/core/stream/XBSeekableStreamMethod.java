@@ -17,12 +17,17 @@
 package org.xbup.lib.core.stream;
 
 /**
- * XBUP level 1 input stream filter abstract class.
+ * Interface for method adding support for stream seekablility.
  *
- * @version 0.1.19 2010/05/30
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
-public abstract class XBTTokenInputStreamFilter extends XBTInputTokenStream {
+public interface XBSeekableStreamMethod {
 
-    public abstract void setXBTInputStream(XBTInputTokenStream source);
+    /**
+     * Provides seekable stream class.
+     *
+     * @return seekability handler
+     */
+    public XBSeekableStream getSeekableStreamXB();
 }

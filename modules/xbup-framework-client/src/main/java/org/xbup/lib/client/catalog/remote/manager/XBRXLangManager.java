@@ -28,8 +28,8 @@ import org.xbup.lib.client.XBCatalogServiceMessage;
 import org.xbup.lib.client.catalog.remote.XBRXLanguage;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
+import org.xbup.lib.core.parser.basic.XBMatchingProvider;
 import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.stream.XBStreamChecker;
 
 /**
  * Manager class for XBRXLanguage catalog items.
@@ -49,9 +49,9 @@ public class XBRXLangManager extends XBRDefaultManager<XBRXLanguage> implements 
             XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.DEFAULT_LANG_PROCEDURE);
             XBListener listener = message.getXBOutput();
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long langId = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long langId = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return new XBRXLanguage(client, langId);
         } catch (XBProcessingException ex) {
@@ -67,13 +67,13 @@ public class XBRXLangManager extends XBRDefaultManager<XBRXLanguage> implements 
             XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.LANGS_LANG_PROCEDURE);
             XBListener listener = message.getXBOutput();
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
+            XBMatchingProvider checker = message.getXBInput();
             List<XBCXLanguage> result = new ArrayList<XBCXLanguage>();
-            long count = checker.attribXB().getNaturalLong();
+            long count = checker.matchAttribXB().getNaturalLong();
             for (int i = 0; i < count; i++) {
-                result.add(new XBRXLanguage(client,checker.attribXB().getNaturalLong()));
+                result.add(new XBRXLanguage(client,checker.matchAttribXB().getNaturalLong()));
             }
-            checker.endXB();
+            checker.matchEndXB();
             message.close();
             return result;
         } catch (XBProcessingException ex) {
@@ -89,9 +89,9 @@ public class XBRXLangManager extends XBRDefaultManager<XBRXLanguage> implements 
             XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.LANGSCOUNT_LANG_PROCEDURE);
             XBListener listener = message.getXBOutput();
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long count = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long count = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return count;
         } catch (XBProcessingException ex) {

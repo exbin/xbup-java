@@ -31,6 +31,7 @@ import java.awt.print.PrinterJob;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EventListener;
@@ -54,13 +55,13 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
-import org.xbup.lib.core.stream.file.XBFileOutputStream;
 import org.xbup.lib.audio.swing.XBWavePanel;
 import org.xbup.lib.audio.wave.XBWave;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.catalog.XBPCatalog;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeFixingFilter;
+import org.xbup.lib.core.parser.token.event.XBEventWriter;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullTypeDeclaringFilter;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
@@ -74,7 +75,7 @@ import org.xbup.tool.editor.base.api.FileType;
 /**
  * Audio panel for XBSEditor.
  *
- * @version 0.1.25 2015/02/06
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
 public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePanel {
@@ -495,7 +496,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
         File file = new File(getFileName());
         if (XBWaveEditorFrame.XBSFILETYPE.equals(fileType.getFileTypeId())) {
             try {
-                XBFileOutputStream output = new XBFileOutputStream(file);
+                FileOutputStream output = new FileOutputStream(file);
 
                 XBPCatalog catalog = new XBPCatalog();
                 catalog.addFormatDecl(getContextFormatDecl());
@@ -503,7 +504,7 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
                 XBDeclaration declaration = new XBDeclaration(formatDecl, wavePanel.getWave());
                 declaration.realignReservation(catalog);
                 XBTTypeFixingFilter typeProcessing = new XBTTypeFixingFilter(catalog);
-                typeProcessing.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
+                typeProcessing.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(new XBEventWriter(output))));
                 XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(typeProcessing));
                 writer.write(declaration);
             } catch (XBProcessingException | IOException ex) {

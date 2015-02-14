@@ -31,7 +31,7 @@ import org.xbup.lib.core.serial.child.XBChildSerializable;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
-import org.xbup.lib.core.util.CopyStreamUtils;
+import org.xbup.lib.core.util.StreamUtils;
 
 /**
  * Encapsulation class for single character.
@@ -86,7 +86,7 @@ public class XBChar implements XBTChildSerializable {
             InputStream source = serial.nextData();
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             try {
-                CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
+                StreamUtils.copyInputStreamToOutputStream(source, stream);
             } catch (IOException ex) {
                 Logger.getLogger(XBChar.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -115,7 +115,7 @@ public class XBChar implements XBTChildSerializable {
             InputStream source = serial.pullData();
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             try {
-                CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
+                StreamUtils.copyInputStreamToOutputStream(source, stream);
             } catch (IOException ex) {
                 Logger.getLogger(XBChar.class.getName()).log(Level.SEVERE, null, ex);
             }

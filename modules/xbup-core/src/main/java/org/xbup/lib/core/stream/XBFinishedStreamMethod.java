@@ -14,33 +14,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.remote;
-
-import java.io.IOException;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.parser.basic.convert.XBTDefaultMatchingProvider;
+package org.xbup.lib.core.stream;
 
 /**
- * XBUP level 1 RPC procedure call interface.
+ * Interface for method adding support for stream finishing detection.
  *
- * @version 0.1.24 2014/10/20
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBCall {
+public interface XBFinishedStreamMethod {
 
     /**
-     * Performs remote invocation/calling of given procedure.
+     * Provides stream finishing detection class.
      *
-     * Position in source is after block type.
-     *
-     * TODO: Add status handling (may include exceptions)
-     * 
-     * @param source
-     * @param result
-     * @return
-     * @throws XBProcessingException
-     * @throws IOException 
+     * @return stream finished handler
      */
-    public XBProcedureDef call(XBTDefaultMatchingProvider source, XBTListener result) throws XBProcessingException, IOException;
+    public XBFinishedStream getFinishedStreamXB();
 }

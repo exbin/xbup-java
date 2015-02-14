@@ -14,31 +14,18 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.parser.basic.wrapper;
-
-import java.io.IOException;
+package org.xbup.lib.core.stream;
 
 /**
- * Interface for finishable stream.
+ * Interface for XBUP data resetabe stream.
  *
- * @version 0.1.25 2015/02/07
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
-public interface FinishableStream {
+public interface XBResetableStream {
 
     /**
-     * Reads remaining data and returns size of all data processed by this
-     * stream.
-     *
-     * @return size of data in bytes
-     * @throws IOException if input/output error occurs
+     * Resets XBUP stream to initial position and state.
      */
-    public long finish() throws IOException;
-
-    /**
-     * Returns size of data processed so far.
-     *
-     * @return size of data in bytes
-     */
-    public long getLength();
+    public void resetXB();
 }

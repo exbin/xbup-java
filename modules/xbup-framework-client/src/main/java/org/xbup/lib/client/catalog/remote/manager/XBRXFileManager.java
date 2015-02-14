@@ -34,10 +34,10 @@ import org.xbup.lib.client.catalog.remote.XBRXDesc;
 import org.xbup.lib.client.catalog.remote.XBRXFile;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
+import org.xbup.lib.core.parser.basic.XBMatchingProvider;
 import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.stream.XBStreamChecker;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
-import org.xbup.lib.core.util.CopyStreamUtils;
+import org.xbup.lib.core.util.StreamUtils;
 
 /**
  * Manager class for XBRXFile catalog items.
@@ -57,9 +57,9 @@ public class XBRXFileManager extends XBRDefaultManager<XBRXFile> implements XBCX
             XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SPECSCOUNT_SPEC_PROCEDURE);
             XBListener listener = message.getXBOutput();
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            Long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            Long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return index;
         } catch (XBProcessingException ex) {
@@ -94,13 +94,13 @@ public class XBRXFileManager extends XBRDefaultManager<XBRXFile> implements XBCX
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(iconFile.getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            checker.attribXB(new UBNat32(1));
-            checker.beginXB();
-            InputStream istream = checker.dataXB();
+            XBMatchingProvider checker = message.getXBInput();
+            checker.matchAttribXB(new UBNat32(1));
+            checker.matchBeginXB();
+            InputStream istream = checker.matchDataXB();
             ByteArrayOutputStream data = new ByteArrayOutputStream();
-            CopyStreamUtils.copyInputStreamToOutputStream(istream, data);
-            checker.endXB();
+            StreamUtils.copyInputStreamToOutputStream(istream, data);
+            checker.matchEndXB();
             message.close();
             return new ImageIcon(data.toByteArray()); // TODO: Is there better to convert InputStream?
         } catch (XBProcessingException ex) {
@@ -122,13 +122,13 @@ public class XBRXFileManager extends XBRDefaultManager<XBRXFile> implements XBCX
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(iconFile.getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            checker.attribXB(new UBNat32(1));
-            checker.beginXB();
-            InputStream istream = checker.dataXB();
+            XBMatchingProvider checker = message.getXBInput();
+            checker.matchAttribXB(new UBNat32(1));
+            checker.matchBeginXB();
+            InputStream istream = checker.matchDataXB();
             ByteArrayOutputStream data = new ByteArrayOutputStream();
-            CopyStreamUtils.copyInputStreamToOutputStream(istream, data);
-            checker.endXB();
+            StreamUtils.copyInputStreamToOutputStream(istream, data);
+            checker.matchEndXB();
             message.close();
             return new ByteArrayInputStream(data.toByteArray()); // TODO: Is there better to convert InputStream?
         } catch (XBProcessingException ex) {

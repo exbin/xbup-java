@@ -14,24 +14,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.parser.token.operation;
+package org.xbup.lib.core.stream;
 
-import org.xbup.lib.core.parser.token.TypedToken;
+import java.io.IOException;
 
 /**
- * Token operation abstract class.
+ * Interface for seekable stream.
  *
- * @version 0.1.23 2014/02/07
+ * @version 0.1.25 2015/02/11
  * @author XBUP Project (http://xbup.org)
- * @param <T> source token generic type
- * @param <U> target token generic type
  */
-public abstract class XBOperation<T extends TypedToken, U extends TypedToken> {
+public interface SeekableStream {
 
     /**
-     * Performs operation.
+     * Moves position in stream to given position from the start of the stream.
      *
-     * @param operator token operator
+     * @param position target position
+     * @throws IOException if input/output error
      */
-    public abstract void operate(XBTokenOperator<T, U> operator);
+    public void seek(long position) throws IOException;
+
+    /**
+     * Returns length of stream.
+     *
+     * @return length of stream in bytes, -1 if unable to determine
+     */
+    public long getStreamSize();
 }

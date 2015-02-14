@@ -26,7 +26,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.wrapper.ExtendedAreaInputStreamWrapper;
 import org.xbup.lib.core.parser.basic.wrapper.FixedDataInputStreamWrapper;
-import org.xbup.lib.core.parser.basic.wrapper.FinishableStream;
+import org.xbup.lib.core.stream.FinishableStream;
 import org.xbup.lib.core.parser.basic.wrapper.TerminatedDataInputStreamWrapper;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;

@@ -39,24 +39,20 @@ import org.xbup.lib.core.parser.basic.XBTProducer;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeDeclaringFilter;
 import org.xbup.lib.core.parser.basic.convert.XBTProducerToProvider;
 import org.xbup.lib.core.parser.basic.convert.XBTProviderToProducer;
-import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.event.XBEventListener;
 import org.xbup.lib.core.parser.token.event.XBEventWriter;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
-import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
-import org.xbup.lib.core.parser.token.pull.convert.XBTProviderToPullProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullProviderToProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
-import org.xbup.lib.core.stream.XBTokenInputStream;
-import org.xbup.lib.core.stream.XBTInputTokenStream;
-import org.xbup.lib.core.stream.XBTStreamChecker;
+import org.xbup.lib.core.parser.basic.convert.XBTDefaultMatchingProvider;
+import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 
 /**
  * XBUP level 1 RPC server using TCP/IP networking.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPRemoteServer implements XBRemoteServer {
@@ -132,15 +128,15 @@ public class XBTCPRemoteServer implements XBRemoteServer {
         }
     }
 
-    public void respondMessage(XBTokenInputStream input, XBEventListener output) throws IOException, XBProcessingException {
+    public void respondMessage(XBPullProvider input, XBEventListener output) throws IOException, XBProcessingException {
         XBTTypeDeclaringFilter decapsulator = new XBTTypeDeclaringFilter(null);
         // TODO Optimalization should be done here
         XBTProducer producer = new XBTProviderToProducer(new XBTPullProviderToProvider(new XBToXBTPullConvertor(input)));
         producer.attachXBTListener(decapsulator);
-        XBTStreamChecker source = new XBTStreamChecker(new XBTPullInputStream(new XBTProviderToPullProvider(new XBTProducerToProvider(decapsulator))));
+        XBTDefaultMatchingProvider source = new XBTDefaultMatchingProvider(new XBTProducerToProvider(decapsulator));
         XBTListener target = new XBTEventListenerToListener(new XBTToXBEventConvertor(output));
-        source.beginXBT();
-        XBBlockType blockType = source.typeXBT();
+        source.matchBeginXBT();
+        XBBlockType blockType = source.matchTypeXBT();
         // TODO: Temporary patch
         long[] path = new long[5];
         path[1] = 2;
@@ -166,13 +162,13 @@ public class XBTCPRemoteServer implements XBRemoteServer {
     }
 
     @Override
-    public void addXBProcedure(XBProcedure procedure) {
-        getProcMap().put(procedure.getType(), procedure);
+    public void addXBProcedure(XBBlockType procedureType, XBProcedure procedure) {
+        getProcMap().put(procedureType, procedure);
     }
 
     @Override
-    public void removeXBProcedure(XBProcedure procedure) {
-        getProcMap().remove(procedure.getType());
+    public void removeXBProcedure(XBBlockType procedureType) {
+        getProcMap().remove(procedureType);
     }
 
     public XBACatalog getCatalog() {
@@ -193,44 +189,5 @@ public class XBTCPRemoteServer implements XBRemoteServer {
 
     public void setStop(boolean stop) {
         this.stop = stop;
-    }
-
-    public class XBTPullInputStream extends XBTInputTokenStream {
-
-        private final XBTPullProvider producer;
-
-        public XBTPullInputStream(XBTPullProvider producer) {
-            this.producer = producer;
-        }
-
-        @Override
-        public XBTToken pullXBTToken() throws XBProcessingException {
-            try {
-                return producer.pullXBTToken();
-            } catch (IOException ex) {
-                Logger.getLogger(XBTCPRemoteServer.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return null;
-        }
-
-        @Override
-        public void reset() throws IOException {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public boolean finished() throws IOException {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public void skip(long tokenCount) throws XBProcessingException, IOException {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public void close() throws IOException {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
     }
 }

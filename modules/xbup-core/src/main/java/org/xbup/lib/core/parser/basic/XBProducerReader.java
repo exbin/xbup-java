@@ -27,7 +27,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.wrapper.ExtendedAreaInputStreamWrapper;
 import org.xbup.lib.core.parser.basic.wrapper.FixedDataInputStreamWrapper;
-import org.xbup.lib.core.parser.basic.wrapper.FinishableStream;
+import org.xbup.lib.core.stream.FinishableStream;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;

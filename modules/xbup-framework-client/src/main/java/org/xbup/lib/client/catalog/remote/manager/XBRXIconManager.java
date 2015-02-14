@@ -36,8 +36,8 @@ import org.xbup.lib.client.catalog.remote.XBRXIcon;
 import org.xbup.lib.client.catalog.remote.XBRXIconMode;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
+import org.xbup.lib.core.parser.basic.XBMatchingProvider;
 import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.stream.XBStreamChecker;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -58,9 +58,9 @@ public class XBRXIconManager extends XBRDefaultManager<XBRXIcon> implements XBCX
          XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SPECSCOUNT_SPEC_PROCEDURE);
          XBListener listener = message.getXBOutput();
          listener.endXB();
-         XBStreamChecker checker = message.getXBInput();
-         Long index = checker.attribXB().getNaturalLong();
-         checker.endXB();
+         XBMatchingProvider checker = message.getXBInput();
+         Long index = checker.matchAttribXB().getNaturalLong();
+         checker.matchEndXB();
          message.close();
          return index;
          } catch (XBProcessingException ex) {
@@ -94,9 +94,9 @@ public class XBRXIconManager extends XBRDefaultManager<XBRXIcon> implements XBCX
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(((XBRItem) item).getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            Long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            Long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             if (index == 0) {
                 return null;

@@ -41,6 +41,7 @@ import java.awt.print.PrinterJob;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,6 +60,7 @@ import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.catalog.XBPCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeFixingFilter;
+import org.xbup.lib.core.parser.token.event.XBEventWriter;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
@@ -67,7 +69,6 @@ import org.xbup.lib.core.parser.token.pull.convert.XBTPullTypeDeclaringFilter;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.serial.XBPSerialReader;
 import org.xbup.lib.core.serial.XBPSerialWriter;
-import org.xbup.lib.core.stream.file.XBFileOutputStream;
 import org.xbup.lib.visual.picture.XBBufferedImage;
 import org.xbup.tool.editor.module.picture_editor.PictureFileType;
 import org.xbup.tool.editor.module.picture_editor.XBPictureEditorFrame;
@@ -80,7 +81,7 @@ import org.xbup.tool.editor.base.api.FileType;
 /**
  * Image panel for XBPEditor.
  *
- * @version 0.1.25 2015/02/06
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
 public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePanel {
@@ -410,7 +411,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
         File file = new File(getFileName());
         if (XBPictureEditorFrame.XBPFILETYPE.equals(fileType.getFileTypeId())) {
             try {
-                XBFileOutputStream output = new XBFileOutputStream(file);
+                FileOutputStream output = new FileOutputStream(file);
 
                 XBPCatalog catalog = new XBPCatalog();
                 catalog.addFormatDecl(getContextFormatDecl());
@@ -418,7 +419,7 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
                 XBDeclaration declaration = new XBDeclaration(formatDecl, new XBBufferedImage(toBufferedImage(image)));
                 declaration.realignReservation(catalog);
                 XBTTypeFixingFilter typeProcessing = new XBTTypeFixingFilter(catalog);
-                typeProcessing.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output)));
+                typeProcessing.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(new XBEventWriter(output))));
                 XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(typeProcessing));
                 writer.write(declaration);
             } catch (XBProcessingException | IOException ex) {

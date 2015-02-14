@@ -30,7 +30,7 @@ import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
-import org.xbup.lib.core.util.CopyStreamUtils;
+import org.xbup.lib.core.util.StreamUtils;
 
 /**
  * Encapsulation class for natural numbers - 16 bits.
@@ -93,7 +93,7 @@ public class XBNat16 implements XBTChildSerializable {
             InputStream source = serial.pullData();
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             try {
-                CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
+                StreamUtils.copyInputStreamToOutputStream(source, stream);
             } catch (IOException ex) {
                 Logger.getLogger(XBNat16.class.getName()).log(Level.SEVERE, null, ex);
             }

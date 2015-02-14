@@ -31,7 +31,7 @@ import org.xbup.lib.core.parser.token.convert.XBTokenBuffer;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.parser.basic.wrapper.FinishableStream;
+import org.xbup.lib.core.stream.FinishableStream;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBToken;
@@ -39,7 +39,7 @@ import org.xbup.lib.core.parser.token.XBTokenType;
 import org.xbup.lib.core.parser.token.convert.XBListenerToToken;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
-import org.xbup.lib.core.util.CopyStreamUtils;
+import org.xbup.lib.core.util.StreamUtils;
 
 /**
  * XBUP level 0 consumer writer.
@@ -130,7 +130,7 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                                     streamWrapper = new TerminatedDataOutputStreamWrapper(stream);
                                 }
 
-                                CopyStreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), streamWrapper);
+                                StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), streamWrapper);
 
                                 int dataPartSize = (int) ((FinishableStream) streamWrapper).finish();
                                   shrinkStatus(sizeLimits, dataPartSize);
@@ -233,7 +233,7 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
         // Write extended block if present
         if (extendedArea != null) {
             if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED) {
-                CopyStreamUtils.copyInputStreamToOutputStream(extendedArea.getData(), stream);
+                StreamUtils.copyInputStreamToOutputStream(extendedArea.getData(), stream);
             } else {
                 throw new XBParseException("Extended data block present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }

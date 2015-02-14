@@ -37,7 +37,7 @@ import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.core.catalog.base.XBCXStri;
 import org.xbup.lib.core.catalog.base.service.XBCXFileService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
-import org.xbup.lib.core.util.CopyStreamUtils;
+import org.xbup.lib.core.util.StreamUtils;
 
 /**
  * XBUP Transformation Plugin Base Class.
@@ -102,7 +102,7 @@ public class XBPluginRepository {
         try {
             tmpFile = java.io.File.createTempFile("jspfplugindownload", ".jar");
             try (FileOutputStream oStream = new FileOutputStream(tmpFile)) {
-                CopyStreamUtils.copyInputStreamToOutputStream(iStream, oStream);
+                StreamUtils.copyInputStreamToOutputStream(iStream, oStream);
                 iStream.close();
             }
         } catch (IOException ex) {

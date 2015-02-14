@@ -14,41 +14,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.stream;
+package org.xbup.lib.core.parser.token.pull;
 
-import java.io.Closeable;
 import java.io.IOException;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.token.pull.XBPullProvider;
+import org.xbup.lib.core.parser.token.XBToken;
+import org.xbup.lib.core.parser.token.XBTokenType;
+import org.xbup.lib.core.stream.XBOutput;
 
 /**
- * XBUP level 0 token input stream abstract class.
+ * XBUB level 0 pull provider interface.
  *
- * @version 0.1.23 2014/02/25
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
-public abstract class XBTokenInputStream implements Closeable, XBPullProvider {
+public interface XBMatchingPullProvider extends XBOutput {
 
     /**
-     * Resets source - jump to beginning of stream.
+     * Pulls next token.
      *
-     * @throws IOException if not possible to reset
-     */
-    public abstract void reset() throws IOException;
-
-    /**
-     * Returns true if stream ended.
-     *
-     * @return true if stream ended
-     * @throws IOException if unable to determine stream end
-     */
-    public abstract boolean finished() throws IOException;
-
-    /**
-     * Skips given count of tokens in stream.
-     *
-     * @param tokenCount count of tokens
+     * @param tokenType requested token type
+     * @return next token
+     * @throws XBProcessingException
      * @throws IOException
      */
-    public abstract void skip(long tokenCount) throws XBProcessingException, IOException;
+    public XBToken pullXBToken(XBTokenType tokenType) throws XBProcessingException, IOException;
 }

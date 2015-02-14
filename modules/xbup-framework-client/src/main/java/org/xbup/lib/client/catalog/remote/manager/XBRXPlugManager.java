@@ -44,8 +44,8 @@ public class XBRXPlugManager extends XBRDefaultManager<XBRXPlugin> implements XB
             XBListener listener = message.getXBOutput();
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            Long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            Long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return index;
         } catch (XBProcessingException ex) {

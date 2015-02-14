@@ -46,8 +46,8 @@ public class XBRItemInfo implements XBCXItemInfo {
             listener.attribXB(new UBNat32(getId()));
             listener.endXB();
             XBStreamChecker checker = message.getXBInput();
-            long ownerId = checker.attribXB().getLong();
-            checker.endXB();
+            long ownerId = checker.matchAttribXB().getLong();
+            checker.matchEndXB();
             message.close();
             if (ownerId == 0) return null;
             return new XBRNode(client, ownerId);
@@ -72,17 +72,17 @@ public class XBRItemInfo implements XBCXItemInfo {
             listener.endXB();
             XBInputStream input = message.getXBInputStream();
             XBStreamChecker checker = message.getXBInput();
-            checker.attribXB(new UBNat32(1));
-            checker.beginXB();
-            checker.attribXB();
-            checker.attribXB();
+            checker.matchAttribXB(new UBNat32(1));
+            checker.matchBeginXB();
+            checker.matchAttribXB();
+            checker.matchAttribXB();
             XBString text = new XBString();
             XBSerialPullConsumer consumer = new XBSerialPullConsumer(text);
             consumer.attachXBPullProvider(input);
             consumer.processXBPulls();
 //            new XBL1ToL0DefaultStreamConvertor(new XBL2ToL1DefaultStreamConvertor(text)).readXBStream(input);
-            checker.endXB();
-            checker.endXB();
+            checker.matchEndXB();
+            checker.matchEndXB();
             message.close();
             return text.getValue();
         } catch (XBProcessingException ex) {
@@ -101,17 +101,17 @@ public class XBRItemInfo implements XBCXItemInfo {
             listener.endXB();
             XBInputStream input = message.getXBInputStream();
             XBStreamChecker checker = message.getXBInput();
-            checker.attribXB(new UBNat32(1));
-            checker.beginXB();
-            checker.attribXB();
-            checker.attribXB();
+            checker.matchAttribXB(new UBNat32(1));
+            checker.matchBeginXB();
+            checker.matchAttribXB();
+            checker.matchAttribXB();
             XBString text = new XBString();
             XBSerialPullConsumer consumer = new XBSerialPullConsumer(text);
             consumer.attachXBPullProvider(input);
             consumer.processXBPulls();
 //            new XBL1ToL0DefaultStreamConvertor(new XBL2ToL1DefaultStreamConvertor(text)).readXBStream(input);
-            checker.endXB();
-            checker.endXB();
+            checker.matchEndXB();
+            checker.matchEndXB();
             message.close();
             return text.getValue();
         } catch (XBProcessingException ex) {

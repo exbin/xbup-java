@@ -34,7 +34,7 @@ import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
-import org.xbup.lib.core.util.CopyStreamUtils;
+import org.xbup.lib.core.util.StreamUtils;
 
 /**
  * Encapsulation class for String using given charset.
@@ -91,7 +91,7 @@ public class XBEncodingString implements XBPSequenceSerializable {
             InputStream source = serial.nextData();
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             try {
-                CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
+                StreamUtils.copyInputStreamToOutputStream(source, stream);
             } catch (IOException ex) {
                 Logger.getLogger(XBEncodingString.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -118,7 +118,7 @@ public class XBEncodingString implements XBPSequenceSerializable {
             InputStream source = serial.pullData();
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             try {
-                CopyStreamUtils.copyInputStreamToOutputStream(source, stream);
+                StreamUtils.copyInputStreamToOutputStream(source, stream);
             } catch (IOException ex) {
                 Logger.getLogger(XBEncodingString.class.getName()).log(Level.SEVERE, null, ex);
             }

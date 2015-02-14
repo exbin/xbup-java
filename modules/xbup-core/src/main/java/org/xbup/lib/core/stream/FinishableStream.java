@@ -14,33 +14,31 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.remote;
+package org.xbup.lib.core.stream;
 
 import java.io.IOException;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.parser.basic.convert.XBTDefaultMatchingProvider;
 
 /**
- * XBUP level 1 RPC procedure call interface.
+ * Interface for finishable stream.
  *
- * @version 0.1.24 2014/10/20
+ * @version 0.1.25 2015/02/07
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBCall {
+public interface FinishableStream {
 
     /**
-     * Performs remote invocation/calling of given procedure.
+     * Reads remaining data and returns size of all data processed by this
+     * stream.
      *
-     * Position in source is after block type.
-     *
-     * TODO: Add status handling (may include exceptions)
-     * 
-     * @param source
-     * @param result
-     * @return
-     * @throws XBProcessingException
-     * @throws IOException 
+     * @return size of data in bytes
+     * @throws IOException if input/output error occurs
      */
-    public XBProcedureDef call(XBTDefaultMatchingProvider source, XBTListener result) throws XBProcessingException, IOException;
+    public long finish() throws IOException;
+
+    /**
+     * Returns size of data processed so far.
+     *
+     * @return size of data in bytes
+     */
+    public long getLength();
 }

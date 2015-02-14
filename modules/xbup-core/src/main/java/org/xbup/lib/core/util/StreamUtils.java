@@ -21,12 +21,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Utilities for copying stream data.
+ * Utilities for stream data manipulations.
  *
- * @version 0.1.24 2014/10/20
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
-public abstract class CopyStreamUtils {
+public abstract class StreamUtils {
 
     private static final int BUFFER_SIZE = 1024;
 
@@ -170,5 +170,34 @@ public abstract class CopyStreamUtils {
             target.write(buffer, 0, used);
             secondTarget.write(buffer, 0, used);
         }
+    }
+
+    /**
+     * Compares two streams for matching data.
+     *
+     * @param stream one stream
+     * @param compStream other stream
+     * @return true if both streams have same data and length
+     * @throws IOException if read or write fails
+     */
+    public static boolean compareStreams(InputStream stream, InputStream compStream) throws IOException {
+        byte[] dataBlob = new byte[1];
+        byte[] dataBlob2 = new byte[1];
+        while (stream.available() > 0) {
+            int readStat = stream.read(dataBlob, 0, 1);
+            if (readStat < 0) {
+                return false;
+            }
+            int readStat2 = compStream.read(dataBlob2, 0, 1);
+            if (readStat2 < 0) {
+                return false;
+            }
+
+            if (dataBlob[0] != dataBlob2[0]) {
+                return false;
+            }
+        }
+
+        return compStream.available() == 0;
     }
 }

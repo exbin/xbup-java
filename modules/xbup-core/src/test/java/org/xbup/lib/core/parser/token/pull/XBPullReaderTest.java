@@ -66,7 +66,7 @@ public class XBPullReaderTest extends TestCase {
                 DebugPullProvider provider = new DebugPullProvider();
                 provider.attachXBPullProvider(reader);
                 reader.open(source);
-                while (!reader.finished()) {
+                while (!reader.isFinishedXB()) {
                     provider.pullXBToken();
                 }
             }

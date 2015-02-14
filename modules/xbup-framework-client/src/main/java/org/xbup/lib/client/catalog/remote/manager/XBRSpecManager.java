@@ -48,8 +48,8 @@ import org.xbup.lib.client.catalog.remote.XBRSpec;
 import org.xbup.lib.client.catalog.remote.XBRSpecDef;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
+import org.xbup.lib.core.parser.basic.XBMatchingProvider;
 import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.stream.XBStreamChecker;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -70,9 +70,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SPECSCOUNT_SPEC_PROCEDURE);
             XBListener listener = message.getXBOutput();
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            Long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            Long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return index;
         } catch (XBProcessingException ex) {
@@ -89,9 +89,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.FORMATSPECSCOUNT_SPEC_PROCEDURE);
             XBListener listener = message.getXBOutput();
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            Long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            Long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return index;
         } catch (XBProcessingException ex) {
@@ -108,9 +108,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.GROUPSPECSCOUNT_SPEC_PROCEDURE);
             XBListener listener = message.getXBOutput();
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            Long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            Long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return index;
         } catch (XBProcessingException ex) {
@@ -127,9 +127,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.BLOCKSPECSCOUNT_SPEC_PROCEDURE);
             XBListener listener = message.getXBOutput();
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            Long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            Long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return index;
         } catch (XBProcessingException ex) {
@@ -164,13 +164,13 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(((XBRNode) node).getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
+            XBMatchingProvider checker = message.getXBInput();
             List<XBCSpec> result = new ArrayList<XBCSpec>();
-            long count = checker.attribXB().getNaturalLong();
+            long count = checker.matchAttribXB().getNaturalLong();
             for (int i = 0; i < count; i++) {
-                result.add(new XBRSpec(client,checker.attribXB().getNaturalLong()));
+                result.add(new XBRSpec(client,checker.matchAttribXB().getNaturalLong()));
             }
-            checker.endXB();
+            checker.matchEndXB();
             message.close();
             return result;
         } catch (XBProcessingException ex) {
@@ -189,9 +189,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             listener.attribXB(new UBNat32(((XBRNode) node).getId()));
             listener.attribXB(new UBNat32(index));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long subSpec = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long subSpec = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return new XBRSpec(client,subSpec);
         } catch (XBProcessingException ex) {
@@ -210,9 +210,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             listener.attribXB(new UBNat32(((XBRNode) node).getId()));
             listener.attribXB(new UBNat32(index));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long spec = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long spec = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return new XBRFormatSpec(client,spec);
         } catch (XBProcessingException ex) {
@@ -230,13 +230,13 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(((XBRNode) node).getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
+            XBMatchingProvider checker = message.getXBInput();
             List<XBCFormatSpec> result = new ArrayList<XBCFormatSpec>();
-            long count = checker.attribXB().getNaturalLong();
+            long count = checker.matchAttribXB().getNaturalLong();
             for (int i = 0; i < count; i++) {
-                result.add(new XBRFormatSpec(client,checker.attribXB().getNaturalLong()));
+                result.add(new XBRFormatSpec(client,checker.matchAttribXB().getNaturalLong()));
             }
-            checker.endXB();
+            checker.matchEndXB();
             message.close();
             return result;
         } catch (XBProcessingException ex) {
@@ -255,9 +255,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             listener.attribXB(new UBNat32(((XBRNode) node).getId()));
             listener.attribXB(new UBNat32(index));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long spec = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long spec = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return new XBRBlockSpec(client,spec);
         } catch (XBProcessingException ex) {
@@ -275,13 +275,13 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(((XBRNode) node).getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
+            XBMatchingProvider checker = message.getXBInput();
             List<XBCBlockSpec> result = new ArrayList<XBCBlockSpec>();
-            long count = checker.attribXB().getNaturalLong();
+            long count = checker.matchAttribXB().getNaturalLong();
             for (int i = 0; i < count; i++) {
-                result.add(new XBRBlockSpec(client,checker.attribXB().getNaturalLong()));
+                result.add(new XBRBlockSpec(client,checker.matchAttribXB().getNaturalLong()));
             }
-            checker.endXB();
+            checker.matchEndXB();
             message.close();
             return result;
         } catch (XBProcessingException ex) {
@@ -300,9 +300,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             listener.attribXB(new UBNat32(((XBRNode) node).getId()));
             listener.attribXB(new UBNat32(index));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long spec = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long spec = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return new XBRGroupSpec(client,spec);
         } catch (XBProcessingException ex) {
@@ -320,13 +320,13 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(((XBRNode) node).getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
+            XBMatchingProvider checker = message.getXBInput();
             List<XBCGroupSpec> result = new ArrayList<XBCGroupSpec>();
-            long count = checker.attribXB().getNaturalLong();
+            long count = checker.matchAttribXB().getNaturalLong();
             for (int i = 0; i < count; i++) {
-                result.add(new XBRGroupSpec(client,checker.attribXB().getNaturalLong()));
+                result.add(new XBRGroupSpec(client,checker.matchAttribXB().getNaturalLong()));
             }
-            checker.endXB();
+            checker.matchEndXB();
             message.close();
             return result;
         } catch (XBProcessingException ex) {
@@ -344,9 +344,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(((XBRNode) node).getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return new XBRBlockSpec(client,index);
         } catch (XBProcessingException ex) {
@@ -364,9 +364,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(((XBRNode) node).getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return index;
         } catch (XBProcessingException ex) {
@@ -384,9 +384,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(((XBRNode) node).getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return new XBRGroupSpec(client,index);
         } catch (XBProcessingException ex) {
@@ -404,9 +404,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(((XBRNode) node).getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return index;
         } catch (XBProcessingException ex) {
@@ -428,9 +428,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             listener.attribXB(new UBNat32(((XBRNode) node).getId()));
             listener.attribXB(new UBNat32(xbIndex));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return new XBRFormatSpec(client,index);
         } catch (XBProcessingException ex) {
@@ -448,9 +448,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(((XBRNode) node).getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return index;
         } catch (XBProcessingException ex) {
@@ -468,9 +468,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(((XBRNode) node).getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return index;
         } catch (XBProcessingException ex) {
@@ -488,9 +488,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(((XBRNode) node).getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return index;
         } catch (XBProcessingException ex) {
@@ -508,9 +508,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(((XBRNode) node).getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return index;
         } catch (XBProcessingException ex) {
@@ -528,9 +528,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(((XBRNode) node).getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return index;
         } catch (XBProcessingException ex) {
@@ -547,9 +547,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.BINDSCOUNT_BIND_PROCEDURE);
             XBListener listener = message.getXBOutput();
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            Long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            Long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return index;
         } catch (XBProcessingException ex) {
@@ -568,10 +568,10 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             listener.attribXB(new UBNat32(((XBRSpec) spec).getId()));
             listener.attribXB(new UBNat32(index));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long bind = checker.attribXB().getNaturalLong();
-            long bindType = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long bind = checker.matchAttribXB().getNaturalLong();
+            long bindType = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             if (bindType == 0) {
                 if (spec instanceof XBCFormatSpec) {
@@ -612,10 +612,10 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             listener.attribXB(new UBNat32(((XBRSpec) spec).getId()));
             listener.attribXB(new UBNat32(xbIndex));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long bind = checker.attribXB().getNaturalLong();
-            int bindType = checker.attribXB().getNaturalInt();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long bind = checker.matchAttribXB().getNaturalLong();
+            int bindType = checker.matchAttribXB().getNaturalInt();
+            checker.matchEndXB();
             message.close();
             if (spec instanceof XBCFormatSpec) {
                 return bindType == 0 ? new XBRFormatCons(client,bind) : new XBRFormatJoin(client,bind);
@@ -646,13 +646,13 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(((XBRSpec) spec).getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
+            XBMatchingProvider checker = message.getXBInput();
             List<XBCSpecDef> result = new ArrayList<XBCSpecDef>();
-            long count = checker.attribXB().getNaturalLong();
+            long count = checker.matchAttribXB().getNaturalLong();
             for (int i = 0; i < count; i++) {
-                result.add(new XBRSpecDef(client,checker.attribXB().getNaturalLong()));
+                result.add(new XBRSpecDef(client,checker.matchAttribXB().getNaturalLong()));
             }
-            checker.endXB();
+            checker.matchEndXB();
             message.close();
             return result;
         } catch (XBProcessingException ex) {
@@ -670,9 +670,9 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(((XBRSpec) spec).getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return index;
         } catch (XBProcessingException ex) {

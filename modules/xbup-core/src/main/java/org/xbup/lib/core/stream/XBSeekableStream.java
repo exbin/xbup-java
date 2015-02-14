@@ -16,14 +16,37 @@
  */
 package org.xbup.lib.core.stream;
 
+import java.io.IOException;
+
 /**
- * XBUP level 1 output stream filter abstract class.
+ * Interface for stream with seekable tokens.
+ * 
+ * TODO: Add also block seekable?
  *
- * @version 0.1.15 2008/01/25
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
-public abstract class XBTOutputStreamFilter extends XBTOutputStream {
+public interface XBSeekableStream {
 
-    public abstract void setXBTOutputStream(XBTOutputStream source);
+    /**
+     * Moves position in stream to given position from the start of the stream.
+     *
+     * @param position target position
+     * @throws IOException if input/output error
+     */
+    public void seekXB(long position) throws IOException;
 
+    /**
+     * Returns current position in stream.
+     *
+     * @return current position in stream, -1 if unable to determine
+     */
+    public long getPositionXB();
+
+    /**
+     * Returns length of stream.
+     *
+     * @return length of stream in bytes, -1 if unable to determine
+     */
+    public long getStreamSizeXB();
 }

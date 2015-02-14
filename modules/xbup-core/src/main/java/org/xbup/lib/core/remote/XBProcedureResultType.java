@@ -14,25 +14,25 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.stream;
-
-import java.io.Closeable;
-import java.io.IOException;
-import org.xbup.lib.core.parser.token.event.XBTEventListener;
+package org.xbup.lib.core.remote;
 
 /**
- * XBUP level 1 output stream abstract class.
+ * XBUP level 1 RPC procedure interface
  *
- * @version 0.1.23 2014/02/25
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
-public abstract class XBTOutputStream implements Closeable, XBTEventListener {
+public enum XBProcedureResultType {
 
     /**
-     * Flushes this output stream and forces any buffered output bytes to be
-     * written out.
-     *
-     * @throws IOException
+     * Procedure was executed correctly.
      */
-    public abstract void flush() throws IOException;
+    OK,
+    /**
+     * There was exection when attempting to execute this procedure.
+     *
+     * Return value might optionally contain additional information about
+     * exception.
+     */
+    EXCEPTION
 }

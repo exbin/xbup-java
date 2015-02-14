@@ -32,8 +32,8 @@ import org.xbup.lib.client.catalog.remote.XBRXDesc;
 import org.xbup.lib.client.catalog.remote.XBRXLanguage;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
+import org.xbup.lib.core.parser.basic.XBMatchingProvider;
 import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.stream.XBStreamChecker;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -55,9 +55,9 @@ public class XBRXDescManager extends XBRDefaultManager<XBRXDesc> implements XBCX
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(((XBRItem) item).getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long ownerId = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long ownerId = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             if (ownerId == 0) {
                 return null;
@@ -79,9 +79,9 @@ public class XBRXDescManager extends XBRDefaultManager<XBRXDesc> implements XBCX
             listener.attribXB(new UBNat32(((XBRItem) item).getId()));
             listener.attribXB(new UBNat32(((XBRXLanguage) language).getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long ownerId = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long ownerId = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             if (ownerId == 0) {
                 return null;
@@ -102,13 +102,13 @@ public class XBRXDescManager extends XBRDefaultManager<XBRXDesc> implements XBCX
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(((XBRItem) item).getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
+            XBMatchingProvider checker = message.getXBInput();
             List<XBCXDesc> result = new ArrayList<XBCXDesc>();
-            long count = checker.attribXB().getNaturalLong();
+            long count = checker.matchAttribXB().getNaturalLong();
             for (int i = 0; i < count; i++) {
-                result.add(new XBRXDesc(client,checker.attribXB().getNaturalLong()));
+                result.add(new XBRXDesc(client,checker.matchAttribXB().getNaturalLong()));
             }
-            checker.endXB();
+            checker.matchEndXB();
             message.close();
             return result;
         } catch (XBProcessingException ex) {
@@ -125,9 +125,9 @@ public class XBRXDescManager extends XBRDefaultManager<XBRXDesc> implements XBCX
             XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.DESCSCOUNT_DESC_PROCEDURE);
             XBListener listener = message.getXBOutput();
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            Long count = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            Long count = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return count;
         } catch (XBProcessingException ex) {

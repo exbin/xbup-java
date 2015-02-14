@@ -29,7 +29,7 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.core.parser.basic.wrapper.ExtendedAreaInputStreamWrapper;
 import org.xbup.lib.core.parser.basic.wrapper.FixedDataInputStreamWrapper;
-import org.xbup.lib.core.parser.basic.wrapper.FinishableStream;
+import org.xbup.lib.core.stream.FinishableStream;
 import org.xbup.lib.core.parser.basic.wrapper.TerminatedDataInputStreamWrapper;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
@@ -37,17 +37,19 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBEndToken;
 import org.xbup.lib.core.parser.token.XBToken;
-import org.xbup.lib.core.stream.XBTokenInputStream;
+import org.xbup.lib.core.stream.XBFinishedStream;
+import org.xbup.lib.core.stream.XBResetableStream;
+import org.xbup.lib.core.stream.XBSkipableStream;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * XBUP level 0 pull reader.
  *
- * @version 0.1.23 2014/02/20
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPullReader extends XBTokenInputStream implements Closeable, XBPullProvider {
+public class XBPullReader implements XBPullProvider, XBResetableStream, XBSkipableStream, XBFinishedStream, Closeable {
 
     private XBParserState parserState;
     private XBParserMode parserMode = XBParserMode.FULL;
@@ -104,7 +106,7 @@ public class XBPullReader extends XBTokenInputStream implements Closeable, XBPul
     }
 
     @Override
-    public void reset() {
+    public void resetXB() {
         resetParser();
     }
 
@@ -150,15 +152,25 @@ public class XBPullReader extends XBTokenInputStream implements Closeable, XBPul
      * @throws IOException
      */
     @Override
-    public boolean finished() throws IOException {
+    public boolean isFinishedXB() throws IOException {
         return parserState == XBParserState.EOF;
     }
 
     @Override
-    public void skip(long tokenCount) throws XBProcessingException, IOException {
+    public void skipXB(long tokenCount) throws XBProcessingException, IOException {
         for (long i = 0; i < tokenCount; i++) {
             pullXBToken();
         }
+    }
+
+    @Override
+    public void skipChildXB(long childBlocksCount) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void skipAttributesXB(long childBlocksCount) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**

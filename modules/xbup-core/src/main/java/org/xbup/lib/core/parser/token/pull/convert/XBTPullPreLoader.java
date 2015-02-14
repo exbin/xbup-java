@@ -28,7 +28,7 @@ import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.pull.XBTPullFilter;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
-import org.xbup.lib.core.util.CopyStreamUtils;
+import org.xbup.lib.core.util.StreamUtils;
 
 /**
  * Level 1 filter providing making accesible next token.
@@ -89,7 +89,7 @@ public class XBTPullPreLoader implements XBTPullFilter {
             nextToken = pullProvider.pullXBTToken();
             if (nextToken.getTokenType() == XBTTokenType.DATA) {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                CopyStreamUtils.copyInputStreamToOutputStream(((XBTDataToken) nextToken).getData(), stream);
+                StreamUtils.copyInputStreamToOutputStream(((XBTDataToken) nextToken).getData(), stream);
                 nextToken = new XBTDataToken(new ByteArrayInputStream(stream.toByteArray()));
             }
         }

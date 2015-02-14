@@ -26,8 +26,8 @@ import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.XBCatalogServiceMessage;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
+import org.xbup.lib.core.parser.basic.XBMatchingProvider;
 import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.stream.XBStreamChecker;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -53,9 +53,9 @@ public class XBRXBlockLine implements XBCXBlockLine {
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long ownerId = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long ownerId = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return new XBRBlockRev(client, ownerId);
         } catch (XBProcessingException ex) {
@@ -73,9 +73,9 @@ public class XBRXBlockLine implements XBCXBlockLine {
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long ownerId = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long ownerId = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return new XBRXPlugLine(client, ownerId);
         } catch (XBProcessingException ex) {
@@ -93,9 +93,9 @@ public class XBRXBlockLine implements XBCXBlockLine {
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return index;
         } catch (XBProcessingException ex) {

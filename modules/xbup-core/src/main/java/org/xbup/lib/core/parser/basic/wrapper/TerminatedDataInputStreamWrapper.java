@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.core.parser.basic.wrapper;
 
+import org.xbup.lib.core.stream.FinishableStream;
 import java.io.IOException;
 import java.io.InputStream;
 import org.xbup.lib.core.parser.XBParseException;

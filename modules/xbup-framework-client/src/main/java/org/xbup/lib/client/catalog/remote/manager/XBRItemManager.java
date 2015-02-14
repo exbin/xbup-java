@@ -25,8 +25,8 @@ import org.xbup.lib.client.XBCatalogServiceMessage;
 import org.xbup.lib.client.catalog.remote.XBRItem;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
+import org.xbup.lib.core.parser.basic.XBMatchingProvider;
 import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.stream.XBStreamChecker;
 
 /**
  * Manager class for XBRItem catalog items.
@@ -46,9 +46,9 @@ public class XBRItemManager extends XBRDefaultManager<XBRItem> implements XBCIte
             XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.ITEMSCOUNT_ITEM_PROCEDURE);
             XBListener listener = message.getXBOutput();
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long index = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return index;
         } catch (XBProcessingException ex) {

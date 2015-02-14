@@ -21,7 +21,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.stream.XBOutput;
 
 /**
- * XBUP protocol level 1 sata provider.
+ * XBUP protocol level 1 data provider.
  *
  * Execution is receiver side controlled (pull).
  *

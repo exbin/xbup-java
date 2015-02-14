@@ -40,23 +40,24 @@ import org.xbup.lib.core.parser.token.event.XBEventWriter;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
-import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.stream.XBTStreamChecker;
-import org.xbup.lib.core.stream.convert.XBToXBTStreamConvertor;
+import org.xbup.lib.core.parser.basic.convert.XBTDefaultMatchingProvider;
+import org.xbup.lib.core.parser.token.pull.XBPullReader;
+import org.xbup.lib.core.parser.token.pull.convert.XBTPullProviderToProvider;
+import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * XBService client connection handler using TCP/IP protocol.
  *
- * @version 0.1.21 2011/12/10
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPServiceClient implements XBServiceClient {
 
     private Socket socket;
 //    private XBL2CatalogHandler catalog;
-    private XBTStreamChecker source;
+    private XBTDefaultMatchingProvider source;
     private XBTListener target;
     private String host;
     private int port;
@@ -94,10 +95,10 @@ public class XBTCPServiceClient implements XBServiceClient {
              eventSerializer.attachXBTEventListener(XBTDefaultEventListener.getXBTEventListener(target));
              eventSerializer.generateXBTEvents(); */
             target.endXBT();
-            source.beginXBT();
-            source.typeXBT(new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK)); // TODO
-            UBNat32 response = (UBNat32) source.attribXBT();
-            source.endXBT();
+            source.matchBeginXBT();
+            source.matchTypeXBT(new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK)); // TODO
+            UBNat32 response = (UBNat32) source.matchAttribXBT();
+            source.matchEndXBT();
             close();
             return response.getInt();
         } catch (XBProcessingException ex) {
@@ -116,7 +117,7 @@ public class XBTCPServiceClient implements XBServiceClient {
     public void init() throws IOException, ConnectException {
         try {
             socket = new Socket(getHost(), getPort());
-            source = new XBTStreamChecker(new XBToXBTStreamConvertor(new XBPullReader(getSocket().getInputStream())));
+            source = new XBTDefaultMatchingProvider(new XBTPullProviderToProvider(new XBToXBTPullConvertor(new XBPullReader(getSocket().getInputStream()))));
             target = new XBTTypeFixingFilter(null, null); // new XBServiceContext()
             OutputStream oStream = getSocket().getOutputStream();
             XBHead.writeXBUPHead(oStream);
@@ -133,11 +134,11 @@ public class XBTCPServiceClient implements XBServiceClient {
             init();
             target.typeXBT(new XBDeclBlockType(new XBLBlockDecl(VERSION_INFO_PROCEDURE)));
             target.endXBT();
-            source.beginXBT();
-            source.typeXBT(new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK)); // TODO
-            UBNat32 majorVersion = (UBNat32) source.attribXBT();
-            UBNat32 minorVersion = (UBNat32) source.attribXBT();
-            source.endXBT();
+            source.matchBeginXBT();
+            source.matchTypeXBT(new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK)); // TODO
+            UBNat32 majorVersion = (UBNat32) source.matchAttribXBT();
+            UBNat32 minorVersion = (UBNat32) source.matchAttribXBT();
+            source.matchEndXBT();
             close();
             return majorVersion.getInt() + "." + minorVersion.getInt();
         } catch (XBProcessingException | IOException ex) {
@@ -151,9 +152,9 @@ public class XBTCPServiceClient implements XBServiceClient {
             init();
             target.typeXBT(new XBDeclBlockType(new XBLBlockDecl(STOP_SERVICE_PROCEDURE)));
             target.endXBT();
-            source.beginXBT();
-            source.typeXBT(new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK)); // TODO
-            source.endXBT();
+            source.matchBeginXBT();
+            source.matchTypeXBT(new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK)); // TODO
+            source.matchEndXBT();
             close();
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBTCPServiceClient.class.getName()).log(Level.SEVERE, null, ex);
@@ -175,9 +176,9 @@ public class XBTCPServiceClient implements XBServiceClient {
             init();
             target.typeXBT(new XBDeclBlockType(new XBLBlockDecl(PING_SERVICE_PROCEDURE)));
             target.endXBT();
-            source.beginXBT();
-            source.typeXBT(new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK)); // TODO
-            source.endXBT();
+            source.matchBeginXBT();
+            source.matchTypeXBT(new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK)); // TODO
+            source.matchEndXBT();
             close();
         } catch (ConnectException ex) {
         } catch (XBProcessingException | IOException ex) {

@@ -17,36 +17,25 @@
 package org.xbup.lib.core.remote;
 
 import java.io.IOException;
-import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.stream.XBTStreamChecker;
+import org.xbup.lib.core.stream.XBInput;
+import org.xbup.lib.core.stream.XBOutput;
 
 /**
- * XBUP level 1 RPC procedure interface
+ * XBUP RPC procedure interface.
  *
- * @version 0.1.25 2015/02/11
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBProcedure {
 
     /**
-     * Returns type of this procedure.
+     * Invocates procedure.
      *
-     * @return type of this procedure
+     * @param parameters procedure parameters data
+     * @param result procedure result data
+     * @return procedure result type
+     * @throws IOException if input/output error
      */
-    public XBBlockType getType();
-
-    /**
-     * Invocates this procedure.
-     *
-     * Position in source is after block type.
-     *
-     * TODO: Add status handling (may include exceptions)
-     *
-     * @param source
-     * @param result
-     * @throws IOException
-     */
-    public void execute(XBTStreamChecker source, XBTListener result) throws XBProcessingException, IOException;
+    public XBProcedureResultType execute(XBOutput parameters, XBInput result) throws XBProcessingException, IOException;
 }

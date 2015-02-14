@@ -38,7 +38,7 @@ import org.xbup.lib.core.catalog.base.XBCXDesc;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.core.catalog.base.XBCXName;
 import org.xbup.lib.core.parser.basic.XBHead;
-import org.xbup.lib.core.util.CopyStreamUtils;
+import org.xbup.lib.core.util.StreamUtils;
 
 /**
  * Catalog update handler using some primitive PHP interface.
@@ -135,7 +135,7 @@ public class XBCUpdatePHPPort {
             URLDataSource dataSource = new URLDataSource(myURL);
 
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-            CopyStreamUtils.copyInputStreamToOutputStream(dataSource.getInputStream(), byteStream);
+            StreamUtils.copyInputStreamToOutputStream(dataSource.getInputStream(), byteStream);
             return byteStream.toByteArray();
         } catch (FileNotFoundException ex) {
             return null;
@@ -169,7 +169,7 @@ public class XBCUpdatePHPPort {
 
             istream = uc.getInputStream();
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-            CopyStreamUtils.copyInputStreamToOutputStream(istream, byteStream, contentLength);
+            StreamUtils.copyInputStreamToOutputStream(istream, byteStream, contentLength);
             return byteStream.toByteArray();
         } catch (FileNotFoundException ex) {
             return null;

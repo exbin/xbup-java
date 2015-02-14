@@ -40,7 +40,7 @@ import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.convert.XBTListenerToToken;
 import org.xbup.lib.core.parser.token.pull.XBTPullFilter;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
-import org.xbup.lib.core.util.CopyStreamUtils;
+import org.xbup.lib.core.util.StreamUtils;
 
 /**
  * Filter to convert stand-alone block types to fixed types.
@@ -83,7 +83,7 @@ public class XBTPullTypeFixingFilter implements XBTPullFilter {
             if (token.getTokenType() == XBTTokenType.DATA) {
                 InputStream inputStream = ((XBTDataToken) token).getData();
                 ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
-                CopyStreamUtils.copyInputStreamToOutputStream(inputStream, dataStream);
+                StreamUtils.copyInputStreamToOutputStream(inputStream, dataStream);
                 currentContext.dataXBT(new ByteArrayInputStream(dataStream.toByteArray()));
                 token = new XBTDataToken(new ByteArrayInputStream(dataStream.toByteArray()));
             } else {

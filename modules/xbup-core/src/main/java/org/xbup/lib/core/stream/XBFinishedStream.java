@@ -16,23 +16,21 @@
  */
 package org.xbup.lib.core.stream;
 
-import java.io.Closeable;
 import java.io.IOException;
-import org.xbup.lib.core.parser.token.event.XBEventListener;
 
 /**
- * XBUP level 0 output stream abstract class.
+ * Interface for stream with method for finishing detection.
  *
- * @version 0.1.23 2014/02/25
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
-public abstract class XBTokenOutputStream implements Closeable, XBEventListener {
+public interface XBFinishedStream {
 
     /**
-     * Flushes this output stream and forces any buffered output bytes to be
-     * written out.
+     * Returns true if stream ended.
      *
-     * @throws IOException
+     * @return true if stream ended
+     * @throws IOException if unable to determine stream end
      */
-    public abstract void flush() throws IOException;
+    public boolean isFinishedXB() throws IOException;
 }

@@ -17,12 +17,17 @@
 package org.xbup.lib.core.stream;
 
 /**
- * XBUP level 0 input stream filter abstract class.
+ * Interface for method adding support for stream finishing detection.
  *
- * @version 0.1.19 2010/05/30
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
-public abstract class XBTokenInputStreamFilter extends XBTokenInputStream {
+public interface XBResetableStreamMethod {
 
-    public abstract void setXBInputStream(XBTokenInputStream source);
+    /**
+     * Provides stream finishing detection class.
+     *
+     * @return stream finished handler
+     */
+    public XBFinishedStream getFinishedStreamXB();
 }

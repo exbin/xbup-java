@@ -37,7 +37,7 @@ import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.remote.XBServiceClient;
 import static org.xbup.lib.core.remote.XBServiceClient.XBSERVICE_FORMAT;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.stream.XBTStreamChecker;
+import org.xbup.lib.core.parser.basic.convert.XBTDefaultMatchingProvider;
 
 /**
  * Fake XBService client using localhost database.
@@ -49,7 +49,7 @@ public class XBDbServiceClient implements XBServiceClient {
 
     private EntityManagerFactory entityManagerFactory;
 //    private XBL2CatalogHandler catalog;
-    private XBTStreamChecker source;
+    private XBTDefaultMatchingProvider source;
     private XBTListener target;
 
     /*

@@ -33,8 +33,8 @@ import org.xbup.lib.client.catalog.remote.XBRXPlugPane;
 import org.xbup.lib.client.catalog.remote.XBRXPlugin;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
+import org.xbup.lib.core.parser.basic.XBMatchingProvider;
 import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.stream.XBStreamChecker;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -76,9 +76,9 @@ public class XBRXPaneManager extends XBRDefaultManager<XBRXBlockPane> implements
             listener.attribXB(new UBNat32(((XBRBlockRev) rev).getId()));
             listener.attribXB(new UBNat32(priority));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long itemId = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long itemId = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             if (itemId == 0) {
                 return null;
@@ -98,9 +98,9 @@ public class XBRXPaneManager extends XBRDefaultManager<XBRXBlockPane> implements
             XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.PANESCOUNT_PANE_PROCEDURE);
             XBListener listener = message.getXBOutput();
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            Long count = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            Long count = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return count;
         } catch (XBProcessingException ex) {
@@ -129,9 +129,9 @@ public class XBRXPaneManager extends XBRDefaultManager<XBRXBlockPane> implements
             listener.attribXB(new UBNat32(((XBRXPlugin) plugin).getId()));
             listener.attribXB(new UBNat32(paneIndex));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long itemId = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long itemId = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             if (itemId == 0) {
                 return null;
@@ -151,9 +151,9 @@ public class XBRXPaneManager extends XBRDefaultManager<XBRXBlockPane> implements
             XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.PLUGPANESCOUNT_PANE_PROCEDURE);
             XBListener listener = message.getXBOutput();
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            Long count = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            Long count = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             return count;
         } catch (XBProcessingException ex) {

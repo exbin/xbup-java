@@ -29,6 +29,9 @@ import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeFixingFilter;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.basic.XBMatchingProvider;
+import org.xbup.lib.core.parser.basic.XBProvider;
+import org.xbup.lib.core.parser.basic.convert.XBDefaultMatchingProvider;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.XBTokenType;
@@ -37,18 +40,17 @@ import org.xbup.lib.core.parser.token.event.XBEventWriter;
 import org.xbup.lib.core.parser.token.event.convert.XBEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
+import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
+import org.xbup.lib.core.parser.token.pull.convert.XBPullProviderToProvider;
 import org.xbup.lib.core.remote.XBServiceClient;
 import org.xbup.lib.core.remote.XBTCPServiceClient;
-import org.xbup.lib.core.stream.XBTokenInputStream;
-import org.xbup.lib.core.stream.XBTokenOutputStream;
-import org.xbup.lib.core.stream.XBStreamChecker;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * XBService catalog client using IP networking.
  *
- * @version 0.1.21 2011/12/10
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBCatalogServiceClient {
@@ -57,12 +59,11 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
 //    private int port;
 //    private Socket socket;
 //    private XBL2CatalogHandler catalog;
-
     public XBCatalogNetServiceClient(String host, int port) {
         super(host, port);
-/*        this.host = host;
-        this.port = port;
-        this.socket = null; */
+        /*        this.host = host;
+         this.port = port;
+         this.socket = null; */
 //        catalog = new XBL2RemoteCatalog(this);
     }
 
@@ -102,8 +103,8 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
                 return false;
             }
             message.getXBOutput().endXB();
-            XBStreamChecker checker = message.getXBInput();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            checker.matchEndXB();
             message.close();
             return true;
         } catch (XBProcessingException | IOException ex) {
@@ -115,68 +116,66 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
     /**
      * @return the catalog
      */
-/*    public XBL2CatalogHandler getCatalog() {
-        return catalog;
-    } */
-
+    /*    public XBL2CatalogHandler getCatalog() {
+     return catalog;
+     } */
     /**
      * @param catalog the catalog to set
      */
-/*    public void setCatalog(XBL2CatalogHandler catalog) {
-        this.catalog = catalog;
-    } */
-
+    /*    public void setCatalog(XBL2CatalogHandler catalog) {
+     this.catalog = catalog;
+     } */
     private class XBCatalogSocketMessage implements XBCatalogServiceMessage {
 
         private Socket socket;
-        private XBTokenOutputStream output;
-        private XBTokenInputStream input;
+        private XBEventListener output;
+        private XBPullProvider input;
 
         private XBCatalogSocketMessage(Socket socket, long[] procedureId) {
-/*            System.out.print("Message (");
-            if (messageType >= 0) {
-                System.out.print(XBCatalogServiceClient.messageTypeEnum.values()[messageType]);
-                System.out.print(", ");
-                switch (XBCatalogServiceClient.messageTypeEnum.values()[messageType]) {
-                    case BIND: {
-                        System.out.print(XBCatalogServiceClient.bindMessageEnum.values()[messageId]);
-                        break;
-                    }
-                    case DESC: {
-                        System.out.print(XBCatalogServiceClient.descMessageEnum.values()[messageId]);
-                        break;
-                    }
-                    case ITEM: {
-                        System.out.print(XBCatalogServiceClient.itemMessageEnum.values()[messageId]);
-                        break;
-                    }
-                    case LANG: {
-                        System.out.print(XBCatalogServiceClient.langMessageEnum.values()[messageId]);
-                        break;
-                    }
-                    case NAME: {
-                        System.out.print(XBCatalogServiceClient.nameMessageEnum.values()[messageId]);
-                        break;
-                    }
-                    case NODE: {
-                        System.out.print(XBCatalogServiceClient.nodeMessageEnum.values()[messageId]);
-                        break;
-                    }
-                    case SPEC: {
-                        System.out.print(XBCatalogServiceClient.specMessageEnum.values()[messageId]);
-                        break;
-                    }
-                    case REV: {
-                        System.out.print(XBCatalogServiceClient.revMessageEnum.values()[messageId]);
-                        break;
-                    }
-                    default: {
-                        System.out.print(messageId);
-                        break;
-                    }
-                }
-            } else System.out.print(messageType + ", " + messageId);
-            System.out.println(")"); */
+            /*            System.out.print("Message (");
+             if (messageType >= 0) {
+             System.out.print(XBCatalogServiceClient.messageTypeEnum.values()[messageType]);
+             System.out.print(", ");
+             switch (XBCatalogServiceClient.messageTypeEnum.values()[messageType]) {
+             case BIND: {
+             System.out.print(XBCatalogServiceClient.bindMessageEnum.values()[messageId]);
+             break;
+             }
+             case DESC: {
+             System.out.print(XBCatalogServiceClient.descMessageEnum.values()[messageId]);
+             break;
+             }
+             case ITEM: {
+             System.out.print(XBCatalogServiceClient.itemMessageEnum.values()[messageId]);
+             break;
+             }
+             case LANG: {
+             System.out.print(XBCatalogServiceClient.langMessageEnum.values()[messageId]);
+             break;
+             }
+             case NAME: {
+             System.out.print(XBCatalogServiceClient.nameMessageEnum.values()[messageId]);
+             break;
+             }
+             case NODE: {
+             System.out.print(XBCatalogServiceClient.nodeMessageEnum.values()[messageId]);
+             break;
+             }
+             case SPEC: {
+             System.out.print(XBCatalogServiceClient.specMessageEnum.values()[messageId]);
+             break;
+             }
+             case REV: {
+             System.out.print(XBCatalogServiceClient.revMessageEnum.values()[messageId]);
+             break;
+             }
+             default: {
+             System.out.print(messageId);
+             break;
+             }
+             }
+             } else System.out.print(messageType + ", " + messageId);
+             System.out.println(")"); */
             try {
                 this.socket = socket;
                 input = new XBPullReader(socket.getInputStream());
@@ -196,21 +195,21 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
 //            XBTTypeFixingFilter encapsulator = new XBTTypeFixingFilter(new XBL1Context(getCatalog(),decl));
             encapsulator.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(output))); // new MyXBL0EventListener(new XBTToXBEventConvertor(
 
-/*            source = new XBL1StreamChecker(new XBL0ToL1StreamConvertor(new XBPullReader(xbService.getInputStream())));
-            target = new XBTTypeFixingFilter(new XBServiceContext());
-            OutputStream oStream = xbService.getOutputStream();
-            XBPullWriter.writeXBUPHead(oStream);
-            ((XBTTypeFixingFilter) target).attachXBTListener(XBTDefaultEventListener.toXBTListener(new MyXBL1EventListener(new XBTToXBEventConvertor(new XBPullWriter(oStream)))));
-            target.beginXBT(false); */
+            /*            source = new XBL1StreamChecker(new XBL0ToL1StreamConvertor(new XBPullReader(xbService.getInputStream())));
+             target = new XBTTypeFixingFilter(new XBServiceContext());
+             OutputStream oStream = xbService.getOutputStream();
+             XBPullWriter.writeXBUPHead(oStream);
+             ((XBTTypeFixingFilter) target).attachXBTListener(XBTDefaultEventListener.toXBTListener(new MyXBL1EventListener(new XBTToXBEventConvertor(new XBPullWriter(oStream)))));
+             target.beginXBT(false); */
         }
 
         @Override
-        public XBTokenOutputStream getXBOutputStream() {
+        public XBEventListener getXBOutputStream() {
             return output;
         }
 
         @Override
-        public XBTokenInputStream getXBInputStream() {
+        public XBPullProvider getXBInputStream() {
             return input;
         }
 
@@ -220,8 +219,8 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
         }
 
         @Override
-        public XBStreamChecker getXBInput() {
-            return new MyChecker(input);
+        public XBMatchingProvider getXBInput() {
+            return new MyChecker(new XBPullProviderToProvider(input));
         }
 
         @Override
@@ -234,84 +233,83 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
         }
     }
 
-/*    public String getHost() {
-        return host;
-    }
+    /*    public String getHost() {
+     return host;
+     }
 
-    public int getPort() {
-        return port;
-    } */
-
-    private class MyChecker extends XBStreamChecker {
+     public int getPort() {
+     return port;
+     } */
+    private class MyChecker extends XBDefaultMatchingProvider {
 
         private boolean headChecked;
 
-        public MyChecker(XBTokenInputStream stream) {
+        public MyChecker(XBProvider stream) {
             super(stream);
             headChecked = false;
         }
 
         @Override
-        public XBAttribute attribXB() throws XBProcessingException, IOException {
+        public XBAttribute matchAttribXB() throws XBProcessingException, IOException {
             if (!headChecked) {
                 checkHead();
             }
-            return super.attribXB();
+            return super.matchAttribXB();
         }
 
         @Override
-        public void attribXB(XBAttribute value) throws XBProcessingException, IOException {
+        public void matchAttribXB(XBAttribute value) throws XBProcessingException, IOException {
             if (!headChecked) {
                 checkHead();
             }
-            super.attribXB(value);
+            super.matchAttribXB(value);
         }
 
         @Override
-        public XBBlockTerminationMode beginXB() throws XBProcessingException, IOException {
+        public XBBlockTerminationMode matchBeginXB() throws XBProcessingException, IOException {
             if (!headChecked) {
                 checkHead();
             }
-            return super.beginXB();
+            return super.matchBeginXB();
         }
 
         @Override
-        public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+        public void matchBeginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
             if (!headChecked) {
                 checkHead();
             }
-            super.beginXB(terminationMode);
+            super.matchBeginXB(terminationMode);
         }
 
         @Override
-        public InputStream dataXB() throws XBProcessingException, IOException {
+        public InputStream matchDataXB() throws XBProcessingException, IOException {
             if (!headChecked) {
                 checkHead();
             }
-            return super.dataXB();
+            return super.matchDataXB();
         }
 
         @Override
-        public void dataXB(InputStream data) throws XBProcessingException, IOException {
+        public void matchDataXB(InputStream data) throws XBProcessingException, IOException {
             if (!headChecked) {
                 checkHead();
             }
-            super.dataXB(data);
+            super.matchDataXB(data);
         }
 
         @Override
-        public void endXB() throws XBProcessingException, IOException {
+        public void matchEndXB() throws XBProcessingException, IOException {
             if (!headChecked) {
                 checkHead();
             }
-            super.endXB();
+            super.matchEndXB();
         }
 
         private void checkHead() {
             try {
-                super.beginXB();
-                super.attribXB(new UBNat32(0));
-                super.attribXB(new UBNat32(0));
+                super.matchBeginXB();
+                super.matchAttribXB(new UBNat32(0));
+                super.matchAttribXB(new UBNat32(0));
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(XBCatalogNetServiceClient.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -319,8 +317,11 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
         }
     }
 
-    /** TODO: This is class skiping some end events (except first) as temporary patch for improper implementation */
-    private class MyXBOutputStream extends XBTokenOutputStream {
+    /**
+     * TODO: This is class skiping some end events (except first) as temporary
+     * patch for improper implementation
+     */
+    private class MyXBOutputStream implements XBEventListener {
 
         private final XBEventListener listener;
         private long depth;
@@ -350,62 +351,52 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
 
             listener.putXBToken(token);
         }
-
-        @Override
-        public void close() throws IOException {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public void flush() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
     }
 
     /*
-    private class MyXBTConversible implements XBTConversible {
+     private class MyXBTConversible implements XBTConversible {
 
-        private long[] procedureId;
+     private long[] procedureId;
 
-        public MyXBTConversible(long[] procedureId) {
-            this.procedureId = procedureId;
-        }
+     public MyXBTConversible(long[] procedureId) {
+     this.procedureId = procedureId;
+     }
 
-        @Override
-        public XBTProvider convertToXBT() {
-            return new XBTProvider() {
+     @Override
+     public XBTProvider convertToXBT() {
+     return new XBTProvider() {
 
-                public void attachXBTListener(XBTListener listener) {
-                    // TODO
-                    try {
-                        listener.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                        listener.typeXBT(new XBDBlockType(new XBCPBlockDecl(procedureId)));
-                    } catch (XBProcessingException | IOException ex) {
-                        Logger.getLogger(XBCatalogNetServiceClient.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
+     public void attachXBTListener(XBTListener listener) {
+     // TODO
+     try {
+     listener.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
+     listener.typeXBT(new XBDBlockType(new XBCPBlockDecl(procedureId)));
+     } catch (XBProcessingException | IOException ex) {
+     Logger.getLogger(XBCatalogNetServiceClient.class.getName()).log(Level.SEVERE, null, ex);
+     }
+     }
 
-                private int position = 0;
+     private int position = 0;
                 
-                @Override
-                public void produceXBT(XBTListener listener) {
-                    try {
-                        switch (position) {
-                            case 0: {
-                                listener.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                                break;
-                            }
-                            case 1: {
-                                listener.typeXBT(new XBDBlockType(new XBCPBlockDecl(procedureId)));
-                                break;
-                            }
-                        }
-                        position++;
-                    } catch (XBProcessingException | IOException ex) {
-                        Logger.getLogger(XBCatalogNetServiceClient.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            };
-        }
-    } */
+     @Override
+     public void produceXBT(XBTListener listener) {
+     try {
+     switch (position) {
+     case 0: {
+     listener.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
+     break;
+     }
+     case 1: {
+     listener.typeXBT(new XBDBlockType(new XBCPBlockDecl(procedureId)));
+     break;
+     }
+     }
+     position++;
+     } catch (XBProcessingException | IOException ex) {
+     Logger.getLogger(XBCatalogNetServiceClient.class.getName()).log(Level.SEVERE, null, ex);
+     }
+     }
+     };
+     }
+     } */
 }

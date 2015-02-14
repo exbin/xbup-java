@@ -32,7 +32,7 @@ import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.event.XBEventListener;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
-import org.xbup.lib.core.util.CopyStreamUtils;
+import org.xbup.lib.core.util.StreamUtils;
 
 /**
  * Token writer to convert passed tokens into data stream.
@@ -203,7 +203,7 @@ public class XBTokenBuffer implements XBEventListener {
                         streamWrapper = stream;
                     }
 
-                    CopyStreamUtils.copyInputStreamToOutputStream(((XBDataToken) bufferToken).getData(), streamWrapper);
+                    StreamUtils.copyInputStreamToOutputStream(((XBDataToken) bufferToken).getData(), streamWrapper);
                     break;
                 }
 

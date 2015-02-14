@@ -35,15 +35,17 @@ import org.xbup.lib.core.parser.token.XBTDataToken;
 import org.xbup.lib.core.parser.token.XBTEndToken;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBToken;
-import org.xbup.lib.core.stream.XBTokenInputStream;
+import org.xbup.lib.core.stream.XBFinishedStream;
+import org.xbup.lib.core.stream.XBResetableStream;
+import org.xbup.lib.core.stream.XBSkipableStream;
 
 /**
  * XBUP level 1 pull reader.
  *
- * @version 0.1.23 2014/02/22
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTPullProvider {
+public class XBTPullReader implements XBTPullProvider, XBResetableStream, XBSkipableStream, XBFinishedStream, Closeable {
 
     private final XBPullReader pullReader;
 
@@ -75,14 +77,14 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
      * Resets source and all parsing properties.
      */
     private void resetParser() {
-        pullReader.reset();
+        pullReader.resetXB();
         typeMap.clear();
         currentContext = catalog.getRootContext();
         typeTarget.clear();
     }
 
     @Override
-    public void reset() {
+    public void resetXB() {
         resetParser();
     }
 
@@ -102,15 +104,25 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
     }
 
     @Override
-    public boolean finished() throws IOException {
+    public boolean isFinishedXB() throws IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void skip(long tokenCount) throws XBProcessingException, IOException {
+    public void skipXB(long tokenCount) throws XBProcessingException, IOException {
         for (long i = 0; i < tokenCount; i++) {
             pullXBToken();
         }
+    }
+
+    @Override
+    public void skipChildXB(long childBlocksCount) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void skipAttributesXB(long childBlocksCount) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
@@ -125,11 +137,10 @@ public class XBTPullReader extends XBTokenInputStream implements Closeable, XBTP
     /**
      * Overrides handlings for level 0 pull processing.
      *
-     * @return Next XBEvent
+     * @return token
      * @throws IOException
      */
-    @Override
-    public XBToken pullXBToken() throws IOException, XBProcessingException {
+    private XBToken pullXBToken() throws IOException, XBProcessingException {
         XBToken item = pullReader.pullXBToken();
         switch (item.getTokenType()) {
             case BEGIN: {

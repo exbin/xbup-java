@@ -19,14 +19,14 @@ package org.xbup.lib.client.catalog.remote;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.XBCatalogServiceMessage;
+import org.xbup.lib.core.block.definition.XBParamType;
+import org.xbup.lib.core.catalog.base.XBCSpecDef;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
+import org.xbup.lib.core.parser.basic.XBMatchingProvider;
 import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.stream.XBStreamChecker;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -48,9 +48,9 @@ public class XBRSpecDef extends XBRItem implements XBCSpecDef {
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long ownerId = checker.attribXB().getLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long ownerId = checker.matchAttribXB().getLong();
+            checker.matchEndXB();
             message.close();
             if (ownerId == 0) return null;
             return new XBRItem(client, ownerId);
@@ -73,9 +73,9 @@ public class XBRSpecDef extends XBRItem implements XBCSpecDef {
             XBListener listener = message.getXBOutput();
             listener.attribXB(new UBNat32(getId()));
             listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long target = checker.attribXB().getNaturalLong();
-            checker.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long target = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
             message.close();
             if (target == 0) {
                 return null;

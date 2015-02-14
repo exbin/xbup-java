@@ -16,39 +16,38 @@
  */
 package org.xbup.lib.core.stream;
 
-import java.io.Closeable;
 import java.io.IOException;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 
 /**
- * Standard input stream for XBUP level 1 items.
+ * Interface for stream with skipable tokens.
  *
- * @version 0.1.23 2014/02/25
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
-public abstract class XBTInputTokenStream implements Closeable, XBTPullProvider {
-
-    /**
-     * Resets source - jump to beginning of stream.
-     *
-     * @throws IOException if not possible to reset
-     */
-    public abstract void reset() throws IOException;
-
-    /**
-     * Returns true if stream ended.
-     *
-     * @return true if stream ended
-     * @throws IOException if unable to determine stream end
-     */
-    public abstract boolean finished() throws IOException;
+public interface XBSkipableStream {
 
     /**
      * Skips given count of tokens in stream.
      *
      * @param tokenCount count of tokens
-     * @throws IOException
+     * @throws java.io.IOException if input/output error
      */
-    public abstract void skip(long tokenCount) throws XBProcessingException, IOException;
+    public void skipXB(long tokenCount) throws XBProcessingException, IOException;
+
+    /**
+     * Skips child blocks.
+     *
+     * @param childBlocksCount count of child blocks to skip
+     * @throws java.io.IOException if input/output error
+     */
+    public void skipChildXB(long childBlocksCount) throws XBProcessingException, IOException;
+
+    /**
+     * Skips child blocks.
+     *
+     * @param childBlocksCount count of child blocks to skip
+     * @throws java.io.IOException if input/output error
+     */
+    public void skipAttributesXB(long childBlocksCount) throws XBProcessingException, IOException;
 }

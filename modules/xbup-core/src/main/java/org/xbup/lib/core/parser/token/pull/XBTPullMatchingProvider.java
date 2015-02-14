@@ -14,30 +14,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.parser.basic.wrapper;
+package org.xbup.lib.core.parser.token.pull;
 
 import java.io.IOException;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.token.XBTToken;
+import org.xbup.lib.core.parser.token.XBTTokenType;
+import org.xbup.lib.core.stream.XBOutput;
 
 /**
- * Interface for seekable stream.
+ * XBUB level 1 pull provider interface.
  *
- * @version 0.1.25 2015/02/11
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
-public interface SeekableStream {
+public interface XBTPullMatchingProvider extends XBOutput {
 
     /**
-     * Moves position in stream to given position from the start of the stream.
+     * Pulls next token.
      *
-     * @param position target position
-     * @throws IOException if input/output error
+     * @param tokenType requesed token type
+     * @return next token
+     * @throws XBProcessingException
+     * @throws IOException
      */
-    public void seek(long position) throws IOException;
-
-    /**
-     * Returns length of stream.
-     *
-     * @return length of stream in bytes
-     */
-    public long getStreamSize();
+    public XBTToken pullXBTToken(XBTTokenType tokenType) throws XBProcessingException, IOException;
 }

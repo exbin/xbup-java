@@ -17,12 +17,17 @@
 package org.xbup.lib.core.stream;
 
 /**
- * XBUP level 0 output stream filter abstract class.
+ * Interface for method adding support for stream skipability.
  *
- * @version 0.1.19 2010/05/30
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
-public abstract class XBTokenOutputStreamFilter extends XBTokenOutputStream {
+public interface XBSkipableStreamMethod {
 
-    public abstract void setXBOutputStream(XBTokenOutputStream source);
+    /**
+     * Provides skipable stream class.
+     *
+     * @return skipability handler
+     */
+    public XBSkipableStream getSkipableStreamXB();
 }

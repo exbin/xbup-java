@@ -16,10 +16,12 @@
  */
 package org.xbup.lib.core.remote;
 
+import org.xbup.lib.core.block.XBBlockType;
+
 /**
- * XBUP level 1 RPC server interface.
+ * XBUP RPC server interface.
  *
- * @version 0.1.19 2010/06/04
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBRemoteServer {
@@ -27,14 +29,15 @@ public interface XBRemoteServer {
     /**
      * Registers procedure handling.
      *
+     * @param procedureType procedure type
      * @param procedure procedure handler to add
      */
-    public void addXBProcedure(XBProcedure procedure);
+    public void addXBProcedure(XBBlockType procedureType, XBProcedure procedure);
 
     /**
      * Unregisters procedure handling.
      *
-     * @param procedure procedure handler to remove
+     * @param procedureType procedure type
      */
-    public void removeXBProcedure(XBProcedure procedure);
+    public void removeXBProcedure(XBBlockType procedureType);
 }

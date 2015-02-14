@@ -17,14 +17,14 @@
 package org.xbup.lib.client;
 
 import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.stream.XBTokenInputStream;
-import org.xbup.lib.core.stream.XBTokenOutputStream;
-import org.xbup.lib.core.stream.XBStreamChecker;
+import org.xbup.lib.core.parser.basic.XBMatchingProvider;
+import org.xbup.lib.core.parser.token.event.XBEventListener;
+import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 
 /**
  * Catalog service message interface.
  *
- * @version 0.1.17 2009/06/07
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCatalogServiceMessage {
@@ -34,14 +34,14 @@ public interface XBCatalogServiceMessage {
      *
      * @return token output stream
      */
-    public XBTokenOutputStream getXBOutputStream();
+    public XBEventListener getXBOutputStream();
 
     /**
      * Gets input stream.
      *
      * @return token input stream
      */
-    public XBTokenInputStream getXBInputStream();
+    public XBPullProvider getXBInputStream();
 
     /**
      * Gets output listener.
@@ -55,7 +55,7 @@ public interface XBCatalogServiceMessage {
      *
      * @return input stream checker
      */
-    public XBStreamChecker getXBInput();
+    public XBMatchingProvider getXBInput();
 
     /**
      * Closes message.

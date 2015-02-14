@@ -34,15 +34,14 @@ import org.xbup.lib.core.parser.token.convert.XBTokenBuffer;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.parser.basic.wrapper.FinishableStream;
+import org.xbup.lib.core.stream.FinishableStream;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBEndToken;
 import org.xbup.lib.core.parser.token.XBToken;
-import org.xbup.lib.core.stream.XBTokenOutputStream;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
-import org.xbup.lib.core.util.CopyStreamUtils;
+import org.xbup.lib.core.util.StreamUtils;
 
 /**
  * Basic XBUP level 0 event writer - listener.
@@ -50,7 +49,7 @@ import org.xbup.lib.core.util.CopyStreamUtils;
  * @version 0.1.24 2015/01/18
  * @author XBUP Project (http://xbup.org)
  */
-public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBEventListener {
+public class XBEventWriter implements Closeable, XBEventListener {
 
     private XBParserState parserState;
     private XBParserMode parserMode = XBParserMode.FULL;
@@ -196,7 +195,7 @@ public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBE
                                 streamWrapper = new TerminatedDataOutputStreamWrapper(stream);
                             }
 
-                            CopyStreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), streamWrapper);
+                            StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), streamWrapper);
 
                             int dataPartSize = (int) ((FinishableStream) streamWrapper).finish();
                             shrinkStatus(sizeLimits, dataPartSize);
@@ -245,7 +244,7 @@ public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBE
                         // Write extended block if present
                         if (parserState == XBParserState.EXTENDED_AREA) {
                             if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED) {
-                                CopyStreamUtils.copyInputStreamToOutputStream(extendedArea.getData(), stream);
+                                StreamUtils.copyInputStreamToOutputStream(extendedArea.getData(), stream);
                             } else {
                                 throw new XBParseException("Extended data block present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
                             }
@@ -282,11 +281,6 @@ public class XBEventWriter extends XBTokenOutputStream implements Closeable, XBE
             stream.write(0);
             attributeList.clear();
         }
-    }
-
-    @Override
-    public void flush() throws IOException {
-        stream.flush();
     }
 
     /**

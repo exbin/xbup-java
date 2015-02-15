@@ -101,7 +101,6 @@ import org.xbup.lib.catalog.entity.service.XBEXNameService;
 import org.xbup.lib.catalog.entity.service.XBEXStriService;
 import org.xbup.lib.catalog.update.XBCUpdatePHPHandler;
 import org.xbup.lib.core.parser.basic.XBTMatchingProvider;
-import org.xbup.lib.core.remote.XBProcedureResultType;
 import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
 import org.xbup.lib.core.stream.XBInput;
 import org.xbup.lib.core.stream.XBOutput;
@@ -109,7 +108,7 @@ import org.xbup.lib.core.stream.XBOutput;
 /**
  * XBUP service server.
  *
- * @version 0.1.25 2015/02/14
+ * @version 0.1.25 2015/02/15
  * @author XBUP Project (http://xbup.org)
  */
 public class XBServiceServer extends XBTCPRemoteServer {
@@ -142,20 +141,18 @@ public class XBServiceServer extends XBTCPRemoteServer {
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.STOP_SERVICE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 source.matchEndXBT();
                 Logger.getLogger(XBServiceServer.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, myBundle.getString("stop_service"));
                 setStop(true);
-
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PING_SERVICE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 source.matchEndXBT();
@@ -163,14 +160,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(0));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.LOGIN_SERVICE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
 //            XBString loginName = new XBString();
@@ -187,14 +183,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(1)); // Ok
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.VERSION_INFO_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 source.matchEndXBT();
@@ -204,14 +199,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(1));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.OWNER_ITEM_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -232,14 +226,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(0));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.XBINDEX_ITEM_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -255,14 +248,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(0));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ITEMSCOUNT_ITEM_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -272,14 +264,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(itemService.getItemsCount()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ROOT_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
@@ -289,14 +280,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(nodeService.getRootNode().getId()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ROOT_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
@@ -307,14 +297,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(nodeService.getRoot().getId()));
                 result.attribXBT(new UBNat32(nodeService.getRoot().getLastUpdate().getTime()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.SUBNODE_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -333,14 +322,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(0));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.SUBNODES_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -357,14 +345,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(((XBENode) it.next()).getId()));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.SUBNODESCOUNT_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -377,14 +364,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(nodeService.getSubNodesCount(node)));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.SPEC_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -398,14 +384,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(((XBESpec) specService.getSpecByOrder(node, index)).getId())); // TODO: General spec has no xbIndex
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.SPECS_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -422,14 +407,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(((XBESpec) it.next()).getId()));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FORMATSPEC_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -452,14 +436,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(0));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FORMATSPECS_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -476,14 +459,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(((XBEFormatSpec) it.next()).getId()));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.GROUPSPEC_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -506,14 +488,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(0));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.GROUPSPECS_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -530,14 +511,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(((XBEGroupSpec) it.next()).getId()));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.BLOCKSPEC_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -560,14 +540,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(0));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.BLOCKSPECS_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -584,14 +563,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(((XBEBlockSpec) it.next()).getId()));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FINDOWNER_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
@@ -609,14 +587,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(owner.getId()));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PATHNODE_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -633,14 +610,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(itemPathSegment));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FINDNODE_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
@@ -660,14 +636,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(0));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.MAXSUBNODE_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -680,14 +655,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(nodeService.findMaxSubNodeXB(node)));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FINDBLOCKSPEC_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -710,14 +684,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(0));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.MAXBLOCKSPEC_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -730,14 +703,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(specService.findMaxBlockSpecXB(node)));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FINDGROUPSPEC_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -760,14 +732,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(0));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.MAXGROUPSPEC_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -780,14 +751,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(specService.findMaxGroupSpecXB(node)));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FINDFORMATSPEC_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -810,14 +780,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(0));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.MAXFORMATSPEC_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -830,14 +799,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(specService.findMaxFormatSpecXB(node)));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.SPECSCOUNT_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -850,14 +818,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(specService.getSpecsCount(node)));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.BLOCKSPECSCOUNT_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -870,14 +837,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(specService.getBlockSpecsCount(node)));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.GROUPSPECSCOUNT_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -890,14 +856,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(specService.getGroupSpecsCount(node)));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FORMATSPECSCOUNT_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -910,14 +875,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(specService.getFormatSpecsCount(node)));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.NODESCOUNT_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
@@ -927,14 +891,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(nodeService.getItemsCount()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.SUBNODESEQ_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -953,14 +916,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(0));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.SUBNODESEQCNT_NODE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -973,14 +935,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(nodeService.getSubNodesSeq(node)));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.BIND_SPEC_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -1004,14 +965,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     }
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.BINDS_SPEC_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -1027,14 +987,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(((XBESpecDef) it.next()).getId()));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.BINDSCOUNT_SPEC_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -1046,14 +1005,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(specService.getSpecDefsCount(spec)));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FINDBIND_SPEC_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -1080,14 +1038,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 }
                 result.attribXBT(new UBNat32(specDefType));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FINDREV_SPEC_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -1106,14 +1063,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(0));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FORMATSPECSCOUNT_SPEC_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -1123,14 +1079,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(specService.getAllFormatSpecsCount()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.GROUPSPECSCOUNT_SPEC_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -1140,14 +1095,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(specService.getAllGroupSpecsCount()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.BLOCKSPECSCOUNT_SPEC_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -1157,14 +1111,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(specService.getAllBlockSpecsCount()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.SPECSCOUNT_SPEC_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -1174,7 +1127,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(specService.getAllSpecsCount()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
@@ -1195,7 +1147,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.REVSCOUNT_SPEC_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -1208,14 +1160,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(revService.getRevsCount(spec)));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.REV_SPEC_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -1238,14 +1189,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     }
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.TARGET_BIND_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -1266,14 +1216,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(0));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.BINDSCOUNT_BIND_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
@@ -1283,14 +1232,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(specService.getItemsCount()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.XBLIMIT_REV_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -1311,14 +1259,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(1));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.REVSCOUNT_REV_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
@@ -1328,14 +1275,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(revService.getAllRevisionsCount()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.CODE_LANG_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -1351,14 +1297,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 text.serializeXB(handler);
 //                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.DEFAULT_LANG_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 source.matchEndXBT();
@@ -1367,14 +1312,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(((XBEXLanguage) ((XBEXLangService) getCatalog().getCatalogService(XBCXLangService.class)).getDefaultLang()).getId()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.LANGS_LANG_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 source.matchEndXBT();
@@ -1387,14 +1331,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(((XBEXLanguage) it.next()).getId()));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.LANGSCOUNT_LANG_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 source.matchEndXBT();
@@ -1403,14 +1346,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(((XBEXLangService) getCatalog().getCatalogService(XBCXLangService.class)).getItemsCount()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ITEM_NAME_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -1424,14 +1366,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(item.getId()));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.TEXT_NAME_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -1452,14 +1393,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 text.serializeXB(handler);
 //                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.LANG_NAME_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -1473,14 +1413,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(lang.getId()));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ITEMNAME_NAME_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -1497,14 +1436,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(0));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.LANGNAME_NAME_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -1518,14 +1456,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(((XBEXName) ((XBEXNameService) getCatalog().getCatalogService(XBCXNameService.class)).getItemName(item, language)).getId()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ITEMNAMES_NAME_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -1541,14 +1478,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(((XBEXName) it.next()).getId()));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.NAMESCOUNT_NAME_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 source.matchEndXBT();
@@ -1557,14 +1493,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(((XBEXNameService) getCatalog().getCatalogService(XBCXNameService.class)).getItemsCount()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ITEM_DESC_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -1578,14 +1513,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(item.getId()));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.TEXT_DESC_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -1605,14 +1539,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 text.serializeXB(handler);
 //                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.LANG_DESC_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -1625,14 +1558,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 if (lang != null) {
                     result.attribXBT(new UBNat32(lang.getId()));
                 }
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ITEMDESC_DESC_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -1649,14 +1581,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(0));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.LANGNAME_DESC_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -1670,14 +1601,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(((XBEXDesc) ((XBEXDescService) getCatalog().getCatalogService(XBCXDescService.class)).getItemDesc(item, language)).getId()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ITEMDESCS_DESC_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -1693,14 +1623,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(((XBEXDesc) it.next()).getId()));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.DESCSCOUNT_DESC_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 source.matchEndXBT();
@@ -1709,14 +1638,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(((XBEXDescService) getCatalog().getCatalogService(XBCXDescService.class)).getItemsCount()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.NODE_INFO_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -1730,14 +1658,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 XBCXItemInfo info = infoService.getNodeInfo(node);
                 result.attribXBT(new UBNat32(info.getId()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.INFOSCOUNT_INFO_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEXInfoService infoService = (XBEXInfoService) catalog.getCatalogService(XBCXInfoService.class);
@@ -1747,14 +1674,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(infoService.getItemsCount()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FILENAME_INFO_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 /*            XBEInfoService infoService = (XBEInfoService) catalog.getCatalogService(XBCXInfoService.class);
@@ -1773,14 +1699,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                  producer.generateXBTEvents();
                  //                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
                  result.endXBT(); */
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PATH_INFO_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 /*            XBEInfoService infoService = (XBEInfoService) catalog.getCatalogService(XBCXInfoService.class);
@@ -1799,14 +1724,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                  producer.generateXBTEvents();
                  //                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
                  result.endXBT(); */
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.OWNER_FILE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -1817,14 +1741,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(file.getNode().getId()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FILENAME_FILE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -1845,14 +1768,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 text.serializeXB(handler);
 //                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.DATA_FILE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -1867,14 +1789,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.dataXBT(fileService.getFile(file));
                 result.endXBT();
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.OWNER_ICON_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -1886,14 +1807,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(icon.getParent().getId()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.MODE_ICON_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -1905,14 +1825,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(icon.getMode().getId()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.XBINDEX_ICON_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -1924,14 +1843,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(0)); // icon.getXBIndex()
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.DEFAULTITEM_ICON_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -1949,14 +1867,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(iconId));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FILE_ICON_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -1977,14 +1894,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32());
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.OWNER_PLUGIN_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -1996,14 +1912,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(plugin.getOwner().getId()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FILE_PLUGIN_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -2024,14 +1939,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32());
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.INDEX_PLUGIN_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -2043,14 +1957,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(plugin.getPluginIndex()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.LINEPLUGIN_PLUGIN_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -2062,14 +1975,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(plugLine.getPlugin().getId()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.LINEINDEX_PLUGIN_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -2081,14 +1993,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(plugLine.getLineIndex()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PANEPLUGIN_PLUGIN_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -2100,14 +2011,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(plugPane.getPlugin().getId()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PANEINDEX_PLUGIN_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -2119,14 +2029,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(plugPane.getPaneIndex()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.REV_LINE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -2138,14 +2047,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(blockLine.getBlockRev().getId()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PLUGIN_LINE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -2157,14 +2065,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(blockLine.getLine().getId()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PRIORITY_LINE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -2176,14 +2083,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(blockLine.getPriority()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.LINESCOUNT_LINE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 source.matchEndXBT();
@@ -2193,14 +2099,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(lineService.getAllLinesCount()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.REVLINE_LINE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
@@ -2219,14 +2124,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(blockLine.getId()));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PLUGLINESCOUNT_LINE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 source.matchEndXBT();
@@ -2236,14 +2140,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(lineService.getAllPlugLinesCount()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PLUGLINE_LINE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -2258,14 +2161,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(blockLine.getId()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.REV_PANE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -2277,14 +2179,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(blockPane.getBlockRev().getId()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PLUGIN_PANE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -2301,14 +2202,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32());
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PRIORITY_PANE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -2320,14 +2220,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(blockPane.getPriority()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PANESCOUNT_PANE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 source.matchEndXBT();
@@ -2337,14 +2236,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(paneService.getAllPanesCount()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.REVPANE_PANE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
@@ -2363,14 +2261,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(blockPane.getId()));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PLUGPANESCOUNT_PANE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 source.matchEndXBT();
@@ -2380,14 +2277,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(paneService.getAllPlugPanesCount()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PLUGPANE_PANE_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -2402,14 +2298,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(blockPane.getId()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ITEM_STRI_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -2423,14 +2318,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(item.getId()));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.TEXT_STRI_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -2451,14 +2345,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 text.serializeXB(handler);
 //                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.NODEPATH_STRI_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -2479,14 +2372,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 text.serializeXB(handler);
 //                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ITEMSTRI_STRI_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -2503,14 +2395,13 @@ public class XBServiceServer extends XBTCPRemoteServer {
                     result.attribXBT(new UBNat32(0));
                 }
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
 
         addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.STRISCOUNT_STRI_PROCEDURE)), new XBProcedure() {
 
             @Override
-            public XBProcedureResultType execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 source.matchEndXBT();
@@ -2519,7 +2410,6 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.attribXBT(new UBNat32(0));
                 result.attribXBT(new UBNat32(((XBEXStriService) getCatalog().getCatalogService(XBCXStriService.class)).getItemsCount()));
                 result.endXBT();
-                return XBProcedureResultType.OK;
             }
         });
     }

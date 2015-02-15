@@ -22,19 +22,21 @@ import org.xbup.lib.core.stream.XBInput;
 import org.xbup.lib.core.stream.XBOutput;
 
 /**
- * XBUP RPC procedure interface.
+ * XBUP RPC procedure interface with support for exceptions.
  *
  * @version 0.1.25 2015/02/15
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBProcedure extends XBExecutable {
+public interface XBProcedureEx extends XBExecutable {
 
     /**
      * Invocates procedure.
      *
      * @param parameters procedure parameters data
      * @param result procedure result data
+     * @param exception exception data
+     * @return procedure result type
      * @throws IOException if input/output error
      */
-    public void execute(XBOutput parameters, XBInput result) throws XBProcessingException, IOException;
+    public XBProcedureResultType execute(XBOutput parameters, XBInput result, XBInput exception) throws XBProcessingException, IOException;
 }

@@ -16,25 +16,11 @@
  */
 package org.xbup.lib.core.remote;
 
-import java.io.IOException;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.stream.XBInput;
-import org.xbup.lib.core.stream.XBOutput;
-
 /**
- * XBUP RPC procedure interface.
+ * Parent interface for XBUP-based executable interfaces.
  *
  * @version 0.1.25 2015/02/15
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBProcedure extends XBExecutable {
-
-    /**
-     * Invocates procedure.
-     *
-     * @param parameters procedure parameters data
-     * @param result procedure result data
-     * @throws IOException if input/output error
-     */
-    public void execute(XBOutput parameters, XBInput result) throws XBProcessingException, IOException;
+public interface XBExecutable {
 }

@@ -138,7 +138,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.panel.XBDocumentPanel;
 /**
  * XBDocEditor Main Frame.
  *
- * @version 0.1.24 2015/01/18
+ * @version 0.1.24 2015/02/16
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFrame, TextColorPanelFrame, TextFontPanelFrame {
@@ -327,6 +327,9 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                     try {
                         // Database Initialization
                         String derbyHome = System.getProperty("user.home") + "/.java/.userPrefs/" + preferences.absolutePath();
+                        if (devMode) {
+                            derbyHome += "-dev";
+                        }
                         System.setProperty("derby.system.home", derbyHome);
                         EntityManagerFactory emf = Persistence.createEntityManagerFactory("XBEditorPU");
                         EntityManager em = emf.createEntityManager();
@@ -364,29 +367,8 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
                                         catalog = createCatalog(emDrop);
                                         ((XBAECatalog) catalog).initCatalog();
                                         nodeService = (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
-                                        wsHandler = new XBCUpdatePHPHandler((XBAECatalog) catalog);
-                                        wsHandler.init();
-                                        wsHandler.getPort().getLanguageId("en");
+                                        performUpdate((XBERoot) nodeService.getRoot(), lastUpdate);
 
-                                        wsHandler.fireUsageEvent(false);
-                                        wsHandler.addWSListener(new XBCUpdateListener() {
-                                            private boolean toolBarVisibleTemp;
-
-                                            @Override
-                                            public void webServiceUsage(boolean status) {
-                                                if (status == true) {
-                                                    toolBarVisibleTemp = getStatusBar().isVisible();
-                                                    ((CardLayout) statusPanel.getLayout()).show(statusPanel, "updateCat");
-                                                    activityProgressBar.setString(resourceBundle.getString("main_updatecat") + "...");
-                                                    getStatusBar().setVisible(true);
-                                                } else {
-                                                    ((CardLayout) statusPanel.getLayout()).first(statusPanel);
-                                                    //                                statusBar.setVisible(toolBarVisibleTemp);
-                                                }
-                                            }
-                                        });
-                                        catalogRoot = nodeService.getRoot();
-                                        wsHandler.updateCatalog((XBERoot) catalogRoot, lastUpdate);
                                     }
                                     setConnectionStatus(ConnectionStatus.INTERNET);
                                 }
@@ -415,19 +397,44 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
             }
 
             private XBACatalog createCatalog(EntityManager em) {
-                XBACatalog catalog = new XBAECatalog(em);
+                XBACatalog createdCatalog = new XBAECatalog(em);
 
-                ((XBAECatalog) catalog).addCatalogService(XBCXLangService.class, new XBEXLangService((XBAECatalog) catalog));
-                ((XBAECatalog) catalog).addCatalogService(XBCXStriService.class, new XBEXStriService((XBAECatalog) catalog));
-                ((XBAECatalog) catalog).addCatalogService(XBCXNameService.class, new XBEXNameService((XBAECatalog) catalog));
-                ((XBAECatalog) catalog).addCatalogService(XBCXDescService.class, new XBEXDescService((XBAECatalog) catalog));
-                ((XBAECatalog) catalog).addCatalogService(XBCXFileService.class, new XBEXFileService((XBAECatalog) catalog));
-                ((XBAECatalog) catalog).addCatalogService(XBCXIconService.class, new XBEXIconService((XBAECatalog) catalog));
-                ((XBAECatalog) catalog).addCatalogService(XBCXPlugService.class, new XBEXPlugService((XBAECatalog) catalog));
-                ((XBAECatalog) catalog).addCatalogService(XBCXLineService.class, new XBEXLineService((XBAECatalog) catalog));
-                ((XBAECatalog) catalog).addCatalogService(XBCXPaneService.class, new XBEXPaneService((XBAECatalog) catalog));
-                ((XBAECatalog) catalog).addCatalogService(XBCXHDocService.class, new XBEXHDocService((XBAECatalog) catalog));
-                return catalog;
+                ((XBAECatalog) createdCatalog).addCatalogService(XBCXLangService.class, new XBEXLangService((XBAECatalog) createdCatalog));
+                ((XBAECatalog) createdCatalog).addCatalogService(XBCXStriService.class, new XBEXStriService((XBAECatalog) createdCatalog));
+                ((XBAECatalog) createdCatalog).addCatalogService(XBCXNameService.class, new XBEXNameService((XBAECatalog) createdCatalog));
+                ((XBAECatalog) createdCatalog).addCatalogService(XBCXDescService.class, new XBEXDescService((XBAECatalog) createdCatalog));
+                ((XBAECatalog) createdCatalog).addCatalogService(XBCXFileService.class, new XBEXFileService((XBAECatalog) createdCatalog));
+                ((XBAECatalog) createdCatalog).addCatalogService(XBCXIconService.class, new XBEXIconService((XBAECatalog) createdCatalog));
+                ((XBAECatalog) createdCatalog).addCatalogService(XBCXPlugService.class, new XBEXPlugService((XBAECatalog) createdCatalog));
+                ((XBAECatalog) createdCatalog).addCatalogService(XBCXLineService.class, new XBEXLineService((XBAECatalog) createdCatalog));
+                ((XBAECatalog) createdCatalog).addCatalogService(XBCXPaneService.class, new XBEXPaneService((XBAECatalog) createdCatalog));
+                ((XBAECatalog) createdCatalog).addCatalogService(XBCXHDocService.class, new XBEXHDocService((XBAECatalog) createdCatalog));
+                return createdCatalog;
+            }
+
+            private void performUpdate(XBERoot catalogRoot, Date lastUpdate) {
+                XBCUpdatePHPHandler wsHandler = new XBCUpdatePHPHandler((XBAECatalog) catalog);
+                wsHandler.init();
+                wsHandler.getPort().getLanguageId("en");
+
+                wsHandler.fireUsageEvent(false);
+                wsHandler.addWSListener(new XBCUpdateListener() {
+                    private boolean toolBarVisibleTemp;
+
+                    @Override
+                    public void webServiceUsage(boolean status) {
+                        if (status == true) {
+                            toolBarVisibleTemp = getStatusBar().isVisible();
+                            ((CardLayout) statusPanel.getLayout()).show(statusPanel, "updateCat");
+                            activityProgressBar.setString(resourceBundle.getString("main_updatecat") + "...");
+                            getStatusBar().setVisible(true);
+                        } else {
+                            ((CardLayout) statusPanel.getLayout()).first(statusPanel);
+                            //                                statusBar.setVisible(toolBarVisibleTemp);
+                        }
+                    }
+                });
+                wsHandler.updateCatalog(catalogRoot, lastUpdate);
             }
         });
         catInitThread.start();

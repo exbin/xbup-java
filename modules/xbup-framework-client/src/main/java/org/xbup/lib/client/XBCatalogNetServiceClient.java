@@ -132,50 +132,6 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
         private XBPullProvider input;
 
         private XBCatalogSocketMessage(Socket socket, long[] procedureId) {
-            /*            System.out.print("Message (");
-             if (messageType >= 0) {
-             System.out.print(XBCatalogServiceClient.messageTypeEnum.values()[messageType]);
-             System.out.print(", ");
-             switch (XBCatalogServiceClient.messageTypeEnum.values()[messageType]) {
-             case BIND: {
-             System.out.print(XBCatalogServiceClient.bindMessageEnum.values()[messageId]);
-             break;
-             }
-             case DESC: {
-             System.out.print(XBCatalogServiceClient.descMessageEnum.values()[messageId]);
-             break;
-             }
-             case ITEM: {
-             System.out.print(XBCatalogServiceClient.itemMessageEnum.values()[messageId]);
-             break;
-             }
-             case LANG: {
-             System.out.print(XBCatalogServiceClient.langMessageEnum.values()[messageId]);
-             break;
-             }
-             case NAME: {
-             System.out.print(XBCatalogServiceClient.nameMessageEnum.values()[messageId]);
-             break;
-             }
-             case NODE: {
-             System.out.print(XBCatalogServiceClient.nodeMessageEnum.values()[messageId]);
-             break;
-             }
-             case SPEC: {
-             System.out.print(XBCatalogServiceClient.specMessageEnum.values()[messageId]);
-             break;
-             }
-             case REV: {
-             System.out.print(XBCatalogServiceClient.revMessageEnum.values()[messageId]);
-             break;
-             }
-             default: {
-             System.out.print(messageId);
-             break;
-             }
-             }
-             } else System.out.print(messageType + ", " + messageId);
-             System.out.println(")"); */
             try {
                 this.socket = socket;
                 input = new XBPullReader(socket.getInputStream());

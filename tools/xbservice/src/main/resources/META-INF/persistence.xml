@@ -155,6 +155,8 @@
   </persistence-unit>
   <persistence-unit name="XBServiceDerbyPU-drop" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>org.xbup.lib.catalog.entity.XBEXUser</class>
+    <class>org.xbup.lib.catalog.entity.XBEXUserInfo</class>
     <class>org.xbup.lib.catalog.entity.XBEBlockCons</class>
     <class>org.xbup.lib.catalog.entity.XBEBlockJoin</class>
     <class>org.xbup.lib.catalog.entity.XBEBlockListCons</class>
@@ -177,6 +179,7 @@
     <class>org.xbup.lib.catalog.entity.XBELimitSpec</class>
     <class>org.xbup.lib.catalog.entity.XBERoot</class>
     <class>org.xbup.lib.catalog.entity.XBENode</class>
+    <class>org.xbup.lib.catalog.entity.XBENodeTree</class>
     <class>org.xbup.lib.catalog.entity.XBERev</class>
     <class>org.xbup.lib.catalog.entity.XBESpec</class>
     <class>org.xbup.lib.catalog.entity.XBESpecDef</class>
@@ -194,8 +197,6 @@
     <class>org.xbup.lib.catalog.entity.XBEXPlugPane</class>
     <class>org.xbup.lib.catalog.entity.XBEXPlugin</class>
     <class>org.xbup.lib.catalog.entity.XBEXStri</class>
-    <class>org.xbup.lib.catalog.entity.XBEXUser</class>
-    <class>org.xbup.lib.catalog.entity.XBEXUserInfo</class>
     <properties>
       <property name="javax.persistence.jdbc.password" value="app"/>
       <property name="javax.persistence.jdbc.user" value="app"/>

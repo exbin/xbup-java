@@ -43,7 +43,6 @@ public class XBRDefaultManager<T extends XBCBase> implements XBCManager<T> {
     protected XBRCatalog catalog;
     protected XBCatalogServiceClient client;
 
-    /** Creates a new instance */
     public XBRDefaultManager(XBRCatalog catalog) {
         this.catalog = catalog;
         this.client = catalog.getCatalogServiceClient();

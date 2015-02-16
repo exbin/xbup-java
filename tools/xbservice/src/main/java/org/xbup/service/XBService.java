@@ -58,12 +58,14 @@ import org.xbup.lib.catalog.entity.service.XBEXNameService;
 import org.xbup.lib.catalog.entity.service.XBEXPaneService;
 import org.xbup.lib.catalog.entity.service.XBEXPlugService;
 import org.xbup.lib.catalog.entity.service.XBEXStriService;
+import org.xbup.lib.catalog.update.XBCUpdatePHPHandler;
+import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.service.XBServiceServer;
 
 /**
  * Console class for XBUP framework service.
  *
- * @version 0.1.22 2013/08/31
+ * @version 0.1.25 2015/02/16
  * @author XBUP Project (http://xbup.org)
  */
 public class XBService {
@@ -154,6 +156,12 @@ public class XBService {
         Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, (myBundle.getString("init_catalog") + "..."));
         try {
             derbyMode = false;
+            // Database Initialization
+            String derbyHome = System.getProperty("user.home") + "/.java/.userPrefs/" + preferences.absolutePath();
+            if (devMode) {
+                derbyHome += "-dev";
+            }
+            System.setProperty("derby.system.home", derbyHome);
             EntityManagerFactory emf;
             try {
                 if (rootCatalogMode) {
@@ -236,19 +244,11 @@ public class XBService {
                     EntityManagerFactory emfDrop = Persistence.createEntityManagerFactory(derbyMode ? "XBServiceDerbyPU-drop" : "XBServicePU-drop");
                     EntityManager emDrop = emfDrop.createEntityManager();
                     emDrop.setFlushMode(FlushModeType.AUTO);
+                    catalog = (XBAECatalog) createCatalog(emDrop);
                     ((XBAECatalog) catalog).initCatalog();
-                    serviceHandler.getWsHandler().reinit();
+                    nodeService = (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
+                    performUpdate((XBERoot) nodeService.getRoot(), lastUpdate);
                 }
-
-                if (catalog.isShallInit()) {
-                    catalog.initCatalog();
-                }
-
-                serviceHandler.update();
-
-                XBERoot root = (XBERoot) nodeService.getRoot();
-                root.setLastUpdate(lastUpdate);
-                nodeService.persistRoot(root);
 
                 Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, "");
                 Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, myBundle.getString("done_update"));
@@ -261,5 +261,30 @@ public class XBService {
         } catch (IOException e) {
             Logger.getLogger(XBService.class.getName()).log(Level.WARNING, (myBundle.getString("init_service_failed") + ": " + e));
         }
+    }
+
+    private static XBACatalog createCatalog(EntityManager em) {
+        XBACatalog createdCatalog = new XBAECatalog(em);
+
+        ((XBAECatalog) createdCatalog).addCatalogService(XBCXLangService.class, new XBEXLangService((XBAECatalog) createdCatalog));
+        ((XBAECatalog) createdCatalog).addCatalogService(XBCXStriService.class, new XBEXStriService((XBAECatalog) createdCatalog));
+        ((XBAECatalog) createdCatalog).addCatalogService(XBCXNameService.class, new XBEXNameService((XBAECatalog) createdCatalog));
+        ((XBAECatalog) createdCatalog).addCatalogService(XBCXDescService.class, new XBEXDescService((XBAECatalog) createdCatalog));
+        ((XBAECatalog) createdCatalog).addCatalogService(XBCXFileService.class, new XBEXFileService((XBAECatalog) createdCatalog));
+        ((XBAECatalog) createdCatalog).addCatalogService(XBCXIconService.class, new XBEXIconService((XBAECatalog) createdCatalog));
+        ((XBAECatalog) createdCatalog).addCatalogService(XBCXPlugService.class, new XBEXPlugService((XBAECatalog) createdCatalog));
+        ((XBAECatalog) createdCatalog).addCatalogService(XBCXLineService.class, new XBEXLineService((XBAECatalog) createdCatalog));
+        ((XBAECatalog) createdCatalog).addCatalogService(XBCXPaneService.class, new XBEXPaneService((XBAECatalog) createdCatalog));
+        ((XBAECatalog) createdCatalog).addCatalogService(XBCXHDocService.class, new XBEXHDocService((XBAECatalog) createdCatalog));
+        return createdCatalog;
+    }
+
+    private static void performUpdate(XBERoot catalogRoot, Date lastUpdate) {
+        XBCUpdatePHPHandler wsHandler = new XBCUpdatePHPHandler((XBAECatalog) catalog);
+        wsHandler.init();
+        wsHandler.getPort().getLanguageId("en");
+
+        wsHandler.fireUsageEvent(false);
+        wsHandler.updateCatalog(catalogRoot, lastUpdate);
     }
 }

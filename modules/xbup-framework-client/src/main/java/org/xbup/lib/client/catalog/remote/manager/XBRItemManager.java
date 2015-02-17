@@ -31,7 +31,7 @@ import org.xbup.lib.core.remote.XBServiceClient;
 /**
  * Manager class for XBRItem catalog items.
  *
- * @version 0.1.21 2011/12/30
+ * @version 0.1.25 2015/02/17
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRItemManager extends XBRDefaultManager<XBRItem> implements XBCItemManager<XBRItem> {
@@ -51,9 +51,7 @@ public class XBRItemManager extends XBRDefaultManager<XBRItem> implements XBCIte
             checker.matchEndXB();
             message.close();
             return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;

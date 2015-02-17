@@ -35,7 +35,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Manager class for XBRItemInfo catalog items.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.25 2015/02/17
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRInfoManager extends XBRDefaultManager<XBRItemInfo> implements XBCXInfoManager<XBRItemInfo> {
@@ -55,10 +55,8 @@ public class XBRInfoManager extends XBRDefaultManager<XBRItemInfo> implements XB
             long infoId = checker.matchAttribXB().getNaturalLong();
             checker.matchEndXB();
             message.close();
-            return new XBRItemInfo(client,infoId);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+            return new XBRItemInfo(client, infoId);
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -75,9 +73,7 @@ public class XBRInfoManager extends XBRDefaultManager<XBRItemInfo> implements XB
             checker.matchEndXB();
             message.close();
             return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;

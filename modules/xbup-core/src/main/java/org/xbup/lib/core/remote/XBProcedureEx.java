@@ -33,8 +33,8 @@ public interface XBProcedureEx extends XBExecutable {
      * Invocates procedure.
      *
      * @param parameters procedure parameters data
-     * @param result procedure result data
-     * @param exception exception data
+     * @param result handler for procedure result data
+     * @param exception handler for exception data
      * @return procedure result type
      * @throws IOException if input/output error
      */

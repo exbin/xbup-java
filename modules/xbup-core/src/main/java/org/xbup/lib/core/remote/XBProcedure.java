@@ -33,7 +33,7 @@ public interface XBProcedure extends XBExecutable {
      * Invocates procedure.
      *
      * @param parameters procedure parameters data
-     * @param result procedure result data
+     * @param result handler for procedure result data
      * @throws IOException if input/output error
      */
     public void execute(XBOutput parameters, XBInput result) throws XBProcessingException, IOException;

@@ -35,9 +35,9 @@ import org.xbup.tool.editor.module.service_manager.XBServiceManagerFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
- * XBManager Login Dialog.
+ * XBManager login dialog.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.1.25 2015/02/19
  * @author XBUP Project (http://xbup.org)
  */
 public class ConnectionDialog extends javax.swing.JDialog {
@@ -124,12 +124,12 @@ public class ConnectionDialog extends javax.swing.JDialog {
 
         serviceLabel.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         serviceLabel.setText(bundle.getString("serviceLabel.text")); // NOI18N
-        serviceLabel.setBounds(100, 0, 480, 44);
-        jLayeredPane1.add(serviceLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.add(serviceLabel);
+        serviceLabel.setBounds(100, 0, 480, 43);
 
         logoImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/service_manager/resources/images/xbup_maskot4_small.png"))); // NOI18N
+        jLayeredPane2.add(logoImageLabel);
         logoImageLabel.setBounds(20, 0, 50, 80);
-        jLayeredPane2.add(logoImageLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         prereleaseWarningLabel.setText(bundle.getString("prereleaseWarningLabel.text")); // NOI18N
 
@@ -208,13 +208,16 @@ public class ConnectionDialog extends javax.swing.JDialog {
         getContentPane().add(connectionStatusPanel, java.awt.BorderLayout.SOUTH);
 
         loginPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("loginPanel.border.title"))); // NOI18N
+        loginPanel.setEnabled(false);
 
         usernameLabel.setText(bundle.getString("usernameLabel.text")); // NOI18N
+        usernameLabel.setEnabled(false);
 
         usernameTextField.setText("admin");
         usernameTextField.setEnabled(false);
 
         passwordLabel.setText(bundle.getString("passwordLabel.text")); // NOI18N
+        passwordLabel.setEnabled(false);
 
         passwordField.setEnabled(false);
 
@@ -386,8 +389,6 @@ public class ConnectionDialog extends javax.swing.JDialog {
         }
 
         okButton.setEnabled(false);
-        usernameTextField.setEnabled(false);
-        passwordField.setEnabled(false);
         service = new XBTCPServiceClient(connectionHost, connectionPort); // 22594 is 0x5842 (XB)
         statusModeLabel.setText("Connecting to server " + connectionHost + ":" + connectionPort);
         new Thread(new Runnable() {
@@ -420,8 +421,6 @@ public class ConnectionDialog extends javax.swing.JDialog {
                 }
 
                 okButton.setEnabled(true);
-                usernameTextField.setEnabled(true);
-                passwordField.setEnabled(true);
             }
         }).start();
     }//GEN-LAST:event_okButtonActionPerformed
@@ -451,13 +450,11 @@ public class ConnectionDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_connectionManageButtonActionPerformed
 
     private void anonymousRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anonymousRadioButtonActionPerformed
-        usernameTextField.setEnabled(false);
-        passwordField.setEnabled(false);
+        setLoginAccountEnabled(false);
     }//GEN-LAST:event_anonymousRadioButtonActionPerformed
 
     private void loginRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginRadioButtonActionPerformed
-        usernameTextField.setEnabled(true);
-        passwordField.setEnabled(true);
+        setLoginAccountEnabled(true);
     }//GEN-LAST:event_loginRadioButtonActionPerformed
 
     private void devDbLocalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_devDbLocalButtonActionPerformed
@@ -495,6 +492,14 @@ public class ConnectionDialog extends javax.swing.JDialog {
         setStatus(Color.GREEN, "Connected");
         WindowUtils.closeWindow(this);
     }//GEN-LAST:event_devDbCatalogDevButtonActionPerformed
+
+    private void setLoginAccountEnabled(boolean enabled) {
+        loginPanel.setEnabled(enabled);
+        usernameLabel.setEnabled(enabled);
+        usernameTextField.setEnabled(enabled);
+        passwordLabel.setEnabled(enabled);
+        passwordField.setEnabled(enabled);
+    }
 
     /**
      * @param args the command line arguments

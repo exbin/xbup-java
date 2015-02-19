@@ -23,6 +23,7 @@ import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
+import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.block.definition.XBFormatDef;
 import org.xbup.lib.core.block.definition.catalog.XBCFormatDef;
 import org.xbup.lib.core.catalog.XBCatalog;
@@ -55,22 +56,42 @@ public class XBCFormatDecl implements XBFormatDecl, XBPSequenceSerializable {
     }
 
     @Override
-    public List<XBGroupDecl> getGroupDecls() {
-        return formatSpecRev == null ? new ArrayList<XBGroupDecl>() : catalog.getGroups(formatSpecRev.getParent());
-    }
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
 
-    public XBCFormatRev getFormatSpec() {
-        return formatSpecRev;
+        if (obj instanceof XBCFormatDecl) {
+            final XBCFormatDecl other = (XBCFormatDecl) obj;
+            if (formatSpecRev == null || !this.formatSpecRev.equals(other.formatSpecRev)) {
+                return false;
+            }
+
+            return formatSpecRev.getId().equals(other.formatSpecRev.getId());
+        } else if (obj instanceof XBLFormatDecl) {
+            Long[] catalogPath = catalog.getSpecPath(formatSpecRev.getParent());
+            long[] objCatalogPath = ((XBLFormatDecl) obj).getCatalogPath();
+            if (objCatalogPath.length != catalogPath.length) {
+                return false;
+            }
+
+            for (int pathIndex = 0; pathIndex < catalogPath.length; pathIndex++) {
+                if (catalogPath[pathIndex] != objCatalogPath[pathIndex]) {
+                    return false;
+                }
+            }
+
+            return formatSpecRev.getXBIndex().equals(((XBLFormatDecl) obj).getRevision());
+        } else {
+            return false;
+        }
     }
 
     @Override
-    public XBFormatDef getFormatDef() {
-        return new XBCFormatDef(catalog, formatSpecRev.getParent());
-    }
-
-    @Override
-    public long getRevision() {
-        return formatSpecRev.getXBIndex();
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + (formatSpecRev != null ? formatSpecRev.hashCode() : 0);
+        return hash;
     }
 
     @Override
@@ -95,5 +116,24 @@ public class XBCFormatDecl implements XBFormatDecl, XBPSequenceSerializable {
             serializationHandler.putAttribute(new UBNat32(formatSpecRev.getXBIndex()));
         }
         serializationHandler.end();
+    }
+
+    @Override
+    public List<XBGroupDecl> getGroupDecls() {
+        return formatSpecRev == null ? new ArrayList<XBGroupDecl>() : catalog.getGroups(formatSpecRev.getParent());
+    }
+
+    public XBCFormatRev getFormatSpec() {
+        return formatSpecRev;
+    }
+
+    @Override
+    public XBFormatDef getFormatDef() {
+        return new XBCFormatDef(catalog, formatSpecRev.getParent());
+    }
+
+    @Override
+    public long getRevision() {
+        return formatSpecRev.getXBIndex();
     }
 }

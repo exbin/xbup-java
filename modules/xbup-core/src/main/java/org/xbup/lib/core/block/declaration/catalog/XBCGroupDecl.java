@@ -22,6 +22,7 @@ import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
+import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
 import org.xbup.lib.core.block.definition.XBGroupDef;
 import org.xbup.lib.core.block.definition.catalog.XBCGroupDef;
 import org.xbup.lib.core.catalog.XBCatalog;
@@ -49,8 +50,42 @@ public class XBCGroupDecl implements XBGroupDecl, XBPSequenceSerializable {
     }
 
     @Override
-    public List<XBBlockDecl> getBlockDecls() {
-        return catalog.getBlocks(groupSpecRev.getParent());
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (obj instanceof XBCGroupDecl) {
+            final XBCGroupDecl other = (XBCGroupDecl) obj;
+            if (groupSpecRev == null || !this.groupSpecRev.equals(other.groupSpecRev)) {
+                return false;
+            }
+
+            return groupSpecRev.getId().equals(other.groupSpecRev.getId());
+        } else if (obj instanceof XBLGroupDecl) {
+            Long[] catalogPath = catalog.getSpecPath(groupSpecRev.getParent());
+            long[] objCatalogPath = ((XBLGroupDecl) obj).getCatalogPath();
+            if (objCatalogPath.length != catalogPath.length) {
+                return false;
+            }
+
+            for (int pathIndex = 0; pathIndex < catalogPath.length; pathIndex++) {
+                if (catalogPath[pathIndex] != objCatalogPath[pathIndex]) {
+                    return false;
+                }
+            }
+
+            return groupSpecRev.getXBIndex().equals(((XBLGroupDecl) obj).getRevision());
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + (groupSpecRev != null ? groupSpecRev.hashCode() : 0);
+        return hash;
     }
 
     @Override
@@ -79,6 +114,11 @@ public class XBCGroupDecl implements XBGroupDecl, XBPSequenceSerializable {
 
     public XBCGroupRev getGroupSpec() {
         return groupSpecRev;
+    }
+
+    @Override
+    public List<XBBlockDecl> getBlockDecls() {
+        return catalog.getBlocks(groupSpecRev.getParent());
     }
 
     @Override

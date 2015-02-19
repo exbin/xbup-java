@@ -53,10 +53,6 @@ public class XBCBlockDecl implements XBBlockDecl, XBPSequenceSerializable {
             return false;
         }
 
-        if (!(obj instanceof XBBlockDecl)) {
-            return false;
-        }
-
         if (obj instanceof XBCBlockDecl) {
             final XBCBlockDecl other = (XBCBlockDecl) obj;
             if (blockSpecRev == null || !this.blockSpecRev.equals(other.blockSpecRev)) {

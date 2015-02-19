@@ -26,7 +26,6 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.text.DefaultEditorKit;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
@@ -42,7 +41,6 @@ import org.xbup.lib.catalog.entity.XBEXDesc;
 import org.xbup.lib.catalog.entity.XBEXName;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogEditItemDialog;
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
-import org.xbup.tool.editor.base.api.FileType;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
 import org.xbup.tool.editor.base.api.MenuManagement;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
@@ -51,7 +49,7 @@ import org.xbup.tool.editor.module.service_manager.panel.CatalogManagerPanelable
 /**
  * Catalog Specification Panel.
  *
- * @version 0.1.24 2014/12/12
+ * @version 0.1.25 2015/02/19
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogBrowserPanel extends javax.swing.JPanel implements ActivePanelActionHandling, CatalogManagerPanelable {
@@ -69,7 +67,6 @@ public class CatalogBrowserPanel extends javax.swing.JPanel implements ActivePan
     private XBCXStriService striService;
 
     private final Map<String, ActionListener> actionListenerMap = new HashMap<>();
-    public static final String YAML_FILE_TYPE = "CatalogItemsTreePanel.YamlFileType";
     private MenuManagement menuManagement;
 
     public CatalogBrowserPanel() {
@@ -359,36 +356,5 @@ public class CatalogBrowserPanel extends javax.swing.JPanel implements ActivePan
 
     private void updateItem() {
         popupEditMenuItem.setEnabled(currentItem != null);
-    }
-
-    public class YamlFileType extends FileFilter implements FileType {
-
-        @Override
-        public boolean accept(File f) {
-            if (f.isDirectory()) {
-                return true;
-            }
-
-            String extension = getExtension(f);
-            if (extension != null) {
-                if (extension.length() < 3) {
-                    return false;
-                }
-
-                return extension.length() >= 4 && "yaml".contains(extension.substring(0, 4));
-            }
-
-            return false;
-        }
-
-        @Override
-        public String getDescription() {
-            return "YAML File (*.yaml)";
-        }
-
-        @Override
-        public String getFileTypeId() {
-            return YAML_FILE_TYPE;
-        }
     }
 }

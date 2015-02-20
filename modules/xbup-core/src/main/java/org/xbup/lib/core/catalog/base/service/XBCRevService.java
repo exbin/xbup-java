@@ -23,7 +23,7 @@ import org.xbup.lib.core.catalog.base.XBCSpec;
 /**
  * Interface for XBCRev items service.
  *
- * @version 0.1.24 2014/01/05
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  * @param <T> revision class
  */
@@ -39,9 +39,17 @@ public interface XBCRevService<T extends XBCRev> extends XBCService<T> {
     public XBCRev findRevByXB(XBCSpec spec, long xbIndex);
 
     /**
-     * Gets Revision of given index.
+     * Gets maximum revision XB index for given specification.
      *
-     * @param id
+     * @param spec specification
+     * @return XB index
+     */
+    public long findMaxRevXB(XBCSpec spec);
+
+    /**
+     * Gets revision of given index.
+     *
+     * @param id database record index
      * @return revision
      */
     public XBCRev findRevById(long id);

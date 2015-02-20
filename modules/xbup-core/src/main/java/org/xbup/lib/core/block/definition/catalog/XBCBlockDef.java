@@ -48,7 +48,7 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 1 block definition.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCBlockDef implements XBBlockDef, XBPSequenceSerializable {
@@ -74,7 +74,7 @@ public class XBCBlockDef implements XBBlockDef, XBPSequenceSerializable {
     }
 
     @Override
-    public long getParamCount() {
+    public long getParamsCount() {
         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
         return specService.findMaxSpecDefXB(blockSpec);
     }
@@ -114,7 +114,7 @@ public class XBCBlockDef implements XBBlockDef, XBPSequenceSerializable {
                 return new XBBlockParamListJoin(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
             }
         }
-        
+
         throw new IllegalStateException("Unexpected specification definition type");
     }
 
@@ -122,7 +122,7 @@ public class XBCBlockDef implements XBBlockDef, XBPSequenceSerializable {
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
         serial.matchType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DEFINITION));
-        serial.join(null);
+        serial.join(new XBCRevisionDef(catalog, blockSpec));
         serial.listConsist(new XBListConsistSerializable() {
 
             private int position = 0;
@@ -130,7 +130,8 @@ public class XBCBlockDef implements XBBlockDef, XBPSequenceSerializable {
             @Override
             public UBENatural getSize() {
                 XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
-                return new UBENat32(specService.findMaxSpecDefXB(blockSpec));
+                Long maxSpecDefXB = specService.findMaxSpecDefXB(blockSpec);
+                return new UBENat32(maxSpecDefXB == null ? 0 : maxSpecDefXB);
             }
 
             @Override

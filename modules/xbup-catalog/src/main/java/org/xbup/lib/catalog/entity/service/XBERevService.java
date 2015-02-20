@@ -46,7 +46,7 @@ import org.xbup.lib.core.catalog.base.manager.XBCXStriManager;
 /**
  * Interface for XBERev items service.
  *
- * @version 0.1.24 2015/01/04
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
 @Service
@@ -98,6 +98,11 @@ public class XBERevService extends XBEDefaultService<XBERev> implements XBCRevSe
     @Override
     public long getRevsCount(XBCSpec spec) {
         return ((XBERevManager) itemManager).getRevsCount(spec);
+    }
+
+    @Override
+    public long findMaxRevXB(XBCSpec spec) {
+        return ((XBERevManager) itemManager).findMaxRevXB(spec);
     }
 
     @Override

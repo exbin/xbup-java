@@ -559,7 +559,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
 
                     case JOIN: {
                         ProcessingState joinState = new ProcessingState((XBCBlockDecl) blockParam.getBlockDecl());
-                        if (joinState.blockDecl.getBlockSpec() == null) {
+                        if (joinState.blockDecl.getBlockSpecRev() == null) {
                             parameterInfo.attributeCount++;
                         } else {
                             long revision = joinState.blockDecl.getRevision();
@@ -592,7 +592,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
                         parameterInfo.attributeCount++;
                         while (listSize > 0) {
                             ProcessingState joinState = new ProcessingState((XBCBlockDecl) blockParam.getBlockDecl());
-                            if (joinState.blockDecl.getBlockSpec() == null) {
+                            if (joinState.blockDecl.getBlockSpecRev() == null) {
                                 parameterInfo.attributeCount++;
                             } else {
                                 long revision = joinState.blockDecl.getRevision();

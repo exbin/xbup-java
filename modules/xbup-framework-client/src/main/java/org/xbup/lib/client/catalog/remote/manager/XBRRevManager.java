@@ -195,4 +195,9 @@ public class XBRRevManager extends XBRDefaultManager<XBRRev> implements XBCRevMa
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public Long findMaxRevXB(XBCSpec spec) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

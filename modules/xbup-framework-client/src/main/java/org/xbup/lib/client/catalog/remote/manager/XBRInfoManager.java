@@ -16,66 +16,34 @@
  */
 package org.xbup.lib.client.catalog.remote.manager;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.manager.XBCXInfoManager;
-import org.xbup.lib.client.XBCatalogServiceMessage;
-import org.xbup.lib.client.catalog.remote.XBRItem;
 import org.xbup.lib.client.catalog.remote.XBRItemInfo;
-import org.xbup.lib.client.catalog.remote.XBRNode;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.client.stub.XBPInfoStub;
 
 /**
  * Manager class for XBRItemInfo catalog items.
  *
- * @version 0.1.25 2015/02/17
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRInfoManager extends XBRDefaultManager<XBRItemInfo> implements XBCXInfoManager<XBRItemInfo> {
 
+    private final XBPInfoStub infoStub;
+
     public XBRInfoManager(XBRCatalog catalog) {
         super(catalog);
+        infoStub = new XBPInfoStub(client);
     }
 
     @Override
     public XBRItemInfo getNodeInfo(XBCNode node) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.NODE_INFO_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long infoId = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRItemInfo(client, infoId);
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return infoStub.getNodeInfo(node);
     }
 
     @Override
     public Long getAllInfosCount() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.INFOSCOUNT_INFO_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return infoStub.getAllInfosCount();
     }
 }

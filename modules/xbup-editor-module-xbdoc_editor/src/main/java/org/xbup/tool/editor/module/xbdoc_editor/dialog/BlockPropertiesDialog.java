@@ -291,7 +291,7 @@ public class BlockPropertiesDialog extends javax.swing.JDialog {
         String catalogLink = devMode ? "http://catalog-dev.xbup.org/" : "http://catalog.xbup.org/";
         XBBlockDecl decl = node.getBlockDecl();
         if (decl instanceof XBCBlockDecl) {
-            XBCBlockSpec spec = ((XBCBlockDecl) decl).getBlockSpec().getParent();
+            XBCBlockSpec spec = ((XBCBlockDecl) decl).getBlockSpecRev().getParent();
             catalogItemPanel.setCatalog(catalog);
             catalogItemPanel.setItem(spec);
             if (spec != null) {
@@ -368,7 +368,7 @@ public class BlockPropertiesDialog extends javax.swing.JDialog {
             if (blockDecl == null) {
                 return resourceBundle.getString("node_caption_undefined");
             }
-            XBCBlockSpec blockSpec = blockDecl.getBlockSpec().getParent();
+            XBCBlockSpec blockSpec = blockDecl.getBlockSpecRev().getParent();
             return nameService.getDefaultText(blockSpec);
         }
         if (blockType == null) {

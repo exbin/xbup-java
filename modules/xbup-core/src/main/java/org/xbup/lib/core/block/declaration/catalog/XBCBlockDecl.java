@@ -61,7 +61,7 @@ public class XBCBlockDecl implements XBBlockDecl, XBPSequenceSerializable {
 
             return blockSpecRev.getId().equals(other.blockSpecRev.getId());
         } else if (obj instanceof XBLBlockDecl) {
-            Long[] catalogPath = catalog.getSpecPath(getBlockSpec().getParent());
+            Long[] catalogPath = catalog.getSpecPath(getBlockSpecRev().getParent());
             long[] objCatalogPath = ((XBLBlockDecl) obj).getCatalogPath();
             if (objCatalogPath.length != catalogPath.length) {
                 return false;
@@ -97,7 +97,7 @@ public class XBCBlockDecl implements XBBlockDecl, XBPSequenceSerializable {
             }
             long revision = serializationHandler.pullLongAttribute();
             XBCBlockDecl blockDecl = (XBCBlockDecl) catalog.findBlockTypeByPath(catalogPath, (int) revision);
-            blockSpecRev = blockDecl == null ? null : blockDecl.getBlockSpec();
+            blockSpecRev = blockDecl == null ? null : blockDecl.getBlockSpecRev();
         } else {
             Long[] path = catalog.getSpecPath(blockSpecRev.getParent());
             serializationHandler.putAttribute(path.length - 1);
@@ -110,12 +110,12 @@ public class XBCBlockDecl implements XBBlockDecl, XBPSequenceSerializable {
         serializationHandler.end();
     }
 
-    public XBCBlockRev getBlockSpec() {
+    public XBCBlockRev getBlockSpecRev() {
         return blockSpecRev;
     }
 
-    public void setBlockSpec(XBCBlockRev blockSpec) {
-        this.blockSpecRev = blockSpec;
+    public void setBlockSpecRev(XBCBlockRev blockSpecRev) {
+        this.blockSpecRev = blockSpecRev;
     }
 
     @Override

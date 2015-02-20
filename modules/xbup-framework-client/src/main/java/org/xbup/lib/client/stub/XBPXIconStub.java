@@ -14,37 +14,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.tool.editor.base.api;
+package org.xbup.lib.client.stub;
+
+import org.xbup.lib.client.XBCatalogServiceClient;
 
 /**
- * Interface for application's panel.
+ * RPC stub class for XBRXIcon catalog items.
  *
  * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
-public interface ActivePanelUndoable {
+public class XBPXIconStub {
 
-    /**
-     * Returns if undo operation is available.
-     *
-     * @return true if undo possible
-     */
-    public Boolean canUndo();
+    private final XBCatalogServiceClient client;
 
-    /**
-     * Returns if redo operation is available.
-     *
-     * @return true if redo possible
-     */
-    public Boolean canRedo();
-
-    /**
-     * Performs undo.
-     */
-    public void performUndo();
-
-    /**
-     * Performs redo.
-     */
-    public void performRedo();
+    public XBPXIconStub(XBCatalogServiceClient client) {
+        this.client = client;
+    }
 }

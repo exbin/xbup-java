@@ -17,6 +17,12 @@
 package org.xbup.lib.core.catalog.base.service;
 
 import java.util.List;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
+import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
+import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
 import org.xbup.lib.core.catalog.base.XBCGroupSpec;
@@ -28,7 +34,7 @@ import org.xbup.lib.core.block.definition.XBParamType;
 /**
  * Interface for XBCSpec items service.
  *
- * @version 0.1.24 2014/10/19
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  * @param <T> specification entity
  */
@@ -314,4 +320,28 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param specDef definition to remove
      */
     public void removeItemDepth(XBCSpecDef specDef);
+
+    /**
+     * Converts catalog format declaration to local declaration with definition.
+     *
+     * @param formatDecl format specification
+     * @return local format declaration
+     */
+    public XBLFormatDecl getFormatDeclAsLocal(XBCFormatDecl formatDecl);
+
+    /**
+     * Converts catalog group declaration to local declaration with definition.
+     *
+     * @param groupDecl group specification
+     * @return local group declaration
+     */
+    public XBLGroupDecl getGroupDeclAsLocal(XBCGroupDecl groupDecl);
+
+    /**
+     * Converts catalog block declaration to local declaration with definition.
+     *
+     * @param blockDecl block specification
+     * @return local block declaration
+     */
+    public XBLBlockDecl getBlockDeclAsLocal(XBCBlockDecl blockDecl);
 }

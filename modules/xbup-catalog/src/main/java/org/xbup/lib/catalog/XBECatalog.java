@@ -362,7 +362,7 @@ public class XBECatalog implements XBCatalog {
                 }
             }
         } else if (group instanceof XBCGroupSpec) {
-            XBCGroupRev groupRev = ((XBCGroupDecl) group).getGroupSpec();
+            XBCGroupRev groupRev = ((XBCGroupDecl) group).getGroupSpecRev();
             List<XBBlockDecl> blocks = getBlocks(groupRev.getParent());
             Long limit = groupRev.getXBLimit();
             for (int blockId = 0; blockId < blocks.size() && blockId < limit; blockId++) {

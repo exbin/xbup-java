@@ -44,20 +44,28 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 local group definition.
  *
- * @version 0.1.25 2015/02/05
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBLRevisionDef implements XBRevisionDef, XBPSequenceSerializable, XBTBasicReceivingSerializable {
 
-    private final List<XBRevisionParam> revParams;
+    private List<XBRevisionParam> revParams;
 
     public XBLRevisionDef() {
         revParams = new ArrayList<>();
     }
 
+    public XBLRevisionDef(List<XBRevisionParam> revParams) {
+        this.revParams = revParams;
+    }
+
     @Override
     public List<XBRevisionParam> getRevParams() {
         return revParams;
+    }
+
+    public void setRevParams(List<XBRevisionParam> revParams) {
+        this.revParams = revParams;
     }
 
     @Override

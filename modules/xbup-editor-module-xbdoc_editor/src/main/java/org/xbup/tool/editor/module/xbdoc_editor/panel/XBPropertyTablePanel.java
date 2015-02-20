@@ -337,7 +337,7 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
             XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
             if (decl instanceof XBCBlockDecl) {
                 XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-                XBCBlockSpec spec = ((XBCBlockDecl) decl).getBlockSpec().getParent();
+                XBCBlockSpec spec = ((XBCBlockDecl) decl).getBlockSpecRev().getParent();
                 if (propertyThread != this) {
                     return;
                 }

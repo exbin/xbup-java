@@ -41,6 +41,12 @@ import org.xbup.lib.client.catalog.remote.XBRGroupSpec;
 import org.xbup.lib.client.catalog.remote.XBRSpec;
 import org.xbup.lib.client.catalog.remote.XBRSpecDef;
 import org.xbup.lib.client.catalog.remote.manager.XBRSpecManager;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
+import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
+import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
 
 /**
  * Interface for XBRSpec items service.
@@ -253,5 +259,20 @@ public class XBRSpecService extends XBRDefaultService<XBRSpec> implements XBCSpe
         }
 
         ((XBCSpecService) this).removeItem(specDef);
+    }
+
+    @Override
+    public XBLFormatDecl getFormatDeclAsLocal(XBCFormatDecl formatDecl) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBLGroupDecl getGroupDeclAsLocal(XBCGroupDecl groupDecl) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBLBlockDecl getBlockDeclAsLocal(XBCBlockDecl blockDecl) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

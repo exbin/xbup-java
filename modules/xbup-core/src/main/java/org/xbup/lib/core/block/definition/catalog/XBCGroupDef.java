@@ -49,7 +49,7 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 1 group definition.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCGroupDef implements XBGroupDef, XBPSequenceSerializable {
@@ -90,6 +90,12 @@ public class XBCGroupDef implements XBGroupDef, XBPSequenceSerializable {
         return convertParam(specDef);
     }
 
+    @Override
+    public long getParamsCount() {
+        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        return specService.findMaxSpecDefXB(groupSpec);
+    }
+
     public XBGroupParam convertParam(XBCSpecDef specDef) {
         switch (specDef.getType()) {
             case CONSIST: {
@@ -107,7 +113,7 @@ public class XBCGroupDef implements XBGroupDef, XBPSequenceSerializable {
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
         serial.matchType(new XBFixedBlockType(XBBasicBlockType.GROUP_DEFINITION));
-        serial.join(null);
+        serial.join(new XBCRevisionDef(catalog, groupSpec));
         serial.listConsist(new XBListConsistSerializable() {
 
             private int position = 0;

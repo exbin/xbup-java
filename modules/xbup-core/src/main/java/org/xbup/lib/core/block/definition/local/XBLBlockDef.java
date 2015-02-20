@@ -54,7 +54,7 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 1 local block definition.
  *
- * @version 0.1.25 2015/02/05
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBLBlockDef implements XBBlockDef, XBPSequenceSerializable, XBTBasicReceivingSerializable {
@@ -65,7 +65,7 @@ public class XBLBlockDef implements XBBlockDef, XBPSequenceSerializable, XBTBasi
     public XBLBlockDef() {
     }
 
-    public void setParams(List<XBBlockParam> params) {
+    public void setBlockParams(List<XBBlockParam> params) {
         this.blockParams = params;
     }
 
@@ -75,13 +75,17 @@ public class XBLBlockDef implements XBBlockDef, XBPSequenceSerializable, XBTBasi
     }
 
     @Override
-    public long getParamCount() {
+    public long getParamsCount() {
         return blockParams.size();
     }
 
     @Override
     public XBRevisionDef getRevisionDef() {
         return revisionDef;
+    }
+
+    public void setRevisionDef(XBLRevisionDef revisionDef) {
+        this.revisionDef = revisionDef;
     }
 
     @Override

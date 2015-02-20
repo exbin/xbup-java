@@ -22,10 +22,25 @@ import org.xbup.lib.core.serial.XBSerializable;
 /**
  * XBUP level 1 block definition interface.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBBlockDef extends XBSerializable {
+
+    /**
+     * Gets count of parameter's declarations.
+     *
+     * @return count of declarations
+     */
+    public long getParamsCount();
+
+    /**
+     * Returns block parameter of given index.
+     *
+     * @param paramIndex parameter index
+     * @return block parameter
+     */
+    public XBBlockParam getBlockParam(int paramIndex);
 
     /**
      * Gets list of parameters in order of appearance.
@@ -35,24 +50,9 @@ public interface XBBlockDef extends XBSerializable {
     public List<XBBlockParam> getBlockParams();
 
     /**
-     * Gets count of parameter's declarations.
-     *
-     * @return count of declarations
-     */
-    public long getParamCount();
-
-    /**
      * Gets revision definition.
      *
      * @return revision definition
      */
     public XBRevisionDef getRevisionDef();
-
-    /**
-     * Returns block parameter of given index.
-     *
-     * @param paramIndex parameter index
-     * @return block parameter
-     */
-    public XBBlockParam getBlockParam(int paramIndex);
 }

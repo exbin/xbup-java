@@ -22,10 +22,25 @@ import org.xbup.lib.core.serial.XBSerializable;
 /**
  * XBUP level 1 group definition interface.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBGroupDef extends XBSerializable {
+
+    /**
+     * Returns count of group parameters.
+     *
+     * @return count of group parameters
+     */
+    public long getParamsCount();
+
+    /**
+     * Returns group parameter of given index.
+     *
+     * @param paramIndex parameter index
+     * @return group parameter
+     */
+    public XBGroupParam getGroupParam(int paramIndex);
 
     /**
      * Gets list of group parameters.
@@ -40,12 +55,4 @@ public interface XBGroupDef extends XBSerializable {
      * @return revision definition
      */
     public XBRevisionDef getRevisionDef();
-
-    /**
-     * Returns group parameter of given index.
-     *
-     * @param paramIndex parameter index
-     * @return group parameter
-     */
-    public XBGroupParam getGroupParam(int paramIndex);
 }

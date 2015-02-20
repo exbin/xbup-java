@@ -718,7 +718,7 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
         if (decl == null) {
             return null;
         }
-        XBCBlockRev rev = decl.getBlockSpec();
+        XBCBlockRev rev = decl.getBlockSpecRev();
         if (rev == null) {
             return null;
         }
@@ -773,7 +773,7 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
         if (decl instanceof XBCBlockDecl) {
             XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
             XBCXLineService lineService = (XBCXLineService) catalog.getCatalogService(XBCXLineService.class);
-            XBCBlockSpec spec = ((XBCBlockDecl) decl).getBlockSpec().getParent();
+            XBCBlockSpec spec = ((XBCBlockDecl) decl).getBlockSpecRev().getParent();
             if (spec != null) {
                 long bindCount = specService.getSpecDefsCount(spec);
                 XBATreeParamExtractor paramExtractor = new XBATreeParamExtractor(srcNode, catalog);

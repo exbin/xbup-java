@@ -14,20 +14,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.service.remote.provider;
+package org.xbup.lib.service.skeleton;
 
 import org.xbup.lib.catalog.XBAECatalog;
 import org.xbup.lib.core.remote.XBRemoteServer;
 
 /**
- * Manager class for XBRLimit catalog items.
+ * RPC skeleton class for XBRLimit catalog items.
  *
- * @version 0.1.25 2015/02/18
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPLimiManager {
+public class XBPLimiSkeleton {
 
-    public static void registerProcedures(XBRemoteServer remoteServer, final XBAECatalog catalog) {
+    private final XBAECatalog catalog;
+
+    public XBPLimiSkeleton(XBAECatalog catalog) {
+        this.catalog = catalog;
+    }
+
+    public void registerProcedures(XBRemoteServer remoteServer) {
 
     }
 }

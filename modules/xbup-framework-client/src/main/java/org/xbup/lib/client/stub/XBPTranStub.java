@@ -14,20 +14,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.service.remote.provider;
+package org.xbup.lib.client.stub;
 
-import org.xbup.lib.catalog.XBAECatalog;
-import org.xbup.lib.core.remote.XBRemoteServer;
+import org.xbup.lib.client.XBCatalogServiceClient;
 
 /**
- * Manager class for XBRRev catalog items.
+ * RPC stub class for XBRRev catalog items.
  *
- * @version 0.1.25 2015/02/18
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPTranManager{
+public class XBPTranStub {
 
-    public static void registerProcedures(XBRemoteServer remoteServer, final XBAECatalog catalog) {
-        
+    private final XBCatalogServiceClient client;
+
+    public XBPTranStub(XBCatalogServiceClient client) {
+        this.client = client;
     }
 }

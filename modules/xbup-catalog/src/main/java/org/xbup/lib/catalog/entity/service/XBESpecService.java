@@ -17,6 +17,7 @@
 package org.xbup.lib.catalog.entity.service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,25 @@ import org.xbup.lib.catalog.entity.XBEGroupSpec;
 import org.xbup.lib.catalog.entity.XBESpec;
 import org.xbup.lib.catalog.entity.XBESpecDef;
 import org.xbup.lib.catalog.entity.manager.XBESpecManager;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
+import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
+import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
+import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
+import org.xbup.lib.core.block.definition.XBFormatParam;
+import org.xbup.lib.core.block.definition.XBFormatParamConsist;
+import org.xbup.lib.core.block.definition.XBFormatParamJoin;
+import org.xbup.lib.core.block.definition.XBGroupParam;
+import org.xbup.lib.core.block.definition.XBGroupParamConsist;
+import org.xbup.lib.core.block.definition.XBGroupParamJoin;
+import org.xbup.lib.core.block.definition.catalog.XBCBlockDef;
+import org.xbup.lib.core.block.definition.catalog.XBCFormatDef;
+import org.xbup.lib.core.block.definition.catalog.XBCGroupDef;
+import org.xbup.lib.core.block.definition.catalog.XBCRevisionDef;
+import org.xbup.lib.core.block.definition.local.XBLFormatDef;
+import org.xbup.lib.core.block.definition.local.XBLGroupDef;
+import org.xbup.lib.core.block.definition.local.XBLRevisionDef;
 import org.xbup.lib.core.catalog.base.XBCXDesc;
 import org.xbup.lib.core.catalog.base.XBCXHDoc;
 import org.xbup.lib.core.catalog.base.XBCXName;
@@ -47,9 +67,9 @@ import org.xbup.lib.core.catalog.base.manager.XBCXNameManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXStriManager;
 
 /**
- * Interface for XBESpec items service.
+ * Entity class for XBESpec items service.
  *
- * @version 0.1.24 2014/11/18
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
 @Service
@@ -270,5 +290,52 @@ public class XBESpecService extends XBEDefaultService<XBESpec> implements XBCSpe
         }
 
         ((XBCSpecService) this).removeItem(specDef);
+    }
+
+    @Override
+    public XBLFormatDecl getFormatDeclAsLocal(XBCFormatDecl formatDecl) {
+        XBLFormatDecl result = new XBLFormatDecl(getSpecXBPath(formatDecl.getFormatSpecRev().getParent()), (int) formatDecl.getRevision());
+        XBLFormatDef formatDef = new XBLFormatDef();
+        XBCFormatDef srcFormatDef = new XBCFormatDef(catalog, formatDecl.getFormatSpecRev().getParent());
+        List<XBFormatParam> formatParams = new ArrayList<>();
+        for (XBFormatParam formatParam : srcFormatDef.getFormatParams()) {
+            if (formatParam instanceof XBFormatParamConsist) {
+                formatParams.add(new XBFormatParamConsist(getGroupDeclAsLocal((XBCGroupDecl) ((XBFormatParamConsist) formatParam).getGroupDecl())));
+            } else if (formatParam instanceof XBFormatParamJoin) {
+                formatParams.add(new XBFormatParamJoin(getFormatDeclAsLocal((XBCFormatDecl) ((XBFormatParamJoin) formatParam).getFormatDecl())));
+            }
+        }
+
+        formatDef.setFormatParams(formatParams);
+        formatDef.setRevisionDef(new XBLRevisionDef(srcFormatDef.getRevisionDef().getRevParams()));
+        result.setFormatDef(formatDef);
+        return result;
+    }
+
+    @Override
+    public XBLGroupDecl getGroupDeclAsLocal(XBCGroupDecl groupDecl) {
+        XBLGroupDecl result = new XBLGroupDecl(getSpecXBPath(groupDecl.getGroupSpecRev().getParent()), (int) groupDecl.getRevision());
+        XBLGroupDef groupDef = new XBLGroupDef();
+        XBCGroupDef srcGroupDef = new XBCGroupDef(catalog, groupDecl.getGroupSpecRev().getParent());
+        List<XBGroupParam> groupParams = new ArrayList<>();
+        for (XBGroupParam groupParam : srcGroupDef.getGroupParams()) {
+            if (groupParam instanceof XBGroupParamConsist) {
+                groupParams.add(new XBGroupParamConsist(getBlockDeclAsLocal((XBCBlockDecl) ((XBGroupParamConsist) groupParam).getBlockDecl())));
+            } else if (groupParam instanceof XBFormatParamJoin) {
+                groupParams.add(new XBGroupParamJoin(getGroupDeclAsLocal((XBCGroupDecl) ((XBGroupParamJoin) groupParam).getGroupDecl())));
+            }
+        }
+
+        groupDef.setGroupParams(groupParams);
+        groupDef.setRevisionDef(new XBLRevisionDef(srcGroupDef.getRevisionDef().getRevParams()));
+        result.setGroupDef(groupDef);
+        return result;
+    }
+
+    @Override
+    public XBLBlockDecl getBlockDeclAsLocal(XBCBlockDecl blockDecl) {
+        XBLBlockDecl result = new XBLBlockDecl(getSpecXBPath(blockDecl.getBlockSpecRev().getParent()), (int) blockDecl.getRevision());
+        result.setBlockDef(new XBCBlockDef(catalog, blockDecl.getBlockSpecRev().getParent()));
+        return result;
     }
 }

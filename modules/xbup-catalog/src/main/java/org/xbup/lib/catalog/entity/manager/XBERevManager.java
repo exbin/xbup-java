@@ -33,7 +33,7 @@ import org.xbup.lib.catalog.entity.XBESpec;
 /**
  * XBUP catalog specification revision manager.
  *
- * @version 0.1.24 2015/01/05
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -70,6 +70,19 @@ public class XBERevManager extends XBEDefaultManager<XBERev> implements XBCRevMa
             query.setMaxResults(1);
             return (XBERev) query.getSingleResult();
         } catch (NoResultException ex) {
+            return null;
+        } catch (Exception ex) {
+            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    @Override
+    public Long findMaxRevXB(XBCSpec spec) {
+        try {
+            return (Long) em.createQuery("SELECT MAX(o.xbIndex) FROM XBRev as o WHERE o.parent.id = " + ((XBESpec) spec).getId()).getSingleResult();
+        } catch (NoResultException ex) {
+            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (Exception ex) {
             Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);

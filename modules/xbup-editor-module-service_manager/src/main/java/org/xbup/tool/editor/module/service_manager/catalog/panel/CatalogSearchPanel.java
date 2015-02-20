@@ -16,10 +16,10 @@
  */
 package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
+import org.xbup.tool.editor.module.service_manager.YamlFileType;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -33,7 +33,6 @@ import javax.persistence.EntityTransaction;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.text.DefaultEditorKit;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
@@ -49,15 +48,14 @@ import org.xbup.lib.catalog.entity.XBEXDesc;
 import org.xbup.lib.catalog.entity.XBEXName;
 import org.xbup.lib.catalog.yaml.XBCatalogYaml;
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
-import org.xbup.tool.editor.base.api.FileType;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
 import org.xbup.tool.editor.base.api.MenuManagement;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
 /**
- * Catalog Specification Panel.
+ * Catalog search panel.
  *
- * @version 0.1.24 2014/12/12
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePanelActionHandling {
@@ -79,7 +77,6 @@ public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePane
     private XBCXStriService striService;
 
     private final Map<String, ActionListener> actionListenerMap = new HashMap<>();
-    public static final String YAML_FILE_TYPE = "CatalogItemsTreePanel.YamlFileType";
     private MenuManagement menuManagement;
 
     public CatalogSearchPanel() {
@@ -357,57 +354,10 @@ public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePane
         return false;
     }
 
-    /**
-     * Gets the extension part of file name.
-     *
-     * @param file Source file
-     * @return extension part of file name
-     */
-    public static String getExtension(File file) {
-        String ext = null;
-        String str = file.getName();
-        int i = str.lastIndexOf('.');
-
-        if (i > 0 && i < str.length() - 1) {
-            ext = str.substring(i + 1).toLowerCase();
-        }
-        return ext;
-    }
-
     public void setMenuManagement(MenuManagement menuManagement) {
         this.menuManagement = menuManagement;
         menuManagement.insertMainPopupMenu(catalogTreePopupMenu, 4);
         searchPanel.setMenuManagement(menuManagement);
     }
 
-    public class YamlFileType extends FileFilter implements FileType {
-
-        @Override
-        public boolean accept(File f) {
-            if (f.isDirectory()) {
-                return true;
-            }
-
-            String extension = getExtension(f);
-            if (extension != null) {
-                if (extension.length() < 3) {
-                    return false;
-                }
-
-                return extension.length() >= 4 && "yaml".contains(extension.substring(0, 4));
-            }
-
-            return false;
-        }
-
-        @Override
-        public String getDescription() {
-            return "YAML File (*.yaml)";
-        }
-
-        @Override
-        public String getFileTypeId() {
-            return YAML_FILE_TYPE;
-        }
-    }
 }

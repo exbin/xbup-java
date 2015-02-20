@@ -14,37 +14,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.tool.editor.base.api;
+package org.xbup.lib.service.skeleton;
+
+import org.xbup.lib.catalog.XBAECatalog;
+import org.xbup.lib.core.remote.XBRemoteServer;
 
 /**
- * Interface for application's panel.
+ * RPC skeleton class for XBRXHDoc catalog items.
  *
  * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
-public interface ActivePanelUndoable {
+public class XBPXHDocSkeleton {
 
-    /**
-     * Returns if undo operation is available.
-     *
-     * @return true if undo possible
-     */
-    public Boolean canUndo();
+    private final XBAECatalog catalog;
 
-    /**
-     * Returns if redo operation is available.
-     *
-     * @return true if redo possible
-     */
-    public Boolean canRedo();
+    public XBPXHDocSkeleton(XBAECatalog catalog) {
+        this.catalog = catalog;
+    }
 
-    /**
-     * Performs undo.
-     */
-    public void performUndo();
+    public void registerProcedures(XBRemoteServer remoteServer) {
 
-    /**
-     * Performs redo.
-     */
-    public void performRedo();
+    }
 }

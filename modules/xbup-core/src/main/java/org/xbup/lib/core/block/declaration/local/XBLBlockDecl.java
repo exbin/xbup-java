@@ -313,6 +313,10 @@ public class XBLBlockDecl implements XBBlockDecl, XBPSequenceSerializable, XBTBa
         return blockDef;
     }
 
+    public void setBlockDef(XBBlockDef blockDef) {
+        this.blockDef = blockDef;
+    }
+
     public void setRevision(int revision) {
         this.revision = revision;
     }

@@ -114,7 +114,7 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
      */
     public String getCaption(XBBlockDecl blockDecl) {
         if (blockDecl instanceof XBCBlockDecl) {
-            XBCBlockSpec blockSpec = (XBCBlockSpec) ((XBCBlockDecl) blockDecl).getBlockSpec().getParent();
+            XBCBlockSpec blockSpec = (XBCBlockSpec) ((XBCBlockDecl) blockDecl).getBlockSpecRev().getParent();
             if (captionCache.containsKey(blockSpec.getId())) {
                 return captionCache.get(blockSpec.getId());
             }
@@ -127,7 +127,7 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
             // TOOD
             /* XBCBlockDecl blockDecl = (XBCBlockDecl) ((XBLBlockDecl) blockDecl).getBlockDecl();
              if (blockDecl != null) {
-             XBCBlockSpec blockSpec = blockDecl.getBlockSpec().getParent();
+             XBCBlockSpec blockSpec = blockDecl.getBlockSpecRev().getParent();
              if (captionCache.containsKey(blockSpec.getId())) {
              return captionCache.get(blockSpec.getId());
              }
@@ -150,7 +150,7 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
      */
     public ImageIcon getIcon(XBBlockDecl blockDecl) {
         if (blockDecl instanceof XBCBlockDecl) {
-            XBCBlockSpec blockSpec = (XBCBlockSpec) ((XBCBlockDecl) blockDecl).getBlockSpec().getParent();
+            XBCBlockSpec blockSpec = (XBCBlockSpec) ((XBCBlockDecl) blockDecl).getBlockSpecRev().getParent();
             if (iconCache.containsKey(blockSpec.getId())) {
                 return iconCache.get(blockSpec.getId());
             }
@@ -170,7 +170,7 @@ public class XBDocTreeCellRenderer extends DefaultTreeCellRenderer {
             // TODO
             /* XBCBlockDecl blockDecl = (XBCBlockDecl) ((XBDBlockType) blockDecl).getBlockDecl();
              if (blockDecl != null) {
-             XBCBlockSpec blockSpec = blockDecl.getBlockSpec().getParent();
+             XBCBlockSpec blockSpec = blockDecl.getBlockSpecRev().getParent();
              if (iconCache.containsKey(blockSpec.getId())) {
              return iconCache.get(blockSpec.getId());
              }

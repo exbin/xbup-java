@@ -130,4 +130,9 @@ public class XBRRevService extends XBRDefaultService<XBRRev> implements XBCRevSe
     public long getRevsLimitSum(XBCSpec spec, long revision) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public long findMaxRevXB(XBCSpec spec) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

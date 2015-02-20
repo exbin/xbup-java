@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.service.remote.provider;
+package org.xbup.lib.service.skeleton;
 
 import java.io.IOException;
 import org.xbup.lib.catalog.XBAECatalog;
@@ -41,14 +41,20 @@ import org.xbup.lib.core.stream.XBOutput;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * Manager class for XBRRev catalog items.
+ * RPC skeleton class for XBRRev catalog items.
  *
- * @version 0.1.25 2015/02/18
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPRevManager {
+public class XBPRevSkeleton {
 
-    public static void registerProcedures(XBRemoteServer remoteServer, final XBAECatalog catalog) {
+    private final XBAECatalog catalog;
+
+    public XBPRevSkeleton(XBAECatalog catalog) {
+        this.catalog = catalog;
+    }
+
+    public void registerProcedures(XBRemoteServer remoteServer) {
         remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.FINDREV_SPEC_PROCEDURE)), new XBProcedure() {
 
             @Override
@@ -73,7 +79,7 @@ public class XBPRevManager {
                 result.endXBT();
             }
         });
-        
+
         remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.REVSCOUNT_SPEC_PROCEDURE)), new XBProcedure() {
 
             @Override

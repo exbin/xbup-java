@@ -27,12 +27,19 @@ import org.xbup.lib.core.serial.param.XBSerializationMode;
 /**
  * XBUP level 1 revision parameter.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRevisionParam implements XBPSequenceSerializable {
 
     private long paramCount;
+
+    public XBRevisionParam() {
+    }
+
+    public XBRevisionParam(long paramCount) {
+        this.paramCount = paramCount;
+    }
 
     public long getParamCount() {
         return paramCount;

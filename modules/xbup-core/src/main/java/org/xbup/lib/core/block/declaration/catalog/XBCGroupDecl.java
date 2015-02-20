@@ -99,7 +99,7 @@ public class XBCGroupDecl implements XBGroupDecl, XBPSequenceSerializable {
             }
             long revision = serializationHandler.pullLongAttribute();
             XBCGroupDecl groupDecl = (XBCGroupDecl) catalog.findGroupTypeByPath(catalogPath, (int) revision);
-            groupSpecRev = groupDecl == null ? null : groupDecl.getGroupSpec();
+            groupSpecRev = groupDecl == null ? null : groupDecl.getGroupSpecRev();
         } else {
             Long[] path = catalog.getSpecPath(groupSpecRev.getParent());
             serializationHandler.putAttribute(path.length - 1);
@@ -112,8 +112,12 @@ public class XBCGroupDecl implements XBGroupDecl, XBPSequenceSerializable {
         serializationHandler.end();
     }
 
-    public XBCGroupRev getGroupSpec() {
+    public XBCGroupRev getGroupSpecRev() {
         return groupSpecRev;
+    }
+
+    public void setGroupSpecRev(XBCGroupRev groupSpecRev) {
+        this.groupSpecRev = groupSpecRev;
     }
 
     @Override

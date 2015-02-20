@@ -14,59 +14,56 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.audio.xbplugins;
+package org.xbup.tool.editor.module.service_manager;
 
 import java.io.File;
 import javax.swing.filechooser.FileFilter;
+import org.xbup.tool.editor.base.api.FileType;
 
 /**
- * Audio file type.
+ * XB file type.
  *
  * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
-public class AudioFileFilter extends FileFilter {
+public class XBFileType extends FileFilter implements FileType {
 
-    public static final String AUDIO_FILE_TYPE = "AudioFileFilter";
-    private String ext;
+    public static final String XB_FILE_TYPE = "XBFileType";
 
-    public AudioFileFilter(String ext) {
-        this.ext = ext;
+    public XBFileType() {
     }
 
     @Override
-    public boolean accept(File f) {
-        if (f.isDirectory()) {
+    public boolean accept(File file) {
+        if (file.isDirectory()) {
             return true;
         }
-
-        String extension = getExtension(f);
+        String extension = getExtension(file);
         if (extension != null) {
-            return extension.toLowerCase().equals(getExt());
+            return "xb".equals(extension);
         }
         return false;
     }
 
     @Override
     public String getDescription() {
-        return "Audio files " + getExt().toUpperCase() + " (*." + getExt() + ")";
+        return "XB File (*.xb)";
     }
 
+    @Override
     public String getFileTypeId() {
-        return AUDIO_FILE_TYPE + "." + ext;
+        return XB_FILE_TYPE;
     }
 
-    public String getExt() {
-        return ext;
-    }
-
-    public void setExt(String ext) {
-        this.ext = ext;
-    }
-
-    public static String getExtension(File f) {
+    /**
+     * Gets the extension part of file name.
+     *
+     * @param file Source file
+     * @return extension part of file name
+     */
+    public static String getExtension(File file) {
         String ext = null;
-        String str = f.getName();
+        String str = file.getName();
         int extPos = str.lastIndexOf('.');
 
         if (extPos > 0 && extPos < str.length() - 1) {
@@ -74,5 +71,4 @@ public class AudioFileFilter extends FileFilter {
         }
         return ext;
     }
-
 }

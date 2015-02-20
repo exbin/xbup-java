@@ -29,7 +29,7 @@ import java.util.EventListener;
 public interface ActivePanelActionHandling extends EventListener {
 
     /**
-     * Refreshed action statuses depending on active panel specific needs.
+     * Refreshes action statuses depending on active panel specific needs.
      *
      * @param component
      * @return true if action was performed, false means regular action should
@@ -38,7 +38,7 @@ public interface ActivePanelActionHandling extends EventListener {
     public boolean updateActionStatus(Component component);
 
     /**
-     * Refreshed action statuses as leaving active panel.
+     * Refreshes action statuses as leaving active panel.
      */
     public void releaseActionStatus();
 

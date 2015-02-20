@@ -16,44 +16,28 @@
  */
 package org.xbup.lib.client.catalog.remote.manager;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.manager.XBCItemManager;
-import org.xbup.lib.client.XBCatalogServiceMessage;
 import org.xbup.lib.client.catalog.remote.XBRItem;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
+import org.xbup.lib.client.stub.XBPItemStub;
 
 /**
  * Manager class for XBRItem catalog items.
  *
- * @version 0.1.25 2015/02/17
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRItemManager extends XBRDefaultManager<XBRItem> implements XBCItemManager<XBRItem> {
 
+    private final XBPItemStub itemStub;
+
     public XBRItemManager(XBRCatalog catalog) {
         super(catalog);
+        itemStub = new XBPItemStub(client);
     }
 
     @Override
     public long getItemsCount() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.ITEMSCOUNT_ITEM_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return itemStub.getItemsCount();
     }
 }

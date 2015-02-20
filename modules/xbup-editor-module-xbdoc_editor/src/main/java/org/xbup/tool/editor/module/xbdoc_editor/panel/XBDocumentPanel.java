@@ -704,7 +704,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
             XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
             XBCBlockDecl blockDecl = (XBCBlockDecl) node.getBlockDecl();
             if (blockDecl != null) {
-                XBCBlockSpec blockSpec = blockDecl.getBlockSpec().getParent();
+                XBCBlockSpec blockSpec = blockDecl.getBlockSpecRev().getParent();
                 return nameService.getDefaultText(blockSpec);
             }
         }

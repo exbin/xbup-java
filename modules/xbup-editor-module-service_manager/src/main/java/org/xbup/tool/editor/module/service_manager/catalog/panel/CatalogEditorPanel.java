@@ -16,13 +16,14 @@
  */
 package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
+import org.xbup.tool.editor.module.service_manager.YamlFileType;
 import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
@@ -37,7 +38,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
@@ -58,22 +58,39 @@ import org.xbup.lib.catalog.entity.XBEXDesc;
 import org.xbup.lib.catalog.entity.XBEXName;
 import org.xbup.lib.catalog.entity.service.XBEXNameService;
 import org.xbup.lib.catalog.yaml.XBCatalogYaml;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
+import org.xbup.lib.core.catalog.base.XBCBlockRev;
+import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.core.catalog.base.XBCFormatRev;
+import org.xbup.lib.core.catalog.base.XBCFormatSpec;
+import org.xbup.lib.core.catalog.base.XBCGroupRev;
+import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpec;
+import org.xbup.lib.core.catalog.base.service.XBCRevService;
+import org.xbup.lib.core.parser.basic.convert.XBTTypeFixingFilter;
+import org.xbup.lib.core.parser.token.event.XBEventWriter;
+import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
+import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
+import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
+import org.xbup.lib.core.serial.XBPSerialWriter;
+import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogAddItemDialog;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogEditItemDialog;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogNodesTreeModel.CatalogNodesTreeItem;
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
-import org.xbup.tool.editor.base.api.FileType;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
 import org.xbup.tool.editor.base.api.MenuManagement;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.module.service_manager.XBFileType;
 import org.xbup.tool.editor.module.service_manager.panel.CatalogManagerPanelable;
 
 /**
- * Catalog Specification Panel.
+ * Catalog editor panel.
  *
- * @version 0.1.24 2015/01/14
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePanelActionHandling, CatalogManagerPanelable {
@@ -90,12 +107,12 @@ public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePane
     // Cached values
     private XBCNodeService nodeService;
     private XBCSpecService specService;
+    private XBCRevService revService;
     private XBCXNameService nameService;
     private XBCXDescService descService;
     private XBCXStriService striService;
 
     private Map<String, ActionListener> actionListenerMap = new HashMap<>();
-    public static final String YAML_FILE_TYPE = "CatalogItemsTreePanel.YamlFileType";
     private MenuManagement menuManagement;
 
     public CatalogEditorPanel() {
@@ -392,21 +409,57 @@ public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePane
     private void popupExportItemMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupExportItemMenuItemActionPerformed
         if (currentItem != null) {
             JFileChooser exportFileChooser = new JFileChooser();
-            exportFileChooser.addChoosableFileFilter(new YamlFileType());
+            YamlFileType yamlFileType = new YamlFileType();
+            XBFileType xbFileType = new XBFileType();
+            exportFileChooser.addChoosableFileFilter(yamlFileType);
+            exportFileChooser.addChoosableFileFilter(xbFileType);
             exportFileChooser.setAcceptAllFileFilterUsed(true);
             if (exportFileChooser.showSaveDialog(WindowUtils.getFrame(this)) == JFileChooser.APPROVE_OPTION) {
-                FileWriter fileWriter;
-                try {
-                    fileWriter = new FileWriter(exportFileChooser.getSelectedFile().getAbsolutePath());
+                if (exportFileChooser.getFileFilter() == yamlFileType) {
+                    FileWriter fileWriter;
                     try {
-                        catalogYaml.exportCatalogItem(currentItem, fileWriter);
-                    } finally {
-                        fileWriter.close();
+                        fileWriter = new FileWriter(exportFileChooser.getSelectedFile().getAbsolutePath());
+                        try {
+                            catalogYaml.exportCatalogItem(currentItem, fileWriter);
+                        } finally {
+                            fileWriter.close();
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(CatalogEditorPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(CatalogEditorPanel.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(CatalogEditorPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } else if (exportFileChooser.getFileFilter() == xbFileType) {
+                    if (currentItem instanceof XBCSpec) {
+                        FileOutputStream output = null;
+                        try {
+                            output = new FileOutputStream(exportFileChooser.getSelectedFile().getAbsolutePath());
+                            long revision = revService.findMaxRevXB((XBCSpec) currentItem);
+                            XBCRev specRev = revService.findRevByXB((XBCSpec) currentItem, revision);
+                            XBSerializable decl
+                                    = currentItem instanceof XBCFormatSpec ? specService.getFormatDeclAsLocal(new XBCFormatDecl((XBCFormatRev) specRev, catalog))
+                                            : currentItem instanceof XBCGroupSpec ? specService.getGroupDeclAsLocal(new XBCGroupDecl((XBCGroupRev) specRev, catalog))
+                                                    : currentItem instanceof XBCBlockSpec ? specService.getBlockDeclAsLocal(new XBCBlockDecl((XBCBlockRev) specRev, catalog)) : null;
+                            XBTTypeFixingFilter typeProcessing = new XBTTypeFixingFilter(catalog);
+                            typeProcessing.attachXBTListener(new XBTEventListenerToListener(new XBTToXBEventConvertor(new XBEventWriter(output))));
+                            XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(typeProcessing));
+                            writer.write(decl);
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(CatalogEditorPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (IOException ex) {
+                            Logger.getLogger(CatalogEditorPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        } finally {
+                            if (output != null) {
+                                try {
+                                    output.close();
+                                } catch (IOException ex) {
+                                    Logger.getLogger(CatalogEditorPanel.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                        }
+                    } else {
+                        throw new UnsupportedOperationException("Not supported yet.");
+                    }
+                } else {
+                    throw new IllegalStateException("Unknown file type");
                 }
             }
         }
@@ -569,6 +622,7 @@ public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePane
 
         nodeService = catalog == null ? null : (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
         specService = catalog == null ? null : (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        revService = catalog == null ? null : (XBCRevService) catalog.getCatalogService(XBCRevService.class);
         nameService = catalog == null ? null : (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
         descService = catalog == null ? null : (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
         striService = catalog == null ? null : (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
@@ -668,23 +722,6 @@ public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePane
         return false;
     }
 
-    /**
-     * Gets the extension part of file name.
-     *
-     * @param file Source file
-     * @return extension part of file name
-     */
-    public static String getExtension(File file) {
-        String ext = null;
-        String str = file.getName();
-        int i = str.lastIndexOf('.');
-
-        if (i > 0 && i < str.length() - 1) {
-            ext = str.substring(i + 1).toLowerCase();
-        }
-        return ext;
-    }
-
     @Override
     public void setMenuManagement(MenuManagement menuManagement) {
         this.menuManagement = menuManagement;
@@ -702,36 +739,5 @@ public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePane
         popupExportItemMenuItem.setEnabled(currentItem != null);
         popupAddItemMenu.setEnabled(currentItem instanceof XBCNode);
         popupImportItemMenuItem.setEnabled(currentItem instanceof XBCNode);
-    }
-
-    public class YamlFileType extends FileFilter implements FileType {
-
-        @Override
-        public boolean accept(File f) {
-            if (f.isDirectory()) {
-                return true;
-            }
-
-            String extension = getExtension(f);
-            if (extension != null) {
-                if (extension.length() < 3) {
-                    return false;
-                }
-
-                return extension.length() >= 4 && "yaml".contains(extension.substring(0, 4));
-            }
-
-            return false;
-        }
-
-        @Override
-        public String getDescription() {
-            return "YAML File (*.yaml)";
-        }
-
-        @Override
-        public String getFileTypeId() {
-            return YAML_FILE_TYPE;
-        }
     }
 }

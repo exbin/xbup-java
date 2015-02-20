@@ -23,7 +23,7 @@ import org.xbup.lib.core.catalog.base.XBCSpec;
 /**
  * Interface for XBCRev catalog manager.
  *
- * @version 0.1.24 2015/01/04
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  * @param <T> revision entity
  */
@@ -37,6 +37,14 @@ public interface XBCRevManager<T extends XBCRev> extends XBCCatalogManager<T> {
      * @return revision
      */
     public XBCRev findRevByXB(XBCSpec spec, long xbIndex);
+
+    /**
+     * Gets maximum revision XB index for given specification.
+     *
+     * @param spec specification
+     * @return XB index
+     */
+    public Long findMaxRevXB(XBCSpec spec);
 
     /**
      * Finds revision of given index.

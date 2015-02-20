@@ -24,58 +24,39 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.catalog.base.XBCXPlugin;
-import org.xbup.lib.core.catalog.base.service.XBCItemService;
 import org.xbup.lib.core.catalog.base.service.XBCNodeService;
-import org.xbup.lib.core.catalog.base.service.XBCRevService;
-import org.xbup.lib.core.catalog.base.service.XBCXLineService;
-import org.xbup.lib.core.catalog.base.service.XBCXPaneService;
-import org.xbup.lib.core.catalog.base.service.XBCXPlugService;
-import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.remote.XBProcedure;
 import org.xbup.lib.core.remote.XBServiceClient;
 import org.xbup.lib.core.remote.XBTCPRemoteServer;
-import org.xbup.lib.core.type.XBString;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.catalog.XBAECatalog;
-import org.xbup.lib.catalog.entity.XBEBlockRev;
-import org.xbup.lib.catalog.entity.XBEItem;
-import org.xbup.lib.catalog.entity.XBEXBlockLine;
-import org.xbup.lib.catalog.entity.XBEXBlockPane;
-import org.xbup.lib.catalog.entity.XBEXPlugPane;
-import org.xbup.lib.catalog.entity.XBEXStri;
-import org.xbup.lib.catalog.entity.service.XBEItemService;
-import org.xbup.lib.catalog.entity.service.XBERevService;
-import org.xbup.lib.catalog.entity.service.XBEXStriService;
 import org.xbup.lib.catalog.update.XBCUpdatePHPHandler;
 import org.xbup.lib.core.parser.basic.XBTMatchingProvider;
-import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
 import org.xbup.lib.core.stream.XBInput;
 import org.xbup.lib.core.stream.XBOutput;
-import org.xbup.lib.service.remote.provider.XBPInfoManager;
-import org.xbup.lib.service.remote.provider.XBPItemManager;
-import org.xbup.lib.service.remote.provider.XBPNodeManager;
-import org.xbup.lib.service.remote.provider.XBPRevManager;
-import org.xbup.lib.service.remote.provider.XBPSpecManager;
-import org.xbup.lib.service.remote.provider.XBPXDescManager;
-import org.xbup.lib.service.remote.provider.XBPXFileManager;
-import org.xbup.lib.service.remote.provider.XBPXIconManager;
-import org.xbup.lib.service.remote.provider.XBPXLangManager;
-import org.xbup.lib.service.remote.provider.XBPXLineManager;
-import org.xbup.lib.service.remote.provider.XBPXNameManager;
-import org.xbup.lib.service.remote.provider.XBPXPaneManager;
-import org.xbup.lib.service.remote.provider.XBPXPlugManager;
-import org.xbup.lib.service.remote.provider.XBPXStriManager;
+import org.xbup.lib.service.skeleton.XBPInfoSkeleton;
+import org.xbup.lib.service.skeleton.XBPItemSkeleton;
+import org.xbup.lib.service.skeleton.XBPNodeSkeleton;
+import org.xbup.lib.service.skeleton.XBPRevSkeleton;
+import org.xbup.lib.service.skeleton.XBPSpecSkeleton;
+import org.xbup.lib.service.skeleton.XBPXDescSkeleton;
+import org.xbup.lib.service.skeleton.XBPXFileSkeleton;
+import org.xbup.lib.service.skeleton.XBPXIconSkeleton;
+import org.xbup.lib.service.skeleton.XBPXLangSkeleton;
+import org.xbup.lib.service.skeleton.XBPXLineSkeleton;
+import org.xbup.lib.service.skeleton.XBPXNameSkeleton;
+import org.xbup.lib.service.skeleton.XBPXPaneSkeleton;
+import org.xbup.lib.service.skeleton.XBPXPlugSkeleton;
+import org.xbup.lib.service.skeleton.XBPXStriSkeleton;
 
 /**
  * XBUP service server.
  *
- * @version 0.1.25 2015/02/18
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBServiceServer extends XBTCPRemoteServer {
@@ -168,22 +149,22 @@ public class XBServiceServer extends XBTCPRemoteServer {
                 result.endXBT();
             }
         });
-        
-        XBPItemManager.registerProcedures(this, catalog);
-        XBPNodeManager.registerProcedures(this, catalog);
-        XBPSpecManager.registerProcedures(this, catalog);
-        XBPRevManager.registerProcedures(this, catalog);
 
-        XBPXLangManager.registerProcedures(this, catalog);
-        XBPXNameManager.registerProcedures(this, catalog);
-        XBPXDescManager.registerProcedures(this, catalog);
-        XBPInfoManager.registerProcedures(this, catalog);
-        XBPXFileManager.registerProcedures(this, catalog);
-        XBPXIconManager.registerProcedures(this, catalog);
-        XBPXPlugManager.registerProcedures(this, catalog);
-        XBPXLineManager.registerProcedures(this, catalog);
-        XBPXPaneManager.registerProcedures(this, catalog);
-        XBPXStriManager.registerProcedures(this, catalog);
+        new XBPItemSkeleton(catalog).registerProcedures(this);
+        new XBPNodeSkeleton(catalog).registerProcedures(this);
+        new XBPSpecSkeleton(catalog).registerProcedures(this);
+        new XBPRevSkeleton(catalog).registerProcedures(this);
+
+        new XBPXLangSkeleton(catalog).registerProcedures(this);
+        new XBPXNameSkeleton(catalog).registerProcedures(this);
+        new XBPXDescSkeleton(catalog).registerProcedures(this);
+        new XBPInfoSkeleton(catalog).registerProcedures(this);
+        new XBPXFileSkeleton(catalog).registerProcedures(this);
+        new XBPXIconSkeleton(catalog).registerProcedures(this);
+        new XBPXPlugSkeleton(catalog).registerProcedures(this);
+        new XBPXLineSkeleton(catalog).registerProcedures(this);
+        new XBPXPaneSkeleton(catalog).registerProcedures(this);
+        new XBPXStriSkeleton(catalog).registerProcedures(this);
     }
 
     private static final String defaultBundle = "sun.util.logging.resources.logging";

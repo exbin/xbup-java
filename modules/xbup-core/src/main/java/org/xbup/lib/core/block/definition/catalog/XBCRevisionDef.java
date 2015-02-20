@@ -17,29 +17,28 @@
 package org.xbup.lib.core.block.definition.catalog;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
 import org.xbup.lib.core.block.definition.XBRevisionParam;
 import org.xbup.lib.core.catalog.XBCatalog;
+import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.serial.param.XBPInputSerialHandler;
-import org.xbup.lib.core.serial.param.XBPOutputSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
-import org.xbup.lib.core.serial.param.XBPSerializable;
-import org.xbup.lib.core.serial.sequence.XBListConsistSerializable;
-import org.xbup.lib.core.ubnumber.UBENatural;
-import org.xbup.lib.core.ubnumber.type.UBENat32;
+import org.xbup.lib.core.serial.sequence.XBListJoinSerializable;
+import org.xbup.lib.core.ubnumber.UBNatural;
+import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * XBUP level 1 revision definition.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCRevisionDef implements XBRevisionDef, XBPSequenceSerializable {
@@ -54,7 +53,20 @@ public class XBCRevisionDef implements XBRevisionDef, XBPSequenceSerializable {
 
     @Override
     public List<XBRevisionParam> getRevParams() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<XBRevisionParam> result = new ArrayList<>();
+        XBCRevService revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
+        for (XBCRev rev : (List<XBCRev>) revService.getRevs(spec)) {
+            result.add(new XBRevisionParam(rev.getXBLimit()));
+        }
+
+        return result;
+    }
+
+    public XBRevisionParam getRevParam(int position) {
+        XBCRevService revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
+        XBCRev rev = revService.getRev(spec, position);
+        XBRevisionParam revisionParam = new XBRevisionParam(rev.getXBLimit());
+        return revisionParam;
     }
 
     @Override
@@ -67,18 +79,18 @@ public class XBCRevisionDef implements XBRevisionDef, XBPSequenceSerializable {
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
         serial.matchType(new XBFixedBlockType(XBBasicBlockType.REVISION_DEFINITION));
-        serial.listJoin(new XBListConsistSerializable() {
+        serial.listJoin(new XBListJoinSerializable() {
 
             private int position = 0;
 
             @Override
-            public UBENatural getSize() {
+            public UBNatural getSize() {
                 XBCRevService revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
-                return new UBENat32(revService.getRevsCount(spec));
+                return new UBNat32(revService.getRevsCount(spec));
             }
 
             @Override
-            public void setSize(UBENatural count) {
+            public void setSize(UBNatural count) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
@@ -89,18 +101,9 @@ public class XBCRevisionDef implements XBRevisionDef, XBPSequenceSerializable {
 
             @Override
             public XBSerializable next() {
-                return new XBPSerializable() {
-
-                    @Override
-                    public void serializeFromXB(XBPInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                        throw new UnsupportedOperationException("Not supported yet.");
-                    }
-
-                    @Override
-                    public void serializeToXB(XBPOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                        throw new UnsupportedOperationException("Not supported yet.");
-                    }
-                };
+                XBRevisionParam revParam = getRevParam(position);
+                position++;
+                return revParam;
             }
         });
         serial.end();

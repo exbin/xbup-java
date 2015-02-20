@@ -50,8 +50,8 @@ public class XBCFormatDecl implements XBFormatDecl, XBPSequenceSerializable {
         this(null, new XBPCatalog());
     }
 
-    public XBCFormatDecl(XBCFormatRev formatSpec, XBCatalog catalog) {
-        this.formatSpecRev = formatSpec;
+    public XBCFormatDecl(XBCFormatRev formatSpecRev, XBCatalog catalog) {
+        this.formatSpecRev = formatSpecRev;
         this.catalog = catalog;
     }
 
@@ -105,7 +105,7 @@ public class XBCFormatDecl implements XBFormatDecl, XBPSequenceSerializable {
             }
             long revision = serializationHandler.pullLongAttribute();
             XBCFormatDecl format = (XBCFormatDecl) catalog.findFormatTypeByPath(catalogPath, (int) revision);
-            formatSpecRev = format == null ? null : format.getFormatSpec();
+            formatSpecRev = format == null ? null : format.getFormatSpecRev();
         } else {
             Long[] path = catalog.getSpecPath(formatSpecRev.getParent());
             serializationHandler.putAttribute(path.length - 1);
@@ -123,8 +123,12 @@ public class XBCFormatDecl implements XBFormatDecl, XBPSequenceSerializable {
         return formatSpecRev == null ? new ArrayList<XBGroupDecl>() : catalog.getGroups(formatSpecRev.getParent());
     }
 
-    public XBCFormatRev getFormatSpec() {
+    public XBCFormatRev getFormatSpecRev() {
         return formatSpecRev;
+    }
+
+    public void setFormatSpecRev(XBCFormatRev formatSpecRev) {
+        this.formatSpecRev = formatSpecRev;
     }
 
     @Override

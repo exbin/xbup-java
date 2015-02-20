@@ -63,7 +63,7 @@ public interface ApplicationFilePanel extends ApplicationPanel {
     public void newFile();
 
     /**
-     * Flag if file in this panel was modified since last saving.
+     * Returns flag if file in this panel was modified since last saving.
      *
      * @return true if file was modified
      */

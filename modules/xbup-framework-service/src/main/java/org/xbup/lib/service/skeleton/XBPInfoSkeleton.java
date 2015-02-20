@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.service.remote.provider;
+package org.xbup.lib.service.skeleton;
 
 import java.io.IOException;
 import org.xbup.lib.catalog.XBAECatalog;
@@ -38,14 +38,20 @@ import org.xbup.lib.core.stream.XBOutput;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * Manager class for XBRItemInfo catalog items.
+ * RPC skeleton class for XBRItemInfo catalog items.
  *
- * @version 0.1.25 2015/02/18
+ * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPInfoManager {
+public class XBPInfoSkeleton {
 
-    public static void registerProcedures(XBRemoteServer remoteServer, final XBAECatalog catalog) {
+    private final XBAECatalog catalog;
+
+    public XBPInfoSkeleton(XBAECatalog catalog) {
+        this.catalog = catalog;
+    }
+
+    public void registerProcedures(XBRemoteServer remoteServer) {
         remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.NODE_INFO_PROCEDURE)), new XBProcedure() {
 
             @Override

@@ -359,7 +359,7 @@ public class AddBlockDialog extends javax.swing.JDialog {
             if (contextTypeDialog.getDialogOption() == JOptionPane.OK_OPTION) {
                 contextBlockType = contextTypeDialog.getBlockType();
                 XBCBlockDecl blockDecl = (XBCBlockDecl) ((XBDeclBlockType) contextBlockType).getBlockDecl();
-                XBCBlockSpec blockSpec = blockDecl.getBlockSpec().getParent();
+                XBCBlockSpec blockSpec = blockDecl.getBlockSpecRev().getParent();
                 //new XBDeclBlockType(new XBCBlockDecl();
                 XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
                 String targetCaption = nameService.getItemNamePath(blockSpec);
@@ -495,11 +495,11 @@ public class AddBlockDialog extends javax.swing.JDialog {
         model.removeAllElements();
         if (catalog != null) {
             Long[] basicGroupPath = {0l, 0l};
-            List<XBBlockDecl> list = catalog.getBlocks(((XBCGroupDecl) catalog.findGroupTypeByPath(basicGroupPath, 0)).getGroupSpec().getParent());
+            List<XBBlockDecl> list = catalog.getBlocks(((XBCGroupDecl) catalog.findGroupTypeByPath(basicGroupPath, 0)).getGroupSpecRev().getParent());
 
             XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
             for (XBBlockDecl decl : list) {
-                model.addElement(nameService.getDefaultText(((XBCBlockDecl) decl).getBlockSpec().getParent()));
+                model.addElement(nameService.getDefaultText(((XBCBlockDecl) decl).getBlockSpecRev().getParent()));
             }
         }
     }

@@ -189,7 +189,7 @@ public class ContextTypeChoiceDialog extends javax.swing.JDialog {
                         String blockCaption = Integer.toString(blockId);
                         if (blockDecl != null) {
                             if (blockDecl instanceof XBCBlockDecl) {
-                                blockCaption += ": " + nameService.getDefaultText(((XBCBlockDecl) blockDecl).getBlockSpec().getParent());
+                                blockCaption += ": " + nameService.getDefaultText(((XBCBlockDecl) blockDecl).getBlockSpecRev().getParent());
                             }
                         }
 

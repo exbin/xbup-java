@@ -49,7 +49,7 @@ import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
 
 /**
- * Interface for XBRSpec items service.
+ * Remote service for XBRSpec items.
  *
  * @version 0.1.24 2014/11/18
  * @author XBUP Project (http://xbup.org)

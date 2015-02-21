@@ -16,11 +16,7 @@
  */
 package org.xbup.lib.client.catalog.remote.manager;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
@@ -30,657 +26,167 @@ import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
 import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.core.catalog.base.manager.XBCSpecManager;
-import org.xbup.lib.client.XBCatalogServiceMessage;
-import org.xbup.lib.client.catalog.remote.XBRBlockCons;
-import org.xbup.lib.client.catalog.remote.XBRBlockJoin;
-import org.xbup.lib.client.catalog.remote.XBRBlockListCons;
-import org.xbup.lib.client.catalog.remote.XBRBlockListJoin;
 import org.xbup.lib.client.catalog.remote.XBRBlockSpec;
-import org.xbup.lib.client.catalog.remote.XBRFormatCons;
-import org.xbup.lib.client.catalog.remote.XBRFormatJoin;
 import org.xbup.lib.client.catalog.remote.XBRFormatSpec;
-import org.xbup.lib.client.catalog.remote.XBRGroupCons;
-import org.xbup.lib.client.catalog.remote.XBRGroupJoin;
 import org.xbup.lib.client.catalog.remote.XBRGroupSpec;
-import org.xbup.lib.client.catalog.remote.XBRItem;
-import org.xbup.lib.client.catalog.remote.XBRNode;
 import org.xbup.lib.client.catalog.remote.XBRSpec;
 import org.xbup.lib.client.catalog.remote.XBRSpecDef;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.client.stub.XBPSpecStub;
 
 /**
- * Manager class for XBRSpec catalog items.
+ * Remote manager class for XBRSpec catalog items.
  *
- * @version 0.1.22 2013/08/31
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpecManager<XBRSpec> {
 
+    private final XBPSpecStub specStub;
+
     public XBRSpecManager(XBRCatalog catalog) {
         super(catalog);
+        specStub = new XBPSpecStub(client);
+        setManagerStub(specStub);
     }
 
     @Override
     public Long getAllSpecsCount() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SPECSCOUNT_SPEC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            Long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRSpecManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRSpecManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.getAllSpecsCount();
     }
 
     @Override
     public Long getAllFormatSpecsCount() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.FORMATSPECSCOUNT_SPEC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            Long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRSpecManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRSpecManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.getAllFormatSpecsCount();
     }
 
     @Override
     public Long getAllGroupSpecsCount() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.GROUPSPECSCOUNT_SPEC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            Long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRSpecManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRSpecManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.getAllGroupSpecsCount();
     }
 
     @Override
     public Long getAllBlockSpecsCount() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.BLOCKSPECSCOUNT_SPEC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            Long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRSpecManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRSpecManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.getAllBlockSpecsCount();
     }
 
     @Override
     public Long[] getSpecXBPath(XBCSpec node) {
-        ArrayList<Long> list = new ArrayList<Long>();
-        XBCNode parent = node.getParent();
-        while (parent != null) {
-            if (parent.getParent() != null) {
-                if (parent.getXBIndex() == null) {
-                    return null;
-                }
-                list.add(0, parent.getXBIndex());
-            }
-            parent = (XBCNode) parent.getParent();
-        }
-        list.add(node.getXBIndex());
-        return (Long[]) list.toArray(new Long[list.size()]);
+        return specStub.getSpecXBPath(node);
     }
 
     @Override
     public List<XBCSpec> getSpecs(XBCNode node) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SPECS_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            List<XBCSpec> result = new ArrayList<XBCSpec>();
-            long count = checker.matchAttribXB().getNaturalLong();
-            for (int i = 0; i < count; i++) {
-                result.add(new XBRSpec(client,checker.matchAttribXB().getNaturalLong()));
-            }
-            checker.matchEndXB();
-            message.close();
-            return result;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.getSpecs(node);
     }
 
     @Override
     public XBRSpec getSpec(XBCNode node, long index) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SPEC_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.attribXB(new UBNat32(index));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long subSpec = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRSpec(client,subSpec);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.getSpec(node, index);
     }
 
     @Override
     public XBRFormatSpec getFormatSpec(XBCNode node, long index) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.FORMATSPEC_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.attribXB(new UBNat32(index));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long spec = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRFormatSpec(client,spec);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.getFormatSpec(node, index);
     }
 
     @Override
     public List<XBCFormatSpec> getFormatSpecs(XBCNode node) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.FORMATSPECS_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            List<XBCFormatSpec> result = new ArrayList<XBCFormatSpec>();
-            long count = checker.matchAttribXB().getNaturalLong();
-            for (int i = 0; i < count; i++) {
-                result.add(new XBRFormatSpec(client,checker.matchAttribXB().getNaturalLong()));
-            }
-            checker.matchEndXB();
-            message.close();
-            return result;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.getFormatSpecs(node);
     }
 
     @Override
     public XBRBlockSpec getBlockSpec(XBCNode node, long index) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.BLOCKSPEC_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.attribXB(new UBNat32(index));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long spec = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRBlockSpec(client,spec);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.getBlockSpec(node, index);
     }
 
     @Override
     public List<XBCBlockSpec> getBlockSpecs(XBCNode node) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.BLOCKSPECS_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            List<XBCBlockSpec> result = new ArrayList<XBCBlockSpec>();
-            long count = checker.matchAttribXB().getNaturalLong();
-            for (int i = 0; i < count; i++) {
-                result.add(new XBRBlockSpec(client,checker.matchAttribXB().getNaturalLong()));
-            }
-            checker.matchEndXB();
-            message.close();
-            return result;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.getBlockSpecs(node);
     }
 
     @Override
     public XBRGroupSpec getGroupSpec(XBCNode node, long index) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.GROUPSPEC_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.attribXB(new UBNat32(index));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long spec = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRGroupSpec(client,spec);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.getGroupSpec(node, index);
     }
 
     @Override
     public List<XBCGroupSpec> getGroupSpecs(XBCNode node) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.GROUPSPECS_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            List<XBCGroupSpec> result = new ArrayList<XBCGroupSpec>();
-            long count = checker.matchAttribXB().getNaturalLong();
-            for (int i = 0; i < count; i++) {
-                result.add(new XBRGroupSpec(client,checker.matchAttribXB().getNaturalLong()));
-            }
-            checker.matchEndXB();
-            message.close();
-            return result;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.getGroupSpecs(node);
     }
 
     @Override
     public XBRBlockSpec findBlockSpecByXB(XBCNode node, long xbIndex) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.FINDBLOCKSPEC_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRBlockSpec(client,index);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.findBlockSpecByXB(node, xbIndex);
     }
 
     @Override
     public Long findMaxBlockSpecXB(XBCNode node) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.MAXBLOCKSPEC_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.findMaxBlockSpecXB(node);
     }
 
     @Override
     public XBRGroupSpec findGroupSpecByXB(XBCNode node, long xbIndex) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.FINDGROUPSPEC_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRGroupSpec(client,index);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.findGroupSpecByXB(node, xbIndex);
     }
 
     @Override
     public Long findMaxGroupSpecXB(XBCNode node) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.MAXGROUPSPEC_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.findMaxGroupSpecXB(node);
     }
 
     @Override
     public XBRFormatSpec findFormatSpecByXB(XBCNode node, long xbIndex) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.FINDFORMATSPEC_NODE_PROCEDURE);
-            if (message == null) {
-                return null;
-            }
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.attribXB(new UBNat32(xbIndex));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRFormatSpec(client,index);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.findFormatSpecByXB(node, xbIndex);
     }
 
     @Override
     public Long findMaxFormatSpecXB(XBCNode node) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.MAXFORMATSPEC_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.findMaxFormatSpecXB(node);
     }
 
     @Override
     public long getFormatSpecsCount(XBCNode node) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.FORMATSPECSCOUNT_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return specStub.getFormatSpecsCount(node);
     }
 
     @Override
     public long getGroupSpecsCount(XBCNode node) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.GROUPSPECSCOUNT_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return specStub.getGroupSpecsCount(node);
     }
 
     @Override
     public long getBlockSpecsCount(XBCNode node) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.BLOCKSPECSCOUNT_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return specStub.getBlockSpecsCount(node);
     }
 
     @Override
     public long getSpecsCount(XBCNode node) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SPECSCOUNT_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return specStub.getSpecsCount(node);
     }
 
     @Override
     public long getDefsCount() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.BINDSCOUNT_BIND_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            Long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return specStub.getDefsCount();
     }
 
     @Override
     public XBRSpecDef getSpecDefByOrder(XBCSpec spec, long index) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.BIND_SPEC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRSpec) spec).getId()));
-            listener.attribXB(new UBNat32(index));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long bind = checker.matchAttribXB().getNaturalLong();
-            long bindType = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (bindType == 0) {
-                if (spec instanceof XBCFormatSpec) {
-                    return new XBRFormatJoin(client,bind);
-                }
-                if (spec instanceof XBCGroupSpec) {
-                    return new XBRGroupJoin(client,bind);
-                }
-                if (spec instanceof XBCBlockSpec) {
-                    return new XBRBlockJoin(client,bind);
-                }
-                return null;
-            } else {
-                if (spec instanceof XBCFormatSpec) {
-                    return new XBRFormatCons(client,bind);
-                }
-                if (spec instanceof XBCGroupSpec) {
-                    return new XBRGroupCons(client,bind);
-                }
-                if (spec instanceof XBCBlockSpec) {
-                    return new XBRBlockCons(client,bind);
-                }
-                return null;
-            }
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRSpecManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRSpecManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.getSpecDefByOrder(spec, index);
     }
 
     @Override
     public XBRSpecDef findSpecDefByXB(XBCSpec spec, long xbIndex) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.FINDBIND_SPEC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRSpec) spec).getId()));
-            listener.attribXB(new UBNat32(xbIndex));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long bind = checker.matchAttribXB().getNaturalLong();
-            int bindType = checker.matchAttribXB().getNaturalInt();
-            checker.matchEndXB();
-            message.close();
-            if (spec instanceof XBCFormatSpec) {
-                return bindType == 0 ? new XBRFormatCons(client,bind) : new XBRFormatJoin(client,bind);
-            } else if (spec instanceof XBCGroupSpec) {
-                return bindType == 0 ? new XBRGroupCons(client,bind) : new XBRGroupJoin(client,bind);
-            } else if (spec instanceof XBCBlockSpec) {
-                switch (bindType) {
-                    case 0: return new XBRBlockCons(client,bind);
-                    case 1: return new XBRBlockJoin(client,bind);
-                    case 2: return new XBRBlockListCons(client,bind);
-                    case 3: return new XBRBlockListJoin(client,bind);
-                }
-            } else {
-                return new XBRSpecDef(client,bind);
-            }
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRSpecManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRSpecManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.findSpecDefByXB(spec, xbIndex);
     }
 
     @Override
     public List<XBCSpecDef> getSpecDefs(XBCSpec spec) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.BINDS_SPEC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRSpec) spec).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            List<XBCSpecDef> result = new ArrayList<XBCSpecDef>();
-            long count = checker.matchAttribXB().getNaturalLong();
-            for (int i = 0; i < count; i++) {
-                result.add(new XBRSpecDef(client,checker.matchAttribXB().getNaturalLong()));
-            }
-            checker.matchEndXB();
-            message.close();
-            return result;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRSpecManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRSpecManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.getSpecDefs(spec);
     }
 
     @Override
     public long getSpecDefsCount(XBCSpec spec) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.BINDSCOUNT_SPEC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRSpec) spec).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRSpecManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRSpecManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return specStub.getSpecDefsCount(spec);
     }
 
     @Override

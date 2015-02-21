@@ -30,7 +30,7 @@ import org.xbup.lib.client.catalog.remote.XBRXIconMode;
 import org.xbup.lib.client.catalog.remote.manager.XBRXIconManager;
 
 /**
- * Interface for XBRXIcon items service.
+ * Remote service for XBRXIcon items.
  *
  * @version 0.1.24 2014/11/26
  * @author XBUP Project (http://xbup.org)

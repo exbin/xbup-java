@@ -16,111 +16,43 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXDesc;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.client.XBCatalogServiceMessage;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.parser.token.pull.XBPullProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.serial.child.XBChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBChildProviderSerialHandler;
-import org.xbup.lib.core.type.XBString;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.client.stub.XBPXDescStub;
 
 /**
  * Catalog remote item description entity.
  *
- * @version 0.1.21 2011/12/16
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXDesc implements XBCXDesc {
 
-    private long id;
+    private final long id;
     protected XBCatalogServiceClient client;
+    private final XBPXDescStub descStub;
 
     public XBRXDesc(XBCatalogServiceClient client, long id) {
         this.id = id;
         this.client = client;
+        descStub = new XBPXDescStub(client);
     }
 
     @Override
     public XBCItem getItem() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.ITEM_DESC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long ownerId = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRItem(client, ownerId);
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRXDesc.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return descStub.getDescItem(id);
     }
 
     @Override
     public String getText() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.TEXT_DESC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBPullProvider input = message.getXBInputStream();
-            XBMatchingProvider checker = message.getXBInput();
-            checker.matchAttribXB(new UBNat32(1));
-            checker.matchBeginXB();
-            checker.matchAttribXB();
-            checker.matchAttribXB();
-            XBString text = new XBString();
-            XBChildInputSerialHandler handler = new XBChildProviderSerialHandler();
-            handler.attachXBPullProvider(input);
-            text.new DataBlockSerializator().serializeFromXB(handler);
-//            new XBL1ToL0DefaultStreamConvertor(new XBL2ToL1DefaultStreamConvertor(text)).readXBStream(input);
-            checker.matchEndXB();
-            checker.matchEndXB();
-            message.close();
-            return text.getValue();
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRXDesc.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return descStub.getText(id);
     }
 
     @Override
     public XBRXLanguage getLang() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.LANG_DESC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRXLanguage(client, index);
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRXDesc.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        return descStub.getLang(id);
     }
 
     @Override
@@ -136,5 +68,10 @@ public class XBRXDesc implements XBCXDesc {
     @Override
     public void setText(String text) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Long getId() {
+        return id;
     }
 }

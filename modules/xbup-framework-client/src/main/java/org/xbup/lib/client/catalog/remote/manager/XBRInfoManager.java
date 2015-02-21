@@ -23,7 +23,7 @@ import org.xbup.lib.client.catalog.remote.XBRItemInfo;
 import org.xbup.lib.client.stub.XBPInfoStub;
 
 /**
- * Manager class for XBRItemInfo catalog items.
+ * Remote manager class for XBRItemInfo catalog items.
  *
  * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
@@ -40,10 +40,5 @@ public class XBRInfoManager extends XBRDefaultManager<XBRItemInfo> implements XB
     @Override
     public XBRItemInfo getNodeInfo(XBCNode node) {
         return infoStub.getNodeInfo(node);
-    }
-
-    @Override
-    public Long getAllInfosCount() {
-        return infoStub.getAllInfosCount();
     }
 }

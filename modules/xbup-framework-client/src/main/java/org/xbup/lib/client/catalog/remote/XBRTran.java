@@ -16,28 +16,20 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCLimitSpec;
 import org.xbup.lib.core.catalog.base.XBCTran;
 import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.client.XBCatalogServiceMessage;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
+ * Catalog remote transaction entity.
  *
  * @version 0.1.18 2009/12/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRTran implements XBCTran {
 
-    private long id;
+    private final long id;
     protected XBCatalogServiceClient client;
 
     public XBRTran(XBCatalogServiceClient client, long id) {
@@ -47,25 +39,7 @@ public class XBRTran implements XBCTran {
 
     @Override
     public XBRBlockSpec getOwner() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.OWNER_ITEM_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long ownerId = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (ownerId == 0) {
-                return null;
-            }
-            return new XBRBlockSpec(client, ownerId);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

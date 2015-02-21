@@ -20,14 +20,15 @@ import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.client.XBCatalogServiceClient;
 
 /**
+ * Catalog remote specification entity.
  *
- * @version 0.1.22 2012/12/12
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRSpec extends XBRItem implements XBCSpec {
 
     public XBRSpec(XBCatalogServiceClient client, long id) {
-        super(client,id);
+        super(client, id);
     }
 
     @Override
@@ -36,6 +37,7 @@ public class XBRSpec extends XBRItem implements XBCSpec {
         if (item == null) {
             return null;
         }
-        return new XBRNode(item.client,item.getId());
+
+        return new XBRNode(item.client, item.getId());
     }
 }

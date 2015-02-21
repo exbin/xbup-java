@@ -30,7 +30,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRXDescManager;
 import org.xbup.lib.client.catalog.remote.manager.XBRXLangManager;
 
 /**
- * Interface for XBRXDesc items service.
+ * Remote service for XBRXDesc items.
  *
  * @version 0.1.21 2012/01/22
  * @author XBUP Project (http://xbup.org)

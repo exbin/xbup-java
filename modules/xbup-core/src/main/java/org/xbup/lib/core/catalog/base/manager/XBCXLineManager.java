@@ -74,13 +74,6 @@ public interface XBCXLineManager<T extends XBCXBlockLine> extends XBCManager<T>,
     public XBCXPlugLine findPlugLineById(long id);
 
     /**
-     * Gets count of all line editors.
-     *
-     * @return count of line editors
-     */
-    public Long getAllLinesCount();
-
-    /**
      * Gets list of line editors for plugin.
      *
      * @param plugin

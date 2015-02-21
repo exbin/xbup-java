@@ -24,9 +24,9 @@ import org.xbup.lib.core.remote.XBRemoteServer;
  * @version 0.1.25 2015/02/18
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPTranSkeleton{
+public class XBPTranSkeleton {
 
     public void registerProcedures(XBRemoteServer remoteServer) {
-        
+
     }
 }

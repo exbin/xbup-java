@@ -41,9 +41,9 @@ import org.xbup.lib.client.catalog.remote.XBRRev;
 import org.xbup.lib.client.catalog.remote.manager.XBRRevManager;
 
 /**
- * Interface for XBRRev items service.
+ * Remote service for XBRRev items.
  *
- * @version 0.1.24 2014/11/20
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRRevService extends XBRDefaultService<XBRRev> implements XBCRevService<XBRRev> {
@@ -52,11 +52,6 @@ public class XBRRevService extends XBRDefaultService<XBRRev> implements XBCRevSe
         super(catalog);
         itemManager = new XBRRevManager(catalog);
         catalog.addCatalogManager(XBCRevManager.class, itemManager);
-    }
-
-    @Override
-    public XBRRev findRevById(long id) {
-        return ((XBRRevManager) itemManager).findRevById(id);
     }
 
     @Override
@@ -72,11 +67,6 @@ public class XBRRevService extends XBRDefaultService<XBRRev> implements XBCRevSe
     @Override
     public List<XBCRev> getRevs(XBCSpec spec) {
         return ((XBRRevManager) itemManager).getRevs(spec);
-    }
-
-    @Override
-    public Long getAllRevisionsCount() {
-        return ((XBRRevManager) itemManager).getAllRevisionsCount();
     }
 
     @Override

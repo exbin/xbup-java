@@ -53,7 +53,6 @@ import org.xbup.lib.core.block.definition.XBGroupParamJoin;
 import org.xbup.lib.core.block.definition.catalog.XBCBlockDef;
 import org.xbup.lib.core.block.definition.catalog.XBCFormatDef;
 import org.xbup.lib.core.block.definition.catalog.XBCGroupDef;
-import org.xbup.lib.core.block.definition.catalog.XBCRevisionDef;
 import org.xbup.lib.core.block.definition.local.XBLFormatDef;
 import org.xbup.lib.core.block.definition.local.XBLGroupDef;
 import org.xbup.lib.core.block.definition.local.XBLRevisionDef;

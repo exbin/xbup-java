@@ -16,344 +16,91 @@
  */
 package org.xbup.lib.client.catalog.remote.manager;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCRoot;
 import org.xbup.lib.core.catalog.base.manager.XBCNodeManager;
-import org.xbup.lib.client.XBCatalogServiceMessage;
-import org.xbup.lib.client.catalog.remote.XBRItem;
 import org.xbup.lib.client.catalog.remote.XBRNode;
-import org.xbup.lib.client.catalog.remote.XBRRoot;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.client.stub.XBPNodeStub;
 
 /**
- * Manager class for XBRNode catalog items.
+ * Remote manager class for XBRNode catalog items.
  *
- * @version 0.1.22 2013/08/17
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRNodeManager extends XBRDefaultManager<XBRNode> implements XBCNodeManager<XBRNode> {
 
+    private final XBPNodeStub nodeStub;
+
     public XBRNodeManager(XBRCatalog catalog) {
         super(catalog);
+        nodeStub = new XBPNodeStub(client);
+        setManagerStub(nodeStub);
     }
 
     @Override
     public XBRNode getRootNode() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.ROOT_NODE_PROCEDURE);
-            if (message == null) {
-                return null;
-            }
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRNode(client,index);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return nodeStub.getRootNode();
     }
 
     @Override
     public List<XBCNode> getSubNodes(XBCNode node) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SUBNODES_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            List<XBCNode> result = new ArrayList<XBCNode>();
-            long count = checker.matchAttribXB().getNaturalLong();
-            for (int i = 0; i < count; i++) {
-                result.add(new XBRNode(client,checker.matchAttribXB().getNaturalLong()));
-            }
-            checker.matchEndXB();
-            message.close();
-            return result;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return nodeStub.getSubNodes(node);
     }
 
     @Override
     public XBRNode getSubNode(XBCNode node, long index) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SUBNODE_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.attribXB(new UBNat32(index));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long subnode = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (subnode == 0) {
-                return null;
-            }
-            return new XBRNode(client,subnode);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return nodeStub.getSubNode(node, index);
     }
 
     @Override
     public long getSubNodesCount(XBCNode node) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SUBNODESCOUNT_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return nodeStub.getSubNodesCount(node);
     }
 
     @Override
-    public XBRNode findNodeByXBPath(Long[] xbCatalogPath) {
-        XBRNode node = (XBRNode) getRootNode();
-        for (int i = 0; i < xbCatalogPath.length; i++) {
-            node = (XBRNode) getSubNode(node,xbCatalogPath[i]);
-            if (node==null) {
-                break;
-            }
-        }
-        return node;
-/*        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBCatalogServiceClient.messageTypeEnum.NODE.ordinal(), XBCatalogServiceClient.nodeMessageEnum.FINDNODE.ordinal());
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(xbCatalogPath.length));
-            for (int i = 0; i < xbCatalogPath.length; i++) {
-                listener.attribXB(new UBNat32(xbCatalogPath[i]));
-            }
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (index == 0) return null;
-            return new XBRNode(client, index);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;*/
+    public XBRNode findNodeByXBPath(Long[] catalogPath) {
+        return nodeStub.findNodeByXBPath(catalogPath);
     }
 
     @Override
-    public XBRNode findParentByXBPath(Long[] xbCatalogPath) {
-        if (xbCatalogPath.length == 0) {
-            return null;
-        }
-        XBRNode node = (XBRNode) getRootNode();
-        for (int i = 0; i < xbCatalogPath.length-1; i++) {
-            node = (XBRNode) getSubNode(node,xbCatalogPath[i]);
-            if (node==null) {
-                break;
-            }
-        }
-        return node;
+    public XBRNode findParentByXBPath(Long[] catalogPath) {
+        return nodeStub.findParentByXBPath(catalogPath);
     }
 
     @Override
     public Long[] getNodeXBPath(XBCNode node) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.PATHNODE_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long count = checker.matchAttribXB().getNaturalLong();
-            Long[] result = new Long[(int) count];
-            for (int i = 0; i < count; i++) {
-                result[i] = checker.matchAttribXB().getNaturalLong();
-            }
-            checker.matchEndXB();
-            message.close();
-            return result;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return nodeStub.getNodeXBPath(node);
     }
 
     @Override
-    public XBRNode findOwnerByXBPath(Long[] xbCatalogPath) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.FINDOWNER_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(xbCatalogPath.length));
-            for (int i = 0; i < xbCatalogPath.length; i++) {
-                listener.attribXB(new UBNat32(xbCatalogPath[i]));
-            }
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRNode(client, index);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+    public XBRNode findOwnerByXBPath(Long[] catalogPath) {
+        return nodeStub.findOwnerByXBPath(catalogPath);
     }
 
     public XBRNode findSubNodeByXB(XBCNode node, long xbIndex) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SUBNODE_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.attribXB(new UBNat32(xbIndex));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long spec = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRNode(client,spec);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return nodeStub.findSubNodeByXB(node, xbIndex);
     }
 
     @Override
     public Long findMaxSubNodeXB(XBCNode node) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.MAXSUBNODE_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    @Override
-    public long getItemsCount() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.NODESCOUNT_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return nodeStub.findMaxSubNodeXB(node);
     }
 
     @Override
     public XBRNode getSubNodeSeq(XBCNode node, long seq) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SUBNODESEQ_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.attribXB(new UBNat32(seq));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long subnode = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (subnode == 0) {
-                return null;
-            }
-            return new XBRNode(client,subnode);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return nodeStub.getSubNodeSeq(node, seq);
     }
 
     @Override
     public long getSubNodesSeq(XBCNode node) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SUBNODESEQCNT_NODE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return nodeStub.getSubNodesSeq(node);
     }
 
     @Override
     public XBCRoot getRoot() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.ROOT_PROCEDURE);
-            if (message == null) {
-                return null;
-            }
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            long timeStamp = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRRoot(client,index, timeStamp);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return nodeStub.getRoot();
     }
 }

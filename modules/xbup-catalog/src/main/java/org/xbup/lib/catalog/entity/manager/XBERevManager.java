@@ -33,7 +33,7 @@ import org.xbup.lib.catalog.entity.XBESpec;
 /**
  * XBUP catalog specification revision manager.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -42,7 +42,7 @@ public class XBERevManager extends XBEDefaultManager<XBERev> implements XBCRevMa
     public XBERevManager() {
         super();
     }
-    
+
     public XBERevManager(XBECatalog catalog) {
         super(catalog);
     }
@@ -81,32 +81,6 @@ public class XBERevManager extends XBEDefaultManager<XBERev> implements XBCRevMa
     public Long findMaxRevXB(XBCSpec spec) {
         try {
             return (Long) em.createQuery("SELECT MAX(o.xbIndex) FROM XBRev as o WHERE o.parent.id = " + ((XBESpec) spec).getId()).getSingleResult();
-        } catch (NoResultException ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        } catch (Exception ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-
-    @Override
-    public XBERev findRevById(long id) {
-        try {
-            return (XBERev) em.createQuery("SELECT object(o) FROM XBRev as o WHERE o.id = " + id).getSingleResult();
-        } catch (NoResultException ex) {
-//            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        } catch (Exception ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-
-    @Override
-    public Long getAllRevisionsCount() {
-        try {
-            return (Long) em.createQuery("SELECT count(o) FROM XBRev as o").getSingleResult();
         } catch (NoResultException ex) {
             Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;

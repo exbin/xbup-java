@@ -16,118 +16,44 @@
  */
 package org.xbup.lib.client.catalog.remote.manager;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.core.catalog.base.XBCXName;
 import org.xbup.lib.core.catalog.base.manager.XBCXNameManager;
-import org.xbup.lib.client.XBCatalogServiceMessage;
-import org.xbup.lib.client.catalog.remote.XBRItem;
-import org.xbup.lib.client.catalog.remote.XBRXLanguage;
 import org.xbup.lib.client.catalog.remote.XBRXName;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.client.stub.XBPXNameStub;
 
 /**
- * Manager class for XBRXName catalog items.
+ * Remote manager class for XBRXName catalog items.
  *
- * @version 0.1.24 2014/11/17
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXNameManager extends XBRDefaultManager<XBRXName> implements XBCXNameManager<XBRXName> {
 
+    private final XBPXNameStub nameStub;
+
     public XBRXNameManager(XBRCatalog catalog) {
         super(catalog);
+        nameStub = new XBPXNameStub(client);
+        setManagerStub(nameStub);
     }
 
     @Override
     public XBRXName getDefaultItemName(XBCItem item) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.ITEMNAME_NAME_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRItem) item).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long ownerId = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (ownerId == 0) {
-                return null;
-            }
-            return new XBRXName(client, ownerId);
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return nameStub.getDefaultItemName(item);
     }
 
     @Override
     public XBRXName getItemName(XBCItem item, XBCXLanguage language) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.LANGNAME_NAME_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRItem) item).getId()));
-            listener.attribXB(new UBNat32(((XBRXLanguage) language).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long ownerId = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (ownerId == 0) {
-                return null;
-            }
-            return new XBRXName(client, ownerId);
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return nameStub.getItemName(item, language);
     }
 
     @Override
     public List<XBCXName> getItemNames(XBCItem item) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.ITEMNAMES_NAME_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRItem) item).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            List<XBCXName> result = new ArrayList<>();
-            long count = checker.matchAttribXB().getNaturalLong();
-            for (int i = 0; i < count; i++) {
-                result.add(new XBRXName(client, checker.matchAttribXB().getNaturalLong()));
-            }
-            checker.matchEndXB();
-            message.close();
-            return result;
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    @Override
-    public long getItemsCount() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.NAMESCOUNT_NAME_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            Long count = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return count;
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return nameStub.getItemNames(item);
     }
 
     @Override
@@ -139,17 +65,6 @@ public class XBRXNameManager extends XBRDefaultManager<XBRXName> implements XBCX
         return "Name Extension";
     }
 
-    /*    public String getCaption(XBBlockType blockType) {
-     if (blockType == null) return "Unknown";
-     if (blockType instanceof XBContextBlockType) {
-     XBBlockDecl decl = ((XBContextBlockType) blockType).getBlockDecl();
-     if (decl != null) {
-     if (decl instanceof XBCBlockDecl) return ((XBCBlockDecl) decl).getCaption();
-     if (decl instanceof XBCPBlockDecl) return ((XBCPBlockDecl) decl).getCaption();
-     }
-     }
-     return "unknown ("+ Integer.toString(blockType.getGroupID().getInt()) + "," + Integer.toString(blockType.getBlockID().getInt()) + ")";
-     } */
     @Override
     public String getDefaultText(XBCItem item) {
         XBCXName name = getDefaultItemName(item);

@@ -56,6 +56,6 @@ public class XBEXInfoService extends XBEDefaultService<XBEXItemInfo> implements 
 
     @Override
     public XBEXItemInfo getNodeInfo(XBCNode dir) {
-        return ((XBEXInfoManager)itemManager).getNodeInfo(dir);
+        return ((XBEXInfoManager) itemManager).getNodeInfo(dir);
     }
 }

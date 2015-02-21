@@ -16,108 +16,51 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.XBCXHDoc;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.client.XBCatalogServiceMessage;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.client.stub.XBPXHDocStub;
 
 /**
  * Catalog remote item HTML documentation entity.
  *
- * @version 0.1.21 2012/01/27
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXHDoc implements XBCXHDoc {
 
-    private long id;
+    private final long id;
     protected XBCatalogServiceClient client;
+    private final XBPXHDocStub hdocStub;
 
     public XBRXHDoc(XBCatalogServiceClient client, long id) {
         this.id = id;
         this.client = client;
+        hdocStub = new XBPXHDocStub(client);
     }
 
     @Override
     public XBRItem getItem() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.OWNER_HDOC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long ownerId = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (ownerId == 0) {
-                return null;
-            }
-            return new XBRBlockSpec(client, ownerId);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    @Override
-    public Long getId() {
-        return id;
+        return hdocStub.getHDocItem(id);
     }
 
     public Long getXBIndex() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.XBINDEX_HDOC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return hdocStub.getXBIndex(id);
     }
 
     @Override
     public XBCXFile getDocFile() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.FILE_HDOC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long fileId = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (fileId == 0) {
-                return null;
-            }
-            return new XBRXFile(client, fileId);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return hdocStub.getDocFile(id);
     }
 
     @Override
     public XBCXLanguage getLang() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Long getId() {
+        return id;
     }
 }

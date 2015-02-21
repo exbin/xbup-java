@@ -29,7 +29,7 @@ import org.xbup.lib.client.catalog.remote.XBRXFile;
 import org.xbup.lib.client.catalog.remote.manager.XBRXFileManager;
 
 /**
- * Interface for XBRXFile items service.
+ * Remote service for XBRXFile items.
  *
  * @version 0.1.22 2013/07/28
  * @author XBUP Project (http://xbup.org)

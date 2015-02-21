@@ -30,9 +30,9 @@ import org.xbup.lib.client.catalog.remote.XBRXPlugLine;
 import org.xbup.lib.client.catalog.remote.manager.XBRXLineManager;
 
 /**
- * Interface for XBRXBlockLine items service.
+ * Remote service for XBRXBlockLine items.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXLineService extends XBRDefaultService<XBRXBlockLine> implements XBCXLineService<XBRXBlockLine> {
@@ -56,11 +56,6 @@ public class XBRXLineService extends XBRDefaultService<XBRXBlockLine> implements
     @Override
     public XBRXPlugLine findPlugLineById(long id) {
         return ((XBRXLineManager)itemManager).findPlugLineById(id);
-    }
-
-    @Override
-    public Long getAllLinesCount() {
-        return ((XBRXLineManager)itemManager).getAllLinesCount();
     }
 
     @Override

@@ -21,16 +21,9 @@ import org.xbup.lib.core.catalog.base.XBCTran;
 /**
  * Interface for XBCTran catalog manager.
  *
- * @version 0.1.21 2011/12/29
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  * @param <T> transformation entity
  */
 public interface XBCTranManager<T extends XBCTran> extends XBCCatalogManager<T> {
-
-    /**
-     * Gets count of all transformations.
-     *
-     * @return count of transformations
-     */
-    public Long getAllItemsCount();
 }

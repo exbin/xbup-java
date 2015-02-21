@@ -20,6 +20,7 @@ import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.client.XBCatalogServiceClient;
 
 /**
+ * Catalog remote block specification entity.
  *
  * @version 0.1.17 2009/02/01
  * @author XBUP Project (http://xbup.org)

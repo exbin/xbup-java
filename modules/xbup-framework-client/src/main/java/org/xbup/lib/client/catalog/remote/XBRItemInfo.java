@@ -25,103 +25,18 @@ import org.xbup.lib.client.XBCatalogServiceClient;
 /**
  * Remote catalog item info.
  *
- * @version 0.1.21 2012/01/28
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRItemInfo implements XBCXItemInfo {
 
-    private long id;
+    private final long id;
     protected XBCatalogServiceClient client;
 
     public XBRItemInfo(XBCatalogServiceClient client, long id) {
         this.id = id;
         this.client = client;
     }
-/*
-    @Override
-    public XBRNode getOwner() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.OWNER_ITEM_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            long ownerId = checker.matchAttribXB().getLong();
-            checker.matchEndXB();
-            message.close();
-            if (ownerId == 0) return null;
-            return new XBRNode(client, ownerId);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-*/
-    @Override
-    public Long getId() {
-        return id;
-    }
-/*
-    public String getFilename() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.FILENAME_INFO_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBInputStream input = message.getXBInputStream();
-            XBStreamChecker checker = message.getXBInput();
-            checker.matchAttribXB(new UBNat32(1));
-            checker.matchBeginXB();
-            checker.matchAttribXB();
-            checker.matchAttribXB();
-            XBString text = new XBString();
-            XBSerialPullConsumer consumer = new XBSerialPullConsumer(text);
-            consumer.attachXBPullProvider(input);
-            consumer.processXBPulls();
-//            new XBL1ToL0DefaultStreamConvertor(new XBL2ToL1DefaultStreamConvertor(text)).readXBStream(input);
-            checker.matchEndXB();
-            checker.matchEndXB();
-            message.close();
-            return text.getValue();
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXDesc.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRXDesc.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public String getPath() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.PATH_INFO_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBInputStream input = message.getXBInputStream();
-            XBStreamChecker checker = message.getXBInput();
-            checker.matchAttribXB(new UBNat32(1));
-            checker.matchBeginXB();
-            checker.matchAttribXB();
-            checker.matchAttribXB();
-            XBString text = new XBString();
-            XBSerialPullConsumer consumer = new XBSerialPullConsumer(text);
-            consumer.attachXBPullProvider(input);
-            consumer.processXBPulls();
-//            new XBL1ToL0DefaultStreamConvertor(new XBL2ToL1DefaultStreamConvertor(text)).readXBStream(input);
-            checker.matchEndXB();
-            checker.matchEndXB();
-            message.close();
-            return text.getValue();
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXDesc.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRXDesc.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-     */
 
     @Override
     public XBCItem getItem() {
@@ -141,5 +56,10 @@ public class XBRItemInfo implements XBCXItemInfo {
     @Override
     public Time getCreationDate() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Long getId() {
+        return id;
     }
 }

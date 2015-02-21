@@ -30,9 +30,10 @@ import org.xbup.lib.core.catalog.base.XBCXIconMode;
 import org.xbup.lib.core.catalog.base.manager.XBCXFileManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXHDocManager;
 import org.xbup.lib.client.catalog.remote.XBRXHDoc;
+import org.xbup.lib.client.stub.XBPXHDocStub;
 
 /**
- * Manager class for XBRXHDoc catalog items.
+ * Remote manager class for XBRXHDoc catalog items.
  *
  * @version 0.1.21 2011/12/31
  * @author XBUP Project (http://xbup.org)
@@ -40,28 +41,31 @@ import org.xbup.lib.client.catalog.remote.XBRXHDoc;
 public class XBRXHDocManager extends XBRDefaultManager<XBRXHDoc> implements XBCXHDocManager<XBRXHDoc> {
 
     private XBCXFileManager fileManager = null;
+    private final XBPXHDocStub hdocStub;
 
     public XBRXHDocManager(XBRCatalog catalog) {
         super(catalog);
+        hdocStub = new XBPXHDocStub(client);
+        setManagerStub(hdocStub);
     }
 
     public Long getAllIconsCount() {
         throw new UnsupportedOperationException("Not supported yet.");
-/*        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SPECSCOUNT_SPEC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            Long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getExtensionName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getExtensionName()).log(Level.SEVERE, null, ex);
-        }
-        return null; */
+        /*        try {
+         XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SPECSCOUNT_SPEC_PROCEDURE);
+         XBListener listener = message.getXBOutput();
+         listener.endXB();
+         XBStreamChecker checker = message.getXBInput();
+         Long index = checker.matchAttribXB().getNaturalLong();
+         checker.matchEndXB();
+         message.close();
+         return index;
+         } catch (XBProcessingException ex) {
+         Logger.getLogger(XBRItem.class.getExtensionName()).log(Level.SEVERE, null, ex);
+         } catch (IOException ex) {
+         Logger.getLogger(XBRItem.class.getExtensionName()).log(Level.SEVERE, null, ex);
+         }
+         return null; */
     }
 
     public Long[] getFileXBPath(XBCXFile file) {
@@ -123,21 +127,21 @@ public class XBRXHDocManager extends XBRDefaultManager<XBRXHDoc> implements XBCX
     public XBRXHDoc getDocumentation(XBCItem item) {
         // TODO: update catalog
         /*try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.ITEM_HDOC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRItem) item).getId()));
-            listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            Long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (index == 0) return null;
-            return new XBRXHDoc(client, index);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } */
+         XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.ITEM_HDOC_PROCEDURE);
+         XBListener listener = message.getXBOutput();
+         listener.attribXB(new UBNat32(((XBRItem) item).getId()));
+         listener.endXB();
+         XBStreamChecker checker = message.getXBInput();
+         Long index = checker.matchAttribXB().getNaturalLong();
+         checker.matchEndXB();
+         message.close();
+         if (index == 0) return null;
+         return new XBRXHDoc(client, index);
+         } catch (XBProcessingException ex) {
+         Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
+         } catch (IOException ex) {
+         Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
+         } */
         return null;
     }
 

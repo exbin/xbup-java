@@ -41,7 +41,7 @@ public class XBEXUserService extends XBEDefaultService<XBEXUser> implements XBCX
     public XBEXUserService() {
         super();
     }
-    
+
     public XBEXUserService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBEXUserManager(catalog);
@@ -52,7 +52,7 @@ public class XBEXUserService extends XBEDefaultService<XBEXUser> implements XBCX
     public void init() {
         itemManager = manager;
     }
-    
+
     public XBEXUser findByLogin(String userLogin) {
         return manager.findByLogin(userLogin);
     }

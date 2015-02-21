@@ -22,7 +22,7 @@ import org.xbup.lib.client.catalog.remote.XBRItem;
 import org.xbup.lib.client.stub.XBPItemStub;
 
 /**
- * Manager class for XBRItem catalog items.
+ * Remote manager class for XBRItem catalog items.
  *
  * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)

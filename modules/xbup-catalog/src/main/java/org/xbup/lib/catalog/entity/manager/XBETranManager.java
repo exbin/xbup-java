@@ -17,13 +17,9 @@
 package org.xbup.lib.catalog.entity.manager;
 
 import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.NoResultException;
 import org.springframework.stereotype.Repository;
 import org.xbup.lib.core.catalog.base.manager.XBCTranManager;
 import org.xbup.lib.catalog.XBECatalog;
-import org.xbup.lib.catalog.entity.XBEItem;
 import org.xbup.lib.catalog.entity.XBETran;
 
 /**
@@ -41,30 +37,5 @@ public class XBETranManager extends XBEDefaultManager<XBETran> implements XBCTra
 
     public XBETranManager(XBECatalog catalog) {
         super(catalog);
-    }
-
-    @Override
-    public Long getAllItemsCount() {
-        try {
-            return (Long) em.createQuery("SELECT count(o) FROM XBItem as o").getSingleResult();
-        } catch (NoResultException ex) {
-            Logger.getLogger(XBETranManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        } catch (Exception ex) {
-            Logger.getLogger(XBETranManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-
-    public XBEItem findById(long id) {
-        try {
-            return (XBEItem) em.createQuery("SELECT object(o) FROM XBItem as o WHERE o.id = " + id).getSingleResult();
-        } catch (NoResultException ex) {
-//            Logger.getLogger(XBETranManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        } catch (Exception ex) {
-            Logger.getLogger(XBETranManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
     }
 }

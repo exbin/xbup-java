@@ -23,42 +23,47 @@ import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.core.catalog.base.manager.XBCXPlugManager;
 import org.xbup.lib.client.catalog.remote.XBRXPlugin;
+import org.xbup.lib.client.stub.XBPXPlugStub;
 
 /**
- * Manager class for XBRXPlugin catalog items.
+ * Remote manager class for XBRXPlugin catalog items.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXPlugManager extends XBRDefaultManager<XBRXPlugin> implements XBCXPlugManager<XBRXPlugin> {
 
+    private final XBPXPlugStub plugStub;
+
     public XBRXPlugManager(XBRCatalog catalog) {
         super(catalog);
+        plugStub = new XBPXPlugStub(client);
+        setManagerStub(plugStub);
     }
 
     @Override
     public Long getAllPluginCount() {
         throw new UnsupportedOperationException("Not supported yet.");
-/*        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SPECSCOUNT_SPEC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBStreamChecker checker = message.getXBInput();
-            Long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getExtensionName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getExtensionName()).log(Level.SEVERE, null, ex);
-        }
-        return null; */
+        /*        try {
+         XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SPECSCOUNT_SPEC_PROCEDURE);
+         XBListener listener = message.getXBOutput();
+         listener.endXB();
+         XBStreamChecker checker = message.getXBInput();
+         Long index = checker.matchAttribXB().getNaturalLong();
+         checker.matchEndXB();
+         message.close();
+         return index;
+         } catch (XBProcessingException ex) {
+         Logger.getLogger(XBRItem.class.getExtensionName()).log(Level.SEVERE, null, ex);
+         } catch (IOException ex) {
+         Logger.getLogger(XBRItem.class.getExtensionName()).log(Level.SEVERE, null, ex);
+         }
+         return null; */
     }
 
     @Override
     public Long[] getPluginXBPath(XBCXPlugin plugin) {
-        ArrayList<Long> list = new ArrayList<Long>();
+        ArrayList<Long> list = new ArrayList<>();
         XBCNode parent = plugin.getOwner();
         while (parent != null) {
             if (parent.getParent() != null) {

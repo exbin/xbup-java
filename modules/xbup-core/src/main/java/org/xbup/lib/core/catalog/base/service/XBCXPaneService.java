@@ -26,7 +26,7 @@ import org.xbup.lib.core.catalog.base.XBCExtension;
 /**
  * Interface for XBCXBlockPane items service.
  *
- * @version 0.1.24 2014/10/19
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  * @param <T> block panel editor entity
  */
@@ -72,13 +72,6 @@ public interface XBCXPaneService<T extends XBCXBlockPane> extends XBCService<T>,
      * @return panel editor plugin
      */
     public XBCXPlugPane findPlugPaneById(long id);
-
-    /**
-     * Gets count of all block panel editors.
-     *
-     * @return count of block panel editors
-     */
-    public Long getAllPanesCount();
 
     /**
      * Gets list of all plugin editor panels for given plugin.

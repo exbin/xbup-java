@@ -23,7 +23,7 @@ import org.xbup.lib.client.catalog.remote.XBRItemLimi;
 import org.xbup.lib.client.catalog.remote.manager.XBRLimiManager;
 
 /**
- * Interface for XBRItemLimi items service.
+ * Remote service for XBRItemLimi items.
  *
  * @version 0.1.21 2012/01/01
  * @author XBUP Project (http://xbup.org)

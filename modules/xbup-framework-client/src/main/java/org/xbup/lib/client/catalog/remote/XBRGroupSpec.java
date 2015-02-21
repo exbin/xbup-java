@@ -20,6 +20,7 @@ import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.client.XBCatalogServiceClient;
 
 /**
+ * Catalog remote group specification entity.
  *
  * @version 0.1.15 2008/01/13
  * @author XBUP Project (http://xbup.org)

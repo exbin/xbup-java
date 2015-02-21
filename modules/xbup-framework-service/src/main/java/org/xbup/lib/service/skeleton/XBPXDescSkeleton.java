@@ -26,6 +26,7 @@ import org.xbup.lib.catalog.entity.XBEXLanguage;
 import org.xbup.lib.catalog.entity.service.XBEItemService;
 import org.xbup.lib.catalog.entity.service.XBEXDescService;
 import org.xbup.lib.catalog.entity.service.XBEXLangService;
+import org.xbup.lib.client.stub.XBPXDescStub;
 import org.xbup.lib.core.catalog.base.XBCXDesc;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
@@ -39,7 +40,6 @@ import org.xbup.lib.core.parser.basic.XBTMatchingProvider;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.remote.XBProcedure;
 import org.xbup.lib.core.remote.XBRemoteServer;
-import org.xbup.lib.core.remote.XBServiceClient;
 import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
 import org.xbup.lib.core.stream.XBInput;
 import org.xbup.lib.core.stream.XBOutput;
@@ -49,7 +49,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRXDesc catalog items.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPXDescSkeleton {
@@ -61,7 +61,7 @@ public class XBPXDescSkeleton {
     }
 
     public void registerProcedures(XBRemoteServer remoteServer) {
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ITEM_DESC_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPXDescStub.ITEM_DESC_PROCEDURE)), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -81,7 +81,7 @@ public class XBPXDescSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.TEXT_DESC_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPXDescStub.TEXT_DESC_PROCEDURE)), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -107,7 +107,7 @@ public class XBPXDescSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.LANG_DESC_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPXDescStub.LANG_DESC_PROCEDURE)), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -126,7 +126,7 @@ public class XBPXDescSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ITEMDESC_DESC_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPXDescStub.ITEMDESC_DESC_PROCEDURE)), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -149,7 +149,7 @@ public class XBPXDescSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.LANGNAME_DESC_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPXDescStub.LANGNAME_DESC_PROCEDURE)), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -169,7 +169,7 @@ public class XBPXDescSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.ITEMDESCS_DESC_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPXDescStub.ITEMDESCS_DESC_PROCEDURE)), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -191,7 +191,7 @@ public class XBPXDescSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.DESCSCOUNT_DESC_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPXDescStub.DESCSCOUNT_DESC_PROCEDURE)), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {

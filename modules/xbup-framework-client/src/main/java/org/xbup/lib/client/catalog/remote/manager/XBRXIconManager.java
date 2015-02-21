@@ -16,11 +16,8 @@
  */
 package org.xbup.lib.client.catalog.remote.manager;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
@@ -30,26 +27,24 @@ import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.XBCXIcon;
 import org.xbup.lib.core.catalog.base.manager.XBCXFileManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXIconManager;
-import org.xbup.lib.client.XBCatalogServiceMessage;
-import org.xbup.lib.client.catalog.remote.XBRItem;
 import org.xbup.lib.client.catalog.remote.XBRXIcon;
 import org.xbup.lib.client.catalog.remote.XBRXIconMode;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.client.stub.XBPXIconStub;
 
 /**
- * Manager class for XBRXIcon catalog items.
+ * Remote manager class for XBRXIcon catalog items.
  *
- * @version 0.1.24 2014/11/26
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXIconManager extends XBRDefaultManager<XBRXIcon> implements XBCXIconManager<XBRXIcon> {
 
+    private final XBPXIconStub iconStub;
+
     public XBRXIconManager(XBRCatalog catalog) {
         super(catalog);
+        iconStub = new XBPXIconStub(client);
+        setManagerStub(iconStub);
     }
 
     public Long getAllIconsCount() {
@@ -89,23 +84,7 @@ public class XBRXIconManager extends XBRDefaultManager<XBRXIcon> implements XBCX
 
     @Override
     public XBRXIcon getDefaultIcon(XBCItem item) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.DEFAULTITEM_ICON_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRItem) item).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            Long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (index == 0) {
-                return null;
-            }
-            return new XBRXIcon(client, index);
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return iconStub.getDefaultIcon(item);
     }
 
     @Override

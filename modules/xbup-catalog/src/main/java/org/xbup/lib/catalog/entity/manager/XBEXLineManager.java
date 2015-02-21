@@ -109,19 +109,6 @@ public class XBEXLineManager extends XBEDefaultManager<XBEXBlockLine> implements
     }
 
     @Override
-    public Long getAllLinesCount() {
-        try {
-            return (Long) catalog.getEntityManager().createQuery("SELECT count(o) FROM XBXBlockLine as o").getSingleResult();
-        } catch (NoResultException ex) {
-            Logger.getLogger(XBEXLineManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        } catch (Exception ex) {
-            Logger.getLogger(XBEXLineManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-
-    @Override
     public List<XBCXPlugLine> getPlugLines(XBCXPlugin plugin) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

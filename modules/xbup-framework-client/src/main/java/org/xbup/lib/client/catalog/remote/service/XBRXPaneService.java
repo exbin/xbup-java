@@ -30,9 +30,9 @@ import org.xbup.lib.client.catalog.remote.XBRXPlugPane;
 import org.xbup.lib.client.catalog.remote.manager.XBRXPaneManager;
 
 /**
- * Interface for XBRXBlockPane items service.
+ * Remote service for XBRXBlockPane items.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXPaneService extends XBRDefaultService<XBRXBlockPane> implements XBCXPaneService<XBRXBlockPane> {
@@ -56,11 +56,6 @@ public class XBRXPaneService extends XBRDefaultService<XBRXBlockPane> implements
     @Override
     public XBRXPlugPane findPlugPaneById(long id) {
         return ((XBRXPaneManager)itemManager).findPlugPaneById(id);
-    }
-
-    @Override
-    public Long getAllPanesCount() {
-        return ((XBRXPaneManager)itemManager).getAllPanesCount();
     }
 
     @Override

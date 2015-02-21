@@ -47,14 +47,6 @@ public interface XBCRevService<T extends XBCRev> extends XBCService<T> {
     public long findMaxRevXB(XBCSpec spec);
 
     /**
-     * Gets revision of given index.
-     *
-     * @param id database record index
-     * @return revision
-     */
-    public XBCRev findRevById(long id);
-
-    /**
      * Gets revision of given order index.
      *
      * @param spec specification
@@ -80,21 +72,14 @@ public interface XBCRevService<T extends XBCRev> extends XBCService<T> {
     public long getRevsCount(XBCSpec spec);
 
     /**
-     * Gets count of all revisions in catalog.
-     *
-     * @return count of revisions
-     */
-    public Long getAllRevisionsCount();
-
-    /**
-     * Remove specification revision with all dependencies.
+     * Removes specification revision with all dependencies.
      *
      * @param specDef revision to remove
      */
     public void removeItemDepth(XBCRev specDef);
 
     /**
-     * Create new revision specific to particular specification.
+     * Creates new revision specific to particular specification.
      *
      * @param spec specification
      * @return new revision instance

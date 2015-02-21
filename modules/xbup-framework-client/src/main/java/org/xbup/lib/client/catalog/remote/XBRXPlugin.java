@@ -16,124 +16,46 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.client.XBCatalogServiceMessage;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.parser.token.pull.XBPullProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.serial.child.XBChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBChildProviderSerialHandler;
-import org.xbup.lib.core.type.XBString;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.client.stub.XBPXPlugStub;
 
 /**
+ * Catalog remote plugin entity.
  *
- * @version 0.1.19 2010/06/19
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXPlugin implements XBCXPlugin {
 
-    private long id;
+    private final long id;
     protected XBCatalogServiceClient client;
+    private final XBPXPlugStub plugStub;
 
     public XBRXPlugin(XBCatalogServiceClient client, long id) {
         this.id = id;
         this.client = client;
+        plugStub = new XBPXPlugStub(client);
     }
 
     @Override
     public XBRNode getOwner() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.OWNER_PLUGIN_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long ownerId = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (ownerId == 0) {
-                return null;
-            }
-            return new XBRNode(client, ownerId);
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return plugStub.getOwner(id);
+    }
+
+    @Override
+    public XBCXFile getPluginFile() {
+        return plugStub.getPluginFile(id);
+    }
+
+    @Override
+    public Long getPluginIndex() {
+        return plugStub.getPluginIndex(id);
     }
 
     @Override
     public Long getId() {
         return id;
-    }
-
-    public String getFilename() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.FILENAME_FILE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBPullProvider input = message.getXBInputStream();
-            XBMatchingProvider checker = message.getXBInput();
-            checker.matchAttribXB(new UBNat32(1));
-            checker.matchBeginXB();
-            checker.matchAttribXB();
-            checker.matchAttribXB();
-            XBString text = new XBString();
-            XBChildInputSerialHandler handler = new XBChildProviderSerialHandler();
-            handler.attachXBPullProvider(input);
-            text.new DataBlockSerializator().serializeFromXB(handler);
-//            new XBL1ToL0DefaultStreamConvertor(new XBL2ToL1DefaultStreamConvertor(text)).readXBStream(input);
-            checker.matchEndXB();
-            checker.matchEndXB();
-            message.close();
-            return text.getValue();
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRXDesc.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    @Override
-    public XBCXFile getPluginFile() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.FILE_PLUGIN_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRXFile(client, index);
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRXDesc.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    @Override
-    public Long getPluginIndex() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.INDEX_PLUGIN_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
     }
 }

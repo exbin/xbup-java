@@ -16,37 +16,31 @@
  */
 package org.xbup.lib.client.catalog.remote.manager;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCXBlockPane;
 import org.xbup.lib.core.catalog.base.XBCXPlugPane;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.core.catalog.base.manager.XBCXPaneManager;
-import org.xbup.lib.client.XBCatalogServiceMessage;
-import org.xbup.lib.client.catalog.remote.XBRBlockRev;
 import org.xbup.lib.client.catalog.remote.XBRXBlockPane;
 import org.xbup.lib.client.catalog.remote.XBRXPlugPane;
-import org.xbup.lib.client.catalog.remote.XBRXPlugin;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.client.stub.XBPXPaneStub;
 
 /**
- * Manager class for XBRXBlockPane catalog items.
+ * Remote manager class for XBRXBlockPane catalog items.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXPaneManager extends XBRDefaultManager<XBRXBlockPane> implements XBCXPaneManager<XBRXBlockPane> {
 
+    private final XBPXPaneStub paneStub;
+
     public XBRXPaneManager(XBRCatalog catalog) {
         super(catalog);
+        paneStub = new XBPXPaneStub(client);
+        setManagerStub(paneStub);
     }
 
     @Override
@@ -70,45 +64,7 @@ public class XBRXPaneManager extends XBRDefaultManager<XBRXBlockPane> implements
 
     @Override
     public XBRXBlockPane findPaneByPR(XBCBlockRev rev, long priority) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.REVPANE_PANE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRBlockRev) rev).getId()));
-            listener.attribXB(new UBNat32(priority));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long itemId = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (itemId == 0) {
-                return null;
-            }
-            return new XBRXBlockPane(client, itemId);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    @Override
-    public Long getAllPanesCount() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.PANESCOUNT_PANE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            Long count = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return count;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return paneStub.findPaneByPR(rev, priority);
     }
 
     @Override
@@ -123,45 +79,12 @@ public class XBRXPaneManager extends XBRDefaultManager<XBRXBlockPane> implements
 
     @Override
     public XBRXPlugPane getPlugPane(XBCXPlugin plugin, long paneIndex) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.PLUGPANE_PANE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRXPlugin) plugin).getId()));
-            listener.attribXB(new UBNat32(paneIndex));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long itemId = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (itemId == 0) {
-                return null;
-            }
-            return new XBRXPlugPane(client, itemId);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return getPlugPane(plugin, paneIndex);
     }
 
     @Override
     public Long getAllPlugPanesCount() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.PLUGPANESCOUNT_PANE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            Long count = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return count;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRXNameManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return paneStub.getAllPlugPanesCount();
     }
 
     @Override

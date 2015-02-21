@@ -27,7 +27,7 @@ import org.xbup.lib.client.catalog.remote.XBRNode;
 import org.xbup.lib.client.catalog.remote.manager.XBRNodeManager;
 
 /**
- * Interface for XBRNode items service.
+ * Remote service for XBRNode items.
  *
  * @version 0.1.24 2015/01/09
  * @author XBUP Project (http://xbup.org)

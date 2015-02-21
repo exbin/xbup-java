@@ -18,16 +18,18 @@ package org.xbup.lib.client.catalog.remote;
 
 import org.xbup.lib.core.catalog.base.XBCFormatJoin;
 import org.xbup.lib.client.XBCatalogServiceClient;
+import org.xbup.lib.core.block.definition.XBParamType;
 
 /**
+ * Catalog remote format join specification definition entity.
  *
- * @version 0.1.22 2013/01/11
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRFormatJoin extends XBRJoinDef implements XBCFormatJoin {
 
     public XBRFormatJoin(XBCatalogServiceClient client, long id) {
-        super(client,id);
+        super(client, id);
     }
 
     @Override
@@ -36,7 +38,7 @@ public class XBRFormatJoin extends XBRJoinDef implements XBCFormatJoin {
         if (item == null) {
             return null;
         }
-        return new XBRFormatRev(item.client,item.getId());
+        return new XBRFormatRev(item.client, item.getId());
     }
 
     @Override
@@ -45,7 +47,11 @@ public class XBRFormatJoin extends XBRJoinDef implements XBCFormatJoin {
         if (item == null) {
             return null;
         }
-        return new XBRFormatSpec(item.client,item.getId());
+        return new XBRFormatSpec(item.client, item.getId());
     }
 
+    @Override
+    public XBParamType getType() {
+        return XBParamType.JOIN;
+    }
 }

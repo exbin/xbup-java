@@ -30,7 +30,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRXLangManager;
 import org.xbup.lib.client.catalog.remote.manager.XBRXNameManager;
 
 /**
- * Interface for XBRXName items service.
+ * Remote service for XBRXName items.
  *
  * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)

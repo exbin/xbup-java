@@ -23,7 +23,7 @@ import org.xbup.lib.client.catalog.remote.XBRTran;
 import org.xbup.lib.client.catalog.remote.manager.XBRTranManager;
 
 /**
- * Interface for XBRTran items service.
+ * Remote service for XBRTran items.
  *
  * @version 0.1.21 2012/01/01
  * @author XBUP Project (http://xbup.org)

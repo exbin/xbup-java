@@ -22,7 +22,7 @@ import org.xbup.lib.core.catalog.base.XBCNode;
 /**
  * Interface for XBCXItemInfo catalog manager.
  *
- * @version 0.1.21 2011/12/29
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  * @param <T> item information entity
  */
@@ -31,15 +31,8 @@ public interface XBCXInfoManager<T extends XBCXItemInfo> extends XBCManager<T> {
     /**
      * Returns item info for given node.
      *
-     * @param node
+     * @param node node node
      * @return item info
      */
     public XBCXItemInfo getNodeInfo(XBCNode node);
-
-    /**
-     * Gets count of all information items.
-     *
-     * @return count of information items
-     */
-    public Long getAllInfosCount();
 }

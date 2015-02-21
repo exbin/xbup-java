@@ -76,11 +76,6 @@ public class XBEXLineService extends XBEDefaultService<XBEXBlockLine> implements
     }
 
     @Override
-    public Long getAllLinesCount() {
-        return ((XBEXLineManager) itemManager).getAllLinesCount();
-    }
-
-    @Override
     public Long getAllPlugLinesCount() {
         return ((XBEXLineManager) itemManager).getAllPlugLinesCount();
     }

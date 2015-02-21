@@ -34,7 +34,7 @@ public class XBEDefaultService<T extends XBCBase> extends XBCDefaultItemService<
     @Autowired
     protected XBECatalog catalog;
 
-    public XBEDefaultService() {    
+    public XBEDefaultService() {
     }
 
     public XBEDefaultService(XBECatalog catalog) {

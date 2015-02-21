@@ -20,14 +20,15 @@ import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.client.XBCatalogServiceClient;
 
 /**
+ * Catalog remote node entity.
  *
- * @version 0.1.15 2008/01/13
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRNode extends XBRItem implements XBCNode {
 
     public XBRNode(XBCatalogServiceClient client, long id) {
-        super(client,id);
+        super(client, id);
     }
 
     @Override
@@ -36,6 +37,6 @@ public class XBRNode extends XBRItem implements XBCNode {
         if (item == null) {
             return null;
         }
-        return new XBRNode(item.client,item.getId());
+        return new XBRNode(item.client, item.getId());
     }
 }

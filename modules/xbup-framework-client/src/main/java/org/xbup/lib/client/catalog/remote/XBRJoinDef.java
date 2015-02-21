@@ -16,58 +16,18 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.core.catalog.base.XBCJoinDef;
 import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.client.XBCatalogServiceMessage;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
+ * Catalog remote join specification definition entity.
  *
- * @version 0.1.21 2012/03/26
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRJoinDef extends XBRSpecDef implements XBCJoinDef {
 
     public XBRJoinDef(XBCatalogServiceClient client, long id) {
-        super(client,id);
-    }
-
-    @Override
-    public XBRSpec getSpec() {
-        XBRItem item = super.getSpec();
-        if (item == null) {
-            return null;
-        }
-        return new XBRSpec(item.client,item.getId());
-    }
-
-    @Override
-    public XBRRev getTarget() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.TARGET_BIND_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long target = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (target == 0) {
-                return null;
-            }
-            return new XBRRev(client, target);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        super(client, id);
     }
 }

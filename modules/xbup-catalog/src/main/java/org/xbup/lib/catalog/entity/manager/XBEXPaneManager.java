@@ -109,19 +109,6 @@ public class XBEXPaneManager extends XBEDefaultManager<XBEXBlockPane> implements
     }
 
     @Override
-    public Long getAllPanesCount() {
-        try {
-            return (Long) catalog.getEntityManager().createQuery("SELECT count(o) FROM XBXBlockPane as o").getSingleResult();
-        } catch (NoResultException ex) {
-            Logger.getLogger(XBEXPaneManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        } catch (Exception ex) {
-            Logger.getLogger(XBEXPaneManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-
-    @Override
     public List<XBCXPlugPane> getPlugPanes(XBCXPlugin plugin) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

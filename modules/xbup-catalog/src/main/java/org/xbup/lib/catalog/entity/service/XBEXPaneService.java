@@ -62,52 +62,47 @@ public class XBEXPaneService extends XBEDefaultService<XBEXBlockPane> implements
 
     @Override
     public XBEXBlockPane findById(long id) {
-        return ((XBEXPaneManager)itemManager).findById(id);
+        return ((XBEXPaneManager) itemManager).findById(id);
     }
 
     @Override
     public XBEXBlockPane findPaneByPR(XBCBlockRev rev, long priority) {
-        return ((XBEXPaneManager)itemManager).findPaneByPR(rev, priority);
+        return ((XBEXPaneManager) itemManager).findPaneByPR(rev, priority);
     }
 
     @Override
     public XBEXPlugPane findPlugPaneById(long id) {
-        return ((XBEXPaneManager)itemManager).findPlugPaneById(id);
-    }
-
-    @Override
-    public Long getAllPanesCount() {
-        return ((XBEXPaneManager)itemManager).getAllPanesCount();
+        return ((XBEXPaneManager) itemManager).findPlugPaneById(id);
     }
 
     @Override
     public Long getAllPlugPanesCount() {
-        return ((XBEXPaneManager)itemManager).getAllPlugPanesCount();
+        return ((XBEXPaneManager) itemManager).getAllPlugPanesCount();
     }
 
     @Override
     public List<XBCXBlockPane> getPanes(XBCBlockRev rev) {
-        return ((XBEXPaneManager)itemManager).getPanes(rev);
+        return ((XBEXPaneManager) itemManager).getPanes(rev);
     }
 
     @Override
     public long getPanesCount(XBCBlockRev rev) {
-        return ((XBEXPaneManager)itemManager).getPanesCount(rev);
+        return ((XBEXPaneManager) itemManager).getPanesCount(rev);
     }
 
     @Override
     public XBEXPlugPane getPlugPane(XBCXPlugin plugin, long pane) {
-        return ((XBEXPaneManager)itemManager).getPlugPane(plugin, pane);
+        return ((XBEXPaneManager) itemManager).getPlugPane(plugin, pane);
     }
 
     @Override
     public List<XBCXPlugPane> getPlugPanes(XBCXPlugin plugin) {
-        return ((XBEXPaneManager)itemManager).getPlugPanes(plugin);
+        return ((XBEXPaneManager) itemManager).getPlugPanes(plugin);
     }
 
     @Override
     public long getPlugPanesCount(XBCXPlugin plugin) {
-        return ((XBEXPaneManager)itemManager).getPlugPanesCount(plugin);
+        return ((XBEXPaneManager) itemManager).getPlugPanesCount(plugin);
     }
 
     @Override

@@ -21,14 +21,15 @@ import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.client.XBCatalogServiceClient;
 
 /**
+ * Catalog remote block list join specification definition entity.
  *
- * @version 0.1.22 2013/01/11
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRBlockListJoin extends XBRSpecDef implements XBCBlockListJoin {
 
     public XBRBlockListJoin(XBCatalogServiceClient client, long id) {
-        super(client,id);
+        super(client, id);
     }
 
     @Override
@@ -37,7 +38,7 @@ public class XBRBlockListJoin extends XBRSpecDef implements XBCBlockListJoin {
         if (item == null) {
             return null;
         }
-        return new XBRBlockRev(item.client,item.getId());
+        return new XBRBlockRev(item.client, item.getId());
     }
 
     @Override
@@ -46,7 +47,7 @@ public class XBRBlockListJoin extends XBRSpecDef implements XBCBlockListJoin {
         if (item == null) {
             return null;
         }
-        return new XBRBlockSpec(item.client,item.getId());
+        return new XBRBlockSpec(item.client, item.getId());
     }
 
     @Override

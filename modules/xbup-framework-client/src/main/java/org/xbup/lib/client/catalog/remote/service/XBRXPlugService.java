@@ -27,7 +27,7 @@ import org.xbup.lib.client.catalog.remote.XBRXPlugin;
 import org.xbup.lib.client.catalog.remote.manager.XBRXPlugManager;
 
 /**
- * Interface for XBRXPlugin items service.
+ * Remote service for XBRXPlugin items.
  *
  * @version 0.1.21 2011/12/31
  * @author XBUP Project (http://xbup.org)

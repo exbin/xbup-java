@@ -17,23 +17,29 @@
 package org.xbup.lib.client.stub;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.XBCatalogServiceMessage;
 import org.xbup.lib.client.catalog.remote.XBRItem;
+import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
+import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * RPC stub class for XBRItem catalog items.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPItemStub {
+public class XBPItemStub implements XBPManagerStub<XBCItem> {
+
+    public static long[] OWNER_ITEM_PROCEDURE = {0, 2, 3, 0, 0};
+    public static long[] XBINDEX_ITEM_PROCEDURE = {0, 2, 3, 1, 0};
+    public static long[] ITEMSCOUNT_ITEM_PROCEDURE = {0, 2, 3, 2, 0};
 
     private final XBCatalogServiceClient client;
 
@@ -41,9 +47,72 @@ public class XBPItemStub {
         this.client = client;
     }
 
+    public XBRItem getParent(Long itemId) {
+        try {
+            XBCatalogServiceMessage message = client.executeProcedure(OWNER_ITEM_PROCEDURE);
+            XBListener listener = message.getXBOutput();
+            listener.attribXB(new UBNat32(itemId));
+            listener.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long ownerId = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
+            message.close();
+            if (ownerId == 0) {
+                return null;
+            }
+            return new XBRItem(client, ownerId);
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public Long getXBIndex(Long itemId) {
+        try {
+            XBCatalogServiceMessage message = client.executeProcedure(XBINDEX_ITEM_PROCEDURE);
+            XBListener listener = message.getXBOutput();
+            listener.attribXB(new UBNat32(itemId));
+            listener.endXB();
+            XBMatchingProvider checker = message.getXBInput();
+            long index = checker.matchAttribXB().getNaturalLong();
+            checker.matchEndXB();
+            message.close();
+            return index;
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public XBCItem createItem() {
+        throw new IllegalStateException("Cannot create generic item");
+    }
+
+    @Override
+    public void persistItem(XBCItem item) {
+        throw new IllegalStateException("Cannot persist generic item");
+    }
+
+    @Override
+    public void removeItem(XBCItem item) {
+        throw new IllegalStateException("Cannot remove generic item");
+    }
+
+    @Override
+    public XBCItem getItem(long itemId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<XBCItem> getAllItems() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public long getItemsCount() {
         try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.ITEMSCOUNT_ITEM_PROCEDURE);
+            XBCatalogServiceMessage message = client.executeProcedure(ITEMSCOUNT_ITEM_PROCEDURE);
             XBListener listener = message.getXBOutput();
             listener.endXB();
             XBMatchingProvider checker = message.getXBInput();
@@ -52,7 +121,7 @@ public class XBPItemStub {
             message.close();
             return index;
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
     }

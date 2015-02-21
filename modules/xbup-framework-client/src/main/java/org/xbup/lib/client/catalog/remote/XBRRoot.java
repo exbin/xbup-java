@@ -22,25 +22,19 @@ import org.xbup.lib.core.catalog.base.XBCRoot;
 import org.xbup.lib.client.XBCatalogServiceClient;
 
 /**
+ * Catalog remote root entity.
  *
- * @version 0.1.22 2013/08/18
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRRoot implements XBCRoot {
 
-    private long id;
-    private Date lastUpdate;
+    private final long id;
     protected XBCatalogServiceClient client;
 
-    public XBRRoot(XBCatalogServiceClient client, long id, long timeStamp) {
+    public XBRRoot(XBCatalogServiceClient client, long id) {
         this.id = id;
         this.client = client;
-        this.lastUpdate = new Date(timeStamp);
-    }
-
-    @Override
-    public Long getId() {
-        return id;
     }
 
     @Override
@@ -55,6 +49,11 @@ public class XBRRoot implements XBCRoot {
 
     @Override
     public Date getLastUpdate() {
-        return lastUpdate;
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Long getId() {
+        return id;
     }
 }

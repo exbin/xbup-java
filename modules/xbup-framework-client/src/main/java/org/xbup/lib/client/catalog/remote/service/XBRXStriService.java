@@ -27,7 +27,7 @@ import org.xbup.lib.client.catalog.remote.XBRXStri;
 import org.xbup.lib.client.catalog.remote.manager.XBRXStriManager;
 
 /**
- * Interface for XBRXStri items service.
+ * Remote service for XBRXStri items.
  *
  * @version 0.1.24 2014/11/17
  * @author XBUP Project (http://xbup.org)

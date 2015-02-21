@@ -16,82 +16,39 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.client.XBCatalogServiceMessage;
+import org.xbup.lib.client.stub.XBPSpecStub;
 import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
+ * Catalog remote specification definition entity.
  *
- * @version 0.1.22 2013/01/11
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRSpecDef extends XBRItem implements XBCSpecDef {
 
+    private final XBPSpecStub specStub;
+
     public XBRSpecDef(XBCatalogServiceClient client, long id) {
         super(client, id);
+        specStub = new XBPSpecStub(client);
     }
 
     @Override
     public XBRSpec getSpec() {
-        throw new UnsupportedOperationException("Not supported yet.");
-/*        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.OWNER_ITEM_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long ownerId = checker.matchAttribXB().getLong();
-            checker.matchEndXB();
-            message.close();
-            if (ownerId == 0) return null;
-            return new XBRItem(client, ownerId);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-
-        XBRItem item = super.getSpec();
-        if (item == null) return null;
-        return new XBRSpec(item.client,item.getId()); */
+        XBRItem parent = super.getParent();
+        return parent == null ? null : new XBRSpec(client, parent.getId());
     }
 
     @Override
     public XBRRev getTarget() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.TARGET_BIND_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long target = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (target == 0) {
-                return null;
-            }
-            return new XBRRev(client, target);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRSpecDef.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRSpecDef.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return specStub.getTarget(getId());
     }
 
     @Override
     public XBParamType getType() {
-        // TODO
         return null;
     }
 }

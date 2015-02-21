@@ -56,7 +56,7 @@ public class XBEXLangService extends XBEDefaultService<XBEXLanguage> implements 
 
     @Override
     public XBEXLanguage getDefaultLang() {
-        return ((XBEXLangManager)itemManager).getDefaultLang();
+        return ((XBEXLangManager) itemManager).getDefaultLang();
     }
 
     @Override

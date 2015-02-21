@@ -16,64 +16,31 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.client.XBCatalogServiceMessage;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.parser.token.pull.XBPullProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.serial.child.XBChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBChildProviderSerialHandler;
-import org.xbup.lib.core.type.XBString;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.client.stub.XBPXLangStub;
 
 /**
- * Interface for remote catalog language entity.
+ * Catalog remote language entity.
  *
- * @version 0.1.21 2012/04/15
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXLanguage implements XBCXLanguage {
 
-    private long id;
+    private final long id;
     protected XBCatalogServiceClient client;
+    private final XBPXLangStub langStub;
 
     public XBRXLanguage(XBCatalogServiceClient client, long id) {
         this.id = id;
         this.client = client;
+        langStub = new XBPXLangStub(client);
     }
 
     @Override
     public String getLangCode() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.CODE_LANG_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBPullProvider input = message.getXBInputStream();
-            XBMatchingProvider checker = message.getXBInput();
-            checker.matchAttribXB(new UBNat32(1));
-            checker.matchBeginXB();
-            checker.matchAttribXB();
-            checker.matchAttribXB();
-            XBString text = new XBString();
-            XBChildInputSerialHandler handler = new XBChildProviderSerialHandler();
-            handler.attachXBPullProvider(input);
-            text.new DataBlockSerializator().serializeFromXB(handler);
-//            new XBL1ToL0DefaultStreamConvertor(new XBL2ToL1DefaultStreamConvertor(text)).readXBStream(input);
-            checker.matchEndXB();
-            checker.matchEndXB();
-            message.close();
-            return text.getValue();
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRXLanguage.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return langStub.getLangCode(id);
     }
 
     @Override
@@ -81,17 +48,13 @@ public class XBRXLanguage implements XBCXLanguage {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void setId(long id) {
-        this.id = id;
+    @Override
+    public String getName() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public Long getId() {
         return id;
-    }
-
-    @Override
-    public String getName() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -71,11 +71,6 @@ public class XBERevService extends XBEDefaultService<XBERev> implements XBCRevSe
     }
 
     @Override
-    public XBERev findRevById(long id) {
-        return ((XBERevManager) itemManager).findRevById(id);
-    }
-
-    @Override
     public XBERev findRevByXB(XBCSpec spec, long xbIndex) {
         return ((XBERevManager) itemManager).findRevByXB(spec, xbIndex);
     }
@@ -88,11 +83,6 @@ public class XBERevService extends XBEDefaultService<XBERev> implements XBCRevSe
     @Override
     public List<XBCRev> getRevs(XBCSpec spec) {
         return ((XBERevManager) itemManager).getRevs(spec);
-    }
-
-    @Override
-    public Long getAllRevisionsCount() {
-        return ((XBERevManager) itemManager).getAllRevisionsCount();
     }
 
     @Override

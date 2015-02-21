@@ -74,13 +74,6 @@ public interface XBCXPaneManager<T extends XBCXBlockPane> extends XBCManager<T>,
     public XBCXPlugPane findPlugPaneById(long id);
 
     /**
-     * Gets count of all panel editors.
-     *
-     * @return count of panel editors
-     */
-    public Long getAllPanesCount();
-
-    /**
      * Gets list of all plugin panels.
      *
      * @param plugin

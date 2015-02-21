@@ -22,9 +22,9 @@ import org.xbup.lib.core.catalog.base.service.XBCDefaultItemService;
 import org.xbup.lib.core.catalog.base.service.XBCService;
 
 /**
- * Persistence manager for XBCItem items.
+ * Default remote service.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  * @param <T> base entity
  */

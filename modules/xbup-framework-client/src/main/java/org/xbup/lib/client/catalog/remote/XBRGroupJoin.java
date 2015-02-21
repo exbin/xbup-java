@@ -18,16 +18,18 @@ package org.xbup.lib.client.catalog.remote;
 
 import org.xbup.lib.core.catalog.base.XBCGroupJoin;
 import org.xbup.lib.client.XBCatalogServiceClient;
+import org.xbup.lib.core.block.definition.XBParamType;
 
 /**
+ * Catalog remote group join specification definition entity.
  *
- * @version 0.1.22 2013/01/11
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRGroupJoin extends XBRJoinDef implements XBCGroupJoin {
 
     public XBRGroupJoin(XBCatalogServiceClient client, long id) {
-        super(client,id);
+        super(client, id);
     }
 
     @Override
@@ -37,7 +39,7 @@ public class XBRGroupJoin extends XBRJoinDef implements XBCGroupJoin {
             return null;
         }
 
-        return new XBRGroupRev(item.client,item.getId());
+        return new XBRGroupRev(item.client, item.getId());
     }
 
     @Override
@@ -46,7 +48,11 @@ public class XBRGroupJoin extends XBRJoinDef implements XBCGroupJoin {
         if (item == null) {
             return null;
         }
-        return new XBRGroupSpec(item.client,item.getId());
+        return new XBRGroupSpec(item.client, item.getId());
     }
 
+    @Override
+    public XBParamType getType() {
+        return XBParamType.JOIN;
+    }
 }

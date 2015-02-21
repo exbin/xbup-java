@@ -26,7 +26,7 @@ import org.xbup.lib.client.XBCatalogServiceClient;
  */
 public class XBRXIconMode implements XBCXIconMode {
 
-    private long id;
+    private final long id;
     protected XBCatalogServiceClient client;
 
     public XBRXIconMode(XBCatalogServiceClient client, long id) {

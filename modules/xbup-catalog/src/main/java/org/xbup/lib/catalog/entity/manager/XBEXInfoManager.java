@@ -59,19 +59,6 @@ public class XBEXInfoManager extends XBEDefaultManager<XBEXItemInfo> implements 
         }
     }
 
-    @Override
-    public Long getAllInfosCount() {
-        try {
-            return (Long) em.createQuery("SELECT count(o) FROM XBItemInfo as o").getSingleResult();
-        } catch (NoResultException ex) {
-            Logger.getLogger(XBEXInfoManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        } catch (Exception ex) {
-            Logger.getLogger(XBEXInfoManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-
     public XBEXItemInfo findById(long id) {
         try {
             return (XBEXItemInfo) em.createQuery("SELECT object(o) FROM XBItemInfo as o WHERE o.id = " + id).getSingleResult();

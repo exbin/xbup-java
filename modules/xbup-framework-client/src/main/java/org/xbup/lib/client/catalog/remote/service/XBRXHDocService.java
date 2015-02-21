@@ -27,7 +27,7 @@ import org.xbup.lib.client.catalog.remote.XBRXHDoc;
 import org.xbup.lib.client.catalog.remote.manager.XBRXHDocManager;
 
 /**
- * Interface for XBRXHDoc items service.
+ * Remote service for XBRXHDoc items.
  *
  * @version 0.1.21 2011/02/05
  * @author XBUP Project (http://xbup.org)

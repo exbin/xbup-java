@@ -41,7 +41,7 @@ public class XBELimiService extends XBEDefaultService<XBEItemLimi> implements XB
     public XBELimiService() {
         super();
     }
-    
+
     public XBELimiService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBELimiManager(catalog);

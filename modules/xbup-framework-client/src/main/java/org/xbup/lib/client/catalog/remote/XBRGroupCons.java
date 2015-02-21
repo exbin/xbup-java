@@ -18,16 +18,18 @@ package org.xbup.lib.client.catalog.remote;
 
 import org.xbup.lib.core.catalog.base.XBCGroupCons;
 import org.xbup.lib.client.XBCatalogServiceClient;
+import org.xbup.lib.core.block.definition.XBParamType;
 
 /**
+ * Catalog remote group consist specification definition entity.
  *
- * @version 0.1.22 2013/01/11
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRGroupCons extends XBRConsDef implements XBCGroupCons {
 
     public XBRGroupCons(XBCatalogServiceClient client, long id) {
-        super(client,id);
+        super(client, id);
     }
 
     @Override
@@ -36,7 +38,7 @@ public class XBRGroupCons extends XBRConsDef implements XBCGroupCons {
         if (item == null) {
             return null;
         }
-        return new XBRBlockRev(item.client,item.getId());
+        return new XBRBlockRev(item.client, item.getId());
     }
 
     @Override
@@ -45,7 +47,11 @@ public class XBRGroupCons extends XBRConsDef implements XBCGroupCons {
         if (item == null) {
             return null;
         }
-        return new XBRGroupSpec(item.client,item.getId());
+        return new XBRGroupSpec(item.client, item.getId());
     }
 
+    @Override
+    public XBParamType getType() {
+        return XBParamType.CONSIST;
+    }
 }

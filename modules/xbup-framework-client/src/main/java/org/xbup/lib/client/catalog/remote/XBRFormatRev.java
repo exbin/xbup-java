@@ -20,6 +20,7 @@ import org.xbup.lib.core.catalog.base.XBCFormatRev;
 import org.xbup.lib.client.XBCatalogServiceClient;
 
 /**
+ * Catalog remote format specification revision entity.
  *
  * @version 0.1.17 2009/06/16
  * @author XBUP Project (http://xbup.org)

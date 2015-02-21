@@ -16,102 +16,47 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCXBlockLine;
 import org.xbup.lib.core.catalog.base.XBCXPlugLine;
 import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.client.XBCatalogServiceMessage;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.client.stub.XBPXLineStub;
 
 /**
  * Catalog remote block line editor entity.
  *
- * @version 0.1.19 2010/06/19
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXBlockLine implements XBCXBlockLine {
 
-    private long id;
+    private final long id;
     protected XBCatalogServiceClient client;
+    private final XBPXLineStub lineStub;
 
     public XBRXBlockLine(XBCatalogServiceClient client, long id) {
         this.id = id;
         this.client = client;
+        lineStub = new XBPXLineStub(client);
     }
 
     @Override
     public XBCBlockRev getBlockRev() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.REV_LINE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long ownerId = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRBlockRev(client, ownerId);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXBlockLine.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRXBlockLine.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return lineStub.getBlockRev(id);
     }
 
     @Override
     public XBCXPlugLine getLine() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.PLUGIN_LINE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long ownerId = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRXPlugLine(client, ownerId);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXBlockLine.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRXBlockLine.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return lineStub.getLine(id);
     }
 
     @Override
     public Long getPriority() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.PRIORITY_LINE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return lineStub.getPriority(id);
     }
 
     @Override
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }

@@ -16,63 +16,36 @@
  */
 package org.xbup.lib.client.catalog.remote.manager;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.manager.XBCXFileManager;
-import org.xbup.lib.client.XBCatalogServiceMessage;
-import org.xbup.lib.client.catalog.remote.XBRXDesc;
 import org.xbup.lib.client.catalog.remote.XBRXFile;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
-import org.xbup.lib.core.util.StreamUtils;
+import org.xbup.lib.client.stub.XBPXFileStub;
 
 /**
- * Manager class for XBRXFile catalog items.
+ * Remote manager class for XBRXFile catalog items.
  *
- * @version 0.1.22 2013/07/28
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXFileManager extends XBRDefaultManager<XBRXFile> implements XBCXFileManager<XBRXFile> {
 
+    private final XBPXFileStub fileStub;
+
     public XBRXFileManager(XBRCatalog catalog) {
         super(catalog);
-    }
-
-    public Long getAllFilesCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
-/*        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SPECSCOUNT_SPEC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            Long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRItem.class.getExtensionName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRItem.class.getExtensionName()).log(Level.SEVERE, null, ex);
-        }
-        return null; */
+        fileStub = new XBPXFileStub(client);
+        setManagerStub(fileStub);
     }
 
     @Override
     public Long[] getFileXBPath(XBCXFile file) {
-        ArrayList<Long> list = new ArrayList<Long>();
+        ArrayList<Long> list = new ArrayList<>();
         XBCNode parent = file.getNode();
         while (parent != null) {
             if (parent.getParent() != null) {
@@ -89,54 +62,12 @@ public class XBRXFileManager extends XBRDefaultManager<XBRXFile> implements XBCX
 
     @Override
     public ImageIcon getFileAsImageIcon(XBCXFile iconFile) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.DATA_FILE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(iconFile.getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            checker.matchAttribXB(new UBNat32(1));
-            checker.matchBeginXB();
-            InputStream istream = checker.matchDataXB();
-            ByteArrayOutputStream data = new ByteArrayOutputStream();
-            StreamUtils.copyInputStreamToOutputStream(istream, data);
-            checker.matchEndXB();
-            message.close();
-            return new ImageIcon(data.toByteArray()); // TODO: Is there better to convert InputStream?
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXDesc.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRXDesc.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public XBCXFile findById(long id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return fileStub.getFileAsImageIcon(iconFile);
     }
 
     @Override
     public InputStream getFile(XBCXFile iconFile) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.DATA_FILE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(iconFile.getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            checker.matchAttribXB(new UBNat32(1));
-            checker.matchBeginXB();
-            InputStream istream = checker.matchDataXB();
-            ByteArrayOutputStream data = new ByteArrayOutputStream();
-            StreamUtils.copyInputStreamToOutputStream(istream, data);
-            checker.matchEndXB();
-            message.close();
-            return new ByteArrayInputStream(data.toByteArray()); // TODO: Is there better to convert InputStream?
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBRXDesc.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBRXDesc.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return fileStub.getFile(iconFile);
     }
 
     @Override
@@ -146,7 +77,6 @@ public class XBRXFileManager extends XBRDefaultManager<XBRXFile> implements XBCX
 
     @Override
     public void initializeExtension() {
-//        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

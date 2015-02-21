@@ -18,10 +18,12 @@ package org.xbup.lib.client.catalog.remote;
 
 import org.xbup.lib.core.catalog.base.XBCBlockCons;
 import org.xbup.lib.client.XBCatalogServiceClient;
+import org.xbup.lib.core.block.definition.XBParamType;
 
 /**
+ * Catalog remote block consist specification definition entity.
  *
- * @version 0.1.22 2013/01/11
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRBlockCons extends XBRConsDef implements XBCBlockCons {
@@ -48,5 +50,10 @@ public class XBRBlockCons extends XBRConsDef implements XBCBlockCons {
         }
 
         return new XBRBlockSpec(item.client, item.getId());
+    }
+
+    @Override
+    public XBParamType getType() {
+        return XBParamType.CONSIST;
     }
 }

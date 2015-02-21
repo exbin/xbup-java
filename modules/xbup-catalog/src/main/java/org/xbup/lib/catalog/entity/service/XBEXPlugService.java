@@ -59,27 +59,27 @@ public class XBEXPlugService extends XBEDefaultService<XBEXPlugin> implements XB
 
     @Override
     public XBEXPlugin findById(long id) {
-        return ((XBEXPlugManager)itemManager).findById(id);
+        return ((XBEXPlugManager) itemManager).findById(id);
     }
 
     @Override
     public XBEXPlugin findPlugin(XBCNode node, Long index) {
-        return ((XBEXPlugManager)itemManager).findPlugin(node, index);
+        return ((XBEXPlugManager) itemManager).findPlugin(node, index);
     }
 
     @Override
     public Long getAllPluginCount() {
-        return ((XBEXPlugManager)itemManager).getAllPluginCount();
+        return ((XBEXPlugManager) itemManager).getAllPluginCount();
     }
 
     @Override
     public InputStream getPlugin(XBCXPlugin plugin) {
-        return ((XBEXPlugManager)itemManager).getPlugin(plugin);
+        return ((XBEXPlugManager) itemManager).getPlugin(plugin);
     }
 
     @Override
     public Long[] getPluginXBPath(XBCXPlugin plugin) {
-        return ((XBEXPlugManager)itemManager).getPluginXBPath(plugin);
+        return ((XBEXPlugManager) itemManager).getPluginXBPath(plugin);
     }
 
     @Override

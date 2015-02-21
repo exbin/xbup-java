@@ -16,70 +16,33 @@
  */
 package org.xbup.lib.client.catalog.remote.manager;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXStri;
 import org.xbup.lib.core.catalog.base.manager.XBCNodeManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXStriManager;
-import org.xbup.lib.client.XBCatalogServiceMessage;
-import org.xbup.lib.client.catalog.remote.XBRItem;
 import org.xbup.lib.client.catalog.remote.XBRXStri;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.client.stub.XBPXStriStub;
 
 /**
- * Manager class for XBRXStri catalog items.
+ * Remote manager class for XBRXStri catalog items.
  *
- * @version 0.1.24 2014/11/17
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXStriManager extends XBRDefaultManager<XBRXStri> implements XBCXStriManager<XBRXStri> {
 
+    private final XBPXStriStub striStub;
+
     public XBRXStriManager(XBRCatalog catalog) {
         super(catalog);
+        striStub = new XBPXStriStub(client);
+        setManagerStub(striStub);
     }
 
     @Override
     public XBRXStri getItemStringId(XBCItem item) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.ITEMSTRI_STRI_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRItem) item).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long ownerId = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (ownerId == 0) {
-                return null;
-            }
-            return new XBRXStri(client, ownerId);
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRXStriManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public long getItemsCount() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.STRISCOUNT_STRI_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            Long count = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return count;
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRXStriManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return striStub.getItemStringId(item);
     }
 
     @Override
@@ -91,17 +54,6 @@ public class XBRXStriManager extends XBRDefaultManager<XBRXStri> implements XBCX
         return "Stri Extension";
     }
 
-    /*    public String getCaption(XBBlockType blockType) {
-     if (blockType == null) return "Unknown";
-     if (blockType instanceof XBContextBlockType) {
-     XBBlockDecl decl = ((XBContextBlockType) blockType).getBlockDecl();
-     if (decl != null) {
-     if (decl instanceof XBCBlockDecl) return ((XBCBlockDecl) decl).getCaption();
-     if (decl instanceof XBCPBlockDecl) return ((XBCPBlockDecl) decl).getCaption();
-     }
-     }
-     return "unknown ("+ Integer.toString(blockType.getGroupID().getInt()) + "," + Integer.toString(blockType.getBlockID().getInt()) + ")";
-     } */
     @Override
     public String getItemStringIdText(XBCItem item) {
         XBCXStri Stri = getItemStringId(item);

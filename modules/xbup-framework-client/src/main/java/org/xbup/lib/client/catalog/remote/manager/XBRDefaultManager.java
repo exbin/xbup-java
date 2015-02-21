@@ -16,81 +16,90 @@
  */
 package org.xbup.lib.client.catalog.remote.manager;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCBase;
 import org.xbup.lib.core.catalog.base.manager.XBCManager;
 import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.client.XBCatalogServiceMessage;
-import org.xbup.lib.client.catalog.remote.XBRItem;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
+import org.xbup.lib.client.stub.XBPManagerStub;
 
 /**
- * Default manager for catalog items.
+ * Default remote manager for catalog items.
  *
- * @version 0.1.21 2012/01/01
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  * @param <T> entity class
  */
-public class XBRDefaultManager<T extends XBCBase> implements XBCManager<T> {
+public abstract class XBRDefaultManager<T extends XBCBase> implements XBCManager<T> {
 
     protected XBRCatalog catalog;
     protected XBCatalogServiceClient client;
+    private XBPManagerStub<T> managerStub = null;
 
     public XBRDefaultManager(XBRCatalog catalog) {
         this.catalog = catalog;
         this.client = catalog.getCatalogServiceClient();
     }
 
+    public XBPManagerStub<T> getManagerStub() {
+        return managerStub;
+    }
+
+    public void setManagerStub(XBPManagerStub<T> managerStub) {
+        this.managerStub = managerStub;
+    }
+
     @Override
     public T createItem() {
-        return null;
+        if (managerStub != null) {
+            return managerStub.createItem();
+        }
+
+        throw new IllegalStateException("Operation not supported");
     }
 
     @Override
     public void removeItem(T item) {
-        // TODO
+        if (managerStub != null) {
+            managerStub.removeItem(item);
+        }
+
+        throw new IllegalStateException("Operation not supported");
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public List<T> getAllItems() {
-        // TODO
-        return null;
+        if (managerStub != null) {
+            return managerStub.getAllItems();
+        }
+
+        throw new IllegalStateException("Operation not supported");
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public T getItem(long itemId) {
-        // TODO
-        return null;
+        if (managerStub != null) {
+            return managerStub.getItem(itemId);
+        }
+
+        throw new IllegalStateException("Operation not supported");
     }
 
     @Override
     public long getItemsCount() {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.ITEMSCOUNT_ITEM_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
+        if (managerStub != null) {
+            return managerStub.getItemsCount();
         }
-        return 0;
+
+        throw new IllegalStateException("Operation not supported");
     }
 
     @Override
     public void persistItem(T item) {
-        // TODO
+        if (managerStub != null) {
+            managerStub.persistItem(item);
+        }
+
+        throw new IllegalStateException("Operation not supported");
     }
 }

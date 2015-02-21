@@ -24,7 +24,7 @@ import org.xbup.lib.client.catalog.remote.XBRXLanguage;
 import org.xbup.lib.client.catalog.remote.manager.XBRXLangManager;
 
 /**
- * Interface for XBRXLanguage items service.
+ * Remote service for XBRXLanguage items.
  *
  * @version 0.1.21 2011/12/31
  * @author XBUP Project (http://xbup.org)

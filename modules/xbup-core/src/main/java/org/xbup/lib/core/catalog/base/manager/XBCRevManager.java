@@ -47,14 +47,6 @@ public interface XBCRevManager<T extends XBCRev> extends XBCCatalogManager<T> {
     public Long findMaxRevXB(XBCSpec spec);
 
     /**
-     * Finds revision of given index.
-     *
-     * @param id unique index
-     * @return revision
-     */
-    public XBCRev findRevById(long id);
-
-    /**
      * Gets revision of given index.
      *
      * @param spec parent specification
@@ -78,13 +70,6 @@ public interface XBCRevManager<T extends XBCRev> extends XBCCatalogManager<T> {
      * @return count of revisions
      */
     public long getRevsCount(XBCSpec spec);
-
-    /**
-     * Gets count of all revisions in catalog.
-     *
-     * @return count of revisions
-     */
-    public Long getAllRevisionsCount();
 
     /**
      * Gets sum of all up to defined revisions in catalog.

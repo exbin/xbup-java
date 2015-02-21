@@ -24,7 +24,7 @@ import org.xbup.lib.client.catalog.remote.XBRItemInfo;
 import org.xbup.lib.client.catalog.remote.manager.XBRInfoManager;
 
 /**
- * Interface for XBRItemInfo items service.
+ * Remote service for XBRItemInfo items.
  *
  * @version 0.1.21 2012/01/01
  * @author XBUP Project (http://xbup.org)

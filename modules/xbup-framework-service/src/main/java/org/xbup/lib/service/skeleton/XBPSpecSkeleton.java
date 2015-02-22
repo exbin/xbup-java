@@ -35,14 +35,13 @@ import org.xbup.lib.catalog.entity.XBESpecDef;
 import org.xbup.lib.catalog.entity.service.XBEItemService;
 import org.xbup.lib.catalog.entity.service.XBESpecService;
 import org.xbup.lib.client.stub.XBPSpecStub;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
 import org.xbup.lib.core.catalog.base.XBCGroupSpec;
-import org.xbup.lib.core.catalog.base.XBCSpec;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.catalog.base.XBCJoinDef;
+import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
 import org.xbup.lib.core.catalog.base.service.XBCItemService;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
@@ -50,7 +49,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTMatchingProvider;
 import org.xbup.lib.core.remote.XBProcedure;
-import org.xbup.lib.core.remote.XBRemoteServer;
+import org.xbup.lib.core.remote.XBServiceServer;
 import org.xbup.lib.core.stream.XBInput;
 import org.xbup.lib.core.stream.XBOutput;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -69,8 +68,8 @@ public class XBPSpecSkeleton {
         this.catalog = catalog;
     }
 
-    public void registerProcedures(XBRemoteServer remoteServer) {
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.SPEC_NODE_PROCEDURE)), new XBProcedure() {
+    public void registerProcedures(XBServiceServer remoteServer) {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.SPEC_NODE_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -90,7 +89,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.SPECS_NODE_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.SPECS_NODE_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -113,7 +112,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.FORMATSPEC_NODE_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.FORMATSPEC_NODE_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -142,7 +141,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.FORMATSPECS_NODE_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.FORMATSPECS_NODE_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -165,7 +164,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.GROUPSPEC_NODE_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.GROUPSPEC_NODE_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -194,7 +193,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.GROUPSPECS_NODE_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.GROUPSPECS_NODE_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -217,7 +216,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.BLOCKSPEC_NODE_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.BLOCKSPEC_NODE_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -246,7 +245,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.BLOCKSPECS_NODE_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.BLOCKSPECS_NODE_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -269,7 +268,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.FINDBLOCKSPEC_NODE_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.FINDBLOCKSPEC_NODE_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -298,7 +297,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.MAXBLOCKSPEC_NODE_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.MAXBLOCKSPEC_NODE_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -317,7 +316,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.FINDGROUPSPEC_NODE_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.FINDGROUPSPEC_NODE_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -346,7 +345,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.MAXGROUPSPEC_NODE_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.MAXGROUPSPEC_NODE_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -365,7 +364,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.FINDFORMATSPEC_NODE_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.FINDFORMATSPEC_NODE_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -394,7 +393,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.MAXFORMATSPEC_NODE_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.MAXFORMATSPEC_NODE_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -413,7 +412,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.SPECSCOUNT_NODE_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.SPECSCOUNT_NODE_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -432,7 +431,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.BLOCKSPECSCOUNT_NODE_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.BLOCKSPECSCOUNT_NODE_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -451,7 +450,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.GROUPSPECSCOUNT_NODE_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.GROUPSPECSCOUNT_NODE_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -470,7 +469,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.FORMATSPECSCOUNT_NODE_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.FORMATSPECSCOUNT_NODE_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -489,7 +488,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.BIND_SPEC_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.BIND_SPEC_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -519,7 +518,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.BINDS_SPEC_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.BINDS_SPEC_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -541,7 +540,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.BINDSCOUNT_SPEC_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.BINDSCOUNT_SPEC_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -559,7 +558,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.FINDBIND_SPEC_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.FINDBIND_SPEC_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -592,7 +591,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.FORMATSPECSCOUNT_SPEC_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.FORMATSPECSCOUNT_SPEC_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -608,7 +607,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.GROUPSPECSCOUNT_SPEC_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.GROUPSPECSCOUNT_SPEC_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -624,7 +623,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.BLOCKSPECSCOUNT_SPEC_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.BLOCKSPECSCOUNT_SPEC_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -640,7 +639,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.SPECSCOUNT_SPEC_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.SPECSCOUNT_SPEC_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -670,7 +669,7 @@ public class XBPSpecSkeleton {
          target.endXBT();
          break;
          } */
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.TARGET_BIND_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.TARGET_BIND_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -697,7 +696,7 @@ public class XBPSpecSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPSpecStub.BINDSCOUNT_BIND_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPSpecStub.BINDSCOUNT_BIND_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {

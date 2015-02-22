@@ -24,7 +24,7 @@ import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 /**
  * Catalog service message interface.
  *
- * @version 0.1.25 2015/02/14
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCatalogServiceMessage {

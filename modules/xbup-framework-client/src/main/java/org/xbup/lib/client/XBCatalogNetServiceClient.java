@@ -43,14 +43,12 @@ import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBPullProviderToProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.remote.XBTCPServiceClient;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * XBService catalog client using IP networking.
  *
- * @version 0.1.25 2015/02/14
+ * @version 0.1.25 2015/02/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBCatalogServiceClient {
@@ -97,34 +95,24 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
 
     @Override
     public boolean validate() {
-        try {
-            XBCatalogServiceMessage message = executeProcedure(XBServiceClient.PING_SERVICE_PROCEDURE); // PING
-            if (message == null) {
-                return false;
-            }
-            message.getXBOutput().endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            checker.matchEndXB();
-            message.close();
-            return true;
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBCatalogNetServiceClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
+        /* TODO
+         try {
+         XBCatalogServiceMessage message = executeProcedure(XBServiceClient.PING_SERVICE_PROCEDURE); // PING
+         if (message == null) {
+         return false;
+         }
+         message.getXBOutput().endXB();
+         XBMatchingProvider checker = message.getXBInput();
+         checker.matchEndXB();
+         message.close();
+         return true;
+         } catch (XBProcessingException | IOException ex) {
+         Logger.getLogger(XBCatalogNetServiceClient.class.getName()).log(Level.SEVERE, null, ex);
+         }
+         return false; */
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    /**
-     * @return the catalog
-     */
-    /*    public XBL2CatalogHandler getCatalog() {
-     return catalog;
-     } */
-    /**
-     * @param catalog the catalog to set
-     */
-    /*    public void setCatalog(XBL2CatalogHandler catalog) {
-     this.catalog = catalog;
-     } */
     private class XBCatalogSocketMessage implements XBCatalogServiceMessage {
 
         private Socket socket;
@@ -189,13 +177,6 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
         }
     }
 
-    /*    public String getHost() {
-     return host;
-     }
-
-     public int getPort() {
-     return port;
-     } */
     private class MyChecker extends XBDefaultMatchingProvider {
 
         private boolean headChecked;

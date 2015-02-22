@@ -16,7 +16,7 @@
  */
 package org.xbup.lib.service.skeleton;
 
-import org.xbup.lib.core.remote.XBRemoteServer;
+import org.xbup.lib.core.remote.XBServiceServer;
 
 /**
  * RPC skeleton class for XBRRev catalog items.
@@ -26,7 +26,7 @@ import org.xbup.lib.core.remote.XBRemoteServer;
  */
 public class XBPTranSkeleton {
 
-    public void registerProcedures(XBRemoteServer remoteServer) {
+    public void registerProcedures(XBServiceServer remoteServer) {
 
     }
 }

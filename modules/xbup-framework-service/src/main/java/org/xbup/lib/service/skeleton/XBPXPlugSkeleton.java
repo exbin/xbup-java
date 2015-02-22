@@ -22,7 +22,6 @@ import org.xbup.lib.catalog.entity.XBEXPlugin;
 import org.xbup.lib.client.stub.XBPXPlugStub;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.core.catalog.base.service.XBCXPlugService;
@@ -30,7 +29,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTMatchingProvider;
 import org.xbup.lib.core.remote.XBProcedure;
-import org.xbup.lib.core.remote.XBRemoteServer;
+import org.xbup.lib.core.remote.XBServiceServer;
 import org.xbup.lib.core.stream.XBInput;
 import org.xbup.lib.core.stream.XBOutput;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -49,9 +48,9 @@ public class XBPXPlugSkeleton {
         this.catalog = catalog;
     }
 
-    public void registerProcedures(XBRemoteServer remoteServer) {
+    public void registerProcedures(XBServiceServer remoteServer) {
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPXPlugStub.OWNER_PLUGIN_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPlugStub.OWNER_PLUGIN_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -69,7 +68,7 @@ public class XBPXPlugSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPXPlugStub.FILE_PLUGIN_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPlugStub.FILE_PLUGIN_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -96,7 +95,7 @@ public class XBPXPlugSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPXPlugStub.INDEX_PLUGIN_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPlugStub.INDEX_PLUGIN_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {

@@ -22,6 +22,8 @@ import java.util.LinkedList;
 import java.util.List;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.parser.basic.XBTProvider;
+import org.xbup.lib.core.parser.basic.convert.XBTProducerToProvider;
 import org.xbup.lib.core.parser.param.XBParamProcessingState;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
@@ -29,14 +31,18 @@ import org.xbup.lib.core.parser.token.XBTEndToken;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.XBTZeroAttributeToken;
+import org.xbup.lib.core.parser.token.event.XBTEventProducer;
+import org.xbup.lib.core.parser.token.event.convert.XBTEventProducerToProducer;
 import org.xbup.lib.core.parser.token.pull.XBTPullConsumer;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
+import org.xbup.lib.core.parser.token.pull.convert.XBTProviderToPullProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullPreLoader;
+import org.xbup.lib.core.stream.XBOutput;
 
 /**
  * Level 2 pull consumer performing block building using sequence operations.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.1.25 2015/02/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPSequencePullConsumer implements XBTPullConsumer {
@@ -48,6 +54,18 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
 
     public XBPSequencePullConsumer(XBTPullProvider pullProvider) {
         attachProvider(pullProvider);
+    }
+
+    XBPSequencePullConsumer(XBOutput output) {
+        if (output instanceof XBTPullProvider) {
+            attachProvider((XBTPullProvider) output);
+        } else if (output instanceof XBTProvider) {
+            attachProvider(new XBTProviderToPullProvider((XBTProvider) output));
+        } else if (output instanceof XBTEventProducer) {
+            attachProvider(new XBTProviderToPullProvider(new XBTProducerToProvider(new XBTEventProducerToProducer((XBTEventProducer) output))));
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Override

@@ -45,6 +45,7 @@ import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.core.serial.sequence.XBListConsistSerializable;
 import org.xbup.lib.core.serial.sequence.XBListJoinSerializable;
 import org.xbup.lib.core.serial.token.XBTTokenOutputSerialHandler;
+import org.xbup.lib.core.stream.XBInput;
 import org.xbup.lib.core.ubnumber.UBENatural;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -52,7 +53,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 2 serialization handler using parameter mapping to listener.
  *
- * @version 0.1.25 2015/02/03
+ * @version 0.1.25 2015/02/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequenceSerialHandler, XBTTokenOutputSerialHandler {
@@ -69,6 +70,10 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     public XBPListenerSerialHandler() {
     }
 
+    public XBPListenerSerialHandler(XBInput input) {
+        performAttachXBInput(input);
+    }
+
     public void process(XBSerializable serial) throws IOException, XBProcessingException {
         if (serial instanceof XBPSerializable) {
             ((XBPSerializable) serial).serializeToXB(this);
@@ -83,10 +88,18 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     @Override
     public void attachXBTEventListener(XBTEventListener listener) {
+        attachXBInput(listener);
+    }
+
+    public void attachXBInput(XBInput input) {
+        performAttachXBInput(input);
+    }
+
+    private void performAttachXBInput(XBInput input) {
         if (eventListener instanceof XBPSequenceEventProducer) {
             this.eventListener = (XBPSequenceEventProducer) eventListener;
         } else {
-            this.eventListener = new XBPSequenceEventProducer(listener);
+            this.eventListener = new XBPSequenceEventProducer(input);
         }
     }
 

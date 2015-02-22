@@ -53,7 +53,6 @@ import org.xbup.lib.client.catalog.remote.service.XBRXNameService;
 import org.xbup.lib.client.catalog.remote.service.XBRXPaneService;
 import org.xbup.lib.client.catalog.remote.service.XBRXPlugService;
 import org.xbup.lib.client.catalog.remote.service.XBRXStriService;
-import org.xbup.lib.core.remote.XBServiceClient;
 import org.xbup.lib.catalog.XBAECatalog;
 import org.xbup.lib.catalog.entity.service.XBEXDescService;
 import org.xbup.lib.catalog.entity.service.XBEXFileService;
@@ -65,7 +64,8 @@ import org.xbup.lib.catalog.entity.service.XBEXNameService;
 import org.xbup.lib.catalog.entity.service.XBEXPaneService;
 import org.xbup.lib.catalog.entity.service.XBEXPlugService;
 import org.xbup.lib.catalog.entity.service.XBEXStriService;
-import org.xbup.lib.catalog.remote.XBDbServiceClient;
+import org.xbup.lib.client.XBCatalogServiceClient;
+import org.xbup.tool.editor.module.service_manager.XBDbServiceClient;
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
 import org.xbup.tool.editor.base.api.ApplicationPanel;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
@@ -78,12 +78,12 @@ import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogStatusPa
 /**
  * XBManager Service Management Panel.
  *
- * @version 0.1.24 2014/12/12
+ * @version 0.1.24 2015/02/22
  * @author XBUP Project (http://xbup.org)
  */
 public class ServiceManagerPanel extends javax.swing.JPanel implements ApplicationPanel, ActivePanelActionHandling {
 
-    private XBServiceClient service;
+    private XBCatalogServiceClient service;
     private final CatalogStatusPanel catalogStatusPanel;
     private final CatalogAvailabilityPanel catalogAvailabilityPanel;
     private final CatalogBrowserPanel catalogBrowserPanel;
@@ -144,11 +144,11 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
         top.add(item);
     }
 
-    public XBServiceClient getService() {
+    public XBCatalogServiceClient getService() {
         return service;
     }
 
-    public void setService(XBServiceClient service) {
+    public void setService(XBCatalogServiceClient service) {
         this.service = service;
         if (service == null) {
             String unknown = "unknown";

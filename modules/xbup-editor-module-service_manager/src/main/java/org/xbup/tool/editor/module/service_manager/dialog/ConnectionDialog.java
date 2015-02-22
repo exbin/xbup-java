@@ -28,9 +28,9 @@ import java.util.prefs.Preferences;
 import javax.persistence.Persistence;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.remote.XBTCPServiceClient;
-import org.xbup.lib.catalog.remote.XBDbServiceClient;
+import org.xbup.tool.editor.module.service_manager.XBDbServiceClient;
+import org.xbup.lib.client.XBCatalogNetServiceClient;
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.tool.editor.module.service_manager.XBServiceManagerFrame;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
 
@@ -42,7 +42,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
  */
 public class ConnectionDialog extends javax.swing.JDialog {
 
-    private XBServiceClient service;
+    private XBCatalogServiceClient service;
     private final XBServiceManagerFrame mainForm;
 
     private static final String PREFERENCES_PREFIX = "catalogConnection";
@@ -70,7 +70,7 @@ public class ConnectionDialog extends javax.swing.JDialog {
         // TODO: EventListener would be better
     }
 
-    public XBServiceClient getService() {
+    public XBCatalogServiceClient getService() {
         return service;
     }
 
@@ -389,7 +389,7 @@ public class ConnectionDialog extends javax.swing.JDialog {
         }
 
         okButton.setEnabled(false);
-        service = new XBTCPServiceClient(connectionHost, connectionPort); // 22594 is 0x5842 (XB)
+        service = new XBCatalogNetServiceClient(connectionHost, connectionPort); // 22594 is 0x5842 (XB)
         statusModeLabel.setText("Connecting to server " + connectionHost + ":" + connectionPort);
         new Thread(new Runnable() {
             @Override

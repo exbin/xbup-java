@@ -27,7 +27,6 @@ import org.xbup.lib.catalog.entity.service.XBESpecService;
 import org.xbup.lib.client.stub.XBPRevStub;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.catalog.base.service.XBCItemService;
 import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
@@ -35,7 +34,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTMatchingProvider;
 import org.xbup.lib.core.remote.XBProcedure;
-import org.xbup.lib.core.remote.XBRemoteServer;
+import org.xbup.lib.core.remote.XBServiceServer;
 import org.xbup.lib.core.stream.XBInput;
 import org.xbup.lib.core.stream.XBOutput;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
@@ -54,8 +53,8 @@ public class XBPRevSkeleton {
         this.catalog = catalog;
     }
 
-    public void registerProcedures(XBRemoteServer remoteServer) {
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPRevStub.FINDREV_SPEC_PROCEDURE)), new XBProcedure() {
+    public void registerProcedures(XBServiceServer remoteServer) {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPRevStub.FINDREV_SPEC_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -80,7 +79,7 @@ public class XBPRevSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPRevStub.REVSCOUNT_SPEC_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPRevStub.REVSCOUNT_SPEC_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -99,7 +98,7 @@ public class XBPRevSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPRevStub.REV_SPEC_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPRevStub.REV_SPEC_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -128,7 +127,7 @@ public class XBPRevSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPRevStub.XBLIMIT_REV_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPRevStub.XBLIMIT_REV_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -155,7 +154,7 @@ public class XBPRevSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPRevStub.REVSCOUNT_REV_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPRevStub.REVSCOUNT_REV_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {

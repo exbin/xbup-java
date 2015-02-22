@@ -60,7 +60,7 @@ import org.xbup.lib.catalog.entity.service.XBEXPlugService;
 import org.xbup.lib.catalog.entity.service.XBEXStriService;
 import org.xbup.lib.catalog.update.XBCUpdatePHPHandler;
 import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.service.XBServiceServer;
+import org.xbup.lib.service.XBCatalogServer;
 
 /**
  * Console class for XBUP framework service.
@@ -114,9 +114,9 @@ public class XBService {
 
             if (cl.hasOption('h')) {
                 logger.addHandler(new XBHead.XBLogHandler(verboseMode));
-                logger.addHandler(new XBServiceServer.XBServiceLogHandler(true));
-                Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, myBundle.getString("service_head"));
-                Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, "");
+                logger.addHandler(new XBCatalogServer.XBServiceLogHandler(true));
+                Logger.getLogger(XBService.class.getName()).log(XBCatalogServer.XB_SERVICE_STATUS, myBundle.getString("service_head"));
+                Logger.getLogger(XBService.class.getName()).log(XBCatalogServer.XB_SERVICE_STATUS, "");
                 HelpFormatter f = new HelpFormatter();
                 f.printHelp(myBundle.getString("cl_syntax"), opt);
             } else {
@@ -125,25 +125,25 @@ public class XBService {
                 devMode = cl.hasOption("dev");
                 forceUpdate = cl.hasOption("update");
                 if (devMode) {
-                    Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, "Set development mode.");
+                    Logger.getLogger(XBService.class.getName()).log(XBCatalogServer.XB_SERVICE_STATUS, "Set development mode.");
                 }
                 rootCatalogMode = cl.hasOption("rootcat");
                 if (rootCatalogMode) {
-                    Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, "Set root catalog mode.");
+                    Logger.getLogger(XBService.class.getName()).log(XBCatalogServer.XB_SERVICE_STATUS, "Set root catalog mode.");
                 }
 //                if (cl.hasOption("nopref"))
                 // 22594 is 0x5842 (XB)
                 tcpipPort = cl.getOptionValue("port", preferences.get("tcpip_port", ((devMode) ? "22595" : "22594")));
                 tcpipInterface = cl.getOptionValue("ip", preferences.get("tcpip_interface", "localhost"));
                 logger.addHandler(new XBHead.XBLogHandler(verboseMode));
-                logger.addHandler(new XBServiceServer.XBServiceLogHandler(true));
+                logger.addHandler(new XBCatalogServer.XBServiceLogHandler(true));
 
                 // Note
-                Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, "!! XBService is in nonfunctional state and not needed for XBEditor in this release. Please try older release if you want to test this functionality. !!");
-                Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, "");
+                Logger.getLogger(XBService.class.getName()).log(XBCatalogServer.XB_SERVICE_STATUS, "!! XBService is in nonfunctional state and not needed for XBEditor in this release. Please try older release if you want to test this functionality. !!");
+                Logger.getLogger(XBService.class.getName()).log(XBCatalogServer.XB_SERVICE_STATUS, "");
 
-                Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, myBundle.getString("service_head"));
-                Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, "");
+                Logger.getLogger(XBService.class.getName()).log(XBCatalogServer.XB_SERVICE_STATUS, myBundle.getString("service_head"));
+                Logger.getLogger(XBService.class.getName()).log(XBCatalogServer.XB_SERVICE_STATUS, "");
 
                 initCatalog();
             }
@@ -153,7 +153,7 @@ public class XBService {
     }
 
     private static void initCatalog() {
-        Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, (myBundle.getString("init_catalog") + "..."));
+        Logger.getLogger(XBService.class.getName()).log(XBCatalogServer.XB_SERVICE_STATUS, (myBundle.getString("init_catalog") + "..."));
         try {
             derbyMode = false;
             // Database Initialization
@@ -218,19 +218,19 @@ public class XBService {
             Logger.getLogger(XBService.class.getName()).log(Level.SEVERE, "{0}{1}: {2}", new Object[]{myBundle.getString("error_warning"), myBundle.getString("error_tcpip_port"), tcpipPort});
         }
 
-        Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, (myBundle.getString("init_service") + " " + tcpipInterface + ":" + Integer.toString(tcpipPortInt) + "..."));
+        Logger.getLogger(XBService.class.getName()).log(XBCatalogServer.XB_SERVICE_STATUS, (myBundle.getString("init_service") + " " + tcpipInterface + ":" + Integer.toString(tcpipPortInt) + "..."));
         // TODO: Only single connection for testing purposes (no connection pooling yet)
-        XBServiceServer serviceHandler = new XBServiceServer(catalog);
+        XBCatalogServer serviceHandler = new XBCatalogServer(catalog);
         shallUpdate = (serviceHandler.shallUpdate() || forceUpdate) && (!rootCatalogMode);
         try {
             serviceHandler.open(tcpipPortInt);
-            Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, "");
-            Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, myBundle.getString("init_service_success"));
-            Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, "");
+            Logger.getLogger(XBService.class.getName()).log(XBCatalogServer.XB_SERVICE_STATUS, "");
+            Logger.getLogger(XBService.class.getName()).log(XBCatalogServer.XB_SERVICE_STATUS, myBundle.getString("init_service_success"));
+            Logger.getLogger(XBService.class.getName()).log(XBCatalogServer.XB_SERVICE_STATUS, "");
             if (shallUpdate) {
                 // TODO: Should be threaded
-                Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, myBundle.getString("init_update"));
-                Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, "");
+                Logger.getLogger(XBService.class.getName()).log(XBCatalogServer.XB_SERVICE_STATUS, myBundle.getString("init_update"));
+                Logger.getLogger(XBService.class.getName()).log(XBCatalogServer.XB_SERVICE_STATUS, "");
 
                 if (catalog.isShallInit()) {
                     catalog.initCatalog();
@@ -250,12 +250,12 @@ public class XBService {
                     performUpdate((XBERoot) nodeService.getRoot(), lastUpdate);
                 }
 
-                Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, "");
-                Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, myBundle.getString("done_update"));
-                Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, "");
+                Logger.getLogger(XBService.class.getName()).log(XBCatalogServer.XB_SERVICE_STATUS, "");
+                Logger.getLogger(XBService.class.getName()).log(XBCatalogServer.XB_SERVICE_STATUS, myBundle.getString("done_update"));
+                Logger.getLogger(XBService.class.getName()).log(XBCatalogServer.XB_SERVICE_STATUS, "");
             }
             serviceHandler.run();
-            Logger.getLogger(XBService.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, (myBundle.getString("stop_service_success") + "."));
+            Logger.getLogger(XBService.class.getName()).log(XBCatalogServer.XB_SERVICE_STATUS, (myBundle.getString("stop_service_success") + "."));
         } catch (XBProcessingException ex) {
             Logger.getLogger(XBService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException e) {

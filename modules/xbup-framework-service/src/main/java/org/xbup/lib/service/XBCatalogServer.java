@@ -16,32 +16,20 @@
  */
 package org.xbup.lib.service;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.catalog.base.service.XBCNodeService;
-import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.remote.XBProcedure;
-import org.xbup.lib.core.remote.XBServiceClient;
-import org.xbup.lib.core.remote.XBTCPRemoteServer;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.catalog.XBAECatalog;
 import org.xbup.lib.catalog.update.XBCUpdatePHPHandler;
-import org.xbup.lib.core.parser.basic.XBTMatchingProvider;
-import org.xbup.lib.core.stream.XBInput;
-import org.xbup.lib.core.stream.XBOutput;
+import org.xbup.lib.core.catalog.base.service.XBCNodeService;
 import org.xbup.lib.service.skeleton.XBPInfoSkeleton;
 import org.xbup.lib.service.skeleton.XBPItemSkeleton;
 import org.xbup.lib.service.skeleton.XBPNodeSkeleton;
 import org.xbup.lib.service.skeleton.XBPRevSkeleton;
+import org.xbup.lib.service.skeleton.XBPServiceSkeleton;
 import org.xbup.lib.service.skeleton.XBPSpecSkeleton;
 import org.xbup.lib.service.skeleton.XBPXDescSkeleton;
 import org.xbup.lib.service.skeleton.XBPXFileSkeleton;
@@ -56,27 +44,16 @@ import org.xbup.lib.service.skeleton.XBPXStriSkeleton;
 /**
  * XBUP service server.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.1.25 2015/02/21
  * @author XBUP Project (http://xbup.org)
  */
-public class XBServiceServer extends XBTCPRemoteServer {
+public class XBCatalogServer extends XBTCPRemoteServer {
 
     private static final ResourceBundle myBundle = ResourceBundle.getBundle("org/xbup/lib/xbservice/messages");
 
     private final XBCUpdatePHPHandler wsHandler;
-    /*
-     private enum commandTypeEnum {
-     SERVICE, INFO
-     };
-     private enum serviceCommandEnum {
-     STOP, PING, LOGIN, RESTART
-     };
-     private enum serviceInfoEnum {
-     VERSION
-     };
-     */
 
-    public XBServiceServer(final XBAECatalog catalog) {
+    public XBCatalogServer(final XBAECatalog catalog) {
         super(catalog);
 
         wsHandler = new XBCUpdatePHPHandler((XBAECatalog) catalog);
@@ -86,69 +63,7 @@ public class XBServiceServer extends XBTCPRemoteServer {
         wsHandler.fireUsageEvent(false);
 
         // Register procedures
-        addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.STOP_SERVICE_PROCEDURE)), new XBProcedure() {
-
-            @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
-                XBTMatchingProvider source = (XBTMatchingProvider) parameters;
-                source.matchEndXBT();
-                Logger.getLogger(XBServiceServer.class.getName()).log(XBServiceServer.XB_SERVICE_STATUS, myBundle.getString("stop_service"));
-                setStop(true);
-            }
-        });
-
-        addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.PING_SERVICE_PROCEDURE)), new XBProcedure() {
-
-            @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
-                XBTMatchingProvider source = (XBTMatchingProvider) parameters;
-                XBTListener result = (XBTListener) resultInput;
-                source.matchEndXBT();
-                result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(0));
-                result.endXBT();
-            }
-        });
-
-        addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.LOGIN_SERVICE_PROCEDURE)), new XBProcedure() {
-
-            @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
-                XBTMatchingProvider source = (XBTMatchingProvider) parameters;
-                XBTListener result = (XBTListener) resultInput;
-//            XBString loginName = new XBString();
-//            XBString loginPass = new XBString();
-//            XBL1SerialPullConsumer pullConsumer = new XBL1SerialPullConsumer(loginName);
-/*            pullConsumer.attachXBL1PullProvider((XBL1PullProvider) source.getStream());
-                 pullConsumer.processXBL1Pulls();
-                 pullConsumer = new XBL1SerialPullConsumer(loginPass);
-                 pullConsumer.attachXBL1PullProvider((XBL1PullProvider) source.getStream());
-                 pullConsumer.processXBL1Pulls();*/
-//            source.matchEndXBT();
-                result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(1)); // Ok
-                result.endXBT();
-            }
-        });
-
-        addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBServiceClient.VERSION_INFO_PROCEDURE)), new XBProcedure() {
-
-            @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
-                XBTMatchingProvider source = (XBTMatchingProvider) parameters;
-                XBTListener result = (XBTListener) resultInput;
-                source.matchEndXBT();
-                result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(1));
-                result.endXBT();
-            }
-        });
+        new XBPServiceSkeleton(this).registerProcedures(this);
 
         new XBPItemSkeleton(catalog).registerProcedures(this);
         new XBPNodeSkeleton(catalog).registerProcedures(this);
@@ -169,6 +84,11 @@ public class XBServiceServer extends XBTCPRemoteServer {
 
     private static final String defaultBundle = "sun.util.logging.resources.logging";
     public static final Level XB_SERVICE_STATUS = new XBServiceStatus("XB_SERVICE_STATUS", 758, defaultBundle);
+
+    public void performStop() {
+        Logger.getLogger(org.xbup.lib.service.XBCatalogServer.class.getName()).log(org.xbup.lib.service.XBCatalogServer.XB_SERVICE_STATUS, myBundle.getString("stop_service"));
+        setStop(true);
+    }
 
     private static class XBServiceStatus extends Level {
 

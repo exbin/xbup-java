@@ -26,7 +26,7 @@ import org.xbup.lib.core.parser.token.pull.XBPullConsumer;
  * @version 0.1.23 2014/02/06
  * @author XBUP Project (http://xbup.org)
  */
-class XBPullConsumerToConsumer implements XBConsumer {
+public class XBPullConsumerToConsumer implements XBConsumer {
 
     private XBProvider provider;
 

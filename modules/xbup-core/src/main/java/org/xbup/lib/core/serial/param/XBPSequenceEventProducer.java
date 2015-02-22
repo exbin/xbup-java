@@ -21,18 +21,24 @@ import java.util.ArrayList;
 import java.util.List;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.parser.basic.XBTListener;
+import org.xbup.lib.core.parser.basic.convert.XBTConsumerToListener;
 import org.xbup.lib.core.parser.param.XBParamProcessingState;
 import org.xbup.lib.core.parser.token.XBTEndToken;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.parser.token.event.XBTEventProducer;
 import org.xbup.lib.core.parser.token.event.convert.XBTCompactingEventFilter;
+import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
+import org.xbup.lib.core.parser.token.pull.XBTPullConsumer;
+import org.xbup.lib.core.parser.token.pull.convert.XBTPullConsumerToConsumer;
 import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.stream.XBInput;
 
 /**
  * Level 2 event producer performing block building using sequence operations.
  *
- * @version 0.1.24 2015/01/26
+ * @version 0.1.25 2015/02/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPSequenceEventProducer implements XBTEventProducer {
@@ -48,6 +54,18 @@ public class XBPSequenceEventProducer implements XBTEventProducer {
 
     public XBPSequenceEventProducer(XBTEventListener eventListener) {
         attachListener(eventListener);
+    }
+
+    public XBPSequenceEventProducer(XBInput input) {
+        if (input instanceof XBTEventListener) {
+            attachListener((XBTEventListener) input);
+        } else if (input instanceof XBTListener) {
+            attachListener(new XBTListenerToEventListener((XBTListener) input));
+        } else if (input instanceof XBTPullConsumer) {
+            attachListener(new XBTListenerToEventListener(new XBTConsumerToListener(new XBTPullConsumerToConsumer((XBTPullConsumer) input))));
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Override

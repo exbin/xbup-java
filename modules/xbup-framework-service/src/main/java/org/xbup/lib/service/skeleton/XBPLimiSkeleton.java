@@ -17,7 +17,7 @@
 package org.xbup.lib.service.skeleton;
 
 import org.xbup.lib.catalog.XBAECatalog;
-import org.xbup.lib.core.remote.XBRemoteServer;
+import org.xbup.lib.core.remote.XBServiceServer;
 
 /**
  * RPC skeleton class for XBRLimit catalog items.
@@ -33,7 +33,7 @@ public class XBPLimiSkeleton {
         this.catalog = catalog;
     }
 
-    public void registerProcedures(XBRemoteServer remoteServer) {
+    public void registerProcedures(XBServiceServer remoteServer) {
 
     }
 }

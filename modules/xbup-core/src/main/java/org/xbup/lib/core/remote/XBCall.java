@@ -14,46 +14,34 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.client;
+package org.xbup.lib.core.remote;
 
 import java.io.IOException;
-import java.net.Socket;
-import org.xbup.lib.core.remote.XBServiceClient;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.stream.XBInput;
+import org.xbup.lib.core.stream.XBOutput;
 
 /**
- * Connection client handler for remote catalogs.
+ * XBUP RPC procedure call interface.
  *
  * @version 0.1.25 2015/02/22
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBCatalogServiceClient extends XBServiceClient {
+public interface XBCall {
 
     /**
-     * Executes remote procedure of XBUP Service
+     * Invocates for procedure call.
      *
-     * @param procedureId procedure identification array
-     * @return message handler
+     * @param parameters procedure parameters data
+     * @throws IOException if input/output error
      */
-    @Deprecated
-    public XBCatalogServiceMessage executeProcedure(long[] procedureId);
+    public void call(XBInput parameters) throws XBProcessingException, IOException;
 
-    public int login(String user, char[] password) throws IOException;
-
-    public String getVersion();
-
-    public void close();
-
-    public void ping();
-
-    public String getHost();
-
-    public int getPort();
-
-    public String getLocalAddress();
-
-    public String getHostAddress();
-
-    public boolean validate();
-
-    public Socket getSocket();
+    /**
+     * Executes if call was invoked properly.
+     *
+     * @param result handler for procedure result data
+     * @throws IOException if input/output error
+     */
+    public void result(XBOutput result) throws XBProcessingException, IOException;
 }

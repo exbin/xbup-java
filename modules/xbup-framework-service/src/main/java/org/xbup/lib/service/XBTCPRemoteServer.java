@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.remote;
+package org.xbup.lib.service;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,25 +29,27 @@ import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
+import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTProducer;
-import org.xbup.lib.core.parser.basic.convert.XBTTypeDeclaringFilter;
+import org.xbup.lib.core.parser.basic.convert.XBTDefaultMatchingProvider;
 import org.xbup.lib.core.parser.basic.convert.XBTProducerToProvider;
 import org.xbup.lib.core.parser.basic.convert.XBTProviderToProducer;
+import org.xbup.lib.core.parser.basic.convert.XBTTypeDeclaringFilter;
 import org.xbup.lib.core.parser.token.event.XBEventListener;
 import org.xbup.lib.core.parser.token.event.XBEventWriter;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
+import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullProviderToProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
-import org.xbup.lib.core.parser.basic.convert.XBTDefaultMatchingProvider;
-import org.xbup.lib.core.parser.token.pull.XBPullProvider;
+import org.xbup.lib.core.remote.XBProcedure;
+import org.xbup.lib.core.remote.XBServiceServer;
 
 /**
  * XBUP level 1 RPC server using TCP/IP networking.
@@ -55,12 +57,12 @@ import org.xbup.lib.core.parser.token.pull.XBPullProvider;
  * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTCPRemoteServer implements XBRemoteServer {
+public class XBTCPRemoteServer implements XBServiceServer {
 
     protected XBACatalog catalog;
     private ServerSocket xbService;
     private boolean stop;
-    private final Map<XBBlockType, XBProcedure> procMap;
+    private final Map<XBBlockType, XBProcedure> procMap = new HashMap<>();
 
     /**
      * Creates a new instance of XBTCPRemoteServer.
@@ -70,7 +72,6 @@ public class XBTCPRemoteServer implements XBRemoteServer {
     public XBTCPRemoteServer(XBACatalog catalog) {
         this.catalog = catalog;
         stop = false;
-        procMap = new HashMap<>();
     }
 
     /**
@@ -103,13 +104,14 @@ public class XBTCPRemoteServer implements XBRemoteServer {
             try {
                 socket = getXbService().accept();
                 Logger.getLogger(XBTCPRemoteServer.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("Request from: " + socket.getInetAddress().getHostAddress()));
-                InputStream input = socket.getInputStream();
-                OutputStream output = socket.getOutputStream();
-                XBHead.checkXBUPHead(input);
-                XBPullReader reader = new XBPullReader(input);
-                XBEventWriter writer = new XBEventWriter(output);
-                respondMessage(reader, writer);
-                input.close();
+                OutputStream output;
+                try (InputStream input = socket.getInputStream()) {
+                    output = socket.getOutputStream();
+                    XBHead.checkXBUPHead(input);
+                    XBPullReader reader = new XBPullReader(input);
+                    XBEventWriter writer = new XBEventWriter(output);
+                    respondMessage(reader, writer);
+                }
                 output.close();
             } catch (XBParseException ex) {
                 Logger.getLogger(XBTCPRemoteServer.class.getName()).log(Level.SEVERE, null, ex);

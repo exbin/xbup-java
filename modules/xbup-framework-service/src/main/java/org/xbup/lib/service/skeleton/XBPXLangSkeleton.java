@@ -25,14 +25,13 @@ import org.xbup.lib.catalog.entity.service.XBEXLangService;
 import org.xbup.lib.client.stub.XBPXLangStub;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.catalog.base.service.XBCXLangService;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTMatchingProvider;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.remote.XBProcedure;
-import org.xbup.lib.core.remote.XBRemoteServer;
+import org.xbup.lib.core.remote.XBServiceServer;
 import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
 import org.xbup.lib.core.stream.XBInput;
 import org.xbup.lib.core.stream.XBOutput;
@@ -53,8 +52,8 @@ public class XBPXLangSkeleton {
         this.catalog = catalog;
     }
 
-    public void registerProcedures(XBRemoteServer remoteServer) {
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPXLangStub.CODE_LANG_PROCEDURE)), new XBProcedure() {
+    public void registerProcedures(XBServiceServer remoteServer) {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXLangStub.CODE_LANG_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -76,7 +75,7 @@ public class XBPXLangSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPXLangStub.DEFAULT_LANG_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXLangStub.DEFAULT_LANG_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -91,7 +90,7 @@ public class XBPXLangSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPXLangStub.LANGS_LANG_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXLangStub.LANGS_LANG_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
@@ -110,7 +109,7 @@ public class XBPXLangSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(new XBLBlockDecl(XBPXLangStub.LANGSCOUNT_LANG_PROCEDURE)), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXLangStub.LANGSCOUNT_LANG_PROCEDURE), new XBProcedure() {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {

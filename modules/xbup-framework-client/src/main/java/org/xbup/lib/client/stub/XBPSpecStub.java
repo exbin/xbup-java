@@ -48,7 +48,6 @@ import org.xbup.lib.core.catalog.base.XBCSpecDef;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.remote.XBServiceClient;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**

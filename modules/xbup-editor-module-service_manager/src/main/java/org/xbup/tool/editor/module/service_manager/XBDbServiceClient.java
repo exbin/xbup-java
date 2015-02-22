@@ -14,12 +14,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.catalog.remote;
+package org.xbup.tool.editor.module.service_manager;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.net.Socket;
 import javax.persistence.EntityManagerFactory;
+import org.xbup.lib.client.XBCatalogServiceClient;
+import org.xbup.lib.client.XBCatalogServiceMessage;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
@@ -34,18 +35,17 @@ import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
-import org.xbup.lib.core.remote.XBServiceClient;
-import static org.xbup.lib.core.remote.XBServiceClient.XBSERVICE_FORMAT;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.parser.basic.convert.XBTDefaultMatchingProvider;
+import org.xbup.lib.core.remote.XBCallHandler;
 
 /**
  * Fake XBService client using localhost database.
  *
- * @version 0.1.21 2012/01/23
+ * @version 0.1.25 2015/02/22
  * @author XBUP Project (http://xbup.org)
  */
-public class XBDbServiceClient implements XBServiceClient {
+public class XBDbServiceClient implements XBCatalogServiceClient {
 
     private EntityManagerFactory entityManagerFactory;
 //    private XBL2CatalogHandler catalog;
@@ -73,17 +73,12 @@ public class XBDbServiceClient implements XBServiceClient {
      */
     @Override
     public int login(String user, char[] password) throws IOException {
-        init();
         return 0;
     }
 
     public XBDbServiceClient(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
 //        catalog = new XBL2RemoteCatalog(new XBCatalogNetServiceClient(host, port));
-    }
-
-    @Override
-    public void init() throws IOException, ConnectException {
     }
 
     /*    public XBL2CatalogHandler getCatalog() {
@@ -162,19 +157,23 @@ public class XBDbServiceClient implements XBServiceClient {
         return true;
     }
 
-    /**
-     * @return the socket
-     */
     @Override
     public Socket getSocket() {
         return null;
     }
 
-    /**
-     * @return the entityManagerFactory
-     */
     public EntityManagerFactory getEntityManagerFactory() {
         return entityManagerFactory;
+    }
+
+    @Override
+    public XBCatalogServiceMessage executeProcedure(long[] procedureId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBCallHandler procedureCall() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
@@ -224,7 +223,7 @@ public class XBDbServiceClient implements XBServiceClient {
             super();
             XBDeclaration decl = new XBDeclaration(new XBLFormatDecl());
             decl.setRootBlock(rootNode);
-            decl.setFormat(new XBLFormatDecl(XBSERVICE_FORMAT));
+            // TODO decl.setFormat(new XBLFormatDecl(XBSERVICE_FORMAT));
             // setDeclaration(decl);
         }
 

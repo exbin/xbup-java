@@ -14,26 +14,31 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.service.skeleton;
+package org.xbup.lib.core.remote;
 
-import org.xbup.lib.catalog.XBAECatalog;
-import org.xbup.lib.core.remote.XBServiceServer;
+import org.xbup.lib.core.block.XBBlockType;
 
 /**
- * RPC skeleton class for XBRXHDoc catalog items.
+ * XBUP RPC server interface.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPXHDocSkeleton {
+public interface XBServiceServer {
 
-    private final XBAECatalog catalog;
+    /**
+     * Registers procedure handling.
+     *
+     * @param procedureType procedure type
+     * @param procedure procedure handler to add
+     */
+    public void addXBProcedure(XBBlockType procedureType, XBProcedure procedure);
 
-    public XBPXHDocSkeleton(XBAECatalog catalog) {
-        this.catalog = catalog;
-    }
+    /**
+     * Unregisters procedure handling.
+     *
+     * @param procedureType procedure type
+     */
+    public void removeXBProcedure(XBBlockType procedureType);
 
-    public void registerProcedures(XBServiceServer remoteServer) {
-
-    }
 }

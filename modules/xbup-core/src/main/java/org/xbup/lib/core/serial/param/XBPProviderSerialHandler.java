@@ -45,6 +45,7 @@ import org.xbup.lib.core.serial.sequence.XBListConsistSerializable;
 import org.xbup.lib.core.serial.sequence.XBListJoinSerializable;
 import org.xbup.lib.core.serial.sequence.XBSerialSequenceItem;
 import org.xbup.lib.core.serial.token.XBTTokenInputSerialHandler;
+import org.xbup.lib.core.stream.XBOutput;
 import org.xbup.lib.core.ubnumber.UBENatural;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
@@ -52,7 +53,7 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 2 serialization handler using parameter mapping to provider.
  *
- * @version 0.1.25 2015/02/03
+ * @version 0.1.25 2015/02/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSequenceSerialHandler, XBTTokenInputSerialHandler {
@@ -69,6 +70,10 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
     public XBPProviderSerialHandler() {
     }
 
+    public XBPProviderSerialHandler(XBOutput output) {
+        performAttachXBOutput(output);
+    }
+
     public void process(XBSerializable serial) throws IOException, XBProcessingException {
         if (serial instanceof XBPSerializable) {
             ((XBPSerializable) serial).serializeFromXB(this);
@@ -83,10 +88,18 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
 
     @Override
     public void attachXBTPullProvider(XBTPullProvider pullProvider) {
-        if (pullProvider instanceof XBPSequencePullConsumer) {
-            this.pullProvider = (XBPSequencePullConsumer) pullProvider;
+        attachXBOutput(pullProvider);
+    }
+
+    public void attachXBOutput(XBTPullProvider pullProvider) {
+        performAttachXBOutput(pullProvider);
+    }
+
+    private void performAttachXBOutput(XBOutput output) {
+        if (output instanceof XBPSequencePullConsumer) {
+            this.pullProvider = (XBPSequencePullConsumer) output;
         } else {
-            this.pullProvider = new XBPSequencePullConsumer(pullProvider);
+            this.pullProvider = new XBPSequencePullConsumer(output);
         }
     }
 

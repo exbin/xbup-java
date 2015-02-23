@@ -37,7 +37,9 @@ import org.xbup.lib.core.parser.token.event.XBEventWriter;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.parser.basic.convert.XBTDefaultMatchingProvider;
+import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
+import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.remote.XBCallHandler;
 import org.xbup.lib.core.remote.XBServiceClient;
 import org.xbup.lib.core.stream.XBInput;
@@ -69,19 +71,18 @@ public class XBTCPServiceClient implements XBServiceClient {
     }
 
     /* public void init() throws IOException, ConnectException {
-        try {
-            socket = new Socket(getHost(), getPort());
-            source = new XBTDefaultMatchingProvider(new XBTPullProviderToProvider(new XBToXBTPullConvertor(new XBPullReader(getSocket().getInputStream()))));
-            target = new XBTTypeFixingFilter(null, null); // new XBServiceContext()
-            OutputStream oStream = getSocket().getOutputStream();
-            XBHead.writeXBUPHead(oStream);
-            ((XBTTypeFixingFilter) target).attachXBTListener(new XBTEventListenerToListener(new MyXBTEventListener(new XBTToXBEventConvertor(new XBEventWriter(oStream)))));
-            target.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-        } catch (XBProcessingException ex) {
-            Logger.getLogger(XBTCPServiceClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    } */
-
+     try {
+     socket = new Socket(getHost(), getPort());
+     source = new XBTDefaultMatchingProvider(new XBTPullProviderToProvider(new XBToXBTPullConvertor(new XBPullReader(getSocket().getInputStream()))));
+     target = new XBTTypeFixingFilter(null, null); // new XBServiceContext()
+     OutputStream oStream = getSocket().getOutputStream();
+     XBHead.writeXBUPHead(oStream);
+     ((XBTTypeFixingFilter) target).attachXBTListener(new XBTEventListenerToListener(new MyXBTEventListener(new XBTToXBEventConvertor(new XBEventWriter(oStream)))));
+     target.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
+     } catch (XBProcessingException ex) {
+     Logger.getLogger(XBTCPServiceClient.class.getName()).log(Level.SEVERE, null, ex);
+     }
+     } */
     @Override
     public XBCallHandler procedureCall() {
         try {
@@ -92,12 +93,12 @@ public class XBTCPServiceClient implements XBServiceClient {
 
                 @Override
                 public XBInput getParametersInput() throws XBProcessingException, IOException {
-                    return new XBEventWriter(callSocket.getOutputStream());
+                    return new XBTToXBEventConvertor(new XBEventWriter(callSocket.getOutputStream()));
                 }
 
                 @Override
                 public XBOutput getResultOutput() throws XBProcessingException, IOException {
-                    return new XBPullReader(callSocket.getInputStream());
+                    return new XBToXBTPullConvertor(new XBPullReader(callSocket.getInputStream()));
                 }
             };
         } catch (XBProcessingException | IOException ex) {

@@ -23,14 +23,14 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.declaration.XBContext;
-import org.xbup.lib.core.block.declaration.XBDeclBlockType;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBDBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBLevelContext;
 import org.xbup.lib.core.catalog.XBCatalog;
-import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
@@ -43,12 +43,12 @@ import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.util.StreamUtils;
 
 /**
- * Filter to convert block types from fixed types to stand-alone types.
+ * Filter to convert declared stand-alone block types to fixed types.
  *
- * @version 0.1.25 2015/02/07
+ * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTPullTypeDeclaringFilter implements XBTPullFilter {
+public class XBTPullTypeUndeclaringFilter implements XBTPullFilter {
 
     private XBTPullProvider pullProvider;
     private XBCatalog catalog;
@@ -58,20 +58,20 @@ public class XBTPullTypeDeclaringFilter implements XBTPullFilter {
     private int documentDepth = 0;
     private XBBlockTerminationMode beginTerminationMode;
 
-    public XBTPullTypeDeclaringFilter(XBCatalog catalog) {
+    public XBTPullTypeUndeclaringFilter(XBCatalog catalog) {
         this(catalog, null);
     }
 
-    public XBTPullTypeDeclaringFilter(XBCatalog catalog, XBTPullProvider pullProvider) {
+    public XBTPullTypeUndeclaringFilter(XBCatalog catalog, XBTPullProvider pullProvider) {
         this.catalog = catalog;
         this.pullProvider = pullProvider;
     }
 
-    public XBTPullTypeDeclaringFilter(XBContext initialContext) {
+    public XBTPullTypeUndeclaringFilter(XBContext initialContext) {
         currentContext = new XBLevelContext(catalog, initialContext, 0);
     }
 
-    public XBTPullTypeDeclaringFilter(XBContext initialContext, XBTPullProvider pullProvider) {
+    public XBTPullTypeUndeclaringFilter(XBContext initialContext, XBTPullProvider pullProvider) {
         this(initialContext);
         this.pullProvider = pullProvider;
     }
@@ -107,21 +107,12 @@ public class XBTPullTypeDeclaringFilter implements XBTPullFilter {
                     currentContext.beginXBT(beginTerminationMode);
                     currentContext.typeXBT(blockType);
                 } else {
-                    if (blockType instanceof XBFBlockType) {
-                        if (((XBFBlockType) blockType).getGroupID().isNaturalZero()) {
-                            if (catalog != null) {
-                                return new XBTTypeToken(catalog.getBasicBlockType(blockType.getAsBasicType()));
-                            } else {
-                                return token;
-                            }
-                        }
-
-                        XBDeclBlockType declType = currentContext.getContext().getDeclBlockType((XBFBlockType) blockType);
-                        if (declType == null) {
+                    if (blockType instanceof XBDBlockType) {
+                        XBFixedBlockType fixedType = currentContext.getContext().getFixedBlockType((XBDBlockType) blockType);
+                        if (fixedType == null) {
                             throw new XBProcessingException("Unable to match block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
                         }
-
-                        return new XBTTypeToken(declType);
+                        return new XBTTypeToken(fixedType);
                     }
                 }
 

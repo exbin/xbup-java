@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.parser.token.pull.convert;
+package org.xbup.lib.core.parser.token.event.convert;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -38,19 +38,19 @@ import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.convert.XBTListenerToToken;
-import org.xbup.lib.core.parser.token.pull.XBTPullFilter;
-import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
+import org.xbup.lib.core.parser.token.event.XBTEventFilter;
+import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.util.StreamUtils;
 
 /**
- * Filter to convert stand-alone block types to fixed types.
+ * Filter to convert declared stand-alone block types to fixed types.
  *
- * @version 0.1.25 2015/02/06
+ * @version 0.1.25 2015/02/24
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTPullTypeFixingFilter implements XBTPullFilter {
+public class XBTEventTypeUndeclaringFilter implements XBTEventFilter {
 
-    private XBTPullProvider pullProvider;
+    private XBTEventListener eventListener;
     private XBCatalog catalog;
     private final List<XBLevelContext> contexts = new ArrayList<>();
     private XBLevelContext currentContext = null;
@@ -58,27 +58,26 @@ public class XBTPullTypeFixingFilter implements XBTPullFilter {
     private int documentDepth = 0;
     private XBBlockTerminationMode beginTerminationMode;
 
-    public XBTPullTypeFixingFilter(XBCatalog catalog) {
+    public XBTEventTypeUndeclaringFilter(XBCatalog catalog) {
         this(catalog, null);
     }
 
-    public XBTPullTypeFixingFilter(XBCatalog catalog, XBTPullProvider pullProvider) {
+    public XBTEventTypeUndeclaringFilter(XBCatalog catalog, XBTEventListener eventListener) {
         this.catalog = catalog;
-        this.pullProvider = pullProvider;
+        this.eventListener = eventListener;
     }
 
-    public XBTPullTypeFixingFilter(XBContext initialContext) {
+    public XBTEventTypeUndeclaringFilter(XBContext initialContext) {
         currentContext = new XBLevelContext(catalog, initialContext, 0);
     }
 
-    public XBTPullTypeFixingFilter(XBTPullProvider pullProvider, XBContext initialContext) {
+    public XBTEventTypeUndeclaringFilter(XBContext initialContext, XBTEventListener eventListener) {
         this(initialContext);
-        this.pullProvider = pullProvider;
+        this.eventListener = eventListener;
     }
 
     @Override
-    public XBTToken pullXBTToken() throws XBProcessingException, IOException {
-        XBTToken token = pullProvider.pullXBTToken();
+    public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
         if (currentContext != null && !currentContext.isDeclarationFinished()) {
             if (token.getTokenType() == XBTTokenType.DATA) {
                 InputStream inputStream = ((XBTDataToken) token).getData();
@@ -96,7 +95,7 @@ public class XBTPullTypeFixingFilter implements XBTPullFilter {
                 documentDepth++;
                 beginTerminationMode = ((XBTBeginToken) token).getTerminationMode();
 
-                return token;
+                eventListener.putXBTToken(token);
             }
             case TYPE: {
                 XBBlockType blockType = ((XBTTypeToken) token).getBlockType();
@@ -112,17 +111,18 @@ public class XBTPullTypeFixingFilter implements XBTPullFilter {
                         if (fixedType == null) {
                             throw new XBProcessingException("Unable to match block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
                         }
-                        return new XBTTypeToken(fixedType);
+                        eventListener.putXBTToken(new XBTTypeToken(fixedType));
+                        return;
                     }
                 }
 
-                return token;
+                eventListener.putXBTToken(token);
             }
             case ATTRIBUTE: {
-                return token;
+                eventListener.putXBTToken(token);
             }
             case DATA: {
-                return token;
+                eventListener.putXBTToken(token);
             }
             case END: {
                 documentDepth--;
@@ -130,15 +130,16 @@ public class XBTPullTypeFixingFilter implements XBTPullFilter {
                     currentContext = contexts.size() > 0 ? contexts.remove(contexts.size() - 1) : null;
                 }
 
-                return token;
+                eventListener.putXBTToken(token);
+            }
+            default: {
+                throw new IllegalStateException("Unexpected token type " + token.getTokenType().toString());
             }
         }
-
-        throw new IllegalStateException("Unexpected token type " + token.getTokenType().toString());
     }
 
     @Override
-    public void attachXBTPullProvider(XBTPullProvider pullProvider) {
-        this.pullProvider = pullProvider;
+    public void attachXBTEventListener(XBTEventListener eventListener) {
+        this.eventListener = eventListener;
     }
 }

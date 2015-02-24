@@ -56,7 +56,7 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
         attachProvider(pullProvider);
     }
 
-    XBPSequencePullConsumer(XBOutput output) {
+    public XBPSequencePullConsumer(XBOutput output) {
         if (output instanceof XBTPullProvider) {
             attachProvider((XBTPullProvider) output);
         } else if (output instanceof XBTProvider) {

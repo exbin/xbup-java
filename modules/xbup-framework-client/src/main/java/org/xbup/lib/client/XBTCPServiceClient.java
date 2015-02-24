@@ -28,6 +28,7 @@ import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
+import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.core.parser.basic.XBTListener;
@@ -37,8 +38,10 @@ import org.xbup.lib.core.parser.token.event.XBEventWriter;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.parser.basic.convert.XBTDefaultMatchingProvider;
+import org.xbup.lib.core.parser.token.event.convert.XBTEventTypeUndeclaringFilter;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
+import org.xbup.lib.core.parser.token.pull.convert.XBTPullTypeDeclaringFilter;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.remote.XBCallHandler;
 import org.xbup.lib.core.remote.XBServiceClient;
@@ -48,13 +51,13 @@ import org.xbup.lib.core.stream.XBOutput;
 /**
  * XBService client connection handler using TCP/IP protocol.
  *
- * @version 0.1.25 2015/02/22
+ * @version 0.1.25 2015/02/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPServiceClient implements XBServiceClient {
 
     private Socket socket;
-//    private XBL2CatalogHandler catalog;
+    private XBCatalog catalog;
     private XBTDefaultMatchingProvider source;
     private XBTListener target;
     private String host;
@@ -93,12 +96,12 @@ public class XBTCPServiceClient implements XBServiceClient {
 
                 @Override
                 public XBInput getParametersInput() throws XBProcessingException, IOException {
-                    return new XBTToXBEventConvertor(new XBEventWriter(callSocket.getOutputStream()));
+                    return new XBTEventTypeUndeclaringFilter(catalog, new XBTToXBEventConvertor(new XBEventWriter(callSocket.getOutputStream())));
                 }
 
                 @Override
                 public XBOutput getResultOutput() throws XBProcessingException, IOException {
-                    return new XBToXBTPullConvertor(new XBPullReader(callSocket.getInputStream()));
+                    return new XBTPullTypeDeclaringFilter(catalog, new XBToXBTPullConvertor(new XBPullReader(callSocket.getInputStream())));
                 }
             };
         } catch (XBProcessingException | IOException ex) {
@@ -136,8 +139,8 @@ public class XBTCPServiceClient implements XBServiceClient {
         }
     }
 
-    public void ping() {
-        serviceStub.ping();
+    public boolean ping() {
+        return serviceStub.ping();
     }
 
     public String getHost() {
@@ -146,6 +149,14 @@ public class XBTCPServiceClient implements XBServiceClient {
 
     public int getPort() {
         return port;
+    }
+
+    public XBCatalog getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(XBCatalog catalog) {
+        this.catalog = catalog;
     }
 
     public String getLocalAddress() {
@@ -157,11 +168,13 @@ public class XBTCPServiceClient implements XBServiceClient {
     }
 
     public boolean validate() {
-        ping();
-        if (getSocket() != null) {
-            close();
+        try {
+            final Socket callSocket = new Socket(getHost(), getPort());
+            callSocket.close();
+            return true;
+        } catch (IOException ex) {
+            return false;
         }
-        return (getSocket() != null);
     }
 
     public Socket getSocket() {

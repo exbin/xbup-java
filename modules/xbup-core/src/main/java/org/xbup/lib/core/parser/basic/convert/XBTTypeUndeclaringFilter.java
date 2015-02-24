@@ -35,12 +35,12 @@ import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.token.XBAttribute;
 
 /**
- * Filter to convert stand-alone block types to fixed types.
+ * Filter to convert declared stand-alone block types to fixed types.
  *
  * @version 0.1.25 2015/02/06
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTTypeFixingFilter implements XBTFilter {
+public class XBTTypeUndeclaringFilter implements XBTFilter {
 
     private XBCatalog catalog = null;
     private XBTListener listener = null;
@@ -55,7 +55,7 @@ public class XBTTypeFixingFilter implements XBTFilter {
      *
      * @param catalog catalog used for catalog types
      */
-    public XBTTypeFixingFilter(XBCatalog catalog) {
+    public XBTTypeUndeclaringFilter(XBCatalog catalog) {
         this.catalog = catalog;
     }
 
@@ -65,7 +65,7 @@ public class XBTTypeFixingFilter implements XBTFilter {
      * @param initialContext initial context
      * @param catalog catalog used for catalog types
      */
-    public XBTTypeFixingFilter(XBCatalog catalog, XBContext initialContext) {
+    public XBTTypeUndeclaringFilter(XBCatalog catalog, XBContext initialContext) {
         this(catalog);
         currentContext = new XBLevelContext(catalog, initialContext, 0);
     }

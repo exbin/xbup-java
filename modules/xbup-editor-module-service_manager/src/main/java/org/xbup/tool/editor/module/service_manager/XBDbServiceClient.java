@@ -42,7 +42,7 @@ import org.xbup.lib.core.remote.XBCallHandler;
 /**
  * Fake XBService client using localhost database.
  *
- * @version 0.1.25 2015/02/22
+ * @version 0.1.25 2015/02/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDbServiceClient implements XBCatalogServiceClient {
@@ -97,7 +97,8 @@ public class XBDbServiceClient implements XBCatalogServiceClient {
     }
 
     @Override
-    public void ping() {
+    public boolean ping() {
+        return true;
     }
     /*
      public void respondMessage(XBL0InputStream input, XBL0OutputStream output) throws IOException, XBProcessingException {

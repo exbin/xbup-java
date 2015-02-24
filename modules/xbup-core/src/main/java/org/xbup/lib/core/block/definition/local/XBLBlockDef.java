@@ -18,6 +18,7 @@ package org.xbup.lib.core.block.definition.local;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
@@ -54,12 +55,12 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 1 local block definition.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.1.25 2015/02/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBLBlockDef implements XBBlockDef, XBPSequenceSerializable, XBTBasicReceivingSerializable {
 
-    private List<XBBlockParam> blockParams;
+    private List<XBBlockParam> blockParams = new ArrayList<>();
     private XBLRevisionDef revisionDef;
 
     public XBLBlockDef() {
@@ -156,7 +157,7 @@ public class XBLBlockDef implements XBBlockDef, XBPSequenceSerializable, XBTBasi
                     serializationHandler.begin();
                     XBBlockType type = serializationHandler.pullType();
                     XBBlockParam param = type.getAsBasicType() == XBBasicBlockType.BLOCK_CONSIST_PARAMETER
-                            ? new XBBlockParamConsist() : type.getAsBasicType() == XBBasicBlockType.BLOCK_CONSIST_PARAMETER
+                            ? new XBBlockParamConsist() : type.getAsBasicType() == XBBasicBlockType.BLOCK_JOIN_PARAMETER
                                     ? new XBBlockParamJoin() : type.getAsBasicType() == XBBasicBlockType.BLOCK_LIST_CONSIST_PARAMETER ? new XBBlockParamListConsist()
                                             : type.getAsBasicType() == XBBasicBlockType.BLOCK_LIST_JOIN_PARAMETER ? new XBBlockParamListJoin()
                                                     : null;

@@ -23,7 +23,7 @@ import org.xbup.lib.core.remote.XBServiceClient;
 /**
  * Connection client handler for remote catalogs.
  *
- * @version 0.1.25 2015/02/22
+ * @version 0.1.25 2015/02/24
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCatalogServiceClient extends XBServiceClient {
@@ -31,29 +31,82 @@ public interface XBCatalogServiceClient extends XBServiceClient {
     /**
      * Executes remote procedure of XBUP Service
      *
+     * TODO: Will be replaced by procedureCall and serialization
+     *
      * @param procedureId procedure identification array
      * @return message handler
      */
     @Deprecated
     public XBCatalogServiceMessage executeProcedure(long[] procedureId);
 
+    /**
+     * Logins to catalog service.
+     *
+     * @param user user name
+     * @param password password
+     * @return TODO: 1 if successful, 0 if fails
+     * @throws IOException
+     */
     public int login(String user, char[] password) throws IOException;
 
+    /**
+     * Returns version of service.
+     *
+     * @return
+     */
     public String getVersion();
 
+    /**
+     * Closes connection to service.
+     */
     public void close();
 
-    public void ping();
+    /**
+     * Performs ping to remote service.
+     *
+     * @return true if sucessful
+     */
+    public boolean ping();
 
+    /**
+     * Returns service host string.
+     *
+     * @return service host string
+     */
     public String getHost();
 
+    /**
+     * Returns port number.
+     *
+     * @return port number
+     */
     public int getPort();
 
+    /**
+     * Returns local address.
+     *
+     * @return local address
+     */
     public String getLocalAddress();
 
+    /**
+     * Returns host address.
+     *
+     * @return host address
+     */
     public String getHostAddress();
 
+    /**
+     * Performs validation of the connection.
+     *
+     * @return true if successful
+     */
     public boolean validate();
 
+    /**
+     * Returns socket.
+     *
+     * @return socket
+     */
     public Socket getSocket();
 }

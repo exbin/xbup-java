@@ -30,7 +30,7 @@ import org.xbup.lib.core.type.XBString;
 /**
  * RPC Stub for Info extension related operations.
  *
- * @version 0.1.25 2015/02/22
+ * @version 0.1.25 2015/02/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPServiceStub {
@@ -105,7 +105,7 @@ public class XBPServiceStub {
         }
     }
 
-    public void ping() {
+    public boolean ping() {
         try {
             XBCallHandler procedureCall = client.procedureCall();
 
@@ -113,8 +113,11 @@ public class XBPServiceStub {
             serialInput.begin();
             serialInput.putType(new XBDeclBlockType(PING_SERVICE_PROCEDURE));
             serialInput.end();
+            return true;
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPServiceStub.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(XBPServiceStub.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        return false;
     }
 }

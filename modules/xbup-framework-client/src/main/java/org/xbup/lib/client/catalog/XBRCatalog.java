@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
@@ -60,7 +59,6 @@ import org.xbup.lib.client.catalog.remote.service.XBRRevService;
 import org.xbup.lib.client.catalog.remote.service.XBRSpecService;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBDBlockType;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 
@@ -259,33 +257,6 @@ public class XBRCatalog implements XBCatalog {
         return (XBCService<? extends XBCBase>) catalogServices.get(type);
     }
 
-    /**
-     * Provides fixed block type for given block declaration.
-     *
-     * @param context
-     * @param declType block declaration
-     * @return static block type
-     */
-    @Override
-    public XBFixedBlockType findFixedType(XBContext context, XBDBlockType declType) {
-        XBFixedBlockType blockType = null;
-        if (context.getParent() != null) {
-            blockType = findFixedType((XBContext) context.getParent(), declType);
-        }
-        
-        if (blockType == null) {
-            for (int groupId = 0; groupId < context.getGroups().size(); groupId++) {
-                XBGroup group = context.getGroups().get(groupId);
-                Long blockId = findBlockIdForGroup(group, declType.getBlockDecl());
-                if (blockId != null) {
-                    return new XBFixedBlockType(groupId + context.getStartFrom(), blockId);
-                }
-            }
-        }
-
-        return blockType;
-    }
-    
     public Long findBlockIdForGroup(XBGroup group, XBBlockDecl decl) {
         List<XBBlockDecl> blocks = group.getBlocks();
         for (int blockId = 0; blockId < blocks.size(); blockId++) {

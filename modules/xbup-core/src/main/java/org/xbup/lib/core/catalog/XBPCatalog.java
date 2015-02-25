@@ -21,11 +21,12 @@ import java.util.Arrays;
 import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBDBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBContext;
+import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
+import org.xbup.lib.core.block.declaration.XBGroup;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
 import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.catalog.base.XBCBase;
@@ -39,7 +40,7 @@ import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 /**
  * XBUP level 1 limited path supporting catalog.
  *
- * @version 0.1.25 2015/02/07
+ * @version 0.1.25 2015/02/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPCatalog implements XBCatalog {
@@ -120,21 +121,6 @@ public class XBPCatalog implements XBCatalog {
     }
 
     @Override
-    public XBFixedBlockType findFixedType(XBContext context, XBDBlockType type) {
-        if (type == null) {
-            return new XBFixedBlockType();
-        }
-        if (type instanceof XBDBlockType) {
-            return context.getFixedBlockType((XBDBlockType) type);
-        }
-        if (type instanceof XBFixedBlockType) {
-            return (XBFixedBlockType) type;
-        }
-
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public XBContext processDeclaration(XBContext parent, XBTPullProvider blockProvider) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -151,5 +137,17 @@ public class XBPCatalog implements XBCatalog {
     @Override
     public XBBlockType getBasicBlockType(XBBasicBlockType blockType) {
         return new XBFixedBlockType(blockType);
+    }
+
+    public void generateContext() {
+        rootContext = new XBContext();
+        List<XBGroup> groups = new ArrayList<>();
+        for (XBFormatDecl formatDecl : formatDecls) {
+            for (XBGroupDecl groupDecl : formatDecl.getGroupDecls()) {
+                rootContext.getGroups().add(XBDeclaration.convertCatalogGroup(groupDecl));
+            }
+        }
+
+        rootContext.setGroups(groups);
     }
 }

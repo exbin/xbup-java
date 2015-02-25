@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import org.xbup.lib.catalog.XBAECatalog;
 import org.xbup.lib.catalog.update.XBCUpdatePHPHandler;
 import org.xbup.lib.core.catalog.base.service.XBCNodeService;
+import org.xbup.lib.core.remote.XBServiceServer;
 import org.xbup.lib.service.skeleton.XBPInfoSkeleton;
 import org.xbup.lib.service.skeleton.XBPItemSkeleton;
 import org.xbup.lib.service.skeleton.XBPNodeSkeleton;
@@ -44,7 +45,7 @@ import org.xbup.lib.service.skeleton.XBPXStriSkeleton;
 /**
  * XBUP service server.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.1.25 2015/02/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCatalogServer extends XBTCPRemoteServer {
@@ -62,24 +63,25 @@ public class XBCatalogServer extends XBTCPRemoteServer {
         ((XBAECatalog) catalog).setUpdateHandler(wsHandler);
         wsHandler.fireUsageEvent(false);
 
+        XBServiceServer server = this;
         // Register procedures
-        new XBPServiceSkeleton(this).registerProcedures(this);
+        new XBPServiceSkeleton(this).registerProcedures(server);
 
-        new XBPItemSkeleton(catalog).registerProcedures(this);
-        new XBPNodeSkeleton(catalog).registerProcedures(this);
-        new XBPSpecSkeleton(catalog).registerProcedures(this);
-        new XBPRevSkeleton(catalog).registerProcedures(this);
+        new XBPItemSkeleton(catalog).registerProcedures(server);
+        new XBPNodeSkeleton(catalog).registerProcedures(server);
+        new XBPSpecSkeleton(catalog).registerProcedures(server);
+        new XBPRevSkeleton(catalog).registerProcedures(server);
 
-        new XBPXLangSkeleton(catalog).registerProcedures(this);
-        new XBPXNameSkeleton(catalog).registerProcedures(this);
-        new XBPXDescSkeleton(catalog).registerProcedures(this);
-        new XBPInfoSkeleton(catalog).registerProcedures(this);
-        new XBPXFileSkeleton(catalog).registerProcedures(this);
-        new XBPXIconSkeleton(catalog).registerProcedures(this);
-        new XBPXPlugSkeleton(catalog).registerProcedures(this);
-        new XBPXLineSkeleton(catalog).registerProcedures(this);
-        new XBPXPaneSkeleton(catalog).registerProcedures(this);
-        new XBPXStriSkeleton(catalog).registerProcedures(this);
+        new XBPXLangSkeleton(catalog).registerProcedures(server);
+        new XBPXNameSkeleton(catalog).registerProcedures(server);
+        new XBPXDescSkeleton(catalog).registerProcedures(server);
+        new XBPInfoSkeleton(catalog).registerProcedures(server);
+        new XBPXFileSkeleton(catalog).registerProcedures(server);
+        new XBPXIconSkeleton(catalog).registerProcedures(server);
+        new XBPXPlugSkeleton(catalog).registerProcedures(server);
+        new XBPXLineSkeleton(catalog).registerProcedures(server);
+        new XBPXPaneSkeleton(catalog).registerProcedures(server);
+        new XBPXStriSkeleton(catalog).registerProcedures(server);
     }
 
     private static final String defaultBundle = "sun.util.logging.resources.logging";

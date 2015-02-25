@@ -29,6 +29,7 @@ import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeUndeclaringFilter;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
 import org.xbup.lib.core.catalog.XBPCatalog;
@@ -61,6 +62,7 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
         super(host, port);
         XBPCatalog catalog = new XBPCatalog();
         catalog.addFormatDecl(getContextFormatDecl());
+        catalog.generateContext();
         setCatalog(catalog);
     }
 

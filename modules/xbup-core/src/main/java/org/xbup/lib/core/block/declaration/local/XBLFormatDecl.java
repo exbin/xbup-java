@@ -112,7 +112,8 @@ public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable, XBT
     }
 
     public int getGroupsLimit() {
-        return formatDef == null ? 0 : formatDef.getRevisionDef().getRevisionLimit(revision);
+        return formatDef == null ? 0
+                : formatDef.getRevisionDef() == null ? 0 : formatDef.getRevisionDef().getRevisionLimit(revision);
     }
 
     private void setCatalogObjectPath(Long[] path) {

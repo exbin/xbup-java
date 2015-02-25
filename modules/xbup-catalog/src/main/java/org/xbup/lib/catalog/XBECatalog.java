@@ -69,7 +69,6 @@ import org.xbup.lib.core.catalog.base.service.XBCXInfoService;
 import org.xbup.lib.catalog.update.XBCUpdateHandler;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBDBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.serial.XBPSerialReader;
@@ -77,7 +76,7 @@ import org.xbup.lib.core.serial.XBPSerialReader;
 /**
  * Basic level 1 catalog class using Java persistence.
  *
- * @version 0.1.25 2015/02/07
+ * @version 0.1.25 2015/02/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBECatalog implements XBCatalog {
@@ -311,33 +310,6 @@ public class XBECatalog implements XBCatalog {
     @Override
     public XBCService<? extends XBCBase> getCatalogService(Class type) {
         return (XBCService<? extends XBCBase>) catalogServices.get(type);
-    }
-
-    /**
-     * Provides fixed block type for given declared block type.
-     *
-     * @param context
-     * @param declType declared block type
-     * @return static block type
-     */
-    @Override
-    public XBFixedBlockType findFixedType(XBContext context, XBDBlockType declType) {
-        XBFixedBlockType blockType = null;
-        if (context.getParent() != null) {
-            blockType = findFixedType((XBContext) context.getParent(), declType);
-        }
-
-        if (blockType == null) {
-            for (int groupId = 0; groupId < context.getGroups().size(); groupId++) {
-                XBGroup group = context.getGroups().get(groupId);
-                Long blockId = findBlockIdForGroup(group, declType.getBlockDecl());
-                if (blockId != null) {
-                    return new XBFixedBlockType(groupId + context.getStartFrom(), blockId);
-                }
-            }
-        }
-
-        return blockType;
     }
 
     public Long findBlockIdForGroup(XBGroup group, XBBlockDecl decl) {

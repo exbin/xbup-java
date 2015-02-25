@@ -40,13 +40,17 @@ import org.xbup.lib.core.parser.basic.convert.XBTDefaultMatchingProvider;
 import org.xbup.lib.core.parser.basic.convert.XBTProducerToProvider;
 import org.xbup.lib.core.parser.basic.convert.XBTProviderToProducer;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeDeclaringFilter;
-import org.xbup.lib.core.parser.token.event.XBEventListener;
+import org.xbup.lib.core.parser.token.XBTBeginToken;
+import org.xbup.lib.core.parser.token.XBTToken;
+import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.event.XBEventWriter;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
+import org.xbup.lib.core.parser.token.event.convert.XBTEventTypeUndeclaringFilter;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
-import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
+import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullProviderToProvider;
+import org.xbup.lib.core.parser.token.pull.convert.XBTPullTypeDeclaringFilter;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.remote.XBProcedure;
 import org.xbup.lib.core.remote.XBServiceServer;
@@ -54,13 +58,13 @@ import org.xbup.lib.core.remote.XBServiceServer;
 /**
  * XBUP level 1 RPC server using TCP/IP networking.
  *
- * @version 0.1.25 2015/02/14
+ * @version 0.1.25 2015/02/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPRemoteServer implements XBServiceServer {
 
     protected XBACatalog catalog;
-    private ServerSocket xbService;
+    private ServerSocket serverSocket;
     private boolean stop;
     private final Map<XBBlockType, XBProcedure> procMap = new HashMap<>();
 
@@ -81,7 +85,7 @@ public class XBTCPRemoteServer implements XBServiceServer {
      * @throws IOException if an I/O error occurs when opening the socket.
      */
     public void open(int port) throws IOException {
-        xbService = new ServerSocket(port);
+        serverSocket = new ServerSocket(port);
     }
 
     /**
@@ -92,7 +96,7 @@ public class XBTCPRemoteServer implements XBServiceServer {
      * @throws IOException if an I/O error occurs when opening the socket.
      */
     public void open(int port, InetAddress bindAddr) throws IOException {
-        xbService = new ServerSocket(port, 50, bindAddr);
+        serverSocket = new ServerSocket(port, 50, bindAddr);
     }
 
     /**
@@ -102,17 +106,17 @@ public class XBTCPRemoteServer implements XBServiceServer {
         Socket socket;
         while (!isStop()) {
             try {
-                socket = getXbService().accept();
+                socket = getServerSocket().accept();
                 Logger.getLogger(XBTCPRemoteServer.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("Request from: " + socket.getInetAddress().getHostAddress()));
-                OutputStream output;
-                try (InputStream input = socket.getInputStream()) {
-                    output = socket.getOutputStream();
-                    XBHead.checkXBUPHead(input);
-                    XBPullReader reader = new XBPullReader(input);
-                    XBEventWriter writer = new XBEventWriter(output);
-                    respondMessage(reader, writer);
+                OutputStream outputStream;
+                try (InputStream inputStream = socket.getInputStream()) {
+                    outputStream = socket.getOutputStream();
+                    XBHead.checkXBUPHead(inputStream);
+                    XBTPullTypeDeclaringFilter input = new XBTPullTypeDeclaringFilter(catalog, new XBToXBTPullConvertor(new XBPullReader(inputStream)));
+                    XBTEventTypeUndeclaringFilter output = new XBTEventTypeUndeclaringFilter(catalog, new XBTToXBEventConvertor(new XBEventWriter(outputStream)));
+                    respondMessage(input, output);
                 }
-                output.close();
+                outputStream.close();
             } catch (XBParseException ex) {
                 Logger.getLogger(XBTCPRemoteServer.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException e) {
@@ -124,43 +128,52 @@ public class XBTCPRemoteServer implements XBServiceServer {
     public void stop() {
         setStop(true);
         try {
-            getXbService().close();
+            getServerSocket().close();
         } catch (IOException ex) {
             Logger.getLogger(XBTCPRemoteServer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void respondMessage(XBPullProvider input, XBEventListener output) throws IOException, XBProcessingException {
-        XBTTypeDeclaringFilter decapsulator = new XBTTypeDeclaringFilter(null);
-        // TODO Optimalization should be done here
-        XBTProducer producer = new XBTProviderToProducer(new XBTPullProviderToProvider(new XBToXBTPullConvertor(input)));
-        producer.attachXBTListener(decapsulator);
-        XBTDefaultMatchingProvider source = new XBTDefaultMatchingProvider(new XBTProducerToProvider(decapsulator));
-        XBTListener target = new XBTEventListenerToListener(new XBTToXBEventConvertor(output));
-        source.matchBeginXBT();
-        XBBlockType blockType = source.matchTypeXBT();
-        // TODO: Temporary patch
-        long[] path = new long[5];
-        path[1] = 2;
-        path[2] = ((XBFBlockType) blockType).getGroupID().getLong() - 1;
-        path[3] = ((XBFBlockType) blockType).getBlockID().getLong();
-        blockType = new XBDeclBlockType(new XBLBlockDecl(path));
-        XBProcedure proc = getProcMap().get(blockType);
-        if (proc == null) {
-            // TODO: Return NOT FOUND
-            String handler = "";
-            for (int i = 0; i < path.length; i++) {
-                if (i > 0) {
-                    handler += ",";
-                }
-                handler += String.valueOf(path[i]);
-            }
-            throw new XBParseException("Missing procedure handler: " + handler);
+    public void respondMessage(XBTPullTypeDeclaringFilter input, XBTEventTypeUndeclaringFilter output) throws IOException, XBProcessingException {
+        XBTTypePreloadingPullProvider preloading = new XBTTypePreloadingPullProvider(input);
+        XBProcedure proc = getProcMap().get(preloading.getBlockType());
+        if (proc != null) {
+            proc.execute(preloading, output);
         } else {
-            // XBFormatDecl decl = proc.getResultDecl();
-            // target = new XBTEncapsulator(new XBContext(getCatalog(), new XBCDeclaration(decl,getCatalog())), XBTDefaultEventListener.toXBTListener(new XBTToXBEventConvertor(output)));
-            proc.execute(source, target);
+            // TODO Exception processing
+            throw new UnsupportedOperationException("Not supported yet.");
         }
+
+        /*XBTTypeDeclaringFilter decapsulator = new XBTTypeDeclaringFilter(null);
+         // TODO Optimalization should be done here
+         XBTProducer producer = new XBTProviderToProducer(new XBTPullProviderToProvider(new XBToXBTPullConvertor(input)));
+         producer.attachXBTListener(decapsulator);
+         XBTDefaultMatchingProvider source = new XBTDefaultMatchingProvider(new XBTProducerToProvider(decapsulator));
+         XBTListener target = new XBTEventListenerToListener(new XBTToXBEventConvertor(output));
+         source.matchBeginXBT();
+         XBBlockType blockType = source.matchTypeXBT();
+         // TODO: Temporary patch
+         long[] path = new long[5];
+         path[1] = 2;
+         path[2] = ((XBFBlockType) blockType).getGroupID().getLong() - 1;
+         path[3] = ((XBFBlockType) blockType).getBlockID().getLong();
+         blockType = new XBDeclBlockType(new XBLBlockDecl(path));
+         XBProcedure proc = getProcMap().get(blockType);
+         if (proc == null) {
+         // TODO: Return NOT FOUND
+         String handler = "";
+         for (int i = 0; i < path.length; i++) {
+         if (i > 0) {
+         handler += ",";
+         }
+         handler += String.valueOf(path[i]);
+         }
+         throw new XBParseException("Missing procedure handler: " + handler);
+         } else {
+         // XBFormatDecl decl = proc.getResultDecl();
+         // target = new XBTEncapsulator(new XBContext(getCatalog(), new XBCDeclaration(decl,getCatalog())), XBTDefaultEventListener.toXBTListener(new XBTToXBEventConvertor(output)));
+         proc.execute(source, target);
+         } */
     }
 
     @Override
@@ -177,8 +190,8 @@ public class XBTCPRemoteServer implements XBServiceServer {
         return catalog;
     }
 
-    public ServerSocket getXbService() {
-        return xbService;
+    public ServerSocket getServerSocket() {
+        return serverSocket;
     }
 
     public boolean isStop() {
@@ -191,5 +204,39 @@ public class XBTCPRemoteServer implements XBServiceServer {
 
     public void setStop(boolean stop) {
         this.stop = stop;
+    }
+
+    private class XBTTypePreloadingPullProvider implements XBTPullProvider {
+
+        private final XBTPullProvider pullProvider;
+        private XBTBeginToken beginToken;
+        private XBTTypeToken typeToken;
+
+        public XBTTypePreloadingPullProvider(XBTPullProvider pullProvider) throws XBProcessingException, IOException {
+            this.pullProvider = pullProvider;
+            beginToken = (XBTBeginToken) pullProvider.pullXBTToken();
+            typeToken = (XBTTypeToken) pullProvider.pullXBTToken();
+        }
+
+        @Override
+        public XBTToken pullXBTToken() throws XBProcessingException, IOException {
+            if (typeToken == null) {
+                return pullProvider.pullXBTToken();
+            } else {
+                if (beginToken != null) {
+                    XBTToken token = beginToken;
+                    beginToken = null;
+                    return token;
+                } else {
+                    XBTToken token = typeToken;
+                    typeToken = null;
+                    return token;
+                }
+            }
+        }
+
+        public XBBlockType getBlockType() {
+            return typeToken.getBlockType();
+        }
     }
 }

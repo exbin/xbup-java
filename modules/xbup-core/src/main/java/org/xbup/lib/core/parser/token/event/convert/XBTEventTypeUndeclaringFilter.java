@@ -45,7 +45,7 @@ import org.xbup.lib.core.util.StreamUtils;
 /**
  * Filter to convert declared stand-alone block types to fixed types.
  *
- * @version 0.1.25 2015/02/24
+ * @version 0.1.25 2015/02/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTEventTypeUndeclaringFilter implements XBTEventFilter {
@@ -64,6 +64,7 @@ public class XBTEventTypeUndeclaringFilter implements XBTEventFilter {
 
     public XBTEventTypeUndeclaringFilter(XBCatalog catalog, XBTEventListener eventListener) {
         this.catalog = catalog;
+        currentContext = new XBLevelContext(catalog, catalog.getRootContext(), 0);
         this.eventListener = eventListener;
     }
 
@@ -96,6 +97,7 @@ public class XBTEventTypeUndeclaringFilter implements XBTEventFilter {
                 beginTerminationMode = ((XBTBeginToken) token).getTerminationMode();
 
                 eventListener.putXBTToken(token);
+                break;
             }
             case TYPE: {
                 XBBlockType blockType = ((XBTTypeToken) token).getBlockType();
@@ -117,12 +119,15 @@ public class XBTEventTypeUndeclaringFilter implements XBTEventFilter {
                 }
 
                 eventListener.putXBTToken(token);
+                break;
             }
             case ATTRIBUTE: {
                 eventListener.putXBTToken(token);
+                break;
             }
             case DATA: {
                 eventListener.putXBTToken(token);
+                break;
             }
             case END: {
                 documentDepth--;
@@ -131,6 +136,7 @@ public class XBTEventTypeUndeclaringFilter implements XBTEventFilter {
                 }
 
                 eventListener.putXBTToken(token);
+                break;
             }
             default: {
                 throw new IllegalStateException("Unexpected token type " + token.getTokenType().toString());

@@ -19,8 +19,6 @@ package org.xbup.lib.core.catalog;
 import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBDBlockType;
-import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.XBFormatDecl;
 import org.xbup.lib.core.block.declaration.XBGroupDecl;
@@ -36,7 +34,7 @@ import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 /**
  * Interface for XBUP level 1 catalog.
  *
- * @version 0.1.25 2015/02/07
+ * @version 0.1.25 2015/02/25
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCatalog {
@@ -141,15 +139,6 @@ public interface XBCatalog {
      * @param ext instance of extension, must implement XBCExtension
      */
     public void addCatalogService(Class type, XBCService<? extends XBCBase> ext);
-
-    /**
-     * Provides fixed block type for given block declaration.
-     *
-     * @param context
-     * @param type block type
-     * @return static block type
-     */
-    public XBFixedBlockType findFixedType(XBContext context, XBDBlockType type);
 
     /**
      * Processes declaration block and it's children and construct new context.

@@ -53,7 +53,7 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 1 local format definition.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.1.25 2015/02/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBLFormatDef implements XBFormatDef, XBPSequenceSerializable, XBTBasicReceivingSerializable {
@@ -66,6 +66,8 @@ public class XBLFormatDef implements XBFormatDef, XBPSequenceSerializable, XBTBa
 
     public XBLFormatDef(XBGroupDecl groupDecl) {
         formatParams.add(new XBFormatParamConsist(groupDecl));
+        revisionDef = new XBLRevisionDef();
+        revisionDef.getRevParams().add(new XBRevisionParam(1));
     }
 
     public XBLFormatDef(XBLRevisionDef revisionDef) {
@@ -97,7 +99,7 @@ public class XBLFormatDef implements XBFormatDef, XBPSequenceSerializable, XBTBa
 
     @Override
     public XBFormatParam getFormatParam(int paramIndex) {
-        return formatParams.get(paramIndex);
+        return paramIndex < formatParams.size() ? formatParams.get(paramIndex) : null;
     }
 
     public void realignRevision() {

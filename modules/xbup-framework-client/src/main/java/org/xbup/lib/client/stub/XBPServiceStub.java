@@ -61,8 +61,6 @@ public class XBPServiceStub {
             serialInput.consist(userPass);
             serialInput.end();
 
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler();
-
             return 1;
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPServiceStub.class.getName()).log(Level.SEVERE, null, ex);
@@ -80,7 +78,7 @@ public class XBPServiceStub {
             serialInput.putType(new XBDeclBlockType(STOP_SERVICE_PROCEDURE));
             serialInput.end();
 
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler();
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             XBString version = new XBString();
             serialOutput.process(version);
 

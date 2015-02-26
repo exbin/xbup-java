@@ -25,22 +25,24 @@ import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTMatchingProvider;
 import org.xbup.lib.core.remote.XBProcedure;
 import org.xbup.lib.core.remote.XBServiceServer;
+import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
 import org.xbup.lib.core.stream.XBInput;
 import org.xbup.lib.core.stream.XBOutput;
+import org.xbup.lib.core.type.XBString;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
-import org.xbup.lib.service.XBCatalogServer;
+import org.xbup.lib.service.XBCatalogNetServiceServer;
 
 /**
  * RPC skeleton class for XBRItemInfo catalog items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.1.25 2015/02/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPServiceSkeleton {
 
-    private final XBCatalogServer server;
+    private final XBCatalogNetServiceServer server;
 
-    public XBPServiceSkeleton(XBCatalogServer server) {
+    public XBPServiceSkeleton(XBCatalogNetServiceServer server) {
         this.server = server;
     }
 
@@ -96,15 +98,19 @@ public class XBPServiceSkeleton {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
-                XBTMatchingProvider source = (XBTMatchingProvider) parameters;
-                XBTListener result = (XBTListener) resultInput;
-                source.matchEndXBT();
-                result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(1));
-                result.endXBT();
+                XBString versionString = new XBString(server.getVersion());
+                XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(resultInput);
+                serialInput.process(versionString);
+
+                /* XBTMatchingProvider source = (XBTMatchingProvider) parameters;
+                 XBTListener result = (XBTListener) resultInput;
+                 source.matchEndXBT();
+                 result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
+                 result.attribXBT(new UBNat32(0));
+                 result.attribXBT(new UBNat32(0));
+                 result.attribXBT(new UBNat32(0));
+                 result.attribXBT(new UBNat32(1));
+                 result.endXBT(); */
             }
         });
     }

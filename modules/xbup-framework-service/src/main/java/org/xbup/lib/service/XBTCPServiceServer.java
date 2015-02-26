@@ -61,7 +61,7 @@ import org.xbup.lib.core.remote.XBServiceServer;
  * @version 0.1.25 2015/02/25
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTCPRemoteServer implements XBServiceServer {
+public class XBTCPServiceServer implements XBServiceServer {
 
     protected XBACatalog catalog;
     private ServerSocket serverSocket;
@@ -73,7 +73,7 @@ public class XBTCPRemoteServer implements XBServiceServer {
      *
      * @param catalog catalog
      */
-    public XBTCPRemoteServer(XBACatalog catalog) {
+    public XBTCPServiceServer(XBACatalog catalog) {
         this.catalog = catalog;
         stop = false;
     }
@@ -107,7 +107,7 @@ public class XBTCPRemoteServer implements XBServiceServer {
         while (!isStop()) {
             try {
                 socket = getServerSocket().accept();
-                Logger.getLogger(XBTCPRemoteServer.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("Request from: " + socket.getInetAddress().getHostAddress()));
+                Logger.getLogger(XBTCPServiceServer.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("Request from: " + socket.getInetAddress().getHostAddress()));
                 OutputStream outputStream;
                 try (InputStream inputStream = socket.getInputStream()) {
                     outputStream = socket.getOutputStream();
@@ -118,7 +118,7 @@ public class XBTCPRemoteServer implements XBServiceServer {
                 }
                 outputStream.close();
             } catch (XBParseException ex) {
-                Logger.getLogger(XBTCPRemoteServer.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(XBTCPServiceServer.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException e) {
                 System.err.println(e);
             }
@@ -130,7 +130,7 @@ public class XBTCPRemoteServer implements XBServiceServer {
         try {
             getServerSocket().close();
         } catch (IOException ex) {
-            Logger.getLogger(XBTCPRemoteServer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBTCPServiceServer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

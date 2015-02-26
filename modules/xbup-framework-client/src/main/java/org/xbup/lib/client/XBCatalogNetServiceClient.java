@@ -29,9 +29,7 @@ import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeUndeclaringFilter;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
-import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
 import org.xbup.lib.core.catalog.XBPCatalog;
 import org.xbup.lib.core.parser.basic.XBMatchingProvider;
 import org.xbup.lib.core.parser.basic.XBProvider;
@@ -53,7 +51,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBService catalog client using IP networking.
  *
- * @version 0.1.25 2015/02/24
+ * @version 0.1.25 2015/02/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBCatalogServiceClient {
@@ -102,9 +100,9 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
      */
     private XBLFormatDecl getContextFormatDecl() {
         XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/xbup/lib/client/resources/catalog_service_format.xb"));
-        XBLGroupDecl groupDecl = new XBLGroupDecl();
-        reader.read(groupDecl);
-        return new XBLFormatDecl(groupDecl);
+        XBLFormatDecl formatDecl = new XBLFormatDecl();
+        reader.read(formatDecl);
+        return formatDecl;
     }
 
     private class XBCatalogSocketMessage implements XBCatalogServiceMessage {

@@ -43,18 +43,18 @@ import org.xbup.lib.service.skeleton.XBPXPlugSkeleton;
 import org.xbup.lib.service.skeleton.XBPXStriSkeleton;
 
 /**
- * XBUP service server.
+ * XBUP catalog service server.
  *
- * @version 0.1.25 2015/02/25
+ * @version 0.1.25 2015/02/26
  * @author XBUP Project (http://xbup.org)
  */
-public class XBCatalogServer extends XBTCPRemoteServer {
+public class XBCatalogNetServiceServer extends XBTCPServiceServer {
 
-    private static final ResourceBundle myBundle = ResourceBundle.getBundle("org/xbup/lib/xbservice/messages");
+    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle("org/xbup/lib/service/messages");
 
     private final XBCUpdatePHPHandler wsHandler;
 
-    public XBCatalogServer(final XBAECatalog catalog) {
+    public XBCatalogNetServiceServer(final XBAECatalog catalog) {
         super(catalog);
 
         wsHandler = new XBCUpdatePHPHandler((XBAECatalog) catalog);
@@ -84,12 +84,16 @@ public class XBCatalogServer extends XBTCPRemoteServer {
         new XBPXStriSkeleton(catalog).registerProcedures(server);
     }
 
-    private static final String defaultBundle = "sun.util.logging.resources.logging";
-    public static final Level XB_SERVICE_STATUS = new XBServiceStatus("XB_SERVICE_STATUS", 758, defaultBundle);
+    private static final String logBundle = "sun.util.logging.resources.logging";
+    public static final Level XB_SERVICE_STATUS = new XBServiceStatus("XB_SERVICE_STATUS", 758, logBundle);
 
     public void performStop() {
-        Logger.getLogger(org.xbup.lib.service.XBCatalogServer.class.getName()).log(org.xbup.lib.service.XBCatalogServer.XB_SERVICE_STATUS, myBundle.getString("stop_service"));
+        Logger.getLogger(org.xbup.lib.service.XBCatalogNetServiceServer.class.getName()).log(org.xbup.lib.service.XBCatalogNetServiceServer.XB_SERVICE_STATUS, resourceBundle.getString("stop_service"));
         setStop(true);
+    }
+
+    public String getVersion() {
+        return resourceBundle.getString("Application.version");
     }
 
     private static class XBServiceStatus extends Level {

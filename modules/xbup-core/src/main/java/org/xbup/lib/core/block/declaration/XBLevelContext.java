@@ -36,7 +36,7 @@ import org.xbup.lib.core.serial.basic.XBTBasicInputReceivingSerialHandler;
 /**
  * Representation of current declaration typeConvertor for block types.
  *
- * @version 0.1.25 2015/02/25
+ * @version 0.1.25 2015/02/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBLevelContext implements XBTListener, XBTEventListener {
@@ -55,20 +55,24 @@ public class XBLevelContext implements XBTListener, XBTEventListener {
     public XBLevelContext(XBCatalog catalog, XBTypeConvertor context, int depthLevel) {
         this.catalog = catalog;
         this.depthLevel = depthLevel;
-        declaration = new XBDeclaration();
-        declaration.setHeaderMode(true);
-        try {
-            declaration.serializeRecvFromXB(new XBTBasicInputReceivingSerialHandler() {
+        if (context != null) {
+            typeConvertor = context;
+        } else {
+            declaration = new XBDeclaration();
+            declaration.setHeaderMode(true);
+            typeConvertor = declaration;
+            try {
+                declaration.serializeRecvFromXB(new XBTBasicInputReceivingSerialHandler() {
 
-                @Override
-                public void process(XBTListener listener) {
-                    declarationBuilderListener = listener;
-                }
-            });
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBLevelContext.class.getName()).log(Level.SEVERE, null, ex);
+                    @Override
+                    public void process(XBTListener listener) {
+                        declarationBuilderListener = listener;
+                    }
+                });
+            } catch (XBProcessingException | IOException ex) {
+                Logger.getLogger(XBLevelContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        typeConvertor = context != null ? context : declaration;
     }
 
     public int getDepthLevel() {

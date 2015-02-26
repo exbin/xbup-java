@@ -55,7 +55,7 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 1 local group definition.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.1.25 2015/02/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBLGroupDef implements XBGroupDef, XBPSequenceSerializable, XBTBasicReceivingSerializable {
@@ -68,6 +68,8 @@ public class XBLGroupDef implements XBGroupDef, XBPSequenceSerializable, XBTBasi
 
     public XBLGroupDef(XBBlockDecl block) {
         groupParams.add(new XBGroupParamConsist(block));
+        revisionDef = new XBLRevisionDef();
+        revisionDef.getRevParams().add(new XBRevisionParam(1));
     }
 
     @Override
@@ -90,7 +92,7 @@ public class XBLGroupDef implements XBGroupDef, XBPSequenceSerializable, XBTBasi
 
     @Override
     public XBGroupParam getGroupParam(int paramIndex) {
-        return groupParams.get(paramIndex);
+        return paramIndex < groupParams.size() ? groupParams.get(paramIndex) : null;
     }
 
     public void provideRevision() {

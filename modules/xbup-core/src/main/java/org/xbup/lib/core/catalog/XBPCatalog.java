@@ -144,7 +144,7 @@ public class XBPCatalog implements XBCatalog {
         List<XBGroup> groups = new ArrayList<>();
         for (XBFormatDecl formatDecl : formatDecls) {
             for (XBGroupDecl groupDecl : formatDecl.getGroupDecls()) {
-                rootContext.getGroups().add(XBDeclaration.convertCatalogGroup(groupDecl));
+                groups.add(XBDeclaration.convertCatalogGroup(groupDecl));
             }
         }
 

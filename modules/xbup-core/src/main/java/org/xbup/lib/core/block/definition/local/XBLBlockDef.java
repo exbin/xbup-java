@@ -24,6 +24,7 @@ import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
+import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.definition.XBBlockDef;
 import org.xbup.lib.core.block.definition.XBBlockParam;
 import org.xbup.lib.core.block.definition.XBBlockParamConsist;
@@ -33,6 +34,7 @@ import org.xbup.lib.core.block.definition.XBBlockParamListJoin;
 import org.xbup.lib.core.block.definition.XBFormatParamConsist;
 import org.xbup.lib.core.block.definition.XBFormatParamJoin;
 import org.xbup.lib.core.block.definition.XBRevisionDef;
+import org.xbup.lib.core.block.definition.XBRevisionParam;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBTListener;
@@ -55,7 +57,7 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 1 local block definition.
  *
- * @version 0.1.25 2015/02/24
+ * @version 0.1.25 2015/02/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBLBlockDef implements XBBlockDef, XBPSequenceSerializable, XBTBasicReceivingSerializable {
@@ -64,6 +66,12 @@ public class XBLBlockDef implements XBBlockDef, XBPSequenceSerializable, XBTBasi
     private XBLRevisionDef revisionDef;
 
     public XBLBlockDef() {
+    }
+
+    public XBLBlockDef(XBBlockDecl block) {
+        blockParams.add(new XBBlockParamConsist(block));
+        revisionDef = new XBLRevisionDef();
+        revisionDef.getRevParams().add(new XBRevisionParam(1));
     }
 
     public void setBlockParams(List<XBBlockParam> params) {
@@ -91,7 +99,7 @@ public class XBLBlockDef implements XBBlockDef, XBPSequenceSerializable, XBTBasi
 
     @Override
     public XBBlockParam getBlockParam(int paramIndex) {
-        return blockParams.get(paramIndex);
+        return paramIndex < blockParams.size() ? blockParams.get(paramIndex) : null;
     }
 
     public void clear() {

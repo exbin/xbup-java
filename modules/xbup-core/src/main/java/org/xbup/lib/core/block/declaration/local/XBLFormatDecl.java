@@ -97,14 +97,16 @@ public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable, XBT
     @Override
     public List<XBGroupDecl> getGroupDecls() {
         List<XBGroupDecl> groups = new ArrayList<>();
-        int blocksLimit = getGroupsLimit();
-        for (int paramIndex = 0; paramIndex < blocksLimit; paramIndex++) {
+        int groupsLimit = getGroupsLimit();
+        for (int paramIndex = 0; paramIndex < groupsLimit; paramIndex++) {
             XBFormatParam formatParam = formatDef.getFormatParam(paramIndex);
             if (formatParam instanceof XBFormatParamJoin) {
                 XBFormatDecl groupDecl = ((XBFormatParamJoin) formatParam).getFormatDecl();
                 groups.addAll(groupDecl.getGroupDecls());
             } else {
-                groups.add(((XBFormatParamConsist) formatParam).getGroupDecl());
+                if (formatParam != null) {
+                    groups.add(((XBFormatParamConsist) formatParam).getGroupDecl());
+                }
             }
         }
 

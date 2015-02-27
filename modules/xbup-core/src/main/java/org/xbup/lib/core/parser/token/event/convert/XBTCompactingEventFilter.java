@@ -40,7 +40,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  *
  * This should be usable for level 2 compacting conversions.
  *
- * @version 0.1.24 2015/01/25
+ * @version 0.1.24 2015/01/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCompactingEventFilter implements XBTEventFilter {
@@ -48,7 +48,7 @@ public class XBTCompactingEventFilter implements XBTEventFilter {
     private XBTEventListener eventListener;
 
     private boolean unknownMode = false;
-    private boolean possibleDataMode = true;
+    private boolean emptyDataMode = true;
     private int zeroAttributes = 0;
     private final List<XBBlockTerminationMode> emptyNodes = new ArrayList<>();
     private XBBlockTerminationMode blockMode;
@@ -71,13 +71,13 @@ public class XBTCompactingEventFilter implements XBTEventFilter {
         switch (token.getTokenType()) {
             case BEGIN: {
                 blockMode = ((XBTBeginToken) token).getTerminationMode();
-                possibleDataMode = true;
+                emptyDataMode = true;
                 zeroAttributes = 0;
                 break;
             }
             case TYPE: {
                 flushEmptyNodes();
-                possibleDataMode = false;
+                emptyDataMode = false;
                 eventListener.putXBTToken(new XBTBeginToken(blockMode));
                 unknownMode = (((XBTTypeToken) token).getBlockType().getAsBasicType() == XBBasicBlockType.UNKNOWN_BLOCK);
 
@@ -86,10 +86,10 @@ public class XBTCompactingEventFilter implements XBTEventFilter {
             }
             case ATTRIBUTE: {
                 flushEmptyNodes();
-                if (possibleDataMode) {
+                if (emptyDataMode) {
                     eventListener.putXBTToken(new XBTBeginToken(blockMode));
                 }
-                possibleDataMode = false;
+                emptyDataMode = false;
                 if (!unknownMode) {
                     if (((XBTAttributeToken) token).getAttribute().isNaturalZero()) {
                         zeroAttributes++;
@@ -107,7 +107,7 @@ public class XBTCompactingEventFilter implements XBTEventFilter {
                     emptyNodes.add(blockMode);
                     break;
                 } else {
-                    possibleDataMode = false;
+                    emptyDataMode = false;
                     flushEmptyNodes();
                 }
 
@@ -116,8 +116,11 @@ public class XBTCompactingEventFilter implements XBTEventFilter {
                 break;
             }
             case END: {
-                if (!possibleDataMode) {
+                if (!emptyDataMode) {
                     eventListener.putXBTToken(token);
+                    emptyNodes.clear();
+                } else {
+                    emptyDataMode = false;
                 }
 
                 break;

@@ -45,7 +45,7 @@ import org.xbup.lib.core.util.StreamUtils;
 /**
  * Filter to convert block types from fixed types to stand-alone types.
  *
- * @version 0.1.25 2015/02/07
+ * @version 0.1.25 2015/02/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTPullTypeDeclaringFilter implements XBTPullFilter {
@@ -64,6 +64,7 @@ public class XBTPullTypeDeclaringFilter implements XBTPullFilter {
 
     public XBTPullTypeDeclaringFilter(XBCatalog catalog, XBTPullProvider pullProvider) {
         this.catalog = catalog;
+        currentContext = new XBLevelContext(catalog, catalog.getRootContext(), 0);
         this.pullProvider = pullProvider;
     }
 

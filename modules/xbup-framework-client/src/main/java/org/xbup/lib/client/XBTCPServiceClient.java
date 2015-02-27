@@ -31,16 +31,16 @@ import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
-import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.event.XBEventWriter;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.serial.XBSerializable;
-import org.xbup.lib.core.parser.basic.convert.XBTDefaultMatchingProvider;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventTypeUndeclaringFilter;
+import org.xbup.lib.core.parser.token.event.convert.XBTPrintEventFilter;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
+import org.xbup.lib.core.parser.token.pull.convert.XBTPrintPullFilter;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullTypeDeclaringFilter;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.remote.XBCallHandler;
@@ -51,15 +51,17 @@ import org.xbup.lib.core.stream.XBOutput;
 /**
  * XBService client connection handler using TCP/IP protocol.
  *
- * @version 0.1.25 2015/02/24
+ * @version 0.1.25 2015/02/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPServiceClient implements XBServiceClient {
 
-    private Socket socket;
     private XBCatalog catalog;
-    private XBTDefaultMatchingProvider source;
-    private XBTListener target;
+
+    private Socket socket = null;
+    private XBInput currentInput = null;
+    private XBOutput currentOutput = null;
+
     private String host;
     private int port;
     private XBPServiceStub serviceStub;
@@ -89,19 +91,36 @@ public class XBTCPServiceClient implements XBServiceClient {
     @Override
     public XBCallHandler procedureCall() {
         try {
-            final Socket callSocket = new Socket(getHost(), getPort());
-            XBHead.writeXBUPHead(callSocket.getOutputStream());
+            if (socket == null) {
+                socket = new Socket(getHost(), getPort());
+                XBHead.writeXBUPHead(socket.getOutputStream());
+            }
 
+            if (currentInput != null) {
+                // TODO: SKIP all remaining data
+                currentInput = null;
+            }
+            if (currentOutput != null) {
+                // TODO: Close all remaining data
+                currentOutput = null;
+            }
             return new XBCallHandler() {
 
                 @Override
                 public XBInput getParametersInput() throws XBProcessingException, IOException {
-                    return new XBTEventTypeUndeclaringFilter(catalog, new XBTToXBEventConvertor(new XBEventWriter(callSocket.getOutputStream())));
+                    currentInput = new XBTEventTypeUndeclaringFilter(catalog, new XBTPrintEventFilter(new XBTToXBEventConvertor(new XBEventWriter(socket.getOutputStream()))));
+                    return currentInput;
                 }
 
                 @Override
                 public XBOutput getResultOutput() throws XBProcessingException, IOException {
-                    return new XBTPullTypeDeclaringFilter(catalog, new XBToXBTPullConvertor(new XBPullReader(callSocket.getInputStream())));
+                    if (currentInput != null) {
+                        // TODO: SKIP all remaining data
+                        currentInput = null;
+                    }
+
+                    currentOutput = new XBTPullTypeDeclaringFilter(catalog, new XBTPrintPullFilter(new XBToXBTPullConvertor(new XBPullReader(socket.getInputStream()))));
+                    return currentOutput;
                 }
             };
         } catch (XBProcessingException | IOException ex) {
@@ -116,10 +135,9 @@ public class XBTCPServiceClient implements XBServiceClient {
      *
      * @param user
      * @param password
-     * @return
-     * @throws IOException
+     * @return 0 for OK
      */
-    public int login(String user, char[] password) throws IOException {
+    public int login(String user, char[] password) {
         return serviceStub.login(user, password);
     }
 

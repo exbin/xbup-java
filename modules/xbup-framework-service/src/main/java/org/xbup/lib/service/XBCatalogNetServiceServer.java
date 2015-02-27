@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.service;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Handler;
@@ -94,6 +95,17 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
 
     public String getVersion() {
         return resourceBundle.getString("Application.version");
+    }
+
+    /**
+     * Performs login to the server
+     *
+     * @param user
+     * @param password
+     * @return 0 for OK
+     */
+    public int login(String user, char[] password) {
+        return 0;
     }
 
     private static class XBServiceStatus extends Level {

@@ -38,7 +38,7 @@ import org.xbup.lib.core.stream.XBInput;
 /**
  * Level 2 event producer performing block building using sequence operations.
  *
- * @version 0.1.25 2015/02/22
+ * @version 0.1.25 2015/02/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPSequenceEventProducer implements XBTEventProducer {
@@ -127,21 +127,27 @@ public class XBPSequenceEventProducer implements XBTEventProducer {
                 if (processingState == XBParamProcessingState.TYPE || processingState == XBParamProcessingState.ATTRIBUTES || processingState == XBParamProcessingState.DATA) {
                     processingState = XBParamProcessingState.END;
 
-                    childSequences.add(childSequence);
-                    List<XBSerializable> nextSequence = childSequence;
-                    resetSequence();
-
-                    while (nextSequence.isEmpty()) {
-                        childSequences.remove(childSequences.size() - 1);
+                    if (childSequence.isEmpty()) {
                         putEnd();
-                        if (childSequences.isEmpty()) {
-                            break;
+                        resetSequence();
+                        
+                        if (!childSequences.isEmpty()) {
+                            do {
+                                childSequence = childSequences.remove(childSequences.size() - 1);
+                                if (childSequence.isEmpty() || childSequences.isEmpty()) {
+                                    putEnd();
+                                }
+                            } while (!childSequences.isEmpty() && childSequence.isEmpty());
+                            nextChild = childSequence.isEmpty() ? null : childSequence.remove(0);
                         } else {
-                            nextSequence = childSequences.get(childSequences.size() - 1);
+                            nextChild = null;
+                            putEnd();
                         }
+                    } else {
+                        nextChild = childSequence.remove(0);
+                        childSequences.add(childSequence);
+                        resetSequence();
                     }
-
-                    nextChild = nextSequence.isEmpty() ? null : nextSequence.remove(0);
                 } else {
                     throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }

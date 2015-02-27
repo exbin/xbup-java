@@ -30,7 +30,7 @@ import org.xbup.lib.core.type.XBString;
 /**
  * RPC Stub for Info extension related operations.
  *
- * @version 0.1.25 2015/02/24
+ * @version 0.1.25 2015/02/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPServiceStub {
@@ -54,14 +54,20 @@ public class XBPServiceStub {
 
             XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
             serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(STOP_SERVICE_PROCEDURE));
+            serialInput.putType(new XBDeclBlockType(LOGIN_SERVICE_PROCEDURE));
             XBString userName = new XBString(user);
             serialInput.consist(userName);
             XBString userPass = new XBString(new String(password));
             serialInput.consist(userPass);
             serialInput.end();
 
-            return 1;
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
+            serialOutput.begin();
+            serialOutput.pullType();
+            int loginResult = serialOutput.pullIntAttribute();
+            serialOutput.end();
+
+            return loginResult;
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPServiceStub.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -75,7 +81,7 @@ public class XBPServiceStub {
 
             XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
             serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(STOP_SERVICE_PROCEDURE));
+            serialInput.putType(new XBDeclBlockType(VERSION_INFO_PROCEDURE));
             serialInput.end();
 
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());

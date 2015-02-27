@@ -19,6 +19,7 @@ package org.xbup.lib.service.skeleton;
 import java.io.IOException;
 import org.xbup.lib.client.stub.XBPServiceStub;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
@@ -26,6 +27,7 @@ import org.xbup.lib.core.parser.basic.XBTMatchingProvider;
 import org.xbup.lib.core.remote.XBProcedure;
 import org.xbup.lib.core.remote.XBServiceServer;
 import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
+import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
 import org.xbup.lib.core.stream.XBInput;
 import org.xbup.lib.core.stream.XBOutput;
 import org.xbup.lib.core.type.XBString;
@@ -75,22 +77,22 @@ public class XBPServiceSkeleton {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
-                XBTMatchingProvider source = (XBTMatchingProvider) parameters;
-                XBTListener result = (XBTListener) resultInput;
-//            XBString loginName = new XBString();
-//            XBString loginPass = new XBString();
-//            XBL1SerialPullConsumer pullConsumer = new XBL1SerialPullConsumer(loginName);
-/*            pullConsumer.attachXBL1PullProvider((XBL1PullProvider) source.getStream());
-                 pullConsumer.processXBL1Pulls();
-                 pullConsumer = new XBL1SerialPullConsumer(loginPass);
-                 pullConsumer.attachXBL1PullProvider((XBL1PullProvider) source.getStream());
-                 pullConsumer.processXBL1Pulls();*/
-//            source.matchEndXBT();
-                result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(1)); // Ok
-                result.endXBT();
+                XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(parameters);
+                serialOutput.begin();
+                serialOutput.matchType(new XBDeclBlockType(XBPServiceStub.LOGIN_SERVICE_PROCEDURE));
+                XBString loginName = new XBString();
+                serialOutput.consist(loginName);
+                XBString loginPass = new XBString();
+                serialOutput.consist(loginPass);
+                serialOutput.end();
+
+                int loginResult = server.login(loginName.getValue(), loginPass.getValue().toCharArray());
+
+                XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(resultInput);
+                serialInput.begin();
+                serialInput.putType(new XBFixedBlockType());
+                serialInput.putAttribute(loginResult);
+                serialInput.end();
             }
         });
 

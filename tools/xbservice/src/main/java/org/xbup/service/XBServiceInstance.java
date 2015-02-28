@@ -51,15 +51,19 @@ import org.xbup.lib.catalog.entity.service.XBEXPaneService;
 import org.xbup.lib.catalog.entity.service.XBEXPlugService;
 import org.xbup.lib.catalog.entity.service.XBEXStriService;
 import org.xbup.lib.catalog.update.XBCUpdatePHPHandler;
+import org.xbup.lib.core.block.declaration.XBContext;
+import org.xbup.lib.core.block.declaration.XBDeclaration;
+import org.xbup.lib.core.block.declaration.XBGroupDecl;
+import org.xbup.lib.core.block.declaration.catalog.XBCFormatDecl;
 import org.xbup.lib.service.XBCatalogNetServiceServer;
 
 /**
- * Console class for XBUP framework service.
+ * Instance class for XBUP framework service.
  *
- * @version 0.1.25 2015/02/26
+ * @version 0.1.25 2015/02/28
  * @author XBUP Project (http://xbup.org)
  */
-public class XBServiceServer {
+public class XBServiceInstance {
 
     private ResourceBundle resourceBundle = ResourceBundle.getBundle("org/xbup/service/XBService");
     private boolean shallUpdate;
@@ -74,7 +78,7 @@ public class XBServiceServer {
     private XBCatalogNetServiceServer serviceServer = null;
     private XBAECatalog catalog = null;
 
-    public XBServiceServer() {
+    public XBServiceInstance() {
     }
 
     public void run() {
@@ -91,25 +95,37 @@ public class XBServiceServer {
             tcpipPortInt = Integer.valueOf(tcpipPort);
         } catch (NumberFormatException e) {
             tcpipPortInt = 22594; // Fallback to default port
-            Logger.getLogger(XBServiceServer.class.getName()).log(Level.SEVERE, "{0}{1}: {2}", new Object[]{resourceBundle.getString("error_warning"), resourceBundle.getString("error_tcpip_port"), tcpipPort});
+            Logger.getLogger(XBServiceInstance.class.getName()).log(Level.SEVERE, "{0}{1}: {2}", new Object[]{resourceBundle.getString("error_warning"), resourceBundle.getString("error_tcpip_port"), tcpipPort});
         }
 
-        Logger.getLogger(XBServiceServer.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, (resourceBundle.getString("init_service") + " " + tcpipInterface + ":" + Integer.toString(tcpipPortInt) + "..."));
+        Logger.getLogger(XBServiceInstance.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, (resourceBundle.getString("init_service") + " " + tcpipInterface + ":" + Integer.toString(tcpipPortInt) + "..."));
 
         serviceServer = new XBCatalogNetServiceServer(catalog);
         try {
             serviceServer.open(tcpipPortInt);
             performUpdate();
 
+            // TODO Separate method?
+            Long[] serviceFormatPath = new Long[3];
+            serviceFormatPath[0] = 0l;
+            serviceFormatPath[1] = 2l;
+            serviceFormatPath[2] = 0l;
+            XBCFormatDecl serviceFormatDecl = (XBCFormatDecl) catalog.findFormatTypeByPath(serviceFormatPath, 0);
+            XBContext serviceContext = new XBContext();
+            for (XBGroupDecl groupDeclservice : serviceFormatDecl.getGroupDecls()) {
+                serviceContext.getGroups().add(XBDeclaration.convertCatalogGroup(groupDeclservice, catalog));
+            }
+            catalog.setRootContext(serviceContext);
+
             serviceServer.run();
-            Logger.getLogger(XBServiceServer.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, (resourceBundle.getString("stop_service_success") + "."));
+            Logger.getLogger(XBServiceInstance.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, (resourceBundle.getString("stop_service_success") + "."));
         } catch (IOException e) {
-            Logger.getLogger(XBServiceServer.class.getName()).log(Level.WARNING, (resourceBundle.getString("init_service_failed") + ": " + e));
+            Logger.getLogger(XBServiceInstance.class.getName()).log(Level.WARNING, (resourceBundle.getString("init_service_failed") + ": " + e));
         }
     }
 
     private void initCatalog() {
-        Logger.getLogger(XBServiceServer.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, (resourceBundle.getString("init_catalog") + "..."));
+        Logger.getLogger(XBServiceInstance.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, (resourceBundle.getString("init_catalog") + "..."));
         try {
             derbyMode = false;
             // Database Initialization
@@ -150,13 +166,13 @@ public class XBServiceServer {
         // TODO: Only single connection for testing purposes (no connection pooling yet)
         shallUpdate = (serviceServer.shallUpdate() || forceUpdate) && (!rootCatalogMode);
         try {
-            Logger.getLogger(XBServiceServer.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, "");
-            Logger.getLogger(XBServiceServer.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, resourceBundle.getString("init_service_success"));
-            Logger.getLogger(XBServiceServer.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, "");
+            Logger.getLogger(XBServiceInstance.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, "");
+            Logger.getLogger(XBServiceInstance.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, resourceBundle.getString("init_service_success"));
+            Logger.getLogger(XBServiceInstance.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, "");
             if (shallUpdate) {
                 // TODO: Should be threaded
-                Logger.getLogger(XBServiceServer.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, resourceBundle.getString("init_update"));
-                Logger.getLogger(XBServiceServer.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, "");
+                Logger.getLogger(XBServiceInstance.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, resourceBundle.getString("init_update"));
+                Logger.getLogger(XBServiceInstance.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, "");
 
                 if (catalog.isShallInit()) {
                     catalog.initCatalog();
@@ -176,12 +192,12 @@ public class XBServiceServer {
                     performUpdate((XBERoot) nodeService.getRoot(), lastUpdate);
                 }
 
-                Logger.getLogger(XBServiceServer.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, "");
-                Logger.getLogger(XBServiceServer.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, resourceBundle.getString("done_update"));
-                Logger.getLogger(XBServiceServer.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, "");
+                Logger.getLogger(XBServiceInstance.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, "");
+                Logger.getLogger(XBServiceInstance.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, resourceBundle.getString("done_update"));
+                Logger.getLogger(XBServiceInstance.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, "");
             }
         } catch (XBProcessingException ex) {
-            Logger.getLogger(XBServiceServer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBServiceInstance.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

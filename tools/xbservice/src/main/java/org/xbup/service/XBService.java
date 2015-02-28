@@ -95,7 +95,7 @@ public class XBService {
                 logger.addHandler(new XBHead.XBLogHandler(verboseMode));
                 logger.addHandler(new XBCatalogNetServiceServer.XBServiceLogHandler(true));
 
-                XBServiceServer server = new XBServiceServer();
+                XBServiceInstance server = new XBServiceInstance();
                 server.setResourceBundle(recourceBundle);
                 server.setDerbyPath(preferences.absolutePath());
                 server.setTcpipInterface(tcpipInterface);

@@ -76,7 +76,7 @@ import org.xbup.lib.core.serial.XBPSerialReader;
 /**
  * Basic level 1 catalog class using Java persistence.
  *
- * @version 0.1.25 2015/02/25
+ * @version 0.1.25 2015/02/28
  * @author XBUP Project (http://xbup.org)
  */
 public class XBECatalog implements XBCatalog {
@@ -217,6 +217,10 @@ public class XBECatalog implements XBCatalog {
         return rootContext;
     }
 
+    public void setRootContext(XBContext context) {
+        rootContext = context;
+    }
+    
     public void initCatalog() {
         EntityTransaction tx = em.getTransaction();
         try {

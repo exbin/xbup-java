@@ -20,13 +20,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBTProvider;
 import org.xbup.lib.core.parser.basic.convert.XBTProducerToProvider;
 import org.xbup.lib.core.parser.param.XBParamProcessingState;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
+import org.xbup.lib.core.parser.token.XBTBeginToken;
 import org.xbup.lib.core.parser.token.XBTDataToken;
+import org.xbup.lib.core.parser.token.XBTEmptyDataToken;
 import org.xbup.lib.core.parser.token.XBTEndToken;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
@@ -42,7 +45,7 @@ import org.xbup.lib.core.stream.XBOutput;
 /**
  * Level 2 pull consumer performing block building using sequence operations.
  *
- * @version 0.1.25 2015/02/22
+ * @version 0.1.25 2015/03/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPSequencePullConsumer implements XBTPullConsumer {
@@ -51,6 +54,7 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
     private final List<List<XBTAttributeToken>> attributeSequences = new ArrayList<>();
     private List<XBTAttributeToken> attributeSequence = new LinkedList<>();
     private XBParamProcessingState processingState = XBParamProcessingState.START;
+    private boolean emptyNodeMode = false;
 
     public XBPSequencePullConsumer(XBTPullProvider pullProvider) {
         attachProvider(pullProvider);
@@ -95,14 +99,18 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
                 }
 
                 XBTToken token = pullProvider.pullXBTToken();
-                if (token.getTokenType() != XBTTokenType.BEGIN) {
+                processingState = XBParamProcessingState.BEGIN;
+                if (token.getTokenType() == XBTTokenType.END) {
+                    emptyNodeMode = true;
+                    return new XBTBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED);
+                } else if (token.getTokenType() != XBTTokenType.BEGIN) {
                     throw new XBProcessingException("Unexpected token type " + token.getTokenType(), XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
-                processingState = XBParamProcessingState.BEGIN;
+
                 return token;
             }
             case TYPE: {
-                if (processingState != XBParamProcessingState.BEGIN) {
+                if (processingState != XBParamProcessingState.BEGIN && !emptyNodeMode) {
                     throw new XBProcessingException("Type token out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
 
@@ -114,7 +122,7 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
                 return token;
             }
             case ATTRIBUTE: {
-                if (processingState == XBParamProcessingState.DATA || processingState == XBParamProcessingState.START) {
+                if (processingState == XBParamProcessingState.DATA || processingState == XBParamProcessingState.START || emptyNodeMode) {
                     throw new XBProcessingException("Attribute token out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
 
@@ -139,11 +147,15 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
                     throw new XBProcessingException("Data token out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
 
+                processingState = XBParamProcessingState.DATA;
+                if (emptyNodeMode) {
+                    return new XBTEmptyDataToken();
+                }
+
                 XBTToken token = pullProvider.pullXBTToken();
                 if (token.getTokenType() != XBTTokenType.DATA) {
                     throw new XBProcessingException("Unexpected token type", XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
-                processingState = XBParamProcessingState.DATA;
                 return token;
             }
             case END: {
@@ -152,7 +164,9 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
                 }
 
                 processingState = XBParamProcessingState.END;
-                if (!attributeSequences.isEmpty()) {
+                if (emptyNodeMode) {
+                    emptyNodeMode = false;
+                } else if (!attributeSequences.isEmpty()) {
                     attributeSequence = attributeSequences.remove(attributeSequences.size() - 1);
                 }
 

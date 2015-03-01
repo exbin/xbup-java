@@ -27,7 +27,11 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
+import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
+import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
+import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
@@ -49,7 +53,7 @@ import org.xbup.lib.core.remote.XBServiceServer;
 /**
  * XBUP level 1 RPC server using TCP/IP networking.
  *
- * @version 0.1.25 2015/02/25
+ * @version 0.1.25 2015/03/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPServiceServer implements XBServiceServer {
@@ -127,7 +131,12 @@ public class XBTCPServiceServer implements XBServiceServer {
 
     public void respondMessage(XBTPullTypeDeclaringFilter input, XBTEventTypeUndeclaringFilter output) throws IOException, XBProcessingException {
         XBTTypePreloadingPullProvider preloading = new XBTTypePreloadingPullProvider(input);
-        XBProcedure proc = getProcMap().get(preloading.getBlockType());
+        // TODO do proper matching later
+        XBDeclBlockType blockType = (XBDeclBlockType) preloading.getBlockType();
+        XBCBlockDecl blockDecl = (XBCBlockDecl) blockType.getBlockDecl();
+        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        blockType.setBlockDecl(new XBLBlockDecl(specService.getSpecXBPath(blockDecl.getBlockSpecRev().getParent()), blockDecl.getBlockSpecRev().getXBIndex().intValue()));
+        XBProcedure proc = procMap.get(blockType);
         if (proc != null) {
             proc.execute(preloading, output);
         } else {

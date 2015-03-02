@@ -37,7 +37,7 @@ import org.xbup.tool.editor.base.api.utils.WindowUtils;
 /**
  * XBManager login dialog.
  *
- * @version 0.1.25 2015/02/19
+ * @version 0.1.25 2015/03/02
  * @author XBUP Project (http://xbup.org)
  */
 public class ConnectionDialog extends javax.swing.JDialog {
@@ -399,7 +399,7 @@ public class ConnectionDialog extends javax.swing.JDialog {
                     setStatus(Color.ORANGE, "Logging in...");
                     try {
                         int loginResult = service.login(usernameTextField.getText(), passwordField.getPassword());
-                        if (loginResult == 1) {
+                        if (loginResult == 0) {
                             setStatus(Color.GREEN, "Connected");
                             dispose();
                         } else {

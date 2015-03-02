@@ -99,24 +99,24 @@ public class XBTCPServiceServer implements XBServiceServer {
      */
     public void run() throws XBProcessingException {
         Socket socket;
-        while (!isStop()) {
-            try {
-                socket = getServerSocket().accept();
-                Logger.getLogger(XBTCPServiceServer.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("Request from: " + socket.getInetAddress().getHostAddress()));
-                OutputStream outputStream;
-                try (InputStream inputStream = socket.getInputStream()) {
-                    outputStream = socket.getOutputStream();
-                    XBHead.checkXBUPHead(inputStream);
+        try {
+            socket = getServerSocket().accept();
+            Logger.getLogger(XBTCPServiceServer.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("Request from: " + socket.getInetAddress().getHostAddress()));
+            OutputStream outputStream;
+            try (InputStream inputStream = socket.getInputStream()) {
+                outputStream = socket.getOutputStream();
+                XBHead.checkXBUPHead(inputStream);
+                while (!isStop()) {
                     XBTPullTypeDeclaringFilter input = new XBTPullTypeDeclaringFilter(catalog, new XBTPrintPullFilter(new XBToXBTPullConvertor(new XBPullReader(inputStream))));
                     XBTEventTypeUndeclaringFilter output = new XBTEventTypeUndeclaringFilter(catalog, new XBTPrintEventFilter(new XBTToXBEventConvertor(new XBEventWriter(outputStream))));
                     respondMessage(input, output);
                 }
-                outputStream.close();
-            } catch (XBParseException ex) {
-                Logger.getLogger(XBTCPServiceServer.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException e) {
-                System.err.println(e);
             }
+            outputStream.close();
+        } catch (XBParseException ex) {
+            Logger.getLogger(XBTCPServiceServer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException e) {
+            System.err.println(e);
         }
     }
 

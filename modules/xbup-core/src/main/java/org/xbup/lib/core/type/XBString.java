@@ -34,12 +34,13 @@ import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBSerializationMode;
 import org.xbup.lib.core.util.StreamUtils;
 
 /**
  * Encapsulation class for UTF-8 String.
  *
- * @version 0.1.25 2015/02/06
+ * @version 0.1.25 2015/03/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBString implements XBPSequenceSerializable {
@@ -66,8 +67,12 @@ public class XBString implements XBPSequenceSerializable {
     @Override
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
-        serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
-        serial.consist(new DataBlockSerializator());
+        if (serial.getSerializationMode() == XBSerializationMode.PULL && serial.pullIfEmptyData()) {
+            value = null;
+        } else {
+            serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
+            serial.consist(new DataBlockSerializator());
+        }
         serial.end();
     }
 

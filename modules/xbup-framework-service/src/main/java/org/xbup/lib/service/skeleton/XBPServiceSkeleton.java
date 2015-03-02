@@ -37,7 +37,7 @@ import org.xbup.lib.service.XBCatalogNetServiceServer;
 /**
  * RPC skeleton class for XBRItemInfo catalog items.
  *
- * @version 0.1.25 2015/02/26
+ * @version 0.1.25 2015/03/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPServiceSkeleton {
@@ -86,7 +86,7 @@ public class XBPServiceSkeleton {
                 serialOutput.consist(loginPass);
                 serialOutput.end();
 
-                int loginResult = server.login(loginName.getValue(), loginPass.getValue().toCharArray());
+                int loginResult = server.login(loginName.getValue(), loginPass.getValue() != null ? loginPass.getValue().toCharArray() : null);
 
                 XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(resultInput);
                 serialInput.begin();

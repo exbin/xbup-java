@@ -38,7 +38,7 @@ import org.xbup.lib.core.stream.XBInput;
 /**
  * Level 2 event producer performing block building using sequence operations.
  *
- * @version 0.1.25 2015/02/27
+ * @version 0.1.25 2015/03/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPSequenceEventProducer implements XBTEventProducer {
@@ -130,18 +130,20 @@ public class XBPSequenceEventProducer implements XBTEventProducer {
                     if (childSequence.isEmpty()) {
                         putEnd();
                         resetSequence();
-                        
+
                         if (!childSequences.isEmpty()) {
                             do {
                                 childSequence = childSequences.remove(childSequences.size() - 1);
-                                if (childSequence.isEmpty() || childSequences.isEmpty()) {
+                                if (childSequence.isEmpty()) {
                                     putEnd();
+                                    if (childSequences.isEmpty()) {
+                                        putEnd();
+                                    }
                                 }
                             } while (!childSequences.isEmpty() && childSequence.isEmpty());
                             nextChild = childSequence.isEmpty() ? null : childSequence.remove(0);
                         } else {
                             nextChild = null;
-                            putEnd();
                         }
                     } else {
                         nextChild = childSequence.remove(0);

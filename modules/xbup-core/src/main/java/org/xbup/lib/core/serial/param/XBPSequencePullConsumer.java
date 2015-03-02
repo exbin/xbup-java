@@ -182,7 +182,11 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
             throw new XBProcessingException("Empty data token test out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
-        processingState = XBParamProcessingState.BEGIN;
+        if (emptyNodeMode) {
+            processingState = XBParamProcessingState.DATA;
+            return true;
+        }
+
         XBTToken nextToken = pullProvider.getNextToken();
         if (nextToken != null && nextToken.getTokenType() == XBTTokenType.DATA) {
             if (((XBTDataToken) nextToken).isEmpty()) {

@@ -35,9 +35,9 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.service.XBCatalogNetServiceServer;
 
 /**
- * RPC skeleton class for XBRItemInfo catalog items.
+ * RPC skeleton class for catalog service control.
  *
- * @version 0.1.25 2015/03/02
+ * @version 0.1.25 2015/03/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPServiceSkeleton {
@@ -77,22 +77,22 @@ public class XBPServiceSkeleton {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
-                XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(parameters);
-                serialOutput.begin();
-                serialOutput.matchType(new XBDeclBlockType(XBPServiceStub.LOGIN_SERVICE_PROCEDURE));
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(new XBDeclBlockType(XBPServiceStub.LOGIN_SERVICE_PROCEDURE));
                 XBString loginName = new XBString();
-                serialOutput.consist(loginName);
+                provider.consist(loginName);
                 XBString loginPass = new XBString();
-                serialOutput.consist(loginPass);
-                serialOutput.end();
+                provider.consist(loginPass);
+                provider.end();
 
                 int loginResult = server.login(loginName.getValue(), loginPass.getValue() != null ? loginPass.getValue().toCharArray() : null);
 
-                XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(resultInput);
-                serialInput.begin();
-                serialInput.putType(new XBFixedBlockType());
-                serialInput.putAttribute(loginResult);
-                serialInput.end();
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
+                listener.begin();
+                listener.putType(new XBFixedBlockType());
+                listener.putAttribute(loginResult);
+                listener.end();
             }
         });
 
@@ -100,9 +100,14 @@ public class XBPServiceSkeleton {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(new XBDeclBlockType(XBPServiceStub.VERSION_INFO_PROCEDURE));
+                provider.end();
+                
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 XBString versionString = new XBString(server.getVersion());
-                XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(resultInput);
-                serialInput.process(versionString);
+                listener.process(versionString);
 
                 /* XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                  XBTListener result = (XBTListener) resultInput;

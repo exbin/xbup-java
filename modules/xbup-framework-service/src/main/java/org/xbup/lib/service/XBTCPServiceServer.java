@@ -107,8 +107,8 @@ public class XBTCPServiceServer implements XBServiceServer {
                 outputStream = socket.getOutputStream();
                 XBHead.checkXBUPHead(inputStream);
                 while (!isStop()) {
-                    XBTPullTypeDeclaringFilter input = new XBTPullTypeDeclaringFilter(catalog, new XBTPrintPullFilter(new XBToXBTPullConvertor(new XBPullReader(inputStream))));
-                    XBTEventTypeUndeclaringFilter output = new XBTEventTypeUndeclaringFilter(catalog, new XBTPrintEventFilter(new XBTToXBEventConvertor(new XBEventWriter(outputStream))));
+                    XBTPullTypeDeclaringFilter input = new XBTPullTypeDeclaringFilter(catalog, new XBTPrintPullFilter("I", new XBToXBTPullConvertor(new XBPullReader(inputStream))));
+                    XBTEventTypeUndeclaringFilter output = new XBTEventTypeUndeclaringFilter(catalog, new XBTPrintEventFilter("O", new XBTToXBEventConvertor(new XBEventWriter(outputStream))));
                     respondMessage(input, output);
                 }
             }

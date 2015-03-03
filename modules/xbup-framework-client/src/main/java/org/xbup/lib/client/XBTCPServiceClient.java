@@ -51,7 +51,7 @@ import org.xbup.lib.core.stream.XBOutput;
 /**
  * XBService client connection handler using TCP/IP protocol.
  *
- * @version 0.1.25 2015/02/27
+ * @version 0.1.25 2015/03/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPServiceClient implements XBServiceClient {
@@ -108,7 +108,7 @@ public class XBTCPServiceClient implements XBServiceClient {
 
                 @Override
                 public XBInput getParametersInput() throws XBProcessingException, IOException {
-                    currentInput = new XBTEventTypeUndeclaringFilter(catalog, new XBTPrintEventFilter(new XBTToXBEventConvertor(new XBEventWriter(socket.getOutputStream()))));
+                    currentInput = new XBTEventTypeUndeclaringFilter(catalog, new XBTPrintEventFilter("O", new XBTToXBEventConvertor(new XBEventWriter(socket.getOutputStream()))));
                     return currentInput;
                 }
 
@@ -119,7 +119,7 @@ public class XBTCPServiceClient implements XBServiceClient {
                         currentInput = null;
                     }
 
-                    currentOutput = new XBTPullTypeDeclaringFilter(catalog, new XBTPrintPullFilter(new XBToXBTPullConvertor(new XBPullReader(socket.getInputStream()))));
+                    currentOutput = new XBTPullTypeDeclaringFilter(catalog, new XBTPrintPullFilter("I", new XBToXBTPullConvertor(new XBPullReader(socket.getInputStream()))));
                     return currentOutput;
                 }
             };

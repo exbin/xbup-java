@@ -31,12 +31,18 @@ import org.xbup.lib.core.parser.token.event.XBTEventListener;
 /**
  * XBUP level 1 event filter printing out informations about tokens.
  *
- * @version 0.1.24 2015/01/18
+ * @version 0.1.25 2015/03/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTPrintEventFilter implements XBTEventFilter {
 
     private XBTEventListener eventListener;
+    private String prefix = "";
+
+    public XBTPrintEventFilter(String prefix, XBTEventListener eventListener) {
+        this(eventListener);
+        this.prefix = prefix;
+    }
 
     public XBTPrintEventFilter(XBTEventListener eventListener) {
         this.eventListener = eventListener;
@@ -46,24 +52,24 @@ public class XBTPrintEventFilter implements XBTEventFilter {
     public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {
-                System.out.println("> Begin (" + ((XBTBeginToken) token).getTerminationMode().toString() + "):");
+                System.out.println(prefix + "> Begin (" + ((XBTBeginToken) token).getTerminationMode().toString() + "):");
                 break;
             }
             case TYPE: {
                 XBBlockType blockType = ((XBTTypeToken) token).getBlockType();
-                System.out.println("  Type: " + (blockType instanceof XBFixedBlockType ? "(" + ((XBFixedBlockType) blockType).getGroupID().getInt() + "," + ((XBFixedBlockType) blockType).getBlockID().getInt() + ")" : blockType.getClass().getCanonicalName()));
+                System.out.println(prefix + "  Type: " + (blockType instanceof XBFixedBlockType ? "(" + ((XBFixedBlockType) blockType).getGroupID().getInt() + "," + ((XBFixedBlockType) blockType).getBlockID().getInt() + ")" : blockType.getClass().getCanonicalName()));
                 break;
             }
             case ATTRIBUTE: {
-                System.out.println("  Attribute: " + ((XBTAttributeToken) token).getAttribute().getNaturalLong());
+                System.out.println(prefix + "  Attribute: " + ((XBTAttributeToken) token).getAttribute().getNaturalLong());
                 break;
             }
             case DATA: {
-                System.out.println("  Data:" + ((XBTDataToken) token).getData().available());
+                System.out.println(prefix + "  Data:" + ((XBTDataToken) token).getData().available());
                 break;
             }
             case END: {
-                System.out.println("< End.");
+                System.out.println(prefix + "< End.");
                 break;
             }
         }

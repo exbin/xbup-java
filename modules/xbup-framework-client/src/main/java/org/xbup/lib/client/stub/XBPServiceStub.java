@@ -28,9 +28,9 @@ import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
 import org.xbup.lib.core.type.XBString;
 
 /**
- * RPC Stub for Info extension related operations.
+ * RPC Stub for catalog service related operations.
  *
- * @version 0.1.25 2015/02/27
+ * @version 0.1.25 2015/03/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPServiceStub {

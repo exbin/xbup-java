@@ -53,7 +53,7 @@ import org.xbup.lib.core.remote.XBServiceServer;
 /**
  * XBUP level 1 RPC server using TCP/IP networking.
  *
- * @version 0.1.25 2015/03/01
+ * @version 0.1.25 2015/03/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPServiceServer implements XBServiceServer {
@@ -102,8 +102,9 @@ public class XBTCPServiceServer implements XBServiceServer {
         try {
             socket = getServerSocket().accept();
             Logger.getLogger(XBTCPServiceServer.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("Request from: " + socket.getInetAddress().getHostAddress()));
-            OutputStream outputStream;
-            try (InputStream inputStream = socket.getInputStream()) {
+            OutputStream outputStream = null;
+            try {
+                InputStream inputStream = socket.getInputStream();
                 outputStream = socket.getOutputStream();
                 XBHead.checkXBUPHead(inputStream);
                 while (!isStop()) {
@@ -111,8 +112,14 @@ public class XBTCPServiceServer implements XBServiceServer {
                     XBTEventTypeUndeclaringFilter output = new XBTEventTypeUndeclaringFilter(catalog, new XBTPrintEventFilter("O", new XBTToXBEventConvertor(new XBEventWriter(outputStream))));
                     respondMessage(input, output);
                 }
+            } catch (IOException | XBProcessingException ex) {
+                Logger.getLogger(XBTCPServiceServer.class.getName()).log(Level.SEVERE, null, ex);
             }
-            outputStream.close();
+
+            if (outputStream != null) {
+                outputStream.close();
+            }
+
         } catch (XBParseException ex) {
             Logger.getLogger(XBTCPServiceServer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException e) {

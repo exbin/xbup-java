@@ -38,7 +38,7 @@ import org.xbup.lib.core.stream.XBInput;
 /**
  * Level 2 event producer performing block building using sequence operations.
  *
- * @version 0.1.25 2015/03/03
+ * @version 0.1.25 2015/03/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPSequenceEventProducer implements XBTEventProducer {

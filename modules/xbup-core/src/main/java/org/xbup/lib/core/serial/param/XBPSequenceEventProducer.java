@@ -38,7 +38,7 @@ import org.xbup.lib.core.stream.XBInput;
 /**
  * Level 2 event producer performing block building using sequence operations.
  *
- * @version 0.1.25 2015/03/04
+ * @version 0.1.25 2015/03/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPSequenceEventProducer implements XBTEventProducer {
@@ -126,22 +126,17 @@ public class XBPSequenceEventProducer implements XBTEventProducer {
             case END: {
                 if (processingState == XBParamProcessingState.TYPE || processingState == XBParamProcessingState.ATTRIBUTES || processingState == XBParamProcessingState.DATA) {
                     processingState = XBParamProcessingState.END;
-
                     if (childSequence.isEmpty()) {
                         nextChild = null;
                         putEnd();
-                        if (!childSequences.isEmpty()) {
-                            while (!childSequences.isEmpty()) {
-                                childSequence = childSequences.remove(childSequences.size() - 1);
-                                if (!childSequence.isEmpty()) {
-                                    nextChild = childSequence.remove(0);
-                                    break;
-                                } else {
-                                    putEnd();
-                                    if (childSequences.isEmpty()) {
-                                        putEnd();
-                                    }
-                                }
+                        while (!childSequences.isEmpty()) {
+                            List<XBSerializable> nextSequence = childSequences.get(childSequences.size() - 1);
+                            if (!nextSequence.isEmpty()) {
+                                nextChild = nextSequence.remove(0);
+                                break;
+                            } else {
+                                putEnd();
+                                childSequences.remove(childSequences.size() - 1);
                             }
                         }
                     } else {
@@ -165,7 +160,7 @@ public class XBPSequenceEventProducer implements XBTEventProducer {
      * @throws XBProcessingException
      * @throws IOException
      */
-    public void putEnd() throws XBProcessingException, IOException {
+    private void putEnd() throws XBProcessingException, IOException {
         eventListener.putXBTToken(new XBTEndToken());
     }
 

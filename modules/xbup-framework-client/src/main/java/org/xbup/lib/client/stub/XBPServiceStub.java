@@ -25,12 +25,13 @@ import org.xbup.lib.core.remote.XBCallHandler;
 import org.xbup.lib.core.remote.XBServiceClient;
 import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
 import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
+import org.xbup.lib.core.type.XBNatural;
 import org.xbup.lib.core.type.XBString;
 
 /**
  * RPC Stub for catalog service related operations.
  *
- * @version 0.1.25 2015/03/03
+ * @version 0.1.25 2015/03/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPServiceStub {
@@ -117,9 +118,13 @@ public class XBPServiceStub {
             serialInput.begin();
             serialInput.putType(new XBDeclBlockType(PING_SERVICE_PROCEDURE));
             serialInput.end();
+
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
+            XBNatural version = new XBNatural();
+            serialOutput.process(version);
             return true;
         } catch (XBProcessingException | IOException ex) {
-//            Logger.getLogger(XBPServiceStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPServiceStub.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return false;

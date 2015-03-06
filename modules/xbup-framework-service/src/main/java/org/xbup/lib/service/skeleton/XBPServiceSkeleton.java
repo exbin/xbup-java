@@ -18,12 +18,10 @@ package org.xbup.lib.service.skeleton;
 
 import java.io.IOException;
 import org.xbup.lib.client.stub.XBPServiceStub;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBFixedBlockType;
+import org.xbup.lib.core.block.XBTEmptyBlock;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.parser.basic.XBTMatchingProvider;
 import org.xbup.lib.core.remote.XBProcedure;
 import org.xbup.lib.core.remote.XBServiceServer;
 import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
@@ -31,13 +29,12 @@ import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
 import org.xbup.lib.core.stream.XBInput;
 import org.xbup.lib.core.stream.XBOutput;
 import org.xbup.lib.core.type.XBString;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.service.XBCatalogNetServiceServer;
 
 /**
  * RPC skeleton class for catalog service control.
  *
- * @version 0.1.25 2015/03/03
+ * @version 0.1.25 2015/03/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPServiceSkeleton {
@@ -53,8 +50,14 @@ public class XBPServiceSkeleton {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
-                XBTMatchingProvider source = (XBTMatchingProvider) parameters;
-                source.matchEndXBT();
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(new XBDeclBlockType(XBPServiceStub.STOP_SERVICE_PROCEDURE));
+                provider.end();
+                
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
+                listener.process(XBTEmptyBlock.getEmptyBlock());
+
                 server.performStop();
             }
         });
@@ -63,13 +66,18 @@ public class XBPServiceSkeleton {
 
             @Override
             public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
-                XBTMatchingProvider source = (XBTMatchingProvider) parameters;
-                XBTListener result = (XBTListener) resultInput;
-                source.matchEndXBT();
-                result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(0));
-                result.endXBT();
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(new XBDeclBlockType(XBPServiceStub.PING_SERVICE_PROCEDURE));
+                provider.end();
+                
+                // server.ping();
+                
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
+                listener.begin();
+                listener.matchType(new XBFixedBlockType());
+                listener.putAttribute(0);
+                listener.end();
             }
         });
 
@@ -108,16 +116,6 @@ public class XBPServiceSkeleton {
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 XBString versionString = new XBString(server.getVersion());
                 listener.process(versionString);
-
-                /* XBTMatchingProvider source = (XBTMatchingProvider) parameters;
-                 XBTListener result = (XBTListener) resultInput;
-                 source.matchEndXBT();
-                 result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                 result.attribXBT(new UBNat32(0));
-                 result.attribXBT(new UBNat32(0));
-                 result.attribXBT(new UBNat32(0));
-                 result.attribXBT(new UBNat32(1));
-                 result.endXBT(); */
             }
         });
     }

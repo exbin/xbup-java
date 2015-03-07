@@ -33,6 +33,7 @@ import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.parser.XBParseException;
+import org.xbup.lib.core.parser.XBParserMode;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
@@ -53,7 +54,7 @@ import org.xbup.lib.core.remote.XBServiceServer;
 /**
  * XBUP level 1 RPC server using TCP/IP networking.
  *
- * @version 0.1.25 2015/03/04
+ * @version 0.1.25 2015/03/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPServiceServer implements XBServiceServer {
@@ -108,8 +109,8 @@ public class XBTCPServiceServer implements XBServiceServer {
                 outputStream = socket.getOutputStream();
                 XBHead.checkXBUPHead(inputStream);
                 while (!isStop()) {
-                    XBTPullTypeDeclaringFilter input = new XBTPullTypeDeclaringFilter(catalog, new XBTPrintPullFilter("I", new XBToXBTPullConvertor(new XBPullReader(inputStream))));
-                    XBTEventTypeUndeclaringFilter output = new XBTEventTypeUndeclaringFilter(catalog, new XBTPrintEventFilter("O", new XBTToXBEventConvertor(new XBEventWriter(outputStream))));
+                    XBTPullTypeDeclaringFilter input = new XBTPullTypeDeclaringFilter(catalog, new XBTPrintPullFilter("I", new XBToXBTPullConvertor(new XBPullReader(inputStream, XBParserMode.SINGLE_BLOCK))));
+                    XBTEventTypeUndeclaringFilter output = new XBTEventTypeUndeclaringFilter(catalog, new XBTPrintEventFilter("O", new XBTToXBEventConvertor(new XBEventWriter(outputStream, XBParserMode.SINGLE_BLOCK))));
                     respondMessage(input, output);
                 }
             } catch (IOException | XBProcessingException ex) {

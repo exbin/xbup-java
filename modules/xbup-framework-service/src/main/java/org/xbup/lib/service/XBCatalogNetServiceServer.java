@@ -158,7 +158,7 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
 
         Date localLastUpdate = nodeService.getRoot().getLastUpdate();
         Date lastUpdate = getWsHandler().getPort().getRootLastUpdate();
-        return (localLastUpdate == null || localLastUpdate.before(lastUpdate));
+        return (localLastUpdate == null || (lastUpdate != null && localLastUpdate.before(lastUpdate)));
     }
 
     public void update() {

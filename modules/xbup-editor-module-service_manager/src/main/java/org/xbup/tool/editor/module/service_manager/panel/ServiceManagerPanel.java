@@ -42,7 +42,6 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXPaneService;
 import org.xbup.lib.core.catalog.base.service.XBCXPlugService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
-import org.xbup.lib.client.XBCatalogNetServiceClient;
 import org.xbup.lib.client.catalog.remote.service.XBRXDescService;
 import org.xbup.lib.client.catalog.remote.service.XBRXFileService;
 import org.xbup.lib.client.catalog.remote.service.XBRXHDocService;
@@ -203,7 +202,7 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
             if (service.validate()) {
                 serviceVersionTextField.setText(service.getVersion());
                 connectionHostTextField.setText(service.getHost());
-                connectionPortTextField.setText(Integer.toString(service.getPort()));
+                connectionPortTextField.setText(Integer.toString(service.getPort())); // 22594 is 0x5842 (XB)
                 connectionProtocolTextField.setText("UDP (IP)");
                 serviceNameTextField.setText("XBService");
                 serviceNetworkIPTextField.setText(service.getHostAddress());
@@ -212,22 +211,18 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
                 managerSystemTextField.setText(System.getProperty("os.name") + " (" + System.getProperty("os.version") + ")");
                 managerHardwareTextField.setText(System.getProperty("os.arch"));
                 stopServiceButton.setEnabled(true);
-                XBCatalogNetServiceClient serviceClient = new XBCatalogNetServiceClient(service.getHost(), service.getPort());
-                if (serviceClient.validate()) {
-                    connectedCatalog = new XBARCatalog(serviceClient); // 22594 is 0x5842 (XB)
-                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXLangService.class, new XBRXLangService((XBARCatalog) connectedCatalog));
-                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXStriService.class, new XBRXStriService((XBARCatalog) connectedCatalog));
-                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXNameService.class, new XBRXNameService((XBARCatalog) connectedCatalog));
-                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXDescService.class, new XBRXDescService((XBARCatalog) connectedCatalog));
-                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXFileService.class, new XBRXFileService((XBARCatalog) connectedCatalog));
-                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXIconService.class, new XBRXIconService((XBARCatalog) connectedCatalog));
-                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXPlugService.class, new XBRXPlugService((XBARCatalog) connectedCatalog));
-                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXLineService.class, new XBRXLineService((XBARCatalog) connectedCatalog));
-                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXPaneService.class, new XBRXPaneService((XBARCatalog) connectedCatalog));
-                    ((XBARCatalog) connectedCatalog).addCatalogService(XBCXHDocService.class, new XBRXHDocService((XBARCatalog) connectedCatalog));
-                } else {
-                    connectedCatalog = null;
-                }
+
+                connectedCatalog = new XBARCatalog(service);
+                ((XBARCatalog) connectedCatalog).addCatalogService(XBCXLangService.class, new XBRXLangService((XBARCatalog) connectedCatalog));
+                ((XBARCatalog) connectedCatalog).addCatalogService(XBCXStriService.class, new XBRXStriService((XBARCatalog) connectedCatalog));
+                ((XBARCatalog) connectedCatalog).addCatalogService(XBCXNameService.class, new XBRXNameService((XBARCatalog) connectedCatalog));
+                ((XBARCatalog) connectedCatalog).addCatalogService(XBCXDescService.class, new XBRXDescService((XBARCatalog) connectedCatalog));
+                ((XBARCatalog) connectedCatalog).addCatalogService(XBCXFileService.class, new XBRXFileService((XBARCatalog) connectedCatalog));
+                ((XBARCatalog) connectedCatalog).addCatalogService(XBCXIconService.class, new XBRXIconService((XBARCatalog) connectedCatalog));
+                ((XBARCatalog) connectedCatalog).addCatalogService(XBCXPlugService.class, new XBRXPlugService((XBARCatalog) connectedCatalog));
+                ((XBARCatalog) connectedCatalog).addCatalogService(XBCXLineService.class, new XBRXLineService((XBARCatalog) connectedCatalog));
+                ((XBARCatalog) connectedCatalog).addCatalogService(XBCXPaneService.class, new XBRXPaneService((XBARCatalog) connectedCatalog));
+                ((XBARCatalog) connectedCatalog).addCatalogService(XBCXHDocService.class, new XBRXHDocService((XBARCatalog) connectedCatalog));
             }
         }
 

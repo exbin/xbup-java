@@ -53,7 +53,7 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 2 serialization handler using parameter mapping to provider.
  *
- * @version 0.1.25 2015/02/22
+ * @version 0.1.25 2015/03/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSequenceSerialHandler, XBTTokenInputSerialHandler {
@@ -347,9 +347,9 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
     public void attribute(XBEditableAttribute attributeValue) throws XBProcessingException, IOException {
         if (attributeValue instanceof UBNatural) {
             ((UBNatural) attributeValue).setValue(pullAttribute().getNaturalLong());
+        } else {
+            attributeValue.convertFromNatural(pullAttribute().convertToNatural());
         }
-
-        attributeValue.convertFromNatural(pullAttribute().convertToNatural());
     }
 
     @Override

@@ -19,13 +19,10 @@ package org.xbup.lib.client;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.ConnectException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeUndeclaringFilter;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
@@ -51,7 +48,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBService catalog client using IP networking.
  *
- * @version 0.1.25 2015/02/26
+ * @version 0.1.25 2015/03/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBCatalogServiceClient {
@@ -66,30 +63,7 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
 
     @Override
     public XBCatalogServiceMessage executeProcedure(long[] procedureId) {
-        // Temporary exclusion semaphor
-        if (getSocket() != null) {
-            while (!getSocket().isClosed()) {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(XBCatalogNetServiceClient.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-        try {
-            Socket socket = new Socket(getHost(), getPort());
-            return new XBCatalogSocketMessage(socket, procedureId);
-        } catch (UnknownHostException ex) {
-            System.out.println("Unable to find host for catalog service");
-//            Logger.getLogger(XBCatalogNetServiceClient.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ConnectException ex) {
-            System.out.println("Unable to connect to catalog service");
-//            Logger.getLogger(XBCatalogNetServiceClient.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            System.out.println("Unable to connect to catalog service");
-//            Logger.getLogger(XBCatalogNetServiceClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return new XBCatalogSocketMessage(getSocket(), procedureId);
     }
 
     /**
@@ -118,7 +92,7 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
                 OutputStream oStream = socket.getOutputStream();
                 XBEventWriter writer = new XBEventWriter(oStream);
                 output = new MyXBOutputStream(writer);
-                XBHead.writeXBUPHead(oStream);
+                // XBHead.writeXBUPHead(oStream);
             } catch (IOException ex) {
                 Logger.getLogger(XBCatalogNetServiceClient.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -161,11 +135,6 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
 
         @Override
         public void close() {
-            try {
-                socket.close();
-            } catch (IOException ex) {
-                Logger.getLogger(XBCatalogNetServiceClient.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }
 

@@ -24,6 +24,7 @@ import org.xbup.lib.catalog.entity.service.XBEItemService;
 import org.xbup.lib.catalog.entity.service.XBEXStriService;
 import org.xbup.lib.client.stub.XBPXStriStub;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.service.XBCItemService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
@@ -31,7 +32,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTMatchingProvider;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
-import org.xbup.lib.core.remote.XBProcedure;
+import org.xbup.lib.core.remote.XBMultiProcedure;
 import org.xbup.lib.core.remote.XBServiceServer;
 import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
 import org.xbup.lib.core.stream.XBInput;
@@ -54,10 +55,10 @@ public class XBPXStriSkeleton {
     }
 
     public void registerProcedures(XBServiceServer remoteServer) {
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXStriStub.ITEM_STRI_PROCEDURE), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXStriStub.ITEM_STRI_PROCEDURE), new XBMultiProcedure() {
 
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -74,10 +75,10 @@ public class XBPXStriSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXStriStub.TEXT_STRI_PROCEDURE), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXStriStub.TEXT_STRI_PROCEDURE), new XBMultiProcedure() {
 
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -101,10 +102,10 @@ public class XBPXStriSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXStriStub.NODEPATH_STRI_PROCEDURE), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXStriStub.NODEPATH_STRI_PROCEDURE), new XBMultiProcedure() {
 
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -128,10 +129,10 @@ public class XBPXStriSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXStriStub.ITEMSTRI_STRI_PROCEDURE), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXStriStub.ITEMSTRI_STRI_PROCEDURE), new XBMultiProcedure() {
 
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
@@ -151,10 +152,10 @@ public class XBPXStriSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXStriStub.STRISCOUNT_STRI_PROCEDURE), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXStriStub.STRISCOUNT_STRI_PROCEDURE), new XBMultiProcedure() {
 
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 source.matchEndXBT();

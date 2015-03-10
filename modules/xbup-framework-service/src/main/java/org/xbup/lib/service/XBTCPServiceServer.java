@@ -48,13 +48,15 @@ import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPrintPullFilter;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullTypeDeclaringFilter;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
+import org.xbup.lib.core.remote.XBExecutable;
+import org.xbup.lib.core.remote.XBMultiProcedure;
 import org.xbup.lib.core.remote.XBProcedure;
 import org.xbup.lib.core.remote.XBServiceServer;
 
 /**
  * XBUP level 1 RPC server using TCP/IP networking.
  *
- * @version 0.1.25 2015/03/07
+ * @version 0.1.25 2015/03/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPServiceServer implements XBServiceServer {
@@ -62,7 +64,7 @@ public class XBTCPServiceServer implements XBServiceServer {
     protected XBACatalog catalog;
     private ServerSocket serverSocket;
     private boolean stop;
-    private final Map<XBBlockType, XBProcedure> procMap = new HashMap<>();
+    private final Map<XBBlockType, XBExecutable> procMap = new HashMap<>();
 
     /**
      * Creates a new instance of XBTCPRemoteServer.
@@ -144,9 +146,11 @@ public class XBTCPServiceServer implements XBServiceServer {
         XBCBlockDecl blockDecl = (XBCBlockDecl) blockType.getBlockDecl();
         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
         blockType.setBlockDecl(new XBLBlockDecl(specService.getSpecXBPath(blockDecl.getBlockSpecRev().getParent()), blockDecl.getBlockSpecRev().getXBIndex().intValue()));
-        XBProcedure proc = procMap.get(blockType);
-        if (proc != null) {
-            proc.execute(preloading, output);
+        XBExecutable executable = procMap.get(blockType);
+        if (executable instanceof XBProcedure) {
+            ((XBProcedure) executable).execute(preloading, output);
+        } else if (executable instanceof XBMultiProcedure) {
+            ((XBMultiProcedure) executable).execute(blockType, preloading, output);
         } else {
             // TODO Exception processing
             throw new UnsupportedOperationException("Not supported yet.");
@@ -185,13 +189,13 @@ public class XBTCPServiceServer implements XBServiceServer {
     }
 
     @Override
-    public void addXBProcedure(XBBlockType procedureType, XBProcedure procedure) {
-        getProcMap().put(procedureType, procedure);
+    public void addXBProcedure(XBBlockType procedureType, XBExecutable procedure) {
+        procMap.put(procedureType, procedure);
     }
 
     @Override
     public void removeXBProcedure(XBBlockType procedureType) {
-        getProcMap().remove(procedureType);
+        procMap.remove(procedureType);
     }
 
     public XBACatalog getCatalog() {
@@ -206,7 +210,7 @@ public class XBTCPServiceServer implements XBServiceServer {
         return stop;
     }
 
-    public Map<XBBlockType, XBProcedure> getProcMap() {
+    public Map<XBBlockType, XBExecutable> getProcMap() {
         return procMap;
     }
 

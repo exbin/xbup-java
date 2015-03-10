@@ -18,11 +18,12 @@ package org.xbup.lib.service.skeleton;
 
 import java.io.IOException;
 import org.xbup.lib.client.stub.XBPServiceStub;
+import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.XBTEmptyBlock;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.remote.XBProcedure;
+import org.xbup.lib.core.remote.XBMultiProcedure;
 import org.xbup.lib.core.remote.XBServiceServer;
 import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
 import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
@@ -34,7 +35,7 @@ import org.xbup.lib.service.XBCatalogNetServiceServer;
 /**
  * RPC skeleton class for catalog service control.
  *
- * @version 0.1.25 2015/03/06
+ * @version 0.1.25 2015/03/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPServiceSkeleton {
@@ -46,15 +47,14 @@ public class XBPServiceSkeleton {
     }
 
     public void registerProcedures(XBServiceServer remoteServer) {
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPServiceStub.STOP_SERVICE_PROCEDURE), new XBProcedure() {
-
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPServiceStub.STOP_SERVICE_PROCEDURE), new XBMultiProcedure() {
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
                 provider.begin();
-                provider.matchType(new XBDeclBlockType(XBPServiceStub.STOP_SERVICE_PROCEDURE));
+                provider.matchType(blockType);
                 provider.end();
-                
+
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(XBTEmptyBlock.getEmptyBlock());
 
@@ -62,17 +62,15 @@ public class XBPServiceSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPServiceStub.PING_SERVICE_PROCEDURE), new XBProcedure() {
-
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPServiceStub.PING_SERVICE_PROCEDURE), new XBMultiProcedure() {
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
                 provider.begin();
-                provider.matchType(new XBDeclBlockType(XBPServiceStub.PING_SERVICE_PROCEDURE));
+                provider.matchType(blockType);
                 provider.end();
-                
+
                 // server.ping();
-                
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.begin();
                 listener.matchType(new XBFixedBlockType());
@@ -81,13 +79,12 @@ public class XBPServiceSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPServiceStub.LOGIN_SERVICE_PROCEDURE), new XBProcedure() {
-
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPServiceStub.LOGIN_SERVICE_PROCEDURE), new XBMultiProcedure() {
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
                 provider.begin();
-                provider.matchType(new XBDeclBlockType(XBPServiceStub.LOGIN_SERVICE_PROCEDURE));
+                provider.matchType(blockType);
                 XBString loginName = new XBString();
                 provider.consist(loginName);
                 XBString loginPass = new XBString();
@@ -104,15 +101,14 @@ public class XBPServiceSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPServiceStub.VERSION_INFO_PROCEDURE), new XBProcedure() {
-
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPServiceStub.VERSION_INFO_PROCEDURE), new XBMultiProcedure() {
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
                 provider.begin();
-                provider.matchType(new XBDeclBlockType(XBPServiceStub.VERSION_INFO_PROCEDURE));
+                provider.matchType(blockType);
                 provider.end();
-                
+
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 XBString versionString = new XBString(server.getVersion());
                 listener.process(versionString);

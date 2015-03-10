@@ -28,6 +28,7 @@ import org.xbup.lib.client.catalog.remote.XBRFormatRev;
 import org.xbup.lib.client.catalog.remote.XBRGroupRev;
 import org.xbup.lib.client.catalog.remote.XBRRev;
 import org.xbup.lib.client.catalog.remote.XBRSpec;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
 import org.xbup.lib.core.catalog.base.XBCGroupSpec;
@@ -36,12 +37,15 @@ import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.basic.XBMatchingProvider;
+import org.xbup.lib.core.remote.XBCallHandler;
+import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
+import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * RPC stub class for XBRRev catalog items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.1.25 2015/03/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPRevStub implements XBPManagerStub<XBRRev> {
@@ -190,14 +194,18 @@ public class XBPRevStub implements XBPManagerStub<XBRRev> {
     @Override
     public long getItemsCount() {
         try {
-            XBCatalogServiceMessage message = client.executeProcedure(REVSCOUNT_REV_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            Long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
+            XBCallHandler procedureCall = client.procedureCall();
+
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
+            serialInput.begin();
+            serialInput.putType(new XBDeclBlockType(REVSCOUNT_REV_PROCEDURE));
+            serialInput.end();
+
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
+            UBNat32 count = new UBNat32();
+            serialOutput.process(count);
+
+            return count.getLong();
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPRevStub.class.getName()).log(Level.SEVERE, null, ex);
         }

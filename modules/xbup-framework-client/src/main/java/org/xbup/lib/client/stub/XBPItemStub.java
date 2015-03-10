@@ -33,7 +33,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * RPC stub class for XBRItem catalog items.
  *
- * @version 0.1.25 2015/03/06
+ * @version 0.1.25 2015/03/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPItemStub implements XBPManagerStub<XBCItem> {
@@ -59,10 +59,13 @@ public class XBPItemStub implements XBPManagerStub<XBCItem> {
             serialInput.end();
 
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 ownerId = new UBNat32();
-            serialOutput.process(ownerId);
+            if (serialOutput.pullIfEmptyBlock()) {
+                UBNat32 ownerId = new UBNat32();
+                serialOutput.process(ownerId);
+                return new XBRItem(client, ownerId.getLong());
+            }
 
-            return ownerId.isZero() ? null : new XBRItem(client, ownerId.getLong());
+            return null;
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -80,10 +83,13 @@ public class XBPItemStub implements XBPManagerStub<XBCItem> {
             serialInput.end();
 
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 xbIndex = new UBNat32();
-            serialOutput.process(xbIndex);
+            if (serialOutput.pullIfEmptyBlock()) {
+                UBNat32 xbIndex = new UBNat32();
+                serialOutput.process(xbIndex);
+                return xbIndex.getLong();
+            }
 
-            return xbIndex.isZero() ? null : xbIndex.getLong();
+            return null;
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }

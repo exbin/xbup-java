@@ -24,6 +24,7 @@ import org.xbup.lib.catalog.entity.XBEXPlugPane;
 import org.xbup.lib.catalog.entity.service.XBERevService;
 import org.xbup.lib.client.stub.XBPXPaneStub;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.core.catalog.base.service.XBCRevService;
@@ -32,7 +33,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXPlugService;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTMatchingProvider;
-import org.xbup.lib.core.remote.XBProcedure;
+import org.xbup.lib.core.remote.XBMultiProcedure;
 import org.xbup.lib.core.remote.XBServiceServer;
 import org.xbup.lib.core.stream.XBInput;
 import org.xbup.lib.core.stream.XBOutput;
@@ -53,10 +54,10 @@ public class XBPXPaneSkeleton {
     }
 
     public void registerProcedures(XBServiceServer remoteServer) {
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPaneStub.PANEPLUGIN_PLUGIN_PROCEDURE), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPaneStub.PANEPLUGIN_PLUGIN_PROCEDURE), new XBMultiProcedure() {
 
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -71,10 +72,10 @@ public class XBPXPaneSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPaneStub.PANEINDEX_PLUGIN_PROCEDURE), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPaneStub.PANEINDEX_PLUGIN_PROCEDURE), new XBMultiProcedure() {
 
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -89,10 +90,10 @@ public class XBPXPaneSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPaneStub.REV_PANE_PROCEDURE), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPaneStub.REV_PANE_PROCEDURE), new XBMultiProcedure() {
 
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -107,10 +108,10 @@ public class XBPXPaneSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPaneStub.PLUGIN_PANE_PROCEDURE), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPaneStub.PLUGIN_PANE_PROCEDURE), new XBMultiProcedure() {
 
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -130,10 +131,10 @@ public class XBPXPaneSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPaneStub.PRIORITY_PANE_PROCEDURE), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPaneStub.PRIORITY_PANE_PROCEDURE), new XBMultiProcedure() {
 
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -148,10 +149,10 @@ public class XBPXPaneSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPaneStub.PANESCOUNT_PANE_PROCEDURE), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPaneStub.PANESCOUNT_PANE_PROCEDURE), new XBMultiProcedure() {
 
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 source.matchEndXBT();
@@ -164,10 +165,10 @@ public class XBPXPaneSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPaneStub.REVPANE_PANE_PROCEDURE), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPaneStub.REVPANE_PANE_PROCEDURE), new XBMultiProcedure() {
 
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
@@ -189,10 +190,10 @@ public class XBPXPaneSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPaneStub.PLUGPANESCOUNT_PANE_PROCEDURE), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPaneStub.PLUGPANESCOUNT_PANE_PROCEDURE), new XBMultiProcedure() {
 
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 source.matchEndXBT();
@@ -205,10 +206,10 @@ public class XBPXPaneSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPaneStub.PLUGPANE_PANE_PROCEDURE), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPaneStub.PLUGPANE_PANE_PROCEDURE), new XBMultiProcedure() {
 
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();

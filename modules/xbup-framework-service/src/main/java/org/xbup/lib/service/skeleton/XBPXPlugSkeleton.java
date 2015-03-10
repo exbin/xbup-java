@@ -21,6 +21,7 @@ import org.xbup.lib.catalog.XBAECatalog;
 import org.xbup.lib.catalog.entity.XBEXPlugin;
 import org.xbup.lib.client.stub.XBPXPlugStub;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
@@ -28,7 +29,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXPlugService;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTMatchingProvider;
-import org.xbup.lib.core.remote.XBProcedure;
+import org.xbup.lib.core.remote.XBMultiProcedure;
 import org.xbup.lib.core.remote.XBServiceServer;
 import org.xbup.lib.core.stream.XBInput;
 import org.xbup.lib.core.stream.XBOutput;
@@ -50,10 +51,10 @@ public class XBPXPlugSkeleton {
 
     public void registerProcedures(XBServiceServer remoteServer) {
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPlugStub.OWNER_PLUGIN_PROCEDURE), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPlugStub.OWNER_PLUGIN_PROCEDURE), new XBMultiProcedure() {
 
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -68,10 +69,10 @@ public class XBPXPlugSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPlugStub.FILE_PLUGIN_PROCEDURE), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPlugStub.FILE_PLUGIN_PROCEDURE), new XBMultiProcedure() {
 
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();
@@ -95,10 +96,10 @@ public class XBPXPlugSkeleton {
             }
         });
 
-        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPlugStub.INDEX_PLUGIN_PROCEDURE), new XBProcedure() {
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXPlugStub.INDEX_PLUGIN_PROCEDURE), new XBMultiProcedure() {
 
             @Override
-            public void execute(XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBTMatchingProvider source = (XBTMatchingProvider) parameters;
                 XBTListener result = (XBTListener) resultInput;
                 UBNat32 index = (UBNat32) source.matchAttribXBT();

@@ -40,7 +40,7 @@ import org.xbup.tool.editor.module.online_help.OnlineHelpModule;
 /**
  * The main class of the XBManager application.
  *
- * @version 0.1.24 2014/11/31
+ * @version 0.1.25 2015/03/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBManager extends XBEditorBase {
@@ -135,14 +135,14 @@ public class XBManager extends XBEditorBase {
             ApplicationModule module;
 
             try {
-                module = app.getModuleRepository().getPluginHandler(XBServiceManagerModule.class);
-                if (module instanceof XBServiceManagerModule) {
-                    ((XBServiceManagerModule) module).getEditorFrame().actionConnect();
-                }
-                
                 module = app.getModuleRepository().getPluginHandler(OnlineHelpModule.class);
                 if (module instanceof OnlineHelpModule) {
                     ((OnlineHelpModule) module).setHelpUrl(new URL(bundle.getString("online_help_url")));
+                }
+
+                module = app.getModuleRepository().getPluginHandler(XBServiceManagerModule.class);
+                if (module instanceof XBServiceManagerModule) {
+                    ((XBServiceManagerModule) module).getEditorFrame().actionConnect();
                 }
             } catch (MalformedURLException ex) {
                 Logger.getLogger(XBManager.class.getName()).log(Level.SEVERE, null, ex);

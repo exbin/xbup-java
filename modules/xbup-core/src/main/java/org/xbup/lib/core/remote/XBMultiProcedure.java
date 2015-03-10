@@ -16,29 +16,27 @@
  */
 package org.xbup.lib.core.remote;
 
+import java.io.IOException;
 import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.stream.XBInput;
+import org.xbup.lib.core.stream.XBOutput;
 
 /**
- * XBUP RPC server interface.
+ * XBUP RPC procedure interface.
  *
  * @version 0.1.25 2015/03/10
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBServiceServer {
+public interface XBMultiProcedure extends XBExecutable {
 
     /**
-     * Registers procedure handling.
+     * Invocates procedure.
      *
-     * @param procedureType procedure type
-     * @param procedure procedure handler to add
+     * @param blockType block type procedure was registered with
+     * @param parameters procedure parameters data
+     * @param result handler for procedure result data
+     * @throws IOException if input/output error
      */
-    public void addXBProcedure(XBBlockType procedureType, XBExecutable procedure);
-
-    /**
-     * Unregisters procedure handling.
-     *
-     * @param procedureType procedure type
-     */
-    public void removeXBProcedure(XBBlockType procedureType);
-
+    public void execute(XBBlockType blockType, XBOutput parameters, XBInput result) throws XBProcessingException, IOException;
 }

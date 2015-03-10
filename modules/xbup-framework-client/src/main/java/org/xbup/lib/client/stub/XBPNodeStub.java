@@ -25,6 +25,7 @@ import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.XBCatalogServiceMessage;
 import org.xbup.lib.client.catalog.remote.XBRNode;
 import org.xbup.lib.client.catalog.remote.XBRRoot;
+import static org.xbup.lib.client.stub.XBPItemStub.ITEMSCOUNT_ITEM_PROCEDURE;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCRoot;
@@ -39,7 +40,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * RPC stub class for XBRNode catalog items.
  *
- * @version 0.1.25 2015/03/09
+ * @version 0.1.25 2015/03/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPNodeStub implements XBPManagerStub<XBRNode> {
@@ -302,17 +303,18 @@ public class XBPNodeStub implements XBPManagerStub<XBRNode> {
 
     public XBCRoot getRoot() {
         try {
-            XBCatalogServiceMessage message = client.executeProcedure(ROOT_PROCEDURE);
-            if (message == null) {
-                return null;
-            }
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRRoot(client, index);
+            XBCallHandler procedureCall = client.procedureCall();
+
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
+            serialInput.begin();
+            serialInput.putType(new XBDeclBlockType(ITEMSCOUNT_ITEM_PROCEDURE));
+            serialInput.end();
+
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
+            UBNat32 index = new UBNat32();
+            serialOutput.process(index);
+
+            return new XBRRoot(client, index.getLong());
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPNodeStub.class.getName()).log(Level.SEVERE, null, ex);
         }

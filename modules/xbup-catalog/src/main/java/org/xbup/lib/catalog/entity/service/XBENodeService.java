@@ -35,7 +35,7 @@ import org.xbup.lib.core.catalog.base.manager.XBCManager;
 /**
  * Interface for XBENode items service.
  *
- * @version 0.1.24 2015/01/09
+ * @version 0.1.24 2015/03/11
  * @author XBUP Project (http://xbup.org)
  */
 @Service
@@ -67,6 +67,11 @@ public class XBENodeService extends XBEDefaultService<XBENode> implements XBCNod
     @Override
     public XBERoot getRoot() {
         return ((XBENodeManager) itemManager).getRoot();
+    }
+
+    @Override
+    public XBERoot getRoot(long rootId) {
+        return ((XBENodeManager) itemManager).getRoot(rootId);
     }
 
     @Override

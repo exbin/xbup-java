@@ -120,11 +120,19 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
     public Long findMaxSubNodeXB(XBCNode node);
 
     /**
-     * Gets root record.
+     * Gets catalog root record.
      *
      * @return root record
      */
     public XBCRoot getRoot();
+
+    /**
+     * Gets root record.
+     * 
+     * @param rootId root index
+     * @return root record
+     */
+    public XBCRoot getRoot(long rootId);
 
     /**
      * Gets time of the last update.

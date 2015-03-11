@@ -27,7 +27,7 @@ import org.xbup.lib.client.stub.XBPNodeStub;
 /**
  * Remote manager class for XBRNode catalog items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.1.25 2015/03/11
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRNodeManager extends XBRDefaultManager<XBRNode> implements XBCNodeManager<XBRNode> {
@@ -102,5 +102,10 @@ public class XBRNodeManager extends XBRDefaultManager<XBRNode> implements XBCNod
     @Override
     public XBCRoot getRoot() {
         return nodeStub.getRoot();
+    }
+
+    @Override
+    public XBCRoot getRoot(long rootId) {
+        return nodeStub.getRoot(rootId);
     }
 }

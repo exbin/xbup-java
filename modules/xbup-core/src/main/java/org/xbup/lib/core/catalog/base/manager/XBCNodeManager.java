@@ -23,7 +23,7 @@ import org.xbup.lib.core.catalog.base.XBCRoot;
 /**
  * Interface for XBCNode catalog manager.
  *
- * @version 0.1.22 2013/08/17
+ * @version 0.1.25 2015/03/11
  * @author XBUP Project (http://xbup.org)
  * @param <T> node entity
  */
@@ -35,6 +35,14 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
      * @return specification root
      */
     public XBCRoot getRoot();
+
+    /**
+     * Gets root record.
+     *
+     * @param rootId root index
+     * @return root record
+     */
+    public XBCRoot getRoot(long rootId);
 
     /**
      * Returns specification tree root node.

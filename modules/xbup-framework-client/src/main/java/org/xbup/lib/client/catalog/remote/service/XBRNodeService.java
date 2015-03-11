@@ -29,7 +29,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRNodeManager;
 /**
  * Remote service for XBRNode items.
  *
- * @version 0.1.24 2015/01/09
+ * @version 0.1.25 2015/03/11
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRNodeService extends XBRDefaultService<XBRNode> implements XBCNodeService<XBRNode> {
@@ -108,5 +108,10 @@ public class XBRNodeService extends XBRDefaultService<XBRNode> implements XBCNod
     @Override
     public void persistRoot(XBCRoot root) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBCRoot getRoot(long rootId) {
+        return ((XBRNodeManager) itemManager).getRoot(rootId);
     }
 }

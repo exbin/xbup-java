@@ -21,12 +21,13 @@ import java.util.Iterator;
 import java.util.List;
 import org.xbup.lib.catalog.XBAECatalog;
 import org.xbup.lib.catalog.entity.XBENode;
+import org.xbup.lib.catalog.entity.XBERoot;
 import org.xbup.lib.catalog.entity.service.XBEItemService;
 import org.xbup.lib.catalog.entity.service.XBENodeService;
 import org.xbup.lib.client.stub.XBPNodeStub;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBFixedBlockType;
+import org.xbup.lib.core.block.XBTEmptyBlock;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.service.XBCItemService;
@@ -45,7 +46,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRNode catalog items.
  *
- * @version 0.1.25 2015/03/10
+ * @version 0.1.25 2015/03/11
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPNodeSkeleton {
@@ -58,7 +59,23 @@ public class XBPNodeSkeleton {
 
     public void registerProcedures(XBServiceServer remoteServer) {
         remoteServer.addXBProcedure(new XBDeclBlockType(XBPNodeStub.ROOT_NODE_PROCEDURE), new XBMultiProcedure() {
+            @Override
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(blockType);
+                long rootId = provider.pullLongAttribute();
+                provider.end();
 
+                XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
+
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
+                XBENode node = nodeService.getRoot(rootId).getNode();
+                listener.process(node == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(node.getId()));
+            }
+        });
+
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPNodeStub.CATALOG_ROOT_PROCEDURE), new XBMultiProcedure() {
             @Override
             public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
@@ -69,27 +86,25 @@ public class XBPNodeSkeleton {
                 XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
-                listener.process(new UBNat32(nodeService.getRootNode().getId()));
+                XBERoot root = nodeService.getRoot();
+                listener.process(root == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(root.getId()));
             }
         });
 
         remoteServer.addXBProcedure(new XBDeclBlockType(XBPNodeStub.ROOT_PROCEDURE), new XBMultiProcedure() {
-
             @Override
             public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
                 XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
                 provider.begin();
                 provider.matchType(blockType);
+                long rootId = provider.pullLongAttribute();
                 provider.end();
 
                 XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
-                listener.begin();
-                listener.putType(new XBFixedBlockType());
-                listener.putAttribute(nodeService.getRootNode().getId());
-                listener.putAttribute(nodeService.getRoot().getLastUpdate().getTime());
-                listener.end();
+                XBERoot root = nodeService.getRoot(rootId);
+                listener.process(root == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(root.getId()));
             }
         });
 

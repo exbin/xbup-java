@@ -20,26 +20,29 @@ import java.util.Date;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCRoot;
 import org.xbup.lib.client.XBCatalogServiceClient;
+import org.xbup.lib.client.stub.XBPNodeStub;
 
 /**
  * Catalog remote root entity.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.1.25 2015/03/11
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRRoot implements XBCRoot {
 
     private final long id;
     protected XBCatalogServiceClient client;
+    private final XBPNodeStub nodeStub;
 
     public XBRRoot(XBCatalogServiceClient client, long id) {
         this.id = id;
         this.client = client;
+        nodeStub = new XBPNodeStub(client);
     }
 
     @Override
     public XBCNode getNode() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return nodeStub.getRootNode(id);
     }
 
     @Override
@@ -49,7 +52,7 @@ public class XBRRoot implements XBCRoot {
 
     @Override
     public Date getLastUpdate() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return nodeStub.getRootLastUpdate(id);
     }
 
     @Override

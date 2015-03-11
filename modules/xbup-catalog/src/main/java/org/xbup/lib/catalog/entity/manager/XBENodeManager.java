@@ -29,11 +29,12 @@ import org.xbup.lib.core.catalog.base.manager.XBCNodeManager;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBENode;
 import org.xbup.lib.catalog.entity.XBERoot;
+import org.xbup.lib.core.catalog.base.XBCRoot;
 
 /**
  * XBUP catalog node manager.
  *
- * @version 0.1.24 2015/01/09
+ * @version 0.1.25 2015/03/11
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -205,6 +206,18 @@ public class XBENodeManager extends XBEDefaultManager<XBENode> implements XBCNod
     public XBERoot getRoot() {
         try {
             return (XBERoot) em.createQuery("SELECT object(o) FROM XBRoot AS o WHERE o.url IS NULL").getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } catch (Exception ex) {
+            Logger.getLogger(XBENodeManager.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    @Override
+    public XBERoot getRoot(long rootId) {
+        try {
+            return (XBERoot) em.createQuery("SELECT object(o) FROM XBRoot AS o WHERE o.id = " + rootId).getSingleResult();
         } catch (NoResultException e) {
             return null;
         } catch (Exception ex) {

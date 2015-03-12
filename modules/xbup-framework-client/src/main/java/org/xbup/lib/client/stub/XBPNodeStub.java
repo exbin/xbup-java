@@ -35,12 +35,13 @@ import org.xbup.lib.core.parser.basic.XBMatchingProvider;
 import org.xbup.lib.core.remote.XBCallHandler;
 import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
 import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
+import org.xbup.lib.core.type.XBDateTime;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * RPC stub class for XBRNode catalog items.
  *
- * @version 0.1.25 2015/03/11
+ * @version 0.1.25 2015/03/12
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPNodeStub implements XBPManagerStub<XBRNode> {
@@ -58,6 +59,7 @@ public class XBPNodeStub implements XBPManagerStub<XBRNode> {
     public static long[] SUBNODESEQCNT_NODE_PROCEDURE = {0, 2, 4, 28, 0};
     public static long[] ROOT_PROCEDURE = {0, 2, 4, 29, 0};
     public static long[] CATALOG_ROOT_PROCEDURE = {0, 2, 4, 30, 0};
+    public static long[] LASTUPDATE_ROOT_PROCEDURE = {0, 2, 4, 31, 0};
 
     private final XBCatalogServiceClient client;
 
@@ -87,8 +89,26 @@ public class XBPNodeStub implements XBPManagerStub<XBRNode> {
         return null;
     }
 
-    public Date getRootLastUpdate(long id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Date getRootLastUpdate(long rootId) {
+        try {
+            XBCallHandler procedureCall = client.procedureCall();
+
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
+            serialInput.begin();
+            serialInput.putType(new XBDeclBlockType(LASTUPDATE_ROOT_PROCEDURE));
+            serialInput.putAttribute(rootId);
+            serialInput.end();
+
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
+            if (!serialOutput.pullIfEmptyBlock()) {
+                XBDateTime dateTime = new XBDateTime();
+                serialOutput.process(dateTime);
+                return dateTime.getValue();
+            }
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     public XBRNode getRootNode() {

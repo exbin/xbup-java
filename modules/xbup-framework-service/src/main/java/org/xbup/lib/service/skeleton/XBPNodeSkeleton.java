@@ -17,6 +17,7 @@
 package org.xbup.lib.service.skeleton;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import org.xbup.lib.catalog.XBAECatalog;
@@ -41,6 +42,7 @@ import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
 import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
 import org.xbup.lib.core.stream.XBInput;
 import org.xbup.lib.core.stream.XBOutput;
+import org.xbup.lib.core.type.XBDateTime;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -88,6 +90,24 @@ public class XBPNodeSkeleton {
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 XBERoot root = nodeService.getRoot();
                 listener.process(root == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(root.getId()));
+            }
+        });
+
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPNodeStub.LASTUPDATE_ROOT_PROCEDURE), new XBMultiProcedure() {
+            @Override
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(blockType);
+                long rootId = provider.pullLongAttribute();
+                provider.end();
+
+                XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
+
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
+                XBERoot root = nodeService.getRoot(rootId);
+                Date lastUpdate = root == null ? null : root.getLastUpdate();
+                listener.process(lastUpdate == null ? XBTEmptyBlock.getEmptyBlock() : new XBDateTime(lastUpdate));
             }
         });
 

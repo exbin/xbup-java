@@ -34,7 +34,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Block type declaration defined by catalog specification.
  *
- * @version 0.1.24 2014/12/05
+ * @version 0.1.25 2015/03/13
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCBlockDecl implements XBBlockDecl, XBPSequenceSerializable {
@@ -99,13 +99,15 @@ public class XBCBlockDecl implements XBBlockDecl, XBPSequenceSerializable {
             XBCBlockDecl blockDecl = (XBCBlockDecl) catalog.findBlockTypeByPath(catalogPath, (int) revision);
             blockSpecRev = blockDecl == null ? null : blockDecl.getBlockSpecRev();
         } else {
-            Long[] path = catalog.getSpecPath(blockSpecRev.getParent());
-            serializationHandler.putAttribute(path.length - 1);
-            for (Long pathIndex : path) {
-                serializationHandler.putAttribute(pathIndex);
-            }
+            if (blockSpecRev != null) {
+                Long[] path = catalog.getSpecPath(blockSpecRev.getParent());
+                serializationHandler.putAttribute(path.length - 1);
+                for (Long pathIndex : path) {
+                    serializationHandler.putAttribute(pathIndex);
+                }
 
-            serializationHandler.putAttribute(new UBNat32(blockSpecRev.getXBIndex()));
+                serializationHandler.putAttribute(new UBNat32(blockSpecRev.getXBIndex()));
+            }
         }
         serializationHandler.end();
     }

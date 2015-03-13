@@ -29,13 +29,13 @@ import org.xbup.lib.core.serial.param.XBPSerializable;
 /**
  * Encapsulation class for date & time.
  *
- * @version 0.1.25 2015/03/12
+ * @version 0.1.25 2015/03/13
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDateTime implements XBPSerializable {
 
     private Date value;
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 0, 14};
+    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 0, 14, 0};
 
     public XBDateTime() {
         this.value = new Date();
@@ -55,11 +55,11 @@ public class XBDateTime implements XBPSerializable {
 
     @Override
     public void serializeFromXB(XBPInputSerialHandler serial) throws XBProcessingException, IOException {
-        serial.begin();
-        serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
-        if (serial.pullIfEmptyData()) {
+        if (serial.pullIfEmptyBlock()) {
             value = null;
         } else {
+            serial.begin();
+            serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
             int year = serial.pullIntAttribute();
             int month = serial.pullIntAttribute();
             int day = serial.pullIntAttribute();
@@ -70,8 +70,8 @@ public class XBDateTime implements XBPSerializable {
             Calendar calendar = Calendar.getInstance();
             calendar.set(year, month, day, hour, minute, second);
             value = calendar.getTime();
+            serial.end();
         }
-        serial.end();
     }
 
     @Override

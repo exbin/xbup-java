@@ -26,17 +26,16 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.XBCatalogServiceMessage;
-import org.xbup.lib.client.catalog.remote.XBRItem;
 import org.xbup.lib.client.catalog.remote.XBRNode;
-import org.xbup.lib.client.catalog.remote.XBRXDesc;
 import org.xbup.lib.client.catalog.remote.XBRXFile;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.parser.token.pull.XBPullProvider;
-import org.xbup.lib.core.serial.child.XBChildInputSerialHandler;
-import org.xbup.lib.core.serial.child.XBChildProviderSerialHandler;
+import org.xbup.lib.core.remote.XBCallHandler;
+import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
+import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
 import org.xbup.lib.core.type.XBString;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.core.util.StreamUtils;
@@ -61,47 +60,42 @@ public class XBPXFileStub implements XBPManagerStub<XBRXFile> {
 
     public XBRNode getNode(long fileId) {
         try {
-            XBCatalogServiceMessage message = client.executeProcedure(OWNER_FILE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(fileId));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long ownerId = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (ownerId == 0) {
-                return null;
+            XBCallHandler procedureCall = client.procedureCall();
+
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
+            serialInput.begin();
+            serialInput.putType(new XBDeclBlockType(OWNER_FILE_PROCEDURE));
+            serialInput.putAttribute(fileId);
+            serialInput.end();
+
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
+            if (!serialOutput.pullIfEmptyBlock()) {
+                UBNat32 index = new UBNat32();
+                serialOutput.process(index);
+                return index.getLong() == 0 ? null : new XBRNode(client, index.getLong());
             }
-            return new XBRNode(client, ownerId);
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRItem.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
 
     public String getFilename(long fileId) {
         try {
-            XBCatalogServiceMessage message = client.executeProcedure(FILENAME_FILE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(fileId));
-            listener.endXB();
-            XBPullProvider input = message.getXBInputStream();
-            XBMatchingProvider checker = message.getXBInput();
-            checker.matchAttribXB(new UBNat32(1));
-            checker.matchBeginXB();
-            checker.matchAttribXB();
-            checker.matchAttribXB();
-            XBString text = new XBString();
-            XBChildInputSerialHandler handler = new XBChildProviderSerialHandler();
-            handler.attachXBPullProvider(input);
-            text.new DataBlockSerializator().serializeFromXB(handler);
-//            new XBL1ToL0DefaultStreamConvertor(new XBL2ToL1DefaultStreamConvertor(text)).readXBStream(input);
-            checker.matchEndXB();
-            checker.matchEndXB();
-            message.close();
-            return text.getValue();
+            XBCallHandler procedureCall = client.procedureCall();
+
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
+            serialInput.begin();
+            serialInput.putType(new XBDeclBlockType(FILENAME_FILE_PROCEDURE));
+            serialInput.putAttribute(fileId);
+            serialInput.end();
+
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
+            XBString desc = new XBString();
+            serialOutput.process(desc);
+            return desc.getValue();
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBRXDesc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

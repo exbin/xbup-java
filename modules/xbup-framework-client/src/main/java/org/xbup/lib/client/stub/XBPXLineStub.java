@@ -26,12 +26,17 @@ import org.xbup.lib.client.catalog.remote.XBRBlockRev;
 import org.xbup.lib.client.catalog.remote.XBRXBlockLine;
 import org.xbup.lib.client.catalog.remote.XBRXPlugLine;
 import org.xbup.lib.client.catalog.remote.XBRXPlugin;
+import static org.xbup.lib.client.stub.XBPXLangStub.LANGSCOUNT_LANG_PROCEDURE;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCXPlugLine;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.basic.XBMatchingProvider;
+import org.xbup.lib.core.remote.XBCallHandler;
+import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
+import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -229,16 +234,20 @@ public class XBPXLineStub implements XBPManagerStub<XBRXBlockLine> {
     @Override
     public long getItemsCount() {
         try {
-            XBCatalogServiceMessage message = client.executeProcedure(LINESCOUNT_LINE_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            Long count = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return count;
+            XBCallHandler procedureCall = client.procedureCall();
+
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
+            serialInput.begin();
+            serialInput.putType(new XBDeclBlockType(LINESCOUNT_LINE_PROCEDURE));
+            serialInput.end();
+
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
+            UBNat32 count = new UBNat32();
+            serialOutput.process(count);
+
+            return count.getLong();
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPXLineStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
     }

@@ -21,20 +21,20 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.client.XBCatalogServiceMessage;
 import org.xbup.lib.client.catalog.remote.XBRItemInfo;
-import org.xbup.lib.client.catalog.remote.XBRNode;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXItemInfo;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
+import org.xbup.lib.core.remote.XBCallHandler;
+import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
+import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * RPC Stub for Info extension related operations.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.1.25 2015/03/14
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPUserStub implements XBPManagerStub<XBCXItemInfo> {
@@ -52,17 +52,22 @@ public class XBPUserStub implements XBPManagerStub<XBCXItemInfo> {
 
     public XBRItemInfo getNodeInfo(XBCNode node) {
         try {
-            XBCatalogServiceMessage message = client.executeProcedure(NODE_INFO_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRNode) node).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long infoId = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRItemInfo(client, infoId);
+            XBCallHandler procedureCall = client.procedureCall();
+
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
+            serialInput.begin();
+            serialInput.putType(new XBDeclBlockType(NODE_INFO_PROCEDURE));
+            serialInput.putAttribute(node.getId());
+            serialInput.end();
+
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
+            if (!serialOutput.pullIfEmptyBlock()) {
+                UBNat32 index = new UBNat32();
+                serialOutput.process(index);
+                return new XBRItemInfo(client, index.getLong());
+            }
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPUserStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -95,16 +100,20 @@ public class XBPUserStub implements XBPManagerStub<XBCXItemInfo> {
     @Override
     public long getItemsCount() {
         try {
-            XBCatalogServiceMessage message = client.executeProcedure(INFOSCOUNT_INFO_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
+            XBCallHandler procedureCall = client.procedureCall();
+
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
+            serialInput.begin();
+            serialInput.putType(new XBDeclBlockType(INFOSCOUNT_INFO_PROCEDURE));
+            serialInput.end();
+
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
+            UBNat32 count = new UBNat32();
+            serialOutput.process(count);
+
+            return count.getLong();
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPUserStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
     }

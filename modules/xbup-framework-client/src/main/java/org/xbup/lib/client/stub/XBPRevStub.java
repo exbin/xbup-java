@@ -22,12 +22,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.client.XBCatalogServiceMessage;
 import org.xbup.lib.client.catalog.remote.XBRBlockRev;
 import org.xbup.lib.client.catalog.remote.XBRFormatRev;
 import org.xbup.lib.client.catalog.remote.XBRGroupRev;
 import org.xbup.lib.client.catalog.remote.XBRRev;
-import org.xbup.lib.client.catalog.remote.XBRSpec;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
@@ -35,8 +34,6 @@ import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
 import org.xbup.lib.core.remote.XBCallHandler;
 import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
 import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
@@ -45,7 +42,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * RPC stub class for XBRRev catalog items.
  *
- * @version 0.1.25 2015/03/10
+ * @version 0.1.25 2015/03/14
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPRevStub implements XBPManagerStub<XBRRev> {
@@ -53,6 +50,7 @@ public class XBPRevStub implements XBPManagerStub<XBRRev> {
     public static long[] FINDREV_SPEC_PROCEDURE = {0, 2, 5, 4, 0};
     public static long[] REVSCOUNT_SPEC_PROCEDURE = {0, 2, 5, 9, 0};
     public static long[] REV_SPEC_PROCEDURE = {0, 2, 5, 10, 0};
+    public static long[] REVS_SPEC_PROCEDURE = {0, 2, 5, 11, 0};
     public static long[] XBLIMIT_REV_PROCEDURE = {0, 2, 7, 0, 0};
     public static long[] REVSCOUNT_REV_PROCEDURE = {0, 2, 7, 1, 0};
 
@@ -64,15 +62,19 @@ public class XBPRevStub implements XBPManagerStub<XBRRev> {
 
     public Long getXBLimit(long revId) {
         try {
-            XBCatalogServiceMessage message = client.executeProcedure(XBLIMIT_REV_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(revId));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
+            XBCallHandler procedureCall = client.procedureCall();
+
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
+            serialInput.begin();
+            serialInput.putType(new XBDeclBlockType(XBLIMIT_REV_PROCEDURE));
+            serialInput.putAttribute(revId);
+            serialInput.end();
+
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
+            UBNat32 index = new UBNat32();
+            serialOutput.process(index);
+
+            return index.getLong();
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPRevStub.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -81,33 +83,52 @@ public class XBPRevStub implements XBPManagerStub<XBRRev> {
 
     public XBRRev findRevByXB(XBCSpec spec, long xbIndex) {
         try {
-            XBCatalogServiceMessage message = client.executeProcedure(FINDREV_SPEC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRSpec) spec).getId()));
-            listener.attribXB(new UBNat32(xbIndex));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long bind = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return new XBRRev(client, bind);
+            XBCallHandler procedureCall = client.procedureCall();
+
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
+            serialInput.begin();
+            serialInput.putType(new XBDeclBlockType(FINDREV_SPEC_PROCEDURE));
+            serialInput.putAttribute(spec.getId());
+            serialInput.putAttribute(xbIndex);
+            serialInput.end();
+
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
+            UBNat32 index = new UBNat32();
+            serialOutput.process(index);
+
+            long rev = index.getLong();
+            if (spec instanceof XBCBlockSpec) {
+                return new XBRBlockRev(client, rev);
+            }
+            if (spec instanceof XBCGroupSpec) {
+                return new XBRGroupRev(client, rev);
+            }
+            if (spec instanceof XBCFormatSpec) {
+                return new XBRFormatRev(client, rev);
+            }
+            return new XBRRev(client, rev);
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPRevStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
 
-    public XBRRev getRev(XBCSpec spec, long index) {
+    public XBRRev getRev(XBCSpec spec, long orderIndex) {
         try {
-            XBCatalogServiceMessage message = client.executeProcedure(REV_SPEC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRSpec) spec).getId()));
-            listener.attribXB(new UBNat32(index));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long rev = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
+            XBCallHandler procedureCall = client.procedureCall();
+
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
+            serialInput.begin();
+            serialInput.putType(new XBDeclBlockType(REV_SPEC_PROCEDURE));
+            serialInput.putAttribute(spec.getId());
+            serialInput.putAttribute(orderIndex);
+            serialInput.end();
+
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
+            UBNat32 index = new UBNat32();
+            serialOutput.process(index);
+
+            long rev = index.getLong();
             if (spec instanceof XBCBlockSpec) {
                 return new XBRBlockRev(client, rev);
             }
@@ -126,21 +147,39 @@ public class XBPRevStub implements XBPManagerStub<XBRRev> {
 
     public List<XBCRev> getRevs(XBCSpec spec) {
         try {
-            XBCatalogServiceMessage message = client.executeProcedure(REVSCOUNT_SPEC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRSpec) spec).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            List<XBCRev> result = new ArrayList<>();
-            long count = checker.matchAttribXB().getNaturalLong();
-            for (int i = 0; i < count; i++) {
-                result.add(new XBRRev(client, checker.matchAttribXB().getNaturalLong()));
+            XBCallHandler procedureCall = client.procedureCall();
+
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
+            serialInput.begin();
+            serialInput.putType(new XBDeclBlockType(REVS_SPEC_PROCEDURE));
+            serialInput.putAttribute(spec.getId());
+            serialInput.end();
+
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
+            if (!serialOutput.pullIfEmptyBlock()) {
+                serialInput.begin();
+                serialInput.matchType(new XBFixedBlockType());
+                long count = serialInput.pullLongAttribute();
+                List<XBCRev> result = new ArrayList<>();
+                for (int i = 0; i < count; i++) {
+                    long rev = serialInput.pullLongAttribute();
+                    if (spec instanceof XBCBlockSpec) {
+                        result.add(new XBRBlockRev(client, rev));
+                    } else if (spec instanceof XBCGroupSpec) {
+                        result.add(new XBRGroupRev(client, rev));
+                    } else if (spec instanceof XBCFormatSpec) {
+                        result.add(new XBRFormatRev(client, rev));
+                    } else {
+                        result.add(new XBRRev(client, rev));
+                    }
+                }
+                serialInput.end();
+                return result;
             }
-            checker.matchEndXB();
-            message.close();
-            return result;
+
+            return null;
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPRevStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -151,15 +190,19 @@ public class XBPRevStub implements XBPManagerStub<XBRRev> {
 
     public long getRevsCount(XBCSpec spec) {
         try {
-            XBCatalogServiceMessage message = client.executeProcedure(REVSCOUNT_SPEC_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRSpec) spec).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            return index;
+            XBCallHandler procedureCall = client.procedureCall();
+
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
+            serialInput.begin();
+            serialInput.putType(new XBDeclBlockType(REVSCOUNT_SPEC_PROCEDURE));
+            serialInput.putAttribute(spec.getId());
+            serialInput.end();
+
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
+            UBNat32 count = new UBNat32();
+            serialOutput.process(count);
+
+            return count.getLong();
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPRevStub.class.getName()).log(Level.SEVERE, null, ex);
         }

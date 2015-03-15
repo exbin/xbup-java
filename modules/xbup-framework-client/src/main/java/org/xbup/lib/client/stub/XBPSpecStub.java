@@ -53,7 +53,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * RPC stub class for XBRSpec catalog items.
  *
- * @version 0.1.25 2015/03/14
+ * @version 0.1.25 2015/03/15
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
@@ -109,6 +109,7 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
             UBNat32 target = new UBNat32();
             serialOutput.process(target);
 
+            // TODO type
             return target.isZero() ? null : new XBRRev(client, target.getLong());
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
@@ -117,83 +118,19 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
     }
 
     public Long getAllSpecsCount() {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(SPECSCOUNT_SPEC_PROCEDURE));
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 count = new UBNat32();
-            serialOutput.process(count);
-
-            return count.getLong();
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(SPECSCOUNT_SPEC_PROCEDURE));
     }
 
     public Long getAllFormatSpecsCount() {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(FORMATSPECSCOUNT_SPEC_PROCEDURE));
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 count = new UBNat32();
-            serialOutput.process(count);
-
-            return count.getLong();
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(FORMATSPECSCOUNT_SPEC_PROCEDURE));
     }
 
     public Long getAllGroupSpecsCount() {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(GROUPSPECSCOUNT_SPEC_PROCEDURE));
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 count = new UBNat32();
-            serialOutput.process(count);
-
-            return count.getLong();
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(GROUPSPECSCOUNT_SPEC_PROCEDURE));
     }
 
     public Long getAllBlockSpecsCount() {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(BLOCKSPECSCOUNT_SPEC_PROCEDURE));
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 count = new UBNat32();
-            serialOutput.process(count);
-
-            return count.getLong();
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(BLOCKSPECSCOUNT_SPEC_PROCEDURE));
     }
 
     public Long[] getSpecXBPath(XBCSpec node) {
@@ -224,14 +161,14 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
 
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             if (!serialOutput.pullIfEmptyBlock()) {
-                serialInput.begin();
-                serialInput.matchType(new XBFixedBlockType());
-                long count = serialInput.pullLongAttribute();
+                serialOutput.begin();
+                serialOutput.matchType(new XBFixedBlockType());
+                long count = serialOutput.pullLongAttribute();
                 List<XBCSpec> result = new ArrayList<>();
                 for (int i = 0; i < count; i++) {
-                    result.add(new XBRSpec(client, serialInput.pullLongAttribute()));
+                    result.add(new XBRSpec(client, serialOutput.pullLongAttribute()));
                 }
-                serialInput.end();
+                serialOutput.end();
                 return result;
             }
             
@@ -257,6 +194,7 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
             UBNat32 index = new UBNat32();
             serialOutput.process(index);
 
+            // TODO type?
             return new XBRSpec(client, index.getLong());
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
@@ -265,25 +203,18 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
     }
 
     public XBRFormatSpec getFormatSpec(XBCNode node, long orderIndex) {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
+        Long index = XBPStubUtils.twoLongsToLongMethod(client.procedureCall(), new XBDeclBlockType(FORMATSPEC_NODE_PROCEDURE), node.getId(), orderIndex);
+        return index == null ? null : new XBRFormatSpec(client, index);
+    }
 
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(FORMATSPEC_NODE_PROCEDURE));
-            serialInput.putAttribute(node.getId());
-            serialInput.putAttribute(orderIndex);
-            serialInput.end();
+    public XBRGroupSpec getGroupSpec(XBCNode node, long orderIndex) {
+        Long index = XBPStubUtils.twoLongsToLongMethod(client.procedureCall(), new XBDeclBlockType(GROUPSPEC_NODE_PROCEDURE), node.getId(), orderIndex);
+        return index == null ? null : new XBRGroupSpec(client, index);
+    }
 
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 index = new UBNat32();
-            serialOutput.process(index);
-
-            return new XBRFormatSpec(client, index.getLong());
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+    public XBRBlockSpec getBlockSpec(XBCNode node, long orderIndex) {
+        Long index = XBPStubUtils.twoLongsToLongMethod(client.procedureCall(), new XBDeclBlockType(BLOCKSPEC_NODE_PROCEDURE), node.getId(), orderIndex);
+        return index == null ? null : new XBRBlockSpec(client, index);
     }
 
     public List<XBCFormatSpec> getFormatSpecs(XBCNode node) {
@@ -298,94 +229,20 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
 
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             if (!serialOutput.pullIfEmptyBlock()) {
-                serialInput.begin();
-                serialInput.matchType(new XBFixedBlockType());
-                long count = serialInput.pullLongAttribute();
+                serialOutput.begin();
+                serialOutput.matchType(new XBFixedBlockType());
+                long count = serialOutput.pullLongAttribute();
                 List<XBCFormatSpec> result = new ArrayList<>();
                 for (int i = 0; i < count; i++) {
-                    result.add(new XBRFormatSpec(client, serialInput.pullLongAttribute()));
+                    result.add(new XBRFormatSpec(client, serialOutput.pullLongAttribute()));
                 }
-                serialInput.end();
+                serialOutput.end();
                 return result;
             }
             
             return null;
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public XBRBlockSpec getBlockSpec(XBCNode node, long orderIndex) {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(BLOCKSPEC_NODE_PROCEDURE));
-            serialInput.putAttribute(node.getId());
-            serialInput.putAttribute(orderIndex);
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 index = new UBNat32();
-            serialOutput.process(index);
-
-            return new XBRBlockSpec(client, index.getLong());
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public List<XBCBlockSpec> getBlockSpecs(XBCNode node) {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(BLOCKSPECS_NODE_PROCEDURE));
-            serialInput.putAttribute(node.getId());
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            if (!serialOutput.pullIfEmptyBlock()) {
-                serialInput.begin();
-                serialInput.matchType(new XBFixedBlockType());
-                long count = serialInput.pullLongAttribute();
-                List<XBCBlockSpec> result = new ArrayList<>();
-                for (int i = 0; i < count; i++) {
-                    result.add(new XBRBlockSpec(client, serialInput.pullLongAttribute()));
-                }
-                serialInput.end();
-                return result;
-            }
-            
-            return null;
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public XBRGroupSpec getGroupSpec(XBCNode node, long orderIndex) {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(GROUPSPEC_NODE_PROCEDURE));
-            serialInput.putAttribute(node.getId());
-            serialInput.putAttribute(orderIndex);
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 index = new UBNat32();
-            serialOutput.process(index);
-
-            return new XBRGroupSpec(client, index.getLong());
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -402,14 +259,14 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
 
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             if (!serialOutput.pullIfEmptyBlock()) {
-                serialInput.begin();
-                serialInput.matchType(new XBFixedBlockType());
-                long count = serialInput.pullLongAttribute();
+                serialOutput.begin();
+                serialOutput.matchType(new XBFixedBlockType());
+                long count = serialOutput.pullLongAttribute();
                 List<XBCGroupSpec> result = new ArrayList<>();
                 for (int i = 0; i < count; i++) {
-                    result.add(new XBRGroupSpec(client, serialInput.pullLongAttribute()));
+                    result.add(new XBRGroupSpec(client, serialOutput.pullLongAttribute()));
                 }
-                serialInput.end();
+                serialOutput.end();
                 return result;
             }
             
@@ -420,237 +277,81 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
         return null;
     }
 
-    public XBRBlockSpec findBlockSpecByXB(XBCNode node, long xbIndex) {
+    public List<XBCBlockSpec> getBlockSpecs(XBCNode node) {
         try {
             XBCallHandler procedureCall = client.procedureCall();
 
             XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
             serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(FINDBLOCKSPEC_NODE_PROCEDURE));
-            serialInput.putAttribute(node.getId());
-            serialInput.putAttribute(xbIndex);
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 index = new UBNat32();
-            serialOutput.process(index);
-
-            return new XBRBlockSpec(client, index.getLong());
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public Long findMaxBlockSpecXB(XBCNode node) {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(MAXBLOCKSPEC_NODE_PROCEDURE));
+            serialInput.putType(new XBDeclBlockType(BLOCKSPECS_NODE_PROCEDURE));
             serialInput.putAttribute(node.getId());
             serialInput.end();
 
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 count = new UBNat32();
-            serialOutput.process(count);
-
-            return count.getLong();
+            if (!serialOutput.pullIfEmptyBlock()) {
+                serialOutput.begin();
+                serialOutput.matchType(new XBFixedBlockType());
+                long count = serialOutput.pullLongAttribute();
+                List<XBCBlockSpec> result = new ArrayList<>();
+                for (int i = 0; i < count; i++) {
+                    result.add(new XBRBlockSpec(client, serialOutput.pullLongAttribute()));
+                }
+                serialOutput.end();
+                return result;
+            }
+            
+            return null;
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public XBRGroupSpec findGroupSpecByXB(XBCNode node, long xbIndex) {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(FINDGROUPSPEC_NODE_PROCEDURE));
-            serialInput.putAttribute(node.getId());
-            serialInput.putAttribute(xbIndex);
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 index = new UBNat32();
-            serialOutput.process(index);
-
-            return new XBRGroupSpec(client, index.getLong());
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public Long findMaxGroupSpecXB(XBCNode node) {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(MAXGROUPSPEC_NODE_PROCEDURE));
-            serialInput.putAttribute(node.getId());
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 count = new UBNat32();
-            serialOutput.process(count);
-
-            return count.getLong();
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
 
     public XBRFormatSpec findFormatSpecByXB(XBCNode node, long xbIndex) {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
+        Long index = XBPStubUtils.twoLongsToLongMethod(client.procedureCall(), new XBDeclBlockType(FINDFORMATSPEC_NODE_PROCEDURE), node.getId(), xbIndex);
+        return index == null ? null : new XBRFormatSpec(client, index);
+    }
 
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(FINDFORMATSPEC_NODE_PROCEDURE));
-            serialInput.putAttribute(node.getId());
-            serialInput.putAttribute(xbIndex);
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 index = new UBNat32();
-            serialOutput.process(index);
-
-            return new XBRFormatSpec(client, index.getLong());
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+    public XBRGroupSpec findGroupSpecByXB(XBCNode node, long xbIndex) {
+        Long index = XBPStubUtils.twoLongsToLongMethod(client.procedureCall(), new XBDeclBlockType(FINDGROUPSPEC_NODE_PROCEDURE), node.getId(), xbIndex);
+        return index == null ? null : new XBRGroupSpec(client, index);
+    }
+    
+    public XBRBlockSpec findBlockSpecByXB(XBCNode node, long xbIndex) {
+        Long index = XBPStubUtils.twoLongsToLongMethod(client.procedureCall(), new XBDeclBlockType(FINDBLOCKSPEC_NODE_PROCEDURE), node.getId(), xbIndex);
+        return index == null ? null : new XBRBlockSpec(client, index);
     }
 
     public Long findMaxFormatSpecXB(XBCNode node) {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
+        return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(MAXFORMATSPEC_NODE_PROCEDURE), node.getId());
+    }
 
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(MAXFORMATSPEC_NODE_PROCEDURE));
-            serialInput.putAttribute(node.getId());
-            serialInput.end();
+    public Long findMaxGroupSpecXB(XBCNode node) {
+        return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(MAXGROUPSPEC_NODE_PROCEDURE), node.getId());
+    }
 
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 count = new UBNat32();
-            serialOutput.process(count);
-
-            return count.getLong();
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+    public Long findMaxBlockSpecXB(XBCNode node) {
+        return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(MAXBLOCKSPEC_NODE_PROCEDURE), node.getId());
     }
 
     public long getFormatSpecsCount(XBCNode node) {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(FORMATSPECSCOUNT_NODE_PROCEDURE));
-            serialInput.putAttribute(node.getId());
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 count = new UBNat32();
-            serialOutput.process(count);
-
-            return count.getLong();
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(FORMATSPECSCOUNT_NODE_PROCEDURE), node.getId());
     }
 
     public long getGroupSpecsCount(XBCNode node) {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(GROUPSPECSCOUNT_NODE_PROCEDURE));
-            serialInput.putAttribute(node.getId());
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 count = new UBNat32();
-            serialOutput.process(count);
-
-            return count.getLong();
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(GROUPSPECSCOUNT_NODE_PROCEDURE), node.getId());
     }
 
     public long getBlockSpecsCount(XBCNode node) {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(BLOCKSPECSCOUNT_NODE_PROCEDURE));
-            serialInput.putAttribute(node.getId());
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 count = new UBNat32();
-            serialOutput.process(count);
-
-            return count.getLong();
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(BLOCKSPECSCOUNT_NODE_PROCEDURE), node.getId());
     }
 
     public long getSpecsCount(XBCNode node) {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(SPECSCOUNT_NODE_PROCEDURE));
-            serialInput.putAttribute(node.getId());
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 count = new UBNat32();
-            serialOutput.process(count);
-
-            return count.getLong();
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(SPECSCOUNT_NODE_PROCEDURE), node.getId());
     }
 
     public long getDefsCount() {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(BINDSCOUNT_BIND_PROCEDURE));
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 count = new UBNat32();
-            serialOutput.process(count);
-
-            return count.getLong();
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(BINDSCOUNT_BIND_PROCEDURE));
     }
 
     public XBRSpecDef getSpecDefByOrder(XBCSpec spec, long orderIndex) {
@@ -749,14 +450,14 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
 
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             if (!serialOutput.pullIfEmptyBlock()) {
-                serialInput.begin();
-                serialInput.matchType(new XBFixedBlockType());
-                long count = serialInput.pullLongAttribute();
+                serialOutput.begin();
+                serialOutput.matchType(new XBFixedBlockType());
+                long count = serialOutput.pullLongAttribute();
                 List<XBCSpecDef> result = new ArrayList<>();
                 for (int i = 0; i < count; i++) {
-                    result.add(new XBRSpecDef(client, serialInput.pullLongAttribute()));
+                    result.add(new XBRSpecDef(client, serialOutput.pullLongAttribute()));
                 }
-                serialInput.end();
+                serialOutput.end();
                 return result;
             }
             
@@ -768,24 +469,7 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
     }
 
     public long getSpecDefsCount(XBCSpec spec) {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(BINDSCOUNT_SPEC_PROCEDURE));
-            serialInput.putAttribute(spec.getId());
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 count = new UBNat32();
-            serialOutput.process(count);
-
-            return count.getLong();
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(BINDSCOUNT_SPEC_PROCEDURE), spec.getId());
     }
 
     @Override
@@ -815,22 +499,6 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
 
     @Override
     public long getItemsCount() {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(SPECSCOUNT_SPEC_PROCEDURE));
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 count = new UBNat32();
-            serialOutput.process(count);
-
-            return count.getLong();
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(SPECSCOUNT_SPEC_PROCEDURE));
     }
 }

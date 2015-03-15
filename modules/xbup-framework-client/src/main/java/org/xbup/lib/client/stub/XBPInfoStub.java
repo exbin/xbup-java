@@ -16,25 +16,17 @@
  */
 package org.xbup.lib.client.stub;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.remote.XBRItemInfo;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXItemInfo;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.remote.XBCallHandler;
-import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
-import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * RPC Stub for Info extension related operations.
  *
- * @version 0.1.25 2015/03/14
+ * @version 0.1.25 2015/03/15
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPInfoStub implements XBPManagerStub<XBCXItemInfo> {
@@ -51,23 +43,8 @@ public class XBPInfoStub implements XBPManagerStub<XBCXItemInfo> {
     }
 
     public XBRItemInfo getNodeInfo(XBCNode node) {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(NODE_INFO_PROCEDURE));
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 infoId = new UBNat32();
-            serialOutput.process(infoId);
-
-            return new XBRItemInfo(client, infoId.getLong());
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(NODE_INFO_PROCEDURE), node.getId());
+        return index == null ? null : new XBRItemInfo(client, index);
     }
 
     @Override
@@ -97,22 +74,6 @@ public class XBPInfoStub implements XBPManagerStub<XBCXItemInfo> {
 
     @Override
     public long getItemsCount() {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(INFOSCOUNT_INFO_PROCEDURE));
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            UBNat32 count = new UBNat32();
-            serialOutput.process(count);
-
-            return count.getLong();
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(INFOSCOUNT_INFO_PROCEDURE));
     }
 }

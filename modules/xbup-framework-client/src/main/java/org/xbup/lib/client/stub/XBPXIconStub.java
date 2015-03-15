@@ -16,29 +16,21 @@
  */
 package org.xbup.lib.client.stub;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.client.XBCatalogServiceMessage;
-import org.xbup.lib.client.catalog.remote.XBRBlockSpec;
 import org.xbup.lib.client.catalog.remote.XBRItem;
 import org.xbup.lib.client.catalog.remote.XBRXFile;
 import org.xbup.lib.client.catalog.remote.XBRXIcon;
 import org.xbup.lib.client.catalog.remote.XBRXIconMode;
+import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.XBCXIconMode;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBMatchingProvider;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * RPC stub class for XBRXIcon catalog items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.1.25 2015/03/15
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPXIconStub implements XBPManagerStub<XBRXIcon> {
@@ -56,83 +48,23 @@ public class XBPXIconStub implements XBPManagerStub<XBRXIcon> {
     }
 
     public XBRItem getParent(long iconId) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(OWNER_ICON_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(iconId));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long ownerId = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (ownerId == 0) {
-                return null;
-            }
-            return new XBRBlockSpec(client, ownerId);
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPXIconStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(OWNER_ICON_PROCEDURE), iconId);
+        return index == null ? null : new XBRItem(client, index);
     }
 
     public XBCXIconMode getMode(long iconId) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(MODE_ICON_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(iconId));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long ownerId = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (ownerId == 0) {
-                return null;
-            }
-            return new XBRXIconMode(client, ownerId);
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPXIconStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(MODE_ICON_PROCEDURE), iconId);
+        return index == null ? null : new XBRXIconMode(client, index);
     }
 
     public XBCXFile getIconFile(long iconId) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(FILE_ICON_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(iconId));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            long fileId = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (fileId == 0) {
-                return null;
-            }
-            return new XBRXFile(client, fileId);
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPXIconStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(FILE_ICON_PROCEDURE), iconId);
+        return index == null ? null : new XBRXFile(client, index);
     }
 
     public XBRXIcon getDefaultIcon(XBCItem item) {
-        try {
-            XBCatalogServiceMessage message = client.executeProcedure(DEFAULTITEM_ICON_PROCEDURE);
-            XBListener listener = message.getXBOutput();
-            listener.attribXB(new UBNat32(((XBRItem) item).getId()));
-            listener.endXB();
-            XBMatchingProvider checker = message.getXBInput();
-            Long index = checker.matchAttribXB().getNaturalLong();
-            checker.matchEndXB();
-            message.close();
-            if (index == 0) {
-                return null;
-            }
-            return new XBRXIcon(client, index);
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPXIconStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(DEFAULTITEM_ICON_PROCEDURE), item.getId());
+        return index == null ? null : new XBRXIcon(client, index);
     }
 
     @Override

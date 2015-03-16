@@ -168,11 +168,6 @@ public class XBDbServiceClient implements XBCatalogServiceClient {
     }
 
     @Override
-    public XBCatalogServiceMessage executeProcedure(long[] procedureId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public XBCallHandler procedureCall() {
         throw new UnsupportedOperationException("Not supported yet.");
     }

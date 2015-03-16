@@ -63,7 +63,7 @@ public class XBPXDescStub implements XBPManagerStub<XBRXDesc> {
     }
 
     public String getText(long descId) {
-        return XBPStubUtils.longToStringMethod(client.procedureCall(), new XBDeclBlockType(ITEM_DESC_PROCEDURE), descId);
+        return XBPStubUtils.longToStringMethod(client.procedureCall(), new XBDeclBlockType(TEXT_DESC_PROCEDURE), descId);
     }
 
     public XBRXLanguage getLang(long descId) {

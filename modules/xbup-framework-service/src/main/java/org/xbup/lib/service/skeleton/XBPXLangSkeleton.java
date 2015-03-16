@@ -17,23 +17,21 @@
 package org.xbup.lib.service.skeleton;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 import org.xbup.lib.catalog.XBAECatalog;
 import org.xbup.lib.catalog.entity.XBEXLanguage;
 import org.xbup.lib.catalog.entity.service.XBEXLangService;
 import org.xbup.lib.client.stub.XBPXLangStub;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
+import org.xbup.lib.core.block.XBTEmptyBlock;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.catalog.base.service.XBCXLangService;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.parser.basic.XBTMatchingProvider;
-import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.remote.XBMultiProcedure;
 import org.xbup.lib.core.remote.XBServiceServer;
 import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
+import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
 import org.xbup.lib.core.stream.XBInput;
 import org.xbup.lib.core.stream.XBOutput;
 import org.xbup.lib.core.type.XBString;
@@ -42,7 +40,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRXLanguage catalog items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.1.25 2015/03/16
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPXLangSkeleton {
@@ -55,75 +53,73 @@ public class XBPXLangSkeleton {
 
     public void registerProcedures(XBServiceServer remoteServer) {
         remoteServer.addXBProcedure(new XBDeclBlockType(XBPXLangStub.CODE_LANG_PROCEDURE), new XBMultiProcedure() {
-
             @Override
             public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
-                XBTMatchingProvider source = (XBTMatchingProvider) parameters;
-                XBTListener result = (XBTListener) resultInput;
-                UBNat32 index = (UBNat32) source.matchAttribXBT();
-                source.matchEndXBT();
-                XBEXLanguage lang = ((XBEXLangService) catalog.getCatalogService(XBCXLangService.class)).getItem(index.getLong());
-                XBString text = new XBString(((XBEXLanguage) lang).getLangCode());
-                result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(1));
-                XBPListenerSerialHandler handler = new XBPListenerSerialHandler();
-                handler.attachXBTEventListener(new XBTListenerToEventListener(result));
-                text.serializeXB(handler);
-//                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
-                result.endXBT();
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(blockType);
+                XBAttribute index = provider.pullAttribute();
+                provider.end();
+
+                XBEXLangService langService = (XBEXLangService) catalog.getCatalogService(XBEXLangService.class);
+                XBEXLanguage lang = langService.getItem(index.getNaturalLong());
+
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
+                listener.process(lang == null ? XBTEmptyBlock.getEmptyBlock() : new XBString(lang.getLangCode()));
             }
         });
 
         remoteServer.addXBProcedure(new XBDeclBlockType(XBPXLangStub.DEFAULT_LANG_PROCEDURE), new XBMultiProcedure() {
-
             @Override
             public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
-                XBTMatchingProvider source = (XBTMatchingProvider) parameters;
-                XBTListener result = (XBTListener) resultInput;
-                source.matchEndXBT();
-                result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(((XBEXLanguage) ((XBEXLangService) catalog.getCatalogService(XBCXLangService.class)).getDefaultLang()).getId()));
-                result.endXBT();
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(blockType);
+                provider.end();
+
+                XBEXLangService langService = (XBEXLangService) catalog.getCatalogService(XBEXLangService.class);
+                XBEXLanguage lang = langService.getDefaultLang();
+
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
+                listener.process(lang == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(lang.getId()));
             }
         });
 
         remoteServer.addXBProcedure(new XBDeclBlockType(XBPXLangStub.LANGS_LANG_PROCEDURE), new XBMultiProcedure() {
-
             @Override
             public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
-                XBTMatchingProvider source = (XBTMatchingProvider) parameters;
-                XBTListener result = (XBTListener) resultInput;
-                source.matchEndXBT();
-                result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(0));
-                List<XBEXLanguage> itemList = (List<XBEXLanguage>) (((XBEXLangService) catalog.getCatalogService(XBCXLangService.class)).getAllItems());
-                result.attribXBT(new UBNat32(itemList.size()));
-                for (Iterator<XBEXLanguage> it = itemList.iterator(); it.hasNext();) {
-                    result.attribXBT(new UBNat32(((XBEXLanguage) it.next()).getId()));
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(blockType);
+                provider.end();
+
+                XBEXLangService langService = (XBEXLangService) catalog.getCatalogService(XBEXLangService.class);
+                List<XBEXLanguage> items = langService.getAllItems();
+
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
+                listener.begin();
+                listener.matchType(new XBFixedBlockType());
+                listener.putAttribute(items.size());
+                for (XBEXLanguage lang : items) {
+                    listener.putAttribute(lang.getId());
                 }
-                result.endXBT();
+                listener.end();
             }
         });
 
         remoteServer.addXBProcedure(new XBDeclBlockType(XBPXLangStub.LANGSCOUNT_LANG_PROCEDURE), new XBMultiProcedure() {
-
             @Override
             public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
-                XBTMatchingProvider source = (XBTMatchingProvider) parameters;
-                XBTListener result = (XBTListener) resultInput;
-                source.matchEndXBT();
-                result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(((XBEXLangService) catalog.getCatalogService(XBCXLangService.class)).getItemsCount()));
-                result.endXBT();
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(blockType);
+                provider.end();
+
+                XBEXLangService langService = (XBEXLangService) catalog.getCatalogService(XBEXLangService.class);
+
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
+                listener.process(new UBNat32(langService.getItemsCount()));
             }
         });
-
     }
 }

@@ -48,7 +48,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRXDesc catalog items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.1.25 2015/03/16
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPXDescSkeleton {
@@ -70,7 +70,7 @@ public class XBPXDescSkeleton {
                 provider.end();
 
                 XBEXDescService descService = (XBEXDescService) catalog.getCatalogService(XBCXDescService.class);
-                XBEXDesc desc = (XBEXDesc) descService.getItem(index.getNaturalLong());
+                XBEXDesc desc = descService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(desc == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(desc.getId()));
@@ -87,7 +87,7 @@ public class XBPXDescSkeleton {
                 provider.end();
 
                 XBEXDescService descService = (XBEXDescService) catalog.getCatalogService(XBCXDescService.class);
-                XBEXDesc desc = (XBEXDesc) descService.getItem(index.getNaturalLong());
+                XBEXDesc desc = descService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(desc == null ? XBTEmptyBlock.getEmptyBlock() : new XBString(desc.getText()));
@@ -104,7 +104,7 @@ public class XBPXDescSkeleton {
                 provider.end();
 
                 XBEXDescService descService = (XBEXDescService) catalog.getCatalogService(XBCXDescService.class);
-                XBEXDesc desc = (XBEXDesc) descService.getItem(index.getNaturalLong());
+                XBEXDesc desc = descService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(desc == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(desc.getLang().getId()));
@@ -123,7 +123,7 @@ public class XBPXDescSkeleton {
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
                 XBEXDescService descService = (XBEXDescService) catalog.getCatalogService(XBCXDescService.class);
                 XBEItem item = itemService.getItem(index.getNaturalLong());
-                XBEXDesc desc = (XBEXDesc) descService.getDefaultItemDesc(item);
+                XBEXDesc desc = descService.getDefaultItemDesc(item);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(desc == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(desc.getId()));
@@ -145,7 +145,7 @@ public class XBPXDescSkeleton {
                 XBEXDescService descService = (XBEXDescService) catalog.getCatalogService(XBCXDescService.class);
                 XBEItem item = itemService.getItem(index.getNaturalLong());
                 XBEXLanguage lang = langService.getItem(langIndex.getNaturalLong());
-                XBEXDesc desc = (XBEXDesc) descService.getItemDesc(item, lang);
+                XBEXDesc desc = descService.getItemDesc(item, lang);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(desc == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(desc.getId()));

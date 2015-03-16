@@ -23,18 +23,17 @@ import org.xbup.lib.catalog.entity.XBEXStri;
 import org.xbup.lib.catalog.entity.service.XBEItemService;
 import org.xbup.lib.catalog.entity.service.XBEXStriService;
 import org.xbup.lib.client.stub.XBPXStriStub;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.XBTEmptyBlock;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.service.XBCItemService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.parser.basic.XBTMatchingProvider;
-import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.remote.XBMultiProcedure;
 import org.xbup.lib.core.remote.XBServiceServer;
 import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
+import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
 import org.xbup.lib.core.stream.XBInput;
 import org.xbup.lib.core.stream.XBOutput;
 import org.xbup.lib.core.type.XBString;
@@ -43,7 +42,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRXStri catalog items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.1.25 2015/03/16
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPXStriSkeleton {
@@ -56,114 +55,87 @@ public class XBPXStriSkeleton {
 
     public void registerProcedures(XBServiceServer remoteServer) {
         remoteServer.addXBProcedure(new XBDeclBlockType(XBPXStriStub.ITEM_STRI_PROCEDURE), new XBMultiProcedure() {
-
             @Override
             public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
-                XBTMatchingProvider source = (XBTMatchingProvider) parameters;
-                XBTListener result = (XBTListener) resultInput;
-                UBNat32 index = (UBNat32) source.matchAttribXBT();
-                source.matchEndXBT();
-                XBEXStri stri = (XBEXStri) ((XBEXStriService) catalog.getCatalogService(XBCXStriService.class)).getItem(index.getLong());
-                XBEItem item = (XBEItem) ((XBEXStri) stri).getItem();
-                result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(0));
-                if (item != null) {
-                    result.attribXBT(new UBNat32(item.getId()));
-                }
-                result.endXBT();
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(blockType);
+                XBAttribute index = provider.pullAttribute();
+                provider.end();
+
+                XBEXStriService striService = (XBEXStriService) catalog.getCatalogService(XBCXStriService.class);
+                XBEXStri stri = striService.getItem(index.getNaturalLong());
+
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
+                listener.process(stri == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(stri.getItem().getId()));
             }
         });
 
         remoteServer.addXBProcedure(new XBDeclBlockType(XBPXStriStub.TEXT_STRI_PROCEDURE), new XBMultiProcedure() {
-
             @Override
             public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
-                XBTMatchingProvider source = (XBTMatchingProvider) parameters;
-                XBTListener result = (XBTListener) resultInput;
-                UBNat32 index = (UBNat32) source.matchAttribXBT();
-                source.matchEndXBT();
-                XBEXStri stri = (XBEXStri) ((XBEXStriService) catalog.getCatalogService(XBCXStriService.class)).getItem(index.getLong());
-                XBString text;
-                if (stri != null) {
-                    text = new XBString(((XBEXStri) stri).getText());
-                } else {
-                    text = new XBString("");
-                }
-                result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(1));
-                XBPListenerSerialHandler handler = new XBPListenerSerialHandler();
-                handler.attachXBTEventListener(new XBTListenerToEventListener(result));
-                text.serializeXB(handler);
-//                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
-                result.endXBT();
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(blockType);
+                XBAttribute index = provider.pullAttribute();
+                provider.end();
+
+                XBEXStriService striService = (XBEXStriService) catalog.getCatalogService(XBCXStriService.class);
+                XBEXStri stri = striService.getItem(index.getNaturalLong());
+
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
+                listener.process(stri == null ? XBTEmptyBlock.getEmptyBlock() : new XBString(stri.getText()));
             }
         });
 
         remoteServer.addXBProcedure(new XBDeclBlockType(XBPXStriStub.NODEPATH_STRI_PROCEDURE), new XBMultiProcedure() {
-
             @Override
             public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
-                XBTMatchingProvider source = (XBTMatchingProvider) parameters;
-                XBTListener result = (XBTListener) resultInput;
-                UBNat32 index = (UBNat32) source.matchAttribXBT();
-                source.matchEndXBT();
-                XBEXStri stri = (XBEXStri) ((XBEXStriService) catalog.getCatalogService(XBCXStriService.class)).getItem(index.getLong());
-                XBString text;
-                if (stri != null) {
-                    text = new XBString(((XBEXStri) stri).getNodePath());
-                } else {
-                    text = new XBString("");
-                }
-                result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(1));
-                XBPListenerSerialHandler handler = new XBPListenerSerialHandler();
-                handler.attachXBTEventListener(new XBTListenerToEventListener(result));
-                text.serializeXB(handler);
-//                            new XBL1ToL0StreamConvertor.XBCL1ToL0DefaultStreamConvertor((XBCL1Streamable) new XBL2ToL1StreamConvertor.XBCL2ToL1DefaultStreamConvertor(text)).writeXBStream(output);
-                result.endXBT();
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(blockType);
+                XBAttribute index = provider.pullAttribute();
+                provider.end();
+
+                XBEXStriService striService = (XBEXStriService) catalog.getCatalogService(XBCXStriService.class);
+                XBEXStri stri = striService.getItem(index.getNaturalLong());
+
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
+                listener.process(stri == null ? XBTEmptyBlock.getEmptyBlock() : new XBString(stri.getNodePath()));
             }
         });
 
         remoteServer.addXBProcedure(new XBDeclBlockType(XBPXStriStub.ITEMSTRI_STRI_PROCEDURE), new XBMultiProcedure() {
-
             @Override
             public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
-                XBTMatchingProvider source = (XBTMatchingProvider) parameters;
-                XBTListener result = (XBTListener) resultInput;
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(blockType);
+                XBAttribute index = provider.pullAttribute();
+                provider.end();
+
+                XBEXStriService striService = (XBEXStriService) catalog.getCatalogService(XBCXStriService.class);
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
-                UBNat32 index = (UBNat32) source.matchAttribXBT();
-                source.matchEndXBT();
-                XBEItem item = itemService.getItem(index.getLong());
-                result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(0));
-                XBEXStri itemStri = ((XBEXStri) ((XBEXStriService) catalog.getCatalogService(XBCXStriService.class)).getItemStringId(item));
-                if (itemStri != null) {
-                    result.attribXBT(new UBNat32(itemStri.getId()));
-                } else {
-                    result.attribXBT(new UBNat32(0));
-                }
-                result.endXBT();
+                XBEItem item = itemService.getItem(index.getNaturalLong());
+                XBEXStri stri = item == null ? null : (XBEXStri) striService.getItemStringId(item);
+
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
+                listener.process(stri == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(stri.getId()));
             }
         });
 
         remoteServer.addXBProcedure(new XBDeclBlockType(XBPXStriStub.STRISCOUNT_STRI_PROCEDURE), new XBMultiProcedure() {
-
             @Override
             public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
-                XBTMatchingProvider source = (XBTMatchingProvider) parameters;
-                XBTListener result = (XBTListener) resultInput;
-                source.matchEndXBT();
-                result.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(0));
-                result.attribXBT(new UBNat32(((XBEXStriService) catalog.getCatalogService(XBCXStriService.class)).getItemsCount()));
-                result.endXBT();
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(blockType);
+                provider.end();
+
+                XBEXStriService striService = (XBEXStriService) catalog.getCatalogService(XBCXStriService.class);
+
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
+                listener.process(new UBNat32(striService.getItemsCount()));
             }
         });
     }

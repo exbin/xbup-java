@@ -23,21 +23,10 @@ import org.xbup.lib.core.remote.XBServiceClient;
 /**
  * Connection client handler for remote catalogs.
  *
- * @version 0.1.25 2015/02/24
+ * @version 0.1.25 2015/03/16
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCatalogServiceClient extends XBServiceClient {
-
-    /**
-     * Executes remote procedure of XBUP Service
-     *
-     * TODO: Will be replaced by procedureCall and serialization
-     *
-     * @param procedureId procedure identification array
-     * @return message handler
-     */
-    @Deprecated
-    public XBCatalogServiceMessage executeProcedure(long[] procedureId);
 
     /**
      * Logins to catalog service.

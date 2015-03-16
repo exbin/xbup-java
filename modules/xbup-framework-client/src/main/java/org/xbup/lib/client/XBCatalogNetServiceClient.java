@@ -48,7 +48,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBService catalog client using IP networking.
  *
- * @version 0.1.25 2015/03/09
+ * @version 0.1.25 2015/03/16
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBCatalogServiceClient {
@@ -59,11 +59,6 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
         catalog.addFormatDecl(getContextFormatDecl());
         catalog.generateContext();
         setCatalog(catalog);
-    }
-
-    @Override
-    public XBCatalogServiceMessage executeProcedure(long[] procedureId) {
-        return new XBCatalogSocketMessage(getSocket(), procedureId);
     }
 
     /**

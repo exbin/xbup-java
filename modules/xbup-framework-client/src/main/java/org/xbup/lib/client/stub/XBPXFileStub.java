@@ -77,6 +77,7 @@ public class XBPXFileStub implements XBPManagerStub<XBRXFile> {
             ByteArrayOutputStream data = new ByteArrayOutputStream();
             StreamUtils.copyInputStreamToOutputStream(serialOutput.pullData(), data);
             serialOutput.end();
+            procedureCall.execute();
             return new ImageIcon(data.toByteArray());
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
@@ -97,6 +98,7 @@ public class XBPXFileStub implements XBPManagerStub<XBRXFile> {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             XBData data = new XBData();
             serialOutput.process(data);
+            procedureCall.execute();
             return data.getDataInputStream();
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);

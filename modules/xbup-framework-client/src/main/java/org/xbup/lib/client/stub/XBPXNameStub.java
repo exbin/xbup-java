@@ -101,9 +101,11 @@ public class XBPXNameStub implements XBPManagerStub<XBRXName> {
                     result.add(new XBRXName(client, serialOutput.pullLongAttribute()));
                 }
                 serialOutput.end();
+                procedureCall.execute();
                 return result;
             }
 
+            procedureCall.execute();
             return null;
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);

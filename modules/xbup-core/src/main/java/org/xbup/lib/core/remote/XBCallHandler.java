@@ -24,7 +24,7 @@ import org.xbup.lib.core.stream.XBOutput;
 /**
  * XBUP RPC procedure call handler interface.
  *
- * @version 0.1.25 2015/02/22
+ * @version 0.1.25 2015/03/17
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCallHandler {
@@ -44,4 +44,11 @@ public interface XBCallHandler {
      * @throws IOException if input/output error
      */
     public XBOutput getResultOutput() throws XBProcessingException, IOException;
+
+    /**
+     * TODO: Performs execution of the handler.
+     *
+     * @throws IOException if input/output error
+     */
+    public void execute() throws XBProcessingException, IOException;
 }

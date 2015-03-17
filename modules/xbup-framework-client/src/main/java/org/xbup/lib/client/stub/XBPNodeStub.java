@@ -86,6 +86,7 @@ public class XBPNodeStub implements XBPManagerStub<XBRNode> {
                 serialOutput.process(dateTime);
                 return dateTime.getValue();
             }
+            procedureCall.execute();
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -117,8 +118,10 @@ public class XBPNodeStub implements XBPManagerStub<XBRNode> {
                     result.add(new XBRNode(client, serialOutput.pullLongAttribute()));
                 }
                 serialOutput.end();
+                procedureCall.execute();
                 return result;
             }
+            procedureCall.execute();
 
             return null;
         } catch (XBProcessingException | IOException ex) {
@@ -180,9 +183,10 @@ public class XBPNodeStub implements XBPManagerStub<XBRNode> {
                     result[i] = serialOutput.pullLongAttribute();
                 }
                 serialOutput.end();
+                procedureCall.execute();
                 return result;
             }
-
+            procedureCall.execute();
             return null;
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
@@ -206,6 +210,7 @@ public class XBPNodeStub implements XBPManagerStub<XBRNode> {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             UBNat32 index = new UBNat32();
             serialOutput.process(index);
+            procedureCall.execute();
 
             return new XBRNode(client, index.getLong());
         } catch (XBProcessingException | IOException ex) {

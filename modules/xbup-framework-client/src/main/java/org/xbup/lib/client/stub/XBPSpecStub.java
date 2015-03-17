@@ -108,6 +108,7 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             UBNat32 target = new UBNat32();
             serialOutput.process(target);
+            procedureCall.execute();
 
             // TODO type
             return target.isZero() ? null : new XBRRev(client, target.getLong());
@@ -169,9 +170,11 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
                     result.add(new XBRSpec(client, serialOutput.pullLongAttribute()));
                 }
                 serialOutput.end();
+                procedureCall.execute();
                 return result;
             }
             
+            procedureCall.execute();
             return null;
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
@@ -193,6 +196,7 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             UBNat32 index = new UBNat32();
             serialOutput.process(index);
+            procedureCall.execute();
 
             // TODO type?
             return new XBRSpec(client, index.getLong());
@@ -237,9 +241,11 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
                     result.add(new XBRFormatSpec(client, serialOutput.pullLongAttribute()));
                 }
                 serialOutput.end();
+                procedureCall.execute();
                 return result;
             }
             
+            procedureCall.execute();
             return null;
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
@@ -267,9 +273,11 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
                     result.add(new XBRGroupSpec(client, serialOutput.pullLongAttribute()));
                 }
                 serialOutput.end();
+                procedureCall.execute();
                 return result;
             }
             
+            procedureCall.execute();
             return null;
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
@@ -297,9 +305,11 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
                     result.add(new XBRBlockSpec(client, serialOutput.pullLongAttribute()));
                 }
                 serialOutput.end();
+                procedureCall.execute();
                 return result;
             }
             
+            procedureCall.execute();
             return null;
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
@@ -371,6 +381,7 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
             long index = serialOutput.pullLongAttribute();
             int bindType = serialOutput.pullIntAttribute();
             serialOutput.end();
+            procedureCall.execute();
 
             if (spec instanceof XBCFormatSpec) {
                 return bindType == 0 ? new XBRFormatCons(client, index) : new XBRFormatJoin(client, index);
@@ -413,6 +424,7 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
             long index = serialOutput.pullLongAttribute();
             int bindType = serialOutput.pullIntAttribute();
             serialOutput.end();
+            procedureCall.execute();
 
             if (spec instanceof XBCFormatSpec) {
                 return bindType == 0 ? new XBRFormatCons(client, index) : new XBRFormatJoin(client, index);
@@ -458,9 +470,11 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
                     result.add(new XBRSpecDef(client, serialOutput.pullLongAttribute()));
                 }
                 serialOutput.end();
+                procedureCall.execute();
                 return result;
             }
             
+            procedureCall.execute();
             return null;
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);

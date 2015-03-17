@@ -26,7 +26,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
@@ -37,9 +39,11 @@ import org.xbup.lib.core.parser.XBParserMode;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.core.parser.token.XBTBeginToken;
+import org.xbup.lib.core.parser.token.XBTEndToken;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.event.XBEventWriter;
+import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventTypeUndeclaringFilter;
 import org.xbup.lib.core.parser.token.event.convert.XBTPrintEventFilter;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
@@ -147,45 +151,18 @@ public class XBTCPServiceServer implements XBServiceServer {
         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
         blockType.setBlockDecl(new XBLBlockDecl(specService.getSpecXBPath(blockDecl.getBlockSpecRev().getParent()), blockDecl.getBlockSpecRev().getXBIndex().intValue()));
         XBExecutable executable = procMap.get(blockType);
+
+        XBTEventListener eventListener = new ExecutionEventListener(output);
+
         if (executable instanceof XBProcedure) {
-            ((XBProcedure) executable).execute(preloading, output);
+            ((XBProcedure) executable).execute(preloading, eventListener);
         } else if (executable instanceof XBMultiProcedure) {
-            ((XBMultiProcedure) executable).execute(blockType, preloading, output);
+            ((XBMultiProcedure) executable).execute(blockType, preloading, eventListener);
         } else {
             // TODO Exception processing
             throw new UnsupportedOperationException("Not supported yet.");
         }
-
-        /*XBTTypeDeclaringFilter decapsulator = new XBTTypeDeclaringFilter(null);
-         // TODO Optimalization should be done here
-         XBTProducer producer = new XBTProviderToProducer(new XBTPullProviderToProvider(new XBToXBTPullConvertor(input)));
-         producer.attachXBTListener(decapsulator);
-         XBTDefaultMatchingProvider source = new XBTDefaultMatchingProvider(new XBTProducerToProvider(decapsulator));
-         XBTListener target = new XBTEventListenerToListener(new XBTToXBEventConvertor(output));
-         source.matchBeginXBT();
-         XBBlockType blockType = source.matchTypeXBT();
-         // TODO: Temporary patch
-         long[] path = new long[5];
-         path[1] = 2;
-         path[2] = ((XBFBlockType) blockType).getGroupID().getLong() - 1;
-         path[3] = ((XBFBlockType) blockType).getBlockID().getLong();
-         blockType = new XBDeclBlockType(new XBLBlockDecl(path));
-         XBProcedure proc = getProcMap().get(blockType);
-         if (proc == null) {
-         // TODO: Return NOT FOUND
-         String handler = "";
-         for (int i = 0; i < path.length; i++) {
-         if (i > 0) {
-         handler += ",";
-         }
-         handler += String.valueOf(path[i]);
-         }
-         throw new XBParseException("Missing procedure handler: " + handler);
-         } else {
-         // XBFormatDecl decl = proc.getResultDecl();
-         // target = new XBTEncapsulator(new XBContext(getCatalog(), new XBCDeclaration(decl,getCatalog())), XBTDefaultEventListener.toXBTListener(new XBTToXBEventConvertor(output)));
-         proc.execute(source, target);
-         } */
+        output.putXBTToken(new XBTEndToken());
     }
 
     @Override
@@ -249,6 +226,27 @@ public class XBTCPServiceServer implements XBServiceServer {
 
         public XBBlockType getBlockType() {
             return typeToken.getBlockType();
+        }
+    }
+
+    private class ExecutionEventListener implements XBTEventListener {
+
+        private boolean started = false;
+        private final XBTEventTypeUndeclaringFilter output;
+
+        public ExecutionEventListener(XBTEventTypeUndeclaringFilter output) {
+            this.output = output;
+        }
+
+        @Override
+        public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
+            if (!started) {
+                output.putXBTToken(new XBTBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED)); // TODO terminated
+                output.putXBTToken(new XBTTypeToken(new XBFixedBlockType())); // TODO Replace with execution OK type
+                started = true;
+            }
+
+            output.putXBTToken(token);
         }
     }
 }

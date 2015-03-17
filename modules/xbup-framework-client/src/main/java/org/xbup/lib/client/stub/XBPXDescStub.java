@@ -101,9 +101,11 @@ public class XBPXDescStub implements XBPManagerStub<XBRXDesc> {
                     result.add(new XBRXDesc(client, serialOutput.pullLongAttribute()));
                 }
                 serialOutput.end();
+                procedureCall.execute();
                 return result;
             }
 
+            procedureCall.execute();
             return null;
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);

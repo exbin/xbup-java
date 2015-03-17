@@ -78,9 +78,11 @@ public class XBPXLangStub implements XBPManagerStub<XBRXLanguage> {
                     result.add(new XBRXLanguage(client, serialOutput.pullLongAttribute()));
                 }
                 serialOutput.end();
+                procedureCall.execute();
                 return result;
             }
             
+            procedureCall.execute();
             return null;
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);

@@ -58,6 +58,7 @@ class XBPStubUtils {
                 serialOutput.process(result);
                 return result.getLong();
             }
+            procedureCall.execute();
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -89,6 +90,7 @@ class XBPStubUtils {
                 serialOutput.process(result);
                 return result.getLong();
             }
+            procedureCall.execute();
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -116,6 +118,7 @@ class XBPStubUtils {
                 serialOutput.process(result);
                 return result.getLong();
             }
+            procedureCall.execute();
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -145,6 +148,7 @@ class XBPStubUtils {
                 serialOutput.process(result);
                 return result.getValue();
             }
+            procedureCall.execute();
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }

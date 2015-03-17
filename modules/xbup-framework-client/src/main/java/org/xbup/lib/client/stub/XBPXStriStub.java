@@ -26,16 +26,16 @@ import org.xbup.lib.core.catalog.base.XBCItem;
 /**
  * RPC stub class for XBRXStri catalog items.
  *
- * @version 0.1.25 2015/03/15
+ * @version 0.1.25 2015/03/17
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPXStriStub implements XBPManagerStub<XBRXStri> {
 
-    public static long[] ITEM_STRI_PROCEDURE = {0, 2, 18, 0, 0};
-    public static long[] TEXT_STRI_PROCEDURE = {0, 2, 18, 1, 0};
-    public static long[] NODEPATH_STRI_PROCEDURE = {0, 2, 18, 2, 0};
-    public static long[] ITEMSTRI_STRI_PROCEDURE = {0, 2, 18, 3, 0};
-    public static long[] STRISCOUNT_STRI_PROCEDURE = {0, 2, 18, 5, 0};
+    public static long[] ITEM_STRI_PROCEDURE = {0, 2, 14, 0, 0};
+    public static long[] TEXT_STRI_PROCEDURE = {0, 2, 14, 1, 0};
+    public static long[] NODEPATH_STRI_PROCEDURE = {0, 2, 14, 2, 0};
+    public static long[] ITEMSTRI_STRI_PROCEDURE = {0, 2, 14, 3, 0};
+    public static long[] STRISCOUNT_STRI_PROCEDURE = {0, 2, 14, 4, 0};
 
     private final XBCatalogServiceClient client;
 

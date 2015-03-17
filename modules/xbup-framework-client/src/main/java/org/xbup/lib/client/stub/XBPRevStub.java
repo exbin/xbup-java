@@ -78,6 +78,7 @@ public class XBPRevStub implements XBPManagerStub<XBRRev> {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             UBNat32 index = new UBNat32();
             serialOutput.process(index);
+            procedureCall.execute();
 
             long rev = index.getLong();
             if (spec instanceof XBCBlockSpec) {
@@ -110,6 +111,7 @@ public class XBPRevStub implements XBPManagerStub<XBRRev> {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             UBNat32 index = new UBNat32();
             serialOutput.process(index);
+            procedureCall.execute();
 
             long rev = index.getLong();
             if (spec instanceof XBCBlockSpec) {
@@ -157,9 +159,10 @@ public class XBPRevStub implements XBPManagerStub<XBRRev> {
                     }
                 }
                 serialOutput.end();
+                procedureCall.execute();
                 return result;
             }
-
+            procedureCall.execute();
             return null;
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);

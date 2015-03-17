@@ -67,6 +67,7 @@ public class XBPServiceStub {
             serialOutput.pullType();
             int loginResult = serialOutput.pullIntAttribute();
             serialOutput.end();
+            procedureCall.execute();
 
             return loginResult;
         } catch (XBProcessingException | IOException ex) {
@@ -88,6 +89,7 @@ public class XBPServiceStub {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             XBString version = new XBString();
             serialOutput.process(version);
+            procedureCall.execute();
 
             return version.getValue();
         } catch (XBProcessingException | IOException ex) {
@@ -105,6 +107,7 @@ public class XBPServiceStub {
             serialInput.begin();
             serialInput.putType(new XBDeclBlockType(STOP_SERVICE_PROCEDURE));
             serialInput.end();
+            procedureCall.execute();
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPServiceStub.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -122,6 +125,7 @@ public class XBPServiceStub {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             XBNatural version = new XBNatural();
             serialOutput.process(version);
+            procedureCall.execute();
             return true;
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPServiceStub.class.getName()).log(Level.SEVERE, null, ex);

@@ -52,7 +52,7 @@ import org.xbup.lib.core.stream.XBOutput;
 /**
  * XBService client connection handler using TCP/IP protocol.
  *
- * @version 0.1.25 2015/03/07
+ * @version 0.1.25 2015/03/17
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPServiceClient implements XBServiceClient {
@@ -121,7 +121,15 @@ public class XBTCPServiceClient implements XBServiceClient {
                     }
 
                     currentOutput = new XBTPullTypeDeclaringFilter(catalog, new XBTPrintPullFilter("I", new XBToXBTPullConvertor(new XBPullReader(socket.getInputStream(), XBParserMode.SINGLE_BLOCK))));
+                    XBTPullTypeDeclaringFilter output = (XBTPullTypeDeclaringFilter) currentOutput;
+                    output.pullXBTToken(); // Pull begin
+                    output.pullXBTToken(); // TODO : Pull type
                     return currentOutput;
+                }
+
+                @Override
+                public void execute() throws XBProcessingException, IOException {
+                    ((XBTPullTypeDeclaringFilter) currentOutput).pullXBTToken(); // TODO match that it's end token
                 }
             };
         } catch (XBProcessingException | IOException ex) {

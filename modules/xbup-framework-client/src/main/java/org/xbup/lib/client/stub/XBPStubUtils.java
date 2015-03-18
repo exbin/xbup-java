@@ -30,7 +30,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * RPC Stub utilities.
  *
- * @version 0.1.25 2015/03/15
+ * @version 0.1.25 2015/03/18
  * @author XBUP Project (http://xbup.org)
  */
 class XBPStubUtils {
@@ -63,6 +63,28 @@ class XBPStubUtils {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    /**
+     * Performs single RPC method passing single long attribute and receiving
+     * single long result.
+     *
+     * @param procedureCall procedure call
+     * @param type procedure type
+     * @param parameter long parameter
+     */
+    public static void longToVoidMethod(XBCallHandler procedureCall, XBBlockType type, Long parameter) {
+        try {
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
+            serialInput.begin();
+            serialInput.putType(type);
+            serialInput.putAttribute(parameter);
+            serialInput.end();
+
+            procedureCall.execute();
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

@@ -24,14 +24,13 @@ import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.manager.XBCXFileManager;
 import org.xbup.lib.core.catalog.base.service.XBCXFileService;
-import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.client.catalog.remote.XBRXFile;
 import org.xbup.lib.client.catalog.remote.manager.XBRXFileManager;
 
 /**
  * Remote service for XBRXFile items.
  *
- * @version 0.1.22 2013/07/28
+ * @version 0.1.25 2015/03/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXFileService extends XBRDefaultService<XBRXFile> implements XBCXFileService<XBRXFile> {
@@ -64,16 +63,16 @@ public class XBRXFileService extends XBRDefaultService<XBRXFile> implements XBCX
 
     @Override
     public String getExtensionName() {
-        return ((XBCExtension) itemManager).getExtensionName();
+        return ((XBRXFileManager) itemManager).getExtensionName();
     }
 
     @Override
     public void initializeExtension() {
-        ((XBCExtension) itemManager).initializeExtension();
+        ((XBRXFileManager) itemManager).initializeExtension();
     }
 
     @Override
     public List<XBCXFile> findFilesForNode(XBCNode node) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return ((XBRXFileManager) itemManager).findFilesForNode(node);
     }
 }

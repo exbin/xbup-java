@@ -30,7 +30,7 @@ import org.xbup.lib.client.stub.XBPXFileStub;
 /**
  * Remote manager class for XBRXFile catalog items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.1.25 2015/03/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXFileManager extends XBRDefaultManager<XBRXFile> implements XBCXFileManager<XBRXFile> {
@@ -86,6 +86,6 @@ public class XBRXFileManager extends XBRDefaultManager<XBRXFile> implements XBCX
 
     @Override
     public List<XBCXFile> findFilesForNode(XBCNode node) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return fileStub.findFilesForNode(node);
     }
 }

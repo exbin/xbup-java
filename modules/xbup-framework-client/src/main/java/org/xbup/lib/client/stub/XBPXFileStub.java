@@ -27,6 +27,7 @@ import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.remote.XBRNode;
 import org.xbup.lib.client.catalog.remote.XBRXFile;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
+import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.remote.XBCallHandler;
@@ -133,6 +134,10 @@ public class XBPXFileStub implements XBPManagerStub<XBRXFile> {
 
     @Override
     public long getItemsCount() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public List<XBCXFile> findFilesForNode(XBCNode node) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

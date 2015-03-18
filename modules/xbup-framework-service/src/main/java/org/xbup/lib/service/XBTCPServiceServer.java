@@ -60,7 +60,7 @@ import org.xbup.lib.core.remote.XBServiceServer;
 /**
  * XBUP level 1 RPC server using TCP/IP networking.
  *
- * @version 0.1.25 2015/03/10
+ * @version 0.1.25 2015/03/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPServiceServer implements XBServiceServer {
@@ -162,7 +162,7 @@ public class XBTCPServiceServer implements XBServiceServer {
             // TODO Exception processing
             throw new UnsupportedOperationException("Not supported yet.");
         }
-        output.putXBTToken(new XBTEndToken());
+        eventListener.putXBTToken(new XBTEndToken());
     }
 
     @Override

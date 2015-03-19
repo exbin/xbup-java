@@ -18,6 +18,7 @@ package org.xbup.lib.client.catalog.remote.service;
 
 import java.util.List;
 import javax.swing.ImageIcon;
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCItem;
@@ -32,7 +33,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRXIconManager;
 /**
  * Remote service for XBRXIcon items.
  *
- * @version 0.1.24 2014/11/26
+ * @version 0.1.25 2015/03/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXIconService extends XBRDefaultService<XBRXIcon> implements XBCXIconService<XBRXIcon> {
@@ -41,6 +42,11 @@ public class XBRXIconService extends XBRDefaultService<XBRXIcon> implements XBCX
         super(catalog);
         itemManager = new XBRXIconManager(catalog);
         catalog.addCatalogManager(XBCXIconManager.class, itemManager);
+    }
+
+    @Override
+    public XBRXIcon itemConstructor(XBCatalogServiceClient client, long itemId) {
+        return new XBRXIcon(client, itemId);
     }
 
     @Override

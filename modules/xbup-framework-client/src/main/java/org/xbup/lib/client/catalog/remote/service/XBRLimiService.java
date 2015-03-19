@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.client.catalog.remote.service;
 
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.manager.XBCLimiManager;
 import org.xbup.lib.core.catalog.base.service.XBCLimiService;
@@ -25,7 +26,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRLimiManager;
 /**
  * Remote service for XBRItemLimi items.
  *
- * @version 0.1.21 2012/01/01
+ * @version 0.1.25 2015/03/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRLimiService extends XBRDefaultService<XBRItemLimi> implements XBCLimiService<XBRItemLimi> {
@@ -36,4 +37,8 @@ public class XBRLimiService extends XBRDefaultService<XBRItemLimi> implements XB
         catalog.addCatalogManager(XBCLimiManager.class, itemManager);
     }
 
+    @Override
+    public XBRItemLimi itemConstructor(XBCatalogServiceClient client, long itemId) {
+        return new XBRItemLimi(client, itemId);
+    }
 }

@@ -17,6 +17,7 @@
 package org.xbup.lib.client.catalog.remote.service;
 
 import java.util.List;
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
@@ -51,7 +52,7 @@ import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
 /**
  * Remote service for XBRSpec items.
  *
- * @version 0.1.24 2014/11/18
+ * @version 0.1.25 2015/03/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRSpecService extends XBRDefaultService<XBRSpec> implements XBCSpecService<XBRSpec> {
@@ -60,6 +61,11 @@ public class XBRSpecService extends XBRDefaultService<XBRSpec> implements XBCSpe
         super(catalog);
         itemManager = new XBRSpecManager(catalog);
         catalog.addCatalogManager(XBCSpecManager.class, itemManager);
+    }
+
+    @Override
+    public XBRSpec itemConstructor(XBCatalogServiceClient client, long itemId) {
+        return new XBRSpec(client, itemId);
     }
 
     @Override

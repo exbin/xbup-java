@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.client.catalog.remote.service;
 
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.manager.XBCXInfoManager;
@@ -26,7 +27,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRInfoManager;
 /**
  * Remote service for XBRItemInfo items.
  *
- * @version 0.1.21 2012/01/01
+ * @version 0.1.25 2015/03/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRInfoService extends XBRDefaultService<XBRItemInfo> implements XBCXInfoService<XBRItemInfo> {
@@ -38,8 +39,12 @@ public class XBRInfoService extends XBRDefaultService<XBRItemInfo> implements XB
     }
 
     @Override
-    public XBRItemInfo getNodeInfo(XBCNode dir) {
-        return ((XBRInfoManager)itemManager).getNodeInfo(dir);
+    public XBRItemInfo itemConstructor(XBCatalogServiceClient client, long itemId) {
+        return new XBRItemInfo(client, itemId);
     }
 
+    @Override
+    public XBRItemInfo getNodeInfo(XBCNode dir) {
+        return ((XBRInfoManager) itemManager).getNodeInfo(dir);
+    }
 }

@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.client.catalog.remote.service;
 
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.manager.XBCXLangManager;
 import org.xbup.lib.core.catalog.base.service.XBCXLangService;
@@ -26,7 +27,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRXLangManager;
 /**
  * Remote service for XBRXLanguage items.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.25 2015/03/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXLangService extends XBRDefaultService<XBRXLanguage> implements XBCXLangService<XBRXLanguage> {
@@ -38,8 +39,13 @@ public class XBRXLangService extends XBRDefaultService<XBRXLanguage> implements 
     }
 
     @Override
+    public XBRXLanguage itemConstructor(XBCatalogServiceClient client, long itemId) {
+        return new XBRXLanguage(client, itemId);
+    }
+
+    @Override
     public XBRXLanguage getDefaultLang() {
-        return ((XBRXLangManager)itemManager).getDefaultLang();
+        return ((XBRXLangManager) itemManager).getDefaultLang();
     }
 
     @Override

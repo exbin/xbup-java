@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.client.catalog.remote.service;
 
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXFile;
@@ -29,7 +30,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRXHDocManager;
 /**
  * Remote service for XBRXHDoc items.
  *
- * @version 0.1.21 2011/02/05
+ * @version 0.1.25 2015/03/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXHDocService extends XBRDefaultService<XBRXHDoc> implements XBCXHDocService<XBRXHDoc> {
@@ -38,6 +39,11 @@ public class XBRXHDocService extends XBRDefaultService<XBRXHDoc> implements XBCX
         super(catalog);
         itemManager = new XBRXHDocManager(catalog);
         catalog.addCatalogManager(XBCXHDocManager.class, itemManager);
+    }
+
+    @Override
+    public XBRXHDoc itemConstructor(XBCatalogServiceClient client, long itemId) {
+        return new XBRXHDoc(client, itemId);
     }
 
     public XBRXHDoc findById(Long id) {

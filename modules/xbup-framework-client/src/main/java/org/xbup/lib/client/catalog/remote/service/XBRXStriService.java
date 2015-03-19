@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.client.catalog.remote.service;
 
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCSpec;
@@ -29,7 +30,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRXStriManager;
 /**
  * Remote service for XBRXStri items.
  *
- * @version 0.1.24 2014/11/17
+ * @version 0.1.25 2015/03/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXStriService extends XBRDefaultService<XBRXStri> implements XBCXStriService<XBRXStri> {
@@ -38,6 +39,11 @@ public class XBRXStriService extends XBRDefaultService<XBRXStri> implements XBCX
         super(catalog);
         itemManager = new XBRXStriManager(catalog);
         catalog.addCatalogManager(XBCXStriManager.class, itemManager);
+    }
+
+    @Override
+    public XBRXStri itemConstructor(XBCatalogServiceClient client, long itemId) {
+        return new XBRXStri(client, itemId);
     }
 
     @Override

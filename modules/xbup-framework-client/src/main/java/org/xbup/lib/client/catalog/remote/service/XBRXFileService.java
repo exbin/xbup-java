@@ -19,6 +19,7 @@ package org.xbup.lib.client.catalog.remote.service;
 import java.io.InputStream;
 import java.util.List;
 import javax.swing.ImageIcon;
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXFile;
@@ -30,7 +31,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRXFileManager;
 /**
  * Remote service for XBRXFile items.
  *
- * @version 0.1.25 2015/03/18
+ * @version 0.1.25 2015/03/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXFileService extends XBRDefaultService<XBRXFile> implements XBCXFileService<XBRXFile> {
@@ -39,6 +40,11 @@ public class XBRXFileService extends XBRDefaultService<XBRXFile> implements XBCX
         super(catalog);
         itemManager = new XBRXFileManager(catalog);
         catalog.addCatalogManager(XBCXFileManager.class, itemManager);
+    }
+
+    @Override
+    public XBRXFile itemConstructor(XBCatalogServiceClient client, long itemId) {
+        return new XBRXFile(client, itemId);
     }
 
     @Override

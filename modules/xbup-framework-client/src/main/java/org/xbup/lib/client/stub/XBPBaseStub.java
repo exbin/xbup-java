@@ -23,9 +23,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.remote.XBRSpec;
+import org.xbup.lib.client.catalog.remote.service.XBRService;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.catalog.base.XBCBase;
-import org.xbup.lib.core.catalog.base.service.XBCService;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.remote.XBCallHandler;
 import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
@@ -34,17 +34,17 @@ import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
 /**
  * RPC stub base class for catalog items.
  *
- * @version 0.1.25 2015/03/18
+ * @version 0.1.25 2015/03/19
  * @author XBUP Project (http://xbup.org)
  * @param <T> entity class
  */
 public class XBPBaseStub<T extends XBCBase> implements XBPManagerStub<XBCBase> {
 
     private final XBCatalogServiceClient client;
-    private final XBCService<T> service;
+    private final XBRService<T> service;
     private final XBPBaseProcedureType baseTypes;
 
-    public XBPBaseStub(XBCatalogServiceClient client, XBCService<T> service, XBPBaseProcedureType baseTypes) {
+    public XBPBaseStub(XBCatalogServiceClient client, XBRService<T> service, XBPBaseProcedureType baseTypes) {
         this.client = client;
         this.service = service;
         this.baseTypes = baseTypes;
@@ -53,14 +53,7 @@ public class XBPBaseStub<T extends XBCBase> implements XBPManagerStub<XBCBase> {
     @Override
     public XBCBase createItem() {
         final Long itemId = XBPStubUtils.voidToLongMethod(client.procedureCall(), baseTypes.getCreateItemType());
-        // TODO service factory/constructor method
-        return new XBCBase() {
-
-            @Override
-            public Long getId() {
-                return itemId;
-            }
-        };
+        return service.itemConstructor(client, itemId);
     }
 
     @Override
@@ -76,14 +69,7 @@ public class XBPBaseStub<T extends XBCBase> implements XBPManagerStub<XBCBase> {
     @Override
     public XBCBase getItem(long itemId) {
         final Long foundItemId = XBPStubUtils.longToLongMethod(client.procedureCall(), baseTypes.getItemByIdType(), itemId);
-        // TODO service factory/constructor method
-        return new XBCBase() {
-
-            @Override
-            public Long getId() {
-                return foundItemId;
-            }
-        };
+        return service.itemConstructor(client, itemId);
     }
 
     @Override
@@ -109,7 +95,7 @@ public class XBPBaseStub<T extends XBCBase> implements XBPManagerStub<XBCBase> {
                 procedureCall.execute();
                 return result;
             }
-            
+
             procedureCall.execute();
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);

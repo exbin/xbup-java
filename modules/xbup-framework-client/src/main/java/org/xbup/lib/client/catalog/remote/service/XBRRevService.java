@@ -17,6 +17,7 @@
 package org.xbup.lib.client.catalog.remote.service;
 
 import java.util.List;
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
@@ -43,7 +44,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRRevManager;
 /**
  * Remote service for XBRRev items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.1.25 2015/03/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRRevService extends XBRDefaultService<XBRRev> implements XBCRevService<XBRRev> {
@@ -52,6 +53,11 @@ public class XBRRevService extends XBRDefaultService<XBRRev> implements XBCRevSe
         super(catalog);
         itemManager = new XBRRevManager(catalog);
         catalog.addCatalogManager(XBCRevManager.class, itemManager);
+    }
+
+    @Override
+    public XBRRev itemConstructor(XBCatalogServiceClient client, long itemId) {
+        return new XBRRev(client, itemId);
     }
 
     @Override

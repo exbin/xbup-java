@@ -17,6 +17,7 @@
 package org.xbup.lib.client.catalog.remote.service;
 
 import java.util.List;
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCXBlockLine;
@@ -32,7 +33,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRXLineManager;
 /**
  * Remote service for XBRXBlockLine items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.1.25 2015/03/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXLineService extends XBRDefaultService<XBRXBlockLine> implements XBCXLineService<XBRXBlockLine> {
@@ -44,48 +45,53 @@ public class XBRXLineService extends XBRDefaultService<XBRXBlockLine> implements
     }
 
     @Override
+    public XBRXBlockLine itemConstructor(XBCatalogServiceClient client, long itemId) {
+        return new XBRXBlockLine(client, itemId);
+    }
+
+    @Override
     public XBRXBlockLine findById(long id) {
-        return ((XBRXLineManager)itemManager).findById(id);
+        return ((XBRXLineManager) itemManager).findById(id);
     }
 
     @Override
     public XBRXBlockLine findLineByPR(XBCBlockRev rev, long priority) {
-        return ((XBRXLineManager)itemManager).findLineByPR(rev, priority);
+        return ((XBRXLineManager) itemManager).findLineByPR(rev, priority);
     }
 
     @Override
     public XBRXPlugLine findPlugLineById(long id) {
-        return ((XBRXLineManager)itemManager).findPlugLineById(id);
+        return ((XBRXLineManager) itemManager).findPlugLineById(id);
     }
 
     @Override
     public Long getAllPlugLinesCount() {
-        return ((XBRXLineManager)itemManager).getAllPlugLinesCount();
+        return ((XBRXLineManager) itemManager).getAllPlugLinesCount();
     }
 
     @Override
     public List<XBCXBlockLine> getLines(XBCBlockRev rev) {
-        return ((XBRXLineManager)itemManager).getLines(rev);
+        return ((XBRXLineManager) itemManager).getLines(rev);
     }
 
     @Override
     public long getLinesCount(XBCBlockRev rev) {
-        return ((XBRXLineManager)itemManager).getLinesCount(rev);
+        return ((XBRXLineManager) itemManager).getLinesCount(rev);
     }
 
     @Override
     public XBRXPlugLine getPlugLine(XBCXPlugin plugin, long lineIndex) {
-        return ((XBRXLineManager)itemManager).getPlugLine(plugin, lineIndex);
+        return ((XBRXLineManager) itemManager).getPlugLine(plugin, lineIndex);
     }
 
     @Override
     public List<XBCXPlugLine> getPlugLines(XBCXPlugin plugin) {
-        return ((XBRXLineManager)itemManager).getPlugLines(plugin);
+        return ((XBRXLineManager) itemManager).getPlugLines(plugin);
     }
 
     @Override
     public long getPlugLinesCount(XBCXPlugin plugin) {
-        return ((XBRXLineManager)itemManager).getPlugLinesCount(plugin);
+        return ((XBRXLineManager) itemManager).getPlugLinesCount(plugin);
     }
 
     @Override

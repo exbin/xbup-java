@@ -17,6 +17,7 @@
 package org.xbup.lib.client.catalog.remote.service;
 
 import java.util.List;
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCXBlockPane;
@@ -32,7 +33,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRXPaneManager;
 /**
  * Remote service for XBRXBlockPane items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.1.25 2015/03/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXPaneService extends XBRDefaultService<XBRXBlockPane> implements XBCXPaneService<XBRXBlockPane> {
@@ -44,48 +45,53 @@ public class XBRXPaneService extends XBRDefaultService<XBRXBlockPane> implements
     }
 
     @Override
+    public XBRXBlockPane itemConstructor(XBCatalogServiceClient client, long itemId) {
+        return new XBRXBlockPane(client, itemId);
+    }
+
+    @Override
     public XBRXBlockPane findById(long id) {
-        return ((XBRXPaneManager)itemManager).findById(id);
+        return ((XBRXPaneManager) itemManager).findById(id);
     }
 
     @Override
     public XBRXBlockPane findPaneByPR(XBCBlockRev rev, long priority) {
-        return ((XBRXPaneManager)itemManager).findPaneByPR(rev, priority);
+        return ((XBRXPaneManager) itemManager).findPaneByPR(rev, priority);
     }
 
     @Override
     public XBRXPlugPane findPlugPaneById(long id) {
-        return ((XBRXPaneManager)itemManager).findPlugPaneById(id);
+        return ((XBRXPaneManager) itemManager).findPlugPaneById(id);
     }
 
     @Override
     public Long getAllPlugPanesCount() {
-        return ((XBRXPaneManager)itemManager).getAllPlugPanesCount();
+        return ((XBRXPaneManager) itemManager).getAllPlugPanesCount();
     }
 
     @Override
     public List<XBCXBlockPane> getPanes(XBCBlockRev rev) {
-        return ((XBRXPaneManager)itemManager).getPanes(rev);
+        return ((XBRXPaneManager) itemManager).getPanes(rev);
     }
 
     @Override
     public long getPanesCount(XBCBlockRev rev) {
-        return ((XBRXPaneManager)itemManager).getPanesCount(rev);
+        return ((XBRXPaneManager) itemManager).getPanesCount(rev);
     }
 
     @Override
     public XBRXPlugPane getPlugPane(XBCXPlugin plugin, long pane) {
-        return ((XBRXPaneManager)itemManager).getPlugPane(plugin, pane);
+        return ((XBRXPaneManager) itemManager).getPlugPane(plugin, pane);
     }
 
     @Override
     public List<XBCXPlugPane> getPlugPanes(XBCXPlugin plugin) {
-        return ((XBRXPaneManager)itemManager).getPlugPanes(plugin);
+        return ((XBRXPaneManager) itemManager).getPlugPanes(plugin);
     }
 
     @Override
     public long getPlugPanesCount(XBCXPlugin plugin) {
-        return ((XBRXPaneManager)itemManager).getPlugPanesCount(plugin);
+        return ((XBRXPaneManager) itemManager).getPlugPanesCount(plugin);
     }
 
     @Override

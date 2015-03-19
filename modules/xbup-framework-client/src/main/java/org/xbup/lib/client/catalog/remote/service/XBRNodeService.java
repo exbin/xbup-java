@@ -18,6 +18,7 @@ package org.xbup.lib.client.catalog.remote.service;
 
 import java.util.Date;
 import java.util.List;
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCRoot;
@@ -29,7 +30,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRNodeManager;
 /**
  * Remote service for XBRNode items.
  *
- * @version 0.1.25 2015/03/11
+ * @version 0.1.25 2015/03/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRNodeService extends XBRDefaultService<XBRNode> implements XBCNodeService<XBRNode> {
@@ -38,6 +39,11 @@ public class XBRNodeService extends XBRDefaultService<XBRNode> implements XBCNod
         super(catalog);
         itemManager = new XBRNodeManager(catalog);
         catalog.addCatalogManager(XBCNodeManager.class, itemManager);
+    }
+
+    @Override
+    public XBRNode itemConstructor(XBCatalogServiceClient client, long itemId) {
+        return new XBRNode(client, itemId);
     }
 
     @Override

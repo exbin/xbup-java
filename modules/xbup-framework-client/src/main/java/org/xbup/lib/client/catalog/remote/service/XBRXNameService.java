@@ -17,6 +17,7 @@
 package org.xbup.lib.client.catalog.remote.service;
 
 import java.util.List;
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
@@ -32,7 +33,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRXNameManager;
 /**
  * Remote service for XBRXName items.
  *
- * @version 0.1.24 2014/11/17
+ * @version 0.1.25 2015/03/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXNameService extends XBRDefaultService<XBRXName> implements XBCXNameService<XBRXName> {
@@ -41,6 +42,11 @@ public class XBRXNameService extends XBRDefaultService<XBRXName> implements XBCX
         super(catalog);
         itemManager = new XBRXNameManager(catalog);
         catalog.addCatalogManager(XBCXNameManager.class, itemManager);
+    }
+
+    @Override
+    public XBRXName itemConstructor(XBCatalogServiceClient client, long itemId) {
+        return new XBRXName(client, itemId);
     }
 
     @Override

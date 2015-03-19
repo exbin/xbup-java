@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.client.catalog.remote.service;
 
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.manager.XBCItemManager;
 import org.xbup.lib.core.catalog.base.service.XBCItemService;
@@ -25,7 +26,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRItemManager;
 /**
  * Remote service for XBRItem items.
  *
- * @version 0.1.21 2012/01/01
+ * @version 0.1.25 2015/03/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRItemService extends XBRDefaultService<XBRItem> implements XBCItemService<XBRItem> {
@@ -34,5 +35,10 @@ public class XBRItemService extends XBRDefaultService<XBRItem> implements XBCIte
         super(catalog);
         itemManager = new XBRItemManager(catalog);
         catalog.addCatalogManager(XBCItemManager.class, itemManager);
+    }
+
+    @Override
+    public XBRItem itemConstructor(XBCatalogServiceClient client, long itemId) {
+        return new XBRItem(client, itemId);
     }
 }

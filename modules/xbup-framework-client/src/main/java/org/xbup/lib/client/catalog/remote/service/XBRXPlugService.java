@@ -17,6 +17,7 @@
 package org.xbup.lib.client.catalog.remote.service;
 
 import java.io.InputStream;
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
@@ -29,7 +30,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRXPlugManager;
 /**
  * Remote service for XBRXPlugin items.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.25 2015/03/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXPlugService extends XBRDefaultService<XBRXPlugin> implements XBCXPlugService<XBRXPlugin> {
@@ -41,28 +42,33 @@ public class XBRXPlugService extends XBRDefaultService<XBRXPlugin> implements XB
     }
 
     @Override
+    public XBRXPlugin itemConstructor(XBCatalogServiceClient client, long itemId) {
+        return new XBRXPlugin(client, itemId);
+    }
+
+    @Override
     public XBRXPlugin findById(long id) {
-        return ((XBRXPlugManager)itemManager).findById(id);
+        return ((XBRXPlugManager) itemManager).findById(id);
     }
 
     @Override
     public XBRXPlugin findPlugin(XBCNode node, Long index) {
-        return ((XBRXPlugManager)itemManager).findPlugin(node, index);
+        return ((XBRXPlugManager) itemManager).findPlugin(node, index);
     }
 
     @Override
     public Long getAllPluginCount() {
-        return ((XBRXPlugManager)itemManager).getAllPluginCount();
+        return ((XBRXPlugManager) itemManager).getAllPluginCount();
     }
 
     @Override
     public InputStream getPlugin(XBCXPlugin plugin) {
-        return ((XBRXPlugManager)itemManager).getPlugin(plugin);
+        return ((XBRXPlugManager) itemManager).getPlugin(plugin);
     }
 
     @Override
     public Long[] getPluginXBPath(XBCXPlugin plugin) {
-        return ((XBRXPlugManager)itemManager).getPluginXBPath(plugin);
+        return ((XBRXPlugManager) itemManager).getPluginXBPath(plugin);
     }
 
     @Override

@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.client.catalog.remote.service;
 
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.manager.XBCTranManager;
 import org.xbup.lib.core.catalog.base.service.XBCTranService;
@@ -25,7 +26,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRTranManager;
 /**
  * Remote service for XBRTran items.
  *
- * @version 0.1.21 2012/01/01
+ * @version 0.1.25 2015/03/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRTranService extends XBRDefaultService<XBRTran> implements XBCTranService<XBRTran> {
@@ -36,4 +37,8 @@ public class XBRTranService extends XBRDefaultService<XBRTran> implements XBCTra
         catalog.addCatalogManager(XBCTranManager.class, itemManager);
     }
 
+    @Override
+    public XBRTran itemConstructor(XBCatalogServiceClient client, long itemId) {
+        return new XBRTran(client, itemId);
+    }
 }

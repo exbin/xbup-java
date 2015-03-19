@@ -16,9 +16,9 @@
  */
 package org.xbup.lib.client.catalog.remote.service;
 
-import org.xbup.lib.client.catalog.XBRCatalog;
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.core.catalog.base.XBCBase;
-import org.xbup.lib.core.catalog.base.service.XBCDefaultItemService;
+import org.xbup.lib.core.catalog.base.service.XBCService;
 
 /**
  * Default remote service.
@@ -27,11 +27,14 @@ import org.xbup.lib.core.catalog.base.service.XBCDefaultItemService;
  * @author XBUP Project (http://xbup.org)
  * @param <T> base entity
  */
-public abstract class XBRDefaultService<T extends XBCBase> extends XBCDefaultItemService<T> implements XBRService<T> {
+public interface XBRService<T extends XBCBase> extends XBCService<T> {
 
-    protected XBRCatalog catalog;
-
-    public XBRDefaultService(XBRCatalog catalog) {
-        this.catalog = catalog;
-    }
+    /**
+     * Returns new instance of item using service client.
+     *
+     * @param client service client
+     * @param itemId item ID
+     * @return new instance of item
+     */
+    public T itemConstructor(XBCatalogServiceClient client, long itemId);
 }

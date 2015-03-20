@@ -39,10 +39,10 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * RPC stub class for XBRNode catalog items.
  *
- * @version 0.1.25 2015/03/15
+ * @version 0.1.25 2015/03/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPNodeStub implements XBPManagerStub<XBRNode> {
+public class XBPNodeStub extends XBPBaseStub<XBRNode> {
 
     public static long[] ROOT_NODE_PROCEDURE = {0, 2, 4, 0, 0};
     public static long[] SUBNODE_NODE_PROCEDURE = {0, 2, 4, 1, 0};
@@ -62,6 +62,12 @@ public class XBPNodeStub implements XBPManagerStub<XBRNode> {
     private final XBCatalogServiceClient client;
 
     public XBPNodeStub(XBCatalogServiceClient client) {
+        super(client, new XBPConstructorMethod<XBRNode>() {
+            @Override
+            public XBRNode itemConstructor(XBCatalogServiceClient client, long itemId) {
+                return new XBRNode(client, itemId);
+            }
+        }, null);
         this.client = client;
     }
 
@@ -245,35 +251,5 @@ public class XBPNodeStub implements XBPManagerStub<XBRNode> {
     public XBCRoot getRoot(long rootId) {
         Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(ROOT_PROCEDURE), rootId);
         return index == null ? null : new XBRRoot(client, index);
-    }
-
-    @Override
-    public XBRNode createItem() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void persistItem(XBRNode item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void removeItem(XBRNode item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBRNode getItem(long itemId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<XBRNode> getAllItems() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long getItemsCount() {
-        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(NODESCOUNT_NODE_PROCEDURE));
     }
 }

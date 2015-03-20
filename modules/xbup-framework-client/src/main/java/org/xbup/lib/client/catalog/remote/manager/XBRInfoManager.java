@@ -19,16 +19,16 @@ package org.xbup.lib.client.catalog.remote.manager;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.manager.XBCXInfoManager;
-import org.xbup.lib.client.catalog.remote.XBRItemInfo;
+import org.xbup.lib.client.catalog.remote.XBRXItemInfo;
 import org.xbup.lib.client.stub.XBPInfoStub;
 
 /**
- * Remote manager class for XBRItemInfo catalog items.
+ * Remote manager class for XBRXItemInfo catalog items.
  *
  * @version 0.1.25 2015/02/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBRInfoManager extends XBRDefaultManager<XBRItemInfo> implements XBCXInfoManager<XBRItemInfo> {
+public class XBRInfoManager extends XBRDefaultManager<XBRXItemInfo> implements XBCXInfoManager<XBRXItemInfo> {
 
     private final XBPInfoStub infoStub;
 
@@ -38,7 +38,7 @@ public class XBRInfoManager extends XBRDefaultManager<XBRItemInfo> implements XB
     }
 
     @Override
-    public XBRItemInfo getNodeInfo(XBCNode node) {
+    public XBRXItemInfo getNodeInfo(XBCNode node) {
         return infoStub.getNodeInfo(node);
     }
 }

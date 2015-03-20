@@ -16,7 +16,6 @@
  */
 package org.xbup.lib.client.stub;
 
-import java.util.List;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.remote.XBRBlockRev;
 import org.xbup.lib.client.catalog.remote.XBRXBlockLine;
@@ -30,10 +29,10 @@ import org.xbup.lib.core.catalog.base.XBCXPlugin;
 /**
  * RPC stub class for XBRXBlockLine catalog items.
  *
- * @version 0.1.25 2015/03/15
+ * @version 0.1.25 2015/03/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPXLineStub implements XBPManagerStub<XBRXBlockLine> {
+public class XBPXLineStub extends XBPBaseStub<XBRXBlockLine> {
 
     public static long[] REV_LINE_PROCEDURE = {0, 2, 15, 0, 0};
     public static long[] PLUGIN_LINE_PROCEDURE = {0, 2, 15, 1, 0};
@@ -48,6 +47,12 @@ public class XBPXLineStub implements XBPManagerStub<XBRXBlockLine> {
     private final XBCatalogServiceClient client;
 
     public XBPXLineStub(XBCatalogServiceClient client) {
+        super(client, new XBPConstructorMethod<XBRXBlockLine>() {
+            @Override
+            public XBRXBlockLine itemConstructor(XBCatalogServiceClient client, long itemId) {
+                return new XBRXBlockLine(client, itemId);
+            }
+        }, null);
         this.client = client;
     }
 
@@ -86,35 +91,5 @@ public class XBPXLineStub implements XBPManagerStub<XBRXBlockLine> {
 
     public Long getAllPlugLinesCount() {
         return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(PLUGLINESCOUNT_LINE_PROCEDURE));
-    }
-
-    @Override
-    public XBRXBlockLine createItem() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void persistItem(XBRXBlockLine item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void removeItem(XBRXBlockLine item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBRXBlockLine getItem(long itemId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<XBRXBlockLine> getAllItems() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long getItemsCount() {
-        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(LINESCOUNT_LINE_PROCEDURE));
     }
 }

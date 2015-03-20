@@ -42,11 +42,6 @@ public class XBRNodeService extends XBRDefaultService<XBRNode> implements XBCNod
     }
 
     @Override
-    public XBRNode itemConstructor(XBCatalogServiceClient client, long itemId) {
-        return new XBRNode(client, itemId);
-    }
-
-    @Override
     public XBRNode getRootNode() {
         return ((XBRNodeManager) itemManager).getRootNode();
     }

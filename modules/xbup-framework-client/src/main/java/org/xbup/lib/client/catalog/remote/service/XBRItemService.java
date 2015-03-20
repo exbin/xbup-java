@@ -36,9 +36,4 @@ public class XBRItemService extends XBRDefaultService<XBRItem> implements XBCIte
         itemManager = new XBRItemManager(catalog);
         catalog.addCatalogManager(XBCItemManager.class, itemManager);
     }
-
-    @Override
-    public XBRItem itemConstructor(XBCatalogServiceClient client, long itemId) {
-        return new XBRItem(client, itemId);
-    }
 }

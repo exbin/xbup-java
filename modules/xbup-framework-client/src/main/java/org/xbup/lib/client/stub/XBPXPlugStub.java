@@ -16,7 +16,6 @@
  */
 package org.xbup.lib.client.stub;
 
-import java.util.List;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.remote.XBRNode;
 import org.xbup.lib.client.catalog.remote.XBRXFile;
@@ -27,10 +26,10 @@ import org.xbup.lib.core.catalog.base.XBCXFile;
 /**
  * RPC stub class for XBRXPlugin catalog items.
  *
- * @version 0.1.25 2015/03/15
+ * @version 0.1.25 2015/03/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPXPlugStub implements XBPManagerStub<XBRXPlugin> {
+public class XBPXPlugStub extends XBPBaseStub<XBRXPlugin> {
 
     public static long[] OWNER_PLUGIN_PROCEDURE = {0, 2, 14, 0, 0};
     public static long[] FILE_PLUGIN_PROCEDURE = {0, 2, 14, 1, 0};
@@ -39,6 +38,12 @@ public class XBPXPlugStub implements XBPManagerStub<XBRXPlugin> {
     private final XBCatalogServiceClient client;
 
     public XBPXPlugStub(XBCatalogServiceClient client) {
+        super(client, new XBPConstructorMethod<XBRXPlugin>() {
+            @Override
+            public XBRXPlugin itemConstructor(XBCatalogServiceClient client, long itemId) {
+                return new XBRXPlugin(client, itemId);
+            }
+        }, null);
         this.client = client;
     }
 
@@ -54,35 +59,5 @@ public class XBPXPlugStub implements XBPManagerStub<XBRXPlugin> {
 
     public Long getPluginIndex(long pluginId) {
         return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(INDEX_PLUGIN_PROCEDURE), pluginId);
-    }
-
-    @Override
-    public XBRXPlugin createItem() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void persistItem(XBRXPlugin item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void removeItem(XBRXPlugin item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBRXPlugin getItem(long itemId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<XBRXPlugin> getAllItems() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long getItemsCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

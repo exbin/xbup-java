@@ -38,10 +38,10 @@ import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
 /**
  * RPC stub class for XBRXName catalog items.
  *
- * @version 0.1.25 2015/03/15
+ * @version 0.1.25 2015/03/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPXNameStub implements XBPManagerStub<XBRXName> {
+public class XBPXNameStub extends XBPBaseStub<XBRXName> {
 
     public static long[] ITEM_NAME_PROCEDURE = {0, 2, 9, 0, 0};
     public static long[] TEXT_NAME_PROCEDURE = {0, 2, 9, 1, 0};
@@ -54,6 +54,12 @@ public class XBPXNameStub implements XBPManagerStub<XBRXName> {
     private final XBCatalogServiceClient client;
 
     public XBPXNameStub(XBCatalogServiceClient client) {
+        super(client, new XBPConstructorMethod<XBRXName>() {
+            @Override
+            public XBRXName itemConstructor(XBCatalogServiceClient client, long itemId) {
+                return new XBRXName(client, itemId);
+            }
+        }, null);
         this.client = client;
     }
 
@@ -111,35 +117,5 @@ public class XBPXNameStub implements XBPManagerStub<XBRXName> {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-    }
-
-    @Override
-    public XBRXName createItem() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void persistItem(XBRXName item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void removeItem(XBRXName item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBRXName getItem(long itemId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<XBRXName> getAllItems() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long getItemsCount() {
-        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(NAMESCOUNT_NAME_PROCEDURE));
     }
 }

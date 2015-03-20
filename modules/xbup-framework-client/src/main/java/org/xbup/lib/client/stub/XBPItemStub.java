@@ -16,19 +16,17 @@
  */
 package org.xbup.lib.client.stub;
 
-import java.util.List;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.remote.XBRItem;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.catalog.base.XBCItem;
 
 /**
  * RPC stub class for XBRItem catalog items.
  *
- * @version 0.1.25 2015/03/15
+ * @version 0.1.25 2015/03/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPItemStub implements XBPManagerStub<XBCItem> {
+public class XBPItemStub extends XBPBaseStub<XBRItem> {
 
     public static long[] OWNER_ITEM_PROCEDURE = {0, 2, 3, 0, 0};
     public static long[] XBINDEX_ITEM_PROCEDURE = {0, 2, 3, 1, 0};
@@ -37,45 +35,21 @@ public class XBPItemStub implements XBPManagerStub<XBCItem> {
     private final XBCatalogServiceClient client;
 
     public XBPItemStub(XBCatalogServiceClient client) {
+        super(client, new XBPConstructorMethod<XBRItem>() {
+            @Override
+            public XBRItem itemConstructor(XBCatalogServiceClient client, long itemId) {
+                return new XBRItem(client, itemId);
+            }
+        }, null);
         this.client = client;
     }
 
     public XBRItem getParent(Long itemId) {
         Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(OWNER_ITEM_PROCEDURE), itemId);
-        return index == null ? null : new XBRItem(client, index);
+        return index == null ? null : constructItem(index);
     }
 
     public Long getXBIndex(Long itemId) {
         return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(XBINDEX_ITEM_PROCEDURE), itemId);
-    }
-
-    @Override
-    public XBCItem createItem() {
-        throw new IllegalStateException("Cannot create generic item");
-    }
-
-    @Override
-    public void persistItem(XBCItem item) {
-        throw new IllegalStateException("Cannot persist generic item");
-    }
-
-    @Override
-    public void removeItem(XBCItem item) {
-        throw new IllegalStateException("Cannot remove generic item");
-    }
-
-    @Override
-    public XBCItem getItem(long itemId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<XBCItem> getAllItems() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long getItemsCount() {
-        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(ITEMSCOUNT_ITEM_PROCEDURE));
     }
 }

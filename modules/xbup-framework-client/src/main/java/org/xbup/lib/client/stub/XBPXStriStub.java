@@ -16,7 +16,6 @@
  */
 package org.xbup.lib.client.stub;
 
-import java.util.List;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.remote.XBRItem;
 import org.xbup.lib.client.catalog.remote.XBRXStri;
@@ -26,10 +25,10 @@ import org.xbup.lib.core.catalog.base.XBCItem;
 /**
  * RPC stub class for XBRXStri catalog items.
  *
- * @version 0.1.25 2015/03/17
+ * @version 0.1.25 2015/03/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPXStriStub implements XBPManagerStub<XBRXStri> {
+public class XBPXStriStub extends XBPBaseStub<XBRXStri> {
 
     public static long[] ITEM_STRI_PROCEDURE = {0, 2, 14, 0, 0};
     public static long[] TEXT_STRI_PROCEDURE = {0, 2, 14, 1, 0};
@@ -40,6 +39,12 @@ public class XBPXStriStub implements XBPManagerStub<XBRXStri> {
     private final XBCatalogServiceClient client;
 
     public XBPXStriStub(XBCatalogServiceClient client) {
+        super(client, new XBPConstructorMethod<XBRXStri>() {
+            @Override
+            public XBRXStri itemConstructor(XBCatalogServiceClient client, long itemId) {
+                return new XBRXStri(client, itemId);
+            }
+        }, null);
         this.client = client;
     }
 
@@ -59,35 +64,5 @@ public class XBPXStriStub implements XBPManagerStub<XBRXStri> {
     public XBRXStri getItemStringId(XBCItem item) {
         Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(ITEMSTRI_STRI_PROCEDURE), item.getId());
         return index == null ? null : new XBRXStri(client, index);
-    }
-
-    @Override
-    public XBRXStri createItem() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void persistItem(XBRXStri item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void removeItem(XBRXStri item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBRXStri getItem(long itemId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<XBRXStri> getAllItems() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long getItemsCount() {
-        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(STRISCOUNT_STRI_PROCEDURE));
     }
 }

@@ -42,11 +42,6 @@ public class XBRXPlugService extends XBRDefaultService<XBRXPlugin> implements XB
     }
 
     @Override
-    public XBRXPlugin itemConstructor(XBCatalogServiceClient client, long itemId) {
-        return new XBRXPlugin(client, itemId);
-    }
-
-    @Override
     public XBRXPlugin findById(long id) {
         return ((XBRXPlugManager) itemManager).findById(id);
     }

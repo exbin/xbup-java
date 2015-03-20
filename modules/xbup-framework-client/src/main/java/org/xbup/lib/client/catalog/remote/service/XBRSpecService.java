@@ -64,11 +64,6 @@ public class XBRSpecService extends XBRDefaultService<XBRSpec> implements XBCSpe
     }
 
     @Override
-    public XBRSpec itemConstructor(XBCatalogServiceClient client, long itemId) {
-        return new XBRSpec(client, itemId);
-    }
-
-    @Override
     public XBRBlockSpec findBlockSpecByXB(XBCNode node, long xbIndex) {
         return ((XBRSpecManager) itemManager).findBlockSpecByXB(node, xbIndex);
     }

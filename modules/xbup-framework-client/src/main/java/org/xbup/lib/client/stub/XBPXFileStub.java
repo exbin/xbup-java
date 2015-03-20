@@ -39,10 +39,10 @@ import org.xbup.lib.core.util.StreamUtils;
 /**
  * RPC stub class for XBRXFile catalog items.
  *
- * @version 0.1.25 2015/03/15
+ * @version 0.1.25 2015/03/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPXFileStub implements XBPManagerStub<XBRXFile> {
+public class XBPXFileStub extends XBPBaseStub<XBRXFile> {
 
     public static long[] OWNER_FILE_PROCEDURE = {0, 2, 12, 0, 0};
     public static long[] FILENAME_FILE_PROCEDURE = {0, 2, 12, 1, 0};
@@ -51,6 +51,12 @@ public class XBPXFileStub implements XBPManagerStub<XBRXFile> {
     private final XBCatalogServiceClient client;
 
     public XBPXFileStub(XBCatalogServiceClient client) {
+        super(client, new XBPConstructorMethod<XBRXFile>() {
+            @Override
+            public XBRXFile itemConstructor(XBCatalogServiceClient client, long itemId) {
+                return new XBRXFile(client, itemId);
+            }
+        }, null);
         this.client = client;
     }
 
@@ -105,36 +111,6 @@ public class XBPXFileStub implements XBPManagerStub<XBRXFile> {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-    }
-
-    @Override
-    public XBRXFile createItem() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void persistItem(XBRXFile item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void removeItem(XBRXFile item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBRXFile getItem(long itemId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<XBRXFile> getAllItems() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long getItemsCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public List<XBCXFile> findFilesForNode(XBCNode node) {

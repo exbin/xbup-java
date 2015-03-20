@@ -45,11 +45,6 @@ public class XBRXIconService extends XBRDefaultService<XBRXIcon> implements XBCX
     }
 
     @Override
-    public XBRXIcon itemConstructor(XBCatalogServiceClient client, long itemId) {
-        return new XBRXIcon(client, itemId);
-    }
-
-    @Override
     public List<XBCXIcon> getBlockSpecIcons(XBCBlockSpec icon) {
         return ((XBRXIconManager) itemManager).getBlockSpecIcons(icon);
     }

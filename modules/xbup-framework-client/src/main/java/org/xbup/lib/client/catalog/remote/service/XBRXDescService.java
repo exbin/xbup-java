@@ -45,11 +45,6 @@ public class XBRXDescService extends XBRDefaultService<XBRXDesc> implements XBCX
     }
 
     @Override
-    public XBRXDesc itemConstructor(XBCatalogServiceClient client, long itemId) {
-        return new XBRXDesc(client, itemId);
-    }
-
-    @Override
     public XBRXDesc getDefaultItemDesc(XBCItem item) {
         return ((XBRXDescManager)itemManager).getDefaultItemDesc(item);
     }

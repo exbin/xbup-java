@@ -45,7 +45,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * @version 0.1.25 2015/03/15
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPRevStub implements XBPManagerStub<XBRRev> {
+public class XBPRevStub extends XBPBaseStub<XBRRev> {
 
     public static long[] FINDREV_SPEC_PROCEDURE = {0, 2, 5, 4, 0};
     public static long[] REVSCOUNT_SPEC_PROCEDURE = {0, 2, 5, 9, 0};
@@ -57,6 +57,12 @@ public class XBPRevStub implements XBPManagerStub<XBRRev> {
     private final XBCatalogServiceClient client;
 
     public XBPRevStub(XBCatalogServiceClient client) {
+        super(client, new XBPConstructorMethod<XBRRev>() {
+            @Override
+            public XBRRev itemConstructor(XBCatalogServiceClient client, long itemId) {
+                return new XBRRev(client, itemId);
+            }
+        }, null);
         this.client = client;
     }
 
@@ -176,35 +182,5 @@ public class XBPRevStub implements XBPManagerStub<XBRRev> {
 
     public long getRevsCount(XBCSpec spec) {
         return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(REVSCOUNT_REV_PROCEDURE), spec.getId());
-    }
-
-    @Override
-    public XBRRev createItem() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void persistItem(XBRRev item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void removeItem(XBRRev item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBRRev getItem(long itemId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<XBRRev> getAllItems() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long getItemsCount() {
-        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(REVSCOUNT_REV_PROCEDURE));
     }
 }

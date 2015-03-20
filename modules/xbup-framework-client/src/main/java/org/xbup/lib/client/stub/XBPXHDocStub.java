@@ -16,7 +16,6 @@
  */
 package org.xbup.lib.client.stub;
 
-import java.util.List;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.remote.XBRItem;
 import org.xbup.lib.client.catalog.remote.XBRXFile;
@@ -27,10 +26,10 @@ import org.xbup.lib.core.catalog.base.XBCXFile;
 /**
  * RPC stub class for XBRXHDoc catalog items.
  *
- * @version 0.1.25 2015/03/15
+ * @version 0.1.25 2015/03/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPXHDocStub implements XBPManagerStub<XBRXHDoc> {
+public class XBPXHDocStub extends XBPBaseStub<XBRXHDoc> {
 
     public static long[] OWNER_HDOC_PROCEDURE = {0, 2, 17, 0, 0};
     public static long[] XBINDEX_HDOC_PROCEDURE = {0, 2, 17, 1, 0};
@@ -40,6 +39,12 @@ public class XBPXHDocStub implements XBPManagerStub<XBRXHDoc> {
     private final XBCatalogServiceClient client;
 
     public XBPXHDocStub(XBCatalogServiceClient client) {
+        super(client, new XBPConstructorMethod<XBRXHDoc>() {
+            @Override
+            public XBRXHDoc itemConstructor(XBCatalogServiceClient client, long itemId) {
+                return new XBRXHDoc(client, itemId);
+            }
+        }, null);
         this.client = client;
     }
 
@@ -55,35 +60,5 @@ public class XBPXHDocStub implements XBPManagerStub<XBRXHDoc> {
     public XBCXFile getDocFile(long hdocId) {
         Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(FILE_HDOC_PROCEDURE), hdocId);
         return index == null ? null : new XBRXFile(client, index);
-    }
-
-    @Override
-    public XBRXHDoc createItem() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void persistItem(XBRXHDoc item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void removeItem(XBRXHDoc item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBRXHDoc getItem(long itemId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<XBRXHDoc> getAllItems() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long getItemsCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

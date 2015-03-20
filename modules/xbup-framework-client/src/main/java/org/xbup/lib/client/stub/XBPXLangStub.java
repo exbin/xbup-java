@@ -34,10 +34,10 @@ import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
 /**
  * RPC stub class for XBRXLanguage catalog items.
  *
- * @version 0.1.25 2015/03/15
+ * @version 0.1.25 2015/03/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPXLangStub implements XBPManagerStub<XBRXLanguage> {
+public class XBPXLangStub extends XBPBaseStub<XBRXLanguage> {
 
     public static long[] CODE_LANG_PROCEDURE = {0, 2, 8, 0, 0};
     public static long[] DEFAULT_LANG_PROCEDURE = {0, 2, 8, 1, 0};
@@ -47,6 +47,12 @@ public class XBPXLangStub implements XBPManagerStub<XBRXLanguage> {
     private final XBCatalogServiceClient client;
 
     public XBPXLangStub(XBCatalogServiceClient client) {
+        super(client, new XBPConstructorMethod<XBRXLanguage>() {
+            @Override
+            public XBRXLanguage itemConstructor(XBCatalogServiceClient client, long itemId) {
+                return new XBRXLanguage(client, itemId);
+            }
+        }, null);
         this.client = client;
     }
 
@@ -88,35 +94,5 @@ public class XBPXLangStub implements XBPManagerStub<XBRXLanguage> {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-    }
-
-    @Override
-    public XBRXLanguage createItem() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void persistItem(XBRXLanguage item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void removeItem(XBRXLanguage item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBRXLanguage getItem(long itemId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<XBRXLanguage> getAllItems() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long getItemsCount() {
-        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(LANGSCOUNT_LANG_PROCEDURE));
     }
 }

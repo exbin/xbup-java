@@ -39,11 +39,6 @@ public class XBRXLangService extends XBRDefaultService<XBRXLanguage> implements 
     }
 
     @Override
-    public XBRXLanguage itemConstructor(XBCatalogServiceClient client, long itemId) {
-        return new XBRXLanguage(client, itemId);
-    }
-
-    @Override
     public XBRXLanguage getDefaultLang() {
         return ((XBRXLangManager) itemManager).getDefaultLang();
     }

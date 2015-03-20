@@ -16,7 +16,6 @@
  */
 package org.xbup.lib.client.stub;
 
-import java.util.List;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.remote.XBRItem;
 import org.xbup.lib.client.catalog.remote.XBRXFile;
@@ -30,10 +29,10 @@ import org.xbup.lib.core.catalog.base.XBCXIconMode;
 /**
  * RPC stub class for XBRXIcon catalog items.
  *
- * @version 0.1.25 2015/03/15
+ * @version 0.1.25 2015/03/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPXIconStub implements XBPManagerStub<XBRXIcon> {
+public class XBPXIconStub extends XBPBaseStub<XBRXIcon> {
 
     public static long[] OWNER_ICON_PROCEDURE = {0, 2, 13, 0, 0};
     public static long[] MODE_ICON_PROCEDURE = {0, 2, 13, 1, 0};
@@ -44,6 +43,12 @@ public class XBPXIconStub implements XBPManagerStub<XBRXIcon> {
     private final XBCatalogServiceClient client;
 
     public XBPXIconStub(XBCatalogServiceClient client) {
+        super(client, new XBPConstructorMethod<XBRXIcon>() {
+            @Override
+            public XBRXIcon itemConstructor(XBCatalogServiceClient client, long itemId) {
+                return new XBRXIcon(client, itemId);
+            }
+        }, null);
         this.client = client;
     }
 
@@ -65,35 +70,5 @@ public class XBPXIconStub implements XBPManagerStub<XBRXIcon> {
     public XBRXIcon getDefaultIcon(XBCItem item) {
         Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(DEFAULTITEM_ICON_PROCEDURE), item.getId());
         return index == null ? null : new XBRXIcon(client, index);
-    }
-
-    @Override
-    public XBRXIcon createItem() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void persistItem(XBRXIcon item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void removeItem(XBRXIcon item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBRXIcon getItem(long itemId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<XBRXIcon> getAllItems() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long getItemsCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

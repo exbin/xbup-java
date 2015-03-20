@@ -42,11 +42,6 @@ public class XBRXStriService extends XBRDefaultService<XBRXStri> implements XBCX
     }
 
     @Override
-    public XBRXStri itemConstructor(XBCatalogServiceClient client, long itemId) {
-        return new XBRXStri(client, itemId);
-    }
-
-    @Override
     public String getItemStringIdText(XBCItem item) {
         return ((XBRXStriManager) itemManager).getItemStringIdText(item);
     }

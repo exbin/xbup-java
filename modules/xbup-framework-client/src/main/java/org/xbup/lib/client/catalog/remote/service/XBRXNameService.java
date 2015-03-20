@@ -45,11 +45,6 @@ public class XBRXNameService extends XBRDefaultService<XBRXName> implements XBCX
     }
 
     @Override
-    public XBRXName itemConstructor(XBCatalogServiceClient client, long itemId) {
-        return new XBRXName(client, itemId);
-    }
-
-    @Override
     public String getDefaultText(XBCItem item) {
         return ((XBRXNameManager) itemManager).getDefaultText(item);
     }

@@ -56,11 +56,6 @@ public class XBRRevService extends XBRDefaultService<XBRRev> implements XBCRevSe
     }
 
     @Override
-    public XBRRev itemConstructor(XBCatalogServiceClient client, long itemId) {
-        return new XBRRev(client, itemId);
-    }
-
-    @Override
     public XBRRev findRevByXB(XBCSpec spec, long xbIndex) {
         return ((XBRRevManager) itemManager).findRevByXB(spec, xbIndex);
     }

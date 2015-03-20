@@ -16,20 +16,18 @@
  */
 package org.xbup.lib.client.stub;
 
-import java.util.List;
 import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.client.catalog.remote.XBRItemInfo;
+import org.xbup.lib.client.catalog.remote.XBRXItemInfo;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCNode;
-import org.xbup.lib.core.catalog.base.XBCXItemInfo;
 
 /**
  * RPC Stub for Info extension related operations.
  *
- * @version 0.1.25 2015/03/15
+ * @version 0.1.25 2015/03/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPUserStub implements XBPManagerStub<XBCXItemInfo> {
+public class XBPUserStub extends XBPBaseStub<XBRXItemInfo> {
 
     public static long[] NODE_INFO_PROCEDURE = {0, 2, 11, 0, 0};
     public static long[] INFOSCOUNT_INFO_PROCEDURE = {0, 2, 11, 1, 0};
@@ -39,41 +37,17 @@ public class XBPUserStub implements XBPManagerStub<XBCXItemInfo> {
     private final XBCatalogServiceClient client;
 
     public XBPUserStub(XBCatalogServiceClient client) {
+        super(client, new XBPConstructorMethod<XBRXItemInfo>() {
+            @Override
+            public XBRXItemInfo itemConstructor(XBCatalogServiceClient client, long itemId) {
+                return new XBRXItemInfo(client, itemId);
+            }
+        }, null);
         this.client = client;
     }
 
-    public XBRItemInfo getNodeInfo(XBCNode node) {
+    public XBRXItemInfo getNodeInfo(XBCNode node) {
         Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(NODE_INFO_PROCEDURE), node.getId());
-        return index == null ? null : new XBRItemInfo(client, index);
-    }
-
-    @Override
-    public XBCXItemInfo createItem() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void persistItem(XBCXItemInfo item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void removeItem(XBCXItemInfo item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBCXItemInfo getItem(long itemId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<XBCXItemInfo> getAllItems() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long getItemsCount() {
-        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(INFOSCOUNT_INFO_PROCEDURE));
+        return index == null ? null : new XBRXItemInfo(client, index);
     }
 }

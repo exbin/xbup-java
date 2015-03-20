@@ -45,11 +45,6 @@ public class XBRXLineService extends XBRDefaultService<XBRXBlockLine> implements
     }
 
     @Override
-    public XBRXBlockLine itemConstructor(XBCatalogServiceClient client, long itemId) {
-        return new XBRXBlockLine(client, itemId);
-    }
-
-    @Override
     public XBRXBlockLine findById(long id) {
         return ((XBRXLineManager) itemManager).findById(id);
     }

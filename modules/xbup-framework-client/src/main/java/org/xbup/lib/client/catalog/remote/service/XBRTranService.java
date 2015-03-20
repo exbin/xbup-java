@@ -36,9 +36,4 @@ public class XBRTranService extends XBRDefaultService<XBRTran> implements XBCTra
         itemManager = new XBRTranManager(catalog);
         catalog.addCatalogManager(XBCTranManager.class, itemManager);
     }
-
-    @Override
-    public XBRTran itemConstructor(XBCatalogServiceClient client, long itemId) {
-        return new XBRTran(client, itemId);
-    }
 }

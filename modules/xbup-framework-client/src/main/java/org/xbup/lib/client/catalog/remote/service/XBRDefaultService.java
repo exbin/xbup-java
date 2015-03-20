@@ -19,15 +19,16 @@ package org.xbup.lib.client.catalog.remote.service;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCBase;
 import org.xbup.lib.core.catalog.base.service.XBCDefaultItemService;
+import org.xbup.lib.core.catalog.base.service.XBCService;
 
 /**
  * Default remote service.
  *
- * @version 0.1.25 2015/03/19
+ * @version 0.1.25 2015/03/20
  * @author XBUP Project (http://xbup.org)
  * @param <T> base entity
  */
-public abstract class XBRDefaultService<T extends XBCBase> extends XBCDefaultItemService<T> implements XBRService<T> {
+public abstract class XBRDefaultService<T extends XBCBase> extends XBCDefaultItemService<T> implements XBCService<T> {
 
     protected XBRCatalog catalog;
 

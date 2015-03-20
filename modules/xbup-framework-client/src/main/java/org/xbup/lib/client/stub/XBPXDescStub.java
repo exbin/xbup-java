@@ -38,10 +38,10 @@ import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
 /**
  * RPC stub class for XBRXDesc catalog items.
  *
- * @version 0.1.25 2015/03/15
+ * @version 0.1.25 2015/03/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPXDescStub implements XBPManagerStub<XBRXDesc> {
+public class XBPXDescStub extends XBPBaseStub<XBRXDesc> {
 
     public static long[] ITEM_DESC_PROCEDURE = {0, 2, 10, 0, 0};
     public static long[] TEXT_DESC_PROCEDURE = {0, 2, 10, 1, 0};
@@ -54,6 +54,12 @@ public class XBPXDescStub implements XBPManagerStub<XBRXDesc> {
     private final XBCatalogServiceClient client;
 
     public XBPXDescStub(XBCatalogServiceClient client) {
+        super(client, new XBPConstructorMethod<XBRXDesc>() {
+            @Override
+            public XBRXDesc itemConstructor(XBCatalogServiceClient client, long itemId) {
+                return new XBRXDesc(client, itemId);
+            }
+        }, null);
         this.client = client;
     }
 
@@ -111,35 +117,5 @@ public class XBPXDescStub implements XBPManagerStub<XBRXDesc> {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-    }
-
-    @Override
-    public XBRXDesc createItem() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void persistItem(XBRXDesc item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void removeItem(XBRXDesc item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBRXDesc getItem(long itemId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<XBRXDesc> getAllItems() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long getItemsCount() {
-        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(DESCSCOUNT_DESC_PROCEDURE));
     }
 }

@@ -45,11 +45,6 @@ public class XBRXPaneService extends XBRDefaultService<XBRXBlockPane> implements
     }
 
     @Override
-    public XBRXBlockPane itemConstructor(XBCatalogServiceClient client, long itemId) {
-        return new XBRXBlockPane(client, itemId);
-    }
-
-    @Override
     public XBRXBlockPane findById(long id) {
         return ((XBRXPaneManager) itemManager).findById(id);
     }

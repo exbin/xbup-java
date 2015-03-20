@@ -14,20 +14,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.client.catalog.remote.service;
+package org.xbup.lib.client.stub;
 
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.core.catalog.base.XBCBase;
-import org.xbup.lib.core.catalog.base.service.XBCService;
 
 /**
- * Default remote service.
+ * Default constructor method.
  *
- * @version 0.1.25 2015/03/19
+ * @version 0.1.25 2015/03/20
  * @author XBUP Project (http://xbup.org)
  * @param <T> base entity
  */
-public interface XBRService<T extends XBCBase> extends XBCService<T> {
+public interface XBPConstructorMethod<T extends XBCBase> {
 
     /**
      * Returns new instance of item using service client.

@@ -43,11 +43,6 @@ public class XBRXFileService extends XBRDefaultService<XBRXFile> implements XBCX
     }
 
     @Override
-    public XBRXFile itemConstructor(XBCatalogServiceClient client, long itemId) {
-        return new XBRXFile(client, itemId);
-    }
-
-    @Override
     public XBRXFile findFile(XBCNode node, String fileName) {
         return ((XBRXFileManager) itemManager).findFile(node, fileName);
     }

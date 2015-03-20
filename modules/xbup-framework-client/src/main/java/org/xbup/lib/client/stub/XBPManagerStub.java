@@ -22,11 +22,19 @@ import org.xbup.lib.core.catalog.base.XBCBase;
 /**
  * Stub generics interface for catalog manager classes.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.1.25 2015/03/20
  * @author XBUP Project (http://xbup.org)
  * @param <T> entity class
  */
 public interface XBPManagerStub<T extends XBCBase> {
+
+    /**
+     * Constructs remote representation linked to item id.
+     *
+     * @param itemId item index
+     * @return new item
+     */
+    public T constructItem(long itemId);
 
     /**
      * Creates instance of new item and set it to default state.

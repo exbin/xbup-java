@@ -16,7 +16,6 @@
  */
 package org.xbup.lib.client.stub;
 
-import java.util.List;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.remote.XBRBlockRev;
 import org.xbup.lib.client.catalog.remote.XBRXBlockPane;
@@ -30,10 +29,10 @@ import org.xbup.lib.core.catalog.base.XBCXPlugin;
 /**
  * RPC stub class for XBRXBlockPane catalog items.
  *
- * @version 0.1.25 2015/03/15
+ * @version 0.1.25 2015/03/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPXPaneStub implements XBPManagerStub<XBRXBlockPane> {
+public class XBPXPaneStub extends XBPBaseStub<XBRXBlockPane> {
 
     public static long[] REV_PANE_PROCEDURE = {0, 2, 16, 0, 0};
     public static long[] PLUGIN_PANE_PROCEDURE = {0, 2, 16, 1, 0};
@@ -48,6 +47,12 @@ public class XBPXPaneStub implements XBPManagerStub<XBRXBlockPane> {
     private final XBCatalogServiceClient client;
 
     public XBPXPaneStub(XBCatalogServiceClient client) {
+        super(client, new XBPConstructorMethod<XBRXBlockPane>() {
+            @Override
+            public XBRXBlockPane itemConstructor(XBCatalogServiceClient client, long itemId) {
+                return new XBRXBlockPane(client, itemId);
+            }
+        }, null);
         this.client = client;
     }
 
@@ -86,35 +91,5 @@ public class XBPXPaneStub implements XBPManagerStub<XBRXBlockPane> {
 
     public Long getAllPlugPanesCount() {
         return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(PLUGPANESCOUNT_PANE_PROCEDURE));
-    }
-
-    @Override
-    public XBRXBlockPane createItem() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void persistItem(XBRXBlockPane item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void removeItem(XBRXBlockPane item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBRXBlockPane getItem(long itemId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<XBRXBlockPane> getAllItems() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long getItemsCount() {
-        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(PANESCOUNT_PANE_PROCEDURE));
     }
 }

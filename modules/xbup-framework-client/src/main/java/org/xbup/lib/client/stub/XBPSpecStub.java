@@ -53,10 +53,10 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * RPC stub class for XBRSpec catalog items.
  *
- * @version 0.1.25 2015/03/15
+ * @version 0.1.25 2015/03/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
+public class XBPSpecStub extends XBPBaseStub<XBRSpec> {
 
     public static long[] SPEC_NODE_PROCEDURE = {0, 2, 4, 4, 0};
     public static long[] SPECS_NODE_PROCEDURE = {0, 2, 4, 5, 0};
@@ -92,6 +92,12 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
     private final XBCatalogServiceClient client;
 
     public XBPSpecStub(XBCatalogServiceClient client) {
+        super(client, new XBPConstructorMethod<XBRSpec>() {
+            @Override
+            public XBRSpec itemConstructor(XBCatalogServiceClient client, long itemId) {
+                return new XBRSpec(client, itemId);
+            }
+        }, null);
         this.client = client;
     }
 
@@ -484,35 +490,5 @@ public class XBPSpecStub implements XBPManagerStub<XBRSpec> {
 
     public long getSpecDefsCount(XBCSpec spec) {
         return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(BINDSCOUNT_SPEC_PROCEDURE), spec.getId());
-    }
-
-    @Override
-    public XBRSpec createItem() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void persistItem(XBRSpec item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void removeItem(XBRSpec item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBRSpec getItem(long itemId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<XBRSpec> getAllItems() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long getItemsCount() {
-        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(SPECSCOUNT_SPEC_PROCEDURE));
     }
 }

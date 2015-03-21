@@ -23,7 +23,7 @@ import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 /**
  * RPC stub class for XBRItem catalog items.
  *
- * @version 0.1.25 2015/03/20
+ * @version 0.1.25 2015/03/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPItemStub extends XBPBaseStub<XBRItem> {
@@ -40,7 +40,7 @@ public class XBPItemStub extends XBPBaseStub<XBRItem> {
             public XBRItem itemConstructor(XBCatalogServiceClient client, long itemId) {
                 return new XBRItem(client, itemId);
             }
-        }, null);
+        }, new XBPBaseProcedureType(null, null, null, null, new XBDeclBlockType(ITEMSCOUNT_ITEM_PROCEDURE)));
         this.client = client;
     }
 

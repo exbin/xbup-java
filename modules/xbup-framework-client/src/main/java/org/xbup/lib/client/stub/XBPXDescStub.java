@@ -59,7 +59,7 @@ public class XBPXDescStub extends XBPBaseStub<XBRXDesc> {
             public XBRXDesc itemConstructor(XBCatalogServiceClient client, long itemId) {
                 return new XBRXDesc(client, itemId);
             }
-        }, null);
+        }, new XBPBaseProcedureType(null, null, null, null, new XBDeclBlockType(DESCSCOUNT_DESC_PROCEDURE)));
         this.client = client;
     }
 

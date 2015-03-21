@@ -59,7 +59,7 @@ public class XBPXNameStub extends XBPBaseStub<XBRXName> {
             public XBRXName itemConstructor(XBCatalogServiceClient client, long itemId) {
                 return new XBRXName(client, itemId);
             }
-        }, null);
+        }, new XBPBaseProcedureType(null, null, null, null, new XBDeclBlockType(NAMESCOUNT_NAME_PROCEDURE)));
         this.client = client;
     }
 

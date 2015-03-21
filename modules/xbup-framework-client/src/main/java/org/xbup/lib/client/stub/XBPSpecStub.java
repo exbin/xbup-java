@@ -97,7 +97,7 @@ public class XBPSpecStub extends XBPBaseStub<XBRSpec> {
             public XBRSpec itemConstructor(XBCatalogServiceClient client, long itemId) {
                 return new XBRSpec(client, itemId);
             }
-        }, null);
+        }, new XBPBaseProcedureType(null, null, null, null, new XBDeclBlockType(SPECSCOUNT_SPEC_PROCEDURE)));
         this.client = client;
     }
 

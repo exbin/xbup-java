@@ -67,7 +67,7 @@ public class XBPNodeStub extends XBPBaseStub<XBRNode> {
             public XBRNode itemConstructor(XBCatalogServiceClient client, long itemId) {
                 return new XBRNode(client, itemId);
             }
-        }, null);
+        }, new XBPBaseProcedureType(null, null, null, null, new XBDeclBlockType(NODESCOUNT_NODE_PROCEDURE)));
         this.client = client;
     }
 

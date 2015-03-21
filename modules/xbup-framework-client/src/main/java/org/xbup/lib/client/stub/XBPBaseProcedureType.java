@@ -21,7 +21,7 @@ import org.xbup.lib.core.block.XBBlockType;
 /**
  * Plain class for list of basic procedures.
  *
- * @version 0.1.25 2015/03/18
+ * @version 0.1.25 2015/03/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPBaseProcedureType {
@@ -31,6 +31,14 @@ public class XBPBaseProcedureType {
     private XBBlockType itemByIdType;
     private XBBlockType allItemsType;
     private XBBlockType itemsCountType;
+
+    public XBPBaseProcedureType(XBBlockType createItemType, XBBlockType removeItemType, XBBlockType itemByIdType, XBBlockType allItemsType, XBBlockType itemsCountType) {
+        this.createItemType = createItemType;
+        this.removeItemType = removeItemType;
+        this.itemByIdType = itemByIdType;
+        this.allItemsType = allItemsType;
+        this.itemsCountType = itemsCountType;
+    }
 
     public XBBlockType getCreateItemType() {
         return createItemType;

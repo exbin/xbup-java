@@ -62,7 +62,7 @@ public class XBPRevStub extends XBPBaseStub<XBRRev> {
             public XBRRev itemConstructor(XBCatalogServiceClient client, long itemId) {
                 return new XBRRev(client, itemId);
             }
-        }, null);
+        }, new XBPBaseProcedureType(null, null, null, null, new XBDeclBlockType(REVSCOUNT_REV_PROCEDURE)));
         this.client = client;
     }
 

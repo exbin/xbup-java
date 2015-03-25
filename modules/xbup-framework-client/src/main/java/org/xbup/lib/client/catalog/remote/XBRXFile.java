@@ -16,14 +16,19 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.stub.XBPXFileStub;
+import org.xbup.lib.core.util.StreamUtils;
 
 /**
  * Catalog remote file entity.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.1.25 2015/03/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXFile implements XBCXFile {
@@ -50,7 +55,13 @@ public class XBRXFile implements XBCXFile {
 
     @Override
     public byte[] getContent() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try {
+            StreamUtils.copyInputStreamToOutputStream(fileStub.getFile(this), byteArrayOutputStream);
+        } catch (IOException ex) {
+            Logger.getLogger(XBRXFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return byteArrayOutputStream.toByteArray();
     }
 
     @Override

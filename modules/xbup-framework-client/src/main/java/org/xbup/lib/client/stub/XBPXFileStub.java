@@ -19,6 +19,7 @@ package org.xbup.lib.client.stub;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +27,7 @@ import javax.swing.ImageIcon;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.remote.XBRNode;
 import org.xbup.lib.client.catalog.remote.XBRXFile;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXFile;
@@ -39,7 +41,7 @@ import org.xbup.lib.core.util.StreamUtils;
 /**
  * RPC stub class for XBRXFile catalog items.
  *
- * @version 0.1.25 2015/03/20
+ * @version 0.1.25 2015/03/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPXFileStub extends XBPBaseStub<XBRXFile> {
@@ -47,6 +49,7 @@ public class XBPXFileStub extends XBPBaseStub<XBRXFile> {
     public static long[] OWNER_FILE_PROCEDURE = {0, 2, 12, 0, 0};
     public static long[] FILENAME_FILE_PROCEDURE = {0, 2, 12, 1, 0};
     public static long[] DATA_FILE_PROCEDURE = {0, 2, 12, 2, 0};
+    public static long[] NODEFILES_FILE_PROCEDURE = {0, 2, 12, 3, 0};
 
     private final XBCatalogServiceClient client;
 
@@ -92,14 +95,14 @@ public class XBPXFileStub extends XBPBaseStub<XBRXFile> {
         return null;
     }
 
-    public InputStream getFile(XBCXFile iconFile) {
+    public InputStream getFile(XBCXFile file) {
         try {
             XBCallHandler procedureCall = client.procedureCall();
 
             XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
             serialInput.begin();
             serialInput.putType(new XBDeclBlockType(DATA_FILE_PROCEDURE));
-            serialInput.putAttribute(iconFile.getId());
+            serialInput.putAttribute(file.getId());
             serialInput.end();
 
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
@@ -114,6 +117,34 @@ public class XBPXFileStub extends XBPBaseStub<XBRXFile> {
     }
 
     public List<XBCXFile> findFilesForNode(XBCNode node) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            XBCallHandler procedureCall = client.procedureCall();
+
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
+            serialInput.begin();
+            serialInput.putType(new XBDeclBlockType(NODEFILES_FILE_PROCEDURE));
+            serialInput.putAttribute(node.getId());
+            serialInput.end();
+
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
+            if (!serialOutput.pullIfEmptyBlock()) {
+                serialOutput.begin();
+                serialOutput.matchType(new XBFixedBlockType());
+                long count = serialOutput.pullLongAttribute();
+                List<XBCXFile> result = new ArrayList<>();
+                for (int i = 0; i < count; i++) {
+                    result.add(new XBRXFile(client, serialOutput.pullLongAttribute()));
+                }
+                serialOutput.end();
+                procedureCall.execute();
+                return result;
+            }
+            procedureCall.execute();
+
+            return null;
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

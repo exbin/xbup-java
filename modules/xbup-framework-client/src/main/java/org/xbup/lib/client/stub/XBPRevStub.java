@@ -42,7 +42,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * RPC stub class for XBRRev catalog items.
  *
- * @version 0.1.25 2015/03/15
+ * @version 0.1.25 2015/03/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPRevStub extends XBPBaseStub<XBRRev> {

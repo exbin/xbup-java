@@ -18,13 +18,19 @@ package org.xbup.lib.service.skeleton;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.List;
 import org.xbup.lib.catalog.XBAECatalog;
+import org.xbup.lib.catalog.entity.XBENode;
 import org.xbup.lib.catalog.entity.XBEXFile;
+import org.xbup.lib.catalog.entity.service.XBENodeService;
 import org.xbup.lib.catalog.entity.service.XBEXFileService;
 import org.xbup.lib.client.stub.XBPXFileStub;
 import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.XBTEmptyBlock;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
+import org.xbup.lib.core.catalog.base.XBCXFile;
+import org.xbup.lib.core.catalog.base.service.XBCNodeService;
 import org.xbup.lib.core.catalog.base.service.XBCXFileService;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBAttribute;
@@ -101,6 +107,31 @@ public class XBPXFileSkeleton {
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.begin();
                 listener.putData(new ByteArrayInputStream(file.getContent()));
+                listener.end();
+            }
+        });
+
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXFileStub.NODEFILES_FILE_PROCEDURE), new XBMultiProcedure() {
+            @Override
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(blockType);
+                long nodeId = provider.pullLongAttribute();
+                provider.end();
+
+                XBEXFileService fileService = (XBEXFileService) catalog.getCatalogService(XBCXFileService.class);
+                XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
+                XBENode node = nodeService.getItem(nodeId);
+                List<XBCXFile> files = fileService.findFilesForNode(node);
+
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
+                listener.begin();
+                listener.matchType(new XBFixedBlockType());
+                listener.putAttribute(files.size());
+                for (XBCXFile file : files) {
+                    listener.putAttribute(file.getId());
+                }
                 listener.end();
             }
         });

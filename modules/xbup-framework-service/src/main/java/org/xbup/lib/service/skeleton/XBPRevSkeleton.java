@@ -17,6 +17,7 @@
 package org.xbup.lib.service.skeleton;
 
 import java.io.IOException;
+import java.util.List;
 import org.xbup.lib.catalog.XBAECatalog;
 import org.xbup.lib.catalog.entity.XBERev;
 import org.xbup.lib.catalog.entity.XBESpec;
@@ -24,8 +25,10 @@ import org.xbup.lib.catalog.entity.service.XBERevService;
 import org.xbup.lib.catalog.entity.service.XBESpecService;
 import org.xbup.lib.client.stub.XBPRevStub;
 import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.XBTEmptyBlock;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
+import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -40,7 +43,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRRev catalog items.
  *
- * @version 0.1.25 2015/03/15
+ * @version 0.1.25 2015/03/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPRevSkeleton {
@@ -107,6 +110,31 @@ public class XBPRevSkeleton {
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(rev == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(rev.getId()));
+            }
+        });
+
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPRevStub.REVS_SPEC_PROCEDURE), new XBMultiProcedure() {
+            @Override
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(blockType);
+                long specId = provider.pullLongAttribute();
+                provider.end();
+
+                XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
+                XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
+                XBESpec spec = specService.getItem(specId);
+                List<XBCRev> revs = revService.getRevs(spec);
+
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
+                listener.begin();
+                listener.matchType(new XBFixedBlockType());
+                listener.putAttribute(revs.size());
+                for (XBCRev rev : revs) {
+                    listener.putAttribute(rev.getId());
+                }
+                listener.end();
             }
         });
 

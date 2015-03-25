@@ -43,6 +43,7 @@ import org.xbup.lib.core.parser.token.event.convert.XBTPrintEventFilter;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPrintPullFilter;
+import org.xbup.lib.core.parser.token.pull.convert.XBTPullPreLoader;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullTypeDeclaringFilter;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.remote.XBCallHandler;
@@ -53,7 +54,7 @@ import org.xbup.lib.core.stream.XBOutput;
 /**
  * XBService client connection handler using TCP/IP protocol.
  *
- * @version 0.1.25 2015/03/23
+ * @version 0.1.25 2015/03/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPServiceClient implements XBServiceClient {
@@ -121,8 +122,8 @@ public class XBTCPServiceClient implements XBServiceClient {
                         currentInput = null;
                     }
 
-                    currentOutput = new XBTPullTypeDeclaringFilter(catalog, new XBTPrintPullFilter("I", new XBToXBTPullConvertor(new XBPullReader(socket.getInputStream(), XBParserMode.SINGLE_BLOCK))));
-                    XBTPullTypeDeclaringFilter output = (XBTPullTypeDeclaringFilter) currentOutput;
+                    currentOutput = new XBTPullPreLoader(new XBTPullTypeDeclaringFilter(catalog, new XBTPrintPullFilter("I", new XBToXBTPullConvertor(new XBPullReader(socket.getInputStream(), XBParserMode.SINGLE_BLOCK)))));
+                    XBTPullPreLoader output = (XBTPullPreLoader) currentOutput;
                     XBTToken beginToken = output.pullXBTToken();
                     if (beginToken.getTokenType() != XBTTokenType.BEGIN) {
                         throw new XBProcessingException("Begin token was expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
@@ -136,7 +137,7 @@ public class XBTCPServiceClient implements XBServiceClient {
 
                 @Override
                 public void execute() throws XBProcessingException, IOException {
-                    XBTToken endToken = ((XBTPullTypeDeclaringFilter) currentOutput).pullXBTToken(); // TODO match that it's end token
+                    XBTToken endToken = ((XBTPullPreLoader) currentOutput).pullXBTToken(); // TODO match that it's end token
                     if (endToken.getTokenType() != XBTTokenType.END) {
                         throw new XBProcessingException("End token was expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
                     }

@@ -68,7 +68,7 @@ public class CatalogFilesTableModel extends AbstractTableModel {
             case 1: {
                 byte[] data = items.get(rowIndex).modifiedData;
                 if (data == null) {
-                    data = ((XBEXFile) items.get(rowIndex).file).getContent();
+                    data = ((XBCXFile) items.get(rowIndex).file).getContent();
                 }
 
                 return data == null ? 0 : data.length;

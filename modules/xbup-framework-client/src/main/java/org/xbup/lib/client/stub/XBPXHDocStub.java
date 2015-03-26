@@ -26,7 +26,7 @@ import org.xbup.lib.core.catalog.base.XBCXFile;
 /**
  * RPC stub class for XBRXHDoc catalog items.
  *
- * @version 0.1.25 2015/03/20
+ * @version 0.1.25 2015/03/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPXHDocStub extends XBPBaseStub<XBRXHDoc> {
@@ -60,5 +60,10 @@ public class XBPXHDocStub extends XBPBaseStub<XBRXHDoc> {
     public XBCXFile getDocFile(long hdocId) {
         Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(FILE_HDOC_PROCEDURE), hdocId);
         return index == null ? null : new XBRXFile(client, index);
+    }
+
+    public XBRXHDoc getItemHDoc(long itemId) {
+        Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(ITEM_HDOC_PROCEDURE), itemId);
+        return index == null ? null : new XBRXHDoc(client, index);
     }
 }

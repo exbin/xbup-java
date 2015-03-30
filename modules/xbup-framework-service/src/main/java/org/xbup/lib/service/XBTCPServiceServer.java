@@ -26,6 +26,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static org.xbup.lib.client.XBTCPServiceClient.SERVICE_INVOCATION_SUCCESSFUL;
+import static org.xbup.lib.client.stub.XBPInfoStub.NODE_INFO_PROCEDURE;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
@@ -60,7 +62,7 @@ import org.xbup.lib.core.remote.XBServiceServer;
 /**
  * XBUP level 1 RPC server using TCP/IP networking.
  *
- * @version 0.1.25 2015/03/18
+ * @version 0.1.25 2015/03/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPServiceServer implements XBServiceServer {
@@ -242,7 +244,7 @@ public class XBTCPServiceServer implements XBServiceServer {
         public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
             if (!started) {
                 output.putXBTToken(new XBTBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED)); // TODO terminated
-                output.putXBTToken(new XBTTypeToken(new XBFixedBlockType())); // TODO Replace with execution OK type
+                output.putXBTToken(new XBTTypeToken(new XBDeclBlockType(SERVICE_INVOCATION_SUCCESSFUL)));
                 started = true;
             }
 

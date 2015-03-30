@@ -21,13 +21,6 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.client.stub.XBPServiceStub;
-import org.xbup.lib.core.block.XBBasicBlockType;
-import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBFixedBlockType;
-import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.block.declaration.XBContext;
-import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBParserMode;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -36,8 +29,6 @@ import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.event.XBEventWriter;
-import org.xbup.lib.core.parser.token.event.XBTEventListener;
-import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventTypeUndeclaringFilter;
 import org.xbup.lib.core.parser.token.event.convert.XBTPrintEventFilter;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
@@ -54,7 +45,7 @@ import org.xbup.lib.core.stream.XBOutput;
 /**
  * XBService client connection handler using TCP/IP protocol.
  *
- * @version 0.1.25 2015/03/25
+ * @version 0.1.25 2015/03/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPServiceClient implements XBServiceClient {
@@ -65,32 +56,20 @@ public class XBTCPServiceClient implements XBServiceClient {
     private XBInput currentInput = null;
     private XBOutput currentOutput = null;
 
-    private String host;
-    private int port;
-    private XBPServiceStub serviceStub;
+    private final String host;
+    private final int port;
+    private final XBPServiceStub serviceStub;
 
     public static long[] XBSERVICE_FORMAT = {0, 2, 0, 0};
+    public static long[] SERVICE_INVOCATION_SUCCESSFUL = {0, 2, 0};
+    public static long[] SERVICE_INVOCATION_FAILED = {0, 2, 1};
 
     public XBTCPServiceClient(String host, int port) {
         this.host = host;
         this.port = port;
         serviceStub = new XBPServiceStub(this);
-//        catalog = new XBL2RemoteCatalog(new XBCatalogNetServiceClient(host, port));
     }
 
-    /* public void init() throws IOException, ConnectException {
-     try {
-     socket = new Socket(getHost(), getPort());
-     source = new XBTDefaultMatchingProvider(new XBTPullProviderToProvider(new XBToXBTPullConvertor(new XBPullReader(getSocket().getInputStream()))));
-     target = new XBTTypeFixingFilter(null, null); // new XBServiceContext()
-     OutputStream oStream = getSocket().getOutputStream();
-     XBHead.writeXBUPHead(oStream);
-     ((XBTTypeFixingFilter) target).attachXBTListener(new XBTEventListenerToListener(new MyXBTEventListener(new XBTToXBEventConvertor(new XBEventWriter(oStream)))));
-     target.beginXBT(XBBlockTerminationMode.SIZE_SPECIFIED);
-     } catch (XBProcessingException ex) {
-     Logger.getLogger(XBTCPServiceClient.class.getName()).log(Level.SEVERE, null, ex);
-     }
-     } */
     @Override
     public XBCallHandler procedureCall() {
         try {
@@ -217,75 +196,5 @@ public class XBTCPServiceClient implements XBServiceClient {
 
     public Socket getSocket() {
         return socket;
-    }
-
-    /**
-     * TODO: Temporary first end event skipping filter
-     */
-    public class MyXBTEventListener implements XBTEventListener {
-
-        private XBTEventListener listener;
-        private long counter;
-        private boolean first;
-
-        public MyXBTEventListener(XBTEventListener listener) {
-            this.listener = listener;
-            counter = 0;
-            first = false;
-        }
-
-        @Override
-        public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
-            if (token.getTokenType() == XBTTokenType.BEGIN) {
-                counter++;
-            } else if (token.getTokenType() == XBTTokenType.END) {
-                counter--;
-                if (counter == 0) {
-                    if (!first) {
-                        first = true;
-                        return;
-                    } else {
-                        listener.putXBTToken(token);
-                    }
-                }
-            }
-            listener.putXBTToken(token);
-        }
-    }
-
-    /**
-     * TODO: Temporary static translation of XBService format.
-     */
-    public class XBServiceContext extends XBContext {
-
-        public XBServiceContext() {
-            this(null);
-        }
-
-        public XBServiceContext(XBSerializable rootNode) {
-            super();
-            /* XBDeclaration decl = new XBDeclaration();
-             decl.setRootNode(rootNode);
-             decl.setFormat(new XBDFormatDecl(XBSERVICE_FORMAT));
-             setDeclaration(decl); */
-        }
-
-        public XBFixedBlockType toStaticType(XBBlockType type) {
-            if (type instanceof XBFixedBlockType) {
-                return (XBFixedBlockType) type;
-            }
-            if (type instanceof XBDeclBlockType) {
-                XBBlockDecl blockDecl = ((XBDeclBlockType) type).getBlockDecl();
-                if (blockDecl instanceof XBLBlockDecl) {
-                    Long[] path = ((XBLBlockDecl) blockDecl).getCatalogObjectPath();
-                    if (path.length != 5) {
-                        return new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK);
-                    } else {
-                        return new XBFixedBlockType(path[2] + 1, path[3]);
-                    }
-                }
-            }
-            return (XBFixedBlockType) type;
-        }
     }
 }

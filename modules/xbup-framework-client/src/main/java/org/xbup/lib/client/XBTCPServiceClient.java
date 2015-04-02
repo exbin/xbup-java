@@ -45,7 +45,7 @@ import org.xbup.lib.core.stream.XBOutput;
 /**
  * XBService client connection handler using TCP/IP protocol.
  *
- * @version 0.1.25 2015/03/30
+ * @version 0.1.25 2015/04/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPServiceClient implements XBServiceClient {
@@ -61,8 +61,8 @@ public class XBTCPServiceClient implements XBServiceClient {
     private final XBPServiceStub serviceStub;
 
     public static long[] XBSERVICE_FORMAT = {0, 2, 0, 0};
-    public static long[] SERVICE_INVOCATION_SUCCESSFUL = {0, 2, 0};
-    public static long[] SERVICE_INVOCATION_FAILED = {0, 2, 1};
+    public static long[] SERVICE_INVOCATION_SUCCESSFUL = {0, 2, 0, 0};
+    public static long[] SERVICE_INVOCATION_FAILED = {0, 2, 1, 0};
 
     public XBTCPServiceClient(String host, int port) {
         this.host = host;

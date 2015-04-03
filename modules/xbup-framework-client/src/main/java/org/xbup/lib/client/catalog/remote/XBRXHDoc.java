@@ -25,7 +25,7 @@ import org.xbup.lib.client.stub.XBPXHDocStub;
 /**
  * Catalog remote item HTML documentation entity.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.1.25 2015/04/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXHDoc implements XBCXHDoc {
@@ -43,10 +43,6 @@ public class XBRXHDoc implements XBCXHDoc {
     @Override
     public XBRItem getItem() {
         return hdocStub.getHDocItem(id);
-    }
-
-    public Long getXBIndex() {
-        return hdocStub.getXBIndex(id);
     }
 
     @Override

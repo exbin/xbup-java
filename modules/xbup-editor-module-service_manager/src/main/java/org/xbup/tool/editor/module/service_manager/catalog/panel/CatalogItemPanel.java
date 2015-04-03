@@ -513,15 +513,17 @@ public class CatalogItemPanel extends javax.swing.JPanel {
                 Long[] specPath = item instanceof XBCNode
                         ? nodeService.getNodeXBPath((XBCNode) item)
                         : catalog.getSpecPath((XBCSpec) item);
-                StringBuilder pathBuilder = new StringBuilder();
-                for (Long pathIndex : specPath) {
-                    if (pathBuilder.length() > 0) {
-                        pathBuilder.append(", ");
+                if (specPath != null) {
+                    StringBuilder pathBuilder = new StringBuilder();
+                    for (Long pathIndex : specPath) {
+                        if (pathBuilder.length() > 0) {
+                            pathBuilder.append(", ");
+                        }
+                        pathBuilder.append(pathIndex);
                     }
-                    pathBuilder.append(pathIndex);
-                }
 
-                fullPath = "{" + pathBuilder.toString() + "}";
+                    fullPath = "{" + pathBuilder.toString() + "}";
+                }
             }
 
             fullPathTextField.setText(fullPath);

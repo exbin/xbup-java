@@ -34,6 +34,7 @@ import org.xbup.lib.service.skeleton.XBPServiceSkeleton;
 import org.xbup.lib.service.skeleton.XBPSpecSkeleton;
 import org.xbup.lib.service.skeleton.XBPXDescSkeleton;
 import org.xbup.lib.service.skeleton.XBPXFileSkeleton;
+import org.xbup.lib.service.skeleton.XBPXHDocSkeleton;
 import org.xbup.lib.service.skeleton.XBPXIconSkeleton;
 import org.xbup.lib.service.skeleton.XBPXLangSkeleton;
 import org.xbup.lib.service.skeleton.XBPXLineSkeleton;
@@ -45,7 +46,7 @@ import org.xbup.lib.service.skeleton.XBPXStriSkeleton;
 /**
  * XBUP catalog service server.
  *
- * @version 0.1.25 2015/02/26
+ * @version 0.1.25 2015/04/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCatalogNetServiceServer extends XBTCPServiceServer {
@@ -79,9 +80,10 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
         new XBPXFileSkeleton(catalog).registerProcedures(server);
         new XBPXIconSkeleton(catalog).registerProcedures(server);
         new XBPXPlugSkeleton(catalog).registerProcedures(server);
+        new XBPXStriSkeleton(catalog).registerProcedures(server);
         new XBPXLineSkeleton(catalog).registerProcedures(server);
         new XBPXPaneSkeleton(catalog).registerProcedures(server);
-        new XBPXStriSkeleton(catalog).registerProcedures(server);
+        new XBPXHDocSkeleton(catalog).registerProcedures(server);
     }
 
     private static final String logBundle = "sun.util.logging.resources.logging";

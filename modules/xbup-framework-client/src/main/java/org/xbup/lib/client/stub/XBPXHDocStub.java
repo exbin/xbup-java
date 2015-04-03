@@ -26,15 +26,14 @@ import org.xbup.lib.core.catalog.base.XBCXFile;
 /**
  * RPC stub class for XBRXHDoc catalog items.
  *
- * @version 0.1.25 2015/03/26
+ * @version 0.1.25 2015/04/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPXHDocStub extends XBPBaseStub<XBRXHDoc> {
 
     public static long[] OWNER_HDOC_PROCEDURE = {0, 2, 17, 0, 0};
-    public static long[] XBINDEX_HDOC_PROCEDURE = {0, 2, 17, 1, 0};
-    public static long[] ITEM_HDOC_PROCEDURE = {0, 2, 17, 2, 0};
-    public static long[] FILE_HDOC_PROCEDURE = {0, 2, 17, 3, 0};
+    public static long[] ITEM_HDOC_PROCEDURE = {0, 2, 17, 1, 0};
+    public static long[] FILE_HDOC_PROCEDURE = {0, 2, 17, 2, 0};
 
     private final XBCatalogServiceClient client;
 
@@ -51,10 +50,6 @@ public class XBPXHDocStub extends XBPBaseStub<XBRXHDoc> {
     public XBRItem getHDocItem(long hdocId) {
         Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(OWNER_HDOC_PROCEDURE), hdocId);
         return index == null ? null : new XBRItem(client, index);
-    }
-
-    public Long getXBIndex(long hdocId) {
-        return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(XBINDEX_HDOC_PROCEDURE), hdocId);
     }
 
     public XBCXFile getDocFile(long hdocId) {

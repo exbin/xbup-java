@@ -14,6 +14,7 @@ include ":modules:xbup-editor-module-online_help"
 include ":modules:xbup-editor-module-xbdoc_editor"
 include ":modules:xbup-editor-module-text_editor"
 include ":modules:xbup-editor-module-service_manager"
+include ":modules:xbup-editor-module-utils"
 include ":modules:hexedit"
 include ":modules:simplyhtml"
 
@@ -34,6 +35,7 @@ if (rootProject.path == ':') {
     project(':modules:xbup-editor-module-xbdoc_editor').projectDir = new File(rootProjectDir + "/modules/xbup-editor-module-xbdoc_editor")
     project(':modules:xbup-editor-module-text_editor').projectDir = new File(rootProjectDir + "/modules/xbup-editor-module-text_editor")
     project(':modules:xbup-editor-module-service_manager').projectDir = new File(rootProjectDir + "/modules/xbup-editor-module-service_manager")
+    project(':modules:xbup-editor-module-utils').projectDir = new File(rootProjectDir + "/modules/xbup-editor-module-utils")
     project(':modules:hexedit').projectDir = new File(rootProjectDir + "/modules/hexedit")
     project(':modules:simplyhtml').projectDir = new File(rootProjectDir + "/modules/simplyhtml")
 }

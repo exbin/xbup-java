@@ -9,6 +9,7 @@ include ":modules:xbup-parser-tree"
 include ":modules:xbup-operation"
 include ":modules:xbup-editor-module-text_editor"
 include ":modules:xbup-editor-module-service_manager"
+include ":modules:xbup-editor-module-utils"
 include ":modules:xbup-operation"
 include ":modules:hexedit"
 include ":modules:simplyhtml"
@@ -25,6 +26,7 @@ if (rootProject.path == ':') {
     project(':modules:xbup-operation').projectDir = new File(rootProjectDir + "/modules/xbup-operation")
     project(':modules:xbup-editor-module-text_editor').projectDir = new File(rootProjectDir + "/modules/xbup-editor-module-text_editor")
     project(':modules:xbup-editor-module-service_manager').projectDir = new File(rootProjectDir + "/modules/xbup-editor-module-service_manager")
+    project(':modules:xbup-editor-module-utils').projectDir = new File(rootProjectDir + "/modules/xbup-editor-module-utils")
     project(':modules:xbup-operation').projectDir = new File(rootProjectDir + "/modules/xbup-operation")
     project(':modules:hexedit').projectDir = new File(rootProjectDir + "/modules/hexedit")
     project(':modules:simplyhtml').projectDir = new File(rootProjectDir + "/modules/simplyhtml")

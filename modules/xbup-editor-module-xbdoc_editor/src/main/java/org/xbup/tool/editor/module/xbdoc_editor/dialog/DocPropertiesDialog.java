@@ -16,18 +16,21 @@
  */
 package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 
+import javax.swing.ImageIcon;
 import org.xbup.lib.core.block.XBTEditableDocument;
 import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.panel.WindowHeaderPanel;
 
 /**
  * Dialog for document properties showing various information about file.
  *
- * @version 0.1.24 2015/01/17
+ * @version 0.1.25 2015/04/10
  * @author XBUP Project (http://xbup.org)
  */
 public class DocPropertiesDialog extends javax.swing.JDialog {
 
     private XBTEditableDocument doc;
+    private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/DocPropertiesDialog");
 
     public DocPropertiesDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -40,6 +43,15 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
         WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, closeButton);
         propertiesTabbedPane.setEnabledAt(1, false);
+        
+        WindowHeaderPanel headerPanel = new WindowHeaderPanel();
+        headerPanel.setTitle(bundle.getString("header.title"));
+        headerPanel.setDescription(bundle.getString("header.description"));
+        String headerIcon = bundle.getString("header.icon");
+        if (!headerIcon.isEmpty()) {
+            headerPanel.setIcon(new ImageIcon(getClass().getResource(headerIcon)));
+        }
+        getContentPane().add(headerPanel, java.awt.BorderLayout.PAGE_START);
     }
 
     /**
@@ -50,7 +62,6 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        closeButton = new javax.swing.JButton();
         propertiesTabbedPane = new javax.swing.JTabbedPane();
         generalPanel = new javax.swing.JPanel();
         fileNameLabel = new javax.swing.JLabel();
@@ -60,18 +71,13 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
         fileTypeTextField = new javax.swing.JTextField();
         fileSizeLabel = new javax.swing.JLabel();
         documentTypePanel = new javax.swing.JPanel();
+        controlPanel = new javax.swing.JPanel();
+        closeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/DocPropertiesDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
         setLocationByPlatform(true);
-
-        closeButton.setText(bundle.getString("okButton.text")); // NOI18N
-        closeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                closeButtonActionPerformed(evt);
-            }
-        });
 
         fileNameLabel.setText(bundle.getString("fileNameLabel.text")); // NOI18N
 
@@ -117,7 +123,7 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
                 .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fileTypeLabel)
                     .addComponent(fileTypeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(164, Short.MAX_VALUE))
         );
 
         propertiesTabbedPane.addTab(bundle.getString("generalPanel.tabTitle"), generalPanel); // NOI18N
@@ -130,29 +136,38 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
         );
         documentTypePanelLayout.setVerticalGroup(
             documentTypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 342, Short.MAX_VALUE)
+            .addGap(0, 245, Short.MAX_VALUE)
         );
 
         propertiesTabbedPane.addTab(bundle.getString("documentTypePanel.tabTitle"), documentTypePanel); // NOI18N
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        getContentPane().add(propertiesTabbedPane, java.awt.BorderLayout.CENTER);
+
+        closeButton.setText(bundle.getString("okButton.text")); // NOI18N
+        closeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout controlPanelLayout = new javax.swing.GroupLayout(controlPanel);
+        controlPanel.setLayout(controlPanelLayout);
+        controlPanelLayout.setHorizontalGroup(
+            controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(closeButton)
                 .addContainerGap())
-            .addComponent(propertiesTabbedPane, javax.swing.GroupLayout.Alignment.TRAILING)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(propertiesTabbedPane)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(closeButton)
+        controlPanelLayout.setVerticalGroup(
+            controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        getContentPane().add(controlPanel, java.awt.BorderLayout.SOUTH);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -178,6 +193,7 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton closeButton;
+    private javax.swing.JPanel controlPanel;
     private javax.swing.JPanel documentTypePanel;
     private javax.swing.JLabel fileNameLabel;
     private javax.swing.JTextField fileNameTextField;

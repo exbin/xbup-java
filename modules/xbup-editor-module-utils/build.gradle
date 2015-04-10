@@ -9,7 +9,6 @@ if (!hasProperty('mainClass')) {
 }
 
 tasks.withType(JavaCompile) {
-//    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
     doFirst {
         options.fork = true
         options.bootClasspath = "${System.properties['java.home']}/lib/rt.jar"
@@ -28,17 +27,6 @@ repositories {
 check.dependsOn.remove(test)
 
 dependencies {
-    compile(project(":modules:xbup-core"))
-    compile(project(":modules:xbup-catalog"))
-    compile(project(':modules:xbup-framework-client'))
     compile(project(":modules:xbup-editor-base-api"))
-    compile(project(":modules:xbup-editor-module-text_editor"))
-    compile(project(":modules:xbup-editor-module-service_manager"))
-    compile(project(":modules:xbup-editor-module-utils"))
-    compile(project(":modules:xbup-plugin"))
-    compile(project(":modules:xbup-parser-tree"))
-    compile(project(":modules:xbup-operation"))
-    compile(project(":modules:hexedit"))
-    compile(project(":modules:simplyhtml"))
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }

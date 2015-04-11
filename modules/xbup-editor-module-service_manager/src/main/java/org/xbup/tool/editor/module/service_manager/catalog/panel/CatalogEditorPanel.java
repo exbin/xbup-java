@@ -493,7 +493,8 @@ public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePane
             em.flush();
             transaction.commit();
 
-            setNode(specsModel.getNode());
+            reloadNodesTree();
+            setNode(item instanceof XBCNode ? (XBCNode) item : specsModel.getNode());
             selectSpecTableRow(item);
         }
     }//GEN-LAST:event_popupAddMenuItemActionPerformed
@@ -655,7 +656,7 @@ public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePane
             em.flush();
             transaction.commit();
 
-            setNode(specsModel.getNode());
+            reloadNodesTree();
             repaint();
         }
     }

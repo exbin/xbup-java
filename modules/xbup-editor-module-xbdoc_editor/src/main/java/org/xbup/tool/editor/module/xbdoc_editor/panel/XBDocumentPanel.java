@@ -36,6 +36,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JTabbedPane;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import org.xbup.lib.core.block.XBBlockDataMode;
@@ -70,7 +71,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.dialog.ModifyBlockDialog;
 /**
  * Panel with XBUP document visualization.
  *
- * @version 0.1.25 2015/02/09
+ * @version 0.1.25 2015/04/11
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFilePanel, ActivePanelUndoable, ActivePanelActionHandling {
@@ -109,12 +110,9 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         treePanel.setPopupMenu(popupMenu);
         textPanel.setPopupMenu(popupMenu);
 
-        mainPanel.add(treePanel, "tree");
-        mainPanel.add(hexPanel, "hex");
-        mainPanel.add(textPanel, "text");
+        ((JPanel) mainTabbedPane.getComponentAt(0)).add(treePanel, java.awt.BorderLayout.CENTER);
 
         treePanel.addPropertyChangeListener(new PropertyChangeListener() {
-
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
@@ -125,7 +123,6 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         });
 
         treePanel.addTreeSelectionListener(new TreeSelectionListener() {
-
             @Override
             public void valueChanged(TreeSelectionEvent e) {
                 if (propertyPanel.isEnabled()) {
@@ -135,7 +132,6 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         });
 
         addPropertyChangeListener(new PropertyChangeListener() {
-
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (propertyChangeListener != null) {
@@ -174,9 +170,15 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         popupItemCopyMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         popupItemPropertiesMenuItem = new javax.swing.JMenuItem();
-        mainPanel = new javax.swing.JPanel();
+        mainTabbedPane = new javax.swing.JTabbedPane();
+        treeTabPanel = new javax.swing.JPanel();
+        sourceTabPanel = new javax.swing.JPanel();
+        hexTabPanel = new javax.swing.JPanel();
         mainSplitPane = new javax.swing.JSplitPane();
-        splitPanel = new javax.swing.JPanel();
+        splitTabbedPane = new javax.swing.JTabbedPane();
+        treeTabPanel1 = new javax.swing.JPanel();
+        sourceTabPanel1 = new javax.swing.JPanel();
+        hexTabPanel1 = new javax.swing.JPanel();
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/panel/resources/XBDocumentPanel"); // NOI18N
         popupItemViewMenuItem.setText(bundle.getString("popupItemViewMenuItem.text")); // NOI18N
@@ -210,15 +212,45 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
 
         setLayout(new java.awt.CardLayout());
 
-        mainPanel.setLayout(new java.awt.CardLayout());
-        add(mainPanel, "main");
+        mainTabbedPane.setTabPlacement(javax.swing.JTabbedPane.BOTTOM);
+        mainTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                mainTabbedPaneStateChanged(evt);
+            }
+        });
+
+        treeTabPanel.setLayout(new java.awt.BorderLayout());
+        mainTabbedPane.addTab("Tree", treeTabPanel);
+
+        sourceTabPanel.setLayout(new java.awt.BorderLayout());
+        mainTabbedPane.addTab("Source", sourceTabPanel);
+
+        hexTabPanel.setLayout(new java.awt.BorderLayout());
+        mainTabbedPane.addTab("Hex", hexTabPanel);
+
+        add(mainTabbedPane, "main");
 
         mainSplitPane.setBorder(null);
         mainSplitPane.setDividerSize(8);
         mainSplitPane.setResizeWeight(1.0);
 
-        splitPanel.setLayout(new java.awt.CardLayout());
-        mainSplitPane.setLeftComponent(splitPanel);
+        splitTabbedPane.setTabPlacement(javax.swing.JTabbedPane.BOTTOM);
+        splitTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                splitTabbedPaneStateChanged(evt);
+            }
+        });
+
+        treeTabPanel1.setLayout(new java.awt.BorderLayout());
+        splitTabbedPane.addTab("Tree", treeTabPanel1);
+
+        sourceTabPanel1.setLayout(new java.awt.BorderLayout());
+        splitTabbedPane.addTab("Source", sourceTabPanel1);
+
+        hexTabPanel1.setLayout(new java.awt.BorderLayout());
+        splitTabbedPane.addTab("Hex", hexTabPanel1);
+
+        mainSplitPane.setLeftComponent(splitTabbedPane);
 
         add(mainSplitPane, "split");
     }// </editor-fold>//GEN-END:initComponents
@@ -234,6 +266,14 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
     private void popupItemCopyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupItemCopyMenuItemActionPerformed
         performCopy();
     }//GEN-LAST:event_popupItemCopyMenuItemActionPerformed
+
+    private void mainTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_mainTabbedPaneStateChanged
+        setMode(PanelMode.values()[mainTabbedPane.getSelectedIndex()]);
+    }//GEN-LAST:event_mainTabbedPaneStateChanged
+
+    private void splitTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_splitTabbedPaneStateChanged
+        setMode(PanelMode.values()[splitTabbedPane.getSelectedIndex()]);
+    }//GEN-LAST:event_splitTabbedPaneStateChanged
 
     public XBTTreeNode getSelectedItem() {
         return treePanel.getSelectedItem();
@@ -411,26 +451,16 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
     }
 
     public void showPanel() {
-        JPanel cardPanel;
+        JTabbedPane tabPane;
         if (splitMode) {
-            cardPanel = splitPanel;
+            tabPane = splitTabbedPane;
         } else {
-            cardPanel = mainPanel;
+            tabPane = mainTabbedPane;
         }
-        switch (getMode()) {
-            case TREE: {
-                ((CardLayout) cardPanel.getLayout()).show(cardPanel, "tree");
-                break;
-            }
-            case TEXT: {
-                ((CardLayout) cardPanel.getLayout()).show(cardPanel, "text");
-                break;
-            }
-            case HEX: {
-                ((CardLayout) cardPanel.getLayout()).show(cardPanel, "hex");
-                break;
-            }
-        }
+
+        int index = getMode().ordinal();
+        tabPane.setSelectedIndex(index);
+        ((JPanel) tabPane.getComponentAt(index)).add(getPanel(index));
     }
 
     private StringBuffer nodeAsText(XBTTreeNode node, String prefix) {
@@ -471,14 +501,20 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel hexTabPanel;
+    private javax.swing.JPanel hexTabPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JPanel mainPanel;
     private javax.swing.JSplitPane mainSplitPane;
+    private javax.swing.JTabbedPane mainTabbedPane;
     private javax.swing.JMenuItem popupItemCopyMenuItem;
     private javax.swing.JMenuItem popupItemPropertiesMenuItem;
     private javax.swing.JMenuItem popupItemViewMenuItem;
     private javax.swing.JPopupMenu popupMenu;
-    private javax.swing.JPanel splitPanel;
+    private javax.swing.JPanel sourceTabPanel;
+    private javax.swing.JPanel sourceTabPanel1;
+    private javax.swing.JTabbedPane splitTabbedPane;
+    private javax.swing.JPanel treeTabPanel;
+    private javax.swing.JPanel treeTabPanel1;
     // End of variables declaration//GEN-END:variables
 
     public void setEditEnabled(boolean editEnabled) {
@@ -651,16 +687,30 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
     private void changeSplitMode() {
         if (splitMode) {
             ((CardLayout) getLayout()).show(this, "main");
-            mainPanel.add(treePanel, "tree");
-            mainPanel.add(hexPanel, "hex");
-            mainPanel.add(textPanel, "text");
+            int selectedIndex = splitTabbedPane.getSelectedIndex();
+            ((JPanel) mainTabbedPane.getComponentAt(selectedIndex)).add(getPanel(selectedIndex));
+            mainTabbedPane.setSelectedIndex(selectedIndex);
         } else {
             ((CardLayout) getLayout()).show(this, "split");
-            splitPanel.add(treePanel, "tree");
-            splitPanel.add(hexPanel, "hex");
-            splitPanel.add(textPanel, "text");
+            int selectedIndex = mainTabbedPane.getSelectedIndex();
+            ((JPanel) splitTabbedPane.getComponentAt(selectedIndex)).add(getPanel(selectedIndex));
+            splitTabbedPane.setSelectedIndex(selectedIndex);
         }
+        splitMode = !splitMode;
         showPanel();
+    }
+
+    private Component getPanel(int index) {
+        switch (index) {
+            case 0:
+                return treePanel;
+            case 1:
+                return textPanel;
+            case 2:
+                return hexPanel;
+        }
+
+        return null;
     }
 
     public boolean isSplitMode() {

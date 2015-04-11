@@ -24,7 +24,7 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 import org.xbup.tool.editor.module.service_manager.dialog.EditConnectionDialog;
 
 /**

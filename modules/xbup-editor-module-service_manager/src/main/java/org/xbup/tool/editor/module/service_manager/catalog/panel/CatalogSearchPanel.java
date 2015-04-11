@@ -50,7 +50,7 @@ import org.xbup.lib.catalog.yaml.XBCatalogYaml;
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
 import org.xbup.tool.editor.base.api.MenuManagement;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 
 /**
  * Catalog search panel.

@@ -33,7 +33,7 @@ import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.service.XBCXFileService;
 import org.xbup.tool.editor.base.api.MenuManagement;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 
 /**
  * Catalog Specification Panel.

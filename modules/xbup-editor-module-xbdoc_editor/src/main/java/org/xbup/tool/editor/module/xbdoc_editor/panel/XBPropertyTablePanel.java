@@ -47,7 +47,7 @@ import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.plugin.XBLineEditor;
 import org.xbup.lib.plugin.XBPlugin;
 import org.xbup.lib.plugin.XBPluginRepository;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 import org.xbup.tool.editor.module.xbdoc_editor.dialog.BlockPropertiesDialog;
 
 /**

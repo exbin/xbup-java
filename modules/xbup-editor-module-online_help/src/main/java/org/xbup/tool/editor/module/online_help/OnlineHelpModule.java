@@ -30,7 +30,7 @@ import org.xbup.tool.editor.base.api.ApplicationModuleInfo;
 import org.xbup.tool.editor.base.api.BasicMenuType;
 import org.xbup.tool.editor.base.api.MenuPositionMode;
 import org.xbup.tool.editor.base.api.ModuleManagement;
-import org.xbup.tool.editor.base.api.utils.BareBonesBrowserLaunch;
+import org.xbup.tool.editor.utils.BareBonesBrowserLaunch;
 
 /**
  * JavaOnlineHelp module.

@@ -57,7 +57,7 @@ import org.xbup.lib.parser_tree.XBTTreeDocument;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 import org.xbup.tool.editor.module.xbdoc_editor.XBDocEditorFrame;
 import org.xbup.tool.editor.module.xbdoc_editor.dialog.AddBlockDialog;
 

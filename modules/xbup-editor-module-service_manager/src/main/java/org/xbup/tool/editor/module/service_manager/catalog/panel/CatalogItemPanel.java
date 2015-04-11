@@ -51,7 +51,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXIconService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 
 /**
  * Panel for basic XBItem viewing/editation.

@@ -29,6 +29,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.xbup.tool.editor.module.text_editor.dialog.AddEncodingDialog;
 import org.xbup.tool.editor.base.api.OptionsPanel;
+import org.xbup.tool.editor.utils.WindowUtils;
 
 /**
  * XBTEditor Encoding Selection Panel.
@@ -213,7 +214,7 @@ public class TextEncodingPanel extends javax.swing.JPanel implements OptionsPane
     }// </editor-fold>//GEN-END:initComponents
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        AddEncodingDialog addEncodingDialog = new AddEncodingDialog(null, true); // getFrame
+        AddEncodingDialog addEncodingDialog = new AddEncodingDialog(WindowUtils.getFrame(this), true);
         addEncodingDialog.setEncodings(((EncodingsListModel) encodingsList.getModel()).getCharsets());
         addEncodingDialog.setLocationRelativeTo(addEncodingDialog.getParent());
         addEncodingDialog.setVisible(true);

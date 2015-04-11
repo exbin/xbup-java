@@ -16,10 +16,8 @@
  */
 package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 
-import javax.swing.ImageIcon;
 import org.xbup.lib.core.block.XBTEditableDocument;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
-import org.xbup.tool.editor.utils.panel.WindowHeaderPanel;
+import org.xbup.tool.editor.utils.WindowUtils;
 
 /**
  * Dialog for document properties showing various information about file.
@@ -43,15 +41,7 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
         WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, closeButton);
         propertiesTabbedPane.setEnabledAt(1, false);
-        
-        WindowHeaderPanel headerPanel = new WindowHeaderPanel();
-        headerPanel.setTitle(bundle.getString("header.title"));
-        headerPanel.setDescription(bundle.getString("header.description"));
-        String headerIcon = bundle.getString("header.icon");
-        if (!headerIcon.isEmpty()) {
-            headerPanel.setIcon(new ImageIcon(getClass().getResource(headerIcon)));
-        }
-        getContentPane().add(headerPanel, java.awt.BorderLayout.PAGE_START);
+        WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
     }
 
     /**
@@ -163,7 +153,7 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
             controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(closeButton)
                 .addContainerGap())
         );
 

@@ -16,6 +16,7 @@
  */
 package org.xbup.tool.editor.utils.panel;
 
+import java.awt.Dimension;
 import javax.swing.Icon;
 
 /**
@@ -39,24 +40,17 @@ public class WindowHeaderPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        iconLabel = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         textPanel = new javax.swing.JPanel();
         descriptionTextArea = new javax.swing.JTextArea();
         titleLabel = new javax.swing.JLabel();
+        iconLabel = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new java.awt.BorderLayout());
-
-        iconLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        iconLabel.setToolTipText("");
-        iconLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        iconLabel.setIconTextGap(0);
-        iconLabel.setMinimumSize(new java.awt.Dimension(64, 64));
-        iconLabel.setPreferredSize(new java.awt.Dimension(64, 64));
-        add(iconLabel, java.awt.BorderLayout.EAST);
         add(jSeparator1, java.awt.BorderLayout.SOUTH);
 
+        textPanel.setMinimumSize(new java.awt.Dimension(16, 64));
         textPanel.setOpaque(false);
 
         descriptionTextArea.setEditable(false);
@@ -74,7 +68,7 @@ public class WindowHeaderPanel extends javax.swing.JPanel {
             .addGroup(textPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(textPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(descriptionTextArea, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                    .addComponent(descriptionTextArea, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
                     .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -88,6 +82,14 @@ public class WindowHeaderPanel extends javax.swing.JPanel {
         );
 
         add(textPanel, java.awt.BorderLayout.CENTER);
+
+        iconLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iconLabel.setToolTipText("");
+        iconLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        iconLabel.setIconTextGap(0);
+        iconLabel.setMinimumSize(new java.awt.Dimension(64, 64));
+        iconLabel.setPreferredSize(new java.awt.Dimension(0, 64));
+        add(iconLabel, java.awt.BorderLayout.EAST);
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -121,5 +123,6 @@ public class WindowHeaderPanel extends javax.swing.JPanel {
 
     public void setIcon(Icon icon) {
         iconLabel.setIcon(icon);
+        iconLabel.setPreferredSize(new Dimension(icon == null ? 0 : 64, 64));
     }
 }

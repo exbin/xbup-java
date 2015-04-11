@@ -40,14 +40,14 @@ import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.tool.editor.base.api.utils.BareBonesBrowserLaunch;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.BareBonesBrowserLaunch;
+import org.xbup.tool.editor.utils.WindowUtils;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemInfoPanel;
 
 /**
  * Dialog for showing information about document block.
  *
- * @version 0.1.24 2015/01/16
+ * @version 0.1.25 2015/04/11
  * @author XBUP Project (http://xbup.org)
  */
 public class BlockPropertiesDialog extends javax.swing.JDialog {
@@ -56,7 +56,7 @@ public class BlockPropertiesDialog extends javax.swing.JDialog {
     private XBACatalog catalog;
     private final CatalogItemInfoPanel catalogItemPanel;
     private boolean devMode = false;
-    private final ResourceBundle resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/BlockPropertiesDialog");
+    private final ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/BlockPropertiesDialog");
 
     public BlockPropertiesDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -70,6 +70,7 @@ public class BlockPropertiesDialog extends javax.swing.JDialog {
     private void init() {
         WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, closeButton);
+        WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
     }
 
     /**
@@ -82,7 +83,6 @@ public class BlockPropertiesDialog extends javax.swing.JDialog {
 
         linkPopupMenu = new javax.swing.JPopupMenu();
         copyLinkMenuItem = new javax.swing.JMenuItem();
-        closeButton = new javax.swing.JButton();
         tabbedPane = new javax.swing.JTabbedPane();
         generalPanel = new javax.swing.JPanel();
         nodeTypeLabel = new javax.swing.JLabel();
@@ -102,6 +102,8 @@ public class BlockPropertiesDialog extends javax.swing.JDialog {
         webCatalogLinkLabel = new javax.swing.JLabel();
         webCatalogLinkLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         typePanel = new javax.swing.JPanel();
+        controlPanel = new javax.swing.JPanel();
+        closeButton = new javax.swing.JButton();
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/BlockPropertiesDialog"); // NOI18N
         copyLinkMenuItem.setText(bundle.getString("copyLinkMenuItem.text")); // NOI18N
@@ -115,13 +117,6 @@ public class BlockPropertiesDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(bundle.getString("title")); // NOI18N
         setLocationByPlatform(true);
-
-        closeButton.setText(bundle.getString("okButton.text")); // NOI18N
-        closeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                closeButtonActionPerformed(evt);
-            }
-        });
 
         nodeTypeLabel.setText(bundle.getString("nodeTypeLabel.text")); // NOI18N
 
@@ -187,7 +182,7 @@ public class BlockPropertiesDialog extends javax.swing.JDialog {
                     .addComponent(attributesCountTextField)
                     .addComponent(nodeSizeTextField)
                     .addComponent(terminationModeTextField)
-                    .addComponent(webCatalogLinkScrollPane))
+                    .addComponent(webCatalogLinkScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))
                 .addContainerGap())
         );
         generalPanelLayout.setVerticalGroup(
@@ -221,7 +216,7 @@ public class BlockPropertiesDialog extends javax.swing.JDialog {
                 .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(webCatalogLabel)
                     .addComponent(webCatalogLinkScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
 
         tabbedPane.addTab(bundle.getString("generalPanel.tabTitle"), generalPanel); // NOI18N
@@ -229,24 +224,33 @@ public class BlockPropertiesDialog extends javax.swing.JDialog {
         typePanel.setLayout(new java.awt.BorderLayout());
         tabbedPane.addTab(bundle.getString("typePanel.tabTitle"), typePanel); // NOI18N
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabbedPane)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(closeButton)
-                .addGap(12, 12, 12))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(tabbedPane)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        getContentPane().add(tabbedPane, java.awt.BorderLayout.CENTER);
+
+        closeButton.setText(bundle.getString("okButton.text")); // NOI18N
+        closeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout controlPanelLayout = new javax.swing.GroupLayout(controlPanel);
+        controlPanel.setLayout(controlPanelLayout);
+        controlPanelLayout.setHorizontalGroup(
+            controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
+                .addContainerGap(302, Short.MAX_VALUE)
                 .addComponent(closeButton)
                 .addContainerGap())
         );
+        controlPanelLayout.setVerticalGroup(
+            controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(closeButton)
+                .addContainerGap())
+        );
+
+        getContentPane().add(controlPanel, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -325,6 +329,7 @@ public class BlockPropertiesDialog extends javax.swing.JDialog {
     private javax.swing.JLabel childrenCountLabel;
     private javax.swing.JTextField childrenCountTextField;
     private javax.swing.JButton closeButton;
+    private javax.swing.JPanel controlPanel;
     private javax.swing.JMenuItem copyLinkMenuItem;
     private javax.swing.JLabel dataModeLabel;
     private javax.swing.JTextField dataModeTextField;
@@ -357,7 +362,7 @@ public class BlockPropertiesDialog extends javax.swing.JDialog {
 
     private String getCaption(XBTTreeNode node) {
         if (node.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
-            return resourceBundle.getString("node_caption_data");
+            return bundle.getString("node_caption_data");
         }
 
         XBBlockType blockType = node.getBlockType();
@@ -366,15 +371,15 @@ public class BlockPropertiesDialog extends javax.swing.JDialog {
 
             XBCBlockDecl blockDecl = (XBCBlockDecl) node.getBlockDecl();
             if (blockDecl == null) {
-                return resourceBundle.getString("node_caption_undefined");
+                return bundle.getString("node_caption_undefined");
             }
             XBCBlockSpec blockSpec = blockDecl.getBlockSpecRev().getParent();
             return nameService.getDefaultText(blockSpec);
         }
         if (blockType == null) {
-            return resourceBundle.getString("node_caption_unknown");
+            return bundle.getString("node_caption_unknown");
         }
 
-        return resourceBundle.getString("node_caption_unknown") + " (" + Integer.toString(((XBFBlockType) blockType).getGroupID().getInt()) + ", " + Integer.toString(((XBFBlockType) blockType).getBlockID().getInt()) + ")";
+        return bundle.getString("node_caption_unknown") + " (" + Integer.toString(((XBFBlockType) blockType).getGroupID().getInt()) + ", " + Integer.toString(((XBFBlockType) blockType).getBlockID().getInt()) + ")";
     }
 }

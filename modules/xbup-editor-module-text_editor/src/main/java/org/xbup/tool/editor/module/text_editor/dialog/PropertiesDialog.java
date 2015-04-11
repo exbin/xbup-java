@@ -24,7 +24,7 @@ import java.nio.charset.CharsetEncoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.Document;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 import org.xbup.tool.editor.module.text_editor.panel.TextPanel;
 
 /**

@@ -20,7 +20,6 @@ import java.awt.CardLayout;
 import java.awt.Frame;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.xbup.lib.core.block.XBBasicBlockType;
@@ -42,10 +41,9 @@ import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.serial.XBPSerialWriter;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.parser_tree.XBTTreeReader;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSelectSpecDialog;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType;
-import org.xbup.tool.editor.utils.panel.WindowHeaderPanel;
 
 /**
  * Dialog for adding new item into given document.
@@ -78,15 +76,7 @@ public class AddBlockDialog extends javax.swing.JDialog {
         
         WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
-        
-        WindowHeaderPanel headerPanel = new WindowHeaderPanel();
-        headerPanel.setTitle(bundle.getString("header.title"));
-        headerPanel.setDescription(bundle.getString("header.description"));
-        String headerIcon = bundle.getString("header.icon");
-        if (!headerIcon.isEmpty()) {
-            headerPanel.setIcon(new ImageIcon(getClass().getResource(headerIcon)));
-        }
-        getContentPane().add(headerPanel, java.awt.BorderLayout.PAGE_START);
+        WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
     }
 
     /**

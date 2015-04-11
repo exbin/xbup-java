@@ -18,17 +18,18 @@ package org.xbup.tool.editor.module.service_manager.catalog.dialog;
 
 import javax.swing.JOptionPane;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItemType;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 
 /**
  * XBManager Catalog Specification Selection Dialog.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.1.25 2015/04/11
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogAddItemDialog extends javax.swing.JDialog {
 
     private int dialogOption = JOptionPane.CLOSED_OPTION;
+    private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/dialog/resources/CatalogAddItemDialog");
 
     public CatalogAddItemDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -39,6 +40,7 @@ public class CatalogAddItemDialog extends javax.swing.JDialog {
     private void init() {
         WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, addButton, cancelButton);
+        WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
     }
 
     public int getDialogOption() {
@@ -64,16 +66,17 @@ public class CatalogAddItemDialog extends javax.swing.JDialog {
         itemNameTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Add New Specification");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/dialog/resources/CatalogAddItemDialog"); // NOI18N
+        setTitle(bundle.getString("title")); // NOI18N
 
-        cancelButton.setText("Cancel");
+        cancelButton.setText(bundle.getString("cancelButton.text")); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
             }
         });
 
-        addButton.setText("Add");
+        addButton.setText(bundle.getString("addButton.text")); // NOI18N
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addButtonActionPerformed(evt);
@@ -103,11 +106,11 @@ public class CatalogAddItemDialog extends javax.swing.JDialog {
 
         getContentPane().add(controlPanel, java.awt.BorderLayout.PAGE_END);
 
-        itemTypeLabel.setText("Item Type");
+        itemTypeLabel.setText(bundle.getString("itemTypeLabel.text")); // NOI18N
 
-        itemTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Block", "Group", "Format" }));
+        itemTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Node", "Block Specification", "Group Specification", "Format Specification" }));
 
-        itemNameLabel.setText("Item Name");
+        itemNameLabel.setText(bundle.getString("itemNameLabel.text")); // NOI18N
 
         javax.swing.GroupLayout definitionTypePanelLayout = new javax.swing.GroupLayout(definitionTypePanel);
         definitionTypePanel.setLayout(definitionTypePanelLayout);
@@ -136,12 +139,12 @@ public class CatalogAddItemDialog extends javax.swing.JDialog {
                 .addComponent(itemNameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(itemNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(148, Short.MAX_VALUE))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
 
-        getContentPane().add(definitionTypePanel, java.awt.BorderLayout.NORTH);
+        getContentPane().add(definitionTypePanel, java.awt.BorderLayout.CENTER);
 
-        setSize(new java.awt.Dimension(377, 205));
+        setSize(new java.awt.Dimension(377, 303));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -176,10 +179,12 @@ public class CatalogAddItemDialog extends javax.swing.JDialog {
     public CatalogSpecItemType getItemType() {
         switch (itemTypeComboBox.getSelectedIndex()) {
             case 0:
-                return CatalogSpecItemType.BLOCK;
+                return CatalogSpecItemType.NODE;
             case 1:
-                return CatalogSpecItemType.GROUP;
+                return CatalogSpecItemType.BLOCK;
             case 2:
+                return CatalogSpecItemType.GROUP;
+            case 3:
                 return CatalogSpecItemType.FORMAT;
         }
 

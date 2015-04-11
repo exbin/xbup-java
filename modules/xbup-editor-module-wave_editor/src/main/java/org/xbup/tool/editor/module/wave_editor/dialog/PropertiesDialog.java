@@ -16,7 +16,7 @@
  */
 package org.xbup.tool.editor.module.wave_editor.dialog;
 
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 import org.xbup.tool.editor.module.wave_editor.panel.AudioPanel;
 
 /**

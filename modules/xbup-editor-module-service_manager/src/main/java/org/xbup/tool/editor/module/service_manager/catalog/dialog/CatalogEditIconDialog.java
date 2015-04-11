@@ -28,7 +28,7 @@ import javax.swing.JOptionPane;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.visual.xbplugins.XBPicturePanel;
 import static org.xbup.lib.visual.xbplugins.XBPicturePanel.toBufferedImage;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 
 /**
  * XBManager Catalog Specification Selection Dialog.

@@ -31,6 +31,7 @@ dependencies {
     compile(project(":modules:xbup-catalog"))
     compile(project(":modules:xbup-visual"))
     compile(project(":modules:xbup-editor-base-api"))
+    compile(project(":modules:xbup-editor-module-utils"))
     compile(project(":modules:simplyhtml"))
     compile(project(':modules:xbup-framework-client'))
     compile 'javax.persistence:persistence-api:1.0.2'

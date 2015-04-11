@@ -24,7 +24,7 @@ import org.xbup.tool.editor.module.service_manager.dialog.ConnectionDialog;
 import org.xbup.tool.editor.module.service_manager.panel.ServiceManagerPanel;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 
 /**
  * Manager Main Window.

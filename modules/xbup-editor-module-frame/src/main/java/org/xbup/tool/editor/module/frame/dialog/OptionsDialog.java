@@ -39,7 +39,7 @@ import org.xbup.tool.editor.base.api.OptionsPanel;
 import org.xbup.tool.editor.base.api.OptionsPanel.ModifiedOptionListener;
 import org.xbup.tool.editor.base.api.OptionsPanel.PathItem;
 import org.xbup.tool.editor.base.api.XBEditorApp;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 
 /**
  * Dialog for application options and preferences setting.

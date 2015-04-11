@@ -83,7 +83,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogNodesTre
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
 import org.xbup.tool.editor.base.api.MainFrameManagement;
 import org.xbup.tool.editor.base.api.MenuManagement;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 import org.xbup.tool.editor.module.service_manager.XBFileType;
 import org.xbup.tool.editor.module.service_manager.panel.CatalogManagerPanelable;
 
@@ -211,10 +211,7 @@ public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePane
     private void initComponents() {
 
         catalogTreePopupMenu = new javax.swing.JPopupMenu();
-        popupAddItemMenu = new javax.swing.JMenu();
-        popupAddCustomMenuItem = new javax.swing.JMenuItem();
-        popupAddSpecMenuItem = new javax.swing.JMenuItem();
-        popupAddNodeMenuItem = new javax.swing.JMenuItem();
+        popupAddMenuItem = new javax.swing.JMenuItem();
         popupEditMenuItem = new javax.swing.JMenuItem();
         popupRefreshMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
@@ -231,41 +228,15 @@ public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePane
         catalogTreePopupMenu.setName("catalogTreePopupMenu"); // NOI18N
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemsTreePanel"); // NOI18N
-        popupAddItemMenu.setText(bundle.getString("addItemMenu.text")); // NOI18N
-        popupAddItemMenu.setToolTipText(bundle.getString("addItemMenuItem,toolTipText")); // NOI18N
-        popupAddItemMenu.setName("popupAddItemMenu"); // NOI18N
-
-        popupAddCustomMenuItem.setText(bundle.getString("addCustomMenuItem.text")); // NOI18N
-        popupAddCustomMenuItem.setEnabled(false);
-        popupAddCustomMenuItem.setName("popupAddCustomMenuItem"); // NOI18N
-        popupAddCustomMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        popupAddMenuItem.setText(bundle.getString("addMenuItem.text")); // NOI18N
+        popupAddMenuItem.setToolTipText(bundle.getString("addMenuItem.toolTipText")); // NOI18N
+        popupAddMenuItem.setName("popupAddMenuItem"); // NOI18N
+        popupAddMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                popupAddCustomMenuItemActionPerformed(evt);
+                popupAddMenuItemActionPerformed(evt);
             }
         });
-        popupAddItemMenu.add(popupAddCustomMenuItem);
-
-        popupAddSpecMenuItem.setText(bundle.getString("addBlockMenuItem.text")); // NOI18N
-        popupAddSpecMenuItem.setToolTipText(bundle.getString("addSpecMenuItem.toolTipText")); // NOI18N
-        popupAddSpecMenuItem.setName("popupAddSpecMenuItem"); // NOI18N
-        popupAddSpecMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                popupAddSpecMenuItemActionPerformed(evt);
-            }
-        });
-        popupAddItemMenu.add(popupAddSpecMenuItem);
-
-        popupAddNodeMenuItem.setText(bundle.getString("addNodeMenuItem.text")); // NOI18N
-        popupAddNodeMenuItem.setToolTipText(bundle.getString("addNodeMenuItem.toolTipText")); // NOI18N
-        popupAddNodeMenuItem.setName("popupAddNodeMenuItem"); // NOI18N
-        popupAddNodeMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                popupAddNodeMenuItemActionPerformed(evt);
-            }
-        });
-        popupAddItemMenu.add(popupAddNodeMenuItem);
-
-        catalogTreePopupMenu.add(popupAddItemMenu);
+        catalogTreePopupMenu.add(popupAddMenuItem);
 
         popupEditMenuItem.setText(bundle.getString("editMenuItem.text")); // NOI18N
         popupEditMenuItem.setToolTipText(bundle.getString("editMenuItem,toolTipText")); // NOI18N
@@ -364,25 +335,6 @@ public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePane
             setNode(null);
         }
     }//GEN-LAST:event_catalogTreeValueChanged
-
-    private void popupAddNodeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupAddNodeMenuItemActionPerformed
-        if (currentItem != null) {
-            // TODO: Use different transaction management later
-            EntityManager em = ((XBECatalog) catalog).getEntityManager();
-            EntityTransaction transaction = em.getTransaction();
-            transaction.begin();
-            XBCNode newNode = (XBCNode) nodeService.createItem();
-            if (newNode instanceof XBENode) {
-                ((XBENode) newNode).setParent((XBEItem) currentItem);
-
-                nodeService.persistItem((XBENode) newNode);
-                nodesModel.valueForPathChanged(null, newNode);
-            }
-            em.flush();
-            transaction.commit();
-            selectSpecTableRow(newNode);
-        }
-    }//GEN-LAST:event_popupAddNodeMenuItemActionPerformed
 
     private void popupEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupEditMenuItemActionPerformed
         if (currentItem != null) {
@@ -487,11 +439,7 @@ public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePane
         }
     }//GEN-LAST:event_popupImportItemMenuItemActionPerformed
 
-    private void popupAddCustomMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupAddCustomMenuItemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_popupAddCustomMenuItemActionPerformed
-
-    private void popupAddSpecMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupAddSpecMenuItemActionPerformed
+    private void popupAddMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupAddMenuItemActionPerformed
         CatalogAddItemDialog addDialog = new CatalogAddItemDialog(WindowUtils.getFrame(this), true);
         addDialog.setVisible(true);
         if (addDialog.getDialogOption() == JOptionPane.OK_OPTION) {
@@ -501,24 +449,30 @@ public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePane
             transaction.begin();
 
             XBENode node = (XBENode) (currentItem instanceof XBCNode ? currentItem : currentItem.getParent());
-            XBESpec spec = null;
+            XBEItem item = null;
             switch (addDialog.getItemType()) {
+                case NODE: {
+                    item = (XBENode) nodeService.createItem();
+                    Long newXbIndex = nodeService.findMaxSubNodeXB(node);
+                    item.setXBIndex(newXbIndex == null ? 0 : newXbIndex + 1);
+                    break;
+                }
                 case BLOCK: {
-                    spec = (XBESpec) specService.createBlockSpec();
+                    item = (XBESpec) specService.createBlockSpec();
                     Long newXbIndex = specService.findMaxBlockSpecXB(node);
-                    spec.setXBIndex(newXbIndex == null ? 0 : newXbIndex + 1);
+                    item.setXBIndex(newXbIndex == null ? 0 : newXbIndex + 1);
                     break;
                 }
                 case GROUP: {
-                    spec = (XBESpec) specService.createGroupSpec();
+                    item = (XBESpec) specService.createGroupSpec();
                     Long newXbIndex = specService.findMaxBlockSpecXB(node);
-                    spec.setXBIndex(newXbIndex == null ? 0 : newXbIndex + 1);
+                    item.setXBIndex(newXbIndex == null ? 0 : newXbIndex + 1);
                     break;
                 }
                 case FORMAT: {
-                    spec = (XBESpec) specService.createFormatSpec();
+                    item = (XBESpec) specService.createFormatSpec();
                     Long newXbIndex = specService.findMaxBlockSpecXB(node);
-                    spec.setXBIndex(newXbIndex == null ? 0 : newXbIndex + 1);
+                    item.setXBIndex(newXbIndex == null ? 0 : newXbIndex + 1);
                     break;
                 }
                 default: {
@@ -526,19 +480,23 @@ public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePane
                 }
             }
 
-            if (spec == null) {
+            if (item == null) {
                 throw new IllegalStateException();
             }
-            spec.setParent(node);
-            specService.persistItem(spec);
-            ((XBEXNameService) nameService).setDefaultText(spec, addDialog.getItemName());
+            item.setParent(node);
+            if (item instanceof XBCNode) {
+                nodeService.persistItem(item);
+            } else {
+                specService.persistItem(item);
+            }
+            ((XBEXNameService) nameService).setDefaultText(item, addDialog.getItemName());
             em.flush();
             transaction.commit();
 
             setNode(specsModel.getNode());
-            selectSpecTableRow(spec);
+            selectSpecTableRow(item);
         }
-    }//GEN-LAST:event_popupAddSpecMenuItemActionPerformed
+    }//GEN-LAST:event_popupAddMenuItemActionPerformed
 
     private void popupRefreshMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupRefreshMenuItemActionPerformed
         Component invoker = catalogTreePopupMenu.getInvoker();
@@ -606,10 +564,7 @@ public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePane
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JSplitPane panelSplitPane;
-    private javax.swing.JMenuItem popupAddCustomMenuItem;
-    private javax.swing.JMenu popupAddItemMenu;
-    private javax.swing.JMenuItem popupAddNodeMenuItem;
-    private javax.swing.JMenuItem popupAddSpecMenuItem;
+    private javax.swing.JMenuItem popupAddMenuItem;
     private javax.swing.JMenuItem popupEditMenuItem;
     private javax.swing.JMenuItem popupExportItemMenuItem;
     private javax.swing.JMenuItem popupImportItemMenuItem;
@@ -737,7 +692,7 @@ public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePane
     private void updateItem() {
         popupEditMenuItem.setEnabled(currentItem != null);
         popupExportItemMenuItem.setEnabled(currentItem != null);
-        popupAddItemMenu.setEnabled(currentItem instanceof XBCNode);
+        popupAddMenuItem.setEnabled(currentItem instanceof XBCNode);
         popupImportItemMenuItem.setEnabled(currentItem instanceof XBCNode);
     }
 }

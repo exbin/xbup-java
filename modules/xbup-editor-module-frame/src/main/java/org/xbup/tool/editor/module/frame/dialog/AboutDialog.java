@@ -33,15 +33,15 @@ import javax.swing.JLabel;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.table.DefaultTableModel;
-import org.xbup.tool.editor.base.api.utils.BareBonesBrowserLaunch;
+import org.xbup.tool.editor.utils.BareBonesBrowserLaunch;
 import org.xbup.tool.editor.base.api.ApplicationModuleInfo;
 import org.xbup.tool.editor.base.api.XBEditorApp;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 
 /**
  * MainFrame About Dialog.
  *
- * @version 0.1.24 2014/12/03
+ * @version 0.1.25 2015/04/11
  * @author XBUP Project (http://xbup.org)
  */
 public class AboutDialog extends javax.swing.JDialog implements HyperlinkListener {
@@ -193,6 +193,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         javax.swing.JLabel imageLabel = new javax.swing.JLabel();
         javax.swing.JLabel appTitleLabel = new javax.swing.JLabel();
         javax.swing.JLabel appDescLabel = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
 
         linkPopupMenu.setName("linkPopupMenu"); // NOI18N
 
@@ -432,6 +433,8 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         appDescLabel.setText(appBundle.getString("Application.description"));
         appDescLabel.setName("appDescLabel"); // NOI18N
 
+        jSeparator1.setName("jSeparator1"); // NOI18N
+
         javax.swing.GroupLayout aboutHeaderPanelLayout = new javax.swing.GroupLayout(aboutHeaderPanel);
         aboutHeaderPanel.setLayout(aboutHeaderPanelLayout);
         aboutHeaderPanelLayout.setHorizontalGroup(
@@ -441,21 +444,25 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(aboutHeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(aboutHeaderPanelLayout.createSequentialGroup()
-                        .addComponent(appTitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(appTitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
                         .addGap(235, 235, 235))
                     .addGroup(aboutHeaderPanelLayout.createSequentialGroup()
                         .addComponent(appDescLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
+            .addComponent(jSeparator1)
         );
         aboutHeaderPanelLayout.setVerticalGroup(
             aboutHeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(aboutHeaderPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(appTitleLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                .addComponent(appDescLabel)
-                .addContainerGap())
-            .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+                .addGroup(aboutHeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(aboutHeaderPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(appTitleLabel)
+                        .addGap(7, 7, 7)
+                        .addComponent(appDescLabel))
+                    .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -532,6 +539,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
     private javax.swing.JPanel environmentPanel;
     private javax.swing.JScrollPane environmentScrollPane;
     private javax.swing.JTable environmentTable;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JEditorPane licenseEditorPane;
     private javax.swing.JPanel licensePanel;
     private javax.swing.JScrollPane licenseScrollPane;

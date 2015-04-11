@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.tool.editor.base.api.utils;
+package org.xbup.tool.editor.utils;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
@@ -37,16 +38,27 @@ import javax.swing.SwingUtilities;
 import org.xbup.tool.editor.base.api.ModuleRepository;
 import org.xbup.tool.editor.base.api.XBEditorApp;
 import org.xbup.tool.editor.base.api.XBEditorFrame;
+import org.xbup.tool.editor.utils.panel.WindowHeaderPanel;
 
 /**
  * Some simple static methods usable for windows and dialogs.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.1.25 2015/04/11
  * @author XBUP Project (http://xbup.org)
  */
 public class WindowUtils {
 
     private static final int BUTTON_CLICK_TIME = 150;
+
+    public static void addHeaderPanel(JDialog dialog, String headerTitle, String headerDescription, String headerIcon) {
+        WindowHeaderPanel headerPanel = new WindowHeaderPanel();
+        headerPanel.setTitle(headerTitle);
+        headerPanel.setDescription(headerDescription);
+        if (!headerIcon.isEmpty()) {
+            headerPanel.setIcon(new ImageIcon(dialog.getClass().getResource(headerIcon)));
+        }
+        dialog.getContentPane().add(headerPanel, java.awt.BorderLayout.PAGE_START);
+    }
 
     private WindowUtils() {
     }

@@ -29,5 +29,6 @@ check.dependsOn.remove(test)
 
 dependencies {
     compile(project(":modules:xbup-editor-base-api"))
+    compile(project(":modules:xbup-editor-module-utils"))
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }

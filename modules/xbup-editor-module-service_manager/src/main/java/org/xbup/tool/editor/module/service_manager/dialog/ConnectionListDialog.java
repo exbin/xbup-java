@@ -19,7 +19,7 @@ package org.xbup.tool.editor.module.service_manager.dialog;
 import java.util.List;
 import javax.swing.JOptionPane;
 import org.xbup.tool.editor.module.service_manager.panel.ConnectionsManagerPanel;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 
 /**
  * XBManager Connection Selection Dialog.

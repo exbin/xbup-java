@@ -32,12 +32,12 @@ import org.xbup.tool.editor.module.service_manager.XBDbServiceClient;
 import org.xbup.lib.client.XBCatalogNetServiceClient;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.tool.editor.module.service_manager.XBServiceManagerFrame;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 
 /**
  * XBManager login dialog.
  *
- * @version 0.1.25 2015/03/02
+ * @version 0.1.25 2015/04/11
  * @author XBUP Project (http://xbup.org)
  */
 public class ConnectionDialog extends javax.swing.JDialog {
@@ -85,11 +85,12 @@ public class ConnectionDialog extends javax.swing.JDialog {
 
         accessTypeButtonGroup = new javax.swing.ButtonGroup();
         connectionHeaderPanel = new javax.swing.JPanel();
+        prereleaseWarningLabel = new javax.swing.JLabel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         serviceLabel = new javax.swing.JLabel();
         jLayeredPane2 = new javax.swing.JLayeredPane();
         logoImageLabel = new javax.swing.JLabel();
-        prereleaseWarningLabel = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
         connectionStatusPanel = new javax.swing.JPanel();
         statusPanel = new javax.swing.JPanel();
         statusTextLabel = new javax.swing.JLabel();
@@ -119,6 +120,8 @@ public class ConnectionDialog extends javax.swing.JDialog {
 
         connectionHeaderPanel.setBackground(new java.awt.Color(255, 255, 255));
 
+        prereleaseWarningLabel.setText(bundle.getString("prereleaseWarningLabel.text")); // NOI18N
+
         jLayeredPane1.setBackground(new java.awt.Color(204, 255, 204));
         jLayeredPane1.setOpaque(true);
 
@@ -131,8 +134,6 @@ public class ConnectionDialog extends javax.swing.JDialog {
         jLayeredPane2.add(logoImageLabel);
         logoImageLabel.setBounds(20, 0, 50, 80);
 
-        prereleaseWarningLabel.setText(bundle.getString("prereleaseWarningLabel.text")); // NOI18N
-
         org.jdesktop.layout.GroupLayout connectionHeaderPanelLayout = new org.jdesktop.layout.GroupLayout(connectionHeaderPanel);
         connectionHeaderPanel.setLayout(connectionHeaderPanelLayout);
         connectionHeaderPanelLayout.setHorizontalGroup(
@@ -140,11 +141,13 @@ public class ConnectionDialog extends javax.swing.JDialog {
             .add(org.jdesktop.layout.GroupLayout.TRAILING, connectionHeaderPanelLayout.createSequentialGroup()
                 .add(333, 333, 333)
                 .add(prereleaseWarningLabel)
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addContainerGap(97, Short.MAX_VALUE))
             .add(connectionHeaderPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jLayeredPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE))
+                .add(jLayeredPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE))
             .add(connectionHeaderPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jLayeredPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE))
+                .add(jLayeredPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE))
+            .add(connectionHeaderPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jSeparator1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE))
         );
         connectionHeaderPanelLayout.setVerticalGroup(
             connectionHeaderPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -158,6 +161,10 @@ public class ConnectionDialog extends javax.swing.JDialog {
                     .addContainerGap()
                     .add(jLayeredPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(22, Short.MAX_VALUE)))
+            .add(connectionHeaderPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(org.jdesktop.layout.GroupLayout.TRAILING, connectionHeaderPanelLayout.createSequentialGroup()
+                    .add(0, 82, Short.MAX_VALUE)
+                    .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
         );
 
         getContentPane().add(connectionHeaderPanel, java.awt.BorderLayout.NORTH);
@@ -525,6 +532,7 @@ public class ConnectionDialog extends javax.swing.JDialog {
     private javax.swing.JButton devDbLocalButton;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JLayeredPane jLayeredPane2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JRadioButton loginRadioButton;
     private javax.swing.JLabel logoImageLabel;

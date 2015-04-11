@@ -9,7 +9,7 @@
 //  Public Domain Software -- Free to Use as You Like  //
 /////////////////////////////////////////////////////////
 
-package org.xbup.tool.editor.base.api.utils;
+package org.xbup.tool.editor.utils;
 
 import java.lang.reflect.Method;
 import javax.swing.JOptionPane;

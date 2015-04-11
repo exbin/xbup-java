@@ -17,7 +17,7 @@
 package org.xbup.tool.editor.module.text_editor.dialog;
 
 import javax.swing.JOptionPane;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 
 /**
  * Find text dialog.

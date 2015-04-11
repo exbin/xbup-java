@@ -24,12 +24,12 @@ import java.util.List;
 import java.util.Map.Entry;
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 
 /**
  * Encoding Selection Panel.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.1.25 2015/04/11
  * @author XBUP Project (http://xbup.org)
  */
 public class AddEncodingDialog extends javax.swing.JDialog {

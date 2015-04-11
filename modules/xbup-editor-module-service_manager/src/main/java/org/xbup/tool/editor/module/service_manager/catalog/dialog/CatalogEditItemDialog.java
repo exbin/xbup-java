@@ -25,14 +25,14 @@ import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.tool.editor.base.api.MenuManagement;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditDefinitionPanel;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditPanel;
-import org.xbup.tool.editor.base.api.utils.WindowUtils;
+import org.xbup.tool.editor.utils.WindowUtils;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditFilesPanel;
 import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemEditRevsPanel;
 
 /**
  * XBManager Catalog Item Properties Dialog.
  *
- * @version 0.1.24 2015/01/14
+ * @version 0.1.24 2015/04/11
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogEditItemDialog extends javax.swing.JDialog {
@@ -46,6 +46,7 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
     private CatalogItemEditDefinitionPanel definitionPanel;
     private CatalogItemEditFilesPanel filesPanel;
     private MenuManagement menuManagement;
+    private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/catalog/dialog/resources/CatalogEditItemDialog");
 
     public CatalogEditItemDialog(java.awt.Frame frame, boolean modal) {
         super(frame, modal);
@@ -57,6 +58,7 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
     private void init() {
         WindowUtils.initWindow(this);
         initComponent(this);
+        WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
     }
 
     private void initComponent(Container container) {
@@ -76,17 +78,19 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        mainTabbedPane = new javax.swing.JTabbedPane();
         controlPanel = new javax.swing.JPanel();
         cancelButton = new javax.swing.JButton();
         setButton = new javax.swing.JButton();
-        mainTabbedPane = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/catalog/dialog/resources/CatalogEditItemDialog"); // NOI18N
-        setTitle(bundle.getString("Form.title")); // NOI18N
-        setLocationByPlatform(true);
+        setTitle(bundle.getString("title")); // NOI18N
         setModal(true);
         setName("Form"); // NOI18N
+
+        mainTabbedPane.setName("mainTabbedPane"); // NOI18N
+        getContentPane().add(mainTabbedPane, java.awt.BorderLayout.CENTER);
 
         controlPanel.setName("controlPanel"); // NOI18N
 
@@ -128,9 +132,6 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
         );
 
         getContentPane().add(controlPanel, java.awt.BorderLayout.PAGE_END);
-
-        mainTabbedPane.setName("mainTabbedPane"); // NOI18N
-        getContentPane().add(mainTabbedPane, java.awt.BorderLayout.CENTER);
 
         setSize(new java.awt.Dimension(657, 511));
         setLocationRelativeTo(null);

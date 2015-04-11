@@ -1151,7 +1151,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
         menuBar.add(toolsMenu);
 
-        optionsMenu.setText(bundle.getString("XBDocEditorFrame.optionsMenu.text")); // NOI18N
+        optionsMenu.setText(bundle.getString("optionsMenu.text")); // NOI18N
         optionsMenu.setName("optionsMenu"); // NOI18N
 
         optionsFontMenuItem.setText(bundle.getString("XBDocEditorFrame.optionsFontMenuItem.text")); // NOI18N

@@ -126,7 +126,7 @@ public class XBLinearUndo {
         return maxUndo;
     }
 
-    /** Perform revert to sync point */
+    /** Perform undo to sync point */
     public void doSync() {
 
     }

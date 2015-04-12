@@ -20,37 +20,55 @@ import org.xbup.lib.core.block.XBEditableDocument;
 import org.xbup.lib.operation.basic.XBBasicCommandType;
 
 /**
- * Interface for XBUP document command.
+ * Interface for XBUP editor command.
  *
- * @version 0.1.20 2010/09/12
+ * @version 0.1.25 2015/04/12
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCommand {
 
-    /** Get revert step type */
+    /**
+     * Returns operation type.
+     *
+     * @return command type
+     */
     public XBBasicCommandType getOpType();
 
-    /** Get caption as text */
+    /**
+     * Returns caption as text.
+     *
+     * @return text caption
+     */
     public String getCaption();
 
     /**
      * Performs operation on given document.
      *
-     * @param document a document to perform operation on.
+     * @param document a document to execute operation on
+     * @throws java.lang.Exception
      */
-    public void perform(XBEditableDocument document) throws Exception;
+    public void execute(XBEditableDocument document) throws Exception;
 
     /**
-     * Performs revert operation on given document.
+     * Performs redo on given document.
      *
-     * @param document a document to perform operation on.
+     * @param document a document to execute operation on
+     * @throws java.lang.Exception
      */
-    public void revert(XBEditableDocument document) throws Exception;
+    public void redo(XBEditableDocument document) throws Exception;
 
     /**
-     * Returns true if command support revert operation.
+     * Performs undo operation on given document.
      *
-     * @return true if revert supported.
+     * @param document a document to execute operation on
+     * @throws java.lang.Exception
      */
-    public boolean supportRevert();
+    public void undo(XBEditableDocument document) throws Exception;
+
+    /**
+     * Returns true if command support undo operation.
+     *
+     * @return true if undo supported
+     */
+    public boolean canUndo();
 }

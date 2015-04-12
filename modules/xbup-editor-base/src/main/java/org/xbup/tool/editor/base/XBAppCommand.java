@@ -14,46 +14,18 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.operation.basic;
+package org.xbup.tool.editor.base;
 
 /**
- * Undo operation type enumeration
+ * Interface for application command.
  *
  * @version 0.1.25 2015/04/12
  * @author XBUP Project (http://xbup.org)
  */
-public enum XBBasicCommandType {
+public interface XBAppCommand {
 
     /**
-     * Node added.
+     * Executes command method.
      */
-    NODE_ADD,
-    /**
-     * Node deleted.
-     */
-    NODE_DEL,
-    /**
-     * Node modified.
-     */
-    NODE_MOD,
-    /**
-     * Count of attribte changed.
-     */
-    NODE_RSZ_ATTR,
-    /**
-     * Attribute modified.
-     */
-    NODE_MOD_ATTR,
-    /**
-     * Data podified.
-     */
-    NODE_MOD_DATA,
-    /**
-     * Data size changed.
-     */
-    NODE_RSZ_DATA,
-    /**
-     * Node swaped.
-     */
-    NODE_SWAP
+    public void execute();
 }

@@ -24,22 +24,21 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBTBlock;
-import org.xbup.lib.core.block.XBTEditableDocument;
 import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.lib.operation.XBTCommand;
+import org.xbup.lib.operation.XBTDocCommand;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
 
 /**
  * Command for deleting block.
  *
- * @version 0.1.20 2010/09/15
+ * @version 0.1.25 2015/04/13
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTDeleteBlockCommand implements XBTCommand {
+public class XBTDeleteBlockCommand extends XBTDocCommand {
 
     private String caption;
-    private long position;
-    private long index;
+    private final long position;
+    private final long index;
     private InputStream data;
 
     public XBTDeleteBlockCommand(XBTTreeNode node) {
@@ -64,14 +63,14 @@ public class XBTDeleteBlockCommand implements XBTCommand {
     }
 
     @Override
-    public void perform(XBTEditableDocument document) {
+    public void redo() {
         XBTTreeNode node;
         XBTTreeNode parent;
         if ((position == 0) && (index == -1)) {
             node = (XBTTreeNode) document.getRootBlock();
             parent = null;
         } else {
-            parent = (XBTTreeNode) document.findNodeByIndex(position);
+            parent = (XBTTreeNode) document.findBlockByIndex(position);
             node = (XBTTreeNode) parent.getChildAt((int) index);
         }
 
@@ -90,7 +89,7 @@ public class XBTDeleteBlockCommand implements XBTCommand {
     }
 
     @Override
-    public void revert(XBTEditableDocument document) throws Exception {
+    public void undo() throws Exception {
         data.reset();
         if ((position == 0) && (index == -1)) {
             XBTTreeNode newNode = (XBTTreeNode) document.createNewBlock(null);
@@ -99,7 +98,7 @@ public class XBTDeleteBlockCommand implements XBTCommand {
 // TODO                newNode.setContext(document.getRootContext());
 // TODO                document.processSpec();
         } else {
-            XBTTreeNode node = (XBTTreeNode) document.findNodeByIndex(position);
+            XBTTreeNode node = (XBTTreeNode) document.findBlockByIndex(position);
             if (node == null) {
                 throw new Exception("Unable to find node referenced in undo");
             }
@@ -117,7 +116,7 @@ public class XBTDeleteBlockCommand implements XBTCommand {
     }
 
     @Override
-    public boolean supportRevert() {
+    public boolean canUndo() {
         return true;
     }
 }

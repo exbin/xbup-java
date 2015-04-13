@@ -48,7 +48,7 @@ import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
-import org.xbup.lib.operation.XBTCommand;
+import org.xbup.lib.operation.XBTDocCommand;
 import org.xbup.lib.operation.basic.XBTModAttrBlockCommand;
 import org.xbup.lib.operation.basic.XBTModDataBlockCommand;
 import org.xbup.lib.operation.basic.XBTModifyBlockCommand;
@@ -651,7 +651,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
 
     public void performModify() {
         XBTTreeNode node = getSelectedItem();
-        XBTCommand undoStep;
+        XBTDocCommand undoStep;
         try {
             ModifyBlockDialog dialog = new ModifyBlockDialog(WindowUtils.getFrame(this), true);
             dialog.setCatalog(catalog);

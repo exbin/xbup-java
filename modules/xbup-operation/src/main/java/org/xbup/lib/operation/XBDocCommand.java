@@ -16,15 +16,31 @@
  */
 package org.xbup.lib.operation;
 
+import org.xbup.lib.core.block.XBEditableDocument;
+import org.xbup.lib.operation.basic.XBBasicCommandType;
+
 /**
- * XB Level 0 interface for mutable data interface.
+ * Abstract class for command using XBUP level 0 document.
  *
- * @version 0.1.19 2010/06/08
+ * @version 0.1.25 2015/04/13
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBBrowseable {
+public abstract class XBDocCommand extends AbstractCommand {
 
-    /** Set active nody defined by given path */
-    public void setActiveNode(byte[] path);
+    protected XBEditableDocument document;
 
+    /**
+     * Returns operation type.
+     *
+     * @return command type
+     */
+    public abstract XBBasicCommandType getOpType();
+
+    public XBEditableDocument getDocument() {
+        return document;
+    }
+
+    public void setDocument(XBEditableDocument document) {
+        this.document = document;
+    }
 }

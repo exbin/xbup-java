@@ -16,14 +16,42 @@
  */
 package org.xbup.lib.operation;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
- * XB level 0 interface for linear data writing.
+ * Interface for compound XBUP editor command.
  *
- * @version 0.1.19 2010/06/08
+ * @version 0.1.25 2015/04/13
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBWritable {
+public interface CompoundCommand extends Command {
 
+    /**
+     * Append command to the list of commands.
+     *
+     * @param command appended command
+     */
+    public void appendCommand(Command command);
 
+    /**
+     * Append list of commands to the list of commands.
+     *
+     * @param commands appended commands
+     */
+    public void appendCommands(Collection<Command> commands);
 
+    /**
+     * Returns list of commands.
+     *
+     * @return list of commands
+     */
+    public List<Command> getCommands();
+
+    /**
+     * Returns true if compound command is empty.
+     *
+     * @return true if command is empty
+     */
+    public boolean isEmpty();
 }

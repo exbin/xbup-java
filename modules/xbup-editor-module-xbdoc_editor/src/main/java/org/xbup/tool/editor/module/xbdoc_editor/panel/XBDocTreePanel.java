@@ -49,7 +49,7 @@ import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
-import org.xbup.lib.operation.XBTCommand;
+import org.xbup.lib.operation.XBTDocCommand;
 import org.xbup.lib.operation.basic.XBTAddBlockCommand;
 import org.xbup.lib.operation.basic.XBTDeleteBlockCommand;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
@@ -300,7 +300,7 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
                 try {
                     newNode.fromStreamUB(new ByteArrayInputStream(stream.toByteArray()));
                     try {
-                        XBTCommand step = new XBTAddBlockCommand(node, newNode);
+                        XBTDocCommand step = new XBTAddBlockCommand(node, newNode);
                         getTreeUndo().performStep(step);
                         reportStructureChange(node);
                         updateItemStatus();
@@ -348,7 +348,7 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
         XBTTreeNode newNode = addItemDialog.showDialog();
         if (addItemDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             try {
-                XBTCommand step = new XBTAddBlockCommand(node, newNode);
+                XBTDocCommand step = new XBTAddBlockCommand(node, newNode);
                 getTreeUndo().performStep(step);
             } catch (Exception ex) {
                 Logger.getLogger(XBDocTreePanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -369,7 +369,7 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
     public void deleteNode(XBTTreeNode node) {
         XBTTreeNode parent = (XBTTreeNode) node.getParent();
         try {
-            XBTCommand step = new XBTDeleteBlockCommand(node);
+            XBTDocCommand step = new XBTDeleteBlockCommand(node);
             getTreeUndo().performStep(step);
         } catch (Exception ex) {
             Logger.getLogger(XBDocTreePanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -630,7 +630,7 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
                 try {
                     newNode.fromStreamUB(new ByteArrayInputStream(stream.toByteArray()));
                     try {
-                        XBTCommand step = new XBTAddBlockCommand(node, newNode);
+                        XBTDocCommand step = new XBTAddBlockCommand(node, newNode);
                         docTreePanel.getTreeUndo().performStep(step);
                         docTreePanel.reportStructureChange(node);
                         docTreePanel.mainDoc.processSpec();

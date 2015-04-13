@@ -19,19 +19,17 @@ package org.xbup.lib.operation.basic;
 import java.util.List;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBFixedBlockType;
-import org.xbup.lib.core.block.XBTEditableDocument;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.lib.core.ubnumber.UBNatural;
-import org.xbup.lib.operation.XBTCommand;
+import org.xbup.lib.operation.XBTDocCommand;
 
 /**
  * Command for modifying block attributes.
  *
- * @version 0.1.24 2014/10/07
+ * @version 0.1.25 2015/04/13
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTModAttrBlockCommand implements XBTCommand {
+public class XBTModAttrBlockCommand extends XBTDocCommand {
 
     private String caption;
     private List<XBAttribute> attrList;
@@ -64,8 +62,8 @@ public class XBTModAttrBlockCommand implements XBTCommand {
     }
 
     @Override
-    public void perform(XBTEditableDocument document) {
-        XBTTreeNode node = (XBTTreeNode) document.findNodeByIndex(position);
+    public void redo() {
+        XBTTreeNode node = (XBTTreeNode) document.findBlockByIndex(position);
         List<XBAttribute> newList = node.getAttributes();
         node.setAttributes(attrList);
         node.setFixedBlockType(blockType);
@@ -74,8 +72,8 @@ public class XBTModAttrBlockCommand implements XBTCommand {
     }
 
     @Override
-    public void revert(XBTEditableDocument document) throws Exception {
-        XBTTreeNode node = (XBTTreeNode) document.findNodeByIndex(position);
+    public void undo() throws Exception {
+        XBTTreeNode node = (XBTTreeNode) document.findBlockByIndex(position);
         List<XBAttribute> newList = node.getAttributes();
         node.setAttributes(attrList);
         node.setBlockType(blockType);
@@ -87,7 +85,7 @@ public class XBTModAttrBlockCommand implements XBTCommand {
     }
 
     @Override
-    public boolean supportRevert() {
+    public boolean canUndo() {
         return true;
     }
 }

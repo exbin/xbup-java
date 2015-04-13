@@ -19,62 +19,85 @@ package org.xbup.lib.operation.undo;
 import java.util.ArrayList;
 import java.util.List;
 import org.xbup.lib.parser_tree.XBTTreeDocument;
-import org.xbup.lib.operation.XBTCommand;
+import org.xbup.lib.operation.XBTDocCommand;
 
 /**
  * Linear undo command sequence storage.
  *
- * @version 0.1.20 2010/09/15
+ * @version 0.1.25 2015/04/13
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTLinearUndo {
 
-    private long maxUndo; // Max count of revert steps
-    private long maxSize; // Max size of revert steps space
-    private long usedSize; // Currently used size
-    private long position; // Current position in revert step list
-    private long syncPoint; // Position of currently saved file in step list
-    private List<XBTCommand> commandList;
-    private XBTTreeDocument document;
+    private long undoOperationsMaximumCount;
+    private long undoOperationsMaximumSize;
+    private long usedSize;
+    private long operationPosition;
+    private long syncPointPosition;
+    private final List<XBTDocCommand> commandList;
+    private final XBTTreeDocument document;
 
     /**
-     * Creates a new instance
+     * Creates a new instance.
+     *
+     * @param document document
      */
     public XBTLinearUndo(XBTTreeDocument document) {
         this.document = document;
-        maxUndo = 1024;
-        maxSize = 65535;
-        commandList = new ArrayList<XBTCommand>();
+        undoOperationsMaximumCount = 1024;
+        undoOperationsMaximumSize = 65535;
+        commandList = new ArrayList<>();
         init();
     }
 
-    /** Add new step into revert list */
-    public void performStep(XBTCommand step) throws Exception {
-        step.perform(document);
-        // TODO: Check for maxUndo & size
-        while (commandList.size()>position) {
-            commandList.remove((int) position);
+    /**
+     * Add new step into revert list.
+     *
+     * @param command
+     * @throws java.lang.Exception
+     */
+    public void performStep(XBTDocCommand command) throws Exception {
+        command.setDocument(document);
+        command.redo();
+        // TODO: Check for undoOperationsMaximumCount & size
+        while (commandList.size() > operationPosition) {
+            commandList.remove((int) operationPosition);
         }
-        commandList.add(step);
-        position++;
+        commandList.add(command);
+        operationPosition++;
     }
 
-    /** Perform single undo step */
+    /**
+     * Perform single undo step.
+     *
+     * @throws java.lang.Exception
+     */
     public void performUndo() throws Exception {
-        position--;
-        XBTCommand step = commandList.get((int) position);
-        step.revert(document);
+        operationPosition--;
+        XBTDocCommand command = commandList.get((int) operationPosition);
+        command.setDocument(document);
+        command.undo();
     }
 
-    /** Perform single redo step */
+    /**
+     * Perform single redo step.
+     *
+     * @throws java.lang.Exception
+     */
     public void performRedo() throws Exception {
-        XBTCommand step = commandList.get((int) position);
-        step.perform(document);
-        position++;
+        XBTDocCommand command = commandList.get((int) operationPosition);
+        command.setDocument(document);
+        command.redo();
+        operationPosition++;
     }
 
+    /**
+     *
+     * @param count
+     * @throws Exception
+     */
     public void performUndo(int count) throws Exception {
-        if (position < count) {
+        if (operationPosition < count) {
             throw new IllegalArgumentException("Unable to perform " + count + " undo steps");
         }
         while (count > 0) {
@@ -84,7 +107,7 @@ public class XBTLinearUndo {
     }
 
     public void performRedo(int count) throws Exception {
-        if (commandList.size() - position < count) {
+        if (commandList.size() - operationPosition < count) {
             throw new IllegalArgumentException("Unable to perform " + count + " redo steps");
         }
         while (count > 0) {
@@ -98,35 +121,38 @@ public class XBTLinearUndo {
     }
 
     public boolean canUndo() {
-        return position > 0;
+        return operationPosition > 0;
     }
 
     public boolean canRedo() {
-        return commandList.size() > position;
+        return commandList.size() > operationPosition;
     }
 
     public long getMaxUndo() {
-        return maxUndo;
+        return undoOperationsMaximumCount;
     }
 
-    /** Perform revert to sync point */
+    /**
+     * Perform revert to sync point.
+     */
     public void doSync() {
     }
 
     public void setMaxUndo(long maxUndo) {
-        this.maxUndo = maxUndo;
+        this.undoOperationsMaximumCount = maxUndo;
     }
 
     public long getMaxSize() {
-        return maxSize;
+        return undoOperationsMaximumSize;
     }
 
-    public String getDesc(XBTCommand undoStep) {
-        return undoStep.getCaption();
+    public String getDesc(XBTDocCommand command) {
+        command.setDocument(document);
+        return command.getCaption();
     }
 
     public void setMaxSize(long maxSize) {
-        this.maxSize = maxSize;
+        this.undoOperationsMaximumSize = maxSize;
     }
 
     public long getUsedSize() {
@@ -134,39 +160,21 @@ public class XBTLinearUndo {
     }
 
     public long getSyncPoint() {
-        return syncPoint;
+        return syncPointPosition;
     }
 
     public void setSyncPoint(long syncPoint) {
-        this.syncPoint = syncPoint;
+        this.syncPointPosition = syncPoint;
     }
 
     public void setSyncPoint() {
-        this.syncPoint = position;
+        this.syncPointPosition = operationPosition;
     }
 
     private void init() {
         usedSize = 0;
-        position = 0;
+        operationPosition = 0;
         setSyncPoint(0);
         commandList.clear();
     }
-
-    /*            switch (opType) {
-                case NODE_ADD:
-                case NODE_DEL:
-                    return "Deleted item";
-                case NODE_MOD:
-                    return "Modified item";
-                case NODE_RSZ_ATTR:
-                    return "Resized count of attributes";
-                case NODE_MOD_DATA:
-                    return "Modified item data part";
-                case NODE_RSZ_DATA:
-                    return "Resized item data part";
-                case NODE_SWAP:
-                    return "Swaped items";
-                default:
-                    return "Unknown";
-            } */
 }

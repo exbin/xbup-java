@@ -18,17 +18,16 @@ package org.xbup.lib.operation.basic;
 
 import java.io.InputStream;
 import org.xbup.lib.core.block.XBBlockDataMode;
-import org.xbup.lib.core.block.XBTEditableDocument;
 import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.lib.operation.XBTCommand;
+import org.xbup.lib.operation.XBTDocCommand;
 
 /**
  * Command for modifying block data.
  *
- * @version 0.1.20 2010/09/15
+ * @version 0.1.25 2015/04/13
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTModDataBlockCommand implements XBTCommand {
+public class XBTModDataBlockCommand extends XBTDocCommand {
 
     private String caption;
     private InputStream dataList;
@@ -57,16 +56,16 @@ public class XBTModDataBlockCommand implements XBTCommand {
     }
 
     @Override
-    public void perform(XBTEditableDocument document) {
-        XBTTreeNode node = (XBTTreeNode) document.findNodeByIndex(position);
+    public void redo() {
+        XBTTreeNode node = (XBTTreeNode) document.findBlockByIndex(position);
         InputStream newList = node.getData();
         node.setData(dataList);
         dataList = newList;
     }
 
     @Override
-    public void revert(XBTEditableDocument document) throws Exception {
-        XBTTreeNode node = (XBTTreeNode) document.findNodeByIndex(position);
+    public void undo() throws Exception {
+        XBTTreeNode node = (XBTTreeNode) document.findBlockByIndex(position);
         InputStream newList = node.getData();
         node.setData(dataList);
         dataList = newList;
@@ -77,7 +76,7 @@ public class XBTModDataBlockCommand implements XBTCommand {
     }
 
     @Override
-    public boolean supportRevert() {
+    public boolean canUndo() {
         return true;
     }
 }

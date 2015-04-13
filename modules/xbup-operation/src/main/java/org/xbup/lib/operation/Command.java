@@ -16,41 +16,53 @@
  */
 package org.xbup.lib.operation;
 
-import org.xbup.lib.core.block.XBTEditableDocument;
-import org.xbup.lib.operation.basic.XBBasicCommandType;
-
 /**
- * Interface for XBUP document command.
+ * Interface for XBUP editor command.
  *
- * @version 0.1.20 2010/09/12
+ * @version 0.1.25 2015/04/13
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBTCommand {
+public interface Command {
 
-    /** Get revert step type */
-    public XBBasicCommandType getOpType();
-
-    /** Get caption as text */
+    /**
+     * Returns caption as text.
+     *
+     * @return text caption
+     */
     public String getCaption();
 
     /**
      * Performs operation on given document.
      *
-     * @param document a document to perform operation on.
+     * @throws java.lang.Exception
      */
-    public void perform(XBTEditableDocument document) throws Exception;
+    public void execute() throws Exception;
 
     /**
-     * Performs revert operation on given document.
+     * Performs redo on given document.
      *
-     * @param document a document to perform operation on.
+     * @throws java.lang.Exception
      */
-    public void revert(XBTEditableDocument document) throws Exception;
+    public void redo() throws Exception;
 
     /**
-     * Returns true if command support revert operation.
+     * Performs undo operation on given document.
      *
-     * @return true if revert supported.
+     * @throws java.lang.Exception
      */
-    public boolean supportRevert();
+    public void undo() throws Exception;
+
+    /**
+     * Returns true if command support undo operation.
+     *
+     * @return true if undo supported
+     */
+    public boolean canUndo();
+
+    /**
+     * Disposes command.
+     *
+     * @throws java.lang.Exception
+     */
+    public void dispose() throws Exception;
 }

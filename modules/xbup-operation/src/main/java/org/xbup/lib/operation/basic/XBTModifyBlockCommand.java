@@ -25,18 +25,17 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBTBlock;
-import org.xbup.lib.core.block.XBTEditableDocument;
 import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.lib.operation.XBTCommand;
+import org.xbup.lib.operation.XBTDocCommand;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
 
 /**
  * Command for modifying block.
  *
- * @version 0.1.24 2015/01/17
+ * @version 0.1.25 2015/04/13
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTModifyBlockCommand implements XBTCommand {
+public class XBTModifyBlockCommand extends XBTDocCommand {
 
     private String caption;
     private final long position;
@@ -67,14 +66,14 @@ public class XBTModifyBlockCommand implements XBTCommand {
     }
 
     @Override
-    public void perform(XBTEditableDocument document) {
+    public void redo() {
         XBTTreeNode node;
         XBTTreeNode parent;
         if ((position == 0) && (index == -1)) {
             node = (XBTTreeNode) document.getRootBlock();
             parent = null;
         } else {
-            parent = (XBTTreeNode) document.findNodeByIndex(position);
+            parent = (XBTTreeNode) document.findBlockByIndex(position);
             node = (XBTTreeNode) parent.getChildAt((int) index);
         }
 
@@ -92,15 +91,15 @@ public class XBTModifyBlockCommand implements XBTCommand {
         }
 
         if ((position == 0) && (index == -1)) {
-            if (document.getRootBlock()==null) {
+            if (document.getRootBlock() == null) {
                 document.setRootBlock(newNode);
 // TODO                    document.processSpec();
 // TODO                    document.processSpec();
             }
         } else {
-            node = (XBTTreeNode) document.findNodeByIndex(position);
+            node = (XBTTreeNode) document.findBlockByIndex(position);
             List<XBTBlock> children = node.getChildren();
-            if (children==null) {
+            if (children == null) {
                 children = new ArrayList<>();
                 node.setChildren(children);
             }
@@ -112,15 +111,15 @@ public class XBTModifyBlockCommand implements XBTCommand {
     }
 
     @Override
-    public void revert(XBTEditableDocument document) throws Exception {
+    public void undo() throws Exception {
         if (position == -1) {
             newNode = (XBTTreeNode) document.getRootBlock();
             document.clear();
         } else {
-            XBTTreeNode node = (XBTTreeNode) document.findNodeByIndex(position);
+            XBTTreeNode node = (XBTTreeNode) document.findBlockByIndex(position);
             List<XBTBlock> children = node.getChildren();
-            newNode = (XBTTreeNode) children.get(children.size()-1);
-            children.remove(children.size()-1);
+            newNode = (XBTTreeNode) children.get(children.size() - 1);
+            children.remove(children.size() - 1);
         }
         data.reset();
         if ((position == 0) && (index == -1)) {
@@ -130,7 +129,7 @@ public class XBTModifyBlockCommand implements XBTCommand {
 // TODO                restoredNode.setContext(document.getRootContext());
 // TODO                document.processSpec();
         } else {
-            XBTTreeNode node = (XBTTreeNode) document.findNodeByIndex(position);
+            XBTTreeNode node = (XBTTreeNode) document.findBlockByIndex(position);
             if (node == null) {
                 throw new Exception("Unable to find node referenced in undo");
             }
@@ -148,7 +147,7 @@ public class XBTModifyBlockCommand implements XBTCommand {
     }
 
     @Override
-    public boolean supportRevert() {
+    public boolean canUndo() {
         return true;
     }
 }

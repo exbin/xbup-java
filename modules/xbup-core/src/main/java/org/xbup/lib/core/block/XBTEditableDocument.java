@@ -21,7 +21,7 @@ import java.io.InputStream;
 /**
  * Basic interface for editable XBUP level 1 document.
  *
- * @version 0.1.23 2013/11/25
+ * @version 0.1.25 2015/04/13
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTEditableDocument extends XBTDocument {
@@ -51,7 +51,7 @@ public interface XBTEditableDocument extends XBTDocument {
      * @param index order of the block in document
      * @return block if found else null
      */
-    public XBTBlock findNodeByIndex(long index);
+    public XBTBlock findBlockByIndex(long index);
 
     /**
      * Creates new instance of block as next child for given block.

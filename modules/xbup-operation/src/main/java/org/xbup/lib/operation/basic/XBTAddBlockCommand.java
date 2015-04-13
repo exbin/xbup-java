@@ -20,21 +20,20 @@ import java.util.ArrayList;
 import java.util.List;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
-import org.xbup.lib.core.block.XBTEditableDocument;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.operation.XBTCommand;
+import org.xbup.lib.operation.XBTDocCommand;
 
 /**
  * Command for adding child block.
  *
- * @version 0.1.20 2010/09/15
+ * @version 0.1.25 2015/04/13
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTAddBlockCommand implements XBTCommand {
+public class XBTAddBlockCommand extends XBTDocCommand {
 
     private String caption;
-    XBTEditableBlock newNode;
-    private long position;
+    private XBTEditableBlock newNode;
+    private final long position;
 
     public XBTAddBlockCommand(XBTEditableBlock node, XBTEditableBlock newNode) {
         caption = "Added item";
@@ -57,7 +56,7 @@ public class XBTAddBlockCommand implements XBTCommand {
     }
 
     @Override
-    public void perform(XBTEditableDocument document) throws XBProcessingException {
+    public void redo() throws XBProcessingException {
         if (position == -1) {
             if (document.getRootBlock() == null) {
                 document.setRootBlock(newNode);
@@ -65,10 +64,10 @@ public class XBTAddBlockCommand implements XBTCommand {
 // TODO:                document.processSpec();
             }
         } else {
-            XBTEditableBlock node = (XBTEditableBlock) document.findNodeByIndex(position);
+            XBTEditableBlock node = (XBTEditableBlock) document.findBlockByIndex(position);
             List<XBTBlock> children = node.getChildren();
             if (children == null) {
-                children = new ArrayList<XBTBlock>();
+                children = new ArrayList<>();
                 node.setChildren(children);
             }
             children.add(newNode);
@@ -79,14 +78,14 @@ public class XBTAddBlockCommand implements XBTCommand {
     }
 
     @Override
-    public void revert(XBTEditableDocument document) {
+    public void undo() {
         if (position == -1) {
             newNode = (XBTEditableBlock) document.getRootBlock();
             document.clear();
         } else {
-            XBTEditableBlock node = (XBTEditableBlock) document.findNodeByIndex(position);
+            XBTEditableBlock node = (XBTEditableBlock) document.findBlockByIndex(position);
             List<XBTBlock> children = node.getChildren();
-            newNode = (XBTEditableBlock) children.get(children.size()-1);
+            newNode = (XBTEditableBlock) children.get(children.size() - 1);
             children.remove(children.size() - 1);
         }
     }
@@ -96,7 +95,7 @@ public class XBTAddBlockCommand implements XBTCommand {
     }
 
     @Override
-    public boolean supportRevert() {
+    public boolean canUndo() {
         return true;
     }
 }

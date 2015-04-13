@@ -16,23 +16,31 @@
  */
 package org.xbup.lib.operation;
 
-import org.xbup.lib.core.block.XBBlock;
+import org.xbup.lib.core.block.XBTEditableDocument;
+import org.xbup.lib.operation.basic.XBBasicCommandType;
 
 /**
- * XB Level 0 interface for mutable data interface.
+ * Abstract class for command using XBUP level 1 document.
  *
- * @version 0.1.19 2010/06/08
+ * @version 0.1.25 2015/04/13
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBMutable {
+public abstract class XBTDocCommand extends AbstractCommand {
 
-    public void mkNode();
+    protected XBTEditableDocument document;
 
-    public void mkNode(XBBlock block);
+    /**
+     * Returns type of the command.
+     *
+     * @return command type
+     */
+    public abstract XBBasicCommandType getOpType();
 
-    public void mkDataNode();
+    public XBTEditableDocument getDocument() {
+        return document;
+    }
 
-    public void rmNode(int node);
-
-    // TODO
+    public void setDocument(XBTEditableDocument document) {
+        this.document = document;
+    }
 }

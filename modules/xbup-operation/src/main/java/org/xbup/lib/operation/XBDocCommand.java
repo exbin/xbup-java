@@ -17,12 +17,12 @@
 package org.xbup.lib.operation;
 
 import org.xbup.lib.core.block.XBEditableDocument;
-import org.xbup.lib.operation.basic.XBBasicCommandType;
+import org.xbup.lib.operation.basic.XBBasicOperationType;
 
 /**
- * Abstract class for command using XBUP level 0 document.
+ * Abstract class for operation using XBUP level 0 document.
  *
- * @version 0.1.25 2015/04/13
+ * @version 0.1.25 2015/04/19
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class XBDocCommand extends AbstractCommand {
@@ -34,7 +34,7 @@ public abstract class XBDocCommand extends AbstractCommand {
      *
      * @return command type
      */
-    public abstract XBBasicCommandType getOpType();
+    public abstract XBBasicOperationType getOpType();
 
     public XBEditableDocument getDocument() {
         return document;
@@ -42,5 +42,14 @@ public abstract class XBDocCommand extends AbstractCommand {
 
     public void setDocument(XBEditableDocument document) {
         this.document = document;
+    }
+
+    /**
+     * Default dispose is empty.
+     *
+     * @throws Exception
+     */
+    @Override
+    public void dispose() throws Exception {
     }
 }

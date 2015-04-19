@@ -16,31 +16,31 @@
  */
 package org.xbup.lib.operation;
 
-import org.xbup.lib.core.block.XBTEditableDocument;
+import org.xbup.lib.core.block.XBEditableDocument;
 import org.xbup.lib.operation.basic.XBBasicOperationType;
 
 /**
- * Abstract class for operation using XBUP level 1 document.
+ * Abstract class for operation using XBUP level 0 document.
  *
- * @version 0.1.25 2015/04/19
+ * @version 0.1.25 2015/04/18
  * @author XBUP Project (http://xbup.org)
  */
-public abstract class XBTDocCommand extends AbstractCommand {
+public abstract class XBDocOperation implements Operation {
 
-    protected XBTEditableDocument document;
+    protected XBEditableDocument document;
 
     /**
-     * Returns type of the command.
+     * Returns operation type.
      *
      * @return command type
      */
     public abstract XBBasicOperationType getOpType();
 
-    public XBTEditableDocument getDocument() {
+    public XBEditableDocument getDocument() {
         return document;
     }
 
-    public void setDocument(XBTEditableDocument document) {
+    public void setDocument(XBEditableDocument document) {
         this.document = document;
     }
 

@@ -14,40 +14,47 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.operation.basic;
+package org.xbup.lib.operation.basic.command;
 
-import java.io.InputStream;
+import java.util.List;
 import org.xbup.lib.core.block.XBBlockDataMode;
-import org.xbup.lib.parser_tree.XBTTreeNode;
+import org.xbup.lib.core.block.XBFixedBlockType;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.operation.XBTDocCommand;
+import org.xbup.lib.parser_tree.XBTTreeNode;
+import org.xbup.lib.operation.basic.XBBasicOperationType;
 
 /**
- * Command for modifying block data.
+ * Command for modifying block attributes.
  *
  * @version 0.1.25 2015/04/13
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTModDataBlockCommand extends XBTDocCommand {
+public class XBTModAttrBlockCommand extends XBTDocCommand {
 
     private String caption;
-    private InputStream dataList;
+    private List<XBAttribute> attrList;
+    private XBFixedBlockType blockType;
+    private boolean singleAttributeType = true;
     private int position;
 
-    public XBTModDataBlockCommand(XBTTreeNode node, XBTTreeNode newNode) throws Exception {
+    public XBTModAttrBlockCommand(XBTTreeNode node, XBTTreeNode newNode) throws Exception {
         caption = "Modified attribute value";
-        if (newNode.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
-            throw new Exception("Unable to process attribute node");
+        if (newNode.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
+            throw new Exception("Unable to process data node");
         }
-        if (node.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
-            throw new Exception("Unable to process attribute node");
+        if (node.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
+            throw new Exception("Unable to process data node");
         }
-        dataList = newNode.getData();
+        attrList = newNode.getAttributes();
+        blockType = newNode.getFixedBlockType();
+        singleAttributeType = newNode.getSingleAttributeType();
         position = node.getBlockIndex();
     }
 
     @Override
-    public XBBasicCommandType getOpType() {
-        return XBBasicCommandType.NODE_MOD_DATA;
+    public XBBasicOperationType getOpType() {
+        return XBBasicOperationType.NODE_MOD_ATTR;
     }
 
     @Override
@@ -58,17 +65,20 @@ public class XBTModDataBlockCommand extends XBTDocCommand {
     @Override
     public void redo() {
         XBTTreeNode node = (XBTTreeNode) document.findBlockByIndex(position);
-        InputStream newList = node.getData();
-        node.setData(dataList);
-        dataList = newList;
+        List<XBAttribute> newList = node.getAttributes();
+        node.setAttributes(attrList);
+        node.setFixedBlockType(blockType);
+        node.setSingleAttributeType(singleAttributeType);
+        attrList = newList;
     }
 
     @Override
     public void undo() throws Exception {
         XBTTreeNode node = (XBTTreeNode) document.findBlockByIndex(position);
-        InputStream newList = node.getData();
-        node.setData(dataList);
-        dataList = newList;
+        List<XBAttribute> newList = node.getAttributes();
+        node.setAttributes(attrList);
+        node.setBlockType(blockType);
+        attrList = newList;
     }
 
     public void setCaption(String caption) {

@@ -19,7 +19,7 @@ package org.xbup.lib.operation.undo;
 import java.util.ArrayList;
 import java.util.List;
 import org.xbup.lib.parser_tree.XBTree;
-import org.xbup.lib.operation.XBDocCommand;
+import org.xbup.lib.operation.XBDocOperation;
 
 /**
  * Class for keeping undo command sequence.
@@ -36,7 +36,7 @@ public class XBLinearUndo {
     private long usedSize; // Currently used size
     private long position; // Current position in history qeue
     private long syncPoint; // Position of currently stored state
-    private final List<XBDocCommand> operationList;
+    private final List<XBDocOperation> operationList;
     private final XBTree tree;
 
     /**
@@ -49,14 +49,14 @@ public class XBLinearUndo {
         maxUndo = 1024;
         maxSize = 65535;
         operationList = new ArrayList<>();
-        clear();
+        init();
     }
 
     public void performUndo() throws Exception {
         if (position == 0) {
             throw new Exception("");
         }
-        XBDocCommand op = operationList.get((int) position);
+        XBDocOperation op = operationList.get((int) position);
         switch (op.getOpType()) {
             case NODE_ADD: {
 //                XBL1TreeNode node = (XBL1TreeNode) tree.findNodeByIndex(op.getIndex());
@@ -111,6 +111,10 @@ public class XBLinearUndo {
     }
 
     public void clear() {
+        init();
+    }
+
+    private void init() {
         usedSize = 0;
         position = 0;
         setSyncPoint(0);
@@ -144,7 +148,7 @@ public class XBLinearUndo {
         return maxSize;
     }
 
-    public String getDesc(XBDocCommand undoStep) {
+    public String getDesc(XBDocOperation undoStep) {
         return undoStep.getCaption();
     }
 

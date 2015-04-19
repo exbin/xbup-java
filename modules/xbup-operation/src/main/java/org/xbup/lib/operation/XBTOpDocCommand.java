@@ -16,40 +16,45 @@
  */
 package org.xbup.lib.operation;
 
-import org.xbup.lib.core.block.XBTEditableDocument;
-import org.xbup.lib.operation.basic.XBBasicOperationType;
-
 /**
  * Abstract class for operation using XBUP level 1 document.
  *
  * @version 0.1.25 2015/04/19
  * @author XBUP Project (http://xbup.org)
  */
-public abstract class XBTDocCommand extends AbstractCommand {
+public abstract class XBTOpDocCommand extends XBTDocCommand {
 
-    protected XBTEditableDocument document;
+    private XBTDocOperation redoOperation;
+    private XBTDocOperation undoOperation;
 
-    /**
-     * Returns type of the command.
-     *
-     * @return command type
-     */
-    public abstract XBBasicOperationType getOpType();
-
-    public XBTEditableDocument getDocument() {
-        return document;
+    public XBTDocOperation getRedoOperation() {
+        return redoOperation;
     }
 
-    public void setDocument(XBTEditableDocument document) {
-        this.document = document;
+    public void setRedoOperation(XBTDocOperation redoOperation) {
+        this.redoOperation = redoOperation;
     }
 
-    /**
-     * Default dispose is empty.
-     *
-     * @throws Exception
-     */
+    public XBTDocOperation getUndoOperation() {
+        return undoOperation;
+    }
+
+    public void setUndoOperation(XBTDocOperation undoOperation) {
+        this.undoOperation = undoOperation;
+    }
+
     @Override
-    public void dispose() throws Exception {
+    public boolean canUndo() {
+        return undoOperation != null;
+    }
+
+    @Override
+    public void undo() throws Exception {
+        undoOperation.execute();
+    }
+
+    @Override
+    public void redo() throws Exception {
+        redoOperation.execute();
     }
 }

@@ -16,40 +16,32 @@
  */
 package org.xbup.lib.operation;
 
-import org.xbup.lib.core.block.XBTEditableDocument;
-import org.xbup.lib.operation.basic.XBBasicOperationType;
-
 /**
- * Abstract class for operation using XBUP level 1 document.
+ * Interface for XBUP editor operation.
  *
- * @version 0.1.25 2015/04/19
+ * @version 0.1.25 2015/04/18
  * @author XBUP Project (http://xbup.org)
  */
-public abstract class XBTDocCommand extends AbstractCommand {
-
-    protected XBTEditableDocument document;
+public interface Operation {
 
     /**
-     * Returns type of the command.
+     * Returns caption as text.
      *
-     * @return command type
+     * @return text caption
      */
-    public abstract XBBasicOperationType getOpType();
-
-    public XBTEditableDocument getDocument() {
-        return document;
-    }
-
-    public void setDocument(XBTEditableDocument document) {
-        this.document = document;
-    }
+    public String getCaption();
 
     /**
-     * Default dispose is empty.
+     * Performs operation on given document.
      *
-     * @throws Exception
+     * @throws java.lang.Exception
      */
-    @Override
-    public void dispose() throws Exception {
-    }
+    public void execute() throws Exception;
+
+    /**
+     * Disposes command.
+     *
+     * @throws java.lang.Exception
+     */
+    public void dispose() throws Exception;
 }

@@ -14,35 +14,39 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.operation.basic;
+package org.xbup.lib.operation.basic.command;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBTBlock;
-import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.operation.XBTDocCommand;
+import org.xbup.lib.parser_tree.XBTTreeNode;
+import org.xbup.lib.operation.basic.XBBasicOperationType;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
 
 /**
- * Command for deleting block.
+ * Command for modifying block.
  *
  * @version 0.1.25 2015/04/13
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTDeleteBlockCommand extends XBTDocCommand {
+public class XBTModifyBlockCommand extends XBTDocCommand {
 
     private String caption;
     private final long position;
     private final long index;
     private InputStream data;
+    XBTTreeNode newNode;
 
-    public XBTDeleteBlockCommand(XBTTreeNode node) {
-        caption = "Deleted item";
+    public XBTModifyBlockCommand(XBTTreeNode node, XBTTreeNode newNode) {
+        caption = "Replaced item";
+        this.newNode = newNode;
         if (node.getParent() != null) {
             position = node.getParent().getBlockIndex();
             index = node.getParent().getIndex(node);
@@ -53,8 +57,8 @@ public class XBTDeleteBlockCommand extends XBTDocCommand {
     }
 
     @Override
-    public XBBasicCommandType getOpType() {
-        return XBBasicCommandType.NODE_DEL;
+    public XBBasicOperationType getOpType() {
+        return XBBasicOperationType.NODE_MOD;
     }
 
     @Override
@@ -82,20 +86,48 @@ public class XBTDeleteBlockCommand extends XBTDocCommand {
         }
         data = new ByteArrayInputStream(stream.toByteArray());
         if ((position == 0) && (index == -1)) {
-            document.clear();
+            document.setRootBlock(null); // TODO: clear() would also delete extended area
         } else {
             parent.getChildren().remove(node);
+        }
+
+        if ((position == 0) && (index == -1)) {
+            if (document.getRootBlock() == null) {
+                document.setRootBlock(newNode);
+// TODO                    document.processSpec();
+// TODO                    document.processSpec();
+            }
+        } else {
+            node = (XBTTreeNode) document.findBlockByIndex(position);
+            List<XBTBlock> children = node.getChildren();
+            if (children == null) {
+                children = new ArrayList<>();
+                node.setChildren(children);
+            }
+            children.add(newNode);
+            newNode.setParent(node);
+            // TODO: update context newNode.setContext(node.getContext());
+// TODO                document.processSpec();
         }
     }
 
     @Override
     public void undo() throws Exception {
+        if (position == -1) {
+            newNode = (XBTTreeNode) document.getRootBlock();
+            document.clear();
+        } else {
+            XBTTreeNode node = (XBTTreeNode) document.findBlockByIndex(position);
+            List<XBTBlock> children = node.getChildren();
+            newNode = (XBTTreeNode) children.get(children.size() - 1);
+            children.remove(children.size() - 1);
+        }
         data.reset();
         if ((position == 0) && (index == -1)) {
-            XBTTreeNode newNode = (XBTTreeNode) document.createNewBlock(null);
-            newNode.fromStreamUB(data);
-            document.setRootBlock(newNode);
-// TODO                newNode.setContext(document.getRootContext());
+            XBTTreeNode restoredNode = (XBTTreeNode) document.createNewBlock(null);
+            restoredNode.fromStreamUB(data);
+            document.setRootBlock(restoredNode);
+// TODO                restoredNode.setContext(document.getRootContext());
 // TODO                document.processSpec();
         } else {
             XBTTreeNode node = (XBTTreeNode) document.findBlockByIndex(position);
@@ -103,10 +135,10 @@ public class XBTDeleteBlockCommand extends XBTDocCommand {
                 throw new Exception("Unable to find node referenced in undo");
             }
             List<XBTBlock> children = node.getChildren();
-            XBTTreeNode newNode = (XBTTreeNode) node.newNodeInstance(node);
-            newNode.fromStreamUB(data);
-            children.add((int) index, newNode);
-            // TODO: Update context newNode.setContext(node.getContext());
+            XBTTreeNode restoredNode = (XBTTreeNode) node.newNodeInstance(node);
+            restoredNode.fromStreamUB(data);
+            children.add((int) index, restoredNode);
+            // TODO: Update context restoredNode.setContext(node.getContext());
         }
         data = null;
     }

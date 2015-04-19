@@ -18,21 +18,21 @@ package org.xbup.lib.operation.undo;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.xbup.lib.parser_tree.XBTTreeDocument;
 import org.xbup.lib.operation.XBTDocCommand;
+import org.xbup.lib.parser_tree.XBTTreeDocument;
 
 /**
  * Linear undo command sequence storage.
  *
- * @version 0.1.25 2015/04/13
+ * @version 0.1.25 2015/04/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTLinearUndo {
 
-    private long undoOperationsMaximumCount;
-    private long undoOperationsMaximumSize;
+    private long undoMaximumCount;
+    private long undoMaximumSize;
     private long usedSize;
-    private long operationPosition;
+    private long commandPosition;
     private long syncPointPosition;
     private final List<XBTDocCommand> commandList;
     private final XBTTreeDocument document;
@@ -44,60 +44,61 @@ public class XBTLinearUndo {
      */
     public XBTLinearUndo(XBTTreeDocument document) {
         this.document = document;
-        undoOperationsMaximumCount = 1024;
-        undoOperationsMaximumSize = 65535;
+        undoMaximumCount = 1024;
+        undoMaximumSize = 65535;
         commandList = new ArrayList<>();
         init();
     }
 
     /**
-     * Add new step into revert list.
+     * Adds new step into revert list.
      *
      * @param command
      * @throws java.lang.Exception
      */
-    public void performStep(XBTDocCommand command) throws Exception {
+    public void performRedo(XBTDocCommand command) throws Exception {
         command.setDocument(document);
         command.redo();
         // TODO: Check for undoOperationsMaximumCount & size
-        while (commandList.size() > operationPosition) {
-            commandList.remove((int) operationPosition);
+        while (commandList.size() > commandPosition) {
+            commandList.remove((int) commandPosition);
         }
         commandList.add(command);
-        operationPosition++;
+        commandPosition++;
     }
 
     /**
-     * Perform single undo step.
+     * Performs single undo step.
      *
      * @throws java.lang.Exception
      */
     public void performUndo() throws Exception {
-        operationPosition--;
-        XBTDocCommand command = commandList.get((int) operationPosition);
+        commandPosition--;
+        XBTDocCommand command = commandList.get((int) commandPosition);
         command.setDocument(document);
         command.undo();
     }
 
     /**
-     * Perform single redo step.
+     * Performs single redo step.
      *
      * @throws java.lang.Exception
      */
     public void performRedo() throws Exception {
-        XBTDocCommand command = commandList.get((int) operationPosition);
+        XBTDocCommand command = commandList.get((int) commandPosition);
         command.setDocument(document);
         command.redo();
-        operationPosition++;
+        commandPosition++;
     }
 
     /**
+     * Performs multiple undo step.
      *
-     * @param count
+     * @param count count of steps
      * @throws Exception
      */
     public void performUndo(int count) throws Exception {
-        if (operationPosition < count) {
+        if (commandPosition < count) {
             throw new IllegalArgumentException("Unable to perform " + count + " undo steps");
         }
         while (count > 0) {
@@ -106,12 +107,18 @@ public class XBTLinearUndo {
         }
     }
 
+    /**
+     * Performs multiple redo step.
+     *
+     * @param count count of steps
+     * @throws Exception
+     */
     public void performRedo(int count) throws Exception {
-        if (commandList.size() - operationPosition < count) {
+        if (commandList.size() - commandPosition < count) {
             throw new IllegalArgumentException("Unable to perform " + count + " redo steps");
         }
         while (count > 0) {
-            performRedo();
+            XBTLinearUndo.this.performRedo();
             count--;
         }
     }
@@ -121,38 +128,34 @@ public class XBTLinearUndo {
     }
 
     public boolean canUndo() {
-        return operationPosition > 0;
+        return commandPosition > 0;
     }
 
     public boolean canRedo() {
-        return commandList.size() > operationPosition;
+        return commandList.size() > commandPosition;
     }
 
-    public long getMaxUndo() {
-        return undoOperationsMaximumCount;
+    public long getMaximumUndo() {
+        return undoMaximumCount;
     }
 
     /**
-     * Perform revert to sync point.
+     * Performs revert to sync point.
      */
     public void doSync() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void setMaxUndo(long maxUndo) {
-        this.undoOperationsMaximumCount = maxUndo;
+    public void setUndoMaxCount(long maxUndo) {
+        this.undoMaximumCount = maxUndo;
     }
 
-    public long getMaxSize() {
-        return undoOperationsMaximumSize;
+    public long getUndoMaximumSize() {
+        return undoMaximumSize;
     }
 
-    public String getDesc(XBTDocCommand command) {
-        command.setDocument(document);
-        return command.getCaption();
-    }
-
-    public void setMaxSize(long maxSize) {
-        this.undoOperationsMaximumSize = maxSize;
+    public void setUndoMaximumSize(long maxSize) {
+        this.undoMaximumSize = maxSize;
     }
 
     public long getUsedSize() {
@@ -168,12 +171,12 @@ public class XBTLinearUndo {
     }
 
     public void setSyncPoint() {
-        this.syncPointPosition = operationPosition;
+        this.syncPointPosition = commandPosition;
     }
 
     private void init() {
         usedSize = 0;
-        operationPosition = 0;
+        commandPosition = 0;
         setSyncPoint(0);
         commandList.clear();
     }

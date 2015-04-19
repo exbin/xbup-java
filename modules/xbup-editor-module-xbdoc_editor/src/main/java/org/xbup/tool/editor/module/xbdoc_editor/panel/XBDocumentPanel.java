@@ -49,9 +49,9 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.operation.XBTDocCommand;
-import org.xbup.lib.operation.basic.XBTModAttrBlockCommand;
-import org.xbup.lib.operation.basic.XBTModDataBlockCommand;
-import org.xbup.lib.operation.basic.XBTModifyBlockCommand;
+import org.xbup.lib.operation.basic.command.XBTModAttrBlockCommand;
+import org.xbup.lib.operation.basic.command.XBTModDataBlockCommand;
+import org.xbup.lib.operation.basic.command.XBTModifyBlockCommand;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
 import org.xbup.lib.parser_tree.XBTTreeDocument;
 import org.xbup.lib.parser_tree.XBTTreeNode;
@@ -666,7 +666,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
                 } else {
                     undoStep = new XBTModAttrBlockCommand(node, newNode);
                 }
-                getTreeUndo().performStep(undoStep);
+                getTreeUndo().performRedo(undoStep);
 
                 mainDoc.processSpec();
                 reportStructureChange(node);

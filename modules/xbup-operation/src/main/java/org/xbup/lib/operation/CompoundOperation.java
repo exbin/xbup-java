@@ -16,40 +16,42 @@
  */
 package org.xbup.lib.operation;
 
-import org.xbup.lib.core.block.XBTEditableDocument;
-import org.xbup.lib.operation.basic.XBBasicOperationType;
+import java.util.Collection;
+import java.util.List;
 
 /**
- * Abstract class for operation using XBUP level 1 document.
+ * Interface for compound XBUP editor operation.
  *
- * @version 0.1.25 2015/04/19
+ * @version 0.1.25 2015/04/18
  * @author XBUP Project (http://xbup.org)
  */
-public abstract class XBTDocCommand extends AbstractCommand {
-
-    protected XBTEditableDocument document;
+public interface CompoundOperation extends Operation {
 
     /**
-     * Returns type of the command.
+     * Append operation to the list of operations.
      *
-     * @return command type
+     * @param operation appended operation
      */
-    public abstract XBBasicOperationType getOpType();
-
-    public XBTEditableDocument getDocument() {
-        return document;
-    }
-
-    public void setDocument(XBTEditableDocument document) {
-        this.document = document;
-    }
+    public void appendOperation(Operation operation);
 
     /**
-     * Default dispose is empty.
+     * Append list of operations to the list of operations.
      *
-     * @throws Exception
+     * @param operations appended operations
      */
-    @Override
-    public void dispose() throws Exception {
-    }
+    public void appendOperations(Collection<Operation> operations);
+
+    /**
+     * Returns list of operations.
+     *
+     * @return list of operations
+     */
+    public List<Operation> getOperations();
+
+    /**
+     * Returns true if compound operation is empty.
+     *
+     * @return true if operation is empty
+     */
+    public boolean isEmpty();
 }

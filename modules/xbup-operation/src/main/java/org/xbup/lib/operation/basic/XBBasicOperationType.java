@@ -14,42 +14,46 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.operation;
-
-import org.xbup.lib.core.block.XBTEditableDocument;
-import org.xbup.lib.operation.basic.XBBasicOperationType;
+package org.xbup.lib.operation.basic;
 
 /**
- * Abstract class for operation using XBUP level 1 document.
+ * Undo operation type enumeration
  *
- * @version 0.1.25 2015/04/19
+ * @version 0.1.25 2015/04/18
  * @author XBUP Project (http://xbup.org)
  */
-public abstract class XBTDocCommand extends AbstractCommand {
-
-    protected XBTEditableDocument document;
+public enum XBBasicOperationType {
 
     /**
-     * Returns type of the command.
-     *
-     * @return command type
+     * Node added.
      */
-    public abstract XBBasicOperationType getOpType();
-
-    public XBTEditableDocument getDocument() {
-        return document;
-    }
-
-    public void setDocument(XBTEditableDocument document) {
-        this.document = document;
-    }
-
+    NODE_ADD,
     /**
-     * Default dispose is empty.
-     *
-     * @throws Exception
+     * Node deleted.
      */
-    @Override
-    public void dispose() throws Exception {
-    }
+    NODE_DEL,
+    /**
+     * Node modified.
+     */
+    NODE_MOD,
+    /**
+     * Count of attribute changed.
+     */
+    NODE_RSZ_ATTR,
+    /**
+     * Attribute modified.
+     */
+    NODE_MOD_ATTR,
+    /**
+     * Data podified.
+     */
+    NODE_MOD_DATA,
+    /**
+     * Data size changed.
+     */
+    NODE_RSZ_DATA,
+    /**
+     * Node swaped.
+     */
+    NODE_SWAP
 }

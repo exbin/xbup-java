@@ -133,12 +133,13 @@ import org.xbup.tool.editor.module.text_editor.panel.TextColorPanelFrame;
 import org.xbup.tool.editor.module.text_editor.panel.TextFontPanelFrame;
 import org.xbup.tool.editor.module.xbdoc_editor.dialog.DocPropertiesDialog;
 import org.xbup.tool.editor.module.xbdoc_editor.dialog.BlockPropertiesDialog;
+import org.xbup.tool.editor.module.xbdoc_editor.dialog.UndoManagerDialog;
 import org.xbup.tool.editor.module.xbdoc_editor.panel.XBDocumentPanel;
 
 /**
  * XBDocEditor Main Frame.
  *
- * @version 0.1.24 2015/02/16
+ * @version 0.1.25 2015/04/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFrame, TextColorPanelFrame, TextFontPanelFrame {
@@ -713,6 +714,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         fileOpenPicSampleMenuItem = new JMenuItem();
         filePropertiesMenuItem = new JMenuItem();
         editMenu = new JMenu();
+        undoManagerMenuItem = new JMenuItem();
         jSeparator3 = new JSeparator();
         editGotoMenuItem = new JMenuItem();
         jSeparator12 = new JSeparator();
@@ -1019,6 +1021,15 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         editMenu.setName("editMenu"); // NOI18N
         editMenu.setRolloverEnabled(true);
 
+        undoManagerMenuItem.setText(bundle.getString("undoManagerMenuItem.text")); // NOI18N
+        undoManagerMenuItem.setName("undoManagerMenuItem"); // NOI18N
+        undoManagerMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                undoManagerMenuItemActionPerformed(evt);
+            }
+        });
+        editMenu.add(undoManagerMenuItem);
+
         jSeparator3.setName("jSeparator3"); // NOI18N
         editMenu.add(jSeparator3);
 
@@ -1176,7 +1187,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
 
         menuBar.add(optionsMenu);
 
-        for (JMenuItem item : Arrays.asList(fileNewCustomMenuItem, filePropertiesMenuItem, editFindMenuItem, editFindReplaceMenuItem, editGotoMenuItem, editItemAddMenuItem, editItemModifyMenuItem, toolsCatalogBrowserMenuItem, optionsFontMenuItem, optionsColorsMenuItem)) {
+        for (JMenuItem item : Arrays.asList(fileNewCustomMenuItem, filePropertiesMenuItem, editFindMenuItem, editFindReplaceMenuItem, editGotoMenuItem, editItemAddMenuItem, editItemModifyMenuItem, toolsCatalogBrowserMenuItem, optionsFontMenuItem, optionsColorsMenuItem, undoManagerMenuItem)) {
             item.setText(item.getText()+DIALOG_MENU_SUFIX);
         }
 
@@ -1252,6 +1263,13 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         textColorDialog.setLocationRelativeTo(textColorDialog.getParent());
         textColorDialog.showDialog();
     }//GEN-LAST:event_optionsColorsMenuItemActionPerformed
+
+    private void undoManagerMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_undoManagerMenuItemActionPerformed
+        UndoManagerDialog undoManagerDialog = new UndoManagerDialog(mainFrameManagement.getFrame(), true, catalog);
+        undoManagerDialog.setIconImage(mainFrameManagement.getFrameIcon());
+        undoManagerDialog.setLocationRelativeTo(undoManagerDialog.getParent());
+        undoManagerDialog.showDialog();
+    }//GEN-LAST:event_undoManagerMenuItemActionPerformed
 
     public void actionFileOpen() {
         //if (!releaseFile()) return;
@@ -1450,6 +1468,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
     private JToolBar toolBar;
     private JMenuItem toolsCatalogBrowserMenuItem;
     private JMenu toolsMenu;
+    private JMenuItem undoManagerMenuItem;
     private JRadioButtonMenuItem viewAsHexMenuItem;
     private JRadioButtonMenuItem viewAsTextMenuItem;
     private JRadioButtonMenuItem viewAsTreeMenuItem;
@@ -1629,6 +1648,9 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         this.menuManagement = menuManagement;
 
         menuManagement.extendMenu(fileMenu, BasicMenuType.FILE, MenuPositionMode.PANEL);
+        JMenu undoManagerMenu = new JMenu();
+        undoManagerMenu.add(undoManagerMenuItem);
+        menuManagement.extendMenu(undoManagerMenu, BasicMenuType.EDIT, MenuPositionMode.TOP);
         menuManagement.extendMenu(editMenu, BasicMenuType.EDIT, MenuPositionMode.PANEL);
         menuManagement.extendMenu(viewMenu, BasicMenuType.VIEW, MenuPositionMode.PANEL);
         menuManagement.extendMenu(optionsMenu, BasicMenuType.OPTIONS, MenuPositionMode.PANEL);

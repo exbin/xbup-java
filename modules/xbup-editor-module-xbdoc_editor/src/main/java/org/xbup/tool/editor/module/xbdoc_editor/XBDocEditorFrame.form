@@ -111,7 +111,7 @@
         <Property name="name" type="java.lang.String" value="menuBar" noResource="true"/>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_LayoutCodePost" type="java.lang.String" value="for (JMenuItem item : Arrays.asList(fileNewCustomMenuItem, filePropertiesMenuItem, editFindMenuItem, editFindReplaceMenuItem, editGotoMenuItem, editItemAddMenuItem, editItemModifyMenuItem, toolsCatalogBrowserMenuItem, optionsFontMenuItem, optionsColorsMenuItem)) {&#xa;    item.setText(item.getText()+DIALOG_MENU_SUFIX);&#xa;}"/>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePost" type="java.lang.String" value="for (JMenuItem item : Arrays.asList(fileNewCustomMenuItem, filePropertiesMenuItem, editFindMenuItem, editFindReplaceMenuItem, editGotoMenuItem, editItemAddMenuItem, editItemModifyMenuItem, toolsCatalogBrowserMenuItem, optionsFontMenuItem, optionsColorsMenuItem, undoManagerMenuItem)) {&#xa;    item.setText(item.getText()+DIALOG_MENU_SUFIX);&#xa;}"/>
       </AuxValues>
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="fileMenu">
@@ -203,6 +203,17 @@
             <Property name="rolloverEnabled" type="boolean" value="true"/>
           </Properties>
           <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="undoManagerMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="org/xbup/tool/editor/module/xbdoc_editor/resources/XBDocEditorFrame.properties" key="undoManagerMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="undoManagerMenuItem" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="undoManagerMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JSeparator" name="jSeparator3">
               <Properties>
                 <Property name="name" type="java.lang.String" value="jSeparator3" noResource="true"/>

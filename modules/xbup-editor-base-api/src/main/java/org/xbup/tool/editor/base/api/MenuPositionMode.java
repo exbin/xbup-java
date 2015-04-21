@@ -19,12 +19,14 @@ package org.xbup.tool.editor.base.api;
 /**
  * Enumeration of menu position modes.
  *
- * @version 0.1.21 2011/06/15
+ * @version 0.1.25 2015/04/21
  * @author XBUP Project (http://xbup.org)
  */
 public enum MenuPositionMode {
 
+    TOP,
     BEFORE_PANEL,
     PANEL,
-    AFTER_PANEL
+    AFTER_PANEL,
+    BOTTOM
 }

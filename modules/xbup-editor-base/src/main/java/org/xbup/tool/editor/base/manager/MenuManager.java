@@ -35,7 +35,7 @@ import org.xbup.tool.editor.base.api.MenuPositionMode;
 /**
  * Manager for menus.
  *
- * @version 0.1.24 2015/01/30
+ * @version 0.1.25 2015/04/21
  * @author XBUP Project (http://xbup.org)
  */
 public class MenuManager implements MenuManagement {
@@ -46,13 +46,13 @@ public class MenuManager implements MenuManagement {
     private JMenuBar mainBar;
     private JToolBar toolBar;
     private JPopupMenu mainPopupMenu;
-    private Map<Long,JMenuBar> panelMenus;
+    private Map<Long, JMenuBar> panelMenus;
     private List<MenuGap> menuGaps;
     private MenuGap insertedMenusGap;
     private int toolsMenuPosition;
 
-    private Map<Long,List<JMenuItem>> menuItemRegistrationBank;
-    private Map<Long,List<JMenu>> menuRegistrationBank;
+    private Map<Long, List<JMenuItem>> menuItemRegistrationBank;
+    private Map<Long, List<JMenu>> menuRegistrationBank;
 
     public MenuManager(BaseModuleRepository moduleRepository) {
         this.moduleRepository = moduleRepository;
@@ -67,7 +67,7 @@ public class MenuManager implements MenuManagement {
 
         // Fill menu positions
         menuGaps = new ArrayList<>();
-        menuGaps.add(new MenuGap(mainBar.getMenu(BasicMenuType.FILE.ordinal()).getItemCount()-2));
+        menuGaps.add(new MenuGap(mainBar.getMenu(BasicMenuType.FILE.ordinal()).getItemCount() - 2));
         menuGaps.add(new MenuGap(mainBar.getMenu(BasicMenuType.EDIT.ordinal()).getItemCount()));
         menuGaps.add(new MenuGap(mainBar.getMenu(BasicMenuType.VIEW.ordinal()).getItemCount()));
         menuGaps.add(new MenuGap(0));
@@ -133,7 +133,7 @@ public class MenuManager implements MenuManagement {
     public JMenu getBasicMenu(BasicMenuType menuType) {
         // TODO: Help menu might be somewhere else
         if (menuType == BasicMenuType.HELP) {
-            return mainBar.getMenu(mainBar.getMenuCount()-1);
+            return mainBar.getMenu(mainBar.getMenuCount() - 1);
         }
         if (menuType.ordinal() < BasicMenuType.TOOLS.ordinal()) {
             return mainBar.getMenu(menuType.ordinal());
@@ -141,7 +141,7 @@ public class MenuManager implements MenuManagement {
         if (menuType == BasicMenuType.TOOLS) {
             return mainBar.getMenu(toolsMenuPosition);
         }
-        return mainBar.getMenu(menuType.ordinal()-1);
+        return mainBar.getMenu(menuType.ordinal() - 1);
     }
 
     public MenuManagerMode getMode() {
@@ -181,7 +181,7 @@ public class MenuManager implements MenuManagement {
                 menuItem.setAccelerator(((JMenuItem) component).getAccelerator());
                 menuItem.setEnabled(((JMenuItem) component).isEnabled());
                 ActionListener[] listeners = ((JMenuItem) component).getActionListeners();
-                if ((listeners != null) &&(listeners.length > 0)) {
+                if ((listeners != null) && (listeners.length > 0)) {
                     menuItem.addActionListener(listeners[0]);
                 }
                 menuItem.setAction(((JMenuItem) component).getAction());
@@ -195,17 +195,21 @@ public class MenuManager implements MenuManagement {
 
     public class MenuGap {
 
-        private final Map<Long,Integer> panelItemsCount;
+        private final Map<Long, Integer> panelItemsCount;
 
         private int gapPosition;
         private int beforeItemsCount;
         private int afterItemsCount;
+        private int topItemsCount;
+        private int bottomItemsCount;
 
         public MenuGap(int gapPosition) {
             this.gapPosition = gapPosition;
             this.beforeItemsCount = 0;
             panelItemsCount = new HashMap<>();
             this.afterItemsCount = 0;
+            this.topItemsCount = 0;
+            this.bottomItemsCount = 0;
         }
 
         public int getGapPosition() {
@@ -244,17 +248,22 @@ public class MenuManager implements MenuManagement {
         public int insertItem(long activeModule, MenuPositionMode positionMode) {
             int insertPosition = -1;
             switch (positionMode) {
+                case TOP: {
+                    insertPosition = topItemsCount;
+                    topItemsCount++;
+                    break;
+                }
                 case BEFORE_PANEL: {
-                    insertPosition = gapPosition + beforeItemsCount;
+                    insertPosition = gapPosition + topItemsCount + beforeItemsCount;
                     beforeItemsCount++;
                     break;
                 }
                 case PANEL: {
                     Integer itemsCount = panelItemsCount.get(activeModule);
                     if (itemsCount == null) {
-                    itemsCount = 0;
-                }
-                    insertPosition = gapPosition + beforeItemsCount + itemsCount;
+                        itemsCount = 0;
+                    }
+                    insertPosition = gapPosition + topItemsCount + beforeItemsCount + itemsCount;
                     itemsCount++;
                     panelItemsCount.put(activeModule, itemsCount);
                     break;
@@ -264,16 +273,27 @@ public class MenuManager implements MenuManagement {
                     if (itemsCount == null) {
                         itemsCount = 1;
                     }
-                    insertPosition = gapPosition + beforeItemsCount + itemsCount + afterItemsCount;
+                    insertPosition = gapPosition + topItemsCount + beforeItemsCount + itemsCount + afterItemsCount;
                     afterItemsCount++;
                     break;
                 }
+                case BOTTOM: {
+                    Integer itemsCount = panelItemsCount.get(activeModule);
+                    if (itemsCount == null) {
+                        itemsCount = 1;
+                    }
+                    insertPosition = gapPosition + topItemsCount + beforeItemsCount + itemsCount + afterItemsCount + bottomItemsCount;
+                    bottomItemsCount++;
+                    break;
+                }
             }
+
             return insertPosition;
         }
     }
 
     public enum MenuManagerMode {
+
         SIMPLE,
         FILE
     }

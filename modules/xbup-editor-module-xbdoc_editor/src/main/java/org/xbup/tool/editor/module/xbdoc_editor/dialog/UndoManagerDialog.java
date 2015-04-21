@@ -16,20 +16,19 @@
  */
 package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 
-import java.awt.CardLayout;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.tool.editor.utils.WindowUtils;
 
 /**
  * Dialog for undo management.
  *
- * @version 0.1.24 2015/04/20
+ * @version 0.1.24 2015/04/21
  * @author XBUP Project (http://xbup.org)
  */
 public class UndoManagerDialog extends javax.swing.JDialog {
 
     private XBACatalog catalog;
-    private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/AddBlockDialog");
+    private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/UndoManagerDialog");
 
     public UndoManagerDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog) {
         super(parent, modal);
@@ -39,8 +38,6 @@ public class UndoManagerDialog extends javax.swing.JDialog {
     }
 
     private void init() {
-        ((CardLayout) mainPanel.getLayout()).show(mainPanel, "type");
-
         WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, closeButton);
         WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
@@ -54,20 +51,24 @@ public class UndoManagerDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        blockTypeButtonGroup = new javax.swing.ButtonGroup();
         mainPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        splitPane = new javax.swing.JSplitPane();
+        undoListScrollPane = new javax.swing.JScrollPane();
         undoList = new javax.swing.JList();
-        propertiesButton = new javax.swing.JButton();
-        revertButton = new javax.swing.JButton();
+        undoDetailPanel = new javax.swing.JPanel();
+        undoDetailInfoPanel = new javax.swing.JPanel();
         exportButton = new javax.swing.JButton();
         controlPanel = new javax.swing.JPanel();
         closeButton = new javax.swing.JButton();
+        revertButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/UndoManagerDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
         setModal(true);
+
+        splitPane.setBorder(null);
+        splitPane.setDividerLocation(200);
 
         undoList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -75,13 +76,48 @@ public class UndoManagerDialog extends javax.swing.JDialog {
             public Object getElementAt(int i) { return strings[i]; }
         });
         undoList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(undoList);
+        undoListScrollPane.setViewportView(undoList);
 
-        propertiesButton.setText(bundle.getString("propertiesButton.text")); // NOI18N
+        splitPane.setLeftComponent(undoListScrollPane);
 
-        revertButton.setText(bundle.getString("revertButton.text")); // NOI18N
+        undoDetailInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Undo Details"));
+
+        org.jdesktop.layout.GroupLayout undoDetailInfoPanelLayout = new org.jdesktop.layout.GroupLayout(undoDetailInfoPanel);
+        undoDetailInfoPanel.setLayout(undoDetailInfoPanelLayout);
+        undoDetailInfoPanelLayout.setHorizontalGroup(
+            undoDetailInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 0, Short.MAX_VALUE)
+        );
+        undoDetailInfoPanelLayout.setVerticalGroup(
+            undoDetailInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 266, Short.MAX_VALUE)
+        );
 
         exportButton.setText(bundle.getString("exportButton.text")); // NOI18N
+        exportButton.setEnabled(false);
+
+        org.jdesktop.layout.GroupLayout undoDetailPanelLayout = new org.jdesktop.layout.GroupLayout(undoDetailPanel);
+        undoDetailPanel.setLayout(undoDetailPanelLayout);
+        undoDetailPanelLayout.setHorizontalGroup(
+            undoDetailPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, undoDetailPanelLayout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(exportButton)
+                .addContainerGap())
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, undoDetailPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(undoDetailInfoPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        undoDetailPanelLayout.setVerticalGroup(
+            undoDetailPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(undoDetailPanelLayout.createSequentialGroup()
+                .add(undoDetailInfoPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(exportButton)
+                .addContainerGap())
+        );
+
+        splitPane.setRightComponent(undoDetailPanel);
 
         org.jdesktop.layout.GroupLayout mainPanelLayout = new org.jdesktop.layout.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -89,28 +125,14 @@ public class UndoManagerDialog extends javax.swing.JDialog {
             mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                .add(18, 18, 18)
-                .add(mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(propertiesButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(revertButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(exportButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(splitPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE)
                 .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                    .add(mainPanelLayout.createSequentialGroup()
-                        .add(propertiesButton)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(revertButton)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(exportButton)
-                        .add(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .add(splitPane))
         );
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
@@ -123,12 +145,17 @@ public class UndoManagerDialog extends javax.swing.JDialog {
             }
         });
 
+        revertButton.setText(bundle.getString("revertButton.text")); // NOI18N
+        revertButton.setEnabled(false);
+
         org.jdesktop.layout.GroupLayout controlPanelLayout = new org.jdesktop.layout.GroupLayout(controlPanel);
         controlPanel.setLayout(controlPanelLayout);
         controlPanelLayout.setHorizontalGroup(
             controlPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, controlPanelLayout.createSequentialGroup()
-                .addContainerGap(261, Short.MAX_VALUE)
+                .addContainerGap(423, Short.MAX_VALUE)
+                .add(revertButton)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(closeButton)
                 .addContainerGap())
         );
@@ -136,7 +163,9 @@ public class UndoManagerDialog extends javax.swing.JDialog {
             controlPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, controlPanelLayout.createSequentialGroup()
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(closeButton)
+                .add(controlPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(closeButton)
+                    .add(revertButton))
                 .addContainerGap())
         );
 
@@ -163,15 +192,16 @@ public class UndoManagerDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup blockTypeButtonGroup;
     private javax.swing.JButton closeButton;
     private javax.swing.JPanel controlPanel;
     private javax.swing.JButton exportButton;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JButton propertiesButton;
     private javax.swing.JButton revertButton;
+    private javax.swing.JSplitPane splitPane;
+    private javax.swing.JPanel undoDetailInfoPanel;
+    private javax.swing.JPanel undoDetailPanel;
     private javax.swing.JList undoList;
+    private javax.swing.JScrollPane undoListScrollPane;
     // End of variables declaration//GEN-END:variables
 
     public void setCatalog(XBACatalog catalog) {

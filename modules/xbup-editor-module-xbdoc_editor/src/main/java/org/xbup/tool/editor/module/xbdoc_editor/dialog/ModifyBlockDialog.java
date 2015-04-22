@@ -131,7 +131,9 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
 
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                updateAttributesButtons();
+                if (!e.getValueIsAdjusting()) {
+                    updateAttributesButtons();
+                }
             }
         });
 

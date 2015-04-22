@@ -60,7 +60,9 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
         itemDefinitionsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                updateItemStatus();
+                if (!e.getValueIsAdjusting()) {
+                    updateItemStatus();
+                }
             }
         });
 

@@ -590,13 +590,17 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         itemDefinitionTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                definitionTableUpdated();
+                if (!e.getValueIsAdjusting()) {
+                    definitionTableUpdated();
+                }
             }
         });
         itemFilesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                fileTableUpdated();
+                if (!e.getValueIsAdjusting()) {
+                    fileTableUpdated();
+                }
             }
         });
     }

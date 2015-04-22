@@ -34,9 +34,6 @@ import org.xbup.lib.core.catalog.base.service.XBCXDescService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.tool.editor.utils.WindowUtils;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecRevEditorDialog;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogDefsTableModel;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogRevsTableItem;
-import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogRevsTableModel;
 
 /**
  * XBManager Catalog Item Edit Revisions Panel.
@@ -61,7 +58,9 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
         itemRevisionsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                updateItemStatus();
+                if (!e.getValueIsAdjusting()) {
+                    updateItemStatus();
+                }
             }
         });
 

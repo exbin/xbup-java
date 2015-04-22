@@ -202,7 +202,9 @@ public class ContextTypeChoiceDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_groupComboBoxActionPerformed
 
     private void blockTypeListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_blockTypeListValueChanged
-        okButton.setEnabled(blockTypeList.getSelectedIndex() >= 0);
+        if (!evt.getValueIsAdjusting()) {
+            okButton.setEnabled(blockTypeList.getSelectedIndex() >= 0);
+        }
     }//GEN-LAST:event_blockTypeListValueChanged
 
     /**

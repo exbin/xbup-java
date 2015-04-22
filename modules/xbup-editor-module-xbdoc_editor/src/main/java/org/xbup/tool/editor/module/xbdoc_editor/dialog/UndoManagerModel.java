@@ -17,6 +17,7 @@
 package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 
 import javax.swing.AbstractListModel;
+import org.xbup.lib.operation.XBTDocCommand;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
 
 /**
@@ -53,5 +54,9 @@ public class UndoManagerModel extends AbstractListModel<String> {
     @Override
     public String getElementAt(int index) {
         return undoHandler == null ? null : undoHandler.getCommandList().get(index).getCaption();
+    }
+
+    public XBTDocCommand getItem(int index) {
+        return undoHandler == null ? null : undoHandler.getCommandList().get(index);
     }
 }

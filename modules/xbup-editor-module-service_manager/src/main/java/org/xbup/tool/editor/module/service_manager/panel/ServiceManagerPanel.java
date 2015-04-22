@@ -284,6 +284,11 @@ public class ServiceManagerPanel extends javax.swing.JPanel implements Applicati
         this.catalog = catalog;
     }
 
+    @Override
+    public Object getUndoHandle() {
+        return null;
+    }
+
     private class MutableTreeNode extends DefaultMutableTreeNode {
 
         private final String caption;

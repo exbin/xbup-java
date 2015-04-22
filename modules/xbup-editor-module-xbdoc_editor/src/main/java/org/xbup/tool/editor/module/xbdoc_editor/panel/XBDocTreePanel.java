@@ -50,7 +50,6 @@ import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.operation.XBTDocCommand;
-import org.xbup.lib.operation.XBTDocOperation;
 import org.xbup.lib.operation.basic.command.XBTAddBlockCommand;
 import org.xbup.lib.operation.basic.command.XBTDeleteBlockCommand;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
@@ -478,6 +477,11 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
         }
 
         return false;
+    }
+
+    @Override
+    public Object getUndoHandle() {
+        return treeUndo;
     }
 
     public static class XBTSelection implements Transferable, ClipboardOwner {

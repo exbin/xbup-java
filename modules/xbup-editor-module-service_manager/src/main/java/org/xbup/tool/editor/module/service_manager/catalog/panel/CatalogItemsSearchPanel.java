@@ -505,6 +505,11 @@ public class CatalogItemsSearchPanel extends javax.swing.JPanel implements Activ
         this.selectionListener = selectionListener;
     }
 
+    @Override
+    public Object getUndoHandle() {
+        return null;
+    }
+
     public interface SelectionListener {
 
         void selectedItem(XBCItem item);

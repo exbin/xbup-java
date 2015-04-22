@@ -112,8 +112,10 @@ import org.xbup.lib.core.catalog.base.service.XBCXPaneService;
 import org.xbup.lib.core.catalog.base.service.XBCXPlugService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.operation.undo.XBTLinearUndo;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.plugin.XBPluginRepository;
+import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
 import org.xbup.tool.editor.base.api.ApplicationPanel;
 import org.xbup.tool.editor.base.api.BasicMenuType;
 import org.xbup.tool.editor.base.api.FileType;
@@ -1268,6 +1270,14 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         UndoManagerDialog undoManagerDialog = new UndoManagerDialog(mainFrameManagement.getFrame(), true, catalog);
         undoManagerDialog.setIconImage(mainFrameManagement.getFrameIcon());
         undoManagerDialog.setLocationRelativeTo(undoManagerDialog.getParent());
+
+        if (activePanel instanceof ActivePanelActionHandling) {
+            Object undoHandle = ((ActivePanelActionHandling) activePanel).getUndoHandle();
+            if (undoHandle instanceof XBTLinearUndo) {
+                undoManagerDialog.setUndoHandle((XBTLinearUndo) undoHandle);
+            }
+        }
+
         undoManagerDialog.showDialog();
     }//GEN-LAST:event_undoManagerMenuItemActionPerformed
 

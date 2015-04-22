@@ -357,4 +357,9 @@ public class CatalogBrowserPanel extends javax.swing.JPanel implements ActivePan
     private void updateItem() {
         popupEditMenuItem.setEnabled(currentItem != null);
     }
+
+    @Override
+    public Object getUndoHandle() {
+        return null;
+    }
 }

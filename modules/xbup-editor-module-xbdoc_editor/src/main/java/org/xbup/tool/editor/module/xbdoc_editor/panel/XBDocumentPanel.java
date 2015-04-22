@@ -71,7 +71,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.dialog.ModifyBlockDialog;
 /**
  * Panel with XBUP document visualization.
  *
- * @version 0.1.25 2015/04/11
+ * @version 0.1.25 2015/04/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFilePanel, ActivePanelUndoable, ActivePanelActionHandling {
@@ -106,6 +106,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         treePanel = new XBDocTreePanel(mainFrame, mainDoc, catalog, popupMenu);
         hexPanel = new XBDocHexPanel(mainDoc);
         textPanel = new TextPanel();
+        textPanel.setNoBorder();
 
         treePanel.setPopupMenu(popupMenu);
         textPanel.setPopupMenu(popupMenu);
@@ -713,27 +714,23 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         return null;
     }
 
+    public ActivePanelActionHandling getActivePanel() {
+        int selectedIndex = mainTabbedPane.getSelectedIndex();
+        return (ActivePanelActionHandling) getPanel(selectedIndex);
+    }
+
     public boolean isSplitMode() {
         return splitMode;
     }
 
-    /**
-     * @return the mode
-     */
     public PanelMode getMode() {
         return mode;
     }
 
-    /**
-     * @return the pluginRepository
-     */
     public XBPluginRepository getPluginRepository() {
         return pluginRepository;
     }
 
-    /**
-     * @param pluginRepository the pluginRepository to set
-     */
     public void setPluginRepository(XBPluginRepository pluginRepository) {
         this.pluginRepository = pluginRepository;
         propertyPanel.setPluginRepository(pluginRepository);
@@ -845,6 +842,12 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
 
     public Font getCurrentFont() {
         return textPanel.getCurrentFont();
+    }
+
+    @Override
+    public Object getUndoHandle() {
+        ActivePanelActionHandling activePanel = getActivePanel();
+        return (XBTLinearUndo) (activePanel != null ? activePanel.getUndoHandle() : null);
     }
 
     public enum PanelMode {

@@ -360,4 +360,8 @@ public class CatalogSearchPanel extends javax.swing.JPanel implements ActivePane
         searchPanel.setMenuManagement(menuManagement);
     }
 
+    @Override
+    public Object getUndoHandle() {
+        return null;
+    }
 }

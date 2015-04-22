@@ -23,7 +23,7 @@ import java.util.EventListener;
 /**
  * Interface for application's panel.
  *
- * @version 0.1.22 2013/03/09
+ * @version 0.1.25 2015/04/22
  * @author XBUP Project (http://xbup.org)
  */
 public interface ActivePanelActionHandling extends EventListener {
@@ -51,4 +51,11 @@ public interface ActivePanelActionHandling extends EventListener {
      * be performed instead.
      */
     public boolean performAction(String eventName, ActionEvent event);
+
+    /**
+     * Returns currently used undo handler or null if not available.
+     *
+     * @return undo handle
+     */
+    public Object getUndoHandle();
 }

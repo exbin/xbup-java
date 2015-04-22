@@ -696,4 +696,9 @@ public class CatalogEditorPanel extends javax.swing.JPanel implements ActivePane
         popupAddMenuItem.setEnabled(currentItem instanceof XBCNode);
         popupImportItemMenuItem.setEnabled(currentItem instanceof XBCNode);
     }
+
+    @Override
+    public Object getUndoHandle() {
+        return null;
+    }
 }

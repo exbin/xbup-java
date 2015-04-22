@@ -174,6 +174,10 @@ public class XBTLinearUndo {
         this.syncPointPosition = commandPosition;
     }
 
+    public List<XBTDocCommand> getCommandList() {
+        return commandList;
+    }
+
     private void init() {
         usedSize = 0;
         commandPosition = 0;

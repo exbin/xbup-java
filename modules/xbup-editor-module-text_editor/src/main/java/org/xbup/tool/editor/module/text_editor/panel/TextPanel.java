@@ -37,6 +37,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -73,7 +74,7 @@ import org.xbup.tool.editor.base.api.MainFrameManagement;
 /**
  * Text editor panel.
  *
- * @version 0.1.25 2015/02/14
+ * @version 0.1.25 2015/04/22
  * @author XBUP Project (http://xbup.org)
  */
 public class TextPanel extends javax.swing.JPanel implements ApplicationFilePanel, ActivePanelUndoable {
@@ -231,6 +232,10 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
 
     public String getText() {
         return textArea.getText();
+    }
+
+    public void setNoBorder() {
+        textAreaScrollPane.setBorder(null);
     }
 
     public void gotoLine(int line) {

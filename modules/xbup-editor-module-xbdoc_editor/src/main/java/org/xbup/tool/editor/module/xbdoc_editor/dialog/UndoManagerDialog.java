@@ -17,17 +17,19 @@
 package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 
 import org.xbup.lib.core.catalog.XBACatalog;
+import org.xbup.lib.operation.undo.XBTLinearUndo;
 import org.xbup.tool.editor.utils.WindowUtils;
 
 /**
  * Dialog for undo management.
  *
- * @version 0.1.24 2015/04/21
+ * @version 0.1.24 2015/04/22
  * @author XBUP Project (http://xbup.org)
  */
 public class UndoManagerDialog extends javax.swing.JDialog {
 
     private XBACatalog catalog;
+    private UndoManagerModel undoModel = new UndoManagerModel();
     private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/UndoManagerDialog");
 
     public UndoManagerDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog) {
@@ -70,11 +72,7 @@ public class UndoManagerDialog extends javax.swing.JDialog {
         splitPane.setBorder(null);
         splitPane.setDividerLocation(200);
 
-        undoList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+        undoList.setModel(undoModel);
         undoList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         undoListScrollPane.setViewportView(undoList);
 
@@ -206,5 +204,9 @@ public class UndoManagerDialog extends javax.swing.JDialog {
 
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
+    }
+
+    public void setUndoHandle(XBTLinearUndo undoHandler) {
+        undoModel.setUndoHandler(undoHandler);
     }
 }

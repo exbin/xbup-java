@@ -1271,14 +1271,23 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         undoManagerDialog.setIconImage(mainFrameManagement.getFrameIcon());
         undoManagerDialog.setLocationRelativeTo(undoManagerDialog.getParent());
 
+        XBTLinearUndo undoHandle = null;
         if (activePanel instanceof ActivePanelActionHandling) {
-            Object undoHandle = ((ActivePanelActionHandling) activePanel).getUndoHandle();
-            if (undoHandle instanceof XBTLinearUndo) {
-                undoManagerDialog.setUndoHandle((XBTLinearUndo) undoHandle);
+            Object objectUndoHandle = ((ActivePanelActionHandling) activePanel).getUndoHandle();
+            if (objectUndoHandle instanceof XBTLinearUndo) {
+                undoHandle = (XBTLinearUndo) objectUndoHandle;
+                undoManagerDialog.setUndoHandle(undoHandle);
             }
         }
 
-        undoManagerDialog.showDialog();
+        undoManagerDialog.setVisible(true);
+        if (undoManagerDialog.getDialogOption() == JOptionPane.OK_OPTION && undoHandle != null) {
+            try {
+                undoHandle.setCommandPosition(undoManagerDialog.getCommandPosition());
+            } catch (Exception ex) {
+                Logger.getLogger(XBDocEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_undoManagerMenuItemActionPerformed
 
     public void actionFileOpen() {

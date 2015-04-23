@@ -19,7 +19,7 @@ package org.xbup.lib.operation;
 /**
  * Abstract class for operation using XBUP level 1 document.
  *
- * @version 0.1.25 2015/04/19
+ * @version 0.1.25 2015/04/24
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class XBTOpDocCommand extends XBTDocCommand {
@@ -41,6 +41,15 @@ public abstract class XBTOpDocCommand extends XBTDocCommand {
 
     public void setUndoOperation(XBTDocOperation undoOperation) {
         this.undoOperation = undoOperation;
+    }
+
+    /**
+     * Returns currently active operation
+     *
+     * @return document operation
+     */
+    public XBTDocOperation getCurrentOperation() {
+        return redoOperation != null ? redoOperation : undoOperation;
     }
 
     @Override

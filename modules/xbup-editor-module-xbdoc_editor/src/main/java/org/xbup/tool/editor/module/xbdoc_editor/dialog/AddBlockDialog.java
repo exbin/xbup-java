@@ -75,8 +75,8 @@ public class AddBlockDialog extends javax.swing.JDialog {
         ((CardLayout) mainPanel.getLayout()).show(mainPanel, "type");
         
         WindowUtils.initWindow(this);
-        WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
         WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
+        WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
     }
 
     /**

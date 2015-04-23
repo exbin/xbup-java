@@ -206,8 +206,8 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
 
     private void init() {
         WindowUtils.initWindow(this);
-        WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
         WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
+        WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
     }
 
     /**

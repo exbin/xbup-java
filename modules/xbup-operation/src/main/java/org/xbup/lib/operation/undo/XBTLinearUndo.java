@@ -24,7 +24,7 @@ import org.xbup.lib.parser_tree.XBTTreeDocument;
 /**
  * Linear undo command sequence storage.
  *
- * @version 0.1.25 2015/04/19
+ * @version 0.1.25 2015/04/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTLinearUndo {
@@ -33,7 +33,7 @@ public class XBTLinearUndo {
     private long undoMaximumSize;
     private long usedSize;
     private long commandPosition;
-    private long syncPointPosition;
+    private long syncPointPosition = -1;
     private final List<XBTDocCommand> commandList;
     private final XBTTreeDocument document;
 
@@ -139,6 +139,10 @@ public class XBTLinearUndo {
         return undoMaximumCount;
     }
 
+    public long getCommandPosition() {
+        return commandPosition;
+    }
+
     /**
      * Performs revert to sync point.
      */
@@ -183,5 +187,19 @@ public class XBTLinearUndo {
         commandPosition = 0;
         setSyncPoint(0);
         commandList.clear();
+    }
+
+    /**
+     * Performs undo or redo operation to reach given position.
+     *
+     * @param targetPosition desired position
+     * @throws java.lang.Exception
+     */
+    public void setCommandPosition(long targetPosition) throws Exception {
+        if (targetPosition < commandPosition) {
+            performUndo((int) (commandPosition - targetPosition));
+        } else if (targetPosition > commandPosition) {
+            performRedo((int) (targetPosition - commandPosition));
+        }
     }
 }

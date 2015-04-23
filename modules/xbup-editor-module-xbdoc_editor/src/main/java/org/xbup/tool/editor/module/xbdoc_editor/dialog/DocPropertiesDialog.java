@@ -39,9 +39,9 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
 
     private void init() {
         WindowUtils.initWindow(this);
-        WindowUtils.assignGlobalKeyListener(this, closeButton);
         propertiesTabbedPane.setEnabledAt(1, false);
         WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
+        WindowUtils.assignGlobalKeyListener(this, closeButton);
     }
 
     /**

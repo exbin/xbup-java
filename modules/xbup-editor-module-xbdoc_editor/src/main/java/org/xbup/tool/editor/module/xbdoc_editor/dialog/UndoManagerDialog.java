@@ -16,22 +16,28 @@
  */
 package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 
+import javax.swing.JOptionPane;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.operation.XBTDocCommand;
+import org.xbup.lib.operation.XBTDocOperation;
+import org.xbup.lib.operation.XBTOpDocCommand;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
 import org.xbup.tool.editor.utils.WindowUtils;
 
 /**
  * Dialog for undo management.
  *
- * @version 0.1.24 2015/04/22
+ * @version 0.1.24 2015/04/24
  * @author XBUP Project (http://xbup.org)
  */
 public class UndoManagerDialog extends javax.swing.JDialog {
 
+    private int dialogOption = JOptionPane.CLOSED_OPTION;
+
     private XBACatalog catalog;
     private final UndoManagerModel undoModel = new UndoManagerModel();
     private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/UndoManagerDialog");
+    private XBTLinearUndo undoHandler = null;
 
     public UndoManagerDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog) {
         super(parent, modal);
@@ -42,8 +48,8 @@ public class UndoManagerDialog extends javax.swing.JDialog {
 
     private void init() {
         WindowUtils.initWindow(this);
-        WindowUtils.assignGlobalKeyListener(this, closeButton);
         WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
+        WindowUtils.assignGlobalKeyListener(this, closeButton);
     }
 
     /**
@@ -64,6 +70,10 @@ public class UndoManagerDialog extends javax.swing.JDialog {
         commandCaptionTextField = new javax.swing.JTextField();
         commandTypeLabel = new javax.swing.JLabel();
         commandTypeTextField = new javax.swing.JTextField();
+        operationCaptionLabel = new javax.swing.JLabel();
+        operationCaptionTextField = new javax.swing.JTextField();
+        operationTypeLabel = new javax.swing.JLabel();
+        operationTypeTextField = new javax.swing.JTextField();
         exportButton = new javax.swing.JButton();
         controlPanel = new javax.swing.JPanel();
         closeButton = new javax.swing.JButton();
@@ -75,7 +85,7 @@ public class UndoManagerDialog extends javax.swing.JDialog {
         setModal(true);
 
         splitPane.setBorder(null);
-        splitPane.setDividerLocation(200);
+        splitPane.setDividerLocation(250);
 
         undoList.setModel(undoModel);
         undoList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -88,15 +98,23 @@ public class UndoManagerDialog extends javax.swing.JDialog {
 
         splitPane.setLeftComponent(undoListScrollPane);
 
-        undoDetailInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Undo Details"));
+        undoDetailInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("undoDetailInfoPanel.border.title"))); // NOI18N
 
-        commandCaptionLabel.setText("Command Caption");
+        commandCaptionLabel.setText(bundle.getString("commandCaptionLabel.text")); // NOI18N
 
         commandCaptionTextField.setEditable(false);
 
-        commandTypeLabel.setText("Command Type");
+        commandTypeLabel.setText(bundle.getString("commandTypeLabel.text")); // NOI18N
 
         commandTypeTextField.setEditable(false);
+
+        operationCaptionLabel.setText(bundle.getString("operationCaptionLabel.text")); // NOI18N
+
+        operationCaptionTextField.setEditable(false);
+
+        operationTypeLabel.setText(bundle.getString("operationTypeLabel.text")); // NOI18N
+
+        operationTypeTextField.setEditable(false);
 
         org.jdesktop.layout.GroupLayout undoDetailInfoPanelLayout = new org.jdesktop.layout.GroupLayout(undoDetailInfoPanel);
         undoDetailInfoPanel.setLayout(undoDetailInfoPanelLayout);
@@ -106,12 +124,16 @@ public class UndoManagerDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .add(undoDetailInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(commandCaptionTextField)
+                    .add(commandTypeTextField)
+                    .add(operationCaptionTextField)
+                    .add(operationTypeTextField)
                     .add(undoDetailInfoPanelLayout.createSequentialGroup()
                         .add(undoDetailInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(commandCaptionLabel)
-                            .add(commandTypeLabel))
-                        .add(0, 213, Short.MAX_VALUE))
-                    .add(commandTypeTextField))
+                            .add(commandTypeLabel)
+                            .add(operationCaptionLabel)
+                            .add(operationTypeLabel))
+                        .add(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         undoDetailInfoPanelLayout.setVerticalGroup(
@@ -125,7 +147,15 @@ public class UndoManagerDialog extends javax.swing.JDialog {
                 .add(commandTypeLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(commandTypeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(168, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(operationCaptionLabel)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(operationCaptionTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(operationTypeLabel)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(operationTypeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(76, Short.MAX_VALUE))
         );
 
         exportButton.setText(bundle.getString("exportButton.text")); // NOI18N
@@ -172,8 +202,7 @@ public class UndoManagerDialog extends javax.swing.JDialog {
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
-        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/DocPropertiesDialog"); // NOI18N
-        closeButton.setText(bundle1.getString("okButton.text")); // NOI18N
+        closeButton.setText(bundle.getString("closeButton.text")); // NOI18N
         closeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 closeButtonActionPerformed(evt);
@@ -182,6 +211,11 @@ public class UndoManagerDialog extends javax.swing.JDialog {
 
         revertButton.setText(bundle.getString("revertButton.text")); // NOI18N
         revertButton.setEnabled(false);
+        revertButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                revertButtonActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout controlPanelLayout = new org.jdesktop.layout.GroupLayout(controlPanel);
         controlPanel.setLayout(controlPanelLayout);
@@ -210,6 +244,7 @@ public class UndoManagerDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
+        dialogOption = JOptionPane.CANCEL_OPTION;
         WindowUtils.closeWindow(this);
     }//GEN-LAST:event_closeButtonActionPerformed
 
@@ -219,8 +254,13 @@ public class UndoManagerDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_undoListValueChanged
 
-    public void showDialog() {
-        setVisible(true);
+    private void revertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revertButtonActionPerformed
+        dialogOption = JOptionPane.OK_OPTION;
+        WindowUtils.closeWindow(this);
+    }//GEN-LAST:event_revertButtonActionPerformed
+
+    public long getCommandPosition() {
+        return undoList.getSelectedIndex();
     }
 
     /**
@@ -241,6 +281,10 @@ public class UndoManagerDialog extends javax.swing.JDialog {
     private javax.swing.JPanel controlPanel;
     private javax.swing.JButton exportButton;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JLabel operationCaptionLabel;
+    private javax.swing.JTextField operationCaptionTextField;
+    private javax.swing.JLabel operationTypeLabel;
+    private javax.swing.JTextField operationTypeTextField;
     private javax.swing.JButton revertButton;
     private javax.swing.JSplitPane splitPane;
     private javax.swing.JPanel undoDetailInfoPanel;
@@ -249,11 +293,16 @@ public class UndoManagerDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane undoListScrollPane;
     // End of variables declaration//GEN-END:variables
 
+    public int getDialogOption() {
+        return dialogOption;
+    }
+
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
     }
 
     public void setUndoHandle(XBTLinearUndo undoHandler) {
+        this.undoHandler = undoHandler;
         undoModel.setUndoHandler(undoHandler);
     }
 
@@ -263,7 +312,15 @@ public class UndoManagerDialog extends javax.swing.JDialog {
             command = undoModel.getItem(selectedIndex);
         }
 
+        revertButton.setEnabled(selectedIndex >= 0 && selectedIndex != undoModel.getCurrentPosition());
+
         commandCaptionTextField.setText(command != null ? command.getCaption() : "");
         commandTypeTextField.setText(command != null ? command.getOpType().name() : "");
+        XBTDocOperation operation = null;
+        if (command instanceof XBTOpDocCommand) {
+            operation = ((XBTOpDocCommand) command).getCurrentOperation();
+        }
+        operationCaptionTextField.setText(operation != null ? operation.getCaption() : "");
+        operationTypeTextField.setText(operation != null ? operation.getOpType().name() : "");
     }
 }

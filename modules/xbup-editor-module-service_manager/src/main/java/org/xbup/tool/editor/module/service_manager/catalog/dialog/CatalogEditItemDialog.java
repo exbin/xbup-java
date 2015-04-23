@@ -57,8 +57,8 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
 
     private void init() {
         WindowUtils.initWindow(this);
-        initComponent(this);
         WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
+        initComponent(this);
     }
 
     private void initComponent(Container container) {

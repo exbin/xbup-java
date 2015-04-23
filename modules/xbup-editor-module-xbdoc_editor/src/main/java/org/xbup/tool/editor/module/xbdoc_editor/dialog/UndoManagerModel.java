@@ -23,7 +23,7 @@ import org.xbup.lib.operation.undo.XBTLinearUndo;
 /**
  * List model for undo manager.
  *
- * @version 0.1.24 2015/04/22
+ * @version 0.1.24 2015/04/24
  * @author XBUP Project (http://xbup.org)
  */
 public class UndoManagerModel extends AbstractListModel<String> {
@@ -48,15 +48,21 @@ public class UndoManagerModel extends AbstractListModel<String> {
 
     @Override
     public int getSize() {
-        return undoHandler == null ? 0 : undoHandler.getCommandList().size();
+        return undoHandler == null ? 0 : undoHandler.getCommandList().size() + 1;
     }
 
     @Override
     public String getElementAt(int index) {
-        return undoHandler == null ? null : undoHandler.getCommandList().get(index).getCaption();
+        return undoHandler == null ? null : (index == 0 ? "Initial" : undoHandler.getCommandList().get(index - 1).getCaption())
+                + (undoHandler.getCommandPosition() == index ? " (current)" : "")
+                + (undoHandler.getSyncPoint() == index ? " (saved)" : "");
     }
 
     public XBTDocCommand getItem(int index) {
-        return undoHandler == null ? null : undoHandler.getCommandList().get(index);
+        return undoHandler == null || index == 0 ? null : undoHandler.getCommandList().get(index - 1);
+    }
+
+    public int getCurrentPosition() {
+        return (int) undoHandler.getCommandPosition();
     }
 }

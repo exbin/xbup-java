@@ -39,8 +39,8 @@ public class CatalogAddItemDialog extends javax.swing.JDialog {
 
     private void init() {
         WindowUtils.initWindow(this);
-        WindowUtils.assignGlobalKeyListener(this, addButton, cancelButton);
         WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
+        WindowUtils.assignGlobalKeyListener(this, addButton, cancelButton);
     }
 
     public int getDialogOption() {

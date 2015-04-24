@@ -16,13 +16,17 @@
  */
 package org.xbup.lib.operation;
 
+import java.util.Date;
+
 /**
  * Abstract command class.
  *
- * @version 0.1.25 2015/04/13
+ * @version 0.1.25 2015/04/24
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class AbstractCommand implements Command {
+
+    private Date executionTime = null;
 
     /**
      * Default execution method performs simply redo operation.
@@ -31,6 +35,7 @@ public abstract class AbstractCommand implements Command {
      */
     @Override
     public void execute() throws Exception {
+        executionTime = new Date();
         redo();
     }
 
@@ -41,5 +46,10 @@ public abstract class AbstractCommand implements Command {
      */
     @Override
     public void dispose() throws Exception {
+    }
+
+    @Override
+    public Date getExecutionTime() {
+        return executionTime;
     }
 }

@@ -16,10 +16,12 @@
  */
 package org.xbup.lib.operation;
 
+import java.util.Date;
+
 /**
  * Interface for XBUP editor command.
  *
- * @version 0.1.25 2015/04/13
+ * @version 0.1.25 2015/04/24
  * @author XBUP Project (http://xbup.org)
  */
 public interface Command {
@@ -65,4 +67,11 @@ public interface Command {
      * @throws java.lang.Exception
      */
     public void dispose() throws Exception;
+
+    /**
+     * Returns time of command execution.
+     *
+     * @return time
+     */
+    public Date getExecutionTime();
 }

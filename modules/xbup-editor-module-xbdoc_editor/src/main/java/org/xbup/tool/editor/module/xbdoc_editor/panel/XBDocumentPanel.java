@@ -667,7 +667,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
                 } else {
                     undoStep = new XBTModAttrBlockCommand(node, newNode);
                 }
-                getTreeUndo().performRedo(undoStep);
+                getTreeUndo().execute(undoStep);
 
                 mainDoc.processSpec();
                 reportStructureChange(node);

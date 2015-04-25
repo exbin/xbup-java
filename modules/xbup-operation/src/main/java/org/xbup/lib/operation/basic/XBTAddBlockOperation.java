@@ -25,17 +25,15 @@ import org.xbup.lib.operation.XBTDocOperation;
 /**
  * Command for adding child block.
  *
- * @version 0.1.25 2015/04/19
+ * @version 0.1.25 2015/04/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTAddBlockOperation extends XBTDocOperation {
 
-    private String caption;
     private final XBTEditableBlock newNode;
     private final long position;
 
     public XBTAddBlockOperation(XBTEditableBlock node, XBTEditableBlock newNode) {
-        caption = "Add block";
         if (node == null) {
             position = -1;
         } else {
@@ -45,13 +43,8 @@ public class XBTAddBlockOperation extends XBTDocOperation {
     }
 
     @Override
-    public XBBasicOperationType getOpType() {
-        return XBBasicOperationType.NODE_ADD;
-    }
-
-    @Override
-    public String getCaption() {
-        return caption;
+    public XBBasicOperationType getBasicType() {
+        return XBBasicOperationType.ADD_NODE;
     }
 
     @Override
@@ -70,9 +63,5 @@ public class XBTAddBlockOperation extends XBTDocOperation {
             children.add(newNode);
             newNode.setParent(node);
         }
-    }
-
-    public void setCaption(String caption) {
-        this.caption = caption;
     }
 }

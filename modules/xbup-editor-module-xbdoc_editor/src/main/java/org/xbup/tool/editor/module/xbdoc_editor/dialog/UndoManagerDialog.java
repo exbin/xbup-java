@@ -329,7 +329,7 @@ public class UndoManagerDialog extends javax.swing.JDialog {
         revertButton.setEnabled(selectedIndex >= 0 && selectedIndex != undoModel.getCurrentPosition());
 
         commandCaptionTextField.setText(command != null ? command.getCaption() : "");
-        commandTypeTextField.setText(command != null ? command.getOpType().name() : "");
+        commandTypeTextField.setText(command != null ? command.getBasicType().name() : "");
         executionTimeTextField.setText(command != null && command.getExecutionTime() != null ? command.getExecutionTime().toString() : "");
 
         XBTDocOperation operation = null;
@@ -337,6 +337,6 @@ public class UndoManagerDialog extends javax.swing.JDialog {
             operation = ((XBTOpDocCommand) command).getCurrentOperation();
         }
         operationCaptionTextField.setText(operation != null ? operation.getCaption() : "");
-        operationTypeTextField.setText(operation != null ? operation.getOpType().name() : "");
+        operationTypeTextField.setText(operation != null ? operation.getBasicType().name() : "");
     }
 }

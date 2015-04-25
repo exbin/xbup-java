@@ -32,9 +32,9 @@ public abstract class XBDocOperation implements Operation {
     /**
      * Returns operation type.
      *
-     * @return command type
+     * @return operation type
      */
-    public abstract XBBasicOperationType getOpType();
+    public abstract XBBasicOperationType getBasicType();
 
     public XBEditableDocument getDocument() {
         return document;
@@ -51,5 +51,10 @@ public abstract class XBDocOperation implements Operation {
      */
     @Override
     public void dispose() throws Exception {
+    }
+
+    @Override
+    public String getCaption() {
+        return getBasicType().getCaption();
     }
 }

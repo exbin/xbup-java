@@ -301,7 +301,7 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
                     newNode.fromStreamUB(new ByteArrayInputStream(stream.toByteArray()));
                     try {
                         XBTDocCommand step = new XBTAddBlockCommand(node, newNode);
-                        getTreeUndo().performRedo(step);
+                        getTreeUndo().execute(step);
                         reportStructureChange(node);
                         updateItemStatus();
                     } catch (Exception ex) {
@@ -349,7 +349,7 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
         if (addItemDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             try {
                 XBTDocCommand step = new XBTAddBlockCommand(node, newNode);
-                getTreeUndo().performRedo(step);
+                getTreeUndo().execute(step);
             } catch (Exception ex) {
                 Logger.getLogger(XBDocTreePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -370,7 +370,7 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
         XBTTreeNode parent = (XBTTreeNode) node.getParent();
         try {
             XBTDocCommand step = new XBTDeleteBlockCommand(node);
-            getTreeUndo().performRedo(step);
+            getTreeUndo().execute(step);
         } catch (Exception ex) {
             Logger.getLogger(XBDocTreePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -636,7 +636,7 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
                     newNode.fromStreamUB(new ByteArrayInputStream(stream.toByteArray()));
                     try {
                         XBTDocCommand step = new XBTAddBlockCommand(node, newNode);
-                        docTreePanel.getTreeUndo().performRedo(step);
+                        docTreePanel.getTreeUndo().execute(step);
                         docTreePanel.reportStructureChange(node);
                         docTreePanel.mainDoc.processSpec();
                         docTreePanel.updateItemStatus();

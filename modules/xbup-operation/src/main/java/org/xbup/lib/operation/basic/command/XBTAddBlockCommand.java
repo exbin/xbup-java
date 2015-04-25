@@ -21,23 +21,21 @@ import java.util.List;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.operation.XBTDocCommand;
-import org.xbup.lib.operation.basic.XBBasicOperationType;
+import org.xbup.lib.operation.XBTOpDocCommand;
+import org.xbup.lib.operation.basic.XBBasicCommandType;
 
 /**
  * Command for adding child block.
  *
- * @version 0.1.25 2015/04/13
+ * @version 0.1.25 2015/04/25
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTAddBlockCommand extends XBTDocCommand {
+public class XBTAddBlockCommand extends XBTOpDocCommand {
 
-    private String caption;
     private XBTEditableBlock newNode;
     private final long position;
 
     public XBTAddBlockCommand(XBTEditableBlock node, XBTEditableBlock newNode) {
-        caption = "Added item";
         if (node == null) {
             position = -1;
         } else {
@@ -47,13 +45,8 @@ public class XBTAddBlockCommand extends XBTDocCommand {
     }
 
     @Override
-    public XBBasicOperationType getOpType() {
-        return XBBasicOperationType.NODE_ADD;
-    }
-
-    @Override
-    public String getCaption() {
-        return caption;
+    public XBBasicCommandType getBasicType() {
+        return XBBasicCommandType.NODE_ADDED;
     }
 
     @Override
@@ -89,10 +82,6 @@ public class XBTAddBlockCommand extends XBTDocCommand {
             newNode = (XBTEditableBlock) children.get(children.size() - 1);
             children.remove(children.size() - 1);
         }
-    }
-
-    public void setCaption(String caption) {
-        this.caption = caption;
     }
 
     @Override

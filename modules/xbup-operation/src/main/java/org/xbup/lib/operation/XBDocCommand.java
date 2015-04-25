@@ -17,12 +17,12 @@
 package org.xbup.lib.operation;
 
 import org.xbup.lib.core.block.XBEditableDocument;
-import org.xbup.lib.operation.basic.XBBasicOperationType;
+import org.xbup.lib.operation.basic.XBBasicCommandType;
 
 /**
  * Abstract class for operation using XBUP level 0 document.
  *
- * @version 0.1.25 2015/04/19
+ * @version 0.1.25 2015/04/25
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class XBDocCommand extends AbstractCommand {
@@ -30,11 +30,11 @@ public abstract class XBDocCommand extends AbstractCommand {
     protected XBEditableDocument document;
 
     /**
-     * Returns operation type.
+     * Returns command type.
      *
      * @return command type
      */
-    public abstract XBBasicOperationType getOpType();
+    public abstract XBBasicCommandType getBasicType();
 
     public XBEditableDocument getDocument() {
         return document;
@@ -51,5 +51,10 @@ public abstract class XBDocCommand extends AbstractCommand {
      */
     @Override
     public void dispose() throws Exception {
+    }
+
+    @Override
+    public String getCaption() {
+        return getBasicType().getCaption();
     }
 }

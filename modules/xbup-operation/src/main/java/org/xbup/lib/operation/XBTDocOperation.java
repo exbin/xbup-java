@@ -22,7 +22,7 @@ import org.xbup.lib.operation.basic.XBBasicOperationType;
 /**
  * Abstract class for operation using XBUP level 1 document.
  *
- * @version 0.1.25 2015/04/18
+ * @version 0.1.25 2015/04/25
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class XBTDocOperation implements Operation {
@@ -30,11 +30,11 @@ public abstract class XBTDocOperation implements Operation {
     protected XBTEditableDocument document;
 
     /**
-     * Returns type of the command.
+     * Returns type of the operation.
      *
-     * @return command type
+     * @return basic type
      */
-    public abstract XBBasicOperationType getOpType();
+    public abstract XBBasicOperationType getBasicType();
 
     public XBTEditableDocument getDocument() {
         return document;
@@ -51,5 +51,11 @@ public abstract class XBTDocOperation implements Operation {
      */
     @Override
     public void dispose() throws Exception {
+    }
+
+
+    @Override
+    public String getCaption() {
+        return getBasicType().getCaption();
     }
 }

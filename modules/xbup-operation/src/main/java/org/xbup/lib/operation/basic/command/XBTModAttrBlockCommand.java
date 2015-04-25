@@ -22,7 +22,7 @@ import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.operation.XBTDocCommand;
 import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.lib.operation.basic.XBBasicOperationType;
+import org.xbup.lib.operation.basic.XBBasicCommandType;
 
 /**
  * Command for modifying block attributes.
@@ -53,8 +53,8 @@ public class XBTModAttrBlockCommand extends XBTDocCommand {
     }
 
     @Override
-    public XBBasicOperationType getOpType() {
-        return XBBasicOperationType.NODE_MOD_ATTR;
+    public XBBasicCommandType getBasicType() {
+        return XBBasicCommandType.ATTRIBUTE_MODIFIED;
     }
 
     @Override

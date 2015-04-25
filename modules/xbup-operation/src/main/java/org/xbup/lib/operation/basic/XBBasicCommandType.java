@@ -17,51 +17,51 @@
 package org.xbup.lib.operation.basic;
 
 /**
- * Document operation type enumeration.
+ * Document command type enumeration.
  *
  * @version 0.1.25 2015/04/25
  * @author XBUP Project (http://xbup.org)
  */
-public enum XBBasicOperationType {
+public enum XBBasicCommandType {
 
     /**
      * Node added.
      */
-    ADD_NODE("Add node"),
+    NODE_ADDED("Node addded"),
     /**
      * Node deleted.
      */
-    DELETE_NODE("Delete node"),
+    NODE_DELETED("Node deleted"),
     /**
      * Node modified.
      */
-    MODIFY_NODE("Modify node"),
+    NODE_MODIFIED("Node modified"),
     /**
      * Count of attribute changed.
      */
     @Deprecated
-    NODE_RSZ_ATTR("Change count of attributes"),
+    NODE_RSZ_ATTR("Count of attributes changed"),
     /**
      * Attribute modified.
      */
-    MODIFY_ATTRIBUTE("Modify attribute"),
+    ATTRIBUTE_MODIFIED("Attribute modified"),
     /**
      * Data modified.
      */
-    MODIFY_DATA("Modify data"),
+    DATA_MODIFIED("Data modified"),
     /**
      * Data size changed.
      */
     @Deprecated
-    NODE_RSZ_DATA("Resize data"),
+    NODE_RSZ_DATA("Size of data changed"),
     /**
      * Node swaped.
      */
-    MOVE_NODE("Swap node");
+    NODE_SWAPED("Node swapped");
 
     private final String caption;
 
-    private XBBasicOperationType(String caption) {
+    private XBBasicCommandType(String caption) {
         this.caption = caption;
     }
 

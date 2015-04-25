@@ -57,33 +57,7 @@ public class XBLinearUndo {
             throw new Exception("");
         }
         XBDocOperation op = operationList.get((int) position);
-        switch (op.getOpType()) {
-            case NODE_ADD: {
-//                XBL1TreeNode node = (XBL1TreeNode) tree.findNodeByIndex(op.getIndex());
-                break;
-            }
-            case NODE_DEL: {
-                break;
-            }
-            case NODE_MOD: {
-                break;
-            }
-            case NODE_MOD_ATTR: {
-                break;
-            }
-            case NODE_MOD_DATA: {
-                break;
-            }
-            case NODE_RSZ_ATTR: {
-                break;
-            }
-            case NODE_RSZ_DATA: {
-                break;
-            }
-            case NODE_SWAP: {
-                break;
-            }
-        }
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void performRedo() throws Exception {

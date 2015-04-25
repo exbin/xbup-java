@@ -20,7 +20,7 @@ import java.io.InputStream;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.operation.XBTDocCommand;
 import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.lib.operation.basic.XBBasicOperationType;
+import org.xbup.lib.operation.basic.XBBasicCommandType;
 
 /**
  * Command for modifying block data.
@@ -47,8 +47,8 @@ public class XBTModDataBlockCommand extends XBTDocCommand {
     }
 
     @Override
-    public XBBasicOperationType getOpType() {
-        return XBBasicOperationType.NODE_MOD_DATA;
+    public XBBasicCommandType getBasicType() {
+        return XBBasicCommandType.DATA_MODIFIED;
     }
 
     @Override

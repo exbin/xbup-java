@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.operation.XBTDocCommand;
 import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.lib.operation.basic.XBBasicOperationType;
+import org.xbup.lib.operation.basic.XBBasicCommandType;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
 
 /**
@@ -54,8 +54,8 @@ public class XBTDeleteBlockCommand extends XBTDocCommand {
     }
 
     @Override
-    public XBBasicOperationType getOpType() {
-        return XBBasicOperationType.NODE_DEL;
+    public XBBasicCommandType getBasicType() {
+        return XBBasicCommandType.NODE_DELETED;
     }
 
     @Override

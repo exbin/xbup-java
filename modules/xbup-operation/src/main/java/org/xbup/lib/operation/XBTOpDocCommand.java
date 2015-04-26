@@ -19,51 +19,53 @@ package org.xbup.lib.operation;
 /**
  * Abstract class for operation using XBUP level 1 document.
  *
- * @version 0.1.25 2015/04/24
+ * @version 0.1.25 2015/04/26
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class XBTOpDocCommand extends XBTDocCommand {
 
-    private XBTDocOperation redoOperation;
-    private XBTDocOperation undoOperation;
+    private XBTDocOperation operation;
+    private boolean isUndoMode = false;
 
-    public XBTDocOperation getRedoOperation() {
-        return redoOperation;
+    public XBTDocOperation getOperation() {
+        return operation;
     }
 
-    public void setRedoOperation(XBTDocOperation redoOperation) {
-        this.redoOperation = redoOperation;
-    }
-
-    public XBTDocOperation getUndoOperation() {
-        return undoOperation;
-    }
-
-    public void setUndoOperation(XBTDocOperation undoOperation) {
-        this.undoOperation = undoOperation;
+    public void setOperation(XBTDocOperation operation) {
+        this.operation = operation;
     }
 
     /**
-     * Returns currently active operation
+     * Returns currently active operation.
      *
      * @return document operation
      */
     public XBTDocOperation getCurrentOperation() {
-        return redoOperation != null ? redoOperation : undoOperation;
+        return operation;
     }
 
     @Override
     public boolean canUndo() {
-        return undoOperation != null;
+        return isUndoMode;
     }
 
     @Override
     public void undo() throws Exception {
-        undoOperation.execute();
+        if (isUndoMode) {
+            operation = (XBTDocOperation) operation.executeWithUndo();
+            isUndoMode = false;
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Override
     public void redo() throws Exception {
-        redoOperation.execute();
+        if (!isUndoMode) {
+            operation = (XBTDocOperation) operation.executeWithUndo();
+            isUndoMode = true;
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 }

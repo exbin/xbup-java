@@ -20,12 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
+import org.xbup.lib.operation.Operation;
 import org.xbup.lib.operation.XBTDocOperation;
 
 /**
  * Command for adding child block.
  *
- * @version 0.1.25 2015/04/25
+ * @version 0.1.25 2015/04/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTAddBlockOperation extends XBTDocOperation {
@@ -33,12 +34,8 @@ public class XBTAddBlockOperation extends XBTDocOperation {
     private final XBTEditableBlock newNode;
     private final long position;
 
-    public XBTAddBlockOperation(XBTEditableBlock node, XBTEditableBlock newNode) {
-        if (node == null) {
-            position = -1;
-        } else {
-            position = node.getBlockIndex();
-        }
+    public XBTAddBlockOperation(long position, XBTEditableBlock newNode) {
+        this.position = position;
         this.newNode = newNode;
     }
 
@@ -63,5 +60,13 @@ public class XBTAddBlockOperation extends XBTDocOperation {
             children.add(newNode);
             newNode.setParent(node);
         }
+    }
+
+    @Override
+    public Operation executeWithUndo() throws Exception {
+        execute();
+        
+        // TODO
+        return null;
     }
 }

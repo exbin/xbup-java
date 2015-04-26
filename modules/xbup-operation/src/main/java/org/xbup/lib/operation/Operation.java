@@ -19,7 +19,7 @@ package org.xbup.lib.operation;
 /**
  * Interface for XBUP editor operation.
  *
- * @version 0.1.25 2015/04/18
+ * @version 0.1.25 2015/04/26
  * @author XBUP Project (http://xbup.org)
  */
 public interface Operation {
@@ -37,6 +37,14 @@ public interface Operation {
      * @throws java.lang.Exception
      */
     public void execute() throws Exception;
+
+    /**
+     * Performs operation on given document and returns undo operation.
+     *
+     * @return undo operation or null if not available
+     * @throws java.lang.Exception
+     */
+    public Operation executeWithUndo() throws Exception;
 
     /**
      * Disposes command.

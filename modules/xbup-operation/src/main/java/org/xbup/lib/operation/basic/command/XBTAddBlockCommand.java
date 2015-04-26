@@ -16,18 +16,15 @@
  */
 package org.xbup.lib.operation.basic.command;
 
-import java.util.ArrayList;
-import java.util.List;
-import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
-import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.operation.XBTOpDocCommand;
 import org.xbup.lib.operation.basic.XBBasicCommandType;
+import org.xbup.lib.operation.basic.XBTAddBlockOperation;
 
 /**
  * Command for adding child block.
  *
- * @version 0.1.25 2015/04/25
+ * @version 0.1.25 2015/04/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTAddBlockCommand extends XBTOpDocCommand {
@@ -42,6 +39,7 @@ public class XBTAddBlockCommand extends XBTOpDocCommand {
             position = node.getBlockIndex();
         }
         this.newNode = newNode;
+        setOperation(new XBTAddBlockOperation(position, newNode));
     }
 
     @Override
@@ -49,28 +47,7 @@ public class XBTAddBlockCommand extends XBTOpDocCommand {
         return XBBasicCommandType.NODE_ADDED;
     }
 
-    @Override
-    public void redo() throws XBProcessingException {
-        if (position == -1) {
-            if (document.getRootBlock() == null) {
-                document.setRootBlock(newNode);
-// TODO:                newNode.setContext(document.getRootContext());
-// TODO:                document.processSpec();
-            }
-        } else {
-            XBTEditableBlock node = (XBTEditableBlock) document.findBlockByIndex(position);
-            List<XBTBlock> children = node.getChildren();
-            if (children == null) {
-                children = new ArrayList<>();
-                node.setChildren(children);
-            }
-            children.add(newNode);
-            newNode.setParent(node);
-// TODO:            newNode.setContext(node.getContext());
-// TODO:            document.processSpec();
-        }
-    }
-
+    /* TODO
     @Override
     public void undo() {
         if (position == -1) {
@@ -82,7 +59,7 @@ public class XBTAddBlockCommand extends XBTOpDocCommand {
             newNode = (XBTEditableBlock) children.get(children.size() - 1);
             children.remove(children.size() - 1);
         }
-    }
+    } */
 
     @Override
     public boolean canUndo() {

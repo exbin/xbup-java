@@ -27,7 +27,7 @@ public enum XBBasicCommandType {
     /**
      * Node added.
      */
-    NODE_ADDED("Node addded"),
+    NODE_ADDED("Node added"),
     /**
      * Node deleted.
      */
@@ -37,11 +37,6 @@ public enum XBBasicCommandType {
      */
     NODE_MODIFIED("Node modified"),
     /**
-     * Count of attribute changed.
-     */
-    @Deprecated
-    NODE_RSZ_ATTR("Count of attributes changed"),
-    /**
      * Attribute modified.
      */
     ATTRIBUTE_MODIFIED("Attribute modified"),
@@ -49,11 +44,6 @@ public enum XBBasicCommandType {
      * Data modified.
      */
     DATA_MODIFIED("Data modified"),
-    /**
-     * Data size changed.
-     */
-    @Deprecated
-    NODE_RSZ_DATA("Size of data changed"),
     /**
      * Node swaped.
      */

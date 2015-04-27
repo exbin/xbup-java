@@ -37,11 +37,6 @@ public enum XBBasicOperationType {
      */
     MODIFY_NODE("Modify node"),
     /**
-     * Count of attribute changed.
-     */
-    @Deprecated
-    NODE_RSZ_ATTR("Change count of attributes"),
-    /**
      * Attribute modified.
      */
     MODIFY_ATTRIBUTE("Modify attribute"),
@@ -49,11 +44,6 @@ public enum XBBasicOperationType {
      * Data modified.
      */
     MODIFY_DATA("Modify data"),
-    /**
-     * Data size changed.
-     */
-    @Deprecated
-    NODE_RSZ_DATA("Resize data"),
     /**
      * Node swaped.
      */

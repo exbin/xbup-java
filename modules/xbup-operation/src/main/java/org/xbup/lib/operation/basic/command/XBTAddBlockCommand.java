@@ -24,12 +24,11 @@ import org.xbup.lib.operation.basic.XBTAddBlockOperation;
 /**
  * Command for adding child block.
  *
- * @version 0.1.25 2015/04/26
+ * @version 0.1.25 2015/04/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTAddBlockCommand extends XBTOpDocCommand {
 
-    private XBTEditableBlock newNode;
     private final long position;
 
     public XBTAddBlockCommand(XBTEditableBlock node, XBTEditableBlock newNode) {
@@ -38,28 +37,14 @@ public class XBTAddBlockCommand extends XBTOpDocCommand {
         } else {
             position = node.getBlockIndex();
         }
-        this.newNode = newNode;
-        setOperation(new XBTAddBlockOperation(position, newNode));
+        XBTAddBlockOperation operation = new XBTAddBlockOperation(position, newNode);
+        setOperation(operation);
     }
 
     @Override
     public XBBasicCommandType getBasicType() {
         return XBBasicCommandType.NODE_ADDED;
     }
-
-    /* TODO
-    @Override
-    public void undo() {
-        if (position == -1) {
-            newNode = (XBTEditableBlock) document.getRootBlock();
-            document.clear();
-        } else {
-            XBTEditableBlock node = (XBTEditableBlock) document.findBlockByIndex(position);
-            List<XBTBlock> children = node.getChildren();
-            newNode = (XBTEditableBlock) children.get(children.size() - 1);
-            children.remove(children.size() - 1);
-        }
-    } */
 
     @Override
     public boolean canUndo() {

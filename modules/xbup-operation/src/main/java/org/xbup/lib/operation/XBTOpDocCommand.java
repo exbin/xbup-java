@@ -16,6 +16,8 @@
  */
 package org.xbup.lib.operation;
 
+import org.xbup.lib.core.block.XBTEditableDocument;
+
 /**
  * Abstract class for operation using XBUP level 1 document.
  *
@@ -33,6 +35,14 @@ public abstract class XBTOpDocCommand extends XBTDocCommand {
 
     public void setOperation(XBTDocOperation operation) {
         this.operation = operation;
+    }
+
+    @Override
+    public void setDocument(XBTEditableDocument document) {
+        super.setDocument(document);
+        if (operation != null) {
+            operation.setDocument(document);
+        }
     }
 
     /**

@@ -56,7 +56,7 @@ public abstract class XBTOpDocCommand extends XBTDocCommand {
 
     @Override
     public boolean canUndo() {
-        return isUndoMode;
+        return true;
     }
 
     @Override

@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBTBlock;
-import org.xbup.lib.operation.XBTDocCommand;
+import org.xbup.lib.operation.XBTOpDocCommand;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.operation.basic.XBBasicCommandType;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
@@ -33,19 +33,17 @@ import org.xbup.lib.operation.undo.XBTLinearUndo;
 /**
  * Command for modifying block.
  *
- * @version 0.1.25 2015/04/13
+ * @version 0.1.25 2015/04/28
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTModifyBlockCommand extends XBTDocCommand {
+public class XBTModifyBlockCommand extends XBTOpDocCommand {
 
-    private String caption;
     private final long position;
     private final long index;
     private InputStream data;
     XBTTreeNode newNode;
 
     public XBTModifyBlockCommand(XBTTreeNode node, XBTTreeNode newNode) {
-        caption = "Replaced item";
         this.newNode = newNode;
         if (node.getParent() != null) {
             position = node.getParent().getBlockIndex();
@@ -59,11 +57,6 @@ public class XBTModifyBlockCommand extends XBTDocCommand {
     @Override
     public XBBasicCommandType getBasicType() {
         return XBBasicCommandType.NODE_MODIFIED;
-    }
-
-    @Override
-    public String getCaption() {
-        return caption;
     }
 
     @Override
@@ -141,10 +134,6 @@ public class XBTModifyBlockCommand extends XBTDocCommand {
             // TODO: Update context restoredNode.setContext(node.getContext());
         }
         data = null;
-    }
-
-    public void setCaption(String caption) {
-        this.caption = caption;
     }
 
     @Override

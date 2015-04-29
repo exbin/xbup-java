@@ -18,7 +18,7 @@ package org.xbup.lib.operation.basic.command;
 
 import java.io.InputStream;
 import org.xbup.lib.core.block.XBBlockDataMode;
-import org.xbup.lib.operation.XBTDocCommand;
+import org.xbup.lib.operation.XBTOpDocCommand;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.operation.basic.XBBasicCommandType;
 
@@ -28,7 +28,7 @@ import org.xbup.lib.operation.basic.XBBasicCommandType;
  * @version 0.1.25 2015/04/13
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTModDataBlockCommand extends XBTDocCommand {
+public class XBTModDataBlockCommand extends XBTOpDocCommand {
 
     private String caption;
     private InputStream dataList;
@@ -74,10 +74,5 @@ public class XBTModDataBlockCommand extends XBTDocCommand {
 
     public void setCaption(String caption) {
         this.caption = caption;
-    }
-
-    @Override
-    public boolean canUndo() {
-        return true;
     }
 }

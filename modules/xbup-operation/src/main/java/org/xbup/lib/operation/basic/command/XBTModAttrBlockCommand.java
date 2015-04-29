@@ -20,7 +20,7 @@ import java.util.List;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.parser.token.XBAttribute;
-import org.xbup.lib.operation.XBTDocCommand;
+import org.xbup.lib.operation.XBTOpDocCommand;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.operation.basic.XBBasicCommandType;
 
@@ -30,7 +30,7 @@ import org.xbup.lib.operation.basic.XBBasicCommandType;
  * @version 0.1.25 2015/04/13
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTModAttrBlockCommand extends XBTDocCommand {
+public class XBTModAttrBlockCommand extends XBTOpDocCommand {
 
     private String caption;
     private List<XBAttribute> attrList;
@@ -83,10 +83,5 @@ public class XBTModAttrBlockCommand extends XBTDocCommand {
 
     public void setCaption(String caption) {
         this.caption = caption;
-    }
-
-    @Override
-    public boolean canUndo() {
-        return true;
     }
 }

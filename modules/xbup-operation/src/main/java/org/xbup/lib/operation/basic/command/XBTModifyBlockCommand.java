@@ -135,9 +135,4 @@ public class XBTModifyBlockCommand extends XBTOpDocCommand {
         }
         data = null;
     }
-
-    @Override
-    public boolean canUndo() {
-        return true;
-    }
 }

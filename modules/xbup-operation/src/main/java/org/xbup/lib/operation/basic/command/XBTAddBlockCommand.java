@@ -24,19 +24,21 @@ import org.xbup.lib.operation.basic.XBTAddBlockOperation;
 /**
  * Command for adding child block.
  *
- * @version 0.1.25 2015/04/28
+ * @version 0.1.25 2015/04/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTAddBlockCommand extends XBTOpDocCommand {
 
-    public XBTAddBlockCommand(XBTEditableBlock node, XBTEditableBlock newNode) {
+    public XBTAddBlockCommand(XBTEditableBlock parentNode, XBTEditableBlock newNode) {
         long position;
-        if (node == null) {
+        int childIndex = 0;
+        if (parentNode == null) {
             position = -1;
         } else {
-            position = node.getBlockIndex();
+            position = parentNode.getBlockIndex();
+            childIndex = parentNode.getChildCount();
         }
-        setOperation(new XBTAddBlockOperation(position, newNode));
+        setOperation(new XBTAddBlockOperation(position, childIndex, newNode));
     }
 
     @Override

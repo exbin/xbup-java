@@ -16,8 +16,6 @@
  */
 package org.xbup.lib.operation.basic;
 
-import java.util.List;
-import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.operation.Operation;
 import org.xbup.lib.operation.XBTDocOperation;
@@ -25,7 +23,7 @@ import org.xbup.lib.operation.XBTDocOperation;
 /**
  * Command for deleting child block.
  *
- * @version 0.1.25 2015/04/27
+ * @version 0.1.25 2015/04/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTDeleteBlockOperation extends XBTDocOperation {
@@ -43,26 +41,29 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
 
     @Override
     public void execute() throws Exception {
-        if (position == -1) {
+        if (position < 1) {
             document.clear();
         } else {
             XBTEditableBlock node = (XBTEditableBlock) document.findBlockByIndex(position);
-            List<XBTBlock> children = node.getChildren();
-            children.remove(children.size() - 1);
+            XBTEditableBlock parentNode = (XBTEditableBlock) node.getParent();
+            parentNode.getChildren().remove(node);
         }
     }
 
     @Override
     public Operation executeWithUndo() throws Exception {
+        int childIndex = 0;
+        long parentPosition = -1;
         XBTEditableBlock deletedNode;
-        if (position == -1) {
+        if (position < 1) {
             deletedNode = (XBTEditableBlock) document.getRootBlock();
         } else {
-            XBTEditableBlock node = (XBTEditableBlock) document.findBlockByIndex(position);
-            List<XBTBlock> children = node.getChildren();
-            deletedNode = (XBTEditableBlock) children.get(children.size() - 1);
+            deletedNode = (XBTEditableBlock) document.findBlockByIndex(position);
+            XBTEditableBlock parentNode = (XBTEditableBlock) deletedNode.getParent();
+            parentPosition = parentNode.getBlockIndex();
+            childIndex = parentNode.getChildren().indexOf(deletedNode);
         }
-        XBTAddBlockOperation undoOperation = new XBTAddBlockOperation(position, deletedNode);
+        XBTAddBlockOperation undoOperation = new XBTAddBlockOperation(parentPosition, childIndex, deletedNode);
         undoOperation.setDocument(document);
 
         execute();

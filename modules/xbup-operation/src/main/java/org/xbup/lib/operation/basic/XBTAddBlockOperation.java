@@ -26,17 +26,19 @@ import org.xbup.lib.operation.XBTDocOperation;
 /**
  * Command for adding child block.
  *
- * @version 0.1.25 2015/04/27
+ * @version 0.1.25 2015/04/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTAddBlockOperation extends XBTDocOperation {
 
     private final XBTEditableBlock newNode;
-    private final long position;
+    private final long parentPosition;
+    private final int childIndex;
 
-    public XBTAddBlockOperation(long position, XBTEditableBlock newNode) {
-        this.position = position;
+    public XBTAddBlockOperation(long parentPosition, int childIndex, XBTEditableBlock newNode) {
+        this.parentPosition = parentPosition;
         this.newNode = newNode;
+        this.childIndex = childIndex;
     }
 
     @Override
@@ -46,28 +48,35 @@ public class XBTAddBlockOperation extends XBTDocOperation {
 
     @Override
     public void execute() throws Exception {
-        if (position == -1) {
+        if (parentPosition < 0) {
             if (document.getRootBlock() == null) {
                 document.setRootBlock(newNode);
             }
         } else {
-            XBTEditableBlock node = (XBTEditableBlock) document.findBlockByIndex(position);
-            List<XBTBlock> children = node.getChildren();
+            XBTEditableBlock parentNode = (XBTEditableBlock) document.findBlockByIndex(parentPosition);
+            List<XBTBlock> children = parentNode.getChildren();
             if (children == null) {
                 children = new ArrayList<>();
-                node.setChildren(children);
+                parentNode.setChildren(children);
             }
-            children.add(newNode);
-            newNode.setParent(node);
+            children.add(childIndex, newNode);
+            newNode.setParent(parentNode);
         }
     }
 
     @Override
     public Operation executeWithUndo() throws Exception {
-        XBTDeleteBlockOperation undoOperation = new XBTDeleteBlockOperation(position);
-        undoOperation.setDocument(document);
         execute();
 
+        XBTDeleteBlockOperation undoOperation;
+        if (parentPosition >= 0) {
+            XBTEditableBlock parentNode = (XBTEditableBlock) document.findBlockByIndex(parentPosition);
+            XBTBlock node = parentNode.getChildAt(childIndex);
+            undoOperation = new XBTDeleteBlockOperation(node.getBlockIndex());
+        } else {
+            undoOperation = new XBTDeleteBlockOperation(0);
+        }
+        undoOperation.setDocument(document);
         return undoOperation;
     }
 }

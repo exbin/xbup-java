@@ -25,7 +25,6 @@ import java.util.logging.Logger;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.remote.XBRNode;
 import org.xbup.lib.client.catalog.remote.XBRRoot;
-import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCRoot;
@@ -117,7 +116,7 @@ public class XBPNodeStub extends XBPBaseStub<XBRNode> {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             if (!serialOutput.pullIfEmptyBlock()) {
                 serialOutput.begin();
-                serialOutput.matchType(new XBFixedBlockType());
+                serialOutput.matchType();
                 long count = serialOutput.pullLongAttribute();
                 List<XBCNode> result = new ArrayList<>();
                 for (int i = 0; i < count; i++) {
@@ -182,7 +181,7 @@ public class XBPNodeStub extends XBPBaseStub<XBRNode> {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             if (!serialOutput.pullIfEmptyBlock()) {
                 serialOutput.begin();
-                serialOutput.matchType(new XBFixedBlockType());
+                serialOutput.matchType();
                 long pathLength = serialOutput.pullLongAttribute();
                 Long[] result = new Long[(int) pathLength];
                 for (int i = 0; i < pathLength; i++) {

@@ -40,7 +40,7 @@ import org.xbup.lib.core.serial.child.XBTChildSerializable;
  * Data are stored using paging. Last page might be shorter than page size, but
  * not empty.
  *
- * @version 0.1.25 2015/02/09
+ * @version 0.1.25 2015/05/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSerializable {
@@ -390,6 +390,11 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
         return new DataInputStream();
     }
 
+    @Override
+    public DataOutputStream getDataOutputStream() {
+        return new DataOutputStream();
+    }
+
     public class DataInputStream extends InputStream implements SeekableStream, FinishableStream {
 
         private long position = 0;
@@ -457,6 +462,75 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
         @Override
         public long getStreamSize() {
             return getDataSize();
+        }
+    }
+
+    public class DataOutputStream extends OutputStream implements SeekableStream, FinishableStream {
+
+        private long position = 0;
+
+        @Override
+        public void write(int value) throws IOException {
+            long dataSize = getDataSize();
+            if (position == dataSize) {
+                dataSize++;
+                setDataSize(dataSize);
+            }
+            setByte(position++, (byte) value);
+        }
+
+        @Override
+        public void write(byte[] input, int off, int len) throws IOException {
+            long dataSize = getDataSize();
+            if (position + len > dataSize) {
+                setDataSize(position + len);
+            }
+
+            int length = len;
+            int offset = off;
+            while (length > 0) {
+                byte[] page = getPage((int) (position / pageSize));
+                int srcPos = (int) (position % pageSize);
+                int copyLength = page.length - srcPos;
+                if (copyLength > length) {
+                    copyLength = length;
+                }
+
+                if (copyLength == 0) {
+                    return;
+                }
+
+                System.arraycopy(input, offset, page, srcPos, copyLength);
+                length -= copyLength;
+                position += copyLength;
+                offset += copyLength;
+            }
+        }
+
+        @Override
+        public void seek(long position) throws IOException {
+            this.position = position;
+        }
+
+        @Override
+        public long getStreamSize() {
+            return getDataSize();
+        }
+
+        @Override
+        public long getLength() {
+            return position;
+        }
+
+        @Override
+        public void close() throws IOException {
+            finish();
+        }
+
+        @Override
+        public long finish() throws IOException {
+            position = getDataSize();
+            return position;
         }
     }
 }

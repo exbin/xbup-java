@@ -36,7 +36,6 @@ import org.xbup.lib.client.catalog.remote.XBRGroupSpec;
 import org.xbup.lib.client.catalog.remote.XBRRev;
 import org.xbup.lib.client.catalog.remote.XBRSpec;
 import org.xbup.lib.client.catalog.remote.XBRSpecDef;
-import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
@@ -169,7 +168,7 @@ public class XBPSpecStub extends XBPBaseStub<XBRSpec> {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             if (!serialOutput.pullIfEmptyBlock()) {
                 serialOutput.begin();
-                serialOutput.matchType(new XBFixedBlockType());
+                serialOutput.matchType();
                 long count = serialOutput.pullLongAttribute();
                 List<XBCSpec> result = new ArrayList<>();
                 for (int i = 0; i < count; i++) {
@@ -240,7 +239,7 @@ public class XBPSpecStub extends XBPBaseStub<XBRSpec> {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             if (!serialOutput.pullIfEmptyBlock()) {
                 serialOutput.begin();
-                serialOutput.matchType(new XBFixedBlockType());
+                serialOutput.matchType();
                 long count = serialOutput.pullLongAttribute();
                 List<XBCFormatSpec> result = new ArrayList<>();
                 for (int i = 0; i < count; i++) {
@@ -272,7 +271,7 @@ public class XBPSpecStub extends XBPBaseStub<XBRSpec> {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             if (!serialOutput.pullIfEmptyBlock()) {
                 serialOutput.begin();
-                serialOutput.matchType(new XBFixedBlockType());
+                serialOutput.matchType();
                 long count = serialOutput.pullLongAttribute();
                 List<XBCGroupSpec> result = new ArrayList<>();
                 for (int i = 0; i < count; i++) {
@@ -304,7 +303,7 @@ public class XBPSpecStub extends XBPBaseStub<XBRSpec> {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             if (!serialOutput.pullIfEmptyBlock()) {
                 serialOutput.begin();
-                serialOutput.matchType(new XBFixedBlockType());
+                serialOutput.matchType();
                 long count = serialOutput.pullLongAttribute();
                 List<XBCBlockSpec> result = new ArrayList<>();
                 for (int i = 0; i < count; i++) {
@@ -383,7 +382,7 @@ public class XBPSpecStub extends XBPBaseStub<XBRSpec> {
 
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             serialOutput.begin();
-            serialOutput.matchType(new XBFixedBlockType());
+            serialOutput.matchType();
             long index = serialOutput.pullLongAttribute();
             int bindType = serialOutput.pullIntAttribute();
             serialOutput.end();
@@ -426,7 +425,7 @@ public class XBPSpecStub extends XBPBaseStub<XBRSpec> {
 
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             serialOutput.begin();
-            serialOutput.matchType(new XBFixedBlockType());
+            serialOutput.matchType();
             long index = serialOutput.pullLongAttribute();
             int bindType = serialOutput.pullIntAttribute();
             serialOutput.end();
@@ -469,7 +468,7 @@ public class XBPSpecStub extends XBPBaseStub<XBRSpec> {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             if (!serialOutput.pullIfEmptyBlock()) {
                 serialOutput.begin();
-                serialOutput.matchType(new XBFixedBlockType());
+                serialOutput.matchType();
                 long count = serialOutput.pullLongAttribute();
                 List<XBCSpecDef> result = new ArrayList<>();
                 for (int i = 0; i < count; i++) {

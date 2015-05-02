@@ -23,7 +23,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.remote.XBRXLanguage;
-import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -77,7 +76,7 @@ public class XBPXLangStub extends XBPBaseStub<XBRXLanguage> {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             if (!serialOutput.pullIfEmptyBlock()) {
                 serialOutput.begin();
-                serialOutput.matchType(new XBFixedBlockType());
+                serialOutput.matchType();
                 long count = serialOutput.pullLongAttribute();
                 List<XBCXLanguage> result = new ArrayList<>();
                 for (int i = 0; i < count; i++) {

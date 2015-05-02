@@ -25,7 +25,6 @@ import org.xbup.lib.catalog.entity.XBERoot;
 import org.xbup.lib.catalog.entity.service.XBENodeService;
 import org.xbup.lib.client.stub.XBPNodeStub;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.XBTEmptyBlock;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCNode;
@@ -157,7 +156,7 @@ public class XBPNodeSkeleton {
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.begin();
-                listener.matchType(new XBFixedBlockType());
+                listener.matchType();
                 listener.putAttribute(subNodes.size());
                 for (XBCNode subNode : subNodes) {
                     listener.putAttribute(subNode.getId());
@@ -219,7 +218,7 @@ public class XBPNodeSkeleton {
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.begin();
-                listener.matchType(new XBFixedBlockType());
+                listener.matchType();
                 listener.putAttribute(nodePath.length);
                 for (Long pathId : nodePath) {
                     listener.putAttribute(pathId);

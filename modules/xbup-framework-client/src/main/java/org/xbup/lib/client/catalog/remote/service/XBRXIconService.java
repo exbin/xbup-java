@@ -18,7 +18,6 @@ package org.xbup.lib.client.catalog.remote.service;
 
 import java.util.List;
 import javax.swing.ImageIcon;
-import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCItem;

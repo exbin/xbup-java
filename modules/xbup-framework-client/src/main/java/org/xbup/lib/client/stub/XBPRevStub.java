@@ -26,7 +26,6 @@ import org.xbup.lib.client.catalog.remote.XBRBlockRev;
 import org.xbup.lib.client.catalog.remote.XBRFormatRev;
 import org.xbup.lib.client.catalog.remote.XBRGroupRev;
 import org.xbup.lib.client.catalog.remote.XBRRev;
-import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
@@ -149,7 +148,7 @@ public class XBPRevStub extends XBPBaseStub<XBRRev> {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             if (!serialOutput.pullIfEmptyBlock()) {
                 serialOutput.begin();
-                serialOutput.matchType(new XBFixedBlockType());
+                serialOutput.matchType();
                 long count = serialOutput.pullLongAttribute();
                 List<XBCRev> result = new ArrayList<>();
                 for (int i = 0; i < count; i++) {

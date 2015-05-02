@@ -18,11 +18,12 @@ package org.xbup.lib.core.block;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Interface for editable binary data.
  *
- * @version 0.1.25 2015/02/09
+ * @version 0.1.25 2015/05/01
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBEditableBlockData extends XBBlockData {
@@ -115,6 +116,13 @@ public interface XBEditableBlockData extends XBBlockData {
      * @throws java.io.IOException if input/output error
      */
     public void loadFromStream(InputStream inputStream) throws IOException;
+
+    /**
+     * Provides handler for output stream generation.
+     *
+     * @return new instance of output stream
+     */
+    public OutputStream getDataOutputStream();
 
     /**
      * Loads data from given stream expecting given size.

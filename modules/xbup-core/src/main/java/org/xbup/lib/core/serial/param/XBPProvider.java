@@ -30,7 +30,7 @@ import org.xbup.lib.core.serial.XBSerializable;
 /**
  * XBUP level 2 child serialization provider interface.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.1.25 2015/05/03
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBPProvider {
@@ -140,6 +140,15 @@ public interface XBPProvider {
      * @return token
      */
     public XBTToken pullToken(XBTTokenType tokenType) throws XBProcessingException, IOException;
+
+    /**
+     * Pulls single token for preserving minimal form.
+     *
+     * @throws XBProcessingException if not matching
+     * @throws IOException if input/output exception occurs
+     * @return token
+     */
+    public XBTToken pullToken() throws XBProcessingException, IOException;
 
     /**
      * Pulls serializable object using consist method.

@@ -73,7 +73,7 @@ public class XBPServiceSkeleton {
                 // server.ping();
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.begin();
-                listener.matchType(new XBFixedBlockType());
+                listener.matchType();
                 listener.putAttribute(0);
                 listener.end();
             }

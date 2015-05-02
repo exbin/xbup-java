@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.catalog.base.XBCBase;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.remote.XBCallHandler;
@@ -89,7 +88,7 @@ public class XBPBaseStub<T extends XBCBase> implements XBPManagerStub<T> {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             if (!serialOutput.pullIfEmptyBlock()) {
                 serialOutput.begin();
-                serialOutput.matchType(new XBFixedBlockType());
+                serialOutput.matchType();
                 long count = serialOutput.pullLongAttribute();
                 for (int i = 0; i < count; i++) {
                     result.add(constructItem(serialOutput.pullLongAttribute()));

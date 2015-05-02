@@ -26,7 +26,6 @@ import org.xbup.lib.catalog.entity.service.XBENodeService;
 import org.xbup.lib.catalog.entity.service.XBEXFileService;
 import org.xbup.lib.client.stub.XBPXFileStub;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.XBTEmptyBlock;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCXFile;
@@ -127,7 +126,7 @@ public class XBPXFileSkeleton {
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.begin();
-                listener.matchType(new XBFixedBlockType());
+                listener.matchType();
                 listener.putAttribute(files.size());
                 for (XBCXFile file : files) {
                     listener.putAttribute(file.getId());

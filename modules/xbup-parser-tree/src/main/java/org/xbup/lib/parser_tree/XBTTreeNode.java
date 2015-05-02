@@ -611,7 +611,13 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
 
     public void setBlockType(XBBlockType blockType) {
         if (blockType instanceof XBFBlockType) {
-            blockDecl = context != null ? context.getDeclBlockType((XBFBlockType) blockType).getBlockDecl() : null;
+            blockDecl = null;
+            if (context != null) {
+                XBDeclBlockType declBlockType = context.getDeclBlockType((XBFBlockType) blockType);
+                if (declBlockType != null) {
+                    blockDecl = declBlockType.getBlockDecl();
+                }
+            }
             setFixedBlockType(((XBFixedBlockType) blockType));
         } else if (blockType instanceof XBDBlockType) {
             blockDecl = ((XBDBlockType) blockType).getBlockDecl();

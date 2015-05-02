@@ -78,7 +78,7 @@ public class XBDefaultMatchingProvider implements XBMatchingProvider {
     public void matchAttribXB(XBAttribute value) throws XBProcessingException, IOException {
         XBToken token = pullToken();
         if (token.getTokenType() != XBTokenType.ATTRIBUTE || ((XBAttributeToken) token).getAttribute().getNaturalLong() != value.getNaturalLong()) {
-            throw new XBParseException("Unexpected event order");
+            throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
     }
 

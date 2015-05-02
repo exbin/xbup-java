@@ -17,17 +17,23 @@
 package org.xbup.lib.operation;
 
 import org.xbup.lib.core.block.XBTEditableDocument;
+import org.xbup.lib.core.type.XBData;
 import org.xbup.lib.operation.basic.XBBasicOperationType;
 
 /**
  * Abstract class for operation using XBUP level 1 document.
  *
- * @version 0.1.25 2015/04/25
+ * @version 0.1.25 2015/05/02
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class XBTDocOperation implements Operation {
 
     protected XBTEditableDocument document;
+    private XBData data;
+
+    public XBTDocOperation() {
+        data = new XBData();
+    }
 
     /**
      * Returns type of the operation.
@@ -44,6 +50,14 @@ public abstract class XBTDocOperation implements Operation {
         this.document = document;
     }
 
+    public XBData getData() {
+        return data;
+    }
+
+    public void setData(XBData data) {
+        this.data = data;
+    }
+
     /**
      * Default dispose is empty.
      *
@@ -52,7 +66,6 @@ public abstract class XBTDocOperation implements Operation {
     @Override
     public void dispose() throws Exception {
     }
-
 
     @Override
     public String getCaption() {

@@ -23,7 +23,6 @@ import org.xbup.lib.catalog.entity.XBEXLanguage;
 import org.xbup.lib.catalog.entity.service.XBEXLangService;
 import org.xbup.lib.client.stub.XBPXLangStub;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.XBTEmptyBlock;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -98,7 +97,7 @@ public class XBPXLangSkeleton {
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.begin();
-                listener.matchType(new XBFixedBlockType());
+                listener.matchType();
                 listener.putAttribute(items.size());
                 for (XBEXLanguage lang : items) {
                     listener.putAttribute(lang.getId());

@@ -24,13 +24,15 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * 
  * Class is supposed to be immutable.
  *
- * @version 0.1.24 2014/10/07
+ * @version 0.1.25 2015/05/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBFixedBlockType implements XBFBlockType {
 
     private final UBNatural groupID;
     private final UBNatural blockID;
+    
+    public static final XBFixedBlockType UNKNOWN_BLOCK_TYPE = new XBFixedBlockType();
 
     /**
      * Creates fixed block type UNKNOWN_BLOCK(0).

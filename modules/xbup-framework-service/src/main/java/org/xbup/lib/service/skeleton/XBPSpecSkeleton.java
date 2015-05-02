@@ -31,7 +31,6 @@ import org.xbup.lib.catalog.entity.service.XBENodeService;
 import org.xbup.lib.catalog.entity.service.XBESpecService;
 import org.xbup.lib.client.stub.XBPSpecStub;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.XBTEmptyBlock;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
@@ -161,7 +160,7 @@ public class XBPSpecSkeleton {
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.begin();
-                listener.matchType(new XBFixedBlockType());
+                listener.matchType();
                 listener.putAttribute(specs.size());
                 for (XBCSpec spec : specs) {
                     listener.putAttribute(spec.getId());
@@ -186,7 +185,7 @@ public class XBPSpecSkeleton {
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.begin();
-                listener.matchType(new XBFixedBlockType());
+                listener.matchType();
                 listener.putAttribute(specs.size());
                 for (XBCSpec spec : specs) {
                     listener.putAttribute(spec.getId());
@@ -211,7 +210,7 @@ public class XBPSpecSkeleton {
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.begin();
-                listener.matchType(new XBFixedBlockType());
+                listener.matchType();
                 listener.putAttribute(specs.size());
                 for (XBCSpec spec : specs) {
                     listener.putAttribute(spec.getId());
@@ -236,7 +235,7 @@ public class XBPSpecSkeleton {
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.begin();
-                listener.matchType(new XBFixedBlockType());
+                listener.matchType();
                 listener.putAttribute(specs.size());
                 for (XBCSpec spec : specs) {
                     listener.putAttribute(spec.getId());
@@ -465,7 +464,7 @@ public class XBPSpecSkeleton {
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.begin();
-                listener.matchType(new XBFixedBlockType());
+                listener.matchType();
                 listener.putAttribute(itemList.size());
                 for (XBCSpecDef specDef : itemList) {
                     listener.putAttribute(specDef.getId());
@@ -510,7 +509,7 @@ public class XBPSpecSkeleton {
                     listener.process(XBTEmptyBlock.getEmptyBlock());
                 } else {
                     listener.begin();
-                    listener.matchType(new XBFixedBlockType());
+                    listener.matchType();
                     listener.putAttribute(specDef.getId());
 
                     int specDefType = 0;

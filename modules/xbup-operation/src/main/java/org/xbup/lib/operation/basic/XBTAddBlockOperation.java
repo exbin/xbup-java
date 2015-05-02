@@ -16,29 +16,43 @@
  */
 package org.xbup.lib.operation.basic;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.basic.convert.XBTListenerToConsumer;
+import org.xbup.lib.core.parser.basic.convert.XBTProviderToProducer;
+import org.xbup.lib.core.serial.XBPSerialReader;
+import org.xbup.lib.core.serial.XBPSerialWriter;
+import org.xbup.lib.core.serial.basic.XBTBasicInputSerialHandler;
+import org.xbup.lib.core.serial.basic.XBTBasicOutputSerialHandler;
+import org.xbup.lib.core.serial.basic.XBTBasicSerializable;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBSerializationMode;
 import org.xbup.lib.operation.Operation;
 import org.xbup.lib.operation.XBTDocOperation;
+import org.xbup.lib.parser_tree.XBTTreeNode;
+import org.xbup.lib.parser_tree.XBTTreeReader;
+import org.xbup.lib.parser_tree.XBTTreeWriter;
 
 /**
  * Command for adding child block.
  *
- * @version 0.1.25 2015/04/30
+ * @version 0.1.25 2015/05/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTAddBlockOperation extends XBTDocOperation {
 
-    private final XBTEditableBlock newNode;
-    private final long parentPosition;
-    private final int childIndex;
-
     public XBTAddBlockOperation(long parentPosition, int childIndex, XBTEditableBlock newNode) {
-        this.parentPosition = parentPosition;
-        this.newNode = newNode;
-        this.childIndex = childIndex;
+        OutputStream dataOutputStream = getData().getDataOutputStream();
+        XBPSerialWriter writer = new XBPSerialWriter(dataOutputStream);
+        Serializator serializator = new Serializator(parentPosition, childIndex, newNode);
+        writer.write(serializator);
     }
 
     @Override
@@ -48,35 +62,103 @@ public class XBTAddBlockOperation extends XBTDocOperation {
 
     @Override
     public void execute() throws Exception {
-        if (parentPosition < 0) {
+        execute(false);
+    }
+
+    @Override
+    public Operation executeWithUndo() throws Exception {
+        return execute(true);
+    }
+
+    private Operation execute(boolean withUndo) {
+        InputStream dataInputStream = getData().getDataInputStream();
+        XBPSerialReader reader = new XBPSerialReader(dataInputStream);
+        Serializator serial = new Serializator();
+        reader.read(serial);
+
+        if (serial.parentPosition < 0) {
             if (document.getRootBlock() == null) {
-                document.setRootBlock(newNode);
+                document.setRootBlock(serial.newNode);
             }
         } else {
-            XBTEditableBlock parentNode = (XBTEditableBlock) document.findBlockByIndex(parentPosition);
+            XBTEditableBlock parentNode = (XBTEditableBlock) document.findBlockByIndex(serial.parentPosition);
             List<XBTBlock> children = parentNode.getChildren();
             if (children == null) {
                 children = new ArrayList<>();
                 parentNode.setChildren(children);
             }
-            children.add(childIndex, newNode);
-            newNode.setParent(parentNode);
+            children.add(serial.childIndex, serial.newNode);
+            serial.newNode.setParent(parentNode);
         }
+
+        if (withUndo) {
+            XBTDeleteBlockOperation undoOperation;
+            if (serial.parentPosition >= 0) {
+                XBTEditableBlock parentNode = (XBTEditableBlock) document.findBlockByIndex(serial.parentPosition);
+                XBTBlock node = parentNode.getChildAt(serial.childIndex);
+                undoOperation = new XBTDeleteBlockOperation(node.getBlockIndex());
+            } else {
+                undoOperation = new XBTDeleteBlockOperation(0);
+            }
+            undoOperation.setDocument(document);
+            return undoOperation;
+        }
+
+        return null;
     }
 
-    @Override
-    public Operation executeWithUndo() throws Exception {
-        execute();
+    private class Serializator implements XBPSequenceSerializable {
 
-        XBTDeleteBlockOperation undoOperation;
-        if (parentPosition >= 0) {
-            XBTEditableBlock parentNode = (XBTEditableBlock) document.findBlockByIndex(parentPosition);
-            XBTBlock node = parentNode.getChildAt(childIndex);
-            undoOperation = new XBTDeleteBlockOperation(node.getBlockIndex());
-        } else {
-            undoOperation = new XBTDeleteBlockOperation(0);
+        private long parentPosition;
+        private int childIndex;
+        private XBTEditableBlock newNode;
+
+        private Serializator() {
         }
-        undoOperation.setDocument(document);
-        return undoOperation;
+
+        public Serializator(long parentPosition, int childIndex, XBTEditableBlock newNode) {
+            this.parentPosition = parentPosition;
+            this.childIndex = childIndex;
+            this.newNode = newNode;
+        }
+
+        @Override
+        public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+            serializationHandler.begin();
+            serializationHandler.matchType();
+            if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
+                parentPosition = serializationHandler.pullLongAttribute();
+                childIndex = serializationHandler.pullIntAttribute();
+                newNode = new XBTTreeNode();
+                serializationHandler.consist(new XBTBasicSerializable() {
+
+                    @Override
+                    public void serializeFromXB(XBTBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                        XBTTreeReader serialReader = new XBTTreeReader((XBTTreeNode) newNode);
+                        serializationHandler.process(new XBTListenerToConsumer(serialReader));
+                    }
+
+                    @Override
+                    public void serializeToXB(XBTBasicOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                    }
+                });
+            } else {
+                serializationHandler.putAttribute(parentPosition);
+                serializationHandler.putAttribute(childIndex);
+                serializationHandler.consist(new XBTBasicSerializable() {
+
+                    @Override
+                    public void serializeFromXB(XBTBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                    }
+
+                    @Override
+                    public void serializeToXB(XBTBasicOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                        XBTTreeWriter serialWriter = new XBTTreeWriter(newNode);
+                        serializationHandler.process(new XBTProviderToProducer(serialWriter));
+                    }
+                });
+            }
+            serializationHandler.end();
+        }
     }
 }

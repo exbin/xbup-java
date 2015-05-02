@@ -20,7 +20,6 @@ import org.xbup.lib.client.stub.XBPBaseProcedureType;
 import java.io.IOException;
 import java.util.List;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.XBTEmptyBlock;
 import org.xbup.lib.core.catalog.base.XBCBase;
 import org.xbup.lib.core.catalog.base.service.XBCService;
@@ -117,7 +116,7 @@ public class XBPBaseSkeleton<T extends XBCBase> {
                     List<T> items = service.getAllItems();
                     XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                     listener.begin();
-                    listener.matchType(new XBFixedBlockType());
+                    listener.matchType();
                     listener.putAttribute(items.size());
                     for (T item : items) {
                         listener.putAttribute(item.getId());

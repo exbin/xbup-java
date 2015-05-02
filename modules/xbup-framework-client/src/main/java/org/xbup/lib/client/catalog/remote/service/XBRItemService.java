@@ -16,7 +16,6 @@
  */
 package org.xbup.lib.client.catalog.remote.service;
 
-import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.manager.XBCItemManager;
 import org.xbup.lib.core.catalog.base.service.XBCItemService;

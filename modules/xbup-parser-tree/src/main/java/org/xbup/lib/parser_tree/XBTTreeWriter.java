@@ -117,39 +117,4 @@ public class XBTTreeWriter implements XBTProvider {
     public boolean isFinished() {
         return state == XBParserState.EOF;
     }
-
-    // @Override
-    /*
-     public void attachXBTListener(XBTListener listener) {
-     try {
-     generateXBT(listener, true);
-     } catch (XBProcessingException | IOException ex) {
-     Logger.getLogger(XBTreeNode.class.getName()).log(Level.SEVERE, null, ex);
-     }
-     }
-
-     public void generateXBT(XBTListener listener, boolean recursive) throws XBProcessingException, IOException {
-     listener.beginXBT(source.getTerminationMode());
-     if (source.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
-     listener.dataXBT(source.getData());
-     } else {
-     listener.typeXBT(source.getBlockType());
-     if (source.getAttributes() != null) {
-     Iterator<UBNatural> iter = source.getAttributes().iterator();
-     UBNatural attrib;
-     while (iter.hasNext()) {
-     attrib = new UBNat32(iter.next());
-     listener.attribXBT(attrib);
-     }
-     }
-     if (recursive & (source.getChildren() != null)) {
-     Iterator<XBTBlock> iter = source.getChildren().iterator();
-     while (iter.hasNext()) {
-     // TODO ((XBTTreeNode) iter.next()).toXBTEvents(listener);
-     }
-     }
-     }
-
-     listener.endXBT();
-     } */
 }

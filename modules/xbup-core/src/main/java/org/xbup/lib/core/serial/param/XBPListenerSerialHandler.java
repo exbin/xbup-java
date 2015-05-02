@@ -25,8 +25,11 @@ import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.XBTEmptyBlock;
 import org.xbup.lib.core.block.definition.XBParamType;
+import org.xbup.lib.core.parser.basic.XBTListener;
+import org.xbup.lib.core.parser.basic.XBTProducer;
 import org.xbup.lib.core.parser.param.XBParamProcessingState;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBEditableAttribute;
@@ -40,6 +43,8 @@ import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.serial.XBSerialException;
 import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.serial.basic.XBTBasicOutputSerialHandler;
+import org.xbup.lib.core.serial.basic.XBTBasicSerializable;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.core.serial.sequence.XBListConsistSerializable;
@@ -53,7 +58,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 2 serialization handler using parameter mapping to listener.
  *
- * @version 0.1.25 2015/02/22
+ * @version 0.1.25 2015/05/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequenceSerialHandler, XBTTokenOutputSerialHandler {
@@ -81,6 +86,8 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             ((XBPSequenceSerializable) serial).serializeXB(this);
         } else if (serial instanceof XBTChildSerializable) {
             ((XBTChildSerializable) serial).serializeToXB(new XBTChildOutputSerialHandlerImpl(this));
+        } else if (serial instanceof XBTBasicSerializable) {
+            ((XBTBasicSerializable) serial).serializeToXB(new XBTBasicOutputSerialHandlerImpl(this));
         } else {
             throw new UnsupportedOperationException("Serialization method " + serial.getClass().getCanonicalName() + " not supported.");
         }
@@ -397,6 +404,11 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     }
 
     @Override
+    public void matchType() throws XBProcessingException, IOException {
+        matchType(XBFixedBlockType.UNKNOWN_BLOCK_TYPE);
+    }
+
+    @Override
     public void end() throws XBProcessingException, IOException {
         putEnd();
     }
@@ -488,6 +500,11 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     @Override
     public XBTToken pullToken(XBTTokenType tokenType) throws XBProcessingException, IOException {
+        throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+    }
+
+    @Override
+    public XBTToken pullToken() throws XBProcessingException, IOException {
         throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
 
@@ -595,6 +612,46 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         @Override
         public void attachXBTEventListener(XBTEventListener listener) {
             throw new IllegalStateException();
+        }
+    }
+
+    private static class XBTBasicOutputSerialHandlerImpl implements XBTBasicOutputSerialHandler {
+
+        private final XBPListenerSerialHandler handler;
+
+        public XBTBasicOutputSerialHandlerImpl(XBPListenerSerialHandler handler) {
+            this.handler = handler;
+        }
+
+        @Override
+        public void process(XBTProducer producer) {
+            producer.attachXBTListener(new XBTListener() {
+
+                @Override
+                public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+                    handler.putBegin(terminationMode);
+                }
+
+                @Override
+                public void typeXBT(XBBlockType blockType) throws XBProcessingException, IOException {
+                    handler.putType(blockType);
+                }
+
+                @Override
+                public void attribXBT(XBAttribute attribute) throws XBProcessingException, IOException {
+                    handler.putAttribute(attribute);
+                }
+
+                @Override
+                public void dataXBT(InputStream data) throws XBProcessingException, IOException {
+                    handler.putData(data);
+                }
+
+                @Override
+                public void endXBT() throws XBProcessingException, IOException {
+                    handler.putEnd();
+                }
+            });
         }
     }
 }

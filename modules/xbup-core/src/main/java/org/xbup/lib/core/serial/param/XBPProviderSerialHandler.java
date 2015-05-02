@@ -27,6 +27,9 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.parser.basic.XBTConsumer;
+import org.xbup.lib.core.parser.basic.XBTListener;
+import org.xbup.lib.core.parser.basic.XBTProvider;
 import org.xbup.lib.core.parser.param.XBParamProcessingState;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBEditableAttribute;
@@ -37,8 +40,11 @@ import org.xbup.lib.core.parser.token.XBTEndToken;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
+import org.xbup.lib.core.parser.token.convert.XBTListenerToToken;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.serial.basic.XBTBasicInputSerialHandler;
+import org.xbup.lib.core.serial.basic.XBTBasicSerializable;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.core.serial.sequence.XBListConsistSerializable;
@@ -53,7 +59,7 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 2 serialization handler using parameter mapping to provider.
  *
- * @version 0.1.25 2015/03/09
+ * @version 0.1.25 2015/05/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSequenceSerialHandler, XBTTokenInputSerialHandler {
@@ -81,6 +87,8 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
             ((XBPSequenceSerializable) serial).serializeXB(this);
         } else if (serial instanceof XBTChildSerializable) {
             ((XBTChildSerializable) serial).serializeFromXB(new XBTChildInputSerialHandlerImpl(this));
+        } else if (serial instanceof XBTBasicSerializable) {
+            ((XBTBasicSerializable) serial).serializeFromXB(new XBTBasicInputSerialHandlerImpl(this));
         } else {
             throw new UnsupportedOperationException("Serialization method " + serial.getClass().getCanonicalName() + " not supported.");
         }
@@ -236,6 +244,11 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
     }
 
     @Override
+    public XBTToken pullToken() throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public void pullConsist(XBSerializable serial) throws XBProcessingException, IOException {
         paramTypes.add(paramType);
         paramType = XBParamType.CONSIST;
@@ -336,6 +349,11 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
                 }
             }
         }
+    }
+
+    @Override
+    public void matchType() throws XBProcessingException, IOException {
+        matchType(XBFixedBlockType.UNKNOWN_BLOCK_TYPE);
     }
 
     @Override
@@ -527,6 +545,27 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         @Override
         public void attachXBTPullProvider(XBTPullProvider provider) {
             throw new IllegalStateException();
+        }
+    }
+
+    private static class XBTBasicInputSerialHandlerImpl implements XBTBasicInputSerialHandler {
+
+        private final XBPProviderSerialHandler handler;
+
+        public XBTBasicInputSerialHandlerImpl(XBPProviderSerialHandler handler) {
+            this.handler = handler;
+        }
+
+        @Override
+        public void process(XBTConsumer consumer) {
+            consumer.attachXBTProvider(new XBTProvider() {
+
+                @Override
+                public void produceXBT(XBTListener listener) throws XBProcessingException, IOException {
+                    XBTToken token = handler.pullToken();
+                    XBTListenerToToken.tokenToListener(token, listener);
+                }
+            });
         }
     }
 }

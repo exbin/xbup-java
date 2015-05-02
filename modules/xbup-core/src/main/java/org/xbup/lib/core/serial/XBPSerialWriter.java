@@ -17,10 +17,13 @@
 package org.xbup.lib.core.serial;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.token.event.XBEventWriter;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
+import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSerializable;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
@@ -37,6 +40,17 @@ public class XBPSerialWriter implements XBPWriteSerialHandler {
 
     public XBPSerialWriter(XBTEventListener eventListener) {
         this.eventListener = eventListener;
+    }
+
+    public XBPSerialWriter(OutputStream outputStream) {
+        XBTEventListener listener = null;
+        try {
+            listener = new XBTToXBEventConvertor(new XBEventWriter(outputStream));
+        } catch (IOException ex) {
+            Logger.getLogger(XBPSerialReader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        eventListener = listener;
     }
 
     @Override

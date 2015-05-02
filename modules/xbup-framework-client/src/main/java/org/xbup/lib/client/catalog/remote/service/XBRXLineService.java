@@ -17,7 +17,6 @@
 package org.xbup.lib.client.catalog.remote.service;
 
 import java.util.List;
-import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCXBlockLine;

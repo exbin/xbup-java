@@ -25,7 +25,7 @@ import org.xbup.lib.core.serial.XBSerializable;
 /**
  * XBUP level 2 bidirectional parameter serialization interface.
  *
- * @version 0.1.24 2015/01/21
+ * @version 0.1.24 2015/05/03
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBPSequencer extends XBPListener, XBPProvider {
@@ -54,6 +54,15 @@ public interface XBPSequencer extends XBPListener, XBPProvider {
      * @throws java.io.IOException
      */
     public void matchType(XBBlockType blockType) throws XBProcessingException, IOException;
+
+    /**
+     * Performs matching to unknown block type.
+     *
+     * Reading will check if value fully equals, writting will write it.
+     *
+     * @throws java.io.IOException
+     */
+    public void matchType() throws XBProcessingException, IOException;
 
     /**
      * Performs end token.

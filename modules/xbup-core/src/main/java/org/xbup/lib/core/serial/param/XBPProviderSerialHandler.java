@@ -245,7 +245,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
 
     @Override
     public XBTToken pullToken() throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return pullProvider.pullToken();
     }
 
     @Override

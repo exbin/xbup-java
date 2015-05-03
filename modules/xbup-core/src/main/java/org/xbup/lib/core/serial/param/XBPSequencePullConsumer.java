@@ -45,7 +45,7 @@ import org.xbup.lib.core.stream.XBOutput;
 /**
  * Level 2 pull consumer performing block building using sequence operations.
  *
- * @version 0.1.25 2015/03/01
+ * @version 0.1.25 2015/05/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPSequencePullConsumer implements XBTPullConsumer {
@@ -175,6 +175,22 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
         }
 
         throw new IllegalStateException();
+    }
+
+    /**
+     * Pulls single token for preserving minimal form.
+     *
+     * @throws XBProcessingException if not matching
+     * @throws IOException if input/output exception occurs
+     * @return token
+     */
+    public XBTToken pullToken() throws XBProcessingException, IOException {
+        if (emptyNodeMode) {
+            return pullToken(processingState == XBParamProcessingState.DATA ? XBTTokenType.END : XBTTokenType.DATA);
+
+        } else {
+            return pullToken(pullProvider.getNextTokenType());
+        }
     }
 
     public boolean pullIfEmpty() throws XBProcessingException, IOException {

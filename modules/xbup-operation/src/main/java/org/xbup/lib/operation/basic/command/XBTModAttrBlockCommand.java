@@ -16,7 +16,6 @@
  */
 package org.xbup.lib.operation.basic.command;
 
-import java.util.List;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.parser.token.XBAttribute;
@@ -33,7 +32,7 @@ import org.xbup.lib.operation.basic.XBBasicCommandType;
 public class XBTModAttrBlockCommand extends XBTOpDocCommand {
 
     private String caption;
-    private List<XBAttribute> attrList;
+    private XBAttribute[] attrList;
     private XBFixedBlockType blockType;
     private boolean singleAttributeType = true;
     private int position;
@@ -65,7 +64,7 @@ public class XBTModAttrBlockCommand extends XBTOpDocCommand {
     @Override
     public void redo() {
         XBTTreeNode node = (XBTTreeNode) document.findBlockByIndex(position);
-        List<XBAttribute> newList = node.getAttributes();
+        XBAttribute[] newList = node.getAttributes();
         node.setAttributes(attrList);
         node.setFixedBlockType(blockType);
         node.setSingleAttributeType(singleAttributeType);
@@ -75,7 +74,7 @@ public class XBTModAttrBlockCommand extends XBTOpDocCommand {
     @Override
     public void undo() throws Exception {
         XBTTreeNode node = (XBTTreeNode) document.findBlockByIndex(position);
-        List<XBAttribute> newList = node.getAttributes();
+        XBAttribute[] newList = node.getAttributes();
         node.setAttributes(attrList);
         node.setBlockType(blockType);
         attrList = newList;

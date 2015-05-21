@@ -77,7 +77,8 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
                 deletedNode = (XBTEditableBlock) document.findBlockByIndex(serial.position);
                 XBTEditableBlock parentNode = (XBTEditableBlock) deletedNode.getParent();
                 parentPosition = parentNode.getBlockIndex();
-                childIndex = parentNode.getChildren().indexOf(deletedNode);
+                throw new UnsupportedOperationException("Not supported yet.");
+                // childIndex = parentNode.getChildren().indexOf(deletedNode);
             }
             undoOperation = new XBTAddBlockOperation(parentPosition, childIndex, deletedNode);
             undoOperation.setDocument(document);
@@ -88,7 +89,8 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
         } else {
             XBTEditableBlock node = (XBTEditableBlock) document.findBlockByIndex(serial.position);
             XBTEditableBlock parentNode = (XBTEditableBlock) node.getParent();
-            parentNode.getChildren().remove(node);
+            throw new UnsupportedOperationException("Not supported yet.");
+            // parentNode.getChildren().remove(node);
         }
 
         return undoOperation;

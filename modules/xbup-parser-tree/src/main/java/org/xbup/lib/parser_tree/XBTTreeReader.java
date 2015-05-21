@@ -18,38 +18,37 @@ package org.xbup.lib.parser_tree;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBParserState;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.convert.XBSkipBlockListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.parser.token.XBAttribute;
 
 /**
  * XBUP level 1 convertor from tokens to tree node.
  *
- * @version 0.1.24 2015/01/09
+ * @version 0.1.24 2015/05/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTreeReader implements XBTListener {
 
-    private XBTTreeNode target;
+    private XBTEditableBlock target;
     private final boolean recursive;
     private boolean finished;
     private XBParserState parserState;
     private XBSkipBlockListener skipNode;
     private long level;
 
-    public XBTTreeReader(XBTTreeNode target) {
+    public XBTTreeReader(XBTEditableBlock target) {
         this(target, true);
     }
 
-    public XBTTreeReader(XBTTreeNode target, boolean recursive) {
+    public XBTTreeReader(XBTEditableBlock target, boolean recursive) {
         this.target = target;
         this.recursive = recursive;
         finished = false;
@@ -87,12 +86,9 @@ public class XBTTreeReader implements XBTListener {
             if (!recursive) {
                 throw new XBParseException("Parser nonvalid state", XBProcessingExceptionType.UNKNOWN);
             }
-            if (target.getChildren() == null) {
-                target.setChildren(new ArrayList<XBTBlock>());
-            }
-            XBTTreeNode node = (XBTTreeNode) target.newNodeInstance(null);
+            XBTTreeNode node = ((XBTTreeNode) target).newNodeInstance(null);
             node.setTerminationMode(terminationMode);
-            target.getChildren().add(node);
+            target.setChildAt(node, target.getChildrenCount());
             level++;
             target = node;
             parserState = XBParserState.START;
@@ -123,7 +119,7 @@ public class XBTTreeReader implements XBTListener {
         }
 
         if (parserState == XBParserState.ATTRIBUTE_PART) {
-            target.addAttribute(value);
+            target.setAttributeAt(value, target.getAttributesCount());
         } else {
             throw new XBParseException("Unexpected attribute event", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }

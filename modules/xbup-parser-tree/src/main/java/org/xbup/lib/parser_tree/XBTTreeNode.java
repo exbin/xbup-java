@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -52,7 +53,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Basic object model parser XBUP level 1 document block / tree node.
  *
- * @version 0.1.25 2015/02/09
+ * @version 0.1.25 2015/05/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
@@ -63,8 +64,8 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     private XBBlockDataMode dataMode = XBBlockDataMode.NODE_BLOCK;
 
     private XBFixedBlockType blockType;
-    private List<XBAttribute> attributes;
-    private List<XBTBlock> children;
+    private final List<XBAttribute> attributes;
+    private final List<XBTBlock> children;
     private XBData data;
 
     private XBContext context;
@@ -102,11 +103,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
      */
     @Override
     public int getIndex(TreeNode node) {
-        if (children != null) {
-            return children.indexOf(node);
-        } else {
-            return -1;
-        }
+        return children.indexOf(node);
     }
 
     /**
@@ -115,18 +112,14 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
      * @return count of child nodes and all their child nodes
      */
     public int getSubNodesCount() {
-        if (children != null) {
-            int result = children.size();
-            if (result > 0) {
-                for (Iterator<XBTBlock> it = children.iterator(); it.hasNext();) {
-                    result += ((XBTTreeNode) it.next()).getSubNodesCount();
-                }
+        int result = children.size();
+        if (result > 0) {
+            for (Iterator<XBTBlock> it = children.iterator(); it.hasNext();) {
+                result += ((XBTTreeNode) it.next()).getSubNodesCount();
             }
-
-            return result;
         }
 
-        return 0;
+        return result;
     }
 
     /**
@@ -175,7 +168,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         }
 
         index--;
-        if (getChildCount() > 0) {
+        if (getChildrenCount() > 0) {
             List<Iterator<XBTBlock>> iterators = new ArrayList<>();
             iterators.add(children.iterator());
             int level = 0;
@@ -185,7 +178,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                     return node;
                 }
 
-                if (node.getChildCount() > 0) {
+                if (node.getChildrenCount() > 0) {
                     iterators.add(node.children.iterator());
                     level++;
                 }
@@ -220,6 +213,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
      * @throws java.io.IOException
      */
     public int fromStreamUB(InputStream stream, boolean terminable) throws IOException, XBProcessingException {
+        clear();
         UBNat32 attrPartSize = new UBNat32();
         int size = attrPartSize.fromStreamUB(stream);
         if (attrPartSize.getLong() == 0) {
@@ -272,19 +266,17 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                 }
 
                 // Load attributes
-                ArrayList<XBAttribute> attribs = new ArrayList<>();
                 if (attrPartSize.getInt() > itemSize) {
                     do {
                         UBNat32 attribute = new UBNat32();
                         int attributeSize = attribute.fromStreamUB(stream);
                         itemSize += attributeSize;
-                        attribs.add(attribute);
+                        attributes.add(attribute);
                         size += attributeSize;
                         if (itemSize > attrPartSize.getInt()) {
                             throw new XBParseException("Attribute overreached", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
                         }
                     } while (itemSize < attrPartSize.getInt());
-                    attributes = attribs;
                 }
 
                 if (dataPartSize.isInfinity() || dataPartSize.getInt() > 0) {
@@ -332,9 +324,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                     size += iter.next().toStreamUB(stream);
                 }
             }
-            if (getChildren() != null) {
-                size += childrenToStreamUB(stream);
-            }
+            size += childrenToStreamUB(stream);
             if (terminationMode == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
                 size += (new UBNat32()).toStreamUB(stream);
             }
@@ -344,16 +334,12 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     public int childrenToStreamUB(OutputStream stream) throws IOException {
-        if (children != null) {
-            Iterator<XBTBlock> iter = children.iterator();
-            int size = 0;
-            while (iter.hasNext()) {
-                size += ((XBTTreeNode) iter.next()).toStreamUB(stream);
-            }
-            return size;
-        } else {
-            return 0;
+        Iterator<XBTBlock> iter = children.iterator();
+        int size = 0;
+        while (iter.hasNext()) {
+            size += ((XBTTreeNode) iter.next()).toStreamUB(stream);
         }
+        return size;
     }
 
     @Override
@@ -387,17 +373,13 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     public int childrenSizeUB() {
-        if (getChildren() != null) {
-            Iterator<XBTBlock> iter = getChildren().iterator();
-            int size = 0;
-            while (iter.hasNext()) {
-                size += ((XBTTreeNode) iter.next()).getSizeUB();
-            }
-
-            return size;
-        } else {
-            return 0;
+        Iterator<XBTBlock> iter = children.iterator();
+        int size = 0;
+        while (iter.hasNext()) {
+            size += ((XBTTreeNode) iter.next()).getSizeUB();
         }
+
+        return size;
     }
 
     public int attributeSizeUB() {
@@ -413,16 +395,13 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         }
     }
 
-    void clear() {
-        if (children != null) {
-            children.clear();
-        }
+    @Override
+    public void clear() {
+        children.clear();
         if (data != null) {
             data = null;
         }
-        if (attributes != null) {
-            attributes.clear();
-        }
+        attributes.clear();
 
         blockDecl = null;
     }
@@ -466,6 +445,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         data.setData(newData);
     }
 
+    @Override
     public void clearData() {
         data = null;
     }
@@ -500,19 +480,16 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             node.addAttribute(new UBNat32(attribute.getNaturalLong()));
         }
 
-        if (children != null) {
-            List<XBTBlock> cloneChildren = new ArrayList<>();
-            for (XBTBlock block : children) {
-                if (recursive) {
-                    cloneChildren.add(((XBTTreeNode) block).cloneNode(true));
-                } else {
-                    cloneChildren.add(block);
-                }
+        List<XBTBlock> cloneChildren = new ArrayList<>();
+        for (XBTBlock block : children) {
+            if (recursive) {
+                cloneChildren.add(((XBTTreeNode) block).cloneNode(true));
+            } else {
+                cloneChildren.add(block);
             }
-
-            node.setChildren(cloneChildren);
         }
 
+        node.setChildren(cloneChildren.toArray(new XBTBlock[0]));
         return node;
     }
 
@@ -532,7 +509,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     public void clearAttributes() {
-        attributes = new ArrayList<>();
+        attributes.clear();
     }
 
     public void addAttribute(XBAttribute attribute) {
@@ -609,6 +586,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         return blockDecl != null ? new XBDeclBlockType(blockDecl) : getFixedBlockType();
     }
 
+    @Override
     public void setBlockType(XBBlockType blockType) {
         if (blockType instanceof XBFBlockType) {
             blockDecl = null;
@@ -642,12 +620,12 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     @Override
-    public XBAttribute getAttribute(int attributeIndex) {
+    public XBAttribute getAttributeAt(int attributeIndex) {
         return attributeIndex < attributes.size() ? attributes.get(attributeIndex) : null;
     }
 
     @Override
-    public void setAttribute(XBAttribute attribute, int attributeIndex) {
+    public void setAttributeAt(XBAttribute attribute, int attributeIndex) {
         singleAttributeType = false;
         while (attributes.size() <= attributeIndex) {
             attributes.add(new UBNat32());
@@ -680,29 +658,25 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     @Override
-    public List<XBAttribute> getAttributes() {
-        return new ArrayList<>(attributes);
+    public XBAttribute[] getAttributes() {
+        return attributes.toArray(new XBAttribute[0]);
     }
 
     @Override
-    public void setAttributes(List<XBAttribute> attributes) {
-        if (attributes == null) {
-            throw new NullPointerException();
-        }
-
+    public void setAttributes(XBAttribute[] attributes) {
         this.attributes.clear();
-        this.attributes.addAll(attributes);
+        this.attributes.addAll(Arrays.asList(attributes));
         singleAttributeType = false;
     }
 
     @Override
     public XBTTreeNode getChildAt(int childIndex) {
-        return (XBTTreeNode) getChildren().get(childIndex);
+        return (XBTTreeNode) children.get(childIndex);
     }
 
     @Override
     public void setChildAt(XBTBlock block, int childIndex) {
-        while (attributes.size() <= childIndex) {
+        while (children.size() <= childIndex) {
             children.add(new XBTTreeNode(this));
         }
 
@@ -710,16 +684,17 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     @Override
-    public int getChildCount() {
-        if (getChildren() != null) {
-            return getChildren().size();
-        } else {
-            return 0;
-        }
+    public int getChildrenCount() {
+        return children.size();
     }
 
     @Override
-    public void setChildCount(int count) {
+    public int getChildCount() {
+        return getChildrenCount();
+    }
+
+    @Override
+    public void setChildrenCount(int count) {
         if (children.size() < count) {
             for (int i = children.size(); i < count; i++) {
                 children.add(new XBTTreeNode(this));
@@ -732,18 +707,14 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     @Override
-    public List<XBTBlock> getChildren() {
-        return children;
+    public XBTBlock[] getChildren() {
+        return children.toArray(new XBTBlock[0]);
     }
 
     @Override
-    public void setChildren(List<XBTBlock> children) {
-        if (children == null) {
-            throw new NullPointerException();
-        }
-
+    public void setChildren(XBTBlock[] children) {
         this.children.clear();
-        this.children.addAll(children);
+        this.children.addAll(Arrays.asList(children));
     }
 
     @Override
@@ -758,7 +729,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
 
     @Override
     public Enumeration children() {
-        return Collections.enumeration(getChildren());
+        return Collections.enumeration(children);
     }
 
     public void setContext(XBContext context) {
@@ -805,12 +776,10 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                 // Process declaration block
                 XBContext childContext = catalog.processDeclaration(parentContext, new XBTProviderToPullProvider(new XBTTreeWriter(new XBTBlockFixedSource(this))));
                 long blockPos = 0;
-                if (getChildren() != null) {
-                    for (Iterator it = getChildren().iterator(); it.hasNext();) {
-                        blockPos++;
-                        XBTTreeNode item = ((XBTTreeNode) it.next());
-                        item.processSpec(catalog, blockPos == 2 ? childContext : parentContext);
-                    }
+                for (Iterator it = children.iterator(); it.hasNext();) {
+                    blockPos++;
+                    XBTTreeNode item = ((XBTTreeNode) it.next());
+                    item.processSpec(catalog, blockPos == 2 ? childContext : parentContext);
                 }
 
                 return;
@@ -819,18 +788,16 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             blockDecl = null;
         }
 
-        if (getChildren() != null) {
-            for (Iterator it = getChildren().iterator(); it.hasNext();) {
-                XBTTreeNode item = ((XBTTreeNode) it.next());
-                item.processSpec(catalog, parentContext);
-            }
+        for (Iterator it = children.iterator(); it.hasNext();) {
+            XBTTreeNode item = ((XBTTreeNode) it.next());
+            item.processSpec(catalog, parentContext);
         }
     }
 
     public XBTTreeNode followPointer(int index) {
         if (getAttributesCount() >= index) {
-            int childIndex = ((UBNat32) getAttribute(index)).getInt();
-            if ((childIndex > 0) && (getChildren().size() >= childIndex)) {
+            int childIndex = ((UBNat32) getAttributeAt(index)).getInt();
+            if ((childIndex > 0) && (children.size() >= childIndex)) {
                 return (XBTTreeNode) getChildAt(childIndex - 1);
             } else {
                 return null;
@@ -849,10 +816,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
      * @throws java.io.IOException
      */
     public int childrenFromStreamUB(InputStream stream, int maxSize) throws IOException, XBProcessingException {
-        if (getChildren() == null) {
-            setChildren(new ArrayList<XBTBlock>());
-        }
-
+        children.clear();
         int childSize;
         int size = 0;
         do {
@@ -860,7 +824,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             childSize = child.fromStreamUB(stream, maxSize == 0);
             size += childSize;
             if (childSize > 1) {
-                getChildren().add(child);
+                children.add(child);
                 if (maxSize > 0 && size > maxSize) {
                     throw new XBParseException("Block overreached", XBProcessingExceptionType.BLOCK_OVERFLOW);
                 }
@@ -899,13 +863,13 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         }
 
         @Override
-        public List<XBAttribute> getAttributes() {
+        public XBAttribute[] getAttributes() {
             return block.getAttributes();
         }
 
         @Override
-        public XBAttribute getAttribute(int attributeIndex) {
-            return block.getAttribute(attributeIndex);
+        public XBAttribute getAttributeAt(int attributeIndex) {
+            return block.getAttributeAt(attributeIndex);
         }
 
         @Override
@@ -914,10 +878,11 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         }
 
         @Override
-        public List<XBTBlock> getChildren() {
-            List<XBTBlock> result = new ArrayList<>();
+        public XBTBlock[] getChildren() {
+            XBTBlock[] result = new XBTBlock[block.getChildrenCount()];
+            int i = 0;
             for (XBTBlock child : block.getChildren()) {
-                result.add(new XBTBlockFixedSource((XBTTreeNode) child));
+                result[i++] = new XBTBlockFixedSource((XBTTreeNode) child);
             }
 
             return result;
@@ -929,8 +894,8 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         }
 
         @Override
-        public int getChildCount() {
-            return block.getChildCount();
+        public int getChildrenCount() {
+            return block.getChildrenCount();
         }
 
         @Override

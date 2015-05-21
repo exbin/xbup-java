@@ -20,7 +20,6 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.List;
 import org.xbup.lib.core.block.XBBlock;
 import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.block.XBBlockDataMode;
@@ -64,12 +63,12 @@ public class XBReaderBlock implements XBBlock, Closeable {
     }
 
     @Override
-    public List<XBAttribute> getAttributes() {
+    public XBAttribute[] getAttributes() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public UBNatural getAttribute(int index) {
+    public UBNatural getAttributeAt(int index) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -79,7 +78,7 @@ public class XBReaderBlock implements XBBlock, Closeable {
     }
 
     @Override
-    public List<XBBlock> getChildren() {
+    public XBBlock[] getChildren() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -89,7 +88,7 @@ public class XBReaderBlock implements XBBlock, Closeable {
     }
 
     @Override
-    public int getChildCount() {
+    public int getChildrenCount() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

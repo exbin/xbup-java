@@ -57,7 +57,7 @@ public class XBDocTreeModel implements TreeModel {
 
     @Override
     public int getChildCount(Object parent) {
-        return ((XBTTreeNode) parent).getChildCount();
+        return ((XBTTreeNode) parent).getChildrenCount();
     }
 
     @Override

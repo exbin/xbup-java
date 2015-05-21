@@ -17,13 +17,12 @@
 package org.xbup.lib.core.block;
 
 import java.io.InputStream;
-import java.util.List;
 import org.xbup.lib.core.parser.token.XBAttribute;
 
 /**
  * Interface for editable XBUP level 1 block.
  *
- * @version 0.1.25 2015/02/09
+ * @version 0.1.25 2015/05/10
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTEditableBlock extends XBTBlock {
@@ -50,11 +49,11 @@ public interface XBTEditableBlock extends XBTBlock {
     public void setDataMode(XBBlockDataMode dataMode);
 
     /**
-     * Sets list of attributes in order of appearance.
+     * Sets array of attributes in order of appearance.
      *
-     * @param attributes list of attributes
+     * @param attributes array of attributes
      */
-    public void setAttributes(List<XBAttribute> attributes);
+    public void setAttributes(XBAttribute[] attributes);
 
     /**
      * Sets attribute of given index.
@@ -65,7 +64,7 @@ public interface XBTEditableBlock extends XBTBlock {
      * @param attribute attribute value
      * @param attributeIndex attribute index
      */
-    public void setAttribute(XBAttribute attribute, int attributeIndex);
+    public void setAttributeAt(XBAttribute attribute, int attributeIndex);
 
     /**
      * Sets count of attributes.
@@ -77,11 +76,18 @@ public interface XBTEditableBlock extends XBTBlock {
     public void setAttributesCount(int count);
 
     /**
-     * Sets list of all children.
+     * Sets block type.
      *
-     * @param blocks list of blocks
+     * @param blockType block type
      */
-    public void setChildren(List<XBTBlock> blocks);
+    public void setBlockType(XBBlockType blockType);
+
+    /**
+     * Sets array of all children.
+     *
+     * @param blocks array of blocks
+     */
+    public void setChildren(XBTBlock[] blocks);
 
     /**
      * Sets children of given index.
@@ -101,7 +107,7 @@ public interface XBTEditableBlock extends XBTBlock {
      *
      * @param count count of child blocks
      */
-    public void setChildCount(int count);
+    public void setChildrenCount(int count);
 
     /**
      * Sets block data.
@@ -116,4 +122,14 @@ public interface XBTEditableBlock extends XBTBlock {
      * @param data data stream
      */
     public void setData(XBBlockData data);
+
+    /**
+     * Sets empty block data.
+     */
+    public void clearData();
+
+    /**
+     * Clears all data, attributes and child blocks.
+     */
+    public void clear();
 }

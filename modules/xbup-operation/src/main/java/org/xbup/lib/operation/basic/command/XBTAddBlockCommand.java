@@ -36,7 +36,7 @@ public class XBTAddBlockCommand extends XBTOpDocCommand {
             position = -1;
         } else {
             position = parentNode.getBlockIndex();
-            childIndex = parentNode.getChildCount();
+            childIndex = parentNode.getChildrenCount();
         }
         setOperation(new XBTAddBlockOperation(position, childIndex, newNode));
     }

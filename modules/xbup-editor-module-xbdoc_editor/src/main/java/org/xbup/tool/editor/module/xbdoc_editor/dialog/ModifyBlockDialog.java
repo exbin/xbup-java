@@ -762,7 +762,7 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
         attributes.add(fixedBlockType.getGroupID());
         if (!srcNode.getSingleAttributeType()) {
             attributes.add(fixedBlockType.getBlockID());
-            attributes.addAll(srcNode.getAttributes());
+            attributes.addAll(Arrays.asList(srcNode.getAttributes()));
         }
         attributesTableModel.setAttribs(attributes);
         updateAttributesButtons();

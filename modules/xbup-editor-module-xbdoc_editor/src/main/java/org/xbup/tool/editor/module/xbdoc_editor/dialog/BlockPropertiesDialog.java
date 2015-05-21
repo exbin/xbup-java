@@ -290,7 +290,7 @@ public class BlockPropertiesDialog extends javax.swing.JDialog {
         terminationModeTextField.setText(node.getTerminationMode() == XBBlockTerminationMode.TERMINATED_BY_ZERO ? "TERMINATED_BY_ZERO" : "SIZE_SPECIFIED");
         nodeSizeTextField.setText(Integer.toString(node.getSizeUB()));
         attributesCountTextField.setText(String.valueOf(node.getAttributesCount()));
-        childrenCountTextField.setText(String.valueOf(node.getChildCount()));
+        childrenCountTextField.setText(String.valueOf(node.getChildrenCount()));
 
         String catalogLink = devMode ? "http://catalog-dev.xbup.org/" : "http://catalog.xbup.org/";
         XBBlockDecl decl = node.getBlockDecl();

@@ -77,7 +77,7 @@ public class XBTTreeWriter implements XBTProvider {
 
             case ATTRIBUTE_PART: {
                 if (attrPosition < source.getAttributesCount()) {
-                    listener.attribXBT(source.getAttribute(attrPosition));
+                    listener.attribXBT(source.getAttributeAt(attrPosition));
                     attrPosition++;
                     break;
                 } else {
@@ -87,7 +87,7 @@ public class XBTTreeWriter implements XBTProvider {
             }
 
             case EXTENDED_AREA: {
-                if (childPosition < source.getChildCount()) {
+                if (childPosition < source.getChildrenCount()) {
                     subProducer = new XBTTreeWriter(source.getChildAt(childPosition));
                     childPosition++;
                     subProducer.produceXBT(listener);

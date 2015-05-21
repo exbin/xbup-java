@@ -20,7 +20,6 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.List;
 import org.xbup.lib.core.block.XBBlock;
 import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.block.XBBlockDataMode;
@@ -65,12 +64,12 @@ public class XBWriterBlock implements XBEditableBlock, Closeable {
     }
 
     @Override
-    public List<XBAttribute> getAttributes() {
+    public XBAttribute[] getAttributes() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public UBNatural getAttribute(int index) {
+    public UBNatural getAttributeAt(int index) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -80,7 +79,7 @@ public class XBWriterBlock implements XBEditableBlock, Closeable {
     }
 
     @Override
-    public List<XBBlock> getChildren() {
+    public XBBlock[] getChildren() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -90,7 +89,7 @@ public class XBWriterBlock implements XBEditableBlock, Closeable {
     }
 
     @Override
-    public int getChildCount() {
+    public int getChildrenCount() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -130,12 +129,12 @@ public class XBWriterBlock implements XBEditableBlock, Closeable {
     }
 
     @Override
-    public void setAttributes(List<XBAttribute> attributes) {
+    public void setAttributes(XBAttribute[] attributes) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void setAttribute(XBAttribute attribute, int index) {
+    public void setAttributeAt(XBAttribute attribute, int index) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -145,7 +144,7 @@ public class XBWriterBlock implements XBEditableBlock, Closeable {
     }
 
     @Override
-    public void setChildren(List<XBBlock> blocks) {
+    public void setChildren(XBBlock[] blocks) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -155,7 +154,7 @@ public class XBWriterBlock implements XBEditableBlock, Closeable {
     }
 
     @Override
-    public void setChildCount(int count) {
+    public void setChildrenCount(int count) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -171,6 +170,16 @@ public class XBWriterBlock implements XBEditableBlock, Closeable {
 
     @Override
     public XBBlockData getBlockData() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void clearData() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void clear() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

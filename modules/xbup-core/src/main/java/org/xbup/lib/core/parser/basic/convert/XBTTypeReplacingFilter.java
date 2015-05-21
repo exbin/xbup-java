@@ -22,16 +22,13 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
 
 /**
- * Default XBUP level 1 filter.
- *
- * This filter doesn't change data which are passing thru and is intended for
- * extending.
+ * This level 1 filter replaces type single time.
  *
  * @version 0.1.25 2015/02/05
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTypeReplacingFilter extends XBTDefaultFilter {
-    
+
     private boolean typeReplaced = false;
     private XBBlockType replacementBlockType = null;
 
@@ -53,5 +50,4 @@ public class XBTTypeReplacingFilter extends XBTDefaultFilter {
 
         super.typeXBT(blockType);
     }
-
 }

@@ -101,9 +101,9 @@ public class XBTreeReaderTest extends TestCase {
 
         assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, instance.getTerminationMode());
 
-        assertEquals(0, instance.getChildCount());
+        assertEquals(0, instance.getChildrenCount());
         assertEquals(1, instance.getAttributesCount());
-        assertEquals(0, instance.getAttribute(0).getNaturalInt());
+        assertEquals(0, instance.getAttributeAt(0).getNaturalInt());
     }
 
     /**
@@ -123,9 +123,9 @@ public class XBTreeReaderTest extends TestCase {
 
         assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, instance.getTerminationMode());
 
-        assertEquals(0, instance.getChildCount());
+        assertEquals(0, instance.getChildrenCount());
         assertEquals(1, instance.getAttributesCount());
-        assertEquals(0, instance.getAttribute(0).getNaturalInt());
+        assertEquals(0, instance.getAttributeAt(0).getNaturalInt());
     }
 
     /**
@@ -220,7 +220,7 @@ public class XBTreeReaderTest extends TestCase {
 
         assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, instance.getTerminationMode());
 
-        assertEquals(0, instance.getChildCount());
+        assertEquals(0, instance.getChildrenCount());
         assertEquals(0, instance.getAttributesCount());
         assertEquals(10, instance.getDataSize());
     }
@@ -242,12 +242,12 @@ public class XBTreeReaderTest extends TestCase {
 
         assertEquals(XBBlockTerminationMode.TERMINATED_BY_ZERO, instance.getTerminationMode());
 
-        assertEquals(0, instance.getChildCount());
+        assertEquals(0, instance.getChildrenCount());
         assertEquals(4, instance.getAttributesCount());
-        assertEquals(0, instance.getAttribute(0).getNaturalInt());
-        assertEquals(0, instance.getAttribute(1).getNaturalInt());
-        assertEquals(1, instance.getAttribute(2).getNaturalInt());
-        assertEquals(2, instance.getAttribute(3).getNaturalInt());
+        assertEquals(0, instance.getAttributeAt(0).getNaturalInt());
+        assertEquals(0, instance.getAttributeAt(1).getNaturalInt());
+        assertEquals(1, instance.getAttributeAt(2).getNaturalInt());
+        assertEquals(2, instance.getAttributeAt(3).getNaturalInt());
     }
 
     /**
@@ -269,38 +269,38 @@ public class XBTreeReaderTest extends TestCase {
         assertNotNull(rootNode);
         assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, rootNode.getTerminationMode());
 
-        assertEquals(2, rootNode.getChildCount());
+        assertEquals(2, rootNode.getChildrenCount());
         assertEquals(1, rootNode.getAttributesCount());
-        assertEquals(0, rootNode.getAttribute(0).getNaturalInt());
+        assertEquals(0, rootNode.getAttributeAt(0).getNaturalInt());
 
         XBTreeNode node1 = rootNode.getChildAt(0);
-        assertEquals(1, node1.getChildCount());
+        assertEquals(1, node1.getChildrenCount());
         assertEquals(1, node1.getAttributesCount());
-        assertEquals(0, node1.getAttribute(0).getNaturalInt());
+        assertEquals(0, node1.getAttributeAt(0).getNaturalInt());
 
         XBTreeNode node2 = node1.getChildAt(0);
-        assertEquals(1, node2.getChildCount());
+        assertEquals(1, node2.getChildrenCount());
         assertEquals(1, node2.getAttributesCount());
-        assertEquals(0, node2.getAttribute(0).getNaturalInt());
+        assertEquals(0, node2.getAttributeAt(0).getNaturalInt());
 
         XBTreeNode node3 = node2.getChildAt(0);
-        assertEquals(0, node3.getChildCount());
+        assertEquals(0, node3.getChildrenCount());
         assertEquals(0, node3.getAttributesCount());
         assertEquals(XBBlockDataMode.DATA_BLOCK, node3.getDataMode());
 
         XBTreeNode node4 = rootNode.getChildAt(1);
-        assertEquals(1, node4.getChildCount());
+        assertEquals(1, node4.getChildrenCount());
         assertEquals(1, node4.getAttributesCount());
-        assertEquals(0, node4.getAttribute(0).getNaturalInt());
+        assertEquals(0, node4.getAttributeAt(0).getNaturalInt());
 
         XBTreeNode node5 = node4.getChildAt(0);
-        assertEquals(0, node5.getChildCount());
+        assertEquals(0, node5.getChildrenCount());
         assertEquals(5, node5.getAttributesCount());
-        assertEquals(0, node5.getAttribute(0).getNaturalInt());
-        assertEquals(0, node5.getAttribute(1).getNaturalInt());
-        assertEquals(1, node5.getAttribute(2).getNaturalInt());
-        assertEquals(2, node5.getAttribute(3).getNaturalInt());
-        assertEquals(3, node5.getAttribute(4).getNaturalInt());
+        assertEquals(0, node5.getAttributeAt(0).getNaturalInt());
+        assertEquals(0, node5.getAttributeAt(1).getNaturalInt());
+        assertEquals(1, node5.getAttributeAt(2).getNaturalInt());
+        assertEquals(2, node5.getAttributeAt(3).getNaturalInt());
+        assertEquals(3, node5.getAttributeAt(4).getNaturalInt());
     }
 
     private class DebugListener implements XBEventListener {

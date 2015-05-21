@@ -28,25 +28,30 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.basic.convert.XBSkipBlockListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBEditableBlock;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 0 convertor from tokens to tree node.
  *
- * @version 0.1.25 2015/05/02
+ * @version 0.1.25 2015/05/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeReader implements XBListener {
 
-    private XBTreeNode target;
+    private XBEditableBlock target;
     private final boolean recursive;
     private boolean finished;
     private XBParserState parserState;
     private XBSkipBlockListener skipNode;
     private long level;
 
-    public XBTreeReader(XBTreeNode target, boolean recursive) {
+    public XBTreeReader(XBEditableBlock target) {
+        this(target, true);
+    }
+
+    public XBTreeReader(XBEditableBlock target, boolean recursive) {
         this.target = target;
         this.recursive = recursive;
         finished = false;
@@ -87,13 +92,9 @@ public class XBTreeReader implements XBListener {
                 throw new XBParseException("Parser invalid state", XBProcessingExceptionType.UNKNOWN);
             }
 
-            if (target.getChildren() == null) {
-                target.setChildren(new ArrayList<XBBlock>());
-            }
-
-            XBTreeNode node = target.newNodeInstance(target);
+            XBTreeNode node = ((XBTreeNode) target).newNodeInstance((XBTreeNode) target);
             node.setTerminationMode(terminationMode);
-            target.getChildren().add(node);
+            target.setChildAt(node, target.getChildrenCount());
             level++;
             target = node;
             parserState = XBParserState.BLOCK_BEGIN;
@@ -119,7 +120,7 @@ public class XBTreeReader implements XBListener {
         }
 
         if (parserState == XBParserState.ATTRIBUTE_PART) {
-            target.addAttribute(value);
+            target.setAttributeAt(value, target.getAttributesCount());
         } else {
             throw new XBParseException("Unexpected attribute event", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -160,7 +161,7 @@ public class XBTreeReader implements XBListener {
             parserState = XBParserState.BLOCK_END;
             if (level > 0) {
                 level--;
-                target = target.getParent();
+                target = (XBEditableBlock) target.getParent();
                 return;
             } else {
                 finished = true;

@@ -20,11 +20,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.operation.XBTOpDocCommand;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.operation.basic.XBBasicCommandType;
@@ -81,7 +78,8 @@ public class XBTModifyBlockCommand extends XBTOpDocCommand {
         if ((position == 0) && (index == -1)) {
             document.setRootBlock(null); // TODO: clear() would also delete extended area
         } else {
-            parent.getChildren().remove(node);
+            throw new UnsupportedOperationException("Not supported yet.");
+            // parent.getChildren().remove(node);
         }
 
         if ((position == 0) && (index == -1)) {
@@ -92,12 +90,7 @@ public class XBTModifyBlockCommand extends XBTOpDocCommand {
             }
         } else {
             node = (XBTTreeNode) document.findBlockByIndex(position);
-            List<XBTBlock> children = node.getChildren();
-            if (children == null) {
-                children = new ArrayList<>();
-                node.setChildren(children);
-            }
-            children.add(newNode);
+            node.setChildAt(newNode, node.getChildrenCount());
             newNode.setParent(node);
             // TODO: update context newNode.setContext(node.getContext());
 // TODO                document.processSpec();
@@ -111,9 +104,8 @@ public class XBTModifyBlockCommand extends XBTOpDocCommand {
             document.clear();
         } else {
             XBTTreeNode node = (XBTTreeNode) document.findBlockByIndex(position);
-            List<XBTBlock> children = node.getChildren();
-            newNode = (XBTTreeNode) children.get(children.size() - 1);
-            children.remove(children.size() - 1);
+            newNode = (XBTTreeNode) node.getChildAt(node.getChildCount() - 1);
+            node.setChildrenCount(node.getChildrenCount() - 1);
         }
         data.reset();
         if ((position == 0) && (index == -1)) {
@@ -127,10 +119,9 @@ public class XBTModifyBlockCommand extends XBTOpDocCommand {
             if (node == null) {
                 throw new Exception("Unable to find node referenced in undo");
             }
-            List<XBTBlock> children = node.getChildren();
             XBTTreeNode restoredNode = (XBTTreeNode) node.newNodeInstance(node);
             restoredNode.fromStreamUB(data);
-            children.add((int) index, restoredNode);
+            node.setChildAt(restoredNode, (int) index);
             // TODO: Update context restoredNode.setContext(node.getContext());
         }
         data = null;

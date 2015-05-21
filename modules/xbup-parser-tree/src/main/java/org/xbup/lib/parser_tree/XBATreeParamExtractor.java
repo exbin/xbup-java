@@ -493,18 +493,18 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
             return new XBTZeroAttributeToken();
         }
 
-        XBTAttributeToken attributeToken = new XBTAttributeToken(source.getAttribute(position.attributeCount));
+        XBTAttributeToken attributeToken = new XBTAttributeToken(source.getAttributeAt(position.attributeCount));
         position.attributeCount++;
         return attributeToken;
     }
 
     private void setNextAttributeToken(XBAttribute attribute) {
-        ((XBTEditableBlock) source).setAttribute(attribute, position.attributeCount);
+        ((XBTEditableBlock) source).setAttributeAt(attribute, position.attributeCount);
         position.attributeCount++;
     }
 
     private XBTTreeNode getNextChild() {
-        if (position.childCount >= source.getChildCount()) {
+        if (position.childCount >= source.getChildrenCount()) {
             XBTTreeNode emptyNode = new XBTTreeNode();
             emptyNode.setDataMode(XBBlockDataMode.DATA_BLOCK);
             position.childCount++;
@@ -571,7 +571,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
                     }
 
                     case LIST_CONSIST: {
-                        XBAttribute attribute = source.getAttribute(position.attributeCount + parameterInfo.attributeCount);
+                        XBAttribute attribute = source.getAttributeAt(position.attributeCount + parameterInfo.attributeCount);
                         UBENatural listSizeNat;
                         if (attribute instanceof UBENatural) {
                             listSizeNat = (UBENatural) attribute;
@@ -588,7 +588,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
                     }
 
                     case LIST_JOIN: {
-                        int listSize = source.getAttribute(position.attributeCount + parameterInfo.attributeCount).getNaturalInt();
+                        int listSize = source.getAttributeAt(position.attributeCount + parameterInfo.attributeCount).getNaturalInt();
                         parameterInfo.attributeCount++;
                         while (listSize > 0) {
                             ProcessingState joinState = new ProcessingState((XBCBlockDecl) blockParam.getBlockDecl());

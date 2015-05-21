@@ -17,7 +17,6 @@
 package org.xbup.lib.parser_tree;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlock;
@@ -66,12 +65,12 @@ public class XBTreeWriter implements XBProvider {
 
         pos--;
         if (pos < source.getAttributesCount()) {
-            listener.attribXB(source.getAttribute(pos));
+            listener.attribXB(source.getAttributeAt(pos));
             return;
         }
 
         pos -= source.getAttributesCount();
-        if (pos < source.getChildCount()) {
+        if (pos < source.getChildrenCount()) {
             if (subProducer == null) {
                 subProducer = (XBProducer) new XBTreeWriter(source.getChildAt(pos));
                 XBDefaultFilter filter = new XBDefaultFilter();
@@ -83,7 +82,7 @@ public class XBTreeWriter implements XBProvider {
             return;
         }
 
-        if (pos == source.getChildCount()) {
+        if (pos == source.getChildrenCount()) {
             listener.endXB();
             position = 0;
         }
@@ -112,17 +111,16 @@ public class XBTreeWriter implements XBProvider {
         if (source.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
             listener.dataXB(source.getData());
         } else {
-            Iterator<XBAttribute> attributesIter = source.getAttributes().iterator();
-            while (attributesIter.hasNext()) {
-                listener.attribXB(new UBNat32(attributesIter.next().getNaturalLong()));
+            XBAttribute[] attributes = source.getAttributes();
+            for (XBAttribute attribute : attributes) {
+                listener.attribXB(new UBNat32(attribute.getNaturalLong()));
             }
 
             if (recursive && (source.getChildren() != null)) {
-                Iterator<XBBlock> iter = source.getChildren().iterator();
-                while (iter.hasNext()) {
-                    XBTreeWriter subWriter = new XBTreeWriter(iter.next());
+                XBBlock[] children = source.getChildren();
+                for (XBBlock child : children) {
+                    XBTreeWriter subWriter = new XBTreeWriter(child);
                     subWriter.attachXBListener(listener);
-                    // ((XBTreeNode) iter.next()).convertToXBR(recursive).attachXBListener(listener);
                 }
             }
         }

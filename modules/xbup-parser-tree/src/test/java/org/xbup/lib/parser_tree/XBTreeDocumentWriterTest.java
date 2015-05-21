@@ -169,7 +169,7 @@ public class XBTreeDocumentWriterTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBTreeDocument.
+     * Tests open method of the XBTreeDocument class.
      *
      * @throws java.lang.Exception
      */
@@ -184,36 +184,36 @@ public class XBTreeDocumentWriterTest extends TestCase {
         rootNode.addAttribute(new UBNat32(0));
 
         XBTreeNode node1 = new XBTreeNode(rootNode);
-        rootNode.getChildren().add(node1);
         node1.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
         node1.addAttribute(new UBNat32(0));
+        rootNode.addChild(node1);
 
         XBTreeNode node2 = new XBTreeNode(node1);
-        node1.getChildren().add(node2);
         node2.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
         node2.addAttribute(new UBNat32(0));
+        node1.addChild(node2);
 
         XBTreeNode node3 = new XBTreeNode(node2);
-        node2.getChildren().add(node3);
         node3.setDataMode(XBBlockDataMode.DATA_BLOCK);
         node3.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
         byte[] data = {};
         ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
         node3.setData(dataStream);
+        node2.addChild(node3);
 
         XBTreeNode node4 = new XBTreeNode(rootNode);
-        rootNode.getChildren().add(node4);
         node4.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
         node4.addAttribute(new UBNat32(0));
 
         XBTreeNode node5 = new XBTreeNode(node4);
-        node4.getChildren().add(node5);
         node5.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
         node5.addAttribute(new UBNat32(0));
         node5.addAttribute(new UBNat32(0));
         node5.addAttribute(new UBNat32(1));
         node5.addAttribute(new UBNat32(2));
         node5.addAttribute(new UBNat32(3));
+        node4.addChild(node5);
+        rootNode.addChild(node4);
 
         document.setRootBlock(rootNode);
         document.toStreamUB(target);

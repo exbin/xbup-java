@@ -52,7 +52,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItem
  * @author XBUP Project (http://xbup.org)
  */
 public class AddBlockDialog extends javax.swing.JDialog {
-    
+
     private XBTTreeNode parentNode;
     private XBTTreeNode workNode;
     private XBACatalog catalog;
@@ -60,7 +60,7 @@ public class AddBlockDialog extends javax.swing.JDialog {
     private XBBlockType catalogBlockType = null;
     private int dialogOption = JOptionPane.CLOSED_OPTION;
     private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/AddBlockDialog");
-    
+
     public AddBlockDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog) {
         super(parent, modal);
         this.catalog = catalog;
@@ -69,11 +69,11 @@ public class AddBlockDialog extends javax.swing.JDialog {
         fireCatalogUpdate();
         init();
     }
-    
+
     private void init() {
         reloadBasicTypes();
         ((CardLayout) mainPanel.getLayout()).show(mainPanel, "type");
-        
+
         WindowUtils.initWindow(this);
         WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
         WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
@@ -328,7 +328,7 @@ public class AddBlockDialog extends javax.swing.JDialog {
         if (parentNode != null) {
             workNode.setContext(parentNode.getContext());
         }
-        
+
         if (dataRadioButton.isSelected()) {
             workNode.setDataMode(XBBlockDataMode.DATA_BLOCK);
         } else if (basicTypeRadioButton.isSelected()) {
@@ -342,14 +342,14 @@ public class AddBlockDialog extends javax.swing.JDialog {
                 writer.write(newDeclaration);
                 XBTTreeNode newNode = new XBTTreeNode();
                 newNode.setBlockType(catalogBlockType);
-                workNode.getChildren().add(newNode);
+                workNode.setChildAt(newNode, workNode.getChildrenCount());
             } else {
                 workNode.setBlockType(catalogBlockType);
             }
         } else {
             workNode.setDataMode(XBBlockDataMode.NODE_BLOCK);
         }
-        
+
         WindowUtils.closeWindow(this);
     }//GEN-LAST:event_okButtonActionPerformed
 
@@ -374,7 +374,7 @@ public class AddBlockDialog extends javax.swing.JDialog {
                 contextTypeTextField.setText(targetCaption);
             }
         }
-        
+
         updateOkButton();
     }//GEN-LAST:event_contextTypeSelectButtonActionPerformed
 
@@ -397,7 +397,7 @@ public class AddBlockDialog extends javax.swing.JDialog {
                 catalogTypeTextField.setText(targetCaption);
             }
         }
-        
+
         updateOkButton();
     }//GEN-LAST:event_catalogTypeSelectButtonActionPerformed
 
@@ -428,13 +428,13 @@ public class AddBlockDialog extends javax.swing.JDialog {
         nextButton.setEnabled(true);
         prevButton.setEnabled(false);
     }//GEN-LAST:event_prevButtonActionPerformed
-    
+
     private void updateOkButton() {
         okButton.setEnabled(!(contextTypeRadioButton.isSelected() || catalogTypeRadioButton.isSelected())
                 || (contextBlockType != null && contextTypeRadioButton.isSelected())
                 || (catalogBlockType != null && catalogTypeRadioButton.isSelected()));
     }
-    
+
     public XBTTreeNode showDialog() {
         workNode = null;
         setVisible(true);
@@ -477,28 +477,28 @@ public class AddBlockDialog extends javax.swing.JDialog {
         this.parentNode = parentNode;
         contextTypeRadioButton.setEnabled(parentNode != null && parentNode.getContext().getGroupsCount() > 1);
     }
-    
+
     public int getDialogOption() {
         return dialogOption;
     }
-    
+
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
         reloadBasicTypes();
         fireCatalogUpdate();
     }
-    
+
     private void fireCatalogUpdate() {
         catalogTypeRadioButton.setEnabled(catalog != null);
     }
-    
+
     private void reloadBasicTypes() {
         DefaultComboBoxModel<String> model = (DefaultComboBoxModel) basicTypeComboBox.getModel();
         model.removeAllElements();
         if (catalog != null) {
             Long[] basicGroupPath = {0l, 0l};
             List<XBBlockDecl> list = catalog.getBlocks(((XBCGroupDecl) catalog.findGroupTypeByPath(basicGroupPath, 0)).getGroupSpecRev().getParent());
-            
+
             XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
             for (XBBlockDecl decl : list) {
                 model.addElement(nameService.getDefaultText(((XBCBlockDecl) decl).getBlockSpecRev().getParent()));

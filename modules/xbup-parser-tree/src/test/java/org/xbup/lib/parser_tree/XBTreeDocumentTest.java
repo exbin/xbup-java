@@ -19,8 +19,6 @@ package org.xbup.lib.parser_tree;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.xbup.lib.core.block.XBBlock;
@@ -51,7 +49,7 @@ public class XBTreeDocumentTest extends TestCase {
     }
 
     /**
-     * Test of open method, of class XBTreeDocument.
+     * Tests open method of the XBTreeDocument class.
      *
      * @throws java.lang.Exception
      */
@@ -62,14 +60,9 @@ public class XBTreeDocumentTest extends TestCase {
         data = new ByteArrayOutputStream();
         try {
             XBTreeNode node = new XBTreeNode();
-            List<XBAttribute> attrs = new ArrayList<>();
-            attrs.add(new UBNat32(10));
-            attrs.add(new UBNat32(20));
-            attrs.add(new UBNat32(30));
+            XBAttribute[] attrs = {new UBNat32(10), new UBNat32(20), new UBNat32(30)};
             node.setAttributes(attrs);
-            List<XBBlock> children = new ArrayList<>();
-            XBTreeNode node2 = new XBTreeNode(node);
-            children.add(node2);
+            XBBlock[] children = {new XBTreeNode(node)};
             node.setChildren(children);
             doc.setRootBlock(node);
             doc.toStreamUB(data);

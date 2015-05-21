@@ -30,7 +30,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -42,12 +41,13 @@ import javax.swing.event.TreeSelectionListener;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFBlockType;
+import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.operation.XBTDocCommand;
 import org.xbup.lib.operation.basic.command.XBTModAttrBlockCommand;
 import org.xbup.lib.operation.basic.command.XBTModDataBlockCommand;
@@ -477,20 +477,18 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         } else {
             result.append("<").append(getCaption(node));
             if (node.getAttributesCount() > 2) {
-                Iterator attributesIterator = node.getAttributes().iterator();
-                int i = 1;
-                while (attributesIterator.hasNext()) {
-                    UBNat32 attr = (UBNat32) attributesIterator.next();
-                    result.append(" ").append(i).append("=\"").append(attr.getLong()).append("\"");
-                    i++;
+                XBAttribute[] attributes = node.getAttributes();
+                for (int i = 0; i < attributes.length; i++) {
+                    XBAttribute attribute = attributes[i];
+                    result.append(" ").append(i + 1).append("=\"").append(attribute.getNaturalLong()).append("\"");
                 }
             }
 
             if (node.getChildren() != null) {
                 result.append(">\n");
-                for (Iterator it = node.getChildren().iterator(); it.hasNext();) {
-                    XBTTreeNode elem = (XBTTreeNode) it.next();
-                    result.append(nodeAsText(elem, prefix + "  "));
+                XBTBlock[] children = node.getChildren();
+                for (XBTBlock child : children) {
+                    result.append(nodeAsText((XBTTreeNode) child, prefix + "  "));
                 }
                 result.append(prefix);
                 result.append("</").append(getCaption(node)).append(">\n");
@@ -662,7 +660,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
             if (dialog.getDialogOption() == JOptionPane.OK_OPTION) {
                 if (node.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
                     undoStep = new XBTModDataBlockCommand(node, newNode);
-                } else if (newNode.getChildCount() > 0) {
+                } else if (newNode.getChildrenCount() > 0) {
                     undoStep = new XBTModifyBlockCommand(node, newNode);
                 } else {
                     undoStep = new XBTModAttrBlockCommand(node, newNode);

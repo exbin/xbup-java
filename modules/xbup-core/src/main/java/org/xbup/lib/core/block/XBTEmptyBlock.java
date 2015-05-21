@@ -18,7 +18,6 @@ package org.xbup.lib.core.block;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.token.XBAttribute;
@@ -60,12 +59,12 @@ public class XBTEmptyBlock implements XBTBlock, XBPSequenceSerializable {
     }
 
     @Override
-    public List<XBAttribute> getAttributes() {
-        return null;
+    public XBAttribute[] getAttributes() {
+        return new XBAttribute[0];
     }
 
     @Override
-    public UBNatural getAttribute(int attributeIndex) {
+    public UBNatural getAttributeAt(int attributeIndex) {
         return null;
     }
 
@@ -75,8 +74,8 @@ public class XBTEmptyBlock implements XBTBlock, XBPSequenceSerializable {
     }
 
     @Override
-    public List<XBTBlock> getChildren() {
-        return null;
+    public XBTBlock[] getChildren() {
+        return new XBTBlock[0];
     }
 
     @Override
@@ -85,7 +84,7 @@ public class XBTEmptyBlock implements XBTBlock, XBPSequenceSerializable {
     }
 
     @Override
-    public int getChildCount() {
+    public int getChildrenCount() {
         return 0;
     }
 

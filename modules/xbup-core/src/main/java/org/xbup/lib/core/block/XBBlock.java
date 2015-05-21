@@ -17,7 +17,6 @@
 package org.xbup.lib.core.block;
 
 import java.io.InputStream;
-import java.util.List;
 import org.xbup.lib.core.parser.token.XBAttribute;
 
 /**
@@ -51,11 +50,11 @@ public interface XBBlock {
     public XBBlockTerminationMode getTerminationMode();
 
     /**
-     * Gets List of attributes in order of appearance.
+     * Gets array of attributes in order of appearance.
      *
-     * @return list of attributes
+     * @return array of attributes
      */
-    public List<XBAttribute> getAttributes();
+    public XBAttribute[] getAttributes();
 
     /**
      * Gets attribute of given index / order.
@@ -63,7 +62,7 @@ public interface XBBlock {
      * @param attributeIndex index/order of attribute
      * @return attribute value
      */
-    public XBAttribute getAttribute(int attributeIndex);
+    public XBAttribute getAttributeAt(int attributeIndex);
 
     /**
      * Gets count of attributes.
@@ -73,11 +72,11 @@ public interface XBBlock {
     public int getAttributesCount();
 
     /**
-     * Gets list of all children blocks.
+     * Gets array of all children blocks.
      *
      * @return list of child blocks
      */
-    public List<XBBlock> getChildren();
+    public XBBlock[] getChildren();
 
     /**
      * Gets child block of given index.
@@ -92,7 +91,7 @@ public interface XBBlock {
      *
      * @return count of children
      */
-    public int getChildCount();
+    public int getChildrenCount();
 
     /**
      * Gets block data.

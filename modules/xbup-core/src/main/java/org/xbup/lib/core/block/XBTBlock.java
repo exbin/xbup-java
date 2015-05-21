@@ -17,13 +17,12 @@
 package org.xbup.lib.core.block;
 
 import java.io.InputStream;
-import java.util.List;
 import org.xbup.lib.core.parser.token.XBAttribute;
 
 /**
  * Interface for read access to XBUP level 1 block.
  *
- * @version 0.1.25 2015/02/09
+ * @version 0.1.25 2015/05/21
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTBlock {
@@ -58,11 +57,11 @@ public interface XBTBlock {
     public XBBlockType getBlockType();
 
     /**
-     * Gets list of attributes in order of appearance.
+     * Gets array of attributes in order of appearance.
      *
-     * @return list of attributes
+     * @return array of attributes
      */
-    public List<XBAttribute> getAttributes();
+    public XBAttribute[] getAttributes();
 
     /**
      * Gets attribute of given index.
@@ -72,7 +71,7 @@ public interface XBTBlock {
      * @param attributeIndex index of attribute
      * @return attribute value
      */
-    public XBAttribute getAttribute(int attributeIndex);
+    public XBAttribute getAttributeAt(int attributeIndex);
 
     /**
      * Gets count of attributes.
@@ -82,11 +81,11 @@ public interface XBTBlock {
     public int getAttributesCount();
 
     /**
-     * Gets list of all children.
+     * Gets array of all children.
      *
-     * @return list of child blocks
+     * @return array of child blocks
      */
-    public List<XBTBlock> getChildren();
+    public XBTBlock[] getChildren();
 
     /**
      * Gets children of given index.
@@ -101,7 +100,7 @@ public interface XBTBlock {
      *
      * @return count of children
      */
-    public int getChildCount();
+    public int getChildrenCount();
 
     /**
      * Gets block data.

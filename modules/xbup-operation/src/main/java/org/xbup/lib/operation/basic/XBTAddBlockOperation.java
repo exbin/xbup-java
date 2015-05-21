@@ -19,13 +19,17 @@ package org.xbup.lib.operation.basic;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.convert.XBTListenerToConsumer;
 import org.xbup.lib.core.parser.basic.convert.XBTProviderToProducer;
+import org.xbup.lib.core.parser.token.event.convert.XBListenerToEventListener;
+import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
+import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventUnwrapper;
+import org.xbup.lib.core.parser.token.pull.convert.XBProviderToPullProvider;
+import org.xbup.lib.core.parser.token.pull.convert.XBTPullProviderToProvider;
+import org.xbup.lib.core.parser.token.pull.convert.XBTToXBPullWrapper;
 import org.xbup.lib.core.serial.XBPSerialReader;
 import org.xbup.lib.core.serial.XBPSerialWriter;
 import org.xbup.lib.core.serial.basic.XBTBasicInputSerialHandler;
@@ -36,14 +40,15 @@ import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.serial.param.XBSerializationMode;
 import org.xbup.lib.operation.Operation;
 import org.xbup.lib.operation.XBTDocOperation;
+import org.xbup.lib.parser_tree.XBTBlockToBlock;
 import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.lib.parser_tree.XBTTreeReader;
-import org.xbup.lib.parser_tree.XBTTreeWriter;
+import org.xbup.lib.parser_tree.XBTreeReader;
+import org.xbup.lib.parser_tree.XBTreeWriter;
 
 /**
  * Command for adding child block.
  *
- * @version 0.1.25 2015/05/03
+ * @version 0.1.25 2015/05/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTAddBlockOperation extends XBTDocOperation {
@@ -82,12 +87,7 @@ public class XBTAddBlockOperation extends XBTDocOperation {
             }
         } else {
             XBTEditableBlock parentNode = (XBTEditableBlock) document.findBlockByIndex(serial.parentPosition);
-            List<XBTBlock> children = parentNode.getChildren();
-            if (children == null) {
-                children = new ArrayList<>();
-                parentNode.setChildren(children);
-            }
-            children.add(serial.childIndex, serial.newNode);
+            parentNode.setChildAt(serial.newNode, serial.childIndex);
             serial.newNode.setParent(parentNode);
         }
 
@@ -134,8 +134,8 @@ public class XBTAddBlockOperation extends XBTDocOperation {
 
                     @Override
                     public void serializeFromXB(XBTBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                        XBTTreeReader serialReader = new XBTTreeReader((XBTTreeNode) newNode);
-                        serializationHandler.process(new XBTListenerToConsumer(serialReader));
+                        XBTreeReader serialReader = new XBTreeReader(new XBTBlockToBlock(newNode));
+                        serializationHandler.process(new XBTListenerToConsumer(new XBTEventListenerToListener(new XBTToXBEventUnwrapper(new XBListenerToEventListener(serialReader)))));
                     }
 
                     @Override
@@ -153,8 +153,8 @@ public class XBTAddBlockOperation extends XBTDocOperation {
 
                     @Override
                     public void serializeToXB(XBTBasicOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                        XBTTreeWriter serialWriter = new XBTTreeWriter(newNode);
-                        serializationHandler.process(new XBTProviderToProducer(serialWriter));
+                        XBTreeWriter serialWriter = new XBTreeWriter(new XBTBlockToBlock(newNode));
+                        serializationHandler.process(new XBTProviderToProducer(new XBTPullProviderToProvider(new XBTToXBPullWrapper(new XBProviderToPullProvider(serialWriter)))));
                     }
                 });
             }

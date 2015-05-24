@@ -19,6 +19,7 @@ package org.xbup.lib.operation.basic;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBPSerialReader;
@@ -77,8 +78,7 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
                 deletedNode = (XBTEditableBlock) document.findBlockByIndex(serial.position);
                 XBTEditableBlock parentNode = (XBTEditableBlock) deletedNode.getParent();
                 parentPosition = parentNode.getBlockIndex();
-                throw new UnsupportedOperationException("Not supported yet.");
-                // childIndex = parentNode.getChildren().indexOf(deletedNode);
+                Arrays.asList(parentNode.getChildren()).indexOf(deletedNode);
             }
             undoOperation = new XBTAddBlockOperation(parentPosition, childIndex, deletedNode);
             undoOperation.setDocument(document);
@@ -89,8 +89,8 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
         } else {
             XBTEditableBlock node = (XBTEditableBlock) document.findBlockByIndex(serial.position);
             XBTEditableBlock parentNode = (XBTEditableBlock) node.getParent();
-            throw new UnsupportedOperationException("Not supported yet.");
-            // parentNode.getChildren().remove(node);
+            int childIndex = Arrays.asList(parentNode.getChildren()).indexOf(node);
+            parentNode.removeChild(childIndex);
         }
 
         return undoOperation;

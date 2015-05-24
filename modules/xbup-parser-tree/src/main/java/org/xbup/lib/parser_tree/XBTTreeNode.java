@@ -53,7 +53,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Basic object model parser XBUP level 1 document block / tree node.
  *
- * @version 0.1.25 2015/05/25
+ * @version 0.1.25 2015/05/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
@@ -681,6 +681,14 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         }
 
         children.set(childIndex, block);
+    }
+
+    public void addChild(XBTTreeNode child) {
+        children.add(child);
+    }
+
+    public void removeChild(int index) {
+        children.remove(index);
     }
 
     @Override

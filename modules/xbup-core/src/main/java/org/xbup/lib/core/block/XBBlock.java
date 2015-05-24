@@ -22,7 +22,7 @@ import org.xbup.lib.core.parser.token.XBAttribute;
 /**
  * Interface for read access to XBUP level 0 block.
  *
- * @version 0.1.24 2014/10/02
+ * @version 0.1.25 2015/05/23
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBBlock {
@@ -120,4 +120,11 @@ public interface XBBlock {
      * @return block size in bytes
      */
     public long getBlockSize();
+
+    /**
+     * Gets block position in tree in depth-first scan.
+     *
+     * @return position index
+     */
+    public int getBlockIndex();
 }

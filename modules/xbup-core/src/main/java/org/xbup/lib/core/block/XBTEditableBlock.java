@@ -76,6 +76,13 @@ public interface XBTEditableBlock extends XBTBlock {
     public void setAttributesCount(int count);
 
     /**
+     * Removes attribute on given position.
+     * 
+     * @param attributeIndex 
+     */
+    public void removeAttribute(int attributeIndex);
+    
+    /**
      * Sets block type.
      *
      * @param blockType block type
@@ -108,6 +115,13 @@ public interface XBTEditableBlock extends XBTBlock {
      * @param count count of child blocks
      */
     public void setChildrenCount(int count);
+
+    /**
+     * Removes child on given position.
+     * 
+     * @param childIndex 
+     */
+    public void removeChild(int childIndex);
 
     /**
      * Sets block data.

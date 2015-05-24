@@ -43,7 +43,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Basic object model parser XBUP level 0 document block / tree node.
  *
- * @version 0.1.25 2015/05/25
+ * @version 0.1.25 2015/05/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
@@ -93,9 +93,10 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
      *
      * @return node index
      */
-    public int getNodeIndex() {
+    @Override
+    public int getBlockIndex() {
         if (parent != null) {
-            int result = parent.getNodeIndex() + 1;
+            int result = parent.getBlockIndex() + 1;
             Iterator<XBBlock> it = parent.children.iterator();
             XBTreeNode node = (XBTreeNode) it.next();
             while (node != this) {
@@ -113,11 +114,11 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
         }
     }
 
-    public int getNodeIndexAfter() {
+    public int getblockIndexAfter() {
         if (dataMode == XBBlockDataMode.NODE_BLOCK) {
-            return getNodeIndex() + getSubNodesCount() + 1;
+            return getBlockIndex() + getSubNodesCount() + 1;
         } else {
-            return getNodeIndex() + 1;
+            return getBlockIndex() + 1;
         }
     }
 

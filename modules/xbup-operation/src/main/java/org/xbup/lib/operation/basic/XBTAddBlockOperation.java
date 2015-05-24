@@ -40,7 +40,7 @@ import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.serial.param.XBSerializationMode;
 import org.xbup.lib.operation.Operation;
 import org.xbup.lib.operation.XBTDocOperation;
-import org.xbup.lib.parser_tree.XBTBlockToBlock;
+import org.xbup.lib.parser_tree.XBTBlockToXBBlock;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.parser_tree.XBTreeReader;
 import org.xbup.lib.parser_tree.XBTreeWriter;
@@ -134,7 +134,7 @@ public class XBTAddBlockOperation extends XBTDocOperation {
 
                     @Override
                     public void serializeFromXB(XBTBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                        XBTreeReader serialReader = new XBTreeReader(new XBTBlockToBlock(newNode));
+                        XBTreeReader serialReader = new XBTreeReader(new XBTBlockToXBBlock(newNode));
                         serializationHandler.process(new XBTListenerToConsumer(new XBTEventListenerToListener(new XBTToXBEventUnwrapper(new XBListenerToEventListener(serialReader)))));
                     }
 
@@ -153,7 +153,7 @@ public class XBTAddBlockOperation extends XBTDocOperation {
 
                     @Override
                     public void serializeToXB(XBTBasicOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                        XBTreeWriter serialWriter = new XBTreeWriter(new XBTBlockToBlock(newNode));
+                        XBTreeWriter serialWriter = new XBTreeWriter(new XBTBlockToXBBlock(newNode));
                         serializationHandler.process(new XBTProviderToProducer(new XBTPullProviderToProvider(new XBTToXBPullWrapper(new XBProviderToPullProvider(serialWriter)))));
                     }
                 });

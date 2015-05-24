@@ -76,6 +76,13 @@ public interface XBEditableBlock extends XBBlock {
     public void setAttributesCount(int count);
 
     /**
+     * Removes attribute on given position.
+     * 
+     * @param attributeIndex 
+     */
+    public void removeAttribute(int attributeIndex);
+
+    /**
      * Sets array of all children.
      *
      * @param blocks array of children blocks
@@ -101,6 +108,13 @@ public interface XBEditableBlock extends XBBlock {
      * @param count count of children
      */
     public void setChildrenCount(int count);
+
+    /**
+     * Removes child on given position.
+     * 
+     * @param childIndex 
+     */
+    public void removeChild(int childIndex);
 
     /**
      * Sets block data.

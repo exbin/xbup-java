@@ -29,22 +29,30 @@ import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.parser.token.XBAttribute;
 
 /**
- * Basic object model parser XBUP level 1 document block / tree node.
+ * Conversion from level 1 block to level 0 block.
  *
- * @version 0.1.25 2015/05/25
+ * @version 0.1.25 2015/05/23
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTBlockToBlock implements XBEditableBlock {
+public class XBTBlockToXBBlock implements XBEditableBlock {
 
     private final XBTBlock block;
 
-    public XBTBlockToBlock(XBTBlock block) {
+    public XBTBlockToXBBlock(XBTBlock block) {
         this.block = block;
+    }
+
+    public XBTBlock getBlock() {
+        return block;
     }
 
     @Override
     public XBBlock getParent() {
-        return new XBTBlockToBlock(block.getParent());
+        if (block.getParent() instanceof XBBlockToXBTBlock) {
+            return ((XBBlockToXBTBlock) block.getParent()).getBlock();
+        }
+
+        return new XBTBlockToXBBlock(block.getParent());
     }
 
     @Override
@@ -80,9 +88,14 @@ public class XBTBlockToBlock implements XBEditableBlock {
             if (block instanceof XBTTreeNode) {
                 XBFixedBlockType blockType = ((XBTTreeNode) block).getFixedBlockType();
                 return attributeIndex == 0 ? blockType.getGroupID() : blockType.getBlockID();
+            } else {
+                XBBlockType blockType = block.getBlockType();
+                if (blockType instanceof XBFixedBlockType) {
+                    return attributeIndex == 0 ? ((XBFixedBlockType) blockType).getGroupID() : ((XBFixedBlockType) blockType).getBlockID();
+                }
             }
 
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new IllegalStateException("Cannot convert block with no fixed block type");
         }
 
         return block.getAttributeAt(attributeIndex - 2);
@@ -95,13 +108,17 @@ public class XBTBlockToBlock implements XBEditableBlock {
             return attributesCount + 2;
         }
 
-        XBBlockType blockType = block.getBlockType();
-        if (blockType != null) {
-            // TODO
-            return 2;
+        if (block instanceof XBTTreeNode) {
+            XBFixedBlockType blockType = ((XBTTreeNode) block).getFixedBlockType();
+            return blockType.getBlockID().isZero() ? 1 : 2;
+        } else {
+            XBBlockType blockType = block.getBlockType();
+            if (blockType instanceof XBFixedBlockType) {
+                return ((XBFixedBlockType) blockType).getBlockID().isZero() ? 1 : 2;
+            }
         }
 
-        return 0;
+        throw new IllegalStateException("Cannot convert block with no fixed block type");
     }
 
     @Override
@@ -109,14 +126,14 @@ public class XBTBlockToBlock implements XBEditableBlock {
         XBBlock[] result = new XBBlock[getChildrenCount()];
         int i = 0;
         for (XBTBlock child : block.getChildren()) {
-            result[i++] = new XBTBlockToBlock(child);
+            result[i++] = new XBTBlockToXBBlock(child);
         }
         return result;
     }
 
     @Override
     public XBBlock getChildAt(int childIndex) {
-        return new XBTBlockToBlock(block.getChildAt(childIndex));
+        return new XBTBlockToXBBlock(block.getChildAt(childIndex));
     }
 
     @Override
@@ -146,29 +163,33 @@ public class XBTBlockToBlock implements XBEditableBlock {
 
     @Override
     public void setParent(XBBlock parent) {
-        if (parent instanceof XBTBlockToBlock) {
-
+        if (!(block instanceof XBTEditableBlock)) {
+            throw new IllegalStateException("Cannot set parent of read only block");
         }
 
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (parent instanceof XBTBlockToXBBlock) {
+            ((XBTEditableBlock) block).setParent(((XBTBlockToXBBlock) parent).block);
+        } else {
+            ((XBTEditableBlock) block).setParent(new XBBlockToXBTBlock(parent));
+        }
     }
 
     @Override
     public void setTerminationMode(XBBlockTerminationMode terminationMode) {
-        if (block instanceof XBTEditableBlock) {
-            ((XBTEditableBlock) block).setTerminationMode(terminationMode);
+        if (!(block instanceof XBTEditableBlock)) {
+            throw new IllegalStateException("Cannot set termination mode of read only block");
         }
 
-        throw new IllegalStateException();
+        ((XBTEditableBlock) block).setTerminationMode(terminationMode);
     }
 
     @Override
     public void setDataMode(XBBlockDataMode dataMode) {
-        if (block instanceof XBTEditableBlock) {
-            ((XBTEditableBlock) block).setDataMode(dataMode);
+        if (!(block instanceof XBTEditableBlock)) {
+            throw new IllegalStateException("Cannot set data mode of read only block");
         }
 
-        throw new IllegalStateException();
+        ((XBTEditableBlock) block).setDataMode(dataMode);
     }
 
     @Override
@@ -177,7 +198,20 @@ public class XBTBlockToBlock implements XBEditableBlock {
             throw new IllegalStateException("Cannot set attribute of read only block");
         }
 
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (attributes.length > 2) {
+            XBAttribute[] result = new XBAttribute[attributes.length - 2];
+            System.arraycopy(block.getAttributes(), 0, result, 0, attributes.length - 2);
+            ((XBTEditableBlock) block).setAttributes(result);
+        } else {
+            setAttributesCount(attributes.length);
+        }
+
+        if (attributes.length > 0) {
+            setAttributeAt(attributes[0], 0);
+        }
+        if (attributes.length > 1) {
+            setAttributeAt(attributes[1], 1);
+        }
     }
 
     @Override
@@ -187,7 +221,15 @@ public class XBTBlockToBlock implements XBEditableBlock {
         }
 
         if (attributeIndex < 2) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            XBBlockType blockType = block.getBlockType();
+            if (blockType instanceof XBFixedBlockType) {
+                blockType = attributeIndex == 0 ?
+                        new XBFixedBlockType(attribute.getNaturalLong(), ((XBFixedBlockType) blockType).getBlockID().getLong()) :
+                        new XBFixedBlockType(((XBFixedBlockType) blockType).getGroupID().getLong(), attribute.getNaturalLong());
+                ((XBTEditableBlock) block).setBlockType(blockType);
+            } else {
+                throw new IllegalStateException("Cannot set block type when it's not fixed");
+            }
         }
 
         ((XBTEditableBlock) block).setAttributeAt(attribute, attributeIndex - 2);
@@ -196,28 +238,56 @@ public class XBTBlockToBlock implements XBEditableBlock {
     @Override
     public void setAttributesCount(int count) {
         if (!(block instanceof XBTEditableBlock)) {
-            throw new IllegalStateException("Cannot set attribute of read only block");
+            throw new IllegalStateException("Cannot set attribute count of read only block");
         }
 
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (count > 1) {
+            ((XBTEditableBlock) block).setAttributesCount(count - 2);
+        } else {
+            ((XBTEditableBlock) block).setAttributesCount(0);
+            // Ignore block type
+        }
+    }
+
+    @Override
+    public void removeAttribute(int attributeIndex) {
+        if (!(block instanceof XBEditableBlock)) {
+            throw new IllegalStateException("Cannot remove attribute count of read only block");
+        }
+
+        ((XBEditableBlock) block).removeAttribute(attributeIndex + 2);
     }
 
     @Override
     public void setChildren(XBBlock[] blocks) {
         if (!(block instanceof XBTEditableBlock)) {
-            throw new IllegalStateException("Cannot set attribute of read only block");
+            throw new IllegalStateException("Cannot set child of read only block");
         }
 
-        throw new UnsupportedOperationException("Not supported yet.");
+        XBTBlock[] convertedBlocks = new XBTBlock[blocks.length];
+        for (int i = 0; i < blocks.length; i++) {
+            XBBlock child = blocks[i];
+            if (child instanceof XBBlockToXBTBlock) {
+                
+            } else {
+                convertedBlocks[i] = new XBBlockToXBTBlock(child);
+            }
+        }
+        
+        ((XBTEditableBlock) block).setChildren(convertedBlocks);
     }
 
     @Override
-    public void setChildAt(XBBlock block, int childIndex) {
-        if (!(block instanceof XBTEditableBlock)) {
+    public void setChildAt(XBBlock child, int childIndex) {
+        if (!(child instanceof XBTEditableBlock)) {
             throw new IllegalStateException("Cannot set attribute of read only block");
         }
 
-        // childrenConvertor.set(childIndex, block);
+        if (child instanceof XBBlockToXBTBlock) {
+
+        } else {
+            ((XBTEditableBlock) block).setChildAt(new XBBlockToXBTBlock(child), childIndex);
+        }
     }
 
     @Override
@@ -226,13 +296,22 @@ public class XBTBlockToBlock implements XBEditableBlock {
             throw new IllegalStateException("Cannot set attribute of read only block");
         }
 
-        throw new UnsupportedOperationException("Not supported yet.");
+        ((XBTEditableBlock) block).setChildrenCount(count);
+    }
+
+    @Override
+    public void removeChild(int childIndex) {
+        if (!(block instanceof XBTEditableBlock)) {
+            throw new IllegalStateException("Cannot remove child of read only block");
+        }
+
+        ((XBTEditableBlock) block).removeChild(childIndex);
     }
 
     @Override
     public void setData(InputStream data) {
         if (!(block instanceof XBTEditableBlock)) {
-            throw new IllegalStateException("Cannot set attribute of read only block");
+            throw new IllegalStateException("Cannot set data of read only block");
         }
 
         ((XBTEditableBlock) block).setData(data);
@@ -241,7 +320,7 @@ public class XBTBlockToBlock implements XBEditableBlock {
     @Override
     public void setData(XBBlockData data) {
         if (!(block instanceof XBTEditableBlock)) {
-            throw new IllegalStateException("Cannot set attribute of read only block");
+            throw new IllegalStateException("Cannot set data of read only block");
         }
 
         ((XBTEditableBlock) block).setData(data);
@@ -263,5 +342,10 @@ public class XBTBlockToBlock implements XBEditableBlock {
         }
 
         ((XBTEditableBlock) block).clear();
+    }
+
+    @Override
+    public int getBlockIndex() {
+        return block.getBlockIndex();
     }
 }

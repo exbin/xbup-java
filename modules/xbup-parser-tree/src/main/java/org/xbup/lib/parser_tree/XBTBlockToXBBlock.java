@@ -67,8 +67,8 @@ public class XBTBlockToXBBlock implements XBEditableBlock {
 
     @Override
     public XBAttribute[] getAttributes() {
-        int attributesCount = block.getAttributesCount();
-        XBAttribute[] result = new XBAttribute[attributesCount + 2];
+        int attributesCount = getAttributesCount();
+        XBAttribute[] result = new XBAttribute[attributesCount];
         if (attributesCount > 0) {
             result[0] = getAttributeAt(0);
             if (attributesCount > 1) {

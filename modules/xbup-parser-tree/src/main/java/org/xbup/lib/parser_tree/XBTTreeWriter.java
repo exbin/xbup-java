@@ -28,18 +28,17 @@ import org.xbup.lib.core.parser.basic.XBTProvider;
 /**
  * Basic object model parser XBUP level 1 document block / tree node.
  *
- * TODO: Iteration instead of recursion
- *
- * @version 0.1.24 2014/09/30
+ * @version 0.1.25 2015/05/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTreeWriter implements XBTProvider {
 
     private final XBTBlock source;
-    private XBTTreeWriter subProducer = null;
+
+    private XBParserState state = XBParserState.BLOCK_BEGIN;
     private int attrPosition = 0;
     private int childPosition = 0;
-    private XBParserState state = XBParserState.BLOCK_BEGIN;
+    private XBTTreeWriter subProducer = null;
 
     public XBTTreeWriter(XBTBlock source) {
         this.source = source;

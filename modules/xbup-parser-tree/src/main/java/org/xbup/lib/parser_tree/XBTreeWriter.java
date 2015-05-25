@@ -21,70 +21,92 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlock;
 import org.xbup.lib.core.block.XBBlockDataMode;
+import org.xbup.lib.core.parser.XBParserState;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.basic.XBProducer;
 import org.xbup.lib.core.parser.basic.XBProvider;
-import org.xbup.lib.core.parser.basic.convert.XBDefaultFilter;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * Basic object model parser XBUP level 0 document block / tree node.
  *
- * @version 0.1.24 2014/10/19
+ * @version 0.1.25 2015/05/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeWriter implements XBProvider {
 
     private final XBBlock source;
-    XBProducer subProducer = null;
-    private int position;
+
+    private XBParserState state = XBParserState.BLOCK_BEGIN;
+    private int attrPosition = 0;
+    private int childPosition = 0;
+    private XBTreeWriter subProducer = null;
 
     public XBTreeWriter(XBBlock source) {
         this.source = source;
     }
 
     public void produceXB(XBListener listener, boolean recursive) throws XBProcessingException, IOException {
-        int pos = position;
-        position++;
-        if (pos == 1) {
-            listener.beginXB(source.getTerminationMode());
-            return;
+        if (subProducer != null) {
+            if (!subProducer.isFinished()) {
+                subProducer.produceXB(listener);
+                return;
+            } else {
+                subProducer = null;
+            }
         }
 
-        if (source.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
-            if (pos == 2) {
-                listener.dataXB(source.getData());
-            } else if (pos == 3) {
-                listener.endXB();
-                position = 0;
-            } // else throw
-            return;
-        }
-
-        pos--;
-        if (pos < source.getAttributesCount()) {
-            listener.attribXB(source.getAttributeAt(pos));
-            return;
-        }
-
-        pos -= source.getAttributesCount();
-        if (pos < source.getChildrenCount()) {
-            if (subProducer == null) {
-                subProducer = (XBProducer) new XBTreeWriter(source.getChildAt(pos));
-                XBDefaultFilter filter = new XBDefaultFilter();
-                filter.attachXBListener(listener);
+        switch (state) {
+            case BLOCK_BEGIN: {
+                listener.beginXB(source.getTerminationMode());
+                state = (source.getDataMode() == XBBlockDataMode.DATA_BLOCK) ? XBParserState.DATA_PART : XBParserState.ATTRIBUTE_PART;
+                break;
             }
 
-            ((XBTreeWriter) subProducer).produceXB(listener);
-            position--;
-            return;
-        }
+            case DATA_PART: {
+                listener.dataXB(source.getData());
+                state = XBParserState.BLOCK_END;
+                break;
+            }
 
-        if (pos == source.getChildrenCount()) {
-            listener.endXB();
-            position = 0;
+            case ATTRIBUTE_PART: {
+                if (attrPosition < source.getAttributesCount()) {
+                    listener.attribXB(source.getAttributeAt(attrPosition));
+                    attrPosition++;
+                    break;
+                } else {
+                    state = XBParserState.EXTENDED_AREA;
+                    // no break
+                }
+            }
+
+            case EXTENDED_AREA: {
+                if (childPosition < source.getChildrenCount()) {
+                    subProducer = new XBTreeWriter(source.getChildAt(childPosition));
+                    childPosition++;
+                    subProducer.produceXB(listener);
+                    break;
+                } else {
+                    state = XBParserState.BLOCK_END;
+                    // no break
+                }
+            }
+
+            case BLOCK_END: {
+                listener.endXB();
+                state = XBParserState.EOF;
+                break;
+            }
+
+            case EOF: {
+                throw new XBProcessingException("Reading after block end", XBProcessingExceptionType.READING_AFTER_END);
+            }
+
+            default: {
+                throw new XBProcessingException("Unexpected state", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            }
         }
     }
 
@@ -95,6 +117,10 @@ public class XBTreeWriter implements XBProvider {
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBTreeNode.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public boolean isFinished() {
+        return state == XBParserState.EOF;
     }
 
     // @Override

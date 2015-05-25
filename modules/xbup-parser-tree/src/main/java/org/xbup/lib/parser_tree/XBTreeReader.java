@@ -18,8 +18,6 @@ package org.xbup.lib.parser_tree;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import org.xbup.lib.core.block.XBBlock;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBParserState;

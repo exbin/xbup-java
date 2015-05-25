@@ -16,16 +16,20 @@
  */
 package org.xbup.lib.operation.basic;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.basic.XBListenerWriter;
+import org.xbup.lib.core.parser.basic.convert.XBPrintFilter;
 import org.xbup.lib.core.parser.basic.convert.XBTListenerToConsumer;
 import org.xbup.lib.core.parser.basic.convert.XBTProviderToProducer;
 import org.xbup.lib.core.parser.token.event.convert.XBListenerToEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
+import org.xbup.lib.core.parser.token.event.convert.XBTPrintEventFilter;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventUnwrapper;
 import org.xbup.lib.core.parser.token.pull.convert.XBProviderToPullProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullProviderToProvider;
@@ -135,7 +139,7 @@ public class XBTAddBlockOperation extends XBTDocOperation {
                     @Override
                     public void serializeFromXB(XBTBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
                         XBTreeReader serialReader = new XBTreeReader(new XBTBlockToXBBlock(newNode));
-                        serializationHandler.process(new XBTListenerToConsumer(new XBTEventListenerToListener(new XBTToXBEventUnwrapper(new XBListenerToEventListener(serialReader)))));
+                        serializationHandler.process(new XBTListenerToConsumer(new XBTEventListenerToListener(new XBTPrintEventFilter(new XBTToXBEventUnwrapper(new XBListenerToEventListener(serialReader))))));
                     }
 
                     @Override

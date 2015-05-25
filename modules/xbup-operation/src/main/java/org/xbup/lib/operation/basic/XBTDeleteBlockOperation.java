@@ -78,7 +78,7 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
                 deletedNode = (XBTEditableBlock) document.findBlockByIndex(serial.position);
                 XBTEditableBlock parentNode = (XBTEditableBlock) deletedNode.getParent();
                 parentPosition = parentNode.getBlockIndex();
-                Arrays.asList(parentNode.getChildren()).indexOf(deletedNode);
+                childIndex = Arrays.asList(parentNode.getChildren()).indexOf(deletedNode);
             }
             undoOperation = new XBTAddBlockOperation(parentPosition, childIndex, deletedNode);
             undoOperation.setDocument(document);

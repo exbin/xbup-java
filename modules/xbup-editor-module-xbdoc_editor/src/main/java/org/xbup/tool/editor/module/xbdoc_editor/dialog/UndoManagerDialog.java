@@ -27,7 +27,7 @@ import org.xbup.tool.editor.utils.WindowUtils;
 /**
  * Dialog for undo management.
  *
- * @version 0.1.24 2015/04/24
+ * @version 0.1.24 2015/04/26
  * @author XBUP Project (http://xbup.org)
  */
 public class UndoManagerDialog extends javax.swing.JDialog {
@@ -76,6 +76,8 @@ public class UndoManagerDialog extends javax.swing.JDialog {
         operationCaptionTextField = new javax.swing.JTextField();
         operationTypeLabel = new javax.swing.JLabel();
         operationTypeTextField = new javax.swing.JTextField();
+        dataSizeLabel = new javax.swing.JLabel();
+        dataSizeTextField = new javax.swing.JTextField();
         exportButton = new javax.swing.JButton();
         controlPanel = new javax.swing.JPanel();
         closeButton = new javax.swing.JButton();
@@ -87,7 +89,7 @@ public class UndoManagerDialog extends javax.swing.JDialog {
         setModal(true);
 
         splitPane.setBorder(null);
-        splitPane.setDividerLocation(250);
+        splitPane.setDividerLocation(200);
 
         undoList.setModel(undoModel);
         undoList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -122,6 +124,10 @@ public class UndoManagerDialog extends javax.swing.JDialog {
 
         operationTypeTextField.setEditable(false);
 
+        dataSizeLabel.setText(bundle.getString("dataSizeLabel.text")); // NOI18N
+
+        dataSizeTextField.setEditable(false);
+
         org.jdesktop.layout.GroupLayout undoDetailInfoPanelLayout = new org.jdesktop.layout.GroupLayout(undoDetailInfoPanel);
         undoDetailInfoPanel.setLayout(undoDetailInfoPanelLayout);
         undoDetailInfoPanelLayout.setHorizontalGroup(
@@ -130,18 +136,26 @@ public class UndoManagerDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .add(undoDetailInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(commandCaptionTextField)
-                    .add(executionTimeTextField)
                     .add(commandTypeTextField)
                     .add(operationCaptionTextField)
                     .add(operationTypeTextField)
                     .add(undoDetailInfoPanelLayout.createSequentialGroup()
                         .add(undoDetailInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(commandCaptionLabel)
-                            .add(executionTimeLabel)
                             .add(commandTypeLabel)
                             .add(operationCaptionLabel)
                             .add(operationTypeLabel))
-                        .add(0, 122, Short.MAX_VALUE)))
+                        .add(0, 0, Short.MAX_VALUE))
+                    .add(undoDetailInfoPanelLayout.createSequentialGroup()
+                        .add(undoDetailInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(undoDetailInfoPanelLayout.createSequentialGroup()
+                                .add(executionTimeLabel)
+                                .add(0, 130, Short.MAX_VALUE))
+                            .add(executionTimeTextField))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(undoDetailInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(dataSizeLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(dataSizeTextField))))
                 .addContainerGap())
         );
         undoDetailInfoPanelLayout.setVerticalGroup(
@@ -156,18 +170,24 @@ public class UndoManagerDialog extends javax.swing.JDialog {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(commandTypeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(executionTimeLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(executionTimeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(operationCaptionLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(operationCaptionTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(operationTypeLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(operationTypeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .add(undoDetailInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(undoDetailInfoPanelLayout.createSequentialGroup()
+                        .add(operationTypeLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(operationTypeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(executionTimeLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(executionTimeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(undoDetailInfoPanelLayout.createSequentialGroup()
+                        .add(dataSizeLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(dataSizeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         exportButton.setText(bundle.getString("exportButton.text")); // NOI18N
@@ -178,7 +198,7 @@ public class UndoManagerDialog extends javax.swing.JDialog {
         undoDetailPanelLayout.setHorizontalGroup(
             undoDetailPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, undoDetailPanelLayout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(292, 309, Short.MAX_VALUE)
                 .add(exportButton)
                 .addContainerGap())
             .add(org.jdesktop.layout.GroupLayout.TRAILING, undoDetailPanelLayout.createSequentialGroup()
@@ -202,14 +222,14 @@ public class UndoManagerDialog extends javax.swing.JDialog {
             mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(splitPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE)
+                .add(splitPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
                 .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(splitPane))
+                .add(splitPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE))
         );
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
@@ -234,7 +254,7 @@ public class UndoManagerDialog extends javax.swing.JDialog {
         controlPanelLayout.setHorizontalGroup(
             controlPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, controlPanelLayout.createSequentialGroup()
-                .addContainerGap(448, Short.MAX_VALUE)
+                .addContainerGap(451, Short.MAX_VALUE)
                 .add(revertButton)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(closeButton)
@@ -291,6 +311,8 @@ public class UndoManagerDialog extends javax.swing.JDialog {
     private javax.swing.JLabel commandTypeLabel;
     private javax.swing.JTextField commandTypeTextField;
     private javax.swing.JPanel controlPanel;
+    private javax.swing.JLabel dataSizeLabel;
+    private javax.swing.JTextField dataSizeTextField;
     private javax.swing.JLabel executionTimeLabel;
     private javax.swing.JTextField executionTimeTextField;
     private javax.swing.JButton exportButton;
@@ -338,5 +360,6 @@ public class UndoManagerDialog extends javax.swing.JDialog {
         }
         operationCaptionTextField.setText(operation != null ? operation.getCaption() : "");
         operationTypeTextField.setText(operation != null ? operation.getBasicType().name() : "");
+        dataSizeTextField.setText(operation != null ? String.valueOf(operation.getData().getDataSize()) : "");
     }
 }

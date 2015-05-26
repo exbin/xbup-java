@@ -16,15 +16,12 @@
  */
 package org.xbup.lib.operation.basic;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBListenerWriter;
-import org.xbup.lib.core.parser.basic.convert.XBPrintFilter;
 import org.xbup.lib.core.parser.basic.convert.XBTListenerToConsumer;
 import org.xbup.lib.core.parser.basic.convert.XBTProviderToProducer;
 import org.xbup.lib.core.parser.token.event.convert.XBListenerToEventListener;

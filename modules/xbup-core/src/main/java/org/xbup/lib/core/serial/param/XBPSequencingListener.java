@@ -156,10 +156,12 @@ public class XBPSequencingListener implements XBPListener {
             switch (((XBPTokenWrapper) item.getItem()).getToken().getTokenType()) {
                 case BEGIN: {
                     depth++;
+                    break;
                 }
                 case END: {
                     validate();
                     depth--;
+                    break;
                 }
                 default: {
                     validate();

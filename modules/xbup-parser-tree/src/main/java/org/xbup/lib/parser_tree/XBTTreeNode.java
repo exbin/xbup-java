@@ -520,6 +520,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         attributes.add(attribute);
     }
 
+    @Override
     public void removeAttribute(int index) {
         attributes.remove(index);
     }
@@ -687,6 +688,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         children.add(child);
     }
 
+    @Override
     public void removeChild(int index) {
         children.remove(index);
     }

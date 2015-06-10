@@ -44,8 +44,8 @@ import org.xbup.lib.core.util.StreamUtils;
 public class XBChar implements XBTChildSerializable {
 
     private Character value;
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 3, 1, 2, 2, 0};
-    public static long[] XBUP_FORMATREV_CATALOGPATH = {1, 3, 1, 2, 0, 0};
+    static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 3, 1, 2, 2, 0};
+    static long[] XBUP_FORMATREV_CATALOGPATH = {1, 3, 1, 2, 0, 0};
 
     public XBChar() {
         this.value = null;

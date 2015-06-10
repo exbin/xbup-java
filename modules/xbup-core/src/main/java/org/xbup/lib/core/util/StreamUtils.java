@@ -23,7 +23,7 @@ import java.io.OutputStream;
 /**
  * Utilities for stream data manipulations.
  *
- * @version 0.1.25 2015/02/14
+ * @version 0.1.25 2015/06/10
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class StreamUtils {
@@ -140,7 +140,9 @@ public abstract class StreamUtils {
         byte[] buffer = new byte[BUFFER_SIZE];
 
         while (source.available() > 0) {
-            source.read(buffer, 0, BUFFER_SIZE);
+            if (source.read(buffer, 0, BUFFER_SIZE) == -1) {
+                break;
+            }
         }
     }
 

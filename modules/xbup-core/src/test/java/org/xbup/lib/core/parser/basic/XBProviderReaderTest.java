@@ -65,19 +65,20 @@ public class XBProviderReaderTest extends TestCase {
      */
     @Test
     public void testRead() throws Exception {
-        InputStream source = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/xhtml-test.xb");
-        try {
-            XBProviderReader reader = new XBProviderReader();
-            reader.open(source);
-            while (!reader.isFinished()) {
-                reader.produceXB(new DebugListener());
-            }
+        try (InputStream source = XBProviderReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/xhtml-test.xb")) {
+            try {
+                XBProviderReader reader = new XBProviderReader();
+                reader.open(source);
+                while (!reader.isFinished()) {
+                    reader.produceXB(new DebugListener());
+                }
 
-            reader.close();
-        } catch (FileNotFoundException ex) {
-            fail("File not found");
-        } catch (IOException | XBProcessingException ex) {
-            fail("Processing error: " + ex.getMessage());
+                reader.close();
+            } catch (FileNotFoundException ex) {
+                fail("File not found");
+            } catch (IOException | XBProcessingException ex) {
+                fail("Processing error: " + ex.getMessage());
+            }
         }
     }
 
@@ -88,23 +89,24 @@ public class XBProviderReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSingleEmptyBlock() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singleemptyblock.xb");
-        XBProviderReader instance = new XBProviderReader(stream);
-        AssertListener assertListener;
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singleemptyblock.xb")) {
+            XBProviderReader instance = new XBProviderReader(stream);
+            AssertListener assertListener;
 
-        assertListener = new AssertListener(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-        instance.produceXB(assertListener);
-        assertTrue(assertListener.isCorrect());
+            assertListener = new AssertListener(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+            instance.produceXB(assertListener);
+            assertTrue(assertListener.isCorrect());
 
-        assertListener = new AssertListener(new XBAttributeToken(new UBNat32(0)));
-        instance.produceXB(assertListener);
-        assertTrue(assertListener.isCorrect());
+            assertListener = new AssertListener(new XBAttributeToken(new UBNat32(0)));
+            instance.produceXB(assertListener);
+            assertTrue(assertListener.isCorrect());
 
-        assertListener = new AssertListener(new XBEndToken());
-        instance.produceXB(assertListener);
-        assertTrue(assertListener.isCorrect());
+            assertListener = new AssertListener(new XBEndToken());
+            instance.produceXB(assertListener);
+            assertTrue(assertListener.isCorrect());
 
-        instance.close();
+            instance.close();
+        }
     }
 
     /**
@@ -114,7 +116,7 @@ public class XBProviderReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleExtended() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_extended.xb");
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_extended.xb")) {
         XBProviderReader instance = new XBProviderReader(stream);
         AssertListener assertListener;
 
@@ -135,6 +137,7 @@ public class XBProviderReaderTest extends TestCase {
         assertTrue(assertListener.isCorrect());
 
         instance.close();
+        }
     }
 
     /**
@@ -146,7 +149,7 @@ public class XBProviderReaderTest extends TestCase {
     public void testReadSampleEmpty() throws Exception {
         Throwable ex = null;
 
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_empty.xb");
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_empty.xb")) {
         XBProviderReader instance = new XBProviderReader(stream);
         try {
             instance.produceXB(new AssertListener(null));
@@ -155,6 +158,7 @@ public class XBProviderReaderTest extends TestCase {
         }
 
         assertEquals(new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+        }
     }
 
     /**
@@ -166,7 +170,7 @@ public class XBProviderReaderTest extends TestCase {
     public void testReadSampleSingleByte() throws Exception {
         Throwable ex = null;
 
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_singlebyte.xb");
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_singlebyte.xb")) {
         XBProviderReader instance = new XBProviderReader(stream);
         try {
             instance.produceXB(new AssertListener(null));
@@ -175,6 +179,7 @@ public class XBProviderReaderTest extends TestCase {
         }
 
         assertEquals(new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+        }
     }
 
     /**
@@ -186,7 +191,7 @@ public class XBProviderReaderTest extends TestCase {
     public void testReadSampleWrongHeader() throws Exception {
         Throwable ex = null;
 
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_wrongheader.xb");
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_wrongheader.xb")) {
         XBProviderReader instance = new XBProviderReader(stream);
         try {
             instance.produceXB(new AssertListener(null));
@@ -195,6 +200,7 @@ public class XBProviderReaderTest extends TestCase {
         }
 
         assertEquals(new XBParseException("Unsupported header: 0xfe0059420002", XBProcessingExceptionType.CORRUPTED_HEADER), ex);
+        }
     }
 
     /**
@@ -204,7 +210,7 @@ public class XBProviderReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSingleData() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singledata.xb");
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singledata.xb")) {
         XBProviderReader instance = new XBProviderReader(stream);
         AssertListener assertListener;
 
@@ -221,6 +227,7 @@ public class XBProviderReaderTest extends TestCase {
         assertTrue(assertListener.isCorrect());
 
         instance.close();
+        }
     }
 
     /**
@@ -230,7 +237,7 @@ public class XBProviderReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleTerminated() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_terminated.xb");
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_terminated.xb")) {
         XBProviderReader instance = new XBProviderReader(stream);
         AssertListener assertListener;
 
@@ -259,6 +266,7 @@ public class XBProviderReaderTest extends TestCase {
         assertTrue(assertListener.isCorrect());
 
         instance.close();
+        }
     }
 
     /**
@@ -268,7 +276,7 @@ public class XBProviderReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSixBlocks() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_sixblocks.xb");
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_sixblocks.xb")) {
         XBProviderReader instance = new XBProviderReader(stream);
         AssertListener assertListener;
 
@@ -361,6 +369,7 @@ public class XBProviderReaderTest extends TestCase {
         assertTrue(assertListener.isCorrect());
 
         instance.close();
+        }
     }
 
     private class DebugListener implements XBListener {

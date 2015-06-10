@@ -546,7 +546,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         }
     }
 
-    private class XBTChildOutputSerialHandlerImpl implements XBTChildOutputSerialHandler {
+    private static class XBTChildOutputSerialHandlerImpl implements XBTChildOutputSerialHandler {
 
         private final XBPListenerSerialHandler handler;
 

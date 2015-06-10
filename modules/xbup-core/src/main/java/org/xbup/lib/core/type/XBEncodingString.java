@@ -46,8 +46,8 @@ public class XBEncodingString implements XBPSequenceSerializable {
 
     private String value;
     private XBCharset charset;
-    public static long[] XBUP_FORMATREV_CATALOGPATH = {1, 3, 1, 2, 0, 0};
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 3, 1, 2, 0, 0};
+    static long[] XBUP_FORMATREV_CATALOGPATH = {1, 3, 1, 2, 0, 0};
+    static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 3, 1, 2, 0, 0};
 
     public XBEncodingString() {
         this.value = "";

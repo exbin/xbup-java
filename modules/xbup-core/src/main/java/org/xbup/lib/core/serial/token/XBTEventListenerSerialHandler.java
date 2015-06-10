@@ -18,6 +18,7 @@ package org.xbup.lib.core.serial.token;
 
 import java.io.IOException;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 
@@ -42,6 +43,10 @@ public class XBTEventListenerSerialHandler implements XBTEventListener, XBTToken
 
     @Override
     public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
+        if (listener == null) {
+            throw new XBProcessingException("Receiving tokens before initialization", XBProcessingExceptionType.UNEXPECTED_ORDER);
+        }
+
         listener.putXBTToken(token);
     }
 }

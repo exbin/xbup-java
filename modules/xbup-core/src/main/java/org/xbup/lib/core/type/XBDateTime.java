@@ -35,7 +35,7 @@ import org.xbup.lib.core.serial.param.XBPSerializable;
 public class XBDateTime implements XBPSerializable {
 
     private Date value;
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 0, 14, 0};
+    static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 0, 14, 0};
 
     public XBDateTime() {
         this.value = new Date();

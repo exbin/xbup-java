@@ -41,8 +41,8 @@ import org.xbup.lib.core.util.StreamUtils;
 public class XBTimeTS implements XBTChildSerializable {
 
     private long value;
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 3, 1, 2, 2, 0};
-    public static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 3, 1, 2, 0, 0};
+    static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 3, 1, 2, 2, 0};
+    static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 3, 1, 2, 0, 0};
 
     public XBTimeTS() {
         this.value = 0;
@@ -58,10 +58,6 @@ public class XBTimeTS implements XBTChildSerializable {
 
     public void setValue(UBNatural value) throws XBProcessingException {
         int newValue = value.getInt();
-        if (newValue > Long.MAX_VALUE) {
-            throw new XBProcessingException("Value too big");
-        }
-
         this.value = newValue;
     }
 

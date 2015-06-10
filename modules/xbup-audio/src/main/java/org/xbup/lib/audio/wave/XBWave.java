@@ -43,8 +43,8 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  */
 public class XBWave implements XBPSequenceSerializable {
 
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 5, 0, 0};
-    public static long[] XBUP_FORMATREV_CATALOGPATH = {1, 5, 0, 0};
+    public static final long[] XBUP_BLOCKREV_CATALOGPATH = {1, 5, 0, 0};
+    public static final long[] XBUP_FORMATREV_CATALOGPATH = {1, 5, 0, 0};
     private AudioFormat audioFormat;
     private final XBData data = new XBData(65520);
 

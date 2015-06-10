@@ -18,6 +18,7 @@ package org.xbup.lib.core.serial.token;
 
 import java.io.IOException;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 
@@ -41,6 +42,10 @@ public class XBPullProviderSerialHandler implements XBPullProvider, XBTokenInput
 
     @Override
     public XBToken pullXBToken() throws XBProcessingException, IOException {
+        if (provider == null) {
+            throw new XBProcessingException("Requested tokens before initialization", XBProcessingExceptionType.UNEXPECTED_ORDER);
+        }
+
         return provider.pullXBToken();
     }
 }

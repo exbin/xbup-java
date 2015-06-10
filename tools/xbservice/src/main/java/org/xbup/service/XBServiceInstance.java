@@ -92,7 +92,7 @@ public class XBServiceInstance {
 
         int tcpipPortInt;
         try {
-            tcpipPortInt = Integer.valueOf(tcpipPort);
+            tcpipPortInt = Integer.parseInt(tcpipPort);
         } catch (NumberFormatException e) {
             tcpipPortInt = 22594; // Fallback to default port
             Logger.getLogger(XBServiceInstance.class.getName()).log(Level.SEVERE, "{0}{1}: {2}", new Object[]{resourceBundle.getString("error_warning"), resourceBundle.getString("error_tcpip_port"), tcpipPort});

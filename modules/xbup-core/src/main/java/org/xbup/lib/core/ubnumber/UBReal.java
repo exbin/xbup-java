@@ -26,7 +26,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
  */
 public interface UBReal {
 
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 0, 8, 0};
+    static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 0, 8, 0};
 
     /**
      * Gets short integer value.

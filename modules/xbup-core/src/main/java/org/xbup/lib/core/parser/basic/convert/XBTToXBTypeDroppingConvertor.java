@@ -124,16 +124,15 @@ public class XBTToXBTypeDroppingConvertor implements XBTListener, XBProducer {
                     listener.beginXB(((XBBeginToken) token).getTerminationMode());
                     break;
                 }
-
                 case DATA: {
                     listener.dataXB(((XBDataToken) token).getData());
                     break;
                 }
-
                 case END: {
                     listener.endXB();
                     break;
                 }
+                default: // do nothing
             }
 
             token = null;

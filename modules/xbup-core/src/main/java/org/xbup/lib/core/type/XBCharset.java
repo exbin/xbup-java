@@ -33,7 +33,7 @@ import org.xbup.lib.core.serial.param.XBSerializationMode;
 public class XBCharset implements XBPSequenceSerializable {
     
     private Charset charset;
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 2, 3, 0};
+    static final long[] XBUP_BLOCKREV_CATALOGPATH = {1, 2, 3, 0};
 
     public XBCharset() {
         charset = Charset.defaultCharset();

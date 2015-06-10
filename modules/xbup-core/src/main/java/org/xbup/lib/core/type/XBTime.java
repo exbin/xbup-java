@@ -41,8 +41,8 @@ import org.xbup.lib.core.util.StreamUtils;
 public class XBTime implements XBTChildSerializable {
 
     private UBReal value;
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 3, 1, 2, 2, 0};
-    public static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 3, 1, 2, 0, 0};
+    static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 3, 1, 2, 2, 0};
+    static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 3, 1, 2, 0, 0};
 
     public XBTime() {
         this.value = new UBRea();

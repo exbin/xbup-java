@@ -40,7 +40,7 @@ public class XBHead {
      *
      * See http://en.wikipedia.org/wiki/MIME
      */
-    public static String MIME_XBUP = "others/x-xbup";
+    public static final String MIME_XBUP = "others/x-xbup";
 
     /**
      * Blob header for files encoded using XBUP protocol.

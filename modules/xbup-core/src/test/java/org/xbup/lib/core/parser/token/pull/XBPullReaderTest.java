@@ -60,20 +60,21 @@ public class XBPullReaderTest extends TestCase {
      */
     @Test
     public void testRead() throws Exception {
-        InputStream source = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/xhtml-test.xb");
-        try {
-            try (XBPullReader reader = new XBPullReader()) {
-                DebugPullProvider provider = new DebugPullProvider();
-                provider.attachXBPullProvider(reader);
-                reader.open(source);
-                while (!reader.isFinishedXB()) {
-                    provider.pullXBToken();
+        try (InputStream source = XBPullReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/xhtml-test.xb")) {
+            try {
+                try (XBPullReader reader = new XBPullReader()) {
+                    DebugPullProvider provider = new DebugPullProvider();
+                    provider.attachXBPullProvider(reader);
+                    reader.open(source);
+                    while (!reader.isFinishedXB()) {
+                        provider.pullXBToken();
+                    }
                 }
+            } catch (FileNotFoundException ex) {
+                fail("FileNotFoundException: " + ex.getMessage());
+            } catch (IOException | XBProcessingException ex) {
+                fail("FoundException: " + ex.getMessage());
             }
-        } catch (FileNotFoundException ex) {
-            fail("FileNotFoundException: " + ex.getMessage());
-        } catch (IOException | XBProcessingException ex) {
-            fail("FoundException: " + ex.getMessage());
         }
     }
 
@@ -84,21 +85,22 @@ public class XBPullReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSingleEmptyBlock() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singleemptyblock.xb");
-        try (XBPullReader reader = new XBPullReader(stream)) {
-            DebugPullProvider provider = new DebugPullProvider();
-            provider.attachXBPullProvider(reader);
+        try (InputStream stream = XBPullReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singleemptyblock.xb")) {
+            try (XBPullReader reader = new XBPullReader(stream)) {
+                DebugPullProvider provider = new DebugPullProvider();
+                provider.attachXBPullProvider(reader);
 
-            XBToken token = provider.pullXBToken();
-            assertEquals(XBTokenType.BEGIN, token.getTokenType());
-            assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, ((XBBeginToken) token).getTerminationMode());
+                XBToken token = provider.pullXBToken();
+                assertEquals(XBTokenType.BEGIN, token.getTokenType());
+                assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, ((XBBeginToken) token).getTerminationMode());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
+                assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.END, token.getTokenType());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.END, token.getTokenType());
+            }
         }
     }
 
@@ -109,27 +111,28 @@ public class XBPullReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleExtended() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_extended.xb");
-        try (XBPullReader reader = new XBPullReader(stream)) {
-            DebugPullProvider provider = new DebugPullProvider();
-            provider.attachXBPullProvider(reader);
+        try (InputStream stream = XBPullReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_extended.xb")) {
+            try (XBPullReader reader = new XBPullReader(stream)) {
+                DebugPullProvider provider = new DebugPullProvider();
+                provider.attachXBPullProvider(reader);
 
-            XBToken token = provider.pullXBToken();
-            assertEquals(XBTokenType.BEGIN, token.getTokenType());
-            assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, ((XBBeginToken) token).getTerminationMode());
+                XBToken token = provider.pullXBToken();
+                assertEquals(XBTokenType.BEGIN, token.getTokenType());
+                assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, ((XBBeginToken) token).getTerminationMode());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
+                assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.DATA, token.getTokenType());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.DATA, token.getTokenType());
 
-            InputStream data = ((XBDataToken) token).getData();
-            assertDataBlob(data);
+                InputStream data = ((XBDataToken) token).getData();
+                assertDataBlob(data);
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.END, token.getTokenType());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.END, token.getTokenType());
+            }
         }
     }
 
@@ -142,17 +145,18 @@ public class XBPullReaderTest extends TestCase {
     public void testReadSampleEmpty() throws Exception {
         Throwable ex = null;
 
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_empty.xb");
-        XBPullReader reader = new XBPullReader(stream);
-        DebugPullProvider provider = new DebugPullProvider();
-        provider.attachXBPullProvider(reader);
-        try {
-            provider.pullXBToken();
-        } catch (XBProcessingException | IOException e) {
-            ex = e;
-        }
+        try (InputStream stream = XBPullReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_empty.xb")) {
+            XBPullReader reader = new XBPullReader(stream);
+            DebugPullProvider provider = new DebugPullProvider();
+            provider.attachXBPullProvider(reader);
+            try {
+                provider.pullXBToken();
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
 
-        assertEquals(new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+            assertEquals(new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+        }
     }
 
     /**
@@ -163,17 +167,18 @@ public class XBPullReaderTest extends TestCase {
     @Test
     public void testReadSampleSingleByte() throws Exception {
         Throwable ex = null;
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_singlebyte.xb");
-        XBPullReader reader = new XBPullReader(stream);
-        DebugPullProvider provider = new DebugPullProvider();
-        provider.attachXBPullProvider(reader);
-        try {
-            provider.pullXBToken();
-        } catch (XBProcessingException | IOException e) {
-            ex = e;
-        }
+        try (InputStream stream = XBPullReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_singlebyte.xb")) {
+            XBPullReader reader = new XBPullReader(stream);
+            DebugPullProvider provider = new DebugPullProvider();
+            provider.attachXBPullProvider(reader);
+            try {
+                provider.pullXBToken();
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
 
-        assertEquals(new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+            assertEquals(new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+        }
     }
 
     /**
@@ -185,15 +190,16 @@ public class XBPullReaderTest extends TestCase {
     public void testReadSampleWrongHeader() throws Exception {
         Throwable ex = null;
 
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_wrongheader.xb");
-        XBPullReader provider = new XBPullReader(stream);
-        try {
-            provider.pullXBToken();
-        } catch (XBProcessingException | IOException e) {
-            ex = e;
-        }
+        try (InputStream stream = XBPullReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_wrongheader.xb")) {
+            XBPullReader provider = new XBPullReader(stream);
+            try {
+                provider.pullXBToken();
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
 
-        assertEquals(new XBParseException("Unsupported header: 0xfe0059420002", XBProcessingExceptionType.CORRUPTED_HEADER), ex);
+            assertEquals(new XBParseException("Unsupported header: 0xfe0059420002", XBProcessingExceptionType.CORRUPTED_HEADER), ex);
+        }
     }
 
     /**
@@ -203,23 +209,24 @@ public class XBPullReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSingleData() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singledata.xb");
-        try (XBPullReader reader = new XBPullReader(stream)) {
-            DebugPullProvider provider = new DebugPullProvider();
-            provider.attachXBPullProvider(reader);
+        try (InputStream stream = XBPullReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singledata.xb")) {
+            try (XBPullReader reader = new XBPullReader(stream)) {
+                DebugPullProvider provider = new DebugPullProvider();
+                provider.attachXBPullProvider(reader);
 
-            XBToken token = provider.pullXBToken();
-            assertEquals(XBTokenType.BEGIN, token.getTokenType());
-            assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, ((XBBeginToken) token).getTerminationMode());
+                XBToken token = provider.pullXBToken();
+                assertEquals(XBTokenType.BEGIN, token.getTokenType());
+                assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, ((XBBeginToken) token).getTerminationMode());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.DATA, token.getTokenType());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.DATA, token.getTokenType());
 
-            InputStream data = ((XBDataToken) token).getData();
-            assertDataBlob(data);
+                InputStream data = ((XBDataToken) token).getData();
+                assertDataBlob(data);
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.END, token.getTokenType());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.END, token.getTokenType());
+            }
         }
     }
 
@@ -230,33 +237,34 @@ public class XBPullReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleTerminated() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_terminated.xb");
-        try (XBPullReader reader = new XBPullReader(stream)) {
-            DebugPullProvider provider = new DebugPullProvider();
-            provider.attachXBPullProvider(reader);
+        try (InputStream stream = XBPullReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_terminated.xb")) {
+            try (XBPullReader reader = new XBPullReader(stream)) {
+                DebugPullProvider provider = new DebugPullProvider();
+                provider.attachXBPullProvider(reader);
 
-            XBToken token = provider.pullXBToken();
-            assertEquals(XBTokenType.BEGIN, token.getTokenType());
-            assertEquals(XBBlockTerminationMode.TERMINATED_BY_ZERO, ((XBBeginToken) token).getTerminationMode());
+                XBToken token = provider.pullXBToken();
+                assertEquals(XBTokenType.BEGIN, token.getTokenType());
+                assertEquals(XBBlockTerminationMode.TERMINATED_BY_ZERO, ((XBBeginToken) token).getTerminationMode());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
+                assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
+                assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(1, ((XBAttributeToken) token).getAttribute().getNaturalInt());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
+                assertEquals(1, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(2, ((XBAttributeToken) token).getAttribute().getNaturalInt());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
+                assertEquals(2, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.END, token.getTokenType());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.END, token.getTokenType());
+            }
         }
     }
 
@@ -267,95 +275,96 @@ public class XBPullReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSixBlocks() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_sixblocks.xb");
-        try (XBPullReader reader = new XBPullReader(stream)) {
-            DebugPullProvider provider = new DebugPullProvider();
-            provider.attachXBPullProvider(reader);
+        try (InputStream stream = XBPullReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_sixblocks.xb")) {
+            try (XBPullReader reader = new XBPullReader(stream)) {
+                DebugPullProvider provider = new DebugPullProvider();
+                provider.attachXBPullProvider(reader);
 
-            XBToken token = provider.pullXBToken();
-            assertEquals(XBTokenType.BEGIN, token.getTokenType());
-            assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, ((XBBeginToken) token).getTerminationMode());
+                XBToken token = provider.pullXBToken();
+                assertEquals(XBTokenType.BEGIN, token.getTokenType());
+                assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, ((XBBeginToken) token).getTerminationMode());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
+                assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.BEGIN, token.getTokenType());
-            assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, ((XBBeginToken) token).getTerminationMode());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.BEGIN, token.getTokenType());
+                assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, ((XBBeginToken) token).getTerminationMode());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
+                assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.BEGIN, token.getTokenType());
-            assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, ((XBBeginToken) token).getTerminationMode());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.BEGIN, token.getTokenType());
+                assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, ((XBBeginToken) token).getTerminationMode());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
+                assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.BEGIN, token.getTokenType());
-            assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, ((XBBeginToken) token).getTerminationMode());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.BEGIN, token.getTokenType());
+                assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, ((XBBeginToken) token).getTerminationMode());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.DATA, token.getTokenType());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.DATA, token.getTokenType());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.END, token.getTokenType());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.END, token.getTokenType());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.END, token.getTokenType());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.END, token.getTokenType());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.END, token.getTokenType());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.END, token.getTokenType());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.BEGIN, token.getTokenType());
-            assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, ((XBBeginToken) token).getTerminationMode());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.BEGIN, token.getTokenType());
+                assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, ((XBBeginToken) token).getTerminationMode());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
+                assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.BEGIN, token.getTokenType());
-            assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, ((XBBeginToken) token).getTerminationMode());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.BEGIN, token.getTokenType());
+                assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, ((XBBeginToken) token).getTerminationMode());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
+                assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
+                assertEquals(0, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(1, ((XBAttributeToken) token).getAttribute().getNaturalInt());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
+                assertEquals(1, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(2, ((XBAttributeToken) token).getAttribute().getNaturalInt());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
+                assertEquals(2, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
-            assertEquals(3, ((XBAttributeToken) token).getAttribute().getNaturalInt());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.ATTRIBUTE, token.getTokenType());
+                assertEquals(3, ((XBAttributeToken) token).getAttribute().getNaturalInt());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.END, token.getTokenType());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.END, token.getTokenType());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.END, token.getTokenType());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.END, token.getTokenType());
 
-            token = provider.pullXBToken();
-            assertEquals(XBTokenType.END, token.getTokenType());
+                token = provider.pullXBToken();
+                assertEquals(XBTokenType.END, token.getTokenType());
+            }
         }
     }
 
-    private class DebugPullProvider implements XBPullProvider, XBPullConsumer {
+    private static class DebugPullProvider implements XBPullProvider, XBPullConsumer {
 
         private XBPullProvider pullProvider;
 

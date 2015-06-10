@@ -38,7 +38,7 @@ public class XBNatural implements XBTChildSerializable {
 
     private UBNatural value;
 
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 0, 0, 0};
+    static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 0, 0, 0};
 
     public XBNatural() {
         this.value = new UBNat32();

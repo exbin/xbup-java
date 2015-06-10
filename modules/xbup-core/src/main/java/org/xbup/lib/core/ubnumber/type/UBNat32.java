@@ -35,7 +35,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
  */
 public class UBNat32 implements UBNatural, XBPSequenceSerializable {
 
-    public static long MAX_VALUE = 4294967295l;
+    public static final long MAX_VALUE = 4294967295l;
     private long value;
 
     public UBNat32() {

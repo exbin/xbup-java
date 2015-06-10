@@ -90,18 +90,19 @@ public class XBEventWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleSingleEmptyBlock() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singleemptyblock.xb");
-        ByteArrayOutputStream target = new ByteArrayOutputStream();
-        try (XBEventWriter writer = new XBEventWriter(target)) {
-            DebugListener listener = new DebugListener(writer);
+        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singleemptyblock.xb")) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBEventWriter writer = new XBEventWriter(target)) {
+                DebugListener listener = new DebugListener(writer);
 
-            listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
-            listener.putXBToken(new XBEndToken());
-            writer.closeXB();
+                listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+                listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
+                listener.putXBToken(new XBEndToken());
+                writer.closeXB();
+            }
+
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
-
-        assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
     }
 
     /**
@@ -111,21 +112,22 @@ public class XBEventWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleExtended() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_extended.xb");
-        ByteArrayOutputStream target = new ByteArrayOutputStream();
-        try (XBEventWriter writer = new XBEventWriter(target)) {
-            DebugListener listener = new DebugListener(writer);
+        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_extended.xb")) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBEventWriter writer = new XBEventWriter(target)) {
+                DebugListener listener = new DebugListener(writer);
 
-            listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
-            byte[] data = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57};
-            ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
-            listener.putXBToken(new XBDataToken(dataStream));
-            listener.putXBToken(new XBEndToken());
-            writer.closeXB();
+                listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+                listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
+                byte[] data = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57};
+                ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
+                listener.putXBToken(new XBDataToken(dataStream));
+                listener.putXBToken(new XBEndToken());
+                writer.closeXB();
+            }
+
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
-
-        assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
     }
 
     /**
@@ -180,20 +182,21 @@ public class XBEventWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleSingleData() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singledata.xb");
-        ByteArrayOutputStream target = new ByteArrayOutputStream();
-        try (XBEventWriter writer = new XBEventWriter(target)) {
-            DebugListener listener = new DebugListener(writer);
+        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singledata.xb")) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBEventWriter writer = new XBEventWriter(target)) {
+                DebugListener listener = new DebugListener(writer);
 
-            listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            byte[] data = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57};
-            ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
-            listener.putXBToken(new XBDataToken(dataStream));
-            listener.putXBToken(new XBEndToken());
-            writer.closeXB();
+                listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+                byte[] data = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57};
+                ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
+                listener.putXBToken(new XBDataToken(dataStream));
+                listener.putXBToken(new XBEndToken());
+                writer.closeXB();
+            }
+
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
-
-        assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
     }
 
     /**
@@ -203,21 +206,22 @@ public class XBEventWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleTerminated() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_terminated.xb");
-        ByteArrayOutputStream target = new ByteArrayOutputStream();
-        try (XBEventWriter writer = new XBEventWriter(target)) {
-            DebugListener listener = new DebugListener(writer);
+        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_terminated.xb")) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBEventWriter writer = new XBEventWriter(target)) {
+                DebugListener listener = new DebugListener(writer);
 
-            listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.TERMINATED_BY_ZERO));
-            listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
-            listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
-            listener.putXBToken(new XBAttributeToken(new UBNat32(1)));
-            listener.putXBToken(new XBAttributeToken(new UBNat32(2)));
-            listener.putXBToken(new XBEndToken());
-            writer.closeXB();
+                listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.TERMINATED_BY_ZERO));
+                listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
+                listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
+                listener.putXBToken(new XBAttributeToken(new UBNat32(1)));
+                listener.putXBToken(new XBAttributeToken(new UBNat32(2)));
+                listener.putXBToken(new XBEndToken());
+                writer.closeXB();
+            }
+
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
-
-        assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
     }
 
     /**
@@ -227,42 +231,43 @@ public class XBEventWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleSixBlocks() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_sixblocks.xb");
-        ByteArrayOutputStream target = new ByteArrayOutputStream();
-        try (XBEventWriter writer = new XBEventWriter(target)) {
-            DebugListener listener = new DebugListener(writer);
+        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_sixblocks.xb")) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBEventWriter writer = new XBEventWriter(target)) {
+                DebugListener listener = new DebugListener(writer);
 
-            listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
-            listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
-            listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
-            listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            byte[] data = {};
-            ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
-            listener.putXBToken(new XBDataToken(dataStream));
-            listener.putXBToken(new XBEndToken());
-            listener.putXBToken(new XBEndToken());
-            listener.putXBToken(new XBEndToken());
-            listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
-            listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
-            listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
-            listener.putXBToken(new XBAttributeToken(new UBNat32(1)));
-            listener.putXBToken(new XBAttributeToken(new UBNat32(2)));
-            listener.putXBToken(new XBAttributeToken(new UBNat32(3)));
-            listener.putXBToken(new XBEndToken());
-            listener.putXBToken(new XBEndToken());
-            listener.putXBToken(new XBEndToken());
-            writer.closeXB();
+                listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+                listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
+                listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+                listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
+                listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+                listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
+                listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+                byte[] data = {};
+                ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
+                listener.putXBToken(new XBDataToken(dataStream));
+                listener.putXBToken(new XBEndToken());
+                listener.putXBToken(new XBEndToken());
+                listener.putXBToken(new XBEndToken());
+                listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+                listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
+                listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+                listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
+                listener.putXBToken(new XBAttributeToken(new UBNat32(0)));
+                listener.putXBToken(new XBAttributeToken(new UBNat32(1)));
+                listener.putXBToken(new XBAttributeToken(new UBNat32(2)));
+                listener.putXBToken(new XBAttributeToken(new UBNat32(3)));
+                listener.putXBToken(new XBEndToken());
+                listener.putXBToken(new XBEndToken());
+                listener.putXBToken(new XBEndToken());
+                writer.closeXB();
+            }
+
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
-
-        assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
     }
 
-    private class DebugListener implements XBEventListener {
+    private static class DebugListener implements XBEventListener {
 
         private final XBEventListener listener;
 
@@ -274,16 +279,28 @@ public class XBEventWriterTest extends TestCase {
         public void putXBToken(XBToken token) throws XBProcessingException, IOException {
             switch (token.getTokenType()) {
                 case BEGIN: {
+                    if (!(token instanceof XBBeginToken)) {
+                        throw new IllegalStateException("Unexpected token type");
+                    }
+
                     System.out.println("> Begin (" + ((XBBeginToken) token).getTerminationMode().toString() + "):");
                     listener.putXBToken(token);
                     break;
                 }
                 case ATTRIBUTE: {
+                    if (!(token instanceof XBAttributeToken)) {
+                        throw new IllegalStateException("Unexpected token type");
+                    }
+
                     System.out.println("  Attribute: " + ((XBAttributeToken) token).getAttribute().getNaturalLong());
                     listener.putXBToken(token);
                     break;
                 }
                 case DATA: {
+                    if (!(token instanceof XBDataToken)) {
+                        throw new IllegalStateException("Unexpected token type");
+                    }
+
                     System.out.println("  Data:" + ((XBDataToken) token).getData().available());
                     listener.putXBToken(token);
                     break;

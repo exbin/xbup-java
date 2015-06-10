@@ -308,7 +308,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
                 break;
             }
             case JOIN: {
-                pullConsist(item.getItem());
+                pullJoin(item.getItem());
                 break;
             }
             case LIST_CONSIST: {

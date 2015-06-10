@@ -227,6 +227,7 @@ public class XBListenerWriter implements Closeable, XBListener {
         switch (parserState) {
             case ATTRIBUTE_PART: {
                 flushAttributes();
+                // Continue to next case intended
             }
 
             case EXTENDED_AREA:

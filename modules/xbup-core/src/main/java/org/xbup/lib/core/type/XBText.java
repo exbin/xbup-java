@@ -45,7 +45,7 @@ import org.xbup.lib.core.util.StreamUtils;
 public class XBText implements XBPSequenceSerializable {
 
     private String value;
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 3, 1, 2, 3, 0};
+    static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 3, 1, 2, 3, 0};
 
     public XBText() {
         this.value = "";

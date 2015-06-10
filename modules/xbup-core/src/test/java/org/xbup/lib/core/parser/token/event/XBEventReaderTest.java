@@ -67,17 +67,18 @@ public class XBEventReaderTest extends TestCase {
      */
     @Test
     public void testRead() throws Exception {
-        InputStream source = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/xhtml-test.xb");
-        try {
-            XBEventReader reader = new XBEventReader();
-            reader.open(source);
-            reader.attachXBEventListener(new DebugListener());
-            reader.read();
-            reader.close();
-        } catch (FileNotFoundException ex) {
-            fail("File not found");
-        } catch (IOException | XBProcessingException ex) {
-            fail("Processing error: " + ex.getMessage());
+        try (InputStream source = XBEventReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/xhtml-test.xb")) {
+            try {
+                XBEventReader reader = new XBEventReader();
+                reader.open(source);
+                reader.attachXBEventListener(new DebugListener());
+                reader.read();
+                reader.close();
+            } catch (FileNotFoundException ex) {
+                fail("File not found");
+            } catch (IOException | XBProcessingException ex) {
+                fail("Processing error: " + ex.getMessage());
+            }
         }
     }
 
@@ -88,22 +89,23 @@ public class XBEventReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSingleEmptyBlock() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singleemptyblock.xb");
-        XBEventReader instance = new XBEventReader(stream);
-        AssertListener assertListener;
+        try (InputStream stream = XBEventReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singleemptyblock.xb")) {
+            XBEventReader instance = new XBEventReader(stream);
+            AssertListener assertListener;
 
-        List<XBToken> tokenList = new ArrayList<>();
-        tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-        tokenList.add(new XBAttributeToken(new UBNat32(0)));
-        tokenList.add(new XBEndToken());
-        tokenList.add(null);
+            List<XBToken> tokenList = new ArrayList<>();
+            tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+            tokenList.add(new XBAttributeToken(new UBNat32(0)));
+            tokenList.add(new XBEndToken());
+            tokenList.add(null);
 
-        assertListener = new AssertListener(tokenList);
-        instance.attachXBEventListener(assertListener);
-        instance.read();
-        assertTrue(assertListener.isCorrect());
+            assertListener = new AssertListener(tokenList);
+            instance.attachXBEventListener(assertListener);
+            instance.read();
+            assertTrue(assertListener.isCorrect());
 
-        instance.close();
+            instance.close();
+        }
     }
 
     /**
@@ -113,22 +115,23 @@ public class XBEventReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleExtended() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_extended.xb");
-        XBEventReader instance = new XBEventReader(stream);
-        AssertListener assertListener;
+        try (InputStream stream = XBEventReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_extended.xb")) {
+            XBEventReader instance = new XBEventReader(stream);
+            AssertListener assertListener;
 
-        List<XBToken> tokenList = new ArrayList<>();
-        tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-        tokenList.add(new XBAttributeToken(new UBNat32(0)));
-        tokenList.add(new XBDataToken(null));
-        tokenList.add(new XBEndToken());
+            List<XBToken> tokenList = new ArrayList<>();
+            tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+            tokenList.add(new XBAttributeToken(new UBNat32(0)));
+            tokenList.add(new XBDataToken(null));
+            tokenList.add(new XBEndToken());
 
-        assertListener = new DataAssertListener(tokenList);
-        instance.attachXBEventListener(assertListener);
-        instance.read();
-        assertTrue(assertListener.isCorrect());
+            assertListener = new DataAssertListener(tokenList);
+            instance.attachXBEventListener(assertListener);
+            instance.read();
+            assertTrue(assertListener.isCorrect());
 
-        instance.close();
+            instance.close();
+        }
     }
 
     /**
@@ -140,16 +143,17 @@ public class XBEventReaderTest extends TestCase {
     public void testReadSampleEmpty() throws Exception {
         Throwable ex = null;
 
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_empty.xb");
-        XBEventReader instance = new XBEventReader(stream);
-        try {
-            instance.attachXBEventListener(new AssertListener(null));
-            instance.read();
-        } catch (XBProcessingException | IOException e) {
-            ex = e;
-        }
+        try (InputStream stream = XBEventReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_empty.xb")) {
+            XBEventReader instance = new XBEventReader(stream);
+            try {
+                instance.attachXBEventListener(new AssertListener(null));
+                instance.read();
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
 
-        assertEquals(new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+            assertEquals(new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+        }
     }
 
     /**
@@ -161,16 +165,17 @@ public class XBEventReaderTest extends TestCase {
     public void testReadSampleSingleByte() throws Exception {
         Throwable ex = null;
 
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_singlebyte.xb");
-        XBEventReader instance = new XBEventReader(stream);
-        try {
-            instance.attachXBEventListener(new AssertListener(null));
-            instance.read();
-        } catch (XBProcessingException | IOException e) {
-            ex = e;
-        }
+        try (InputStream stream = XBEventReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_singlebyte.xb")) {
+            XBEventReader instance = new XBEventReader(stream);
+            try {
+                instance.attachXBEventListener(new AssertListener(null));
+                instance.read();
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
 
-        assertEquals(new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+            assertEquals(new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+        }
     }
 
     /**
@@ -182,16 +187,17 @@ public class XBEventReaderTest extends TestCase {
     public void testReadSampleWrongHeader() throws Exception {
         Throwable ex = null;
 
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_wrongheader.xb");
-        XBEventReader instance = new XBEventReader(stream);
-        try {
-            instance.attachXBEventListener(new AssertListener(null));
-            instance.read();
-        } catch (XBProcessingException | IOException e) {
-            ex = e;
-        }
+        try (InputStream stream = XBEventReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_wrongheader.xb")) {
+            XBEventReader instance = new XBEventReader(stream);
+            try {
+                instance.attachXBEventListener(new AssertListener(null));
+                instance.read();
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
 
-        assertEquals(new XBParseException("Unsupported header: 0xfe0059420002", XBProcessingExceptionType.CORRUPTED_HEADER), ex);
+            assertEquals(new XBParseException("Unsupported header: 0xfe0059420002", XBProcessingExceptionType.CORRUPTED_HEADER), ex);
+        }
     }
 
     /**
@@ -201,22 +207,23 @@ public class XBEventReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSingleData() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singledata.xb");
-        XBEventReader instance = new XBEventReader(stream);
-        AssertListener assertListener;
+        try (InputStream stream = XBEventReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singledata.xb")) {
+            XBEventReader instance = new XBEventReader(stream);
+            AssertListener assertListener;
 
-        List<XBToken> tokenList = new ArrayList<>();
-        tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-        tokenList.add(new XBDataToken(null));
-        tokenList.add(new XBEndToken());
-        tokenList.add(null);
+            List<XBToken> tokenList = new ArrayList<>();
+            tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+            tokenList.add(new XBDataToken(null));
+            tokenList.add(new XBEndToken());
+            tokenList.add(null);
 
-        assertListener = new DataAssertListener(tokenList);
-        instance.attachXBEventListener(assertListener);
-        instance.read();
-        assertTrue(assertListener.isCorrect());
+            assertListener = new DataAssertListener(tokenList);
+            instance.attachXBEventListener(assertListener);
+            instance.read();
+            assertTrue(assertListener.isCorrect());
 
-        instance.close();
+            instance.close();
+        }
     }
 
     /**
@@ -226,25 +233,26 @@ public class XBEventReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleTerminated() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_terminated.xb");
-        XBEventReader instance = new XBEventReader(stream);
-        AssertListener assertListener;
+        try (InputStream stream = XBEventReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_terminated.xb")) {
+            XBEventReader instance = new XBEventReader(stream);
+            AssertListener assertListener;
 
-        List<XBToken> tokenList = new ArrayList<>();
-        tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-        tokenList.add(new XBAttributeToken(new UBNat32(0)));
-        tokenList.add(new XBAttributeToken(new UBNat32(0)));
-        tokenList.add(new XBAttributeToken(new UBNat32(1)));
-        tokenList.add(new XBAttributeToken(new UBNat32(2)));
-        tokenList.add(new XBEndToken());
-        tokenList.add(null);
+            List<XBToken> tokenList = new ArrayList<>();
+            tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+            tokenList.add(new XBAttributeToken(new UBNat32(0)));
+            tokenList.add(new XBAttributeToken(new UBNat32(0)));
+            tokenList.add(new XBAttributeToken(new UBNat32(1)));
+            tokenList.add(new XBAttributeToken(new UBNat32(2)));
+            tokenList.add(new XBEndToken());
+            tokenList.add(null);
 
-        assertListener = new AssertListener(tokenList);
-        instance.attachXBEventListener(assertListener);
-        instance.read();
-        assertTrue(assertListener.isCorrect());
+            assertListener = new AssertListener(tokenList);
+            instance.attachXBEventListener(assertListener);
+            instance.read();
+            assertTrue(assertListener.isCorrect());
 
-        instance.close();
+            instance.close();
+        }
     }
 
     /**
@@ -254,57 +262,70 @@ public class XBEventReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSixBlocks() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_sixblocks.xb");
-        XBEventReader instance = new XBEventReader(stream);
-        AssertListener assertListener;
+        try (InputStream stream = XBEventReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_sixblocks.xb")) {
+            XBEventReader instance = new XBEventReader(stream);
+            AssertListener assertListener;
 
-        List<XBToken> tokenList = new ArrayList<>();
-        tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-        tokenList.add(new XBAttributeToken(new UBNat32(0)));
-        tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-        tokenList.add(new XBAttributeToken(new UBNat32(0)));
-        tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-        tokenList.add(new XBAttributeToken(new UBNat32(0)));
-        tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-        tokenList.add(new XBDataToken(null));
-        tokenList.add(new XBEndToken());
-        tokenList.add(new XBEndToken());
-        tokenList.add(new XBEndToken());
-        tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-        tokenList.add(new XBAttributeToken(new UBNat32(0)));
-        tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-        tokenList.add(new XBAttributeToken(new UBNat32(0)));
-        tokenList.add(new XBAttributeToken(new UBNat32(0)));
-        tokenList.add(new XBAttributeToken(new UBNat32(1)));
-        tokenList.add(new XBAttributeToken(new UBNat32(2)));
-        tokenList.add(new XBAttributeToken(new UBNat32(3)));
-        tokenList.add(new XBEndToken());
-        tokenList.add(new XBEndToken());
-        tokenList.add(new XBEndToken());
-        tokenList.add(null);
+            List<XBToken> tokenList = new ArrayList<>();
+            tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+            tokenList.add(new XBAttributeToken(new UBNat32(0)));
+            tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+            tokenList.add(new XBAttributeToken(new UBNat32(0)));
+            tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+            tokenList.add(new XBAttributeToken(new UBNat32(0)));
+            tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+            tokenList.add(new XBDataToken(null));
+            tokenList.add(new XBEndToken());
+            tokenList.add(new XBEndToken());
+            tokenList.add(new XBEndToken());
+            tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+            tokenList.add(new XBAttributeToken(new UBNat32(0)));
+            tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+            tokenList.add(new XBAttributeToken(new UBNat32(0)));
+            tokenList.add(new XBAttributeToken(new UBNat32(0)));
+            tokenList.add(new XBAttributeToken(new UBNat32(1)));
+            tokenList.add(new XBAttributeToken(new UBNat32(2)));
+            tokenList.add(new XBAttributeToken(new UBNat32(3)));
+            tokenList.add(new XBEndToken());
+            tokenList.add(new XBEndToken());
+            tokenList.add(new XBEndToken());
+            tokenList.add(null);
 
-        assertListener = new AssertListener(tokenList);
-        instance.attachXBEventListener(assertListener);
-        instance.read();
-        assertTrue(assertListener.isCorrect());
+            assertListener = new AssertListener(tokenList);
+            instance.attachXBEventListener(assertListener);
+            instance.read();
+            assertTrue(assertListener.isCorrect());
 
-        instance.close();
+            instance.close();
+        }
     }
 
-    private class DebugListener implements XBEventListener {
+    private static class DebugListener implements XBEventListener {
 
         @Override
         public void putXBToken(XBToken token) throws XBProcessingException, IOException {
             switch (token.getTokenType()) {
                 case BEGIN: {
+                    if (!(token instanceof XBBeginToken)) {
+                        throw new IllegalStateException("Unexpected token type");
+                    }
+
                     System.out.println("> Begin (" + (((XBBeginToken) token).getTerminationMode()).toString() + "):");
                     break;
                 }
                 case ATTRIBUTE: {
+                    if (!(token instanceof XBAttributeToken)) {
+                        throw new IllegalStateException("Unexpected token type");
+                    }
+
                     System.out.println("  Attribute: " + ((XBAttributeToken) token).getAttribute().getNaturalLong());
                     break;
                 }
                 case DATA: {
+                    if (!(token instanceof XBDataToken)) {
+                        throw new IllegalStateException("Unexpected token type");
+                    }
+
                     System.out.println("  Data:" + ((XBDataToken) token).getData().available());
                     break;
                 }
@@ -342,6 +363,10 @@ public class XBEventReaderTest extends TestCase {
                     break;
                 }
                 case ATTRIBUTE: {
+                    if (!(token instanceof XBAttributeToken)) {
+                        throw new IllegalStateException("Unexpected token type");
+                    }
+
                     if (tokenList != null && position < tokenList.size() && tokenList.get(position).getTokenType() == XBTokenType.ATTRIBUTE && ((XBAttributeToken) tokenList.get(position)).getAttribute().getNaturalLong() == (((XBAttributeToken) token).getAttribute()).getNaturalLong()) {
                         position++;
                         correct = true;
@@ -387,6 +412,10 @@ public class XBEventReaderTest extends TestCase {
         @Override
         public void putXBToken(XBToken token) throws XBProcessingException, IOException {
             if (token.getTokenType() == XBTokenType.DATA) {
+                if (!(token instanceof XBDataToken)) {
+                    throw new IllegalStateException("Unexpected token type");
+                }
+
                 XBToken dataToken = super.tokenList.get(super.position);
                 super.putXBToken(token);
                 InputStream data = ((XBDataToken) token).getData();

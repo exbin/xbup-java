@@ -83,9 +83,6 @@ public class XBCTransNode {
             }
             pos++;
         }
-        if (node == null) {
-            return null;
-        }
 
         return node.getBlock();
     }

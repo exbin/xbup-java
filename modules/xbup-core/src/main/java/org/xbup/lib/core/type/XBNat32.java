@@ -41,9 +41,9 @@ import org.xbup.lib.core.util.StreamUtils;
 public class XBNat32 implements XBTChildSerializable {
 
     private int value;
-    public static int maxValue = 0xFFFF;
-    public static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 3, 1, 2, 2, 0};
-    public static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 3, 1, 2, 0, 0};
+    public static final int maxValue = 0xFFFF;
+    static long[] XBUP_BLOCKREV_CATALOGPATH = {0, 1, 3, 1, 2, 2, 0};
+    static long[] XBUP_FORMATREV_CATALOGPATH = {0, 1, 3, 1, 2, 0, 0};
 
     public XBNat32() {
         this.value = 0;

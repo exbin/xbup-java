@@ -17,6 +17,7 @@
 package org.xbup.lib.audio.xbplugins;
 
 import java.io.File;
+import java.util.Locale;
 import javax.swing.filechooser.FileFilter;
 
 /**
@@ -42,14 +43,14 @@ public class AudioFileFilter extends FileFilter {
 
         String extension = getExtension(f);
         if (extension != null) {
-            return extension.toLowerCase().equals(getExt());
+            return extension.toLowerCase(Locale.getDefault()).equals(getExt());
         }
         return false;
     }
 
     @Override
     public String getDescription() {
-        return "Audio files " + getExt().toUpperCase() + " (*." + getExt() + ")";
+        return "Audio files " + getExt().toUpperCase(Locale.getDefault()) + " (*." + getExt() + ")";
     }
 
     public String getFileTypeId() {
@@ -70,7 +71,7 @@ public class AudioFileFilter extends FileFilter {
         int extPos = str.lastIndexOf('.');
 
         if (extPos > 0 && extPos < str.length() - 1) {
-            ext = str.substring(extPos + 1).toLowerCase();
+            ext = str.substring(extPos + 1).toLowerCase(Locale.getDefault());
         }
         return ext;
     }

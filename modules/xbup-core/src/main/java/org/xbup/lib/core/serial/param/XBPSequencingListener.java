@@ -192,7 +192,7 @@ public class XBPSequencingListener implements XBPListener {
         return depth;
     }
 
-    public class XBPSerialSequenceWrapper implements XBPSerializable {
+    private static class XBPSerialSequenceWrapper implements XBPSerializable {
 
         private final List<XBSerialSequenceItem> serialSequence;
 

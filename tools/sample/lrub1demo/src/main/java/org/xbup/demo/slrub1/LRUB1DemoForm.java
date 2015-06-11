@@ -168,7 +168,7 @@ public class LRUB1DemoForm extends javax.swing.JFrame {
     private void convertToButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_convertToButtonActionPerformed
         targetCodeTextField.setText("");
         try {
-            long value = Long.valueOf(sourceNumberTextField.getText());
+            long value = Long.parseLong(sourceNumberTextField.getText());
             targetCodeTextField.setText(handler.codeFromNumber(value));
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Input String is not valid " + ex.getMessage(), "Input String is not valid", JOptionPane.ERROR_MESSAGE);

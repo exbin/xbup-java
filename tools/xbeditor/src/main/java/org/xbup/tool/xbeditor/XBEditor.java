@@ -93,12 +93,6 @@ public class XBEditor extends XBEditorBase {
                 app.addPlugin(new ClassURI(JavaHelpModule.class).toURI());
                 app.addPlugin(new ClassURI(OnlineHelpModule.class).toURI());
 
-                String catalogConnection = cl.getOptionValue("ip");
-                String port = cl.getOptionValue("port");
-                if ((!"".equals(port)) && (port != null)) {
-                    catalogConnection += ":" + port;
-                }
-
                 List fileArgs = cl.getArgList();
                 if (fileArgs.size() > 0) {
                     app.loadFromFile((String) fileArgs.get(0));

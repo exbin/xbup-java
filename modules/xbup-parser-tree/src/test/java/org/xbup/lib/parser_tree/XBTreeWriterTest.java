@@ -90,17 +90,18 @@ public class XBTreeWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleSingleEmptyBlock() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_singleemptyblock.xb");
-        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        try (InputStream stream = XBTreeWriterTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_singleemptyblock.xb")) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
 
-        XBTreeNode node = new XBTreeNode();
-        node.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        node.addAttribute(new UBNat32(0));
+            XBTreeNode node = new XBTreeNode();
+            node.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
+            node.addAttribute(new UBNat32(0));
 
-        XBTreeWriter treeWriter = new XBTreeWriter(node);
-        XBEventWriter writer = new XBEventWriter(target);
-        treeWriter.generateXB(new XBEventListenerToListener(new DebugListener(writer)), true);
-        assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+            XBTreeWriter treeWriter = new XBTreeWriter(node);
+            XBEventWriter writer = new XBEventWriter(target);
+            treeWriter.generateXB(new XBEventListenerToListener(new DebugListener(writer)), true);
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
     }
 
     /**
@@ -110,21 +111,22 @@ public class XBTreeWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleSingleData() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_singledata.xb");
-        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        try (InputStream stream = XBTreeWriterTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_singledata.xb")) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
 
-        XBTreeNode node = new XBTreeNode();
-        node.setDataMode(XBBlockDataMode.DATA_BLOCK);
-        node.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        byte[] data = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57};
-        ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
-        node.setData(dataStream);
+            XBTreeNode node = new XBTreeNode();
+            node.setDataMode(XBBlockDataMode.DATA_BLOCK);
+            node.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
+            byte[] data = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57};
+            ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
+            node.setData(dataStream);
 
-        XBTreeWriter treeWriter = new XBTreeWriter(node);
-        XBEventWriter writer = new XBEventWriter(target);
-        treeWriter.generateXB(new XBEventListenerToListener(new DebugListener(writer)), true);
+            XBTreeWriter treeWriter = new XBTreeWriter(node);
+            XBEventWriter writer = new XBEventWriter(target);
+            treeWriter.generateXB(new XBEventListenerToListener(new DebugListener(writer)), true);
 
-        assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
     }
 
     /**
@@ -134,21 +136,22 @@ public class XBTreeWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleTerminated() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_terminated.xb");
-        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        try (InputStream stream = XBTreeWriterTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_terminated.xb")) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
 
-        XBTreeNode node = new XBTreeNode();
-        node.setTerminationMode(XBBlockTerminationMode.TERMINATED_BY_ZERO);
-        node.addAttribute(new UBNat32(0));
-        node.addAttribute(new UBNat32(0));
-        node.addAttribute(new UBNat32(1));
-        node.addAttribute(new UBNat32(2));
+            XBTreeNode node = new XBTreeNode();
+            node.setTerminationMode(XBBlockTerminationMode.TERMINATED_BY_ZERO);
+            node.addAttribute(new UBNat32(0));
+            node.addAttribute(new UBNat32(0));
+            node.addAttribute(new UBNat32(1));
+            node.addAttribute(new UBNat32(2));
 
-        XBTreeWriter treeWriter = new XBTreeWriter(node);
-        XBEventWriter writer = new XBEventWriter(target);
-        treeWriter.generateXB(new XBEventListenerToListener(new DebugListener(writer)), true);
+            XBTreeWriter treeWriter = new XBTreeWriter(node);
+            XBEventWriter writer = new XBEventWriter(target);
+            treeWriter.generateXB(new XBEventListenerToListener(new DebugListener(writer)), true);
 
-        assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
     }
 
     /**
@@ -158,51 +161,52 @@ public class XBTreeWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleSixBlocks() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_sixblocks.xb");
-        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        try (InputStream stream = XBTreeWriterTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_sixblocks.xb")) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
 
-        XBTreeNode rootNode = new XBTreeNode();
-        rootNode.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        rootNode.addAttribute(new UBNat32(0));
+            XBTreeNode rootNode = new XBTreeNode();
+            rootNode.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
+            rootNode.addAttribute(new UBNat32(0));
 
-        XBTreeNode node1 = new XBTreeNode(rootNode);
-        node1.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        node1.addAttribute(new UBNat32(0));
-        rootNode.addChild(node1);
+            XBTreeNode node1 = new XBTreeNode(rootNode);
+            node1.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
+            node1.addAttribute(new UBNat32(0));
+            rootNode.addChild(node1);
 
-        XBTreeNode node2 = new XBTreeNode(node1);
-        node2.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        node2.addAttribute(new UBNat32(0));
-        node1.addChild(node2);
+            XBTreeNode node2 = new XBTreeNode(node1);
+            node2.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
+            node2.addAttribute(new UBNat32(0));
+            node1.addChild(node2);
 
-        XBTreeNode node3 = new XBTreeNode(node2);
-        node3.setDataMode(XBBlockDataMode.DATA_BLOCK);
-        node3.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        node2.addChild(node3);
+            XBTreeNode node3 = new XBTreeNode(node2);
+            node3.setDataMode(XBBlockDataMode.DATA_BLOCK);
+            node3.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
+            node2.addChild(node3);
 
-        byte[] data = {};
-        ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
-        node3.setData(dataStream);
+            byte[] data = {};
+            ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
+            node3.setData(dataStream);
 
-        XBTreeNode node4 = new XBTreeNode(rootNode);
-        node4.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        node4.addAttribute(new UBNat32(0));
+            XBTreeNode node4 = new XBTreeNode(rootNode);
+            node4.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
+            node4.addAttribute(new UBNat32(0));
 
-        XBTreeNode node5 = new XBTreeNode(node4);
-        node5.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        node5.addAttribute(new UBNat32(0));
-        node5.addAttribute(new UBNat32(0));
-        node5.addAttribute(new UBNat32(1));
-        node5.addAttribute(new UBNat32(2));
-        node5.addAttribute(new UBNat32(3));
-        node4.addChild(node5);
-        rootNode.addChild(node4);
+            XBTreeNode node5 = new XBTreeNode(node4);
+            node5.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
+            node5.addAttribute(new UBNat32(0));
+            node5.addAttribute(new UBNat32(0));
+            node5.addAttribute(new UBNat32(1));
+            node5.addAttribute(new UBNat32(2));
+            node5.addAttribute(new UBNat32(3));
+            node4.addChild(node5);
+            rootNode.addChild(node4);
 
-        XBTreeWriter treeWriter = new XBTreeWriter(rootNode);
-        XBEventWriter writer = new XBEventWriter(target);
-        treeWriter.generateXB(new XBEventListenerToListener(new DebugListener(writer)), true);
+            XBTreeWriter treeWriter = new XBTreeWriter(rootNode);
+            XBEventWriter writer = new XBEventWriter(target);
+            treeWriter.generateXB(new XBEventListenerToListener(new DebugListener(writer)), true);
 
-        assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
     }
 
     private void assertEqualsInputStream(InputStream expectedStream, InputStream stream) {
@@ -230,7 +234,7 @@ public class XBTreeWriterTest extends TestCase {
         }
     }
 
-    private class DebugListener implements XBEventListener {
+    private static class DebugListener implements XBEventListener {
 
         private final XBEventListener listener;
 

@@ -67,20 +67,21 @@ public class XBTreeReaderTest extends TestCase {
      */
     @Test
     public void testRead() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/xhtml-test.xb");
-        try {
-            XBTreeNode instance = new XBTreeNode();
-            XBTreeReader treeReader = new XBTreeReader(instance, true);
-            XBEventReader reader = new XBEventReader(stream, XBParserMode.SKIP_EXTENDED);
-            reader.attachXBEventListener(new DebugListener(treeReader));
-            reader.read();
-            reader.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(XBTreeReaderTest.class.getName()).log(Level.SEVERE, null, ex);
-            fail("File not found");
-        } catch (IOException | XBProcessingException ex) {
-            Logger.getLogger(XBTreeReaderTest.class.getName()).log(Level.SEVERE, null, ex);
-            fail("Processing error: " + ex.getMessage());
+        try (InputStream stream = XBTreeReaderTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/xhtml-test.xb")) {
+            try {
+                XBTreeNode instance = new XBTreeNode();
+                XBTreeReader treeReader = new XBTreeReader(instance, true);
+                XBEventReader reader = new XBEventReader(stream, XBParserMode.SKIP_EXTENDED);
+                reader.attachXBEventListener(new DebugListener(treeReader));
+                reader.read();
+                reader.close();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(XBTreeReaderTest.class.getName()).log(Level.SEVERE, null, ex);
+                fail("File not found");
+            } catch (IOException | XBProcessingException ex) {
+                Logger.getLogger(XBTreeReaderTest.class.getName()).log(Level.SEVERE, null, ex);
+                fail("Processing error: " + ex.getMessage());
+            }
         }
     }
 
@@ -91,19 +92,20 @@ public class XBTreeReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSingleEmptyBlock() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_singleemptyblock.xb");
-        XBTreeNode instance = new XBTreeNode();
-        XBTreeReader treeReader = new XBTreeReader(instance, true);
-        XBEventReader reader = new XBEventReader(stream, XBParserMode.SKIP_EXTENDED);
-        reader.attachXBEventListener(new DebugListener(treeReader));
-        reader.read();
-        reader.close();
+        try (InputStream stream = XBTreeReaderTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_singleemptyblock.xb")) {
+            XBTreeNode instance = new XBTreeNode();
+            XBTreeReader treeReader = new XBTreeReader(instance, true);
+            XBEventReader reader = new XBEventReader(stream, XBParserMode.SKIP_EXTENDED);
+            reader.attachXBEventListener(new DebugListener(treeReader));
+            reader.read();
+            reader.close();
 
-        assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, instance.getTerminationMode());
+            assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, instance.getTerminationMode());
 
-        assertEquals(0, instance.getChildrenCount());
-        assertEquals(1, instance.getAttributesCount());
-        assertEquals(0, instance.getAttributeAt(0).getNaturalInt());
+            assertEquals(0, instance.getChildrenCount());
+            assertEquals(1, instance.getAttributesCount());
+            assertEquals(0, instance.getAttributeAt(0).getNaturalInt());
+        }
     }
 
     /**
@@ -113,19 +115,20 @@ public class XBTreeReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleExtended() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_extended.xb");
-        XBTreeNode instance = new XBTreeNode();
-        XBTreeReader treeReader = new XBTreeReader(instance, true);
-        XBEventReader reader = new XBEventReader(stream, XBParserMode.SKIP_EXTENDED);
-        reader.attachXBEventListener(new DebugListener(treeReader));
-        reader.read();
-        reader.close();
+        try (InputStream stream = XBTreeReaderTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_extended.xb")) {
+            XBTreeNode instance = new XBTreeNode();
+            XBTreeReader treeReader = new XBTreeReader(instance, true);
+            XBEventReader reader = new XBEventReader(stream, XBParserMode.SKIP_EXTENDED);
+            reader.attachXBEventListener(new DebugListener(treeReader));
+            reader.read();
+            reader.close();
 
-        assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, instance.getTerminationMode());
+            assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, instance.getTerminationMode());
 
-        assertEquals(0, instance.getChildrenCount());
-        assertEquals(1, instance.getAttributesCount());
-        assertEquals(0, instance.getAttributeAt(0).getNaturalInt());
+            assertEquals(0, instance.getChildrenCount());
+            assertEquals(1, instance.getAttributesCount());
+            assertEquals(0, instance.getAttributeAt(0).getNaturalInt());
+        }
     }
 
     /**
@@ -137,20 +140,21 @@ public class XBTreeReaderTest extends TestCase {
     public void testReadSampleEmpty() throws Exception {
         Throwable ex = null;
 
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/corrupted/l0_empty.xb");
-        XBTreeNode instance = new XBTreeNode();
-        XBTreeReader treeReader = new XBTreeReader(instance, true);
+        try (InputStream stream = XBTreeReaderTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/corrupted/l0_empty.xb")) {
+            XBTreeNode instance = new XBTreeNode();
+            XBTreeReader treeReader = new XBTreeReader(instance, true);
 
-        try {
-            XBEventReader reader = new XBEventReader(stream, XBParserMode.SKIP_EXTENDED);
-            reader.attachXBEventListener(new DebugListener(treeReader));
-            reader.read();
-            reader.close();
-        } catch (XBProcessingException | IOException e) {
-            ex = e;
+            try {
+                XBEventReader reader = new XBEventReader(stream, XBParserMode.SKIP_EXTENDED);
+                reader.attachXBEventListener(new DebugListener(treeReader));
+                reader.read();
+                reader.close();
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
         }
-
-        assertEquals(new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
     }
 
     /**
@@ -162,20 +166,21 @@ public class XBTreeReaderTest extends TestCase {
     public void testReadSampleSingleByte() throws Exception {
         Throwable ex = null;
 
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/corrupted/l0_singlebyte.xb");
-        XBTreeNode instance = new XBTreeNode();
-        XBTreeReader treeReader = new XBTreeReader(instance, true);
+        try (InputStream stream = XBTreeReaderTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/corrupted/l0_singlebyte.xb")) {
+            XBTreeNode instance = new XBTreeNode();
+            XBTreeReader treeReader = new XBTreeReader(instance, true);
 
-        try {
-            XBEventReader reader = new XBEventReader(stream, XBParserMode.SKIP_EXTENDED);
-            reader.attachXBEventListener(new DebugListener(treeReader));
-            reader.read();
-            reader.close();
-        } catch (XBProcessingException | IOException e) {
-            ex = e;
+            try {
+                XBEventReader reader = new XBEventReader(stream, XBParserMode.SKIP_EXTENDED);
+                reader.attachXBEventListener(new DebugListener(treeReader));
+                reader.read();
+                reader.close();
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
         }
-
-        assertEquals(new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
     }
 
     /**
@@ -187,20 +192,21 @@ public class XBTreeReaderTest extends TestCase {
     public void testReadSampleWrongHeader() throws Exception {
         Throwable ex = null;
 
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/corrupted/l0_wrongheader.xb");
-        XBTreeNode instance = new XBTreeNode();
-        XBTreeReader treeReader = new XBTreeReader(instance, true);
+        try (InputStream stream = XBTreeReaderTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/corrupted/l0_wrongheader.xb")) {
+            XBTreeNode instance = new XBTreeNode();
+            XBTreeReader treeReader = new XBTreeReader(instance, true);
 
-        try {
-            XBEventReader reader = new XBEventReader(stream, XBParserMode.SKIP_EXTENDED);
-            reader.attachXBEventListener(new DebugListener(treeReader));
-            reader.read();
-            reader.close();
-        } catch (XBProcessingException | IOException e) {
-            ex = e;
+            try {
+                XBEventReader reader = new XBEventReader(stream, XBParserMode.SKIP_EXTENDED);
+                reader.attachXBEventListener(new DebugListener(treeReader));
+                reader.read();
+                reader.close();
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("Unsupported header: 0xfe0059420002", XBProcessingExceptionType.CORRUPTED_HEADER), ex);
         }
-
-        assertEquals(new XBParseException("Unsupported header: 0xfe0059420002", XBProcessingExceptionType.CORRUPTED_HEADER), ex);
     }
 
     /**
@@ -210,19 +216,20 @@ public class XBTreeReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSingleData() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_singledata.xb");
-        XBTreeNode instance = new XBTreeNode();
-        XBTreeReader treeReader = new XBTreeReader(instance, true);
-        XBEventReader reader = new XBEventReader(stream, XBParserMode.SKIP_EXTENDED);
-        reader.attachXBEventListener(new DebugListener(treeReader));
-        reader.read();
-        reader.close();
+        try (InputStream stream = XBTreeReaderTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_singledata.xb")) {
+            XBTreeNode instance = new XBTreeNode();
+            XBTreeReader treeReader = new XBTreeReader(instance, true);
+            XBEventReader reader = new XBEventReader(stream, XBParserMode.SKIP_EXTENDED);
+            reader.attachXBEventListener(new DebugListener(treeReader));
+            reader.read();
+            reader.close();
 
-        assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, instance.getTerminationMode());
+            assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, instance.getTerminationMode());
 
-        assertEquals(0, instance.getChildrenCount());
-        assertEquals(0, instance.getAttributesCount());
-        assertEquals(10, instance.getDataSize());
+            assertEquals(0, instance.getChildrenCount());
+            assertEquals(0, instance.getAttributesCount());
+            assertEquals(10, instance.getDataSize());
+        }
     }
 
     /**
@@ -232,22 +239,23 @@ public class XBTreeReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleTerminated() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_terminated.xb");
-        XBTreeNode instance = new XBTreeNode();
-        XBTreeReader treeReader = new XBTreeReader(instance, true);
-        XBEventReader reader = new XBEventReader(stream, XBParserMode.SKIP_EXTENDED);
-        reader.attachXBEventListener(new DebugListener(treeReader));
-        reader.read();
-        reader.close();
+        try (InputStream stream = XBTreeReaderTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_terminated.xb")) {
+            XBTreeNode instance = new XBTreeNode();
+            XBTreeReader treeReader = new XBTreeReader(instance, true);
+            XBEventReader reader = new XBEventReader(stream, XBParserMode.SKIP_EXTENDED);
+            reader.attachXBEventListener(new DebugListener(treeReader));
+            reader.read();
+            reader.close();
 
-        assertEquals(XBBlockTerminationMode.TERMINATED_BY_ZERO, instance.getTerminationMode());
+            assertEquals(XBBlockTerminationMode.TERMINATED_BY_ZERO, instance.getTerminationMode());
 
-        assertEquals(0, instance.getChildrenCount());
-        assertEquals(4, instance.getAttributesCount());
-        assertEquals(0, instance.getAttributeAt(0).getNaturalInt());
-        assertEquals(0, instance.getAttributeAt(1).getNaturalInt());
-        assertEquals(1, instance.getAttributeAt(2).getNaturalInt());
-        assertEquals(2, instance.getAttributeAt(3).getNaturalInt());
+            assertEquals(0, instance.getChildrenCount());
+            assertEquals(4, instance.getAttributesCount());
+            assertEquals(0, instance.getAttributeAt(0).getNaturalInt());
+            assertEquals(0, instance.getAttributeAt(1).getNaturalInt());
+            assertEquals(1, instance.getAttributeAt(2).getNaturalInt());
+            assertEquals(2, instance.getAttributeAt(3).getNaturalInt());
+        }
     }
 
     /**
@@ -257,53 +265,54 @@ public class XBTreeReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSixBlocks() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_sixblocks.xb");
-        XBTreeNode instance = new XBTreeNode();
-        XBTreeReader treeReader = new XBTreeReader(instance, true);
-        XBEventReader reader = new XBEventReader(stream, XBParserMode.SKIP_EXTENDED);
-        reader.attachXBEventListener(new DebugListener(treeReader));
-        reader.read();
-        reader.close();
+        try (InputStream stream = XBTreeReaderTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_sixblocks.xb")) {
+            XBTreeNode instance = new XBTreeNode();
+            XBTreeReader treeReader = new XBTreeReader(instance, true);
+            XBEventReader reader = new XBEventReader(stream, XBParserMode.SKIP_EXTENDED);
+            reader.attachXBEventListener(new DebugListener(treeReader));
+            reader.read();
+            reader.close();
 
-        XBTreeNode rootNode = instance;
-        assertNotNull(rootNode);
-        assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, rootNode.getTerminationMode());
+            XBTreeNode rootNode = instance;
+            assertNotNull(rootNode);
+            assertEquals(XBBlockTerminationMode.SIZE_SPECIFIED, rootNode.getTerminationMode());
 
-        assertEquals(2, rootNode.getChildrenCount());
-        assertEquals(1, rootNode.getAttributesCount());
-        assertEquals(0, rootNode.getAttributeAt(0).getNaturalInt());
+            assertEquals(2, rootNode.getChildrenCount());
+            assertEquals(1, rootNode.getAttributesCount());
+            assertEquals(0, rootNode.getAttributeAt(0).getNaturalInt());
 
-        XBTreeNode node1 = rootNode.getChildAt(0);
-        assertEquals(1, node1.getChildrenCount());
-        assertEquals(1, node1.getAttributesCount());
-        assertEquals(0, node1.getAttributeAt(0).getNaturalInt());
+            XBTreeNode node1 = rootNode.getChildAt(0);
+            assertEquals(1, node1.getChildrenCount());
+            assertEquals(1, node1.getAttributesCount());
+            assertEquals(0, node1.getAttributeAt(0).getNaturalInt());
 
-        XBTreeNode node2 = node1.getChildAt(0);
-        assertEquals(1, node2.getChildrenCount());
-        assertEquals(1, node2.getAttributesCount());
-        assertEquals(0, node2.getAttributeAt(0).getNaturalInt());
+            XBTreeNode node2 = node1.getChildAt(0);
+            assertEquals(1, node2.getChildrenCount());
+            assertEquals(1, node2.getAttributesCount());
+            assertEquals(0, node2.getAttributeAt(0).getNaturalInt());
 
-        XBTreeNode node3 = node2.getChildAt(0);
-        assertEquals(0, node3.getChildrenCount());
-        assertEquals(0, node3.getAttributesCount());
-        assertEquals(XBBlockDataMode.DATA_BLOCK, node3.getDataMode());
+            XBTreeNode node3 = node2.getChildAt(0);
+            assertEquals(0, node3.getChildrenCount());
+            assertEquals(0, node3.getAttributesCount());
+            assertEquals(XBBlockDataMode.DATA_BLOCK, node3.getDataMode());
 
-        XBTreeNode node4 = rootNode.getChildAt(1);
-        assertEquals(1, node4.getChildrenCount());
-        assertEquals(1, node4.getAttributesCount());
-        assertEquals(0, node4.getAttributeAt(0).getNaturalInt());
+            XBTreeNode node4 = rootNode.getChildAt(1);
+            assertEquals(1, node4.getChildrenCount());
+            assertEquals(1, node4.getAttributesCount());
+            assertEquals(0, node4.getAttributeAt(0).getNaturalInt());
 
-        XBTreeNode node5 = node4.getChildAt(0);
-        assertEquals(0, node5.getChildrenCount());
-        assertEquals(5, node5.getAttributesCount());
-        assertEquals(0, node5.getAttributeAt(0).getNaturalInt());
-        assertEquals(0, node5.getAttributeAt(1).getNaturalInt());
-        assertEquals(1, node5.getAttributeAt(2).getNaturalInt());
-        assertEquals(2, node5.getAttributeAt(3).getNaturalInt());
-        assertEquals(3, node5.getAttributeAt(4).getNaturalInt());
+            XBTreeNode node5 = node4.getChildAt(0);
+            assertEquals(0, node5.getChildrenCount());
+            assertEquals(5, node5.getAttributesCount());
+            assertEquals(0, node5.getAttributeAt(0).getNaturalInt());
+            assertEquals(0, node5.getAttributeAt(1).getNaturalInt());
+            assertEquals(1, node5.getAttributeAt(2).getNaturalInt());
+            assertEquals(2, node5.getAttributeAt(3).getNaturalInt());
+            assertEquals(3, node5.getAttributeAt(4).getNaturalInt());
+        }
     }
 
-    private class DebugListener implements XBEventListener {
+    private static class DebugListener implements XBEventListener {
 
         private final XBListener listener;
 

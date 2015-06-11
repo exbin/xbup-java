@@ -57,38 +57,12 @@ public class OnlineHelpModule implements ApplicationModule {
 
     @Override
     public ApplicationModuleInfo getInfo() {
-        return new ApplicationModuleInfo() {
-
-            @Override
-            public String getPluginId() {
-                return "onlinehelp";
-            }
-
-            @Override
-            public String getPluginName() {
-                return "OnlineHelp";
-            }
-
-            @Override
-            public String getPluginDescription() {
-                return "Online help on project website";
-            }
-
-            @Override
-            public String[] pluginDependency() {
-                return null;
-            }
-
-            @Override
-            public String[] pluginOptional() {
-                return null;
-            }
-        };
+        return new ApplicationModuleInfoImpl();
     }
 
     @Override
     public void init(ModuleManagement management) {
-        helpOnlineMenuItem = new JMenuItem(resourceBundle.getString("OnlineHelpModule.helpOnlineMenuItem.text")+DIALOG_MENU_SUFIX);
+        helpOnlineMenuItem = new JMenuItem(resourceBundle.getString("OnlineHelpModule.helpOnlineMenuItem.text") + DIALOG_MENU_SUFIX);
         helpOnlineMenuItem.setToolTipText(resourceBundle.getString("OnlineHelpModule.helpOnlineMenuItem.toolTipText"));
         helpOnlineMenuItem.addActionListener(new ActionListener() {
             @Override
@@ -105,5 +79,36 @@ public class OnlineHelpModule implements ApplicationModule {
 
     public void setHelpUrl(URL helpUrl) {
         this.helpUrl = helpUrl;
+    }
+
+    private static class ApplicationModuleInfoImpl implements ApplicationModuleInfo {
+
+        public ApplicationModuleInfoImpl() {
+        }
+
+        @Override
+        public String getPluginId() {
+            return "onlinehelp";
+        }
+
+        @Override
+        public String getPluginName() {
+            return "OnlineHelp";
+        }
+
+        @Override
+        public String getPluginDescription() {
+            return "Online help on project website";
+        }
+
+        @Override
+        public String[] pluginDependency() {
+            return null;
+        }
+
+        @Override
+        public String[] pluginOptional() {
+            return null;
+        }
     }
 }

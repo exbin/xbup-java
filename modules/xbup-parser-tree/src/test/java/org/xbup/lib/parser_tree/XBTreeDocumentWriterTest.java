@@ -83,17 +83,18 @@ public class XBTreeDocumentWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleSingleEmptyBlock() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_singleemptyblock.xb");
-        ByteArrayOutputStream target = new ByteArrayOutputStream();
-        XBTreeDocument document = new XBTreeDocument();
+        try (InputStream stream = XBTreeDocumentReaderTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_singleemptyblock.xb")) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            XBTreeDocument document = new XBTreeDocument();
 
-        XBTreeNode node = new XBTreeNode();
-        node.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        node.addAttribute(new UBNat32(0));
+            XBTreeNode node = new XBTreeNode();
+            node.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
+            node.addAttribute(new UBNat32(0));
 
-        document.setRootBlock(node);
-        document.toStreamUB(target);
-        assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+            document.setRootBlock(node);
+            document.toStreamUB(target);
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
     }
 
     /**
@@ -103,21 +104,22 @@ public class XBTreeDocumentWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleExtended() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_extended.xb");
-        ByteArrayOutputStream target = new ByteArrayOutputStream();
-        XBTreeDocument document = new XBTreeDocument();
+        try (InputStream stream = XBTreeDocumentReaderTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_extended.xb")) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            XBTreeDocument document = new XBTreeDocument();
 
-        XBTreeNode node = new XBTreeNode();
-        node.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        node.addAttribute(new UBNat32(0));
-        document.setRootBlock(node);
+            XBTreeNode node = new XBTreeNode();
+            node.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
+            node.addAttribute(new UBNat32(0));
+            document.setRootBlock(node);
 
-        byte[] data = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57};
-        ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
-        document.setExtendedArea(dataStream);
+            byte[] data = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57};
+            ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
+            document.setExtendedArea(dataStream);
 
-        document.toStreamUB(target);
-        assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+            document.toStreamUB(target);
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
     }
 
     /**
@@ -127,21 +129,22 @@ public class XBTreeDocumentWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleSingleData() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_singledata.xb");
-        ByteArrayOutputStream target = new ByteArrayOutputStream();
-        XBTreeDocument document = new XBTreeDocument();
+        try (InputStream stream = XBTreeDocumentReaderTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_singledata.xb")) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            XBTreeDocument document = new XBTreeDocument();
 
-        XBTreeNode node = new XBTreeNode();
-        node.setDataMode(XBBlockDataMode.DATA_BLOCK);
-        node.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        byte[] data = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57};
-        ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
-        node.setData(dataStream);
+            XBTreeNode node = new XBTreeNode();
+            node.setDataMode(XBBlockDataMode.DATA_BLOCK);
+            node.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
+            byte[] data = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57};
+            ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
+            node.setData(dataStream);
 
-        document.setRootBlock(node);
-        document.toStreamUB(target);
+            document.setRootBlock(node);
+            document.toStreamUB(target);
 
-        assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
     }
 
     /**
@@ -151,21 +154,22 @@ public class XBTreeDocumentWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleTerminated() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_terminated.xb");
-        ByteArrayOutputStream target = new ByteArrayOutputStream();
-        XBTreeDocument document = new XBTreeDocument();
+        try (InputStream stream = XBTreeDocumentReaderTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_terminated.xb")) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            XBTreeDocument document = new XBTreeDocument();
 
-        XBTreeNode node = new XBTreeNode();
-        node.setTerminationMode(XBBlockTerminationMode.TERMINATED_BY_ZERO);
-        node.addAttribute(new UBNat32(0));
-        node.addAttribute(new UBNat32(0));
-        node.addAttribute(new UBNat32(1));
-        node.addAttribute(new UBNat32(2));
+            XBTreeNode node = new XBTreeNode();
+            node.setTerminationMode(XBBlockTerminationMode.TERMINATED_BY_ZERO);
+            node.addAttribute(new UBNat32(0));
+            node.addAttribute(new UBNat32(0));
+            node.addAttribute(new UBNat32(1));
+            node.addAttribute(new UBNat32(2));
 
-        document.setRootBlock(node);
-        document.toStreamUB(target);
+            document.setRootBlock(node);
+            document.toStreamUB(target);
 
-        assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
     }
 
     /**
@@ -175,50 +179,51 @@ public class XBTreeDocumentWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleSixBlocks() throws Exception {
-        InputStream stream = getClass().getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_sixblocks.xb");
-        ByteArrayOutputStream target = new ByteArrayOutputStream();
-        XBTreeDocument document = new XBTreeDocument();
+        try (InputStream stream = XBTreeDocumentReaderTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_sixblocks.xb")) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            XBTreeDocument document = new XBTreeDocument();
 
-        XBTreeNode rootNode = new XBTreeNode();
-        rootNode.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        rootNode.addAttribute(new UBNat32(0));
+            XBTreeNode rootNode = new XBTreeNode();
+            rootNode.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
+            rootNode.addAttribute(new UBNat32(0));
 
-        XBTreeNode node1 = new XBTreeNode(rootNode);
-        node1.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        node1.addAttribute(new UBNat32(0));
-        rootNode.addChild(node1);
+            XBTreeNode node1 = new XBTreeNode(rootNode);
+            node1.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
+            node1.addAttribute(new UBNat32(0));
+            rootNode.addChild(node1);
 
-        XBTreeNode node2 = new XBTreeNode(node1);
-        node2.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        node2.addAttribute(new UBNat32(0));
-        node1.addChild(node2);
+            XBTreeNode node2 = new XBTreeNode(node1);
+            node2.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
+            node2.addAttribute(new UBNat32(0));
+            node1.addChild(node2);
 
-        XBTreeNode node3 = new XBTreeNode(node2);
-        node3.setDataMode(XBBlockDataMode.DATA_BLOCK);
-        node3.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        byte[] data = {};
-        ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
-        node3.setData(dataStream);
-        node2.addChild(node3);
+            XBTreeNode node3 = new XBTreeNode(node2);
+            node3.setDataMode(XBBlockDataMode.DATA_BLOCK);
+            node3.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
+            byte[] data = {};
+            ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
+            node3.setData(dataStream);
+            node2.addChild(node3);
 
-        XBTreeNode node4 = new XBTreeNode(rootNode);
-        node4.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        node4.addAttribute(new UBNat32(0));
+            XBTreeNode node4 = new XBTreeNode(rootNode);
+            node4.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
+            node4.addAttribute(new UBNat32(0));
 
-        XBTreeNode node5 = new XBTreeNode(node4);
-        node5.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-        node5.addAttribute(new UBNat32(0));
-        node5.addAttribute(new UBNat32(0));
-        node5.addAttribute(new UBNat32(1));
-        node5.addAttribute(new UBNat32(2));
-        node5.addAttribute(new UBNat32(3));
-        node4.addChild(node5);
-        rootNode.addChild(node4);
+            XBTreeNode node5 = new XBTreeNode(node4);
+            node5.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
+            node5.addAttribute(new UBNat32(0));
+            node5.addAttribute(new UBNat32(0));
+            node5.addAttribute(new UBNat32(1));
+            node5.addAttribute(new UBNat32(2));
+            node5.addAttribute(new UBNat32(3));
+            node4.addChild(node5);
+            rootNode.addChild(node4);
 
-        document.setRootBlock(rootNode);
-        document.toStreamUB(target);
+            document.setRootBlock(rootNode);
+            document.toStreamUB(target);
 
-        assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
     }
 
     private void assertEqualsInputStream(InputStream expectedStream, InputStream stream) {

@@ -16,6 +16,7 @@
  */
 package org.xbup.demo.slrub1;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,9 @@ import java.util.List;
  * @version 0.1.20 2011/01/16
  * @author XBUP Project (http://xbup.org)
  */
-public class LRUB1 {
+public class LRUB1 implements Serializable {
+
+    static final long serialVersionUID = 1L;
 
     public String codeFromNumber(long value) {
         StringBuilder result = new StringBuilder();
@@ -125,41 +128,7 @@ public class LRUB1 {
         return stringBuilder.toString();
     }
 
-    public class CodeResult {
-
-        private String prefix;
-        private long length;
-
-        /**
-         * @return the value
-         */
-        public String getValue() {
-            return prefix;
-        }
-
-        /**
-         * @param value the value to set
-         */
-        public void setValue(String value) {
-            this.prefix = value;
-        }
-
-        /**
-         * @return the length
-         */
-        public long getLength() {
-            return length;
-        }
-
-        /**
-         * @param length the length to set
-         */
-        public void setLength(long length) {
-            this.length = length;
-        }
-    }
-
-    public class DepthValue {
+    private static class DepthValue {
 
         private long value;
         private long limit;

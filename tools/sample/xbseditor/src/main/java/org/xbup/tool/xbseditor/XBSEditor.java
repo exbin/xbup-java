@@ -83,12 +83,6 @@ public class XBSEditor extends XBEditorBase {
 
                 app.addPlugin(new ClassURI(XBWaveEditorModule.class).toURI());
 
-                String catalogConnection = cl.getOptionValue("ip");
-                String port = cl.getOptionValue("port");
-                if ((!"".equals(port)) && (port != null)) {
-                    catalogConnection += ":" + port;
-                }
-
                 app.startup();
 
                 List fileArgs = cl.getArgList();

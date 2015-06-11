@@ -18,7 +18,6 @@ package org.xbup.tool.xbmanager;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -94,17 +93,6 @@ public class XBManager extends XBEditorBase {
                 logger.addHandler(new XBHead.XBLogHandler(verboseMode));
             } catch (java.security.AccessControlException ex) {
                 // Ignore it in java webstart
-            }
-
-            String fileName = "";
-            String catalogConnection = cl.getOptionValue("ip");
-            String port = cl.getOptionValue("port");
-            if ((!"".equals(port)) && (port != null)) {
-                catalogConnection += ":" + port;
-            }
-            List fileArgs = cl.getArgList();
-            if (fileArgs.size() > 0) {
-                fileName = (String) fileArgs.get(0);
             }
 
             XBEditorApplication app = new XBEditorApplication();

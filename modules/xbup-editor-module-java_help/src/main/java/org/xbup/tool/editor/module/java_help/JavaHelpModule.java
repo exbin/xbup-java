@@ -58,33 +58,7 @@ public class JavaHelpModule implements ApplicationModule {
 
     @Override
     public ApplicationModuleInfo getInfo() {
-        return new ApplicationModuleInfo() {
-
-            @Override
-            public String getPluginId() {
-                return "javahelp";
-            }
-
-            @Override
-            public String getPluginName() {
-                return "JavaHelp";
-            }
-
-            @Override
-            public String getPluginDescription() {
-                return "Context Help using JavaHelp2.0";
-            }
-
-            @Override
-            public String[] pluginDependency() {
-                return null;
-            }
-
-            @Override
-            public String[] pluginOptional() {
-                return null;
-            }
-        };
+        return new ApplicationModuleInfoImpl();
     }
 
     @Override
@@ -112,7 +86,7 @@ public class JavaHelpModule implements ApplicationModule {
     }
 
     /**
-     * find the helpset file and create a HelpSet object.
+     * Find the helpset file and create a HelpSet object.
      */
     private HelpSet getHelpSet(String helpsetfile) {
         HelpSet hs = null;
@@ -132,5 +106,36 @@ public class JavaHelpModule implements ApplicationModule {
             System.out.println("HelpSet: " + helpsetfile + " not found");
         }
         return hs;
+    }
+
+    private static class ApplicationModuleInfoImpl implements ApplicationModuleInfo {
+
+        public ApplicationModuleInfoImpl() {
+        }
+
+        @Override
+        public String getPluginId() {
+            return "javahelp";
+        }
+
+        @Override
+        public String getPluginName() {
+            return "JavaHelp";
+        }
+
+        @Override
+        public String getPluginDescription() {
+            return "Context Help using JavaHelp2.0";
+        }
+
+        @Override
+        public String[] pluginDependency() {
+            return null;
+        }
+
+        @Override
+        public String[] pluginOptional() {
+            return null;
+        }
     }
 }

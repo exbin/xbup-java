@@ -420,7 +420,7 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
         }
     }
 
-    private class SelectionRange {
+    private static class SelectionRange {
 
         private int begin;
         private int end;

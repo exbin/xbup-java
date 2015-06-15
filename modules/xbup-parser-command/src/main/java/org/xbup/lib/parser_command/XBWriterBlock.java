@@ -197,4 +197,9 @@ public class XBWriterBlock implements XBEditableBlock, Closeable {
     public void removeChild(int childIndex) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public XBBlock createNewChild(int childIndex) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

@@ -81,7 +81,7 @@ public class XBBlockToXBTBlock implements XBTEditableBlock {
             if (block.getAttributesCount() < 2) {
                 ((XBEditableBlock) block).setAttributesCount(2);
             }
-            
+
             ((XBEditableBlock) block).setAttributeAt(((XBFixedBlockType) blockType).getGroupID(), 0);
             ((XBEditableBlock) block).setAttributeAt(((XBFixedBlockType) blockType).getBlockID(), 1);
         } else {
@@ -161,7 +161,7 @@ public class XBBlockToXBTBlock implements XBTEditableBlock {
         if (parent instanceof XBBlockToXBTBlock) {
             ((XBEditableBlock) block).setParent(((XBBlockToXBTBlock) parent).block);
         } else {
-            ((XBEditableBlock) block).setParent(new XBTBlockToXBBlock(parent));
+            ((XBEditableBlock) block).setParent(parent == null ? null : new XBTBlockToXBBlock(parent));
         }
     }
 
@@ -321,5 +321,15 @@ public class XBBlockToXBTBlock implements XBTEditableBlock {
     @Override
     public int getBlockIndex() {
         return block.getBlockIndex();
+    }
+
+    @Override
+    public XBTBlock createNewChild(int childIndex) {
+        if (!(block instanceof XBEditableBlock)) {
+            throw new IllegalStateException("Cannot set attribute of read only block");
+        }
+
+        XBBlock childBlock = ((XBEditableBlock) block).createNewChild(childIndex);
+        return new XBBlockToXBTBlock(childBlock);
     }
 }

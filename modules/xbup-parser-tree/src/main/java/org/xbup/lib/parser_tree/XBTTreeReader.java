@@ -86,9 +86,8 @@ public class XBTTreeReader implements XBTListener {
             if (!recursive) {
                 throw new XBParseException("Parser nonvalid state", XBProcessingExceptionType.UNKNOWN);
             }
-            XBTTreeNode node = ((XBTTreeNode) target).newNodeInstance(null);
+            XBTEditableBlock node = (XBTEditableBlock) target.createNewChild(target.getChildrenCount());
             node.setTerminationMode(terminationMode);
-            target.setChildAt(node, target.getChildrenCount());
             level++;
             target = node;
             parserState = XBParserState.START;

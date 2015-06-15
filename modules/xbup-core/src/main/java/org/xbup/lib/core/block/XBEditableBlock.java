@@ -22,7 +22,7 @@ import org.xbup.lib.core.parser.token.XBAttribute;
 /**
  * Interface for editable XBUP level 0 block.
  *
- * @version 0.1.25 2015/05/25
+ * @version 0.1.25 2015/06/15
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBEditableBlock extends XBBlock {
@@ -77,8 +77,8 @@ public interface XBEditableBlock extends XBBlock {
 
     /**
      * Removes attribute on given position.
-     * 
-     * @param attributeIndex 
+     *
+     * @param attributeIndex
      */
     public void removeAttribute(int attributeIndex);
 
@@ -110,9 +110,17 @@ public interface XBEditableBlock extends XBBlock {
     public void setChildrenCount(int count);
 
     /**
+     * This method instantiates new child node.
+     *
+     * @param childIndex child index
+     * @return new
+     */
+    public XBBlock createNewChild(int childIndex);
+
+    /**
      * Removes child on given position.
-     * 
-     * @param childIndex 
+     *
+     * @param childIndex
      */
     public void removeChild(int childIndex);
 

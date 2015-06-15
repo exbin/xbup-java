@@ -31,7 +31,7 @@ import org.xbup.lib.core.parser.token.XBAttribute;
 /**
  * Conversion from level 1 block to level 0 block.
  *
- * @version 0.1.25 2015/05/23
+ * @version 0.1.25 2015/06/15
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTBlockToXBBlock implements XBEditableBlock {
@@ -170,7 +170,7 @@ public class XBTBlockToXBBlock implements XBEditableBlock {
         if (parent instanceof XBTBlockToXBBlock) {
             ((XBTEditableBlock) block).setParent(((XBTBlockToXBBlock) parent).block);
         } else {
-            ((XBTEditableBlock) block).setParent(new XBBlockToXBTBlock(parent));
+            ((XBTEditableBlock) block).setParent(parent == null ? null : new XBBlockToXBTBlock(parent));
         }
     }
 
@@ -223,16 +223,16 @@ public class XBTBlockToXBBlock implements XBEditableBlock {
         if (attributeIndex < 2) {
             XBBlockType blockType = block.getBlockType();
             if (blockType instanceof XBFixedBlockType) {
-                blockType = attributeIndex == 0 ?
-                        new XBFixedBlockType(attribute.getNaturalLong(), ((XBFixedBlockType) blockType).getBlockID().getLong()) :
-                        new XBFixedBlockType(((XBFixedBlockType) blockType).getGroupID().getLong(), attribute.getNaturalLong());
+                blockType = attributeIndex == 0
+                        ? new XBFixedBlockType(attribute.getNaturalLong(), ((XBFixedBlockType) blockType).getBlockID().getLong())
+                        : new XBFixedBlockType(((XBFixedBlockType) blockType).getGroupID().getLong(), attribute.getNaturalLong());
                 ((XBTEditableBlock) block).setBlockType(blockType);
             } else {
                 throw new IllegalStateException("Cannot set block type when it's not fixed");
             }
+        } else {
+            ((XBTEditableBlock) block).setAttributeAt(attribute, attributeIndex - 2);
         }
-
-        ((XBTEditableBlock) block).setAttributeAt(attribute, attributeIndex - 2);
     }
 
     @Override
@@ -268,12 +268,12 @@ public class XBTBlockToXBBlock implements XBEditableBlock {
         for (int i = 0; i < blocks.length; i++) {
             XBBlock child = blocks[i];
             if (child instanceof XBBlockToXBTBlock) {
-                
+
             } else {
                 convertedBlocks[i] = new XBBlockToXBTBlock(child);
             }
         }
-        
+
         ((XBTEditableBlock) block).setChildren(convertedBlocks);
     }
 
@@ -347,5 +347,15 @@ public class XBTBlockToXBBlock implements XBEditableBlock {
     @Override
     public int getBlockIndex() {
         return block.getBlockIndex();
+    }
+
+    @Override
+    public XBBlock createNewChild(int childIndex) {
+        if (!(block instanceof XBTEditableBlock)) {
+            throw new IllegalStateException("Cannot set attribute of read only block");
+        }
+
+        XBTBlock childBlock = ((XBTEditableBlock) block).createNewChild(childIndex);
+        return new XBTBlockToXBBlock(childBlock);
     }
 }

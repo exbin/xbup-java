@@ -43,7 +43,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Basic object model parser XBUP level 0 document block / tree node.
  *
- * @version 0.1.25 2015/05/23
+ * @version 0.1.25 2015/06/15
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
@@ -237,14 +237,17 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
      */
     public int childrenFromStreamUB(InputStream stream, int maxSize) throws IOException, XBProcessingException {
         children.clear();
+        if (maxSize == 0) {
+            return 0;
+        }
+
         int childSize;
         int size = 0;
         do {
-            XBTreeNode child = newNodeInstance(this);
+            XBTreeNode child = createNewChild(getChildCount());
             childSize = child.fromStreamUB(stream, maxSize == 0);
             size += childSize;
             if (childSize > 1) {
-                children.add(child);
                 if (size > maxSize) {
                     throw new XBParseException("Block overreached", XBProcessingExceptionType.BLOCK_OVERFLOW);
                 }
@@ -445,13 +448,16 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
     }
 
     /**
-     * TODO: This is stub, because I'm to lazy to think about proper solution
+     * This method instantiates new child node.
      *
-     * @param parent
+     * @param childIndex child index
      * @return new
      */
-    public XBTreeNode newNodeInstance(XBTreeNode parent) {
-        return new XBTreeNode(parent);
+    @Override
+    public XBTreeNode createNewChild(int childIndex) {
+        XBTreeNode childNode = new XBTreeNode(this);
+        setChildAt(childNode, childIndex);
+        return childNode;
     }
 
     @Override
@@ -466,7 +472,11 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
 
     @Override
     public void setParent(XBBlock parent) {
-        this.parent = (XBTreeNode) parent;
+        if (parent == null || parent instanceof XBTreeNode) {
+            this.parent = (XBTreeNode) parent;
+        } else {
+            throw new IllegalArgumentException("Only XBTreeNode is allowed as parent for XBTreeNode");
+        }
     }
 
     @Override

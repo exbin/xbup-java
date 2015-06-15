@@ -53,7 +53,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Basic object model parser XBUP level 1 document block / tree node.
  *
- * @version 0.1.25 2015/05/23
+ * @version 0.1.25 2015/06/15
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
@@ -494,13 +494,16 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     /**
-     * TODO: This is stub, because I'm to lazy to think about proper solution
+     * This method instantiates new child node.
      *
-     * @param parent
+     * @param childIndex child index
      * @return new
      */
-    public XBTTreeNode newNodeInstance(XBTTreeNode parent) {
-        return new XBTTreeNode(parent);
+    @Override
+    public XBTTreeNode createNewChild(int childIndex) {
+        XBTTreeNode childNode = new XBTTreeNode(this);
+        setChildAt(childNode, childIndex);
+        return childNode;
     }
 
     @Override
@@ -827,17 +830,18 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
      */
     public int childrenFromStreamUB(InputStream stream, int maxSize) throws IOException, XBProcessingException {
         children.clear();
+        if (maxSize == 0) {
+            return 0;
+        }
+
         int childSize;
         int size = 0;
         do {
-            XBTTreeNode child = newNodeInstance(this);
+            XBTTreeNode child = createNewChild(getChildCount());
             childSize = child.fromStreamUB(stream, maxSize == 0);
             size += childSize;
-            if (childSize > 1) {
-                children.add(child);
-                if (maxSize > 0 && size > maxSize) {
-                    throw new XBParseException("Block overreached", XBProcessingExceptionType.BLOCK_OVERFLOW);
-                }
+            if (childSize > 1 && maxSize > 0 && size > maxSize) {
+                throw new XBParseException("Block overreached", XBProcessingExceptionType.BLOCK_OVERFLOW);
             }
         } while (((maxSize == 0) && (childSize != 1)) || ((maxSize > 0) && (size < maxSize)));
 

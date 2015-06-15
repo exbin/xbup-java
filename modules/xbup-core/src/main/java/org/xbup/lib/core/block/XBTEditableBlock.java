@@ -97,6 +97,14 @@ public interface XBTEditableBlock extends XBTBlock {
     public void setChildren(XBTBlock[] blocks);
 
     /**
+     * This method instantiates new child node.
+     *
+     * @param childIndex child index
+     * @return new
+     */
+    public XBTBlock createNewChild(int childIndex);
+
+    /**
      * Sets children of given index.
      *
      * If index is greater than current count of children, new empty blocks will

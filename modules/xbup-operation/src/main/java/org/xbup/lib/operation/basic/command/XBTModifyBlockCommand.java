@@ -119,7 +119,7 @@ public class XBTModifyBlockCommand extends XBTOpDocCommand {
             if (node == null) {
                 throw new Exception("Unable to find node referenced in undo");
             }
-            XBTTreeNode restoredNode = (XBTTreeNode) node.newNodeInstance(node);
+            XBTTreeNode restoredNode = (XBTTreeNode) node.createNewChild(node.getChildCount());
             restoredNode.fromStreamUB(data);
             node.setChildAt(restoredNode, (int) index);
             // TODO: Update context restoredNode.setContext(node.getContext());

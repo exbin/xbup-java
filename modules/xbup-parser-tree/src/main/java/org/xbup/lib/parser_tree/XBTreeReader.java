@@ -90,9 +90,9 @@ public class XBTreeReader implements XBListener {
                 throw new XBParseException("Parser invalid state", XBProcessingExceptionType.UNKNOWN);
             }
 
-            XBTreeNode node = ((XBTreeNode) target).newNodeInstance((XBTreeNode) target);
+            XBEditableBlock node = (XBEditableBlock) target.createNewChild(target.getChildrenCount());
+            node.setParent(target);
             node.setTerminationMode(terminationMode);
-            target.setChildAt(node, target.getChildrenCount());
             level++;
             target = node;
             parserState = XBParserState.BLOCK_BEGIN;

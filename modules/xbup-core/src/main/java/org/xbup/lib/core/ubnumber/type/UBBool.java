@@ -24,6 +24,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBSerializationMode;
 import org.xbup.lib.core.ubnumber.UBBoolean;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
@@ -99,7 +100,11 @@ public class UBBool implements UBBoolean, XBPSequenceSerializable {
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
         serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
-        serial.attribute(new UBNat32(value ? 1 : 0));
+        if (serial.getSerializationMode() == XBSerializationMode.PULL) {
+            setNaturalInt(serial.pullByteAttribute());
+        } else {
+            serial.putAttribute(value ? 1 : 0);
+        }
         serial.end();
     }
 

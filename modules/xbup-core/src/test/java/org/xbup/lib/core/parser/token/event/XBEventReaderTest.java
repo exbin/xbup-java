@@ -334,7 +334,7 @@ public class XBEventReaderTest extends TestCase {
                     break;
                 }
                 default:
-                    throw new UnsupportedOperationException();
+                    throw new IllegalStateException("Unexpected token type");
             }
         }
     }
@@ -394,7 +394,7 @@ public class XBEventReaderTest extends TestCase {
                     break;
                 }
                 default:
-                    throw new UnsupportedOperationException();
+                    throw new IllegalStateException("Unexpected token type");
             }
         }
 

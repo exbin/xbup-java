@@ -40,7 +40,7 @@ import org.xbup.lib.core.serial.child.XBTChildSerializable;
  * Data are stored using paging. Last page might be shorter than page size, but
  * not empty.
  *
- * @version 0.1.25 2015/05/01
+ * @version 0.1.25 2015/06/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSerializable {
@@ -157,35 +157,44 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
 
     @Override
     public void copyTo(XBEditableBlockData targetData, long startFrom, long length, long targetPos) {
-        if (targetData.getDataSize() < targetPos + length) {
-            targetData.setDataSize(targetPos + length);
-        }
+        if (targetData instanceof XBData) {
+            if (targetData.getDataSize() < targetPos + length) {
+                targetData.setDataSize(targetPos + length);
+            }
 
-        while (length > 0) {
-            byte[] sourcePage = getPage((int) (startFrom / pageSize));
-            int sourceOffset = (int) (startFrom % pageSize);
+            while (length > 0) {
+                byte[] sourcePage = getPage((int) (startFrom / pageSize));
+                int sourceOffset = (int) (startFrom % pageSize);
 
-            byte[] targetPage;
-            int targetOffset;
-            if (targetData instanceof XBData) {
+                byte[] targetPage;
+                int targetOffset;
                 targetPage = ((XBData) targetData).getPage((int) (targetPos / pageSize));
                 targetOffset = (int) (targetPos % pageSize);
-            } else {
-                throw new UnsupportedOperationException("Not supported yet.");
+
+                int copySize = pageSize - sourceOffset;
+                if (copySize > pageSize - targetOffset) {
+                    copySize = pageSize - targetOffset;
+                }
+                if (copySize > length) {
+                    copySize = (int) length;
+                }
+
+                System.arraycopy(sourcePage, sourceOffset, targetPage, targetOffset, copySize);
+                length -= copySize;
+                startFrom += copySize;
+                targetPos += copySize;
+            }
+        } else {
+            long targetDataSize = targetData.getDataSize();
+            if (targetDataSize > targetPos) {
+                if (targetDataSize > targetPos + length) {
+                    targetData.remove(targetPos, length);
+                } else {
+                    targetData.setDataSize(targetPos);
+                }
             }
 
-            int copySize = pageSize - sourceOffset;
-            if (copySize > pageSize - targetOffset) {
-                copySize = pageSize - targetOffset;
-            }
-            if (copySize > length) {
-                copySize = (int) length;
-            }
-
-            System.arraycopy(sourcePage, sourceOffset, targetPage, targetOffset, copySize);
-            length -= copySize;
-            startFrom += copySize;
-            targetPos += copySize;
+            targetData.insert(targetPos, startFrom == 0 ? this : new XBOffsetBlockData(this, startFrom));
         }
     }
 

@@ -394,7 +394,7 @@ public class XBPullReaderTest extends TestCase {
                     break;
                 }
                 default:
-                    throw new UnsupportedOperationException();
+                    throw new IllegalStateException("Unexpected token type");
             }
 
             return token;

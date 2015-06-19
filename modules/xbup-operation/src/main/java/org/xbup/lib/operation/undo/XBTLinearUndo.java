@@ -59,6 +59,8 @@ public class XBTLinearUndo {
     public void execute(XBTDocCommand command) throws Exception {
         command.setDocument(document);
         command.execute();
+        // TODO Optimize for changed data only?
+        document.processSpec();
         // TODO: Check for undoOperationsMaximumCount & size
         while (commandList.size() > commandPosition) {
             commandList.remove((int) commandPosition);
@@ -77,6 +79,7 @@ public class XBTLinearUndo {
         XBTDocCommand command = commandList.get((int) commandPosition);
         command.setDocument(document);
         command.undo();
+        document.processSpec();
     }
 
     /**
@@ -88,6 +91,7 @@ public class XBTLinearUndo {
         XBTDocCommand command = commandList.get((int) commandPosition);
         command.setDocument(document);
         command.redo();
+        document.processSpec();
         commandPosition++;
     }
 

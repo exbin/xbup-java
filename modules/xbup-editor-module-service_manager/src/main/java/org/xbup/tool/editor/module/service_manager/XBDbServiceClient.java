@@ -20,34 +20,19 @@ import java.io.IOException;
 import java.net.Socket;
 import javax.persistence.EntityManagerFactory;
 import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.client.XBCatalogServiceMessage;
-import org.xbup.lib.core.block.XBBasicBlockType;
-import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBFixedBlockType;
-import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.block.declaration.XBContext;
-import org.xbup.lib.core.block.declaration.XBDeclaration;
-import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
-import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
-import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.parser.token.XBTToken;
-import org.xbup.lib.core.parser.token.XBTTokenType;
-import org.xbup.lib.core.parser.token.event.XBTEventListener;
-import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.parser.basic.convert.XBTDefaultMatchingProvider;
 import org.xbup.lib.core.remote.XBCallHandler;
 
 /**
  * Fake XBService client using localhost database.
  *
- * @version 0.1.25 2015/02/24
+ * @version 0.1.25 2015/06/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDbServiceClient implements XBCatalogServiceClient {
 
-    private EntityManagerFactory entityManagerFactory;
+    private final EntityManagerFactory entityManagerFactory;
 //    private XBL2CatalogHandler catalog;
     private XBTDefaultMatchingProvider source;
     private XBTListener target;
@@ -100,38 +85,6 @@ public class XBDbServiceClient implements XBCatalogServiceClient {
     public boolean ping() {
         return true;
     }
-    /*
-     public void respondMessage(XBL0InputStream input, XBL0OutputStream output) throws IOException, XBProcessingException {
-
-     UBNat32 type = (UBNat32) source.attribXBT();
-     UBNat32 command = (UBNat32) source.attribXBT();
-     switch (commandTypeEnum.values()[type.toInt()]) {
-     case SERVICE: { // System commands
-     switch (serviceCommandEnum.values()[command.toInt()]) {
-     case STOP: {
-     System.out.println("Service is shutting down.");
-     break;
-     }
-     default: throw new XBProcessingException("Unsupported command");
-     }
-     break;
-     }
-     case INFO: {
-     switch (serviceInfoEnum.values()[command.toInt()]) {
-     case VERSION: {
-     break;
-     }
-     default: throw new XBProcessingException("Unsupported command");
-     }
-     break;
-     }
-     default: throw new XBProcessingException("Unexpected command");
-     }
-     source.endXBT();
-     output.close();
-     input.close();
-     }
-     */
 
     @Override
     public String getHost() {
@@ -170,75 +123,5 @@ public class XBDbServiceClient implements XBCatalogServiceClient {
     @Override
     public XBCallHandler procedureCall() {
         throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * TODO: Temporary first end event skipping filter
-     */
-    public class MyXBTEventListener implements XBTEventListener {
-
-        private XBTEventListener listener;
-        private long counter;
-        private boolean first;
-
-        public MyXBTEventListener(XBTEventListener listener) {
-            this.listener = listener;
-            counter = 0;
-            first = false;
-        }
-
-        @Override
-        public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
-            if (token.getTokenType() == XBTTokenType.BEGIN) {
-                counter++;
-            } else if (token.getTokenType() == XBTTokenType.END) {
-                counter--;
-                if (counter == 0) {
-                    if (!first) {
-                        first = true;
-                        return;
-                    } else {
-                        listener.putXBTToken(token);
-                    }
-                }
-            }
-            listener.putXBTToken(token);
-        }
-    }
-
-    /**
-     * TODO: Temporary static translation of XBService format
-     */
-    public class XBServiceContext extends XBContext {
-
-        public XBServiceContext() {
-            this(null);
-        }
-
-        public XBServiceContext(XBSerializable rootNode) {
-            super();
-            XBDeclaration decl = new XBDeclaration(new XBLFormatDecl());
-            decl.setRootBlock(rootNode);
-            // TODO decl.setFormat(new XBLFormatDecl(XBSERVICE_FORMAT));
-            // setDeclaration(decl);
-        }
-
-        public XBFixedBlockType toStaticType(XBBlockType type) {
-            if (type instanceof XBFixedBlockType) {
-                return (XBFixedBlockType) type;
-            }
-            if (type instanceof XBDeclBlockType) {
-                XBBlockDecl blockDecl = ((XBDeclBlockType) type).getBlockDecl();
-                if (blockDecl instanceof XBLBlockDecl) {
-                    Long[] path = ((XBLBlockDecl) blockDecl).getCatalogObjectPath();
-                    if (path.length != 5) {
-                        return new XBFixedBlockType(XBBasicBlockType.UNKNOWN_BLOCK);
-                    } else {
-                        return new XBFixedBlockType(path[2] + 1, path[3]);
-                    }
-                }
-            }
-            return (XBFixedBlockType) type;
-        }
     }
 }

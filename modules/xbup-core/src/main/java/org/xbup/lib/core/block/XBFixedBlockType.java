@@ -21,7 +21,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * Block type defined as fixed group and block indexes.
- * 
+ *
  * Class is supposed to be immutable.
  *
  * @version 0.1.25 2015/05/03
@@ -31,7 +31,7 @@ public class XBFixedBlockType implements XBFBlockType {
 
     private final UBNatural groupID;
     private final UBNatural blockID;
-    
+
     public static final XBFixedBlockType UNKNOWN_BLOCK_TYPE = new XBFixedBlockType();
 
     /**

@@ -23,6 +23,7 @@ import org.xbup.lib.core.block.declaration.XBGroupDecl;
 import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
+import org.xbup.lib.core.parser.basic.XBTProvider;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeReplacingFilter;
 import org.xbup.lib.core.serial.basic.XBTBasicInputReceivingSerialHandler;
 import org.xbup.lib.core.serial.basic.XBTBasicOutputReceivingSerialHandler;
@@ -43,7 +44,7 @@ public class XBFormatParamConsist implements XBFormatParam, XBPSequenceSerializa
     public XBFormatParamConsist() {
         groupDecl = new XBLGroupDecl();
     }
-    
+
     public XBFormatParamConsist(XBGroupDecl groupDecl) {
         this.groupDecl = groupDecl;
     }
@@ -72,7 +73,6 @@ public class XBFormatParamConsist implements XBFormatParam, XBPSequenceSerializa
     @Override
     public void serializeRecvFromXB(final XBTBasicInputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException {
         ((XBTBasicReceivingSerializable) groupDecl).serializeRecvFromXB(new XBTBasicInputReceivingSerialHandler() {
-
             @Override
             public void process(XBTListener listener) {
                 serializationHandler.process(new XBTTypeReplacingFilter(new XBFixedBlockType(XBBasicBlockType.GROUP_DECLARATION), listener));
@@ -81,7 +81,12 @@ public class XBFormatParamConsist implements XBFormatParam, XBPSequenceSerializa
     }
 
     @Override
-    public void serializeRecvToXB(XBTBasicOutputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void serializeRecvToXB(final XBTBasicOutputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        ((XBTBasicReceivingSerializable) groupDecl).serializeRecvToXB(new XBTBasicOutputReceivingSerialHandler() {
+            @Override
+            public void process(XBTProvider provider) {
+                serializationHandler.process(provider);
+            }
+        });
     }
 }

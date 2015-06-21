@@ -80,12 +80,12 @@ public class XBTTreeWriter implements XBTProvider {
                     attrPosition++;
                     break;
                 } else {
-                    state = XBParserState.EXTENDED_AREA;
+                    state = XBParserState.CHILDREN_PART;
                     // no break
                 }
             }
 
-            case EXTENDED_AREA: {
+            case CHILDREN_PART: {
                 if (childPosition < source.getChildrenCount()) {
                     subProducer = new XBTTreeWriter(source.getChildAt(childPosition));
                     childPosition++;

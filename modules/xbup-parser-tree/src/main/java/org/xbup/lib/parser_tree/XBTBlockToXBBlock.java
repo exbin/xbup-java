@@ -31,12 +31,13 @@ import org.xbup.lib.core.parser.token.XBAttribute;
 /**
  * Conversion from level 1 block to level 0 block.
  *
- * @version 0.1.25 2015/06/15
+ * @version 0.1.25 2015/06/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTBlockToXBBlock implements XBEditableBlock {
 
     private final XBTBlock block;
+    private int typeAttributesCount = 0;
 
     public XBTBlockToXBBlock(XBTBlock block) {
         this.block = block;
@@ -110,11 +111,13 @@ public class XBTBlockToXBBlock implements XBEditableBlock {
 
         if (block instanceof XBTTreeNode) {
             XBFixedBlockType blockType = ((XBTTreeNode) block).getFixedBlockType();
-            return blockType.getBlockID().isZero() ? 1 : 2;
+            attributesCount = blockType.getBlockID().isZero() ? (blockType.getGroupID().isZero() ? 0 : 1) : 2;
+            return Math.max(attributesCount, typeAttributesCount);
         } else {
             XBBlockType blockType = block.getBlockType();
             if (blockType instanceof XBFixedBlockType) {
-                return ((XBFixedBlockType) blockType).getBlockID().isZero() ? 1 : 2;
+                attributesCount = ((XBFixedBlockType) blockType).getBlockID().isZero() ? (((XBFixedBlockType) blockType).getGroupID().isZero() ? 0 : 1) : 2;
+                return Math.max(attributesCount, typeAttributesCount);
             }
         }
 
@@ -202,8 +205,10 @@ public class XBTBlockToXBBlock implements XBEditableBlock {
             XBAttribute[] result = new XBAttribute[attributes.length - 2];
             System.arraycopy(block.getAttributes(), 0, result, 0, attributes.length - 2);
             ((XBTEditableBlock) block).setAttributes(result);
+            typeAttributesCount = 2;
         } else {
             setAttributesCount(attributes.length);
+            typeAttributesCount = attributes.length;
         }
 
         if (attributes.length > 0) {
@@ -227,6 +232,9 @@ public class XBTBlockToXBBlock implements XBEditableBlock {
                         ? new XBFixedBlockType(attribute.getNaturalLong(), ((XBFixedBlockType) blockType).getBlockID().getLong())
                         : new XBFixedBlockType(((XBFixedBlockType) blockType).getGroupID().getLong(), attribute.getNaturalLong());
                 ((XBTEditableBlock) block).setBlockType(blockType);
+                if (attributeIndex >= typeAttributesCount) {
+                    typeAttributesCount = attributeIndex + 1;
+                }
             } else {
                 throw new IllegalStateException("Cannot set block type when it's not fixed");
             }
@@ -255,7 +263,11 @@ public class XBTBlockToXBBlock implements XBEditableBlock {
             throw new IllegalStateException("Cannot remove attribute count of read only block");
         }
 
-        ((XBEditableBlock) block).removeAttribute(attributeIndex + 2);
+        if (attributeIndex > 1) {
+            ((XBEditableBlock) block).removeAttribute(attributeIndex - 2);
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Override
@@ -342,6 +354,7 @@ public class XBTBlockToXBBlock implements XBEditableBlock {
         }
 
         ((XBTEditableBlock) block).clear();
+        typeAttributesCount = 0;
     }
 
     @Override

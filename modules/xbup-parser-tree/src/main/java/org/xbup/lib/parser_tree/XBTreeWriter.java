@@ -32,7 +32,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Basic object model parser XBUP level 0 document block / tree node.
  *
- * @version 0.1.25 2015/05/25
+ * @version 0.1.25 2015/06/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeWriter implements XBProvider {
@@ -77,13 +77,13 @@ public class XBTreeWriter implements XBProvider {
                     attrPosition++;
                     break;
                 } else {
-                    state = XBParserState.EXTENDED_AREA;
+                    state = XBParserState.CHILDREN_PART;
                     // no break
                 }
             }
 
-            case EXTENDED_AREA: {
-                if (childPosition < source.getChildrenCount()) {
+            case CHILDREN_PART: {
+                if (recursive && childPosition < source.getChildrenCount()) {
                     subProducer = new XBTreeWriter(source.getChildAt(childPosition));
                     childPosition++;
                     subProducer.produceXB(listener);

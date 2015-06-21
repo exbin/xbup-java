@@ -29,6 +29,7 @@ import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTPrintEventFilter;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventUnwrapper;
 import org.xbup.lib.core.parser.token.pull.convert.XBProviderToPullProvider;
+import org.xbup.lib.core.parser.token.pull.convert.XBTPrintPullFilter;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullProviderToProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBTToXBPullWrapper;
 import org.xbup.lib.core.serial.XBPSerialReader;
@@ -155,7 +156,7 @@ public class XBTAddBlockOperation extends XBTDocOperation {
                     @Override
                     public void serializeToXB(XBTBasicOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
                         XBTreeWriter serialWriter = new XBTreeWriter(new XBTBlockToXBBlock(newNode));
-                        serializationHandler.process(new XBTProviderToProducer(new XBTPullProviderToProvider(new XBTToXBPullWrapper(new XBProviderToPullProvider(serialWriter)))));
+                        serializationHandler.process(new XBTProviderToProducer(new XBTPullProviderToProvider(new XBTPrintPullFilter(new XBTToXBPullWrapper(new XBProviderToPullProvider(serialWriter))))));
                     }
                 });
             }

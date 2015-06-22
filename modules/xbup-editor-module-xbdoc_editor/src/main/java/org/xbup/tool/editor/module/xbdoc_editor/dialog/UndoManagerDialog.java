@@ -16,18 +16,25 @@
  */
 package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.operation.XBTDocCommand;
 import org.xbup.lib.operation.XBTDocOperation;
 import org.xbup.lib.operation.XBTOpDocCommand;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
+import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSearchPanel;
 import org.xbup.tool.editor.utils.WindowUtils;
 
 /**
  * Dialog for undo management.
  *
- * @version 0.1.24 2015/04/26
+ * @version 0.1.25 2015/06/22
  * @author XBUP Project (http://xbup.org)
  */
 public class UndoManagerDialog extends javax.swing.JDialog {
@@ -150,7 +157,7 @@ public class UndoManagerDialog extends javax.swing.JDialog {
                         .add(undoDetailInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(undoDetailInfoPanelLayout.createSequentialGroup()
                                 .add(executionTimeLabel)
-                                .add(0, 130, Short.MAX_VALUE))
+                                .add(0, 160, Short.MAX_VALUE))
                             .add(executionTimeTextField))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(undoDetailInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
@@ -187,18 +194,23 @@ public class UndoManagerDialog extends javax.swing.JDialog {
                         .add(dataSizeLabel)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(dataSizeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
 
         exportButton.setText(bundle.getString("exportButton.text")); // NOI18N
         exportButton.setEnabled(false);
+        exportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportButtonActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout undoDetailPanelLayout = new org.jdesktop.layout.GroupLayout(undoDetailPanel);
         undoDetailPanel.setLayout(undoDetailPanelLayout);
         undoDetailPanelLayout.setHorizontalGroup(
             undoDetailPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, undoDetailPanelLayout.createSequentialGroup()
-                .add(292, 309, Short.MAX_VALUE)
+                .add(292, 339, Short.MAX_VALUE)
                 .add(exportButton)
                 .addContainerGap())
             .add(org.jdesktop.layout.GroupLayout.TRAILING, undoDetailPanelLayout.createSequentialGroup()
@@ -222,14 +234,14 @@ public class UndoManagerDialog extends javax.swing.JDialog {
             mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(splitPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
+                .add(splitPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
                 .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(splitPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE))
+                .add(splitPane))
         );
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
@@ -254,7 +266,7 @@ public class UndoManagerDialog extends javax.swing.JDialog {
         controlPanelLayout.setHorizontalGroup(
             controlPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, controlPanelLayout.createSequentialGroup()
-                .addContainerGap(451, Short.MAX_VALUE)
+                .addContainerGap(481, Short.MAX_VALUE)
                 .add(revertButton)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(closeButton)
@@ -290,6 +302,36 @@ public class UndoManagerDialog extends javax.swing.JDialog {
         dialogOption = JOptionPane.OK_OPTION;
         WindowUtils.closeWindow(this);
     }//GEN-LAST:event_revertButtonActionPerformed
+
+    private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
+        int selectedIndex = undoList.getSelectedIndex();
+        XBTDocCommand command = null;
+        if (selectedIndex >= 0) {
+            command = undoModel.getItem(selectedIndex);
+        }
+
+        if (command instanceof XBTOpDocCommand) {
+            JFileChooser exportFileChooser = new JFileChooser();
+            exportFileChooser.setAcceptAllFileFilterUsed(true);
+            if (exportFileChooser.showSaveDialog(WindowUtils.getFrame(this)) == JFileChooser.APPROVE_OPTION) {
+                FileOutputStream fileStream;
+                try {
+                    fileStream = new FileOutputStream(exportFileChooser.getSelectedFile().getAbsolutePath());
+                    try {
+                        ((XBTOpDocCommand) command).getOperation().getData().saveToStream(fileStream);
+                    } finally {
+                        fileStream.close();
+                    }
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(CatalogSearchPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(CatalogSearchPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+    }//GEN-LAST:event_exportButtonActionPerformed
 
     public long getCommandPosition() {
         return undoList.getSelectedIndex();
@@ -349,6 +391,7 @@ public class UndoManagerDialog extends javax.swing.JDialog {
         }
 
         revertButton.setEnabled(selectedIndex >= 0 && selectedIndex != undoModel.getCurrentPosition());
+        exportButton.setEnabled(command != null);
 
         commandCaptionTextField.setText(command != null ? command.getCaption() : "");
         commandTypeTextField.setText(command != null ? command.getBasicType().name() : "");

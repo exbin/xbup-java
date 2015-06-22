@@ -187,7 +187,6 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
     public XBTToken pullToken() throws XBProcessingException, IOException {
         if (emptyNodeMode) {
             return pullToken(processingState == XBParamProcessingState.DATA ? XBTTokenType.END : XBTTokenType.DATA);
-
         } else {
             return pullToken(pullProvider.getNextTokenType());
         }

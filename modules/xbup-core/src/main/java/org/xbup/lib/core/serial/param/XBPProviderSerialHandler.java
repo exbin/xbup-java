@@ -59,7 +59,7 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 2 serialization handler using parameter mapping to provider.
  *
- * @version 0.1.25 2015/05/03
+ * @version 0.1.25 2015/06/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSequenceSerialHandler, XBTTokenInputSerialHandler {
@@ -245,7 +245,11 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
 
     @Override
     public XBTToken pullToken() throws XBProcessingException, IOException {
-        return pullProvider.pullToken();
+        XBTToken token = pullProvider.pullToken();
+        if (token.getTokenType() == XBTTokenType.END) {
+            pullProvider.pullRest();
+        }
+        return token;
     }
 
     @Override

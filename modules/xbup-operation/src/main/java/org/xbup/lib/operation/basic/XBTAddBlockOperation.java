@@ -133,7 +133,6 @@ public class XBTAddBlockOperation extends XBTDocOperation {
                 childIndex = serializationHandler.pullIntAttribute();
                 newNode = new XBTTreeNode();
                 serializationHandler.consist(new XBTBasicSerializable() {
-
                     @Override
                     public void serializeFromXB(XBTBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
                         XBTreeReader serialReader = new XBTreeReader(new XBTBlockToXBBlock(newNode));
@@ -148,7 +147,6 @@ public class XBTAddBlockOperation extends XBTDocOperation {
                 serializationHandler.putAttribute(parentPosition);
                 serializationHandler.putAttribute(childIndex);
                 serializationHandler.consist(new XBTBasicSerializable() {
-
                     @Override
                     public void serializeFromXB(XBTBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
                     }

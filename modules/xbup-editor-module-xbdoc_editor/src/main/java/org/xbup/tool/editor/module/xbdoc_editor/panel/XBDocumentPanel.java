@@ -49,8 +49,6 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.operation.XBTDocCommand;
-import org.xbup.lib.operation.basic.command.XBTModAttrBlockCommand;
-import org.xbup.lib.operation.basic.command.XBTModDataBlockCommand;
 import org.xbup.lib.operation.basic.command.XBTModifyBlockCommand;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
 import org.xbup.lib.parser_tree.XBTTreeDocument;
@@ -71,7 +69,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.dialog.ModifyBlockDialog;
 /**
  * Panel with XBUP document visualization.
  *
- * @version 0.1.25 2015/04/22
+ * @version 0.1.25 2015/06/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFilePanel, ActivePanelUndoable, ActivePanelActionHandling {
@@ -658,13 +656,14 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
             dialog.setLocationRelativeTo(dialog.getParent());
             XBTTreeNode newNode = dialog.runDialog(node, mainDoc);
             if (dialog.getDialogOption() == JOptionPane.OK_OPTION) {
-                if (node.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
-                    undoStep = new XBTModDataBlockCommand(node, newNode);
-                } else if (newNode.getChildrenCount() > 0) {
-                    undoStep = new XBTModifyBlockCommand(node, newNode);
-                } else {
-                    undoStep = new XBTModAttrBlockCommand(node, newNode);
-                }
+                undoStep = new XBTModifyBlockCommand(node, newNode);
+                // TODO: Optimized diff command later
+//                if (node.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
+//                    undoStep = new XBTModDataBlockCommand(node, newNode);
+//                } else if (newNode.getChildrenCount() > 0) {
+//                } else {
+//                    undoStep = new XBTModAttrBlockCommand(node, newNode);
+//                }
                 getTreeUndo().execute(undoStep);
 
                 mainDoc.processSpec();

@@ -83,7 +83,7 @@ import org.xbup.tool.editor.utils.WindowUtils;
 /**
  * Dialog for modifying item attributes or data.
  *
- * @version 0.1.24 2015/01/30
+ * @version 0.1.25 2015/06/24
  * @author XBUP Project (http://xbup.org)
  */
 public class ModifyBlockDialog extends javax.swing.JDialog {
@@ -128,7 +128,6 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
         basicPanelTitle = mainTabbedPane.getTitleAt(mainTabbedPane.indexOfComponent(basicPanel));
 
         attributesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
@@ -138,7 +137,6 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
         });
 
         attributesTableModel.attachChangeListener(new AttributesTableModel.ChangeListener() {
-
             @Override
             public void valueChanged() {
                 dataChanged = true;
@@ -146,7 +144,6 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
         });
 
         terminationModeCheckBox.addItemListener(new ItemListener() {
-
             @Override
             public void itemStateChanged(ItemEvent e) {
                 dataChanged = true;
@@ -164,7 +161,6 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
         parametersTable.getColumnModel().getColumn(3).setPreferredWidth(parametersTableWidth / 2);
 
         mainTabbedPane.addChangeListener(new ChangeListener() {
-
             @Override
             public void stateChanged(ChangeEvent e) {
                 JTabbedPane pane = (JTabbedPane) e.getSource();
@@ -208,6 +204,10 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
         WindowUtils.initWindow(this);
         WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
         WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
+        WindowUtils.assignGlobalKeyListener(hexEditPanel, okButton, cancelButton);
+        if (customPanel != null) {
+            WindowUtils.assignGlobalKeyListener(customPanel.getPanel(), okButton, cancelButton);
+        }
     }
 
     /**
@@ -629,7 +629,6 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
             customPanel = getCustomPanel(srcNode);
             if (customPanel != null) {
                 ((XBPanelEditor) customPanel).attachChangeListener(new XBPanelEditor.ChangeListener() {
-
                     @Override
                     public void valueChanged() {
                         dataChanged = true;

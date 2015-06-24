@@ -48,21 +48,21 @@ import org.xbup.lib.parser_tree.XBTreeWriter;
 /**
  * Command for adding child block.
  *
- * @version 0.1.25 2015/05/20
+ * @version 0.1.25 2015/06/24
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTAddBlockOperation extends XBTDocOperation {
+public class XBTModifyBlockOperation extends XBTDocOperation {
 
-    public XBTAddBlockOperation(long parentPosition, int childIndex, XBTEditableBlock newNode) {
+    public XBTModifyBlockOperation(long position, XBTEditableBlock newNode) {
         OutputStream dataOutputStream = getData().getDataOutputStream();
         XBPSerialWriter writer = new XBPSerialWriter(dataOutputStream);
-        Serializator serializator = new Serializator(parentPosition, childIndex, newNode);
+        Serializator serializator = new Serializator(position, newNode);
         writer.write(serializator);
     }
 
     @Override
     public XBBasicOperationType getBasicType() {
-        return XBBasicOperationType.ADD_NODE;
+        return XBBasicOperationType.MODIFY_NODE;
     }
 
     @Override
@@ -81,25 +81,33 @@ public class XBTAddBlockOperation extends XBTDocOperation {
         Serializator serial = new Serializator();
         reader.read(serial);
 
-        if (serial.parentPosition < 0) {
-            if (document.getRootBlock() == null) {
-                document.setRootBlock(serial.newNode);
-            }
+        XBTEditableBlock node = (XBTEditableBlock) document.findBlockByIndex(serial.position);
+        XBTEditableBlock parentNode = (XBTEditableBlock) node.getParent();
+        if (parentNode == null) {
+            document.setRootBlock(serial.newNode);
         } else {
-            XBTEditableBlock parentNode = (XBTEditableBlock) document.findBlockByIndex(serial.parentPosition);
-            parentNode.setChildAt(serial.newNode, serial.childIndex);
+            // Find child index of node
+            int childPosition = 0;
+            do {
+                XBTBlock child = parentNode.getChildAt(childPosition);
+                if (child == node) {
+                    break;
+                }
+
+                childPosition++;
+            } while (childPosition < parentNode.getChildrenCount());
+
+            if (childPosition == parentNode.getChildrenCount()) {
+                throw new IllegalStateException("Unexpected missing child block");
+            }
+
+            parentNode.setChildAt(serial.newNode, childPosition);
             serial.newNode.setParent(parentNode);
         }
 
         if (withUndo) {
-            XBTDeleteBlockOperation undoOperation;
-            if (serial.parentPosition >= 0) {
-                XBTEditableBlock parentNode = (XBTEditableBlock) document.findBlockByIndex(serial.parentPosition);
-                XBTBlock node = parentNode.getChildAt(serial.childIndex);
-                undoOperation = new XBTDeleteBlockOperation(node.getBlockIndex());
-            } else {
-                undoOperation = new XBTDeleteBlockOperation(0);
-            }
+            XBTModifyBlockOperation undoOperation;
+            undoOperation = new XBTModifyBlockOperation(serial.position, node);
             undoOperation.setDocument(document);
             return undoOperation;
         }
@@ -109,16 +117,14 @@ public class XBTAddBlockOperation extends XBTDocOperation {
 
     private class Serializator implements XBPSequenceSerializable {
 
-        private long parentPosition;
-        private int childIndex;
+        private long position;
         private XBTEditableBlock newNode;
 
         private Serializator() {
         }
 
-        public Serializator(long parentPosition, int childIndex, XBTEditableBlock newNode) {
-            this.parentPosition = parentPosition;
-            this.childIndex = childIndex;
+        public Serializator(long position, XBTEditableBlock newNode) {
+            this.position = position;
             this.newNode = newNode;
         }
 
@@ -127,8 +133,7 @@ public class XBTAddBlockOperation extends XBTDocOperation {
             serializationHandler.begin();
             serializationHandler.matchType();
             if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
-                parentPosition = serializationHandler.pullLongAttribute();
-                childIndex = serializationHandler.pullIntAttribute();
+                position = serializationHandler.pullLongAttribute();
                 newNode = new XBTTreeNode();
                 serializationHandler.consist(new XBTBasicSerializable() {
                     @Override
@@ -142,8 +147,7 @@ public class XBTAddBlockOperation extends XBTDocOperation {
                     }
                 });
             } else {
-                serializationHandler.putAttribute(parentPosition);
-                serializationHandler.putAttribute(childIndex);
+                serializationHandler.putAttribute(position);
                 serializationHandler.consist(new XBTBasicSerializable() {
                     @Override
                     public void serializeFromXB(XBTBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException {

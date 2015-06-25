@@ -253,6 +253,12 @@ public class MenuManager implements MenuManagement {
                     topItemsCount++;
                     break;
                 }
+                case TOP_LAST: {
+                    // This is fixed operation for edit menu for now.
+                    insertPosition = topItemsCount + 2;
+                    topItemsCount++;
+                    break;
+                }
                 case BEFORE_PANEL: {
                     insertPosition = gapPosition + topItemsCount + beforeItemsCount;
                     beforeItemsCount++;

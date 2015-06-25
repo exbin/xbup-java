@@ -48,7 +48,7 @@ import org.xbup.lib.parser_tree.XBTreeWriter;
 /**
  * Command for adding child block.
  *
- * @version 0.1.25 2015/05/20
+ * @version 0.1.25 2015/06/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTAddBlockOperation extends XBTDocOperation {

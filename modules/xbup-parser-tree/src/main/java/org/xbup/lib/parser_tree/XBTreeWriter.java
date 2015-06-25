@@ -44,7 +44,7 @@ public class XBTreeWriter implements XBProvider {
     private int childPosition = 0;
     private XBTreeWriter subProducer = null;
 
-    public XBTreeWriter(XBBlock source) {
+     public XBTreeWriter(XBBlock source) {
         this.source = source;
     }
 

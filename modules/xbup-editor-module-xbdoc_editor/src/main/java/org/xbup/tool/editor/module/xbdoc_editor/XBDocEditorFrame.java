@@ -492,7 +492,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         itemAddAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/xbdoc_editor/resources/images/actions/Add16.gif")));
         itemAddAction.putValue(Action.NAME, resourceBundle.getString("actionItemAdd.Action.text"));
         itemAddAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionItemAdd.Action.shortDescription"));
-        itemAddAction.setEnabled(false);
+        itemAddAction.setEnabled(true);
 
         itemModifyAction = new AbstractAction() {
             @Override
@@ -1669,7 +1669,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         menuManagement.extendMenu(fileMenu, BasicMenuType.FILE, MenuPositionMode.PANEL);
         JMenu undoManagerMenu = new JMenu();
         undoManagerMenu.add(undoManagerMenuItem);
-        menuManagement.extendMenu(undoManagerMenu, BasicMenuType.EDIT, MenuPositionMode.TOP);
+        menuManagement.extendMenu(undoManagerMenu, BasicMenuType.EDIT, MenuPositionMode.TOP_LAST);
         menuManagement.extendMenu(editMenu, BasicMenuType.EDIT, MenuPositionMode.PANEL);
         menuManagement.extendMenu(viewMenu, BasicMenuType.VIEW, MenuPositionMode.PANEL);
         menuManagement.extendMenu(optionsMenu, BasicMenuType.OPTIONS, MenuPositionMode.PANEL);

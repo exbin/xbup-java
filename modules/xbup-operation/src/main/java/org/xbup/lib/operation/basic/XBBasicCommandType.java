@@ -19,7 +19,7 @@ package org.xbup.lib.operation.basic;
 /**
  * Document command type enumeration.
  *
- * @version 0.1.25 2015/04/25
+ * @version 0.1.25 2015/06/25
  * @author XBUP Project (http://xbup.org)
  */
 public enum XBBasicCommandType {
@@ -36,14 +36,6 @@ public enum XBBasicCommandType {
      * Node modified.
      */
     NODE_MODIFIED("Node modified"),
-    /**
-     * Attribute modified.
-     */
-    ATTRIBUTE_MODIFIED("Attribute modified"),
-    /**
-     * Data modified.
-     */
-    DATA_MODIFIED("Data modified"),
     /**
      * Node swaped.
      */

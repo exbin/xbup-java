@@ -54,15 +54,11 @@ public class XBPSerialReader implements XBPReadSerialHandler {
     }
 
     @Override
-    public void read(XBSerializable serial) {
+    public void read(XBSerializable serial) throws XBProcessingException, IOException {
         if (serial instanceof XBPSerializable || serial instanceof XBPSequenceSerializable) {
             XBPProviderSerialHandler childOutput = new XBPProviderSerialHandler();
             childOutput.attachXBTPullProvider(pullProvider);
-            try {
-                childOutput.process(serial);
-            } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBTSerialReader.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            childOutput.process(serial);
         } else {
             throw new UnsupportedOperationException("Serialization method " + serial.getClass().getCanonicalName() + " not supported.");
         }

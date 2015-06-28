@@ -16,8 +16,12 @@
  */
 package org.xbup.lib.client;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.catalog.XBPCatalog;
+import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBPSerialReader;
 
 /**
@@ -45,7 +49,11 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
     private XBLFormatDecl getContextFormatDecl() {
         XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/xbup/lib/client/resources/catalog_service_format.xb"));
         XBLFormatDecl formatDecl = new XBLFormatDecl();
-        reader.read(formatDecl);
+        try {
+            reader.read(formatDecl);
+        } catch (XBProcessingException | IOException ex) {
+            return null;
+        }
         return formatDecl;
     }
 }

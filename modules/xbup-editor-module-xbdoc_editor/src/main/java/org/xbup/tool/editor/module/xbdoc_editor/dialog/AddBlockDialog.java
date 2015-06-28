@@ -329,14 +329,13 @@ public class AddBlockDialog extends javax.swing.JDialog {
             workNode.setContext(parentNode.getContext());
         }
 
-        if (basicTypeRadioButton.isSelected()) {
-            workNode.setDataMode(XBBlockDataMode.NODE_BLOCK);
+        if (dataRadioButton.isSelected()) {
+            workNode.setDataMode(XBBlockDataMode.DATA_BLOCK);
+        } else if (basicTypeRadioButton.isSelected()) {
             workNode.setBlockType(new XBFixedBlockType(XBBasicBlockType.valueOf(basicTypeComboBox.getSelectedIndex())));
         } else if (contextTypeRadioButton.isSelected()) {
-            workNode.setDataMode(XBBlockDataMode.NODE_BLOCK);
             workNode.setBlockType(contextBlockType);
         } else if (catalogTypeRadioButton.isSelected()) {
-            workNode.setDataMode(XBBlockDataMode.NODE_BLOCK);
             if (generateDeclarationCheckBox.isSelected()) {
                 XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(new XBTTreeReader(workNode)));
                 XBDeclaration newDeclaration = new XBDeclaration(((XBDBlockType) catalogBlockType).getBlockDecl());

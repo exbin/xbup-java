@@ -19,6 +19,8 @@ package org.xbup.lib.operation.basic;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.parser.XBParserMode;
@@ -43,7 +45,7 @@ import org.xbup.lib.parser_tree.XBTreeWriter;
 /**
  * Command for adding child block.
  *
- * @version 0.1.25 2015/06/28
+ * @version 0.1.25 2015/06/29
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTAddBlockOperation extends XBTDocOperation {
@@ -74,7 +76,12 @@ public class XBTAddBlockOperation extends XBTDocOperation {
         InputStream dataInputStream = getData().getDataInputStream();
         XBPSerialReader reader = new XBPSerialReader(dataInputStream);
         Serializator serial = new Serializator();
-        reader.read(serial);
+        try {
+            reader.read(serial);
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBTDeleteBlockOperation.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalStateException("Unable to process data");
+        }
 
         if (serial.parentPosition == 0) {
             if (document.getRootBlock() == null) {
@@ -82,6 +89,13 @@ public class XBTAddBlockOperation extends XBTDocOperation {
             }
         } else {
             XBTEditableBlock parentNode = (XBTEditableBlock) document.findBlockByIndex(serial.parentPosition - 1);
+            // If inserted in the middle, shift children blocks (add method to interface for this?)
+            if (serial.childIndex < parentNode.getChildrenCount()) {
+                parentNode.setChildrenCount(parentNode.getChildrenCount() + 1);
+                for (int i = parentNode.getChildrenCount() - 1; i > serial.childIndex; i--) {
+                    parentNode.setChildAt(parentNode.getChildAt(i-1), i);
+                }
+            }
             parentNode.setChildAt(serial.newNode, serial.childIndex);
             serial.newNode.setParent(parentNode);
         }

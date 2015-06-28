@@ -63,6 +63,7 @@ import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXLineService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXPaneService;
+import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.pull.convert.XBTProviderToPullProvider;
 import org.xbup.lib.core.serial.XBPSerialReader;
@@ -804,7 +805,11 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
                             if (lineEditor != null) {
                                 paramExtractor.setParameterIndex(paramIndex);
                                 XBPSerialReader serialReader = new XBPSerialReader(paramExtractor);
-                                serialReader.read(lineEditor);
+                                try {
+                                    serialReader.read(lineEditor);
+                                } catch (XBProcessingException | IOException ex) {
+                                    Logger.getLogger(ModifyBlockDialog.class.getName()).log(Level.SEVERE, null, ex);
+                                }
 
                                 lineEditor.attachChangeListener(new LineEditorChangeListener(lineEditor, paramExtractor, paramIndex));
                             }
@@ -833,7 +838,11 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
 
     private void reloadCustomEditor() {
         XBPSerialReader serialReader = new XBPSerialReader(new XBTProviderToPullProvider(new XBTTreeWriter(srcNode)));
-        serialReader.read((XBSerializable) customPanel);
+        try {
+            serialReader.read((XBSerializable) customPanel);
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(ModifyBlockDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private XBLineEditor getCustomEditor(XBCBlockRev rev, XBCXLineService lineService) {

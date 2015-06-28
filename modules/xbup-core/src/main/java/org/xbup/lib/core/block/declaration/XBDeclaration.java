@@ -114,9 +114,12 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
                 }
             }
         }
-        List<XBGroupDecl> formatGroups = decl.getGroupDecls();
-        for (XBGroupDecl formatGroup : formatGroups) {
-            groups.add(convertCatalogGroup(formatGroup, catalog));
+
+        if (decl != null) {
+            List<XBGroupDecl> formatGroups = decl.getGroupDecls();
+            for (XBGroupDecl formatGroup : formatGroups) {
+                groups.add(convertCatalogGroup(formatGroup, catalog));
+            }
         }
 
         return context;

@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.catalog;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -70,6 +71,7 @@ import org.xbup.lib.catalog.update.XBCUpdateHandler;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
+import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.serial.XBPSerialReader;
 
@@ -220,7 +222,7 @@ public class XBECatalog implements XBCatalog {
     public void setRootContext(XBContext context) {
         rootContext = context;
     }
-    
+
     public void initCatalog() {
         EntityTransaction tx = em.getTransaction();
         try {
@@ -378,7 +380,11 @@ public class XBECatalog implements XBCatalog {
         XBDeclaration declaration = new XBDeclaration(new XBCFormatDecl(null, this));
         declaration.setHeaderMode(true);
         XBPSerialReader serialHandler = new XBPSerialReader(blockProvider);
-        serialHandler.read(declaration);
+        try {
+            serialHandler.read(declaration);
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBECatalog.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         XBContext context = declaration.generateContext();
         /*declaration.se

@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBPSerialReader;
@@ -64,7 +66,12 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
         InputStream dataInputStream = getData().getDataInputStream();
         XBPSerialReader reader = new XBPSerialReader(dataInputStream);
         Serializator serial = new Serializator();
-        reader.read(serial);
+        try {
+            reader.read(serial);
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBTDeleteBlockOperation.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalStateException("Unable to process data");
+        }
 
         XBTAddBlockOperation undoOperation = null;
 

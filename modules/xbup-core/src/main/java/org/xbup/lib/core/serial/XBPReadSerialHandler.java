@@ -16,10 +16,13 @@
  */
 package org.xbup.lib.core.serial;
 
+import java.io.IOException;
+import org.xbup.lib.core.parser.XBProcessingException;
+
 /**
  * Interface for XBUP level 1 serialization reading processor.
  *
- * @version 0.1.24 2015/01/21
+ * @version 0.1.25 2015/06/29
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBPReadSerialHandler {
@@ -28,6 +31,7 @@ public interface XBPReadSerialHandler {
      * Reads data from serializable object.
      *
      * @param serial serializable object to process
+     * @throws java.io.IOException
      */
-    public void read(XBSerializable serial);
+    public void read(XBSerializable serial) throws XBProcessingException, IOException;
 }

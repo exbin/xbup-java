@@ -37,7 +37,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
-import javax.swing.border.Border;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -466,7 +465,11 @@ public class TextPanel extends javax.swing.JPanel implements ApplicationFilePane
 
         XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/xbup/tool/editor/module/text_editor/resources/xbt_format_decl.xb"));
         XBLFormatDecl formatDecl = new XBLFormatDecl();
-        reader.read(formatDecl);
+        try {
+            reader.read(formatDecl);
+        } catch (XBProcessingException | IOException ex) {
+            return null;
+        }
         return formatDecl;
     }
 

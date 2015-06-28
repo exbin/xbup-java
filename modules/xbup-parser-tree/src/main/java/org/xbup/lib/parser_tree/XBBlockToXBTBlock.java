@@ -211,11 +211,11 @@ public class XBBlockToXBTBlock implements XBTEditableBlock {
             throw new IllegalStateException("Cannot set attribute count of read only block");
         }
 
-        if (count > 1) {
+        if (count >= 2) {
             ((XBEditableBlock) block).setAttributesCount(count - 2);
         } else {
             ((XBEditableBlock) block).setAttributesCount(0);
-            // Ignore block type
+            // if (block instanceof XBT)
         }
     }
 

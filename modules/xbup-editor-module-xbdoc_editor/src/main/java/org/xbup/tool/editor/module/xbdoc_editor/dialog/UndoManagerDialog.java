@@ -34,7 +34,7 @@ import org.xbup.tool.editor.utils.WindowUtils;
 /**
  * Dialog for undo management.
  *
- * @version 0.1.25 2015/06/22
+ * @version 0.1.25 2015/06/28
  * @author XBUP Project (http://xbup.org)
  */
 public class UndoManagerDialog extends javax.swing.JDialog {

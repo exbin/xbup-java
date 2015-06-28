@@ -48,7 +48,7 @@ import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogSpecItem
 /**
  * Dialog for adding new item into given document.
  *
- * @version 0.1.24 2015/04/10
+ * @version 0.1.25 2015/06/28
  * @author XBUP Project (http://xbup.org)
  */
 public class AddBlockDialog extends javax.swing.JDialog {
@@ -329,13 +329,14 @@ public class AddBlockDialog extends javax.swing.JDialog {
             workNode.setContext(parentNode.getContext());
         }
 
-        if (dataRadioButton.isSelected()) {
-            workNode.setDataMode(XBBlockDataMode.DATA_BLOCK);
-        } else if (basicTypeRadioButton.isSelected()) {
+        if (basicTypeRadioButton.isSelected()) {
+            workNode.setDataMode(XBBlockDataMode.NODE_BLOCK);
             workNode.setBlockType(new XBFixedBlockType(XBBasicBlockType.valueOf(basicTypeComboBox.getSelectedIndex())));
         } else if (contextTypeRadioButton.isSelected()) {
+            workNode.setDataMode(XBBlockDataMode.NODE_BLOCK);
             workNode.setBlockType(contextBlockType);
         } else if (catalogTypeRadioButton.isSelected()) {
+            workNode.setDataMode(XBBlockDataMode.NODE_BLOCK);
             if (generateDeclarationCheckBox.isSelected()) {
                 XBPSerialWriter writer = new XBPSerialWriter(new XBTListenerToEventListener(new XBTTreeReader(workNode)));
                 XBDeclaration newDeclaration = new XBDeclaration(((XBDBlockType) catalogBlockType).getBlockDecl());
@@ -346,8 +347,6 @@ public class AddBlockDialog extends javax.swing.JDialog {
             } else {
                 workNode.setBlockType(catalogBlockType);
             }
-        } else {
-            workNode.setDataMode(XBBlockDataMode.NODE_BLOCK);
         }
 
         WindowUtils.closeWindow(this);

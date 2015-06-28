@@ -31,16 +31,25 @@ import org.xbup.lib.core.parser.token.XBAttribute;
 /**
  * Conversion from level 1 block to level 0 block.
  *
- * @version 0.1.25 2015/06/21
+ * @version 0.1.25 2015/06/28
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTBlockToXBBlock implements XBEditableBlock {
 
     private final XBTBlock block;
-    private int typeAttributesCount = 0;
+    private int typeAttributesCount = 2;
 
     public XBTBlockToXBBlock(XBTBlock block) {
         this.block = block;
+
+        if (block instanceof XBTTreeNode) {
+            typeAttributesCount = ((XBTTreeNode) block).getSingleAttributeType() ? 1 : 2;
+        } else if (block != null) {
+            XBBlockType blockType = block.getBlockType();
+            if (blockType instanceof XBFixedBlockType) {
+                typeAttributesCount = ((XBFixedBlockType) blockType).getBlockID().isZero() ? 1 : 2;
+            }
+        }
     }
 
     public XBTBlock getBlock() {
@@ -104,24 +113,16 @@ public class XBTBlockToXBBlock implements XBEditableBlock {
 
     @Override
     public int getAttributesCount() {
+        if (block.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
+            return 0;
+        }
+
         int attributesCount = block.getAttributesCount();
         if (attributesCount > 0) {
             return attributesCount + 2;
         }
 
-        if (block instanceof XBTTreeNode) {
-            XBFixedBlockType blockType = ((XBTTreeNode) block).getFixedBlockType();
-            attributesCount = blockType.getBlockID().isZero() ? (blockType.getGroupID().isZero() ? 0 : 1) : 2;
-            return Math.max(attributesCount, typeAttributesCount);
-        } else {
-            XBBlockType blockType = block.getBlockType();
-            if (blockType instanceof XBFixedBlockType) {
-                attributesCount = ((XBFixedBlockType) blockType).getBlockID().isZero() ? (((XBFixedBlockType) blockType).getGroupID().isZero() ? 0 : 1) : 2;
-                return Math.max(attributesCount, typeAttributesCount);
-            }
-        }
-
-        throw new IllegalStateException("Cannot convert block with no fixed block type");
+        return typeAttributesCount;
     }
 
     @Override
@@ -201,7 +202,7 @@ public class XBTBlockToXBBlock implements XBEditableBlock {
             throw new IllegalStateException("Cannot set attribute of read only block");
         }
 
-        if (attributes.length > 2) {
+        if (attributes.length >= 2) {
             XBAttribute[] result = new XBAttribute[attributes.length - 2];
             System.arraycopy(block.getAttributes(), 0, result, 0, attributes.length - 2);
             ((XBTEditableBlock) block).setAttributes(result);
@@ -225,7 +226,10 @@ public class XBTBlockToXBBlock implements XBEditableBlock {
             throw new IllegalStateException("Cannot set attribute of read only block");
         }
 
-        if (attributeIndex < 2) {
+        if (attributeIndex >= 2) {
+            ((XBTEditableBlock) block).setAttributeAt(attribute, attributeIndex - 2);
+            typeAttributesCount = 2;
+        } else {
             XBBlockType blockType = block.getBlockType();
             if (blockType instanceof XBFixedBlockType) {
                 blockType = attributeIndex == 0
@@ -235,11 +239,13 @@ public class XBTBlockToXBBlock implements XBEditableBlock {
                 if (attributeIndex >= typeAttributesCount) {
                     typeAttributesCount = attributeIndex + 1;
                 }
+
+                if (typeAttributesCount == 1 && block instanceof XBTTreeNode) {
+                    ((XBTTreeNode) block).setSingleAttributeType(true);
+                }
             } else {
                 throw new IllegalStateException("Cannot set block type when it's not fixed");
             }
-        } else {
-            ((XBTEditableBlock) block).setAttributeAt(attribute, attributeIndex - 2);
         }
     }
 
@@ -249,11 +255,14 @@ public class XBTBlockToXBBlock implements XBEditableBlock {
             throw new IllegalStateException("Cannot set attribute count of read only block");
         }
 
-        if (count > 1) {
+        if (count >= 2) {
             ((XBTEditableBlock) block).setAttributesCount(count - 2);
         } else {
             ((XBTEditableBlock) block).setAttributesCount(0);
-            // Ignore block type
+            typeAttributesCount = 0;
+            if (block instanceof XBTTreeNode) {
+                ((XBTTreeNode) block).setSingleAttributeType(true);
+            }
         }
     }
 

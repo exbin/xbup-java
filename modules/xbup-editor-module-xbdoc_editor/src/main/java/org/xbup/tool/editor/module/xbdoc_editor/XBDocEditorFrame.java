@@ -141,7 +141,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.panel.XBDocumentPanel;
 /**
  * XBDocEditor Main Frame.
  *
- * @version 0.1.25 2015/04/21
+ * @version 0.1.25 2015/06/28
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFrame, TextColorPanelFrame, TextFontPanelFrame {
@@ -1284,6 +1284,8 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         if (undoManagerDialog.getDialogOption() == JOptionPane.OK_OPTION && undoHandle != null) {
             try {
                 undoHandle.setCommandPosition(undoManagerDialog.getCommandPosition());
+                activePanel.reportStructureChange(null);
+                activePanel.updateItem();
             } catch (Exception ex) {
                 Logger.getLogger(XBDocEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
             }

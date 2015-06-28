@@ -423,14 +423,12 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
 
     public void actionEditUndo() {
         activePanel.performUndo();
-        activePanel.getDoc().processSpec();
         firePropertyChange("undoAvailable", false, true);
         firePropertyChange("redoAvailable", false, true);
     }
 
     public void actionEditRedo() {
         activePanel.performRedo();
-        activePanel.getDoc().processSpec();
         firePropertyChange("undoAvailable", false, true);
         firePropertyChange("redoAvailable", false, true);
     }

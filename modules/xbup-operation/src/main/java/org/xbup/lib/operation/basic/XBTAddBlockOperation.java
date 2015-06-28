@@ -16,32 +16,23 @@
  */
 package org.xbup.lib.operation.basic;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
+import org.xbup.lib.core.parser.XBParserMode;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.convert.XBTListenerToConsumer;
-import org.xbup.lib.core.parser.basic.convert.XBTProviderToProducer;
+import org.xbup.lib.core.parser.token.event.XBEventReader;
+import org.xbup.lib.core.parser.token.event.XBEventWriter;
+import org.xbup.lib.core.parser.token.event.convert.XBEventListenerToListener;
 import org.xbup.lib.core.parser.token.event.convert.XBListenerToEventListener;
-import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
-import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventUnwrapper;
-import org.xbup.lib.core.parser.token.pull.convert.XBProviderToPullProvider;
-import org.xbup.lib.core.parser.token.pull.convert.XBTPullProviderToProvider;
-import org.xbup.lib.core.parser.token.pull.convert.XBTToXBPullWrapper;
 import org.xbup.lib.core.serial.XBPSerialReader;
 import org.xbup.lib.core.serial.XBPSerialWriter;
-import org.xbup.lib.core.serial.basic.XBTBasicInputSerialHandler;
-import org.xbup.lib.core.serial.basic.XBTBasicOutputSerialHandler;
-import org.xbup.lib.core.serial.basic.XBTBasicSerializable;
 import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.serial.param.XBSerializationMode;
+import org.xbup.lib.core.type.XBData;
 import org.xbup.lib.operation.Operation;
 import org.xbup.lib.operation.XBTDocOperation;
 import org.xbup.lib.parser_tree.XBTBlockToXBBlock;
@@ -62,14 +53,6 @@ public class XBTAddBlockOperation extends XBTDocOperation {
         XBPSerialWriter writer = new XBPSerialWriter(dataOutputStream);
         Serializator serializator = new Serializator(parentPosition == null ? 0 : parentPosition + 1, childIndex, newNode);
         writer.write(serializator);
-
-        try {
-            getData().saveToStream(new FileOutputStream("/home/hajdam/add_test.xb"));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(XBTAddBlockOperation.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XBTAddBlockOperation.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     @Override
@@ -144,29 +127,35 @@ public class XBTAddBlockOperation extends XBTDocOperation {
                 parentPosition = serializationHandler.pullLongAttribute();
                 childIndex = serializationHandler.pullIntAttribute();
                 newNode = new XBTTreeNode();
-                serializationHandler.consist(new XBTBasicSerializable() {
+                serializationHandler.consist(new XBPSequenceSerializable() {
                     @Override
-                    public void serializeFromXB(XBTBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                        XBTreeReader serialReader = new XBTreeReader(new XBTBlockToXBBlock(newNode));
-                        serializationHandler.process(new XBTListenerToConsumer(new XBTEventListenerToListener(new XBTToXBEventUnwrapper(new XBListenerToEventListener(serialReader)))));
-                    }
+                    public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                        serializationHandler.begin();
+                        XBData data = new XBData();
+                        data.loadFromStream(serializationHandler.pullData());
+                        serializationHandler.end();
 
-                    @Override
-                    public void serializeToXB(XBTBasicOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                        XBTreeReader treeReader = new XBTreeReader(new XBTBlockToXBBlock(newNode));
+                        XBEventReader reader = new XBEventReader(data.getDataInputStream(), XBParserMode.SKIP_EXTENDED);
+                        reader.attachXBEventListener(new XBListenerToEventListener(treeReader));
+                        reader.read();
+                        reader.close();
                     }
                 });
             } else {
                 serializationHandler.putAttribute(parentPosition);
                 serializationHandler.putAttribute(childIndex);
-                serializationHandler.consist(new XBTBasicSerializable() {
+                serializationHandler.consist(new XBPSequenceSerializable() {
                     @Override
-                    public void serializeFromXB(XBTBasicInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                    }
+                    public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                        XBData data = new XBData();
+                        XBTreeWriter treeWriter = new XBTreeWriter(new XBTBlockToXBBlock(newNode));
+                        XBEventWriter writer = new XBEventWriter(data.getDataOutputStream());
+                        treeWriter.generateXB(new XBEventListenerToListener(writer), true);
 
-                    @Override
-                    public void serializeToXB(XBTBasicOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-                        XBTreeWriter serialWriter = new XBTreeWriter(new XBTBlockToXBBlock(newNode));
-                        serializationHandler.process(new XBTProviderToProducer(new XBTPullProviderToProvider(new XBTToXBPullWrapper(new XBProviderToPullProvider(serialWriter)))));
+                        serializationHandler.begin();
+                        serializationHandler.putData(data.getDataInputStream());
+                        serializationHandler.end();
                     }
                 });
             }

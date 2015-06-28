@@ -390,7 +390,7 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
     public void addTreeSelectionListener(TreeSelectionListener listener) {
         mainTree.getSelectionModel().addTreeSelectionListener(listener);
     }
-    
+
     public void setEditEnabled(boolean editEnabled) {
         if (editEnabled != this.editEnabled) {
             this.editEnabled = editEnabled;

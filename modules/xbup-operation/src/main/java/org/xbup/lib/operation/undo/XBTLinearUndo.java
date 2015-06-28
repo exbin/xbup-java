@@ -24,7 +24,7 @@ import org.xbup.lib.parser_tree.XBTTreeDocument;
 /**
  * Linear undo command sequence storage.
  *
- * @version 0.1.25 2015/04/25
+ * @version 0.1.25 2015/06/28
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTLinearUndo {
@@ -91,8 +91,8 @@ public class XBTLinearUndo {
         XBTDocCommand command = commandList.get((int) commandPosition);
         command.setDocument(document);
         command.redo();
-        document.processSpec();
         commandPosition++;
+        document.processSpec();
     }
 
     /**
@@ -109,6 +109,7 @@ public class XBTLinearUndo {
             performUndo();
             count--;
         }
+        document.processSpec();
     }
 
     /**
@@ -125,6 +126,7 @@ public class XBTLinearUndo {
             XBTLinearUndo.this.performRedo();
             count--;
         }
+        document.processSpec();
     }
 
     public void clear() {

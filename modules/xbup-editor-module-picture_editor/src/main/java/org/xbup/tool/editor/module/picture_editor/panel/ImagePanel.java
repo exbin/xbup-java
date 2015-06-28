@@ -472,7 +472,11 @@ public class ImagePanel extends javax.swing.JPanel implements ApplicationFilePan
 
         XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/xbup/tool/editor/module/picture_editor/resources/xbp_format_decl.xb"));
         XBLFormatDecl formatDecl = new XBLFormatDecl();
-        reader.read(formatDecl);
+        try {
+            reader.read(formatDecl);
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(ImagePanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return formatDecl;
     }
 

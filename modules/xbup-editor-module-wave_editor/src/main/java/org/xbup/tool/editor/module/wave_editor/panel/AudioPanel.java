@@ -541,7 +541,11 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
 
         XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/xbup/tool/editor/module/wave_editor/resources/xbs_format_decl.xb"));
         XBLFormatDecl formatDecl = new XBLFormatDecl();
-        reader.read(formatDecl);
+        try {
+            reader.read(formatDecl);
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return formatDecl;
     }
 

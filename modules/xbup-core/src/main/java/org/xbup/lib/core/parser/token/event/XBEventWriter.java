@@ -115,9 +115,7 @@ public class XBEventWriter implements Closeable, XBEventListener {
                     }
 
                     parserState = XBParserState.BLOCK_BEGIN;
-                }
-
-                if (parserState == XBParserState.ATTRIBUTE_PART) {
+                } else if (parserState == XBParserState.ATTRIBUTE_PART) {
                     flushAttributes();
                     parserState = XBParserState.BLOCK_BEGIN;
                 }

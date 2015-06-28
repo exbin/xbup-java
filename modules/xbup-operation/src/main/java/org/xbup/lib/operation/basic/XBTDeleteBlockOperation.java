@@ -70,14 +70,14 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
 
         if (withUndo) {
             int childIndex = 0;
-            long parentPosition = -1;
+            Long parentPosition = null;
             XBTEditableBlock deletedNode;
             if (serial.position < 1) {
                 deletedNode = (XBTEditableBlock) document.getRootBlock();
             } else {
                 deletedNode = (XBTEditableBlock) document.findBlockByIndex(serial.position);
                 XBTEditableBlock parentNode = (XBTEditableBlock) deletedNode.getParent();
-                parentPosition = parentNode.getBlockIndex();
+                parentPosition = (long) parentNode.getBlockIndex();
                 childIndex = Arrays.asList(parentNode.getChildren()).indexOf(deletedNode);
             }
             undoOperation = new XBTAddBlockOperation(parentPosition, childIndex, deletedNode);

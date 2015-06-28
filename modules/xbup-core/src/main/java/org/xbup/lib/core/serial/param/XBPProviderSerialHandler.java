@@ -30,7 +30,6 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBTConsumer;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTProvider;
-import org.xbup.lib.core.parser.param.XBParamProcessingState;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBEditableAttribute;
 import org.xbup.lib.core.parser.token.XBTAttributeToken;
@@ -59,14 +58,14 @@ import org.xbup.lib.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 2 serialization handler using parameter mapping to provider.
  *
- * @version 0.1.25 2015/06/22
+ * @version 0.1.25 2015/06/28
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSequenceSerialHandler, XBTTokenInputSerialHandler {
 
     private XBPSequencePullConsumer pullProvider;
 
-    private XBParamProcessingState processingState = XBParamProcessingState.START;
+    private boolean finished = false;
     private final List<XBParamType> paramTypes = new ArrayList<>();
     private XBParamType paramType = XBParamType.CONSIST;
 
@@ -113,7 +112,6 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
 
     @Override
     public XBBlockTerminationMode pullBegin() throws XBProcessingException, IOException {
-        processingState = XBParamProcessingState.BEGIN;
         if (paramType.isJoin()) {
             return XBBlockTerminationMode.SIZE_SPECIFIED;
         }
@@ -131,7 +129,6 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
 
     @Override
     public XBBlockType pullType() throws XBProcessingException, IOException {
-        processingState = XBParamProcessingState.TYPE;
         if (paramType.isJoin()) {
             return new XBFixedBlockType();
         }
@@ -143,7 +140,6 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
     @Override
     public XBAttribute pullAttribute() throws XBProcessingException, IOException {
         XBTAttributeToken token = (XBTAttributeToken) pullProvider.pullToken(XBTTokenType.ATTRIBUTE);
-        processingState = XBParamProcessingState.ATTRIBUTES;
         return token.getAttribute();
     }
 
@@ -170,18 +166,12 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
     @Override
     public InputStream pullData() throws XBProcessingException, IOException {
         XBTDataToken token = (XBTDataToken) pullProvider.pullToken(XBTTokenType.DATA);
-        processingState = XBParamProcessingState.DATA;
         return token.getData();
     }
 
     @Override
     public boolean pullIfEmptyData() throws XBProcessingException, IOException {
-        if (pullProvider.pullIfEmpty()) {
-            processingState = XBParamProcessingState.DATA;
-            return true;
-        }
-
-        return false;
+        return pullProvider.pullIfEmpty();
     }
 
     @Override
@@ -206,7 +196,6 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
 
     @Override
     public void pullEnd() throws XBProcessingException, IOException {
-        processingState = XBParamProcessingState.END;
         if (paramType.isConsist()) {
             pullProvider.pullToken(XBTTokenType.END);
             pullProvider.pullRest();
@@ -217,6 +206,8 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         } else {
             paramType = paramTypes.remove(paramTypes.size() - 1);
         }
+
+        finished = true;
     }
 
     @Override
@@ -400,7 +391,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
     }
 
     public boolean isFinished() {
-        return processingState == XBParamProcessingState.END && paramTypes.isEmpty();
+        return finished && paramTypes.isEmpty();
     }
 
     @Override

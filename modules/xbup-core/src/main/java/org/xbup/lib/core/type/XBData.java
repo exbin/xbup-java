@@ -326,7 +326,7 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
             byte[] buffer = new byte[pageSize];
             int cnt;
             int offset = 0;
-            while ((cnt = inputStream.read(buffer, offset, buffer.length - offset)) != -1) {
+            while ((cnt = inputStream.read(buffer, offset, buffer.length - offset)) > 0) {
                 if (cnt + offset < pageSize) {
                     offset = offset + cnt;
                 } else {
@@ -434,7 +434,7 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
             while (length > 0) {
                 int pageIndex = (int) (position / pageSize);
                 if (pageIndex >= getPagesCount()) {
-                    return offset - off;
+                    return offset == off ? -1 : offset - off;
                 }
 
                 byte[] page = getPage(pageIndex);
@@ -445,7 +445,7 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
                 }
 
                 if (copyLength == 0) {
-                    return len - length;
+                    return len == length ? -1 : len - length;
                 }
 
                 System.arraycopy(page, srcPos, output, offset, copyLength);

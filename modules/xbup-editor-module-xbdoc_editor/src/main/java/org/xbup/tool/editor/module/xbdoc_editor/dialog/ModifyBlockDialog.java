@@ -25,6 +25,7 @@ import java.awt.event.MouseEvent;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EventObject;
@@ -562,7 +563,7 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
             }
         }
 
-        if (srcNode.getParent() == null && extAreaHexPanel != null) {
+        /*if (srcNode.getParent() == null && extAreaHexPanel != null) {
             // TODO: Horrible extraction of data from HexEditPanel
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             try {
@@ -572,7 +573,7 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
             }
 
             doc.setExtendedArea(new ByteArrayInputStream(buffer.toByteArray()));
-        }
+        } */
 
         dialogOption = JOptionPane.OK_OPTION;
         WindowUtils.closeWindow(this);
@@ -708,6 +709,14 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
 
     public int getDialogOption() {
         return dialogOption;
+    }
+    
+    public void saveExtendedArea(OutputStream stream) {
+        try {
+            extAreaHexPanel.saveToStream(stream);
+        } catch (IOException ex) {
+            Logger.getLogger(ModifyBlockDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private XBPanelEditor getCustomPanel(XBTTreeNode srcNode) {

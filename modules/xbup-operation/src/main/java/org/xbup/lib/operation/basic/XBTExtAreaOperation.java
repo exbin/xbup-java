@@ -19,37 +19,36 @@ package org.xbup.lib.operation.basic;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBPSerialReader;
 import org.xbup.lib.core.serial.XBPSerialWriter;
 import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.serial.param.XBSerializationMode;
+import org.xbup.lib.core.type.XBData;
 import org.xbup.lib.operation.Operation;
 import org.xbup.lib.operation.XBTDocOperation;
 
 /**
- * Operation for deleting child block.
+ * Operation for adding child block.
  *
- * @version 0.1.25 2015/05/03
+ * @version 0.1.25 2015/06/30
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTDeleteBlockOperation extends XBTDocOperation {
+public class XBTExtAreaOperation extends XBTDocOperation {
 
-    public XBTDeleteBlockOperation(long position) {
+    public XBTExtAreaOperation(XBData data) {
         OutputStream dataOutputStream = getData().getDataOutputStream();
         XBPSerialWriter writer = new XBPSerialWriter(dataOutputStream);
-        Serializator serializator = new Serializator(position);
+        Serializator serializator = new Serializator(data);
         writer.write(serializator);
     }
 
     @Override
     public XBBasicOperationType getBasicType() {
-        return XBBasicOperationType.ADD_NODE;
+        return XBBasicOperationType.MODIFY_NODE;
     }
 
     @Override
@@ -63,65 +62,44 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
     }
 
     private Operation execute(boolean withUndo) {
+        XBTExtAreaOperation undoOperation = null;
+        if (withUndo) {
+            XBData oldData = new XBData();
+            oldData.loadFromStream(document.getExtendedArea());
+            undoOperation = new XBTExtAreaOperation(oldData);
+            undoOperation.setDocument(document);
+        }
+
+        XBData data = new XBData();
         InputStream dataInputStream = getData().getDataInputStream();
         XBPSerialReader reader = new XBPSerialReader(dataInputStream);
-        Serializator serial = new Serializator();
+        Serializator serial = new Serializator(data);
         try {
             reader.read(serial);
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBTDeleteBlockOperation.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalStateException("Unable to process data");
         }
-
-        XBTAddBlockOperation undoOperation = null;
-
-        if (withUndo) {
-            int childIndex = 0;
-            Long parentPosition = null;
-            XBTEditableBlock deletedNode;
-            if (serial.position < 1) {
-                deletedNode = (XBTEditableBlock) document.getRootBlock();
-            } else {
-                deletedNode = (XBTEditableBlock) document.findBlockByIndex(serial.position);
-                XBTEditableBlock parentNode = (XBTEditableBlock) deletedNode.getParent();
-                parentPosition = (long) parentNode.getBlockIndex();
-                childIndex = Arrays.asList(parentNode.getChildren()).indexOf(deletedNode);
-            }
-            undoOperation = new XBTAddBlockOperation(parentPosition, childIndex, deletedNode);
-            undoOperation.setDocument(document);
-        }
-
-        if (serial.position < 1) {
-            document.clear();
-        } else {
-            XBTEditableBlock node = (XBTEditableBlock) document.findBlockByIndex(serial.position);
-            XBTEditableBlock parentNode = (XBTEditableBlock) node.getParent();
-            int childIndex = Arrays.asList(parentNode.getChildren()).indexOf(node);
-            parentNode.removeChild(childIndex);
-        }
+        document.setExtendedArea(data.getDataInputStream());
 
         return undoOperation;
     }
 
     private class Serializator implements XBPSequenceSerializable {
 
-        private long position;
+        private final XBData data;
 
-        private Serializator() {
-        }
-
-        public Serializator(long position) {
-            this.position = position;
+        private Serializator(XBData data) {
+            this.data = data;
         }
 
         @Override
         public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
             serializationHandler.begin();
-            serializationHandler.matchType();
             if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
-                position = serializationHandler.pullLongAttribute();
+                data.loadFromStream(serializationHandler.pullData());
             } else {
-                serializationHandler.putAttribute(position);
+                serializationHandler.putData(data.getDataInputStream());
             }
             serializationHandler.end();
         }

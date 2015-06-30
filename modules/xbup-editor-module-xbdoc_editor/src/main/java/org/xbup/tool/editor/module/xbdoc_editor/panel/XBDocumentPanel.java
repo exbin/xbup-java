@@ -48,7 +48,11 @@ import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBAttribute;
+import org.xbup.lib.core.type.XBData;
 import org.xbup.lib.operation.XBTDocCommand;
+import org.xbup.lib.operation.basic.XBTExtAreaOperation;
+import org.xbup.lib.operation.basic.XBTModifyBlockOperation;
+import org.xbup.lib.operation.basic.command.XBTChangeBlockCommand;
 import org.xbup.lib.operation.basic.command.XBTModifyBlockCommand;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
 import org.xbup.lib.parser_tree.XBTTreeDocument;
@@ -69,7 +73,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.dialog.ModifyBlockDialog;
 /**
  * Panel with XBUP document visualization.
  *
- * @version 0.1.25 2015/06/24
+ * @version 0.1.25 2015/06/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFilePanel, ActivePanelUndoable, ActivePanelActionHandling {
@@ -656,7 +660,20 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
             dialog.setLocationRelativeTo(dialog.getParent());
             XBTTreeNode newNode = dialog.runDialog(node, mainDoc);
             if (dialog.getDialogOption() == JOptionPane.OK_OPTION) {
-                undoStep = new XBTModifyBlockCommand(node, newNode);
+                if (node.getParent() == null) {
+                    undoStep = new XBTChangeBlockCommand();
+                    long position = node.getBlockIndex();
+                    XBTModifyBlockOperation modifyOperation = new XBTModifyBlockOperation(position, newNode);
+                    modifyOperation.setDocument(mainDoc);
+                    ((XBTChangeBlockCommand) undoStep).appendOperation(modifyOperation);
+                    XBData extendedArea = new XBData();
+                    dialog.saveExtendedArea(extendedArea.getDataOutputStream());
+                    XBTExtAreaOperation extOperation = new XBTExtAreaOperation(extendedArea);
+                    extOperation.setDocument(mainDoc);
+                    ((XBTChangeBlockCommand) undoStep).appendOperation(extOperation);
+                } else {
+                    undoStep = new XBTModifyBlockCommand(node, newNode);
+                }
                 // TODO: Optimized diff command later
 //                if (node.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
 //                    undoStep = new XBTModDataBlockCommand(node, newNode);

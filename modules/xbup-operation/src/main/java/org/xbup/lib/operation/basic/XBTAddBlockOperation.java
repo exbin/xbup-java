@@ -43,7 +43,7 @@ import org.xbup.lib.parser_tree.XBTreeReader;
 import org.xbup.lib.parser_tree.XBTreeWriter;
 
 /**
- * Command for adding child block.
+ * Operation for adding child block.
  *
  * @version 0.1.25 2015/06/29
  * @author XBUP Project (http://xbup.org)

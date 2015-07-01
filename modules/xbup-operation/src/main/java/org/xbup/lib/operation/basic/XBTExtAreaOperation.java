@@ -34,7 +34,7 @@ import org.xbup.lib.operation.XBTDocOperation;
 /**
  * Operation for adding child block.
  *
- * @version 0.1.25 2015/06/30
+ * @version 0.1.25 2015/07/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTExtAreaOperation extends XBTDocOperation {
@@ -96,11 +96,23 @@ public class XBTExtAreaOperation extends XBTDocOperation {
         @Override
         public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
             serializationHandler.begin();
-            if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
-                data.loadFromStream(serializationHandler.pullData());
-            } else {
-                serializationHandler.putData(data.getDataInputStream());
-            }
+            serializationHandler.matchType();
+            serializationHandler.consist(new XBPSequenceSerializable() {
+                @Override
+                public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+                    serializationHandler.begin();
+                    if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
+                        if (serializationHandler.pullIfEmptyData()) {
+                            data.clear();
+                        } else {
+                            data.loadFromStream(serializationHandler.pullData());
+                        }
+                    } else {
+                        serializationHandler.putData(data.getDataInputStream());
+                    }
+                    serializationHandler.end();
+                }
+            });
             serializationHandler.end();
         }
     }

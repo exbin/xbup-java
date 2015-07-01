@@ -495,6 +495,10 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
 
         @Override
         public void write(byte[] input, int off, int len) throws IOException {
+            if (len == 0) {
+                return;
+            }
+
             long dataSize = getDataSize();
             if (position + len > dataSize) {
                 setDataSize(position + len);

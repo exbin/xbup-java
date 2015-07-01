@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import org.xbup.lib.core.type.XBData;
 import org.xbup.lib.operation.CompoundOperation;
 import org.xbup.lib.operation.Operation;
 import org.xbup.lib.operation.XBTDocOperation;
@@ -81,5 +82,23 @@ public class XBTCompoundBlockOperation extends XBTDocOperation implements Compou
     @Override
     public boolean isEmpty() {
         return operations.isEmpty();
+    }
+
+    @Override
+    public void setData(XBData data) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBData getData() {
+        XBData data = new XBData();
+        int position = 0;
+        for (Operation operation : operations) {
+            XBData operationData = ((XBTDocOperation) operation).getData();
+            data.insert(position, operationData);
+            position += operationData.getDataSize();
+        }
+        
+        return data;
     }
 }

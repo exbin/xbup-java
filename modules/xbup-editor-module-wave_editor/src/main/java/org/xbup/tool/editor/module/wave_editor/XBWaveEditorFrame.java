@@ -17,6 +17,7 @@
 package org.xbup.tool.editor.module.wave_editor;
 
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
@@ -31,6 +32,7 @@ import org.xbup.tool.editor.module.wave_editor.dialog.WaveColorDialog;
 import org.xbup.tool.editor.module.wave_editor.panel.AudioPanel;
 import org.xbup.tool.editor.module.wave_editor.panel.WaveColorPanelFrame;
 import org.xbup.tool.editor.base.api.FileType;
+import org.xbup.tool.editor.base.api.MainFrameManagement;
 import org.xbup.tool.editor.base.api.MenuManagement;
 import org.xbup.tool.editor.base.api.MenuPositionMode;
 import org.xbup.tool.editor.utils.WindowUtils;
@@ -48,6 +50,7 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
     private ResourceBundle resourceBundle = ResourceBundle.getBundle("org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame");
     private final String DIALOG_MENU_SUFIX = "...";
     private boolean playing = false;
+    private MainFrameManagement mainFrameManagement;
 
     public static final String XBSFILETYPE = "XBWaveEditor.XBSFileFilter";
 
@@ -662,7 +665,7 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
     }// </editor-fold>//GEN-END:initComponents
 
     private void optionsColorsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsColorsMenuItemActionPerformed
-        WaveColorDialog dlg = new WaveColorDialog(WindowUtils.getFrame(mainPanel), true, this);
+        WaveColorDialog dlg = new WaveColorDialog(mainFrameManagement.getFrame(), true, this);
         dlg.setLocationRelativeTo(dlg.getParent());
         dlg.showDialog();
         activePanel.repaint();
@@ -864,5 +867,13 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
 
     public JPanel getStatusPanel() {
         return statusPanel;
+    }
+
+    public void setMainFrameManagement(MainFrameManagement mainFrameManagement) {
+        this.mainFrameManagement = mainFrameManagement;
+    }
+    
+    protected Frame getFrame() {
+        return mainFrameManagement.getFrame();
     }
 }

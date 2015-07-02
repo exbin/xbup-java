@@ -74,6 +74,7 @@ public class XBWaveEditorModule implements ApplicationModule {
     @Override
     public void init(ModuleManagement management) {
         editorFrame = new XBWaveEditorFrame();
+        editorFrame.setMainFrameManagement(management.getMainFrameManagement());
         management.registerPanel(editorFrame.getActivePanel());
         editorFrame.setMenuManagement(management.getMenuManagement());
 
@@ -84,8 +85,7 @@ public class XBWaveEditorModule implements ApplicationModule {
         formats[0] = "wav";
         formats[1] = "aiff";
         formats[2] = "au";
-        for (int i = 0; i < formats.length; i++) {
-            String ext = formats[i];
+        for (String ext : formats) {
             if (ext.toLowerCase().equals(ext)) {
                 fileTypeManagement.addFileType(new AudioFileType(ext));
             }

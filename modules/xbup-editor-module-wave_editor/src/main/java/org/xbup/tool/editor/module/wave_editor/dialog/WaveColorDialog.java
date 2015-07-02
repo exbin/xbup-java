@@ -37,8 +37,8 @@ public class WaveColorDialog extends javax.swing.JDialog {
     public WaveColorDialog(Frame parent, boolean modal, WaveColorPanelFrame frame) {
         super(parent, modal);
         this.frame = frame;
-        waveColorPanel = new WaveColorPanel(frame);
         initComponents();
+        waveColorPanel = new WaveColorPanel(frame);
         mainPanel.add(waveColorPanel);
         init();
     }

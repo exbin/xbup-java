@@ -34,8 +34,6 @@ public interface XBCXUser extends XBCBase {
     /**
      * Gets password string.
      *
-     * TODO: Use hash instead
-     *
      * @return the passwd
      */
     public String getPasswd();

@@ -19,6 +19,7 @@ package org.xbup.lib.core.parser.token.convert;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -35,12 +36,14 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.core.util.StreamUtils;
 
 /**
- * Token writer to convert passed tokens into data stream.
+ * Token buffer to stores received tokens into memory structure.
  *
- * @version 0.1.24 2014/06/08
+ * @version 0.1.25 2015/07/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTokenBuffer implements XBEventListener {
+
+    private static final int BUFFER_SIZE = 1024;
 
     private final List<XBToken> tokenList;
     private final List<List<BlockSize>> blockSizes;
@@ -51,7 +54,7 @@ public class XBTokenBuffer implements XBEventListener {
     }
 
     /**
-     * Writes content of passed tokens into data stream.
+     * Writes buffer content into data stream.
      *
      * In the end tokens are disposed.
      *
@@ -89,42 +92,15 @@ public class XBTokenBuffer implements XBEventListener {
                 }
 
                 case DATA: {
-                    // TODO This is ugly way to compute size - all data are copied to new token
+                    int dataPartSize;
+                    InputStream data = ((XBDataToken) bufferToken).getData();
                     ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
                     XBBlockTerminationMode terminationMode = bufferLevelType.get(countingLevel - 1);
-                    int dataPartSize = 0;
-                    int zeroCount = 0;
-
-                    while (((XBDataToken) bufferToken).getData().available() > 0) {
-                        // TODO: use buffer
-                        int data = ((XBDataToken) bufferToken).getData().read();
-                        dataStream.write(data);
-                        if (terminationMode == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
-                            if (data == 0) {
-                                if (zeroCount < 254) {
-                                    zeroCount++;
-                                } else {
-                                    dataPartSize += 2;
-                                    zeroCount = 0;
-                                }
-                            } else {
-                                if (zeroCount > 0) {
-                                    dataPartSize += 2;
-                                    zeroCount = 0;
-                                }
-
-                                dataPartSize++;
-                            }
-                        } else {
-                            dataPartSize++;
-                        }
-                    }
-
                     if (terminationMode == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
-                        if (zeroCount > 0) {
-                            dataPartSize += 1;
-                        }
-                        dataPartSize += 2;
+                        dataPartSize = copyStreamAndComputeAdjustedSize(data, dataStream);
+                    } else {
+                        StreamUtils.copyInputStreamToOutputStream(data, dataStream);
+                        dataPartSize = dataStream.size();
                     }
 
                     XBDataToken copiedToken = new XBDataToken(new ByteArrayInputStream(dataStream.toByteArray()));
@@ -262,12 +238,66 @@ public class XBTokenBuffer implements XBEventListener {
         }
     }
 
+    public static int copyStreamAndComputeAdjustedSize(InputStream source, OutputStream target) throws IOException {
+        int dataPartSize = 0;
+        ZeroCounter zeroCounter = new ZeroCounter();
+
+        byte[] buffer = new byte[BUFFER_SIZE];
+        int used = 0;
+
+        while (source.available() > 0) {
+            int read = source.read(buffer, used, BUFFER_SIZE - used);
+            used += read;
+            if (used == BUFFER_SIZE) {
+                dataPartSize += computeAdjustedSize(buffer, BUFFER_SIZE, zeroCounter);
+                target.write(buffer, 0, BUFFER_SIZE);
+                used = 0;
+            }
+        }
+
+        if (used > 0) {
+            dataPartSize += computeAdjustedSize(buffer, used, zeroCounter);
+            target.write(buffer, 0, used);
+        }
+
+        return dataPartSize + (zeroCounter.zeroCount > 0 ? 3 : 2);
+    }
+
+    private static int computeAdjustedSize(byte[] buffer, int size, ZeroCounter zeroCounter) {
+        int dataPartSize = 0;
+        for (int i = 0; i < size; i++) {
+            byte data = buffer[i];
+            if (data == 0) {
+                if (zeroCounter.zeroCount < 254) {
+                    zeroCounter.zeroCount++;
+                } else {
+                    dataPartSize += 2;
+                    zeroCounter.zeroCount = 0;
+                }
+            } else {
+                if (zeroCounter.zeroCount > 0) {
+                    dataPartSize += 2;
+                    zeroCounter.zeroCount = 0;
+                }
+
+                dataPartSize++;
+            }
+        }
+
+        return dataPartSize;
+    }
+
+    private static class ZeroCounter {
+
+        int zeroCount;
+    }
+
     /**
      * Internal structure for block sizes.
      */
-    private class BlockSize {
+    private static class BlockSize {
 
-        public int attributePartSize = 0;
-        public int dataPartSize = 0;
+        int attributePartSize = 0;
+        int dataPartSize = 0;
     }
 }

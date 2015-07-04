@@ -197,22 +197,6 @@ public class MainFrame extends javax.swing.JFrame implements XBEditorFrame, Main
         activeStatusPanel = "default";
         ((CardLayout) statusPanel.getLayout()).show(statusPanel, activeStatusPanel);
 
-//        mainPanel.add(activePanel, java.awt.BorderLayout.CENTER);
-        // Open file from command line
-        /*
-         String fileName = app.getFileName();
-         if (!"".equals(fileName)) {
-         setFileName(fileName);
-         activePanel.loadFromFile();
-         } */
-        // Caret position listener
-/*        caretChangeListener = new ChangeListener() {
-         public void stateChanged(ChangeEvent e) {
-         //                Point pos = activePanel.getCaretPosition();
-         Point pos = new Point();
-         jTextField1.setText(Long.toString((long) pos.getX()) +":"+ Long.toString((long) pos.getY()));
-         }
-         }; */
         // Actions on change of look&feel
         UIManager.addPropertyChangeListener(new PropertyChangeListener() {
             @Override

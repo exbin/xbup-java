@@ -22,15 +22,17 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBFilter;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.basic.XBSListener;
 import org.xbup.lib.core.parser.token.XBAttribute;
+import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * Default XBUP level 0 printing filter.
  *
- * @version 0.1.25 2015/05/25
+ * @version 0.1.25 2015/07/06
  * @author XBUP Project (http://xbup.org)
  */
-public class XBPrintFilter implements XBFilter, XBListener {
+public class XBPrintFilter implements XBFilter, XBSListener {
 
     private XBListener listener = null;
 
@@ -45,6 +47,16 @@ public class XBPrintFilter implements XBFilter, XBListener {
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         System.out.println("> Begin (" + terminationMode.toString() + "):");
         listener.beginXB(terminationMode);
+    }
+
+    @Override
+    public void beginXB(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
+        System.out.println("> Begin (" + terminationMode.toString() + "):");
+        if (listener instanceof XBSListener) {
+            ((XBSListener) listener).beginXB(terminationMode, blockSize);
+        } else {
+            listener.beginXB(terminationMode);
+        }
     }
 
     @Override

@@ -33,7 +33,8 @@ import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBEndToken;
 import org.xbup.lib.core.parser.token.XBToken;
-import org.xbup.lib.core.parser.token.XBTokenType;
+import org.xbup.lib.core.test.TestUtils.BufferAssertXBFilter;
+import org.xbup.lib.core.test.TestUtils.DataBufferAssertXBFilter;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -90,7 +91,7 @@ public class XBProducerReaderTest extends TestCase {
     public void testReadSampleSingleEmptyBlock() throws Exception {
         try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singleemptyblock.xb")) {
             XBProducerReader instance = new XBProducerReader(stream);
-            AssertListener assertListener;
+            BufferAssertXBFilter assertListener;
 
             List<XBToken> tokenList = new ArrayList<>();
             tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
@@ -98,7 +99,7 @@ public class XBProducerReaderTest extends TestCase {
             tokenList.add(new XBEndToken());
             tokenList.add(null);
 
-            assertListener = new AssertListener(tokenList);
+            assertListener = new BufferAssertXBFilter(tokenList);
             instance.attachXBListener(assertListener);
             instance.read();
             assertTrue(assertListener.isCorrect());
@@ -116,7 +117,7 @@ public class XBProducerReaderTest extends TestCase {
     public void testReadSampleExtended() throws Exception {
         try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_extended.xb")) {
             XBProducerReader instance = new XBProducerReader(stream);
-            AssertListener assertListener;
+            BufferAssertXBFilter assertListener;
 
             List<XBToken> tokenList = new ArrayList<>();
             tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
@@ -124,7 +125,7 @@ public class XBProducerReaderTest extends TestCase {
             tokenList.add(new XBDataToken(null));
             tokenList.add(new XBEndToken());
 
-            assertListener = new DataAssertListener(tokenList);
+            assertListener = new DataBufferAssertXBFilter(tokenList);
             instance.attachXBListener(assertListener);
             instance.read();
             assertTrue(assertListener.isCorrect());
@@ -145,7 +146,7 @@ public class XBProducerReaderTest extends TestCase {
         try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_empty.xb")) {
             XBProducerReader instance = new XBProducerReader(stream);
             try {
-                instance.attachXBListener(new AssertListener(null));
+                instance.attachXBListener(new BufferAssertXBFilter(null));
                 instance.read();
             } catch (XBProcessingException | IOException e) {
                 ex = e;
@@ -167,7 +168,7 @@ public class XBProducerReaderTest extends TestCase {
         try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_singlebyte.xb")) {
             XBProducerReader instance = new XBProducerReader(stream);
             try {
-                instance.attachXBListener(new AssertListener(null));
+                instance.attachXBListener(new BufferAssertXBFilter(null));
                 instance.read();
             } catch (XBProcessingException | IOException e) {
                 ex = e;
@@ -189,7 +190,7 @@ public class XBProducerReaderTest extends TestCase {
         try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_wrongheader.xb")) {
             XBProducerReader instance = new XBProducerReader(stream);
             try {
-                instance.attachXBListener(new AssertListener(null));
+                instance.attachXBListener(new BufferAssertXBFilter(null));
                 instance.read();
             } catch (XBProcessingException | IOException e) {
                 ex = e;
@@ -208,7 +209,7 @@ public class XBProducerReaderTest extends TestCase {
     public void testReadSampleSingleData() throws Exception {
         try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singledata.xb")) {
             XBProducerReader instance = new XBProducerReader(stream);
-            AssertListener assertListener;
+            BufferAssertXBFilter assertListener;
 
             List<XBToken> tokenList = new ArrayList<>();
             tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
@@ -216,7 +217,7 @@ public class XBProducerReaderTest extends TestCase {
             tokenList.add(new XBEndToken());
             tokenList.add(null);
 
-            assertListener = new DataAssertListener(tokenList);
+            assertListener = new DataBufferAssertXBFilter(tokenList);
             instance.attachXBListener(assertListener);
             instance.read();
             assertTrue(assertListener.isCorrect());
@@ -234,7 +235,7 @@ public class XBProducerReaderTest extends TestCase {
     public void testReadSampleTerminated() throws Exception {
         try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_terminated.xb")) {
             XBProducerReader instance = new XBProducerReader(stream);
-            AssertListener assertListener;
+            BufferAssertXBFilter assertListener;
 
             List<XBToken> tokenList = new ArrayList<>();
             tokenList.add(new XBBeginToken(XBBlockTerminationMode.TERMINATED_BY_ZERO));
@@ -245,7 +246,7 @@ public class XBProducerReaderTest extends TestCase {
             tokenList.add(new XBEndToken());
             tokenList.add(null);
 
-            assertListener = new AssertListener(tokenList);
+            assertListener = new BufferAssertXBFilter(tokenList);
             instance.attachXBListener(assertListener);
             instance.read();
             assertTrue(assertListener.isCorrect());
@@ -263,7 +264,7 @@ public class XBProducerReaderTest extends TestCase {
     public void testReadSampleSixBlocks() throws Exception {
         try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_sixblocks.xb")) {
             XBProducerReader instance = new XBProducerReader(stream);
-            AssertListener assertListener;
+            BufferAssertXBFilter assertListener;
 
             List<XBToken> tokenList = new ArrayList<>();
             tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
@@ -290,7 +291,7 @@ public class XBProducerReaderTest extends TestCase {
             tokenList.add(new XBEndToken());
             tokenList.add(null);
 
-            assertListener = new AssertListener(tokenList);
+            assertListener = new BufferAssertXBFilter(tokenList);
             instance.attachXBListener(assertListener);
             instance.read();
             assertTrue(assertListener.isCorrect());
@@ -319,93 +320,6 @@ public class XBProducerReaderTest extends TestCase {
         @Override
         public void endXB() throws XBProcessingException, IOException {
             System.out.println("< End.");
-        }
-    }
-
-    private class AssertListener extends DebugListener {
-
-        private boolean correct = false;
-        private int position = 0;
-        private final List<XBToken> tokenList;
-
-        public AssertListener(List<XBToken> tokenList) {
-            this.tokenList = tokenList;
-        }
-
-        @Override
-        public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-            super.beginXB(terminationMode);
-            if (tokenList != null && position < tokenList.size() && tokenList.get(position).getTokenType() == XBTokenType.BEGIN && ((XBBeginToken) tokenList.get(position)).getTerminationMode() == terminationMode) {
-                position++;
-                correct = true;
-            } else {
-                correct = false;
-            }
-        }
-
-        @Override
-        public void attribXB(XBAttribute attribute) throws XBProcessingException, IOException {
-            super.attribXB(attribute);
-            if (tokenList != null && position < tokenList.size() && tokenList.get(position).getTokenType() == XBTokenType.ATTRIBUTE && ((XBAttributeToken) tokenList.get(position)).getAttribute().getNaturalLong() == attribute.getNaturalLong()) {
-                position++;
-                correct = true;
-            } else {
-                correct = false;
-            }
-        }
-
-        @Override
-        public void dataXB(InputStream data) throws XBProcessingException, IOException {
-            super.dataXB(data);
-            if (tokenList != null && position < tokenList.size() && (tokenList.get(position) == null || tokenList.get(position).getTokenType() == XBTokenType.DATA)) {
-                position++;
-                correct = true;
-            } else {
-                correct = false;
-            }
-        }
-
-        @Override
-        public void endXB() throws XBProcessingException, IOException {
-            super.endXB();
-            if (tokenList != null && position < tokenList.size() && tokenList.get(position).getTokenType() == XBTokenType.END) {
-                position++;
-                correct = true;
-            } else {
-                correct = false;
-            }
-        }
-
-        public boolean isCorrect() {
-            return correct;
-        }
-    }
-
-    private class DataAssertListener extends AssertListener {
-
-        public DataAssertListener(List<XBToken> tokenList) {
-            super(tokenList);
-        }
-
-        @Override
-        public void dataXB(InputStream data) throws XBProcessingException, IOException {
-            XBToken token = super.tokenList.get(super.position);
-            super.dataXB(data);
-            if (token != null) {
-                byte[] dataBlob = new byte[2];
-                int position = 0;
-                while ((data.available() >= 0) && (position < 10)) {
-                    int readStat = data.read(dataBlob, 0, 1);
-                    if (readStat < 0) {
-                        fail("Incorrect extended data");
-                    }
-
-                    assertEquals('0' + position, dataBlob[0]);
-                    position++;
-                }
-
-                assertEquals("Extended data are too short", 10, position);
-            }
         }
     }
 }

@@ -22,7 +22,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
@@ -34,6 +33,7 @@ import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBEndToken;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.event.XBEventListener;
+import static org.xbup.lib.core.test.TestUtils.assertEqualsInputStream;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
@@ -312,31 +312,6 @@ public class XBListenerWriterTest extends TestCase {
                     break;
                 }
             }
-        }
-    }
-
-    private void assertEqualsInputStream(InputStream expectedStream, InputStream stream) {
-        try {
-            byte[] dataBlob = new byte[2];
-            byte[] dataBlob2 = new byte[2];
-            int position = 0;
-            while (expectedStream.available() > 0) {
-                int readStat = expectedStream.read(dataBlob, 0, 1);
-                if (readStat < 0) {
-                    fail("Unable to read expected stream on position " + position);
-                }
-                int readStat2 = stream.read(dataBlob2, 0, 1);
-                if (readStat2 < 0) {
-                    fail("Unable to read compared stream on position " + position);
-                }
-
-                assertEquals(dataBlob[0], dataBlob2[0]);
-                position++;
-            }
-
-            assertTrue(stream.available() == 0);
-        } catch (IOException ex) {
-            fail("IOException " + ex.getMessage());
         }
     }
 }

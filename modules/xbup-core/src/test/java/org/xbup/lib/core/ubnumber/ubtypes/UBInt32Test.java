@@ -29,7 +29,7 @@ import org.xbup.lib.core.ubnumber.type.UBInt32;
 /**
  * Test class for UBInt32.
  *
- * @version 0.1.24 2015/01/07
+ * @version 0.1.25 2015/07/05
  * @author XBUP Project (http://xbup.org)
  */
 public class UBInt32Test extends TestCase {
@@ -49,7 +49,7 @@ public class UBInt32Test extends TestCase {
     }
 
     /**
-     * Test of fromStreamUB method, of class UBInt32.
+     * Tests fromStreamUB method of class UBInt32.
      *
      * @throws java.lang.Exception
      */
@@ -70,7 +70,7 @@ public class UBInt32Test extends TestCase {
     }
 
     /**
-     * Test of toStreamUB and fromStreamUB method, of class UBInt32.
+     * Tests toStreamUB and fromStreamUB method of class UBInt32.
      */
     public void testReadWrite() {
         ByteArrayOutputStream oStream = new ByteArrayOutputStream();
@@ -139,7 +139,7 @@ public class UBInt32Test extends TestCase {
     }
 
     /**
-     * Test of getInt method, of class UBInt32.
+     * Tests getInt method of class UBInt32.
      */
     public void testGetInt() {
         UBInt32 instance = new UBInt32(Integer.MAX_VALUE);

@@ -28,17 +28,17 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Sample data and methods for testing purposes.
  *
- * @version 0.1.25 2015/07/06
+ * @version 0.1.25 2015/07/08
  * @author XBUP Project (http://xbup.org)
  */
 public class TestSampleData {
 
     /**
-     * Returns tokens matching file "l0_singleemptyblock.xb".
+     * Writes tokens matching file "l0_singleemptyblock.xb".
      *
      * @param listener token listener
      */
-    public static void getSampleSingleEmptyBlock(XBListener listener) {
+    public static void writeSampleSingleEmptyBlock(XBListener listener) {
         try {
             listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
             listener.attribXB(new UBNat32(0));
@@ -49,11 +49,11 @@ public class TestSampleData {
     }
 
     /**
-     * Returns tokens matching file "l0_extended.xb".
+     * Writes tokens matching file "l0_extended.xb".
      *
      * @param listener token listener
      */
-    public static void getSampleExtended(XBListener listener) {
+    public static void writeSampleExtended(XBListener listener) {
         try {
             listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
             listener.attribXB(new UBNat32(0));
@@ -67,11 +67,11 @@ public class TestSampleData {
     }
 
     /**
-     * Returns tokens matching file "l0_dataextended.xb".
+     * Writes tokens matching file "l0_dataextended.xb".
      *
      * @param listener token listener
      */
-    public static void getSampleDataExtended(XBListener listener) {
+    public static void writeSampleDataExtended(XBListener listener) {
         try {
             listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
             byte[] data = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57};
@@ -87,11 +87,27 @@ public class TestSampleData {
     }
 
     /**
-     * Returns tokens matching file "l0_singledata.xb".
+     * Writes tokens matching file "l0_singleblock.xb".
      *
      * @param listener token listener
      */
-    public static void getSampleSingleData(XBListener listener) {
+    public static void writeSampleSingleBlock(XBListener listener) {
+        try {
+            listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
+            listener.attribXB(new UBNat32(1));
+            listener.attribXB(new UBNat32(2));
+            listener.endXB();
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(TestSampleData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Writes tokens matching file "l0_singledata.xb".
+     *
+     * @param listener token listener
+     */
+    public static void writeSampleSingleData(XBListener listener) {
         try {
             listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
             byte[] data = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57};
@@ -104,11 +120,11 @@ public class TestSampleData {
     }
 
     /**
-     * Returns tokens matching file "l0_terminated.xb".
+     * Writes tokens matching file "l0_terminated.xb".
      *
      * @param listener token listener
      */
-    public static void getSampleTerminated(XBListener listener) {
+    public static void writeSampleTerminated(XBListener listener) {
         try {
             listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
             listener.attribXB(new UBNat32(0));
@@ -122,11 +138,11 @@ public class TestSampleData {
     }
 
     /**
-     * Returns tokens matching file "l0_sixblocks.xb".
+     * Writes tokens matching file "l0_sixblocks.xb".
      *
      * @param listener token listener
      */
-    public static void getSampleSixBlocks(XBListener listener) {
+    public static void writeSampleSixBlocks(XBListener listener) {
         try {
             listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
             listener.attribXB(new UBNat32(0));

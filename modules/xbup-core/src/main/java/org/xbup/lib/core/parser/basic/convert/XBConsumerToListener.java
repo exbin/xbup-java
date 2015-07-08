@@ -18,7 +18,7 @@ package org.xbup.lib.core.parser.basic.convert;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
@@ -42,20 +42,20 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  *
  * Uses token buffer stored in memory.
  *
- * @version 0.1.25 2015/02/06
+ * @version 0.1.25 2015/07/08
  * @author XBUP Project (http://xbup.org)
  */
 public class XBConsumerToListener implements XBSListener {
 
-    private List<XBToken> tokens = new ArrayList<>();
+    private List<XBToken> tokens = new LinkedList<>();
 
     public XBConsumerToListener(XBConsumer consumer) {
         consumer.attachXBProvider(new XBProvider() {
 
             @Override
             public void produceXB(XBListener listener) throws XBProcessingException, IOException {
-                if (tokens.isEmpty()) {
-                    XBToken token = tokens.get(0);
+                if (!tokens.isEmpty()) {
+                    XBToken token = tokens.remove(0);
                     XBListenerToToken.tokenToListener(token, listener);
                 } else {
                     throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);

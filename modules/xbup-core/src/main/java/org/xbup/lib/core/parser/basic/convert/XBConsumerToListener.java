@@ -42,7 +42,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  *
  * Uses token buffer stored in memory.
  *
- * @version 0.1.25 2015/07/08
+ * @version 0.1.25 2015/07/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBConsumerToListener implements XBSListener {
@@ -50,18 +50,20 @@ public class XBConsumerToListener implements XBSListener {
     private List<XBToken> tokens = new LinkedList<>();
 
     public XBConsumerToListener(XBConsumer consumer) {
-        consumer.attachXBProvider(new XBProvider() {
+        if (consumer != null) {
+            consumer.attachXBProvider(new XBProvider() {
 
-            @Override
-            public void produceXB(XBListener listener) throws XBProcessingException, IOException {
-                if (!tokens.isEmpty()) {
-                    XBToken token = tokens.remove(0);
-                    XBListenerToToken.tokenToListener(token, listener);
-                } else {
-                    throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+                @Override
+                public void produceXB(XBListener listener) throws XBProcessingException, IOException {
+                    if (!tokens.isEmpty()) {
+                        XBToken token = tokens.remove(0);
+                        XBListenerToToken.tokenToListener(token, listener);
+                    } else {
+                        throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
@@ -87,5 +89,9 @@ public class XBConsumerToListener implements XBSListener {
     @Override
     public void endXB() throws XBProcessingException, IOException {
         tokens.add(new XBEndToken());
+    }
+
+    public List<XBToken> getTokens() {
+        return tokens;
     }
 }

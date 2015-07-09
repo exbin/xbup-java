@@ -38,7 +38,7 @@ import org.xbup.lib.core.parser.token.XBTokenType;
  * @version 0.1.25 2015/07/06
  * @author XBUP Project (http://xbup.org)
  */
-public class TestUtils {
+public class XBTestUtils {
 
     /**
      * Loads data from two streams and test them for exact match.

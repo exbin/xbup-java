@@ -31,7 +31,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * @version 0.1.25 2015/07/08
  * @author XBUP Project (http://xbup.org)
  */
-public class TestSampleData {
+public class XBCoreTestSampleData {
 
     /**
      * Writes tokens matching file "l0_singleemptyblock.xb".
@@ -44,7 +44,7 @@ public class TestSampleData {
             listener.attribXB(new UBNat32(0));
             listener.endXB();
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(TestSampleData.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBCoreTestSampleData.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -62,7 +62,7 @@ public class TestSampleData {
             listener.dataXB(extDataStream);
             listener.endXB();
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(TestSampleData.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBCoreTestSampleData.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -82,7 +82,7 @@ public class TestSampleData {
             listener.dataXB(extDataStream);
             listener.endXB();
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(TestSampleData.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBCoreTestSampleData.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -98,7 +98,7 @@ public class TestSampleData {
             listener.attribXB(new UBNat32(2));
             listener.endXB();
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(TestSampleData.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBCoreTestSampleData.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -115,7 +115,7 @@ public class TestSampleData {
             listener.dataXB(dataStream);
             listener.endXB();
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(TestSampleData.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBCoreTestSampleData.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -133,7 +133,7 @@ public class TestSampleData {
             listener.attribXB(new UBNat32(2));
             listener.endXB();
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(TestSampleData.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBCoreTestSampleData.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -169,7 +169,7 @@ public class TestSampleData {
             listener.endXB();
             listener.endXB();
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(TestSampleData.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBCoreTestSampleData.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

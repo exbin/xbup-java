@@ -27,20 +27,22 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
-import org.xbup.lib.core.parser.token.XBAttribute;
+import org.xbup.lib.core.parser.basic.convert.XBConsumerToListener;
+import org.xbup.lib.core.parser.basic.convert.XBPrintFilter;
+import org.xbup.lib.core.parser.data.XBCoreTestSampleData;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBEndToken;
 import org.xbup.lib.core.parser.token.XBToken;
-import org.xbup.lib.core.test.TestUtils.BufferAssertXBFilter;
-import org.xbup.lib.core.test.TestUtils.DataBufferAssertXBFilter;
+import org.xbup.lib.core.test.XBTestUtils.BufferAssertXBFilter;
+import org.xbup.lib.core.test.XBTestUtils.DataBufferAssertXBFilter;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * Test class for XBProducerReader.
  *
- * @version 0.1.23 2013/12/15
+ * @version 0.1.25 2015/07/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBProducerReaderTest extends TestCase {
@@ -60,7 +62,7 @@ public class XBProducerReaderTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBProducerReader.
+     * Tests XBProducerReader class with simple read.
      *
      * @throws java.lang.Exception
      */
@@ -70,7 +72,7 @@ public class XBProducerReaderTest extends TestCase {
             try {
                 XBProducerReader reader = new XBProducerReader();
                 reader.open(source);
-                reader.attachXBListener(new DebugListener());
+                reader.attachXBListener(new XBPrintFilter());
                 reader.read();
 
                 reader.close();
@@ -83,7 +85,7 @@ public class XBProducerReaderTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBProducerReader.
+     * Tests XBProducerReader class reading simple empty block.
      *
      * @throws java.lang.Exception
      */
@@ -91,15 +93,12 @@ public class XBProducerReaderTest extends TestCase {
     public void testReadSampleSingleEmptyBlock() throws Exception {
         try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singleemptyblock.xb")) {
             XBProducerReader instance = new XBProducerReader(stream);
+
             BufferAssertXBFilter assertListener;
+            XBConsumerToListener buffer = new XBConsumerToListener(null);
+            XBCoreTestSampleData.writeSampleSingleEmptyBlock(buffer);
+            assertListener = new BufferAssertXBFilter(buffer.getTokens());
 
-            List<XBToken> tokenList = new ArrayList<>();
-            tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            tokenList.add(new XBAttributeToken(new UBNat32(0)));
-            tokenList.add(new XBEndToken());
-            tokenList.add(null);
-
-            assertListener = new BufferAssertXBFilter(tokenList);
             instance.attachXBListener(assertListener);
             instance.read();
             assertTrue(assertListener.isCorrect());
@@ -109,7 +108,7 @@ public class XBProducerReaderTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBProducerReader.
+     * Tests XBProducerReader class reading sample extended block.
      *
      * @throws java.lang.Exception
      */
@@ -117,15 +116,12 @@ public class XBProducerReaderTest extends TestCase {
     public void testReadSampleExtended() throws Exception {
         try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_extended.xb")) {
             XBProducerReader instance = new XBProducerReader(stream);
+
             BufferAssertXBFilter assertListener;
+            XBConsumerToListener buffer = new XBConsumerToListener(null);
+            XBCoreTestSampleData.writeSampleExtended(buffer);
+            assertListener = new BufferAssertXBFilter(buffer.getTokens());
 
-            List<XBToken> tokenList = new ArrayList<>();
-            tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            tokenList.add(new XBAttributeToken(new UBNat32(0)));
-            tokenList.add(new XBDataToken(null));
-            tokenList.add(new XBEndToken());
-
-            assertListener = new DataBufferAssertXBFilter(tokenList);
             instance.attachXBListener(assertListener);
             instance.read();
             assertTrue(assertListener.isCorrect());
@@ -135,12 +131,12 @@ public class XBProducerReaderTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBProducerReader.
+     * Tests XBProducerReader class reading no data.
      *
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleEmpty() throws Exception {
+    public void testReadSampleNone() throws Exception {
         Throwable ex = null;
 
         try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/corrupted/l0_empty.xb")) {
@@ -157,7 +153,7 @@ public class XBProducerReaderTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBProducerReader.
+     * Tests XBProducerReader class reading single byte.
      *
      * @throws java.lang.Exception
      */
@@ -179,7 +175,7 @@ public class XBProducerReaderTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBProducerReader.
+     * Tests XBProducerReader class reading wrong header.
      *
      * @throws java.lang.Exception
      */
@@ -201,7 +197,7 @@ public class XBProducerReaderTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBProducerReader.
+     * Tests XBProducerReader class reading simple data block.
      *
      * @throws java.lang.Exception
      */
@@ -209,15 +205,12 @@ public class XBProducerReaderTest extends TestCase {
     public void testReadSampleSingleData() throws Exception {
         try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singledata.xb")) {
             XBProducerReader instance = new XBProducerReader(stream);
+
             BufferAssertXBFilter assertListener;
+            XBConsumerToListener buffer = new XBConsumerToListener(null);
+            XBCoreTestSampleData.writeSampleSingleData(buffer);
+            assertListener = new BufferAssertXBFilter(buffer.getTokens());
 
-            List<XBToken> tokenList = new ArrayList<>();
-            tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            tokenList.add(new XBDataToken(null));
-            tokenList.add(new XBEndToken());
-            tokenList.add(null);
-
-            assertListener = new DataBufferAssertXBFilter(tokenList);
             instance.attachXBListener(assertListener);
             instance.read();
             assertTrue(assertListener.isCorrect());
@@ -227,7 +220,7 @@ public class XBProducerReaderTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBProducerReader.
+     * Tests XBProducerReader class reading simple terminated block.
      *
      * @throws java.lang.Exception
      */
@@ -235,18 +228,12 @@ public class XBProducerReaderTest extends TestCase {
     public void testReadSampleTerminated() throws Exception {
         try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_terminated.xb")) {
             XBProducerReader instance = new XBProducerReader(stream);
+
             BufferAssertXBFilter assertListener;
+            XBConsumerToListener buffer = new XBConsumerToListener(null);
+            XBCoreTestSampleData.writeSampleTerminated(buffer);
+            assertListener = new BufferAssertXBFilter(buffer.getTokens());
 
-            List<XBToken> tokenList = new ArrayList<>();
-            tokenList.add(new XBBeginToken(XBBlockTerminationMode.TERMINATED_BY_ZERO));
-            tokenList.add(new XBAttributeToken(new UBNat32(0)));
-            tokenList.add(new XBAttributeToken(new UBNat32(0)));
-            tokenList.add(new XBAttributeToken(new UBNat32(1)));
-            tokenList.add(new XBAttributeToken(new UBNat32(2)));
-            tokenList.add(new XBEndToken());
-            tokenList.add(null);
-
-            assertListener = new BufferAssertXBFilter(tokenList);
             instance.attachXBListener(assertListener);
             instance.read();
             assertTrue(assertListener.isCorrect());
@@ -256,7 +243,7 @@ public class XBProducerReaderTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBProducerReader.
+     * Tests XBProducerReader class writing six blocks.
      *
      * @throws java.lang.Exception
      */
@@ -264,62 +251,17 @@ public class XBProducerReaderTest extends TestCase {
     public void testReadSampleSixBlocks() throws Exception {
         try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_sixblocks.xb")) {
             XBProducerReader instance = new XBProducerReader(stream);
+
             BufferAssertXBFilter assertListener;
+            XBConsumerToListener buffer = new XBConsumerToListener(null);
+            XBCoreTestSampleData.writeSampleSixBlocks(buffer);
+            assertListener = new BufferAssertXBFilter(buffer.getTokens());
 
-            List<XBToken> tokenList = new ArrayList<>();
-            tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            tokenList.add(new XBAttributeToken(new UBNat32(0)));
-            tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            tokenList.add(new XBAttributeToken(new UBNat32(0)));
-            tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            tokenList.add(new XBAttributeToken(new UBNat32(0)));
-            tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            tokenList.add(new XBDataToken(null));
-            tokenList.add(new XBEndToken());
-            tokenList.add(new XBEndToken());
-            tokenList.add(new XBEndToken());
-            tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            tokenList.add(new XBAttributeToken(new UBNat32(0)));
-            tokenList.add(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            tokenList.add(new XBAttributeToken(new UBNat32(0)));
-            tokenList.add(new XBAttributeToken(new UBNat32(0)));
-            tokenList.add(new XBAttributeToken(new UBNat32(1)));
-            tokenList.add(new XBAttributeToken(new UBNat32(2)));
-            tokenList.add(new XBAttributeToken(new UBNat32(3)));
-            tokenList.add(new XBEndToken());
-            tokenList.add(new XBEndToken());
-            tokenList.add(new XBEndToken());
-            tokenList.add(null);
-
-            assertListener = new BufferAssertXBFilter(tokenList);
             instance.attachXBListener(assertListener);
             instance.read();
             assertTrue(assertListener.isCorrect());
 
             instance.close();
-        }
-    }
-
-    private class DebugListener implements XBListener {
-
-        @Override
-        public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-            System.out.println("> Begin (" + terminationMode.toString() + "):");
-        }
-
-        @Override
-        public void attribXB(XBAttribute attribute) throws XBProcessingException, IOException {
-            System.out.println("  Attribute: " + attribute.getNaturalLong());
-        }
-
-        @Override
-        public void dataXB(InputStream data) throws XBProcessingException, IOException {
-            System.out.println("  Data:" + data.available());
-        }
-
-        @Override
-        public void endXB() throws XBProcessingException, IOException {
-            System.out.println("< End.");
         }
     }
 }

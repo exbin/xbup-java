@@ -32,8 +32,8 @@ import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBEndToken;
-import org.xbup.lib.core.test.TestUtils.DataTokenAssertXBFilter;
-import org.xbup.lib.core.test.TestUtils.TokenAssertXBFilter;
+import org.xbup.lib.core.test.XBTestUtils.DataTokenAssertXBFilter;
+import org.xbup.lib.core.test.XBTestUtils.TokenAssertXBFilter;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**

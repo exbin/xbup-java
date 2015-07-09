@@ -29,13 +29,13 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.convert.XBConsumerToListener;
 import org.xbup.lib.core.parser.basic.convert.XBPrintFilter;
-import org.xbup.lib.core.parser.data.TestSampleData;
-import static org.xbup.lib.core.test.TestUtils.assertEqualsInputStream;
+import org.xbup.lib.core.parser.data.XBCoreTestSampleData;
+import static org.xbup.lib.core.test.XBTestUtils.assertEqualsInputStream;
 
 /**
  * Test class for XBConsumerWriter.
  *
- * @version 0.1.25 2015/07/08
+ * @version 0.1.25 2015/07/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBConsumerWriterTest extends TestCase {
@@ -55,7 +55,7 @@ public class XBConsumerWriterTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBConsumerWriter.
+     * Tests XBConsumerWriter class with simple write.
      *
      * @throws java.lang.Exception
      */
@@ -65,7 +65,7 @@ public class XBConsumerWriterTest extends TestCase {
         try {
             try (XBConsumerWriter writer = new XBConsumerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(writer));
-                TestSampleData.writeSampleSingleBlock(listener);
+                XBCoreTestSampleData.writeSampleSingleBlock(listener);
                 writer.write();
             }
         } catch (FileNotFoundException ex) {
@@ -76,7 +76,7 @@ public class XBConsumerWriterTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBConsumerWriter.
+     * Tests XBConsumerWriter class writing simple empty block.
      *
      * @throws java.lang.Exception
      */
@@ -86,7 +86,7 @@ public class XBConsumerWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBConsumerWriter writer = new XBConsumerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(writer));
-                TestSampleData.writeSampleSingleEmptyBlock(listener);
+                XBCoreTestSampleData.writeSampleSingleEmptyBlock(listener);
                 writer.write();
             }
 
@@ -95,7 +95,7 @@ public class XBConsumerWriterTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBConsumerWriter.
+     * Tests XBConsumerWriter class writing sample extended block.
      *
      * @throws java.lang.Exception
      */
@@ -105,7 +105,7 @@ public class XBConsumerWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBConsumerWriter writer = new XBConsumerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(writer));
-                TestSampleData.writeSampleExtended(listener);
+                XBCoreTestSampleData.writeSampleExtended(listener);
                 writer.write();
             }
 
@@ -114,7 +114,7 @@ public class XBConsumerWriterTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBConsumerWriter.
+     * Tests XBConsumerWriter class writing no data.
      *
      * @throws java.lang.Exception
      */
@@ -137,7 +137,7 @@ public class XBConsumerWriterTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBConsumerWriter.
+     * Tests XBConsumerWriter class writing unfinished block.
      *
      * @throws java.lang.Exception
      */
@@ -160,7 +160,7 @@ public class XBConsumerWriterTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBConsumerWriter.
+     * Tests XBConsumerWriter class writing simple data block.
      *
      * @throws java.lang.Exception
      */
@@ -170,7 +170,7 @@ public class XBConsumerWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBConsumerWriter writer = new XBConsumerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(writer));
-                TestSampleData.writeSampleSingleData(listener);
+                XBCoreTestSampleData.writeSampleSingleData(listener);
                 writer.write();
             }
 
@@ -179,7 +179,7 @@ public class XBConsumerWriterTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBConsumerWriter.
+     * Tests XBConsumerWriter class writing simple terminated block.
      *
      * @throws java.lang.Exception
      */
@@ -189,7 +189,7 @@ public class XBConsumerWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBConsumerWriter writer = new XBConsumerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(writer));
-                TestSampleData.writeSampleTerminated(listener);
+                XBCoreTestSampleData.writeSampleTerminated(listener);
                 writer.write();
             }
 
@@ -198,7 +198,7 @@ public class XBConsumerWriterTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBConsumerWriter.
+     * Tests XBConsumerWriter class writing six blocks.
      *
      * @throws java.lang.Exception
      */
@@ -208,7 +208,7 @@ public class XBConsumerWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBConsumerWriter writer = new XBConsumerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(writer));
-                TestSampleData.writeSampleSixBlocks(listener);
+                XBCoreTestSampleData.writeSampleSixBlocks(listener);
                 writer.write();
             }
 

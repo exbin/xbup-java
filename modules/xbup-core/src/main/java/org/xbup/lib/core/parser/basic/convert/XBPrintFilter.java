@@ -29,7 +29,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * Default XBUP level 0 printing filter.
  *
- * @version 0.1.25 2015/07/06
+ * @version 0.1.25 2015/07/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPrintFilter implements XBFilter, XBSListener {
@@ -46,7 +46,9 @@ public class XBPrintFilter implements XBFilter, XBSListener {
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         System.out.println("> Begin (" + terminationMode.toString() + "):");
-        listener.beginXB(terminationMode);
+        if (listener != null) {
+            listener.beginXB(terminationMode);
+        }
     }
 
     @Override
@@ -54,7 +56,7 @@ public class XBPrintFilter implements XBFilter, XBSListener {
         System.out.println("> Begin (" + terminationMode.toString() + "):");
         if (listener instanceof XBSListener) {
             ((XBSListener) listener).beginXB(terminationMode, blockSize);
-        } else {
+        } else if (listener != null) {
             listener.beginXB(terminationMode);
         }
     }
@@ -62,19 +64,25 @@ public class XBPrintFilter implements XBFilter, XBSListener {
     @Override
     public void attribXB(XBAttribute value) throws XBProcessingException, IOException {
         System.out.println("  Attribute: " + value.getNaturalLong());
-        listener.attribXB(value);
+        if (listener != null) {
+            listener.attribXB(value);
+        }
     }
 
     @Override
     public void dataXB(InputStream data) throws XBProcessingException, IOException {
         System.out.println("  Data:" + data.available());
-        listener.dataXB(data);
+        if (listener != null) {
+            listener.dataXB(data);
+        }
     }
 
     @Override
     public void endXB() throws XBProcessingException, IOException {
         System.out.println("< End.");
-        listener.endXB();
+        if (listener != null) {
+            listener.endXB();
+        }
     }
 
     @Override

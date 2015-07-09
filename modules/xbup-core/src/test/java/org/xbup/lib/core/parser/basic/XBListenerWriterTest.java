@@ -28,13 +28,13 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.convert.XBPrintFilter;
-import org.xbup.lib.core.parser.data.TestSampleData;
-import static org.xbup.lib.core.test.TestUtils.assertEqualsInputStream;
+import org.xbup.lib.core.parser.data.XBCoreTestSampleData;
+import static org.xbup.lib.core.test.XBTestUtils.assertEqualsInputStream;
 
 /**
  * Test class for XBListenerWriter.
  *
- * @version 0.1.25 2015/07/08
+ * @version 0.1.25 2015/07/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBListenerWriterTest extends TestCase {
@@ -54,7 +54,7 @@ public class XBListenerWriterTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBListenerWriter.
+     * Tests XBListenerWriter class with simple write.
      *
      * @throws java.lang.Exception
      */
@@ -66,7 +66,7 @@ public class XBListenerWriterTest extends TestCase {
                 XBPrintFilter listener = new XBPrintFilter(writer);
 
                 writer.open(target);
-                TestSampleData.writeSampleSingleBlock(listener);
+                XBCoreTestSampleData.writeSampleSingleBlock(listener);
                 writer.closeXB();
             }
         } catch (FileNotFoundException ex) {
@@ -77,7 +77,7 @@ public class XBListenerWriterTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBListenerWriter.
+     * Tests XBListenerWriter class writing simple empty block.
      *
      * @throws java.lang.Exception
      */
@@ -87,7 +87,7 @@ public class XBListenerWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBListenerWriter writer = new XBListenerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(writer);
-                TestSampleData.writeSampleSingleEmptyBlock(listener);
+                XBCoreTestSampleData.writeSampleSingleEmptyBlock(listener);
                 writer.closeXB();
             }
 
@@ -96,7 +96,7 @@ public class XBListenerWriterTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBListenerWriter.
+     * Tests XBListenerWriter class writing sample extended block.
      *
      * @throws java.lang.Exception
      */
@@ -106,7 +106,7 @@ public class XBListenerWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBListenerWriter writer = new XBListenerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(writer);
-                TestSampleData.writeSampleExtended(listener);
+                XBCoreTestSampleData.writeSampleExtended(listener);
                 writer.closeXB();
             }
 
@@ -115,7 +115,7 @@ public class XBListenerWriterTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBListenerWriter.
+     * Tests XBListenerWriter class writing no data.
      *
      * @throws java.lang.Exception
      */
@@ -136,7 +136,7 @@ public class XBListenerWriterTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBListenerWriter.
+     * Tests XBListenerWriter class writing unfinished block.
      *
      * @throws java.lang.Exception
      */
@@ -159,7 +159,7 @@ public class XBListenerWriterTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBListenerWriter.
+     * Tests XBListenerWriter class writing simple data block.
      *
      * @throws java.lang.Exception
      */
@@ -169,7 +169,7 @@ public class XBListenerWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBListenerWriter writer = new XBListenerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(writer);
-                TestSampleData.writeSampleSingleData(listener);
+                XBCoreTestSampleData.writeSampleSingleData(listener);
                 writer.closeXB();
             }
 
@@ -178,7 +178,7 @@ public class XBListenerWriterTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBListenerWriter.
+     * Tests XBListenerWriter class writing simple terminated block.
      *
      * @throws java.lang.Exception
      */
@@ -188,7 +188,7 @@ public class XBListenerWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBListenerWriter writer = new XBListenerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(writer);
-                TestSampleData.writeSampleTerminated(listener);
+                XBCoreTestSampleData.writeSampleTerminated(listener);
                 writer.closeXB();
             }
 
@@ -197,7 +197,7 @@ public class XBListenerWriterTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBListenerWriter.
+     * Tests XBListenerWriter class writing six blocks.
      *
      * @throws java.lang.Exception
      */
@@ -207,7 +207,7 @@ public class XBListenerWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBListenerWriter writer = new XBListenerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(writer);
-                TestSampleData.writeSampleSixBlocks(listener);
+                XBCoreTestSampleData.writeSampleSixBlocks(listener);
                 writer.closeXB();
             }
 

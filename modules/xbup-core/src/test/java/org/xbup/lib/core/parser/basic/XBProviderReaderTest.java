@@ -20,26 +20,21 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 import junit.framework.TestCase;
 import org.junit.Test;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
-import org.xbup.lib.core.parser.token.XBAttribute;
-import org.xbup.lib.core.parser.token.XBAttributeToken;
-import org.xbup.lib.core.parser.token.XBBeginToken;
-import org.xbup.lib.core.parser.token.XBDataToken;
-import org.xbup.lib.core.parser.token.XBEndToken;
-import org.xbup.lib.core.test.XBTestUtils.DataTokenAssertXBFilter;
+import org.xbup.lib.core.parser.basic.convert.XBConsumerToListener;
+import org.xbup.lib.core.parser.basic.convert.XBPrintFilter;
+import org.xbup.lib.core.parser.data.XBCoreTestSampleData;
+import org.xbup.lib.core.test.XBTestUtils;
 import org.xbup.lib.core.test.XBTestUtils.TokenAssertXBFilter;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * Test class for XBProviderReader.
  *
- * @version 0.1.23 2013/12/15
+ * @version 0.1.25 2015/07/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBProviderReaderTest extends TestCase {
@@ -59,7 +54,7 @@ public class XBProviderReaderTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBProviderReader.
+     * Tests XBProviderReader class with simple read.
      *
      * @throws java.lang.Exception
      */
@@ -70,7 +65,7 @@ public class XBProviderReaderTest extends TestCase {
                 XBProviderReader reader = new XBProviderReader();
                 reader.open(source);
                 while (!reader.isFinished()) {
-                    reader.produceXB(new DebugListener());
+                    reader.produceXB(new XBPrintFilter());
                 }
 
                 reader.close();
@@ -83,7 +78,7 @@ public class XBProviderReaderTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBProviderReader.
+     * Tests XBProviderReader class reading simple empty block.
      *
      * @throws java.lang.Exception
      */
@@ -91,26 +86,23 @@ public class XBProviderReaderTest extends TestCase {
     public void testReadSampleSingleEmptyBlock() throws Exception {
         try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singleemptyblock.xb")) {
             XBProviderReader instance = new XBProviderReader(stream);
-            TokenAssertXBFilter assertListener;
 
-            assertListener = new TokenAssertXBFilter(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
+            XBTestUtils.BufferAssertXBFilter assertListener;
+            XBConsumerToListener buffer = new XBConsumerToListener(null);
+            XBCoreTestSampleData.writeSampleSingleEmptyBlock(buffer);
+            assertListener = new XBTestUtils.BufferAssertXBFilter(buffer.getTokens());
 
-            assertListener = new TokenAssertXBFilter(new XBAttributeToken(new UBNat32(0)));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBEndToken());
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
+            while (!instance.isFinished()) {
+                instance.produceXB(assertListener);
+            }
+            assertListener.isCorrect();
 
             instance.close();
         }
     }
 
     /**
-     * Test of open method of the class XBProviderReader.
+     * Tests XBProviderReader class reading sample extended block.
      *
      * @throws java.lang.Exception
      */
@@ -118,30 +110,23 @@ public class XBProviderReaderTest extends TestCase {
     public void testReadSampleExtended() throws Exception {
         try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_extended.xb")) {
             XBProviderReader instance = new XBProviderReader(stream);
-            TokenAssertXBFilter assertListener;
 
-            assertListener = new TokenAssertXBFilter(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
+            XBTestUtils.BufferAssertXBFilter assertListener;
+            XBConsumerToListener buffer = new XBConsumerToListener(null);
+            XBCoreTestSampleData.writeSampleExtended(buffer);
+            assertListener = new XBTestUtils.BufferAssertXBFilter(buffer.getTokens());
 
-            assertListener = new TokenAssertXBFilter(new XBAttributeToken(new UBNat32(0)));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new DataTokenAssertXBFilter(new XBDataToken(null));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBEndToken());
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
+            while (!instance.isFinished()) {
+                instance.produceXB(assertListener);
+            }
+            assertListener.isCorrect();
 
             instance.close();
         }
     }
 
     /**
-     * Test of open method of the class XBProviderReader.
+     * Tests XBProviderReader class reading no data.
      *
      * @throws java.lang.Exception
      */
@@ -162,7 +147,7 @@ public class XBProviderReaderTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBProviderReader.
+     * Tests XBProviderReader class reading single byte.
      *
      * @throws java.lang.Exception
      */
@@ -183,7 +168,7 @@ public class XBProviderReaderTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBProviderReader.
+     * Tests XBProviderReader class reading wrong header.
      *
      * @throws java.lang.Exception
      */
@@ -204,7 +189,7 @@ public class XBProviderReaderTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBProviderReader.
+     * Tests XBProviderReader class reading simple data block.
      *
      * @throws java.lang.Exception
      */
@@ -212,26 +197,23 @@ public class XBProviderReaderTest extends TestCase {
     public void testReadSampleSingleData() throws Exception {
         try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_singledata.xb")) {
             XBProviderReader instance = new XBProviderReader(stream);
-            TokenAssertXBFilter assertListener;
 
-            assertListener = new TokenAssertXBFilter(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
+            XBTestUtils.BufferAssertXBFilter assertListener;
+            XBConsumerToListener buffer = new XBConsumerToListener(null);
+            XBCoreTestSampleData.writeSampleSingleData(buffer);
+            assertListener = new XBTestUtils.BufferAssertXBFilter(buffer.getTokens());
 
-            assertListener = new DataTokenAssertXBFilter(new XBDataToken(null));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBEndToken());
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
+            while (!instance.isFinished()) {
+                instance.produceXB(assertListener);
+            }
+            assertListener.isCorrect();
 
             instance.close();
         }
     }
 
     /**
-     * Test of open method of the class XBProviderReader.
+     * Tests XBProviderReader class reading simple terminated block.
      *
      * @throws java.lang.Exception
      */
@@ -239,38 +221,23 @@ public class XBProviderReaderTest extends TestCase {
     public void testReadSampleTerminated() throws Exception {
         try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_terminated.xb")) {
             XBProviderReader instance = new XBProviderReader(stream);
-            TokenAssertXBFilter assertListener;
 
-            assertListener = new TokenAssertXBFilter(new XBBeginToken(XBBlockTerminationMode.TERMINATED_BY_ZERO));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
+            XBTestUtils.BufferAssertXBFilter assertListener;
+            XBConsumerToListener buffer = new XBConsumerToListener(null);
+            XBCoreTestSampleData.writeSampleTerminated(buffer);
+            assertListener = new XBTestUtils.BufferAssertXBFilter(buffer.getTokens());
 
-            assertListener = new TokenAssertXBFilter(new XBAttributeToken(new UBNat32(0)));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBAttributeToken(new UBNat32(0)));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBAttributeToken(new UBNat32(1)));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBAttributeToken(new UBNat32(2)));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBEndToken());
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
+            while (!instance.isFinished()) {
+                instance.produceXB(assertListener);
+            }
+            assertListener.isCorrect();
 
             instance.close();
         }
     }
 
     /**
-     * Test of open method of the class XBProviderReader.
+     * Tests XBProviderReader class writing six blocks.
      *
      * @throws java.lang.Exception
      */
@@ -278,121 +245,18 @@ public class XBProviderReaderTest extends TestCase {
     public void testReadSampleSixBlocks() throws Exception {
         try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream("/org/xbup/lib/core/resources/test/samples/l0_sixblocks.xb")) {
             XBProviderReader instance = new XBProviderReader(stream);
-            TokenAssertXBFilter assertListener;
 
-            assertListener = new TokenAssertXBFilter(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
+            XBTestUtils.BufferAssertXBFilter assertListener;
+            XBConsumerToListener buffer = new XBConsumerToListener(null);
+            XBCoreTestSampleData.writeSampleSixBlocks(buffer);
+            assertListener = new XBTestUtils.BufferAssertXBFilter(buffer.getTokens());
 
-            assertListener = new TokenAssertXBFilter(new XBAttributeToken(new UBNat32(0)));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBAttributeToken(new UBNat32(0)));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBAttributeToken(new UBNat32(0)));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBDataToken(null));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBEndToken());
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBEndToken());
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBEndToken());
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBAttributeToken(new UBNat32(0)));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBAttributeToken(new UBNat32(0)));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBAttributeToken(new UBNat32(0)));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBAttributeToken(new UBNat32(1)));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBAttributeToken(new UBNat32(2)));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBAttributeToken(new UBNat32(3)));
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBEndToken());
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBEndToken());
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
-
-            assertListener = new TokenAssertXBFilter(new XBEndToken());
-            instance.produceXB(assertListener);
-            assertTrue(assertListener.isCorrect());
+            while (!instance.isFinished()) {
+                instance.produceXB(assertListener);
+            }
+            assertListener.isCorrect();
 
             instance.close();
         }
     }
-
-    private class DebugListener implements XBListener {
-
-        @Override
-        public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-            System.out.println("> Begin (" + terminationMode.toString() + "):");
-        }
-
-        @Override
-        public void attribXB(XBAttribute attribute) throws XBProcessingException, IOException {
-            System.out.println("  Attribute: " + attribute.getNaturalLong());
-        }
-
-        @Override
-        public void dataXB(InputStream data) throws XBProcessingException, IOException {
-            System.out.println("  Data:" + data.available());
-        }
-
-        @Override
-        public void endXB() throws XBProcessingException, IOException {
-            System.out.println("< End.");
-        }
-    }
-
 }

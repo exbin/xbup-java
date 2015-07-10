@@ -36,7 +36,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Basic XBUP level 0 reader - provider.
  *
- * @version 0.1.24 2014/10/04
+ * @version 0.1.25 2015/07/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBProviderReader implements XBProvider {
@@ -187,6 +187,7 @@ public class XBProviderReader implements XBProvider {
                         throw new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR);
                     }
 
+                    sizeLimits.remove(sizeLimits.size() - 1);
                     parserState = XBParserState.BLOCK_END;
                     // nobreak - Continue to process BLOCK_END
                 } else {

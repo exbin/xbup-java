@@ -74,7 +74,9 @@ public class XBTPrintEventFilter implements XBTEventFilter {
             }
         }
 
-        eventListener.putXBTToken(token);
+        if (eventListener != null) {
+            eventListener.putXBTToken(token);
+        }
     }
 
     @Override

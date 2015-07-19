@@ -35,7 +35,7 @@ import org.xbup.lib.core.parser.token.XBTokenType;
 /**
  * Utilities for testing.
  *
- * @version 0.1.25 2015/07/06
+ * @version 0.1.25 2015/07/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTestUtils {
@@ -76,7 +76,7 @@ public class XBTestUtils {
      */
     public static class TokenAssertXBFilter implements XBFilter {
 
-        private boolean correct = false;
+        private boolean correct = true;
         private boolean awaiting = true;
         private final XBToken token;
         private XBListener listener;
@@ -91,9 +91,8 @@ public class XBTestUtils {
                 listener.beginXB(terminationMode);
             }
 
-            if (token != null && awaiting && token.getTokenType() == XBTokenType.BEGIN && ((XBBeginToken) token).getTerminationMode() == terminationMode) {
+            if (correct && token != null && awaiting && token.getTokenType() == XBTokenType.BEGIN && ((XBBeginToken) token).getTerminationMode() == terminationMode) {
                 awaiting = false;
-                correct = true;
             } else {
                 correct = false;
             }
@@ -105,9 +104,8 @@ public class XBTestUtils {
                 listener.attribXB(attribute);
             }
 
-            if (token != null && awaiting && token.getTokenType() == XBTokenType.ATTRIBUTE && ((XBAttributeToken) token).getAttribute().getNaturalLong() == attribute.getNaturalLong()) {
+            if (correct && token != null && awaiting && token.getTokenType() == XBTokenType.ATTRIBUTE && ((XBAttributeToken) token).getAttribute().getNaturalLong() == attribute.getNaturalLong()) {
                 awaiting = false;
-                correct = true;
             } else {
                 correct = false;
             }
@@ -119,9 +117,8 @@ public class XBTestUtils {
                 listener.dataXB(data);
             }
 
-            if (token != null && awaiting && token.getTokenType() == XBTokenType.DATA) {
+            if (correct && token != null && awaiting && token.getTokenType() == XBTokenType.DATA) {
                 awaiting = false;
-                correct = true;
             } else {
                 correct = false;
             }
@@ -133,9 +130,8 @@ public class XBTestUtils {
                 listener.endXB();
             }
 
-            if (token != null && awaiting && token.getTokenType() == XBTokenType.END) {
+            if (correct && token != null && awaiting && token.getTokenType() == XBTokenType.END) {
                 awaiting = false;
-                correct = true;
             } else {
                 correct = false;
             }
@@ -184,7 +180,8 @@ public class XBTestUtils {
      */
     public static class BufferAssertXBFilter implements XBFilter {
 
-        private boolean correct = false;
+        private FinishedMode finishedMode = FinishedMode.START;
+        private int depth = 0;
         private int position = 0;
         private final List<XBToken> tokenList;
         private XBListener listener;
@@ -195,62 +192,68 @@ public class XBTestUtils {
 
         @Override
         public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+            if (finishedMode == FinishedMode.FINISHED) {
+                finishedMode = FinishedMode.AFTER_END;
+            }
+
             if (listener != null) {
                 listener.beginXB(terminationMode);
             }
+            depth++;
 
-            if (tokenList != null && position < tokenList.size() && tokenList.get(position).getTokenType() == XBTokenType.BEGIN && ((XBBeginToken) tokenList.get(position)).getTerminationMode() == terminationMode) {
-                position++;
-                correct = true;
-            } else {
-                correct = false;
-            }
+            assertTrue(tokenList != null && position < tokenList.size() && tokenList.get(position).getTokenType() == XBTokenType.BEGIN && ((XBBeginToken) tokenList.get(position)).getTerminationMode() == terminationMode);
+            position++;
         }
 
         @Override
         public void attribXB(XBAttribute attribute) throws XBProcessingException, IOException {
+            if (finishedMode == FinishedMode.FINISHED) {
+                finishedMode = FinishedMode.AFTER_END;
+            }
+
             if (listener != null) {
                 listener.attribXB(attribute);
             }
 
-            if (tokenList != null && position < tokenList.size() && tokenList.get(position).getTokenType() == XBTokenType.ATTRIBUTE && ((XBAttributeToken) tokenList.get(position)).getAttribute().getNaturalLong() == attribute.getNaturalLong()) {
-                position++;
-                correct = true;
-            } else {
-                correct = false;
-            }
+            assertTrue(tokenList != null && position < tokenList.size() && tokenList.get(position).getTokenType() == XBTokenType.ATTRIBUTE && ((XBAttributeToken) tokenList.get(position)).getAttribute().getNaturalLong() == attribute.getNaturalLong());
+            position++;
         }
 
         @Override
         public void dataXB(InputStream data) throws XBProcessingException, IOException {
+            if (finishedMode == FinishedMode.FINISHED) {
+                finishedMode = FinishedMode.AFTER_END;
+            }
+
             if (listener != null) {
                 listener.dataXB(data);
             }
 
-            if (tokenList != null && position < tokenList.size() && (tokenList.get(position) == null || tokenList.get(position).getTokenType() == XBTokenType.DATA)) {
-                position++;
-                correct = true;
-            } else {
-                correct = false;
-            }
+            assertTrue(tokenList != null && position < tokenList.size() && tokenList.get(position).getTokenType() == XBTokenType.DATA);
+            position++;
         }
 
         @Override
         public void endXB() throws XBProcessingException, IOException {
+            if (finishedMode == FinishedMode.FINISHED) {
+                finishedMode = FinishedMode.AFTER_END;
+            }
+
             if (listener != null) {
                 listener.endXB();
             }
-
-            if (tokenList != null && position < tokenList.size() && tokenList.get(position).getTokenType() == XBTokenType.END) {
-                position++;
-                correct = true;
-            } else {
-                correct = false;
+            
+            depth--;
+            if (depth == 0 && finishedMode == FinishedMode.START) {
+                finishedMode = FinishedMode.FINISHED;
             }
+
+            assertTrue(tokenList != null && position < tokenList.size() && tokenList.get(position).getTokenType() == XBTokenType.END);
+            position++;
         }
 
-        public boolean isCorrect() {
-            return correct;
+        public boolean isFinished() {
+            return finishedMode == FinishedMode.FINISHED;
         }
 
         @Override
@@ -258,36 +261,8 @@ public class XBTestUtils {
             this.listener = listener;
         }
     }
-
-    /**
-     * Filters awaiting tokens and checks for match to given token buffer and
-     * particular data blob.
-     */
-    public static class DataBufferAssertXBFilter extends BufferAssertXBFilter {
-
-        public DataBufferAssertXBFilter(List<XBToken> tokenList) {
-            super(tokenList);
-        }
-
-        @Override
-        public void dataXB(InputStream data) throws XBProcessingException, IOException {
-            XBToken token = super.tokenList.get(super.position);
-            super.dataXB(data);
-            if (token != null) {
-                byte[] dataBlob = new byte[2];
-                int position = 0;
-                while ((data.available() >= 0) && (position < 10)) {
-                    int readStat = data.read(dataBlob, 0, 1);
-                    if (readStat < 0) {
-                        fail("Incorrect extended data");
-                    }
-
-                    assertEquals('0' + position, dataBlob[0]);
-                    position++;
-                }
-
-                assertEquals("Extended data are too short", 10, position);
-            }
-        }
+    
+    private static enum FinishedMode {
+        START, FINISHED, AFTER_END;
     }
 }

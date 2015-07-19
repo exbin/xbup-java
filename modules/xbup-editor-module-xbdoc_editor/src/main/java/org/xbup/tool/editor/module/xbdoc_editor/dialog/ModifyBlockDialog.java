@@ -85,7 +85,7 @@ import org.xbup.tool.editor.utils.WindowUtils;
 /**
  * Dialog for modifying item attributes or data.
  *
- * @version 0.1.25 2015/06/24
+ * @version 0.1.25 2015/07/18
  * @author XBUP Project (http://xbup.org)
  */
 public class ModifyBlockDialog extends javax.swing.JDialog {
@@ -522,6 +522,7 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
             attributesTable.getCellEditor().stopCellEditing();
         }
 
+        String currentTitle = mainTabbedPane.getTitleAt(mainTabbedPane.getSelectedIndex());
         if (dataMode == XBBlockDataMode.DATA_BLOCK) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             try {
@@ -532,12 +533,10 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
 
             newNode = srcNode.cloneNode();
             newNode.setData(new ByteArrayInputStream(stream.toByteArray()));
+            newNode.setTerminationMode(terminationModeCheckBox.isSelected() ? XBBlockTerminationMode.SIZE_SPECIFIED : XBBlockTerminationMode.TERMINATED_BY_ZERO);
         } else {
             // TODO: Store active tab
-            String currentTitle = mainTabbedPane.getTitleAt(mainTabbedPane.getSelectedIndex());
-            if (basicPanelTitle.equals(currentTitle)) {
-                srcNode.setTerminationMode(terminationModeCheckBox.isSelected() ? XBBlockTerminationMode.SIZE_SPECIFIED : XBBlockTerminationMode.TERMINATED_BY_ZERO);
-            } else if (attributesPanelTitle.equals(currentTitle)) {
+            if (attributesPanelTitle.equals(currentTitle)) {
                 if (attributes.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "There must be at least one attribute", "Attribute Needed", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -550,6 +549,7 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
                 UBNatural blockId = attributes.size() > 1 ? attributes.get(1).convertToNatural() : new UBNat32();
                 newNode.setFixedBlockType(new XBFixedBlockType(groupId, blockId));
                 newNode.setSingleAttributeType(attributes.size() == 1);
+                newNode.setTerminationMode(terminationModeCheckBox.isSelected() ? XBBlockTerminationMode.SIZE_SPECIFIED : XBBlockTerminationMode.TERMINATED_BY_ZERO);
 
                 for (int attributeIndex = 2; attributeIndex < attributes.size(); attributeIndex++) {
                     newNode.addAttribute(attributes.get(attributeIndex));
@@ -713,7 +713,9 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
     
     public void saveExtendedArea(OutputStream stream) {
         try {
-            extAreaHexPanel.saveToStream(stream);
+            if (extAreaHexPanel != null) {
+                extAreaHexPanel.saveToStream(stream);
+            }
         } catch (IOException ex) {
             Logger.getLogger(ModifyBlockDialog.class.getName()).log(Level.SEVERE, null, ex);
         }

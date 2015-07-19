@@ -18,6 +18,7 @@ package org.xbup.tool.editor.module.xbdoc_editor.panel;
 
 import java.awt.Component;
 import java.awt.HeadlessException;
+import java.io.IOException;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,6 +41,7 @@ import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXLineService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
+import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBPSerialReader;
 import org.xbup.lib.core.serial.XBPSerialWriter;
 import org.xbup.lib.parser_tree.XBATreeParamExtractor;
@@ -331,9 +333,10 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
             }
             XBBlockType type = node.getBlockType();
             XBBlockDecl decl = node.getBlockDecl();
-            if (propertyThread != this) {
+            if (propertyThread != this && catalog == null) {
                 return;
             }
+            
             XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
             if (decl instanceof XBCBlockDecl) {
                 XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
@@ -378,7 +381,7 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
                                                 lineEditor.attachChangeListener(new LineEditorChangeListener(lineEditor, paramExtractor, parameterIndex));
                                             }
                                         }
-                                    } catch (Exception ex) {
+                                    } catch (XBProcessingException | IOException ex) {
                                         Logger.getLogger(XBPropertyTablePanel.class.getName()).log(Level.SEVERE, null, ex);
                                         JOptionPane.showMessageDialog(propertyPanel, ex.getMessage(), "Exception in property panel", JOptionPane.ERROR_MESSAGE);
                                     }

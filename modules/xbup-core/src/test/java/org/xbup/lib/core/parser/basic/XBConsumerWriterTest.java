@@ -34,7 +34,7 @@ import static org.xbup.lib.core.test.XBTestUtils.assertEqualsInputStream;
 /**
  * Test class for XBConsumerWriter.
  *
- * @version 0.1.25 2015/07/19
+ * @version 0.1.25 2015/07/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBConsumerWriterTest extends TestCase {

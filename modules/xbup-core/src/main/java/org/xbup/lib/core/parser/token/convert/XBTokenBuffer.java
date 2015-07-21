@@ -36,7 +36,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.core.util.StreamUtils;
 
 /**
- * Token buffer to stores received tokens into memory structure.
+ * Token buffer to store received tokens into memory structure.
  *
  * @version 0.1.25 2015/07/03
  * @author XBUP Project (http://xbup.org)

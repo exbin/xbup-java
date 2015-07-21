@@ -26,7 +26,7 @@ import java.io.OutputStream;
  * Terminator is 0x0000. Sequence 0x00XX for XX &gt; 0 is interpreted as
  * sequence of zeros XX bytes long.
  *
- * @version 0.1.23 2014/04/14
+ * @version 0.1.25 2015/07/21
  * @author XBUP Project (http://xbup.org)
  */
 public class TerminatedDataOutputStreamWrapper extends OutputStream implements FinishableStream {
@@ -60,7 +60,9 @@ public class TerminatedDataOutputStreamWrapper extends OutputStream implements F
             int b = buffer[off + pos];
             if (b == 0) {
                 if (pos > processFrom) {
-                    stream.write(buffer, processFrom, pos - processFrom);
+                    int writeLen = pos - processFrom;
+                    stream.write(buffer, processFrom, writeLen);
+                    length += writeLen;
                     processFrom = pos + 1;
                 }
 
@@ -73,7 +75,9 @@ public class TerminatedDataOutputStreamWrapper extends OutputStream implements F
         }
 
         if (processFrom < pos) {
-            stream.write(buffer, processFrom, pos - processFrom);
+            int writeLen = pos - processFrom;
+            stream.write(buffer, processFrom, writeLen);
+            length += writeLen;
         }
     }
 
@@ -96,12 +100,7 @@ public class TerminatedDataOutputStreamWrapper extends OutputStream implements F
 
     @Override
     public long finish() throws IOException {
-        if (zeroCount > 0) {
-            stream.write(0);
-            stream.write(zeroCount);
-            length += 2;
-            zeroCount = 0;
-        }
+        writeFlushZeros();
 
         stream.write(0);
         stream.write(0);

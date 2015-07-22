@@ -29,7 +29,7 @@ public enum XBChildSerialState {
      */
     BLOCK_BEGIN,
     /**
-     * Inside or at the end of atribute part.
+     * Inside or at the end of attribute part.
      */
     ATTRIBUTE_PART,
     /**

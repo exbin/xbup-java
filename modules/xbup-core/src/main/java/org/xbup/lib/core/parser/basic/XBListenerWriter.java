@@ -38,6 +38,7 @@ import org.xbup.lib.core.stream.FinishableStream;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBEndToken;
+import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.core.util.StreamUtils;
@@ -45,18 +46,17 @@ import org.xbup.lib.core.util.StreamUtils;
 /**
  * XBUP level 0 listener writer.
  *
- * @version 0.1.24 2014/10/04
+ * @version 0.1.25 2015/07/22
  * @author XBUP Project (http://xbup.org)
  */
-public class XBListenerWriter implements Closeable, XBListener {
+public class XBListenerWriter implements Closeable, XBSListener {
 
-    private XBParserMode parserMode = XBParserMode.FULL;
     private OutputStream stream;
-
     private XBParserState parserState = XBParserState.START;
-    private final XBTokenBuffer tokenWriter = new XBTokenBuffer();
+    private XBParserMode parserMode = XBParserMode.FULL;
+
+    private final XBTokenBuffer tokenBuffer = new XBTokenBuffer();
     private final List<Integer> sizeLimits = new ArrayList<>();
-    private XBDataToken extendedArea = null;
     private int bufferedFromLevel = -1;
     private int depthLevel = 0;
 
@@ -108,6 +108,11 @@ public class XBListenerWriter implements Closeable, XBListener {
 
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+        beginXB(terminationMode, null);
+    }
+        
+    @Override
+    public void beginXB(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
         if (parserState == XBParserState.START) {
             // Write file head
             if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_HEAD) {
@@ -115,9 +120,7 @@ public class XBListenerWriter implements Closeable, XBListener {
             }
 
             parserState = XBParserState.BLOCK_BEGIN;
-        }
-
-        if (parserState == XBParserState.ATTRIBUTE_PART) {
+        } else if (parserState == XBParserState.ATTRIBUTE_PART || parserState == XBParserState.BLOCK_END) {
             flushAttributes();
             parserState = XBParserState.BLOCK_BEGIN;
         }
@@ -125,22 +128,27 @@ public class XBListenerWriter implements Closeable, XBListener {
         if (parserState == XBParserState.BLOCK_BEGIN) {
             depthLevel++;
             this.terminationMode = terminationMode;
+            attributePartSizeValue = 0;
             dataMode = null;
             if (bufferedFromLevel >= 0) {
-                tokenWriter.putXBToken(new XBBeginToken(terminationMode));
+                tokenBuffer.putXBToken(new XBBeginToken(terminationMode));
                 sizeLimits.add(null);
             } else {
                 if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
-                    bufferedFromLevel = depthLevel;
-                    tokenWriter.putXBToken(new XBBeginToken(terminationMode));
-                    sizeLimits.add(null);
+                    /* TODO if (blockSize != null) {
+                        sizeLimits.add(blockSize.getInt());
+                        blockSize.toStreamUB(stream);
+                    } else { */
+                        bufferedFromLevel = depthLevel;
+                        tokenBuffer.putXBToken(new XBBeginToken(terminationMode));
+                        sizeLimits.add(null);
+                    // }
                 } else {
                     sizeLimits.add(null);
                 }
             }
 
             attributeList.clear();
-            parserState = XBParserState.ATTRIBUTE_PART;
         } else {
             throw new XBParseException("Unexpected begin of block", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -148,10 +156,13 @@ public class XBListenerWriter implements Closeable, XBListener {
 
     @Override
     public void attribXB(XBAttribute attribute) throws XBProcessingException, IOException {
+        if (parserState == XBParserState.BLOCK_BEGIN) {
+            parserState = XBParserState.ATTRIBUTE_PART;
+        }
         if (parserState == XBParserState.ATTRIBUTE_PART) {
             dataMode = XBBlockDataMode.NODE_BLOCK;
             if (bufferedFromLevel >= 0) {
-                tokenWriter.putXBToken(new XBAttributeToken(attribute));
+                tokenBuffer.putXBToken(new XBAttributeToken(attribute));
             } else {
                 int attributeSize = attribute.getSizeUB();
                 shrinkStatus(sizeLimits, attributeSize);
@@ -165,93 +176,76 @@ public class XBListenerWriter implements Closeable, XBListener {
 
     @Override
     public void dataXB(InputStream data) throws XBProcessingException, IOException {
-        if (parserState == XBParserState.ATTRIBUTE_PART) {
-            if (depthLevel == 1 && dataMode == XBBlockDataMode.NODE_BLOCK) {
-                extendedArea = new XBDataToken(data);
-                parserState = XBParserState.EXTENDED_AREA;
+        if (depthLevel == 1 && (parserState == XBParserState.ATTRIBUTE_PART || parserState == XBParserState.DATA_PART || parserState == XBParserState.BLOCK_END)) {
+            if (parserMode == XBParserMode.SINGLE_BLOCK || parserMode == XBParserMode.SKIP_EXTENDED) {
+                throw new XBParseException("Extended data block present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            }
+            endXB();
+            parserState = XBParserState.EXTENDED_AREA;
+            StreamUtils.copyInputStreamToOutputStream(data, stream);
+        } else {
+            if (parserState != XBParserState.BLOCK_BEGIN) {
+                throw new XBParseException("Unexpected data token", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            }
+
+            dataMode = XBBlockDataMode.DATA_BLOCK;
+            if (bufferedFromLevel >= 0) {
+                tokenBuffer.putXBToken(new XBDataToken(data));
             } else {
-                dataMode = XBBlockDataMode.DATA_BLOCK;
-
-                if (dataMode == XBBlockDataMode.NODE_BLOCK) {
-                    throw new XBParseException("Unexpected data token after attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
-                }
-
-                if (bufferedFromLevel >= 0) {
-                    tokenWriter.putXBToken(new XBDataToken(data));
+                OutputStream streamWrapper;
+                if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
+                    streamWrapper = new FixedDataOutputStreamWrapper(stream, 0);
+                    StreamUtils.copyInputStreamToOutputStream(data, streamWrapper);
+                    int dataSize = (int) ((FinishableStream) streamWrapper).finish();
+                    shrinkStatus(sizeLimits, dataSize);
                 } else {
-                    OutputStream streamWrapper;
-                    if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
-                        // TODO determine size
-                        streamWrapper = new FixedDataOutputStreamWrapper(stream, 0);
-                    } else {
-                        UBNat32 attributePartSize = new UBNat32(UBENat32.INFINITY_SIZE_UB);
-                        attributePartSize.toStreamUB(stream);
-                        UBENat32 dataPartSize = new UBENat32();
-                        dataPartSize.setInfinity();
-                        dataPartSize.toStreamUB(stream);
-                        shrinkStatus(sizeLimits, UBENat32.INFINITY_SIZE_UB + 1);
-                        streamWrapper = new TerminatedDataOutputStreamWrapper(stream);
-                    }
+                    UBNat32 attributePartSize = new UBNat32(UBENat32.INFINITY_SIZE_UB);
+                    attributePartSize.toStreamUB(stream);
+                    UBENat32 dataPartSize = new UBENat32();
+                    dataPartSize.setInfinity();
+                    dataPartSize.toStreamUB(stream);
+                    shrinkStatus(sizeLimits, UBENat32.INFINITY_SIZE_UB + 1);
+                    streamWrapper = new TerminatedDataOutputStreamWrapper(stream);
 
                     StreamUtils.copyInputStreamToOutputStream(data, streamWrapper);
-
-                    int dataPartSize = (int) ((FinishableStream) streamWrapper).finish();
-                    shrinkStatus(sizeLimits, dataPartSize);
+                    int dataSize = (int) ((FinishableStream) streamWrapper).finish();
+                    shrinkStatus(sizeLimits, dataSize);
                 }
-
-                parserState = XBParserState.BLOCK_END;
             }
-        } else if (parserState == XBParserState.BLOCK_BEGIN) {
-            if (depthLevel == 1) {
-                extendedArea = new XBDataToken(data);
-                parserState = XBParserState.EXTENDED_AREA;
-            } else {
-                throw new XBParseException("Unexpected data token", XBProcessingExceptionType.UNEXPECTED_ORDER);
-            }
-
-            parserState = XBParserState.EOF;
-        } else if (parserState == XBParserState.BLOCK_END) {
-            if (depthLevel == 1 && dataMode == XBBlockDataMode.DATA_BLOCK) {
-                extendedArea = new XBDataToken(data);
-                parserState = XBParserState.EXTENDED_AREA;
-            } else {
-                throw new XBParseException("Unexpected data token", XBProcessingExceptionType.UNEXPECTED_ORDER);
-            }
-        } else {
-            throw new XBParseException("Unexpected data token", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            parserState = XBParserState.DATA_PART;
         }
     }
 
     @Override
     public void endXB() throws XBProcessingException, IOException {
         switch (parserState) {
+            case EXTENDED_AREA: {
+                parserState = XBParserState.EOF;
+                break;
+            }
             case ATTRIBUTE_PART: {
                 flushAttributes();
                 // Continue to next case intended
             }
 
-            case EXTENDED_AREA:
             case BLOCK_BEGIN:
-            case BLOCK_END: {
+            case BLOCK_END:
+            case DATA_PART: {
                 if (bufferedFromLevel >= 0) {
-                    tokenWriter.putXBToken(new XBEndToken());
+                    tokenBuffer.putXBToken(new XBEndToken());
                     if (bufferedFromLevel == depthLevel) {
-                        tokenWriter.write(stream);
+                        tokenBuffer.write(stream);
                         bufferedFromLevel = -1;
                     }
-                }
-
-                // Write extended block if present
-                if (parserState == XBParserState.EXTENDED_AREA) {
-                    if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED) {
-                        StreamUtils.copyInputStreamToOutputStream(extendedArea.getData(), stream);
-                    } else {
-                        throw new XBParseException("Extended data block present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                } else {
+                    if (dataMode == XBBlockDataMode.NODE_BLOCK && sizeLimits.get(depthLevel - 1) == null) {
+                        stream.write(0);
                     }
+                    decreaseStatus(sizeLimits);
                 }
 
                 depthLevel--;
-                parserState = (depthLevel == 0) ? XBParserState.EOF : XBParserState.BLOCK_BEGIN;
+                parserState = (depthLevel == 0) ? XBParserState.EOF : XBParserState.BLOCK_END;
                 break;
             }
 
@@ -274,7 +268,6 @@ public class XBListenerWriter implements Closeable, XBListener {
                 attribute.toStreamUB(stream);
             }
 
-            stream.write(0);
             attributeList.clear();
         }
     }
@@ -285,7 +278,7 @@ public class XBListenerWriter implements Closeable, XBListener {
      * @param value value to shrink all limits off
      * @throws XBParseException if limits are breached
      */
-    private void shrinkStatus(List<Integer> sizeLimits, int value) throws XBParseException {
+    private static void shrinkStatus(List<Integer> sizeLimits, int value) throws XBParseException {
         for (int depth = 0; depth < sizeLimits.size(); depth++) {
             Integer limit = sizeLimits.get(depth);
             if (limit != null) {
@@ -295,6 +288,18 @@ public class XBListenerWriter implements Closeable, XBListener {
 
                 sizeLimits.set(depth, limit - value);
             }
+        }
+    }
+
+    /**
+     * Decreases size limits by removing status on last level.
+     *
+     * @param sizeLimits block sizes
+     */
+    private static void decreaseStatus(List<Integer> sizeLimits) {
+        Integer levelValue = sizeLimits.remove(sizeLimits.size() - 1);
+        if (levelValue != null && levelValue != 0) {
+            throw new XBParseException("Block Overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
         }
     }
 }

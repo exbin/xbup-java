@@ -35,6 +35,7 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.stream.FinishableStream;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBDataToken;
+import org.xbup.lib.core.parser.token.XBEndToken;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.XBTokenType;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
@@ -44,12 +45,12 @@ import org.xbup.lib.core.util.StreamUtils;
 /**
  * XBUP level 0 pull writer.
  *
- * @version 0.1.23 2014/02/19
+ * @version 0.1.25 2015/07/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPullWriter implements Closeable, XBPullConsumer {
 
-    private XBParserMode parserMode;
+    private XBParserMode parserMode = XBParserMode.FULL;
 
     private OutputStream stream;
     private XBPullProvider pullProvider;
@@ -84,8 +85,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
 
     public void write() throws XBProcessingException, IOException {
         List<Integer> sizeLimits = new ArrayList<>();
-        XBTokenBuffer tokenWriter = new XBTokenBuffer();
-        XBDataToken extendedArea = null;
+        XBTokenBuffer tokenBuffer = new XBTokenBuffer();
         List<XBAttribute> attributeList = new ArrayList<>();
         int bufferedFromLevel = -1;
         int depthLevel = 0;
@@ -102,12 +102,12 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                     depthLevel++;
                     XBBlockTerminationMode terminationMode = ((XBBeginToken) token).getTerminationMode();
                     if (bufferedFromLevel >= 0) {
-                        tokenWriter.putXBToken(token);
+                        tokenBuffer.putXBToken(token);
                         sizeLimits.add(null);
                     } else {
                         if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
                             bufferedFromLevel = depthLevel;
-                            tokenWriter.putXBToken(token);
+                            tokenBuffer.putXBToken(token);
                             sizeLimits.add(null);
                         } else {
                             sizeLimits.add(null);
@@ -118,12 +118,14 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                     switch (token.getTokenType()) {
                         case DATA: {
                             if (bufferedFromLevel >= 0) {
-                                tokenWriter.putXBToken(token);
+                                tokenBuffer.putXBToken(token);
                             } else {
                                 OutputStream streamWrapper;
                                 if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
-                                    // TODO determine size
                                     streamWrapper = new FixedDataOutputStreamWrapper(stream, 0);
+                                    StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), streamWrapper);
+                                    int dataSize = (int) ((FinishableStream) streamWrapper).finish();
+                                    shrinkStatus(sizeLimits, dataSize);
                                 } else {
                                     UBNat32 attributePartSize = new UBNat32(UBENat32.INFINITY_SIZE_UB);
                                     attributePartSize.toStreamUB(stream);
@@ -132,22 +134,48 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                                     dataPartSize.toStreamUB(stream);
                                     shrinkStatus(sizeLimits, UBENat32.INFINITY_SIZE_UB + 1);
                                     streamWrapper = new TerminatedDataOutputStreamWrapper(stream);
+
+                                    StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), streamWrapper);
+                                    int dataSize = (int) ((FinishableStream) streamWrapper).finish();
+                                    shrinkStatus(sizeLimits, dataSize);
                                 }
-
-                                StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), streamWrapper);
-
-                                int dataPartSize = (int) ((FinishableStream) streamWrapper).finish();
-                                shrinkStatus(sizeLimits, dataPartSize);
                             }
 
                             token = pullProvider.pullXBToken();
+
                             if (depthLevel == 1 && token.getTokenType() == XBTokenType.DATA) {
-                                extendedArea = (XBDataToken) token;
-                                token = pullProvider.pullXBToken();
+                                if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED) {
+                                    if (bufferedFromLevel >= 0) {
+                                        tokenBuffer.putXBToken(new XBEndToken());
+                                        if (bufferedFromLevel == depthLevel) {
+                                            tokenBuffer.write(stream);
+                                            bufferedFromLevel = -1;
+                                        }
+                                    } else {
+                                        decreaseStatus(sizeLimits);
+                                    }
+
+                                    depthLevel--;
+                                    StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), stream);
+                                    token = pullProvider.pullXBToken();
+                                    if (token.getTokenType() != XBTokenType.END) {
+                                        throw new XBParseException("End token was expected after extended area", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                    }
+                                } else {
+                                    throw new XBParseException("Extended data block present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                }
                             }
 
                             if (token.getTokenType() != XBTokenType.END) {
                                 throw new XBParseException("Data block must be followed by block end", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                            } else {
+                                if (bufferedFromLevel < 0) {
+                                    depthLevel--;
+                                    decreaseStatus(sizeLimits);
+                                    if (depthLevel > 0) {
+                                        token = pullProvider.pullXBToken();
+                                    }
+                                }
                             }
 
                             break;
@@ -160,7 +188,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                                 XBAttribute attribute = ((XBAttributeToken) token).getAttribute();
 
                                 if (bufferedFromLevel >= 0) {
-                                    tokenWriter.putXBToken(token);
+                                    tokenBuffer.putXBToken(token);
                                 } else {
                                     int attributeSize = attribute.getSizeUB();
                                     shrinkStatus(sizeLimits, attributeSize);
@@ -170,15 +198,6 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
 
                                 token = pullProvider.pullXBToken();
                             } while (token.getTokenType() == XBTokenType.ATTRIBUTE);
-
-                            if (token.getTokenType() == XBTokenType.DATA) {
-                                if (depthLevel == 1) {
-                                    extendedArea = (XBDataToken) token;
-                                    token = pullProvider.pullXBToken();
-                                } else {
-                                    throw new XBParseException("Unexpected DATA token after attribute token(s)", XBProcessingExceptionType.UNEXPECTED_ORDER);
-                                }
-                            }
 
                             if (bufferedFromLevel < 0) {
                                 attributePartSizeValue += UBENat32.INFINITY_SIZE_UB;
@@ -193,14 +212,39 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                                     attribute.toStreamUB(stream);
                                 }
 
-                                stream.write(0);
                                 attributeList.clear();
+                            }
+
+                            if (depthLevel == 1 && token.getTokenType() == XBTokenType.DATA) {
+                                if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED) {
+                                    if (bufferedFromLevel >= 0) {
+                                        tokenBuffer.putXBToken(new XBEndToken());
+                                        if (bufferedFromLevel == depthLevel) {
+                                            tokenBuffer.write(stream);
+                                            bufferedFromLevel = -1;
+                                        }
+                                    } else {
+                                        if (sizeLimits.get(depthLevel - 1) == null) {
+                                            stream.write(0);
+                                        }
+                                        decreaseStatus(sizeLimits);
+                                    }
+
+                                    depthLevel--;
+                                    StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), stream);
+                                    token = pullProvider.pullXBToken();
+                                    if (token.getTokenType() != XBTokenType.END) {
+                                        throw new XBParseException("End token was expected after extended area", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                    }
+                                } else {
+                                    throw new XBParseException("Extended data block present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                }
                             }
 
                             break;
                         }
                         default:
-                            throw new XBParseException("Missing at least one atribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                            throw new XBParseException("Missing at least one attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
                     }
 
                     break;
@@ -208,20 +252,46 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
 
                 case END: {
                     if (bufferedFromLevel >= 0) {
-                        tokenWriter.putXBToken(token);
+                        tokenBuffer.putXBToken(token);
                         if (bufferedFromLevel == depthLevel) {
-                            tokenWriter.write(stream);
+                            tokenBuffer.write(stream);
                             bufferedFromLevel = -1;
                         }
+                    } else {
+                        if (sizeLimits.get(depthLevel - 1) == null) {
+                            stream.write(0);
+                        }
+                        decreaseStatus(sizeLimits);
                     }
 
                     depthLevel--;
                     if (depthLevel > 0) {
                         token = pullProvider.pullXBToken();
+                    }
 
-                        if (depthLevel == 1 && token.getTokenType() == XBTokenType.DATA) {
-                            extendedArea = (XBDataToken) token;
+                    if (depthLevel == 1 && token.getTokenType() == XBTokenType.DATA) {
+                        if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED) {
+                            if (bufferedFromLevel >= 0) {
+                                tokenBuffer.putXBToken(new XBEndToken());
+                                if (bufferedFromLevel == depthLevel) {
+                                    tokenBuffer.write(stream);
+                                    bufferedFromLevel = -1;
+                                }
+                            } else {
+                                if (sizeLimits.get(depthLevel - 1) == null) {
+                                    stream.write(0);
+                                }
+                                decreaseStatus(sizeLimits);
+                            }
+
+                            depthLevel--;
+                            StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), stream);
                             token = pullProvider.pullXBToken();
+                            if (token.getTokenType() != XBTokenType.END) {
+                                throw new XBParseException("End token was expected after extended area", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                            }
+                        } else {
+                            throw new XBParseException("Extended data block present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
                         }
                     }
 
@@ -232,15 +302,6 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                     throw new XBParseException("Must begin with NodeBegin", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
         } while (depthLevel > 0);
-
-        // Write extended block if present
-        if (extendedArea != null) {
-            if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED) {
-                StreamUtils.copyInputStreamToOutputStream(extendedArea.getData(), stream);
-            } else {
-                throw new XBParseException("Extended data block present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
-            }
-        }
     }
 
     @Override
@@ -254,7 +315,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
      * @param value Value to shrink all limits off
      * @throws XBParseException If limits are breached
      */
-    private void shrinkStatus(List<Integer> sizeLimits, int value) throws XBParseException {
+    private static void shrinkStatus(List<Integer> sizeLimits, int value) throws XBParseException {
         for (int depth = 0; depth < sizeLimits.size(); depth++) {
             Integer limit = sizeLimits.get(depth);
             if (limit != null) {
@@ -264,6 +325,18 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
 
                 sizeLimits.set(depth, limit - value);
             }
+        }
+    }
+
+    /**
+     * Decreases size limits by removing status on last level.
+     *
+     * @param sizeLimits block sizes
+     */
+    private static void decreaseStatus(List<Integer> sizeLimits) {
+        Integer levelValue = sizeLimits.remove(sizeLimits.size() - 1);
+        if (levelValue != null && levelValue != 0) {
+            throw new XBParseException("Block Overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
         }
     }
 

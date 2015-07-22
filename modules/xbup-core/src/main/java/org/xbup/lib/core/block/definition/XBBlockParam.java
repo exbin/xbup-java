@@ -23,7 +23,7 @@ import org.xbup.lib.core.serial.XBSerializable;
  * XBUP level 1 parameter definition interface.
  *
  * Parameter is one of four types: Join, Consist, Join List, Consist List.
- * Without declaration (blockDecl) it means single atribute for join and data
+ * Without declaration (blockDecl) it means single attribute for join and data
  * block for consist mode and their lists respectively.
  *
  * @version 0.1.25 2015/02/02

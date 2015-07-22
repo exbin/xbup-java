@@ -46,7 +46,7 @@ import org.xbup.lib.core.util.StreamUtils;
 /**
  * XBUP level 0 consumer writer.
  *
- * @version 0.1.25 2015/07/21
+ * @version 0.1.25 2015/07/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBConsumerWriter implements Closeable, XBConsumer {
@@ -85,7 +85,8 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
         XBTokenBuffer tokenBuffer = new XBTokenBuffer();
         List<XBAttribute> attributeList = new ArrayList<>();
         int bufferedFromLevel = -1;
-        int level = 0;
+        int depthLevel = 0;
+        // TODO UBNatural blockSize = null;
 
         // Write file head
         if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_HEAD) {
@@ -96,16 +97,22 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
         do {
             switch (token.getTokenType()) {
                 case BEGIN: {
-                    level++;
+                    depthLevel++;
+                    // TODO blockSize = null;
                     XBBlockTerminationMode terminationMode = ((XBBeginToken) token).getTerminationMode();
                     if (bufferedFromLevel >= 0) {
                         tokenBuffer.putXBToken(token);
                         sizeLimits.add(null);
                     } else {
                         if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
-                            bufferedFromLevel = level;
-                            tokenBuffer.putXBToken(token);
-                            sizeLimits.add(null);
+                            /* TODO if (token instanceof XBSBeginToken && ((XBSBeginToken) token).getBlockSize() != null) {
+                                blockSize = ((XBSBeginToken) token).getBlockSize();
+                                sizeLimits.add(blockSize.getInt());
+                            } else { */
+                                bufferedFromLevel = depthLevel;
+                                tokenBuffer.putXBToken(token);
+                                sizeLimits.add(null);
+                            // }
                         } else {
                             sizeLimits.add(null);
                         }
@@ -120,7 +127,6 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                                 OutputStream streamWrapper;
                                 InputStream data = ((XBDataToken) token).getData();
                                 if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
-                                    // TODO if (data instanceof SeekableStream) {
                                     streamWrapper = new FixedDataOutputStreamWrapper(stream, 0);
                                     StreamUtils.copyInputStreamToOutputStream(data, streamWrapper);
                                     int dataSize = (int) ((FinishableStream) streamWrapper).finish();
@@ -142,17 +148,19 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
 
                             token = pullToken();
 
-                            if (level == 1 && token.getTokenType() == XBTokenType.DATA) {
+                            if (depthLevel == 1 && token.getTokenType() == XBTokenType.DATA) {
                                 if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED) {
                                     if (bufferedFromLevel >= 0) {
                                         tokenBuffer.putXBToken(new XBEndToken());
-                                        if (bufferedFromLevel == level) {
+                                        if (bufferedFromLevel == depthLevel) {
                                             tokenBuffer.write(stream);
                                             bufferedFromLevel = -1;
                                         }
+                                    } else {
+                                        decreaseStatus(sizeLimits);
                                     }
 
-                                    level--;
+                                    depthLevel--;
                                     StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), stream);
                                     token = pullToken();
                                     if (token.getTokenType() != XBTokenType.END) {
@@ -167,8 +175,9 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                                 throw new XBParseException("Data block must be followed by block end", XBProcessingExceptionType.UNEXPECTED_ORDER);
                             } else {
                                 if (bufferedFromLevel < 0) {
-                                    level--;
-                                    if (level > 0) {
+                                    depthLevel--;
+                                    decreaseStatus(sizeLimits);
+                                    if (depthLevel > 0) {
                                         token = pullToken();
                                     }
                                 }
@@ -210,19 +219,22 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                                 attributeList.clear();
                             }
 
-                            if (level == 1 && token.getTokenType() == XBTokenType.DATA) {
+                            if (depthLevel == 1 && token.getTokenType() == XBTokenType.DATA) {
                                 if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED) {
                                     if (bufferedFromLevel >= 0) {
                                         tokenBuffer.putXBToken(new XBEndToken());
-                                        if (bufferedFromLevel == level) {
+                                        if (bufferedFromLevel == depthLevel) {
                                             tokenBuffer.write(stream);
                                             bufferedFromLevel = -1;
                                         }
                                     } else {
-                                        stream.write(0);
+                                        if (sizeLimits.get(depthLevel - 1) == null) {
+                                            stream.write(0);
+                                        }
+                                        decreaseStatus(sizeLimits);
                                     }
 
-                                    level--;
+                                    depthLevel--;
                                     StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), stream);
                                     token = pullToken();
                                     if (token.getTokenType() != XBTokenType.END) {
@@ -237,7 +249,7 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                         }
 
                         default:
-                            throw new XBParseException("Missing at least one atribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                            throw new XBParseException("Missing at least one attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
                     }
 
                     break;
@@ -246,32 +258,38 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                 case END: {
                     if (bufferedFromLevel >= 0) {
                         tokenBuffer.putXBToken(token);
-                        if (bufferedFromLevel == level) {
+                        if (bufferedFromLevel == depthLevel) {
                             tokenBuffer.write(stream);
                             bufferedFromLevel = -1;
                         }
                     } else {
-                        stream.write(0);
+                        if (sizeLimits.get(depthLevel - 1) == null) {
+                            stream.write(0);
+                        }
+                        decreaseStatus(sizeLimits);
                     }
 
-                    level--;
-                    if (level > 0) {
+                    depthLevel--;
+                    if (depthLevel > 0) {
                         token = pullToken();
                     }
 
-                    if (level == 1 && token.getTokenType() == XBTokenType.DATA) {
+                    if (depthLevel == 1 && token.getTokenType() == XBTokenType.DATA) {
                         if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED) {
                             if (bufferedFromLevel >= 0) {
                                 tokenBuffer.putXBToken(new XBEndToken());
-                                if (bufferedFromLevel == level) {
+                                if (bufferedFromLevel == depthLevel) {
                                     tokenBuffer.write(stream);
                                     bufferedFromLevel = -1;
                                 }
                             } else {
-                                stream.write(0);
+                                if (sizeLimits.get(depthLevel - 1) == null) {
+                                    stream.write(0);
+                                }
+                                decreaseStatus(sizeLimits);
                             }
 
-                            level--;
+                            depthLevel--;
                             StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), stream);
                             token = pullToken();
                             if (token.getTokenType() != XBTokenType.END) {
@@ -288,7 +306,7 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                 default:
                     throw new XBParseException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
-        } while (level > 0);
+        } while (depthLevel > 0);
     }
 
     private XBToken pullToken() throws XBProcessingException, IOException {
@@ -309,10 +327,11 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
     /**
      * Shrinks limits accross all depths.
      *
+     * @param sizeLimits block sizes
      * @param value Value to shrink all limits off
      * @throws XBParseException If limits are breached
      */
-    private void shrinkStatus(List<Integer> sizeLimits, int value) throws XBParseException {
+    private static void shrinkStatus(List<Integer> sizeLimits, int value) throws XBParseException {
         for (int depth = 0; depth < sizeLimits.size(); depth++) {
             Integer limit = sizeLimits.get(depth);
             if (limit != null) {
@@ -322,6 +341,18 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
 
                 sizeLimits.set(depth, limit - value);
             }
+        }
+    }
+
+    /**
+     * Decreases size limits by removing status on last level.
+     *
+     * @param sizeLimits block sizes
+     */
+    private static void decreaseStatus(List<Integer> sizeLimits) {
+        Integer levelValue = sizeLimits.remove(sizeLimits.size() - 1);
+        if (levelValue != null && levelValue != 0) {
+            throw new XBParseException("Block Overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
         }
     }
 

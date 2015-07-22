@@ -23,19 +23,19 @@ import org.xbup.lib.core.parser.token.pull.XBPullConsumer;
 /**
  * Pull consumer to consumer convertor for XBUP protocol level 0.
  *
- * @version 0.1.23 2014/02/06
+ * @version 0.1.25 2015/07/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPullConsumerToConsumer implements XBConsumer {
 
-    private XBProvider provider;
+    private final XBPullConsumer pullConsumer;
 
     public XBPullConsumerToConsumer(XBPullConsumer pullConsumer) {
-        pullConsumer.attachXBPullProvider(new XBProviderToPullProvider(provider));
+        this.pullConsumer = pullConsumer;
     }
 
     @Override
     public void attachXBProvider(XBProvider provider) {
-        this.provider = provider;
+        pullConsumer.attachXBPullProvider(new XBProviderToPullProvider(provider));
     }
 }

@@ -35,7 +35,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Basic XBUP level 0 reader - producer.
  *
- * @version 0.1.24 2014/10/04
+ * @version 0.1.25 2015/07/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBProducerReader implements XBProducer {
@@ -204,6 +204,18 @@ public class XBProducerReader implements XBProducer {
 
                 sizeLimits.set(depth, limit - value);
             }
+        }
+    }
+
+    /**
+     * Decreases size limits by removing status on last level.
+     *
+     * @param sizeLimits block sizes
+     */
+    private void decreaseStatus(List<Integer> sizeLimits) {
+        Integer levelValue = sizeLimits.remove(sizeLimits.size() - 1);
+        if (levelValue != null && levelValue != 0) {
+            throw new XBParseException("Block Overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
         }
     }
 

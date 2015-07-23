@@ -35,7 +35,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Basic XBUP level 0 reader - producer.
  *
- * @version 0.1.25 2015/07/22
+ * @version 0.1.25 2015/07/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBProducerReader implements XBProducer {
@@ -104,8 +104,8 @@ public class XBProducerReader implements XBProducer {
         // Process blocks until whole tree is processed
         do {
             UBNat32 attributePartSize = new UBNat32();
-            int headSize = attributePartSize.fromStreamUB(source);
-            shrinkStatus(sizeLimits, headSize);
+            int attributePartSizeLength = attributePartSize.fromStreamUB(source);
+            shrinkStatus(sizeLimits, attributePartSizeLength);
             if (attributePartSize.getLong() == 0) {
                 // Process terminator
                 if (sizeLimits.isEmpty() || sizeLimits.get(sizeLimits.size() - 1) != null) {
@@ -113,11 +113,19 @@ public class XBProducerReader implements XBProducer {
                 }
 
                 sizeLimits.remove(sizeLimits.size() - 1);
+                
+                if (sizeLimits.isEmpty()) {
+                    // Process extended area
+                    if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED && source.available() > 0) {
+                        listener.dataXB(new ExtendedAreaInputStreamWrapper(source));
+                    }
+                }
+
                 listener.endXB();
             } else {
                 // Process regular block
-                int attrPartSizeValue = attributePartSize.getInt();
-                shrinkStatus(sizeLimits, attrPartSizeValue);
+                int attributePartSizeValue = attributePartSize.getInt();
+                shrinkStatus(sizeLimits, attributePartSizeValue);
 
                 UBENat32 dataPartSize = new UBENat32();
                 int dataPartSizeLength = dataPartSize.fromStreamUB(source);
@@ -125,7 +133,7 @@ public class XBProducerReader implements XBProducer {
 
                 listener.beginXB(dataPartSizeValue == null ? XBBlockTerminationMode.TERMINATED_BY_ZERO : XBBlockTerminationMode.SIZE_SPECIFIED);
 
-                if (attrPartSizeValue == dataPartSizeLength) {
+                if (attributePartSizeValue == dataPartSizeLength) {
                     // Process data block
                     FinishableStream dataWrapper = (dataPartSizeValue == null)
                             ? new TerminatedDataInputStreamWrapper(source)
@@ -134,22 +142,28 @@ public class XBProducerReader implements XBProducer {
                     dataWrapper.finish();
                     shrinkStatus(sizeLimits, (int) dataWrapper.getLength());
 
+                    if (sizeLimits.isEmpty()) {
+                        // Process extended area
+                        if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED && source.available() > 0) {
+                            listener.dataXB(new ExtendedAreaInputStreamWrapper(source));
+                        }
+                    }
+
                     listener.endXB();
                 } else {
                     // Process standard block
                     sizeLimits.add(dataPartSizeValue);
 
                     // Process attributes
-                    attrPartSizeValue -= dataPartSizeLength;
-                    while (attrPartSizeValue > 0) {
+                    attributePartSizeValue -= dataPartSizeLength;
+                    while (attributePartSizeValue > 0) {
                         UBNat32 attribute = new UBNat32();
                         int attributeLength = attribute.fromStreamUB(source);
-                        if (attributeLength > attrPartSizeValue) {
+                        if (attributeLength > attributePartSizeValue) {
                             throw new XBParseException("Attribute Overflow", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
                         }
 
-                        attrPartSizeValue -= attributeLength;
-
+                        attributePartSizeValue -= attributeLength;
                         listener.attribXB(attribute);
                     }
                 }
@@ -161,7 +175,7 @@ public class XBProducerReader implements XBProducer {
 
                 if (sizeLimits.isEmpty()) {
                     // Process extended area
-                    if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED) {
+                    if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED && source.available() > 0) {
                         listener.dataXB(new ExtendedAreaInputStreamWrapper(source));
                     }
                 }
@@ -194,28 +208,16 @@ public class XBProducerReader implements XBProducer {
      * @param value Value to shrink all limits off
      * @throws XBParseException If limits are breached
      */
-    private void shrinkStatus(List<Integer> sizeLimits, int value) throws XBParseException {
-        for (int depth = 0; depth < sizeLimits.size(); depth++) {
-            Integer limit = sizeLimits.get(depth);
+    private static void shrinkStatus(List<Integer> sizeLimits, int value) throws XBParseException {
+        for (int depthLevel = 0; depthLevel < sizeLimits.size(); depthLevel++) {
+            Integer limit = sizeLimits.get(depthLevel);
             if (limit != null) {
                 if (limit < value) {
                     throw new XBParseException("Block Overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
                 }
 
-                sizeLimits.set(depth, limit - value);
+                sizeLimits.set(depthLevel, limit - value);
             }
-        }
-    }
-
-    /**
-     * Decreases size limits by removing status on last level.
-     *
-     * @param sizeLimits block sizes
-     */
-    private void decreaseStatus(List<Integer> sizeLimits) {
-        Integer levelValue = sizeLimits.remove(sizeLimits.size() - 1);
-        if (levelValue != null && levelValue != 0) {
-            throw new XBParseException("Block Overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
         }
     }
 

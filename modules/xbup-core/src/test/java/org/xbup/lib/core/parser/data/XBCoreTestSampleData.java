@@ -28,7 +28,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Sample data and methods for testing purposes.
  *
- * @version 0.1.25 2015/07/19
+ * @version 0.1.25 2015/07/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCoreTestSampleData {
@@ -40,11 +40,13 @@ public class XBCoreTestSampleData {
     public final static String SAMPLE_FILES_PATH = "/org/xbup/lib/core/resources/test/samples/";
     public final static String SAMPLE_EMPTY = SAMPLE_FILES_PATH + "empty.xb";
     public final static String SAMPLE_BLOCK = SAMPLE_FILES_PATH + "block.xb";
-    public final static String SAMPLE_BLOCK_TERMINATED = SAMPLE_FILES_PATH + "block_terminated.xb";
     public final static String SAMPLE_BLOCK_EXTENDED = SAMPLE_FILES_PATH + "block_extended.xb";
+    public final static String SAMPLE_BLOCK_TERMINATED = SAMPLE_FILES_PATH + "block_terminated.xb";
+    public final static String SAMPLE_BLOCK_TERMINATED_EXTENDED = SAMPLE_FILES_PATH + "block_terminated_extended.xb";
     public final static String SAMPLE_DATA = SAMPLE_FILES_PATH + "data.xb";
-    public final static String SAMPLE_DATA_TERMINATED = SAMPLE_FILES_PATH + "data_terminated.xb";
     public final static String SAMPLE_DATA_EXTENDED = SAMPLE_FILES_PATH + "data_extended.xb";
+    public final static String SAMPLE_DATA_TERMINATED = SAMPLE_FILES_PATH + "data_terminated.xb";
+    public final static String SAMPLE_DATA_TERMINATED_EXTENDED = SAMPLE_FILES_PATH + "data_terminated_extended.xb";
     public final static String SAMPLE_TWO_BLOCKS = SAMPLE_FILES_PATH + "two_blocks.xb";
     public final static String SAMPLE_TWO_BLOCKS_TERMINATED = SAMPLE_FILES_PATH + "two_blocks_terminated.xb";
     public final static String SAMPLE_TWO_BLOCKS_EXTENDED = SAMPLE_FILES_PATH + "two_blocks_extended.xb";
@@ -91,6 +93,23 @@ public class XBCoreTestSampleData {
     }
 
     /**
+     * Writes tokens matching file "block_extended.xb".
+     *
+     * @param listener token listener
+     */
+    public static void writeSampleBlockExtended(XBListener listener) {
+        try {
+            listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
+            listener.attribXB(new UBNat32(1));
+            ByteArrayInputStream extDataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED);
+            listener.dataXB(extDataStream);
+            listener.endXB();
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBCoreTestSampleData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
      * Writes tokens matching file "block_terminated.xb".
      *
      * @param listener token listener
@@ -106,13 +125,13 @@ public class XBCoreTestSampleData {
     }
 
     /**
-     * Writes tokens matching file "block_extended.xb".
+     * Writes tokens matching file "block_terminated.xb".
      *
      * @param listener token listener
      */
-    public static void writeSampleBlockExtended(XBListener listener) {
+    public static void writeSampleBlockTerminatedExtended(XBListener listener) {
         try {
-            listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
+            listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
             listener.attribXB(new UBNat32(1));
             ByteArrayInputStream extDataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED);
             listener.dataXB(extDataStream);
@@ -139,6 +158,24 @@ public class XBCoreTestSampleData {
     }
 
     /**
+     * Writes tokens matching file "data_extended.xb".
+     *
+     * @param listener token listener
+     */
+    public static void writeSampleDataExtended(XBListener listener) {
+        try {
+            listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
+            ByteArrayInputStream dataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE);
+            listener.dataXB(dataStream);
+            ByteArrayInputStream extDataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED);
+            listener.dataXB(extDataStream);
+            listener.endXB();
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBCoreTestSampleData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
      * Writes tokens matching file "data_terminated.xb".
      *
      * @param listener token listener
@@ -155,13 +192,13 @@ public class XBCoreTestSampleData {
     }
 
     /**
-     * Writes tokens matching file "data_extended.xb".
+     * Writes tokens matching file "data_terminated.xb".
      *
      * @param listener token listener
      */
-    public static void writeSampleDataExtended(XBListener listener) {
+    public static void writeSampleDataTerminatedExtended(XBListener listener) {
         try {
-            listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
+            listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
             ByteArrayInputStream dataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE);
             listener.dataXB(dataStream);
             ByteArrayInputStream extDataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED);

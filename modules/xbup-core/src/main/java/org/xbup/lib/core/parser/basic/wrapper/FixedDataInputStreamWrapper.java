@@ -94,7 +94,14 @@ public class FixedDataInputStreamWrapper extends InputStream implements Finishab
         if (remaining > 0) {
             byte[] buf = new byte[1024];
             while (remaining > 0) {
-                read(buf);
+                int read = source.read(buf, 0, remaining < 1024 ? remaining : 1024);
+                
+                if (read > 0) {
+                    length += read;
+                    remaining -= read;
+                } else {
+                    break;
+                }
             }
         }
 

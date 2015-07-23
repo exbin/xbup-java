@@ -40,7 +40,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Basic XBUP level 0 event reader - producer.
  *
- * @version 0.1.23 2014/02/19
+ * @version 0.1.25 2015/07/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEventReader implements XBEventProducer {
@@ -105,21 +105,29 @@ public class XBEventReader implements XBEventProducer {
 
         // Process blocks until whole tree is processed
         do {
-            UBNat32 attrPartSize = new UBNat32();
-            int headSize = attrPartSize.fromStreamUB(source);
-            shrinkStatus(sizeLimits, headSize);
-            if (attrPartSize.getLong() == 0) {
+            UBNat32 attributePartSize = new UBNat32();
+            int attributePartSizeLength = attributePartSize.fromStreamUB(source);
+            shrinkStatus(sizeLimits, attributePartSizeLength);
+            if (attributePartSize.getLong() == 0) {
                 // Process terminator
                 if (sizeLimits.isEmpty() || sizeLimits.get(sizeLimits.size() - 1) != null) {
                     throw new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR);
                 }
 
                 sizeLimits.remove(sizeLimits.size() - 1);
+
+                if (sizeLimits.isEmpty()) {
+                    // Process extended area
+                    if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED && source.available() > 0) {
+                        listener.putXBToken(new XBDataToken(new ExtendedAreaInputStreamWrapper(source)));
+                    }
+                }
+
                 listener.putXBToken(new XBEndToken());
             } else {
                 // Process regular block
-                int attrPartSizeValue = attrPartSize.getInt();
-                shrinkStatus(sizeLimits, attrPartSizeValue);
+                int attributePartSizeValue = attributePartSize.getInt();
+                shrinkStatus(sizeLimits, attributePartSizeValue);
 
                 UBENat32 dataPartSize = new UBENat32();
                 int dataPartSizeLength = dataPartSize.fromStreamUB(source);
@@ -127,7 +135,7 @@ public class XBEventReader implements XBEventProducer {
 
                 listener.putXBToken(new XBBeginToken(dataPartSizeValue == null ? XBBlockTerminationMode.TERMINATED_BY_ZERO : XBBlockTerminationMode.SIZE_SPECIFIED));
 
-                if (attrPartSizeValue == dataPartSizeLength) {
+                if (attributePartSizeValue == dataPartSizeLength) {
                     // Process data block
                     FinishableStream dataWrapper = (dataPartSizeValue == null)
                             ? new TerminatedDataInputStreamWrapper(source)
@@ -136,21 +144,28 @@ public class XBEventReader implements XBEventProducer {
                     dataWrapper.finish();
                     shrinkStatus(sizeLimits, (int) dataWrapper.getLength());
 
+                    if (sizeLimits.isEmpty()) {
+                        // Process extended area
+                        if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED && source.available() > 0) {
+                            listener.putXBToken(new XBDataToken(new ExtendedAreaInputStreamWrapper(source)));
+                        }
+                    }
+
                     listener.putXBToken(new XBEndToken());
                 } else {
                     // Process standard block
                     sizeLimits.add(dataPartSizeValue);
 
                     // Process attributes
-                    attrPartSizeValue -= dataPartSizeLength;
-                    while (attrPartSizeValue > 0) {
+                    attributePartSizeValue -= dataPartSizeLength;
+                    while (attributePartSizeValue > 0) {
                         UBNat32 attribute = new UBNat32();
                         int attributeLength = attribute.fromStreamUB(source);
-                        if (attributeLength > attrPartSizeValue) {
+                        if (attributeLength > attributePartSizeValue) {
                             throw new XBParseException("Attribute Overflow", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
                         }
 
-                        attrPartSizeValue -= attributeLength;
+                        attributePartSizeValue -= attributeLength;
                         listener.putXBToken(new XBAttributeToken(attribute));
                     }
                 }
@@ -162,7 +177,7 @@ public class XBEventReader implements XBEventProducer {
 
                 if (sizeLimits.isEmpty()) {
                     // Process extended area
-                    if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED) {
+                    if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED && source.available() > 0) {
                         ExtendedAreaInputStreamWrapper dataWrapper = new ExtendedAreaInputStreamWrapper(source);
                         listener.putXBToken(new XBDataToken(dataWrapper));
                     }
@@ -188,15 +203,15 @@ public class XBEventReader implements XBEventProducer {
      * @param length Value to shrink all limits off
      * @throws XBParseException If limits are breached
      */
-    private void shrinkStatus(List<Integer> sizeLimits, int length) throws XBParseException {
-        for (int depth = 0; depth < sizeLimits.size(); depth++) {
-            Integer limit = sizeLimits.get(depth);
+    private static void shrinkStatus(List<Integer> sizeLimits, int length) throws XBParseException {
+        for (int depthLevel = 0; depthLevel < sizeLimits.size(); depthLevel++) {
+            Integer limit = sizeLimits.get(depthLevel);
             if (limit != null) {
                 if (limit < length) {
                     throw new XBParseException("Block Overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
                 }
 
-                sizeLimits.set(depth, limit - length);
+                sizeLimits.set(depthLevel, limit - length);
             }
         }
     }

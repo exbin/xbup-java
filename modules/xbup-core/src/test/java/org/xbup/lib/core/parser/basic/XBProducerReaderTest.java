@@ -101,6 +101,29 @@ public class XBProducerReaderTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
+    public void testReadSampleBlockExtended() throws Exception {
+        try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_EXTENDED)) {
+            XBProducerReader instance = new XBProducerReader(stream);
+
+            BufferAssertXBFilter assertListener;
+            XBConsumerToListener buffer = new XBConsumerToListener(null);
+            XBCoreTestSampleData.writeSampleBlockExtended(buffer);
+            assertListener = new BufferAssertXBFilter(buffer.getTokens());
+
+            instance.attachXBListener(assertListener);
+            instance.read();
+            assertTrue(assertListener.isFinished());
+
+            instance.close();
+        }
+    }
+
+    /**
+     * Tests XBProducerReader class reading sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
     public void testReadSampleBlockTerminated() throws Exception {
         try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED)) {
             XBProducerReader instance = new XBProducerReader(stream);
@@ -124,13 +147,13 @@ public class XBProducerReaderTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleBlockExtended() throws Exception {
-        try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_EXTENDED)) {
+    public void testReadSampleBlockTerminatedExtended() throws Exception {
+        try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_EXTENDED)) {
             XBProducerReader instance = new XBProducerReader(stream);
 
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
-            XBCoreTestSampleData.writeSampleBlockExtended(buffer);
+            XBCoreTestSampleData.writeSampleBlockTerminatedExtended(buffer);
             assertListener = new BufferAssertXBFilter(buffer.getTokens());
 
             instance.attachXBListener(assertListener);
@@ -170,6 +193,29 @@ public class XBProducerReaderTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
+    public void testReadSampleDataExtended() throws Exception {
+        try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_EXTENDED)) {
+            XBProducerReader instance = new XBProducerReader(stream);
+
+            BufferAssertXBFilter assertListener;
+            XBConsumerToListener buffer = new XBConsumerToListener(null);
+            XBCoreTestSampleData.writeSampleDataExtended(buffer);
+            assertListener = new BufferAssertXBFilter(buffer.getTokens());
+
+            instance.attachXBListener(assertListener);
+            instance.read();
+            assertTrue(assertListener.isFinished());
+
+            instance.close();
+        }
+    }
+
+    /**
+     * Tests XBProducerReader class reading sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
     public void testReadSampleDataTerminated() throws Exception {
         try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED)) {
             XBProducerReader instance = new XBProducerReader(stream);
@@ -193,13 +239,13 @@ public class XBProducerReaderTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleDataExtended() throws Exception {
-        try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_EXTENDED)) {
+    public void testReadSampleDataTerminatedExtended() throws Exception {
+        try (InputStream stream = XBProducerReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_EXTENDED)) {
             XBProducerReader instance = new XBProducerReader(stream);
 
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
-            XBCoreTestSampleData.writeSampleDataExtended(buffer);
+            XBCoreTestSampleData.writeSampleDataTerminatedExtended(buffer);
             assertListener = new BufferAssertXBFilter(buffer.getTokens());
 
             instance.attachXBListener(assertListener);

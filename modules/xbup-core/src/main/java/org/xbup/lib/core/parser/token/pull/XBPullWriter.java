@@ -151,8 +151,6 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                                             tokenBuffer.write(stream);
                                             bufferedFromLevel = -1;
                                         }
-                                    } else {
-                                        decreaseStatus(sizeLimits);
                                     }
 
                                     depthLevel--;

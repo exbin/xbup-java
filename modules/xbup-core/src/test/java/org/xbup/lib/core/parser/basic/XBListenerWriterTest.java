@@ -33,7 +33,7 @@ import static org.xbup.lib.core.test.XBTestUtils.assertEqualsInputStream;
 /**
  * Test class for XBListenerWriter.
  *
- * @version 0.1.25 2015/07/19
+ * @version 0.1.25 2015/07/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBListenerWriterTest extends TestCase {
@@ -96,12 +96,12 @@ public class XBListenerWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleBlockTerminated() throws Exception {
-        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED)) {
+    public void testWriteSampleBlockExtended() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_EXTENDED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBListenerWriter writer = new XBListenerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(writer);
-                XBCoreTestSampleData.writeSampleBlockTerminated(listener);
+                XBCoreTestSampleData.writeSampleBlockExtended(listener);
                 writer.closeXB();
             }
 
@@ -115,12 +115,12 @@ public class XBListenerWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleBlockExtended() throws Exception {
-        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_EXTENDED)) {
+    public void testWriteSampleBlockTerminatedExtended() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_EXTENDED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBListenerWriter writer = new XBListenerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(writer);
-                XBCoreTestSampleData.writeSampleBlockExtended(listener);
+                XBCoreTestSampleData.writeSampleBlockTerminatedExtended(listener);
                 writer.closeXB();
             }
 
@@ -153,6 +153,25 @@ public class XBListenerWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
+    public void testWriteSampleDataExtended() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_EXTENDED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBListenerWriter writer = new XBListenerWriter(target)) {
+                XBPrintFilter listener = new XBPrintFilter(writer);
+                XBCoreTestSampleData.writeSampleDataExtended(listener);
+                writer.closeXB();
+            }
+
+            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+        }
+    }
+
+    /**
+     * Tests XBListenerWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
     public void testWriteSampleDataTerminated() throws Exception {
         try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
@@ -172,12 +191,12 @@ public class XBListenerWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleDataExtended() throws Exception {
-        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_EXTENDED)) {
+    public void testWriteSampleDataTerminatedExtended() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_EXTENDED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBListenerWriter writer = new XBListenerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(writer);
-                XBCoreTestSampleData.writeSampleDataExtended(listener);
+                XBCoreTestSampleData.writeSampleDataTerminatedExtended(listener);
                 writer.closeXB();
             }
 

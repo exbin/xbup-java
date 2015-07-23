@@ -35,7 +35,7 @@ import static org.xbup.lib.core.test.XBTestUtils.assertEqualsInputStream;
 /**
  * Test class for XBPullWriter.
  *
- * @version 0.1.25 2015/07/22
+ * @version 0.1.25 2015/07/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPullWriterTest extends TestCase {
@@ -98,6 +98,25 @@ public class XBPullWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
+    public void testWriteSampleBlockExtended() throws Exception {
+        try (InputStream stream = XBPullWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_EXTENDED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBPullWriter writer = new XBPullWriter(target)) {
+                XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(new XBPullConsumerToConsumer(writer)));
+                XBCoreTestSampleData.writeSampleBlockExtended(listener);
+                writer.write();
+            }
+
+            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+        }
+    }
+
+    /**
+     * Tests XBPullWriter class writting sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
     public void testWriteSampleBlockTerminated() throws Exception {
         try (InputStream stream = XBPullWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
@@ -117,12 +136,12 @@ public class XBPullWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleBlockExtended() throws Exception {
-        try (InputStream stream = XBPullWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_EXTENDED)) {
+    public void testWriteSampleBlockTerminatedExtended() throws Exception {
+        try (InputStream stream = XBPullWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_EXTENDED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBPullWriter writer = new XBPullWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(new XBPullConsumerToConsumer(writer)));
-                XBCoreTestSampleData.writeSampleBlockExtended(listener);
+                XBCoreTestSampleData.writeSampleBlockTerminatedExtended(listener);
                 writer.write();
             }
 
@@ -155,6 +174,25 @@ public class XBPullWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
+    public void testWriteSampleDataExtended() throws Exception {
+        try (InputStream stream = XBPullWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_EXTENDED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBPullWriter writer = new XBPullWriter(target)) {
+                XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(new XBPullConsumerToConsumer(writer)));
+                XBCoreTestSampleData.writeSampleDataExtended(listener);
+                writer.write();
+            }
+
+            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+        }
+    }
+
+    /**
+     * Tests XBPullWriter class writting sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
     public void testWriteSampleDataTerminated() throws Exception {
         try (InputStream stream = XBPullWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
@@ -174,12 +212,12 @@ public class XBPullWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleDataExtended() throws Exception {
-        try (InputStream stream = XBPullWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_EXTENDED)) {
+    public void testWriteSampleDataTerminatedExtended() throws Exception {
+        try (InputStream stream = XBPullWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_EXTENDED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBPullWriter writer = new XBPullWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(new XBPullConsumerToConsumer(writer)));
-                XBCoreTestSampleData.writeSampleDataExtended(listener);
+                XBCoreTestSampleData.writeSampleDataTerminatedExtended(listener);
                 writer.write();
             }
 
@@ -313,7 +351,7 @@ public class XBPullWriterTest extends TestCase {
         ByteArrayOutputStream target = new ByteArrayOutputStream();
         try {
             try (XBPullWriter writer = new XBPullWriter(target)) {
-                new XBPrintFilter(new XBConsumerToListener(new XBPullConsumerToConsumer(writer)));
+                assertNotNull(new XBPrintFilter(new XBConsumerToListener(new XBPullConsumerToConsumer(writer))));
                 writer.write();
             }
         } catch (XBProcessingException | IOException e) {

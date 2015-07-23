@@ -36,7 +36,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Basic XBUP level 0 reader - provider.
  *
- * @version 0.1.25 2015/07/10
+ * @version 0.1.25 2015/07/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBProviderReader implements XBProvider {
@@ -47,7 +47,7 @@ public class XBProviderReader implements XBProvider {
     private InputStream source;
     private FinishableStream dataWrapper;
 
-    private List<Integer> sizeLimits;
+    private final List<Integer> sizeLimits = new ArrayList<>();
     private int attributePartSizeValue;
     private Integer dataPartSizeValue;
 
@@ -74,7 +74,7 @@ public class XBProviderReader implements XBProvider {
     private void resetParser() {
         dataWrapper = null;
         parserState = XBParserState.START;
-        sizeLimits = new ArrayList<>();
+        sizeLimits.clear();
         attributePartSizeValue = 0;
     }
 
@@ -113,15 +113,15 @@ public class XBProviderReader implements XBProvider {
      * @param value Value to shrink all limits off
      * @throws XBParseException If limits are breached
      */
-    private void shrinkStatus(int value) throws XBParseException {
-        for (int depth = 0; depth < sizeLimits.size(); depth++) {
-            Integer limit = sizeLimits.get(depth);
+    private static void shrinkStatus(List<Integer> sizeLimits, int value) throws XBParseException {
+        for (int depthLevel = 0; depthLevel < sizeLimits.size(); depthLevel++) {
+            Integer limit = sizeLimits.get(depthLevel);
             if (limit != null) {
                 if (limit < value) {
                     throw new XBParseException("Block Overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
                 }
 
-                sizeLimits.set(depth, limit - value);
+                sizeLimits.set(depthLevel, limit - value);
             }
         }
     }
@@ -164,7 +164,7 @@ public class XBProviderReader implements XBProvider {
     public void produceXB(XBListener listener) throws XBProcessingException, IOException {
         if (dataWrapper != null) {
             dataWrapper.finish();
-            shrinkStatus((int) dataWrapper.getLength());
+            shrinkStatus(sizeLimits, (int) dataWrapper.getLength());
             dataWrapper = null;
         }
 
@@ -180,7 +180,7 @@ public class XBProviderReader implements XBProvider {
             case BLOCK_BEGIN: {
                 UBNat32 attrPartSize = new UBNat32();
                 int headSize = attrPartSize.fromStreamUB(source);
-                shrinkStatus(headSize);
+                shrinkStatus(sizeLimits, headSize);
                 if (attrPartSize.getLong() == 0) {
                     // Process terminator
                     if (sizeLimits.isEmpty() || sizeLimits.get(sizeLimits.size() - 1) != null) {
@@ -192,7 +192,7 @@ public class XBProviderReader implements XBProvider {
                     // nobreak - Continue to process BLOCK_END
                 } else {
                     attributePartSizeValue = attrPartSize.getInt();
-                    shrinkStatus(attributePartSizeValue);
+                    shrinkStatus(sizeLimits, attributePartSizeValue);
 
                     UBENat32 dataPartSize = new UBENat32();
                     int dataPartSizeLength = dataPartSize.fromStreamUB(source);

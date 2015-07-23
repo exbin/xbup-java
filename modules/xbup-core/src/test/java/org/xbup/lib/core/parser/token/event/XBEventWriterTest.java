@@ -35,7 +35,7 @@ import static org.xbup.lib.core.test.XBTestUtils.assertEqualsInputStream;
 /**
  * Test class for XBEventWriter.
  *
- * @version 0.1.25 2015/07/19
+ * @version 0.1.25 2015/07/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEventWriterTest extends TestCase {
@@ -102,6 +102,27 @@ public class XBEventWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
+    public void testWriteSampleBlockExtended() throws Exception {
+        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_EXTENDED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBEventWriter writer = new XBEventWriter(target)) {
+                XBPrintEventFilter listener = new XBPrintEventFilter(writer);
+
+                writer.open(target);
+                XBCoreTestSampleData.writeSampleBlockExtended(new XBEventListenerToListener(listener));
+                writer.closeXB();
+            }
+
+            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+        }
+    }
+
+    /**
+     * Tests XBEventWriter class writting sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
     public void testWriteSampleBlockTerminated() throws Exception {
         try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
@@ -123,14 +144,14 @@ public class XBEventWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleBlockExtended() throws Exception {
-        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_EXTENDED)) {
+    public void testWriteSampleBlockTerminatedExtended() throws Exception {
+        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_EXTENDED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBEventWriter writer = new XBEventWriter(target)) {
                 XBPrintEventFilter listener = new XBPrintEventFilter(writer);
 
                 writer.open(target);
-                XBCoreTestSampleData.writeSampleBlockExtended(new XBEventListenerToListener(listener));
+                XBCoreTestSampleData.writeSampleBlockTerminatedExtended(new XBEventListenerToListener(listener));
                 writer.closeXB();
             }
 
@@ -165,6 +186,27 @@ public class XBEventWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
+    public void testWriteSampleDataExtended() throws Exception {
+        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_EXTENDED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBEventWriter writer = new XBEventWriter(target)) {
+                XBPrintEventFilter listener = new XBPrintEventFilter(writer);
+
+                writer.open(target);
+                XBCoreTestSampleData.writeSampleDataExtended(new XBEventListenerToListener(listener));
+                writer.closeXB();
+            }
+
+            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+        }
+    }
+
+    /**
+     * Tests XBEventWriter class writting sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
     public void testWriteSampleDataTerminated() throws Exception {
         try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
@@ -186,14 +228,14 @@ public class XBEventWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleDataExtended() throws Exception {
-        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_EXTENDED)) {
+    public void testWriteSampleDataTerminatedExtended() throws Exception {
+        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_EXTENDED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBEventWriter writer = new XBEventWriter(target)) {
                 XBPrintEventFilter listener = new XBPrintEventFilter(writer);
 
                 writer.open(target);
-                XBCoreTestSampleData.writeSampleDataExtended(new XBEventListenerToListener(listener));
+                XBCoreTestSampleData.writeSampleDataTerminatedExtended(new XBEventListenerToListener(listener));
                 writer.closeXB();
             }
 

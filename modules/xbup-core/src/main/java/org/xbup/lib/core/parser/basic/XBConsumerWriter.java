@@ -156,8 +156,6 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                                             tokenBuffer.write(stream);
                                             bufferedFromLevel = -1;
                                         }
-                                    } else {
-                                        decreaseStatus(sizeLimits);
                                     }
 
                                     depthLevel--;

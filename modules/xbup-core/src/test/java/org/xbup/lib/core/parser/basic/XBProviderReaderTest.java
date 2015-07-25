@@ -297,13 +297,13 @@ public class XBProviderReaderTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleTwoBlocksTerminated() throws Exception {
-        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED)) {
+    public void testReadSampleTwoBlocksExtended() throws Exception {
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_EXTENDED)) {
             XBProviderReader instance = new XBProviderReader(stream);
 
             XBTestUtils.BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
-            XBCoreTestSampleData.writeSampleTwoBlocksTerminated(buffer);
+            XBCoreTestSampleData.writeSampleTwoBlocksExtended(buffer);
             assertListener = new XBTestUtils.BufferAssertXBFilter(buffer.getTokens());
 
             while (!instance.isFinished()) {
@@ -321,13 +321,13 @@ public class XBProviderReaderTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleTwoBlocksExtended() throws Exception {
-        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_EXTENDED)) {
+    public void testReadSampleTwoBlocksTerminated() throws Exception {
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED)) {
             XBProviderReader instance = new XBProviderReader(stream);
 
             XBTestUtils.BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
-            XBCoreTestSampleData.writeSampleTwoBlocksExtended(buffer);
+            XBCoreTestSampleData.writeSampleTwoBlocksTerminated(buffer);
             assertListener = new XBTestUtils.BufferAssertXBFilter(buffer.getTokens());
 
             while (!instance.isFinished()) {

@@ -32,7 +32,7 @@ import org.xbup.lib.core.ubnumber.UBStreamable;
 /**
  * Basic object model parser XBUP level 0 document representation.
  *
- * @version 0.1.25 2015/02/09
+ * @version 0.1.25 2015/07/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStreamable {
@@ -40,6 +40,10 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
     private boolean modified;
     private String fileName;
     private XBData extendedAreaData;
+
+    public XBTreeDocument(XBTreeNode rootNode) {
+        setRootBlock(rootNode);
+    }
 
     public XBTreeDocument() {
         extendedAreaData = null;

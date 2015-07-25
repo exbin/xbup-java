@@ -26,32 +26,39 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.basic.convert.XBSkipBlockListener;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBDefaultDocument;
+import org.xbup.lib.core.block.XBDocument;
 import org.xbup.lib.core.block.XBEditableBlock;
+import org.xbup.lib.core.block.XBEditableDocument;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 0 convertor from tokens to tree node.
  *
- * @version 0.1.25 2015/05/10
+ * @version 0.1.25 2015/07/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeReader implements XBListener {
 
-    private XBEditableBlock target;
+    private XBDocument target;
+    private XBEditableBlock block;
     private final boolean recursive;
+    private final boolean allowExtendedArea;
     private boolean finished;
     private XBParserState parserState;
     private XBSkipBlockListener skipNode;
     private long level;
 
-    public XBTreeReader(XBEditableBlock target) {
-        this(target, true);
+    public XBTreeReader(XBDocument target) {
+        this(target, true, true);
     }
 
-    public XBTreeReader(XBEditableBlock target, boolean recursive) {
+    public XBTreeReader(XBDocument target, boolean recursive, boolean allowExtendedArea) {
         this.target = target;
+        block = (XBEditableBlock) target.getRootBlock();
         this.recursive = recursive;
+        this.allowExtendedArea = allowExtendedArea;
         finished = false;
         if (!recursive) {
             skipNode = new XBSkipBlockListener();
@@ -59,6 +66,10 @@ public class XBTreeReader implements XBListener {
 
         parserState = XBParserState.START;
         level = 0;
+    }
+
+    public XBTreeReader(XBEditableBlock target) {
+        this(new XBDefaultDocument(target), true, false);
     }
 
     @Override
@@ -74,27 +85,27 @@ public class XBTreeReader implements XBListener {
 
         if (parserState == XBParserState.START) {
             if (!recursive) {
-                if (target.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
-                    target.setAttributesCount(0);
+                if (block.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
+                    block.setAttributesCount(0);
                 } else {
-                    target.clearData();
+                    block.clearData();
                 }
             } else {
-                target.clear();
+                block.clear();
             }
 
-            target.setTerminationMode(terminationMode);
+            block.setTerminationMode(terminationMode);
             parserState = XBParserState.BLOCK_BEGIN;
         } else if (parserState == XBParserState.ATTRIBUTE_PART || parserState == XBParserState.BLOCK_END) {
             if (!recursive) {
                 throw new XBParseException("Parser invalid state", XBProcessingExceptionType.UNKNOWN);
             }
 
-            XBEditableBlock node = (XBEditableBlock) target.createNewChild(target.getChildrenCount());
-            node.setParent(target);
+            XBEditableBlock node = (XBEditableBlock) block.createNewChild(block.getChildrenCount());
+            node.setParent(block);
             node.setTerminationMode(terminationMode);
             level++;
-            target = node;
+            block = node;
             parserState = XBParserState.BLOCK_BEGIN;
         } else {
             throw new XBParseException("Unexpected block begin event", XBProcessingExceptionType.UNEXPECTED_ORDER);
@@ -113,12 +124,12 @@ public class XBTreeReader implements XBListener {
         }
 
         if (parserState == XBParserState.BLOCK_BEGIN) {
-            target.setAttributesCount(0);
+            block.setAttributesCount(0);
             parserState = XBParserState.ATTRIBUTE_PART;
         }
 
         if (parserState == XBParserState.ATTRIBUTE_PART) {
-            target.setAttributeAt(value, target.getAttributesCount());
+            block.setAttributeAt(value, block.getAttributesCount());
         } else {
             throw new XBParseException("Unexpected attribute event", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -135,12 +146,21 @@ public class XBTreeReader implements XBListener {
             return;
         }
 
-        if (parserState == XBParserState.BLOCK_BEGIN) {
-            parserState = XBParserState.DATA_PART;
-            target.setDataMode(XBBlockDataMode.DATA_BLOCK);
-            target.setData(data);
+        if (level == 0 && (parserState == XBParserState.ATTRIBUTE_PART || parserState == XBParserState.DATA_PART || parserState == XBParserState.BLOCK_END)) {
+            if (allowExtendedArea) {
+                ((XBEditableDocument) target).setExtendedArea(data);
+                parserState = XBParserState.EXTENDED_AREA;
+            } else {
+                throw new XBParseException("Unexpected data event for extended area", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            }
         } else {
-            throw new XBParseException("Unexpected data event", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            if (parserState == XBParserState.BLOCK_BEGIN) {
+                parserState = XBParserState.DATA_PART;
+                block.setDataMode(XBBlockDataMode.DATA_BLOCK);
+                block.setData(data);
+            } else {
+                throw new XBParseException("Unexpected data event", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            }
         }
     }
 
@@ -155,11 +175,11 @@ public class XBTreeReader implements XBListener {
             return;
         }
 
-        if ((parserState == XBParserState.DATA_PART) || (parserState == XBParserState.ATTRIBUTE_PART) || (parserState == XBParserState.BLOCK_END)) {
+        if (parserState == XBParserState.DATA_PART || parserState == XBParserState.ATTRIBUTE_PART || parserState == XBParserState.BLOCK_END || parserState == XBParserState.EXTENDED_AREA) {
             parserState = XBParserState.BLOCK_END;
             if (level > 0) {
                 level--;
-                target = (XBEditableBlock) target.getParent();
+                block = (XBEditableBlock) block.getParent();
                 return;
             } else {
                 finished = true;

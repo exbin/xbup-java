@@ -19,10 +19,14 @@ package org.xbup.lib.core.test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import junit.framework.Assert;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
+import org.xbup.lib.core.block.XBBlock;
+import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBDocument;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBFilter;
 import org.xbup.lib.core.parser.basic.XBListener;
@@ -35,7 +39,7 @@ import org.xbup.lib.core.parser.token.XBTokenType;
 /**
  * Utilities for testing.
  *
- * @version 0.1.25 2015/07/19
+ * @version 0.1.25 2015/07/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTestUtils {
@@ -68,6 +72,57 @@ public class XBTestUtils {
             assertTrue(stream.available() == 0);
         } catch (IOException ex) {
             fail("IOException " + ex.getMessage());
+        }
+    }
+
+    /**
+     * Compares two documents for full exact match.
+     *
+     * @param expectedDocument expected document
+     * @param document compared document
+     */
+    public static void assertEqualsXBDocuments(XBDocument expectedDocument, XBDocument document) {
+        long extendedAreaSize = expectedDocument.getExtendedAreaSize();
+        assertEquals(extendedAreaSize, document.getExtendedAreaSize());
+        assertEqualsXBBlock(expectedDocument.getRootBlock(), document.getRootBlock());
+    }
+
+    /**
+     * Compares two blocks for full exact match.
+     *
+     * @param expectedBlock expected block
+     * @param block compared block
+     */
+    public static void assertEqualsXBBlock(XBBlock expectedBlock, XBBlock block) {
+        if (expectedBlock == null && block == null) {
+            return;
+        }
+
+        Assert.assertNotNull(expectedBlock);
+        Assert.assertNotNull(block);
+        assertEquals(expectedBlock.getDataMode(), block.getDataMode());
+        assertEquals(expectedBlock.getTerminationMode(), block.getTerminationMode());
+        if (block.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
+            int attributesCount = expectedBlock.getAttributesCount();
+            assertEquals(attributesCount, block.getAttributesCount());
+            if (attributesCount > 0) {
+                XBAttribute[] expectedAttributes = expectedBlock.getAttributes();
+                XBAttribute[] attributes = block.getAttributes();
+                for (int i = 0; i < expectedAttributes.length; i++) {
+                    assertEquals(expectedAttributes[i].getNaturalLong(), attributes[i].getNaturalLong());
+                }
+            }
+            int childrenCount = expectedBlock.getChildrenCount();
+            assertEquals(childrenCount, block.getChildrenCount());
+            if (childrenCount > 0) {
+                XBBlock[] expectedChildren = expectedBlock.getChildren();
+                XBBlock[] children = block.getChildren();
+                for (int i = 0; i < expectedChildren.length; i++) {
+                    assertEqualsXBBlock(expectedChildren[i], children[i]);
+                }
+            }
+        } else {
+            assertEqualsInputStream(expectedBlock.getData(), block.getData());
         }
     }
 
@@ -242,7 +297,7 @@ public class XBTestUtils {
             if (listener != null) {
                 listener.endXB();
             }
-            
+
             depth--;
             if (depth == 0 && finishedMode == FinishedMode.START) {
                 finishedMode = FinishedMode.FINISHED;
@@ -261,8 +316,9 @@ public class XBTestUtils {
             this.listener = listener;
         }
     }
-    
+
     private static enum FinishedMode {
+
         START, FINISHED, AFTER_END;
     }
 }

@@ -248,11 +248,11 @@ public class XBPullReaderTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleTwoBlocksTerminated() throws Exception {
-        try (InputStream stream = XBPullReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED); XBPullReader instance = new XBPullReader(stream)) {
+    public void testReadSampleTwoBlocksExtended() throws Exception {
+        try (InputStream stream = XBPullReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_EXTENDED); XBPullReader instance = new XBPullReader(stream)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
-            XBCoreTestSampleData.writeSampleTwoBlocksTerminated(buffer);
+            XBCoreTestSampleData.writeSampleTwoBlocksExtended(buffer);
             assertListener = new BufferAssertXBFilter(buffer.getTokens());
 
             XBProducer producer = new XBProviderToProducer(new XBPullProviderToProvider(instance));
@@ -267,11 +267,11 @@ public class XBPullReaderTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleTwoBlocksExtended() throws Exception {
-        try (InputStream stream = XBPullReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_EXTENDED); XBPullReader instance = new XBPullReader(stream)) {
+    public void testReadSampleTwoBlocksTerminated() throws Exception {
+        try (InputStream stream = XBPullReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED); XBPullReader instance = new XBPullReader(stream)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
-            XBCoreTestSampleData.writeSampleTwoBlocksExtended(buffer);
+            XBCoreTestSampleData.writeSampleTwoBlocksTerminated(buffer);
             assertListener = new BufferAssertXBFilter(buffer.getTokens());
 
             XBProducer producer = new XBProviderToProducer(new XBPullProviderToProvider(instance));

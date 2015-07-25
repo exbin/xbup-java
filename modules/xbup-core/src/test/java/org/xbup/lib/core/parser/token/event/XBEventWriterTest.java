@@ -270,14 +270,14 @@ public class XBEventWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleTwoBlocksTerminated() throws Exception {
-        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED)) {
+    public void testWriteSampleTwoBlocksExtended() throws Exception {
+        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_EXTENDED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBEventWriter writer = new XBEventWriter(target)) {
                 XBPrintEventFilter listener = new XBPrintEventFilter(writer);
 
                 writer.open(target);
-                XBCoreTestSampleData.writeSampleTwoBlocksTerminated(new XBEventListenerToListener(listener));
+                XBCoreTestSampleData.writeSampleTwoBlocksExtended(new XBEventListenerToListener(listener));
                 writer.closeXB();
             }
 
@@ -291,14 +291,14 @@ public class XBEventWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleTwoBlocksExtended() throws Exception {
-        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_EXTENDED)) {
+    public void testWriteSampleTwoBlocksTerminated() throws Exception {
+        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBEventWriter writer = new XBEventWriter(target)) {
                 XBPrintEventFilter listener = new XBPrintEventFilter(writer);
 
                 writer.open(target);
-                XBCoreTestSampleData.writeSampleTwoBlocksExtended(new XBEventListenerToListener(listener));
+                XBCoreTestSampleData.writeSampleTwoBlocksTerminated(new XBEventListenerToListener(listener));
                 writer.closeXB();
             }
 

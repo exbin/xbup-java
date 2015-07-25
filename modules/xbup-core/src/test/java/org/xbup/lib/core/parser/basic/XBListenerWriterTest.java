@@ -115,6 +115,25 @@ public class XBListenerWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
+    public void testWriteSampleBlockTerminated() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBListenerWriter writer = new XBListenerWriter(target)) {
+                XBPrintFilter listener = new XBPrintFilter(writer);
+                XBCoreTestSampleData.writeSampleBlockTerminated(listener);
+                writer.closeXB();
+            }
+
+            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+        }
+    }
+
+    /**
+     * Tests XBListenerWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
     public void testWriteSampleBlockTerminatedExtended() throws Exception {
         try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_EXTENDED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
@@ -229,12 +248,12 @@ public class XBListenerWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleTwoBlocksTerminated() throws Exception {
-        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED)) {
+    public void testWriteSampleTwoBlocksExtended() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_EXTENDED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBListenerWriter writer = new XBListenerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(writer);
-                XBCoreTestSampleData.writeSampleTwoBlocksTerminated(listener);
+                XBCoreTestSampleData.writeSampleTwoBlocksExtended(listener);
                 writer.closeXB();
             }
 
@@ -248,12 +267,12 @@ public class XBListenerWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleTwoBlocksExtended() throws Exception {
-        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_EXTENDED)) {
+    public void testWriteSampleTwoBlocksTerminated() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBListenerWriter writer = new XBListenerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(writer);
-                XBCoreTestSampleData.writeSampleTwoBlocksExtended(listener);
+                XBCoreTestSampleData.writeSampleTwoBlocksTerminated(listener);
                 writer.closeXB();
             }
 

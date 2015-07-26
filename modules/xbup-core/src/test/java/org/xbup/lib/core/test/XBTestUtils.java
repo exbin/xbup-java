@@ -33,13 +33,16 @@ import org.xbup.lib.core.parser.basic.XBListener;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
+import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.XBTokenType;
+import org.xbup.lib.core.type.XBData;
+import org.xbup.lib.core.util.StreamUtils;
 
 /**
  * Utilities for testing.
  *
- * @version 0.1.25 2015/07/24
+ * @version 0.1.25 2015/07/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTestUtils {
@@ -280,11 +283,19 @@ public class XBTestUtils {
                 finishedMode = FinishedMode.AFTER_END;
             }
 
+            InputStream comparableData = data;
+
             if (listener != null) {
-                listener.dataXB(data);
+                XBData passedData = new XBData();
+                XBData matchedData = new XBData();
+                StreamUtils.copyInputStreamToTwoOutputStreams(data, passedData.getDataOutputStream(), matchedData.getDataOutputStream());
+                listener.dataXB(passedData.getDataInputStream());
+                comparableData = matchedData.getDataInputStream();
             }
 
             assertTrue(tokenList != null && position < tokenList.size() && tokenList.get(position).getTokenType() == XBTokenType.DATA);
+            XBDataToken dataToken = (XBDataToken) tokenList.get(position);
+            assertEqualsInputStream(dataToken.getData(), comparableData);
             position++;
         }
 

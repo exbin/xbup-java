@@ -28,72 +28,68 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
  * Terminator is 0x0000. Sequence 0x00XX for XX &gt; 0 is interpreted as
  * sequence of zeros XX bytes long.
  *
- * @version 0.1.23 2014/01/10
+ * @version 0.1.25 2015/07/25
  * @author XBUP Project (http://xbup.org)
  */
 public class TerminatedDataInputStreamWrapper extends InputStream implements FinishableStream {
 
     private final InputStream source;
 
-    private boolean eof;
+    private int nextValue;
     private int zeroCount;
-    private final int value;
     private int length = 0;
 
     public TerminatedDataInputStreamWrapper(final InputStream source) throws IOException {
         this.source = source;
-
-        eof = false;
-        zeroCount = 0;
-        value = source.read();
-        if (value == -1) {
-            zeroCount = -1;
-            eof = true;
-        } else if (value == 0) {
-            zeroCount = source.read();
-            eof = (zeroCount < 1);
-        }
+        fillNextValue();
     }
 
     @Override
     public int read() throws IOException {
-        if (eof) {
-            return -1;
+        int value = nextValue;
+        if (nextValue != -1) {
+            fillNextValue();
         }
-
-        if (zeroCount > 0) {
-            zeroCount--;
-            return 0;
-        }
-
-        int nextValue = source.read();
-        if (nextValue < 0) {
-            zeroCount = -1;
-            eof = true;
-        } else {
-            length++;
-            if (nextValue == 0) {
-                zeroCount = source.read();
-                if (zeroCount >= 0) {
-                    length++;
-                }
-
-                eof = (zeroCount < 1);
-            }
-        }
-
         return value;
     }
 
     @Override
+    public int read(byte[] b, int off, int len) throws IOException {
+        return super.read(b, off, len);
+    }
+
+    @Override
+    public int read(byte[] b) throws IOException {
+        return super.read(b);
+    }
+
+    private void fillNextValue() throws IOException {
+        if (zeroCount > 0) {
+            zeroCount--;
+            nextValue = 0;
+        } else {
+            zeroCount = -1;
+            nextValue = source.read();
+            length++;
+            if (nextValue == 0) {
+                zeroCount = source.read();
+                length++;
+
+                if (zeroCount == 0) {
+                    nextValue = -1;
+                }
+            }
+        }
+    }
+
+    @Override
     public long finish() throws IOException, XBParseException {
-        while (!eof) {
-            int blockLength = read();
+        int blockLength;
+        while (nextValue >= 0) {
+            blockLength = read();
             if (blockLength < 0) {
                 break;
             }
-
-            length += blockLength;
         }
 
         if (zeroCount < 0) {
@@ -105,7 +101,7 @@ public class TerminatedDataInputStreamWrapper extends InputStream implements Fin
 
     @Override
     public int available() throws IOException {
-        return eof ? 1 : 0;
+        return nextValue == -1 ? 0 : 1;
     }
 
     @Override

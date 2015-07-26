@@ -32,7 +32,7 @@ import org.xbup.lib.core.ubnumber.UBStreamable;
 /**
  * Basic object model parser XBUP level 0 document representation.
  *
- * @version 0.1.25 2015/07/25
+ * @version 0.1.25 2015/07/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStreamable {

@@ -22,7 +22,7 @@ import org.xbup.lib.core.parser.token.XBAttribute;
 /**
  * Basic plain implementation of XBBlock interface.
  *
- * @version 0.1.25 2015/07/24
+ * @version 0.1.25 2015/07/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDefaultBlock implements XBBlock {
@@ -46,9 +46,9 @@ public class XBDefaultBlock implements XBBlock {
         if (children != null) {
             for (XBBlock child : children) {
                 if (child instanceof XBDefaultBlock) {
-                    ((XBDefaultBlock) child).setParent(parent);
+                    ((XBDefaultBlock) child).setParent(this);
                 } else if (child instanceof XBEditableBlock) {
-                    ((XBEditableBlock) child).setParent(parent);
+                    ((XBEditableBlock) child).setParent(this);
                 }
             }
         }

@@ -18,22 +18,17 @@ package org.xbup.lib.parser_tree;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 import junit.framework.TestCase;
 import org.junit.Test;
-import org.xbup.lib.core.block.XBBlockDataMode;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.core.block.XBDocument;
+import org.xbup.lib.core.parser.data.XBCoreTestSampleData;
+import org.xbup.lib.core.test.XBTestUtils;
 
 /**
  * Test class for XBTreeDocument.
  *
- * @version 0.1.23 2014/02/19
+ * @version 0.1.25 2015/07/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeDocumentWriterTest extends TestCase {
@@ -53,201 +48,317 @@ public class XBTreeDocumentWriterTest extends TestCase {
     }
 
     /**
-     * Test of open method of the class XBTreeDocument.
+     * Tests XBTreeDocument class writing sample data.
      *
      * @throws java.lang.Exception
      */
     @Test
-    public void testWrite() throws Exception {
-        ByteArrayOutputStream target = new ByteArrayOutputStream();
-        try {
-            XBTreeDocument document = new XBTreeDocument();
-            XBTreeNode node = new XBTreeNode();
-            node.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-            node.addAttribute(new UBNat32(1));
-            node.addAttribute(new UBNat32(2));
-
-            document.setRootBlock(node);
-            document.toStreamUB(target);
-        } catch (FileNotFoundException ex) {
-            fail("File not found");
-        } catch (IOException | XBProcessingException ex) {
-            fail("Processing error: " + ex.getMessage());
-        }
-    }
-
-    /**
-     * Test of open method of the class XBTreeDocument.
-     *
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testWriteSampleSingleEmptyBlock() throws Exception {
-        try (InputStream stream = XBTreeDocumentReaderTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_singleemptyblock.xb")) {
+    public void testWriteSampleEmpty() throws Exception {
+        try (InputStream stream = XBTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_EMPTY)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTreeDocument document = new XBTreeDocument();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleEmptyTree();
+            document.setRootBlock(XBTreeNode.createTreeCopy(sampleDocument.getRootBlock()));
+            if (sampleDocument.getExtendedAreaSize() > 0) {
+                document.setExtendedArea(sampleDocument.getExtendedArea());
+            }
 
-            XBTreeNode node = new XBTreeNode();
-            node.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-            node.addAttribute(new UBNat32(0));
-
-            document.setRootBlock(node);
             document.toStreamUB(target);
-            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+            XBTestUtils.assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 
     /**
-     * Test of open method of the class XBTreeDocument.
+     * Tests XBTreeDocument class writing sample data.
      *
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleExtended() throws Exception {
-        try (InputStream stream = XBTreeDocumentReaderTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_extended.xb")) {
+    public void testWriteSampleBlock() throws Exception {
+        try (InputStream stream = XBTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTreeDocument document = new XBTreeDocument();
-
-            XBTreeNode node = new XBTreeNode();
-            node.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-            node.addAttribute(new UBNat32(0));
-            document.setRootBlock(node);
-
-            byte[] data = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57};
-            ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
-            document.setExtendedArea(dataStream);
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockTree();
+            document.setRootBlock(XBTreeNode.createTreeCopy(sampleDocument.getRootBlock()));
+            if (sampleDocument.getExtendedAreaSize() > 0) {
+                document.setExtendedArea(sampleDocument.getExtendedArea());
+            }
 
             document.toStreamUB(target);
-            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+            XBTestUtils.assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 
     /**
-     * Test of open method of the class XBTreeDocument.
+     * Tests XBTreeDocument class writing sample data.
      *
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleSingleData() throws Exception {
-        try (InputStream stream = XBTreeDocumentReaderTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_singledata.xb")) {
+    public void testWriteSampleBlockExtended() throws Exception {
+        try (InputStream stream = XBTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_EXTENDED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTreeDocument document = new XBTreeDocument();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockExtendedTree();
+            document.setRootBlock(XBTreeNode.createTreeCopy(sampleDocument.getRootBlock()));
+            if (sampleDocument.getExtendedAreaSize() > 0) {
+                document.setExtendedArea(sampleDocument.getExtendedArea());
+            }
 
-            XBTreeNode node = new XBTreeNode();
-            node.setDataMode(XBBlockDataMode.DATA_BLOCK);
-            node.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-            byte[] data = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57};
-            ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
-            node.setData(dataStream);
-
-            document.setRootBlock(node);
             document.toStreamUB(target);
-
-            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+            XBTestUtils.assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 
     /**
-     * Test of open method of the class XBTreeDocument.
+     * Tests XBTreeDocument class writing sample data.
      *
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleTerminated() throws Exception {
-        try (InputStream stream = XBTreeDocumentReaderTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_terminated.xb")) {
+    public void testWriteSampleBlockTerminated() throws Exception {
+        try (InputStream stream = XBTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTreeDocument document = new XBTreeDocument();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockTerminatedTree();
+            document.setRootBlock(XBTreeNode.createTreeCopy(sampleDocument.getRootBlock()));
+            if (sampleDocument.getExtendedAreaSize() > 0) {
+                document.setExtendedArea(sampleDocument.getExtendedArea());
+            }
 
-            XBTreeNode node = new XBTreeNode();
-            node.setTerminationMode(XBBlockTerminationMode.TERMINATED_BY_ZERO);
-            node.addAttribute(new UBNat32(0));
-            node.addAttribute(new UBNat32(0));
-            node.addAttribute(new UBNat32(1));
-            node.addAttribute(new UBNat32(2));
-
-            document.setRootBlock(node);
             document.toStreamUB(target);
-
-            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+            XBTestUtils.assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 
     /**
-     * Tests open method of the XBTreeDocument class.
+     * Tests XBTreeDocument class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleBlockTerminatedExtended() throws Exception {
+        try (InputStream stream = XBTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_EXTENDED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            XBTreeDocument document = new XBTreeDocument();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockTerminatedExtendedTree();
+            document.setRootBlock(XBTreeNode.createTreeCopy(sampleDocument.getRootBlock()));
+            if (sampleDocument.getExtendedAreaSize() > 0) {
+                document.setExtendedArea(sampleDocument.getExtendedArea());
+            }
+
+            document.toStreamUB(target);
+            XBTestUtils.assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
+    }
+
+    /**
+     * Tests XBTreeDocument class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleData() throws Exception {
+        try (InputStream stream = XBTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            XBTreeDocument document = new XBTreeDocument();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleDataTree();
+            document.setRootBlock(XBTreeNode.createTreeCopy(sampleDocument.getRootBlock()));
+            if (sampleDocument.getExtendedAreaSize() > 0) {
+                document.setExtendedArea(sampleDocument.getExtendedArea());
+            }
+
+            document.toStreamUB(target);
+            XBTestUtils.assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
+    }
+
+    /**
+     * Tests XBTreeDocument class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleDataExtended() throws Exception {
+        try (InputStream stream = XBTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_EXTENDED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            XBTreeDocument document = new XBTreeDocument();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleDataExtendedTree();
+            document.setRootBlock(XBTreeNode.createTreeCopy(sampleDocument.getRootBlock()));
+            if (sampleDocument.getExtendedAreaSize() > 0) {
+                document.setExtendedArea(sampleDocument.getExtendedArea());
+            }
+
+            document.toStreamUB(target);
+            XBTestUtils.assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
+    }
+
+    /**
+     * Tests XBTreeDocument class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleDataTerminated() throws Exception {
+        try (InputStream stream = XBTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            XBTreeDocument document = new XBTreeDocument();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleDataTerminatedTree();
+            document.setRootBlock(XBTreeNode.createTreeCopy(sampleDocument.getRootBlock()));
+            if (sampleDocument.getExtendedAreaSize() > 0) {
+                document.setExtendedArea(sampleDocument.getExtendedArea());
+            }
+
+            document.toStreamUB(target);
+            XBTestUtils.assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
+    }
+
+    /**
+     * Tests XBTreeDocument class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleDataTerminatedExtended() throws Exception {
+        try (InputStream stream = XBTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_EXTENDED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            XBTreeDocument document = new XBTreeDocument();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleDataTerminatedExtendedTree();
+            document.setRootBlock(XBTreeNode.createTreeCopy(sampleDocument.getRootBlock()));
+            if (sampleDocument.getExtendedAreaSize() > 0) {
+                document.setExtendedArea(sampleDocument.getExtendedArea());
+            }
+
+            document.toStreamUB(target);
+            XBTestUtils.assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
+    }
+
+    /**
+     * Tests XBTreeDocument class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleTwoBlocks() throws Exception {
+        try (InputStream stream = XBTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            XBTreeDocument document = new XBTreeDocument();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksTree();
+            document.setRootBlock(XBTreeNode.createTreeCopy(sampleDocument.getRootBlock()));
+            if (sampleDocument.getExtendedAreaSize() > 0) {
+                document.setExtendedArea(sampleDocument.getExtendedArea());
+            }
+
+            document.toStreamUB(target);
+            XBTestUtils.assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
+    }
+
+    /**
+     * Tests XBTreeDocument class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleTwoBlocksExtended() throws Exception {
+        try (InputStream stream = XBTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_EXTENDED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            XBTreeDocument document = new XBTreeDocument();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksExtendedTree();
+            document.setRootBlock(XBTreeNode.createTreeCopy(sampleDocument.getRootBlock()));
+            if (sampleDocument.getExtendedAreaSize() > 0) {
+                document.setExtendedArea(sampleDocument.getExtendedArea());
+            }
+
+            document.toStreamUB(target);
+            XBTestUtils.assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
+    }
+
+    /**
+     * Tests XBTreeDocument class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleTwoBlocksTerminated() throws Exception {
+        try (InputStream stream = XBTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            XBTreeDocument document = new XBTreeDocument();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksTerminatedTree();
+            document.setRootBlock(XBTreeNode.createTreeCopy(sampleDocument.getRootBlock()));
+            if (sampleDocument.getExtendedAreaSize() > 0) {
+                document.setExtendedArea(sampleDocument.getExtendedArea());
+            }
+
+            document.toStreamUB(target);
+            XBTestUtils.assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
+    }
+
+    /**
+     * Tests XBTreeDocument class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleTwoBlocksHybrid() throws Exception {
+        try (InputStream stream = XBTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_HYBRID)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            XBTreeDocument document = new XBTreeDocument();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksHybridTree();
+            document.setRootBlock(XBTreeNode.createTreeCopy(sampleDocument.getRootBlock()));
+            if (sampleDocument.getExtendedAreaSize() > 0) {
+                document.setExtendedArea(sampleDocument.getExtendedArea());
+            }
+
+            document.toStreamUB(target);
+            XBTestUtils.assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
+    }
+
+    /**
+     * Tests XBTreeDocument class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleTwoBlocksHybrid2() throws Exception {
+        try (InputStream stream = XBTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_HYBRID2)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            XBTreeDocument document = new XBTreeDocument();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksHybrid2Tree();
+            document.setRootBlock(XBTreeNode.createTreeCopy(sampleDocument.getRootBlock()));
+            if (sampleDocument.getExtendedAreaSize() > 0) {
+                document.setExtendedArea(sampleDocument.getExtendedArea());
+            }
+
+            document.toStreamUB(target);
+            XBTestUtils.assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
+    }
+
+    /**
+     * Tests XBTreeDocument class writing sample data.
      *
      * @throws java.lang.Exception
      */
     @Test
     public void testWriteSampleSixBlocks() throws Exception {
-        try (InputStream stream = XBTreeDocumentReaderTest.class.getResourceAsStream("/org/xbup/lib/parser_tree/resources/test/samples/l0_sixblocks.xb")) {
+        try (InputStream stream = XBTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_SIX_BLOCKS)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTreeDocument document = new XBTreeDocument();
-
-            XBTreeNode rootNode = new XBTreeNode();
-            rootNode.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-            rootNode.addAttribute(new UBNat32(0));
-
-            XBTreeNode node1 = new XBTreeNode(rootNode);
-            node1.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-            node1.addAttribute(new UBNat32(0));
-            rootNode.addChild(node1);
-
-            XBTreeNode node2 = new XBTreeNode(node1);
-            node2.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-            node2.addAttribute(new UBNat32(0));
-            node1.addChild(node2);
-
-            XBTreeNode node3 = new XBTreeNode(node2);
-            node3.setDataMode(XBBlockDataMode.DATA_BLOCK);
-            node3.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-            byte[] data = {};
-            ByteArrayInputStream dataStream = new ByteArrayInputStream(data);
-            node3.setData(dataStream);
-            node2.addChild(node3);
-
-            XBTreeNode node4 = new XBTreeNode(rootNode);
-            node4.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-            node4.addAttribute(new UBNat32(0));
-
-            XBTreeNode node5 = new XBTreeNode(node4);
-            node5.setTerminationMode(XBBlockTerminationMode.SIZE_SPECIFIED);
-            node5.addAttribute(new UBNat32(0));
-            node5.addAttribute(new UBNat32(0));
-            node5.addAttribute(new UBNat32(1));
-            node5.addAttribute(new UBNat32(2));
-            node5.addAttribute(new UBNat32(3));
-            node4.addChild(node5);
-            rootNode.addChild(node4);
-
-            document.setRootBlock(rootNode);
-            document.toStreamUB(target);
-
-            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
-        }
-    }
-
-    private void assertEqualsInputStream(InputStream expectedStream, InputStream stream) {
-        try {
-            byte[] dataBlob = new byte[2];
-            byte[] dataBlob2 = new byte[2];
-            int position = 0;
-            while (expectedStream.available() > 0) {
-                int readStat = expectedStream.read(dataBlob, 0, 1);
-                if (readStat < 0) {
-                    fail("Unable to read expected stream on position " + position);
-                }
-                int readStat2 = stream.read(dataBlob2, 0, 1);
-                if (readStat2 < 0) {
-                    fail("Unable to read compared stream on position " + position);
-                }
-
-                assertEquals(dataBlob[0], dataBlob2[0]);
-                position++;
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleSixBlocksTree();
+            document.setRootBlock(XBTreeNode.createTreeCopy(sampleDocument.getRootBlock()));
+            if (sampleDocument.getExtendedAreaSize() > 0) {
+                document.setExtendedArea(sampleDocument.getExtendedArea());
             }
 
-            assertTrue(stream.available() == 0);
-        } catch (IOException ex) {
-            fail("IOException " + ex.getMessage());
+            document.toStreamUB(target);
+            XBTestUtils.assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 }

@@ -36,17 +36,19 @@ import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.basic.wrapper.FixedDataInputStreamWrapper;
 import org.xbup.lib.core.parser.basic.wrapper.TerminatedDataInputStreamWrapper;
+import org.xbup.lib.core.parser.basic.wrapper.TerminatedDataOutputStreamWrapper;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.stream.FinishableStream;
 import org.xbup.lib.core.type.XBData;
 import org.xbup.lib.core.ubnumber.UBStreamable;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.core.util.StreamUtils;
 
 /**
  * Basic object model parser XBUP level 0 document block / tree node.
  *
- * @version 0.1.25 2015/07/25
+ * @version 0.1.25 2015/07/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
@@ -269,21 +271,33 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
     @Override
     public int toStreamUB(OutputStream stream) throws IOException {
         if (getDataMode() == XBBlockDataMode.DATA_BLOCK) {
-            UBENat32 dataPartSize = new UBENat32(getDataSize());
-            UBNat32 attrPartSize = new UBNat32(dataPartSize.getSizeUB());
-            int size = attrPartSize.toStreamUB(stream);
-            size += dataPartSize.toStreamUB(stream);
-            if (data != null) {
+            int size = 0;
+            if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
+                UBENat32 dataPartSize = new UBENat32(getDataSize());
+                UBNat32 attributePartSize = new UBNat32(dataPartSize.getSizeUB());
+                size += attributePartSize.toStreamUB(stream);
+                size += dataPartSize.toStreamUB(stream);
                 data.saveToStream(stream);
-            }
+                size += getDataSize();
+            } else {
+                UBNat32 attributePartSize = new UBNat32(UBENat32.INFINITY_SIZE_UB);
+                size += attributePartSize.toStreamUB(stream);
+                UBENat32 dataPartSize = new UBENat32();
+                dataPartSize.setInfinity();
+                size += dataPartSize.toStreamUB(stream);
 
-            size += getDataSize();
+                OutputStream streamWrapper = new TerminatedDataOutputStreamWrapper(stream);
+                StreamUtils.copyInputStreamToOutputStream(data.getDataInputStream(), streamWrapper);
+                int dataSize = (int) ((FinishableStream) streamWrapper).finish();
+                size += dataSize;
+            }
             return size;
         } else {
-            UBENat32 dataPartSize = new UBENat32();
+            UBENat32 dataPartSize;
             if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
                 dataPartSize = new UBENat32(childrenSizeUB());
             } else {
+                dataPartSize = new UBENat32();
                 dataPartSize.setInfinity();
             }
 
@@ -634,5 +648,47 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
     public void setChildren(XBBlock[] children) {
         this.children.clear();
         this.children.addAll(Arrays.asList(children));
+    }
+
+    /**
+     * Creates XBTreeNode copy of given block and all of its children.
+     *
+     * @param block source block
+     * @return node
+     */
+    public static XBTreeNode createTreeCopy(XBBlock block) {
+        return createTreeCopy(block, null);
+    }
+
+    /**
+     * Creates XBTreeNode copy of given block and all of its children.
+     *
+     * @param block source block
+     * @param parent parent node
+     * @return node
+     */
+    public static XBTreeNode createTreeCopy(XBBlock block, XBTreeNode parent) {
+        XBTreeNode node = new XBTreeNode();
+        node.setParent(parent);
+        node.setDataMode(block.getDataMode());
+        node.setTerminationMode(block.getTerminationMode());
+        if (block.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
+            if (block.getAttributesCount() > 0) {
+                node.setAttributes(block.getAttributes());
+            }
+
+            if (block.getChildrenCount() > 0) {
+                for (XBBlock childBlock : block.getChildren()) {
+                    XBTreeNode childNode = createTreeCopy(childBlock, node);
+                    node.addChild(childNode);
+                }
+            }
+        } else {
+            XBData data = new XBData();
+            data.loadFromStream(block.getBlockData().getDataInputStream());
+            node.setData(data);
+        }
+
+        return node;
     }
 }

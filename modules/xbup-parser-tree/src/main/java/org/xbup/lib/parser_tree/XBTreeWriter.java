@@ -17,64 +17,66 @@
 package org.xbup.lib.parser_tree;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlock;
 import org.xbup.lib.core.block.XBBlockDataMode;
+import org.xbup.lib.core.block.XBDefaultDocument;
+import org.xbup.lib.core.block.XBDocument;
 import org.xbup.lib.core.parser.XBParserState;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBListener;
+import org.xbup.lib.core.parser.basic.XBProducer;
 import org.xbup.lib.core.parser.basic.XBProvider;
-import org.xbup.lib.core.parser.token.XBAttribute;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * Basic object model parser XBUP level 0 document block / tree node.
  *
- * @version 0.1.25 2015/06/22
+ * @version 0.1.25 2015/07/26
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTreeWriter implements XBProvider {
+public class XBTreeWriter implements XBProvider, XBProducer {
 
-    private final XBBlock source;
+    private final XBDocument source;
+    private XBBlock block;
 
     private XBParserState state = XBParserState.BLOCK_BEGIN;
-    private int attrPosition = 0;
+    private int attributePosition = 0;
     private int childPosition = 0;
-    private XBTreeWriter subProducer = null;
+    private final List<Integer> childPositions = new ArrayList<>();
 
-     public XBTreeWriter(XBBlock source) {
+    public XBTreeWriter(XBDocument source) {
         this.source = source;
+        this.block = source.getRootBlock();
+    }
+
+    public XBTreeWriter(XBBlock sourceBlock) {
+        this(new XBDefaultDocument(sourceBlock));
     }
 
     public void produceXB(XBListener listener, boolean recursive) throws XBProcessingException, IOException {
-        if (subProducer != null) {
-            if (!subProducer.isFinished()) {
-                subProducer.produceXB(listener);
-                return;
-            } else {
-                subProducer = null;
-            }
-        }
-
         switch (state) {
             case BLOCK_BEGIN: {
-                listener.beginXB(source.getTerminationMode());
-                state = (source.getDataMode() == XBBlockDataMode.DATA_BLOCK) ? XBParserState.DATA_PART : XBParserState.ATTRIBUTE_PART;
+                listener.beginXB(block.getTerminationMode());
+                attributePosition = 0;
+                childPosition = 0;
+                state = (block.getDataMode() == XBBlockDataMode.DATA_BLOCK) ? XBParserState.DATA_PART : XBParserState.ATTRIBUTE_PART;
                 break;
             }
 
             case DATA_PART: {
-                listener.dataXB(source.getData());
+                listener.dataXB(block.getData());
                 state = XBParserState.BLOCK_END;
                 break;
             }
 
             case ATTRIBUTE_PART: {
-                if (attrPosition < source.getAttributesCount()) {
-                    listener.attribXB(source.getAttributeAt(attrPosition));
-                    attrPosition++;
+                if (attributePosition < block.getAttributesCount()) {
+                    listener.attribXB(block.getAttributeAt(attributePosition));
+                    attributePosition++;
                     break;
                 } else {
                     state = XBParserState.CHILDREN_PART;
@@ -83,10 +85,11 @@ public class XBTreeWriter implements XBProvider {
             }
 
             case CHILDREN_PART: {
-                if (recursive && childPosition < source.getChildrenCount()) {
-                    subProducer = new XBTreeWriter(source.getChildAt(childPosition));
-                    childPosition++;
-                    subProducer.produceXB(listener);
+                if (recursive && childPosition < block.getChildrenCount()) {
+                    block = block.getChildAt(childPosition);
+                    childPositions.add(childPosition + 1);
+                    state = XBParserState.BLOCK_BEGIN;
+                    produceXB(listener, recursive);
                     break;
                 } else {
                     state = XBParserState.BLOCK_END;
@@ -95,6 +98,23 @@ public class XBTreeWriter implements XBProvider {
             }
 
             case BLOCK_END: {
+                if (!childPositions.isEmpty()) {
+                    childPosition = childPositions.remove(childPositions.size() - 1);
+                    block = block.getParent();
+                    state = XBParserState.CHILDREN_PART;
+                    listener.endXB();
+                    break;
+                } else {
+                    if (source.getExtendedAreaSize() > 0) {
+                        listener.dataXB(source.getExtendedArea());
+                        state = XBParserState.EXTENDED_AREA;
+                        break;
+                    }
+                }
+                // Continuation to next case intended
+            }
+
+            case EXTENDED_AREA: {
                 listener.endXB();
                 state = XBParserState.EOF;
                 break;
@@ -123,34 +143,14 @@ public class XBTreeWriter implements XBProvider {
         return state == XBParserState.EOF;
     }
 
-    // @Override
+    @Override
     public void attachXBListener(XBListener listener) {
         try {
-            generateXB(listener, true);
+            while (!isFinished()) {
+                produceXB(listener, true);
+            }
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBTreeNode.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBTreeWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public void generateXB(XBListener listener, boolean recursive) throws XBProcessingException, IOException {
-        listener.beginXB(source.getTerminationMode());
-        if (source.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
-            listener.dataXB(source.getData());
-        } else {
-            XBAttribute[] attributes = source.getAttributes();
-            for (XBAttribute attribute : attributes) {
-                listener.attribXB(new UBNat32(attribute.getNaturalLong()));
-            }
-
-            if (recursive && (source.getChildren() != null)) {
-                XBBlock[] children = source.getChildren();
-                for (XBBlock child : children) {
-                    XBTreeWriter subWriter = new XBTreeWriter(child);
-                    subWriter.attachXBListener(listener);
-                }
-            }
-        }
-
-        listener.endXB();
     }
 }

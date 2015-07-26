@@ -45,7 +45,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeReader class reading sample data.
+     * Tests XBTreeDocument class reading sample data.
      *
      * @throws java.lang.Exception
      */
@@ -59,7 +59,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeReader class reading sample data.
+     * Tests XBTreeDocument class reading sample data.
      *
      * @throws java.lang.Exception
      */
@@ -73,7 +73,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeReader class reading sample data.
+     * Tests XBTreeDocument class reading sample data.
      *
      * @throws java.lang.Exception
      */
@@ -87,7 +87,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeReader class reading sample data.
+     * Tests XBTreeDocument class reading sample data.
      *
      * @throws java.lang.Exception
      */
@@ -101,7 +101,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeReader class reading sample data.
+     * Tests XBTreeDocument class reading sample data.
      *
      * @throws java.lang.Exception
      */
@@ -115,7 +115,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeReader class reading sample data.
+     * Tests XBTreeDocument class reading sample data.
      *
      * @throws java.lang.Exception
      */
@@ -129,7 +129,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeReader class reading sample data.
+     * Tests XBTreeDocument class reading sample data.
      *
      * @throws java.lang.Exception
      */
@@ -143,7 +143,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeReader class reading sample data.
+     * Tests XBTreeDocument class reading sample data.
      *
      * @throws java.lang.Exception
      */
@@ -157,7 +157,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeReader class reading sample data.
+     * Tests XBTreeDocument class reading sample data.
      *
      * @throws java.lang.Exception
      */
@@ -171,7 +171,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeReader class reading sample data.
+     * Tests XBTreeDocument class reading sample data.
      *
      * @throws java.lang.Exception
      */
@@ -185,7 +185,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeReader class reading sample data.
+     * Tests XBTreeDocument class reading sample data.
      *
      * @throws java.lang.Exception
      */
@@ -199,7 +199,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeReader class reading sample data.
+     * Tests XBTreeDocument class reading sample data.
      *
      * @throws java.lang.Exception
      */
@@ -213,7 +213,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeReader class reading sample data.
+     * Tests XBTreeDocument class reading sample data.
      *
      * @throws java.lang.Exception
      */
@@ -227,7 +227,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeReader class reading sample data.
+     * Tests XBTreeDocument class reading sample data.
      *
      * @throws java.lang.Exception
      */
@@ -241,7 +241,7 @@ public class XBTreeDocumentReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeReader class reading sample data.
+     * Tests XBTreeDocument class reading sample data.
      *
      * @throws java.lang.Exception
      */

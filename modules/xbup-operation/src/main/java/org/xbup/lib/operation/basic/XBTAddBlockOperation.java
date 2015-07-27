@@ -165,7 +165,7 @@ public class XBTAddBlockOperation extends XBTDocOperation {
                         XBData data = new XBData();
                         XBTreeWriter treeWriter = new XBTreeWriter(new XBTBlockToXBBlock(newNode));
                         XBEventWriter writer = new XBEventWriter(data.getDataOutputStream());
-                        treeWriter.generateXB(new XBEventListenerToListener(writer), true);
+                        treeWriter.attachXBListener(new XBEventListenerToListener(writer));
 
                         serializationHandler.begin();
                         serializationHandler.putData(data.getDataInputStream());

@@ -113,7 +113,7 @@ public class XBProducerReader implements XBProducer {
                 }
 
                 sizeLimits.remove(sizeLimits.size() - 1);
-                
+
                 if (sizeLimits.isEmpty()) {
                     // Process extended area
                     if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED && source.available() > 0) {

@@ -20,11 +20,12 @@ import org.xbup.lib.core.stream.FinishableStream;
 import java.io.IOException;
 import java.io.InputStream;
 import org.xbup.lib.core.parser.XBParseException;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
 
 /**
  * Input stream wrapper for fixed length data block.
  *
- * @version 0.1.23 2014/03/06
+ * @version 0.1.25 2015/07/27
  * @author XBUP Project (http://xbup.org)
  */
 public class FixedDataInputStreamWrapper extends InputStream implements FinishableStream {
@@ -95,13 +96,17 @@ public class FixedDataInputStreamWrapper extends InputStream implements Finishab
             byte[] buf = new byte[1024];
             while (remaining > 0) {
                 int read = source.read(buf, 0, remaining < 1024 ? remaining : 1024);
-                
+
                 if (read > 0) {
                     length += read;
                     remaining -= read;
                 } else {
                     break;
                 }
+            }
+
+            if (remaining > 0) {
+                throw new XBParseException("Unexpected end of stream", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
             }
         }
 

@@ -63,6 +63,14 @@ public class XBCoreTestSampleData {
     public final static String CORRUPTED_EMPTY = CORRUPTED_FILES_PATH + "empty_file.xb";
     public final static String CORRUPTED_SINGLE_BYTE = CORRUPTED_FILES_PATH + "single_byte.xb";
     public final static String CORRUPTED_WRONG_HEADER = CORRUPTED_FILES_PATH + "wrong_header.xb";
+    public final static String CORRUPTED_INCOMPLETE_BLOCK = CORRUPTED_FILES_PATH + "incomplete_block1.xb";
+    public final static String CORRUPTED_INCOMPLETE_BLOCK2 = CORRUPTED_FILES_PATH + "incomplete_block2.xb";
+    public final static String CORRUPTED_INCOMPLETE_BLOCK_TERMINATED = CORRUPTED_FILES_PATH + "incomplete_block_terminated.xb";
+    public final static String CORRUPTED_INCOMPLETE_DATA = CORRUPTED_FILES_PATH + "incomplete_data.xb";
+    public final static String CORRUPTED_INCOMPLETE_DATA_TERMINATED = CORRUPTED_FILES_PATH + "incomplete_data_terminated.xb";
+    public final static String CORRUPTED_UNEXPECTED_TERMINATOR = CORRUPTED_FILES_PATH + "unexpected_terminator1.xb";
+    public final static String CORRUPTED_UNEXPECTED_TERMINATOR2 = CORRUPTED_FILES_PATH + "unexpected_terminator2.xb";
+
     public final static String CORRUPTED_CHILD_OVERFLOW = CORRUPTED_FILES_PATH + "child_overflow.xb";
     public final static String CORRUPTED_MISSING_END = CORRUPTED_FILES_PATH + "missing_end.xb";
 

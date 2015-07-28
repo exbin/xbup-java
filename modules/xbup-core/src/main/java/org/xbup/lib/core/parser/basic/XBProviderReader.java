@@ -36,7 +36,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Basic XBUP level 0 reader - provider.
  *
- * @version 0.1.25 2015/07/23
+ * @version 0.1.25 2015/07/28
  * @author XBUP Project (http://xbup.org)
  */
 public class XBProviderReader implements XBProvider {

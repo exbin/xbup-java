@@ -25,6 +25,7 @@ import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.convert.XBConsumerToListener;
+import org.xbup.lib.core.parser.basic.convert.XBPrintFilter;
 import org.xbup.lib.core.parser.data.XBCoreTestSampleData;
 import org.xbup.lib.core.test.XBTestUtils;
 import org.xbup.lib.core.test.XBTestUtils.TokenAssertXBFilter;
@@ -32,7 +33,7 @@ import org.xbup.lib.core.test.XBTestUtils.TokenAssertXBFilter;
 /**
  * Test class for XBProviderReader.
  *
- * @version 0.1.25 2015/07/23
+ * @version 0.1.25 2015/07/28
  * @author XBUP Project (http://xbup.org)
  */
 public class XBProviderReaderTest extends TestCase {
@@ -471,6 +472,174 @@ public class XBProviderReaderTest extends TestCase {
             }
 
             assertEquals(new XBParseException("Unsupported header: 0xfe0059420002", XBProcessingExceptionType.CORRUPTED_HEADER), ex);
+        }
+    }
+
+    /**
+     * Tests XBProviderReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedIncompleteBlock() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_BLOCK)) {
+            XBProviderReader instance = new XBProviderReader(stream);
+            try {
+                XBListener listener = new XBPrintFilter();
+                while (!instance.isFinished()) {
+                    instance.produceXB(listener);
+                }
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+        }
+    }
+
+    /**
+     * Tests XBProviderReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedIncompleteBlock2() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_BLOCK2)) {
+            XBProviderReader instance = new XBProviderReader(stream);
+            try {
+                XBListener listener = new XBPrintFilter();
+                while (!instance.isFinished()) {
+                    instance.produceXB(listener);
+                }
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+        }
+    }
+
+    /**
+     * Tests XBProviderReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedIncompleteBlockTerminated() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_BLOCK_TERMINATED)) {
+            XBProviderReader instance = new XBProviderReader(stream);
+            try {
+                XBListener listener = new XBPrintFilter();
+                while (!instance.isFinished()) {
+                    instance.produceXB(listener);
+                }
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+        }
+    }
+
+    /**
+     * Tests XBProviderReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedIncompleteData() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_DATA)) {
+            XBProviderReader instance = new XBProviderReader(stream);
+            try {
+                XBListener listener = new XBPrintFilter();
+                while (!instance.isFinished()) {
+                    instance.produceXB(listener);
+                }
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("Unexpected end of stream", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+        }
+    }
+
+    /**
+     * Tests XBProviderReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedIncompleteDataTerminated() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_DATA_TERMINATED)) {
+            XBProviderReader instance = new XBProviderReader(stream);
+            try {
+                XBListener listener = new XBPrintFilter();
+                while (!instance.isFinished()) {
+                    instance.produceXB(listener);
+                }
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("Missing data block terminator", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+        }
+    }
+
+    /**
+     * Tests XBProviderReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedUnexpectedTerminator() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_UNEXPECTED_TERMINATOR)) {
+            XBProviderReader instance = new XBProviderReader(stream);
+            try {
+                XBListener listener = new XBPrintFilter();
+                while (!instance.isFinished()) {
+                    instance.produceXB(listener);
+                }
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR), ex);
+        }
+    }
+
+    /**
+     * Tests XBProviderReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedUnexpectedTerminator2() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_UNEXPECTED_TERMINATOR2)) {
+            XBProviderReader instance = new XBProviderReader(stream);
+            try {
+                XBListener listener = new XBPrintFilter();
+                while (!instance.isFinished()) {
+                    instance.produceXB(listener);
+                }
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR), ex);
         }
     }
 }

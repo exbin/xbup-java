@@ -33,7 +33,7 @@ import org.xbup.lib.core.test.XBTestUtils.BufferAssertXBFilter;
 /**
  * Test class for XBPullReader.
  *
- * @version 0.1.25 2015/07/23
+ * @version 0.1.25 2015/07/29
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPullReaderTest extends TestCase {
@@ -347,9 +347,9 @@ public class XBPullReaderTest extends TestCase {
         Throwable ex = null;
 
         try (InputStream stream = XBPullReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_EMPTY)) {
-            XBPullReader reader = new XBPullReader(stream);
+            XBPullReader instance = new XBPullReader(stream);
             try {
-                reader.pullXBToken();
+                instance.pullXBToken();
             } catch (XBProcessingException | IOException e) {
                 ex = e;
             }
@@ -367,9 +367,9 @@ public class XBPullReaderTest extends TestCase {
     public void testReadCorruptedSingleByte() throws Exception {
         Throwable ex = null;
         try (InputStream stream = XBPullReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_SINGLE_BYTE)) {
-            XBPullReader reader = new XBPullReader(stream);
+            XBPullReader instance = new XBPullReader(stream);
             try {
-                reader.pullXBToken();
+                instance.pullXBToken();
             } catch (XBProcessingException | IOException e) {
                 ex = e;
             }
@@ -388,14 +388,175 @@ public class XBPullReaderTest extends TestCase {
         Throwable ex = null;
 
         try (InputStream stream = XBPullReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_WRONG_HEADER)) {
-            XBPullReader reader = new XBPullReader(stream);
+            XBPullReader instance = new XBPullReader(stream);
             try {
-                reader.pullXBToken();
+                instance.pullXBToken();
             } catch (XBProcessingException | IOException e) {
                 ex = e;
             }
 
             assertEquals(new XBParseException("Unsupported header: 0xfe0059420002", XBProcessingExceptionType.CORRUPTED_HEADER), ex);
+        }
+    }
+
+    /**
+     * Tests XBPullReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedIncompleteBlock() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBPullReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_BLOCK)) {
+            XBPullReader instance = new XBPullReader(stream);
+            try {
+                while (!instance.isFinishedXB()) {
+                    instance.pullXBToken();
+                }
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+        }
+    }
+
+    /**
+     * Tests XBPullReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedIncompleteBlock2() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBPullReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_BLOCK2)) {
+            XBPullReader instance = new XBPullReader(stream);
+            try {
+                while (!instance.isFinishedXB()) {
+                    instance.pullXBToken();
+                }
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+        }
+    }
+
+    /**
+     * Tests XBPullReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedIncompleteBlockTerminated() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBPullReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_BLOCK_TERMINATED)) {
+            XBPullReader instance = new XBPullReader(stream);
+            try {
+                while (!instance.isFinishedXB()) {
+                    instance.pullXBToken();
+                }
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+        }
+    }
+
+    /**
+     * Tests XBPullReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedIncompleteData() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBPullReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_DATA)) {
+            XBPullReader instance = new XBPullReader(stream);
+            try {
+                while (!instance.isFinishedXB()) {
+                    instance.pullXBToken();
+                }
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("Unexpected end of stream", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+        }
+    }
+
+    /**
+     * Tests XBPullReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedIncompleteDataTerminated() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBPullReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_DATA_TERMINATED)) {
+            XBPullReader instance = new XBPullReader(stream);
+            try {
+                while (!instance.isFinishedXB()) {
+                    instance.pullXBToken();
+                }
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("Missing data block terminator", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+        }
+    }
+
+    /**
+     * Tests XBPullReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedUnexpectedTerminator() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBPullReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_UNEXPECTED_TERMINATOR)) {
+            XBPullReader instance = new XBPullReader(stream);
+            try {
+                while (!instance.isFinishedXB()) {
+                    instance.pullXBToken();
+                }
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR), ex);
+        }
+    }
+
+    /**
+     * Tests XBPullReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedUnexpectedTerminator2() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBPullReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_UNEXPECTED_TERMINATOR2)) {
+            XBPullReader instance = new XBPullReader(stream);
+            try {
+                while (!instance.isFinishedXB()) {
+                    instance.pullXBToken();
+                }
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR), ex);
         }
     }
 }

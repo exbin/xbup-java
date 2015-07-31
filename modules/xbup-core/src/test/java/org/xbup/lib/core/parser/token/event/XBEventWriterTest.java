@@ -35,7 +35,7 @@ import static org.xbup.lib.core.test.XBTestUtils.assertEqualsInputStream;
 /**
  * Test class for XBEventWriter.
  *
- * @version 0.1.25 2015/07/23
+ * @version 0.1.25 2015/07/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEventWriterTest extends TestCase {
@@ -412,5 +412,85 @@ public class XBEventWriterTest extends TestCase {
         }
 
         assertEquals(new XBProcessingException("Unexpected end of stream", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+    }
+
+    /**
+     * Tests XBEventWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteCorruptedEndWithoutData() throws Exception {
+        Throwable ex = null;
+
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        try (XBEventWriter writer = new XBEventWriter(target)) {
+            XBPrintEventFilter listener = new XBPrintEventFilter(writer);
+            XBCoreTestSampleData.writeCorruptedEndWithoutData(new XBEventListenerToListener(listener));
+        } catch (XBProcessingException | IOException e) {
+            ex = e;
+        }
+
+        assertEquals(new XBProcessingException("Unexpected end token", XBProcessingExceptionType.UNEXPECTED_ORDER), ex);
+    }
+
+    /**
+     * Tests XBEventWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteCorruptedDataAttributeMismatch() throws Exception {
+        Throwable ex = null;
+
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        try (XBEventWriter writer = new XBEventWriter(target)) {
+            XBPrintEventFilter listener = new XBPrintEventFilter(writer);
+            XBCoreTestSampleData.writeCorruptedDataAttributeMismatch(new XBEventListenerToListener(listener));
+        } catch (XBProcessingException | IOException e) {
+            ex = e;
+        }
+
+        assertEquals(new XBProcessingException("Unexpected attribute", XBProcessingExceptionType.UNEXPECTED_ORDER), ex);
+    }
+
+    /**
+     * Tests XBEventWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteCorruptedDataAttributeMismatch2() throws Exception {
+        Throwable ex = null;
+
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        try (XBEventWriter writer = new XBEventWriter(target)) {
+            XBPrintEventFilter listener = new XBPrintEventFilter(writer);
+            XBCoreTestSampleData.writeCorruptedDataAttributeMismatch2(new XBEventListenerToListener(listener));
+        } catch (XBProcessingException | IOException e) {
+            ex = e;
+        }
+
+        assertEquals(new XBProcessingException("Unexpected data token", XBProcessingExceptionType.UNEXPECTED_ORDER), ex);
+    }
+
+    /**
+     * Tests XBEventWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteCorruptedAttributeAfterEnd() throws Exception {
+        Throwable ex = null;
+
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        try (XBEventWriter writer = new XBEventWriter(target)) {
+            XBPrintEventFilter listener = new XBPrintEventFilter(writer);
+            XBCoreTestSampleData.writeCorruptedAttributeAfterEnd(new XBEventListenerToListener(listener));
+        } catch (XBProcessingException | IOException e) {
+            ex = e;
+        }
+
+        assertEquals(new XBProcessingException("Unexpected attribute", XBProcessingExceptionType.UNEXPECTED_ORDER), ex);
     }
 }

@@ -34,7 +34,7 @@ import org.xbup.lib.core.test.XBTestUtils.BufferAssertXBFilter;
 /**
  * Test class for XBEventReader.
  *
- * @version 0.1.25 2015/07/29
+ * @version 0.1.25 2015/08/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEventReaderTest extends TestCase {
@@ -442,7 +442,7 @@ public class XBEventReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBProducerReader class reading corrupted file.
+     * Tests XBEventReader class reading corrupted file.
      *
      * @throws java.lang.Exception
      */
@@ -464,7 +464,7 @@ public class XBEventReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBProducerReader class reading corrupted file.
+     * Tests XBEventReader class reading corrupted file.
      *
      * @throws java.lang.Exception
      */
@@ -486,7 +486,7 @@ public class XBEventReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBProducerReader class reading corrupted file.
+     * Tests XBEventReader class reading corrupted file.
      *
      * @throws java.lang.Exception
      */
@@ -508,7 +508,7 @@ public class XBEventReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBProducerReader class reading corrupted file.
+     * Tests XBEventReader class reading corrupted file.
      *
      * @throws java.lang.Exception
      */
@@ -530,7 +530,7 @@ public class XBEventReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBProducerReader class reading corrupted file.
+     * Tests XBEventReader class reading corrupted file.
      *
      * @throws java.lang.Exception
      */
@@ -552,7 +552,7 @@ public class XBEventReaderTest extends TestCase {
     }
 
     /**
-     * Tests XBProducerReader class reading corrupted file.
+     * Tests XBEventReader class reading corrupted file.
      *
      * @throws java.lang.Exception
      */
@@ -570,6 +570,72 @@ public class XBEventReaderTest extends TestCase {
             }
 
             assertEquals(new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR), ex);
+        }
+    }
+
+    /**
+     * Tests XBEventReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedChildOverflow() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBEventReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_CHILD_OVERFLOW)) {
+            XBEventReader instance = new XBEventReader(stream);
+            try {
+                instance.attachXBEventListener(new XBPrintEventFilter(null));
+                instance.read();
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW), ex);
+        }
+    }
+
+    /**
+     * Tests XBEventReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedAttributeOverflow() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBEventReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_ATTRIBUTE_OVERFLOW)) {
+            XBEventReader instance = new XBEventReader(stream);
+            try {
+                instance.attachXBEventListener(new XBPrintEventFilter(null));
+                instance.read();
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("Attribute overflow", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW), ex);
+        }
+    }
+
+    /**
+     * Tests XBEventReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedDataOverflow() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBEventReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_DATA_OVERFLOW)) {
+            XBEventReader instance = new XBEventReader(stream);
+            try {
+                instance.attachXBEventListener(new XBPrintEventFilter(null));
+                instance.read();
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW), ex);
         }
     }
 }

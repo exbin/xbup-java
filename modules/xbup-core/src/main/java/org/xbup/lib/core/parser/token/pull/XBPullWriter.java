@@ -318,7 +318,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
             Integer limit = sizeLimits.get(depth);
             if (limit != null) {
                 if (limit < value) {
-                    throw new XBParseException("Block Overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
+                    throw new XBParseException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
                 }
 
                 sizeLimits.set(depth, limit - value);
@@ -334,7 +334,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
     private static void decreaseStatus(List<Integer> sizeLimits) {
         Integer levelValue = sizeLimits.remove(sizeLimits.size() - 1);
         if (levelValue != null && levelValue != 0) {
-            throw new XBParseException("Block Overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
+            throw new XBParseException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
         }
     }
 

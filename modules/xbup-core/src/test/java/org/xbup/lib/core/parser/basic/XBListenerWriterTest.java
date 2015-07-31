@@ -33,7 +33,7 @@ import static org.xbup.lib.core.test.XBTestUtils.assertEqualsInputStream;
 /**
  * Test class for XBListenerWriter.
  *
- * @version 0.1.25 2015/07/23
+ * @version 0.1.25 2015/07/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBListenerWriterTest extends TestCase {
@@ -379,5 +379,85 @@ public class XBListenerWriterTest extends TestCase {
         }
 
         assertEquals(new XBProcessingException("Unexpected end of stream", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+    }
+
+    /**
+     * Tests XBListenerWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteCorruptedEndWithoutData() throws Exception {
+        Throwable ex = null;
+
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        try (XBListenerWriter writer = new XBListenerWriter(target)) {
+            XBPrintFilter listener = new XBPrintFilter(writer);
+            XBCoreTestSampleData.writeCorruptedEndWithoutData(listener);
+        } catch (XBProcessingException | IOException e) {
+            ex = e;
+        }
+
+        assertEquals(new XBProcessingException("Unexpected end token", XBProcessingExceptionType.UNEXPECTED_ORDER), ex);
+    }
+
+    /**
+     * Tests XBListenerWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteCorruptedDataAttributeMismatch() throws Exception {
+        Throwable ex = null;
+
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        try (XBListenerWriter writer = new XBListenerWriter(target)) {
+            XBPrintFilter listener = new XBPrintFilter(writer);
+            XBCoreTestSampleData.writeCorruptedDataAttributeMismatch(listener);
+        } catch (XBProcessingException | IOException e) {
+            ex = e;
+        }
+
+        assertEquals(new XBProcessingException("Unexpected attribute", XBProcessingExceptionType.UNEXPECTED_ORDER), ex);
+    }
+
+    /**
+     * Tests XBListenerWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteCorruptedDataAttributeMismatch2() throws Exception {
+        Throwable ex = null;
+
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        try (XBListenerWriter writer = new XBListenerWriter(target)) {
+            XBPrintFilter listener = new XBPrintFilter(writer);
+            XBCoreTestSampleData.writeCorruptedDataAttributeMismatch2(listener);
+        } catch (XBProcessingException | IOException e) {
+            ex = e;
+        }
+
+        assertEquals(new XBProcessingException("Unexpected data token", XBProcessingExceptionType.UNEXPECTED_ORDER), ex);
+    }
+
+    /**
+     * Tests XBListenerWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteCorruptedAttributeAfterEnd() throws Exception {
+        Throwable ex = null;
+
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        try (XBListenerWriter writer = new XBListenerWriter(target)) {
+            XBPrintFilter listener = new XBPrintFilter(writer);
+            XBCoreTestSampleData.writeCorruptedAttributeAfterEnd(listener);
+        } catch (XBProcessingException | IOException e) {
+            ex = e;
+        }
+
+        assertEquals(new XBProcessingException("Unexpected attribute", XBProcessingExceptionType.UNEXPECTED_ORDER), ex);
     }
 }

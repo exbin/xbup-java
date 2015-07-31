@@ -35,7 +35,7 @@ import static org.xbup.lib.core.test.XBTestUtils.assertEqualsInputStream;
 /**
  * Test class for XBPullWriter.
  *
- * @version 0.1.25 2015/07/23
+ * @version 0.1.25 2015/07/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPullWriterTest extends TestCase {
@@ -383,5 +383,89 @@ public class XBPullWriterTest extends TestCase {
         }
 
         assertEquals(new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+    }
+
+    /**
+     * Tests XBPullWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteCorruptedEndWithoutData() throws Exception {
+        Throwable ex = null;
+
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        try (XBPullWriter writer = new XBPullWriter(target)) {
+            XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(new XBPullConsumerToConsumer(writer)));
+            XBCoreTestSampleData.writeCorruptedEndWithoutData(listener);
+            writer.write();
+        } catch (XBProcessingException | IOException e) {
+            ex = e;
+        }
+
+        assertEquals(new XBProcessingException("Missing at least one attribute", XBProcessingExceptionType.UNEXPECTED_ORDER), ex);
+    }
+
+    /**
+     * Tests XBPullWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteCorruptedDataAttributeMismatch() throws Exception {
+        Throwable ex = null;
+
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        try (XBPullWriter writer = new XBPullWriter(target)) {
+            XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(new XBPullConsumerToConsumer(writer)));
+            XBCoreTestSampleData.writeCorruptedDataAttributeMismatch(listener);
+            writer.write();
+        } catch (XBProcessingException | IOException e) {
+            ex = e;
+        }
+
+        assertEquals(new XBProcessingException("Data block must be followed by block end", XBProcessingExceptionType.UNEXPECTED_ORDER), ex);
+    }
+
+    /**
+     * Tests XBPullWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteCorruptedDataAttributeMismatch2() throws Exception {
+        Throwable ex = null;
+
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        try (XBPullWriter writer = new XBPullWriter(target)) {
+            XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(new XBPullConsumerToConsumer(writer)));
+            XBCoreTestSampleData.writeCorruptedDataAttributeMismatch2(listener);
+            writer.write();
+        } catch (XBProcessingException | IOException e) {
+            ex = e;
+        }
+
+        assertEquals(new XBProcessingException("Must begin with NodeBegin", XBProcessingExceptionType.UNEXPECTED_ORDER), ex);
+    }
+
+    /**
+     * Tests XBPullWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteCorruptedAttributeAfterEnd() throws Exception {
+        Throwable ex = null;
+
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        try (XBPullWriter writer = new XBPullWriter(target)) {
+            XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(new XBPullConsumerToConsumer(writer)));
+            XBCoreTestSampleData.writeCorruptedAttributeAfterEnd(listener);
+            writer.write();
+        } catch (XBProcessingException | IOException e) {
+            ex = e;
+        }
+
+        assertEquals(new XBProcessingException("Missing at least one attribute", XBProcessingExceptionType.UNEXPECTED_ORDER), ex);
     }
 }

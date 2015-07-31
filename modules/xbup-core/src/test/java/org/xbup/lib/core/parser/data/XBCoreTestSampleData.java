@@ -32,7 +32,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Sample data and methods for testing purposes.
  *
- * @version 0.1.25 2015/07/24
+ * @version 0.1.25 2015/07/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCoreTestSampleData {
@@ -70,9 +70,9 @@ public class XBCoreTestSampleData {
     public final static String CORRUPTED_INCOMPLETE_DATA_TERMINATED = CORRUPTED_FILES_PATH + "incomplete_data_terminated.xb";
     public final static String CORRUPTED_UNEXPECTED_TERMINATOR = CORRUPTED_FILES_PATH + "unexpected_terminator1.xb";
     public final static String CORRUPTED_UNEXPECTED_TERMINATOR2 = CORRUPTED_FILES_PATH + "unexpected_terminator2.xb";
-
+    public final static String CORRUPTED_ATTRIBUTE_OVERFLOW = CORRUPTED_FILES_PATH + "attribute_overflow.xb";
     public final static String CORRUPTED_CHILD_OVERFLOW = CORRUPTED_FILES_PATH + "child_overflow.xb";
-    public final static String CORRUPTED_MISSING_END = CORRUPTED_FILES_PATH + "missing_end.xb";
+    public final static String CORRUPTED_DATA_OVERFLOW = CORRUPTED_FILES_PATH + "data_overflow.xb";
 
     /**
      * Writes tokens matching file "block.xb".
@@ -300,6 +300,61 @@ public class XBCoreTestSampleData {
         listener.attribXB(new UBNat32(3));
         listener.endXB();
         listener.endXB();
+        listener.endXB();
+    }
+
+    /**
+     * Writes invalid sequence of tokens.
+     *
+     * @param listener token listener
+     * @throws java.io.IOException
+     */
+    public static void writeCorruptedEndWithoutData(XBListener listener) throws XBProcessingException, IOException {
+        listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
+        listener.endXB();
+    }
+
+    /**
+     * Writes invalid sequence of tokens.
+     *
+     * @param listener token listener
+     * @throws java.io.IOException
+     */
+    public static void writeCorruptedDataAttributeMismatch(XBListener listener) throws XBProcessingException, IOException {
+        listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
+        listener.dataXB(new XBData().getDataInputStream());
+        listener.attribXB(new UBNat32(0));
+        listener.endXB();
+    }
+
+    /**
+     * Writes invalid sequence of tokens.
+     *
+     * @param listener token listener
+     * @throws java.io.IOException
+     */
+    public static void writeCorruptedDataAttributeMismatch2(XBListener listener) throws XBProcessingException, IOException {
+        listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
+        listener.attribXB(new UBNat32(0));
+        listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
+        listener.attribXB(new UBNat32(0));
+        listener.dataXB(new XBData().getDataInputStream());
+        listener.endXB();
+        listener.endXB();
+    }
+
+    /**
+     * Writes invalid sequence of tokens.
+     *
+     * @param listener token listener
+     * @throws java.io.IOException
+     */
+    public static void writeCorruptedAttributeAfterEnd(XBListener listener) throws XBProcessingException, IOException {
+        listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
+        listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
+        listener.attribXB(new UBNat32(0));
+        listener.endXB();
+        listener.attribXB(new UBNat32(0));
         listener.endXB();
     }
 

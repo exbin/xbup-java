@@ -228,7 +228,6 @@ public class XBListenerWriter implements Closeable, XBSListener {
                 // Continue to next case intended
             }
 
-            case BLOCK_BEGIN:
             case BLOCK_END:
             case DATA_PART: {
                 if (bufferedFromLevel >= 0) {
@@ -283,7 +282,7 @@ public class XBListenerWriter implements Closeable, XBSListener {
             Integer limit = sizeLimits.get(depth);
             if (limit != null) {
                 if (limit < value) {
-                    throw new XBParseException("Block Overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
+                    throw new XBParseException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
                 }
 
                 sizeLimits.set(depth, limit - value);
@@ -299,7 +298,7 @@ public class XBListenerWriter implements Closeable, XBSListener {
     private static void decreaseStatus(List<Integer> sizeLimits) {
         Integer levelValue = sizeLimits.remove(sizeLimits.size() - 1);
         if (levelValue != null && levelValue != 0) {
-            throw new XBParseException("Block Overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
+            throw new XBParseException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
         }
     }
 }

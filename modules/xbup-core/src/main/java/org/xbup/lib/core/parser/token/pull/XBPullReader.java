@@ -46,7 +46,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 0 pull reader.
  *
- * @version 0.1.25 2015/07/23
+ * @version 0.1.25 2015/08/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPullReader implements XBPullProvider, XBResetableStream, XBSkipableStream, XBFinishedStream, Closeable {
@@ -125,13 +125,11 @@ public class XBPullReader implements XBPullProvider, XBResetableStream, XBSkipab
         for (int depthLevel = 0; depthLevel < sizeLimits.size(); depthLevel++) {
             Integer limit = sizeLimits.get(depthLevel);
             if (limit != null) {
-                if (limit > 0) {
-                    if (limit < value) {
-                        throw new XBParseException("Block Overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
-                    }
-
-                    sizeLimits.set(depthLevel, limit - value);
+                if (limit < value) {
+                    throw new XBParseException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
                 }
+
+                sizeLimits.set(depthLevel, limit - value);
             }
         }
     }
@@ -267,7 +265,7 @@ public class XBPullReader implements XBPullProvider, XBResetableStream, XBSkipab
                 UBNat32 attribute = new UBNat32();
                 int attributeLength = attribute.fromStreamUB(source);
                 if (attributeLength > attributePartSizeValue) {
-                    throw new XBParseException("Attribute Overflow", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
+                    throw new XBParseException("Attribute overflow", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
                 }
 
                 attributePartSizeValue -= attributeLength;

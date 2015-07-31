@@ -33,7 +33,7 @@ import org.xbup.lib.core.test.XBTestUtils.TokenAssertXBFilter;
 /**
  * Test class for XBProviderReader.
  *
- * @version 0.1.25 2015/07/28
+ * @version 0.1.25 2015/08/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBProviderReaderTest extends TestCase {
@@ -640,6 +640,78 @@ public class XBProviderReaderTest extends TestCase {
             }
 
             assertEquals(new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR), ex);
+        }
+    }
+
+    /**
+     * Tests XBProviderReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedChildOverflow() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_CHILD_OVERFLOW)) {
+            XBProviderReader instance = new XBProviderReader(stream);
+            try {
+                XBListener listener = new XBPrintFilter();
+                while (!instance.isFinished()) {
+                    instance.produceXB(listener);
+                }
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW), ex);
+        }
+    }
+
+    /**
+     * Tests XBProviderReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedAttributeOverflow() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_ATTRIBUTE_OVERFLOW)) {
+            XBProviderReader instance = new XBProviderReader(stream);
+            try {
+                XBListener listener = new XBPrintFilter();
+                while (!instance.isFinished()) {
+                    instance.produceXB(listener);
+                }
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("Attribute overflow", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW), ex);
+        }
+    }
+
+    /**
+     * Tests XBProviderReader class reading corrupted file.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadCorruptedDataOverflow() throws Exception {
+        Throwable ex = null;
+
+        try (InputStream stream = XBProviderReaderTest.class.getResourceAsStream(XBCoreTestSampleData.CORRUPTED_DATA_OVERFLOW)) {
+            XBProviderReader instance = new XBProviderReader(stream);
+            try {
+                XBListener listener = new XBPrintFilter();
+                while (!instance.isFinished()) {
+                    instance.produceXB(listener);
+                }
+            } catch (XBProcessingException | IOException e) {
+                ex = e;
+            }
+
+            assertEquals(new XBParseException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW), ex);
         }
     }
 }

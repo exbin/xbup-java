@@ -160,7 +160,7 @@ public class XBProducerReader implements XBProducer {
                         UBNat32 attribute = new UBNat32();
                         int attributeLength = attribute.fromStreamUB(source);
                         if (attributeLength > attributePartSizeValue) {
-                            throw new XBParseException("Attribute Overflow", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
+                            throw new XBParseException("Attribute overflow", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
                         }
 
                         attributePartSizeValue -= attributeLength;
@@ -213,7 +213,7 @@ public class XBProducerReader implements XBProducer {
             Integer limit = sizeLimits.get(depthLevel);
             if (limit != null) {
                 if (limit < value) {
-                    throw new XBParseException("Block Overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
+                    throw new XBParseException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
                 }
 
                 sizeLimits.set(depthLevel, limit - value);

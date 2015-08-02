@@ -38,23 +38,25 @@ import org.xbup.lib.core.stream.FinishableStream;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBEndToken;
+import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.core.util.StreamUtils;
 
 /**
- * XBUP level 0 listener writer.
+ * XBUP level 0 listener writer with support for precomputed blocks.
  *
  * @version 0.1.25 2015/08/02
  * @author XBUP Project (http://xbup.org)
  */
-public class XBListenerWriter implements Closeable, XBListener {
+public class XBSListenerWriter implements Closeable, XBSListener {
 
     private OutputStream stream;
     private XBParserState parserState = XBParserState.START;
     private XBParserMode parserMode = XBParserMode.FULL;
 
     private final XBTokenBuffer tokenBuffer = new XBTokenBuffer();
+    private final List<Integer> sizeLimits = new ArrayList<>();
     private int bufferedFromLevel = -1;
     private int depthLevel = 0;
 
@@ -63,15 +65,15 @@ public class XBListenerWriter implements Closeable, XBListener {
     private final List<XBAttribute> attributeList = new ArrayList<>();
     private int attributePartSizeValue = 0;
 
-    public XBListenerWriter() {
+    public XBSListenerWriter() {
     }
 
-    public XBListenerWriter(OutputStream outputStream) throws IOException {
+    public XBSListenerWriter(OutputStream outputStream) throws IOException {
         this();
         openStream(outputStream);
     }
 
-    public XBListenerWriter(OutputStream outputStream, XBParserMode parserMode) throws IOException {
+    public XBSListenerWriter(OutputStream outputStream, XBParserMode parserMode) throws IOException {
         this();
         this.parserMode = parserMode;
         openStream(outputStream);
@@ -106,6 +108,11 @@ public class XBListenerWriter implements Closeable, XBListener {
 
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+        beginXB(terminationMode, null);
+    }
+
+    @Override
+    public void beginXB(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
         if (parserState == XBParserState.START) {
             // Write file head
             if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_HEAD) {
@@ -125,10 +132,19 @@ public class XBListenerWriter implements Closeable, XBListener {
             dataMode = null;
             if (bufferedFromLevel >= 0) {
                 tokenBuffer.putXBToken(new XBBeginToken(terminationMode));
+                sizeLimits.add(null);
             } else {
                 if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
+                    /* TODO if (blockSize != null) {
+                     sizeLimits.add(blockSize.getInt());
+                     blockSize.toStreamUB(stream);
+                     } else { */
                     bufferedFromLevel = depthLevel;
                     tokenBuffer.putXBToken(new XBBeginToken(terminationMode));
+                    sizeLimits.add(null);
+                    // }
+                } else {
+                    sizeLimits.add(null);
                 }
             }
 
@@ -149,6 +165,7 @@ public class XBListenerWriter implements Closeable, XBListener {
                 tokenBuffer.putXBToken(new XBAttributeToken(attribute));
             } else {
                 int attributeSize = attribute.getSizeUB();
+                shrinkStatus(sizeLimits, attributeSize);
                 attributePartSizeValue += attributeSize;
                 attributeList.add(attribute);
             }
@@ -180,16 +197,19 @@ public class XBListenerWriter implements Closeable, XBListener {
                     streamWrapper = new FixedDataOutputStreamWrapper(stream, 0);
                     StreamUtils.copyInputStreamToOutputStream(data, streamWrapper);
                     int dataSize = (int) ((FinishableStream) streamWrapper).finish();
+                    shrinkStatus(sizeLimits, dataSize);
                 } else {
                     UBNat32 attributePartSize = new UBNat32(UBENat32.INFINITY_SIZE_UB);
                     attributePartSize.toStreamUB(stream);
                     UBENat32 dataPartSize = new UBENat32();
                     dataPartSize.setInfinity();
                     dataPartSize.toStreamUB(stream);
+                    shrinkStatus(sizeLimits, UBENat32.INFINITY_SIZE_UB + 1);
                     streamWrapper = new TerminatedDataOutputStreamWrapper(stream);
 
                     StreamUtils.copyInputStreamToOutputStream(data, streamWrapper);
                     int dataSize = (int) ((FinishableStream) streamWrapper).finish();
+                    shrinkStatus(sizeLimits, dataSize);
                 }
             }
             parserState = XBParserState.DATA_PART;
@@ -217,9 +237,10 @@ public class XBListenerWriter implements Closeable, XBListener {
                         bufferedFromLevel = -1;
                     }
                 } else {
-                    if (dataMode == XBBlockDataMode.NODE_BLOCK) {
+                    if (dataMode == XBBlockDataMode.NODE_BLOCK && sizeLimits.get(depthLevel - 1) == null) {
                         stream.write(0);
                     }
+                    decreaseStatus(sizeLimits);
                 }
 
                 depthLevel--;
@@ -236,6 +257,7 @@ public class XBListenerWriter implements Closeable, XBListener {
         if (bufferedFromLevel == -1) {
             attributePartSizeValue += UBENat32.INFINITY_SIZE_UB;
             UBNat32 attributePartSize = new UBNat32(attributePartSizeValue);
+            shrinkStatus(sizeLimits, attributePartSize.getSizeUB() + UBENat32.INFINITY_SIZE_UB + 1);
             attributePartSize.toStreamUB(stream);
             UBENat32 dataPartSize = new UBENat32();
             dataPartSize.setInfinity();
@@ -246,6 +268,37 @@ public class XBListenerWriter implements Closeable, XBListener {
             }
 
             attributeList.clear();
+        }
+    }
+
+    /**
+     * Shrinks limits accross all depths.
+     *
+     * @param value value to shrink all limits off
+     * @throws XBParseException if limits are breached
+     */
+    private static void shrinkStatus(List<Integer> sizeLimits, int value) throws XBParseException {
+        for (int depth = 0; depth < sizeLimits.size(); depth++) {
+            Integer limit = sizeLimits.get(depth);
+            if (limit != null) {
+                if (limit < value) {
+                    throw new XBParseException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
+                }
+
+                sizeLimits.set(depth, limit - value);
+            }
+        }
+    }
+
+    /**
+     * Decreases size limits by removing status on last level.
+     *
+     * @param sizeLimits block sizes
+     */
+    private static void decreaseStatus(List<Integer> sizeLimits) {
+        Integer levelValue = sizeLimits.remove(sizeLimits.size() - 1);
+        if (levelValue != null && levelValue != 0) {
+            throw new XBParseException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
         }
     }
 }

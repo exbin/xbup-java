@@ -535,6 +535,7 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
             newNode.setData(new ByteArrayInputStream(stream.toByteArray()));
             newNode.setTerminationMode(terminationModeCheckBox.isSelected() ? XBBlockTerminationMode.SIZE_SPECIFIED : XBBlockTerminationMode.TERMINATED_BY_ZERO);
         } else {
+            newNode.setTerminationMode(terminationModeCheckBox.isSelected() ? XBBlockTerminationMode.SIZE_SPECIFIED : XBBlockTerminationMode.TERMINATED_BY_ZERO);
             // TODO: Store active tab
             if (attributesPanelTitle.equals(currentTitle)) {
                 if (attributes.isEmpty()) {

@@ -62,7 +62,7 @@ public class XBTBlockToXBBlock implements XBEditableBlock {
             return ((XBBlockToXBTBlock) block.getParent()).getBlock();
         }
 
-        return new XBTBlockToXBBlock(block.getParent());
+        return block.getParent() == null ? null : new XBTBlockToXBBlock(block.getParent());
     }
 
     @Override

@@ -483,7 +483,9 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         List<XBTBlock> cloneChildren = new ArrayList<>();
         for (XBTBlock block : children) {
             if (recursive) {
-                cloneChildren.add(((XBTTreeNode) block).cloneNode(true));
+                XBTTreeNode childNode = ((XBTTreeNode) block).cloneNode(true);
+                childNode.setParent(node);
+                cloneChildren.add(childNode);
             } else {
                 cloneChildren.add(block);
             }

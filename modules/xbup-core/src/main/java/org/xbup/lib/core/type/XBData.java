@@ -410,7 +410,11 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
 
         @Override
         public int read() throws IOException {
-            return getByte(position++);
+            try {
+                return getByte(position++);
+            } catch (ArrayIndexOutOfBoundsException ex) {
+                return -1;
+            }
         }
 
         @Override

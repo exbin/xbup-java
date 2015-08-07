@@ -114,7 +114,9 @@ public class XBListenerWriter implements Closeable, XBListener {
 
             parserState = XBParserState.BLOCK_BEGIN;
         } else if (parserState == XBParserState.ATTRIBUTE_PART || parserState == XBParserState.BLOCK_END) {
-            flushAttributes();
+            if (parserState == XBParserState.ATTRIBUTE_PART) {
+                flushAttributes();
+            }
             parserState = XBParserState.BLOCK_BEGIN;
         }
 

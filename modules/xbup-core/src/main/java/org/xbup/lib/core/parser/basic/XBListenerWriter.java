@@ -224,6 +224,7 @@ public class XBListenerWriter implements Closeable, XBListener {
                     }
                 }
 
+                dataMode = XBBlockDataMode.NODE_BLOCK;
                 depthLevel--;
                 parserState = (depthLevel == 0) ? XBParserState.EOF : XBParserState.BLOCK_END;
                 break;

@@ -46,7 +46,7 @@ import org.xbup.lib.core.util.StreamUtils;
 /**
  * XBUP level 0 listener writer with support for precomputed blocks.
  *
- * @version 0.1.25 2015/08/02
+ * @version 0.1.25 2015/08/08
  * @author XBUP Project (http://xbup.org)
  */
 public class XBSListenerWriter implements Closeable, XBSListener {
@@ -121,7 +121,9 @@ public class XBSListenerWriter implements Closeable, XBSListener {
 
             parserState = XBParserState.BLOCK_BEGIN;
         } else if (parserState == XBParserState.ATTRIBUTE_PART || parserState == XBParserState.BLOCK_END) {
-            flushAttributes();
+            if (parserState == XBParserState.ATTRIBUTE_PART) {
+                flushAttributes();
+            }
             parserState = XBParserState.BLOCK_BEGIN;
         }
 
@@ -243,6 +245,7 @@ public class XBSListenerWriter implements Closeable, XBSListener {
                     decreaseStatus(sizeLimits);
                 }
 
+                dataMode = XBBlockDataMode.NODE_BLOCK;
                 depthLevel--;
                 parserState = (depthLevel == 0) ? XBParserState.EOF : XBParserState.BLOCK_END;
                 break;

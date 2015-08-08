@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBParserMode;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -84,6 +85,7 @@ public class XBSConsumerWriter implements Closeable, XBConsumer {
         List<Integer> sizeLimits = new ArrayList<>();
         XBTokenBuffer tokenBuffer = new XBTokenBuffer();
         List<XBAttribute> attributeList = new ArrayList<>();
+        XBBlockDataMode dataMode = null;
         int bufferedFromLevel = -1;
         int depthLevel = 0;
         // TODO UBNatural blockSize = null;
@@ -99,6 +101,7 @@ public class XBSConsumerWriter implements Closeable, XBConsumer {
                 case BEGIN: {
                     depthLevel++;
                     // TODO blockSize = null;
+                    dataMode = null;
                     XBBlockTerminationMode terminationMode = ((XBBeginToken) token).getTerminationMode();
                     if (bufferedFromLevel >= 0) {
                         tokenBuffer.putXBToken(token);
@@ -121,6 +124,7 @@ public class XBSConsumerWriter implements Closeable, XBConsumer {
                     token = pullToken();
                     switch (token.getTokenType()) {
                         case DATA: {
+                            dataMode = XBBlockDataMode.DATA_BLOCK;
                             if (bufferedFromLevel >= 0) {
                                 tokenBuffer.putXBToken(token);
                             } else {
@@ -189,6 +193,7 @@ public class XBSConsumerWriter implements Closeable, XBConsumer {
                             int attributePartSizeValue = 0;
                             do {
                                 XBAttribute attribute = ((XBAttributeToken) token).getAttribute();
+                                dataMode = XBBlockDataMode.NODE_BLOCK;
 
                                 if (bufferedFromLevel >= 0) {
                                     tokenBuffer.putXBToken(token);
@@ -226,7 +231,7 @@ public class XBSConsumerWriter implements Closeable, XBConsumer {
                                             bufferedFromLevel = -1;
                                         }
                                     } else {
-                                        if (sizeLimits.get(depthLevel - 1) == null) {
+                                        if (dataMode == XBBlockDataMode.NODE_BLOCK && sizeLimits.get(depthLevel - 1) == null) {
                                             stream.write(0);
                                         }
                                         decreaseStatus(sizeLimits);
@@ -261,12 +266,13 @@ public class XBSConsumerWriter implements Closeable, XBConsumer {
                             bufferedFromLevel = -1;
                         }
                     } else {
-                        if (sizeLimits.get(depthLevel - 1) == null) {
+                        if (dataMode == XBBlockDataMode.NODE_BLOCK && sizeLimits.get(depthLevel - 1) == null) {
                             stream.write(0);
                         }
                         decreaseStatus(sizeLimits);
                     }
 
+                    dataMode = XBBlockDataMode.NODE_BLOCK;
                     depthLevel--;
                     if (depthLevel > 0) {
                         token = pullToken();
@@ -281,12 +287,13 @@ public class XBSConsumerWriter implements Closeable, XBConsumer {
                                     bufferedFromLevel = -1;
                                 }
                             } else {
-                                if (sizeLimits.get(depthLevel - 1) == null) {
+                                if (dataMode == XBBlockDataMode.NODE_BLOCK && sizeLimits.get(depthLevel - 1) == null) {
                                     stream.write(0);
                                 }
                                 decreaseStatus(sizeLimits);
                             }
 
+                            dataMode = XBBlockDataMode.NODE_BLOCK;
                             depthLevel--;
                             StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), stream);
                             token = pullToken();

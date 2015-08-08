@@ -92,6 +92,9 @@ public class XBECatalog implements XBCatalog {
     protected Map<Class, XBCManager<?>> catalogManagers;
     protected Map<Class, XBCService<?>> catalogServices;
 
+    public XBECatalog() {
+    }
+
     /**
      * Creates a new instance of XBECatalog.
      *

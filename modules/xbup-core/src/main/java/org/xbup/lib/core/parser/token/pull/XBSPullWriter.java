@@ -46,7 +46,7 @@ import org.xbup.lib.core.util.StreamUtils;
 /**
  * XBUP level 0 pull writer.
  *
- * @version 0.1.25 2015/08/08
+ * @version 0.1.25 2015/08/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBSPullWriter implements Closeable, XBPullConsumer {
@@ -170,14 +170,6 @@ public class XBSPullWriter implements Closeable, XBPullConsumer {
 
                             if (token.getTokenType() != XBTokenType.END) {
                                 throw new XBParseException("Data block must be followed by block end", XBProcessingExceptionType.UNEXPECTED_ORDER);
-                            } else {
-                                if (bufferedFromLevel < 0) {
-                                    depthLevel--;
-                                    decreaseStatus(sizeLimits);
-                                    if (depthLevel > 0) {
-                                        token = pullProvider.pullXBToken();
-                                    }
-                                }
                             }
 
                             break;

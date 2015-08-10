@@ -98,7 +98,7 @@ public class XBTokenBuffer implements XBEventListener {
                     ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
                     XBBlockTerminationMode terminationMode = bufferLevelType.get(countingLevel - 1);
                     if (terminationMode == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
-                        dataPartSize = copyStreamAndComputeAdjustedSize(data, dataStream);
+                        dataPartSize = copyStreamAndComputeAdjustedSize(data, dataStream) - 1;
                     } else {
                         StreamUtils.copyInputStreamToOutputStream(data, dataStream);
                         dataPartSize = dataStream.size();

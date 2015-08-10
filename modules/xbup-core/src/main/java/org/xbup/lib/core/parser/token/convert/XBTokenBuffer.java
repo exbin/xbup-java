@@ -24,6 +24,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.parser.basic.wrapper.TerminatedDataOutputStreamWrapper;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
@@ -38,7 +39,7 @@ import org.xbup.lib.core.util.StreamUtils;
 /**
  * Token buffer to store received tokens into memory structure.
  *
- * @version 0.1.25 2015/07/03
+ * @version 0.1.25 2015/08/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTokenBuffer implements XBEventListener {
@@ -143,6 +144,7 @@ public class XBTokenBuffer implements XBEventListener {
      */
     private void writePrecomputedBlocks(OutputStream stream) throws IOException {
         List<XBBlockTerminationMode> bufferLevelType = new ArrayList<>();
+        XBBlockDataMode dataMode = null;
         int level = 0;
         for (XBToken bufferToken : tokenList) {
             switch (bufferToken.getTokenType()) {
@@ -150,6 +152,7 @@ public class XBTokenBuffer implements XBEventListener {
                     BlockSize blockSize = blockSizes.get(level).remove(0);
                     level++;
 
+                    dataMode = null;
                     UBENat32 dataPartSize = new UBENat32();
                     bufferLevelType.add(((XBBeginToken) bufferToken).getTerminationMode());
                     if (((XBBeginToken) bufferToken).getTerminationMode() == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
@@ -165,11 +168,13 @@ public class XBTokenBuffer implements XBEventListener {
                 }
 
                 case ATTRIBUTE: {
+                    dataMode = XBBlockDataMode.NODE_BLOCK;
                     ((XBAttributeToken) bufferToken).getAttribute().toStreamUB(stream);
                     break;
                 }
 
                 case DATA: {
+                    dataMode = XBBlockDataMode.DATA_BLOCK;
                     XBBlockTerminationMode terminationMode = bufferLevelType.get(bufferLevelType.size() - 1);
                     OutputStream streamWrapper;
                     if (terminationMode == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
@@ -180,15 +185,19 @@ public class XBTokenBuffer implements XBEventListener {
                     }
 
                     StreamUtils.copyInputStreamToOutputStream(((XBDataToken) bufferToken).getData(), streamWrapper);
+                    if (terminationMode == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
+                        ((TerminatedDataOutputStreamWrapper) streamWrapper).finish();
+                    }
                     break;
                 }
 
                 case END: {
                     XBBlockTerminationMode terminationMode = bufferLevelType.remove(bufferLevelType.size() - 1);
-                    if (terminationMode == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
+                    if (dataMode == XBBlockDataMode.NODE_BLOCK && terminationMode == XBBlockTerminationMode.TERMINATED_BY_ZERO) {
                         stream.write(0);
                     }
 
+                    dataMode = XBBlockDataMode.NODE_BLOCK;
                     level--;
                     break;
                 }

@@ -35,7 +35,7 @@ import static org.xbup.lib.core.test.XBTestUtils.assertEqualsInputStream;
 /**
  * Test class for XBPullWriter.
  *
- * @version 0.1.25 2015/07/31
+ * @version 0.1.25 2015/08/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPullWriterTest extends TestCase {
@@ -69,7 +69,7 @@ public class XBPullWriterTest extends TestCase {
                 writer.write();
             }
 
-            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 
@@ -88,7 +88,7 @@ public class XBPullWriterTest extends TestCase {
                 writer.write();
             }
 
-            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 
@@ -107,7 +107,7 @@ public class XBPullWriterTest extends TestCase {
                 writer.write();
             }
 
-            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 
@@ -126,7 +126,7 @@ public class XBPullWriterTest extends TestCase {
                 writer.write();
             }
 
-            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 
@@ -145,7 +145,7 @@ public class XBPullWriterTest extends TestCase {
                 writer.write();
             }
 
-            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 
@@ -164,7 +164,7 @@ public class XBPullWriterTest extends TestCase {
                 writer.write();
             }
 
-            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 
@@ -183,7 +183,7 @@ public class XBPullWriterTest extends TestCase {
                 writer.write();
             }
 
-            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 
@@ -202,7 +202,7 @@ public class XBPullWriterTest extends TestCase {
                 writer.write();
             }
 
-            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 
@@ -221,7 +221,121 @@ public class XBPullWriterTest extends TestCase {
                 writer.write();
             }
 
-            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
+    }
+
+    /**
+     * Tests XBPullWriter class writting sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleBlockData() throws Exception {
+        try (InputStream stream = XBPullWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBPullWriter writer = new XBPullWriter(target)) {
+                XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(new XBPullConsumerToConsumer(writer)));
+                XBCoreTestSampleData.writeSampleBlockData(listener);
+                writer.write();
+            }
+
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
+    }
+
+    /**
+     * Tests XBPullWriter class writting sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleBlockDataExtended() throws Exception {
+        try (InputStream stream = XBPullWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_EXTENDED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBPullWriter writer = new XBPullWriter(target)) {
+                XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(new XBPullConsumerToConsumer(writer)));
+                XBCoreTestSampleData.writeSampleBlockDataExtended(listener);
+                writer.write();
+            }
+
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
+    }
+
+    /**
+     * Tests XBPullWriter class writting sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleBlockDataTerminated() throws Exception {
+        try (InputStream stream = XBPullWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBPullWriter writer = new XBPullWriter(target)) {
+                XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(new XBPullConsumerToConsumer(writer)));
+                XBCoreTestSampleData.writeSampleBlockDataTerminated(listener);
+                writer.write();
+            }
+
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
+    }
+
+    /**
+     * Tests XBPullWriter class writting sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleBlockDataTerminatedExtended() throws Exception {
+        try (InputStream stream = XBPullWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED_EXTENDED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBPullWriter writer = new XBPullWriter(target)) {
+                XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(new XBPullConsumerToConsumer(writer)));
+                XBCoreTestSampleData.writeSampleBlockDataTerminatedExtended(listener);
+                writer.write();
+            }
+
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
+    }
+
+    /**
+     * Tests XBPullWriter class writting sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleBlockDataHybrid() throws Exception {
+        try (InputStream stream = XBPullWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_HYBRID)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBPullWriter writer = new XBPullWriter(target)) {
+                XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(new XBPullConsumerToConsumer(writer)));
+                XBCoreTestSampleData.writeSampleBlockDataHybrid(listener);
+                writer.write();
+            }
+
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
+    }
+
+    /**
+     * Tests XBPullWriter class writting sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleBlockDataHybrid2() throws Exception {
+        try (InputStream stream = XBPullWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_HYBRID2)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBPullWriter writer = new XBPullWriter(target)) {
+                XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(new XBPullConsumerToConsumer(writer)));
+                XBCoreTestSampleData.writeSampleBlockDataHybrid2(listener);
+                writer.write();
+            }
+
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 
@@ -240,7 +354,7 @@ public class XBPullWriterTest extends TestCase {
                 writer.write();
             }
 
-            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 
@@ -259,7 +373,7 @@ public class XBPullWriterTest extends TestCase {
                 writer.write();
             }
 
-            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 
@@ -278,7 +392,26 @@ public class XBPullWriterTest extends TestCase {
                 writer.write();
             }
 
-            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
+        }
+    }
+
+    /**
+     * Tests XBPullWriter class writting sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleTwoBlocksTerminatedExtended() throws Exception {
+        try (InputStream stream = XBPullWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED_EXTENDED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBPullWriter writer = new XBPullWriter(target)) {
+                XBPrintFilter listener = new XBPrintFilter(new XBConsumerToListener(new XBPullConsumerToConsumer(writer)));
+                XBCoreTestSampleData.writeSampleTwoBlocksTerminatedExtended(listener);
+                writer.write();
+            }
+
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 
@@ -297,7 +430,7 @@ public class XBPullWriterTest extends TestCase {
                 writer.write();
             }
 
-            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 
@@ -316,7 +449,7 @@ public class XBPullWriterTest extends TestCase {
                 writer.write();
             }
 
-            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 
@@ -335,7 +468,7 @@ public class XBPullWriterTest extends TestCase {
                 writer.write();
             }
 
-            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+            assertEqualsInputStream(stream, new ByteArrayInputStream(target.toByteArray()));
         }
     }
 

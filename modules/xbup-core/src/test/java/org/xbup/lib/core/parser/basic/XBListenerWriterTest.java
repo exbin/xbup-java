@@ -33,7 +33,7 @@ import static org.xbup.lib.core.test.XBTestUtils.assertEqualsInputStream;
 /**
  * Test class for XBListenerWriter.
  *
- * @version 0.1.25 2015/07/31
+ * @version 0.1.25 2015/08/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBListenerWriterTest extends TestCase {
@@ -229,6 +229,120 @@ public class XBListenerWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
+    public void testWriteSampleBlockData() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBListenerWriter writer = new XBListenerWriter(target)) {
+                XBPrintFilter listener = new XBPrintFilter(writer);
+                XBCoreTestSampleData.writeSampleBlockData(listener);
+                writer.closeXB();
+            }
+
+            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+        }
+    }
+
+    /**
+     * Tests XBListenerWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleBlockDataExtended() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_EXTENDED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBListenerWriter writer = new XBListenerWriter(target)) {
+                XBPrintFilter listener = new XBPrintFilter(writer);
+                XBCoreTestSampleData.writeSampleBlockDataExtended(listener);
+                writer.closeXB();
+            }
+
+            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+        }
+    }
+
+    /**
+     * Tests XBListenerWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleBlockDataTerminated() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBListenerWriter writer = new XBListenerWriter(target)) {
+                XBPrintFilter listener = new XBPrintFilter(writer);
+                XBCoreTestSampleData.writeSampleBlockDataTerminated(listener);
+                writer.closeXB();
+            }
+
+            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+        }
+    }
+
+    /**
+     * Tests XBListenerWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleBlockDataTerminatedExtended() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED_EXTENDED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBListenerWriter writer = new XBListenerWriter(target)) {
+                XBPrintFilter listener = new XBPrintFilter(writer);
+                XBCoreTestSampleData.writeSampleBlockDataTerminatedExtended(listener);
+                writer.closeXB();
+            }
+
+            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+        }
+    }
+
+    /**
+     * Tests XBListenerWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleBlockDataHybrid() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_HYBRID)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBListenerWriter writer = new XBListenerWriter(target)) {
+                XBPrintFilter listener = new XBPrintFilter(writer);
+                XBCoreTestSampleData.writeSampleBlockDataHybrid(listener);
+                writer.closeXB();
+            }
+
+            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+        }
+    }
+
+    /**
+     * Tests XBListenerWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleBlockDataHybrid2() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_HYBRID2)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBListenerWriter writer = new XBListenerWriter(target)) {
+                XBPrintFilter listener = new XBPrintFilter(writer);
+                XBCoreTestSampleData.writeSampleBlockDataHybrid2(listener);
+                writer.closeXB();
+            }
+
+            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+        }
+    }
+
+    /**
+     * Tests XBListenerWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
     public void testWriteSampleTwoBlocks() throws Exception {
         try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
@@ -273,6 +387,25 @@ public class XBListenerWriterTest extends TestCase {
             try (XBListenerWriter writer = new XBListenerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(writer);
                 XBCoreTestSampleData.writeSampleTwoBlocksTerminated(listener);
+                writer.closeXB();
+            }
+
+            assertEqualsInputStream(new ByteArrayInputStream(target.toByteArray()), stream);
+        }
+    }
+
+    /**
+     * Tests XBListenerWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleTwoBlocksTerminatedExtended() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED_EXTENDED)) {
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+            try (XBListenerWriter writer = new XBListenerWriter(target)) {
+                XBPrintFilter listener = new XBPrintFilter(writer);
+                XBCoreTestSampleData.writeSampleTwoBlocksTerminatedExtended(listener);
                 writer.closeXB();
             }
 

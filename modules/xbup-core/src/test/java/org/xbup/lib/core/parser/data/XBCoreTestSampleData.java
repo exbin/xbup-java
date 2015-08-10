@@ -32,7 +32,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Sample data and methods for testing purposes.
  *
- * @version 0.1.25 2015/07/31
+ * @version 0.1.25 2015/08/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCoreTestSampleData {
@@ -51,9 +51,16 @@ public class XBCoreTestSampleData {
     public final static String SAMPLE_DATA_EXTENDED = SAMPLE_FILES_PATH + "data_extended.xb";
     public final static String SAMPLE_DATA_TERMINATED = SAMPLE_FILES_PATH + "data_terminated.xb";
     public final static String SAMPLE_DATA_TERMINATED_EXTENDED = SAMPLE_FILES_PATH + "data_terminated_extended.xb";
+    public final static String SAMPLE_BLOCK_DATA = SAMPLE_FILES_PATH + "block_data.xb";
+    public final static String SAMPLE_BLOCK_DATA_EXTENDED = SAMPLE_FILES_PATH + "block_data_extended.xb";
+    public final static String SAMPLE_BLOCK_DATA_TERMINATED = SAMPLE_FILES_PATH + "block_data_terminated.xb";
+    public final static String SAMPLE_BLOCK_DATA_TERMINATED_EXTENDED = SAMPLE_FILES_PATH + "block_data_terminated_extended.xb";
+    public final static String SAMPLE_BLOCK_DATA_HYBRID = SAMPLE_FILES_PATH + "block_data_hybrid.xb";
+    public final static String SAMPLE_BLOCK_DATA_HYBRID2 = SAMPLE_FILES_PATH + "block_data_hybrid2.xb";
     public final static String SAMPLE_TWO_BLOCKS = SAMPLE_FILES_PATH + "two_blocks.xb";
-    public final static String SAMPLE_TWO_BLOCKS_TERMINATED = SAMPLE_FILES_PATH + "two_blocks_terminated.xb";
     public final static String SAMPLE_TWO_BLOCKS_EXTENDED = SAMPLE_FILES_PATH + "two_blocks_extended.xb";
+    public final static String SAMPLE_TWO_BLOCKS_TERMINATED = SAMPLE_FILES_PATH + "two_blocks_terminated.xb";
+    public final static String SAMPLE_TWO_BLOCKS_TERMINATED_EXTENDED = SAMPLE_FILES_PATH + "two_blocks_terminated_extended.xb";
     public final static String SAMPLE_TWO_BLOCKS_HYBRID = SAMPLE_FILES_PATH + "two_blocks_hybrid.xb";
     public final static String SAMPLE_TWO_BLOCKS_HYBRID2 = SAMPLE_FILES_PATH + "two_blocks_hybrid2.xb";
     public final static String SAMPLE_SIX_BLOCKS = SAMPLE_FILES_PATH + "six_blocks.xb";
@@ -125,7 +132,7 @@ public class XBCoreTestSampleData {
     }
 
     /**
-     * Writes tokens matching file "block_terminated.xb".
+     * Writes tokens matching file "block_terminated_extended.xb".
      *
      * @param listener token listener
      * @throws java.io.IOException
@@ -180,7 +187,7 @@ public class XBCoreTestSampleData {
     }
 
     /**
-     * Writes tokens matching file "data_terminated.xb".
+     * Writes tokens matching file "data_terminated_extended.xb".
      *
      * @param listener token listener
      * @throws java.io.IOException
@@ -191,6 +198,106 @@ public class XBCoreTestSampleData {
         listener.dataXB(dataStream);
         ByteArrayInputStream extDataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED);
         listener.dataXB(extDataStream);
+        listener.endXB();
+    }
+
+    /**
+     * Writes tokens matching file "block_data.xb".
+     *
+     * @param listener token listener
+     * @throws java.io.IOException
+     */
+    public static void writeSampleBlockData(XBListener listener) throws XBProcessingException, IOException {
+        listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
+        listener.attribXB(new UBNat32(1));
+        listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
+        ByteArrayInputStream dataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE);
+        listener.dataXB(dataStream);
+        listener.endXB();
+        listener.endXB();
+    }
+
+    /**
+     * Writes tokens matching file "block_data_extended.xb".
+     *
+     * @param listener token listener
+     * @throws java.io.IOException
+     */
+    public static void writeSampleBlockDataExtended(XBListener listener) throws XBProcessingException, IOException {
+        listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
+        listener.attribXB(new UBNat32(1));
+        listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
+        ByteArrayInputStream dataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE);
+        listener.dataXB(dataStream);
+        listener.endXB();
+        ByteArrayInputStream extDataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED);
+        listener.dataXB(extDataStream);
+        listener.endXB();
+    }
+
+    /**
+     * Writes tokens matching file "block_data_terminated.xb".
+     *
+     * @param listener token listener
+     * @throws java.io.IOException
+     */
+    public static void writeSampleBlockDataTerminated(XBListener listener) throws XBProcessingException, IOException {
+        listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
+        listener.attribXB(new UBNat32(1));
+        listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
+        ByteArrayInputStream dataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE);
+        listener.dataXB(dataStream);
+        listener.endXB();
+        listener.endXB();
+    }
+
+    /**
+     * Writes tokens matching file "block_data_terminated_extended.xb".
+     *
+     * @param listener token listener
+     * @throws java.io.IOException
+     */
+    public static void writeSampleBlockDataTerminatedExtended(XBListener listener) throws XBProcessingException, IOException {
+        listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
+        listener.attribXB(new UBNat32(1));
+        listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
+        ByteArrayInputStream dataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE);
+        listener.dataXB(dataStream);
+        listener.endXB();
+        ByteArrayInputStream extDataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED);
+        listener.dataXB(extDataStream);
+        listener.endXB();
+    }
+
+    /**
+     * Writes tokens matching file "block_data_hybrid.xb".
+     *
+     * @param listener token listener
+     * @throws java.io.IOException
+     */
+    public static void writeSampleBlockDataHybrid(XBListener listener) throws XBProcessingException, IOException {
+        listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
+        listener.attribXB(new UBNat32(1));
+        listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
+        ByteArrayInputStream dataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE);
+        listener.dataXB(dataStream);
+        listener.endXB();
+        listener.endXB();
+    }
+
+    /**
+     * Writes tokens matching file "block_data_hybrid2.xb".
+     *
+     * @param listener token listener
+     * @throws java.io.IOException
+     */
+    public static void writeSampleBlockDataHybrid2(XBListener listener) throws XBProcessingException, IOException {
+        listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
+        listener.attribXB(new UBNat32(1));
+        listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
+        ByteArrayInputStream dataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE);
+        listener.dataXB(dataStream);
+        listener.endXB();
         listener.endXB();
     }
 
@@ -238,6 +345,23 @@ public class XBCoreTestSampleData {
         listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
         listener.attribXB(new UBNat32(2));
         listener.endXB();
+        listener.endXB();
+    }
+
+    /**
+     * Writes tokens matching file "two_blocks_terminated_extended.xb".
+     *
+     * @param listener token listener
+     * @throws java.io.IOException
+     */
+    public static void writeSampleTwoBlocksTerminatedExtended(XBListener listener) throws XBProcessingException, IOException {
+        listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
+        listener.attribXB(new UBNat32(1));
+        listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
+        listener.attribXB(new UBNat32(2));
+        listener.endXB();
+        ByteArrayInputStream extDataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED);
+        listener.dataXB(extDataStream);
         listener.endXB();
     }
 

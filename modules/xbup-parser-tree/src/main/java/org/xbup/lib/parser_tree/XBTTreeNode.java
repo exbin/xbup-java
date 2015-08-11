@@ -292,7 +292,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                 }
 
                 if (dataPartSize.isInfinity() || dataPartSize.getInt() > 0) {
-                    size += childrenFromStreamUB(stream, dataPartSize.isInfinity() ? 0 : dataPartSize.getInt());
+                    size += childrenFromStreamUB(stream, dataPartSizeValue);
                 }
             }
         }
@@ -868,22 +868,26 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
      * @return
      * @throws java.io.IOException
      */
-    public int childrenFromStreamUB(InputStream stream, int maxSize) throws IOException, XBProcessingException {
+    public int childrenFromStreamUB(InputStream stream, Integer maxSize) throws IOException, XBProcessingException {
         children.clear();
-        if (maxSize == 0) {
+        if (maxSize != null && maxSize == 0) {
             return 0;
         }
 
         int childSize;
         int size = 0;
         do {
-            XBTTreeNode child = createNewChild(getChildCount());
-            childSize = child.fromStreamUB(stream, maxSize == 0);
+            XBTTreeNode child = new XBTTreeNode();
+            childSize = child.fromStreamUB(stream, maxSize == null);
             size += childSize;
-            if (childSize > 1 && maxSize > 0 && size > maxSize) {
-                throw new XBParseException("Block overreached", XBProcessingExceptionType.BLOCK_OVERFLOW);
+            if (childSize > 1) {
+                if (maxSize != null && size > maxSize) {
+                    throw new XBParseException("Block overreached", XBProcessingExceptionType.BLOCK_OVERFLOW);
+                }
+
+                children.add(child);
             }
-        } while (((maxSize == 0) && (childSize != 1)) || ((maxSize > 0) && (size < maxSize)));
+        } while ((maxSize == null && childSize != 1) || (maxSize != null && maxSize > 0 && size < maxSize));
 
         return size;
     }

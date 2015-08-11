@@ -39,7 +39,7 @@ import org.xbup.lib.core.util.StreamUtils;
 /**
  * Token buffer to store received tokens into memory structure.
  *
- * @version 0.1.25 2015/08/10
+ * @version 0.1.25 2015/08/11
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTokenBuffer implements XBEventListener {
@@ -247,6 +247,26 @@ public class XBTokenBuffer implements XBEventListener {
         }
     }
 
+    /**
+     * Computes size of given data in the escaped terminated form.
+     *
+     * @param source data source
+     * @return number of bytes
+     * @throws IOException input output exception
+     */
+    public static int computeAdjustedSize(InputStream source) throws IOException {
+        return copyStreamAndComputeAdjustedSize(source, null);
+    }
+
+    /**
+     * Copies data to given stream and computes size of given data in the
+     * escaped terminated form.
+     *
+     * @param source data source
+     * @param target target stream
+     * @return number of bytes
+     * @throws IOException input output exception
+     */
     public static int copyStreamAndComputeAdjustedSize(InputStream source, OutputStream target) throws IOException {
         int dataPartSize = 0;
         ZeroCounter zeroCounter = new ZeroCounter();
@@ -259,14 +279,18 @@ public class XBTokenBuffer implements XBEventListener {
             used += read;
             if (used == BUFFER_SIZE) {
                 dataPartSize += computeAdjustedSize(buffer, BUFFER_SIZE, zeroCounter);
-                target.write(buffer, 0, BUFFER_SIZE);
+                if (target != null) {
+                    target.write(buffer, 0, BUFFER_SIZE);
+                }
                 used = 0;
             }
         }
 
         if (used > 0) {
             dataPartSize += computeAdjustedSize(buffer, used, zeroCounter);
-            target.write(buffer, 0, used);
+            if (target != null) {
+                target.write(buffer, 0, used);
+            }
         }
 
         return dataPartSize + (zeroCounter.zeroCount > 0 ? 3 : 2);

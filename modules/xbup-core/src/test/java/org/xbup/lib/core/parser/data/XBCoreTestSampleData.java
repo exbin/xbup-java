@@ -32,7 +32,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Sample data and methods for testing purposes.
  *
- * @version 0.1.25 2015/08/09
+ * @version 0.1.25 2015/08/11
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCoreTestSampleData {
@@ -523,7 +523,7 @@ public class XBCoreTestSampleData {
     }
 
     /**
-     * Returns block structure matching file "block_terminated.xb".
+     * Returns block structure matching file "block_terminated_extended.xb".
      *
      * @return tree structure
      */
@@ -584,6 +584,93 @@ public class XBCoreTestSampleData {
     }
 
     /**
+     * Returns block structure matching file "block_data.xb".
+     *
+     * @return tree structure
+     */
+    public static XBDocument getSampleBlockDataTree() {
+        XBData data = new XBData();
+        data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
+            new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, data)
+        }));
+    }
+
+    /**
+     * Returns block structure matching file "block_data_extended.xb".
+     *
+     * @return tree structure
+     */
+    public static XBDocument getSampleBlockDataExtendedTree() {
+        XBData data = new XBData();
+        data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        XBData extendedArea = new XBData();
+        extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+        return new XBDefaultDocument(
+                new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
+                    new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, data)
+                }),
+                extendedArea);
+    }
+
+    /**
+     * Returns block structure matching file "block_data_terminated.xb".
+     *
+     * @return tree structure
+     */
+    public static XBDocument getSampleBlockDataTerminatedTree() {
+        XBData data = new XBData();
+        data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
+            new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, data)
+        }));
+    }
+
+    /**
+     * Returns block structure matching file
+     * "block_data_terminated_extended.xb".
+     *
+     * @return tree structure
+     */
+    public static XBDocument getSampleBlockDataTerminatedExtendedTree() {
+        XBData data = new XBData();
+        data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        XBData extendedArea = new XBData();
+        extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+        return new XBDefaultDocument(
+                new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
+                    new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, data)
+                }),
+                extendedArea);
+    }
+
+    /**
+     * Returns block structure matching file "block_data_hybrid.xb".
+     *
+     * @return tree structure
+     */
+    public static XBDocument getSampleBlockDataHybridTree() {
+        XBData data = new XBData();
+        data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
+            new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, data)
+        }));
+    }
+
+    /**
+     * Returns block structure matching file "block_data_hybrid2.xb".
+     *
+     * @return tree structure
+     */
+    public static XBDocument getSampleBlockDataHybrid2Tree() {
+        XBData data = new XBData();
+        data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
+            new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, data)
+        }));
+    }
+
+    /**
      * Returns block structure matching file "two_blocks.xb".
      *
      * @return tree structure
@@ -616,6 +703,20 @@ public class XBCoreTestSampleData {
         return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
             new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, new XBAttribute[]{new UBNat32(2)}, new XBBlock[]{})
         }));
+    }
+
+    /**
+     * Returns block structure matching file
+     * "two_blocks_terminated_extended.xb".
+     *
+     * @return tree structure
+     */
+    public static XBDocument getSampleTwoBlocksTerminatedExtendedTree() {
+        XBData extendedArea = new XBData();
+        extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+        return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
+            new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, new XBAttribute[]{new UBNat32(2)}, new XBBlock[]{})
+        }), extendedArea);
     }
 
     /**

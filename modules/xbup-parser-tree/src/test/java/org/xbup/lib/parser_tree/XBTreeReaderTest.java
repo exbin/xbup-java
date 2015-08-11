@@ -26,7 +26,7 @@ import org.xbup.lib.core.test.XBTestUtils;
 /**
  * Test class for XBTreeReader.
  *
- * @version 0.1.25 2015/07/25
+ * @version 0.1.25 2015/08/11
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeReaderTest extends TestCase {
@@ -186,6 +186,96 @@ public class XBTreeReaderTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
+    public void testReadSampleBlockData() throws Exception {
+        XBDocument document = new XBTreeDocument(new XBTreeNode());
+        XBTreeReader instance = new XBTreeReader(document);
+        XBCoreTestSampleData.writeSampleBlockData(new XBPrintFilter(instance));
+
+        XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockDataTree();
+        XBTestUtils.assertEqualsXBDocuments(expectedDocument, document);
+    }
+
+    /**
+     * Tests XBTreeReader class reading sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadSampleBlockDataExtended() throws Exception {
+        XBDocument document = new XBTreeDocument(new XBTreeNode());
+        XBTreeReader instance = new XBTreeReader(document);
+        XBCoreTestSampleData.writeSampleBlockDataExtended(new XBPrintFilter(instance));
+
+        XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockDataExtendedTree();
+        XBTestUtils.assertEqualsXBDocuments(expectedDocument, document);
+    }
+
+    /**
+     * Tests XBTreeReader class reading sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadSampleBlockDataTerminated() throws Exception {
+        XBDocument document = new XBTreeDocument(new XBTreeNode());
+        XBTreeReader instance = new XBTreeReader(document);
+        XBCoreTestSampleData.writeSampleBlockDataTerminated(new XBPrintFilter(instance));
+
+        XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockDataTerminatedTree();
+        XBTestUtils.assertEqualsXBDocuments(expectedDocument, document);
+    }
+
+    /**
+     * Tests XBTreeReader class reading sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadSampleBlockDataTerminatedExtended() throws Exception {
+        XBDocument document = new XBTreeDocument(new XBTreeNode());
+        XBTreeReader instance = new XBTreeReader(document);
+        XBCoreTestSampleData.writeSampleBlockDataTerminatedExtended(new XBPrintFilter(instance));
+
+        XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockDataTerminatedExtendedTree();
+        XBTestUtils.assertEqualsXBDocuments(expectedDocument, document);
+    }
+
+    /**
+     * Tests XBTreeReader class reading sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadSampleBlockDataHybrid() throws Exception {
+        XBDocument document = new XBTreeDocument(new XBTreeNode());
+        XBTreeReader instance = new XBTreeReader(document);
+        XBCoreTestSampleData.writeSampleBlockDataHybrid(new XBPrintFilter(instance));
+
+        XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockDataHybridTree();
+        XBTestUtils.assertEqualsXBDocuments(expectedDocument, document);
+    }
+
+    /**
+     * Tests XBTreeReader class reading sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadSampleBlockDataHybrid2() throws Exception {
+        XBDocument document = new XBTreeDocument(new XBTreeNode());
+        XBTreeReader instance = new XBTreeReader(document);
+        XBCoreTestSampleData.writeSampleBlockDataHybrid2(new XBPrintFilter(instance));
+
+        XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockDataHybrid2Tree();
+        XBTestUtils.assertEqualsXBDocuments(expectedDocument, document);
+    }
+
+    /**
+     * Tests XBTreeReader class reading sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
     public void testReadSampleTwoBlocks() throws Exception {
         XBDocument document = new XBTreeDocument(new XBTreeNode());
         XBTreeReader instance = new XBTreeReader(document);
@@ -222,6 +312,21 @@ public class XBTreeReaderTest extends TestCase {
         XBCoreTestSampleData.writeSampleTwoBlocksTerminated(new XBPrintFilter(instance));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleTwoBlocksTerminatedTree();
+        XBTestUtils.assertEqualsXBDocuments(expectedDocument, document);
+    }
+
+    /**
+     * Tests XBTreeReader class reading sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadSampleTwoBlocksTerminatedExtended() throws Exception {
+        XBDocument document = new XBTreeDocument(new XBTreeNode());
+        XBTreeReader instance = new XBTreeReader(document);
+        XBCoreTestSampleData.writeSampleTwoBlocksTerminatedExtended(new XBPrintFilter(instance));
+
+        XBDocument expectedDocument = XBCoreTestSampleData.getSampleTwoBlocksTerminatedExtendedTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, document);
     }
 

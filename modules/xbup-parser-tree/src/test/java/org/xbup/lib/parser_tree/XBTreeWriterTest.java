@@ -26,7 +26,7 @@ import org.xbup.lib.core.test.XBTestUtils.BufferAssertXBFilter;
 /**
  * Test class for XBTreeWriter.
  *
- * @version 0.1.25 2015/07/26
+ * @version 0.1.25 2015/08/11
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeWriterTest extends TestCase {
@@ -186,6 +186,96 @@ public class XBTreeWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
+    public void testWriteSampleBlockData() throws Exception {
+        XBConsumerToListener buffer = new XBConsumerToListener(null);
+        XBCoreTestSampleData.writeSampleBlockData(buffer);
+        BufferAssertXBFilter assertListener = new BufferAssertXBFilter(buffer.getTokens());
+
+        XBTreeWriter treeWriter = new XBTreeWriter(XBCoreTestSampleData.getSampleBlockDataTree());
+        treeWriter.attachXBListener(new XBPrintFilter(assertListener));
+    }
+
+    /**
+     * Tests XBTreeWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleBlockDataExtended() throws Exception {
+        XBConsumerToListener buffer = new XBConsumerToListener(null);
+        XBCoreTestSampleData.writeSampleBlockDataExtended(buffer);
+        BufferAssertXBFilter assertListener = new BufferAssertXBFilter(buffer.getTokens());
+
+        XBTreeWriter treeWriter = new XBTreeWriter(XBCoreTestSampleData.getSampleBlockDataExtendedTree());
+        treeWriter.attachXBListener(new XBPrintFilter(assertListener));
+    }
+
+    /**
+     * Tests XBTreeWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleBlockDataTerminated() throws Exception {
+        XBConsumerToListener buffer = new XBConsumerToListener(null);
+        XBCoreTestSampleData.writeSampleBlockDataTerminated(buffer);
+        BufferAssertXBFilter assertListener = new BufferAssertXBFilter(buffer.getTokens());
+
+        XBTreeWriter treeWriter = new XBTreeWriter(XBCoreTestSampleData.getSampleBlockDataTerminatedTree());
+        treeWriter.attachXBListener(new XBPrintFilter(assertListener));
+    }
+
+    /**
+     * Tests XBTreeWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleBlockDataTerminatedExtended() throws Exception {
+        XBConsumerToListener buffer = new XBConsumerToListener(null);
+        XBCoreTestSampleData.writeSampleBlockDataTerminatedExtended(buffer);
+        BufferAssertXBFilter assertListener = new BufferAssertXBFilter(buffer.getTokens());
+
+        XBTreeWriter treeWriter = new XBTreeWriter(XBCoreTestSampleData.getSampleBlockDataTerminatedExtendedTree());
+        treeWriter.attachXBListener(new XBPrintFilter(assertListener));
+    }
+
+    /**
+     * Tests XBTreeWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleBlockDataHybrid() throws Exception {
+        XBConsumerToListener buffer = new XBConsumerToListener(null);
+        XBCoreTestSampleData.writeSampleBlockDataHybrid(buffer);
+        BufferAssertXBFilter assertListener = new BufferAssertXBFilter(buffer.getTokens());
+
+        XBTreeWriter treeWriter = new XBTreeWriter(XBCoreTestSampleData.getSampleBlockDataHybridTree());
+        treeWriter.attachXBListener(new XBPrintFilter(assertListener));
+    }
+
+    /**
+     * Tests XBTreeWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleBlockDataHybrid2() throws Exception {
+        XBConsumerToListener buffer = new XBConsumerToListener(null);
+        XBCoreTestSampleData.writeSampleBlockDataHybrid2(buffer);
+        BufferAssertXBFilter assertListener = new BufferAssertXBFilter(buffer.getTokens());
+
+        XBTreeWriter treeWriter = new XBTreeWriter(XBCoreTestSampleData.getSampleBlockDataHybrid2Tree());
+        treeWriter.attachXBListener(new XBPrintFilter(assertListener));
+    }
+
+    /**
+     * Tests XBTreeWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
     public void testWriteSampleTwoBlocks() throws Exception {
         XBConsumerToListener buffer = new XBConsumerToListener(null);
         XBCoreTestSampleData.writeSampleTwoBlocks(buffer);
@@ -222,6 +312,21 @@ public class XBTreeWriterTest extends TestCase {
         BufferAssertXBFilter assertListener = new BufferAssertXBFilter(buffer.getTokens());
 
         XBTreeWriter treeWriter = new XBTreeWriter(XBCoreTestSampleData.getSampleTwoBlocksTerminatedTree());
+        treeWriter.attachXBListener(new XBPrintFilter(assertListener));
+    }
+
+    /**
+     * Tests XBTreeWriter class writing sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testWriteSampleTwoBlocksTerminatedExtended() throws Exception {
+        XBConsumerToListener buffer = new XBConsumerToListener(null);
+        XBCoreTestSampleData.writeSampleTwoBlocksTerminatedExtended(buffer);
+        BufferAssertXBFilter assertListener = new BufferAssertXBFilter(buffer.getTokens());
+
+        XBTreeWriter treeWriter = new XBTreeWriter(XBCoreTestSampleData.getSampleTwoBlocksTerminatedExtendedTree());
         treeWriter.attachXBListener(new XBPrintFilter(assertListener));
     }
 

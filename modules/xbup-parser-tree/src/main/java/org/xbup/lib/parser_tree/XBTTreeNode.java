@@ -981,4 +981,47 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             return block.getBlockSize();
         }
     }
+
+    /**
+     * Creates XBTTreeNode copy of given block and all of its children.
+     *
+     * @param block source block
+     * @return node
+     */
+    public static XBTTreeNode createTreeCopy(XBTBlock block) {
+        return createTreeCopy(block, null);
+    }
+
+    /**
+     * Creates XBTTreeNode copy of given block and all of its children.
+     *
+     * @param block source block
+     * @param parent parent node
+     * @return node
+     */
+    public static XBTTreeNode createTreeCopy(XBTBlock block, XBTTreeNode parent) {
+        XBTTreeNode node = new XBTTreeNode();
+        node.setParent(parent);
+        node.setDataMode(block.getDataMode());
+        node.setTerminationMode(block.getTerminationMode());
+        if (block.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
+            node.setBlockType(block.getBlockType());
+            if (block.getAttributesCount() > 0) {
+                node.setAttributes(block.getAttributes());
+            }
+
+            if (block.getChildrenCount() > 0) {
+                for (XBTBlock childBlock : block.getChildren()) {
+                    XBTTreeNode childNode = createTreeCopy(childBlock, node);
+                    node.addChild(childNode);
+                }
+            }
+        } else {
+            XBData data = new XBData();
+            data.loadFromStream(block.getBlockData().getDataInputStream());
+            node.setData(data);
+        }
+
+        return node;
+    }
 }

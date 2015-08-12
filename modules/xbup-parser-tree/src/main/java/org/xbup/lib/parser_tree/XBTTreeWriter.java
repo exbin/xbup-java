@@ -19,6 +19,8 @@ package org.xbup.lib.parser_tree;
 import java.io.IOException;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBTBlock;
+import org.xbup.lib.core.block.XBTDefaultDocument;
+import org.xbup.lib.core.block.XBTDocument;
 import org.xbup.lib.core.parser.XBParserState;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
@@ -28,20 +30,26 @@ import org.xbup.lib.core.parser.basic.XBTProvider;
 /**
  * Basic object model parser XBUP level 1 document block / tree node.
  *
- * @version 0.1.25 2015/05/25
+ * @version 0.1.25 2015/08/12
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTreeWriter implements XBTProvider {
 
-    private final XBTBlock source;
+    private final XBTDocument source;
+    private XBTBlock block;
 
     private XBParserState state = XBParserState.BLOCK_BEGIN;
     private int attrPosition = 0;
     private int childPosition = 0;
     private XBTTreeWriter subProducer = null;
 
-    public XBTTreeWriter(XBTBlock source) {
+    public XBTTreeWriter(XBTDocument source) {
         this.source = source;
+        this.block = source.getRootBlock();
+    }
+
+    public XBTTreeWriter(XBTBlock sourceBlock) {
+        this(new XBTDefaultDocument(sourceBlock));
     }
 
     @Override
@@ -57,26 +65,26 @@ public class XBTTreeWriter implements XBTProvider {
 
         switch (state) {
             case BLOCK_BEGIN: {
-                listener.beginXBT(source.getTerminationMode());
-                state = (source.getDataMode() == XBBlockDataMode.DATA_BLOCK) ? XBParserState.DATA_PART : XBParserState.BLOCK_TYPE;
+                listener.beginXBT(block.getTerminationMode());
+                state = (block.getDataMode() == XBBlockDataMode.DATA_BLOCK) ? XBParserState.DATA_PART : XBParserState.BLOCK_TYPE;
                 break;
             }
 
             case DATA_PART: {
-                listener.dataXBT(source.getData());
+                listener.dataXBT(block.getData());
                 state = XBParserState.BLOCK_END;
                 break;
             }
 
             case BLOCK_TYPE: {
-                listener.typeXBT(source.getBlockType());
+                listener.typeXBT(block.getBlockType());
                 state = XBParserState.ATTRIBUTE_PART;
                 break;
             }
 
             case ATTRIBUTE_PART: {
-                if (attrPosition < source.getAttributesCount()) {
-                    listener.attribXBT(source.getAttributeAt(attrPosition));
+                if (attrPosition < block.getAttributesCount()) {
+                    listener.attribXBT(block.getAttributeAt(attrPosition));
                     attrPosition++;
                     break;
                 } else {
@@ -86,8 +94,8 @@ public class XBTTreeWriter implements XBTProvider {
             }
 
             case CHILDREN_PART: {
-                if (childPosition < source.getChildrenCount()) {
-                    subProducer = new XBTTreeWriter(source.getChildAt(childPosition));
+                if (childPosition < block.getChildrenCount()) {
+                    subProducer = new XBTTreeWriter(block.getChildAt(childPosition));
                     childPosition++;
                     subProducer.produceXBT(listener);
                     break;

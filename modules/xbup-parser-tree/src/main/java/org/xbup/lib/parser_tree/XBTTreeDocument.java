@@ -32,7 +32,7 @@ import org.xbup.lib.core.type.XBData;
 /**
  * Basic object model parser XBUP level 1 document representation.
  *
- * @version 0.1.25 2015/02/09
+ * @version 0.1.25 2015/08/12
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
@@ -44,6 +44,11 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
     public XBTTreeDocument() {
         super(null);
         extendedAreaData = null;
+    }
+
+    public XBTTreeDocument(XBTTreeNode rootNode) {
+        this();
+        setRootBlock(rootNode);
     }
 
     public XBTTreeDocument(XBCatalog catalog) {

@@ -33,14 +33,18 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 To level 0 convertor.
  *
- * @version 0.1.25 2015/02/06
+ * @version 0.1.25 2015/08/13
  * @author XBUP Project (http://xbup.org)
  */
 public class XBToXBTConvertor implements XBListener, XBSListener, XBTProducer {
 
     private XBTListener listener;
-    private boolean blockTypeProcessed = false;
+    private boolean blockTypeProcessed = true;
     private UBNatural groupId;
+
+    public XBToXBTConvertor(XBTListener listener) {
+        this.listener = listener;
+    }
 
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
@@ -85,12 +89,14 @@ public class XBToXBTConvertor implements XBListener, XBSListener, XBTProducer {
     @Override
     public void dataXB(InputStream data) throws XBProcessingException, IOException {
         listener.dataXBT(data);
+        blockTypeProcessed = true;
     }
 
     @Override
     public void endXB() throws XBProcessingException, IOException {
         if (!blockTypeProcessed) {
             listener.typeXBT(new XBFixedBlockType(groupId != null ? groupId.getLong() : 0, 0));
+            blockTypeProcessed = true;
         }
 
         listener.endXBT();

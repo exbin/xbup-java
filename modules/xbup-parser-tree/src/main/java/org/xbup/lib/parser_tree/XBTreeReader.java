@@ -68,8 +68,8 @@ public class XBTreeReader implements XBListener {
         level = 0;
     }
 
-    public XBTreeReader(XBEditableBlock target) {
-        this(new XBDefaultDocument(target), true, false);
+    public XBTreeReader(XBEditableBlock block) {
+        this(new XBDefaultDocument(block), true, false);
     }
 
     @Override

@@ -659,7 +659,9 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             throw new NullPointerException();
         }
 
-        singleAttributeType = false;
+        if (!blockType.getBlockID().isZero()) {
+            singleAttributeType = false;
+        }
         this.blockType = blockType;
     }
 

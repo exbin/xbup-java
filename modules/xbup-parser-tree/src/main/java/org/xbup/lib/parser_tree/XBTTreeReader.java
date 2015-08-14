@@ -36,7 +36,7 @@ import org.xbup.lib.core.parser.token.XBAttribute;
 /**
  * XBUP level 1 convertor from tokens to tree node.
  *
- * @version 0.1.24 2015/08/13
+ * @version 0.1.24 2015/08/14
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTreeReader implements XBTListener {
@@ -95,7 +95,7 @@ public class XBTTreeReader implements XBTListener {
             }
             block.setTerminationMode(terminationMode);
             parserState = XBParserState.BLOCK_BEGIN;
-        } else if (parserState == XBParserState.ATTRIBUTE_PART || parserState == XBParserState.BLOCK_END) {
+        } else if (parserState == XBParserState.ATTRIBUTE_PART || parserState == XBParserState.BLOCK_TYPE || parserState == XBParserState.BLOCK_END) {
             if (!recursive) {
                 throw new XBParseException("Parser invalid state", XBProcessingExceptionType.UNKNOWN);
             }
@@ -131,7 +131,7 @@ public class XBTTreeReader implements XBTListener {
             return;
         }
 
-        if (parserState == XBParserState.BLOCK_BEGIN) {
+        if (parserState == XBParserState.BLOCK_BEGIN || parserState == XBParserState.BLOCK_TYPE) {
             block.setAttributesCount(0);
             parserState = XBParserState.ATTRIBUTE_PART;
         }
@@ -154,7 +154,7 @@ public class XBTTreeReader implements XBTListener {
             return;
         }
 
-        if (level == 0 && (parserState == XBParserState.ATTRIBUTE_PART || parserState == XBParserState.DATA_PART || parserState == XBParserState.BLOCK_END)) {
+        if (level == 0 && (parserState == XBParserState.ATTRIBUTE_PART || parserState == XBParserState.BLOCK_TYPE || parserState == XBParserState.DATA_PART || parserState == XBParserState.BLOCK_END)) {
             if (allowExtendedArea) {
                 ((XBTEditableDocument) target).setExtendedArea(data);
                 parserState = XBParserState.EXTENDED_AREA;

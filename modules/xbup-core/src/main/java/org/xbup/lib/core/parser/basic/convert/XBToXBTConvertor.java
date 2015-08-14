@@ -33,7 +33,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 To level 0 convertor.
  *
- * @version 0.1.25 2015/08/13
+ * @version 0.1.25 2015/08/14
  * @author XBUP Project (http://xbup.org)
  */
 public class XBToXBTConvertor implements XBListener, XBSListener, XBTProducer {
@@ -88,6 +88,9 @@ public class XBToXBTConvertor implements XBListener, XBSListener, XBTProducer {
 
     @Override
     public void dataXB(InputStream data) throws XBProcessingException, IOException {
+        if (!blockTypeProcessed && groupId != null) {
+            listener.typeXBT(new XBFixedBlockType(groupId != null ? groupId.getLong() : 0, 0));
+        }
         listener.dataXBT(data);
         blockTypeProcessed = true;
     }

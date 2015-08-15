@@ -311,7 +311,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                 dataPartSize.setInfinity();
             }
 
-            UBNat32 attributePartSize = new UBNat32(dataPartSize.getSizeUB() + attributeSizeUB() + typeSizeUB());
+            UBNat32 attributePartSize = new UBNat32(dataPartSize.getSizeUB() + attributesSizeUB() + typeSizeUB());
             int size = attributePartSize.toStreamUB(stream);
             size += dataPartSize.toStreamUB(stream);
 
@@ -380,7 +380,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                 dataPartSize.setInfinity();
             }
 
-            UBNat32 attrPartSize = new UBNat32(dataPartSize.getSizeUB() + attributeSizeUB() + typeSizeUB());
+            UBNat32 attrPartSize = new UBNat32(dataPartSize.getSizeUB() + attributesSizeUB() + typeSizeUB());
             size += attrPartSize.getSizeUB();
             size += attrPartSize.getInt();
 
@@ -420,7 +420,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         return size;
     }
 
-    public int attributeSizeUB() {
+    public int attributesSizeUB() {
         if (getAttributesCount() > 0) {
             int size = 0;
             for (XBAttribute attribute : attributes) {

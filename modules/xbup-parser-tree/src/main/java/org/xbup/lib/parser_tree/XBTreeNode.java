@@ -51,7 +51,7 @@ import org.xbup.lib.core.util.StreamUtils;
 /**
  * Basic object model parser XBUP level 0 document block / tree node.
  *
- * @version 0.1.25 2015/08/11
+ * @version 0.1.25 2015/08/15
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
@@ -122,7 +122,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
         }
     }
 
-    public int getblockIndexAfter() {
+    public int getNodeIndexAfter() {
         if (dataMode == XBBlockDataMode.NODE_BLOCK) {
             return getBlockIndex() + getSubNodesCount() + 1;
         } else {
@@ -273,7 +273,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
 
     @Override
     public int toStreamUB(OutputStream stream) throws IOException {
-        if (getDataMode() == XBBlockDataMode.NODE_BLOCK) {
+        if (dataMode == XBBlockDataMode.NODE_BLOCK) {
             UBENat32 dataPartSize;
             if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
                 dataPartSize = new UBENat32(childrenSizeUB());
@@ -336,7 +336,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
 
     @Override
     public int getSizeUB() {
-        if (getDataMode() == XBBlockDataMode.NODE_BLOCK) {
+        if (dataMode== XBBlockDataMode.NODE_BLOCK) {
             int size = childrenSizeUB();
             UBENat32 dataPartSize = new UBENat32();
             if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {

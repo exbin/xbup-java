@@ -32,7 +32,7 @@ import org.xbup.lib.core.ubnumber.UBStreamable;
 /**
  * Basic object model parser XBUP level 0 document representation.
  *
- * @version 0.1.25 2015/07/26
+ * @version 0.1.25 2015/08/15
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStreamable {
@@ -41,12 +41,13 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
     private String fileName;
     private XBData extendedAreaData;
 
-    public XBTreeDocument(XBTreeNode rootNode) {
-        setRootBlock(rootNode);
-    }
-
     public XBTreeDocument() {
         extendedAreaData = null;
+    }
+
+    public XBTreeDocument(XBTreeNode rootNode) {
+        this();
+        setRootBlock(rootNode);
     }
 
     @Override
@@ -66,8 +67,10 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
     public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
         int size = XBHead.checkXBUPHead(stream);
         clear();
-        size += super.fromStreamUB(stream);
-        setExtendedArea(stream);
+        if (stream.available() > 0) {
+            size += super.fromStreamUB(stream);
+            setExtendedArea(stream);
+        }
         return (int) (size + getExtendedAreaSize());
     }
 
@@ -114,14 +117,14 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
     @Override
     public void clear() {
         super.clear();
-        if (extendedAreaData!=null) {
+        if (extendedAreaData != null) {
             extendedAreaData = null;
         }
     }
 
     @Override
     public void setRootBlock(XBBlock block) {
-        if (!(block instanceof XBTreeNode)) {
+        if (block != null && !(block instanceof XBTreeNode)) {
             throw new IllegalArgumentException("Unsupported type of root block");
         }
         setRootBlock((XBTreeNode) block);

@@ -8,6 +8,9 @@ task wrapper(type: Wrapper, description: 'Creates and deploys the Gradle wrapper
 
 subprojects.each { subproject -> evaluationDependsOn(subproject.path) }
 
+distZip.dependsOn (project(':tools').subprojects.findAll { it.name != "sample" }.assemble)
+distTar.dependsOn (project(':tools').subprojects.findAll { it.name != "sample" }.assemble)
+
 distributions {
     main {
         contents {

@@ -39,9 +39,9 @@ import org.xbup.tool.editor.utils.WindowUtils;
 import org.xbup.tool.editor.module.service_manager.catalog.dialog.CatalogSpecDefEditorDialog;
 
 /**
- * XBManager Catalog Item Edit Documentation Panel.
+ * XBManager catalog item edit documentation panel.
  *
- * @version 0.1.24 2014/12/13
+ * @version 0.1.25 2015/09/05
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
@@ -49,18 +49,21 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
     private XBACatalog catalog;
     private XBCItem catalogItem;
     private XBCSpecService specService;
-    private final CatalogDefsTableModel defsModel;
+    private final CatalogDefsTableModel defsModel = new CatalogDefsTableModel();
+    private final CatalogDefsDetailTableModel detailModel = new CatalogDefsDetailTableModel();
     private List<CatalogDefsTableItem> removeList;
     private List<CatalogDefsTableItem> updateList;
 
     public CatalogItemEditDefinitionPanel() {
-        defsModel = new CatalogDefsTableModel();
         initComponents();
 
         itemDefinitionsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
+                    int selectedRow = itemDefinitionsTable.getSelectedRow();
+                    detailModel.setItem(selectedRow >= 0 ? defsModel.getRowItem(selectedRow) : null);
+                    itemDefinitionPropertyTable.repaint();
                     updateItemStatus();
                 }
             }
@@ -78,8 +81,6 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        itemDefinitionsScrollPane = new javax.swing.JScrollPane();
-        itemDefinitionsTable = new javax.swing.JTable();
         definitionControlPanel = new javax.swing.JPanel();
         addButton = new javax.swing.JButton();
         definitionControlSidePanel = new javax.swing.JPanel();
@@ -87,16 +88,15 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
         removeDefButton = new javax.swing.JButton();
         moveUpDefButton = new javax.swing.JButton();
         moveDownDefButton = new javax.swing.JButton();
+        definitionControlSplitPane = new javax.swing.JSplitPane();
+        itemDefinitionsScrollPane = new javax.swing.JScrollPane();
+        itemDefinitionsTable = new javax.swing.JTable();
+        itemDefinitionPropertyScrollPanel = new javax.swing.JScrollPane();
+        itemDefinitionPropertyTable = new javax.swing.JTable();
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/catalog/panel/resources/CatalogItemEditDefinitionPanel"); // NOI18N
         setToolTipText(bundle.getString("toolTipText")); // NOI18N
         setLayout(new java.awt.BorderLayout());
-
-        itemDefinitionsTable.setModel(defsModel);
-        itemDefinitionsTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        itemDefinitionsScrollPane.setViewportView(itemDefinitionsTable);
-
-        add(itemDefinitionsScrollPane, java.awt.BorderLayout.CENTER);
 
         addButton.setText("Add...");
         addButton.addActionListener(new java.awt.event.ActionListener() {
@@ -112,7 +112,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
             .addGroup(definitionControlPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(addButton)
-                .addContainerGap(312, Short.MAX_VALUE))
+                .addContainerGap(682, Short.MAX_VALUE))
         );
         definitionControlPanelLayout.setVerticalGroup(
             definitionControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,10 +176,25 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
                 .addComponent(modifyButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(removeDefButton)
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addContainerGap(343, Short.MAX_VALUE))
         );
 
-        add(definitionControlSidePanel, java.awt.BorderLayout.EAST);
+        add(definitionControlSidePanel, java.awt.BorderLayout.WEST);
+
+        definitionControlSplitPane.setDividerLocation(400);
+
+        itemDefinitionsTable.setModel(defsModel);
+        itemDefinitionsTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        itemDefinitionsScrollPane.setViewportView(itemDefinitionsTable);
+
+        definitionControlSplitPane.setLeftComponent(itemDefinitionsScrollPane);
+
+        itemDefinitionPropertyTable.setModel(detailModel);
+        itemDefinitionPropertyScrollPanel.setViewportView(itemDefinitionPropertyTable);
+
+        definitionControlSplitPane.setRightComponent(itemDefinitionPropertyScrollPanel);
+
+        add(definitionControlSplitPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
@@ -281,6 +296,9 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
     private javax.swing.JButton addButton;
     private javax.swing.JPanel definitionControlPanel;
     private javax.swing.JPanel definitionControlSidePanel;
+    private javax.swing.JSplitPane definitionControlSplitPane;
+    private javax.swing.JScrollPane itemDefinitionPropertyScrollPanel;
+    private javax.swing.JTable itemDefinitionPropertyTable;
     private javax.swing.JScrollPane itemDefinitionsScrollPane;
     private javax.swing.JTable itemDefinitionsTable;
     private javax.swing.JButton modifyButton;

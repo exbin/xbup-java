@@ -26,7 +26,7 @@ import org.xbup.lib.core.catalog.base.service.XBCService;
 import org.xbup.lib.core.catalog.base.XBCExtension;
 
 /**
- * List Model for Catalog Extensions.
+ * List model for catalog extensions.
  *
  * @version 0.1.24 2014/12/08
  * @author XBUP Project (http://xbup.org)

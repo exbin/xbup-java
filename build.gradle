@@ -43,10 +43,7 @@ distributions {
                             include '*'
                         }
                     }
-                }
-            }
-            project(':tools').subprojects.each { p ->
-                p.plugins.withType(JavaPlugin) {
+
                     into('bin') {
                         if (!project.name.equals("xbcatalogweb")) {
                             from p.jar.archivePath
@@ -56,6 +53,7 @@ distributions {
                     }
                 }
             }
+
             into('doc') {
                 from 'doc'
                 include '**'

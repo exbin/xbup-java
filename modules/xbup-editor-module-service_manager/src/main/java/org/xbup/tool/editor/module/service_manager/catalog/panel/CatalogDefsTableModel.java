@@ -38,7 +38,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 /**
  * Table model for catalog definition bindings.
  *
- * @version 0.1.24 2014/12/09
+ * @version 0.1.25 2015/09/05
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogDefsTableModel extends AbstractTableModel {
@@ -50,9 +50,9 @@ public class CatalogDefsTableModel extends AbstractTableModel {
 
     private final List<CatalogDefsTableItem> items = new ArrayList<>();
 
-    private final String[] columnNames = new String[]{"XBIndex", "Revision", "StringId", "Operation", "Type", "Type Revision", "Name", "Description"};
+    private final String[] columnNames = new String[]{"#", "Name", "Type", "Revision"};
     private final Class[] columnClasses = new Class[]{
-        java.lang.Long.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class
+        java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class
     };
 
     public CatalogDefsTableModel() {
@@ -82,19 +82,11 @@ public class CatalogDefsTableModel extends AbstractTableModel {
             case 0:
                 return item.getXbIndex();
             case 1:
-                return item.getRevision();
-            case 2:
-                return item.getStringId();
-            case 3:
-                return item.getOperation();
-            case 4:
-                return item.getType();
-            case 5:
-                return item.getTargetRevision();
-            case 6:
                 return item.getName();
-            case 7:
-                return item.getDescription();
+            case 2:
+                return item.getType();
+            case 3:
+                return item.getRevision();
 
             default:
                 return "";

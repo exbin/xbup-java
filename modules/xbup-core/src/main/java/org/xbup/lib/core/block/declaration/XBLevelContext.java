@@ -58,20 +58,21 @@ public class XBLevelContext implements XBTListener, XBTEventListener {
         if (context != null) {
             typeConvertor = context;
         } else {
-            declaration = new XBDeclaration();
-            declaration.setHeaderMode(true);
             typeConvertor = declaration;
-            try {
-                declaration.serializeRecvFromXB(new XBTBasicInputReceivingSerialHandler() {
+        }
 
-                    @Override
-                    public void process(XBTListener listener) {
-                        declarationBuilderListener = listener;
-                    }
-                });
-            } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBLevelContext.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        declaration = new XBDeclaration();
+        declaration.setHeaderMode(true);
+        try {
+            declaration.serializeRecvFromXB(new XBTBasicInputReceivingSerialHandler() {
+
+                @Override
+                public void process(XBTListener listener) {
+                    declarationBuilderListener = listener;
+                }
+            });
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBLevelContext.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

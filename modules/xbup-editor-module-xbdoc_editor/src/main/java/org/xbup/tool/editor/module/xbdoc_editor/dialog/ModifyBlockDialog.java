@@ -843,7 +843,7 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
         extAreaHexPanel = new HexEditPanel((JFrame) WindowUtils.getFrame(this));
         hexEditScrollPane.setViewportView(extAreaHexPanel);
 
-        if (doc.getExtendedAreaSize() > 0) {
+        if (doc != null && doc.getExtendedAreaSize() > 0) {
             extAreaHexPanel.loadFromStream(doc.getExtendedArea(), doc.getExtendedAreaSize());
         }
     }

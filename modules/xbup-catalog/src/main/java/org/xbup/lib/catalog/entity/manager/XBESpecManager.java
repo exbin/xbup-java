@@ -60,7 +60,7 @@ public class XBESpecManager extends XBEDefaultManager<XBESpec> implements XBCSpe
     public XBESpecManager() {
         super();
     }
-    
+
     public XBESpecManager(XBECatalog catalog) {
         super(catalog);
     }
@@ -70,8 +70,7 @@ public class XBESpecManager extends XBEDefaultManager<XBESpec> implements XBCSpe
         try {
             return (Long) em.createQuery("SELECT count(o) FROM XBSpec as o").getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return 0l;
         } catch (Exception ex) {
             Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -83,8 +82,7 @@ public class XBESpecManager extends XBEDefaultManager<XBESpec> implements XBCSpe
         try {
             return (Long) em.createQuery("SELECT count(o) FROM XBFormatSpec as o").getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return 0l;
         } catch (Exception ex) {
             Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -96,8 +94,7 @@ public class XBESpecManager extends XBEDefaultManager<XBESpec> implements XBCSpe
         try {
             return (Long) em.createQuery("SELECT count(o) FROM XBGroupSpec as o").getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return 0l;
         } catch (Exception ex) {
             Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -109,8 +106,7 @@ public class XBESpecManager extends XBEDefaultManager<XBESpec> implements XBCSpe
         try {
             return (Long) em.createQuery("SELECT count(o) FROM XBBlockSpec as o").getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return 0l;
         } catch (Exception ex) {
             Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -121,7 +117,6 @@ public class XBESpecManager extends XBEDefaultManager<XBESpec> implements XBCSpe
         try {
             return (XBESpec) em.createQuery("SELECT object(o) FROM XBSpec as o WHERE o.id = " + id).getSingleResult();
         } catch (NoResultException ex) {
-//            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (Exception ex) {
             Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -356,8 +351,7 @@ public class XBESpecManager extends XBEDefaultManager<XBESpec> implements XBCSpe
         try {
             return (Long) em.createQuery("SELECT count(o) FROM XBFormatSpec as o WHERE o.parent.id = " + ((XBENode) node).getId()).getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
-            return 0;
+            return 0l;
         } catch (Exception ex) {
             Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
@@ -372,8 +366,7 @@ public class XBESpecManager extends XBEDefaultManager<XBESpec> implements XBCSpe
         try {
             return (Long) em.createQuery("SELECT count(o) FROM XBGroupSpec as o WHERE o.parent.id = " + ((XBENode) node).getId()).getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
-            return 0;
+            return 0l;
         } catch (Exception ex) {
             Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
@@ -388,8 +381,7 @@ public class XBESpecManager extends XBEDefaultManager<XBESpec> implements XBCSpe
         try {
             return (Long) em.createQuery("SELECT count(o) FROM XBBlockSpec as o WHERE o.parent.id = " + ((XBENode) node).getId()).getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
-            return 0;
+            return 0l;
         } catch (Exception ex) {
             Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
@@ -434,8 +426,7 @@ public class XBESpecManager extends XBEDefaultManager<XBESpec> implements XBCSpe
         try {
             return (Long) em.createQuery("SELECT count(o) FROM XBSpecDef as o WHERE o.parent.id = " + ((XBESpec) spec).getId()).getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
-            return 0;
+            return 0l;
         } catch (Exception ex) {
             Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
@@ -476,7 +467,6 @@ public class XBESpecManager extends XBEDefaultManager<XBESpec> implements XBCSpe
         try {
             return (Long) em.createQuery("SELECT count(o) FROM XBSpecDef as o").getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBEItemManager.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         } catch (Exception ex) {
             Logger.getLogger(XBEItemManager.class.getName()).log(Level.SEVERE, null, ex);

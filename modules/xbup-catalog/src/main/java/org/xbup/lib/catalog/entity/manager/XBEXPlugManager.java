@@ -34,7 +34,7 @@ import org.xbup.lib.catalog.entity.XBEXPlugin;
 /**
  * XBUP catalog plugin manager.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.25 2015/09/06
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -53,8 +53,7 @@ public class XBEXPlugManager extends XBEDefaultManager<XBEXPlugin> implements XB
         try {
             return (Long) catalog.getEntityManager().createQuery("SELECT count(o) FROM XBXPlugin as o").getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBEXPlugManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return 0l;
         } catch (Exception ex) {
             Logger.getLogger(XBEXPlugManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -66,7 +65,6 @@ public class XBEXPlugManager extends XBEDefaultManager<XBEXPlugin> implements XB
         try {
             return (XBEXPlugin) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXPlugin as o WHERE o.id = " + id).getSingleResult();
         } catch (NoResultException ex) {
-//            Logger.getLogger(XBEXFileManager.class.getExtensionName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (Exception ex) {
             Logger.getLogger(XBEXPlugManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,7 +73,7 @@ public class XBEXPlugManager extends XBEDefaultManager<XBEXPlugin> implements XB
     }
 
     public Long[] getFileXBPath(XBCXFile file) {
-        ArrayList<Long> list = new ArrayList<Long>();
+        ArrayList<Long> list = new ArrayList<>();
         XBCNode parent = file.getNode();
         while (parent != null) {
             if (parent.getParent() != null) {
@@ -104,7 +102,6 @@ public class XBEXPlugManager extends XBEDefaultManager<XBEXPlugin> implements XB
         try {
             return (XBEXFile) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXFile as o WHERE o.parent.id = " + node.getId() + " AND o.filename = '" + fileName + "'").getSingleResult();
         } catch (NoResultException ex) {
-//            Logger.getLogger(XBEXFileManager.class.getExtensionName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (Exception ex) {
             Logger.getLogger(XBEXPlugManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -122,7 +119,6 @@ public class XBEXPlugManager extends XBEDefaultManager<XBEXPlugin> implements XB
         try {
             return (XBEXPlugin) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXPlugin as o WHERE o.owner.id = " + node.getId() + " AND o.pluginIndex = " + index).getSingleResult();
         } catch (NoResultException ex) {
-//            Logger.getLogger(XBEXFileManager.class.getExtensionName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (Exception ex) {
             Logger.getLogger(XBEXPlugManager.class.getName()).log(Level.SEVERE, null, ex);

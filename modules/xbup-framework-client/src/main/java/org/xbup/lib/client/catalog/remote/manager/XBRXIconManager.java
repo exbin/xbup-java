@@ -16,8 +16,12 @@
  */
 package org.xbup.lib.client.catalog.remote.manager;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import org.xbup.lib.client.catalog.XBRCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
@@ -30,11 +34,12 @@ import org.xbup.lib.core.catalog.base.manager.XBCXIconManager;
 import org.xbup.lib.client.catalog.remote.XBRXIcon;
 import org.xbup.lib.client.catalog.remote.XBRXIconMode;
 import org.xbup.lib.client.stub.XBPXIconStub;
+import org.xbup.lib.core.util.StreamUtils;
 
 /**
  * Remote manager class for XBRXIcon catalog items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.1.25 2015/09/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXIconManager extends XBRDefaultManager<XBRXIcon> implements XBCXIconManager<XBRXIcon> {
@@ -45,25 +50,6 @@ public class XBRXIconManager extends XBRDefaultManager<XBRXIcon> implements XBCX
         super(catalog);
         iconStub = new XBPXIconStub(client);
         setManagerStub(iconStub);
-    }
-
-    public Long getAllIconsCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
-        /*        try {
-         XBCatalogServiceMessage message = client.executeProcedure(XBServiceClient.SPECSCOUNT_SPEC_PROCEDURE);
-         XBListener listener = message.getXBOutput();
-         listener.endXB();
-         XBMatchingProvider checker = message.getXBInput();
-         Long index = checker.matchAttribXB().getNaturalLong();
-         checker.matchEndXB();
-         message.close();
-         return index;
-         } catch (XBProcessingException ex) {
-         Logger.getLogger(XBRItem.class.getExtensionName()).log(Level.SEVERE, null, ex);
-         } catch (IOException ex) {
-         Logger.getLogger(XBRItem.class.getExtensionName()).log(Level.SEVERE, null, ex);
-         }
-         return null; */
     }
 
     public Long[] getFileXBPath(XBCXFile file) {
@@ -128,21 +114,55 @@ public class XBRXIconManager extends XBRDefaultManager<XBRXIcon> implements XBCX
 
     @Override
     public XBCXIcon getDefaultBigIcon(XBCItem item) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return iconStub.getDefaultBigIcon(item);
     }
 
     @Override
     public XBCXIcon getDefaultSmallIcon(XBCItem item) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return iconStub.getDefaultSmallIcon(item);
     }
 
     @Override
     public byte[] getDefaultBigIconData(XBCItem item) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        XBRXFileManager fileManager = (XBRXFileManager) catalog.getCatalogManager(XBCXFileManager.class);
+        XBCXIcon icon = getDefaultBigIcon(item);
+        if (icon == null) {
+            return null;
+        }
+        XBCXFile file = icon.getIconFile();
+        if (file == null) {
+            return null;
+        }
+
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        try {
+            StreamUtils.copyInputStreamToOutputStream(fileManager.getFile(file), buffer);
+        } catch (IOException ex) {
+            Logger.getLogger(XBRXIconManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return buffer.toByteArray();
     }
 
     @Override
     public byte[] getDefaultSmallIconData(XBCItem item) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        XBRXFileManager fileManager = (XBRXFileManager) catalog.getCatalogManager(XBCXFileManager.class);
+        XBCXIcon icon = getDefaultSmallIcon(item);
+        if (icon == null) {
+            return null;
+        }
+        XBCXFile file = icon.getIconFile();
+        if (file == null) {
+            return null;
+        }
+
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        try {
+            StreamUtils.copyInputStreamToOutputStream(fileManager.getFile(file), buffer);
+        } catch (IOException ex) {
+            Logger.getLogger(XBRXIconManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return buffer.toByteArray();
     }
 }

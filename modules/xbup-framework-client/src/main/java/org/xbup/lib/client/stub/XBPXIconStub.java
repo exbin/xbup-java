@@ -29,7 +29,7 @@ import org.xbup.lib.core.catalog.base.XBCXIconMode;
 /**
  * RPC stub class for XBRXIcon catalog items.
  *
- * @version 0.1.25 2015/03/20
+ * @version 0.1.25 2015/09/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPXIconStub extends XBPBaseStub<XBRXIcon> {
@@ -39,6 +39,8 @@ public class XBPXIconStub extends XBPBaseStub<XBRXIcon> {
     public static long[] XBINDEX_ICON_PROCEDURE = {0, 2, 13, 2, 0};
     public static long[] DEFAULTITEM_ICON_PROCEDURE = {0, 2, 13, 3, 0};
     public static long[] FILE_ICON_PROCEDURE = {0, 2, 13, 4, 0};
+    public static long[] DEFAULTITEMBIG_ICON_PROCEDURE = {0, 2, 13, 5, 0};
+    public static long[] DEFAULTITEMSMALL_ICON_PROCEDURE = {0, 2, 13, 6, 0};
 
     private final XBCatalogServiceClient client;
 
@@ -69,6 +71,16 @@ public class XBPXIconStub extends XBPBaseStub<XBRXIcon> {
 
     public XBRXIcon getDefaultIcon(XBCItem item) {
         Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(DEFAULTITEM_ICON_PROCEDURE), item.getId());
+        return index == null ? null : new XBRXIcon(client, index);
+    }
+
+    public XBRXIcon getDefaultBigIcon(XBCItem item) {
+        Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(DEFAULTITEMBIG_ICON_PROCEDURE), item.getId());
+        return index == null ? null : new XBRXIcon(client, index);
+    }
+
+    public XBRXIcon getDefaultSmallIcon(XBCItem item) {
+        Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(DEFAULTITEMSMALL_ICON_PROCEDURE), item.getId());
         return index == null ? null : new XBRXIcon(client, index);
     }
 }

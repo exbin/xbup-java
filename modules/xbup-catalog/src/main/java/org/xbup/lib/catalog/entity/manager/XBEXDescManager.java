@@ -140,7 +140,6 @@ public class XBEXDescManager extends XBEDefaultManager<XBEXDesc> implements XBCX
         try {
             return (XBEXDesc) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXDesc as o WHERE o.id = " + id).getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBEXDescManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (Exception ex) {
             Logger.getLogger(XBEXDescManager.class.getName()).log(Level.SEVERE, null, ex);

@@ -29,12 +29,11 @@ import org.xbup.lib.core.catalog.base.manager.XBCNodeManager;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBENode;
 import org.xbup.lib.catalog.entity.XBERoot;
-import org.xbup.lib.core.catalog.base.XBCRoot;
 
 /**
  * XBUP catalog node manager.
  *
- * @version 0.1.25 2015/03/11
+ * @version 0.1.25 2015/09/06
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -81,7 +80,6 @@ public class XBENodeManager extends XBEDefaultManager<XBENode> implements XBCNod
         try {
             return (Long) em.createQuery("SELECT count(o) FROM XBNode as o WHERE o.parent.id = " + ((XBENode) node).getId()).getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBENodeManager.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         } catch (Exception ex) {
             Logger.getLogger(XBENodeManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -194,7 +192,6 @@ public class XBENodeManager extends XBEDefaultManager<XBENode> implements XBCNod
         try {
             return (Long) em.createQuery("SELECT count(o) FROM XBNode as o WHERE o.parent.id = " + ((XBENode) node).getId()).getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBENodeManager.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         } catch (Exception ex) {
             Logger.getLogger(XBENodeManager.class.getName()).log(Level.SEVERE, null, ex);

@@ -126,7 +126,6 @@ public class CatalogDefsTableModel extends AbstractTableModel {
                 tableItem.setDefType(specDef.getType());
 
                 tableItem.setType("");
-                tableItem.setTargetRevision(0L);
                 tableItem.setTarget(specDef.getTarget());
                 if (specDef.getTarget() != null) {
                     XBCSpec targetSpec = (XBCSpec) specDef.getTarget().getParent();
@@ -136,8 +135,6 @@ public class CatalogDefsTableModel extends AbstractTableModel {
                             tableItem.setType(name.getText());
                         }
                     }
-
-                    tableItem.setTargetRevision(specDef.getTarget().getXBIndex());
                 }
 
                 tableItem.setName(nameService.getDefaultText(specDef));

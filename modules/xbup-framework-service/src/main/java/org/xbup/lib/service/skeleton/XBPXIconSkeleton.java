@@ -39,7 +39,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRXIcon catalog items.
  *
- * @version 0.1.25 2015/03/16
+ * @version 0.1.25 2015/09/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPXIconSkeleton {
@@ -125,6 +125,44 @@ public class XBPXIconSkeleton {
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(icon == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(icon.getIconFile().getId()));
+            }
+        });
+
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXIconStub.DEFAULTITEMBIG_ICON_PROCEDURE), new XBMultiProcedure() {
+            @Override
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(blockType);
+                XBAttribute index = provider.pullAttribute();
+                provider.end();
+
+                XBCXIconService iconService = (XBCXIconService) catalog.getCatalogService(XBCXIconService.class);
+                XBCItemService itemService = (XBCItemService) catalog.getCatalogService(XBCItemService.class);
+                XBCItem item = (XBCItem) itemService.getItem(index.getNaturalLong());
+                XBCXIcon icon = item == null ? null : iconService.getDefaultBigIcon(item);
+
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
+                listener.process(icon == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(icon.getId()));
+            }
+        });
+
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPXIconStub.DEFAULTITEMSMALL_ICON_PROCEDURE), new XBMultiProcedure() {
+            @Override
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(blockType);
+                XBAttribute index = provider.pullAttribute();
+                provider.end();
+
+                XBCXIconService iconService = (XBCXIconService) catalog.getCatalogService(XBCXIconService.class);
+                XBCItemService itemService = (XBCItemService) catalog.getCatalogService(XBCItemService.class);
+                XBCItem item = (XBCItem) itemService.getItem(index.getNaturalLong());
+                XBCXIcon icon = item == null ? null : iconService.getDefaultSmallIcon(item);
+
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
+                listener.process(icon == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(icon.getId()));
             }
         });
     }

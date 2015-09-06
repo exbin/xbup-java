@@ -51,7 +51,6 @@ public class XBEXInfoManager extends XBEDefaultManager<XBEXItemInfo> implements 
         try {
             return (XBEXItemInfo) em.createQuery("SELECT object(o) FROM XBItemInfo as o WHERE o.parent.id = " + dir.getId()).getSingleResult();
         } catch (NoResultException ex) {
-//            Logger.getLogger(XBEXInfoManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (Exception ex) {
             Logger.getLogger(XBEXInfoManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -63,7 +62,6 @@ public class XBEXInfoManager extends XBEDefaultManager<XBEXItemInfo> implements 
         try {
             return (XBEXItemInfo) em.createQuery("SELECT object(o) FROM XBItemInfo as o WHERE o.id = " + id).getSingleResult();
         } catch (NoResultException ex) {
-//            Logger.getLogger(XBEXInfoManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (Exception ex) {
             Logger.getLogger(XBEXInfoManager.class.getName()).log(Level.SEVERE, null, ex);

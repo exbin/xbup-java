@@ -32,7 +32,7 @@ import org.xbup.lib.client.catalog.remote.manager.XBRXIconManager;
 /**
  * Remote service for XBRXIcon items.
  *
- * @version 0.1.25 2015/03/19
+ * @version 0.1.25 2015/09/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBRXIconService extends XBRDefaultService<XBRXIcon> implements XBCXIconService<XBRXIcon> {
@@ -75,21 +75,21 @@ public class XBRXIconService extends XBRDefaultService<XBRXIcon> implements XBCX
 
     @Override
     public XBCXIcon getDefaultBigIcon(XBCItem item) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return ((XBRXIconManager) itemManager).getDefaultBigIcon(item);
     }
 
     @Override
     public XBCXIcon getDefaultSmallIcon(XBCItem item) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return ((XBRXIconManager) itemManager).getDefaultSmallIcon(item);
     }
 
     @Override
     public byte[] getDefaultBigIconData(XBCItem item) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return ((XBRXIconManager) itemManager).getDefaultBigIconData(item);
     }
 
     @Override
     public byte[] getDefaultSmallIconData(XBCItem item) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return ((XBRXIconManager) itemManager).getDefaultSmallIconData(item);
     }
 }

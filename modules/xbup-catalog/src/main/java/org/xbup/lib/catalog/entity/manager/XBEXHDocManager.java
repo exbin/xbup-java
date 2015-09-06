@@ -33,7 +33,7 @@ import org.xbup.lib.catalog.entity.XBEXLanguage;
 /**
  * XBUP catalog HTML documentation manager.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.25 2015/09/06
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -52,8 +52,7 @@ public class XBEXHDocManager extends XBEDefaultManager<XBEXHDoc> implements XBCX
         try {
             return (Long) catalog.getEntityManager().createQuery("SELECT count(o) FROM XBXHDoc as o").getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBEXHDocManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return 0l;
         } catch (Exception ex) {
             Logger.getLogger(XBEXHDocManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -65,7 +64,6 @@ public class XBEXHDocManager extends XBEDefaultManager<XBEXHDoc> implements XBCX
         try {
             return (XBEXHDoc) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXHDoc as o WHERE o.id = " + id).getSingleResult();
         } catch (NoResultException ex) {
-//            Logger.getLogger(XBEXIconManager.class.getExtensionName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (Exception ex) {
             Logger.getLogger(XBEXHDocManager.class.getName()).log(Level.SEVERE, null, ex);

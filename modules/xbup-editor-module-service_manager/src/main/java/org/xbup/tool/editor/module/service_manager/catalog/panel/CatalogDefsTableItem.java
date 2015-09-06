@@ -17,6 +17,7 @@
 package org.xbup.tool.editor.module.service_manager.catalog.panel;
 
 import org.xbup.lib.catalog.entity.XBERev;
+import org.xbup.lib.client.catalog.remote.XBRRev;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
 import org.xbup.lib.core.block.definition.XBParamType;

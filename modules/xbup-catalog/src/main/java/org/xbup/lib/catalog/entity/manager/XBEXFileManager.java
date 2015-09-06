@@ -38,7 +38,7 @@ import org.xbup.lib.catalog.entity.XBEXFile;
 /**
  * XBUP catalog accessory files manager.
  *
- * @version 0.1.22 2013/07/28
+ * @version 0.1.25 2015/09/06
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -56,8 +56,7 @@ public class XBEXFileManager extends XBEDefaultManager<XBEXFile> implements XBCX
         try {
             return (Long) catalog.getEntityManager().createQuery("SELECT count(o) FROM XBXFile as o").getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBEXFileManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return 0l;
         } catch (Exception ex) {
             Logger.getLogger(XBEXFileManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -68,7 +67,6 @@ public class XBEXFileManager extends XBEDefaultManager<XBEXFile> implements XBCX
         try {
             return (XBEXFile) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXFile as o WHERE o.id = "+ id).getSingleResult();
         } catch (NoResultException ex) {
-//            Logger.getLogger(XBEXFileManager.class.getExtensionName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (Exception ex) {
             Logger.getLogger(XBEXFileManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -108,7 +106,6 @@ public class XBEXFileManager extends XBEDefaultManager<XBEXFile> implements XBCX
         try {
             return (XBEXFile) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXFile as o WHERE o.node.id = "+ node.getId() + " AND o.filename = '"+fileName+"'").getSingleResult();
         } catch (NoResultException ex) {
-//            Logger.getLogger(XBEXFileManager.class.getExtensionName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (Exception ex) {
             Logger.getLogger(XBEXFileManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -160,7 +157,6 @@ public class XBEXFileManager extends XBEDefaultManager<XBEXFile> implements XBCX
         try {
             return (List<XBCXFile>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXFile as o WHERE o.node.id = "+ node.getId()).getResultList();
         } catch (NoResultException ex) {
-//            Logger.getLogger(XBEXFileManager.class.getExtensionName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (Exception ex) {
             Logger.getLogger(XBEXFileManager.class.getName()).log(Level.SEVERE, null, ex);

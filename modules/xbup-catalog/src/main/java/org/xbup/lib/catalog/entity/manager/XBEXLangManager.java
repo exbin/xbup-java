@@ -33,7 +33,7 @@ import org.xbup.lib.catalog.entity.XBEXLanguage;
 /**
  * XBUP catalog language manager.
  *
- * @version 0.1.23 2013/09/30
+ * @version 0.1.25 2015/09/06
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -104,8 +104,7 @@ public class XBEXLangManager extends XBEDefaultManager<XBEXLanguage> implements 
         try {
             return (Long) catalog.getEntityManager().createQuery("SELECT count(o) FROM XBLanguage as o").getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBEXLangManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return 0l;
         } catch (Exception ex) {
             Logger.getLogger(XBEXLangManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -116,7 +115,6 @@ public class XBEXLangManager extends XBEDefaultManager<XBEXLanguage> implements 
         try {
             return (XBEXLanguage) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXLanguage as o WHERE o.id = "+ id).getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBEXLangManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (Exception ex) {
             Logger.getLogger(XBEXLangManager.class.getName()).log(Level.SEVERE, null, ex);

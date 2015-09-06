@@ -60,7 +60,7 @@ import org.xbup.lib.service.XBCatalogNetServiceServer;
 /**
  * Instance class for XBUP framework service.
  *
- * @version 0.1.25 2015/02/28
+ * @version 0.1.25 2015/09/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBServiceInstance {
@@ -82,9 +82,6 @@ public class XBServiceInstance {
     }
 
     public void run() {
-        Logger.getLogger(XBService.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, "!! XBService is in nonfunctional state and not needed for XBEditor in this release. Please try older release if you want to test this functionality. !!");
-        Logger.getLogger(XBService.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, "");
-
         Logger.getLogger(XBService.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, resourceBundle.getString("service_head"));
         Logger.getLogger(XBService.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, "");
 

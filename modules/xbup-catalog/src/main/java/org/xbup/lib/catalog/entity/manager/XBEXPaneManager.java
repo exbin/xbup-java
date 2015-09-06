@@ -36,7 +36,7 @@ import org.xbup.lib.catalog.entity.XBEXPlugin;
 /**
  * XBUP catalog item panel editors manager.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.1.25 2015/09/06
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -64,7 +64,6 @@ public class XBEXPaneManager extends XBEDefaultManager<XBEXBlockPane> implements
         try {
             return (XBEXBlockPane) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXBlockPane as o WHERE o.id = " + id).getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBEXPaneManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (Exception ex) {
             Logger.getLogger(XBEXPaneManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -85,7 +84,6 @@ public class XBEXPaneManager extends XBEDefaultManager<XBEXBlockPane> implements
         try {
             return (Long) catalog.getEntityManager().createQuery("SELECT count(o) FROM XBXBlockPane as o WHERE o.blockRev.id = " + ((XBEBlockRev) rev).getId()).getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBEXPaneManager.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         } catch (Exception ex) {
             Logger.getLogger(XBEXPaneManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -121,7 +119,6 @@ public class XBEXPaneManager extends XBEDefaultManager<XBEXBlockPane> implements
         try {
             return (Long) catalog.getEntityManager().createQuery("SELECT count(o) FROM XBXPlugPane as o WHERE o.plugin.id = " + ((XBEXPlugin) plugin).getId()).getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBEXPaneManager.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         } catch (Exception ex) {
             Logger.getLogger(XBEXPaneManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -149,7 +146,6 @@ public class XBEXPaneManager extends XBEDefaultManager<XBEXBlockPane> implements
         try {
             return (Long) catalog.getEntityManager().createQuery("SELECT count(o) FROM XBXPlugPane as o").getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBEXPaneManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (Exception ex) {
             Logger.getLogger(XBEXPaneManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -162,7 +158,6 @@ public class XBEXPaneManager extends XBEDefaultManager<XBEXBlockPane> implements
         try {
             return (XBEXPlugPane) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXPlugPane as o WHERE o.id = " + id).getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBEXPaneManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (Exception ex) {
             Logger.getLogger(XBEXPaneManager.class.getName()).log(Level.SEVERE, null, ex);

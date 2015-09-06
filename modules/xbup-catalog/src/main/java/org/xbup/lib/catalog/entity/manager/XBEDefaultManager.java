@@ -35,7 +35,7 @@ import org.xbup.lib.catalog.XBECatalog;
 /**
  * Default manager for catalog items.
  *
- * @version 0.1.23 2014/03/25
+ * @version 0.1.25 2015/09/06
  * @author XBUP Project (http://xbup.org)
  * @param <T> entity class
  */
@@ -117,7 +117,6 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
         try {
             return (Long) em.createQuery("SELECT count(o) FROM " + getTableName() + " as o").getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBEDefaultManager.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         } catch (Exception ex) {
             Logger.getLogger(XBEDefaultManager.class.getName()).log(Level.SEVERE, null, ex);

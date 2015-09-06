@@ -36,7 +36,7 @@ import org.xbup.lib.catalog.entity.XBEXIconMode;
 /**
  * XBUP catalog icon manager.
  *
- * @version 0.1.24 2014/11/26
+ * @version 0.1.25 2015/09/06
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -54,8 +54,7 @@ public class XBEXIconManager extends XBEDefaultManager<XBEXIcon> implements XBCX
         try {
             return (Long) catalog.getEntityManager().createQuery("SELECT count(o) FROM XBXIcon as o").getSingleResult();
         } catch (NoResultException ex) {
-            Logger.getLogger(XBEXIconManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return 0l;
         } catch (Exception ex) {
             Logger.getLogger(XBEXIconManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -66,7 +65,6 @@ public class XBEXIconManager extends XBEDefaultManager<XBEXIcon> implements XBCX
         try {
             return (XBEXIcon) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXIcon as o WHERE o.id = " + id).getSingleResult();
         } catch (NoResultException ex) {
-//            Logger.getLogger(XBEXIconManager.class.getExtensionName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (Exception ex) {
             Logger.getLogger(XBEXIconManager.class.getName()).log(Level.SEVERE, null, ex);

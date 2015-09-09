@@ -36,9 +36,9 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 public class XBReaderBlock implements XBBlock, Closeable {
 
     private final long[] blockPath;
-    private final XBReader reader;
+    private final XBCommandReader reader;
 
-    public XBReaderBlock(XBReader reader, long[] blockPath) {
+    public XBReaderBlock(XBCommandReader reader, long[] blockPath) {
         this.blockPath = blockPath;
         this.reader = reader;
     }

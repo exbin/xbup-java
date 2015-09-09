@@ -29,52 +29,51 @@ import org.xbup.lib.core.block.XBEditableBlock;
  * This reader expects data not to be changed, so exclusive lock on source data
  * is recommended.
  *
- * @version 0.1.23 2014/04/22
+ * @version 0.1.25 2015/09/09
  * @author XBUP Project (http://xbup.org)
  */
-public class XBWriter implements Closeable {
+public class XBWriter implements XBCommandReader, XBCommandWriter, Closeable {
 
     private InputStream source;
     private List<XBWriter.BlockPosition> pathPositions;
 
     public XBWriter() {
-        resetParser();
+        reset();
     }
 
     public XBWriter(InputStream source) {
         this.source = source;
-        resetParser();
+        reset();
     }
 
-    /**
-     * Opens input byte-stream.
-     */
-    private void openStream(InputStream stream) throws IOException {
+    @Override
+    public void open(InputStream stream) throws IOException {
         source = stream;
-        resetParser();
+        reset();
     }
 
-    private void resetParser() {
-        pathPositions = new ArrayList<>();
+    @Override
+    public void close() throws IOException {
+        source.close();
     }
 
+    @Override
     public XBEditableBlock getRootBlock() {
         return new XBWriterBlock(this, new long[0]);
     }
 
-    /**
-     * Gets block handler for given path in document.
-     *
-     * @param blockPath path to block in document
-     * @return block handler
-     */
+    @Override
     public XBEditableBlock getBlock(long[] blockPath) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void close() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void resetParser() throws IOException {
+        reset();
+    }
+
+    private void reset() {
+        pathPositions = new ArrayList<>();
     }
 
     private class BlockPosition {

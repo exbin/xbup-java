@@ -61,7 +61,7 @@ import org.xbup.lib.core.util.StreamUtils;
 /**
  * Basic object model parser XBUP level 1 document block / tree node.
  *
- * @version 0.1.25 2015/08/11
+ * @version 0.1.25 2015/09/13
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
@@ -880,6 +880,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         int size = 0;
         do {
             XBTTreeNode child = new XBTTreeNode();
+            child.setParent(this);
             childSize = child.fromStreamUB(stream, maxSize == null);
             size += childSize;
             if (childSize > 1) {

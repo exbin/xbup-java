@@ -46,7 +46,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 0 pull reader.
  *
- * @version 0.1.25 2015/08/01
+ * @version 0.1.25 2015/09/12
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPullReader implements XBPullProvider, XBResetableStream, XBSkipableStream, XBFinishedStream, Closeable {
@@ -89,13 +89,6 @@ public class XBPullReader implements XBPullProvider, XBResetableStream, XBSkipab
      */
     public void open(InputStream stream) throws IOException {
         openStream(stream);
-    }
-
-    @Override
-    public String toString() {
-        String retValue;
-        retValue = super.toString();
-        return retValue;
     }
 
     private void resetParser() {

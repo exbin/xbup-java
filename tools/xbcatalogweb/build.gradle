@@ -3,7 +3,7 @@ apply plugin: 'war'
 apply plugin: 'maven'
 
 sourceCompatibility = '1.7'
-version = '0.1.25-SNAPSHOT'
+version = '0.2.0-SNAPSHOT'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 if (!hasProperty('mainClass')) {
     ext.mainClass = ''
@@ -31,7 +31,7 @@ dependencies {
     compile(project(":modules:xbup-core"))
     compile(project(":modules:xbup-catalog"))
     providedCompile 'javax.servlet:servlet-api:2.5'
-    providedCompile 'javax.servlet.jsp:jsp-api:2.1'
+    providedCompile 'javax.servlet.jsp:jsp-api:2.2'
     providedCompile 'org.eclipse.persistence:org.eclipse.persistence.jpa.modelgen.processor:2.5.1'
     compile 'org.glassfish:javax.faces:2.2.4'
     compile 'org.richfaces.core:richfaces-core-impl:4.3.5.Final'
@@ -62,7 +62,7 @@ task createPom << {
         project {
             groupId 'org.xbup.web'
             artifactId 'xbcatalogweb'
-            version '0.1.25-SNAPSHOT'
+            version '0.2.0-SNAPSHOT'
 
             packaging 'war'
             licenses {

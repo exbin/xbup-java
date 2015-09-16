@@ -27,7 +27,7 @@ import org.xbup.lib.core.serial.param.XBPOutputSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSerializable;
 
 /**
- * Encapsulation class for date & time.
+ * Encapsulation class for date &amp; time.
  *
  * @version 0.1.25 2015/03/13
  * @author XBUP Project (http://xbup.org)

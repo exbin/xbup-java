@@ -16,14 +16,13 @@
  */
 package org.xbup.tool.editor.utils;
 
-import java.util.ResourceBundle;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.tool.editor.base.api.ApplicationModule;
 import org.xbup.tool.editor.base.api.ApplicationModuleInfo;
 import org.xbup.tool.editor.base.api.ModuleManagement;
 
 /**
- * JavaOnlineHelp module.
+ * Editor utilities module.
  *
  * @version 0.1.25 2015/04/09
  * @author XBUP Project (http://xbup.org)
@@ -31,11 +30,7 @@ import org.xbup.tool.editor.base.api.ModuleManagement;
 @PluginImplementation
 public class EditorUtilsModule implements ApplicationModule {
 
-    private final String DIALOG_MENU_SUFIX = "...";
-    private ResourceBundle resourceBundle;
-
     public EditorUtilsModule() {
-        resourceBundle = ResourceBundle.getBundle("org/xbup/tool/editor/module/utils/resources/EditorUtilsModule");
     }
 
     @Override

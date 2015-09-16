@@ -67,10 +67,10 @@ public class XBString implements XBPSequenceSerializable {
     @Override
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
-        if (serial.getSerializationMode() == XBSerializationMode.PULL && serial.pullIfEmptyData()) {
+        serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
+        if (serial.getSerializationMode() == XBSerializationMode.PULL && serial.pullIfEmptyBlock()) {
             value = null;
         } else {
-            serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
             serial.consist(new DataBlockSerializator());
         }
         serial.end();

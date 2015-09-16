@@ -43,7 +43,7 @@ import org.xbup.tool.editor.utils.WindowUtils;
 /**
  * XBPictureEditor Main Frame.
  *
- * @version 0.1.24 2015/01/18
+ * @version 0.1.25 2015/09/14
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPictureEditorFrame extends javax.swing.JFrame implements XBEditorFrame {
@@ -236,6 +236,7 @@ public class XBPictureEditorFrame extends javax.swing.JFrame implements XBEditor
         viewZoom.setText(bundle.getString("viewZoomMenuItem.text")); // NOI18N
         viewZoom.setToolTipText("");
 
+        zoomButtonGroup.add(viewZoom25MenuItem);
         viewZoom25MenuItem.setText(bundle.getString("viewZoom25.Action.text")); // NOI18N
         viewZoom25MenuItem.setToolTipText(bundle.getString("viewZoom25.Action.shortDescription")); // NOI18N
         viewZoom25MenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -245,6 +246,7 @@ public class XBPictureEditorFrame extends javax.swing.JFrame implements XBEditor
         });
         viewZoom.add(viewZoom25MenuItem);
 
+        zoomButtonGroup.add(viewZoom50MenuItem);
         viewZoom50MenuItem.setText(bundle.getString("viewZoom50.Action.text")); // NOI18N
         viewZoom50MenuItem.setToolTipText(bundle.getString("viewZoom50.Action.shortDescription")); // NOI18N
         viewZoom50MenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -254,6 +256,7 @@ public class XBPictureEditorFrame extends javax.swing.JFrame implements XBEditor
         });
         viewZoom.add(viewZoom50MenuItem);
 
+        zoomButtonGroup.add(viewZoom100MenuItem);
         viewZoom100MenuItem.setSelected(true);
         viewZoom100MenuItem.setText(bundle.getString("viewZoom100.Action.text")); // NOI18N
         viewZoom100MenuItem.setToolTipText(bundle.getString("viewZoom100.Action.shortDescription")); // NOI18N
@@ -264,6 +267,7 @@ public class XBPictureEditorFrame extends javax.swing.JFrame implements XBEditor
         });
         viewZoom.add(viewZoom100MenuItem);
 
+        zoomButtonGroup.add(viewZoom200MenuItem);
         viewZoom200MenuItem.setText(bundle.getString("viewZoom200.Action.text")); // NOI18N
         viewZoom200MenuItem.setToolTipText(bundle.getString("viewZoom200.Action.shortDescription")); // NOI18N
         viewZoom200MenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -273,6 +277,7 @@ public class XBPictureEditorFrame extends javax.swing.JFrame implements XBEditor
         });
         viewZoom.add(viewZoom200MenuItem);
 
+        zoomButtonGroup.add(viewZoom400MenuItem);
         viewZoom400MenuItem.setText(bundle.getString("viewZoom400.Action.text")); // NOI18N
         viewZoom400MenuItem.setToolTipText(bundle.getString("viewZoom400.Action.shortDescription")); // NOI18N
         viewZoom400MenuItem.addActionListener(new java.awt.event.ActionListener() {

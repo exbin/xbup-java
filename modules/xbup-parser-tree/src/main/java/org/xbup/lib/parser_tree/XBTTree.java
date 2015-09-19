@@ -28,7 +28,7 @@ import org.xbup.lib.core.ubnumber.UBStreamable;
 /**
  * XBUP level 1 object model parser tree.
  *
- * @version 0.1.23 2014/02/11
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTree implements UBStreamable {
@@ -70,12 +70,6 @@ public class XBTTree implements UBStreamable {
         }
     }
 
-    /**
-     * TODO: This is stub, because I'm to lazy to think about proper solution
-     *
-     * @param parent
-     * @return
-     */
     public XBTTreeNode newNodeInstance(XBTTreeNode parent) {
         return new XBTTreeNode(parent);
     }
@@ -106,7 +100,7 @@ public class XBTTree implements UBStreamable {
         return rootNode.findNodeByIndex(index);
     }
 
-    public XBTBlock getRootBlock() {
+    public XBTTreeNode getRootBlock() {
         return rootNode;
     }
 

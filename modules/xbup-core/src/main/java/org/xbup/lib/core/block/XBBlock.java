@@ -22,7 +22,7 @@ import org.xbup.lib.core.parser.token.XBAttribute;
 /**
  * Interface for read access to XBUP level 0 block.
  *
- * @version 0.1.25 2015/05/23
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBBlock {
@@ -35,7 +35,7 @@ public interface XBBlock {
     public XBBlock getParent();
 
     /**
-     * Returns whether this block is data block.
+     * Returns mode whether this block is data block.
      *
      * @return data mode
      */
@@ -106,25 +106,4 @@ public interface XBBlock {
      * @return block data or null
      */
     public XBBlockData getBlockData();
-
-    /**
-     * Gets data size.
-     *
-     * @return data size in bytes
-     */
-    public long getDataSize();
-
-    /**
-     * Gets block size.
-     *
-     * @return block size in bytes
-     */
-    public long getBlockSize();
-
-    /**
-     * Gets block position in tree in depth-first scan.
-     *
-     * @return position index
-     */
-    public int getBlockIndex();
 }

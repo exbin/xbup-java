@@ -31,12 +31,13 @@ import org.xbup.lib.core.block.XBDocument;
 import org.xbup.lib.core.block.XBEditableBlock;
 import org.xbup.lib.core.block.XBEditableDocument;
 import org.xbup.lib.core.parser.token.XBAttribute;
+import org.xbup.lib.core.type.XBData;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 0 convertor from tokens to tree node.
  *
- * @version 0.1.25 2015/07/25
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTreeReader implements XBListener {
@@ -88,7 +89,7 @@ public class XBTreeReader implements XBListener {
                 if (block.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
                     block.setAttributesCount(0);
                 } else {
-                    block.clearData();
+                    block.setData(new XBData());
                 }
             } else {
                 block.clear();

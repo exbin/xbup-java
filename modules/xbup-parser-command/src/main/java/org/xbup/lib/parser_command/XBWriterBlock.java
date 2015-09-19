@@ -99,16 +99,6 @@ public class XBWriterBlock implements XBEditableBlock, Closeable {
     }
 
     @Override
-    public long getDataSize() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long getBlockSize() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public void close() throws IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -174,17 +164,7 @@ public class XBWriterBlock implements XBEditableBlock, Closeable {
     }
 
     @Override
-    public void clearData() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public void clear() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int getBlockIndex() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

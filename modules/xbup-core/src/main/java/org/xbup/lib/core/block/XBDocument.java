@@ -21,7 +21,7 @@ import java.io.InputStream;
 /**
  * Interface for read access to XBUP level 0 document.
  *
- * @version 0.1.24 2014/08/26
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBDocument {
@@ -39,16 +39,6 @@ public interface XBDocument {
      * @return InputStream of providing read access to data area
      */
     public InputStream getExtendedArea();
-
-    /**
-     * Gets size of the whole document.
-     *
-     * It is sum of the size of the root block if present + size of the extended
-     * area.
-     *
-     * @return length of whole document in bytes
-     */
-    public long getDocumentSize();
 
     /**
      * Gets size of extended data area.

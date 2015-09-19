@@ -22,6 +22,8 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.xbup.lib.core.block.XBTBlock;
+import org.xbup.lib.core.block.XBTDefaultBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBPSerialReader;
@@ -35,12 +37,13 @@ import org.xbup.lib.operation.XBTDocOperation;
 /**
  * Operation for deleting child block.
  *
- * @version 0.1.25 2015/05/03
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTDeleteBlockOperation extends XBTDocOperation {
 
-    public XBTDeleteBlockOperation(long position) {
+    public XBTDeleteBlockOperation(XBTBlock block) {
+        long position = XBTDefaultBlock.getBlockIndex(block);
         OutputStream dataOutputStream = getData().getDataOutputStream();
         XBPSerialWriter writer = new XBPSerialWriter(dataOutputStream);
         Serializator serializator = new Serializator(position);
@@ -84,7 +87,7 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
             } else {
                 deletedNode = (XBTEditableBlock) document.findBlockByIndex(serial.position);
                 XBTEditableBlock parentNode = (XBTEditableBlock) deletedNode.getParent();
-                parentPosition = (long) parentNode.getBlockIndex();
+                parentPosition = (long) XBTDefaultBlock.getBlockIndex(parentNode);
                 childIndex = Arrays.asList(parentNode.getChildren()).indexOf(deletedNode);
             }
             undoOperation = new XBTAddBlockOperation(parentPosition, childIndex, deletedNode);

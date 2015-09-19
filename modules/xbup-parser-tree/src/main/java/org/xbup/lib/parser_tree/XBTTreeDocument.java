@@ -32,7 +32,7 @@ import org.xbup.lib.core.type.XBData;
 /**
  * Basic object model parser XBUP level 1 document representation.
  *
- * @version 0.1.25 2015/08/12
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
@@ -185,7 +185,6 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
         return newNodeInstance((XBTTreeNode) parent);
     }
 
-    @Override
     public long getDocumentSize() {
         long documentSize = getExtendedAreaSize();
         if (getRootBlock() != null) {

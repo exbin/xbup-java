@@ -25,7 +25,7 @@ import org.xbup.lib.core.block.XBTEditableDocument;
 /**
  * Conversion from level 0 document to level 1 document
  *
- * @version 0.1.25 2015/08/12
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocumentToXBTDocument implements XBTEditableDocument {
@@ -43,11 +43,6 @@ public class XBDocumentToXBTDocument implements XBTEditableDocument {
         }
 
         return new XBBlockToXBTBlock(document.getRootBlock());
-    }
-
-    @Override
-    public long getDocumentSize() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

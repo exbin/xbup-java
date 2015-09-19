@@ -23,7 +23,7 @@ import org.xbup.lib.operation.basic.XBBasicOperationType;
 /**
  * Abstract class for operation using XBUP level 1 document.
  *
- * @version 0.1.25 2015/05/02
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class XBTDocOperation implements Operation {
@@ -59,6 +59,8 @@ public abstract class XBTDocOperation implements Operation {
     }
 
     /**
+     * Performs dispose of the operation.
+     *
      * Default dispose is empty.
      *
      * @throws Exception

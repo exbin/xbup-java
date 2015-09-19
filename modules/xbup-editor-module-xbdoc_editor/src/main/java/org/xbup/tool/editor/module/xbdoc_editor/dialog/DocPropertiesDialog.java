@@ -17,12 +17,13 @@
 package org.xbup.tool.editor.module.xbdoc_editor.dialog;
 
 import org.xbup.lib.core.block.XBTEditableDocument;
+import org.xbup.lib.parser_tree.XBTTreeDocument;
 import org.xbup.tool.editor.utils.WindowUtils;
 
 /**
  * Dialog for document properties showing various information about file.
  *
- * @version 0.1.25 2015/04/10
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class DocPropertiesDialog extends javax.swing.JDialog {
@@ -169,7 +170,11 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
     public void runDialog(XBTEditableDocument doc, String fileName) {
         this.doc = doc;
         fileNameTextField.setText(fileName);
-        fileSizeTextField.setText(Long.toString(doc.getDocumentSize()));
+        if (doc instanceof XBTTreeDocument) {
+            fileSizeTextField.setText(Long.toString(((XBTTreeDocument) doc).getDocumentSize()));
+        } else {
+            fileSizeTextField.setText("Unknown");
+        }
 
         setVisible(true);
     }

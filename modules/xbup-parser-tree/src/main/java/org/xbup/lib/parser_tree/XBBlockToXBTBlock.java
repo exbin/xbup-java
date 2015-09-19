@@ -32,7 +32,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Conversion from level 0 block to level 1 block
  *
- * @version 0.1.25 2015/05/23
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBBlockToXBTBlock implements XBTEditableBlock {
@@ -140,16 +140,6 @@ public class XBBlockToXBTBlock implements XBTEditableBlock {
     @Override
     public XBBlockData getBlockData() {
         return block.getBlockData();
-    }
-
-    @Override
-    public long getDataSize() {
-        return block.getDataSize();
-    }
-
-    @Override
-    public long getBlockSize() {
-        return block.getBlockSize();
     }
 
     @Override
@@ -301,26 +291,12 @@ public class XBBlockToXBTBlock implements XBTEditableBlock {
     }
 
     @Override
-    public void clearData() {
-        if (!(block instanceof XBEditableBlock)) {
-            throw new IllegalStateException("Cannot clear data of read only block");
-        }
-
-        ((XBEditableBlock) block).clearData();
-    }
-
-    @Override
     public void clear() {
         if (!(block instanceof XBEditableBlock)) {
             throw new IllegalStateException("Cannot clear data of read only block");
         }
 
         ((XBEditableBlock) block).clear();
-    }
-
-    @Override
-    public int getBlockIndex() {
-        return block.getBlockIndex();
     }
 
     @Override

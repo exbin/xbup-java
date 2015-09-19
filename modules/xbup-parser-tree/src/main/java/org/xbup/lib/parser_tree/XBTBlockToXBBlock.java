@@ -31,7 +31,7 @@ import org.xbup.lib.core.parser.token.XBAttribute;
 /**
  * Conversion from level 1 block to level 0 block.
  *
- * @version 0.1.25 2015/06/28
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTBlockToXBBlock implements XBEditableBlock {
@@ -153,16 +153,6 @@ public class XBTBlockToXBBlock implements XBEditableBlock {
     @Override
     public XBBlockData getBlockData() {
         return block.getBlockData();
-    }
-
-    @Override
-    public long getDataSize() {
-        return block.getDataSize();
-    }
-
-    @Override
-    public long getBlockSize() {
-        return block.getBlockSize();
     }
 
     @Override
@@ -348,15 +338,6 @@ public class XBTBlockToXBBlock implements XBEditableBlock {
     }
 
     @Override
-    public void clearData() {
-        if (!(block instanceof XBTEditableBlock)) {
-            throw new IllegalStateException("Cannot clear data of read only block");
-        }
-
-        ((XBTEditableBlock) block).clearData();
-    }
-
-    @Override
     public void clear() {
         if (!(block instanceof XBTEditableBlock)) {
             throw new IllegalStateException("Cannot clear data of read only block");
@@ -364,11 +345,6 @@ public class XBTBlockToXBBlock implements XBEditableBlock {
 
         ((XBTEditableBlock) block).clear();
         typeAttributesCount = 0;
-    }
-
-    @Override
-    public int getBlockIndex() {
-        return block.getBlockIndex();
     }
 
     @Override

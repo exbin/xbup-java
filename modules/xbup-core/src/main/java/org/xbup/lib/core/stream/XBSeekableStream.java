@@ -20,8 +20,6 @@ import java.io.IOException;
 
 /**
  * Interface for stream with seekable tokens.
- * 
- * TODO: Add also block seekable?
  *
  * @version 0.1.25 2015/02/14
  * @author XBUP Project (http://xbup.org)

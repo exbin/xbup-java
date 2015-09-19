@@ -46,11 +46,6 @@ public class XBTDocumentToXBDocument implements XBEditableDocument {
     }
 
     @Override
-    public long getDocumentSize() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public InputStream getExtendedArea() {
         return document.getExtendedArea();
     }
@@ -81,11 +76,6 @@ public class XBTDocumentToXBDocument implements XBEditableDocument {
         }
 
         ((XBTEditableDocument) document).setExtendedArea(source);
-    }
-
-    @Override
-    public XBBlock findBlockByIndex(long index) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

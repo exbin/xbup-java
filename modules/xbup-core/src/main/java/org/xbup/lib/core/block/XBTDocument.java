@@ -21,7 +21,7 @@ import java.io.InputStream;
 /**
  * Interface for read access to XBUP level 1 document.
  *
- * @version 0.1.24 2014/08/26
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBTDocument {
@@ -32,16 +32,6 @@ public interface XBTDocument {
      * @return root block if exits or null
      */
     public XBTBlock getRootBlock();
-
-    /**
-     * Gets size of the whole document.
-     *
-     * It is sum of the size of the root node if present + size of extended
-     * area.
-     *
-     * @return size of document in bytes
-     */
-    public long getDocumentSize();
 
     /**
      * Gets extended data area.

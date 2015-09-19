@@ -29,20 +29,20 @@ import org.xbup.lib.core.type.XBData;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
- * Read-only empty level 1 block.
+ * Read-only empty level 0 block.
  *
  * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTEmptyBlock implements XBTBlock, XBPSequenceSerializable {
+public class XBEmptyBlock implements XBBlock, XBPSequenceSerializable {
 
-    private static XBTEmptyBlock cachedEmptyBlock = null;
+    private static XBEmptyBlock cachedEmptyBlock = null;
 
-    public XBTEmptyBlock() {
+    public XBEmptyBlock() {
     }
 
     @Override
-    public XBTBlock getParent() {
+    public XBBlock getParent() {
         return null;
     }
 
@@ -54,11 +54,6 @@ public class XBTEmptyBlock implements XBTBlock, XBPSequenceSerializable {
     @Override
     public XBBlockDataMode getDataMode() {
         return XBBlockDataMode.DATA_BLOCK;
-    }
-
-    @Override
-    public XBBlockType getBlockType() {
-        return null;
     }
 
     @Override
@@ -77,12 +72,12 @@ public class XBTEmptyBlock implements XBTBlock, XBPSequenceSerializable {
     }
 
     @Override
-    public XBTBlock[] getChildren() {
-        return new XBTBlock[0];
+    public XBBlock[] getChildren() {
+        return new XBBlock[0];
     }
 
     @Override
-    public XBTBlock getChildAt(int childIndex) {
+    public XBBlock getChildAt(int childIndex) {
         return null;
     }
 
@@ -101,9 +96,9 @@ public class XBTEmptyBlock implements XBTBlock, XBPSequenceSerializable {
         return new XBData();
     }
 
-    public static XBTEmptyBlock getEmptyBlock() {
+    public static XBEmptyBlock getEmptyBlock() {
         if (cachedEmptyBlock == null) {
-            cachedEmptyBlock = new XBTEmptyBlock();
+            cachedEmptyBlock = new XBEmptyBlock();
         }
 
         return cachedEmptyBlock;

@@ -98,27 +98,12 @@ public class XBReaderBlock implements XBBlock, Closeable {
     }
 
     @Override
-    public long getDataSize() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public long getBlockSize() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public void close() throws IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public XBBlockData getBlockData() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int getBlockIndex() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -21,7 +21,7 @@ import java.io.InputStream;
 /**
  * Interface for editable XBUP level 0 document.
  *
- * @version 0.1.24 2014/08/26
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBEditableDocument extends XBDocument {
@@ -44,12 +44,4 @@ public interface XBEditableDocument extends XBDocument {
      * Clears all data in this document.
      */
     public void clear();
-
-    /**
-     * Finds block using depth-first traversal index.
-     *
-     * @param index order of the block in document
-     * @return block if found else null
-     */
-    public XBBlock findBlockByIndex(long index);
 }

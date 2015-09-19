@@ -23,7 +23,7 @@ import java.io.OutputStream;
 /**
  * Interface for editable binary data.
  *
- * @version 0.1.25 2015/05/01
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBEditableBlockData extends XBBlockData {
@@ -119,6 +119,8 @@ public interface XBEditableBlockData extends XBBlockData {
 
     /**
      * Provides handler for output stream generation.
+     *
+     * Received data are appended to existing data.
      *
      * @return new instance of output stream
      */

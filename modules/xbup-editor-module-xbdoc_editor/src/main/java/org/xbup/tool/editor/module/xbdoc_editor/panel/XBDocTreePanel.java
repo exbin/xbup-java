@@ -64,7 +64,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.dialog.AddBlockDialog;
 /**
  * Panel with document tree visualization.
  *
- * @version 0.1.24 2014/11/09
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelActionHandling {
@@ -300,7 +300,9 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
                 try {
                     newNode.fromStreamUB(new ByteArrayInputStream(stream.toByteArray()));
                     try {
-                        XBTDocCommand step = new XBTAddBlockCommand(node, newNode);
+                        long parentPosition = node == null ? -1 : node.getBlockIndex();
+                        int childIndex = node == null ? 0 : node.getChildCount();
+                        XBTDocCommand step = new XBTAddBlockCommand(parentPosition, childIndex, newNode);
                         getTreeUndo().execute(step);
                         reportStructureChange(node);
                         updateItemStatus();
@@ -348,7 +350,9 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
         XBTTreeNode newNode = addItemDialog.showDialog();
         if (addItemDialog.getDialogOption() == JOptionPane.OK_OPTION) {
             try {
-                XBTDocCommand step = new XBTAddBlockCommand(node, newNode);
+                long parentPosition = node == null ? -1 : node.getBlockIndex();
+                int childIndex = node == null ? 0 : node.getChildCount();
+                XBTDocCommand step = new XBTAddBlockCommand(parentPosition, childIndex, newNode);
                 getTreeUndo().execute(step);
             } catch (Exception ex) {
                 Logger.getLogger(XBDocTreePanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -633,7 +637,7 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
                 try {
                     newNode.fromStreamUB(new ByteArrayInputStream(stream.toByteArray()));
                     try {
-                        XBTDocCommand step = new XBTAddBlockCommand(node, newNode);
+                        XBTDocCommand step = new XBTAddBlockCommand(node.getBlockIndex(), node.getChildCount(), newNode);
                         docTreePanel.getTreeUndo().execute(step);
                         docTreePanel.reportStructureChange(node);
                         docTreePanel.mainDoc.processSpec();

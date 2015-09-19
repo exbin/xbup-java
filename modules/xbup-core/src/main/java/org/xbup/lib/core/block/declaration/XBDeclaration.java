@@ -44,13 +44,14 @@ import org.xbup.lib.core.serial.param.XBSerializationMode;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
- * Representation of declaration block.
+ * Representation of type declaration.
  *
- * @version 0.1.25 2015/02/06
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceivingSerializable, XBTypeConvertor {
 
+    private XBDeclaration parent = null;
     private XBFormatDecl formatDecl;
     private XBSerializable rootBlock;
     private boolean headerMode = false;
@@ -58,10 +59,20 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
     private UBNat32 groupsReserved = new UBNat32(0);
     private UBNat32 preserveCount = new UBNat32(0);
 
+    /**
+     * Creates new empty instance of type declaration.
+     */
     public XBDeclaration() {
         this(new XBLFormatDecl());
     }
 
+    /**
+     * Creates new instance of type declaration for format declaration and root
+     * block.
+     *
+     * @param formatDecl format declaration
+     * @param rootBlock root block
+     */
     public XBDeclaration(XBFormatDecl formatDecl, XBSerializable rootBlock) {
         this.formatDecl = formatDecl;
         this.rootBlock = rootBlock;
@@ -71,20 +82,34 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
         this(format, null);
     }
 
+    /**
+     * Creates new instance of type declaration constructing declaration from
+     * single group declaration.
+     *
+     * @param groupDecl group declaration
+     * @param rootBlock root block
+     */
+    public XBDeclaration(XBGroupDecl groupDecl, XBSerializable rootBlock) {
+        this(new XBLFormatDecl(groupDecl), rootBlock);
+    }
+
     public XBDeclaration(XBGroupDecl group) {
         this(group, null);
     }
 
-    public XBDeclaration(XBGroupDecl group, XBSerializable rootBlock) {
-        this(new XBLFormatDecl(group), rootBlock);
+    /**
+     * Creates new instance of type declaration constructing declaration from
+     * single block declaration.
+     *
+     * @param blockDecl block declaration
+     * @param rootBlock root block
+     */
+    public XBDeclaration(XBBlockDecl blockDecl, XBSerializable rootBlock) {
+        this(new XBLGroupDecl(blockDecl), rootBlock);
     }
 
     public XBDeclaration(XBBlockDecl blockDecl) {
         this(blockDecl, null);
-    }
-
-    public XBDeclaration(XBBlockDecl block, XBSerializable rootNode) {
-        this(new XBLGroupDecl(block), rootNode);
     }
 
     public XBContext generateContext() {
@@ -150,18 +175,38 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
 
     @Override
     public XBDeclBlockType getDeclBlockType(XBFBlockType fixedType) {
-        // TODO support for partial declaration
-        throw new UnsupportedOperationException("Not supported yet.");
+        XBGroup group = getGroupForId(0);
+        if (group != null) {
+            XBBlockDecl blockDecl = group.getBlockForId(fixedType.getBlockID().getInt());
+            return blockDecl != null ? new XBDeclBlockType(blockDecl) : null;
+        }
+
+        return null;
     }
 
     @Override
     public XBFixedBlockType getFixedBlockType(XBDBlockType declType) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return getFixedBlockType(declType.getBlockDecl(), -1);
     }
 
     @Override
     public XBFixedBlockType getFixedBlockType(XBBlockDecl blockDecl, int groupIdLimit) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // Simple search for first match
+        for (int groupId = 0; groupId < getGroupsCount(); groupId++) {
+            XBGroup group = getGroupForId(groupId);
+            if (group != null) {
+                int blockId = 0;
+                for (XBBlockDecl matchedDecl : group.getBlocks()) {
+                    if (matchedDecl.equals(blockDecl)) {
+                        return new XBFixedBlockType(groupId, blockId);
+                    }
+
+                    blockId++;
+                }
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -171,7 +216,11 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
         if (groupId == 0) {
             return null;
         }
-//        if ((group <= preserveCount)&&(parent != null)) return parent.getGroup(group);
+
+        if ((groupId <= preserveCount.getInt()) && (parent != null)) {
+            return parent.getGroupForId(groupId);
+        }
+
         if ((groupId > preserveCount.getInt()) && (groupId < preserveCount.getInt() + groupsReserved.getInt() + 1) && (decl != null)) {
             if (decl instanceof XBLFormatDecl) {
                 if (groupId - preserveCount.getInt() - 1 >= ((XBLFormatDecl) decl).getGroupDecls().size()) {
@@ -223,6 +272,69 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
         }
     }
 
+    public XBFormatDecl getFormat() {
+        return formatDecl;
+    }
+
+    public void setFormat(XBFormatDecl format) {
+        this.formatDecl = format;
+    }
+
+    public int getGroupsReserved() {
+        return groupsReserved.getInt();
+    }
+
+    public void setGroupsReserved(int groupsReserved) {
+        this.groupsReserved = new UBNat32(groupsReserved);
+    }
+
+    public int getPreserveCount() {
+        return preserveCount.getInt();
+    }
+
+    public void setPreserveCount(int preserveCount) {
+        this.preserveCount = new UBNat32(preserveCount);
+    }
+
+    public XBSerializable getRootBlock() {
+        return rootBlock;
+    }
+
+    public void setRootBlock(XBSerializable rootNode) {
+        this.rootBlock = rootNode;
+    }
+
+    public XBDeclaration getParent() {
+        return parent;
+    }
+
+    public void setParent(XBDeclaration parent) {
+        this.parent = parent;
+    }
+
+    public void realignReservation(XBCatalog catalog) {
+        XBFormatDecl decl = formatDecl;
+        if (formatDecl.getFormatDef() == null && catalog != null && formatDecl instanceof XBLFormatDecl) {
+            XBFormatDecl catalogFormatDecl = catalog.findFormatTypeByPath(((XBLFormatDecl) formatDecl).getCatalogPathAsClassArray(), (int) formatDecl.getRevision());
+            if (catalogFormatDecl != null) {
+                decl = catalogFormatDecl;
+            }
+        }
+
+        groupsReserved = new UBNat32(decl.getGroupDecls().size());
+    }
+
+    public boolean isHeaderMode() {
+        return headerMode;
+    }
+
+    public void setHeaderMode(boolean headerMode) {
+        this.headerMode = headerMode;
+    }
+
+    /**
+     * Enumeration of receiving processing states.
+     */
     private enum RecvProcessingState {
 
         START, BEGIN, TYPE, GROUPS_RESERVED, PRESERVE_COUNT, FORMAT_DECLARATION, ROOT_NODE, END
@@ -340,57 +452,5 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
     @Override
     public void serializeRecvToXB(XBTBasicOutputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public XBFormatDecl getFormat() {
-        return formatDecl;
-    }
-
-    public void setFormat(XBFormatDecl format) {
-        this.formatDecl = format;
-    }
-
-    public int getGroupsReserved() {
-        return groupsReserved.getInt();
-    }
-
-    public void setGroupsReserved(int groupsReserved) {
-        this.groupsReserved = new UBNat32(groupsReserved);
-    }
-
-    public int getPreserveCount() {
-        return preserveCount.getInt();
-    }
-
-    public void setPreserveCount(int preserveCount) {
-        this.preserveCount = new UBNat32(preserveCount);
-    }
-
-    public XBSerializable getRootBlock() {
-        return rootBlock;
-    }
-
-    public void setRootBlock(XBSerializable rootNode) {
-        this.rootBlock = rootNode;
-    }
-
-    public void realignReservation(XBCatalog catalog) {
-        XBFormatDecl decl = formatDecl;
-        if (formatDecl.getFormatDef() == null && catalog != null && formatDecl instanceof XBLFormatDecl) {
-            XBFormatDecl catalogFormatDecl = catalog.findFormatTypeByPath(((XBLFormatDecl) formatDecl).getCatalogPathAsClassArray(), (int) formatDecl.getRevision());
-            if (catalogFormatDecl != null) {
-                decl = catalogFormatDecl;
-            }
-        }
-
-        groupsReserved = new UBNat32(decl.getGroupDecls().size());
-    }
-
-    public boolean isHeaderMode() {
-        return headerMode;
-    }
-
-    public void setHeaderMode(boolean headerMode) {
-        this.headerMode = headerMode;
     }
 }

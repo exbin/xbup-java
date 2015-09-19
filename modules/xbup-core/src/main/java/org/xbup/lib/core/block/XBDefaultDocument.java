@@ -19,9 +19,9 @@ package org.xbup.lib.core.block;
 import java.io.InputStream;
 
 /**
- * Basic plain implementation of XBBlock interface.
+ * Basic plain implementation of XBDocument interface.
  *
- * @version 0.1.25 2015/07/24
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDefaultDocument implements XBDocument {
@@ -46,11 +46,6 @@ public class XBDefaultDocument implements XBDocument {
     @Override
     public InputStream getExtendedArea() {
         return extendedArea.getDataInputStream();
-    }
-
-    @Override
-    public long getDocumentSize() {
-        return -1;
     }
 
     @Override

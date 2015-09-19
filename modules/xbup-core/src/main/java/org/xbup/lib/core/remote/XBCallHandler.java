@@ -46,7 +46,7 @@ public interface XBCallHandler {
     public XBOutput getResultOutput() throws XBProcessingException, IOException;
 
     /**
-     * TODO: Performs execution of the handler.
+     * Performs execution of the handler.
      *
      * @throws IOException if input/output error
      */

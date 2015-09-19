@@ -24,19 +24,13 @@ import org.xbup.lib.operation.basic.XBTDeleteBlockOperation;
 /**
  * Command for deleting block.
  *
- * @version 0.1.25 2015/04/28
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTDeleteBlockCommand extends XBTOpDocCommand {
 
     public XBTDeleteBlockCommand(XBTTreeNode node) {
-        long position;
-        if (node == null) {
-            position = -1;
-        } else {
-            position = node.getBlockIndex();
-        }
-        setOperation(new XBTDeleteBlockOperation(position));
+        setOperation(new XBTDeleteBlockOperation(node));
     }
 
     @Override

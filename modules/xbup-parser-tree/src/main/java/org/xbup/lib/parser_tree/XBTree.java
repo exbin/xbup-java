@@ -42,7 +42,7 @@ public class XBTree implements UBStreamable {
 
     @Override
     public int toStreamUB(OutputStream stream) throws IOException {
-        if (getRootBlock()!=null) {
+        if (getRootBlock() != null) {
             return rootNode.toStreamUB(stream);
         } else {
             return 0;
@@ -58,7 +58,7 @@ public class XBTree implements UBStreamable {
 
     @Override
     public int getSizeUB() {
-        if (getRootBlock()!=null) {
+        if (getRootBlock() != null) {
             return rootNode.getSizeUB();
         } else {
             return 0;
@@ -69,7 +69,6 @@ public class XBTree implements UBStreamable {
         return rootNode.findNodeByIndex(index);
     }
 
-    /** TODO: This is stub, because I'm too lazy to think about proper solution */
     public XBTreeNode newNodeInstance(XBTreeNode parent) {
         return new XBTreeNode(parent);
     }

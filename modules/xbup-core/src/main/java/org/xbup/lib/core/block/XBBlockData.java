@@ -23,7 +23,7 @@ import java.io.OutputStream;
 /**
  * Interface for read access to binary data.
  *
- * @version 0.1.25 2015/02/09
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBBlockData {
@@ -36,7 +36,7 @@ public interface XBBlockData {
     public boolean isEmpty();
 
     /**
-     * Returns size of data.
+     * Returns size of data or -1 if size is not available.
      *
      * @return size of data in bytes
      */

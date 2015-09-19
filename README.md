@@ -11,7 +11,6 @@ This should provide following advantages:
  * Comprehensibility - Catalog of data types, metadata, relations and abstraction should allow better understanding of data
 
 Homepage: http://xbup.org  
-Project page: http://sourceforge.net/projects/xbup  
 
 This repository contains Java implementation of the protocol and support tools and sample files.
 

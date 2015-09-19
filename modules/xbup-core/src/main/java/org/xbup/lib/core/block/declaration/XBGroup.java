@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Group structure as a list of block declarations.
  *
- * @version 0.1.24 2014/09/03
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBGroup {
@@ -47,5 +47,15 @@ public class XBGroup {
 
     public XBBlockDecl getBlockForId(int blockId) {
         return blockId < blocks.size() ? blocks.get(blockId) : null;
+    }
+
+    public void setBlockForId(XBBlockDecl blockDecl, int blockId) {
+        if (blockId > blocks.size()) {
+            for (int i = 0; i < blockId - blocks.size(); i++) {
+                blocks.add(null);
+            }
+        }
+
+        blocks.set(blockId, blockDecl);
     }
 }

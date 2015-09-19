@@ -23,7 +23,7 @@ import java.io.OutputStream;
 /**
  * Utilities for stream data manipulations.
  *
- * @version 0.1.25 2015/06/10
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class StreamUtils {
@@ -137,10 +137,8 @@ public abstract class StreamUtils {
      * @throws IOException if read fails
      */
     public static void readUpInputStream(InputStream source) throws IOException {
-        byte[] buffer = new byte[BUFFER_SIZE];
-
         while (source.available() > 0) {
-            if (source.read(buffer, 0, BUFFER_SIZE) == -1) {
+            if (source.skip(BUFFER_SIZE) == -1) {
                 break;
             }
         }

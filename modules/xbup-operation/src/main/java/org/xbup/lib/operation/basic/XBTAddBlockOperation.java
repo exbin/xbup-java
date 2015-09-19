@@ -22,6 +22,7 @@ import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBTBlock;
+import org.xbup.lib.core.block.XBTDefaultBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.parser.XBParserMode;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -45,7 +46,7 @@ import org.xbup.lib.parser_tree.XBTreeWriter;
 /**
  * Operation for adding child block.
  *
- * @version 0.1.25 2015/06/29
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTAddBlockOperation extends XBTDocOperation {
@@ -105,9 +106,9 @@ public class XBTAddBlockOperation extends XBTDocOperation {
             if (serial.parentPosition > 0) {
                 XBTEditableBlock parentNode = (XBTEditableBlock) document.findBlockByIndex(serial.parentPosition - 1);
                 XBTBlock node = parentNode.getChildAt(serial.childIndex);
-                undoOperation = new XBTDeleteBlockOperation(node.getBlockIndex());
+                undoOperation = new XBTDeleteBlockOperation(node);
             } else {
-                undoOperation = new XBTDeleteBlockOperation(0);
+                undoOperation = new XBTDeleteBlockOperation(document.getRootBlock());
             }
             undoOperation.setDocument(document);
             return undoOperation;

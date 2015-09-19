@@ -32,6 +32,7 @@ import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.block.XBTEditableDocument;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.token.XBAttribute;
+import org.xbup.lib.core.type.XBData;
 
 /**
  * XBUP level 1 convertor from tokens to tree node.
@@ -88,7 +89,7 @@ public class XBTTreeReader implements XBTListener {
                 if (block.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
                     block.setAttributesCount(0);
                 } else {
-                    block.clearData();
+                    block.setData(new XBData());
                 }
             } else {
                 block.clear();

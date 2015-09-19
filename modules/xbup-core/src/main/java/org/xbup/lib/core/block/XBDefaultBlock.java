@@ -18,11 +18,12 @@ package org.xbup.lib.core.block;
 
 import java.io.InputStream;
 import org.xbup.lib.core.parser.token.XBAttribute;
+import org.xbup.lib.core.type.XBData;
 
 /**
  * Basic plain implementation of XBBlock interface.
  *
- * @version 0.1.25 2015/07/26
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDefaultBlock implements XBBlock {
@@ -34,39 +35,80 @@ public class XBDefaultBlock implements XBBlock {
     private final XBBlock[] children;
     private final XBBlockData data;
 
-    public XBDefaultBlock(XBBlockTerminationMode terminationMode, XBAttribute[] attributes, XBBlock[] children) {
-        this(null, terminationMode, attributes, children);
+    /**
+     * Creates new instance of XBDefaultBlock as an empty data block.
+     */
+    public XBDefaultBlock() {
+        this(null, XBBlockTerminationMode.SIZE_SPECIFIED, new XBData());
     }
 
-    public XBDefaultBlock(XBBlock parent, XBBlockTerminationMode terminationMode, XBAttribute[] attributes, XBBlock[] children) {
-        dataMode = XBBlockDataMode.NODE_BLOCK;
-        this.terminationMode = terminationMode;
-        this.attributes = attributes;
-        this.children = children;
-        if (children != null) {
-            for (XBBlock child : children) {
-                if (child instanceof XBDefaultBlock) {
-                    ((XBDefaultBlock) child).setParent(this);
-                } else if (child instanceof XBEditableBlock) {
-                    ((XBEditableBlock) child).setParent(this);
-                }
-            }
-        }
+    /**
+     * Creates new instance of XBDefaultBlock as a data block with given values.
+     *
+     * @param parent parent node
+     * @param terminationMode termination mode
+     * @param data block data
+     */
+    public XBDefaultBlock(XBBlock parent, XBBlockTerminationMode terminationMode, XBBlockData data) {
+        dataMode = XBBlockDataMode.DATA_BLOCK;
         this.parent = parent;
-        data = null;
+        this.terminationMode = terminationMode;
+        this.attributes = null;
+        this.children = null;
+        this.data = data == null ? new XBData() : data;
     }
 
+    /**
+     * Creates new instance of XBDefaultBlock as a data block with given values
+     * and no parent block.
+     *
+     * @param terminationMode termination mode
+     * @param data block data
+     */
     public XBDefaultBlock(XBBlockTerminationMode terminationMode, XBBlockData data) {
         this(null, terminationMode, data);
     }
 
-    public XBDefaultBlock(XBBlock parent, XBBlockTerminationMode terminationMode, XBBlockData data) {
-        this.dataMode = XBBlockDataMode.DATA_BLOCK;
-        this.terminationMode = terminationMode;
-        this.attributes = null;
-        this.children = null;
+    /**
+     * Creates new instance of XBDefaultBlock as a node block with given values.
+     *
+     * @param parent parent node
+     * @param terminationMode termination mode
+     * @param attributes attributes
+     * @param children children blocks
+     */
+    public XBDefaultBlock(XBBlock parent, XBBlockTerminationMode terminationMode, XBAttribute[] attributes, XBBlock[] children) {
+        dataMode = XBBlockDataMode.NODE_BLOCK;
         this.parent = parent;
-        this.data = data;
+        this.terminationMode = terminationMode == null ? XBBlockTerminationMode.SIZE_SPECIFIED : terminationMode;
+        this.attributes = attributes == null ? new XBAttribute[0] : attributes;
+        this.children = children == null ? new XBBlock[0] : children;
+        data = null;
+        if (children != null) {
+            attachChildren(children);
+        }
+    }
+
+    /**
+     * Creates new instance of XBDefaultBlock as a node block with given values
+     * and no parent block.
+     *
+     * @param terminationMode termination mode
+     * @param attributes attributes
+     * @param children children blocks
+     */
+    public XBDefaultBlock(XBBlockTerminationMode terminationMode, XBAttribute[] attributes, XBBlock[] children) {
+        this(null, terminationMode, attributes, children);
+    }
+
+    private void attachChildren(XBBlock[] children) {
+        for (XBBlock child : children) {
+            if (child instanceof XBDefaultBlock) {
+                ((XBDefaultBlock) child).setParent(this);
+            } else if (child instanceof XBEditableBlock) {
+                ((XBEditableBlock) child).setParent(this);
+            }
+        }
     }
 
     @Override
@@ -74,6 +116,12 @@ public class XBDefaultBlock implements XBBlock {
         return parent;
     }
 
+    /**
+     * Allows to set parent block, which is not cosidered as a part of the block
+     * value and allows to move this block in tree.
+     *
+     * @param parent parent block
+     */
     public void setParent(XBBlock parent) {
         this.parent = parent;
     }
@@ -128,18 +176,38 @@ public class XBDefaultBlock implements XBBlock {
         return data;
     }
 
-    @Override
     public long getDataSize() {
         return data == null ? 0 : data.getDataSize();
     }
 
-    @Override
-    public long getBlockSize() {
-        return -1;
-    }
+    /**
+     * Gets block position in depth-first scan of the tree.
+     *
+     * Returns -1 for null block or if tree structure is corrupted.
+     *
+     * @param block target block
+     * @return position index
+     */
+    public static int getBlockIndex(XBBlock block) {
+        if (block == null) {
+            return -1;
+        }
 
-    @Override
-    public int getBlockIndex() {
-        return -1;
+        if (block.getParent() != null) {
+            int result = getBlockIndex(block.getParent()) + 1;
+            int childIndex = 0;
+            XBBlock child;
+            do {
+                child = block.getParent().getChildAt(childIndex);
+                if (child == block) {
+                    return result + childIndex;
+                }
+                childIndex++;
+            } while (child != null);
+
+            return result;
+        } else {
+            return 0;
+        }
     }
 }

@@ -21,7 +21,7 @@ import java.io.InputStream;
 /**
  * Basic plain implementation of XBTDocument interface.
  *
- * @version 0.1.25 2015/07/24
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTDefaultDocument implements XBTDocument {
@@ -46,11 +46,6 @@ public class XBTDefaultDocument implements XBTDocument {
     @Override
     public InputStream getExtendedArea() {
         return extendedArea.getDataInputStream();
-    }
-
-    @Override
-    public long getDocumentSize() {
-        return -1;
     }
 
     @Override

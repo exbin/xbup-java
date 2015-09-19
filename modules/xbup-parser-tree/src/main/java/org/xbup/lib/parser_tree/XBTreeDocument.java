@@ -164,7 +164,6 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
         return size;
     }
 
-    @Override
     public long getDocumentSize() {
         long documentSize = getExtendedAreaSize();
         if (getRootBlock() != null) {

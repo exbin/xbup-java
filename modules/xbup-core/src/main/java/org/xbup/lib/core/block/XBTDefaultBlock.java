@@ -17,12 +17,14 @@
 package org.xbup.lib.core.block;
 
 import java.io.InputStream;
+import java.util.Iterator;
 import org.xbup.lib.core.parser.token.XBAttribute;
+import org.xbup.lib.core.type.XBData;
 
 /**
  * Basic plain implementation of XBTBlock interface.
  *
- * @version 0.1.25 2015/07/24
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTDefaultBlock implements XBTBlock {
@@ -35,41 +37,86 @@ public class XBTDefaultBlock implements XBTBlock {
     private final XBTBlock[] children;
     private final XBBlockData data;
 
-    public XBTDefaultBlock(XBBlockTerminationMode terminationMode, XBBlockType blockType, XBAttribute[] attributes, XBTBlock[] children) {
-        this(null, terminationMode, blockType, attributes, children);
+    /**
+     * Creates new instance of XBDefaultBlock as an empty data block.
+     */
+    public XBTDefaultBlock() {
+        this(null, XBBlockTerminationMode.SIZE_SPECIFIED, new XBData());
     }
 
-    public XBTDefaultBlock(XBTBlock parent, XBBlockTerminationMode terminationMode, XBBlockType blockType, XBAttribute[] attributes, XBTBlock[] children) {
-        dataMode = XBBlockDataMode.NODE_BLOCK;
-        this.terminationMode = terminationMode;
-        this.blockType = blockType;
-        this.attributes = attributes;
-        this.children = children;
-        if (children != null) {
-            for (XBTBlock child : children) {
-                if (child instanceof XBTDefaultBlock) {
-                    ((XBTDefaultBlock) child).setParent(parent);
-                } else if (child instanceof XBTEditableBlock) {
-                    ((XBTEditableBlock) child).setParent(parent);
-                }
-            }
-        }
-        this.parent = parent;
-        data = null;
-    }
-
-    public XBTDefaultBlock(XBBlockTerminationMode terminationMode, XBBlockData data) {
-        this(null, terminationMode, data);
-    }
-
+    /**
+     * Creates new instance of XBTDefaultBlock as a data block with given
+     * values.
+     *
+     * @param parent parent node
+     * @param terminationMode termination mode
+     * @param data block data
+     */
     public XBTDefaultBlock(XBTBlock parent, XBBlockTerminationMode terminationMode, XBBlockData data) {
-        this.dataMode = XBBlockDataMode.DATA_BLOCK;
+        dataMode = XBBlockDataMode.DATA_BLOCK;
+        this.parent = parent;
         this.terminationMode = terminationMode;
         this.blockType = null;
         this.attributes = null;
         this.children = null;
+        this.data = data == null ? new XBData() : data;
+    }
+
+    /**
+     * Creates new instance of XBTDefaultBlock as a data block with given values
+     * and no parent block.
+     *
+     * @param terminationMode termination mode
+     * @param data block data
+     */
+    public XBTDefaultBlock(XBBlockTerminationMode terminationMode, XBBlockData data) {
+        this(null, terminationMode, data);
+    }
+
+    /**
+     * Creates new instance of XBTDefaultBlock as a node block with given
+     * values.
+     *
+     * @param parent parent node
+     * @param terminationMode termination mode
+     * @param blockType block type
+     * @param attributes attributes
+     * @param children children blocks
+     */
+    public XBTDefaultBlock(XBTBlock parent, XBBlockTerminationMode terminationMode, XBBlockType blockType, XBAttribute[] attributes, XBTBlock[] children) {
+        dataMode = XBBlockDataMode.NODE_BLOCK;
         this.parent = parent;
-        this.data = data;
+        this.terminationMode = terminationMode == null ? XBBlockTerminationMode.SIZE_SPECIFIED : terminationMode;
+        this.blockType = blockType == null ? XBFixedBlockType.UNKNOWN_BLOCK_TYPE : blockType;
+        this.attributes = attributes == null ? new XBAttribute[0] : attributes;
+        this.children = children == null ? new XBTBlock[0] : children;
+        data = null;
+        if (children != null) {
+            attachChildren(children);
+        }
+    }
+
+    /**
+     * Creates new instance of XBTDefaultBlock as a node block with given values
+     * and no parent block.
+     *
+     * @param terminationMode termination mode
+     * @param blockType block type
+     * @param attributes attributes
+     * @param children children blocks
+     */
+    public XBTDefaultBlock(XBBlockTerminationMode terminationMode, XBBlockType blockType, XBAttribute[] attributes, XBTBlock[] children) {
+        this(null, terminationMode, blockType, attributes, children);
+    }
+
+    private void attachChildren(XBTBlock[] children) {
+        for (XBTBlock child : children) {
+            if (child instanceof XBTDefaultBlock) {
+                ((XBTDefaultBlock) child).setParent(this);
+            } else if (child instanceof XBEditableBlock) {
+                ((XBTEditableBlock) child).setParent(this);
+            }
+        }
     }
 
     @Override
@@ -77,6 +124,12 @@ public class XBTDefaultBlock implements XBTBlock {
         return parent;
     }
 
+    /**
+     * Allows to set parent block, which is not cosidered as a part of the block
+     * value and allows to move this block in tree.
+     *
+     * @param parent parent block
+     */
     public void setParent(XBTBlock parent) {
         this.parent = parent;
     }
@@ -136,18 +189,34 @@ public class XBTDefaultBlock implements XBTBlock {
         return data;
     }
 
-    @Override
-    public long getDataSize() {
-        return data == null ? 0 : data.getDataSize();
-    }
+    /**
+     * Gets block position in depth-first scan of the tree.
+     *
+     * Returns -1 for null block or if tree structure is corrupted.
+     *
+     * @param block target block
+     * @return position index
+     */
+    public static int getBlockIndex(XBTBlock block) {
+        if (block == null) {
+            return -1;
+        }
 
-    @Override
-    public long getBlockSize() {
-        return -1;
-    }
+        if (block.getParent() != null) {
+            int result = getBlockIndex(block.getParent()) + 1;
+            int childIndex = 0;
+            XBTBlock child;
+            do {
+                child = block.getParent().getChildAt(childIndex);
+                if (child == block) {
+                    return result + childIndex;
+                }
+                childIndex++;
+            } while (child != null);
 
-    @Override
-    public int getBlockIndex() {
-        return -1;
+            return -1;
+        } else {
+            return 0;
+        }
     }
 }

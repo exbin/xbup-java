@@ -199,7 +199,7 @@ public class XBDefaultBlock implements XBBlock {
             XBBlock child;
             do {
                 child = block.getParent().getChildAt(childIndex);
-                if (child == block) {
+                if (block.equals(child)) {
                     return result + childIndex;
                 }
                 childIndex++;
@@ -209,5 +209,30 @@ public class XBDefaultBlock implements XBBlock {
         } else {
             return 0;
         }
+    }
+
+    /**
+     * Gets block position in parents direct child list.
+     *
+     * @param parent parent block
+     * @param block target block
+     * @return position index
+     */
+    public static int getChildIndexOf(XBBlock parent, XBBlock block) {
+        if (block == null || parent == null) {
+            return -1;
+        }
+
+        int childIndex = 0;
+        XBBlock child;
+        do {
+            child = block.getParent().getChildAt(childIndex);
+            if (block.equals(child)) {
+                return childIndex;
+            }
+            childIndex++;
+        } while (child != null);
+
+        return -1;
     }
 }

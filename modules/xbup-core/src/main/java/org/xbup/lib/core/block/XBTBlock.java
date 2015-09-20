@@ -90,6 +90,8 @@ public interface XBTBlock {
     /**
      * Gets children of given index.
      *
+     * If no child for given index exist, return null.
+     *
      * @param childIndex index of child block
      * @return child block
      */

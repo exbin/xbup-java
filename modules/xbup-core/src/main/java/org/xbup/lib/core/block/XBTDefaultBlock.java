@@ -17,7 +17,6 @@
 package org.xbup.lib.core.block;
 
 import java.io.InputStream;
-import java.util.Iterator;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.type.XBData;
 
@@ -208,7 +207,7 @@ public class XBTDefaultBlock implements XBTBlock {
             XBTBlock child;
             do {
                 child = block.getParent().getChildAt(childIndex);
-                if (child == block) {
+                if (block.equals(child)) {
                     return result + childIndex;
                 }
                 childIndex++;
@@ -218,5 +217,30 @@ public class XBTDefaultBlock implements XBTBlock {
         } else {
             return 0;
         }
+    }
+
+    /**
+     * Gets block position in parents direct child list.
+     *
+     * @param parent parent block
+     * @param block target block
+     * @return position index
+     */
+    public static int getChildIndexOf(XBTBlock parent, XBTBlock block) {
+        if (block == null || parent == null) {
+            return -1;
+        }
+
+        int childIndex = 0;
+        XBTBlock child;
+        do {
+            child = block.getParent().getChildAt(childIndex);
+            if (block.equals(child)) {
+                return childIndex;
+            }
+            childIndex++;
+        } while (child != null);
+
+        return -1;
     }
 }

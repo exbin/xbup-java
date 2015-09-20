@@ -23,7 +23,7 @@ import java.io.OutputStream;
 /**
  * Utilities for stream data manipulations.
  *
- * @version 0.2.0 2015/09/19
+ * @version 0.2.0 2015/09/20
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class StreamUtils {
@@ -131,15 +131,33 @@ public abstract class StreamUtils {
     }
 
     /**
-     * Reads all remaining data from input stream.
+     * Skips all remaining data from input stream.
      *
      * @param source input stream
      * @throws IOException if read fails
      */
-    public static void readUpInputStream(InputStream source) throws IOException {
+    public static void skipInputStreamData(InputStream source) throws IOException {
         while (source.available() > 0) {
             if (source.skip(BUFFER_SIZE) == -1) {
                 break;
+            }
+        }
+    }
+
+    /**
+     * Skips given amount of data from input stream.
+     *
+     * @param source input stream
+     * @param skip number of bytes to skip
+     * @throws IOException if skip fails
+     */
+    public static void skipInputStreamData(InputStream source, long skip) throws IOException {
+        while (skip > 0) {
+            long skipped = source.skip(skip > BUFFER_SIZE ? BUFFER_SIZE : skip);
+            if (skipped == -1) {
+                throw new IOException("Unable to skip data");
+            } else {
+                skip -= skipped;
             }
         }
     }

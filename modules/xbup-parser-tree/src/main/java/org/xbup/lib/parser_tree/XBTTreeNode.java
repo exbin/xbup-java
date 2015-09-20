@@ -709,7 +709,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
 
     @Override
     public XBTTreeNode getChildAt(int childIndex) {
-        return (XBTTreeNode) children.get(childIndex);
+        return childIndex < children.size() ? (XBTTreeNode) children.get(childIndex) : null;
     }
 
     @Override

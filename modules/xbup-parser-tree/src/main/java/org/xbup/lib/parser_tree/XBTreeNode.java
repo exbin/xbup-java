@@ -596,7 +596,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
 
     @Override
     public XBTreeNode getChildAt(int childIndex) {
-        return (XBTreeNode) children.get(childIndex);
+        return childIndex < children.size() ? (XBTreeNode) children.get(childIndex) : null;
     }
 
     @Override

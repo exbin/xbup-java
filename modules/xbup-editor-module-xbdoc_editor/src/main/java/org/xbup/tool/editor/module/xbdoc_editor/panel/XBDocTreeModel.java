@@ -22,13 +22,14 @@ import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+import org.xbup.lib.core.block.XBTBlock;
+import org.xbup.lib.core.block.XBTDefaultBlock;
 import org.xbup.lib.parser_tree.XBTTreeDocument;
-import org.xbup.lib.parser_tree.XBTTreeNode;
 
 /**
  * Document Tree Model for XBUP Document Tree.
  *
- * @version 0.1.24 2014/11/09
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocTreeModel implements TreeModel {
@@ -52,17 +53,17 @@ public class XBDocTreeModel implements TreeModel {
 
     @Override
     public Object getChild(Object parent, int index) {
-        return ((XBTTreeNode) parent).getChildAt(index);
+        return ((XBTBlock) parent).getChildAt(index);
     }
 
     @Override
     public int getChildCount(Object parent) {
-        return ((XBTTreeNode) parent).getChildrenCount();
+        return ((XBTBlock) parent).getChildrenCount();
     }
 
     @Override
     public boolean isLeaf(Object node) {
-        return ((XBTTreeNode) node).isLeaf();
+        return ((XBTBlock) node).getChildAt(0) == null;
     }
 
     @Override
@@ -71,7 +72,7 @@ public class XBDocTreeModel implements TreeModel {
 
     @Override
     public int getIndexOfChild(Object parent, Object child) {
-        return ((XBTTreeNode) parent).getIndex((XBTTreeNode) child);
+        return XBTDefaultBlock.getChildIndexOf((XBTBlock) parent, (XBTBlock) child);
     }
 
     @Override
@@ -92,7 +93,7 @@ public class XBDocTreeModel implements TreeModel {
      *
      * @param oldRoot old root node
      */
-    public void fireTreeStructureChanged(XBTTreeNode oldRoot) {
+    public void fireTreeStructureChanged(XBTBlock oldRoot) {
         int len = treeModelListeners.size();
         TreeModelEvent e = new TreeModelEvent(this, new Object[]{oldRoot});
         for (int i = 0; i < len; i++) {

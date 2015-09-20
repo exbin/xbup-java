@@ -52,4 +52,9 @@ public class XBTDefaultDocument implements XBTDocument {
     public long getExtendedAreaSize() {
         return extendedArea == null ? 0 : extendedArea.getDataSize();
     }
+
+    @Override
+    public long getDocumentSize() {
+        return -1;
+    }
 }

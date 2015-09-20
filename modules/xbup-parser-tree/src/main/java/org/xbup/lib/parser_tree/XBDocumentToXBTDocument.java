@@ -25,7 +25,7 @@ import org.xbup.lib.core.block.XBTEditableDocument;
 /**
  * Conversion from level 0 document to level 1 document
  *
- * @version 0.2.0 2015/09/19
+ * @version 0.2.0 2015/09/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocumentToXBTDocument implements XBTEditableDocument {
@@ -95,5 +95,10 @@ public class XBDocumentToXBTDocument implements XBTEditableDocument {
         }
 
         ((XBEditableDocument) document).clear();
+    }
+
+    @Override
+    public long getDocumentSize() {
+        return document.getDocumentSize();
     }
 }

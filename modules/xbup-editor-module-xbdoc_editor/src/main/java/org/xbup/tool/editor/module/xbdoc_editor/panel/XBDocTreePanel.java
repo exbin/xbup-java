@@ -46,6 +46,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.tree.TreePath;
 import org.xbup.lib.core.block.XBBlockDataMode;
+import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
@@ -235,11 +236,11 @@ public class XBDocTreePanel extends javax.swing.JPanel implements ActivePanelAct
         return (XBTTreeNode) mainTree.getLastSelectedPathComponent();
     }
 
-    public void reportStructureChange(XBTTreeNode node) {
-        if (node == null) {
+    public void reportStructureChange(XBTBlock block) {
+        if (block == null) {
             mainDocModel.fireTreeChanged();
         } else {
-            mainDocModel.fireTreeStructureChanged(node);
+            mainDocModel.fireTreeStructureChanged(block);
         }
     }
 

@@ -33,6 +33,7 @@ import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFBlockType;
+import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
@@ -47,12 +48,12 @@ import org.xbup.tool.editor.module.service_manager.catalog.panel.CatalogItemInfo
 /**
  * Dialog for showing information about document block.
  *
- * @version 0.1.25 2015/04/11
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class BlockPropertiesDialog extends javax.swing.JDialog {
 
-    private XBTTreeNode node;
+    private XBTBlock block;
     private XBACatalog catalog;
     private final CatalogItemInfoPanel catalogItemPanel;
     private boolean devMode = false;
@@ -284,16 +285,16 @@ public class BlockPropertiesDialog extends javax.swing.JDialog {
 
     public void runDialog(XBTTreeNode srcNode) {
         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
-        node = srcNode;
-        nodeTypeTextField.setText(getCaption(node));
-        dataModeTextField.setText(node.getDataMode() == XBBlockDataMode.DATA_BLOCK ? "DATA_BLOCK" : "NODE_BLOCK");
-        terminationModeTextField.setText(node.getTerminationMode() == XBBlockTerminationMode.TERMINATED_BY_ZERO ? "TERMINATED_BY_ZERO" : "SIZE_SPECIFIED");
-        nodeSizeTextField.setText(Integer.toString(node.getSizeUB()));
-        attributesCountTextField.setText(String.valueOf(node.getAttributesCount()));
-        childrenCountTextField.setText(String.valueOf(node.getChildrenCount()));
+        block = srcNode;
+        nodeTypeTextField.setText(getCaption(block));
+        dataModeTextField.setText(block.getDataMode() == XBBlockDataMode.DATA_BLOCK ? "DATA_BLOCK" : "NODE_BLOCK");
+        terminationModeTextField.setText(block.getTerminationMode() == XBBlockTerminationMode.TERMINATED_BY_ZERO ? "TERMINATED_BY_ZERO" : "SIZE_SPECIFIED");
+        nodeSizeTextField.setText(block instanceof XBTTreeNode ? Integer.toString(((XBTTreeNode) block).getSizeUB()) : "Unknown");
+        attributesCountTextField.setText(String.valueOf(block.getAttributesCount()));
+        childrenCountTextField.setText(String.valueOf(block.getChildrenCount()));
 
         String catalogLink = devMode ? "http://catalog-dev.xbup.org/" : "http://catalog.xbup.org/";
-        XBBlockDecl decl = node.getBlockDecl();
+        XBBlockDecl decl = block instanceof XBTTreeNode ? ((XBTTreeNode) block).getBlockDecl() : null;
         if (decl instanceof XBCBlockDecl) {
             XBCBlockSpec spec = ((XBCBlockDecl) decl).getBlockSpecRev().getParent();
             catalogItemPanel.setCatalog(catalog);
@@ -360,7 +361,7 @@ public class BlockPropertiesDialog extends javax.swing.JDialog {
         this.devMode = devMode;
     }
 
-    private String getCaption(XBTTreeNode node) {
+    private String getCaption(XBTBlock node) {
         if (node.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
             return bundle.getString("node_caption_data");
         }
@@ -369,7 +370,7 @@ public class BlockPropertiesDialog extends javax.swing.JDialog {
         if (catalog != null) {
             XBCXNameService nameService = (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
 
-            XBCBlockDecl blockDecl = (XBCBlockDecl) node.getBlockDecl();
+            XBCBlockDecl blockDecl = node instanceof XBTTreeNode ? (XBCBlockDecl) ((XBTTreeNode) node).getBlockDecl() : null;
             if (blockDecl == null) {
                 return bundle.getString("node_caption_undefined");
             }

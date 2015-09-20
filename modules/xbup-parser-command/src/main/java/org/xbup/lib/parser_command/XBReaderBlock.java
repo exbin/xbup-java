@@ -19,26 +19,29 @@ package org.xbup.lib.parser_command;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import org.xbup.lib.core.block.XBBlock;
 import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 0 command reader block.
  *
- * @version 0.1.23 2014/04/14
+ * @version 0.2.0 2015/09/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBReaderBlock implements XBBlock, Closeable {
 
     private final long[] blockPath;
-    private final XBCommandReader reader;
+    private final XBReader reader;
 
-    public XBReaderBlock(XBCommandReader reader, long[] blockPath) {
+    public XBReaderBlock(XBReader reader, long[] blockPath) {
         this.blockPath = blockPath;
         this.reader = reader;
     }
@@ -53,6 +56,26 @@ public class XBReaderBlock implements XBBlock, Closeable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof XBReaderBlock) {
+            Arrays.equals(((XBReaderBlock) obj).blockPath, blockPath);
+        }
+
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + Arrays.hashCode(this.blockPath);
+        return hash;
+    }
+
+    public long[] getBlockPath() {
+        return blockPath;
+    }
+    
+    @Override
     public XBBlockDataMode getDataMode() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -64,12 +87,36 @@ public class XBReaderBlock implements XBBlock, Closeable {
 
     @Override
     public XBAttribute[] getAttributes() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            reader.seekBlock(this);
+        } catch (XBProcessingException | IOException ex) {
+            return null;
+        }
+
+        List<XBAttribute> attributes = new ArrayList<>();
+        int attributeIndex = 0;
+        XBAttribute blockAttribute;
+        do {
+            blockAttribute = reader.getBlockAttribute(attributeIndex);
+            if (blockAttribute != null) {
+                attributes.add(blockAttribute);
+                attributeIndex++;
+            }
+        } while (blockAttribute != null);
+
+        return attributes.toArray(new XBAttribute[0]);
     }
 
     @Override
-    public UBNatural getAttributeAt(int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public UBNatural getAttributeAt(int attributeIndex) {
+        try {
+            reader.seekBlock(this);
+        } catch (XBProcessingException | IOException ex) {
+            return null;
+        }
+
+        XBAttribute blockAttribute = reader.getBlockAttribute(attributeIndex);
+        return blockAttribute == null ? null : blockAttribute.convertToNatural();
     }
 
     @Override

@@ -19,8 +19,10 @@ package org.xbup.lib.parser_command;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import org.xbup.lib.core.block.XBBlock;
 import org.xbup.lib.core.block.XBEditableBlock;
 
 /**
@@ -29,10 +31,10 @@ import org.xbup.lib.core.block.XBEditableBlock;
  * This reader expects data not to be changed, so exclusive lock on source data
  * is recommended.
  *
- * @version 0.1.25 2015/09/09
+ * @version 0.1.25 2015/09/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XBWriter implements XBCommandReader, XBCommandWriter, Closeable {
+public class XBWriter implements XBCommandWriter, Closeable {
 
     private InputStream source;
     private List<XBWriter.BlockPosition> pathPositions;
@@ -48,13 +50,17 @@ public class XBWriter implements XBCommandReader, XBCommandWriter, Closeable {
 
     @Override
     public void open(InputStream stream) throws IOException {
-        source = stream;
-        reset();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void close() throws IOException {
         source.close();
+    }
+
+    @Override
+    public void save(OutputStream stream) throws IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -74,6 +80,36 @@ public class XBWriter implements XBCommandReader, XBCommandWriter, Closeable {
 
     private void reset() {
         pathPositions = new ArrayList<>();
+    }
+
+    @Override
+    public InputStream getExtendedArea() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public long getExtendedAreaSize() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setRootBlock(XBBlock block) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setExtendedArea(InputStream source) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void clear() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public long getDocumentSize() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private class BlockPosition {

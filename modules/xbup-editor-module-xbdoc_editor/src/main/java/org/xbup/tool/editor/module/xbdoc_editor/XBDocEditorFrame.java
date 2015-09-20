@@ -98,6 +98,7 @@ import org.xbup.lib.client.catalog.remote.service.XBRXNameService;
 import org.xbup.lib.client.catalog.remote.service.XBRXPaneService;
 import org.xbup.lib.client.catalog.remote.service.XBRXPlugService;
 import org.xbup.lib.client.catalog.remote.service.XBRXStriService;
+import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCRoot;
 import org.xbup.lib.core.catalog.base.service.XBCNodeService;
@@ -113,7 +114,6 @@ import org.xbup.lib.core.catalog.base.service.XBCXPlugService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
-import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.plugin.XBPluginRepository;
 import org.xbup.tool.editor.base.api.ActivePanelActionHandling;
 import org.xbup.tool.editor.base.api.ApplicationPanel;
@@ -141,7 +141,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.panel.XBDocumentPanel;
 /**
  * XBDocEditor Main Frame.
  *
- * @version 0.1.25 2015/06/28
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFrame, TextColorPanelFrame, TextFontPanelFrame {
@@ -447,7 +447,7 @@ public class XBDocEditorFrame extends javax.swing.JFrame implements XBEditorFram
         this.catalog = catalog;
 
         activePanel.setCatalog(catalog);
-        activePanel.reportStructureChange((XBTTreeNode) activePanel.getDoc().getRootBlock());
+        activePanel.reportStructureChange((XBTBlock) activePanel.getDoc().getRootBlock());
 
         if (propertiesDialog != null) {
             propertiesDialog.setCatalog(catalog);

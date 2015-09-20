@@ -37,6 +37,7 @@ dependencies {
     compile(project(":modules:xbup-editor-module-utils"))
     compile(project(":modules:xbup-plugin"))
     compile(project(":modules:xbup-parser-tree"))
+    compile(project(":modules:xbup-parser-command"))
     compile(project(":modules:xbup-operation"))
     compile(project(":modules:hexedit"))
     compile(project(":modules:simplyhtml"))

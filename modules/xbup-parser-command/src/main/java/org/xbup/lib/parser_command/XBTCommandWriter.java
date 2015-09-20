@@ -14,43 +14,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.core.block;
+package org.xbup.lib.parser_command;
 
-import java.io.InputStream;
+import java.io.Closeable;
+import org.xbup.lib.core.block.XBTEditableDocument;
 
 /**
- * Interface for read access to XBUP level 1 document.
+ * XBUP level 1 command writer interface.
  *
  * @version 0.2.0 2015/09/20
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBTDocument {
-
-    /**
-     * Gets root block of the document.
-     *
-     * @return root block if exits or null
-     */
-    public XBTBlock getRootBlock();
-
-    /**
-     * Gets size of the whole document if available.
-     *
-     * @return length of whole document in bytes or -1 if not available or infinity
-     */
-    public long getDocumentSize();
-
-    /**
-     * Gets extended data area.
-     *
-     * @return data stream
-     */
-    public InputStream getExtendedArea();
-
-    /**
-     * Gets size of the extended data area if available.
-     *
-     * @return length of extended area in bytes or -1 if not available or infinity
-     */
-    public long getExtendedAreaSize();
+public interface XBTCommandWriter extends XBTEditableDocument, XBTCommandReader, Closeable {
 }

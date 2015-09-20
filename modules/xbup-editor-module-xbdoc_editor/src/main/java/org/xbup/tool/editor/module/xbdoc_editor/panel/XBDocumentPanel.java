@@ -73,7 +73,7 @@ import org.xbup.tool.editor.module.xbdoc_editor.dialog.ModifyBlockDialog;
 /**
  * Panel with XBUP document visualization.
  *
- * @version 0.1.25 2015/06/30
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFilePanel, ActivePanelUndoable, ActivePanelActionHandling {
@@ -286,8 +286,8 @@ public class XBDocumentPanel extends javax.swing.JPanel implements ApplicationFi
         return mainDoc;
     }
 
-    public void reportStructureChange(XBTTreeNode node) {
-        treePanel.reportStructureChange(node);
+    public void reportStructureChange(XBTBlock block) {
+        treePanel.reportStructureChange(block);
     }
 
     public boolean isEditEnabled() {

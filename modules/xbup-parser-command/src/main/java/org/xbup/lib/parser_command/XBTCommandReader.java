@@ -19,16 +19,16 @@ package org.xbup.lib.parser_command;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
-import org.xbup.lib.core.block.XBBlock;
-import org.xbup.lib.core.block.XBDocument;
+import org.xbup.lib.core.block.XBTBlock;
+import org.xbup.lib.core.block.XBTDocument;
 
 /**
- * XBUP level 0 command reader interface.
+ * XBUP level 1 command reader interface.
  *
- * @version 0.1.25 2015/09/08
+ * @version 0.2.0 2015/09/19
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBCommandReader extends XBDocument, Closeable {
+public interface XBTCommandReader extends XBTDocument, Closeable {
 
     /**
      * Opens input byte-stream.
@@ -57,5 +57,5 @@ public interface XBCommandReader extends XBDocument, Closeable {
      * @param blockPath path to block in document
      * @return block handler
      */
-    public XBBlock getBlock(long[] blockPath);
+    public XBTBlock getBlock(long[] blockPath);
 }

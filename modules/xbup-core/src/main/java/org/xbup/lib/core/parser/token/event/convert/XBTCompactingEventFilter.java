@@ -40,7 +40,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  *
  * This should be usable for level 2 compacting conversions.
  *
- * @version 0.1.24 2015/01/27
+ * @version 0.2.0 2015/09/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCompactingEventFilter implements XBTEventFilter {
@@ -77,8 +77,10 @@ public class XBTCompactingEventFilter implements XBTEventFilter {
             }
             case TYPE: {
                 flushEmptyNodes();
-                emptyDataMode = false;
-                eventListener.putXBTToken(new XBTBeginToken(blockMode));
+                if (emptyDataMode) {
+                    eventListener.putXBTToken(new XBTBeginToken(blockMode));
+                    emptyDataMode = false;
+                }
                 unknownMode = (((XBTTypeToken) token).getBlockType().getAsBasicType() == XBBasicBlockType.UNKNOWN_BLOCK);
 
                 eventListener.putXBTToken(token);
@@ -88,8 +90,9 @@ public class XBTCompactingEventFilter implements XBTEventFilter {
                 flushEmptyNodes();
                 if (emptyDataMode) {
                     eventListener.putXBTToken(new XBTBeginToken(blockMode));
+                    emptyDataMode = false;
                 }
-                emptyDataMode = false;
+
                 if (!unknownMode) {
                     if (((XBTAttributeToken) token).getAttribute().isNaturalZero()) {
                         zeroAttributes++;

@@ -33,7 +33,7 @@ import org.xbup.lib.catalog.entity.XBERoot;
 /**
  * XBUP catalog node manager.
  *
- * @version 0.1.25 2015/09/06
+ * @version 0.2.0 2015/09/21
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
@@ -143,13 +143,14 @@ public class XBENodeManager extends XBEDefaultManager<XBENode> implements XBCNod
     }
 
     @Override
-    public XBENode findOwnerByXBPath(Long[] xbCatalogPath) {
-        XBENode node = getRootNode();
-        if (xbCatalogPath.length == 0) {
+    public XBENode findOwnerByXBPath(Long[] catalogPath) {
+        if (catalogPath == null || catalogPath.length == 0) {
             return null;
         }
-        for (int i = 0; i < xbCatalogPath.length - 1; i++) {
-            node = (XBENode) getSubNode(node, xbCatalogPath[i]);
+
+        XBENode node = getRootNode();
+        for (int i = 0; i < catalogPath.length - 1; i++) {
+            node = (XBENode) getSubNode(node, catalogPath[i]);
             if (node == null) {
                 break;
             }

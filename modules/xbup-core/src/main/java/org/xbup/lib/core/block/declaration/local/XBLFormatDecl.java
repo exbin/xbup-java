@@ -47,7 +47,7 @@ import org.xbup.lib.core.serial.param.XBSerializationMode;
 /**
  * XBUP level 1 local format declaration.
  *
- * @version 0.1.25 2015/02/05
+ * @version 0.2.0 2015/09/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable, XBTBasicReceivingSerializable {
@@ -324,6 +324,10 @@ public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable, XBT
     }
 
     public Long[] getCatalogPathAsClassArray() {
+        if (catalogPath == null) {
+            return null;
+        }
+
         Long[] classCatalogPath = new Long[catalogPath.length];
         for (int pathIndex = 0; pathIndex < catalogPath.length; pathIndex++) {
             classCatalogPath[pathIndex] = catalogPath[pathIndex];

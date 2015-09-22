@@ -25,7 +25,7 @@ import org.xbup.lib.core.block.XBDocument;
 /**
  * XBUP level 0 command reader interface.
  *
- * @version 0.1.25 2015/09/08
+ * @version 0.2.0 2015/09/22
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBCommandReader extends XBDocument, Closeable {
@@ -49,7 +49,7 @@ public interface XBCommandReader extends XBDocument, Closeable {
      *
      * @throws IOException
      */
-    public void resetParser() throws IOException;
+    public void resetXB() throws IOException;
 
     /**
      * Returns block handler for given path in document.

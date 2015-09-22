@@ -39,6 +39,7 @@ import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBEndToken;
 import org.xbup.lib.core.parser.token.XBToken;
+import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 import org.xbup.lib.core.stream.FinishableStream;
 import org.xbup.lib.core.stream.SeekableStream;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
@@ -50,10 +51,10 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * This reader expects data not to be changed, so exclusive lock on source data
  * is recommended.
  *
- * @version 0.2.0 2015/09/20
+ * @version 0.2.0 2015/09/22
  * @author XBUP Project (http://xbup.org)
  */
-public class XBReader implements XBCommandReader, Closeable {
+public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
 
     private XBParserState parserState;
     private XBParserMode parserMode = XBParserMode.FULL;
@@ -73,7 +74,7 @@ public class XBReader implements XBCommandReader, Closeable {
     private XBReaderBlock activeBlock = null;
 
     public XBReader() throws IOException {
-        reset();
+        resetParser();
     }
 
     public XBReader(InputStream stream) throws IOException {
@@ -97,7 +98,7 @@ public class XBReader implements XBCommandReader, Closeable {
             throw new IOException("XBReader only supports seekable streams");
         }
 
-        reset();
+        resetParser();
     }
 
     @Override
@@ -107,20 +108,19 @@ public class XBReader implements XBCommandReader, Closeable {
         }
     }
 
-    @Override
-    public void resetParser() throws IOException {
-        reset();
-
-        dataWrapper = null;
-        parserState = XBParserState.START;
-        pathPositions.clear();
-        attributePartSizeValue = 0;
-    }
-
-    private void reset() throws IOException {
+    private void resetParser() throws IOException {
         pathPositions.clear();
         currentSourcePosition = 0;
+        dataWrapper = null;
+        attributePartSizeValue = 0;
+        parserState = XBParserState.START;
+
         resetBlock();
+    }
+
+    @Override
+    public void resetXB() throws IOException {
+        resetParser();
     }
 
     private void resetBlock() {
@@ -130,19 +130,24 @@ public class XBReader implements XBCommandReader, Closeable {
         attributesCount = null;
     }
 
-    private void restartBlock() {
-        /*if ()
-        BlockPosition currentBlockPosition
-        // Revert already decreased size limits
-        for (BlockPosition blockPosition : pathPositions) {
-            if (blockPosition.sizeLimit != null) {
-                blockPosition.sizeLimit -= accumulatedProcessedSize;
+    private void restartBlock() throws IOException {
+        if (pathPositions.isEmpty()) {
+            currentSourcePosition = 0;
+            parserState = XBParserState.START;
+        } else {
+            BlockPosition currentPosition = pathPositions.get(pathPositions.size() - 1);
+            currentSourcePosition = currentPosition.streamPosition;
+
+            // Revert already decreased size limits
+            for (BlockPosition blockPosition : pathPositions) {
+                if (blockPosition.sizeLimit != null) {
+                    blockPosition.sizeLimit -= blockPosition.processedBlockSize;
+                }
             }
         }
 
-        BlockPosition blockPosition = pathPositions.get(depthMatch - 1);
-        ((SeekableStream) source).seek(blockPosition.streamPosition);
-        // TODO seekBlockStart(getCurrentBlockStreamPosition(), 0); */
+        ((SeekableStream) source).seek(currentSourcePosition);
+        resetBlock();
     }
 
     @Override
@@ -182,7 +187,7 @@ public class XBReader implements XBCommandReader, Closeable {
         return getBlock(getCurrentPath());
     }
 
-    public XBBlockDataMode getBlockDataMode() {
+    public XBBlockDataMode getBlockDataMode() throws XBProcessingException, IOException {
         if (parserState != XBParserState.BLOCK_BEGIN) {
             restartBlock();
         }
@@ -190,7 +195,7 @@ public class XBReader implements XBCommandReader, Closeable {
         return currentBlockDataMode;
     }
 
-    public XBBlockTerminationMode getBlockTerminationMode() {
+    public XBBlockTerminationMode getBlockTerminationMode() throws XBProcessingException, IOException {
         if (parserState != XBParserState.BLOCK_BEGIN) {
             restartBlock();
         }
@@ -198,8 +203,8 @@ public class XBReader implements XBCommandReader, Closeable {
         return currentBlockTerminationMode;
     }
 
-    public XBAttribute getBlockAttribute(int attributeIndex) {
-        if (parserState != XBParserState.BLOCK_BEGIN ) {
+    public XBAttribute getBlockAttribute(int attributeIndex) throws XBProcessingException, IOException {
+        if (parserState != XBParserState.BLOCK_BEGIN) {
             restartBlock();
         }
 
@@ -251,6 +256,7 @@ public class XBReader implements XBCommandReader, Closeable {
      * @return next recognized event item in stream
      * @throws IOException
      */
+    @Override
     public XBToken pullXBToken() throws XBProcessingException, IOException {
         if (dataWrapper != null) {
             dataWrapper.finish();
@@ -370,6 +376,10 @@ public class XBReader implements XBCommandReader, Closeable {
             default:
                 throw new XBParseException("Unexpected pull item type", XBProcessingExceptionType.UNKNOWN);
         }
+    }
+
+    public boolean isFinishedXB() {
+        return parserState == XBParserState.EOF;
     }
 
     /**

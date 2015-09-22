@@ -16,15 +16,13 @@
  */
 package org.xbup.lib.parser_command;
 
-import java.io.IOException;
-import java.io.InputStream;
 import junit.framework.TestCase;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.xbup.lib.core.block.XBDocument;
 import org.xbup.lib.core.parser.data.XBCoreTestSampleData;
-import org.xbup.lib.core.stream.SeekableStream;
 import org.xbup.lib.core.test.XBTestUtils;
+import static org.xbup.lib.parser_command.XBCommandParserTestUtils.getResourceAsSeekableStream;
 
 /**
  * Test class for XBTreeDocument.
@@ -355,73 +353,5 @@ public class XBReaderTest extends TestCase {
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleSixBlocksTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
-    }
-
-    /**
-     * Returns input stream for given resource supporting SeekableStream
-     * interface.
-     *
-     * @param name resource name
-     * @return input stream
-     */
-    private static InputStream getResourceAsSeekableStream(String name) {
-        return new SeekableInputStream(name);
-    }
-
-    /**
-     * Encapsulating class for resource stream as seekable stream.
-     */
-    private static class SeekableInputStream extends InputStream implements SeekableStream {
-
-        private InputStream source = null;
-        private String name = null;
-        private boolean closed = false;
-
-        public SeekableInputStream(String name) {
-            this.name = name;
-            source = XBReaderTest.class.getResourceAsStream(name);
-        }
-
-        @Override
-        public int read() throws IOException {
-            return source.read();
-        }
-
-        @Override
-        public int read(byte[] b, int off, int len) throws IOException {
-            return source.read(b, off, len);
-        }
-
-        @Override
-        public int read(byte[] b) throws IOException {
-            return source.read(b);
-        }
-
-        @Override
-        public long skip(long n) throws IOException {
-            return source.skip(n);
-        }
-
-        @Override
-        public void close() throws IOException {
-            closed = true;
-            source.close();
-        }
-
-        @Override
-        public void seek(long position) throws IOException {
-            if (closed) {
-                throw new IOException("Attempt to seek closed stream");
-            }
-
-            source.close();
-            source = XBReaderTest.class.getResourceAsStream(name);
-            source.skip(position);
-        }
-
-        @Override
-        public long getStreamSize() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
     }
 }

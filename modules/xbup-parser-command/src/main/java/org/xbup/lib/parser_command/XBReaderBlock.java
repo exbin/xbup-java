@@ -22,6 +22,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlock;
 import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.block.XBBlockDataMode;
@@ -33,7 +35,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 0 command reader block.
  *
- * @version 0.2.0 2015/09/20
+ * @version 0.2.0 2015/09/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBReaderBlock implements XBBlock, Closeable {
@@ -95,9 +97,13 @@ public class XBReaderBlock implements XBBlock, Closeable {
 
         List<XBAttribute> attributes = new ArrayList<>();
         int attributeIndex = 0;
-        XBAttribute blockAttribute;
+        XBAttribute blockAttribute = null;
         do {
-            blockAttribute = reader.getBlockAttribute(attributeIndex);
+            try {
+                blockAttribute = reader.getBlockAttribute(attributeIndex);
+            } catch (XBProcessingException | IOException ex) {
+                Logger.getLogger(XBReaderBlock.class.getName()).log(Level.SEVERE, null, ex);
+            }
             if (blockAttribute != null) {
                 attributes.add(blockAttribute);
                 attributeIndex++;
@@ -115,7 +121,12 @@ public class XBReaderBlock implements XBBlock, Closeable {
             return null;
         }
 
-        XBAttribute blockAttribute = reader.getBlockAttribute(attributeIndex);
+        XBAttribute blockAttribute = null;
+        try {
+            blockAttribute = reader.getBlockAttribute(attributeIndex);
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBReaderBlock.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return blockAttribute == null ? null : blockAttribute.convertToNatural();
     }
 

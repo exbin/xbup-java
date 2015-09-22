@@ -60,7 +60,7 @@ public class XBTReader implements XBTCommandReader, Closeable {
 
     @Override
     public void resetParser() throws IOException {
-        reader.resetParser();
+        reader.resetXB();
     }
 
     @Override

@@ -74,7 +74,7 @@ public class XBWriter implements XBCommandWriter, Closeable {
     }
 
     @Override
-    public void resetParser() throws IOException {
+    public void resetXB() throws IOException {
         reset();
     }
 

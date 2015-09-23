@@ -23,7 +23,7 @@ import org.xbup.lib.core.stream.SeekableStream;
 /**
  * Utilities for testing.
  *
- * @version 0.2.0 2015/09/22
+ * @version 0.2.0 2015/09/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCommandParserTestUtils {
@@ -51,6 +51,11 @@ public class XBCommandParserTestUtils {
         public SeekableInputStream(String name) {
             this.name = name;
             source = XBReaderTest.class.getResourceAsStream(name);
+        }
+
+        @Override
+        public int available() throws IOException {
+            return source.available();
         }
 
         @Override

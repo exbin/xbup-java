@@ -51,7 +51,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * This reader expects data not to be changed, so exclusive lock on source data
  * is recommended.
  *
- * @version 0.2.0 2015/09/22
+ * @version 0.2.0 2015/09/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
@@ -279,7 +279,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                 shrinkStatus(pathPositions, headSize);
                 if (attrPartSize.getLong() == 0) {
                     // Process terminator
-                    if (pathPositions.isEmpty() || pathPositions.get(pathPositions.size() - 1) != null) {
+                    if (pathPositions.isEmpty() || pathPositions.get(pathPositions.size() - 1).sizeLimit != null) {
                         throw new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR);
                     }
 
@@ -330,7 +330,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
 
                     parserState = XBParserState.EOF;
                 } else {
-                    if (pathPositions.get(pathPositions.size() - 1) == null || pathPositions.get(pathPositions.size() - 1).sizeLimit > 0) {
+                    if (pathPositions.get(pathPositions.size() - 1).sizeLimit == null || pathPositions.get(pathPositions.size() - 1).sizeLimit > 0) {
                         parserState = XBParserState.BLOCK_BEGIN;
                     } else {
                         pathPositions.remove(pathPositions.size() - 1);

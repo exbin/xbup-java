@@ -19,7 +19,6 @@ package org.xbup.lib.parser_command;
 import java.io.IOException;
 import java.io.InputStream;
 import junit.framework.TestCase;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -35,10 +34,9 @@ import static org.xbup.lib.parser_command.XBCommandParserTestUtils.getResourceAs
 /**
  * Test class for pull capabilites of XBReader.
  *
- * @version 0.2.0 2015/09/22
+ * @version 0.2.0 2015/09/23
  * @author XBUP Project (http://xbup.org)
  */
-@Ignore
 public class XBReaderPullTest extends TestCase {
 
     public XBReaderPullTest(String testName) {

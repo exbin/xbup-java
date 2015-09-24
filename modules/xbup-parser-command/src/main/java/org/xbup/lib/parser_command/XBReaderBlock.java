@@ -35,7 +35,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 0 command reader block.
  *
- * @version 0.2.0 2015/09/22
+ * @version 0.2.0 2015/09/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBReaderBlock implements XBBlock, Closeable {
@@ -76,15 +76,25 @@ public class XBReaderBlock implements XBBlock, Closeable {
     public long[] getBlockPath() {
         return blockPath;
     }
-    
+
     @Override
     public XBBlockDataMode getDataMode() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            reader.seekBlock(this);
+            return reader.getBlockDataMode();
+        } catch (XBProcessingException | IOException ex) {
+            return null;
+        }
     }
 
     @Override
     public XBBlockTerminationMode getTerminationMode() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            reader.seekBlock(this);
+            return reader.getBlockTerminationMode();
+        } catch (XBProcessingException | IOException ex) {
+            return null;
+        }
     }
 
     @Override
@@ -132,7 +142,12 @@ public class XBReaderBlock implements XBBlock, Closeable {
 
     @Override
     public int getAttributesCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            reader.seekBlock(this);
+            return reader.getBlockAttributesCount();
+        } catch (XBProcessingException | IOException ex) {
+            return 0;
+        }
     }
 
     @Override
@@ -147,12 +162,22 @@ public class XBReaderBlock implements XBBlock, Closeable {
 
     @Override
     public int getChildrenCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            reader.seekBlock(this);
+            return reader.getBlockChildrenCount();
+        } catch (XBProcessingException | IOException ex) {
+            return 0;
+        }
     }
 
     @Override
     public InputStream getData() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            reader.seekBlock(this);
+            return reader.getBlockData();
+        } catch (XBProcessingException | IOException ex) {
+            return null;
+        }
     }
 
     @Override

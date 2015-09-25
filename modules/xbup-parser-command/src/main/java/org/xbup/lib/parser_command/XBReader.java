@@ -51,7 +51,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * This reader expects data not to be changed, so exclusive lock on source data
  * is recommended.
  *
- * @version 0.2.0 2015/09/24
+ * @version 0.2.0 2015/09/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
@@ -60,16 +60,16 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     private XBParserMode parserMode = XBParserMode.FULL;
     private FinishableStream dataWrapper;
     private final List<XBReader.BlockPosition> pathPositions = new ArrayList<>();
-    private int attributePartSizeValue;
-    private Integer dataPartSizeValue;
 
     private InputStream source;
     private long currentSourcePosition;
+    private long processedBlockSize;
 
     private XBBlockDataMode currentBlockDataMode;
     private XBBlockTerminationMode currentBlockTerminationMode;
-    private int attributePosition;
-    // private Integer attributesCount;
+    private int attributePartSizeValue;
+    private Integer dataPartSizeValue;
+    private int attributeIndex;
     // Cached last block accesing this reader for faster position matching
     private XBReaderBlock activeBlock = null;
 
@@ -110,9 +110,11 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
 
     private void resetParser() throws IOException {
         pathPositions.clear();
-        currentSourcePosition = 0;
         dataWrapper = null;
+        currentSourcePosition = 0;
+        processedBlockSize = 0;
         attributePartSizeValue = 0;
+        dataPartSizeValue = null;
         parserState = XBParserState.START;
 
         resetBlock();
@@ -126,8 +128,9 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     private void resetBlock() {
         currentBlockDataMode = null;
         currentBlockTerminationMode = null;
-        attributePosition = 0;
-        // attributesCount = null;
+        attributeIndex = 0;
+        currentSourcePosition = currentSourcePosition - processedBlockSize;
+        processedBlockSize = 0;
     }
 
     private void restartBlock() throws IOException {
@@ -141,11 +144,11 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
             // Revert already decreased size limits
             for (BlockPosition blockPosition : pathPositions) {
                 if (blockPosition.sizeLimit != null) {
-                    blockPosition.sizeLimit -= currentPosition.processedBlockSize;
+                    blockPosition.sizeLimit -= (int) processedBlockSize;
                 }
             }
 
-            currentPosition.processedBlockSize = 0;
+            processedBlockSize = 0;
         }
 
         ((SeekableStream) source).seek(currentSourcePosition);
@@ -231,8 +234,8 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
 
     public XBAttribute getBlockAttribute(int attributeIndex) throws XBProcessingException, IOException {
         //if (parserState != XBParserState.BLOCK_BEGIN) {
-            restartBlock();
-            pullXBToken();
+        restartBlock();
+        pullXBToken();
         //}
 
         int attributesCount = 0;
@@ -240,11 +243,11 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
             attributesCount++;
             pullXBToken();
         }
-        
+
         if (attributesCount == attributeIndex && parserState == XBParserState.ATTRIBUTE_PART) {
             return ((XBAttributeToken) pullXBToken()).getAttribute();
         }
-        
+
         return null;
     }
 
@@ -253,13 +256,13 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
             restartBlock();
             pullXBToken();
         }
-        
+
         int attributesCount = 0;
         while (parserState == XBParserState.ATTRIBUTE_PART) {
             attributesCount++;
             pullXBToken();
         }
-        
+
         return attributesCount;
     }
 
@@ -279,7 +282,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     public int getBlockChildrenCount() {
         return 0;
     }
-    
+
     private long[] getCurrentPath() {
         long[] currentPath = new long[pathPositions.size()];
         for (int i = 0; i < currentPath.length; i++) {
@@ -429,7 +432,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                     }
                 }
 
-                attributePosition++;
+                attributeIndex++;
                 return new XBAttributeToken(attribute);
             }
 
@@ -506,21 +509,20 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
             ((SeekableStream) source).seek(0);
         } else {
             // Remove block positions after matched depth, but compute processed size
-            int accumulatedProcessedSize = 0;
             for (int i = pathPositions.size() - 1; i >= depthMatch; i--) {
-                accumulatedProcessedSize += pathPositions.get(i).processedBlockSize;
                 pathPositions.remove(i);
             }
 
+            BlockPosition targetPosition = pathPositions.get(depthMatch - 1);
+            long processedSize = currentSourcePosition - targetPosition.streamPosition;
             // Revert already decreased size limits
             for (BlockPosition blockPosition : pathPositions) {
                 if (blockPosition.sizeLimit != null) {
-                    blockPosition.sizeLimit -= accumulatedProcessedSize;
+                    blockPosition.sizeLimit -= (int) processedSize;
                 }
             }
 
-            BlockPosition blockPosition = pathPositions.get(depthMatch - 1);
-            ((SeekableStream) source).seek(blockPosition.streamPosition);
+            ((SeekableStream) source).seek(targetPosition.streamPosition);
         }
 
         // Traverse tree to the target position
@@ -533,7 +535,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
      * @param length Value to shrink all limits off
      * @throws XBParseException If limits are breached
      */
-    private static void shrinkStatus(List<XBReader.BlockPosition> pathPositions, int value) throws XBParseException {
+    private void shrinkStatus(List<XBReader.BlockPosition> pathPositions, int value) throws XBParseException {
         for (BlockPosition blockPosition : pathPositions) {
             Integer limit = blockPosition.sizeLimit;
             if (limit != null) {
@@ -542,9 +544,10 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                 }
 
                 blockPosition.sizeLimit = limit - value;
-                blockPosition.processedBlockSize += value;
             }
         }
+        processedBlockSize += value;
+        currentSourcePosition += value;
     }
 
     public void seekBlockStart(long currentBlockStreamPosition, int preserveLevels) throws IOException {
@@ -566,7 +569,6 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
         long streamPosition;
         int blockIndex;
         Integer sizeLimit;
-        int processedBlockSize = 0;
 
         public BlockPosition(long streamPosition, int blockIndex, Integer sizeLimit) {
             this.streamPosition = streamPosition;

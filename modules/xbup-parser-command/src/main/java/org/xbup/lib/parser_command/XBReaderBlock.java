@@ -35,7 +35,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 0 command reader block.
  *
- * @version 0.2.0 2015/09/24
+ * @version 0.2.0 2015/09/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBReaderBlock implements XBBlock, Closeable {
@@ -107,12 +107,12 @@ public class XBReaderBlock implements XBBlock, Closeable {
 
         List<XBAttribute> attributes = new ArrayList<>();
         int attributeIndex = 0;
-        XBAttribute blockAttribute = null;
+        XBAttribute blockAttribute;
         do {
             try {
                 blockAttribute = reader.getBlockAttribute(attributeIndex);
             } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBReaderBlock.class.getName()).log(Level.SEVERE, null, ex);
+                blockAttribute = null;
             }
             if (blockAttribute != null) {
                 attributes.add(blockAttribute);
@@ -152,12 +152,28 @@ public class XBReaderBlock implements XBBlock, Closeable {
 
     @Override
     public XBBlock[] getChildren() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        int childrenCount = getChildrenCount();
+        XBBlock[] result = new XBBlock[childrenCount];
+        for (int i = 0; i < result.length; i++) {
+            long[] childPath = Arrays.copyOf(blockPath, blockPath.length + 1);
+            childPath[childPath.length - 1] = i;
+            result[i] = new XBReaderBlock(reader, childPath);
+        }
+        return result;
     }
 
     @Override
     public XBBlock getChildAt(int childIndex) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            if (reader.hasBlockChildAt(childIndex)) {
+                long[] childPath = Arrays.copyOf(blockPath, blockPath.length + 1);
+                childPath[childPath.length - 1] = childIndex;
+                return new XBReaderBlock(reader, childPath);
+            }
+        } catch (XBProcessingException | IOException ex) {
+        }
+
+        return null;
     }
 
     @Override

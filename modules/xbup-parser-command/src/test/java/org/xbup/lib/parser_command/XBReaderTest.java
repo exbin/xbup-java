@@ -346,8 +346,8 @@ public class XBReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSixBlocks() throws Exception {
-        XBReader instance = new XBReader();
-        /* TODO instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_SIX_BLOCKS));
+        /*XBReader instance = new XBReader();
+        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_SIX_BLOCKS));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleSixBlocksTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance); */

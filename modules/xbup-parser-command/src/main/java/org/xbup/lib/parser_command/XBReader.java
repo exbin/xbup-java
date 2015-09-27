@@ -52,7 +52,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * This reader expects data not to be changed, so exclusive lock on source data
  * is recommended.
  *
- * @version 0.2.0 2015/09/26
+ * @version 0.2.0 2015/09/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
@@ -72,7 +72,6 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     private Integer dataPartSizeValue;
     private Integer currentAttributeIndex;
     private Integer currentChildIndex;
-    private int rootChildIndex;
     // Cached last block accesing this reader for faster position matching
     private XBReaderBlock activeBlock = null;
 
@@ -119,7 +118,6 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
         attributePartSizeValue = 0;
         dataPartSizeValue = null;
         currentChildIndex = 0;
-        rootChildIndex = 0;
         parserState = XBParserState.START;
         activeBlock = null;
 
@@ -148,8 +146,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
             currentSourcePosition = 0;
             parserState = XBParserState.START;
         } else {
-            BlockPosition currentPosition = pathPositions.get(pathPositions.size() - 1);
-            currentSourcePosition = currentPosition.streamPosition;
+            currentSourcePosition = currentSourcePosition - processedBlockSize;
             revertStatus(processedBlockSize);
             parserState = XBParserState.BLOCK_BEGIN;
         }
@@ -433,9 +430,8 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                 } else {
                     if (pathPositions.get(pathPositions.size() - 1).sizeLimit == null || pathPositions.get(pathPositions.size() - 1).sizeLimit > 0) {
                         currentChildIndex++;
-                        if (pathPositions.size() == 1) {
-                            rootChildIndex++;
-                        }
+                        activeBlock = null;
+                        processedBlockSize = 0;
                         parserState = XBParserState.BLOCK_BEGIN;
                     } else {
                         pathUp();
@@ -534,18 +530,19 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
 
         // Find maximum match in current block path
         int depthMatch = 0;
-        while (blockPath.length > depthMatch && pathPositions.size() > depthMatch) {
-            if (blockPath[depthMatch] == pathPositions.get(depthMatch).blockIndex) {
+        // TODO
+        /*while (blockPath.length > depthMatch && pathPositions.size() > depthMatch - 1) {
+            if (blockPath[depthMatch] == pathPositions.get(depthMatch + 1).blockIndex) {
                 depthMatch++;
             } else {
                 break;
             }
-        }
+        } */
 
         // Seek to the most further block position
         if (depthMatch == 0) {
             pathPositions.clear();
-            rootChildIndex = 0;
+            currentChildIndex = 0;
         } else {
             // Remove block positions after matched depth, but compute processed size
             for (int i = pathPositions.size() - 1; i >= depthMatch; i--) {
@@ -556,7 +553,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
             long processedSize = currentSourcePosition - targetPosition.streamPosition;
             revertStatus(processedSize);
         }
-        
+
         // Traverse tree to the target position
         restartBlock();
         currentChildIndex = 0;
@@ -579,13 +576,13 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
             return false;
         }
 
-        for (int i = 0; i < pathPositions.size(); i++) {
-            if (pathPositions.get(i).blockIndex != blockPath[i]) {
+        for (int i = 1; i < pathPositions.size(); i++) {
+            if (pathPositions.get(i).blockIndex != blockPath[i - 1]) {
                 return false;
             }
         }
 
-        return true;
+        return currentChildIndex == blockPath[blockPath.length - 1];
     }
 
     /**
@@ -633,7 +630,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     }
 
     private void pathDown() {
-        pathPositions.add(new BlockPosition(currentSourcePosition, currentChildIndex, dataPartSizeValue));
+        pathPositions.add(new BlockPosition(currentSourcePosition - processedBlockSize, currentChildIndex, dataPartSizeValue));
         resetBlockState();
         processedBlockSize = 0;
         currentChildIndex = 0;
@@ -641,15 +638,13 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     }
 
     private void pathUp() {
-        pathPositions.remove(pathPositions.size() - 1);
+        BlockPosition removedPosition = pathPositions.remove(pathPositions.size() - 1);
         if (pathPositions.size() > 0) {
             BlockPosition topPosition = pathPositions.get(pathPositions.size() - 1);
-            currentChildIndex = topPosition.blockIndex + 1;
+            currentChildIndex = removedPosition.blockIndex;
             processedBlockSize = currentSourcePosition - topPosition.streamPosition;
         } else {
             processedBlockSize = currentSourcePosition;
-            rootChildIndex++;
-            currentChildIndex = rootChildIndex;
         }
         activeBlock = null;
     }

@@ -116,7 +116,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
         processedBlockSize = 0;
         attributePartSizeValue = 0;
         dataPartSizeValue = null;
-        currentChildIndex = 0;
+        currentChildIndex = null;
         parserState = XBParserState.START;
         activeBlock = null;
 
@@ -143,15 +143,16 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
         if (source != null) {
             ((SeekableStream) source).seek(currentSourcePosition);
 
-            if (!pathPositions.isEmpty() && currentChildIndex > 0) {
+            if (!pathPositions.isEmpty() && currentChildIndex != null) {
                 // TODO performance
+                pathPositions.remove(pathPositions.size() - 1);
                 int targetChildIndex = currentChildIndex;
                 int targetDepth = pathPositions.size();
-                currentChildIndex = 0;
+                currentChildIndex = null;
                 XBToken token;
                 do {
                     token = pullXBToken();
-                } while (currentChildIndex < targetChildIndex || token.getTokenType() != XBTokenType.BEGIN || targetDepth >= pathPositions.size());
+                } while (currentChildIndex == null || currentChildIndex < targetChildIndex || token.getTokenType() != XBTokenType.BEGIN || targetDepth >= pathPositions.size());
             }
         }
     }
@@ -367,7 +368,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
 
         if (parserState == XBParserState.START) {
             if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_HEAD) {
-                addProcessedSize(XBHead.checkXBUPHead(source));
+                currentSourcePosition += XBHead.checkXBUPHead(source);
             }
 
             parserState = XBParserState.BLOCK_BEGIN;
@@ -473,7 +474,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                 dataWrapper = (dataPartSizeValue == null)
                         ? new TerminatedDataInputStreamWrapper(source)
                         : new FixedDataInputStreamWrapper(source, dataPartSizeValue);
-
+                currentChildIndex = currentChildIndex == null ? 0 : currentChildIndex + 1;
                 parserState = XBParserState.BLOCK_END;
                 return new XBDataToken((InputStream) dataWrapper);
             }
@@ -547,7 +548,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
         // Seek to the most further block position
         if (depthMatch == 0) {
             pathPositions.clear();
-            currentChildIndex = 0;
+            currentChildIndex = null;
         } else {
             // Remove block positions after matched depth, but compute processed size
             for (int i = pathPositions.size() - 1; i >= depthMatch; i--) {
@@ -561,7 +562,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
 
         // Traverse tree to the target position
         resetBlock();
-        currentChildIndex = 0;
+        currentChildIndex = null;
         activeBlock = null; // TODO performance: null only in some cases?
         // TODO performance: optimize
         do {
@@ -587,7 +588,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
             }
         }
 
-        return currentChildIndex == blockPath[blockPath.length - 1];
+        return (currentChildIndex == null && blockPath[blockPath.length - 1] == 0) || (currentChildIndex != null && currentChildIndex == blockPath[blockPath.length - 1]);
     }
 
     /**
@@ -635,10 +636,10 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     }
 
     private void pathDown() {
-        pathPositions.add(new BlockPosition(currentSourcePosition - processedBlockSize, currentChildIndex, dataPartSizeValue));
+        pathPositions.add(new BlockPosition(currentSourcePosition - processedBlockSize, currentChildIndex == null ? 0 : currentChildIndex, dataPartSizeValue));
         resetBlockState();
         processedBlockSize = 0;
-        currentChildIndex = 0;
+        currentChildIndex = null;
         activeBlock = null;
     }
 

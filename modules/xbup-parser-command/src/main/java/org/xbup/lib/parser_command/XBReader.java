@@ -52,7 +52,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * This reader expects data not to be changed, so exclusive lock on source data
  * is recommended.
  *
- * @version 0.2.0 2015/09/28
+ * @version 0.2.0 2015/09/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
@@ -566,9 +566,10 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
         activeBlock = null; // TODO performance: null only in some cases?
         // TODO performance: optimize
         do {
+            boolean blockPathMatch = pathMatch(blockPath);
             XBToken token = pullXBToken();
             if (token.getTokenType() == XBTokenType.BEGIN) {
-                if (pathMatch(blockPath)) {
+                if (blockPathMatch) {
                     return;
                 }
             }
@@ -578,7 +579,17 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     }
 
     private boolean pathMatch(long[] blockPath) {
-        if (pathPositions.size() != blockPath.length) {
+        if (currentChildIndex == null) {
+            if (pathPositions.size() == blockPath.length) {
+                for (int i = 1; i < pathPositions.size(); i++) {
+                    if (pathPositions.get(i).blockIndex != blockPath[i - 1]) {
+                        return false;
+                    }
+                }
+                
+                return blockPath[blockPath.length - 1] == 0;
+            }
+
             return false;
         }
 
@@ -588,7 +599,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
             }
         }
 
-        return (currentChildIndex == null && blockPath[blockPath.length - 1] == 0) || (currentChildIndex != null && currentChildIndex == blockPath[blockPath.length - 1]);
+        return currentChildIndex == blockPath[blockPath.length - 1];
     }
 
     /**

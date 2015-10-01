@@ -26,7 +26,7 @@ import static org.xbup.lib.parser_command.XBCommandParserTestUtils.getResourceAs
 /**
  * Test class for XBTreeDocument.
  *
- * @version 0.2.0 2015/09/26
+ * @version 0.2.0 2015/10/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBReaderTest extends TestCase {
@@ -346,10 +346,10 @@ public class XBReaderTest extends TestCase {
      */
     @Test
     public void testReadSampleSixBlocks() throws Exception {
-        /*XBReader instance = new XBReader();
+        XBReader instance = new XBReader();
         instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_SIX_BLOCKS));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleSixBlocksTree();
-        XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance); */
+        XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
     }
 }

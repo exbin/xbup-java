@@ -52,7 +52,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * This reader expects data not to be changed, so exclusive lock on source data
  * is recommended.
  *
- * @version 0.2.0 2015/09/30
+ * @version 0.2.0 2015/10/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
@@ -64,14 +64,13 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
 
     private InputStream source;
     private long currentSourcePosition;
-    private long processedBlockSize;
 
     private XBBlockDataMode currentBlockDataMode;
     private XBBlockTerminationMode currentBlockTerminationMode;
     private int attributePartSizeValue;
     private Integer dataPartSizeValue;
     private Integer currentAttributeIndex;
-    private Integer currentChildIndex;
+    private int currentChildIndex;
     // Cached last block accesing this reader for faster position matching
     private XBReaderBlock activeBlock = null;
 
@@ -113,14 +112,16 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     private void resetParser() throws IOException {
         pathPositions.clear();
         currentSourcePosition = 0;
-        processedBlockSize = 0;
         attributePartSizeValue = 0;
         dataPartSizeValue = null;
-        currentChildIndex = null;
+        currentChildIndex = 0;
         parserState = XBParserState.START;
         activeBlock = null;
 
-        resetBlock();
+        resetBlockState();
+        if (source != null) {
+            ((SeekableStream) source).seek(currentSourcePosition);
+        }
     }
 
     @Override
@@ -133,27 +134,17 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
             currentSourcePosition = 0;
             parserState = XBParserState.START;
         } else {
-            currentSourcePosition = currentSourcePosition - processedBlockSize;
-            revertStatus(processedBlockSize);
+            BlockPosition topPosition = pathPositions.get(pathPositions.size() - 1);
+            revertStatus(currentSourcePosition - topPosition.streamPosition);
+            currentSourcePosition = topPosition.streamPosition;
+            pathPositions.remove(pathPositions.size() - 1);
+            currentChildIndex = topPosition.blockIndex;
             parserState = XBParserState.BLOCK_BEGIN;
         }
 
-        processedBlockSize = 0;
         resetBlockState();
         if (source != null) {
             ((SeekableStream) source).seek(currentSourcePosition);
-
-            if (!pathPositions.isEmpty() && currentChildIndex != null) {
-                // TODO performance
-                pathPositions.remove(pathPositions.size() - 1);
-                int targetChildIndex = currentChildIndex;
-                int targetDepth = pathPositions.size();
-                currentChildIndex = null;
-                XBToken token;
-                do {
-                    token = pullXBToken();
-                } while (currentChildIndex == null || currentChildIndex < targetChildIndex || token.getTokenType() != XBTokenType.BEGIN || targetDepth >= pathPositions.size());
-            }
         }
     }
 
@@ -376,25 +367,26 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
 
         switch (parserState) {
             case BLOCK_BEGIN: {
-                UBNat32 attrPartSize = new UBNat32();
-                int headSize = attrPartSize.fromStreamUB(source);
-                addProcessedSize(headSize);
-                if (attrPartSize.getLong() == 0) {
+                UBNat32 attributePartSize = new UBNat32();
+                int headSize = attributePartSize.fromStreamUB(source);
+                if (attributePartSize.getLong() == 0) {
                     // Process terminator
                     if (pathPositions.isEmpty() || pathPositions.get(pathPositions.size() - 1).sizeLimit != null) {
                         throw new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR);
                     }
 
-                    pathUp();
+                    addProcessedSize(headSize);
                     parserState = XBParserState.BLOCK_END;
                     // no break - Continue to process BLOCK_END
                 } else {
-                    attributePartSizeValue = attrPartSize.getInt();
-                    addProcessedSize(attributePartSizeValue);
+                    attributePartSizeValue = attributePartSize.getInt();
 
                     UBENat32 dataPartSize = new UBENat32();
                     int dataPartSizeLength = dataPartSize.fromStreamUB(source);
                     dataPartSizeValue = dataPartSize.isInfinity() ? null : dataPartSize.getInt();
+
+                    pathDown();
+                    addProcessedSize(headSize + dataPartSizeLength);
                     currentBlockTerminationMode = dataPartSize.isInfinity() ? XBBlockTerminationMode.TERMINATED_BY_ZERO : XBBlockTerminationMode.SIZE_SPECIFIED;
 
                     if (attributePartSizeValue == dataPartSizeLength) {
@@ -408,7 +400,6 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                             parserState = XBParserState.ATTRIBUTE_PART;
                         } else {
                             if (dataPartSizeValue == null || dataPartSizeValue > 0) {
-                                pathDown();
                                 parserState = XBParserState.BLOCK_BEGIN;
                             } else {
                                 parserState = XBParserState.BLOCK_END;
@@ -423,7 +414,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
             case EXTENDED_AREA:
             case BLOCK_END: {
                 // must be after begin
-                if (pathPositions.isEmpty()) {
+                if (pathPositions.size() == 1) {
                     if (parserState == XBParserState.BLOCK_END) {
                         if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED) {
                             parserState = XBParserState.EXTENDED_AREA;
@@ -436,11 +427,10 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
 
                     parserState = XBParserState.EOF;
                 } else {
+                    pathUp();
                     if (pathPositions.get(pathPositions.size() - 1).sizeLimit == null || pathPositions.get(pathPositions.size() - 1).sizeLimit > 0) {
                         activeBlock = null;
                         parserState = XBParserState.BLOCK_BEGIN;
-                    } else {
-                        pathUp();
                     }
                 }
 
@@ -454,10 +444,10 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                     throw new XBParseException("Attribute overflow", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
                 }
 
+                addProcessedSize(attributeLength);
                 attributePartSizeValue -= attributeLength;
                 if (attributePartSizeValue == 0) {
                     if (dataPartSizeValue == null || dataPartSizeValue > 0) {
-                        pathDown();
                         parserState = XBParserState.BLOCK_BEGIN;
                     } else {
                         parserState = XBParserState.BLOCK_END;
@@ -474,7 +464,6 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                 dataWrapper = (dataPartSizeValue == null)
                         ? new TerminatedDataInputStreamWrapper(source)
                         : new FixedDataInputStreamWrapper(source, dataPartSizeValue);
-                currentChildIndex = currentChildIndex == null ? 0 : currentChildIndex + 1;
                 parserState = XBParserState.BLOCK_END;
                 return new XBDataToken((InputStream) dataWrapper);
             }
@@ -547,29 +536,25 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
 
         // Seek to the most further block position
         if (depthMatch == 0) {
-            pathPositions.clear();
-            currentChildIndex = null;
+            resetParser();
         } else {
             // Remove block positions after matched depth, but compute processed size
             for (int i = pathPositions.size() - 1; i >= depthMatch; i--) {
                 pathPositions.remove(i);
             }
 
-            BlockPosition targetPosition = pathPositions.get(depthMatch - 1);
-            long processedSize = currentSourcePosition - targetPosition.streamPosition;
-            revertStatus(processedSize);
+            resetBlock();
         }
 
-        // Traverse tree to the target position
-        resetBlock();
-        currentChildIndex = null;
-        activeBlock = null; // TODO performance: null only in some cases?
+        // TODO performance: null only in some cases?
+        activeBlock = null;
+
         // TODO performance: optimize
+        // Traverse tree to the target position
         do {
-            boolean blockPathMatch = pathMatch(blockPath);
             XBToken token = pullXBToken();
             if (token.getTokenType() == XBTokenType.BEGIN) {
-                if (blockPathMatch) {
+                if (pathMatch(blockPath)) {
                     return;
                 }
             }
@@ -579,17 +564,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     }
 
     private boolean pathMatch(long[] blockPath) {
-        if (currentChildIndex == null) {
-            if (pathPositions.size() == blockPath.length) {
-                for (int i = 1; i < pathPositions.size(); i++) {
-                    if (pathPositions.get(i).blockIndex != blockPath[i - 1]) {
-                        return false;
-                    }
-                }
-                
-                return blockPath[blockPath.length - 1] == 0;
-            }
-
+        if (pathPositions.size() != blockPath.length + 1) {
             return false;
         }
 
@@ -599,7 +574,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
             }
         }
 
-        return currentChildIndex == blockPath[blockPath.length - 1];
+        return true;
     }
 
     /**
@@ -609,7 +584,6 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
      */
     private void addProcessedSize(int value) {
         shrinkStatus(value);
-        processedBlockSize += value;
         currentSourcePosition += value;
     }
 
@@ -620,7 +594,8 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
      * @throws XBParseException If limits are breached
      */
     private void shrinkStatus(int value) throws XBParseException {
-        for (BlockPosition blockPosition : pathPositions) {
+        for (int index = 0; index < pathPositions.size() - 1; index++) {
+            BlockPosition blockPosition = pathPositions.get(index);
             Integer limit = blockPosition.sizeLimit;
             if (limit != null) {
                 if (limit < value) {
@@ -647,10 +622,9 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     }
 
     private void pathDown() {
-        pathPositions.add(new BlockPosition(currentSourcePosition - processedBlockSize, currentChildIndex == null ? 0 : currentChildIndex, dataPartSizeValue));
+        pathPositions.add(new BlockPosition(currentSourcePosition, currentChildIndex, dataPartSizeValue));
         resetBlockState();
-        processedBlockSize = 0;
-        currentChildIndex = null;
+        currentChildIndex = 0;
         activeBlock = null;
     }
 
@@ -658,10 +632,6 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
         BlockPosition removedPosition = pathPositions.remove(pathPositions.size() - 1);
         if (pathPositions.size() > 0) {
             currentChildIndex = removedPosition.blockIndex + 1;
-            BlockPosition topPosition = pathPositions.get(pathPositions.size() - 1);
-            processedBlockSize = currentSourcePosition - topPosition.streamPosition;
-        } else {
-            processedBlockSize = currentSourcePosition;
         }
         activeBlock = null;
     }

@@ -52,7 +52,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * This reader expects data not to be changed, so exclusive lock on source data
  * is recommended.
  *
- * @version 0.2.0 2015/10/01
+ * @version 0.2.0 2015/10/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
@@ -215,7 +215,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     }
 
     public XBBlockDataMode getBlockDataMode() throws XBProcessingException, IOException {
-        if (parserState != XBParserState.BLOCK_BEGIN) {
+        if (parserState == XBParserState.BLOCK_BEGIN || parserState == XBParserState.START) {
             resetBlock();
             pullXBToken();
         }
@@ -224,7 +224,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     }
 
     public XBBlockTerminationMode getBlockTerminationMode() throws XBProcessingException, IOException {
-        if (parserState != XBParserState.BLOCK_BEGIN) {
+        if (parserState == XBParserState.BLOCK_BEGIN || parserState == XBParserState.START) {
             resetBlock();
             pullXBToken();
         }
@@ -525,14 +525,16 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
 
         // Find maximum match in current block path
         int depthMatch = 0;
-        // TODO
-        /*while (blockPath.length > depthMatch && pathPositions.size() > depthMatch - 1) {
-         if (blockPath[depthMatch] == pathPositions.get(depthMatch + 1).blockIndex) {
-         depthMatch++;
-         } else {
-         break;
-         }
-         } */
+        while (blockPath.length > depthMatch && pathPositions.size() > depthMatch + 1) {
+            if (pathPositions.get(depthMatch + 1).blockIndex == blockPath[depthMatch]) {
+                depthMatch++;
+            } else {
+                if (pathPositions.size() == depthMatch && pathPositions.get(depthMatch + 1).blockIndex < blockPath[depthMatch]) {
+                    depthMatch++;
+                }
+                break;
+            }
+        }
 
         // Seek to the most further block position
         if (depthMatch == 0) {

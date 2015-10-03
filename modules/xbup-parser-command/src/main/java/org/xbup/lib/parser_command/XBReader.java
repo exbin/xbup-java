@@ -233,7 +233,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     }
 
     public XBAttribute getBlockAttribute(int attributeIndex) throws XBProcessingException, IOException {
-        if (currentAttributeIndex == null || currentAttributeIndex > attributeIndex) {
+        if (currentAttributeIndex == null || currentAttributeIndex >= attributeIndex) {
             resetBlock();
             pullXBToken();
         }
@@ -250,10 +250,14 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     }
 
     public int getBlockAttributesCount() throws XBProcessingException, IOException {
-        resetBlock();
-        pullXBToken();
-
         int attributesCount = 0;
+        if (currentAttributeIndex != null) {
+            attributesCount = currentAttributeIndex;
+        } else {
+            resetBlock();
+            pullXBToken();
+        }
+
         while (parserState == XBParserState.ATTRIBUTE_PART) {
             attributesCount++;
             pullXBToken();

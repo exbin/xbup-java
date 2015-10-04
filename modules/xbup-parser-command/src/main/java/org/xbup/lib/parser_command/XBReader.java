@@ -52,7 +52,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * This reader expects data not to be changed, so exclusive lock on source data
  * is recommended.
  *
- * @version 0.2.0 2015/10/02
+ * @version 0.2.0 2015/10/04
  * @author XBUP Project (http://xbup.org)
  */
 public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
@@ -62,7 +62,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     private FinishableStream dataWrapper;
     private final List<XBReader.BlockPosition> pathPositions = new ArrayList<>();
 
-    private InputStream source;
+    private InputStream inputStream;
     private long currentSourcePosition;
 
     private XBBlockDataMode currentBlockDataMode;
@@ -72,17 +72,17 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     private Integer currentAttributeIndex;
     private int currentChildIndex;
     // Cached last block accesing this reader for faster position matching
-    private XBReaderBlock activeBlock = null;
+    private XBCommandBlock activeBlock = null;
 
     public XBReader() throws IOException {
         resetParser();
     }
 
-    public XBReader(InputStream stream) throws IOException {
+    public XBReader(InputStream stream) {
         openStream(stream);
     }
 
-    public XBReader(InputStream stream, XBParserMode parserMode) throws IOException {
+    public XBReader(InputStream stream, XBParserMode parserMode) {
         this.parserMode = parserMode;
         openStream(stream);
     }
@@ -92,24 +92,23 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
         openStream(stream);
     }
 
-    private void openStream(InputStream stream) throws IOException {
-        source = stream;
-
-        if (!(source instanceof SeekableStream)) {
-            throw new IOException("XBReader only supports seekable streams");
+    private void openStream(InputStream inputStream) {
+        if (!(inputStream instanceof SeekableStream)) {
+            throw new IllegalArgumentException("XBReader only supports seekable streams");
         }
 
+        this.inputStream = inputStream;
         resetParser();
     }
 
     @Override
     public void close() throws IOException {
-        if (source != null) {
-            source.close();
+        if (inputStream != null) {
+            inputStream.close();
         }
     }
 
-    private void resetParser() throws IOException {
+    private void resetParser() {
         pathPositions.clear();
         currentSourcePosition = 0;
         attributePartSizeValue = 0;
@@ -119,14 +118,14 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
         activeBlock = null;
 
         resetBlockState();
-        if (source != null) {
-            ((SeekableStream) source).seek(currentSourcePosition);
-        }
     }
 
     @Override
     public void resetXB() throws IOException {
         resetParser();
+        if (inputStream != null) {
+            ((SeekableStream) inputStream).seek(currentSourcePosition);
+        }
     }
 
     private void resetBlock() throws IOException {
@@ -143,8 +142,8 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
         }
 
         resetBlockState();
-        if (source != null) {
-            ((SeekableStream) source).seek(currentSourcePosition);
+        if (inputStream != null) {
+            ((SeekableStream) inputStream).seek(currentSourcePosition);
         }
     }
 
@@ -165,7 +164,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
         return new XBReaderBlock(this, blockPath);
     }
 
-    public XBReaderBlock getActiveBlock() {
+    public XBCommandBlock getActiveBlock() {
         return activeBlock;
     }
 
@@ -178,7 +177,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
         // TODO: Stupid algorithmus for initial testing
         try {
             if (parserState == XBParserState.EOF) {
-                resetParser();
+                resetXB();
             }
 
             while (!isFinishedXB()) {
@@ -363,7 +362,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
 
         if (parserState == XBParserState.START) {
             if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_HEAD) {
-                currentSourcePosition += XBHead.checkXBUPHead(source);
+                currentSourcePosition += XBHead.checkXBUPHead(inputStream);
             }
 
             parserState = XBParserState.BLOCK_BEGIN;
@@ -372,7 +371,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
         switch (parserState) {
             case BLOCK_BEGIN: {
                 UBNat32 attributePartSize = new UBNat32();
-                int headSize = attributePartSize.fromStreamUB(source);
+                int headSize = attributePartSize.fromStreamUB(inputStream);
                 if (attributePartSize.getLong() == 0) {
                     // Process terminator
                     if (pathPositions.isEmpty() || pathPositions.get(pathPositions.size() - 1).sizeLimit != null) {
@@ -386,7 +385,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                     attributePartSizeValue = attributePartSize.getInt();
 
                     UBENat32 dataPartSize = new UBENat32();
-                    int dataPartSizeLength = dataPartSize.fromStreamUB(source);
+                    int dataPartSizeLength = dataPartSize.fromStreamUB(inputStream);
                     dataPartSizeValue = dataPartSize.isInfinity() ? null : dataPartSize.getInt();
 
                     pathDown();
@@ -402,12 +401,10 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                         currentAttributeIndex = 0;
                         if (attributePartSizeValue > 0) {
                             parserState = XBParserState.ATTRIBUTE_PART;
+                        } else if (dataPartSizeValue == null || dataPartSizeValue > 0) {
+                            parserState = XBParserState.BLOCK_BEGIN;
                         } else {
-                            if (dataPartSizeValue == null || dataPartSizeValue > 0) {
-                                parserState = XBParserState.BLOCK_BEGIN;
-                            } else {
-                                parserState = XBParserState.BLOCK_END;
-                            }
+                            parserState = XBParserState.BLOCK_END;
                         }
                     }
 
@@ -422,7 +419,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                     if (parserState == XBParserState.BLOCK_END) {
                         if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED) {
                             parserState = XBParserState.EXTENDED_AREA;
-                            ExtendedAreaInputStreamWrapper wrapper = new ExtendedAreaInputStreamWrapper(source);
+                            ExtendedAreaInputStreamWrapper wrapper = new ExtendedAreaInputStreamWrapper(inputStream);
                             if (wrapper.available() > 0) {
                                 return new XBDataToken(wrapper);
                             }
@@ -443,7 +440,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
 
             case ATTRIBUTE_PART: {
                 UBNat32 attribute = new UBNat32();
-                int attributeLength = attribute.fromStreamUB(source);
+                int attributeLength = attribute.fromStreamUB(inputStream);
                 if (attributeLength > attributePartSizeValue) {
                     throw new XBParseException("Attribute overflow", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
                 }
@@ -466,8 +463,8 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
 
             case DATA_PART: {
                 dataWrapper = (dataPartSizeValue == null)
-                        ? new TerminatedDataInputStreamWrapper(source)
-                        : new FixedDataInputStreamWrapper(source, dataPartSizeValue);
+                        ? new TerminatedDataInputStreamWrapper(inputStream)
+                        : new FixedDataInputStreamWrapper(inputStream, dataPartSizeValue);
                 parserState = XBParserState.BLOCK_END;
                 return new XBDataToken((InputStream) dataWrapper);
             }
@@ -495,7 +492,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
 
     @Override
     public long getDocumentSize() {
-        return ((SeekableStream) source).getStreamSize();
+        return ((SeekableStream) inputStream).getStreamSize();
     }
 
     /**
@@ -504,7 +501,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
      * @param targetBlock target reader block
      * @throws IOException
      */
-    public void seekBlock(XBReaderBlock targetBlock) throws XBProcessingException, IOException {
+    public void seekBlock(XBCommandBlock targetBlock) throws XBProcessingException, IOException {
         if (activeBlock != targetBlock) {
             seekBlockPath(targetBlock.getBlockPath());
             activeBlock = targetBlock;
@@ -523,7 +520,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
         }
 
         if (blockPath.length == 0) {
-            resetParser();
+            resetXB();
             return;
         }
 
@@ -542,7 +539,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
 
         // Seek to the most further block position
         if (depthMatch == 0) {
-            resetParser();
+            resetXB();
         } else {
             // Remove block positions after matched depth, but compute processed size
             for (int i = pathPositions.size() - 1; i >= depthMatch; i--) {

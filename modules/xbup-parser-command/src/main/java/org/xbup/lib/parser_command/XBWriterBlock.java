@@ -19,22 +19,27 @@ package org.xbup.lib.parser_command;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlock;
 import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBEditableBlock;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 0 command writer block.
  *
- * @version 0.1.23 2014/04/23
+ * @version 0.2.0 2015/10/04
  * @author XBUP Project (http://xbup.org)
  */
-public class XBWriterBlock implements XBEditableBlock, Closeable {
+public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable {
 
     private final long[] blockPath;
     private final XBWriter writer;
@@ -54,52 +59,152 @@ public class XBWriterBlock implements XBEditableBlock, Closeable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof XBReaderBlock) {
+            Arrays.equals(((XBReaderBlock) obj).getBlockPath(), blockPath);
+        }
+
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + Arrays.hashCode(this.blockPath);
+        return hash;
+    }
+
+    @Override
+    public long[] getBlockPath() {
+        return blockPath;
+    }
+
+    @Override
     public XBBlockDataMode getDataMode() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            writer.seekBlock(this);
+            return writer.getBlockDataMode();
+        } catch (XBProcessingException | IOException ex) {
+            return null;
+        }
     }
 
     @Override
     public XBBlockTerminationMode getTerminationMode() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            writer.seekBlock(this);
+            return writer.getBlockTerminationMode();
+        } catch (XBProcessingException | IOException ex) {
+            return null;
+        }
     }
 
     @Override
     public XBAttribute[] getAttributes() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            writer.seekBlock(this);
+        } catch (XBProcessingException | IOException ex) {
+            return null;
+        }
+
+        List<XBAttribute> attributes = new ArrayList<>();
+        int attributeIndex = 0;
+        XBAttribute blockAttribute;
+        do {
+            try {
+                blockAttribute = writer.getBlockAttribute(attributeIndex);
+            } catch (XBProcessingException | IOException ex) {
+                blockAttribute = null;
+            }
+            if (blockAttribute != null) {
+                attributes.add(blockAttribute);
+                attributeIndex++;
+            }
+        } while (blockAttribute != null);
+
+        return attributes.toArray(new XBAttribute[0]);
     }
 
     @Override
-    public UBNatural getAttributeAt(int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public UBNatural getAttributeAt(int attributeIndex) {
+        try {
+            writer.seekBlock(this);
+        } catch (XBProcessingException | IOException ex) {
+            return null;
+        }
+
+        XBAttribute blockAttribute = null;
+        try {
+            blockAttribute = writer.getBlockAttribute(attributeIndex);
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBReaderBlock.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return blockAttribute == null ? null : blockAttribute.convertToNatural();
     }
 
     @Override
     public int getAttributesCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            writer.seekBlock(this);
+            return writer.getBlockAttributesCount();
+        } catch (XBProcessingException | IOException ex) {
+            return 0;
+        }
     }
 
     @Override
     public XBBlock[] getChildren() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        int childrenCount = getChildrenCount();
+        XBBlock[] result = new XBBlock[childrenCount];
+        for (int i = 0; i < result.length; i++) {
+            long[] childPath = Arrays.copyOf(blockPath, blockPath.length + 1);
+            childPath[childPath.length - 1] = i;
+            result[i] = new XBWriterBlock(writer, childPath);
+        }
+        return result;
     }
 
     @Override
     public XBBlock getChildAt(int childIndex) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            if (writer.hasBlockChildAt(childIndex)) {
+                long[] childPath = Arrays.copyOf(blockPath, blockPath.length + 1);
+                childPath[childPath.length - 1] = childIndex;
+                return new XBWriterBlock(writer, childPath);
+            }
+        } catch (XBProcessingException | IOException ex) {
+        }
+
+        return null;
     }
 
     @Override
     public int getChildrenCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            writer.seekBlock(this);
+            return writer.getBlockChildrenCount();
+        } catch (XBProcessingException | IOException ex) {
+            return 0;
+        }
     }
 
     @Override
     public InputStream getData() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            writer.seekBlock(this);
+            return writer.getBlockData();
+        } catch (XBProcessingException | IOException ex) {
+            return null;
+        }
     }
 
     @Override
     public void close() throws IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public XBBlockData getBlockData() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -124,12 +229,17 @@ public class XBWriterBlock implements XBEditableBlock, Closeable {
     }
 
     @Override
-    public void setAttributeAt(XBAttribute attribute, int index) {
+    public void setAttributeAt(XBAttribute attribute, int attributeIndex) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void setAttributesCount(int count) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void removeAttribute(int attributeIndex) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -149,6 +259,16 @@ public class XBWriterBlock implements XBEditableBlock, Closeable {
     }
 
     @Override
+    public XBBlock createNewChild(int childIndex) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void removeChild(int childIndex) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public void setData(InputStream data) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -159,27 +279,7 @@ public class XBWriterBlock implements XBEditableBlock, Closeable {
     }
 
     @Override
-    public XBBlockData getBlockData() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public void clear() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void removeAttribute(int attributeIndex) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void removeChild(int childIndex) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBBlock createNewChild(int childIndex) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

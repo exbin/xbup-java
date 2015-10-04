@@ -35,10 +35,10 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 0 command reader block.
  *
- * @version 0.2.0 2015/09/26
+ * @version 0.2.0 2015/10/04
  * @author XBUP Project (http://xbup.org)
  */
-public class XBReaderBlock implements XBBlock, Closeable {
+public class XBReaderBlock implements XBCommandBlock, XBBlock, Closeable {
 
     private final long[] blockPath;
     private final XBReader reader;
@@ -73,6 +73,7 @@ public class XBReaderBlock implements XBBlock, Closeable {
         return hash;
     }
 
+    @Override
     public long[] getBlockPath() {
         return blockPath;
     }

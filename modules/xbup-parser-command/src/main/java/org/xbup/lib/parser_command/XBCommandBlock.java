@@ -16,29 +16,18 @@
  */
 package org.xbup.lib.parser_command;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.OutputStream;
-import org.xbup.lib.core.block.XBEditableDocument;
-
 /**
- * XBUP level 0 command writer interface.
+ * XBUP level 0 command block interface.
  *
  * @version 0.2.0 2015/10/04
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBCommandWriter extends XBEditableDocument, XBCommandReader, Closeable {
+public interface XBCommandBlock {
 
     /**
-     * Saves data to byte-stream.
+     * Returns block path.
      *
-     * @param stream output stream
-     * @throws java.io.IOException
+     * @return block path
      */
-    public void save(OutputStream stream) throws IOException;
-
-    /**
-     * Writes all the changes to the source file.
-     */
-    public void flush();
+    public long[] getBlockPath();
 }

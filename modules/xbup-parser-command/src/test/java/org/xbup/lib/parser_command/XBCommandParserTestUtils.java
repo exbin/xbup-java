@@ -50,7 +50,7 @@ public class XBCommandParserTestUtils {
 
         public SeekableInputStream(String name) {
             this.name = name;
-            source = XBReaderTest.class.getResourceAsStream(name);
+            source = XBReaderBlockReadTest.class.getResourceAsStream(name);
         }
 
         @Override
@@ -91,7 +91,7 @@ public class XBCommandParserTestUtils {
             }
 
             source.close();
-            source = XBReaderTest.class.getResourceAsStream(name);
+            source = XBReaderBlockReadTest.class.getResourceAsStream(name);
             source.skip(position);
         }
 

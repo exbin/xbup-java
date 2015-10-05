@@ -29,9 +29,9 @@ import static org.xbup.lib.parser_command.XBCommandParserTestUtils.getResourceAs
  * @version 0.2.0 2015/10/01
  * @author XBUP Project (http://xbup.org)
  */
-public class XBReaderTest extends TestCase {
+public class XBReaderBlockReadTest extends TestCase {
 
-    public XBReaderTest(String testName) {
+    public XBReaderBlockReadTest(String testName) {
         super(testName);
     }
 

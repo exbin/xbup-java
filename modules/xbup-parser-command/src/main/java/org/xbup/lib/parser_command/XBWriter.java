@@ -29,6 +29,8 @@ import org.xbup.lib.core.block.XBEditableBlock;
 import org.xbup.lib.core.parser.XBParserMode;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBAttribute;
+import org.xbup.lib.core.parser.token.XBToken;
+import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 import org.xbup.lib.core.stream.SeekableStream;
 
 /**
@@ -37,10 +39,10 @@ import org.xbup.lib.core.stream.SeekableStream;
  * This writer expects source data not to be changed, so exclusive lock is
  * recommended.
  *
- * @version 0.1.25 2015/10/04
+ * @version 0.1.25 2015/10/05
  * @author XBUP Project (http://xbup.org)
  */
-public class XBWriter implements XBCommandWriter, Closeable {
+public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
 
     private InputStream inputStream;
     private OutputStream outputStream;
@@ -48,6 +50,7 @@ public class XBWriter implements XBCommandWriter, Closeable {
     private List<XBWriter.BlockPosition> pathPositions;
 
     public XBWriter() {
+        reader = new XBReader();
         reset();
     }
 
@@ -68,17 +71,17 @@ public class XBWriter implements XBCommandWriter, Closeable {
 
     @Override
     public void open(InputStream stream) throws IOException {
+        reader.open(stream);
+    }
+
+    @Override
+    public void save(OutputStream stream) throws IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void close() throws IOException {
         inputStream.close();
-    }
-
-    @Override
-    public void save(OutputStream stream) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -116,6 +119,15 @@ public class XBWriter implements XBCommandWriter, Closeable {
      */
     public void seekBlock(XBWriterBlock targetBlock) throws XBProcessingException, IOException {
         reader.seekBlock(targetBlock);
+    }
+
+    @Override
+    public XBToken pullXBToken() throws XBProcessingException, IOException {
+        return reader.pullXBToken();
+    }
+
+    public boolean isFinishedXB() {
+        return reader.isFinishedXB();
     }
 
     public XBBlockDataMode getBlockDataMode() throws XBProcessingException, IOException {

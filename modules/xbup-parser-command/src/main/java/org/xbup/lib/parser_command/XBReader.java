@@ -74,7 +74,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     // Cached last block accesing this reader for faster position matching
     private XBCommandBlock activeBlock = null;
 
-    public XBReader() throws IOException {
+    public XBReader() {
         resetParser();
     }
 

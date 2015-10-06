@@ -36,15 +36,17 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 0 command writer block.
  *
- * @version 0.2.0 2015/10/04
+ * @version 0.2.0 2015/10/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable {
 
+    private int storeIndex = 0;
     private final long[] blockPath;
     private final XBWriter writer;
 
-    public XBWriterBlock(XBWriter writer, long[] blockPath) {
+    public XBWriterBlock(XBWriter writer, long[] blockPath, int storeIndex) {
+        this.storeIndex = storeIndex;
         this.blockPath = blockPath;
         this.writer = writer;
     }
@@ -159,7 +161,7 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
         for (int i = 0; i < result.length; i++) {
             long[] childPath = Arrays.copyOf(blockPath, blockPath.length + 1);
             childPath[childPath.length - 1] = i;
-            result[i] = new XBWriterBlock(writer, childPath);
+            result[i] = writer.getBlock(childPath);
         }
         return result;
     }
@@ -168,9 +170,7 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
     public XBBlock getChildAt(int childIndex) {
         try {
             if (writer.hasBlockChildAt(childIndex)) {
-                long[] childPath = Arrays.copyOf(blockPath, blockPath.length + 1);
-                childPath[childPath.length - 1] = childIndex;
-                return new XBWriterBlock(writer, childPath);
+                return writer.getBlockChild(this, childIndex);
             }
         } catch (XBProcessingException | IOException ex) {
         }

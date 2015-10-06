@@ -20,8 +20,9 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import org.xbup.lib.core.block.XBBlock;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
@@ -39,7 +40,7 @@ import org.xbup.lib.core.stream.SeekableStream;
  * This writer expects source data not to be changed, so exclusive lock is
  * recommended.
  *
- * @version 0.1.25 2015/10/05
+ * @version 0.1.25 2015/10/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
@@ -47,7 +48,14 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
     private InputStream inputStream;
     private OutputStream outputStream;
     private XBReader reader;
-    private List<XBWriter.BlockPosition> pathPositions;
+
+    /**
+     * Writer keeps links to all blocks related to it.
+     */
+    private int blockStoreIndex = 1;
+    private Map<Integer, XBWriterBlock> blockStore = new HashMap<>();
+    // TODO tree structure for search by block path
+    private BlockTreeCache blockTreeCache = null;
 
     public XBWriter() {
         reader = new XBReader();
@@ -86,12 +94,28 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
 
     @Override
     public XBEditableBlock getRootBlock() {
-        return new XBWriterBlock(this, new long[0]);
+        return getBlock(new long[0]);
     }
 
     @Override
     public XBEditableBlock getBlock(long[] blockPath) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // TODO search for existing first
+        // TODO fail if it doesn't exist
+        return createNewBlock(blockPath);
+    }
+
+    public XBEditableBlock getBlockChild(XBWriterBlock parentBlock, int childIndex) {
+        long[] blockPath = parentBlock.getBlockPath();
+        long[] childPath = Arrays.copyOf(blockPath, blockPath.length + 1);
+        childPath[childPath.length - 1] = childIndex;
+        return createNewBlock(childPath);
+    }
+
+    private XBWriterBlock createNewBlock(long[] blockPath) {
+        blockStoreIndex++;
+        XBWriterBlock block = new XBWriterBlock(this, blockPath, blockStoreIndex);
+        blockStore.put(blockStoreIndex, block);
+        return block;
     }
 
     @Override
@@ -100,7 +124,6 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
     }
 
     private void reset() {
-        pathPositions = new ArrayList<>();
     }
 
     /**
@@ -158,12 +181,8 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
         return reader.hasBlockChildAt(childIndex);
     }
 
-    private long[] getCurrentPath() {
-        long[] currentPath = new long[pathPositions.size()];
-        for (int i = 0; i < currentPath.length; i++) {
-            currentPath[i] = pathPositions.get(i).blockIndex;
-        }
-        return currentPath;
+    public long[] getCurrentPath() {
+        return reader.getCurrentPath();
     }
 
     @Override
@@ -198,7 +217,13 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
 
     private class BlockPosition {
 
-        public long streamPosition;
-        public int blockIndex;
+        long streamPosition;
+        int blockIndex;
+    }
+
+    private class BlockTreeCache {
+
+        XBWriterBlock block;
+        Map<Integer, BlockTreeCache> childBlocks;
     }
 }

@@ -311,7 +311,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
         return childIndex < getBlockChildrenCount();
     }
 
-    private long[] getCurrentPath() {
+    public long[] getCurrentPath() {
         long[] currentPath = new long[pathPositions.size()];
         for (int i = 0; i < currentPath.length; i++) {
             currentPath[i] = pathPositions.get(i).blockIndex;

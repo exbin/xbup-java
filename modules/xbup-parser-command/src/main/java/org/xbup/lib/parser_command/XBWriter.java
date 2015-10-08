@@ -40,7 +40,7 @@ import org.xbup.lib.core.stream.SeekableStream;
  * This writer expects source data not to be changed, so exclusive lock is
  * recommended.
  *
- * @version 0.1.25 2015/10/06
+ * @version 0.1.25 2015/10/08
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
@@ -99,8 +99,23 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
 
     @Override
     public XBEditableBlock getBlock(long[] blockPath) {
-        // TODO search for existing first
+        // Search for existing cache record first 
+        BlockTreeCache cacheNode = this.blockTreeCache;
+        int depth = 0;
+        while (cacheNode != null && depth < blockPath.length) {
+            if (cacheNode.childBlocks != null) {
+                cacheNode = cacheNode.childBlocks.get((int) blockPath[depth]);
+                depth++;
+                if (cacheNode != null && depth == blockPath.length && cacheNode.block != null) {
+                    return cacheNode.block;
+                }
+            } else {
+                break;
+            }
+        }
+
         // TODO fail if it doesn't exist
+        // Create new block
         return createNewBlock(blockPath);
     }
 
@@ -115,6 +130,27 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
         blockStoreIndex++;
         XBWriterBlock block = new XBWriterBlock(this, blockPath, blockStoreIndex);
         blockStore.put(blockStoreIndex, block);
+
+        BlockTreeCache cacheNode = this.blockTreeCache;
+        if (cacheNode == null) {
+            cacheNode = new BlockTreeCache();
+            blockTreeCache = cacheNode;
+        }
+
+        for (int depth = 0; depth < blockPath.length; depth++) {
+            if (cacheNode.childBlocks == null) {
+                cacheNode.childBlocks = new HashMap<>();
+            }
+
+            BlockTreeCache childNode = cacheNode.childBlocks.get((int) blockPath[depth]);
+            if (childNode == null) {
+                childNode = new BlockTreeCache();
+                cacheNode.childBlocks.put((int) blockPath[depth], childNode);
+            }
+            cacheNode = childNode;
+        }
+
+        cacheNode.block = block;
         return block;
     }
 

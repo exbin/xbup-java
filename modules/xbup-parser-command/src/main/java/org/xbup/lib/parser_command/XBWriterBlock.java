@@ -29,6 +29,8 @@ import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBEditableBlock;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBDefaultBlock;
+import org.xbup.lib.core.block.XBDefaultEditableBlock;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.ubnumber.UBNatural;
@@ -36,7 +38,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 0 command writer block.
  *
- * @version 0.2.0 2015/10/06
+ * @version 0.2.0 2015/10/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable {
@@ -44,6 +46,7 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
     private int storeIndex = 0;
     private final long[] blockPath;
     private final XBWriter writer;
+    private XBDefaultEditableBlock fixedBlock = null;
 
     public XBWriterBlock(XBWriter writer, long[] blockPath, int storeIndex) {
         this.storeIndex = storeIndex;
@@ -281,5 +284,16 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
     @Override
     public void clear() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void setFixedBlock(XBBlock block) {
+        if (fixedBlock == null) {
+            fixedBlock = new XBDefaultEditableBlock();
+        }
+        
+        fixedBlock.setTerminationMode(block.getTerminationMode());
+        fixedBlock.setDataMode(block.getDataMode());
+
+        // TODO
     }
 }

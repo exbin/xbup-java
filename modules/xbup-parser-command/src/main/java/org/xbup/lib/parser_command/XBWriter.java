@@ -32,7 +32,10 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.pull.XBPullProvider;
+import org.xbup.lib.core.parser.token.pull.XBPullWriter;
+import org.xbup.lib.core.parser.token.pull.convert.XBProviderToPullProvider;
 import org.xbup.lib.core.stream.SeekableStream;
+import org.xbup.lib.parser_tree.XBTreeWriter;
 
 /**
  * XBUP level 0 command writer.
@@ -40,7 +43,7 @@ import org.xbup.lib.core.stream.SeekableStream;
  * This writer expects source data not to be changed, so exclusive lock is
  * recommended.
  *
- * @version 0.1.25 2015/10/08
+ * @version 0.1.25 2015/10/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
@@ -84,7 +87,11 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
 
     @Override
     public void save(OutputStream stream) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try (XBPullWriter pullWriter = new XBPullWriter(outputStream)) {
+            XBTreeWriter treeWriter = new XBTreeWriter(this);
+            pullWriter.attachXBPullProvider(new XBProviderToPullProvider(treeWriter));
+            pullWriter.write();
+        }
     }
 
     @Override
@@ -98,7 +105,7 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
     }
 
     @Override
-    public XBEditableBlock getBlock(long[] blockPath) {
+    public XBWriterBlock getBlock(long[] blockPath) {
         // Search for existing cache record first 
         BlockTreeCache cacheNode = this.blockTreeCache;
         int depth = 0;
@@ -238,7 +245,12 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
 
     @Override
     public void setRootBlock(XBBlock block) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        long[] blockPath = new long[0];
+        XBWriterBlock rootBlock = getBlock(blockPath);
+        if (rootBlock == null) {
+            rootBlock = createNewBlock(blockPath);
+        }
+        rootBlock.setFixedBlock(block);
     }
 
     @Override

@@ -30,7 +30,7 @@ import org.xbup.lib.parser_tree.XBTreeNode;
 /**
  * Test class for XBTreeDocument.
  *
- * @version 0.2.0 2015/09/20
+ * @version 0.2.0 2015/10/09
  * @author XBUP Project (http://xbup.org)
  */
 @Ignore
@@ -51,7 +51,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -72,7 +72,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -93,7 +93,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -114,7 +114,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -135,7 +135,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -156,7 +156,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -177,7 +177,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -198,7 +198,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -219,7 +219,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -240,7 +240,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -261,7 +261,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -282,7 +282,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -303,7 +303,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -324,7 +324,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -345,7 +345,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -366,7 +366,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -387,7 +387,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -408,7 +408,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -429,7 +429,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -450,7 +450,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -471,7 +471,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -492,7 +492,7 @@ public class XBWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBTreeDocument class writing sample data.
+     * Tests XBWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */

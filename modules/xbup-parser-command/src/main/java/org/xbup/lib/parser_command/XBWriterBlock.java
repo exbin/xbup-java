@@ -29,7 +29,6 @@ import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBEditableBlock;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.block.XBDefaultBlock;
 import org.xbup.lib.core.block.XBDefaultEditableBlock;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBAttribute;
@@ -38,20 +37,35 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 0 command writer block.
  *
- * @version 0.2.0 2015/10/09
+ * @version 0.2.0 2015/10/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable {
 
-    private int storeIndex = 0;
+    private int blockId = 0;
     private final long[] blockPath;
     private final XBWriter writer;
     private XBDefaultEditableBlock fixedBlock = null;
 
-    public XBWriterBlock(XBWriter writer, long[] blockPath, int storeIndex) {
-        this.storeIndex = storeIndex;
+    /**
+     * Creates new instance of the class.
+     *
+     * @param writer command writer
+     * @param blockPath block path
+     * @param blockId block identification number
+     */
+    public XBWriterBlock(XBWriter writer, long[] blockPath, int blockId) {
+        this.blockId = blockId;
         this.blockPath = blockPath;
         this.writer = writer;
+    }
+
+    public long getBlockId() {
+        return blockId;
+    }
+
+    public boolean isFixedBlock() {
+        return fixedBlock != null;
     }
 
     @Override
@@ -290,7 +304,7 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
         if (fixedBlock == null) {
             fixedBlock = new XBDefaultEditableBlock();
         }
-        
+
         fixedBlock.setTerminationMode(block.getTerminationMode());
         fixedBlock.setDataMode(block.getDataMode());
 

@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import org.xbup.lib.core.block.XBBlock;
+import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBEditableBlock;
@@ -35,6 +36,7 @@ import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 import org.xbup.lib.core.parser.token.pull.XBPullWriter;
 import org.xbup.lib.core.parser.token.pull.convert.XBProviderToPullProvider;
 import org.xbup.lib.core.stream.SeekableStream;
+import org.xbup.lib.core.type.XBData;
 import org.xbup.lib.parser_tree.XBTreeWriter;
 
 /**
@@ -43,7 +45,7 @@ import org.xbup.lib.parser_tree.XBTreeWriter;
  * This writer expects source data not to be changed, so exclusive lock is
  * recommended.
  *
- * @version 0.1.25 2015/10/09
+ * @version 0.1.25 2015/10/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
@@ -51,6 +53,8 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
     private InputStream inputStream;
     private OutputStream outputStream;
     private XBReader reader;
+    private XBBlockData extendedArea = null;
+    private long activeBlock = 0;
 
     /**
      * Writer keeps links to all blocks related to it.
@@ -87,6 +91,7 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
 
     @Override
     public void save(OutputStream stream) throws IOException {
+        this.outputStream = stream;
         try (XBPullWriter pullWriter = new XBPullWriter(outputStream)) {
             XBTreeWriter treeWriter = new XBTreeWriter(this);
             pullWriter.attachXBPullProvider(new XBProviderToPullProvider(treeWriter));
@@ -184,7 +189,10 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
      * @throws IOException
      */
     public void seekBlock(XBWriterBlock targetBlock) throws XBProcessingException, IOException {
-        reader.seekBlock(targetBlock);
+        activeBlock = targetBlock.getBlockId();
+        if (!targetBlock.isFixedBlock()) {
+            reader.seekBlock(targetBlock);
+        }
     }
 
     @Override
@@ -230,11 +238,17 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
 
     @Override
     public InputStream getExtendedArea() {
+        if (extendedArea != null) {
+            return extendedArea.getDataInputStream();
+        }
         return reader.getExtendedArea();
     }
 
     @Override
     public long getExtendedAreaSize() {
+        if (extendedArea != null) {
+            return extendedArea.getDataSize();
+        }
         return reader.getExtendedAreaSize();
     }
 
@@ -255,18 +269,14 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
 
     @Override
     public void setExtendedArea(InputStream source) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        extendedArea = new XBData();
+        ((XBData) extendedArea).loadFromStream(source);
     }
 
     @Override
     public void clear() {
+        extendedArea = null;
         throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    private class BlockPosition {
-
-        long streamPosition;
-        int blockIndex;
     }
 
     private class BlockTreeCache {

@@ -34,9 +34,9 @@ import org.xbup.lib.parser_tree.XBTreeNode;
  * @author XBUP Project (http://xbup.org)
  */
 @Ignore
-public class XBWriterTest extends TestCase {
+public class XBWriterBlockWriteTest extends TestCase {
 
-    public XBWriterTest(String testName) {
+    public XBWriterBlockWriteTest(String testName) {
         super(testName);
     }
 
@@ -57,7 +57,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleEmpty() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_EMPTY)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_EMPTY)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleEmptyTree();
@@ -78,7 +78,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleBlock() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockTree();
@@ -99,7 +99,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleBlockExtended() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_EXTENDED)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_EXTENDED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockExtendedTree();
@@ -120,7 +120,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleBlockTerminated() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockTerminatedTree();
@@ -141,7 +141,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleBlockTerminatedExtended() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_EXTENDED)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_EXTENDED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockTerminatedExtendedTree();
@@ -162,7 +162,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleData() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleDataTree();
@@ -183,7 +183,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleDataExtended() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_EXTENDED)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_EXTENDED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleDataExtendedTree();
@@ -204,7 +204,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleDataTerminated() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleDataTerminatedTree();
@@ -225,7 +225,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleDataTerminatedExtended() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_EXTENDED)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_EXTENDED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleDataTerminatedExtendedTree();
@@ -246,7 +246,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleBlockData() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataTree();
@@ -267,7 +267,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleBlockDataExtended() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_EXTENDED)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_EXTENDED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataExtendedTree();
@@ -288,7 +288,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleBlockDataTerminated() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataTerminatedTree();
@@ -309,7 +309,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleBlockDataTerminatedExtended() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED_EXTENDED)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED_EXTENDED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataTerminatedExtendedTree();
@@ -330,7 +330,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleBlockDataHybrid() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_HYBRID)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_HYBRID)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataHybridTree();
@@ -351,7 +351,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleBlockDataHybrid2() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_HYBRID2)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_HYBRID2)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataHybrid2Tree();
@@ -372,7 +372,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleTwoBlocks() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksTree();
@@ -393,7 +393,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleTwoBlocksExtended() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_EXTENDED)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_EXTENDED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksExtendedTree();
@@ -414,7 +414,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleTwoBlocksTerminated() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksTerminatedTree();
@@ -435,7 +435,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleTwoBlocksTerminatedExtended() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED_EXTENDED)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED_EXTENDED)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksTerminatedExtendedTree();
@@ -456,7 +456,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleTwoBlocksHybrid() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_HYBRID)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_HYBRID)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksHybridTree();
@@ -477,7 +477,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleTwoBlocksHybrid2() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_HYBRID2)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_HYBRID2)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksHybrid2Tree();
@@ -498,7 +498,7 @@ public class XBWriterTest extends TestCase {
      */
     @Test
     public void testWriteSampleSixBlocks() throws Exception {
-        try (InputStream stream = XBWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_SIX_BLOCKS)) {
+        try (InputStream stream = XBWriterBlockWriteTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_SIX_BLOCKS)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBWriter document = new XBWriter();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleSixBlocksTree();

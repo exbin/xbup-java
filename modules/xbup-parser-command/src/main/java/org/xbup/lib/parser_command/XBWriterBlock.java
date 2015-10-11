@@ -37,12 +37,12 @@ import org.xbup.lib.core.ubnumber.UBNatural;
 /**
  * XBUP level 0 command writer block.
  *
- * @version 0.2.0 2015/10/10
+ * @version 0.2.0 2015/10/11
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable {
 
-    private int blockId = 0;
+    private long blockId = 0;
     private final long[] blockPath;
     private final XBWriter writer;
     private XBDefaultEditableBlock fixedBlock = null;
@@ -54,7 +54,7 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
      * @param blockPath block path
      * @param blockId block identification number
      */
-    public XBWriterBlock(XBWriter writer, long[] blockPath, int blockId) {
+    public XBWriterBlock(XBWriter writer, long[] blockPath, long blockId) {
         this.blockId = blockId;
         this.blockPath = blockPath;
         this.writer = writer;

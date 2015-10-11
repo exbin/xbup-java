@@ -32,6 +32,8 @@ import org.xbup.lib.core.parser.XBParserMode;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBToken;
+import org.xbup.lib.core.parser.token.XBTokenType;
+import org.xbup.lib.core.parser.token.convert.XBListenerToToken;
 import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 import org.xbup.lib.core.parser.token.pull.XBPullWriter;
 import org.xbup.lib.core.parser.token.pull.convert.XBProviderToPullProvider;
@@ -45,7 +47,7 @@ import org.xbup.lib.parser_tree.XBTreeWriter;
  * This writer expects source data not to be changed, so exclusive lock is
  * recommended.
  *
- * @version 0.1.25 2015/10/10
+ * @version 0.1.25 2015/10/11
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
@@ -54,13 +56,14 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
     private OutputStream outputStream;
     private XBReader reader;
     private XBBlockData extendedArea = null;
-    private long activeBlock = 0;
+    private XBTreeWriter treeWriter = null;
+    private long activeBlockId = 0;
 
     /**
      * Writer keeps links to all blocks related to it.
      */
-    private int blockStoreIndex = 1;
-    private Map<Integer, XBWriterBlock> blockStore = new HashMap<>();
+    private long blockStoreIndex = 1;
+    private Map<Long, XBWriterBlock> blockStore = new HashMap<>();
     // TODO tree structure for search by block path
     private BlockTreeCache blockTreeCache = null;
 
@@ -105,7 +108,7 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
     }
 
     @Override
-    public XBEditableBlock getRootBlock() {
+    public XBWriterBlock getRootBlock() {
         return getBlock(new long[0]);
     }
 
@@ -189,7 +192,7 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
      * @throws IOException
      */
     public void seekBlock(XBWriterBlock targetBlock) throws XBProcessingException, IOException {
-        activeBlock = targetBlock.getBlockId();
+        setActiveBlockId(targetBlock);
         if (!targetBlock.isFixedBlock()) {
             reader.seekBlock(targetBlock);
         }
@@ -197,7 +200,51 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
 
     @Override
     public XBToken pullXBToken() throws XBProcessingException, IOException {
-        return reader.pullXBToken();
+        XBWriterBlock block;
+        if (activeBlockId == 0) {
+            block = (XBWriterBlock) getRootBlock();
+            setActiveBlockId(block);
+        } else {
+            block = getActiveBlock();
+        }
+
+        if (block.isFixedBlock()) {
+            if (treeWriter == null) {
+                treeWriter = new XBTreeWriter(block);
+            }
+
+            XBListenerToToken tokenListener = new XBListenerToToken();
+            treeWriter.produceXB(tokenListener, false);
+            XBToken token = tokenListener.getToken();
+            if (token.getTokenType() == XBTokenType.END) {
+                if (block.getDataMode() == XBBlockDataMode.NODE_BLOCK) {
+                    XBWriterBlock childBlock = (XBWriterBlock) block.getChildAt(0);
+                    if (childBlock == null) {
+                        // TODO set next block
+                        // TODO use stub tree writer?
+                        throw new UnsupportedOperationException("Not supported yet.");
+                    } else {
+                        setActiveBlockId(childBlock);
+                        return pullXBToken();
+                    }
+                }
+            }
+
+            return token;
+        } else {
+//            if (reader.getActiveBlock() != block) {
+//                seekBlock(block);
+//            }
+
+            XBToken token = reader.pullXBToken();
+            if (reader.getActiveBlock() != block) {
+                setActiveBlockId(block);
+                // TODO
+//                XBWriterBlock nextblock = (XBWriterBlock) reader.getActiveBlock();
+//                setActiveBlockId(nextblock);
+            }
+            return token;
+        }
     }
 
     public boolean isFinishedXB() {
@@ -277,6 +324,15 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
     public void clear() {
         extendedArea = null;
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    private XBWriterBlock getActiveBlock() {
+        return activeBlockId == 0 ? null : blockStore.get(activeBlockId);
+    }
+
+    private void setActiveBlockId(XBWriterBlock block) {
+        activeBlockId = block == null ? 0 : block.getBlockId();
+        treeWriter = null;
     }
 
     private class BlockTreeCache {

@@ -210,7 +210,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
      * @return block handler
      */
     public XBBlock getBlock() {
-        return getBlock(getCurrentPath());
+        return getBlock(getCurrentBlockPath());
     }
 
     public XBBlockDataMode getBlockDataMode() throws XBProcessingException, IOException {
@@ -311,10 +311,10 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
         return childIndex < getBlockChildrenCount();
     }
 
-    public long[] getCurrentPath() {
-        long[] currentPath = new long[pathPositions.size()];
-        for (int i = 0; i < currentPath.length; i++) {
-            currentPath[i] = pathPositions.get(i).blockIndex;
+    public long[] getCurrentBlockPath() {
+        long[] currentPath = new long[pathPositions.size() - 1];
+        for (int i = 1; i < currentPath.length; i++) {
+            currentPath[i - 1] = pathPositions.get(i).blockIndex;
         }
         return currentPath;
     }

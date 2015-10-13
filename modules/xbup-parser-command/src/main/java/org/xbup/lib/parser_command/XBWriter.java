@@ -116,6 +116,10 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
     public XBWriterBlock getBlock(long[] blockPath) {
         // Search for existing cache record first 
         BlockTreeCache cacheNode = this.blockTreeCache;
+        if (cacheNode != null && blockPath.length == 0) {
+            return cacheNode.block;
+        }
+
         int depth = 0;
         while (cacheNode != null && depth < blockPath.length) {
             if (cacheNode.childBlocks != null) {
@@ -233,7 +237,7 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
             return token;
         } else {
             if (reader.getActiveBlock() != block) {
-                // TODO seekBlock(block);
+                // seekBlock(block);
             }
 
             XBToken token = reader.pullXBToken();

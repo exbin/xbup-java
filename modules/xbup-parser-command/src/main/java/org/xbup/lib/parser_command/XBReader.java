@@ -52,7 +52,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * This reader expects data not to be changed, so exclusive lock on source data
  * is recommended.
  *
- * @version 0.2.0 2015/10/04
+ * @version 0.2.0 2015/10/14
  * @author XBUP Project (http://xbup.org)
  */
 public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
@@ -168,7 +168,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
         return activeBlock;
     }
 
-    public void setActiveBlock(XBReaderBlock activeBlock) {
+    public void setActiveBlock(XBCommandBlock activeBlock) {
         this.activeBlock = activeBlock;
     }
 
@@ -430,7 +430,6 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                 } else {
                     pathUp();
                     if (pathPositions.get(pathPositions.size() - 1).sizeLimit == null || pathPositions.get(pathPositions.size() - 1).sizeLimit > 0) {
-                        activeBlock = null;
                         parserState = XBParserState.BLOCK_BEGIN;
                     }
                 }

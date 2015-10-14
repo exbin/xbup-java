@@ -47,7 +47,7 @@ import org.xbup.lib.parser_tree.XBTreeWriter;
  * This writer expects source data not to be changed, so exclusive lock is
  * recommended.
  *
- * @version 0.1.25 2015/10/12
+ * @version 0.1.25 2015/10/14
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
@@ -236,17 +236,28 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
 
             return token;
         } else {
+            boolean postSeek = false;
             if (reader.getActiveBlock() != block) {
-                // seekBlock(block);
+                seekBlock(block);
+                postSeek = true;
             }
 
             XBToken token = reader.pullXBToken();
             if (token.getTokenType() == XBTokenType.BEGIN && reader.getActiveBlock() != block) {
-                XBWriterBlock nextblock = (XBWriterBlock) reader.getActiveBlock();
-                if (nextblock == null) {
-                    nextblock = getBlock(reader.getCurrentBlockPath());
+                if (postSeek) {
+                    reader.setActiveBlock(block);
+                } else {
+                    XBWriterBlock nextBlock = (XBWriterBlock) reader.getActiveBlock();
+                    if (nextBlock == null) {
+                        nextBlock = getBlock(reader.getCurrentBlockPath());
+                        reader.setActiveBlock(nextBlock);
+                    }
+                    setActiveBlockId(nextBlock);
                 }
-                setActiveBlockId(nextblock);
+            } else if (token.getTokenType() == XBTokenType.END) {
+                XBWriterBlock nextBlock = (XBWriterBlock) getActiveBlock().getParent();
+                reader.setActiveBlock(nextBlock);
+                setActiveBlockId(nextBlock);
             }
             return token;
         }

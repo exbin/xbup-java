@@ -32,12 +32,11 @@ import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBDefaultEditableBlock;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBAttribute;
-import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 0 command writer block.
  *
- * @version 0.2.0 2015/10/11
+ * @version 0.2.0 2015/10/15
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable {
@@ -100,6 +99,10 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
 
     @Override
     public XBBlockDataMode getDataMode() {
+        if (fixedBlock != null) {
+            return fixedBlock.getDataMode();
+        }
+
         try {
             writer.seekBlock(this);
             return writer.getBlockDataMode();
@@ -110,6 +113,10 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
 
     @Override
     public XBBlockTerminationMode getTerminationMode() {
+        if (fixedBlock != null) {
+            return fixedBlock.getTerminationMode();
+        }
+
         try {
             writer.seekBlock(this);
             return writer.getBlockTerminationMode();
@@ -120,6 +127,10 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
 
     @Override
     public XBAttribute[] getAttributes() {
+        if (fixedBlock != null) {
+            return fixedBlock.getAttributes();
+        }
+
         try {
             writer.seekBlock(this);
         } catch (XBProcessingException | IOException ex) {
@@ -145,7 +156,11 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
     }
 
     @Override
-    public UBNatural getAttributeAt(int attributeIndex) {
+    public XBAttribute getAttributeAt(int attributeIndex) {
+        if (fixedBlock != null) {
+            return fixedBlock.getAttributeAt(attributeIndex);
+        }
+
         try {
             writer.seekBlock(this);
         } catch (XBProcessingException | IOException ex) {
@@ -163,6 +178,10 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
 
     @Override
     public int getAttributesCount() {
+        if (fixedBlock != null) {
+            return fixedBlock.getAttributesCount();
+        }
+
         try {
             writer.seekBlock(this);
             return writer.getBlockAttributesCount();
@@ -173,6 +192,10 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
 
     @Override
     public XBBlock[] getChildren() {
+        if (fixedBlock != null) {
+            return fixedBlock.getChildren();
+        }
+
         int childrenCount = getChildrenCount();
         XBBlock[] result = new XBBlock[childrenCount];
         for (int i = 0; i < result.length; i++) {
@@ -185,6 +208,10 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
 
     @Override
     public XBBlock getChildAt(int childIndex) {
+        if (fixedBlock != null) {
+            return fixedBlock.getChildAt(childIndex);
+        }
+
         try {
             if (writer.hasBlockChildAt(childIndex)) {
                 return writer.getBlockChild(this, childIndex);
@@ -197,6 +224,10 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
 
     @Override
     public int getChildrenCount() {
+        if (fixedBlock != null) {
+            return fixedBlock.getChildrenCount();
+        }
+
         try {
             writer.seekBlock(this);
             return writer.getBlockChildrenCount();
@@ -207,6 +238,10 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
 
     @Override
     public InputStream getData() {
+        if (fixedBlock != null) {
+            return fixedBlock.getData();
+        }
+
         try {
             writer.seekBlock(this);
             return writer.getBlockData();
@@ -222,12 +257,20 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
 
     @Override
     public XBBlockData getBlockData() {
+        if (fixedBlock != null) {
+            return fixedBlock.getBlockData();
+        }
+
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void setParent(XBBlock parent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (fixedBlock != null) {
+            fixedBlock.setParent(parent);
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Override

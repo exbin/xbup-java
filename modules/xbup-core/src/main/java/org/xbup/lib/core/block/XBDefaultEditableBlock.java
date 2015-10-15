@@ -26,7 +26,7 @@ import org.xbup.lib.core.type.XBData;
 /**
  * Basic plain implementation of XBEditableBlock interface.
  *
- * @version 0.2.0 2015/10/09
+ * @version 0.2.0 2015/10/15
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDefaultEditableBlock implements XBEditableBlock {
@@ -34,8 +34,8 @@ public class XBDefaultEditableBlock implements XBEditableBlock {
     private XBBlock parent;
     private XBBlockDataMode dataMode;
     private XBBlockTerminationMode terminationMode;
-    private List<XBAttribute> attributes;
-    private List<XBBlock> children;
+    private List<XBAttribute> attributes = new ArrayList<>();
+    private List<XBBlock> children = new ArrayList<>();
     private XBBlockData data;
 
     /**
@@ -56,8 +56,6 @@ public class XBDefaultEditableBlock implements XBEditableBlock {
         dataMode = XBBlockDataMode.DATA_BLOCK;
         this.parent = parent;
         this.terminationMode = terminationMode;
-        this.attributes = null;
-        this.children = null;
         this.data = data == null ? new XBData() : data;
     }
 

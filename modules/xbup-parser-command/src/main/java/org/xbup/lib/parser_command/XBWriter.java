@@ -47,7 +47,7 @@ import org.xbup.lib.parser_tree.XBTreeWriter;
  * This writer expects source data not to be changed, so exclusive lock is
  * recommended.
  *
- * @version 0.1.25 2015/10/14
+ * @version 0.1.25 2015/10/16
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
@@ -69,6 +69,7 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
 
     public XBWriter() {
         reader = new XBReader();
+        extendedArea = new XBData();
         reset();
     }
 
@@ -96,7 +97,6 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
     public void save(OutputStream stream) throws IOException {
         this.outputStream = stream;
         try (XBPullWriter pullWriter = new XBPullWriter(outputStream)) {
-            XBTreeWriter treeWriter = new XBTreeWriter(this);
             pullWriter.attachXBPullProvider(new XBProviderToPullProvider(treeWriter));
             pullWriter.write();
         }

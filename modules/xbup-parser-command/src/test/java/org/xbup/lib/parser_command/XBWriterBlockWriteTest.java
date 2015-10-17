@@ -20,7 +20,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import junit.framework.TestCase;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xbup.lib.core.block.XBDocument;
 import org.xbup.lib.core.parser.data.XBCoreTestSampleData;
@@ -33,7 +32,6 @@ import org.xbup.lib.parser_tree.XBTreeNode;
  * @version 0.2.0 2015/10/09
  * @author XBUP Project (http://xbup.org)
  */
-@Ignore
 public class XBWriterBlockWriteTest extends TestCase {
 
     public XBWriterBlockWriteTest(String testName) {

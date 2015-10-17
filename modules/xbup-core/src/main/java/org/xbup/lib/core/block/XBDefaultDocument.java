@@ -17,11 +17,12 @@
 package org.xbup.lib.core.block;
 
 import java.io.InputStream;
+import org.xbup.lib.core.type.XBData;
 
 /**
  * Basic plain implementation of XBDocument interface.
  *
- * @version 0.2.0 2015/09/19
+ * @version 0.2.0 2015/10/17
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDefaultDocument implements XBDocument {
@@ -30,12 +31,19 @@ public class XBDefaultDocument implements XBDocument {
     private final XBBlockData extendedArea;
 
     public XBDefaultDocument(XBBlock rootBlock) {
-        this(rootBlock, null);
+        this(rootBlock, (XBBlockData) null);
     }
 
     public XBDefaultDocument(XBBlock rootBlock, XBBlockData extendedArea) {
         this.rootBlock = rootBlock;
         this.extendedArea = extendedArea;
+    }
+
+    public XBDefaultDocument(XBBlock rootBlock, InputStream extendedArea) {
+        this.rootBlock = rootBlock;
+        XBData data = new XBData();
+        data.loadFromStream(extendedArea);
+        this.extendedArea = data;
     }
 
     @Override

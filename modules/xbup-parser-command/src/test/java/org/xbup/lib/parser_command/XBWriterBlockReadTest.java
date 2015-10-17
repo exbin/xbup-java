@@ -17,6 +17,7 @@
 package org.xbup.lib.parser_command;
 
 import junit.framework.TestCase;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.xbup.lib.core.block.XBDocument;
 import org.xbup.lib.core.parser.data.XBCoreTestSampleData;
@@ -29,6 +30,7 @@ import static org.xbup.lib.parser_command.XBCommandParserTestUtils.getResourceAs
  * @version 0.2.0 2015/10/05
  * @author XBUP Project (http://xbup.org)
  */
+@Ignore
 public class XBWriterBlockReadTest extends TestCase {
 
     public XBWriterBlockReadTest(String testName) {

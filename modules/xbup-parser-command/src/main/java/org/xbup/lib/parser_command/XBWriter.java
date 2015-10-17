@@ -27,6 +27,7 @@ import org.xbup.lib.core.block.XBBlock;
 import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.block.XBBlockDataMode;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBDefaultDocument;
 import org.xbup.lib.core.block.XBEditableBlock;
 import org.xbup.lib.core.parser.XBParserMode;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -97,7 +98,16 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
     public void save(OutputStream stream) throws IOException {
         this.outputStream = stream;
         try (XBPullWriter pullWriter = new XBPullWriter(outputStream)) {
-            pullWriter.attachXBPullProvider(new XBProviderToPullProvider(treeWriter));
+            if (treeWriter == null) {
+                XBWriterBlock activeBlock = getActiveBlock();
+                if (activeBlock == null) {
+                    treeWriter = new XBTreeWriter(new XBDefaultDocument(getRootBlock(), getExtendedArea()));
+                } else {
+                    treeWriter = new XBTreeWriter(activeBlock);
+                }
+            }
+            XBProviderToPullProvider pullProvider = new XBProviderToPullProvider(treeWriter);
+            pullWriter.attachXBPullProvider(pullProvider);
             pullWriter.write();
         }
     }

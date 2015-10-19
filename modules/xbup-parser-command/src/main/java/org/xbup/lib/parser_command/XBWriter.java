@@ -48,7 +48,7 @@ import org.xbup.lib.parser_tree.XBTreeWriter;
  * This writer expects source data not to be changed, so exclusive lock is
  * recommended.
  *
- * @version 0.1.25 2015/10/18
+ * @version 0.1.25 2015/10/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
@@ -362,6 +362,13 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
     private void setActiveBlockId(XBWriterBlock block) {
         activeBlockId = block == null ? 0 : block.getBlockId();
         treeWriter = null;
+    }
+
+    public XBWriterBlock createChildBlock(long[] blockPath, int childIndex) {
+        long[] childPath = new long[blockPath.length + 1];
+        System.arraycopy(blockPath, 0, childPath, 0, blockPath.length);
+        childPath[childPath.length - 1] = childIndex;
+        return createNewBlock(childPath);
     }
 
     private class BlockTreeCache {

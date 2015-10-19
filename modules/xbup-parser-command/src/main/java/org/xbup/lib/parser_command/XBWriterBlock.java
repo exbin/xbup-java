@@ -36,7 +36,7 @@ import org.xbup.lib.core.parser.token.XBAttribute;
 /**
  * XBUP level 0 command writer block.
  *
- * @version 0.2.0 2015/10/17
+ * @version 0.2.0 2015/10/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable {
@@ -355,19 +355,15 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
         if (dataMode == XBBlockDataMode.NODE_BLOCK) {
             fixedBlock.setAttributes(block.getAttributes());
             XBBlock[] children = block.getChildren();
-            /* TODO
             if (children.length > 0) {
                 XBBlock[] modifiedChildren = new XBBlock[children.length];
                 for (int i = 0; i < children.length; i++) {
-                    writer.
-                    XBWriterBlock modifiedChild = new XBWriterBlock(writer, blockPath, blockId)
+                    XBWriterBlock modifiedChild = writer.createChildBlock(blockPath, i);
+                    modifiedChild.setFixedBlock(children[i]);
+                    modifiedChildren[i] = modifiedChild;
                 }
-                for (XBBlock child : children) {
-                    
-                    fixedBlock.setChildren();
-                }
-            }*/
-            fixedBlock.setChildren(children);
+                fixedBlock.setChildren(modifiedChildren);
+            }
         } else {
             fixedBlock.setData(block.getBlockData());
         }

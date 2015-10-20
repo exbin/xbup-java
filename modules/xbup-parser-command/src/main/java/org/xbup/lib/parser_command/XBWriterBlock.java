@@ -275,47 +275,83 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
 
     @Override
     public void setTerminationMode(XBBlockTerminationMode terminationMode) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (isFixedBlock()) {
+            fixedBlock.setTerminationMode(terminationMode);
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Override
     public void setDataMode(XBBlockDataMode dataMode) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (isFixedBlock()) {
+            fixedBlock.setDataMode(dataMode);
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Override
     public void setAttributes(XBAttribute[] attributes) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (isFixedBlock()) {
+            fixedBlock.setAttributes(attributes);
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Override
     public void setAttributeAt(XBAttribute attribute, int attributeIndex) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (isFixedBlock()) {
+            fixedBlock.setAttributeAt(attribute, attributeIndex);
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Override
     public void setAttributesCount(int count) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (isFixedBlock()) {
+            fixedBlock.setAttributesCount(count);
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Override
     public void removeAttribute(int attributeIndex) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (isFixedBlock()) {
+            fixedBlock.removeAttribute(attributeIndex);
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Override
     public void setChildren(XBBlock[] blocks) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (isFixedBlock()) {
+            fixedBlock.setChildren(blocks);
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Override
     public void setChildAt(XBBlock block, int childIndex) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (isFixedBlock()) {
+            fixedBlock.setChildAt(block, childIndex);
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Override
     public void setChildrenCount(int count) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (isFixedBlock()) {
+            fixedBlock.setChildrenCount(count);
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Override
@@ -325,22 +361,38 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
 
     @Override
     public void removeChild(int childIndex) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (isFixedBlock()) {
+            fixedBlock.removeChild(childIndex);
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Override
     public void setData(InputStream data) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (isFixedBlock()) {
+            fixedBlock.setData(data);
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Override
     public void setData(XBBlockData data) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (isFixedBlock()) {
+            fixedBlock.setData(data);
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (isFixedBlock()) {
+            fixedBlock.clear();
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     public void setFixedBlock(XBBlock block) {

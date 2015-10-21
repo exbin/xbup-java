@@ -33,7 +33,6 @@ import org.xbup.tool.editor.base.api.StatusManagement;
  */
 public class ModuleManager implements ModuleManagement {
 
-    private final BaseModuleRepository moduleRepository;
     private final MenuManager menuManager;
     private final PanelManager panelManager;
     private final FileTypeManager fileTypeManager;
@@ -42,7 +41,6 @@ public class ModuleManager implements ModuleManagement {
     private final MainFrameManagement mainFrame;
 
     public ModuleManager(BaseModuleRepository moduleRepository) {
-        this.moduleRepository = moduleRepository;
         menuManager = new MenuManager(moduleRepository);
         panelManager = new PanelManager(moduleRepository);
         fileTypeManager = new FileTypeManager(moduleRepository);

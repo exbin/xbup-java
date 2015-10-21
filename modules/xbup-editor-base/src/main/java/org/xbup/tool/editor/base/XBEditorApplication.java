@@ -30,9 +30,9 @@ import org.xbup.tool.editor.base.api.XBEditorApp;
 import org.xbup.tool.editor.base.manager.BaseModuleRepository;
 
 /**
- * Main class for XBEditors.
+ * Application interface class.
  *
- * @version 0.1.24 2015/01/31
+ * @version 0.2.0 2015/10/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEditorApplication implements XBEditorApp {
@@ -60,7 +60,7 @@ public class XBEditorApplication implements XBEditorApp {
         this.firstCommand = firstCommand;
     }
 
-    public void prepare() {
+    public void init() {
         if (isAppMode()) {
             getModuleRepository().setMainFrame(mainFrame);
             getModuleRepository().processModules();
@@ -71,8 +71,6 @@ public class XBEditorApplication implements XBEditorApp {
     public void run() {
         if (isAppMode()) {
             mainFrame.setVisible(true);
-            /*form.setSize(form.getWidth(), form.getHeight());
-             form.setLocationByPlatform(true); */
 
             if (firstCommand != null) {
                 firstCommand.execute();
@@ -84,7 +82,7 @@ public class XBEditorApplication implements XBEditorApp {
      * At startup creates and shows the main frame of the application.
      */
     public void startup() {
-        prepare();
+        init();
         run();
     }
 

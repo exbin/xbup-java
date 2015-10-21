@@ -30,14 +30,14 @@ import org.apache.commons.cli.ParseException;
 /**
  * Main class for XBEditors.
  *
- * @version 0.1.24 2015/01/31
+ * @version 0.2.0 2015/10/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEditorBase {
 
     private static Preferences preferences;
-    private static final String APP_BUNDLE_NAME = "org/xbup/tool/editor/base/resources/XBEditorBase";
-    private static final ResourceBundle bundle = ResourceBundle.getBundle(APP_BUNDLE_NAME);
+    private static final String APPLICATION_BUNDLE_NAME = "org/xbup/tool/editor/base/resources/XBEditorBase";
+    private static final ResourceBundle APPLICATION_BUNDLE = ResourceBundle.getBundle(APPLICATION_BUNDLE_NAME);
 
     public XBEditorBase() {
     }
@@ -56,13 +56,13 @@ public class XBEditorBase {
         try {
             // Parameters processing
             Options opt = new Options();
-            opt.addOption("h", "help", false, bundle.getString("cl_option_help"));
-            opt.addOption("v", false, bundle.getString("cl_option_verbose"));
+            opt.addOption("h", "help", false, APPLICATION_BUNDLE.getString("cl_option_help"));
+            opt.addOption("v", false, APPLICATION_BUNDLE.getString("cl_option_verbose"));
             BasicParser parser = new BasicParser();
             CommandLine cl = parser.parse(opt, args);
             if (cl.hasOption('h')) {
                 HelpFormatter f = new HelpFormatter();
-                f.printHelp(bundle.getString("cl_syntax"), opt);
+                f.printHelp(APPLICATION_BUNDLE.getString("cl_syntax"), opt);
                 return;
             }
 
@@ -83,18 +83,11 @@ public class XBEditorBase {
             XBEditorApplication app = new XBEditorApplication();
             app.setAppMode(true);
             app.setAppPreferences(preferences);
-            app.setAppBundle(bundle, APP_BUNDLE_NAME);
+            app.setAppBundle(APPLICATION_BUNDLE, APPLICATION_BUNDLE_NAME);
 
             app.startup();
         } catch (ParseException ex) {
             Logger.getLogger(XBEditorBase.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public static String preferencesGet(String key, String def) {
-        if (preferences == null) {
-            return def;
-        }
-        return preferences.get(key, def);
     }
 }

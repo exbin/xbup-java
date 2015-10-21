@@ -37,7 +37,7 @@ import org.xbup.tool.editor.base.api.ModuleRepository;
 /**
  * Repository for modules and managers.
  *
- * @version 0.1.22 2013/03/04
+ * @version 0.2.0 2015/10/21
  * @author XBUP Project (http://xbup.org)
  */
 public class BaseModuleRepository implements ModuleRepository {
@@ -55,29 +55,6 @@ public class BaseModuleRepository implements ModuleRepository {
         pluginManager = PluginManagerFactory.createPluginManager();
         mainFrame = null;
 
-        // fixed load of modules
-/*        pluginManager.addPluginsFrom(new ClassURI(ScriptEditorModule.class).toURI());
-         pluginManager.addPluginsFrom(new ClassURI(GraphEditorModule.class).toURI());
-         pluginManager.addPluginsFrom(new ClassURI(WaveEditorModule.class).toURI());
-         pluginManager.addPluginsFrom(new ClassURI(JavaHelpModule.class).toURI());
-         pluginManager.addPluginsFrom(new ClassURI(OnlineHelpModule.class).toURI()); */
-        /*        File directory = new File("./modules");
-         if (directory.exists()) {
-         System.out.println("Loading plugins from: ./modules");
-         pluginManager.addPluginsFrom(directory.toURI());
-         } else {
-         directory = new File("./../modules");
-         if (directory.exists()) {
-         System.out.println("Loading plugins from:  ./../modules");
-         pluginManager.addPluginsFrom(directory.toURI());
-         } else {
-         addPlugin("GraphEditor.jar");
-         addPlugin("JavaHelp.jar");
-         addPlugin("OnlineHelp.jar");
-         addPlugin("ScriptEditor.jar");
-         addPlugin("WaveEditor.jar");
-         }
-         } */
         moduleManager = null;
         activeModule = 0;
     }
@@ -98,46 +75,7 @@ public class BaseModuleRepository implements ModuleRepository {
             applicationModule.init(moduleManager);
         }
 
-        // TODO: Finish section
         moduleManager.getFileTypeManagement().finish();
-    }
-
-    private void addPlugin(String pluginName) {
-        /*        try {
-         pluginManager.addPluginsFrom(new URI("http:///modules/"+pluginName)); // classpath://*
-         } catch (URISyntaxException ex1) {
-         Exceptions.printStackTrace(ex1);
-         }
-         InputStream iStream = null;
-         try {
-         String pluginPath = "http:///modules/" + pluginName;
-         iStream = new URL(pluginPath).openStream();
-         java.io.File tmpFile = null;
-         try {
-         tmpFile = java.io.File.createTempFile("jspfplugindownload", ".jar");
-         FileOutputStream oStream = new FileOutputStream(tmpFile);
-         while (iStream.available() > 0) {
-         oStream.write(iStream.read()); // TODO: buffer read
-         }
-         iStream.close();
-         oStream.close();
-         } catch (IOException ex) {
-         Logger.getLogger(BaseModuleRepository.class.getName()).log(Level.SEVERE, null, ex);
-         }
-         if (tmpFile != null) {
-         pluginManager.addPluginsFrom(tmpFile.getAbsoluteFile().toURI());
-         }
-         } catch (MalformedURLException ex) {
-         Exceptions.printStackTrace(ex);
-         } catch (IOException ex) {
-         Exceptions.printStackTrace(ex);
-         } finally {
-         try {
-         iStream.close();
-         } catch (IOException ex) {
-         Exceptions.printStackTrace(ex);
-         }
-         } */
     }
 
     public void setMainFrame(MainFrame mainFrame) {
@@ -207,7 +145,7 @@ public class BaseModuleRepository implements ModuleRepository {
     public List<ApplicationModuleInfo> getModulesList() {
         List<ApplicationModuleInfo> moduleList = new ArrayList<>();
         for (long moduleIndex = 1; moduleIndex <= activeModule; moduleIndex++) {
-            ApplicationModule module = modules.get(new Long(moduleIndex));
+            ApplicationModule module = modules.get(moduleIndex);
             if (module != null) {
                 moduleList.add(module.getInfo());
             }
@@ -244,7 +182,8 @@ public class BaseModuleRepository implements ModuleRepository {
 
         @Override
         public boolean selectPlugin(ApplicationModule plugin) {
-            String plugPath = "/"; /* + plugin.getPluginPath();
+            String plugPath = "/";
+            /* + plugin.getPluginPath();
              if (plugPath == null) {
              return false;
              } */

@@ -98,7 +98,7 @@ public class XBEditor extends XBEditorBase {
                     app.loadFromFile((String) fileArgs.get(0));
                 }
 
-                app.prepare();
+                app.init();
 
                 ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
                 ((XBDocEditorModule) module).setEditorApp(app);

@@ -11,7 +11,9 @@ if (!hasProperty('mainClass')) {
 def configureExec(task) {
     task.main = mainClass
     task.classpath = sourceSets.main.runtimeClasspath
-    task.args appArgs
+    if (!hasProperty('mainClass')) {
+        task.args appArgs
+    }
 }
 
 task run(type: JavaExec) {

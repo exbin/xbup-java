@@ -83,34 +83,34 @@ public class PropertiesDialog extends javax.swing.JDialog {
             }
         });
 
-        fileNameLabel.setText(bundle.getString("jLabel1.text")); // NOI18N
+        fileNameLabel.setText(bundle.getString("fileNameLabel.text")); // NOI18N
         fileNameLabel.setName("fileNameLabel"); // NOI18N
 
         fileNameTextField.setEditable(false);
         fileNameTextField.setName("fileNameTextField"); // NOI18N
 
-        documentSizePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("jPanel1.border.title"))); // NOI18N
+        documentSizePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("documentSizePanel.border.title"))); // NOI18N
         documentSizePanel.setName("documentSizePanel"); // NOI18N
 
-        linesCountLabel.setText(bundle.getString("jLabel4.text")); // NOI18N
+        linesCountLabel.setText(bundle.getString("linesCountLabel.text")); // NOI18N
         linesCountLabel.setName("linesCountLabel"); // NOI18N
 
         linesCountTextField.setEditable(false);
         linesCountTextField.setName("linesCountTextField"); // NOI18N
 
-        charCountLabel.setText(bundle.getString("jLabel5.text")); // NOI18N
+        charCountLabel.setText(bundle.getString("charCountLabel.text")); // NOI18N
         charCountLabel.setName("charCountLabel"); // NOI18N
 
         charCountTextField.setEditable(false);
         charCountTextField.setName("charCountTextField"); // NOI18N
 
-        fileSizeLabel.setText(bundle.getString("jLabel2.text")); // NOI18N
+        fileSizeLabel.setText(bundle.getString("fileSizeLabel.text")); // NOI18N
         fileSizeLabel.setName("fileSizeLabel"); // NOI18N
 
         fileSizeTextField.setEditable(false);
         fileSizeTextField.setName("fileSizeTextField"); // NOI18N
 
-        wordsCountLabel.setText(bundle.getString("jLabel3.text")); // NOI18N
+        wordsCountLabel.setText(bundle.getString("wordsCountLabel.text")); // NOI18N
         wordsCountLabel.setName("wordsCountLabel"); // NOI18N
 
         wordsCountTextField.setEditable(false);

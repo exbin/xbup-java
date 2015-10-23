@@ -22,7 +22,7 @@ import org.xbup.tool.editor.utils.WindowUtils;
 /**
  * Find text dialog.
  *
- * @version 0.1.24 2014/11/23
+ * @version 0.2.0 2015/10/23
  * @author XBUP Project (http://xbup.org)
  */
 public class FindTextDialog extends javax.swing.JDialog {
@@ -72,7 +72,7 @@ public class FindTextDialog extends javax.swing.JDialog {
         textToReplaceTextField = new javax.swing.JTextField();
         replaceAllMatchesCheckBox = new javax.swing.JCheckBox();
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/dialog/resources/FindDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/dialog/resources/FindTextDialog"); // NOI18N
         setTitle(bundle.getString("Form.title")); // NOI18N
         setLocationByPlatform(true);
         setModal(true);

@@ -203,8 +203,7 @@ public class XBPictureEditorFrame extends javax.swing.JFrame implements XBEditor
         mainPanel.setLayout(new java.awt.BorderLayout());
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/picture_editor/resources/XBPictureEditorFrame"); // NOI18N
-        fileMenu.setText(bundle.getString("fileMenu.text")); // NOI18N
+        fileMenu.setText("File");
 
         filePropertiesMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ENTER, java.awt.event.InputEvent.ALT_MASK));
         filePropertiesMenuItem.setText("Properties");
@@ -219,6 +218,7 @@ public class XBPictureEditorFrame extends javax.swing.JFrame implements XBEditor
 
         filePrintMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         filePrintMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/picture_editor/resources/images/actions/Print16.gif"))); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/picture_editor/resources/XBPictureEditorFrame"); // NOI18N
         filePrintMenuItem.setText(bundle.getString("actionFilePrint.Action.text")); // NOI18N
         filePrintMenuItem.setToolTipText(bundle.getString("actionFilePrint.Action.shortDescription")); // NOI18N
         filePrintMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -230,7 +230,7 @@ public class XBPictureEditorFrame extends javax.swing.JFrame implements XBEditor
 
         menuBar.add(fileMenu);
 
-        viewMenu.setText(bundle.getString("viewMenu.text")); // NOI18N
+        viewMenu.setText("View");
         viewMenu.add(jSeparator3);
 
         viewZoom.setText(bundle.getString("viewZoomMenuItem.text")); // NOI18N
@@ -291,7 +291,7 @@ public class XBPictureEditorFrame extends javax.swing.JFrame implements XBEditor
 
         menuBar.add(viewMenu);
 
-        toolsMenu.setText(bundle.getString("toolsMenu.text")); // NOI18N
+        toolsMenu.setText("Tools");
 
         toolButtonGroup.add(toolPencilMenuItem);
         toolPencilMenuItem.setSelected(true);
@@ -327,10 +327,10 @@ public class XBPictureEditorFrame extends javax.swing.JFrame implements XBEditor
 
         menuBar.add(pictMenu);
 
-        optionsMenu.setText(bundle.getString("optionsMenu.text")); // NOI18N
+        optionsMenu.setText("Options");
 
         optionsColorsMenuItem.setText(bundle.getString("toolColorMenuItem.text")); // NOI18N
-        optionsColorsMenuItem.setToolTipText(bundle.getString("XBPictureEditorFrame.optionsColorsMenuItem.toolTipText")); // NOI18N
+        optionsColorsMenuItem.setToolTipText(bundle.getString("toolColorMenuItem.toolTipText")); // NOI18N
         optionsColorsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 optionsColorsMenuItemActionPerformed(evt);

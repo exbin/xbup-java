@@ -19,9 +19,7 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="fileMenu">
           <Properties>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/editor/module/picture_editor/resources/XBPictureEditorFrame.properties" key="fileMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-            </Property>
+            <Property name="text" type="java.lang.String" value="File"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="filePropertiesMenuItem">
@@ -61,9 +59,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="viewMenu">
           <Properties>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/editor/module/picture_editor/resources/XBPictureEditorFrame.properties" key="viewMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-            </Property>
+            <Property name="text" type="java.lang.String" value="View"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator3">
@@ -163,9 +159,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="toolsMenu">
           <Properties>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/editor/module/picture_editor/resources/XBPictureEditorFrame.properties" key="toolsMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-            </Property>
+            <Property name="text" type="java.lang.String" value="Tools"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JRadioButtonMenuItem" name="toolPencilMenuItem">
@@ -236,9 +230,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="optionsMenu">
           <Properties>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/editor/module/picture_editor/resources/XBPictureEditorFrame.properties" key="optionsMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-            </Property>
+            <Property name="text" type="java.lang.String" value="Options"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="optionsColorsMenuItem">
@@ -247,7 +239,7 @@
                   <ResourceString bundle="org/xbup/tool/editor/module/picture_editor/resources/XBPictureEditorFrame.properties" key="toolColorMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/tool/editor/module/picture_editor/resources/XBPictureEditorFrame.properties" key="XBPictureEditorFrame.optionsColorsMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/tool/editor/module/picture_editor/resources/XBPictureEditorFrame.properties" key="toolColorMenuItem.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>

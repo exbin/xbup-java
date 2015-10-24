@@ -636,9 +636,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="toolsMenu">
           <Properties>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="toolsMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-            </Property>
+            <Property name="text" type="java.lang.String" value="Tools"/>
             <Property name="name" type="java.lang.String" value="toolsMenu" noResource="true"/>
           </Properties>
           <SubComponents>
@@ -675,9 +673,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="optionsMenu">
           <Properties>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/tool/editor/module/wave_editor/resources/XBWaveEditorFrame.properties" key="optionsMenu.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-            </Property>
+            <Property name="text" type="java.lang.String" value="Options"/>
             <Property name="name" type="java.lang.String" value="optionsMenu" noResource="true"/>
           </Properties>
           <SubComponents>

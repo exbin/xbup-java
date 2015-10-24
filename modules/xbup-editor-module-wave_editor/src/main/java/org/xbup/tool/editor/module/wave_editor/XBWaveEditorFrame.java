@@ -601,7 +601,7 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
 
         menuBar.add(audioMenu);
 
-        toolsMenu.setText(bundle.getString("toolsMenu.text")); // NOI18N
+        toolsMenu.setText("Tools");
         toolsMenu.setName("toolsMenu"); // NOI18N
 
         toolsModeButtonGroup.add(toolSelectionMenuItem);
@@ -627,7 +627,7 @@ public class XBWaveEditorFrame extends javax.swing.JFrame implements WaveColorPa
 
         menuBar.add(toolsMenu);
 
-        optionsMenu.setText(bundle.getString("optionsMenu.text")); // NOI18N
+        optionsMenu.setText("Options");
         optionsMenu.setName("optionsMenu"); // NOI18N
 
         optionsColorsMenuItem.setText(bundle.getString("optionsColorsMenuItem.text")); // NOI18N

@@ -1,7 +1,6 @@
-rootProject.name = 'xbup-framework-gui-menu'
+rootProject.name = 'xbup-framework-gui-frame'
 
 include ":modules:xbup-core"
-include ":modules:xbup-framework-gui"
 
 def modifyPath(project) {
     def rootProjectDir = rootProject.projectDir.parentFile.parent

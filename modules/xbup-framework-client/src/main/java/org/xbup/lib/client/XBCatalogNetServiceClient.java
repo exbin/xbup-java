@@ -17,8 +17,6 @@
 package org.xbup.lib.client;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.catalog.XBPCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -27,17 +25,20 @@ import org.xbup.lib.core.serial.XBPSerialReader;
 /**
  * XBService catalog client using IP networking.
  *
- * @version 0.1.25 2015/03/30
+ * @version 0.2.0 2015/10/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBCatalogServiceClient {
 
     public XBCatalogNetServiceClient(String host, int port) {
         super(host, port);
+        init();
+    }
+
+    private void init() {
         XBPCatalog catalog = new XBPCatalog();
         catalog.addFormatDecl(getContextFormatDecl());
         catalog.generateContext();
-        setCatalog(catalog);
     }
 
     /**

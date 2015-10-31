@@ -1,4 +1,4 @@
-rootProject.name = 'xbup-framework-gui-preferences'
+rootProject.name = 'xbup-framework-gui-options'
 
 include ":modules:xbup-core"
 include ":modules:xbup-framework-gui"

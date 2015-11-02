@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.tool.editor.module.frame.dialog;
+package org.xbup.lib.framework.gui.options;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -32,19 +32,18 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import org.xbup.tool.editor.module.frame.MainFrame;
-import org.xbup.tool.editor.module.frame.panel.AppearanceOptionsPanel;
-import org.xbup.tool.editor.module.frame.panel.MainOptionsPanel;
-import org.xbup.tool.editor.base.api.OptionsPanel;
-import org.xbup.tool.editor.base.api.OptionsPanel.ModifiedOptionListener;
-import org.xbup.tool.editor.base.api.OptionsPanel.PathItem;
-import org.xbup.tool.editor.base.api.XBEditorApp;
-import org.xbup.tool.editor.utils.WindowUtils;
+import org.xbup.lib.framework.gui.XBApplication;
+import org.xbup.lib.framework.gui.options.panel.AppearanceOptionsPanel;
+import org.xbup.lib.framework.gui.options.panel.MainOptionsPanel;
+import org.xbup.lib.framework.gui.options.panel.OptionsPanel;
+import org.xbup.lib.framework.gui.options.panel.OptionsPanel.ModifiedOptionListener;
+import org.xbup.lib.framework.gui.options.panel.OptionsPanel.PathItem;
+import org.xbup.lib.framework.gui.utils.WindowUtils;
 
 /**
  * Dialog for application options and preferences setting.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.2.0 2015/11/02
  * @author XBUP Project (http://xbup.org)
  */
 public class OptionsDialog extends javax.swing.JDialog {
@@ -57,7 +56,7 @@ public class OptionsDialog extends javax.swing.JDialog {
 
     private boolean modified;
     private OptionsMutableTreeNode top;
-    private XBEditorApp appEditor;
+    private XBApplication appEditor;
     private final MainFrame frame;
     private MainOptionsPanel mainOptionsPanel;
     private AppearanceOptionsPanel appearanceOptionsPanel;

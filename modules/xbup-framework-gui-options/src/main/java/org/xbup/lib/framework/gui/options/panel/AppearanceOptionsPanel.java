@@ -14,20 +14,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.tool.editor.module.frame.panel;
+package org.xbup.lib.framework.gui.options.panel;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
+import org.xbup.lib.framework.gui.options.panel.OptionsPanel.ModifiedOptionListener;
+import org.xbup.lib.framework.gui.options.panel.OptionsPanel.PathItem;
 import org.xbup.tool.editor.module.frame.MainFrame;
-import org.xbup.tool.editor.base.api.OptionsPanel;
 
 /**
  * Tool Bar Apperance Options panel.
  *
- * @version 0.1.22 2013/03/24
+ * @version 0.2.0 2015/11/02
  * @author XBUP Project (http://xbup.org)
  */
 public class AppearanceOptionsPanel extends javax.swing.JPanel implements OptionsPanel {

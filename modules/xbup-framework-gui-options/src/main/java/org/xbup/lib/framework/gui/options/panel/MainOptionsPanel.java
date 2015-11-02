@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.tool.editor.module.frame.panel;
+package org.xbup.lib.framework.gui.options.panel;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -26,14 +26,14 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.UIManager;
-import org.xbup.tool.editor.module.frame.MainFrame;
-import org.xbup.tool.editor.base.api.OptionsManagement;
-import org.xbup.tool.editor.base.api.OptionsPanel;
+import org.xbup.lib.framework.gui.options.OptionsManagement;
+import org.xbup.lib.framework.gui.options.panel.OptionsPanel.ModifiedOptionListener;
+import org.xbup.lib.framework.gui.options.panel.OptionsPanel.PathItem;
 
 /**
  * Tool Bar Apperance Options panel.
  *
- * @version 0.1.24 2014/11/14
+ * @version 0.2.0 2015/11/02
  * @author XBUP Project (http://xbup.org)
  */
 public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel {

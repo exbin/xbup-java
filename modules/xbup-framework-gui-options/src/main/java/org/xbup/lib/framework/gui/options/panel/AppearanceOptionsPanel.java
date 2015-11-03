@@ -21,9 +21,9 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
+import org.xbup.lib.framework.gui.frame.api.XBApplicationFrame;
 import org.xbup.lib.framework.gui.options.panel.OptionsPanel.ModifiedOptionListener;
 import org.xbup.lib.framework.gui.options.panel.OptionsPanel.PathItem;
-import org.xbup.tool.editor.module.frame.MainFrame;
 
 /**
  * Tool Bar Apperance Options panel.
@@ -38,10 +38,10 @@ public class AppearanceOptionsPanel extends javax.swing.JPanel implements Option
     public static final String PREFERENCES_STATUSBAR_VISIBLE = "statusBar.visible";
 
     private ModifiedOptionListener modifiedOptionListener;
-    private final MainFrame frame;
+    private final XBApplicationFrame frame;
     private OptionsPanel extendedPanel = null;
 
-    public AppearanceOptionsPanel(MainFrame frame) {
+    public AppearanceOptionsPanel(XBApplicationFrame frame) {
         this.frame = frame;
         initComponents();
     }
@@ -151,7 +151,7 @@ public class AppearanceOptionsPanel extends javax.swing.JPanel implements Option
             extendedPanel.applyPreferencesChanges();
         }
 
-        frame.setToolBarsVisibility(showToolbarCheckBox.isSelected(), showCaptionsCheckBox.isSelected(), showStatusbarCheckBox.isSelected());
+        // TODO frame.setToolBarsVisibility(showToolbarCheckBox.isSelected(), showCaptionsCheckBox.isSelected(), showStatusbarCheckBox.isSelected());
     }
 
     @Override

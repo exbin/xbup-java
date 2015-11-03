@@ -3,6 +3,7 @@ rootProject.name = 'xbup-framework-gui-options'
 include ":modules:xbup-core"
 include ":modules:xbup-framework-gui"
 include ":modules:xbup-framework-gui-utils"
+include ":modules:xbup-framework-gui-frame-api"
 
 def modifyPath(project) {
     def rootProjectDir = rootProject.projectDir.parentFile.parent

@@ -16,18 +16,20 @@
  */
 package org.xbup.lib.framework.gui.frame.api;
 
+import java.awt.Frame;
+
 /**
  * Interface for editor frame.
  *
- * @version 0.1.23 2013/09/26
+ * @version 0.2.0 2015/11/03
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBApplicationFrame {
 
     /**
-     * Returns main frame management.
+     * Gets current frame.
      *
-     * @return main frame management
+     * @return frame
      */
-    //public MainFrameManagement getMainFrameManagement();
+    public Frame getFrame();
 }

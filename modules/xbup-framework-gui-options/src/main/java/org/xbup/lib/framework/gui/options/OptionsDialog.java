@@ -33,6 +33,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import org.xbup.lib.framework.gui.XBApplication;
+import org.xbup.lib.framework.gui.frame.api.XBApplicationFrame;
 import org.xbup.lib.framework.gui.options.panel.AppearanceOptionsPanel;
 import org.xbup.lib.framework.gui.options.panel.MainOptionsPanel;
 import org.xbup.lib.framework.gui.options.panel.OptionsPanel;
@@ -43,7 +44,7 @@ import org.xbup.lib.framework.gui.utils.WindowUtils;
 /**
  * Dialog for application options and preferences setting.
  *
- * @version 0.2.0 2015/11/02
+ * @version 0.2.0 2015/11/03
  * @author XBUP Project (http://xbup.org)
  */
 public class OptionsDialog extends javax.swing.JDialog {
@@ -57,11 +58,11 @@ public class OptionsDialog extends javax.swing.JDialog {
     private boolean modified;
     private OptionsMutableTreeNode top;
     private XBApplication appEditor;
-    private final MainFrame frame;
+    private final XBApplicationFrame frame;
     private MainOptionsPanel mainOptionsPanel;
     private AppearanceOptionsPanel appearanceOptionsPanel;
 
-    public OptionsDialog(java.awt.Frame parent, MainFrame frame, boolean modal) {
+    public OptionsDialog(java.awt.Frame parent, XBApplicationFrame frame, boolean modal) {
         super(parent, modal);
         this.frame = frame;
         init();
@@ -392,17 +393,11 @@ public class OptionsDialog extends javax.swing.JDialog {
         this.preferences = preferences;
     }
 
-    /**
-     * @return the editorApp
-     */
-    public XBEditorApp getAppEditor() {
+    public XBApplication getAppEditor() {
         return appEditor;
     }
 
-    /**
-     * @param appEditor the editorApp to set
-     */
-    public void setAppEditor(XBEditorApp appEditor) {
+    public void setAppEditor(XBApplication appEditor) {
         this.appEditor = appEditor;
         setIconImage(appEditor.getApplicationIcon());
     }

@@ -151,7 +151,7 @@ public class AppearanceOptionsPanel extends javax.swing.JPanel implements Option
             extendedPanel.applyPreferencesChanges();
         }
 
-        // TODO frame.setToolBarsVisibility(showToolbarCheckBox.isSelected(), showCaptionsCheckBox.isSelected(), showStatusbarCheckBox.isSelected());
+        frame.setToolBarsVisibility(showToolbarCheckBox.isSelected(), showCaptionsCheckBox.isSelected(), showStatusbarCheckBox.isSelected());
     }
 
     @Override

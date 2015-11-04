@@ -21,7 +21,7 @@ import java.awt.Frame;
 /**
  * Interface for editor frame.
  *
- * @version 0.2.0 2015/11/03
+ * @version 0.2.0 2015/11/04
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBApplicationFrame {
@@ -32,4 +32,13 @@ public interface XBApplicationFrame {
      * @return frame
      */
     public Frame getFrame();
+
+    /**
+     * Sets toolbar visibility.
+     *
+     * @param toolBarVisible
+     * @param captionsVisible
+     * @param statusBarVisible
+     */
+    public void setToolBarsVisibility(boolean toolBarVisible, boolean captionsVisible, boolean statusBarVisible);
 }

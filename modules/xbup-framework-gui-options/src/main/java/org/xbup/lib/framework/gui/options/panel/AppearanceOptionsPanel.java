@@ -28,7 +28,7 @@ import org.xbup.lib.framework.gui.options.panel.OptionsPanel.PathItem;
 /**
  * Tool Bar Apperance Options panel.
  *
- * @version 0.2.0 2015/11/02
+ * @version 0.2.0 2015/11/05
  * @author XBUP Project (http://xbup.org)
  */
 public class AppearanceOptionsPanel extends javax.swing.JPanel implements OptionsPanel {
@@ -63,7 +63,7 @@ public class AppearanceOptionsPanel extends javax.swing.JPanel implements Option
         setLayout(new java.awt.BorderLayout());
 
         showToolbarCheckBox.setSelected(true);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/panel/resources/AppearanceOptionsPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/options/panel/resources/AppearanceOptionsPanel"); // NOI18N
         showToolbarCheckBox.setText(bundle.getString("AppearanceOptionsPanel.showToolbarCheckBox.text")); // NOI18N
         showToolbarCheckBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {

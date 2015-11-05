@@ -34,7 +34,7 @@ import org.xbup.lib.framework.gui.options.panel.OptionsPanel.PathItem;
 /**
  * Tool Bar Apperance Options panel.
  *
- * @version 0.2.0 2015/11/03
+ * @version 0.2.0 2015/11/05
  * @author XBUP Project (http://xbup.org)
  */
 public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel {
@@ -53,7 +53,7 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
     private List<Locale> languages;
 
     public MainOptionsPanel(XBApplicationFrame frame) {
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/panel/resources/MainOptionsPanel");
+        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/options/panel/resources/MainOptionsPanel");
         this.frame = frame;
 
         themesComboBoxModel = new DefaultComboBoxModel<>();
@@ -96,7 +96,7 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
 
         setLayout(new java.awt.BorderLayout());
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/panel/resources/MainOptionsPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/options/panel/resources/MainOptionsPanel"); // NOI18N
         visualThemeLabel.setText(bundle.getString("MainOptionsPanel.visualThemeLabel.text")); // NOI18N
 
         themeComboBox.setModel(themesComboBoxModel);
@@ -114,7 +114,7 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
             }
         });
 
-        languageLabel.setText(bundle.getString("MainOptionsPanel.langaugeLabel.text")); // NOI18N
+        languageLabel.setText(bundle.getString("MainOptionsPanel.languageLabel.text")); // NOI18N
 
         javax.swing.GroupLayout mainOptionsBasicPanelLayout = new javax.swing.GroupLayout(mainOptionsBasicPanel);
         mainOptionsBasicPanel.setLayout(mainOptionsBasicPanelLayout);

@@ -39,16 +39,16 @@ import org.xbup.lib.framework.gui.utils.BareBonesBrowserLaunch;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 
 /**
- * MainFrame About Dialog.
+ * Simple About Dialog.
  *
- * @version 0.1.25 2015/04/11
+ * @version 0.2.0 2015/11/05
  * @author XBUP Project (http://xbup.org)
  */
 public class AboutDialog extends javax.swing.JDialog implements HyperlinkListener {
 
     private final XBApplication appEditor;
     private ResourceBundle appBundle;
-    private final ResourceBundle bundle = ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/dialog/resources/AboutDialog");
+    private final ResourceBundle bundle = ResourceBundle.getBundle("org/xbup/lib/framework/gui/about/resources/AboutDialog");
 
     public AboutDialog(java.awt.Frame parent, boolean modal, XBApplication appEditor) {
         super(parent, modal);
@@ -57,7 +57,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         if (appEditor != null) {
             appBundle = appEditor.getAppBundle();
         } else {
-            appBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/dialog/resources/AboutDialog");
+            appBundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/about/resources/AboutDialog");
         }
 
         init();
@@ -144,7 +144,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
     }
 
     /**
-     * Open hyperlink in external browser.
+     * Opens hyperlink in external browser.
      *
      * @param event hyperlink event
      */
@@ -197,7 +197,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
 
         linkPopupMenu.setName("linkPopupMenu"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/dialog/resources/AboutDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/about/resources/AboutDialog"); // NOI18N
         copyLinkMenuItem.setText(bundle.getString("copyLinkMenuItem.text")); // NOI18N
         copyLinkMenuItem.setName("copyLinkMenuItem"); // NOI18N
         copyLinkMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -285,10 +285,10 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
                             .addComponent(homepageLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(aboutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(productTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
-                            .addComponent(vendorTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
-                            .addComponent(licenseTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
-                            .addComponent(appHomepageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)))
+                            .addComponent(productTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
+                            .addComponent(vendorTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
+                            .addComponent(licenseTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
+                            .addComponent(appHomepageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)))
                     .addGroup(aboutPanelLayout.createSequentialGroup()
                         .addComponent(appLicenseLabel)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -313,7 +313,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
                 .addGroup(aboutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(homepageLabel)
                     .addComponent(appHomepageLabel))
-                .addContainerGap(163, Short.MAX_VALUE))
+                .addContainerGap(235, Short.MAX_VALUE))
         );
 
         aboutTabbedPane.addTab(bundle.getString("aboutPanel.TabConstraints.tabTitle"), aboutPanel); // NOI18N
@@ -335,7 +335,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         );
         authorsPanelLayout.setVerticalGroup(
             authorsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(authorsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+            .addComponent(authorsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
         );
 
         aboutTabbedPane.addTab(bundle.getString("authorsPanel.TabConstraints.tabTitle"), authorsPanel); // NOI18N
@@ -358,7 +358,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         );
         licensePanelLayout.setVerticalGroup(
             licensePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(licenseScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+            .addComponent(licenseScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
         );
 
         aboutTabbedPane.addTab(bundle.getString("licensePanel.TabConstraints.tabTitle"), licensePanel); // NOI18N
@@ -377,7 +377,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         );
         modulesPanelLayout.setVerticalGroup(
             modulesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(modulesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+            .addComponent(modulesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
         );
 
         aboutTabbedPane.addTab(bundle.getString("modulesPanel.TabConstraints.tabTitle"), modulesPanel); // NOI18N
@@ -412,7 +412,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         );
         environmentPanelLayout.setVerticalGroup(
             environmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(environmentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+            .addComponent(environmentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
         );
 
         aboutTabbedPane.addTab(bundle.getString("environmentPanel.TabConstraints.tabTitle"), environmentPanel); // NOI18N
@@ -444,7 +444,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(aboutHeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(aboutHeaderPanelLayout.createSequentialGroup()
-                        .addComponent(appTitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+                        .addComponent(appTitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(235, 235, 235))
                     .addGroup(aboutHeaderPanelLayout.createSequentialGroup()
                         .addComponent(appDescLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

@@ -44,7 +44,7 @@ import org.xbup.lib.framework.gui.utils.WindowUtils;
 /**
  * Dialog for application options and preferences setting.
  *
- * @version 0.2.0 2015/11/03
+ * @version 0.2.0 2015/11/05
  * @author XBUP Project (http://xbup.org)
  */
 public class OptionsDialog extends javax.swing.JDialog {
@@ -69,7 +69,7 @@ public class OptionsDialog extends javax.swing.JDialog {
     }
 
     private void init() {
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/dialog/resources/OptionsDialog");
+        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/options/resources/OptionsDialog");
         initComponents();
 
         optionPanels = new HashMap<>();
@@ -191,7 +191,7 @@ public class OptionsDialog extends javax.swing.JDialog {
         saveButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/frame/dialog/resources/OptionsDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/options/resources/OptionsDialog"); // NOI18N
         setTitle(bundle.getString("OptionsDialog.title")); // NOI18N
 
         optionsSplitPane.setDividerLocation(130);
@@ -257,7 +257,7 @@ public class OptionsDialog extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(348, Short.MAX_VALUE)
+                .addContainerGap(648, Short.MAX_VALUE)
                 .addComponent(saveButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(applyButton)
@@ -304,7 +304,9 @@ public class OptionsDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        WindowUtils.invokeWindow(new OptionsDialog(new javax.swing.JFrame(), null, true));
+        OptionsDialog optionsDialog = new OptionsDialog(new javax.swing.JFrame(), null, true);
+        optionsDialog.setPreferences(optionsDialog.new OptionsPreferences());
+        WindowUtils.invokeWindow(optionsDialog);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

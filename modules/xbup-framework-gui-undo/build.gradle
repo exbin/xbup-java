@@ -28,8 +28,11 @@ check.dependsOn.remove(test)
 
 dependencies {
     compile(project(':modules:xbup-core'))
+    compile(project(':modules:xbup-operation'))
     compile(project(':modules:xbup-framework-gui'))
+    compile(project(':modules:xbup-framework-gui-utils'))
     compile(project(':modules:xbup-framework-gui-menu-api'))
     compile(project(':modules:xbup-framework-gui-undo-api'))
+    compile 'org.swinglabs:swing-layout:1.0.3'
     testCompile group : 'junit', name: 'junit', version: '4.10'
 }

@@ -1,7 +1,10 @@
 rootProject.name = 'xbup-framework-gui-undo'
 
 include ":modules:xbup-core"
+include ":modules:xbup-operation"
+include ":modules:xbup-parser-tree"
 include ":modules:xbup-framework-gui"
+include ":modules:xbup-framework-gui-utils"
 include ":modules:xbup-framework-gui-menu-api"
 include ":modules:xbup-framework-gui-undo-api"
 

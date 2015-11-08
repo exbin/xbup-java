@@ -33,7 +33,7 @@ import org.xbup.lib.framework.gui.utils.WindowUtils;
 /**
  * Dialog for undo management.
  *
- * @version 0.2.0 2015/11/07
+ * @version 0.2.0 2015/11/08
  * @author XBUP Project (http://xbup.org)
  */
 public class UndoManagerDialog extends javax.swing.JDialog {
@@ -90,7 +90,7 @@ public class UndoManagerDialog extends javax.swing.JDialog {
         revertButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/UndoManagerDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/undo/dialog/resources/UndoManagerDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
         setModal(true);
 
@@ -156,7 +156,7 @@ public class UndoManagerDialog extends javax.swing.JDialog {
                         .add(undoDetailInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(undoDetailInfoPanelLayout.createSequentialGroup()
                                 .add(executionTimeLabel)
-                                .add(0, 160, Short.MAX_VALUE))
+                                .add(0, 0, Short.MAX_VALUE))
                             .add(executionTimeTextField))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(undoDetailInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
@@ -209,7 +209,7 @@ public class UndoManagerDialog extends javax.swing.JDialog {
         undoDetailPanelLayout.setHorizontalGroup(
             undoDetailPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, undoDetailPanelLayout.createSequentialGroup()
-                .add(292, 339, Short.MAX_VALUE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(exportButton)
                 .addContainerGap())
             .add(org.jdesktop.layout.GroupLayout.TRAILING, undoDetailPanelLayout.createSequentialGroup()

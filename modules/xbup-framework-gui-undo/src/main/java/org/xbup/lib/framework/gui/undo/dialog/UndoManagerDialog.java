@@ -33,7 +33,7 @@ import org.xbup.lib.framework.gui.utils.WindowUtils;
 /**
  * Dialog for undo management.
  *
- * @version 0.2.0 2015/11/08
+ * @version 0.2.0 2015/11/09
  * @author XBUP Project (http://xbup.org)
  */
 public class UndoManagerDialog extends javax.swing.JDialog {
@@ -340,9 +340,9 @@ public class UndoManagerDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        UndoManagerDialog propertiesDialog = new UndoManagerDialog(new javax.swing.JFrame(), true, null);
+        UndoManagerDialog dialog = new UndoManagerDialog(new javax.swing.JFrame(), true, null);
         // TODO propertiesDialog.setDevMode(true);
-        WindowUtils.invokeWindow(propertiesDialog);
+        WindowUtils.invokeWindow(dialog);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -17,20 +17,27 @@
 package org.xbup.lib.framework.gui.undo;
 
 import java.awt.event.ActionEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import org.xbup.lib.framework.gui.XBApplication;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
+import org.xbup.lib.framework.gui.undo.dialog.UndoManagerModel;
+import org.xbup.lib.operation.undo.XBTLinearUndo;
 
 /**
  * Implementation of XBUP framework undo/redo module.
  *
- * @version 0.2.0 2015/11/09
+ * @version 0.2.0 2015/11/10
  * @author XBUP Project (http://xbup.org)
  */
 public class GuiUndoModule implements GuiUndoModuleApi {
 
     private XBApplication application;
+    private final UndoManagerModel undoModel = new UndoManagerModel();
+    private XBTLinearUndo undoHandler;
+
     private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/undo/resources/UndoGuiModule");
     private int metaMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
     private Action undoAction;
@@ -65,29 +72,25 @@ public class GuiUndoModule implements GuiUndoModuleApi {
     }
 
     public void actionEditUndo() {
-//        if (activePanel instanceof ActivePanelUndoable) {
-//            ((ActivePanelUndoable) activePanel).performUndo();
-//        }
-
-        refreshUndo();
+        try {
+            undoHandler.performUndo();
+        } catch (Exception ex) {
+            Logger.getLogger(GuiUndoModule.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void actionEditRedo() {
-//        if (activePanel instanceof ActivePanelUndoable) {
-//            ((ActivePanelUndoable) activePanel).performRedo();
-//        }
-
-        refreshUndo();
+        try {
+            undoHandler.performRedo();
+        } catch (Exception ex) {
+            Logger.getLogger(GuiUndoModule.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public void refreshUndo() {
-//        if (activePanel instanceof ActivePanelUndoable) {
-//            undoAction.setEnabled(((ActivePanelUndoable) activePanel).canUndo());
-//            redoAction.setEnabled(((ActivePanelUndoable) activePanel).canRedo());
-//        } else {
-//            undoAction.setEnabled(false);
-//            redoAction.setEnabled(false);
-//        }
+    public void setUndoHandle(XBTLinearUndo undoHandler) {
+        this.undoHandler = undoHandler;
+        undoModel.setUndoHandler(undoHandler);
+        // TODO undoHandler.register undo change listener
     }
 
     /**

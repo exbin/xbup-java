@@ -29,5 +29,6 @@ check.dependsOn.remove(test)
 dependencies {
     compile(project(':modules:xbup-core'))
     compile(project(':modules:xbup-framework-gui'))
+    compile(project(':modules:xbup-framework-gui-frame-api'))
     testCompile group : 'junit', name: 'junit', version: '4.10'
 }

@@ -43,7 +43,7 @@ public class XBTEditor extends XBEditorBase {
     private static Preferences preferences;
     private static boolean verboseMode = false;
     private static final String APP_BUNDLE_NAME = "org/xbup/tool/xbteditor/resources/XBTEditor";
-    private static final ResourceBundle bundle = ResourceBundle.getBundle(APP_BUNDLE_NAME);
+    private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(APP_BUNDLE_NAME);
 
     public XBTEditor() {
     }
@@ -60,15 +60,15 @@ public class XBTEditor extends XBEditorBase {
         try {
             // Parameters processing
             Options opt = new Options();
-            opt.addOption("h", "help", false, bundle.getString("cl_option_help"));
-            opt.addOption("port", true, bundle.getString("cl_option_port"));
-            opt.addOption("ip", true, bundle.getString("cl_option_ip"));
-            opt.addOption("v", false, bundle.getString("cl_option_verbose"));
+            opt.addOption("h", "help", false, RESOURCE_BUNDLE.getString("cl_option_help"));
+            opt.addOption("port", true, RESOURCE_BUNDLE.getString("cl_option_port"));
+            opt.addOption("ip", true, RESOURCE_BUNDLE.getString("cl_option_ip"));
+            opt.addOption("v", false, RESOURCE_BUNDLE.getString("cl_option_verbose"));
             BasicParser parser = new BasicParser();
             CommandLine cl = parser.parse(opt, args);
             if (cl.hasOption('h')) {
                 HelpFormatter f = new HelpFormatter();
-                f.printHelp(bundle.getString("cl_syntax"), opt);
+                f.printHelp(RESOURCE_BUNDLE.getString("cl_syntax"), opt);
             } else {
                 verboseMode = cl.hasOption("v");
                 Logger logger = Logger.getLogger("");
@@ -82,7 +82,7 @@ public class XBTEditor extends XBEditorBase {
                 XBEditorApplication app = new XBEditorApplication();
                 app.setAppMode(true);
                 app.setAppPreferences(preferences);
-                app.setAppBundle(bundle, APP_BUNDLE_NAME);
+                app.setAppBundle(RESOURCE_BUNDLE, APP_BUNDLE_NAME);
 
                 app.addPlugin(new ClassURI(XBTextEditorModule.class).toURI());
 

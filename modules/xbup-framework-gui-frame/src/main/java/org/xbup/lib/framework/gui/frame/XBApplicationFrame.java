@@ -19,7 +19,7 @@ package org.xbup.lib.framework.gui.frame;
 /**
  * Interface for application's panel.
  *
- * @version 0.2.0 2015/11/12
+ * @version 0.2.0 2015/11/13
  * @author XBUP Project (http://xbup.org)
  */
 public class XBApplicationFrame extends javax.swing.JFrame {
@@ -37,18 +37,90 @@ public class XBApplicationFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        toolBar = new javax.swing.JToolBar();
+        statusBar = new javax.swing.JPanel();
+        javax.swing.JSeparator statusPanelSeparator = new javax.swing.JSeparator();
+        statusPanel = new javax.swing.JPanel();
+        emptyStatusPanel = new javax.swing.JPanel();
+        mainStatusPanel = new javax.swing.JPanel();
+        statusLabel = new javax.swing.JLabel();
+        progressStatusPanel = new javax.swing.JPanel();
+        statusProgressBar = new javax.swing.JProgressBar();
+        stopProgressButton = new javax.swing.JButton();
+        busyStatusPanel = new javax.swing.JPanel();
+        busyProgressBar = new javax.swing.JProgressBar();
+        menuBar = new javax.swing.JMenuBar();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        toolBar.setRollover(true);
+        getContentPane().add(toolBar, java.awt.BorderLayout.NORTH);
+
+        statusBar.setLayout(new java.awt.BorderLayout());
+        statusBar.add(statusPanelSeparator, java.awt.BorderLayout.NORTH);
+
+        statusPanel.setPreferredSize(new java.awt.Dimension(649, 26));
+        statusPanel.setRequestFocusEnabled(false);
+        statusPanel.setLayout(new java.awt.CardLayout());
+
+        javax.swing.GroupLayout emptyStatusPanelLayout = new javax.swing.GroupLayout(emptyStatusPanel);
+        emptyStatusPanel.setLayout(emptyStatusPanelLayout);
+        emptyStatusPanelLayout.setHorizontalGroup(
+            emptyStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 400, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+        emptyStatusPanelLayout.setVerticalGroup(
+            emptyStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 26, Short.MAX_VALUE)
         );
+
+        statusPanel.add(emptyStatusPanel, "default");
+
+        mainStatusPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        mainStatusPanel.add(statusLabel);
+
+        statusPanel.add(mainStatusPanel, "main");
+
+        statusProgressBar.setIndeterminate(true);
+        statusProgressBar.setMinimumSize(new java.awt.Dimension(10, 10));
+        statusProgressBar.setRequestFocusEnabled(false);
+        statusProgressBar.setStringPainted(true);
+
+        stopProgressButton.setText("Stop");
+        stopProgressButton.setEnabled(false);
+        stopProgressButton.setMinimumSize(new java.awt.Dimension(67, 15));
+        stopProgressButton.setPreferredSize(new java.awt.Dimension(75, 20));
+
+        javax.swing.GroupLayout progressStatusPanelLayout = new javax.swing.GroupLayout(progressStatusPanel);
+        progressStatusPanel.setLayout(progressStatusPanelLayout);
+        progressStatusPanelLayout.setHorizontalGroup(
+            progressStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, progressStatusPanelLayout.createSequentialGroup()
+                .addComponent(statusProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(stopProgressButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        progressStatusPanelLayout.setVerticalGroup(
+            progressStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(stopProgressButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(statusProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        statusPanel.add(progressStatusPanel, "initCat");
+
+        busyStatusPanel.setLayout(new java.awt.BorderLayout());
+
+        busyProgressBar.setIndeterminate(true);
+        busyProgressBar.setRequestFocusEnabled(false);
+        busyProgressBar.setStringPainted(true);
+        busyStatusPanel.add(busyProgressBar, java.awt.BorderLayout.CENTER);
+
+        statusPanel.add(busyStatusPanel, "busy");
+
+        statusBar.add(statusPanel, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(statusBar, java.awt.BorderLayout.SOUTH);
+        setJMenuBar(menuBar);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -69,15 +141,11 @@ public class XBApplicationFrame extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(XBApplicationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(XBApplicationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(XBApplicationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(XBApplicationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+
         //</editor-fold>
 
         /* Create and display the form */
@@ -90,5 +158,17 @@ public class XBApplicationFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JProgressBar busyProgressBar;
+    private javax.swing.JPanel busyStatusPanel;
+    private javax.swing.JPanel emptyStatusPanel;
+    private javax.swing.JPanel mainStatusPanel;
+    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JPanel progressStatusPanel;
+    private javax.swing.JPanel statusBar;
+    private javax.swing.JLabel statusLabel;
+    private javax.swing.JPanel statusPanel;
+    private javax.swing.JProgressBar statusProgressBar;
+    private javax.swing.JButton stopProgressButton;
+    private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
 }

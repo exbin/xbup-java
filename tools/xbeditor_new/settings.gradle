@@ -1,4 +1,4 @@
-rootProject.name = 'xbeditor'
+rootProject.name = 'xbeditor_new'
 
 include ":modules:xbup-core"
 include ":modules:xbup-catalog"
@@ -8,15 +8,9 @@ include ":modules:xbup-plugin"
 include ":modules:xbup-operation"
 include ":modules:xbup-parser-tree"
 include ":modules:xbup-parser-command"
-include ":modules:xbup-editor-base-api"
-include ":modules:xbup-editor-base"
-include ":modules:xbup-editor-module-frame"
-include ":modules:xbup-editor-module-java_help"
-include ":modules:xbup-editor-module-online_help"
-include ":modules:xbup-editor-module-xbdoc_editor"
-include ":modules:xbup-editor-module-text_editor"
-include ":modules:xbup-editor-module-service_manager"
-include ":modules:xbup-editor-module-utils"
+include ":modules:xbup-framework-gui"
+include ":modules:xbup-framework-gui-api"
+include ":modules:xbup-framework-gui-utils"
 include ":modules:hexedit"
 include ":modules:simplyhtml"
 

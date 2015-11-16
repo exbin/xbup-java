@@ -27,7 +27,6 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.xbup.lib.core.parser.basic.XBHead;
-import org.xbup.lib.framework.gui.XBBase;
 import org.xbup.lib.framework.gui.XBBaseApplication;
 
 /**
@@ -36,7 +35,7 @@ import org.xbup.lib.framework.gui.XBBaseApplication;
  * @version 0.2.0 2015/11/15
  * @author XBUP Project (http://xbup.org)
  */
-public class XBEditor extends XBBase {
+public class XBEditor {
 
     private static Preferences preferences;
     private static boolean verboseMode = false;
@@ -46,6 +45,8 @@ public class XBEditor extends XBBase {
 
     /**
      * Main method launching the application.
+     *
+     * @param args arguments
      */
     public static void main(String[] args) {
         try {
@@ -84,7 +85,6 @@ public class XBEditor extends XBBase {
 //                app.addPlugin(new ClassURI(XBDocEditorModule.class).toURI());
 //                app.addPlugin(new ClassURI(JavaHelpModule.class).toURI());
 //                app.addPlugin(new ClassURI(OnlineHelpModule.class).toURI());
-
                 List fileArgs = cl.getArgList();
                 if (fileArgs.size() > 0) {
                     app.loadFromFile((String) fileArgs.get(0));
@@ -95,36 +95,34 @@ public class XBEditor extends XBBase {
 //                ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
 //                ((XBDocEditorModule) module).setEditorApp(app);
 //                ((XBDocEditorModule) module).setDevMode(devMode);
-
                 app.run();
             }
         } catch (ParseException ex) {
             Logger.getLogger(XBEditor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-/*
-    private static class XBEditorFirstCommand implements XBAppCommand {
 
-        private final XBEditorApplication app;
-
-        public XBEditorFirstCommand(XBEditorApplication app) {
-            this.app = app;
-        }
-
-        @Override
-        public void execute() {
-            ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
-            ((XBDocEditorModule) module).postWindowOpened();
-
-            module = app.getModuleRepository().getPluginHandler(OnlineHelpModule.class);
-            try {
-                if (module instanceof OnlineHelpModule) {
-                    ((OnlineHelpModule) module).setHelpUrl(new URL(bundle.getString("online_help_url")));
-                }
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(XBEditor.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-*/
+//    private static class XBEditorFirstCommand implements XBAppCommand {
+//
+//        private final XBEditorApplication app;
+//
+//        public XBEditorFirstCommand(XBEditorApplication app) {
+//            this.app = app;
+//        }
+//
+//        @Override
+//        public void execute() {
+//            ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
+//            ((XBDocEditorModule) module).postWindowOpened();
+//
+//            module = app.getModuleRepository().getPluginHandler(OnlineHelpModule.class);
+//            try {
+//                if (module instanceof OnlineHelpModule) {
+//                    ((OnlineHelpModule) module).setHelpUrl(new URL(bundle.getString("online_help_url")));
+//                }
+//            } catch (MalformedURLException ex) {
+//                Logger.getLogger(XBEditor.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+//    }
 }

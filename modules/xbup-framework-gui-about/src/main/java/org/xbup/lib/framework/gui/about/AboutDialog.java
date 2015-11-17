@@ -33,15 +33,15 @@ import javax.swing.JLabel;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.table.DefaultTableModel;
-import org.xbup.lib.framework.gui.ApplicationModuleInfo;
+import org.xbup.lib.framework.gui.ApplicationModule;
 import org.xbup.lib.framework.gui.XBApplication;
 import org.xbup.lib.framework.gui.utils.BareBonesBrowserLaunch;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 
 /**
- * Simple About Dialog.
+ * Basic about dialog.
  *
- * @version 0.2.0 2015/11/05
+ * @version 0.2.0 2015/11/17
  * @author XBUP Project (http://xbup.org)
  */
 public class AboutDialog extends javax.swing.JDialog implements HyperlinkListener {
@@ -123,9 +123,9 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
 
         if (appEditor.getModuleRepository() != null) {
             DefaultTableModel modulesTableModel = (DefaultTableModel) modulesTable.getModel();
-            List<ApplicationModuleInfo> modulesList = appEditor.getModuleRepository().getModulesList();
-            for (ApplicationModuleInfo moduleInfo : modulesList) {
-                String[] newRow = {moduleInfo.getPluginName(), moduleInfo.getPluginDescription()};
+            List<ApplicationModule> modulesList = appEditor.getModuleRepository().getModulesList();
+            for (ApplicationModule moduleInfo : modulesList) {
+                String[] newRow = {moduleInfo.getName(), moduleInfo.getDescription()};
                 modulesTableModel.addRow(newRow);
             }
         }

@@ -17,87 +17,62 @@
 package org.xbup.lib.framework.gui;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
-import javax.swing.JFileChooser;
+import java.util.Map;
 import net.xeoh.plugins.base.PluginManager;
+import net.xeoh.plugins.base.impl.PluginManagerFactory;
 
 /**
- * Interface for application module's repository.
+ * XBUP framework modules repository.
  *
- * @version 0.2.0 2015/10/28
+ * @version 0.2.0 2015/11/17
  * @author XBUP Project (http://xbup.org)
  */
-public interface ModuleRepository {
+public class ModuleRepository {
+
+    private final PluginManager pluginManager;
+    private final Map<String, ApplicationModule> modules = new HashMap<>();
+
+    public ModuleRepository() {
+        pluginManager = PluginManagerFactory.createPluginManager();
+    }
 
     /**
-     * Scans for all valid modules in give directory.
+     * Scans for all valid modules in give directory or specified jar file.
      *
      * @param uri
      */
-    public void addPluginsFrom(URI uri);
+    public void addPluginsFrom(URI uri) {
+
+    }
 
     /**
-     * Gets active module.
+     * Gets info about module.
      *
-     * @return the activeModule
+     * @param moduleId module identifier
+     * @return application module record
      */
-    public long getActiveModule();
-
-    /**
-     * Gets currently active plugin handler.
-     *
-     * @return application module
-     */
-    public ApplicationModule getPluginHandler();
+    public ApplicationModule getActiveModule(String moduleId) {
+        return modules.get(moduleId);
+    }
 
     /**
      * Gets plugin manager.
      *
      * @return the pluginManager
      */
-    public PluginManager getPluginManager();
-
-    /**
-     * Opens given file.
-     *
-     * @param openFC file chooser
-     * @return true if file successfully opened
-     */
-    public boolean openFile(JFileChooser openFC);
-
-    /**
-     * Opens file from given properties.
-     *
-     * @param path full path
-     * @param fileTypeId file type id
-     * @return true if file successfully opened
-     */
-    public boolean openFile(String path, String fileTypeId);
+    public PluginManager getPluginManager() {
+        return pluginManager;
+    }
 
     /**
      * Gets list of modules.
      *
      * @return list of modules
      */
-    public List<ApplicationModuleInfo> getModulesList();
-
-    /**
-     * Creates new file.
-     */
-    public void newFile();
-
-    /**
-     * Saves file under the given filename.
-     *
-     * @param saveFC file chooser
-     * @return true if file successfully saved
-     */
-    public boolean saveFile(JFileChooser saveFC);
-
-    /**
-     * Saves file under the same filename.
-     *
-     * @return true if file successfully saved
-     */
-    public boolean saveFile();
+    public List<ApplicationModule> getModulesList() {
+        // TODO
+        return null;
+    }
 }

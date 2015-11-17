@@ -16,27 +16,55 @@
  */
 package org.xbup.lib.framework.gui;
 
-import net.xeoh.plugins.base.Plugin;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Interface for application's module.
+ * Record about single module.
  *
- * @version 0.1.21 2011/06/15
+ * @version 0.2.0 2015/11/17
  * @author XBUP Project (http://xbup.org)
  */
-public interface ApplicationModule extends Plugin {
+public class ApplicationModule {
 
-    /**
-     * Gets basic info about plugin.
-     *
-     * @return module information
-     */
-    public ApplicationModuleInfo getInfo();
+    private String name;
+    private String description;
+    private final List<String> optionalModuleIds = new ArrayList<>();
+    private final List<String> dependencyModuleIds = new ArrayList<>();
 
-    /**
-     * Initializes plugin and perform registrations.
-     *
-     * @param management module management
-     */
-    // TODO public void init(ModuleManagement management);
+    public ApplicationModule(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<String> getOptionalModuleIds() {
+        return optionalModuleIds;
+    }
+
+    public void addOptionalModuleIds(List<String> optionalModuleIds) {
+        optionalModuleIds.addAll(this.optionalModuleIds);
+    }
+
+    public List<String> getDependencyModuleIds() {
+        return dependencyModuleIds;
+    }
+
+    public void addDependencyModuleIds(List<String> dependencyModuleIds) {
+        dependencyModuleIds.addAll(this.dependencyModuleIds);
+    }
 }

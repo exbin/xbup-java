@@ -16,18 +16,27 @@
  */
 package org.xbup.lib.framework.gui;
 
+import net.xeoh.plugins.base.Plugin;
+
 /**
- * Interface for application's panel.
+ * Interface for application's module.
  *
- * @version 0.2.0 2015/10/25
+ * @version 0.2.0 2015/11/17
  * @author XBUP Project (http://xbup.org)
  */
-public interface ApplicationPanel {
+public interface ApplicationModuleInit extends Plugin {
 
     /**
-     * Gets panel name.
+     * Initializes plugin.
      *
-     * @return panel name
+     * @param application framework application
      */
-    public String getPanelName();
+    public void init(XBApplication application);
+
+    /**
+     * Gets basic info about plugin.
+     *
+     * @return module information
+     */
+//    public ApplicationModuleInfo getInfo();
 }

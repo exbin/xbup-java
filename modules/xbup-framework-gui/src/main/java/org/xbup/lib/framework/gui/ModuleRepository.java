@@ -17,6 +17,7 @@
 package org.xbup.lib.framework.gui;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +54,7 @@ public class ModuleRepository {
      * @param moduleId module identifier
      * @return application module record
      */
-    public ApplicationModule getActiveModule(String moduleId) {
+    public ApplicationModule getModuleById(String moduleId) {
         return modules.get(moduleId);
     }
 
@@ -72,7 +73,6 @@ public class ModuleRepository {
      * @return list of modules
      */
     public List<ApplicationModule> getModulesList() {
-        // TODO
-        return null;
+        return new ArrayList<>(modules.values());
     }
 }

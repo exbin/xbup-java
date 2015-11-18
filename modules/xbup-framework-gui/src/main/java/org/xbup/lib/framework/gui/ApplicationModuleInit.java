@@ -32,11 +32,4 @@ public interface ApplicationModuleInit extends Plugin {
      * @param application framework application
      */
     public void init(XBApplication application);
-
-    /**
-     * Gets basic info about plugin.
-     *
-     * @return module information
-     */
-//    public ApplicationModuleInfo getInfo();
 }

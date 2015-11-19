@@ -21,10 +21,10 @@ import net.xeoh.plugins.base.Plugin;
 /**
  * Interface for application's module.
  *
- * @version 0.2.0 2015/11/17
+ * @version 0.2.0 2015/11/19
  * @author XBUP Project (http://xbup.org)
  */
-public interface ApplicationModuleInit extends Plugin {
+public interface ApplicationModulePlugin extends Plugin {
 
     /**
      * Initializes plugin.

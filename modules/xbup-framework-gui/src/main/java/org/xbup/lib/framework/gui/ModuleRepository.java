@@ -16,13 +16,16 @@
  */
 package org.xbup.lib.framework.gui;
 
+import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
+import net.xeoh.plugins.base.util.PluginManagerUtil;
 
 /**
  * XBUP framework modules repository.
@@ -32,6 +35,7 @@ import net.xeoh.plugins.base.impl.PluginManagerFactory;
  */
 public class ModuleRepository {
 
+    private static final String MODULE_FILE_EXT = ".xb";
     private final PluginManager pluginManager;
     private final Map<String, ApplicationModule> modules = new HashMap<>();
 
@@ -45,7 +49,44 @@ public class ModuleRepository {
      * @param uri
      */
     public void addPluginsFrom(URI uri) {
+        pluginManager.addPluginsFrom(uri);
+    }
 
+    /**
+     * Processes all modules and initializes them in proper order.
+     */
+    public void processModules() {
+        PluginManagerUtil pmu = new PluginManagerUtil(pluginManager);
+        final Collection<ApplicationModulePlugin> plugins = pmu.getPlugins(ApplicationModulePlugin.class);
+
+        // Process modules info
+        for (ApplicationModulePlugin plugin : plugins) {
+            String canonicalName = plugin.getClass().getCanonicalName();
+            InputStream moduleFile = plugin.getClass().getResourceAsStream(canonicalName + MODULE_FILE_EXT);
+
+            // TODO
+            //modules.put(getActiveModule(), applicationModule);
+        }
+        
+        // Process dependencies
+        List<ApplicationModule> unprocessedModules = new ArrayList<>(modules.values());
+        int preRoundCount;
+        int postRoundCount;
+        do {
+            preRoundCount = unprocessedModules.size();
+            
+            for (ApplicationModule module : unprocessedModules) {
+                // Process single module
+                List<String> dependencyModuleIds = module.getDependencyModuleIds();
+                // TODO
+            }
+            
+            postRoundCount = unprocessedModules.size();
+        } while (postRoundCount > 0 && postRoundCount < preRoundCount);
+        
+        if (postRoundCount > 0) {
+            // TODO throw Circular dependency detected
+        }
     }
 
     /**

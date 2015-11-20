@@ -22,18 +22,23 @@ import java.util.List;
 /**
  * Record about single module.
  *
- * @version 0.2.0 2015/11/17
+ * @version 0.2.0 2015/11/20
  * @author XBUP Project (http://xbup.org)
  */
 public class ApplicationModule {
 
+    private final String moduleId;
     private String name;
     private String description;
     private final List<String> optionalModuleIds = new ArrayList<>();
     private final List<String> dependencyModuleIds = new ArrayList<>();
 
-    public ApplicationModule(String name) {
-        this.name = name;
+    public ApplicationModule(String moduleId) {
+        this.moduleId = moduleId;
+    }
+
+    public String getModuleId() {
+        return moduleId;
     }
 
     public String getName() {

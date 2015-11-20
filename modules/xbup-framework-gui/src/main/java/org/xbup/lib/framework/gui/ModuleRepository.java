@@ -75,10 +75,27 @@ public class ModuleRepository {
         do {
             preRoundCount = unprocessedModules.size();
             
-            for (ApplicationModule module : unprocessedModules) {
+            int moduleIndex = 0;
+            while (moduleIndex < unprocessedModules.size()) {
+                ApplicationModule module = unprocessedModules.get(moduleIndex);
                 // Process single module
                 List<String> dependencyModuleIds = module.getDependencyModuleIds();
-                // TODO
+                boolean dependecySatisfied = true;
+                for (String dependecyModuleId : dependencyModuleIds) {
+                    ApplicationModule dependecyModule = getModuleById(dependecyModuleId);
+                    if (dependecyModule == null) {
+                        dependecySatisfied = false;
+                        break;
+                    }
+                }
+                
+                if (dependecySatisfied) {
+                    // TODO init module
+
+                    unprocessedModules.remove(moduleIndex);
+                } else {
+                    moduleIndex++;
+                }
             }
             
             postRoundCount = unprocessedModules.size();

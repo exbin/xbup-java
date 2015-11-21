@@ -30,7 +30,7 @@ import net.xeoh.plugins.base.util.PluginManagerUtil;
 /**
  * XBUP framework modules repository.
  *
- * @version 0.2.0 2015/11/17
+ * @version 0.2.0 2015/11/21
  * @author XBUP Project (http://xbup.org)
  */
 public class ModuleRepository {
@@ -62,19 +62,20 @@ public class ModuleRepository {
         // Process modules info
         for (ApplicationModulePlugin plugin : plugins) {
             String canonicalName = plugin.getClass().getCanonicalName();
+            ApplicationModule module = new ApplicationModule(canonicalName, plugin);
             InputStream moduleFile = plugin.getClass().getResourceAsStream(canonicalName + MODULE_FILE_EXT);
+            // TODO XBPSequencePullConsumer consumer = new XBPSequencePullConsumer(new XBTPunew XBTPull)
 
-            // TODO
-            //modules.put(getActiveModule(), applicationModule);
+            modules.put(canonicalName, module);
         }
-        
+
         // Process dependencies
         List<ApplicationModule> unprocessedModules = new ArrayList<>(modules.values());
         int preRoundCount;
         int postRoundCount;
         do {
             preRoundCount = unprocessedModules.size();
-            
+
             int moduleIndex = 0;
             while (moduleIndex < unprocessedModules.size()) {
                 ApplicationModule module = unprocessedModules.get(moduleIndex);
@@ -88,7 +89,7 @@ public class ModuleRepository {
                         break;
                     }
                 }
-                
+
                 if (dependecySatisfied) {
                     // TODO init module
 
@@ -97,10 +98,10 @@ public class ModuleRepository {
                     moduleIndex++;
                 }
             }
-            
+
             postRoundCount = unprocessedModules.size();
         } while (postRoundCount > 0 && postRoundCount < preRoundCount);
-        
+
         if (postRoundCount > 0) {
             // TODO throw Circular dependency detected
         }

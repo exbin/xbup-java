@@ -56,10 +56,6 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
     private XBParamProcessingState processingState = XBParamProcessingState.START;
     private boolean emptyNodeMode = false;
 
-    public XBPSequencePullConsumer(XBTPullProvider pullProvider) {
-        attachProvider(pullProvider);
-    }
-
     public XBPSequencePullConsumer(XBOutput output) {
         if (output instanceof XBTPullProvider) {
             attachProvider((XBTPullProvider) output);

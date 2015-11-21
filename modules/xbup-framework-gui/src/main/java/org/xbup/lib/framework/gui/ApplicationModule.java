@@ -16,29 +16,41 @@
  */
 package org.xbup.lib.framework.gui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
+import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 
 /**
  * Record about single module.
  *
- * @version 0.2.0 2015/11/20
+ * @version 0.2.0 2015/11/21
  * @author XBUP Project (http://xbup.org)
  */
-public class ApplicationModule {
+public class ApplicationModule implements XBPSequenceSerializable {
 
+    static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 3, 1, 2, 0, 0};
+    
     private final String moduleId;
+    private final ApplicationModulePlugin plugin;
     private String name;
     private String description;
     private final List<String> optionalModuleIds = new ArrayList<>();
     private final List<String> dependencyModuleIds = new ArrayList<>();
 
-    public ApplicationModule(String moduleId) {
+    public ApplicationModule(String moduleId, ApplicationModulePlugin plugin) {
         this.moduleId = moduleId;
+        this.plugin = plugin;
     }
 
     public String getModuleId() {
         return moduleId;
+    }
+
+    public ApplicationModulePlugin getPlugin() {
+        return plugin;
     }
 
     public String getName() {
@@ -71,5 +83,10 @@ public class ApplicationModule {
 
     public void addDependencyModuleIds(List<String> dependencyModuleIds) {
         dependencyModuleIds.addAll(this.dependencyModuleIds);
+    }
+
+    @Override
+    public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

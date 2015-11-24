@@ -16,10 +16,12 @@
  */
 package org.xbup.lib.core.parser.data;
 
+import org.xbup.lib.core.type.XBString;
+
 /**
  * Sample data and methods for testing purposes.
  *
- * @version 0.2.0 2015/11/23
+ * @version 0.2.0 2015/11/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCoreTestSampleTypes {
@@ -30,4 +32,22 @@ public class XBCoreTestSampleTypes {
     public final static String SAMPLE_UNDEFINED_TYPES_PATH = SAMPLE_TYPES_PATH + "undefined/";
     public final static String SAMPLE_UNDEFINED_STRING = SAMPLE_UNDEFINED_TYPES_PATH + "string.xb";
     public final static String SAMPLE_UNDEFINED_STRING_TERMINATED = SAMPLE_UNDEFINED_TYPES_PATH + "string_terminated.xb";
+    
+    /**
+     * Returns matching object for "string.xb".
+     * 
+     * @return type object
+     */
+    public static XBString getSampleTypeUndefinedString() {
+        return new XBString("TEST");
+    }
+
+    /**
+     * Returns matching object for "string_terminated.xb".
+     * 
+     * @return type object
+     */
+    public static XBString getSampleTypeUndefinedStringTerminated() {
+        return new XBString("TEST");
+    }
 }

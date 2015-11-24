@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
@@ -40,7 +41,7 @@ import org.xbup.lib.core.util.StreamUtils;
 /**
  * Encapsulation class for UTF-8 String.
  *
- * @version 0.1.25 2015/03/02
+ * @version 0.2.0 2015/11/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBString implements XBPSequenceSerializable {
@@ -74,6 +75,22 @@ public class XBString implements XBPSequenceSerializable {
             serial.consist(new DataBlockSerializator());
         }
         serial.end();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof XBString) {
+            return value.equals(((XBString) obj).value);
+        }
+
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 43 * hash + Objects.hashCode(this.value);
+        return hash;
     }
 
     public class DataBlockSerializator implements XBChildSerializable, XBTChildSerializable {

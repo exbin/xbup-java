@@ -27,7 +27,7 @@ import org.xbup.lib.core.type.XBString;
 /**
  * Test class for XBPProviderSerialHandler.
  *
- * @version 0.2.0 2015/11/24
+ * @version 0.2.0 2015/11/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPProviderSerialHandlerTest extends TestCase {
@@ -54,9 +54,9 @@ public class XBPProviderSerialHandlerTest extends TestCase {
     @Test
     public void testReadSampleUndefinedString() throws Exception {
         XBPullReader pullReader = new XBPullReader(XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_STRING));
-        XBPProviderSerialHandler serialInput = new XBPProviderSerialHandler(new XBToXBTPullConvertor(pullReader));
+        XBPProviderSerialHandler serial = new XBPProviderSerialHandler(new XBToXBTPullConvertor(pullReader));
         XBString testString = new XBString();
-        serialInput.process(testString);
+        serial.process(testString);
 
         XBString matchingType = XBCoreTestSampleTypes.getSampleTypeUndefinedString();
         assertEquals(matchingType, testString);
@@ -70,9 +70,9 @@ public class XBPProviderSerialHandlerTest extends TestCase {
     @Test
     public void testReadSampleUndefinedStringTerminated() throws Exception {
         XBPullReader pullReader = new XBPullReader(XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_STRING_TERMINATED));
-        XBPProviderSerialHandler serialInput = new XBPProviderSerialHandler(new XBToXBTPullConvertor(pullReader));
+        XBPProviderSerialHandler serial = new XBPProviderSerialHandler(new XBToXBTPullConvertor(pullReader));
         XBString testString = new XBString();
-        serialInput.process(testString);
+        serial.process(testString);
 
         XBString matchingType = XBCoreTestSampleTypes.getSampleTypeUndefinedStringTerminated();
         assertEquals(matchingType, testString);

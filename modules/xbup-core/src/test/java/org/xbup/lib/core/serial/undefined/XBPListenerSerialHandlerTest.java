@@ -18,21 +18,29 @@ package org.xbup.lib.core.serial.undefined;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import junit.framework.TestCase;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.data.XBCoreTestSampleTypes;
+import org.xbup.lib.core.parser.token.XBBeginToken;
+import org.xbup.lib.core.parser.token.XBToken;
+import org.xbup.lib.core.parser.token.XBTokenType;
+import org.xbup.lib.core.parser.token.event.XBEventFilter;
+import org.xbup.lib.core.parser.token.event.XBEventListener;
 import org.xbup.lib.core.parser.token.event.XBEventWriter;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventDropper;
 import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
 import static org.xbup.lib.core.test.XBTestUtils.assertEqualsInputStream;
 import org.xbup.lib.core.type.XBString;
+import org.xbup.lib.core.ubnumber.type.UBInt32;
 
 /**
  * Test class for XBPListenerSerialHandler.
  *
- * @version 0.2.0 2015/11/25
+ * @version 0.2.0 2015/11/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPListenerSerialHandlerTest extends TestCase {
@@ -61,8 +69,8 @@ public class XBPListenerSerialHandlerTest extends TestCase {
         ByteArrayOutputStream target = new ByteArrayOutputStream();
         XBEventWriter eventReader = new XBEventWriter(target);
         XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventDropper(eventReader));
-        XBString testString = XBCoreTestSampleTypes.getSampleTypeUndefinedString();
-        serial.process(testString);
+        XBString testValue = XBCoreTestSampleTypes.getSampleTypeUndefinedString();
+        serial.process(testValue);
 
         InputStream matchingStream = XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_STRING);
         assertEqualsInputStream(matchingStream, new ByteArrayInputStream(target.toByteArray()));
@@ -76,12 +84,69 @@ public class XBPListenerSerialHandlerTest extends TestCase {
     @Test
     public void testReadSampleUndefinedStringTerminated() throws Exception {
         ByteArrayOutputStream target = new ByteArrayOutputStream();
-        XBEventWriter eventReader = new XBEventWriter(target);
-        XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventDropper(eventReader));
-        XBString testString = XBCoreTestSampleTypes.getSampleTypeUndefinedStringTerminated();
-        serial.process(testString);
+        XBEventWriter eventWriter = new XBEventWriter(target);
+        XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventDropper(new XBEventTerminatedFilter(eventWriter)));
+        XBString testValue = XBCoreTestSampleTypes.getSampleTypeUndefinedStringTerminated();
+        serial.process(testValue);
 
         InputStream matchingStream = XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_STRING_TERMINATED);
+        assertEqualsInputStream(matchingStream, new ByteArrayInputStream(target.toByteArray()));
+    }
+
+    /**
+     * Tests XBPListenerSerialHandler class reading sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadSampleUndefinedInteger() throws Exception {
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        XBEventWriter eventReader = new XBEventWriter(target);
+        XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventDropper(eventReader));
+        UBInt32 testValue = XBCoreTestSampleTypes.getSampleTypeUndefinedInteger();
+        serial.process(testValue);
+
+        InputStream matchingStream = XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_INTEGER);
         // TODO assertEqualsInputStream(matchingStream, new ByteArrayInputStream(target.toByteArray()));
+    }
+
+    /**
+     * Tests XBPListenerSerialHandler class reading sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadSampleUndefinedIntegerTerminated() throws Exception {
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        XBEventWriter eventWriter = new XBEventWriter(target);
+        XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventDropper(new XBEventTerminatedFilter(eventWriter)));
+        UBInt32 testValue = XBCoreTestSampleTypes.getSampleTypeUndefinedIntegerTerminated();
+        serial.process(testValue);
+
+        InputStream matchingStream = XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_INTEGER_TERMINATED);
+        // TODO assertEqualsInputStream(matchingStream, new ByteArrayInputStream(target.toByteArray()));
+    }
+
+    private class XBEventTerminatedFilter implements XBEventFilter {
+
+        private XBEventListener eventListener;
+
+        public XBEventTerminatedFilter(XBEventListener eventListener) {
+            this.eventListener = eventListener;
+        }
+
+        @Override
+        public void putXBToken(XBToken token) throws XBProcessingException, IOException {
+            if (token.getTokenType() == XBTokenType.BEGIN) {
+                eventListener.putXBToken(new XBBeginToken(XBBlockTerminationMode.TERMINATED_BY_ZERO));
+            } else {
+                eventListener.putXBToken(token);
+            }
+        }
+
+        @Override
+        public void attachXBEventListener(XBEventListener eventListener) {
+            this.eventListener = eventListener;
+        }
     }
 }

@@ -17,11 +17,12 @@
 package org.xbup.lib.core.parser.data;
 
 import org.xbup.lib.core.type.XBString;
+import org.xbup.lib.core.ubnumber.type.UBInt32;
 
 /**
  * Sample data and methods for testing purposes.
  *
- * @version 0.2.0 2015/11/24
+ * @version 0.2.0 2015/11/26
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCoreTestSampleTypes {
@@ -32,6 +33,8 @@ public class XBCoreTestSampleTypes {
     public final static String SAMPLE_UNDEFINED_TYPES_PATH = SAMPLE_TYPES_PATH + "undefined/";
     public final static String SAMPLE_UNDEFINED_STRING = SAMPLE_UNDEFINED_TYPES_PATH + "string.xb";
     public final static String SAMPLE_UNDEFINED_STRING_TERMINATED = SAMPLE_UNDEFINED_TYPES_PATH + "string_terminated.xb";
+    public final static String SAMPLE_UNDEFINED_INTEGER = SAMPLE_UNDEFINED_TYPES_PATH + "integer.xb";
+    public final static String SAMPLE_UNDEFINED_INTEGER_TERMINATED = SAMPLE_UNDEFINED_TYPES_PATH + "integer_terminated.xb";
     
     /**
      * Returns matching object for "string.xb".
@@ -49,5 +52,23 @@ public class XBCoreTestSampleTypes {
      */
     public static XBString getSampleTypeUndefinedStringTerminated() {
         return new XBString("TEST");
+    }
+
+    /**
+     * Returns matching object for "integer.xb".
+     * 
+     * @return type object
+     */
+    public static UBInt32 getSampleTypeUndefinedInteger() {
+        return new UBInt32(10);
+    }
+
+    /**
+     * Returns matching object for "integer_terminated.xb".
+     * 
+     * @return type object
+     */
+    public static UBInt32 getSampleTypeUndefinedIntegerTerminated() {
+        return new UBInt32(10);
     }
 }

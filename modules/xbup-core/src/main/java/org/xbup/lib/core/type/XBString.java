@@ -21,7 +21,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
@@ -88,9 +87,7 @@ public class XBString implements XBPSequenceSerializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 43 * hash + Objects.hashCode(this.value);
-        return hash;
+        return value == null ? 0 : value.hashCode();
     }
 
     public class DataBlockSerializator implements XBChildSerializable, XBTChildSerializable {

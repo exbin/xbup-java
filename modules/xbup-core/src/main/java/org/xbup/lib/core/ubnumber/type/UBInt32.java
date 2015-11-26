@@ -32,7 +32,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * UBInteger stored as int value (limited value capacity to 32 bits).
  *
- * @version 0.1.25 2015/02/09
+ * @version 0.2.0 2015/11/26
  * @author XBUP Project (http://xbup.org)
  */
 public class UBInt32 implements UBInteger, XBPSequenceSerializable {
@@ -84,6 +84,27 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
         }
 
         return value;
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(value);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        final UBInt32 other = (UBInt32) obj;
+        return this.value == other.value;
     }
 
     @Override
@@ -195,45 +216,43 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
             } else {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
+        } else if (value < 0x40) {
+            stream.write((char) value);
+            return 1;
+        } else if (value < 0x2040) {
+            byte[] out = new byte[2];
+            long outValue = value - 0x40;
+            out[0] = (byte) ((outValue >> 8) + 0x80);
+            out[1] = (byte) (outValue & 0xFF);
+            stream.write(out);
+            return 2;
+        } else if (value < 0x102040) {
+            long outValue = value - 0x2040;
+            byte[] out = new byte[3];
+            out[0] = (byte) ((outValue >> 16) + 0xC0);
+            out[1] = (byte) ((outValue >> 8) & 0xFF);
+            out[2] = (byte) (outValue & 0xFF);
+            stream.write(out);
+            return 3;
+        } else if (value < 0x8102040) {
+            long outValue = value - 0x102040;
+            byte[] out = new byte[4];
+            out[0] = (byte) ((outValue >> 24) + 0xE0);
+            out[1] = (byte) ((outValue >> 16) & 0xFF);
+            out[2] = (byte) ((outValue >> 8) & 0xFF);
+            out[3] = (byte) (outValue & 0xFF);
+            stream.write(out);
+            return 4;
         } else {
-            if (value < 0x40) {
-                stream.write((char) value);
-                return 1;
-            } else if (value < 0x2040) {
-                byte[] out = new byte[2];
-                long outValue = value - 0x40;
-                out[0] = (byte) ((outValue >> 8) + 0x80);
-                out[1] = (byte) (outValue & 0xFF);
-                stream.write(out);
-                return 2;
-            } else if (value < 0x102040) {
-                long outValue = value - 0x2040;
-                byte[] out = new byte[3];
-                out[0] = (byte) ((outValue >> 16) + 0xC0);
-                out[1] = (byte) ((outValue >> 8) & 0xFF);
-                out[2] = (byte) (outValue & 0xFF);
-                stream.write(out);
-                return 3;
-            } else if (value < 0x8102040) {
-                long outValue = value - 0x102040;
-                byte[] out = new byte[4];
-                out[0] = (byte) ((outValue >> 24) + 0xE0);
-                out[1] = (byte) ((outValue >> 16) & 0xFF);
-                out[2] = (byte) ((outValue >> 8) & 0xFF);
-                out[3] = (byte) (outValue & 0xFF);
-                stream.write(out);
-                return 4;
-            } else {
-                long outValue = value - 0x8102040;
-                byte[] out = new byte[5];
-                out[0] = (byte) ((outValue >> 32) + 0xF0);
-                out[1] = (byte) ((outValue >> 24) & 0xFF);
-                out[2] = (byte) ((outValue >> 16) & 0xFF);
-                out[3] = (byte) ((outValue >> 8) & 0xFF);
-                out[4] = (byte) (outValue & 0xFF);
-                stream.write(out);
-                return 5;
-            }
+            long outValue = value - 0x8102040;
+            byte[] out = new byte[5];
+            out[0] = (byte) ((outValue >> 32) + 0xF0);
+            out[1] = (byte) ((outValue >> 24) & 0xFF);
+            out[2] = (byte) ((outValue >> 16) & 0xFF);
+            out[3] = (byte) ((outValue >> 8) & 0xFF);
+            out[4] = (byte) (outValue & 0xFF);
+            stream.write(out);
+            return 5;
         }
     }
 
@@ -251,18 +270,16 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
             } else {
                 return 5;
             }
+        } else if (value < 0x40) {
+            return 1;
+        } else if (value < 0x2040) {
+            return 2;
+        } else if (value < 0x102040) {
+            return 3;
+        } else if (value < 0x8102040) {
+            return 4;
         } else {
-            if (value < 0x40) {
-                return 1;
-            } else if (value < 0x2040) {
-                return 2;
-            } else if (value < 0x102040) {
-                return 3;
-            } else if (value < 0x8102040) {
-                return 4;
-            } else {
-                return 5;
-            }
+            return 5;
         }
     }
 
@@ -323,16 +340,14 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
             } else {
                 throw new UBOverFlowException("Unable to convert big negative value to natural");
             }
+        } else if (value < 0x40) {
+            return value;
+        } else if (value < 0x2040) {
+            return value + 0x40;
+        } else if (value < 0x8102040) {
+            return value + 0x2040;
         } else {
-            if (value < 0x40) {
-                return value;
-            } else if (value < 0x2040) {
-                return value + 0x40;
-            } else if (value < 0x8102040) {
-                return value + 0x2040;
-            } else {
-                return value + 0x8102040;
-            }
+            return value + 0x8102040;
         }
     }
 

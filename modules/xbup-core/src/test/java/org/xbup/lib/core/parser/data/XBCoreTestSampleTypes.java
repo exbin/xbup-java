@@ -18,6 +18,7 @@ package org.xbup.lib.core.parser.data;
 
 import org.xbup.lib.core.type.XBString;
 import org.xbup.lib.core.ubnumber.type.UBInt32;
+import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * Sample data and methods for testing purposes.
@@ -33,6 +34,8 @@ public class XBCoreTestSampleTypes {
     public final static String SAMPLE_UNDEFINED_TYPES_PATH = SAMPLE_TYPES_PATH + "undefined/";
     public final static String SAMPLE_UNDEFINED_STRING = SAMPLE_UNDEFINED_TYPES_PATH + "string.xb";
     public final static String SAMPLE_UNDEFINED_STRING_TERMINATED = SAMPLE_UNDEFINED_TYPES_PATH + "string_terminated.xb";
+    public final static String SAMPLE_UNDEFINED_NATURAL = SAMPLE_UNDEFINED_TYPES_PATH + "natural.xb";
+    public final static String SAMPLE_UNDEFINED_NATURAL_TERMINATED = SAMPLE_UNDEFINED_TYPES_PATH + "natural_terminated.xb";
     public final static String SAMPLE_UNDEFINED_INTEGER = SAMPLE_UNDEFINED_TYPES_PATH + "integer.xb";
     public final static String SAMPLE_UNDEFINED_INTEGER_TERMINATED = SAMPLE_UNDEFINED_TYPES_PATH + "integer_terminated.xb";
     
@@ -54,6 +57,23 @@ public class XBCoreTestSampleTypes {
         return new XBString("TEST");
     }
 
+    /**
+     * Returns matching object for "natural.xb".
+     * 
+     * @return type object
+     */
+    public static UBNat32 getSampleTypeUndefinedNatural() {
+        return new UBNat32(10);
+    }
+
+    /**
+     * Returns matching object for "natural_terminated.xb".
+     * 
+     * @return type object
+     */
+    public static UBNat32 getSampleTypeUndefinedNaturalTerminated() {
+        return new UBNat32(10);
+    }
     /**
      * Returns matching object for "integer.xb".
      * 

@@ -36,6 +36,7 @@ import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
 import static org.xbup.lib.core.test.XBTestUtils.assertEqualsInputStream;
 import org.xbup.lib.core.type.XBString;
 import org.xbup.lib.core.ubnumber.type.UBInt32;
+import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * Test class for XBPListenerSerialHandler.
@@ -91,6 +92,40 @@ public class XBPListenerSerialHandlerTest extends TestCase {
 
         InputStream matchingStream = XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_STRING_TERMINATED);
         assertEqualsInputStream(matchingStream, new ByteArrayInputStream(target.toByteArray()));
+    }
+
+    /**
+     * Tests XBPListenerSerialHandler class reading sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadSampleUndefinedNatural() throws Exception {
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        XBEventWriter eventReader = new XBEventWriter(target);
+        XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventDropper(eventReader));
+        UBNat32 testValue = XBCoreTestSampleTypes.getSampleTypeUndefinedNatural();
+        serial.process(testValue);
+
+        InputStream matchingStream = XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_NATURAL);
+        // TODO assertEqualsInputStream(matchingStream, new ByteArrayInputStream(target.toByteArray()));
+    }
+
+    /**
+     * Tests XBPListenerSerialHandler class reading sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadSampleUndefinedNaturalTerminated() throws Exception {
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        XBEventWriter eventWriter = new XBEventWriter(target);
+        XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventDropper(new XBEventTerminatedFilter(eventWriter)));
+        UBNat32 testValue = XBCoreTestSampleTypes.getSampleTypeUndefinedNaturalTerminated();
+        serial.process(testValue);
+
+        InputStream matchingStream = XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_NATURAL_TERMINATED);
+        // TODO assertEqualsInputStream(matchingStream, new ByteArrayInputStream(target.toByteArray()));
     }
 
     /**

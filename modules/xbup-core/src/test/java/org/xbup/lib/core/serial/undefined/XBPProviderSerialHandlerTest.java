@@ -24,6 +24,7 @@ import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
 import org.xbup.lib.core.type.XBString;
 import org.xbup.lib.core.ubnumber.type.UBInt32;
+import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**
  * Test class for XBPProviderSerialHandler.
@@ -85,8 +86,40 @@ public class XBPProviderSerialHandlerTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
+    public void testReadSampleUndefinedNatural() throws Exception {
+        XBPullReader pullReader = new XBPullReader(XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_NATURAL));
+        XBPProviderSerialHandler serial = new XBPProviderSerialHandler(new XBToXBTPullConvertor(pullReader));
+        UBNat32 testValue = new UBNat32();
+        serial.process(testValue);
+
+        UBNat32 matchingValue = XBCoreTestSampleTypes.getSampleTypeUndefinedNatural();
+        // TODO assertEquals(matchingValue, testValue);
+    }
+
+    /**
+     * Tests XBPProviderSerialHandler class reading sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadSampleUndefinedNaturalTerminated() throws Exception {
+        XBPullReader pullReader = new XBPullReader(XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_NATURAL_TERMINATED));
+        XBPProviderSerialHandler serial = new XBPProviderSerialHandler(new XBToXBTPullConvertor(pullReader));
+        UBNat32 testValue = new UBNat32();
+        serial.process(testValue);
+
+        UBNat32 matchingValue = XBCoreTestSampleTypes.getSampleTypeUndefinedNaturalTerminated();
+        // TODO assertEquals(matchingValue, testValue);
+    }
+
+    /**
+     * Tests XBPProviderSerialHandler class reading sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
     public void testReadSampleUndefinedInteger() throws Exception {
-        XBPullReader pullReader = new XBPullReader(XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_STRING));
+        XBPullReader pullReader = new XBPullReader(XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_INTEGER));
         XBPProviderSerialHandler serial = new XBPProviderSerialHandler(new XBToXBTPullConvertor(pullReader));
         UBInt32 testValue = new UBInt32();
         serial.process(testValue);
@@ -102,7 +135,7 @@ public class XBPProviderSerialHandlerTest extends TestCase {
      */
     @Test
     public void testReadSampleUndefinedIntegerTerminated() throws Exception {
-        XBPullReader pullReader = new XBPullReader(XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_STRING_TERMINATED));
+        XBPullReader pullReader = new XBPullReader(XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_INTEGER_TERMINATED));
         XBPProviderSerialHandler serial = new XBPProviderSerialHandler(new XBToXBTPullConvertor(pullReader));
         UBInt32 testValue = new UBInt32();
         serial.process(testValue);

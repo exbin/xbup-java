@@ -93,7 +93,7 @@ public class XBPProviderSerialHandlerTest extends TestCase {
         serial.process(testValue);
 
         UBNat32 matchingValue = XBCoreTestSampleTypes.getSampleTypeUndefinedNatural();
-        // TODO assertEquals(matchingValue, testValue);
+        assertEquals(matchingValue, testValue);
     }
 
     /**
@@ -109,7 +109,7 @@ public class XBPProviderSerialHandlerTest extends TestCase {
         serial.process(testValue);
 
         UBNat32 matchingValue = XBCoreTestSampleTypes.getSampleTypeUndefinedNaturalTerminated();
-        // TODO assertEquals(matchingValue, testValue);
+        assertEquals(matchingValue, testValue);
     }
 
     /**
@@ -125,7 +125,7 @@ public class XBPProviderSerialHandlerTest extends TestCase {
         serial.process(testValue);
 
         UBInt32 matchingValue = XBCoreTestSampleTypes.getSampleTypeUndefinedInteger();
-        // TODO assertEquals(matchingValue, testValue);
+        assertEquals(matchingValue, testValue);
     }
 
     /**
@@ -141,6 +141,6 @@ public class XBPProviderSerialHandlerTest extends TestCase {
         serial.process(testValue);
 
         UBInt32 matchingValue = XBCoreTestSampleTypes.getSampleTypeUndefinedIntegerTerminated();
-        // TODO assertEquals(matchingValue, testValue);
+        assertEquals(matchingValue, testValue);
     }
 }

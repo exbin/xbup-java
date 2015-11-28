@@ -30,7 +30,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * UBNatural stored as long value (limited value capacity to 32 bits).
  *
- * @version 0.1.25 2015/02/05
+ * @version 0.2.0 2015/11/28
  * @author XBUP Project (http://xbup.org)
  */
 public class UBNat32 implements UBNatural, XBPSequenceSerializable {
@@ -101,6 +101,27 @@ public class UBNat32 implements UBNatural, XBPSequenceSerializable {
         }
 
         return value;
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(value);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        final UBNat32 other = (UBNat32) obj;
+        return this.value == other.value;
     }
 
     @Override

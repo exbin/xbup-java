@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import junit.framework.TestCase;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -45,6 +46,7 @@ import static org.xbup.lib.core.test.XBTestUtils.assertEqualsInputStream;
 import org.xbup.lib.core.type.XBString;
 import org.xbup.lib.core.ubnumber.type.UBInt32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.core.ubnumber.type.UBRea;
 
 /**
  * Test class for XBPListenerSerialHandler.
@@ -168,6 +170,40 @@ public class XBPListenerSerialHandlerTest extends TestCase {
 
         InputStream matchingStream = XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_INTEGER_TERMINATED);
         assertEqualsInputStream(matchingStream, new ByteArrayInputStream(target.toByteArray()));
+    }
+
+    /**
+     * Tests XBPListenerSerialHandler class reading sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadSampleUndefinedReal() throws Exception {
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        XBEventWriter eventReader = new XBEventWriter(target);
+        XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventTypeRemover(eventReader));
+        UBRea testValue = XBCoreTestSampleTypes.getSampleTypeUndefinedReal();
+        serial.process(testValue);
+
+        InputStream matchingStream = XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_REAL);
+        // TODO assertEqualsInputStream(matchingStream, new ByteArrayInputStream(target.toByteArray()));
+    }
+
+    /**
+     * Tests XBPListenerSerialHandler class reading sample data.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testReadSampleUndefinedRealTerminated() throws Exception {
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        XBEventWriter eventWriter = new XBEventWriter(target);
+        XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventTypeRemover(new XBEventTerminatedFilter(eventWriter)));
+        UBRea testValue = XBCoreTestSampleTypes.getSampleTypeUndefinedRealTerminated();
+        serial.process(testValue);
+
+        InputStream matchingStream = XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_REAL_TERMINATED);
+        // TODO assertEqualsInputStream(matchingStream, new ByteArrayInputStream(target.toByteArray()));
     }
 
     private class XBEventTerminatedFilter implements XBEventFilter {

@@ -21,7 +21,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import junit.framework.TestCase;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -203,7 +202,7 @@ public class XBPListenerSerialHandlerTest extends TestCase {
         serial.process(testValue);
 
         InputStream matchingStream = XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_REAL_TERMINATED);
-        // TODO assertEqualsInputStream(matchingStream, new ByteArrayInputStream(target.toByteArray()));
+        assertEqualsInputStream(matchingStream, new ByteArrayInputStream(target.toByteArray()));
     }
 
     private class XBEventTerminatedFilter implements XBEventFilter {

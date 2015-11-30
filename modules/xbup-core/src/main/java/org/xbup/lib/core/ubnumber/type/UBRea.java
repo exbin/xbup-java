@@ -45,31 +45,42 @@ public class UBRea implements UBReal, XBPSequenceSerializable {
         // TODO Replace with more efficient algorithm later
         // TODO Handle conversion exceptions
 
-        int valueInteger = 0;
-        int mantissaInteger = 0;
+        long valueLong = 0;
+        long mantissaLong = 0;
         if (srcValue > 0) {
             if (srcValue - Math.floor(srcValue) > 0) {
+                float nextValue;
+                boolean hasTail;
                 do {
-                    srcValue = srcValue * 2;
-                    mantissaInteger--;
-                } while (srcValue - Math.floor(srcValue) > 0 && mantissaInteger > -32);
-                valueInteger = (int) Math.floor(srcValue);
+                    nextValue = srcValue * 2;
+                    hasTail = nextValue - Math.floor(nextValue) > 0;
+                    if (hasTail) {
+                        srcValue = nextValue;
+                    }
+
+                    mantissaLong--;
+                } while (hasTail && mantissaLong > -32);
+                valueLong = (long) Math.floor(srcValue);
             } else {
-                while (srcValue % 2 == 0 && mantissaInteger < 32) {
-                    srcValue = srcValue / 2;
-                    mantissaInteger++;
-                }
+                float nextValue;
+                boolean hasTail;
                 do {
-                } while (srcValue - Math.floor(srcValue) > 0 && mantissaInteger > -32);
-                valueInteger = (int) Math.floor(srcValue);
+                    nextValue = srcValue / 2;
+                    hasTail = nextValue - Math.floor(nextValue) > 0;
+                    if (!hasTail) {
+                        mantissaLong++;
+                    }
+
+                    srcValue = nextValue;
+                } while (!hasTail && mantissaLong < 32);
+                valueLong = (long) Math.floor(srcValue) + (mantissaLong == 0 ? 1 : 0);
             }
-            // TODO
         } else if (srcValue < 0) {
             // TODO
         }
 
-        value = new UBInt32(valueInteger);
-        mantissa = new UBInt32(mantissaInteger);
+        value = new UBInt32(valueLong);
+        mantissa = new UBInt32(mantissaLong);
     }
 
     public UBRea(UBReal real) {
@@ -95,15 +106,15 @@ public class UBRea implements UBReal, XBPSequenceSerializable {
                 return 0;
             }
 
-            int intValue = value.getInt();
-            return intValue > 0 ? intValue * 2 - 1 : intValue * 2 + 1;
+            long valueLong = value.getLong();
+            return valueLong > 0 ? valueLong * 2 - 1 : valueLong * 2 + 1;
         } else {
-            int intValue = value.getInt();
-            int intMantissa = value.getInt();
-            if (intMantissa > 0) {
-                return (intValue * 2 + 1) * (1 >> intMantissa);
+            long valueLong = value.getLong();
+            long mantissaLong = mantissa.getLong();
+            if (mantissaLong > 0) {
+                return (float) (((double) valueLong * 2 + 1) * (double) (1 << mantissaLong));
             } else {
-                return (intValue * 2 + 1) / (1 >> (-intMantissa));
+                return (float) (((double) valueLong * 2 + 1) / (double) (1 << (-mantissaLong)));
             }
         }
     }

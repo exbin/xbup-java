@@ -105,7 +105,7 @@ public class UBNat32 implements UBNatural, XBPSequenceSerializable {
 
     @Override
     public int hashCode() {
-        return Long.hashCode(value);
+        return new Long(value).hashCode();
     }
 
     @Override

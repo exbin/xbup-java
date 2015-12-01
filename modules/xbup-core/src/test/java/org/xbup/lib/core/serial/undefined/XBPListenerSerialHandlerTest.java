@@ -50,7 +50,7 @@ import org.xbup.lib.core.ubnumber.type.UBRea;
 /**
  * Test class for XBPListenerSerialHandler.
  *
- * @version 0.2.0 2015/11/28
+ * @version 0.2.0 2015/12/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPListenerSerialHandlerTest extends TestCase {
@@ -185,7 +185,7 @@ public class XBPListenerSerialHandlerTest extends TestCase {
         serial.process(testValue);
 
         InputStream matchingStream = XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_REAL);
-        // TODO assertEqualsInputStream(matchingStream, new ByteArrayInputStream(target.toByteArray()));
+        assertEqualsInputStream(matchingStream, new ByteArrayInputStream(target.toByteArray()));
     }
 
     /**

@@ -302,19 +302,19 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
         if (longValue < 0x40) {
             value = longValue;
         } else if (longValue < 0x80) {
-            value = 0x80 - longValue;
+            value = -0x80 + longValue;
         } else if (longValue < 0x2080) {
             value = longValue - 0x40;
         } else if (longValue < 0x4080) {
-            value = 0x4080 + 0x40 - longValue;
+            value = -0x4080 - 0x40 + longValue;
         } else if (longValue < 0x104080) {
             value = longValue - 0x2080;
         } else if (longValue < 0x204080) {
-            value = 0x204080 + 0x2080 - longValue;
+            value = -0x204080 - 0x2080 + longValue;
         } else if (longValue < 0x8204080) {
             value = longValue - 0x104080;
         } else if (longValue < 0x10204080) {
-            value = 0x10204080 + 0x104080 - longValue;
+            value = -0x10204080 - 0x104080 + longValue;
         } else {
             value = longValue - 0x8204080;
         }

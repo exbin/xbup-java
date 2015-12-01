@@ -155,10 +155,10 @@ public class XBPProviderSerialHandlerTest extends TestCase {
         XBPullReader pullReader = new XBPullReader(XBPProviderSerialHandlerTest.class.getResourceAsStream(XBCoreTestSampleTypes.SAMPLE_UNDEFINED_REAL));
         XBPProviderSerialHandler serial = new XBPProviderSerialHandler(new XBToXBTPullConvertor(pullReader));
         UBRea testValue = new UBRea();
-        // TODO serial.process(testValue);
+        serial.process(testValue);
 
-        // TODO UBRea matchingValue = XBCoreTestSampleTypes.getSampleTypeUndefinedReal();
-        // TODO assertEquals(matchingValue, testValue);
+        UBRea matchingValue = XBCoreTestSampleTypes.getSampleTypeUndefinedReal();
+        assertEquals(matchingValue, testValue);
     }
 
     /**
@@ -174,6 +174,6 @@ public class XBPProviderSerialHandlerTest extends TestCase {
         serial.process(testValue);
 
         UBRea matchingValue = XBCoreTestSampleTypes.getSampleTypeUndefinedRealTerminated();
-        // TODO assertEquals(matchingValue, testValue);
+        assertEquals(matchingValue, testValue);
     }
 }

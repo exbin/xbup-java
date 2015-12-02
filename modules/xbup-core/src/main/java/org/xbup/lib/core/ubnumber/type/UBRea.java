@@ -28,7 +28,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
 /**
  * TODO: UBReal stored as two UBInteger values.
  *
- * @version 0.2.0 2015/11/29
+ * @version 0.2.0 2015/12/02
  * @author XBUP Project (http://xbup.org)
  */
 public class UBRea implements UBReal, XBPSequenceSerializable {
@@ -42,45 +42,7 @@ public class UBRea implements UBReal, XBPSequenceSerializable {
     }
 
     public UBRea(float srcValue) {
-        // TODO Replace with more efficient algorithm later
-        // TODO Handle conversion exceptions
-
-        long valueLong = 0;
-        long mantissaLong = 0;
-        if (srcValue > 0) {
-            if (srcValue - Math.floor(srcValue) > 0) {
-                float nextValue;
-                boolean hasTail;
-                do {
-                    nextValue = srcValue * 2;
-                    hasTail = nextValue - Math.floor(nextValue) > 0;
-                    if (hasTail) {
-                        srcValue = nextValue;
-                    }
-
-                    mantissaLong--;
-                } while (hasTail && mantissaLong > -32);
-                valueLong = (long) Math.floor(srcValue);
-            } else {
-                float nextValue;
-                boolean hasTail;
-                do {
-                    nextValue = srcValue / 2;
-                    hasTail = nextValue - Math.floor(nextValue) > 0;
-                    if (!hasTail) {
-                        mantissaLong++;
-                    }
-
-                    srcValue = nextValue;
-                } while (!hasTail && mantissaLong < 32);
-                valueLong = (long) Math.floor(srcValue) + (mantissaLong == 0 ? 1 : 0);
-            }
-        } else if (srcValue < 0) {
-            // TODO
-        }
-
-        value = new UBInt32(valueLong);
-        mantissa = new UBInt32(mantissaLong);
+        setFloatValue(srcValue);
     }
 
     public UBRea(UBReal real) {
@@ -151,12 +113,79 @@ public class UBRea implements UBReal, XBPSequenceSerializable {
 
     @Override
     public void setValue(float value) throws UBOverFlowException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        setFloatValue(value);
     }
 
     @Override
     public void setValue(double value) throws UBOverFlowException {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    private void setFloatValue(float srcValue) {
+        // TODO Replace with more efficient algorithm later
+        // TODO Handle conversion exceptions
+        long valueLong = 0;
+        long mantissaLong = 0;
+        if (srcValue > 0) {
+            if (srcValue - Math.floor(srcValue) > 0) {
+                float nextValue;
+                boolean hasTail;
+                do {
+                    nextValue = srcValue * 2;
+                    hasTail = nextValue - Math.floor(nextValue) > 0;
+                    if (hasTail) {
+                        srcValue = nextValue;
+                    }
+
+                    mantissaLong--;
+                } while (hasTail && mantissaLong > -32);
+                valueLong = (long) Math.floor(srcValue);
+            } else {
+                float nextValue;
+                boolean hasTail;
+                do {
+                    nextValue = srcValue / 2;
+                    hasTail = nextValue - Math.floor(nextValue) > 0;
+                    if (!hasTail) {
+                        mantissaLong++;
+                    }
+
+                    srcValue = nextValue;
+                } while (!hasTail && mantissaLong < 32);
+                valueLong = (long) Math.floor(srcValue) + (mantissaLong == 0 ? 1 : 0);
+            }
+        } else if (srcValue < 0) {
+            if (srcValue - Math.ceil(srcValue) < 0) {
+                float nextValue;
+                boolean hasTail;
+                do {
+                    nextValue = srcValue * 2;
+                    hasTail = nextValue - Math.ceil(nextValue) < 0;
+                    if (hasTail) {
+                        srcValue = nextValue;
+                    }
+
+                    mantissaLong--;
+                } while (hasTail && mantissaLong > -32);
+                valueLong = (long) Math.floor(srcValue);
+            } else {
+                float nextValue;
+                boolean hasTail;
+                do {
+                    nextValue = srcValue / 2;
+                    hasTail = nextValue - Math.ceil(nextValue) < 0;
+                    if (!hasTail) {
+                        mantissaLong++;
+                    }
+
+                    srcValue = nextValue;
+                } while (!hasTail && mantissaLong < 32);
+                valueLong = (long) Math.floor(srcValue);
+            }
+        }
+
+        value = new UBInt32(valueLong);
+        mantissa = new UBInt32(mantissaLong);
     }
 
     @Override

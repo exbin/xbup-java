@@ -22,17 +22,20 @@ import java.util.List;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBSerializationMode;
+import org.xbup.lib.core.serial.sequence.XBStringListConsistSerializable;
+import org.xbup.lib.core.type.XBString;
 
 /**
  * Record about single module.
  *
- * @version 0.2.0 2015/11/21
+ * @version 0.2.0 2015/02/03
  * @author XBUP Project (http://xbup.org)
  */
 public class ApplicationModule implements XBPSequenceSerializable {
 
     static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 3, 1, 2, 0, 0};
-    
+
     private final String moduleId;
     private final ApplicationModulePlugin plugin;
     private String name;
@@ -86,7 +89,24 @@ public class ApplicationModule implements XBPSequenceSerializable {
     }
 
     @Override
-    public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+        serial.begin();
+        XBStringListConsistSerializable dependencies = new XBStringListConsistSerializable(dependencyModuleIds);
+        XBStringListConsistSerializable optionals = new XBStringListConsistSerializable(optionalModuleIds);
+        if (serial.getSerializationMode() == XBSerializationMode.PULL) {
+            XBString nameString = new XBString();
+            serial.consist(nameString);
+            name = nameString.getValue();
+            XBString descriptionString = new XBString();
+            serial.consist(descriptionString);
+            description = descriptionString.getValue();
+        } else {
+            serial.consist(new XBString(name));
+            serial.consist(new XBString(description));
+        }
+
+        serial.listConsist(dependencies);
+        serial.listConsist(optionals);
+        serial.end();
     }
 }

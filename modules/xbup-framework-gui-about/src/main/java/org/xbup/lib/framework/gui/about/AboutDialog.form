@@ -54,7 +54,7 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="aboutTabbedPane" alignment="1" max="32767" attributes="1"/>
+                  <Component id="productTabbedPane" alignment="1" max="32767" attributes="1"/>
                   <Component id="closeButton" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -66,7 +66,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="aboutHeaderPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="aboutTabbedPane" max="32767" attributes="0"/>
+              <Component id="productTabbedPane" max="32767" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="closeButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -86,26 +86,26 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="closeButtonActionPerformed"/>
       </Events>
     </Component>
-    <Container class="javax.swing.JTabbedPane" name="aboutTabbedPane">
+    <Container class="javax.swing.JTabbedPane" name="productTabbedPane">
       <Properties>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[38, 15]"/>
         </Property>
-        <Property name="name" type="java.lang.String" value="aboutTabbedPane" noResource="true"/>
+        <Property name="name" type="java.lang.String" value="productTabbedPane" noResource="true"/>
       </Properties>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="aboutPanel">
+        <Container class="javax.swing.JPanel" name="applicationPanel">
           <Properties>
             <Property name="autoscrolls" type="boolean" value="true"/>
-            <Property name="name" type="java.lang.String" value="aboutPanel" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="applicationPanel" noResource="true"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="About">
+              <JTabbedPaneConstraints tabName="Application">
                 <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/gui/about/resources/AboutDialog.properties" key="aboutPanel.TabConstraints.tabTitle" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/lib/framework/gui/about/resources/AboutDialog.properties" key="applicationPanel.TabConstraints.tabTitle" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </JTabbedPaneConstraints>
             </Constraint>
@@ -119,13 +119,13 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="productLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="nameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="vendorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="homepageLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="productTextField" alignment="0" pref="465" max="32767" attributes="2"/>
+                                  <Component id="nameTextField" alignment="0" pref="465" max="32767" attributes="2"/>
                                   <Component id="vendorTextField" alignment="0" pref="465" max="32767" attributes="2"/>
                                   <Component id="licenseTextField" alignment="0" pref="465" max="32767" attributes="2"/>
                                   <Component id="appHomepageLabel" alignment="0" pref="465" max="32767" attributes="2"/>
@@ -145,8 +145,8 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="productLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="productTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="nameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="nameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -169,17 +169,17 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="productLabel">
+            <Component class="javax.swing.JLabel" name="nameLabel">
               <Properties>
                 <Property name="font" type="java.awt.Font" noResource="true" editor="org.netbeans.modules.form.editors2.FontEditor">
                   <FontInfo relative="true">
-                    <Font bold="true" component="productLabel" property="font" relativeSize="true" size="0"/>
+                    <Font bold="true" component="nameLabel" property="font" relativeSize="true" size="0"/>
                   </FontInfo>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/gui/about/resources/AboutDialog.properties" key="productLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/xbup/lib/framework/gui/about/resources/AboutDialog.properties" key="nameLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
-                <Property name="name" type="java.lang.String" value="productLabel" noResource="true"/>
+                <Property name="name" type="java.lang.String" value="nameLabel" noResource="true"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
@@ -243,7 +243,7 @@
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="HashMap&lt;TextAttribute, Object&gt; attribs = new HashMap&lt;TextAttribute, Object&gt;();&#xa;attribs.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);&#xa;appHomepageLabel.setFont(appHomepageLabel.getFont().deriveFont(attribs));"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JTextField" name="productTextField">
+            <Component class="javax.swing.JTextField" name="nameTextField">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -255,7 +255,7 @@
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
                 </Property>
-                <Property name="name" type="java.lang.String" value="productTextField" noResource="true"/>
+                <Property name="name" type="java.lang.String" value="nameTextField" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="vendorTextField">

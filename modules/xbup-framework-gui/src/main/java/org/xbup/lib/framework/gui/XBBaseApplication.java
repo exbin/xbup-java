@@ -35,8 +35,6 @@ public class XBBaseApplication implements XBApplication {
 
     private ResourceBundle appBundle;
     private Preferences appPreferences;
-    private boolean appMode = false;
-    // private MainFrame mainFrame;
 
 //    private final BaseModuleRepository moduleRepository;
     private final List<URI> plugins;
@@ -57,21 +55,21 @@ public class XBBaseApplication implements XBApplication {
     }
 
     public void init() {
-        if (isAppMode()) {
+//        if (isAppMode()) {
 //            getModuleRepository().setMainFrame(mainFrame);
 //            getModuleRepository().processModules();
 //            getModuleRepository().loadPreferences(getAppPreferences());
-        }
+//        }
     }
 
     public void run() {
-        if (isAppMode()) {
+//        if (isAppMode()) {
             // mainFrame.setVisible(true);
 
             if (firstCommand != null) {
                 firstCommand.execute();
             }
-        }
+//        }
     }
 
     /**
@@ -89,15 +87,6 @@ public class XBBaseApplication implements XBApplication {
         }
 
         return getAppPreferences().get(key, def);
-    }
-
-    @Override
-    public boolean isAppMode() {
-        return appMode;
-    }
-
-    public void setAppMode(boolean appMode) {
-        this.appMode = appMode;
     }
 
     @Override
@@ -144,7 +133,6 @@ public class XBBaseApplication implements XBApplication {
 //        } catch (SecurityException ex) {
 //            // Ignore it in java webstart
 //        }
-
 //        mainFrame = new MainFrame();
     }
 
@@ -152,7 +140,6 @@ public class XBBaseApplication implements XBApplication {
 //    public BaseModuleRepository getModuleRepository() {
 //        return moduleRepository;
 //    }
-
     public void loadFromFile(String string) {
 //        moduleRepository.openFile(string, null);
     }

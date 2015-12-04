@@ -146,11 +146,6 @@ public class WindowUtils {
             }
 
             @Override
-            public boolean isAppMode() {
-                return false;
-            }
-
-            @Override
             public String preferencesGet(String key, String def) {
                 return null;
             }

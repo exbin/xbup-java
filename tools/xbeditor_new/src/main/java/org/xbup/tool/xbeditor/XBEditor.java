@@ -77,7 +77,6 @@ public class XBEditor {
                 }
 
                 XBBaseApplication app = new XBBaseApplication();
-                app.setAppMode(true);
                 app.setAppPreferences(preferences);
                 app.setAppBundle(bundle, APP_BUNDLE_NAME);
 //                app.setFirstCommand(new XBEditorFirstCommand(app));

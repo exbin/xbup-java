@@ -23,7 +23,7 @@ import java.util.prefs.Preferences;
 /**
  * Interface for application module management.
  *
- * @version 0.2.0 2015/10/28
+ * @version 0.2.0 2015/12/04
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBApplication {
@@ -48,13 +48,6 @@ public interface XBApplication {
      * @return the moduleRepository
      */
     public ModuleRepository getModuleRepository();
-
-    /**
-     * Gets application modeflag.
-     *
-     * @return the appMode
-     */
-    public boolean isAppMode();
 
     /**
      * Gets preferences key value.

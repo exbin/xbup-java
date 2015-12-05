@@ -1,19 +1,8 @@
-rootProject.name = 'xbeditor_new'
+rootProject.name = 'xbup-framework-editor-xbup'
 
 include ":modules:xbup-core"
-include ":modules:xbup-catalog"
-include ":modules:xbup-framework-client"
-include ":modules:xbup-visual"
-include ":modules:xbup-plugin"
-include ":modules:xbup-operation"
-include ":modules:xbup-parser-tree"
-include ":modules:xbup-parser-command"
 include ":modules:xbup-framework-gui"
-include ":modules:xbup-framework-gui-api"
 include ":modules:xbup-framework-gui-utils"
-include ":modules:xbup-framework-editor-xbup"
-include ":modules:hexedit"
-include ":modules:simplyhtml"
 
 def modifyPath(project) {
     def rootProjectDir = rootProject.projectDir.parentFile.parent

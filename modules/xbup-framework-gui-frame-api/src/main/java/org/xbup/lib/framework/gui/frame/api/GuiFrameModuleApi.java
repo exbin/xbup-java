@@ -16,12 +16,14 @@
  */
 package org.xbup.lib.framework.gui.frame.api;
 
+import net.xeoh.plugins.base.Plugin;
+
 /**
  * Interface for XBUP framework undo/redo module.
  *
- * @version 0.2.0 2015/11/11
+ * @version 0.2.0 2015/12/06
  * @author XBUP Project (http://xbup.org)
  */
-public interface GuiFrameModuleApi {
+public interface GuiFrameModuleApi extends Plugin {
 
 }

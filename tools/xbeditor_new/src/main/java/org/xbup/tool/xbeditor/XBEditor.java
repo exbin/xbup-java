@@ -21,6 +21,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
+import net.xeoh.plugins.base.util.uri.ClassURI;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
@@ -28,6 +29,9 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.framework.gui.XBBaseApplication;
+import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.gui.frame.GuiFrameModule;
+import org.xbup.lib.framework.gui.frame.XBApplicationFrame;
 
 /**
  * The main class of the XBEditor application.
@@ -81,7 +85,7 @@ public class XBEditor {
                 app.setAppBundle(bundle, APP_BUNDLE_NAME);
 //                app.setFirstCommand(new XBEditorFirstCommand(app));
 
-//                app.addPlugin(new ClassURI(XBDocEditorModule.class).toURI());
+                app.addPlugin(new ClassURI(GuiFrameModule.class).toURI());
 //                app.addPlugin(new ClassURI(JavaHelpModule.class).toURI());
 //                app.addPlugin(new ClassURI(OnlineHelpModule.class).toURI());
                 List fileArgs = cl.getArgList();
@@ -94,6 +98,8 @@ public class XBEditor {
 //                ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
 //                ((XBDocEditorModule) module).setEditorApp(app);
 //                ((XBDocEditorModule) module).setDevMode(devMode);
+                XBApplicationFrame frame = new XBApplicationFrame();
+                frame.setVisible(true);
                 app.run();
             }
         } catch (ParseException ex) {

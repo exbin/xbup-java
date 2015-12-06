@@ -14,9 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.gui;
-
-import org.xbup.lib.framework.gui.api.XBApplication;
+package org.xbup.lib.framework.gui.api;
 
 /**
  * Framework application event class.

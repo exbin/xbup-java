@@ -33,8 +33,8 @@ import javax.swing.JLabel;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.table.DefaultTableModel;
-import org.xbup.lib.framework.gui.ApplicationModule;
-import org.xbup.lib.framework.gui.XBApplication;
+import org.xbup.lib.framework.gui.api.XBApplicationModule;
+import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.utils.BareBonesBrowserLaunch;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 
@@ -124,8 +124,8 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
 
         if (appEditor.getModuleRepository() != null) {
             DefaultTableModel modulesTableModel = (DefaultTableModel) modulesTable.getModel();
-            List<ApplicationModule> modulesList = appEditor.getModuleRepository().getModulesList();
-            for (ApplicationModule moduleInfo : modulesList) {
+            List<XBApplicationModule> modulesList = appEditor.getModuleRepository().getModulesList();
+            for (XBApplicationModule moduleInfo : modulesList) {
                 String[] newRow = {moduleInfo.getName(), moduleInfo.getDescription()};
                 modulesTableModel.addRow(newRow);
             }

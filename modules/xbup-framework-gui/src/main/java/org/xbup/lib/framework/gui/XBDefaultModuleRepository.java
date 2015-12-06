@@ -16,6 +16,8 @@
  */
 package org.xbup.lib.framework.gui;
 
+import org.xbup.lib.framework.gui.api.XBModuleRepository;
+import org.xbup.lib.framework.gui.api.ApplicationModulePlugin;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
@@ -26,20 +28,21 @@ import java.util.Map;
 import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
 import net.xeoh.plugins.base.util.PluginManagerUtil;
+import org.xbup.lib.framework.gui.api.XBApplicationModule;
 
 /**
  * XBUP framework modules repository.
  *
- * @version 0.2.0 2015/11/21
+ * @version 0.2.0 2015/12/06
  * @author XBUP Project (http://xbup.org)
  */
-public class ModuleRepository {
+public class XBDefaultModuleRepository implements XBModuleRepository {
 
     private static final String MODULE_FILE_EXT = ".xb";
     private final PluginManager pluginManager;
-    private final Map<String, ApplicationModule> modules = new HashMap<>();
+    private final Map<String, XBApplicationModule> modules = new HashMap<>();
 
-    public ModuleRepository() {
+    public XBDefaultModuleRepository() {
         pluginManager = PluginManagerFactory.createPluginManager();
     }
 
@@ -48,6 +51,7 @@ public class ModuleRepository {
      *
      * @param uri
      */
+    @Override
     public void addPluginsFrom(URI uri) {
         pluginManager.addPluginsFrom(uri);
     }
@@ -55,6 +59,7 @@ public class ModuleRepository {
     /**
      * Processes all modules and initializes them in proper order.
      */
+    @Override
     public void processModules() {
         PluginManagerUtil pmu = new PluginManagerUtil(pluginManager);
         final Collection<ApplicationModulePlugin> plugins = pmu.getPlugins(ApplicationModulePlugin.class);
@@ -62,7 +67,7 @@ public class ModuleRepository {
         // Process modules info
         for (ApplicationModulePlugin plugin : plugins) {
             String canonicalName = plugin.getClass().getCanonicalName();
-            ApplicationModule module = new ApplicationModule(canonicalName, plugin);
+            XBBasicApplicationModule module = new XBBasicApplicationModule(canonicalName, plugin);
             InputStream moduleFile = plugin.getClass().getResourceAsStream(canonicalName + MODULE_FILE_EXT);
             // TODO XBPSequencePullConsumer consumer = new XBPSequencePullConsumer(new XBTPunew XBTPull)
 
@@ -70,7 +75,7 @@ public class ModuleRepository {
         }
 
         // Process dependencies
-        List<ApplicationModule> unprocessedModules = new ArrayList<>(modules.values());
+        List<XBApplicationModule> unprocessedModules = new ArrayList<>(modules.values());
         int preRoundCount;
         int postRoundCount;
         do {
@@ -78,12 +83,12 @@ public class ModuleRepository {
 
             int moduleIndex = 0;
             while (moduleIndex < unprocessedModules.size()) {
-                ApplicationModule module = unprocessedModules.get(moduleIndex);
+                XBApplicationModule module = unprocessedModules.get(moduleIndex);
                 // Process single module
                 List<String> dependencyModuleIds = module.getDependencyModuleIds();
                 boolean dependecySatisfied = true;
                 for (String dependecyModuleId : dependencyModuleIds) {
-                    ApplicationModule dependecyModule = getModuleById(dependecyModuleId);
+                    XBApplicationModule dependecyModule = getModuleById(dependecyModuleId);
                     if (dependecyModule == null) {
                         dependecySatisfied = false;
                         break;
@@ -113,7 +118,8 @@ public class ModuleRepository {
      * @param moduleId module identifier
      * @return application module record
      */
-    public ApplicationModule getModuleById(String moduleId) {
+    @Override
+    public XBApplicationModule getModuleById(String moduleId) {
         return modules.get(moduleId);
     }
 
@@ -122,6 +128,7 @@ public class ModuleRepository {
      *
      * @return the pluginManager
      */
+    @Override
     public PluginManager getPluginManager() {
         return pluginManager;
     }
@@ -131,7 +138,8 @@ public class ModuleRepository {
      *
      * @return list of modules
      */
-    public List<ApplicationModule> getModulesList() {
+    @Override
+    public List<XBApplicationModule> getModulesList() {
         return new ArrayList<>(modules.values());
     }
 }

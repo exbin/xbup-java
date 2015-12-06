@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.gui;
+package org.xbup.lib.framework.gui.api;
 
 import java.awt.Image;
 import java.util.ResourceBundle;
@@ -23,7 +23,7 @@ import java.util.prefs.Preferences;
 /**
  * Interface for application module management.
  *
- * @version 0.2.0 2015/12/04
+ * @version 0.2.0 2015/12/06
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBApplication {
@@ -47,7 +47,7 @@ public interface XBApplication {
      *
      * @return the moduleRepository
      */
-    public ModuleRepository getModuleRepository();
+    public XBModuleRepository getModuleRepository();
 
     /**
      * Gets preferences key value.

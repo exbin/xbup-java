@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.framework.gui;
 
+import org.xbup.lib.framework.gui.api.XBApplication;
 import java.awt.Image;
 import java.net.URI;
 import java.util.ArrayList;
@@ -24,11 +25,12 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 import javax.swing.ImageIcon;
+import org.xbup.lib.framework.gui.api.XBModuleRepository;
 
 /**
  * Application interface class.
  *
- * @version 0.2.0 2015/10/28
+ * @version 0.2.0 2015/12/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBBaseApplication implements XBApplication {
@@ -64,11 +66,11 @@ public class XBBaseApplication implements XBApplication {
 
     public void run() {
 //        if (isAppMode()) {
-            // mainFrame.setVisible(true);
+        // mainFrame.setVisible(true);
 
-            if (firstCommand != null) {
-                firstCommand.execute();
-            }
+        if (firstCommand != null) {
+            firstCommand.execute();
+        }
 //        }
     }
 
@@ -150,7 +152,7 @@ public class XBBaseApplication implements XBApplication {
     }
 
     @Override
-    public ModuleRepository getModuleRepository() {
+    public XBModuleRepository getModuleRepository() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

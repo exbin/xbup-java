@@ -16,6 +16,8 @@
  */
 package org.xbup.lib.framework.gui;
 
+import org.xbup.lib.framework.gui.api.XBApplicationModule;
+import org.xbup.lib.framework.gui.api.ApplicationModulePlugin;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +34,7 @@ import org.xbup.lib.core.type.XBString;
  * @version 0.2.0 2015/02/03
  * @author XBUP Project (http://xbup.org)
  */
-public class ApplicationModule implements XBPSequenceSerializable {
+public class XBBasicApplicationModule implements XBPSequenceSerializable, XBApplicationModule {
 
     static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 3, 1, 2, 0, 0};
 
@@ -43,19 +45,22 @@ public class ApplicationModule implements XBPSequenceSerializable {
     private final List<String> optionalModuleIds = new ArrayList<>();
     private final List<String> dependencyModuleIds = new ArrayList<>();
 
-    public ApplicationModule(String moduleId, ApplicationModulePlugin plugin) {
+    public XBBasicApplicationModule(String moduleId, ApplicationModulePlugin plugin) {
         this.moduleId = moduleId;
         this.plugin = plugin;
     }
 
+    @Override
     public String getModuleId() {
         return moduleId;
     }
 
+    @Override
     public ApplicationModulePlugin getPlugin() {
         return plugin;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -64,6 +69,7 @@ public class ApplicationModule implements XBPSequenceSerializable {
         this.name = name;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -72,6 +78,7 @@ public class ApplicationModule implements XBPSequenceSerializable {
         this.description = description;
     }
 
+    @Override
     public List<String> getOptionalModuleIds() {
         return optionalModuleIds;
     }
@@ -80,6 +87,7 @@ public class ApplicationModule implements XBPSequenceSerializable {
         optionalModuleIds.addAll(this.optionalModuleIds);
     }
 
+    @Override
     public List<String> getDependencyModuleIds() {
         return dependencyModuleIds;
     }

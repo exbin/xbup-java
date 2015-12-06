@@ -16,7 +16,8 @@
  */
 package org.xbup.lib.framework.gui.frame;
 
-import org.xbup.lib.framework.gui.XBApplication;
+import net.xeoh.plugins.base.annotations.PluginImplementation;
+import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 
 /**
@@ -25,6 +26,7 @@ import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
  * @version 0.2.0 2015/11/11
  * @author XBUP Project (http://xbup.org)
  */
+@PluginImplementation
 public class GuiFrameModule implements GuiFrameModuleApi {
 
     private XBApplication application;

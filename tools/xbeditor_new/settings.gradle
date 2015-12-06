@@ -10,10 +10,13 @@ include ":modules:xbup-parser-tree"
 include ":modules:xbup-parser-command"
 include ":modules:xbup-framework-gui"
 include ":modules:xbup-framework-gui-api"
+include ":modules:xbup-framework-gui-frame-api"
 include ":modules:xbup-framework-gui-utils"
 include ":modules:xbup-framework-editor-xbup"
 include ":modules:hexedit"
 include ":modules:simplyhtml"
+
+include ":modules:xbup-framework-gui-frame"
 
 def modifyPath(project) {
     def rootProjectDir = rootProject.projectDir.parentFile.parent

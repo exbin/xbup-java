@@ -21,7 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import org.xbup.lib.framework.gui.XBApplication;
+import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 import org.xbup.lib.framework.gui.undo.dialog.UndoManagerModel;
 import org.xbup.lib.operation.undo.XBTLinearUndo;

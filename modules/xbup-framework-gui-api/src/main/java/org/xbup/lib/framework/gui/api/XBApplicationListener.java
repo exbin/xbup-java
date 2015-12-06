@@ -14,22 +14,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.gui;
-
-import net.xeoh.plugins.base.Plugin;
+package org.xbup.lib.framework.gui.api;
 
 /**
- * Interface for application's module.
+ * Framework application event listener.
  *
- * @version 0.2.0 2015/11/19
+ * @version 0.2.0 2015/11/16
  * @author XBUP Project (http://xbup.org)
  */
-public interface ApplicationModulePlugin extends Plugin {
+public interface XBApplicationListener {
 
     /**
-     * Initializes plugin.
+     * Reports single event.
      *
-     * @param application framework application
+     * @param event reported event
      */
-    public void init(XBApplication application);
+    public void event(XBApplicationEvent event);
 }

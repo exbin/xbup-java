@@ -35,8 +35,8 @@ import javax.swing.JEditorPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
-import org.xbup.lib.framework.gui.ModuleRepository;
-import org.xbup.lib.framework.gui.XBApplication;
+import org.xbup.lib.framework.gui.api.XBModuleRepository;
+import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.utils.panel.WindowHeaderPanel;
 
 /**
@@ -141,7 +141,7 @@ public class WindowUtils {
             }
 
             @Override
-            public ModuleRepository getModuleRepository() {
+            public XBModuleRepository getModuleRepository() {
                 return null;
             }
 

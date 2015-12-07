@@ -14,16 +14,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.gui.frame.api;
+package org.xbup.lib.framework.gui.menu;
 
-import net.xeoh.plugins.base.Plugin;
+import net.xeoh.plugins.base.annotations.PluginImplementation;
+import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 
 /**
- * Interface for XBUP framework frame module.
+ * Implementation of XBUP framework menu module.
  *
- * @version 0.2.0 2015/12/06
+ * @version 0.2.0 2015/12/07
  * @author XBUP Project (http://xbup.org)
  */
-public interface GuiFrameModuleApi extends Plugin {
+@PluginImplementation
+public class GuiMenuModule implements GuiMenuModuleApi {
 
+    private XBApplication application;
+
+    public GuiMenuModule(XBApplication application) {
+    }
 }

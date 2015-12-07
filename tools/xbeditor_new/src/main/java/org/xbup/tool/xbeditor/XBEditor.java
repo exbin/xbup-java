@@ -86,6 +86,7 @@ public class XBEditor {
 //                app.setFirstCommand(new XBEditorFirstCommand(app));
 
                 app.addPlugin(new ClassURI(GuiFrameModule.class).toURI());
+                app.addPlugin(new ClassURI(GuiFrameModule.class).toURI());
 //                app.addPlugin(new ClassURI(JavaHelpModule.class).toURI());
 //                app.addPlugin(new ClassURI(OnlineHelpModule.class).toURI());
                 List fileArgs = cl.getArgList();

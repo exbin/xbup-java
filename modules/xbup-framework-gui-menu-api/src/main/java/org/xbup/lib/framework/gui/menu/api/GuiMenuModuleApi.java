@@ -14,20 +14,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.gui.undo;
+package org.xbup.lib.framework.gui.menu.api;
+
+import net.xeoh.plugins.base.Plugin;
 
 /**
- * Interface for application's panel.
+ * Interface for XBUP framework menu module.
  *
- * @version 0.2.0 2015/10/25
+ * @version 0.2.0 2015/12/07
  * @author XBUP Project (http://xbup.org)
  */
-public interface ApplicationPanel {
+public interface GuiMenuModuleApi extends Plugin {
 
-    /**
-     * Gets panel name.
-     *
-     * @return panel name
-     */
-    public String getPanelName();
 }

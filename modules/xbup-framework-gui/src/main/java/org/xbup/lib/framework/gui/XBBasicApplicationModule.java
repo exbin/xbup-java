@@ -17,7 +17,6 @@
 package org.xbup.lib.framework.gui;
 
 import org.xbup.lib.framework.gui.api.XBApplicationModule;
-import org.xbup.lib.framework.gui.api.ApplicationModulePlugin;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +26,7 @@ import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.serial.param.XBSerializationMode;
 import org.xbup.lib.core.serial.sequence.XBStringListConsistSerializable;
 import org.xbup.lib.core.type.XBString;
+import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 
 /**
  * Record about single module.
@@ -39,13 +39,13 @@ public class XBBasicApplicationModule implements XBPSequenceSerializable, XBAppl
     static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 3, 1, 2, 0, 0};
 
     private final String moduleId;
-    private final ApplicationModulePlugin plugin;
+    private final XBApplicationModulePlugin plugin;
     private String name;
     private String description;
     private final List<String> optionalModuleIds = new ArrayList<>();
     private final List<String> dependencyModuleIds = new ArrayList<>();
 
-    public XBBasicApplicationModule(String moduleId, ApplicationModulePlugin plugin) {
+    public XBBasicApplicationModule(String moduleId, XBApplicationModulePlugin plugin) {
         this.moduleId = moduleId;
         this.plugin = plugin;
     }
@@ -56,7 +56,7 @@ public class XBBasicApplicationModule implements XBPSequenceSerializable, XBAppl
     }
 
     @Override
-    public ApplicationModulePlugin getPlugin() {
+    public XBApplicationModulePlugin getPlugin() {
         return plugin;
     }
 

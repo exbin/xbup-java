@@ -21,10 +21,10 @@ import net.xeoh.plugins.base.Plugin;
 /**
  * Interface for application's module.
  *
- * @version 0.2.0 2015/11/19
+ * @version 0.2.0 2015/12/09
  * @author XBUP Project (http://xbup.org)
  */
-public interface ApplicationModulePlugin extends Plugin {
+public interface XBApplicationModulePlugin extends Plugin {
 
     /**
      * Initializes plugin.
@@ -32,4 +32,11 @@ public interface ApplicationModulePlugin extends Plugin {
      * @param application framework application
      */
     public void init(XBApplication application);
+    
+    /**
+     * Unregisters all functionality registered by given plugin.
+     * 
+     * @param pluginId plugin identification code
+     */
+    public void unregisterPlugin(String pluginId);
 }

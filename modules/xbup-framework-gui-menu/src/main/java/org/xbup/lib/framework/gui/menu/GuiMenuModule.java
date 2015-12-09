@@ -33,4 +33,14 @@ public class GuiMenuModule implements GuiMenuModuleApi {
 
     public GuiMenuModule(XBApplication application) {
     }
+
+    @Override
+    public void init(XBApplication application) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void unregisterPlugin(String pluginId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

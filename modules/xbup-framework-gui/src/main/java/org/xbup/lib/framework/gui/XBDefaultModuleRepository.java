@@ -17,7 +17,6 @@
 package org.xbup.lib.framework.gui;
 
 import org.xbup.lib.framework.gui.api.XBModuleRepository;
-import org.xbup.lib.framework.gui.api.ApplicationModulePlugin;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
@@ -29,6 +28,7 @@ import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
 import net.xeoh.plugins.base.util.PluginManagerUtil;
 import org.xbup.lib.framework.gui.api.XBApplicationModule;
+import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 
 /**
  * XBUP framework modules repository.
@@ -62,10 +62,10 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
     @Override
     public void processModules() {
         PluginManagerUtil pmu = new PluginManagerUtil(pluginManager);
-        final Collection<ApplicationModulePlugin> plugins = pmu.getPlugins(ApplicationModulePlugin.class);
+        final Collection<XBApplicationModulePlugin> plugins = pmu.getPlugins(XBApplicationModulePlugin.class);
 
         // Process modules info
-        for (ApplicationModulePlugin plugin : plugins) {
+        for (XBApplicationModulePlugin plugin : plugins) {
             String canonicalName = plugin.getClass().getCanonicalName();
             XBBasicApplicationModule module = new XBBasicApplicationModule(canonicalName, plugin);
             InputStream moduleFile = plugin.getClass().getResourceAsStream(canonicalName + MODULE_FILE_EXT);

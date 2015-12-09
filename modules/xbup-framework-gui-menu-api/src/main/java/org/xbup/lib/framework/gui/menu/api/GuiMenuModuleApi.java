@@ -16,7 +16,7 @@
  */
 package org.xbup.lib.framework.gui.menu.api;
 
-import net.xeoh.plugins.base.Plugin;
+import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 
 /**
  * Interface for XBUP framework menu module.
@@ -24,6 +24,6 @@ import net.xeoh.plugins.base.Plugin;
  * @version 0.2.0 2015/12/07
  * @author XBUP Project (http://xbup.org)
  */
-public interface GuiMenuModuleApi extends Plugin {
+public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
 
 }

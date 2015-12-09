@@ -16,9 +16,9 @@
  */
 package org.xbup.lib.framework.gui.about;
 
-import net.xeoh.plugins.base.Plugin;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 
 /**
  * Implementation of XBUP framework about module.
@@ -27,10 +27,20 @@ import org.xbup.lib.framework.gui.api.XBApplication;
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
-public class GuiAboutModule implements Plugin {
+public class GuiAboutModule implements XBApplicationModulePlugin {
 
     private XBApplication application;
 
     public GuiAboutModule(XBApplication application) {
+    }
+
+    @Override
+    public void init(XBApplication application) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void unregisterPlugin(String pluginId) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

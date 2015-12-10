@@ -16,18 +16,30 @@
  */
 package org.xbup.lib.framework.gui.utils;
 
+import net.xeoh.plugins.base.annotations.PluginImplementation;
+import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
+
 /**
- * Interface for application's panel.
+ * Implementation of XBUP framework menu module.
  *
- * @version 0.2.0 2015/10/25
+ * @version 0.2.0 2015/12/10
  * @author XBUP Project (http://xbup.org)
  */
-public interface ApplicationPanel {
+@PluginImplementation
+public class GuiUtilsModule implements XBApplicationModulePlugin {
 
-    /**
-     * Gets panel name.
-     *
-     * @return panel name
-     */
-    public String getPanelName();
+    private XBApplication application;
+
+    public GuiUtilsModule() {
+    }
+
+    @Override
+    public void init(XBApplication application) {
+        this.application = application;
+    }
+
+    @Override
+    public void unregisterPlugin(String pluginId) {
+    }
 }

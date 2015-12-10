@@ -94,7 +94,7 @@ public class GuiUndoModule implements GuiUndoModuleApi {
     }
 
     /**
-     * Registers undo/redo operations to main frame menu
+     * Registers undo/redo operations to main frame menu.
      */
     @Override
     public void registerMainMenu() {

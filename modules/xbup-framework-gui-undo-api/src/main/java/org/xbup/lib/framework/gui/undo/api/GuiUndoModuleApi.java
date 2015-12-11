@@ -16,6 +16,8 @@
  */
 package org.xbup.lib.framework.gui.undo.api;
 
+import org.xbup.lib.operation.undo.XBUndoHandler;
+
 /**
  * Interface for XBUP framework undo/redo module.
  *
@@ -25,7 +27,14 @@ package org.xbup.lib.framework.gui.undo.api;
 public interface GuiUndoModuleApi {
 
     /**
-     * Registers undo/redo operations to main frame menu
+     * Registers undo/redo operations to main frame menu.
      */
     public void registerMainMenu();
+
+    /**
+     * Returns undo handler.
+     *
+     * @return undo handler
+     */
+    public XBUndoHandler getUndoHandler();
 }

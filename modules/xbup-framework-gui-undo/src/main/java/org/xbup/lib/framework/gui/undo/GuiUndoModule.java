@@ -25,6 +25,7 @@ import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 import org.xbup.lib.framework.gui.undo.dialog.UndoManagerModel;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
+import org.xbup.lib.operation.undo.XBUndoHandler;
 
 /**
  * Implementation of XBUP framework undo/redo module.
@@ -99,5 +100,10 @@ public class GuiUndoModule implements GuiUndoModuleApi {
     @Override
     public void registerMainMenu() {
 
+    }
+
+    @Override
+    public XBUndoHandler getUndoHandler() {
+        return undoHandler;
     }
 }

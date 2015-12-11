@@ -27,7 +27,7 @@ import org.xbup.lib.parser_tree.XBTTreeDocument;
  * @version 0.1.25 2015/06/28
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTLinearUndo {
+public class XBTLinearUndo implements XBUndoHandler {
 
     private long undoMaximumCount;
     private long undoMaximumSize;
@@ -56,6 +56,7 @@ public class XBTLinearUndo {
      * @param command
      * @throws java.lang.Exception
      */
+    @Override
     public void execute(XBTDocCommand command) throws Exception {
         command.setDocument(document);
         command.execute();
@@ -74,6 +75,7 @@ public class XBTLinearUndo {
      *
      * @throws java.lang.Exception
      */
+    @Override
     public void performUndo() throws Exception {
         commandPosition--;
         XBTDocCommand command = commandList.get((int) commandPosition);
@@ -87,6 +89,7 @@ public class XBTLinearUndo {
      *
      * @throws java.lang.Exception
      */
+    @Override
     public void performRedo() throws Exception {
         XBTDocCommand command = commandList.get((int) commandPosition);
         command.setDocument(document);
@@ -101,6 +104,7 @@ public class XBTLinearUndo {
      * @param count count of steps
      * @throws Exception
      */
+    @Override
     public void performUndo(int count) throws Exception {
         if (commandPosition < count) {
             throw new IllegalArgumentException("Unable to perform " + count + " undo steps");
@@ -118,6 +122,7 @@ public class XBTLinearUndo {
      * @param count count of steps
      * @throws Exception
      */
+    @Override
     public void performRedo(int count) throws Exception {
         if (commandList.size() - commandPosition < count) {
             throw new IllegalArgumentException("Unable to perform " + count + " redo steps");
@@ -129,22 +134,27 @@ public class XBTLinearUndo {
         document.processSpec();
     }
 
+    @Override
     public void clear() {
         init();
     }
 
+    @Override
     public boolean canUndo() {
         return commandPosition > 0;
     }
 
+    @Override
     public boolean canRedo() {
         return commandList.size() > commandPosition;
     }
 
+    @Override
     public long getMaximumUndo() {
         return undoMaximumCount;
     }
 
+    @Override
     public long getCommandPosition() {
         return commandPosition;
     }
@@ -154,6 +164,7 @@ public class XBTLinearUndo {
      *
      * @throws java.lang.Exception
      */
+    @Override
     public void doSync() throws Exception {
         setCommandPosition(syncPointPosition);
     }
@@ -162,6 +173,7 @@ public class XBTLinearUndo {
         this.undoMaximumCount = maxUndo;
     }
 
+    @Override
     public long getUndoMaximumSize() {
         return undoMaximumSize;
     }
@@ -170,22 +182,27 @@ public class XBTLinearUndo {
         this.undoMaximumSize = maxSize;
     }
 
+    @Override
     public long getUsedSize() {
         return usedSize;
     }
 
+    @Override
     public long getSyncPoint() {
         return syncPointPosition;
     }
 
+    @Override
     public void setSyncPoint(long syncPoint) {
         this.syncPointPosition = syncPoint;
     }
 
+    @Override
     public void setSyncPoint() {
         this.syncPointPosition = commandPosition;
     }
 
+    @Override
     public List<XBTDocCommand> getCommandList() {
         return commandList;
     }
@@ -203,6 +220,7 @@ public class XBTLinearUndo {
      * @param targetPosition desired position
      * @throws java.lang.Exception
      */
+    @Override
     public void setCommandPosition(long targetPosition) throws Exception {
         if (targetPosition < commandPosition) {
             performUndo((int) (commandPosition - targetPosition));

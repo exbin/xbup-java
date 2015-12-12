@@ -12,7 +12,7 @@ import net.xeoh.plugins.base.PluginManager;
 /**
  * XBUP framework modules repository interface.
  *
- * @version 0.2.0 2015/12/06
+ * @version 0.2.0 2015/12/12
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBModuleRepository {
@@ -31,6 +31,15 @@ public interface XBModuleRepository {
      * @return application module record
      */
     XBApplicationModule getModuleById(String moduleId);
+
+    /**
+     * Gets info about module.
+     *
+     * @param <T> interface class
+     * @param interfaceClass interface class
+     * @return application module record
+     */
+    <T extends XBApplicationModulePlugin> T getModuleByInterface(Class<T> interfaceClass);
 
     /**
      * Gets list of modules.

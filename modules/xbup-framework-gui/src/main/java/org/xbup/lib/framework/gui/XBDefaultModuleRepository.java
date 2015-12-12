@@ -33,7 +33,7 @@ import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 /**
  * XBUP framework modules repository.
  *
- * @version 0.2.0 2015/12/06
+ * @version 0.2.0 2015/12/12
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDefaultModuleRepository implements XBModuleRepository {
@@ -141,5 +141,10 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
     @Override
     public List<XBApplicationModule> getModulesList() {
         return new ArrayList<>(modules.values());
+    }
+
+    @Override
+    public <T extends XBApplicationModulePlugin> T getModuleByInterface(Class<T> interfaceClass) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

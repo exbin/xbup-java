@@ -22,6 +22,8 @@ import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.gui.api.XBApplicationModule;
+import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 import org.xbup.lib.framework.gui.undo.dialog.UndoManagerModel;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
@@ -99,7 +101,7 @@ public class GuiUndoModule implements GuiUndoModuleApi {
      */
     @Override
     public void registerMainMenu() {
-
+        GuiMenuModuleApi module = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
     }
 
     @Override

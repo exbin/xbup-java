@@ -16,9 +16,12 @@
  */
 package org.xbup.lib.framework.gui.menu;
 
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
+import org.xbup.lib.framework.gui.menu.api.MenuPosition;
 
 /**
  * Implementation of XBUP framework menu module.
@@ -41,6 +44,26 @@ public class GuiMenuModule implements GuiMenuModuleApi {
 
     @Override
     public void unregisterPlugin(String pluginId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public JMenu getMenu(String menuId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void registerMenu(String pluginId, String menuId, JMenu menu) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void registerMenuItem(String pluginId, String menuId, JMenu item, MenuPosition position) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void registerMenuItem(String pluginId, String menuId, JMenuItem item, MenuPosition position) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

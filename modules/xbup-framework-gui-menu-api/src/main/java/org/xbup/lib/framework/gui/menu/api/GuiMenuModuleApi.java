@@ -16,14 +16,50 @@
  */
 package org.xbup.lib.framework.gui.menu.api;
 
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 
 /**
  * Interface for XBUP framework menu module.
  *
- * @version 0.2.0 2015/12/07
+ * @version 0.2.0 2015/12/13
  * @author XBUP Project (http://xbup.org)
  */
 public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
 
+    /**
+     * Returns menu using given identificator.
+     *
+     * @param menuId menu identificator
+     * @return menu or null if such menu is not available
+     */
+    JMenu getMenu(String menuId);
+
+    /**
+     * Registers menu associating it with given identificator.
+     *
+     * @param pluginId plugin identificator
+     * @param menuId menu identificator
+     * @param menu menu
+     */
+    void registerMenu(String pluginId, String menuId, JMenu menu);
+
+    /**
+     * Registers menu as a child item for given menu.
+     *
+     * @param pluginId
+     * @param menuId
+     * @param item
+     */
+    void registerMenuItem(String pluginId, String menuId, JMenu item, MenuPosition position);
+
+    /**
+     * Registers menu item as a child item for given menu.
+     *
+     * @param pluginId
+     * @param menuId
+     * @param item
+     */
+    void registerMenuItem(String pluginId, String menuId, JMenuItem item, MenuPosition position);
 }

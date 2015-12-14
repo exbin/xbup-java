@@ -26,10 +26,10 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.UIManager;
-import org.xbup.lib.framework.gui.frame.api.XBApplicationFrame;
 import org.xbup.lib.framework.gui.options.OptionsManagement;
 import org.xbup.lib.framework.gui.options.panel.OptionsPanel.ModifiedOptionListener;
 import org.xbup.lib.framework.gui.options.panel.OptionsPanel.PathItem;
+import org.xbup.lib.framework.gui.frame.api.XBApplicationFrameHandler;
 
 /**
  * Tool Bar Apperance Options panel.
@@ -41,7 +41,7 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
 
     private java.util.ResourceBundle resourceBundle;
     private ModifiedOptionListener modifiedOptionListener;
-    private final XBApplicationFrame frame;
+    private final XBApplicationFrameHandler frame;
     private OptionsPanel extendedPanel = null;
 
     private DefaultComboBoxModel<String> themesComboBoxModel;
@@ -52,7 +52,7 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
     private List<String> themeNames;
     private List<Locale> languages;
 
-    public MainOptionsPanel(XBApplicationFrame frame) {
+    public MainOptionsPanel(XBApplicationFrameHandler frame) {
         resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/options/panel/resources/MainOptionsPanel");
         this.frame = frame;
 

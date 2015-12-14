@@ -17,14 +17,15 @@
 package org.xbup.lib.framework.gui.frame.api;
 
 import java.awt.Frame;
+import org.xbup.lib.framework.gui.XBBaseApplication;
 
 /**
  * Interface for editor frame.
  *
- * @version 0.2.0 2015/11/04
+ * @version 0.2.0 2015/12/14
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBApplicationFrame {
+public interface XBApplicationFrameHandler {
 
     /**
      * Gets current frame.
@@ -41,4 +42,11 @@ public interface XBApplicationFrame {
      * @param statusBarVisible
      */
     public void setToolBarsVisibility(boolean toolBarVisible, boolean captionsVisible, boolean statusBarVisible);
+
+    /**
+     * Sets base appplication handler to be used as source of configuration.
+     *
+     * @param app base application handler
+     */
+    public void setApplication(XBBaseApplication app);
 }

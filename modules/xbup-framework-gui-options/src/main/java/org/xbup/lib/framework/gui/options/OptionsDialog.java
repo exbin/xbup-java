@@ -33,13 +33,13 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import org.xbup.lib.framework.gui.api.XBApplication;
-import org.xbup.lib.framework.gui.frame.api.XBApplicationFrame;
 import org.xbup.lib.framework.gui.options.panel.AppearanceOptionsPanel;
 import org.xbup.lib.framework.gui.options.panel.MainOptionsPanel;
 import org.xbup.lib.framework.gui.options.panel.OptionsPanel;
 import org.xbup.lib.framework.gui.options.panel.OptionsPanel.ModifiedOptionListener;
 import org.xbup.lib.framework.gui.options.panel.OptionsPanel.PathItem;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.xbup.lib.framework.gui.frame.api.XBApplicationFrameHandler;
 
 /**
  * Dialog for application options and preferences setting.
@@ -58,11 +58,11 @@ public class OptionsDialog extends javax.swing.JDialog {
     private boolean modified;
     private OptionsMutableTreeNode top;
     private XBApplication appEditor;
-    private final XBApplicationFrame frame;
+    private final XBApplicationFrameHandler frame;
     private MainOptionsPanel mainOptionsPanel;
     private AppearanceOptionsPanel appearanceOptionsPanel;
 
-    public OptionsDialog(java.awt.Frame parent, XBApplicationFrame frame, boolean modal) {
+    public OptionsDialog(java.awt.Frame parent, XBApplicationFrameHandler frame, boolean modal) {
         super(parent, modal);
         this.frame = frame;
         init();

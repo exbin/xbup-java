@@ -29,7 +29,6 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.framework.gui.XBBaseApplication;
-import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.frame.GuiFrameModule;
 import org.xbup.lib.framework.gui.frame.XBApplicationFrame;
 
@@ -100,6 +99,7 @@ public class XBEditor {
 //                ((XBDocEditorModule) module).setEditorApp(app);
 //                ((XBDocEditorModule) module).setDevMode(devMode);
                 XBApplicationFrame frame = new XBApplicationFrame();
+                frame.setApplication(app);
                 frame.setVisible(true);
                 app.run();
             }

@@ -16,13 +16,18 @@
  */
 package org.xbup.lib.framework.gui.frame;
 
+import java.awt.Frame;
+import javax.swing.ImageIcon;
+import org.xbup.lib.framework.gui.XBBaseApplication;
+import org.xbup.lib.framework.gui.frame.api.XBApplicationFrameHandler;
+
 /**
  * Interface for application's panel.
  *
- * @version 0.2.0 2015/11/15
+ * @version 0.2.0 2015/12/14
  * @author XBUP Project (http://xbup.org)
  */
-public class XBApplicationFrame extends javax.swing.JFrame {
+public class XBApplicationFrame extends javax.swing.JFrame implements XBApplicationFrameHandler {
 
     public XBApplicationFrame() {
         initComponents();
@@ -137,6 +142,22 @@ public class XBApplicationFrame extends javax.swing.JFrame {
                 frame.setVisible(true);
             }
         });
+    }
+
+    @Override
+    public Frame getFrame() {
+        return this;
+    }
+
+    @Override
+    public void setToolBarsVisibility(boolean toolBarVisible, boolean captionsVisible, boolean statusBarVisible) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setApplication(XBBaseApplication app) {
+        setTitle(app.getAppBundle().getString("Application.name"));
+        setIconImage(new ImageIcon(getClass().getResource(app.getAppBundle().getString("Application.icon"))).getImage());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

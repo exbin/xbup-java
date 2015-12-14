@@ -21,9 +21,9 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
-import org.xbup.lib.framework.gui.frame.api.XBApplicationFrame;
 import org.xbup.lib.framework.gui.options.panel.OptionsPanel.ModifiedOptionListener;
 import org.xbup.lib.framework.gui.options.panel.OptionsPanel.PathItem;
+import org.xbup.lib.framework.gui.frame.api.XBApplicationFrameHandler;
 
 /**
  * Tool Bar Apperance Options panel.
@@ -38,10 +38,10 @@ public class AppearanceOptionsPanel extends javax.swing.JPanel implements Option
     public static final String PREFERENCES_STATUSBAR_VISIBLE = "statusBar.visible";
 
     private ModifiedOptionListener modifiedOptionListener;
-    private final XBApplicationFrame frame;
+    private final XBApplicationFrameHandler frame;
     private OptionsPanel extendedPanel = null;
 
-    public AppearanceOptionsPanel(XBApplicationFrame frame) {
+    public AppearanceOptionsPanel(XBApplicationFrameHandler frame) {
         this.frame = frame;
         initComponents();
     }

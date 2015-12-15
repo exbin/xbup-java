@@ -31,6 +31,7 @@ import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.framework.gui.XBBaseApplication;
 import org.xbup.lib.framework.gui.frame.GuiFrameModule;
 import org.xbup.lib.framework.gui.frame.XBApplicationFrame;
+import org.xbup.lib.framework.gui.menu.GuiMenuModule;
 
 /**
  * The main class of the XBEditor application.
@@ -101,6 +102,9 @@ public class XBEditor {
                 XBApplicationFrame frame = new XBApplicationFrame();
                 frame.setApplication(app);
                 frame.setVisible(true);
+
+                GuiMenuModule menuModule = new GuiMenuModule(app);
+                // TODO
                 app.run();
             }
         } catch (ParseException ex) {

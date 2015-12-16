@@ -103,7 +103,8 @@ public class XBEditor {
                 frame.setApplication(app);
                 frame.setVisible(true);
 
-                GuiMenuModule menuModule = new GuiMenuModule(app);
+                GuiMenuModule menuModule = new GuiMenuModule();
+                menuModule.init(app);
                 // TODO
                 app.run();
             }

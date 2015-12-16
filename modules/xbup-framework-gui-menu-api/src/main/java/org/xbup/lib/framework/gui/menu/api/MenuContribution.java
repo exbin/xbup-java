@@ -17,35 +17,10 @@
 package org.xbup.lib.framework.gui.menu.api;
 
 /**
- * Enumeration of menu position modes using build-in groups.
+ * Implementation of XBUP framework menu module.
  *
  * @version 0.2.0 2015/12/16
  * @author XBUP Project (http://xbup.org)
  */
-public enum MenuPositionMode {
-
-    /**
-     * Top position.
-     */
-    TOP,
-    /**
-     * End of the top position.
-     */
-    TOP_LAST,
-    /**
-     * Default: Normal position in the middle section.
-     */
-    MIDDLE,
-    /**
-     * Normal position at the end of the middle section.
-     */
-    MIDDLE_LAST,
-    /**
-     * Bottom position.
-     */
-    BOTTOM,
-    /**
-     * End of the bottom position.
-     */
-    BOTTOM_LAST
+public class MenuContribution {
 }

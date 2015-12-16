@@ -23,12 +23,10 @@ package org.xbup.lib.framework.gui.menu.api;
  * @author XBUP Project (http://xbup.org)
  */
 public class MenuPosition {
+    
+    private MenuPositionMode basicMode;
 
+    public MenuPosition(MenuPositionMode basicMode) {
+        
+    }
 }
-
-//    TOP,
-//    TOP_LAST,
-//    BEFORE_PANEL,
-//    PANEL,
-//    AFTER_PANEL,
-//    BOTTOM

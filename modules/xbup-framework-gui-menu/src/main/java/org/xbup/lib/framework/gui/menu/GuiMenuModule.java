@@ -16,6 +16,8 @@
  */
 package org.xbup.lib.framework.gui.menu;
 
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
@@ -26,7 +28,7 @@ import org.xbup.lib.framework.gui.menu.api.MenuPosition;
 /**
  * Implementation of XBUP framework menu module.
  *
- * @version 0.2.0 2015/12/07
+ * @version 0.2.0 2015/12/16
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -34,12 +36,19 @@ public class GuiMenuModule implements GuiMenuModuleApi {
 
     private XBApplication application;
 
-    public GuiMenuModule(XBApplication application) {
+    // Menu records
+    private Map<String, MenuDefinition> menus = new HashMap<>();
+
+    // Menu cache map - menuId -> menu instance
+    private Map<String, JMenu> menuCache = new HashMap<>();
+    private Map<String, JMenuItem> pluginLinks = new HashMap<>();
+
+    public GuiMenuModule() {
     }
 
     @Override
     public void init(XBApplication application) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.application = application;
     }
 
     @Override
@@ -49,21 +58,30 @@ public class GuiMenuModule implements GuiMenuModuleApi {
 
     @Override
     public JMenu getMenu(String menuId) {
+        JMenu menu = menuCache.get(menuId);
+        if (menu != null) {
+            return menu;
+        }
+        
+        return generateMenu(menuId);
+    }
+
+    @Override
+    public void registerMenu(String menuId, String pluginId, JMenu menu) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void registerMenu(String pluginId, String menuId, JMenu menu) {
+    public void registerMenuItem(String menuId, String pluginId, JMenu item, MenuPosition position) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void registerMenuItem(String pluginId, String menuId, JMenu item, MenuPosition position) {
+    public void registerMenuItem(String menuId, String pluginId, JMenuItem item, MenuPosition position) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public void registerMenuItem(String pluginId, String menuId, JMenuItem item, MenuPosition position) {
+    private JMenu generateMenu(String menuId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

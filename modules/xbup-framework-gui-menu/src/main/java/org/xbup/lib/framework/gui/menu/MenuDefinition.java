@@ -14,38 +14,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.gui.menu.api;
+package org.xbup.lib.framework.gui.menu;
+
+import org.xbup.lib.framework.gui.menu.api.MenuContribution;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Enumeration of menu position modes using build-in groups.
+ * Implementation of XBUP framework menu module.
  *
  * @version 0.2.0 2015/12/16
  * @author XBUP Project (http://xbup.org)
  */
-public enum MenuPositionMode {
+public class MenuDefinition {
 
-    /**
-     * Top position.
-     */
-    TOP,
-    /**
-     * End of the top position.
-     */
-    TOP_LAST,
-    /**
-     * Default: Normal position in the middle section.
-     */
-    MIDDLE,
-    /**
-     * Normal position at the end of the middle section.
-     */
-    MIDDLE_LAST,
-    /**
-     * Bottom position.
-     */
-    BOTTOM,
-    /**
-     * End of the bottom position.
-     */
-    BOTTOM_LAST
+    private List<MenuContribution> contributions = new ArrayList<>();
 }

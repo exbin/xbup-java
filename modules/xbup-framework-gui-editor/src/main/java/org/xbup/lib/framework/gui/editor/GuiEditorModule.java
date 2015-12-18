@@ -14,28 +14,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.gui.undo.api;
+package org.xbup.lib.framework.gui.editor;
 
-import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
-import org.xbup.lib.operation.undo.XBUndoHandler;
+import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.gui.editor.api.GuiEditorApiModule;
 
 /**
- * Interface for XBUP framework undo/redo module.
+ * XBUP framework editor api module.
  *
- * @version 0.2.0 2015/11/09
+ * @version 0.2.0 2015/12/18
  * @author XBUP Project (http://xbup.org)
  */
-public interface GuiUndoModuleApi extends XBApplicationModulePlugin {
+public class GuiEditorModule implements GuiEditorApiModule {
 
-    /**
-     * Registers undo/redo operations to main frame menu.
-     */
-    public void registerMainMenu();
+    private XBApplication application;
 
-    /**
-     * Returns undo handler.
-     *
-     * @return undo handler
-     */
-    public XBUndoHandler getUndoHandler();
+    @Override
+    public void init(XBApplication application) {
+        this.application = application;
+    }
+
+    @Override
+    public void unregisterPlugin(String pluginId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

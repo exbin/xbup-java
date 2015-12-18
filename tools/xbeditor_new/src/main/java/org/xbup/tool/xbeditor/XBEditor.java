@@ -28,6 +28,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.xbup.lib.core.parser.basic.XBHead;
+import org.xbup.lib.framework.editor.xbup.EditorXbupModule;
 import org.xbup.lib.framework.gui.XBBaseApplication;
 import org.xbup.lib.framework.gui.frame.GuiFrameModule;
 import org.xbup.lib.framework.gui.frame.XBApplicationFrame;
@@ -96,12 +97,17 @@ public class XBEditor {
 
                 app.init();
 
-//                ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
-//                ((XBDocEditorModule) module).setEditorApp(app);
-//                ((XBDocEditorModule) module).setDevMode(devMode);
                 XBApplicationFrame frame = new XBApplicationFrame();
                 frame.setApplication(app);
                 frame.setVisible(true);
+
+                EditorXbupModule editorModule = new EditorXbupModule();
+                editorModule.init(app);
+                // editorModule.run();
+                
+//                ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
+//                ((XBDocEditorModule) module).setEditorApp(app);
+//                ((XBDocEditorModule) module).setDevMode(devMode);
 
                 GuiMenuModule menuModule = new GuiMenuModule();
                 menuModule.init(app);

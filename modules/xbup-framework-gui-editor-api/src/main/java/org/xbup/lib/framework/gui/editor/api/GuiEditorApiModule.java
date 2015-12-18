@@ -14,28 +14,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.gui.undo.api;
+package org.xbup.lib.framework.gui.editor.api;
 
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
-import org.xbup.lib.operation.undo.XBUndoHandler;
 
 /**
- * Interface for XBUP framework undo/redo module.
+ * XBUP framework editor api module.
  *
- * @version 0.2.0 2015/11/09
+ * @version 0.2.0 2015/12/18
  * @author XBUP Project (http://xbup.org)
  */
-public interface GuiUndoModuleApi extends XBApplicationModulePlugin {
-
-    /**
-     * Registers undo/redo operations to main frame menu.
-     */
-    public void registerMainMenu();
-
-    /**
-     * Returns undo handler.
-     *
-     * @return undo handler
-     */
-    public XBUndoHandler getUndoHandler();
+public interface GuiEditorApiModule extends XBApplicationModulePlugin {
 }

@@ -18,6 +18,7 @@ package org.xbup.lib.framework.gui.editor;
 
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.editor.api.GuiEditorApiModule;
+import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 
 /**
  * XBUP framework editor api module.
@@ -39,4 +40,8 @@ public class GuiEditorModule implements GuiEditorApiModule {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public void registerEditor(String pluginId, XBEditorProvider editorProvider) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

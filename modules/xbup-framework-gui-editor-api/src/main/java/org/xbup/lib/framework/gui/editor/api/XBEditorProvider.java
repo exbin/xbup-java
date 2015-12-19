@@ -24,13 +24,6 @@ import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
  * @version 0.2.0 2015/12/19
  * @author XBUP Project (http://xbup.org)
  */
-public interface GuiEditorApiModule extends XBApplicationModulePlugin {
+public interface XBEditorProvider extends XBApplicationModulePlugin {
     
-    /**
-     * Registers new editor.
-     * 
-     * @param pluginId plugin identifier
-     * @param editorProvider editor provider
-     */
-    public void registerEditor(String pluginId, XBEditorProvider editorProvider);
 }

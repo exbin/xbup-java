@@ -16,6 +16,10 @@
  */
 package org.xbup.lib.framework.gui.editor;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.editor.api.GuiEditorApiModule;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
@@ -23,12 +27,17 @@ import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 /**
  * XBUP framework editor api module.
  *
- * @version 0.2.0 2015/12/18
+ * @version 0.2.0 2015/12/20
  * @author XBUP Project (http://xbup.org)
  */
 public class GuiEditorModule implements GuiEditorApiModule {
 
     private XBApplication application;
+    private final List<XBEditorProvider> editors = new ArrayList<>();
+    private final Map<String, List<XBEditorProvider>> pluginEditorsMap = new HashMap<>();
+
+    public GuiEditorModule() {
+    }
 
     @Override
     public void init(XBApplication application) {
@@ -37,11 +46,24 @@ public class GuiEditorModule implements GuiEditorApiModule {
 
     @Override
     public void unregisterPlugin(String pluginId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<XBEditorProvider> pluginEditors = pluginEditorsMap.get(pluginId);
+        if (pluginEditors != null) {
+            for (XBEditorProvider editor : pluginEditors) {
+                editors.remove(editor);
+            }
+            pluginEditorsMap.remove(pluginId);
+        }
     }
 
     @Override
     public void registerEditor(String pluginId, XBEditorProvider editorProvider) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        editors.add(editorProvider);
+        List<XBEditorProvider> pluginEditors = pluginEditorsMap.get(pluginId);
+        if (pluginEditors == null) {
+            pluginEditors = new ArrayList<>();
+            pluginEditorsMap.put(pluginId, pluginEditors);
+        }
+
+        pluginEditors.add(editorProvider);
     }
 }

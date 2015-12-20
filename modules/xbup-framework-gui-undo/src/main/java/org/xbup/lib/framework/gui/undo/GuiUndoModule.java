@@ -22,7 +22,6 @@ import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import org.xbup.lib.framework.gui.api.XBApplication;
-import org.xbup.lib.framework.gui.api.XBApplicationModule;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 import org.xbup.lib.framework.gui.undo.dialog.UndoManagerModel;
@@ -72,6 +71,16 @@ public class GuiUndoModule implements GuiUndoModuleApi {
         redoAction.putValue(Action.NAME, bundle.getString("actionEditRedo.Action.text"));
         redoAction.putValue(Action.SHORT_DESCRIPTION, bundle.getString("actionEditRedo.Action.shortDescription"));
         redoAction.setEnabled(false);
+    }
+
+    @Override
+    public void init(XBApplication application) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void unregisterPlugin(String pluginId) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void actionEditUndo() {

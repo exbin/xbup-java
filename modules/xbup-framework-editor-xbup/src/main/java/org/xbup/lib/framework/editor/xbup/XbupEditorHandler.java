@@ -14,14 +14,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.gui.editor.api;
+package org.xbup.lib.framework.editor.xbup;
 
 /**
- * XBUP framework editor api module.
+ * XBUP editor module.
  *
- * @version 0.2.0 2015/12/19
+ * @version 0.2.0 2015/12/20
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBEditorProvider {
+public class XbupEditorHandler  { // implements XBEditorProvider
     
 }

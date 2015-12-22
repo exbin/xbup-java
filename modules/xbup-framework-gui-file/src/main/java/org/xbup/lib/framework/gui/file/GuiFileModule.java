@@ -16,18 +16,31 @@
  */
 package org.xbup.lib.framework.gui.file;
 
+import net.xeoh.plugins.base.annotations.PluginImplementation;
+import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
+
 /**
- * Interface for application's panel.
+ * Implementation of XBUP framework file module.
  *
- * @version 0.2.0 2015/10/25
+ * @version 0.2.0 2015/12/22
  * @author XBUP Project (http://xbup.org)
  */
-public interface ApplicationPanel {
+@PluginImplementation
+public class GuiFileModule implements GuiFileModuleApi {
 
-    /**
-     * Gets panel name.
-     *
-     * @return panel name
-     */
-    public String getPanelName();
+    private XBApplication application;
+
+    public GuiFileModule() {
+    }
+
+    @Override
+    public void init(XBApplication application) {
+        this.application = application;
+    }
+
+    @Override
+    public void unregisterPlugin(String pluginId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

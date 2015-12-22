@@ -16,18 +16,14 @@
  */
 package org.xbup.lib.framework.gui.file.api;
 
+import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
+
 /**
- * Interface for application's panel.
+ * Interface for XBUP framework file module.
  *
- * @version 0.2.0 2015/10/25
+ * @version 0.2.0 2015/12/22
  * @author XBUP Project (http://xbup.org)
  */
-public interface ApplicationPanel {
-
-    /**
-     * Gets panel name.
-     *
-     * @return panel name
-     */
-    public String getPanelName();
+public interface GuiFileModuleApi extends XBApplicationModulePlugin {
+    
 }

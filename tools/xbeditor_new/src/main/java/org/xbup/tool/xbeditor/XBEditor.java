@@ -30,6 +30,7 @@ import org.apache.commons.cli.ParseException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.framework.editor.xbup.EditorXbupModule;
 import org.xbup.lib.framework.gui.XBBaseApplication;
+import org.xbup.lib.framework.gui.file.GuiFileModule;
 import org.xbup.lib.framework.gui.frame.GuiFrameModule;
 import org.xbup.lib.framework.gui.frame.XBApplicationFrame;
 import org.xbup.lib.framework.gui.menu.GuiMenuModule;
@@ -111,6 +112,8 @@ public class XBEditor {
 
                 GuiMenuModule menuModule = new GuiMenuModule();
                 menuModule.init(app);
+
+                GuiFileModule fileModule = new GuiFileModule();
                 // TODO
                 app.run();
             }

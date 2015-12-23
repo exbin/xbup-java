@@ -2,8 +2,8 @@ rootProject.name = 'xbservice'
 
 include ":modules:xbup-core"
 include ":modules:xbup-catalog"
-include ":modules:xbup-framework-client"
-include ":modules:xbup-framework-service"
+include ":modules:org-xbup-framework-client"
+include ":modules:org-xbup-framework-service"
 include ":modules:xbup-plugin"
 
 def modifyPath(project) {

@@ -2,7 +2,7 @@ rootProject.name = 'xbeditor'
 
 include ":modules:xbup-core"
 include ":modules:xbup-catalog"
-include ":modules:xbup-framework-client"
+include ":modules:org-xbup-framework-client"
 include ":modules:xbup-visual"
 include ":modules:xbup-plugin"
 include ":modules:xbup-operation"

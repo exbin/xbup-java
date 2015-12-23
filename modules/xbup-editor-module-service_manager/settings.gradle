@@ -6,7 +6,7 @@ include ":modules:xbup-core"
 include ":modules:xbup-catalog"
 include ":modules:xbup-visual"
 include ":modules:simplyhtml"
-include ":modules:xbup-framework-client"
+include ":modules:org-xbup-framework-client"
 
 def modifyPath(project) {
     def rootProjectDir = rootProject.projectDir.parentFile.parent

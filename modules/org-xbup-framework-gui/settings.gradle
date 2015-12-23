@@ -1,11 +1,7 @@
-rootProject.name = 'xbshell'
+rootProject.name = 'org-xbup-framework-gui'
 
 include ":modules:xbup-core"
-include ":modules:xbup-catalog"
-include ":modules:org-xbup-framework-client"
-include ":modules:xbup-plugin"
-include ":modules:xbup-visual"
-include ":modules:simplyhtml"
+include ":modules:org-xbup-framework-gui-api"
 
 def modifyPath(project) {
     def rootProjectDir = rootProject.projectDir.parentFile.parent

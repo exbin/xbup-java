@@ -1,17 +1,8 @@
-rootProject.name = 'xbmanager'
+rootProject.name = 'org-xbup-framework-service'
 
 include ":modules:xbup-core"
 include ":modules:xbup-catalog"
-include ":modules:xbup-visual"
 include ":modules:org-xbup-framework-client"
-include ":modules:xbup-plugin"
-include ":modules:xbup-editor-base"
-include ":modules:xbup-editor-base-api"
-include ":modules:xbup-editor-module-utils"
-include ":modules:xbup-editor-module-frame"
-include ":modules:xbup-editor-module-service_manager"
-include ":modules:xbup-editor-module-online_help"
-include ":modules:simplyhtml"
 
 def modifyPath(project) {
     def rootProjectDir = rootProject.projectDir.parentFile.parent

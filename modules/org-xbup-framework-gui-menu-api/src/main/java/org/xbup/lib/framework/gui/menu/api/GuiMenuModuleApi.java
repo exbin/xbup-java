@@ -18,6 +18,7 @@ package org.xbup.lib.framework.gui.menu.api;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import org.xbup.lib.framework.gui.api.XBApplicationModuleId;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 
 /**
@@ -51,6 +52,7 @@ public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
      * @param menuId
      * @param pluginId
      * @param item
+     * @param position menu position
      */
     void registerMenuItem(String menuId, String pluginId, JMenu item, MenuPosition position);
 
@@ -60,6 +62,15 @@ public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
      * @param menuId
      * @param pluginId
      * @param item
+     * @param position menu position
      */
     void registerMenuItem(String menuId, String pluginId, JMenuItem item, MenuPosition position);
+
+    public static class ModuleId implements XBApplicationModuleId<GuiMenuModuleApi> {
+
+        @Override
+        public String getModuleId() {
+            return "org.xbup.lib.framework.gui.menu.GuiMenuModule";
+        }
+    }
 }

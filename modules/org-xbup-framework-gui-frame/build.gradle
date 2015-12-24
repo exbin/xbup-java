@@ -30,5 +30,6 @@ dependencies {
     compile(project(':modules:xbup-core'))
     compile(project(':modules:org-xbup-framework-gui'))
     compile(project(':modules:org-xbup-framework-gui-frame-api'))
+    compile(project(':modules:org-xbup-framework-gui-menu-api'))
     testCompile group : 'junit', name: 'junit', version: '4.10'
 }

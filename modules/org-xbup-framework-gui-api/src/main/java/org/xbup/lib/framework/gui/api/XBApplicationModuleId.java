@@ -14,27 +14,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.gui.frame;
-
-import net.xeoh.plugins.base.annotations.PluginImplementation;
-import org.xbup.lib.framework.gui.api.XBApplication;
-import org.xbup.lib.framework.gui.api.XBApplicationModule;
-import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
-import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
+package org.xbup.lib.framework.gui.api;
 
 /**
- * Implementation of XBUP framework undo/redo module.
+ * Interface for application's module identifier.
  *
  * @version 0.2.0 2015/12/24
  * @author XBUP Project (http://xbup.org)
+ * @param <T>
  */
-@PluginImplementation
-public class GuiFrameModule implements GuiFrameModuleApi {
+public interface XBApplicationModuleId<T extends XBApplicationModulePlugin> {
 
-    private XBApplication application;
-
-    public GuiFrameModule(XBApplication application) {
-        XBApplicationModule menuModule = application.getModuleRepository().getModuleById(GuiMenuModuleApi.Module.getModuleId());
-        // menuModule.
-    }
+    /**
+     * Returns module identifier.
+     *
+     * @return module identifier
+     */
+    public String getModuleId();
 }

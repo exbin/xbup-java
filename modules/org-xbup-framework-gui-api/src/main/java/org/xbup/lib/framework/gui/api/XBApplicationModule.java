@@ -6,7 +6,6 @@
 package org.xbup.lib.framework.gui.api;
 
 import java.util.List;
-import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 
 /**
  * Interface for record about single module.

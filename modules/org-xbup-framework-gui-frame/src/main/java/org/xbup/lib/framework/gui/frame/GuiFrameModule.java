@@ -33,8 +33,18 @@ public class GuiFrameModule implements GuiFrameModuleApi {
 
     private XBApplication application;
 
-    public GuiFrameModule(XBApplication application) {
-        XBApplicationModule menuModule = application.getModuleRepository().getModuleById(GuiMenuModuleApi.Module.getModuleId());
+    public GuiFrameModule() {
+    }
+
+    @Override
+    public void init(XBApplication application) {
+        this.application = application;
+        XBApplicationModule menuModule = application.getModuleRepository().getModuleById(GuiMenuModuleApi.MODULE_ID);
         // menuModule.
+    }
+
+    @Override
+    public void unregisterPlugin(String pluginId) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

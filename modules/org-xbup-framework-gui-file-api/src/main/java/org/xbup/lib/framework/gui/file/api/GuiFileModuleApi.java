@@ -17,6 +17,7 @@
 package org.xbup.lib.framework.gui.file.api;
 
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
+import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 
 /**
  * Interface for XBUP framework file module.
@@ -25,5 +26,6 @@ import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
  * @author XBUP Project (http://xbup.org)
  */
 public interface GuiFileModuleApi extends XBApplicationModulePlugin {
-    
+
+    public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiFileModuleApi.class);
 }

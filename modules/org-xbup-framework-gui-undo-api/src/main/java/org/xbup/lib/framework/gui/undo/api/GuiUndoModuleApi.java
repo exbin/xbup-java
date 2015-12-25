@@ -17,6 +17,7 @@
 package org.xbup.lib.framework.gui.undo.api;
 
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
+import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 import org.xbup.lib.operation.undo.XBUndoHandler;
 
 /**
@@ -26,6 +27,8 @@ import org.xbup.lib.operation.undo.XBUndoHandler;
  * @author XBUP Project (http://xbup.org)
  */
 public interface GuiUndoModuleApi extends XBApplicationModulePlugin {
+
+    public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiUndoModuleApi.class);
 
     /**
      * Registers undo/redo operations to main frame menu.

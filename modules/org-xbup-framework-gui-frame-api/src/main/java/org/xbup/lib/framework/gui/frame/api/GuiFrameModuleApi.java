@@ -16,7 +16,8 @@
  */
 package org.xbup.lib.framework.gui.frame.api;
 
-import net.xeoh.plugins.base.Plugin;
+import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
+import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 
 /**
  * Interface for XBUP framework frame module.
@@ -24,6 +25,8 @@ import net.xeoh.plugins.base.Plugin;
  * @version 0.2.0 2015/12/06
  * @author XBUP Project (http://xbup.org)
  */
-public interface GuiFrameModuleApi extends Plugin {
+public interface GuiFrameModuleApi extends XBApplicationModulePlugin {
+
+    public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiFrameModuleApi.class);
 
 }

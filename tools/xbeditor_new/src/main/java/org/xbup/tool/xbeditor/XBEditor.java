@@ -34,6 +34,7 @@ import org.xbup.lib.framework.gui.file.GuiFileModule;
 import org.xbup.lib.framework.gui.frame.GuiFrameModule;
 import org.xbup.lib.framework.gui.frame.XBApplicationFrame;
 import org.xbup.lib.framework.gui.menu.GuiMenuModule;
+import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 
 /**
  * The main class of the XBEditor application.
@@ -87,8 +88,8 @@ public class XBEditor {
                 app.setAppBundle(bundle, APP_BUNDLE_NAME);
 //                app.setFirstCommand(new XBEditorFirstCommand(app));
 
-                app.addPlugin(new ClassURI(GuiFrameModule.class).toURI());
-                app.addPlugin(new ClassURI(GuiFrameModule.class).toURI());
+//                app.addPlugin(new ClassURI(GuiFrameModule.class).toURI());
+//                app.addPlugin(new ClassURI(GuiFrameModule.class).toURI());
 //                app.addPlugin(new ClassURI(JavaHelpModule.class).toURI());
 //                app.addPlugin(new ClassURI(OnlineHelpModule.class).toURI());
                 List fileArgs = cl.getArgList();
@@ -112,6 +113,7 @@ public class XBEditor {
 
                 GuiMenuModule menuModule = new GuiMenuModule();
                 menuModule.init(app);
+                System.out.println("ModuleId: " + GuiMenuModuleApi.MODULE_ID);
 
                 GuiFileModule fileModule = new GuiFileModule();
                 // TODO

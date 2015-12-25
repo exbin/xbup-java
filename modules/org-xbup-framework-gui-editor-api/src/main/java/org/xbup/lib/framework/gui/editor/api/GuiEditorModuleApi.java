@@ -17,6 +17,7 @@
 package org.xbup.lib.framework.gui.editor.api;
 
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
+import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 
 /**
  * XBUP framework editor api module.
@@ -24,7 +25,9 @@ import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
  * @version 0.2.0 2015/12/19
  * @author XBUP Project (http://xbup.org)
  */
-public interface GuiEditorApiModule extends XBApplicationModulePlugin {
+public interface GuiEditorModuleApi extends XBApplicationModulePlugin {
+
+    public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiEditorModuleApi.class);
     
     /**
      * Registers new editor.

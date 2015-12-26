@@ -113,7 +113,6 @@ public class XBEditor {
 
                 GuiMenuModule menuModule = new GuiMenuModule();
                 menuModule.init(app);
-                System.out.println("ModuleId: " + GuiMenuModuleApi.MODULE_ID);
 
                 GuiFileModule fileModule = new GuiFileModule();
                 // TODO

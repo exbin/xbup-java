@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.framework.gui.frame;
 
+import java.awt.Component;
 import java.awt.Frame;
 import javax.swing.ImageIcon;
 import org.xbup.lib.framework.gui.XBBaseApplication;
@@ -151,7 +152,8 @@ public class XBApplicationFrame extends javax.swing.JFrame implements XBApplicat
 
     @Override
     public void setToolBarsVisibility(boolean toolBarVisible, boolean captionsVisible, boolean statusBarVisible) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        toolBar.setVisible(toolBarVisible);
+        statusBar.setVisible(statusBarVisible);
     }
 
     @Override
@@ -160,6 +162,11 @@ public class XBApplicationFrame extends javax.swing.JFrame implements XBApplicat
         setIconImage(new ImageIcon(getClass().getResource(app.getAppBundle().getString("Application.icon"))).getImage());
     }
 
+    @Override
+    public void setMainPanel(Component component) {
+        add(component, java.awt.BorderLayout.CENTER);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JProgressBar busyProgressBar;
     private javax.swing.JPanel busyStatusPanel;

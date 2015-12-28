@@ -32,10 +32,10 @@ public interface XBApplicationModulePlugin extends Plugin {
      * @param application framework application
      */
     public void init(XBApplication application);
-    
+
     /**
      * Unregisters all functionality registered by given plugin.
-     * 
+     *
      * @param pluginId plugin identification code
      */
     public void unregisterPlugin(String pluginId);

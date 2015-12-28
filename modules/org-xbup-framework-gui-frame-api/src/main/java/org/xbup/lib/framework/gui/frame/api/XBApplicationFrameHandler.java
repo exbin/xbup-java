@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.framework.gui.frame.api;
 
+import java.awt.Component;
 import java.awt.Frame;
 import org.xbup.lib.framework.gui.XBBaseApplication;
 
@@ -49,4 +50,11 @@ public interface XBApplicationFrameHandler {
      * @param app base application handler
      */
     public void setApplication(XBBaseApplication app);
+
+    /**
+     * Sets content of central area of the frame.
+     *
+     * @param component component to use
+     */
+    public void setMainPanel(Component component);
 }

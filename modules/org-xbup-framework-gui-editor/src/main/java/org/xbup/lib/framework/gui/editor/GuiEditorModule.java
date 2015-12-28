@@ -16,13 +16,15 @@
  */
 package org.xbup.lib.framework.gui.editor;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.xbup.lib.framework.gui.api.XBApplication;
-import org.xbup.lib.framework.gui.editor.api.GuiEditorApiModule;
+import org.xbup.lib.framework.gui.editor.api.GuiEditorModuleApi;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
+import org.xbup.lib.framework.gui.editor.panel.EditorPanel;
 
 /**
  * XBUP framework editor api module.
@@ -30,11 +32,12 @@ import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
  * @version 0.2.0 2015/12/20
  * @author XBUP Project (http://xbup.org)
  */
-public class GuiEditorModule implements GuiEditorApiModule {
+public class GuiEditorModule implements GuiEditorModuleApi {
 
     private XBApplication application;
     private final List<XBEditorProvider> editors = new ArrayList<>();
     private final Map<String, List<XBEditorProvider>> pluginEditorsMap = new HashMap<>();
+    private EditorPanel editorPanel;
 
     public GuiEditorModule() {
     }
@@ -65,5 +68,14 @@ public class GuiEditorModule implements GuiEditorApiModule {
         }
 
         pluginEditors.add(editorProvider);
+    }
+
+    @Override
+    public Component getEditorPanel() {
+        if (editorPanel == null) {
+            editorPanel = new EditorPanel();
+        }
+        
+        return editorPanel;
     }
 }

@@ -50,6 +50,7 @@ dependencies {
     compile(project(":modules:org-xbup-framework-gui-frame"))
     compile(project(":modules:org-xbup-framework-gui-menu"))
     compile(project(":modules:org-xbup-framework-gui-file"))
+    compile(project(":modules:org-xbup-framework-gui-editor"))
     compile(project(":modules:org-xbup-framework-editor-xbup"))
     compile(project(":modules:hexedit"))
     compile ':jspf.core:1.0.2'

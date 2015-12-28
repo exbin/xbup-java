@@ -19,6 +19,7 @@ package org.xbup.lib.framework.editor.xbup;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
+import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 
 /**
  * XBUP editor module.
@@ -30,6 +31,7 @@ import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 public class EditorXbupModule implements XBApplicationModulePlugin {
 
     private XBApplication application;
+    private XBEditorProvider editorProvider;
 
     public EditorXbupModule() {
     }
@@ -42,5 +44,15 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
     @Override
     public void unregisterPlugin(String pluginId) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public XBEditorProvider getEditorProvider() {
+        if (editorProvider == null) {
+            editorProvider = new XBEditorProvider() {
+
+            };
+        }
+
+        return editorProvider;
     }
 }

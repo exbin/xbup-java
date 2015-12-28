@@ -21,7 +21,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-import net.xeoh.plugins.base.util.uri.ClassURI;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
@@ -30,11 +29,10 @@ import org.apache.commons.cli.ParseException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.framework.editor.xbup.EditorXbupModule;
 import org.xbup.lib.framework.gui.XBBaseApplication;
+import org.xbup.lib.framework.gui.editor.GuiEditorModule;
 import org.xbup.lib.framework.gui.file.GuiFileModule;
-import org.xbup.lib.framework.gui.frame.GuiFrameModule;
 import org.xbup.lib.framework.gui.frame.XBApplicationFrame;
 import org.xbup.lib.framework.gui.menu.GuiMenuModule;
-import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 
 /**
  * The main class of the XBEditor application.
@@ -103,8 +101,15 @@ public class XBEditor {
                 frame.setApplication(app);
                 frame.setVisible(true);
 
-                EditorXbupModule editorModule = new EditorXbupModule();
+                GuiEditorModule editorModule = new GuiEditorModule();
                 editorModule.init(app);
+
+                EditorXbupModule xbupEditorModule = new EditorXbupModule();
+                xbupEditorModule.init(app);
+                editorModule.registerEditor("xbup", xbupEditorModule.getEditorProvider());
+
+                frame.setMainPanel(editorModule.getEditorPanel());
+                
                 // editorModule.run();
                 
 //                ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);

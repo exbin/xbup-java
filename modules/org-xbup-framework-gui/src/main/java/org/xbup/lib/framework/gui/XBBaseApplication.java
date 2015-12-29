@@ -38,14 +38,14 @@ public class XBBaseApplication implements XBApplication {
     private ResourceBundle appBundle;
     private Preferences appPreferences;
 
-//    private final BaseModuleRepository moduleRepository;
+    private final XBDefaultModuleRepository moduleRepository;
     private final List<URI> plugins;
 
     private XBAppCommand firstCommand;
 
     public XBBaseApplication() {
         plugins = new ArrayList<>();
-//        moduleRepository = new BaseModuleRepository();
+        moduleRepository = new XBDefaultModuleRepository();
     }
 
     public XBAppCommand getFirstCommand() {
@@ -146,6 +146,10 @@ public class XBBaseApplication implements XBApplication {
 //        moduleRepository.openFile(string, null);
     }
 
+    public void loadPlugins(String directoryPath) {
+        // moduleRepository.
+    }
+
     @Override
     public Image getApplicationIcon() {
         return new ImageIcon(getClass().getResource(getAppBundle().getString("Application.icon"))).getImage();
@@ -153,7 +157,7 @@ public class XBBaseApplication implements XBApplication {
 
     @Override
     public XBModuleRepository getModuleRepository() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return moduleRepository;
     }
 
     public interface XBAppCommand {

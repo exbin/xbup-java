@@ -96,6 +96,7 @@ public class XBEditor {
                 }
 
                 app.init();
+                app.loadPlugins("");
 
                 XBApplicationFrame frame = new XBApplicationFrame();
                 frame.setApplication(app);

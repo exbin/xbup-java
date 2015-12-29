@@ -22,6 +22,11 @@ public interface XBApplicationModule {
      */
     List<String> getDependencyModuleIds();
 
+    /**
+     * Returns module description.
+     *
+     * @return description text
+     */
     String getDescription();
 
     String getModuleId();

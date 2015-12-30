@@ -77,8 +77,8 @@ public class XBPListenerSerialHandlerTest extends TestCase {
     @Test
     public void testReadSampleUndefinedString() throws Exception {
         ByteArrayOutputStream target = new ByteArrayOutputStream();
-        XBEventWriter eventReader = new XBEventWriter(target);
-        XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventTypeRemover(eventReader));
+        XBEventWriter eventWriter = new XBEventWriter(target);
+        XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventTypeRemover(eventWriter));
         XBString testValue = XBCoreTestSampleTypes.getSampleTypeUndefinedString();
         serial.process(testValue);
 
@@ -111,8 +111,8 @@ public class XBPListenerSerialHandlerTest extends TestCase {
     @Test
     public void testReadSampleUndefinedNatural() throws Exception {
         ByteArrayOutputStream target = new ByteArrayOutputStream();
-        XBEventWriter eventReader = new XBEventWriter(target);
-        XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventTypeRemover(eventReader));
+        XBEventWriter eventWriter = new XBEventWriter(target);
+        XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventTypeRemover(eventWriter));
         UBNat32 testValue = XBCoreTestSampleTypes.getSampleTypeUndefinedNatural();
         serial.process(testValue);
 
@@ -145,8 +145,8 @@ public class XBPListenerSerialHandlerTest extends TestCase {
     @Test
     public void testReadSampleUndefinedInteger() throws Exception {
         ByteArrayOutputStream target = new ByteArrayOutputStream();
-        XBEventWriter eventReader = new XBEventWriter(target);
-        XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventTypeRemover(eventReader));
+        XBEventWriter eventWriter = new XBEventWriter(target);
+        XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventTypeRemover(eventWriter));
         UBInt32 testValue = XBCoreTestSampleTypes.getSampleTypeUndefinedInteger();
         serial.process(testValue);
 
@@ -179,8 +179,8 @@ public class XBPListenerSerialHandlerTest extends TestCase {
     @Test
     public void testReadSampleUndefinedReal() throws Exception {
         ByteArrayOutputStream target = new ByteArrayOutputStream();
-        XBEventWriter eventReader = new XBEventWriter(target);
-        XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventTypeRemover(eventReader));
+        XBEventWriter eventWriter = new XBEventWriter(target);
+        XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventTypeRemover(eventWriter));
         UBRea testValue = XBCoreTestSampleTypes.getSampleTypeUndefinedReal();
         serial.process(testValue);
 

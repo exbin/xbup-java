@@ -16,16 +16,33 @@
  */
 package org.xbup.lib.framework.gui;
 
+import java.io.FileOutputStream;
 import org.xbup.lib.framework.gui.api.XBApplicationModule;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.token.XBAttributeToken;
+import org.xbup.lib.core.parser.token.XBBeginToken;
+import org.xbup.lib.core.parser.token.XBDataToken;
+import org.xbup.lib.core.parser.token.XBEndToken;
+import org.xbup.lib.core.parser.token.XBTAttributeToken;
+import org.xbup.lib.core.parser.token.XBTBeginToken;
+import org.xbup.lib.core.parser.token.XBTDataToken;
+import org.xbup.lib.core.parser.token.XBTToken;
+import org.xbup.lib.core.parser.token.event.XBEventListener;
+import org.xbup.lib.core.parser.token.event.XBEventProducer;
+import org.xbup.lib.core.parser.token.event.XBEventWriter;
+import org.xbup.lib.core.parser.token.event.XBTEventListener;
+import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerialHandler;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
 import org.xbup.lib.core.serial.param.XBSerializationMode;
 import org.xbup.lib.core.serial.sequence.XBStringListConsistSerializable;
 import org.xbup.lib.core.type.XBString;
+import org.xbup.lib.core.ubnumber.type.UBNat32;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 
 /**
@@ -48,6 +65,19 @@ public class XBBasicApplicationModule implements XBPSequenceSerializable, XBAppl
     public XBBasicApplicationModule(String moduleId, XBApplicationModulePlugin plugin) {
         this.moduleId = moduleId;
         this.plugin = plugin;
+    }
+
+    // Temporary method to create module file.
+    public static void main(String[] params) {
+        XBBasicApplicationModule module = new XBBasicApplicationModule("org.xbup.lib.framework.gui.editor.GuiEditorModule", null);
+        try {
+            XBEventWriter eventWriter = new XBEventWriter(new FileOutputStream("module.xb"));
+            XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventTypeRemover(eventWriter));
+            serial.process(module);
+        } catch (IOException ex) {
+            Logger.getLogger(XBBasicApplicationModule.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     @Override
@@ -116,5 +146,51 @@ public class XBBasicApplicationModule implements XBPSequenceSerializable, XBAppl
         serial.listConsist(dependencies);
         serial.listConsist(optionals);
         serial.end();
+    }
+
+    private static class XBTToXBEventTypeRemover implements XBTEventListener, XBEventProducer {
+
+        private XBEventListener eventListener;
+        private boolean blockIdSent = false;
+
+        public XBTToXBEventTypeRemover(XBEventListener eventListener) {
+            this.eventListener = eventListener;
+        }
+
+        @Override
+        public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
+            switch (token.getTokenType()) {
+                case BEGIN: {
+                    eventListener.putXBToken(new XBBeginToken(((XBTBeginToken) token).getTerminationMode()));
+                    blockIdSent = false;
+                    break;
+                }
+                case TYPE: {
+                    eventListener.putXBToken(new XBAttributeToken(new UBNat32()));
+                    break;
+                }
+                case ATTRIBUTE: {
+                    if (!blockIdSent) {
+                        eventListener.putXBToken(new XBAttributeToken(new UBNat32()));
+                        blockIdSent = true;
+                    }
+                    eventListener.putXBToken(new XBAttributeToken(((XBTAttributeToken) token).getAttribute()));
+                    break;
+                }
+                case DATA: {
+                    eventListener.putXBToken(new XBDataToken(((XBTDataToken) token).getData()));
+                    break;
+                }
+                case END: {
+                    eventListener.putXBToken(new XBEndToken());
+                    break;
+                }
+            }
+        }
+
+        @Override
+        public void attachXBEventListener(XBEventListener eventListener) {
+            this.eventListener = eventListener;
+        }
     }
 }

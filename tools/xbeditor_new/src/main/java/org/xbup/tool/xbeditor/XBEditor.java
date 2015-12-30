@@ -29,6 +29,7 @@ import org.apache.commons.cli.ParseException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.framework.editor.xbup.EditorXbupModule;
 import org.xbup.lib.framework.gui.XBBaseApplication;
+import org.xbup.lib.framework.gui.api.XBModuleRepository;
 import org.xbup.lib.framework.gui.editor.GuiEditorModule;
 import org.xbup.lib.framework.gui.file.GuiFileModule;
 import org.xbup.lib.framework.gui.frame.XBApplicationFrame;
@@ -96,7 +97,9 @@ public class XBEditor {
                 }
 
                 app.init();
-                app.loadPlugins("");
+                XBModuleRepository moduleRepository = app.getModuleRepository();
+                moduleRepository.loadClassPathPlugins();
+                moduleRepository.initModules();
 
                 XBApplicationFrame frame = new XBApplicationFrame();
                 frame.setApplication(app);

@@ -25,6 +25,14 @@ public interface XBModuleRepository {
     void addPluginsFrom(URI uri);
 
     /**
+     * Scans for all valid modules in jar libraries included using class path
+     * expressions.
+     *
+     * Should include both command line parameters and manifest file.
+     */
+    void loadClassPathPlugins();
+
+    /**
      * Gets info about module.
      *
      * @param moduleId module identifier
@@ -58,5 +66,5 @@ public interface XBModuleRepository {
     /**
      * Processes all modules and initializes them in proper order.
      */
-    void processModules();
+    void initModules();
 }

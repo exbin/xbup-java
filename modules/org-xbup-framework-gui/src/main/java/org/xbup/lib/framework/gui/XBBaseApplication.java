@@ -18,11 +18,16 @@ package org.xbup.lib.framework.gui;
 
 import org.xbup.lib.framework.gui.api.XBApplication;
 import java.awt.Image;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
 import java.util.prefs.Preferences;
 import javax.swing.ImageIcon;
 import org.xbup.lib.framework.gui.api.XBModuleRepository;
@@ -30,7 +35,7 @@ import org.xbup.lib.framework.gui.api.XBModuleRepository;
 /**
  * Application interface class.
  *
- * @version 0.2.0 2015/12/06
+ * @version 0.2.0 2015/12/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBBaseApplication implements XBApplication {
@@ -148,6 +153,29 @@ public class XBBaseApplication implements XBApplication {
 
     public void loadPlugins(String directoryPath) {
         // moduleRepository.
+    }
+
+    public void loadPlugin(String jarFilePath) {
+        try {
+            moduleRepository.addPluginsFrom(new URI(jarFilePath));
+        } catch (URISyntaxException ex) {
+            // ignore
+        }
+    }
+
+    public void loadClassPathPlugins(Class targetClass) {
+        try {
+            Manifest manifest = new Manifest(targetClass.getClassLoader().getResourceAsStream("META-INF/MANIFEST.MF"));
+            Attributes classPaths = manifest.getAttributes("Class-Path");
+            Collection<Object> values = classPaths.values();
+            for (Object classPath : values) {
+                if (classPath instanceof String) {
+                    loadPlugin((String) classPath);
+                }
+            }
+        } catch (IOException ex) {
+            // ignore
+        }
     }
 
     @Override

@@ -27,6 +27,7 @@ import java.util.Map;
 import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
 import net.xeoh.plugins.base.util.PluginManagerUtil;
+import net.xeoh.plugins.base.util.uri.ClassURI;
 import org.xbup.lib.framework.gui.api.XBApplicationModule;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 
@@ -38,7 +39,7 @@ import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
  */
 public class XBDefaultModuleRepository implements XBModuleRepository {
 
-    private static final String MODULE_FILE_EXT = ".xb";
+    private static final String MODULE_FILE = "module.xb";
     private final PluginManager pluginManager;
     private final Map<String, XBApplicationModule> modules = new HashMap<>();
 
@@ -56,11 +57,16 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
         pluginManager.addPluginsFrom(uri);
     }
 
+    @Override
+    public void loadClassPathPlugins() {
+        pluginManager.addPluginsFrom(ClassURI.CLASSPATH);
+    }
+
     /**
-     * Processes all modules and initializes them in proper order.
+     * Initializes all modules in order of their dependencies.
      */
     @Override
-    public void processModules() {
+    public void initModules() {
         PluginManagerUtil pmu = new PluginManagerUtil(pluginManager);
         final Collection<XBApplicationModulePlugin> plugins = pmu.getPlugins(XBApplicationModulePlugin.class);
 
@@ -68,9 +74,11 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
         for (XBApplicationModulePlugin plugin : plugins) {
             String canonicalName = plugin.getClass().getCanonicalName();
             XBBasicApplicationModule module = new XBBasicApplicationModule(canonicalName, plugin);
-            InputStream moduleFile = plugin.getClass().getResourceAsStream(canonicalName + MODULE_FILE_EXT);
-            // TODO XBPSequencePullConsumer consumer = new XBPSequencePullConsumer(new XBTPunew XBTPull)
-
+            InputStream moduleStream = plugin.getClass().getClassLoader().getResourceAsStream("META-INF/" + MODULE_FILE);
+            if (moduleStream != null) {
+                // TODO XBPSequencePullConsumer consumer = new XBPSequencePullConsumer(new XBTPunew XBTPull)
+                
+            }
             modules.put(canonicalName, module);
         }
 

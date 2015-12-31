@@ -85,20 +85,15 @@ public class XBEditor {
                 XBBaseApplication app = new XBBaseApplication();
                 app.setAppPreferences(preferences);
                 app.setAppBundle(bundle, APP_BUNDLE_NAME);
+                app.init();
 //                app.setFirstCommand(new XBEditorFirstCommand(app));
 
-//                app.addPlugin(new ClassURI(GuiFrameModule.class).toURI());
-//                app.addPlugin(new ClassURI(GuiFrameModule.class).toURI());
-//                app.addPlugin(new ClassURI(JavaHelpModule.class).toURI());
-//                app.addPlugin(new ClassURI(OnlineHelpModule.class).toURI());
-                List fileArgs = cl.getArgList();
-                if (fileArgs.size() > 0) {
-                    app.loadFromFile((String) fileArgs.get(0));
-                }
-
-                app.init();
+//                app.loadPlugin(new ClassURI(GuiFrameModule.class).toURI());
+//                app.loadPlugin(new ClassURI(GuiFrameModule.class).toURI());
+//                app.loadPlugin(new ClassURI(JavaHelpModule.class).toURI());
+//                app.loadPlugin(new ClassURI(OnlineHelpModule.class).toURI());
                 XBModuleRepository moduleRepository = app.getModuleRepository();
-                moduleRepository.loadClassPathPlugins();
+                moduleRepository.addClassPathPlugins();
                 moduleRepository.initModules();
 
                 XBApplicationFrame frame = new XBApplicationFrame();
@@ -113,19 +108,20 @@ public class XBEditor {
                 editorModule.registerEditor("xbup", xbupEditorModule.getEditorProvider());
 
                 frame.setMainPanel(editorModule.getEditorPanel());
-                
+
+                List fileArgs = cl.getArgList();
+                if (fileArgs.size() > 0) {
+                    // TODO app.loadFromFile((String) fileArgs.get(0));
+                }
+
                 // editorModule.run();
-                
 //                ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
 //                ((XBDocEditorModule) module).setEditorApp(app);
 //                ((XBDocEditorModule) module).setDevMode(devMode);
-
                 GuiMenuModule menuModule = new GuiMenuModule();
                 menuModule.init(app);
 
                 GuiFileModule fileModule = new GuiFileModule();
-                // TODO
-                app.run();
             }
         } catch (ParseException ex) {
             Logger.getLogger(XBEditor.class.getName()).log(Level.SEVERE, null, ex);

@@ -48,7 +48,7 @@ import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 /**
  * Record about single module.
  *
- * @version 0.2.0 2015/02/03
+ * @version 0.2.0 2015/12/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBBasicApplicationModule implements XBPSequenceSerializable, XBApplicationModule {
@@ -129,15 +129,25 @@ public class XBBasicApplicationModule implements XBPSequenceSerializable, XBAppl
     @Override
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
+        serial.matchType();
         XBStringListConsistSerializable dependencies = new XBStringListConsistSerializable(dependencyModuleIds);
         XBStringListConsistSerializable optionals = new XBStringListConsistSerializable(optionalModuleIds);
         if (serial.getSerializationMode() == XBSerializationMode.PULL) {
-            XBString nameString = new XBString();
-            serial.consist(nameString);
-            name = nameString.getValue();
-            XBString descriptionString = new XBString();
-            serial.consist(descriptionString);
-            description = descriptionString.getValue();
+            if (serial.pullIfEmptyBlock()) {
+                name = null;
+            } else {
+                XBString nameString = new XBString();
+                serial.consist(nameString);
+                name = nameString.getValue();
+            }
+
+            if (serial.pullIfEmptyBlock()) {
+                description = null;
+            } else {
+                XBString descriptionString = new XBString();
+                serial.consist(descriptionString);
+                description = descriptionString.getValue();
+            }
         } else {
             serial.consist(new XBString(name));
             serial.consist(new XBString(description));

@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.framework.gui;
 
+import java.io.IOException;
 import org.xbup.lib.framework.gui.api.XBModuleRepository;
 import java.io.InputStream;
 import java.net.URI;
@@ -28,13 +29,17 @@ import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
 import net.xeoh.plugins.base.util.PluginManagerUtil;
 import net.xeoh.plugins.base.util.uri.ClassURI;
+import org.xbup.lib.core.parser.token.pull.XBPullReader;
+import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
+import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
+import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.api.XBApplicationModule;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 
 /**
  * XBUP framework modules repository.
  *
- * @version 0.2.0 2015/12/12
+ * @version 0.2.0 2015/12/31
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDefaultModuleRepository implements XBModuleRepository {
@@ -42,6 +47,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
     private static final String MODULE_FILE = "module.xb";
     private final PluginManager pluginManager;
     private final Map<String, XBApplicationModule> modules = new HashMap<>();
+    private XBApplication application;
 
     public XBDefaultModuleRepository() {
         pluginManager = PluginManagerFactory.createPluginManager();
@@ -58,7 +64,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
     }
 
     @Override
-    public void loadClassPathPlugins() {
+    public void addClassPathPlugins() {
         pluginManager.addPluginsFrom(ClassURI.CLASSPATH);
     }
 
@@ -76,8 +82,13 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
             XBBasicApplicationModule module = new XBBasicApplicationModule(canonicalName, plugin);
             InputStream moduleStream = plugin.getClass().getClassLoader().getResourceAsStream("META-INF/" + MODULE_FILE);
             if (moduleStream != null) {
-                // TODO XBPSequencePullConsumer consumer = new XBPSequencePullConsumer(new XBTPunew XBTPull)
-                
+                try {
+                    XBPullReader pullReader = new XBPullReader(moduleStream);
+                    XBPProviderSerialHandler serial = new XBPProviderSerialHandler(new XBToXBTPullConvertor(pullReader));
+                    serial.process(module);
+                } catch (IOException ex) {
+                    // ignore
+                }
             }
             modules.put(canonicalName, module);
         }
@@ -104,8 +115,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
                 }
 
                 if (dependecySatisfied) {
-                    // TODO init module
-
+                    module.getPlugin().init(application);
                     unprocessedModules.remove(moduleIndex);
                 } else {
                     moduleIndex++;
@@ -116,7 +126,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
         } while (postRoundCount > 0 && postRoundCount < preRoundCount);
 
         if (postRoundCount > 0) {
-            // TODO throw Circular dependency detected
+            throw new IllegalStateException("Circular dependency detected");
         }
     }
 
@@ -154,5 +164,9 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
     @Override
     public <T extends XBApplicationModulePlugin> T getModuleByInterface(Class<T> interfaceClass) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    void setApplication(XBApplication application) {
+        this.application = application;
     }
 }

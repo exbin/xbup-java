@@ -40,7 +40,7 @@ public class GuiFrameModule implements GuiFrameModuleApi {
     public void init(XBApplication application) {
         this.application = application;
         XBApplicationModule menuModule = application.getModuleRepository().getModuleById(GuiMenuModuleApi.MODULE_ID);
-        // menuModule.
+        System.out.println("Menu module id: " + menuModule.getName());
     }
 
     @Override

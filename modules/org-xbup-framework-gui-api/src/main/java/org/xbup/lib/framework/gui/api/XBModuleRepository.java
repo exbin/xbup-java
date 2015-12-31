@@ -30,7 +30,7 @@ public interface XBModuleRepository {
      *
      * Should include both command line parameters and manifest file.
      */
-    void loadClassPathPlugins();
+    void addClassPathPlugins();
 
     /**
      * Gets info about module.

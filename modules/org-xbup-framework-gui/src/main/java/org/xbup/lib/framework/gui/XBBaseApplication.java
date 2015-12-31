@@ -46,45 +46,16 @@ public class XBBaseApplication implements XBApplication {
     private final XBDefaultModuleRepository moduleRepository;
     private final List<URI> plugins;
 
-    private XBAppCommand firstCommand;
-
     public XBBaseApplication() {
         plugins = new ArrayList<>();
         moduleRepository = new XBDefaultModuleRepository();
     }
 
-    public XBAppCommand getFirstCommand() {
-        return firstCommand;
-    }
-
-    public void setFirstCommand(XBAppCommand firstCommand) {
-        this.firstCommand = firstCommand;
-    }
-
-    public void init() {
-//        if (isAppMode()) {
-//            getModuleRepository().setMainFrame(mainFrame);
-//            getModuleRepository().processModules();
-//            getModuleRepository().loadPreferences(getAppPreferences());
-//        }
-    }
-
-    public void run() {
-//        if (isAppMode()) {
-        // mainFrame.setVisible(true);
-
-        if (firstCommand != null) {
-            firstCommand.execute();
-        }
-//        }
-    }
-
     /**
-     * At startup creates and shows the main frame of the application.
+     * At init creates and shows the main frame of the application.
      */
-    public void startup() {
-        init();
-        run();
+    public void init() {
+        moduleRepository.setApplication(this);
     }
 
     @Override
@@ -115,9 +86,6 @@ public class XBBaseApplication implements XBApplication {
         }
 
         this.appBundle = appBundle;
-//        if (mainFrame != null) {
-//            mainFrame.setAppEditor(this);
-//        }
     }
 
     @Override
@@ -140,24 +108,24 @@ public class XBBaseApplication implements XBApplication {
 //        } catch (SecurityException ex) {
 //            // Ignore it in java webstart
 //        }
-//        mainFrame = new MainFrame();
     }
 
-//    @Override
-//    public BaseModuleRepository getModuleRepository() {
-//        return moduleRepository;
-//    }
-    public void loadFromFile(String string) {
-//        moduleRepository.openFile(string, null);
-    }
+    /**
+     * Adds plugin to the list of plugins.
+     *
+     * @param uri URI to plugin.
+     */
+    public void loadPlugin(URI uri) {
+        if (!plugins.add(uri)) {
+            throw new RuntimeException("Unable to load plugin: " + uri.toString());
+        }
 
-    public void loadPlugins(String directoryPath) {
-        // moduleRepository.
+        getModuleRepository().addPluginsFrom(uri);
     }
 
     public void loadPlugin(String jarFilePath) {
         try {
-            moduleRepository.addPluginsFrom(new URI(jarFilePath));
+            loadPlugin(new URI(jarFilePath));
         } catch (URISyntaxException ex) {
             // ignore
         }
@@ -170,7 +138,7 @@ public class XBBaseApplication implements XBApplication {
             Collection<Object> values = classPaths.values();
             for (Object classPath : values) {
                 if (classPath instanceof String) {
-                    loadPlugin((String) classPath);
+                    XBBaseApplication.this.loadPlugin((String) classPath);
                 }
             }
         } catch (IOException ex) {
@@ -186,23 +154,5 @@ public class XBBaseApplication implements XBApplication {
     @Override
     public XBModuleRepository getModuleRepository() {
         return moduleRepository;
-    }
-
-    public interface XBAppCommand {
-
-        public void execute();
-    }
-
-    /**
-     * Adds plugin to the list of plugins.
-     *
-     * @param uri URI to plugin.
-     */
-    public void addPlugin(URI uri) {
-        if (!plugins.add(uri)) {
-            throw new RuntimeException("Unable to load plugin: " + uri.toString());
-        }
-
-//        getModuleRepository().addPluginsFrom(uri);
     }
 }

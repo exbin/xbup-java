@@ -14,32 +14,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.gui.about;
+package org.xbup.lib.framework.gui.about.api;
 
-import net.xeoh.plugins.base.annotations.PluginImplementation;
-import org.xbup.lib.framework.gui.api.XBApplication;
-import org.xbup.lib.framework.gui.about.api.GuiAboutModuleApi;
+import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 
 /**
  * Implementation of XBUP framework about module.
  *
- * @version 0.2.0 2015/12/08
+ * @version 0.2.0 2015/12/31
  * @author XBUP Project (http://xbup.org)
  */
-@PluginImplementation
-public class GuiAboutModule implements GuiAboutModuleApi {
-
-    private XBApplication application;
-
-    public GuiAboutModule() {
-    }
-
-    @Override
-    public void init(XBApplication application) {
-        this.application = application;
-    }
-
-    @Override
-    public void unregisterPlugin(String pluginId) {
-    }
+public interface GuiAboutModuleApi extends XBApplicationModulePlugin {
 }

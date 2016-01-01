@@ -16,17 +16,31 @@
  */
 package org.xbup.lib.framework.gui.frame.api;
 
+import java.awt.Frame;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 
 /**
  * Interface for XBUP framework frame module.
  *
- * @version 0.2.0 2015/12/06
+ * @version 0.2.0 2016/01/01
  * @author XBUP Project (http://xbup.org)
  */
 public interface GuiFrameModuleApi extends XBApplicationModulePlugin {
 
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiFrameModuleApi.class);
 
+    /**
+     * Returns frame instance.
+     *
+     * @return frame
+     */
+    Frame getFrame();
+
+    /**
+     * Returns frame handler.
+     *
+     * @return frame handler
+     */
+    XBApplicationFrameHandler getFrameHandler();
 }

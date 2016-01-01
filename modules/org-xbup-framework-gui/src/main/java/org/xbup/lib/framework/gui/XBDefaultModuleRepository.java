@@ -19,12 +19,15 @@ package org.xbup.lib.framework.gui;
 import java.io.IOException;
 import org.xbup.lib.framework.gui.api.XBModuleRepository;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
 import net.xeoh.plugins.base.util.PluginManagerUtil;
@@ -39,12 +42,13 @@ import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 /**
  * XBUP framework modules repository.
  *
- * @version 0.2.0 2015/12/31
+ * @version 0.2.0 2016/01/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDefaultModuleRepository implements XBModuleRepository {
 
     private static final String MODULE_FILE = "module.xb";
+    private static final String MODULE_ID = "MODULE_ID";
     private final PluginManager pluginManager;
     private final Map<String, XBApplicationModule> modules = new HashMap<>();
     private XBApplication application;
@@ -107,7 +111,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
                 List<String> dependencyModuleIds = module.getDependencyModuleIds();
                 boolean dependecySatisfied = true;
                 for (String dependecyModuleId : dependencyModuleIds) {
-                    XBApplicationModule dependecyModule = getModuleById(dependecyModuleId);
+                    XBApplicationModule dependecyModule = getModuleRecordById(dependecyModuleId);
                     if (dependecyModule == null) {
                         dependecySatisfied = false;
                         break;
@@ -137,8 +141,20 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
      * @return application module record
      */
     @Override
-    public XBApplicationModule getModuleById(String moduleId) {
+    public XBApplicationModule getModuleRecordById(String moduleId) {
         return modules.get(moduleId);
+    }
+
+    /**
+     * Gets info about module.
+     *
+     * @param moduleId module identifier
+     * @return application module record
+     */
+    @Override
+    public XBApplicationModulePlugin getModuleById(String moduleId) {
+        XBApplicationModule moduleRecord = getModuleRecordById(moduleId);
+        return moduleRecord == null ? null : moduleRecord.getPlugin();
     }
 
     /**
@@ -163,7 +179,19 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
 
     @Override
     public <T extends XBApplicationModulePlugin> T getModuleByInterface(Class<T> interfaceClass) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            Field declaredField = interfaceClass.getDeclaredField(MODULE_ID);
+            if (declaredField != null) {
+                Object moduleId = declaredField.get(null);
+                if (moduleId instanceof String) {
+                    return (T) getModuleById((String) moduleId);
+                }
+            }
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
+            Logger.getLogger(XBDefaultModuleRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return null;
     }
 
     void setApplication(XBApplication application) {

@@ -16,22 +16,26 @@
  */
 package org.xbup.lib.framework.gui.frame;
 
+import java.awt.Frame;
+import javax.swing.JMenu;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.api.XBApplicationModule;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
+import org.xbup.lib.framework.gui.frame.api.XBApplicationFrameHandler;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 
 /**
  * Implementation of XBUP framework undo/redo module.
  *
- * @version 0.2.0 2015/12/24
+ * @version 0.2.0 2016/01/01
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
 public class GuiFrameModule implements GuiFrameModuleApi {
 
     private XBApplication application;
+    private XBApplicationFrame frame;
 
     public GuiFrameModule() {
     }
@@ -39,12 +43,27 @@ public class GuiFrameModule implements GuiFrameModuleApi {
     @Override
     public void init(XBApplication application) {
         this.application = application;
-        XBApplicationModule menuModule = application.getModuleRepository().getModuleById(GuiMenuModuleApi.MODULE_ID);
-        System.out.println("Menu module id: " + menuModule.getName());
     }
 
     @Override
     public void unregisterPlugin(String pluginId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Frame getFrame() {
+        XBApplicationFrameHandler frameHandler = getFrameHandler();
+        return frameHandler.getFrame();
+    }
+
+    @Override
+    public XBApplicationFrameHandler getFrameHandler() {
+        if (frame == null) {
+            frame = new XBApplicationFrame();
+            GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+            JMenu mainMenu = menuModule.getMenu(GuiFrameModuleApi.MODULE_ID);
+            frame.setMainMenu(mainMenu);
+        }
+
+        return frame;
     }
 }

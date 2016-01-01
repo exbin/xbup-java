@@ -18,12 +18,13 @@ package org.xbup.lib.framework.gui.frame.api;
 
 import java.awt.Component;
 import java.awt.Frame;
+import javax.swing.JMenu;
 import org.xbup.lib.framework.gui.XBBaseApplication;
 
 /**
  * Interface for editor frame.
  *
- * @version 0.2.0 2015/12/14
+ * @version 0.2.0 2016/01/01
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBApplicationFrameHandler {
@@ -33,7 +34,7 @@ public interface XBApplicationFrameHandler {
      *
      * @return frame
      */
-    public Frame getFrame();
+    Frame getFrame();
 
     /**
      * Sets toolbar visibility.
@@ -42,19 +43,31 @@ public interface XBApplicationFrameHandler {
      * @param captionsVisible
      * @param statusBarVisible
      */
-    public void setToolBarsVisibility(boolean toolBarVisible, boolean captionsVisible, boolean statusBarVisible);
+    void setToolBarsVisibility(boolean toolBarVisible, boolean captionsVisible, boolean statusBarVisible);
 
     /**
      * Sets base appplication handler to be used as source of configuration.
      *
      * @param app base application handler
      */
-    public void setApplication(XBBaseApplication app);
+    void setApplication(XBBaseApplication app);
 
     /**
      * Sets content of central area of the frame.
      *
      * @param component component to use
      */
-    public void setMainPanel(Component component);
+    void setMainPanel(Component component);
+
+    /**
+     * Sets main menu for the frame.
+     *
+     * @param mainMenu main menu
+     */
+    void setMainMenu(JMenu mainMenu);
+
+    /**
+     * Shows this frame.
+     */
+    void show();
 }

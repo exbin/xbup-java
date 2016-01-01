@@ -82,6 +82,8 @@ public class GuiMenuModule implements GuiMenuModuleApi {
     }
 
     private JMenu generateMenu(String menuId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        JMenu menu = new JMenu();
+        menu.add(new JMenuItem("Test"));
+        return menu;
     }
 }

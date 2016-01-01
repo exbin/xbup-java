@@ -30,9 +30,10 @@ import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.framework.editor.xbup.EditorXbupModule;
 import org.xbup.lib.framework.gui.XBBaseApplication;
 import org.xbup.lib.framework.gui.api.XBModuleRepository;
-import org.xbup.lib.framework.gui.editor.GuiEditorModule;
+import org.xbup.lib.framework.gui.editor.api.GuiEditorModuleApi;
 import org.xbup.lib.framework.gui.file.GuiFileModule;
-import org.xbup.lib.framework.gui.frame.XBApplicationFrame;
+import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
+import org.xbup.lib.framework.gui.frame.api.XBApplicationFrameHandler;
 import org.xbup.lib.framework.gui.menu.GuiMenuModule;
 
 /**
@@ -96,18 +97,17 @@ public class XBEditor {
                 moduleRepository.addClassPathPlugins();
                 moduleRepository.initModules();
 
-                XBApplicationFrame frame = new XBApplicationFrame();
-                frame.setApplication(app);
-                frame.setVisible(true);
-
-                GuiEditorModule editorModule = new GuiEditorModule();
-                editorModule.init(app);
+                GuiFrameModuleApi frameModule = moduleRepository.getModuleByInterface(GuiFrameModuleApi.class);
+                GuiEditorModuleApi editorModule = moduleRepository.getModuleByInterface(GuiEditorModuleApi.class);
+                
+                XBApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
 
                 EditorXbupModule xbupEditorModule = new EditorXbupModule();
                 xbupEditorModule.init(app);
                 editorModule.registerEditor("xbup", xbupEditorModule.getEditorProvider());
 
-                frame.setMainPanel(editorModule.getEditorPanel());
+                frameHandler.setMainPanel(editorModule.getEditorPanel());
+                frameHandler.show();
 
                 List fileArgs = cl.getArgList();
                 if (fileArgs.size() > 0) {

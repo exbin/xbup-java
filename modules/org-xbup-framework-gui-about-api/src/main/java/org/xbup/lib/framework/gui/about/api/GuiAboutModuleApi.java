@@ -16,13 +16,21 @@
  */
 package org.xbup.lib.framework.gui.about.api;
 
+import javax.swing.Action;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 
 /**
- * Implementation of XBUP framework about module.
+ * Interface of the XBUP framework about module.
  *
- * @version 0.2.0 2015/12/31
+ * @version 0.2.0 2016/01/01
  * @author XBUP Project (http://xbup.org)
  */
 public interface GuiAboutModuleApi extends XBApplicationModulePlugin {
+
+    /**
+     * Returns about application action.
+     *
+     * @return action
+     */
+    public Action getAboutAction();
 }

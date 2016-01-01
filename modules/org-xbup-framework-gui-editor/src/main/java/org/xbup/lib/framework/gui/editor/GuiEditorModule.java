@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.editor.api.GuiEditorModuleApi;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
@@ -32,6 +33,7 @@ import org.xbup.lib.framework.gui.editor.panel.EditorPanel;
  * @version 0.2.0 2015/12/20
  * @author XBUP Project (http://xbup.org)
  */
+@PluginImplementation
 public class GuiEditorModule implements GuiEditorModuleApi {
 
     private XBApplication application;
@@ -75,7 +77,7 @@ public class GuiEditorModule implements GuiEditorModuleApi {
         if (editorPanel == null) {
             editorPanel = new EditorPanel();
         }
-        
+
         return editorPanel;
     }
 }

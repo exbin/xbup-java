@@ -21,7 +21,7 @@ import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 
 /**
- * XBUP framework editor api module.
+ * XBUP framework editor module api interface.
  *
  * @version 0.2.0 2015/12/19
  * @author XBUP Project (http://xbup.org)

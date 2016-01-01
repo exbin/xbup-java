@@ -16,9 +16,13 @@
  */
 package org.xbup.lib.framework.gui.about;
 
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.about.api.GuiAboutModuleApi;
+import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 
 /**
  * Implementation of XBUP framework about module.
@@ -30,6 +34,7 @@ import org.xbup.lib.framework.gui.about.api.GuiAboutModuleApi;
 public class GuiAboutModule implements GuiAboutModuleApi {
 
     private XBApplication application;
+    private Action aboutAction;
 
     public GuiAboutModule() {
     }
@@ -41,5 +46,21 @@ public class GuiAboutModule implements GuiAboutModuleApi {
 
     @Override
     public void unregisterPlugin(String pluginId) {
+    }
+
+    @Override
+    public Action getAboutAction() {
+        if (aboutAction == null) {
+            aboutAction = new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
+                    AboutDialog aboutDialog = new AboutDialog(frameModule.getFrame(), true, application);
+                    aboutDialog.setVisible(true);
+                }
+            };
+        }
+        
+        return aboutAction;
     }
 }

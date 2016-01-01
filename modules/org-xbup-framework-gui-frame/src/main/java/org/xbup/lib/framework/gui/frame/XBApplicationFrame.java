@@ -19,6 +19,7 @@ package org.xbup.lib.framework.gui.frame;
 import java.awt.Component;
 import java.awt.Frame;
 import javax.swing.ImageIcon;
+import javax.swing.JMenu;
 import org.xbup.lib.framework.gui.XBBaseApplication;
 import org.xbup.lib.framework.gui.frame.api.XBApplicationFrameHandler;
 
@@ -166,7 +167,14 @@ public class XBApplicationFrame extends javax.swing.JFrame implements XBApplicat
     public void setMainPanel(Component component) {
         add(component, java.awt.BorderLayout.CENTER);
     }
-    
+
+    @Override
+    public void setMainMenu(JMenu mainMenu) {
+        for (int i = 0; i < mainMenu.getItemCount(); i++) {
+            menuBar.add(mainMenu.getItem(i));
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JProgressBar busyProgressBar;
     private javax.swing.JPanel busyStatusPanel;

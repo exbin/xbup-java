@@ -21,6 +21,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
+import javax.swing.Action;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
@@ -29,12 +30,14 @@ import org.apache.commons.cli.ParseException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.framework.editor.xbup.EditorXbupModule;
 import org.xbup.lib.framework.gui.XBBaseApplication;
+import org.xbup.lib.framework.gui.about.api.GuiAboutModuleApi;
 import org.xbup.lib.framework.gui.api.XBModuleRepository;
 import org.xbup.lib.framework.gui.editor.api.GuiEditorModuleApi;
-import org.xbup.lib.framework.gui.file.GuiFileModule;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.frame.api.XBApplicationFrameHandler;
-import org.xbup.lib.framework.gui.menu.GuiMenuModule;
+import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
+import org.xbup.lib.framework.gui.menu.api.MenuPosition;
+import org.xbup.lib.framework.gui.menu.api.MenuPositionMode;
 
 /**
  * The main class of the XBEditor application.
@@ -99,7 +102,13 @@ public class XBEditor {
 
                 GuiFrameModuleApi frameModule = moduleRepository.getModuleByInterface(GuiFrameModuleApi.class);
                 GuiEditorModuleApi editorModule = moduleRepository.getModuleByInterface(GuiEditorModuleApi.class);
+                GuiMenuModuleApi menuModule = moduleRepository.getModuleByInterface(GuiMenuModuleApi.class);
+                GuiAboutModuleApi aboutModule = moduleRepository.getModuleByInterface(GuiAboutModuleApi.class);
                 
+                // Test menu registration
+                Action aboutAction = aboutModule.getAboutAction();
+                menuModule.registerMenuItem("org.xbup.lib.framework.gui.frame.GuiFrameModule", GuiAboutModuleApi.MODULE_ID, aboutAction, new MenuPosition(MenuPositionMode.BOTTOM_LAST));
+
                 XBApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
 
                 EditorXbupModule xbupEditorModule = new EditorXbupModule();
@@ -118,10 +127,6 @@ public class XBEditor {
 //                ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
 //                ((XBDocEditorModule) module).setEditorApp(app);
 //                ((XBDocEditorModule) module).setDevMode(devMode);
-                GuiMenuModule menuModule = new GuiMenuModule();
-                menuModule.init(app);
-
-                GuiFileModule fileModule = new GuiFileModule();
             }
         } catch (ParseException ex) {
             Logger.getLogger(XBEditor.class.getName()).log(Level.SEVERE, null, ex);

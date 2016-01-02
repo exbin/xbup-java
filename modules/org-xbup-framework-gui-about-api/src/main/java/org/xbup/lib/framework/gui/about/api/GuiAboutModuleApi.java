@@ -18,6 +18,7 @@ package org.xbup.lib.framework.gui.about.api;
 
 import javax.swing.Action;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
+import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 
 /**
  * Interface of the XBUP framework about module.
@@ -26,6 +27,8 @@ import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
  * @author XBUP Project (http://xbup.org)
  */
 public interface GuiAboutModuleApi extends XBApplicationModulePlugin {
+
+    public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiAboutModuleApi.class);
 
     /**
      * Returns about application action.

@@ -56,9 +56,11 @@ public class GuiAboutModule implements GuiAboutModuleApi {
                 public void actionPerformed(ActionEvent e) {
                     GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
                     AboutDialog aboutDialog = new AboutDialog(frameModule.getFrame(), true, application);
+                    aboutDialog.setProjectResourceBundle(application.getAppBundle());
                     aboutDialog.setVisible(true);
                 }
             };
+            aboutAction.putValue("Name", "About...");
         }
         
         return aboutAction;

@@ -18,17 +18,19 @@ package org.xbup.lib.framework.gui.menu;
 
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
+import org.xbup.lib.framework.gui.menu.api.MenuContribution;
 import org.xbup.lib.framework.gui.menu.api.MenuPosition;
 
 /**
  * Implementation of XBUP framework menu module.
  *
- * @version 0.2.0 2015/12/16
+ * @version 0.2.0 2016/01/02
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -36,12 +38,22 @@ public class GuiMenuModule implements GuiMenuModuleApi {
 
     private XBApplication application;
 
-    // Menu records
+    /**
+     * Menu records: menu id -> menu definition.
+     */
     private Map<String, MenuDefinition> menus = new HashMap<>();
 
-    // Menu cache map - menuId -> menu instance
+    /**
+     * Menu cache map - menu id -> menu instance.
+     *
+     * Empty cache means menu needs refresh.
+     */
     private Map<String, JMenu> menuCache = new HashMap<>();
-    private Map<String, JMenuItem> pluginLinks = new HashMap<>();
+
+    /**
+     * Map of plugins usage per menu id.
+     */
+    private Map<String, String> pluginsUsage = new HashMap<>();
 
     public GuiMenuModule() {
     }
@@ -62,7 +74,7 @@ public class GuiMenuModule implements GuiMenuModuleApi {
         if (menu != null) {
             return menu;
         }
-        
+
         return generateMenu(menuId);
     }
 
@@ -81,9 +93,30 @@ public class GuiMenuModule implements GuiMenuModuleApi {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public void registerMenuItem(String menuId, String pluginId, Action action, MenuPosition position) {
+        MenuDefinition menuDef = menus.get(menuId);
+        if (menuDef == null) {
+            menuDef = new MenuDefinition();
+            menus.put(menuId, menuDef);
+        }
+
+        MenuContribution menuContribution = new MenuContribution();
+        menuContribution.setAction(action);
+        menuDef.getContributions().add(menuContribution);
+    }
+
     private JMenu generateMenu(String menuId) {
         JMenu menu = new JMenu();
-        menu.add(new JMenuItem("Test"));
+
+        MenuDefinition menuDef = menus.get(menuId);
+        if (menuDef != null) {
+            for (MenuContribution contribution : menuDef.getContributions()) {
+                Action action = contribution.getAction();
+                menu.add(new JMenuItem(action));
+            }
+        }
+
         return menu;
     }
 }

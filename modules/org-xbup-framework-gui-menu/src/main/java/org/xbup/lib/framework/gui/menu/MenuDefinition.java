@@ -29,4 +29,18 @@ import java.util.List;
 public class MenuDefinition {
 
     private List<MenuContribution> contributions = new ArrayList<>();
+
+    /**
+     * @return the contributions
+     */
+    public List<MenuContribution> getContributions() {
+        return contributions;
+    }
+
+    /**
+     * @param contributions the contributions to set
+     */
+    public void setContributions(List<MenuContribution> contributions) {
+        this.contributions = contributions;
+    }
 }

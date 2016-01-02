@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.framework.gui.menu.api;
 
+import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
@@ -67,4 +68,14 @@ public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
      * @param position menu position
      */
     void registerMenuItem(String menuId, String pluginId, JMenuItem item, MenuPosition position);
+
+    /**
+     * Registers menu item as a child item for given menu.
+     *
+     * @param menuId
+     * @param pluginId
+     * @param action
+     * @param position menu position
+     */
+    void registerMenuItem(String menuId, String pluginId, Action action, MenuPosition position);
 }

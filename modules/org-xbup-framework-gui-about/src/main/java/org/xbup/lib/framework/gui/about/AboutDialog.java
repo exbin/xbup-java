@@ -423,7 +423,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
 
         imageLabel.setBackground(new java.awt.Color(255, 255, 255));
         imageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        imageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource(appBundle.getString("Application.aboutIcon"))));
+        imageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource(appBundle.getString("Application.aboutImage"))));
         imageLabel.setName("imageLabel"); // NOI18N
         imageLabel.setOpaque(true);
 

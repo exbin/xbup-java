@@ -21,6 +21,7 @@ import org.xbup.lib.framework.gui.api.XBModuleRepository;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -42,7 +43,7 @@ import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 /**
  * XBUP framework modules repository.
  *
- * @version 0.2.0 2016/01/01
+ * @version 0.2.0 2016/01/03
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDefaultModuleRepository implements XBModuleRepository {
@@ -84,10 +85,19 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
         for (XBApplicationModulePlugin plugin : plugins) {
             String canonicalName = plugin.getClass().getCanonicalName();
             XBBasicApplicationModule module = new XBBasicApplicationModule(canonicalName, plugin);
-            InputStream moduleStream = plugin.getClass().getClassLoader().getResourceAsStream("META-INF/" + MODULE_FILE);
-            if (moduleStream != null) {
+            URL moduleClassLocation = plugin.getClass().getProtectionDomain().getCodeSource().getLocation();
+            URL resource = plugin.getClass().getClassLoader().getResource("META-INF/MANIFEST.MF");
+            URL moduleRecordUrl;
+            InputStream moduleRecordStream = null;
+            try {
+                moduleRecordUrl = new URL("jar:" + moduleClassLocation.toExternalForm() + "!/META-INF/" + MODULE_FILE);
+                moduleRecordStream = moduleRecordUrl.openStream();
+            } catch (IOException ex) {
+                // ignore
+            }
+            if (moduleRecordStream != null) {
                 try {
-                    XBPullReader pullReader = new XBPullReader(moduleStream);
+                    XBPullReader pullReader = new XBPullReader(moduleRecordStream);
                     XBPProviderSerialHandler serial = new XBPProviderSerialHandler(new XBToXBTPullConvertor(pullReader));
                     serial.process(module);
                 } catch (IOException ex) {

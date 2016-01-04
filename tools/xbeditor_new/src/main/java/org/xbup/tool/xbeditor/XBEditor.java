@@ -107,7 +107,7 @@ public class XBEditor {
                 
                 // Test menu registration
                 Action aboutAction = aboutModule.getAboutAction();
-                menuModule.registerMenuItem("org.xbup.lib.framework.gui.frame.GuiFrameModule", GuiAboutModuleApi.MODULE_ID, aboutAction, new MenuPosition(MenuPositionMode.BOTTOM_LAST));
+                menuModule.registerMenuItem(GuiFrameModuleApi.MAIN_MENU_ID, GuiAboutModuleApi.MODULE_ID, aboutAction, new MenuPosition(MenuPositionMode.BOTTOM_LAST));
 
                 XBApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
 

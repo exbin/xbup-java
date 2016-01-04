@@ -29,6 +29,7 @@ import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 public interface GuiFrameModuleApi extends XBApplicationModulePlugin {
 
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiFrameModuleApi.class);
+    public static String MAIN_MENU_ID = MODULE_ID + ".main";
 
     /**
      * Returns frame instance.

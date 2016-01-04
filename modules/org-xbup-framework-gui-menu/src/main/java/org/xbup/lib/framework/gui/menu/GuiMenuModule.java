@@ -79,8 +79,21 @@ public class GuiMenuModule implements GuiMenuModuleApi {
     }
 
     @Override
-    public void registerMenu(String menuId, String pluginId, JMenu menu) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void registerMenu(String menuId, String pluginId) {
+        if (menuId == null) {
+            throw new NullPointerException("Menu Id cannot be null");
+        }
+        if (pluginId == null) {
+            throw new NullPointerException("Plugin Id cannot be null");
+        }
+
+        MenuDefinition menu = menus.get(menuId);
+        if (menu != null) {
+            throw new IllegalStateException("Menu with ID " + menuId + " already exists.");
+        }
+
+        MenuDefinition menuDefinition = new MenuDefinition(pluginId);
+        menus.put(menuId, menuDefinition);
     }
 
     @Override
@@ -97,8 +110,7 @@ public class GuiMenuModule implements GuiMenuModuleApi {
     public void registerMenuItem(String menuId, String pluginId, Action action, MenuPosition position) {
         MenuDefinition menuDef = menus.get(menuId);
         if (menuDef == null) {
-            menuDef = new MenuDefinition();
-            menus.put(menuId, menuDef);
+            throw new IllegalStateException("Menu with Id " + menuId + " doesn't exist");
         }
 
         MenuContribution menuContribution = new MenuContribution();

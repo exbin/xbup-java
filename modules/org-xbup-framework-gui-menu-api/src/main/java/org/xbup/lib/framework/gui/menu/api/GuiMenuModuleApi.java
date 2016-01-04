@@ -25,7 +25,7 @@ import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 /**
  * Interface for XBUP framework menu module.
  *
- * @version 0.2.0 2015/12/13
+ * @version 0.2.0 2016/01/04
  * @author XBUP Project (http://xbup.org)
  */
 public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
@@ -45,9 +45,8 @@ public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
      *
      * @param menuId menu identificator
      * @param pluginId plugin identificator
-     * @param menu menu
      */
-    void registerMenu(String menuId, String pluginId, JMenu menu);
+    void registerMenu(String menuId, String pluginId);
 
     /**
      * Registers menu as a child item for given menu.

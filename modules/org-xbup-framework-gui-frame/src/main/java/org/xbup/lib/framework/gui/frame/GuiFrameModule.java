@@ -20,7 +20,6 @@ import java.awt.Frame;
 import javax.swing.JMenu;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
-import org.xbup.lib.framework.gui.api.XBApplicationModule;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.frame.api.XBApplicationFrameHandler;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
@@ -43,6 +42,9 @@ public class GuiFrameModule implements GuiFrameModuleApi {
     @Override
     public void init(XBApplication application) {
         this.application = application;
+        
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenu(MAIN_MENU_ID, MODULE_ID);
     }
 
     @Override
@@ -60,7 +62,7 @@ public class GuiFrameModule implements GuiFrameModuleApi {
         if (frame == null) {
             frame = new XBApplicationFrame();
             GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
-            JMenu mainMenu = menuModule.getMenu(GuiFrameModuleApi.MODULE_ID);
+            JMenu mainMenu = menuModule.getMenu(GuiFrameModuleApi.MAIN_MENU_ID);
             frame.setMainMenu(mainMenu);
         }
 

@@ -23,12 +23,17 @@ import java.util.List;
 /**
  * Implementation of XBUP framework menu module.
  *
- * @version 0.2.0 2015/12/16
+ * @version 0.2.0 2016/01/04
  * @author XBUP Project (http://xbup.org)
  */
 public class MenuDefinition {
 
+    private final String pluginId;
     private List<MenuContribution> contributions = new ArrayList<>();
+
+    public MenuDefinition(String pluginId) {
+        this.pluginId = pluginId;
+    }
 
     /**
      * @return the contributions

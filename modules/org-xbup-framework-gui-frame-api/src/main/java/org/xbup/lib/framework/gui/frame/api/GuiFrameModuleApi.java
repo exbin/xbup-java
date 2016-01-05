@@ -30,6 +30,12 @@ public interface GuiFrameModuleApi extends XBApplicationModulePlugin {
 
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiFrameModuleApi.class);
     public static String MAIN_MENU_ID = MODULE_ID + ".main";
+    public static String FILE_MENU_ID = MAIN_MENU_ID + "/File";
+    public static String EDIT_MENU_ID = MAIN_MENU_ID + "/Edit";
+    public static String VIEW_MENU_ID = MAIN_MENU_ID + "/View";
+    public static String TOOLS_MENU_ID = MAIN_MENU_ID + "/Tools";
+    public static String OPTIONS_MENU_ID = MAIN_MENU_ID + "/Options";
+    public static String HELP_MENU_ID = MAIN_MENU_ID + "/Help";
 
     /**
      * Returns frame instance.

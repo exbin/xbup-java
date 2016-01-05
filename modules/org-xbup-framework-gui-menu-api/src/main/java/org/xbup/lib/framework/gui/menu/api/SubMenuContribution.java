@@ -14,39 +14,32 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.gui.menu;
-
-import org.xbup.lib.framework.gui.menu.api.ActionMenuContribution;
-import java.util.ArrayList;
-import java.util.List;
-import org.xbup.lib.framework.gui.menu.api.MenuContribution;
+package org.xbup.lib.framework.gui.menu.api;
 
 /**
  * Implementation of XBUP framework menu module.
  *
- * @version 0.2.0 2016/01/04
+ * @version 0.2.0 2016/01/05
  * @author XBUP Project (http://xbup.org)
  */
-public class MenuDefinition {
+public class SubMenuContribution implements MenuContribution {
 
-    private final String pluginId;
-    private List<MenuContribution> contributions = new ArrayList<>();
+    private String menuId;
+    private String name;
 
-    public MenuDefinition(String pluginId) {
-        this.pluginId = pluginId;
+    public String getMenuId() {
+        return menuId;
     }
 
-    /**
-     * @return the contributions
-     */
-    public List<MenuContribution> getContributions() {
-        return contributions;
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
     }
 
-    /**
-     * @param contributions the contributions to set
-     */
-    public void setContributions(List<MenuContribution> contributions) {
-        this.contributions = contributions;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

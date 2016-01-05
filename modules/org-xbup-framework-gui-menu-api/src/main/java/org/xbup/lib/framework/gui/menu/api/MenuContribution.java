@@ -16,23 +16,11 @@
  */
 package org.xbup.lib.framework.gui.menu.api;
 
-import javax.swing.Action;
-
 /**
- * Implementation of XBUP framework menu module.
+ * Interface for menu contributions.
  *
- * @version 0.2.0 2015/12/16
+ * @version 0.2.0 2016/01/05
  * @author XBUP Project (http://xbup.org)
  */
-public class MenuContribution {
-
-    private Action action;
-
-    public Action getAction() {
-        return action;
-    }
-
-    public void setAction(Action action) {
-        this.action = action;
-    }
+public interface MenuContribution {
 }

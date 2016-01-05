@@ -77,4 +77,15 @@ public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
      * @param position menu position
      */
     void registerMenuItem(String menuId, String pluginId, Action action, MenuPosition position);
+
+    /**
+     * Registers menu item as a child item for given menu.
+     *
+     * @param menuId
+     * @param pluginId
+     * @param subMenuId
+     * @param subMenuName
+     * @param position menu position
+     */
+    void registerMenuItem(String menuId, String pluginId, String subMenuId, String subMenuName, MenuPosition position);
 }

@@ -24,8 +24,10 @@ import javax.swing.JMenuItem;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
+import org.xbup.lib.framework.gui.menu.api.ActionMenuContribution;
 import org.xbup.lib.framework.gui.menu.api.MenuContribution;
 import org.xbup.lib.framework.gui.menu.api.MenuPosition;
+import org.xbup.lib.framework.gui.menu.api.SubMenuContribution;
 
 /**
  * Implementation of XBUP framework menu module.
@@ -113,8 +115,21 @@ public class GuiMenuModule implements GuiMenuModuleApi {
             throw new IllegalStateException("Menu with Id " + menuId + " doesn't exist");
         }
 
-        MenuContribution menuContribution = new MenuContribution();
+        ActionMenuContribution menuContribution = new ActionMenuContribution();
         menuContribution.setAction(action);
+        menuDef.getContributions().add(menuContribution);
+    }
+
+    @Override
+    public void registerMenuItem(String menuId, String pluginId, String subMenuId, String subMenuName, MenuPosition position) {
+        MenuDefinition menuDef = menus.get(menuId);
+        if (menuDef == null) {
+            throw new IllegalStateException("Menu with Id " + menuId + " doesn't exist");
+        }
+
+        SubMenuContribution menuContribution = new SubMenuContribution();
+        menuContribution.setMenuId(subMenuId);
+        menuContribution.setName(subMenuName);
         menuDef.getContributions().add(menuContribution);
     }
 
@@ -124,8 +139,17 @@ public class GuiMenuModule implements GuiMenuModuleApi {
         MenuDefinition menuDef = menus.get(menuId);
         if (menuDef != null) {
             for (MenuContribution contribution : menuDef.getContributions()) {
-                Action action = contribution.getAction();
-                menu.add(new JMenuItem(action));
+                if (contribution instanceof ActionMenuContribution) {
+                    Action action = ((ActionMenuContribution) contribution).getAction();
+                    menu.add(new JMenuItem(action));
+                } else if (contribution instanceof SubMenuContribution) {
+                    SubMenuContribution subMenuContribution = (SubMenuContribution) contribution;
+                    JMenu subMenu = getMenu(subMenuContribution.getMenuId());
+                    subMenu.setText(subMenuContribution.getName());
+                    if (subMenu.getItemCount() > 0) {
+                        menu.add(subMenu);
+                    }
+                }
             }
         }
 

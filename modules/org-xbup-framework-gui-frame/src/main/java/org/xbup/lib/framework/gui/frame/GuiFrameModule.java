@@ -23,6 +23,8 @@ import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.frame.api.XBApplicationFrameHandler;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
+import org.xbup.lib.framework.gui.menu.api.MenuPosition;
+import org.xbup.lib.framework.gui.menu.api.MenuPositionMode;
 
 /**
  * Implementation of XBUP framework undo/redo module.
@@ -45,6 +47,19 @@ public class GuiFrameModule implements GuiFrameModuleApi {
         
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
         menuModule.registerMenu(MAIN_MENU_ID, MODULE_ID);
+        menuModule.registerMenu(FILE_MENU_ID, MODULE_ID);
+        menuModule.registerMenu(EDIT_MENU_ID, MODULE_ID);
+        menuModule.registerMenu(VIEW_MENU_ID, MODULE_ID);
+        menuModule.registerMenu(TOOLS_MENU_ID, MODULE_ID);
+        menuModule.registerMenu(OPTIONS_MENU_ID, MODULE_ID);
+        menuModule.registerMenu(HELP_MENU_ID, MODULE_ID);
+        
+        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, FILE_MENU_ID, "File", new MenuPosition(MenuPositionMode.TOP));
+        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, EDIT_MENU_ID, "Edit", new MenuPosition(MenuPositionMode.TOP));
+        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, VIEW_MENU_ID, "View", new MenuPosition(MenuPositionMode.TOP));
+        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, TOOLS_MENU_ID, "Tools", new MenuPosition(MenuPositionMode.TOP));
+        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, OPTIONS_MENU_ID, "Options", new MenuPosition(MenuPositionMode.TOP));
+        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, HELP_MENU_ID, "Help", new MenuPosition(MenuPositionMode.TOP));
     }
 
     @Override

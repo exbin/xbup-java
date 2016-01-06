@@ -7,6 +7,7 @@ include ":modules:org-xbup-framework-gui"
 include ":modules:org-xbup-framework-gui-utils"
 include ":modules:org-xbup-framework-gui-menu-api"
 include ":modules:org-xbup-framework-gui-undo-api"
+include ":modules:org-xbup-framework-gui-frame-api"
 
 def modifyPath(project) {
     def rootProjectDir = rootProject.projectDir.parentFile.parent

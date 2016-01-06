@@ -38,6 +38,7 @@ import org.xbup.lib.framework.gui.frame.api.XBApplicationFrameHandler;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.menu.api.MenuPosition;
 import org.xbup.lib.framework.gui.menu.api.MenuPositionMode;
+import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 
 /**
  * The main class of the XBEditor application.
@@ -104,10 +105,12 @@ public class XBEditor {
                 GuiEditorModuleApi editorModule = moduleRepository.getModuleByInterface(GuiEditorModuleApi.class);
                 GuiMenuModuleApi menuModule = moduleRepository.getModuleByInterface(GuiMenuModuleApi.class);
                 GuiAboutModuleApi aboutModule = moduleRepository.getModuleByInterface(GuiAboutModuleApi.class);
+                GuiUndoModuleApi undoModule = moduleRepository.getModuleByInterface(GuiUndoModuleApi.class);
                 
                 // Test menu registration
                 Action aboutAction = aboutModule.getAboutAction();
                 menuModule.registerMenuItem(GuiFrameModuleApi.HELP_MENU_ID, GuiAboutModuleApi.MODULE_ID, aboutAction, new MenuPosition(MenuPositionMode.BOTTOM_LAST));
+                undoModule.registerMainMenu();
 
                 XBApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
 

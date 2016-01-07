@@ -170,8 +170,9 @@ public class XBApplicationFrame extends javax.swing.JFrame implements XBApplicat
 
     @Override
     public void setMainMenu(JMenu mainMenu) {
-        for (int i = 0; i < mainMenu.getItemCount(); i++) {
-            menuBar.add(mainMenu.getItem(i));
+        int menuItemsCount = mainMenu.getMenuComponentCount();
+        for (int i = 0; i < menuItemsCount; i++) {
+            menuBar.add(mainMenu.getMenuComponent(0));
         }
     }
 

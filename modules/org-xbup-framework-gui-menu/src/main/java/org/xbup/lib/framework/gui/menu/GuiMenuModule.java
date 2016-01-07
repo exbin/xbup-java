@@ -146,7 +146,7 @@ public class GuiMenuModule implements GuiMenuModuleApi {
                     SubMenuContribution subMenuContribution = (SubMenuContribution) contribution;
                     JMenu subMenu = getMenu(subMenuContribution.getMenuId());
                     subMenu.setText(subMenuContribution.getName());
-                    if (subMenu.getItemCount() > 0) {
+                    if (subMenu.getMenuComponentCount() > 0) {
                         menu.add(subMenu);
                     }
                 }

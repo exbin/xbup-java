@@ -20,7 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.Action;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
@@ -71,13 +73,45 @@ public class GuiMenuModule implements GuiMenuModuleApi {
     }
 
     @Override
-    public JMenu getMenu(String menuId) {
-        JMenu menu = menuCache.get(menuId);
-        if (menu != null) {
-            return menu;
+    public void getMenu(JPopupMenu targetMenu, String menuId) {
+        MenuDefinition menuDef = menus.get(menuId);
+        if (menuDef != null) {
+            for (MenuContribution contribution : menuDef.getContributions()) {
+                if (contribution instanceof ActionMenuContribution) {
+                    Action action = ((ActionMenuContribution) contribution).getAction();
+                    targetMenu.add(new JMenuItem(action));
+                } else if (contribution instanceof SubMenuContribution) {
+                    SubMenuContribution subMenuContribution = (SubMenuContribution) contribution;
+                    JMenu subMenu = new JMenu();
+                    getMenu(subMenu.getPopupMenu(), subMenuContribution.getMenuId());
+                    subMenu.setText(subMenuContribution.getName());
+                    if (subMenu.getMenuComponentCount() > 0) {
+                        targetMenu.add(subMenu);
+                    }
+                }
+            }
         }
+    }
 
-        return generateMenu(menuId);
+    @Override
+    public void getMenu(JMenuBar targetMenuBar, String menuId) {
+        MenuDefinition menuDef = menus.get(menuId);
+        if (menuDef != null) {
+            for (MenuContribution contribution : menuDef.getContributions()) {
+                if (contribution instanceof ActionMenuContribution) {
+                    Action action = ((ActionMenuContribution) contribution).getAction();
+                    targetMenuBar.add(new JMenuItem(action));
+                } else if (contribution instanceof SubMenuContribution) {
+                    SubMenuContribution subMenuContribution = (SubMenuContribution) contribution;
+                    JMenu subMenu = new JMenu();
+                    getMenu(subMenu.getPopupMenu(), subMenuContribution.getMenuId());
+                    subMenu.setText(subMenuContribution.getName());
+                    if (subMenu.getMenuComponentCount() > 0) {
+                        targetMenuBar.add(subMenu);
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -131,28 +165,5 @@ public class GuiMenuModule implements GuiMenuModuleApi {
         menuContribution.setMenuId(subMenuId);
         menuContribution.setName(subMenuName);
         menuDef.getContributions().add(menuContribution);
-    }
-
-    private JMenu generateMenu(String menuId) {
-        JMenu menu = new JMenu();
-
-        MenuDefinition menuDef = menus.get(menuId);
-        if (menuDef != null) {
-            for (MenuContribution contribution : menuDef.getContributions()) {
-                if (contribution instanceof ActionMenuContribution) {
-                    Action action = ((ActionMenuContribution) contribution).getAction();
-                    menu.add(new JMenuItem(action));
-                } else if (contribution instanceof SubMenuContribution) {
-                    SubMenuContribution subMenuContribution = (SubMenuContribution) contribution;
-                    JMenu subMenu = getMenu(subMenuContribution.getMenuId());
-                    subMenu.setText(subMenuContribution.getName());
-                    if (subMenu.getMenuComponentCount() > 0) {
-                        menu.add(subMenu);
-                    }
-                }
-            }
-        }
-
-        return menu;
     }
 }

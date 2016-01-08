@@ -17,7 +17,6 @@
 package org.xbup.lib.framework.gui.frame;
 
 import java.awt.Frame;
-import javax.swing.JMenu;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
@@ -29,7 +28,7 @@ import org.xbup.lib.framework.gui.menu.api.MenuPositionMode;
 /**
  * Implementation of XBUP framework undo/redo module.
  *
- * @version 0.2.0 2016/01/01
+ * @version 0.2.0 2016/01/08
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -76,9 +75,7 @@ public class GuiFrameModule implements GuiFrameModuleApi {
     public XBApplicationFrameHandler getFrameHandler() {
         if (frame == null) {
             frame = new XBApplicationFrame();
-            GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
-            JMenu mainMenu = menuModule.getMenu(GuiFrameModuleApi.MAIN_MENU_ID);
-            frame.setMainMenu(mainMenu);
+            frame.loadMainMenu(application);
         }
 
         return frame;

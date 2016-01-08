@@ -18,8 +18,8 @@ package org.xbup.lib.framework.gui.frame.api;
 
 import java.awt.Component;
 import java.awt.Frame;
-import javax.swing.JMenu;
 import org.xbup.lib.framework.gui.XBBaseApplication;
+import org.xbup.lib.framework.gui.api.XBApplication;
 
 /**
  * Interface for editor frame.
@@ -60,11 +60,11 @@ public interface XBApplicationFrameHandler {
     void setMainPanel(Component component);
 
     /**
-     * Sets main menu for the frame.
+     * Loads main menu for the frame.
      *
-     * @param mainMenu main menu
+     * @param application
      */
-    void setMainMenu(JMenu mainMenu);
+    void loadMainMenu(XBApplication application);
 
     /**
      * Shows this frame.

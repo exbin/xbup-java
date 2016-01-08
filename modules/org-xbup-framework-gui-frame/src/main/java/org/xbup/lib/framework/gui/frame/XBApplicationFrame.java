@@ -19,14 +19,15 @@ package org.xbup.lib.framework.gui.frame;
 import java.awt.Component;
 import java.awt.Frame;
 import javax.swing.ImageIcon;
-import javax.swing.JMenu;
 import org.xbup.lib.framework.gui.XBBaseApplication;
+import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.frame.api.XBApplicationFrameHandler;
+import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 
 /**
  * Interface for application's panel.
  *
- * @version 0.2.0 2015/12/14
+ * @version 0.2.0 2016/01/08
  * @author XBUP Project (http://xbup.org)
  */
 public class XBApplicationFrame extends javax.swing.JFrame implements XBApplicationFrameHandler {
@@ -169,11 +170,9 @@ public class XBApplicationFrame extends javax.swing.JFrame implements XBApplicat
     }
 
     @Override
-    public void setMainMenu(JMenu mainMenu) {
-        int menuItemsCount = mainMenu.getMenuComponentCount();
-        for (int i = 0; i < menuItemsCount; i++) {
-            menuBar.add(mainMenu.getMenuComponent(0));
-        }
+    public void loadMainMenu(XBApplication application) {
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.getMenu(menuBar, GuiFrameModule.MAIN_MENU_ID);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

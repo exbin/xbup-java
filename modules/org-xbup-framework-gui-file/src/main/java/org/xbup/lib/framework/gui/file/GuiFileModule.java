@@ -23,12 +23,13 @@ import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
 /**
  * Implementation of XBUP framework file module.
  *
- * @version 0.2.0 2015/12/22
+ * @version 0.2.0 2016/01/09
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
 public class GuiFileModule implements GuiFileModuleApi {
 
+    private FileHandlingActions fileHandlingActions = null;
     private XBApplication application;
 
     public GuiFileModule() {
@@ -41,6 +42,15 @@ public class GuiFileModule implements GuiFileModuleApi {
 
     @Override
     public void unregisterPlugin(String pluginId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public FileHandlingActions getFileHandlingActions() {
+        if (fileHandlingActions == null) {
+            fileHandlingActions = new FileHandlingActions();
+            fileHandlingActions.init();
+        }
+
+        return fileHandlingActions;
     }
 }

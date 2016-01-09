@@ -16,18 +16,21 @@
  */
 package org.xbup.lib.framework.gui.file.api;
 
-import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
-import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
+import javax.swing.Action;
 
 /**
- * Interface for XBUP framework file module.
+ * Interface for file handling actions.
  *
  * @version 0.2.0 2016/01/09
  * @author XBUP Project (http://xbup.org)
  */
-public interface GuiFileModuleApi extends XBApplicationModulePlugin {
+public interface FileHandlingActionsApi {
 
-    public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiFileModuleApi.class);
+    Action getNewFileAction();
+    
+    Action getOpenFileAction();
 
-    FileHandlingActionsApi getFileHandlingActions();
+    Action getSaveFileAction();
+
+    Action getSaveAsFileAction();
 }

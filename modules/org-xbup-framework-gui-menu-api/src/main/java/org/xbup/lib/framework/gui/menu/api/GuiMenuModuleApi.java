@@ -112,5 +112,5 @@ public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
      * 
      * @return clipboard editing actions
      */
-    public ClipboardActionsGui getClipboardActions();
+    public ClipboardActionsApi getClipboardActions();
 }

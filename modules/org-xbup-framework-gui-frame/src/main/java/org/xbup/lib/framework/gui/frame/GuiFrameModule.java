@@ -83,7 +83,7 @@ public class GuiFrameModule implements GuiFrameModuleApi {
             }
         };
         exitAction.putValue(MODULE_ID, this);
-        exitAction.putValue(Action.NAME, "Exit...");
+        exitAction.putValue(Action.NAME, "Exit");
         exitAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.KeyEvent.ALT_DOWN_MASK));
 
         return exitAction;

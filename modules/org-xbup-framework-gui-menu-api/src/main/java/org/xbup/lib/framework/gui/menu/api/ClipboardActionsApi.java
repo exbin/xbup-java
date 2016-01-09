@@ -24,7 +24,7 @@ import javax.swing.Action;
  * @version 0.2.0 2016/01/09
  * @author XBUP Project (http://xbup.org)
  */
-public interface ClipboardActionsGui {
+public interface ClipboardActionsApi {
 
     Action getCutAction();
 

@@ -41,7 +41,7 @@ import javax.swing.text.Caret;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.TextAction;
-import org.xbup.lib.framework.gui.menu.api.ClipboardActionsGui;
+import org.xbup.lib.framework.gui.menu.api.ClipboardActionsApi;
 
 /**
  * Clipboard operations.
@@ -49,7 +49,7 @@ import org.xbup.lib.framework.gui.menu.api.ClipboardActionsGui;
  * @version 0.2.0 2016/01/09
  * @author XBUP Project (http://xbup.org)
  */
-public class ClipboardActions implements ClipboardActionsGui {
+public class ClipboardActions implements ClipboardActionsApi {
 
     private ResourceBundle resourceBundle;
     private int metaMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();

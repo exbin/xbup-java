@@ -157,7 +157,6 @@ public class GuiMenuModule implements GuiMenuModuleApi {
             }
 
             MenuGroupRecord groupRecord = pathNode.records.get(pathNode.childIndex);
-            System.out.println(groupRecord.groupId);
             pathNode.childIndex++;
 
             if ((groupRecord.separationMode == MenuSeparationMode.ABOVE || groupRecord.separationMode == MenuSeparationMode.AROUND) && menuContinues) {

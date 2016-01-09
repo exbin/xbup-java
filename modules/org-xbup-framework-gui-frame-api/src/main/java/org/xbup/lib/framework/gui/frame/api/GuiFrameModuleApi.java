@@ -17,6 +17,7 @@
 package org.xbup.lib.framework.gui.frame.api;
 
 import java.awt.Frame;
+import javax.swing.Action;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 
@@ -50,4 +51,6 @@ public interface GuiFrameModuleApi extends XBApplicationModulePlugin {
      * @return frame handler
      */
     XBApplicationFrameHandler getFrameHandler();
+    
+    Action getExitAction();
 }

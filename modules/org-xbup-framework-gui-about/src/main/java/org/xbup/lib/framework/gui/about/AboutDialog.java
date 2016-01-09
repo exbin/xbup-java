@@ -101,7 +101,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         modulesTable.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                    bundle.getString("modulesTable.moduleNameColumn"), bundle.getString("modulesTable.moduleProviderColumn")
+                    bundle.getString("modulesTable.moduleNameColumn"), bundle.getString("modulesTable.moduleDescriptionColumn")
                 }
         ) {
             Class[] types = new Class[]{

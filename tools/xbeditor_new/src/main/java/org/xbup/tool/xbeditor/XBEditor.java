@@ -35,7 +35,9 @@ import org.xbup.lib.framework.gui.api.XBModuleRepository;
 import org.xbup.lib.framework.gui.editor.api.GuiEditorModuleApi;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.frame.api.XBApplicationFrameHandler;
+import org.xbup.lib.framework.gui.menu.api.ClipboardActionsGui;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
+import org.xbup.lib.framework.gui.menu.api.MenuGroup;
 import org.xbup.lib.framework.gui.menu.api.MenuPosition;
 import org.xbup.lib.framework.gui.menu.api.MenuPositionMode;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
@@ -106,11 +108,23 @@ public class XBEditor {
                 GuiMenuModuleApi menuModule = moduleRepository.getModuleByInterface(GuiMenuModuleApi.class);
                 GuiAboutModuleApi aboutModule = moduleRepository.getModuleByInterface(GuiAboutModuleApi.class);
                 GuiUndoModuleApi undoModule = moduleRepository.getModuleByInterface(GuiUndoModuleApi.class);
-                
+
                 // Test menu registration
                 Action aboutAction = aboutModule.getAboutAction();
                 menuModule.registerMenuItem(GuiFrameModuleApi.HELP_MENU_ID, GuiAboutModuleApi.MODULE_ID, aboutAction, new MenuPosition(MenuPositionMode.BOTTOM_LAST));
+                menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, GuiAboutModuleApi.MODULE_ID, frameModule.getExitAction(), new MenuPosition(MenuPositionMode.BOTTOM_LAST));
+
                 undoModule.registerMainMenu();
+
+                // Register clipboard editing actions
+                String clipboardActionsGroup = "ClipboardActionsGroup";
+                ClipboardActionsGui clipboardActions = menuModule.getClipboardActions();
+                menuModule.registerMenuGroup(GuiFrameModuleApi.EDIT_MENU_ID, new MenuGroup(clipboardActionsGroup, new MenuPosition(MenuPositionMode.TOP)));
+                menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiAboutModuleApi.MODULE_ID, clipboardActions.getCutAction(), new MenuPosition(clipboardActionsGroup));
+                menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiAboutModuleApi.MODULE_ID, clipboardActions.getCopyAction(), new MenuPosition(clipboardActionsGroup));
+                menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiAboutModuleApi.MODULE_ID, clipboardActions.getPasteAction(), new MenuPosition(clipboardActionsGroup));
+                menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiAboutModuleApi.MODULE_ID, clipboardActions.getDeleteAction(), new MenuPosition(clipboardActionsGroup));
+                menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiAboutModuleApi.MODULE_ID, clipboardActions.getSelectAllAction(), new MenuPosition(clipboardActionsGroup));
 
                 XBApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
 

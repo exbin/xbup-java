@@ -17,31 +17,18 @@
 package org.xbup.lib.framework.gui.menu.api;
 
 /**
- * Menu position.
+ * Enumeration of menu separator placement modes.
  *
  * @version 0.2.0 2016/01/09
  * @author XBUP Project (http://xbup.org)
  */
-public class MenuPosition {
+public enum MenuSeparationMode {
 
-    private final MenuPositionMode basicMode;
-    private final String groupId;
-
-    public MenuPosition(MenuPositionMode basicMode) {
-        this.basicMode = basicMode;
-        groupId = null;
-    }
-
-    public MenuPosition(String groupId) {
-        basicMode = null;
-        this.groupId = groupId;
-    }
-
-    public MenuPositionMode getBasicMode() {
-        return basicMode;
-    }
-
-    public String getGroupId() {
-        return groupId;
-    }
+    NONE,
+    ABOVE,
+    /**
+     * Includes separator both above and below
+     */
+    AROUND,
+    BELOW
 }

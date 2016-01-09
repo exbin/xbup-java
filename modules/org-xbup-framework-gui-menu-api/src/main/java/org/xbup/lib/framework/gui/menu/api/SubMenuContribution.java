@@ -17,29 +17,33 @@
 package org.xbup.lib.framework.gui.menu.api;
 
 /**
- * Implementation of XBUP framework menu module.
+ * Record of sub/child menu contribution.
  *
- * @version 0.2.0 2016/01/05
+ * @version 0.2.0 2016/01/09
  * @author XBUP Project (http://xbup.org)
  */
 public class SubMenuContribution implements MenuContribution {
 
-    private String menuId;
-    private String name;
+    private final String menuId;
+    private final String name;
+    private final MenuPosition position;
+
+    public SubMenuContribution(String menuId, String name, MenuPosition position) {
+        this.menuId = menuId;
+        this.name = name;
+        this.position = position;
+    }
 
     public String getMenuId() {
         return menuId;
-    }
-
-    public void setMenuId(String menuId) {
-        this.menuId = menuId;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public MenuPosition getMenuPosition() {
+        return position;
     }
 }

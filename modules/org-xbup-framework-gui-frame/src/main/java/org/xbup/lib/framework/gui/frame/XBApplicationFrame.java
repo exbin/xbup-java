@@ -172,7 +172,7 @@ public class XBApplicationFrame extends javax.swing.JFrame implements XBApplicat
     @Override
     public void loadMainMenu(XBApplication application) {
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
-        menuModule.getMenu(menuBar, GuiFrameModule.MAIN_MENU_ID);
+        menuModule.buildMenu(menuBar, GuiFrameModule.MAIN_MENU_ID);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

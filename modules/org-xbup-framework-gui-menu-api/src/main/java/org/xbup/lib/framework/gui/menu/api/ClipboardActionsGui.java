@@ -16,32 +16,23 @@
  */
 package org.xbup.lib.framework.gui.menu.api;
 
+import javax.swing.Action;
+
 /**
- * Menu position.
+ * Interface for clipboard editing actions.
  *
  * @version 0.2.0 2016/01/09
  * @author XBUP Project (http://xbup.org)
  */
-public class MenuPosition {
+public interface ClipboardActionsGui {
 
-    private final MenuPositionMode basicMode;
-    private final String groupId;
+    Action getCutAction();
 
-    public MenuPosition(MenuPositionMode basicMode) {
-        this.basicMode = basicMode;
-        groupId = null;
-    }
+    Action getCopyAction();
 
-    public MenuPosition(String groupId) {
-        basicMode = null;
-        this.groupId = groupId;
-    }
+    Action getPasteAction();
 
-    public MenuPositionMode getBasicMode() {
-        return basicMode;
-    }
+    Action getDeleteAction();
 
-    public String getGroupId() {
-        return groupId;
-    }
+    Action getSelectAllAction();
 }

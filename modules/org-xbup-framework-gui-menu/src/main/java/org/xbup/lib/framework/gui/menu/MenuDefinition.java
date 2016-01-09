@@ -16,7 +16,6 @@
  */
 package org.xbup.lib.framework.gui.menu;
 
-import org.xbup.lib.framework.gui.menu.api.ActionMenuContribution;
 import java.util.ArrayList;
 import java.util.List;
 import org.xbup.lib.framework.gui.menu.api.MenuContribution;

@@ -19,8 +19,10 @@ package org.xbup.lib.framework.gui.menu.api;
 /**
  * Interface for menu contributions.
  *
- * @version 0.2.0 2016/01/05
+ * @version 0.2.0 2016/01/09
  * @author XBUP Project (http://xbup.org)
  */
 public interface MenuContribution {
+
+    MenuPosition getMenuPosition();
 }

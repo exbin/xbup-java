@@ -25,9 +25,12 @@ import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
+import org.xbup.lib.framework.gui.menu.api.MenuGroup;
 import org.xbup.lib.framework.gui.menu.api.MenuPosition;
 import org.xbup.lib.framework.gui.menu.api.MenuPositionMode;
+import org.xbup.lib.framework.gui.menu.api.MenuSeparationMode;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
+import org.xbup.lib.framework.gui.undo.dialog.UndoManagerDialog;
 import org.xbup.lib.framework.gui.undo.dialog.UndoManagerModel;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
 import org.xbup.lib.operation.undo.XBUndoHandler;
@@ -35,12 +38,13 @@ import org.xbup.lib.operation.undo.XBUndoHandler;
 /**
  * Implementation of XBUP framework undo/redo module.
  *
- * @version 0.2.0 2015/01/06
+ * @version 0.2.0 2016/01/09
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
 public class GuiUndoModule implements GuiUndoModuleApi {
 
+    private static final String UNDO_MENU_GROUP = "UndoMenuGroup";
     private XBApplication application;
     private final UndoManagerModel undoModel = new UndoManagerModel();
     private XBTLinearUndo undoHandler;
@@ -49,6 +53,7 @@ public class GuiUndoModule implements GuiUndoModuleApi {
     private int metaMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
     private Action undoAction;
     private Action redoAction;
+    private Action undoManagerAction;
 
     public GuiUndoModule() {
         undoAction = new AbstractAction() {
@@ -75,6 +80,17 @@ public class GuiUndoModule implements GuiUndoModuleApi {
         redoAction.putValue(Action.NAME, bundle.getString("actionEditRedo.Action.text"));
         redoAction.putValue(Action.SHORT_DESCRIPTION, bundle.getString("actionEditRedo.Action.shortDescription"));
         redoAction.setEnabled(false);
+
+        undoManagerAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
+                UndoManagerDialog dialog = new UndoManagerDialog(frameModule.getFrame(), true, undoModel);
+                dialog.setVisible(true);
+            }
+        };
+        undoManagerAction.putValue(Action.NAME, bundle.getString("actionEditUndoManager.Action.text"));
+        undoManagerAction.putValue(Action.SHORT_DESCRIPTION, bundle.getString("actionEditUndoManager.Action.shortDescription"));
     }
 
     @Override
@@ -114,9 +130,11 @@ public class GuiUndoModule implements GuiUndoModuleApi {
      */
     @Override
     public void registerMainMenu() {
-        GuiMenuModuleApi module = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
-        module.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiUndoModuleApi.MODULE_ID, undoAction, new MenuPosition(MenuPositionMode.TOP));
-        module.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiUndoModuleApi.MODULE_ID, redoAction, new MenuPosition(MenuPositionMode.TOP));
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenuGroup(GuiFrameModuleApi.EDIT_MENU_ID, new MenuGroup(UNDO_MENU_GROUP, new MenuPosition(MenuPositionMode.TOP), MenuSeparationMode.BELOW));
+        menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiUndoModuleApi.MODULE_ID, undoAction, new MenuPosition(UNDO_MENU_GROUP));
+        menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiUndoModuleApi.MODULE_ID, redoAction, new MenuPosition(UNDO_MENU_GROUP));
+        menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiUndoModuleApi.MODULE_ID, undoManagerAction, new MenuPosition(UNDO_MENU_GROUP));
     }
 
     @Override

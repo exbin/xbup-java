@@ -17,6 +17,9 @@
 package org.xbup.lib.framework.gui.frame;
 
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
@@ -43,7 +46,7 @@ public class GuiFrameModule implements GuiFrameModuleApi {
     @Override
     public void init(XBApplication application) {
         this.application = application;
-        
+
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
         menuModule.registerMenu(MAIN_MENU_ID, MODULE_ID);
         menuModule.registerMenu(FILE_MENU_ID, MODULE_ID);
@@ -52,7 +55,7 @@ public class GuiFrameModule implements GuiFrameModuleApi {
         menuModule.registerMenu(TOOLS_MENU_ID, MODULE_ID);
         menuModule.registerMenu(OPTIONS_MENU_ID, MODULE_ID);
         menuModule.registerMenu(HELP_MENU_ID, MODULE_ID);
-        
+
         menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, FILE_MENU_ID, "File", new MenuPosition(MenuPositionMode.TOP));
         menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, EDIT_MENU_ID, "Edit", new MenuPosition(MenuPositionMode.TOP));
         menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, VIEW_MENU_ID, "View", new MenuPosition(MenuPositionMode.TOP));
@@ -69,6 +72,21 @@ public class GuiFrameModule implements GuiFrameModuleApi {
     public Frame getFrame() {
         XBApplicationFrameHandler frameHandler = getFrameHandler();
         return frameHandler.getFrame();
+    }
+
+    @Override
+    public Action getExitAction() {
+        Action exitAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        };
+        exitAction.putValue(MODULE_ID, this);
+        exitAction.putValue(Action.NAME, "Exit...");
+        exitAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.KeyEvent.ALT_DOWN_MASK));
+
+        return exitAction;
     }
 
     @Override

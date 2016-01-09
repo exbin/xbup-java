@@ -40,7 +40,7 @@ public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
      * @param targetMenu target menu
      * @param menuId menu identificator
      */
-    void getMenu(JPopupMenu targetMenu, String menuId);
+    void buildMenu(JPopupMenu targetMenu, String menuId);
 
     /**
      * Returns menu using given identificator.
@@ -48,7 +48,7 @@ public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
      * @param targetMenuBar target menu bar
      * @param menuId menu identificator
      */
-    void getMenu(JMenuBar targetMenuBar, String menuId);
+    void buildMenu(JMenuBar targetMenuBar, String menuId);
 
     /**
      * Registers menu associating it with given identificator.
@@ -57,6 +57,14 @@ public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
      * @param pluginId plugin identificator
      */
     void registerMenu(String menuId, String pluginId);
+
+    /**
+     * Registers menu group for particular menu.
+     *
+     * @param menuId menu identificator
+     * @param menuGroup menu group
+     */
+    void registerMenuGroup(String menuId, MenuGroup menuGroup);
 
     /**
      * Registers menu as a child item for given menu.
@@ -98,4 +106,11 @@ public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
      * @param position menu position
      */
     void registerMenuItem(String menuId, String pluginId, String subMenuId, String subMenuName, MenuPosition position);
+    
+    /**
+     * Returns clipboard/editing actions.
+     * 
+     * @return clipboard editing actions
+     */
+    public ClipboardActionsGui getClipboardActions();
 }

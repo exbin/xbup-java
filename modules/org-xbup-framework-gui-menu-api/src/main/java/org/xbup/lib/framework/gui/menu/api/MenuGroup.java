@@ -17,31 +17,38 @@
 package org.xbup.lib.framework.gui.menu.api;
 
 /**
- * Menu position.
+ * Menu group definition.
  *
  * @version 0.2.0 2016/01/09
  * @author XBUP Project (http://xbup.org)
  */
-public class MenuPosition {
+public class MenuGroup {
 
-    private final MenuPositionMode basicMode;
     private final String groupId;
+    private final MenuPosition position;
+    private final MenuSeparationMode separationMode;
 
-    public MenuPosition(MenuPositionMode basicMode) {
-        this.basicMode = basicMode;
-        groupId = null;
-    }
-
-    public MenuPosition(String groupId) {
-        basicMode = null;
+    public MenuGroup(String groupId, MenuPosition position) {
         this.groupId = groupId;
+        this.position = position;
+        separationMode = MenuSeparationMode.NONE;
     }
 
-    public MenuPositionMode getBasicMode() {
-        return basicMode;
+    public MenuGroup(String groupId, MenuPosition position, MenuSeparationMode separationMode) {
+        this.groupId = groupId;
+        this.position = position;
+        this.separationMode = separationMode;
     }
 
     public String getGroupId() {
         return groupId;
+    }
+
+    public MenuPosition getPosition() {
+        return position;
+    }
+
+    public MenuSeparationMode getSeparationMode() {
+        return separationMode;
     }
 }

@@ -70,8 +70,8 @@ public class XBBasicApplicationModule implements XBPSequenceSerializable, XBAppl
     // Temporary method to create module file.
     public static void main(String[] params) {
         XBBasicApplicationModule module = new XBBasicApplicationModule("org.xbup.lib.framework.gui.about.GuiAboutModule", null);
-        module.setName("Basic GUI Framework Module");
-        module.setDescription("Module with core framework functionality");
+        module.setName("XBUP Document Editor Module");
+        module.setDescription("Module supporting editation of XBUP-encoded documents");
         try {
             XBEventWriter eventWriter = new XBEventWriter(new FileOutputStream("module.xb"));
             XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventTypeRemover(eventWriter));

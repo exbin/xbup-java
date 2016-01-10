@@ -25,7 +25,9 @@ import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.editor.api.GuiEditorModuleApi;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
-import org.xbup.lib.framework.gui.editor.panel.EditorPanel;
+import org.xbup.lib.framework.gui.editor.panel.SingleEditorPanel;
+import org.xbup.lib.framework.gui.file.api.FileHandlingActionsApi;
+import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
 
 /**
  * XBUP framework editor api module.
@@ -39,7 +41,8 @@ public class GuiEditorModule implements GuiEditorModuleApi {
     private XBApplication application;
     private final List<XBEditorProvider> editors = new ArrayList<>();
     private final Map<String, List<XBEditorProvider>> pluginEditorsMap = new HashMap<>();
-    private EditorPanel editorPanel;
+    private SingleEditorPanel editorPanel;
+    private XBEditorProvider activeEditor = null;
 
     public GuiEditorModule() {
     }
@@ -75,9 +78,15 @@ public class GuiEditorModule implements GuiEditorModuleApi {
     @Override
     public Component getEditorPanel() {
         if (editorPanel == null) {
-            editorPanel = new EditorPanel();
+            activeEditor = editors.get(0);
+            editorPanel = new SingleEditorPanel(activeEditor.getPanel());
+            editorPanel.init();
         }
 
+        GuiFileModuleApi fileModule = application.getModuleRepository().getModuleByInterface(GuiFileModuleApi.class);
+        FileHandlingActionsApi fileHandlingActions = fileModule.getFileHandlingActions();
+        fileHandlingActions.setFileHandler(activeEditor);
+        
         return editorPanel;
     }
 }

@@ -134,7 +134,9 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         // Load license
         try {
             String licenseFilePath = appBundle.getString("Application.licenseFile");
-            licenseEditorPane.setPage(getClass().getResource(licenseFilePath));
+            if (licenseFilePath != null) {
+                licenseEditorPane.setPage(getClass().getResource(licenseFilePath));
+            }
             licenseEditorPane.addHyperlinkListener(this);
         } catch (IOException ex) {
             Logger.getLogger(AboutDialog.class.getName()).log(Level.SEVERE, null, ex);

@@ -27,10 +27,14 @@ import javax.swing.Action;
 public interface FileHandlingActionsApi {
 
     Action getNewFileAction();
-    
+
     Action getOpenFileAction();
 
     Action getSaveFileAction();
 
     Action getSaveAsFileAction();
+
+    FileHandlerApi getFileHandler();
+
+    void setFileHandler(FileHandlerApi fileHandler);
 }

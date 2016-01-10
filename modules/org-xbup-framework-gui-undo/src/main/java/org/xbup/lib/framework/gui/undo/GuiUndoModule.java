@@ -62,7 +62,7 @@ public class GuiUndoModule implements GuiUndoModuleApi {
                 actionEditUndo();
             }
         };
-        undoAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource(bundle.getString("actionEditUndo.Action.icon"))));
+        undoAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource(bundle.getString("actionEditUndo.Action.smallIcon"))));
         // TODO keystroke from string with meta mask translation
         undoAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, metaMask));
         undoAction.putValue(Action.NAME, bundle.getString("actionEditUndo.Action.text"));
@@ -75,7 +75,7 @@ public class GuiUndoModule implements GuiUndoModuleApi {
                 actionEditRedo();
             }
         };
-        redoAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource(bundle.getString("actionEditRedo.Action.icon"))));
+        redoAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource(bundle.getString("actionEditRedo.Action.smallIcon"))));
         redoAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.SHIFT_MASK | metaMask));
         redoAction.putValue(Action.NAME, bundle.getString("actionEditRedo.Action.text"));
         redoAction.putValue(Action.SHORT_DESCRIPTION, bundle.getString("actionEditRedo.Action.shortDescription"));

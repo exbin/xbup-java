@@ -33,6 +33,7 @@ import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
 
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiMenuModuleApi.class);
+    public static final String DIALOG_MENUITEM_EXT = "...";
 
     /**
      * Returns menu using given identificator.

@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.framework.gui.frame;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Frame;
 import javax.swing.ImageIcon;
@@ -166,7 +167,8 @@ public class XBApplicationFrame extends javax.swing.JFrame implements XBApplicat
 
     @Override
     public void setMainPanel(Component component) {
-        add(component, java.awt.BorderLayout.CENTER);
+        component.setBackground(Color.RED);
+        getContentPane().add(component, java.awt.BorderLayout.CENTER);
     }
 
     @Override

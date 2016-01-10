@@ -62,7 +62,7 @@ public class OptionsDialog extends javax.swing.JDialog {
     private MainOptionsPanel mainOptionsPanel;
     private AppearanceOptionsPanel appearanceOptionsPanel;
 
-    public OptionsDialog(java.awt.Frame parent, XBApplicationFrameHandler frame, boolean modal) {
+    public OptionsDialog(java.awt.Frame parent, boolean modal, XBApplicationFrameHandler frame) {
         super(parent, modal);
         this.frame = frame;
         init();
@@ -304,7 +304,7 @@ public class OptionsDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        OptionsDialog optionsDialog = new OptionsDialog(new javax.swing.JFrame(), null, true);
+        OptionsDialog optionsDialog = new OptionsDialog(new javax.swing.JFrame(), true, null);
         optionsDialog.setPreferences(optionsDialog.new OptionsPreferences());
         WindowUtils.invokeWindow(optionsDialog);
     }

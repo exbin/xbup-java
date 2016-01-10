@@ -16,12 +16,67 @@
  */
 package org.xbup.lib.framework.editor.xbup;
 
+import java.beans.PropertyChangeListener;
+import javax.swing.JPanel;
+import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
+import org.xbup.lib.framework.gui.file.api.FileType;
+
 /**
  * XBUP editor module.
  *
  * @version 0.2.0 2015/12/20
  * @author XBUP Project (http://xbup.org)
  */
-public class XbupEditorHandler  { // implements XBEditorProvider
-    
+public class XbupEditorHandler implements XBEditorProvider {
+
+    @Override
+    public JPanel getPanel() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setPropertyChangeListener(PropertyChangeListener propertyChangeListener) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public String getWindowTitle(String frameTitle) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void loadFromFile() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void saveToFile() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public String getFileName() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setFileName(String string) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setFileType(FileType ft) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void newFile() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean isModified() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

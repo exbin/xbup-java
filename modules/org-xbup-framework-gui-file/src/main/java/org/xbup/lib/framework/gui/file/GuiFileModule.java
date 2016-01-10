@@ -18,6 +18,7 @@ package org.xbup.lib.framework.gui.file;
 
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.gui.file.api.FileType;
 import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
 
 /**
@@ -52,5 +53,11 @@ public class GuiFileModule implements GuiFileModuleApi {
         }
 
         return fileHandlingActions;
+    }
+
+    @Override
+    public void addFileType(FileType fileType) {
+        FileHandlingActions handle = getFileHandlingActions();
+        handle.addFileType(fileType);
     }
 }

@@ -1,0 +1,35 @@
+Changes in version 0.1 wr 19:
+- Added property panel
+- Support for drag&drop
+- Support for panel plugins
+- Added help window
+- Text editor and some panels from XBTEditor
+
+Changes in version 0.1 wr 18:
+- Added HexEdit Panel (based on HexEdit2 by Keith Fenske, http://www.psc-consulting.ca/fenske/)
+- Basic support for icons
+
+Changes in version 0.1 wr 17:
+
+Changes in version 0.1 wr 16:
+- copy paste added
+- undo redo added
+- picture editor for specific block type
+
+Changes in version 0.1 wr 15:
+- modified catalog support
+- text viewing as alternative
+- moved to Swing Application Framework
+- XBService support
+
+Changes in version 0.1 wr 14:
+- support for PHP-XBCatalog
+- disabled support for XBCatalogWS
+- last release before changing catalog structure 
+
+Changes in version 0.1 wr 13:
+- connection to WS on localhost
+- catalog L1 browser
+- basic editing
+- load/save
+- program created

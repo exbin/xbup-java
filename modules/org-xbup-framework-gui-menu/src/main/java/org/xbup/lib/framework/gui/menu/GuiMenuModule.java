@@ -353,5 +353,4 @@ public class GuiMenuModule implements GuiMenuModuleApi {
             menu.addSeparator();
         }
     }
-
 }

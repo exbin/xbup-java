@@ -16,12 +16,32 @@
  */
 package org.xbup.lib.framework.gui.editor.api;
 
+import java.beans.PropertyChangeListener;
+import javax.swing.JPanel;
+import org.xbup.lib.framework.gui.file.api.FileHandlerApi;
+
 /**
  * XBUP framework editor api module.
  *
- * @version 0.2.0 2015/12/19
+ * @version 0.2.0 2016/01/09
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBEditorProvider {
-    
+public interface XBEditorProvider extends FileHandlerApi {
+
+    public JPanel getPanel();
+
+    /**
+     * Changes passing listener.
+     *
+     * @param propertyChangeListener Change listener.
+     */
+    public void setPropertyChangeListener(PropertyChangeListener propertyChangeListener);
+
+    /**
+     * Gets window title related to last opened or saved file.
+     *
+     * @param frameTitle title of frame
+     * @return title related to last opened file
+     */
+    public String getWindowTitle(String frameTitle);
 }

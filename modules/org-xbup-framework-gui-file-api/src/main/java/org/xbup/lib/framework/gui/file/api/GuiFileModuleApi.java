@@ -22,7 +22,7 @@ import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 /**
  * Interface for XBUP framework file module.
  *
- * @version 0.2.0 2016/01/09
+ * @version 0.2.0 2016/01/10
  * @author XBUP Project (http://xbup.org)
  */
 public interface GuiFileModuleApi extends XBApplicationModulePlugin {
@@ -30,4 +30,6 @@ public interface GuiFileModuleApi extends XBApplicationModulePlugin {
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiFileModuleApi.class);
 
     FileHandlingActionsApi getFileHandlingActions();
+    
+    void addFileType(FileType fileType);
 }

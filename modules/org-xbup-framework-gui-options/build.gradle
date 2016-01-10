@@ -31,5 +31,6 @@ dependencies {
     compile(project(':modules:org-xbup-framework-gui'))
     compile(project(':modules:org-xbup-framework-gui-utils'))
     compile(project(':modules:org-xbup-framework-gui-frame-api'))
+    compile(project(':modules:org-xbup-framework-gui-options-api'))
     testCompile group : 'junit', name: 'junit', version: '4.10'
 }

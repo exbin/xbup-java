@@ -48,9 +48,7 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
 
     public XBEditorProvider getEditorProvider() {
         if (editorProvider == null) {
-            editorProvider = new XBEditorProvider() {
-
-            };
+            // editorProvider
         }
 
         return editorProvider;

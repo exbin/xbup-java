@@ -39,7 +39,7 @@ import org.xbup.lib.framework.gui.options.panel.OptionsPanel;
 import org.xbup.lib.framework.gui.options.panel.OptionsPanel.ModifiedOptionListener;
 import org.xbup.lib.framework.gui.options.panel.OptionsPanel.PathItem;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
-import org.xbup.lib.framework.gui.frame.api.XBApplicationFrameHandler;
+import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
 
 /**
  * Dialog for application options and preferences setting.
@@ -58,11 +58,11 @@ public class OptionsDialog extends javax.swing.JDialog {
     private boolean modified;
     private OptionsMutableTreeNode top;
     private XBApplication appEditor;
-    private final XBApplicationFrameHandler frame;
+    private final ApplicationFrameHandler frame;
     private MainOptionsPanel mainOptionsPanel;
     private AppearanceOptionsPanel appearanceOptionsPanel;
 
-    public OptionsDialog(java.awt.Frame parent, boolean modal, XBApplicationFrameHandler frame) {
+    public OptionsDialog(java.awt.Frame parent, boolean modal, ApplicationFrameHandler frame) {
         super(parent, modal);
         this.frame = frame;
         init();

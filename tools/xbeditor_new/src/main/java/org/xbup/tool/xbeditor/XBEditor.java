@@ -34,7 +34,6 @@ import org.xbup.lib.framework.gui.about.api.GuiAboutModuleApi;
 import org.xbup.lib.framework.gui.api.XBModuleRepository;
 import org.xbup.lib.framework.gui.editor.api.GuiEditorModuleApi;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
-import org.xbup.lib.framework.gui.frame.api.XBApplicationFrameHandler;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.menu.api.MenuGroup;
 import org.xbup.lib.framework.gui.menu.api.MenuPosition;
@@ -45,6 +44,7 @@ import org.xbup.lib.framework.gui.file.api.FileHandlingActionsApi;
 import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
 import org.xbup.lib.framework.gui.menu.api.MenuSeparationMode;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
+import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
 
 /**
  * The main class of the XBEditor application.
@@ -147,7 +147,7 @@ public class XBEditor {
                 Action optionsAction = optionsModule.getOptionsAction();
                 menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, GuiAboutModuleApi.MODULE_ID, optionsAction, new MenuPosition(MenuPositionMode.BOTTOM_LAST));
 
-                XBApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
+                ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
 
                 EditorXbupModule xbupEditorModule = new EditorXbupModule();
                 xbupEditorModule.init(app);

@@ -20,18 +20,19 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Frame;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import org.xbup.lib.framework.gui.XBBaseApplication;
 import org.xbup.lib.framework.gui.api.XBApplication;
-import org.xbup.lib.framework.gui.frame.api.XBApplicationFrameHandler;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
+import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
 
 /**
- * Interface for application's panel.
+ * Basic appplication frame.
  *
  * @version 0.2.0 2016/01/08
  * @author XBUP Project (http://xbup.org)
  */
-public class XBApplicationFrame extends javax.swing.JFrame implements XBApplicationFrameHandler {
+public class XBApplicationFrame extends javax.swing.JFrame implements ApplicationFrameHandler {
 
     public XBApplicationFrame() {
         initComponents();
@@ -134,6 +135,21 @@ public class XBApplicationFrame extends javax.swing.JFrame implements XBApplicat
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JProgressBar busyProgressBar;
+    private javax.swing.JPanel busyStatusPanel;
+    private javax.swing.JPanel emptyStatusPanel;
+    private javax.swing.JPanel mainStatusPanel;
+    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JPanel progressStatusPanel;
+    private javax.swing.JPanel statusBar;
+    private javax.swing.JLabel statusLabel;
+    private javax.swing.JPanel statusPanel;
+    private javax.swing.JProgressBar statusProgressBar;
+    private javax.swing.JButton stopProgressButton;
+    private javax.swing.JToolBar toolBar;
+    // End of variables declaration//GEN-END:variables
+
     /**
      * @param args the command line arguments
      */
@@ -154,9 +170,22 @@ public class XBApplicationFrame extends javax.swing.JFrame implements XBApplicat
     }
 
     @Override
-    public void setToolBarsVisibility(boolean toolBarVisible, boolean captionsVisible, boolean statusBarVisible) {
+    public void setToolBarVisible(boolean toolBarVisible) {
         toolBar.setVisible(toolBarVisible);
+    }
+
+    public void setStatusBarVisible(boolean statusBarVisible) {
         statusBar.setVisible(statusBarVisible);
+    }
+
+    public void setToolBarCaptionsVisible(boolean captionsVisible) {
+        Component[] comps = toolBar.getComponents();
+
+        for (Component comp : comps) {
+            if (comp instanceof JButton) {
+                ((JButton) comp).setHideActionText(captionsVisible);
+            }
+        }
     }
 
     @Override
@@ -176,19 +205,4 @@ public class XBApplicationFrame extends javax.swing.JFrame implements XBApplicat
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
         menuModule.buildMenu(menuBar, GuiFrameModule.MAIN_MENU_ID);
     }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JProgressBar busyProgressBar;
-    private javax.swing.JPanel busyStatusPanel;
-    private javax.swing.JPanel emptyStatusPanel;
-    private javax.swing.JPanel mainStatusPanel;
-    private javax.swing.JMenuBar menuBar;
-    private javax.swing.JPanel progressStatusPanel;
-    private javax.swing.JPanel statusBar;
-    private javax.swing.JLabel statusLabel;
-    private javax.swing.JPanel statusPanel;
-    private javax.swing.JProgressBar statusProgressBar;
-    private javax.swing.JButton stopProgressButton;
-    private javax.swing.JToolBar toolBar;
-    // End of variables declaration//GEN-END:variables
 }

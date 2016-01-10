@@ -34,7 +34,6 @@ import org.xbup.lib.framework.gui.about.api.GuiAboutModuleApi;
 import org.xbup.lib.framework.gui.api.XBModuleRepository;
 import org.xbup.lib.framework.gui.editor.api.GuiEditorModuleApi;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
-import org.xbup.lib.framework.gui.frame.api.XBApplicationFrameHandler;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.menu.api.MenuGroup;
 import org.xbup.lib.framework.gui.menu.api.MenuPosition;
@@ -43,13 +42,14 @@ import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 import org.xbup.lib.framework.gui.menu.api.ClipboardActionsApi;
 import org.xbup.lib.framework.gui.file.api.FileHandlingActionsApi;
 import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
-import org.xbup.lib.framework.gui.menu.api.MenuSeparationMode;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
+import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 
 /**
  * The main class of the XBEditor application.
  *
- * @version 0.2.0 2015/11/15
+ * @version 0.2.0 2016/01/10
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTEditor {
@@ -57,8 +57,7 @@ public class XBTEditor {
     private static Preferences preferences;
     private static boolean verboseMode = false;
     private static boolean devMode = false;
-    private static final String APP_BUNDLE_NAME = "org/xbup/tool/xbeditor/resources/XBEditor";
-    private static final ResourceBundle bundle = ResourceBundle.getBundle(APP_BUNDLE_NAME);
+    private static ResourceBundle bundle;
 
     /**
      * Main method launching the application.
@@ -72,6 +71,7 @@ public class XBTEditor {
             preferences = null;
         }
         try {
+            bundle = ActionUtils.getResourceBundleByClass(XBTEditor.class);
             // Parameters processing
             Options opt = new Options();
             opt.addOption("h", "help", false, bundle.getString("cl_option_help"));
@@ -95,7 +95,7 @@ public class XBTEditor {
 
                 XBBaseApplication app = new XBBaseApplication();
                 app.setAppPreferences(preferences);
-                app.setAppBundle(bundle, APP_BUNDLE_NAME);
+                app.setAppBundle(bundle, ActionUtils.getResourceBaseNameBundleByClass(XBTEditor.class));
                 app.init();
 //                app.setFirstCommand(new XBEditorFirstCommand(app));
 
@@ -119,9 +119,8 @@ public class XBTEditor {
                 Action aboutAction = aboutModule.getAboutAction();
                 menuModule.registerMenuItem(GuiFrameModuleApi.HELP_MENU_ID, GuiAboutModuleApi.MODULE_ID, aboutAction, new MenuPosition(MenuPositionMode.BOTTOM_LAST));
 
-                String appClosingActionsGroup = "ApplicationClosingActionsGroup";
-                menuModule.registerMenuGroup(GuiFrameModuleApi.FILE_MENU_ID, new MenuGroup(appClosingActionsGroup, new MenuPosition(MenuPositionMode.BOTTOM_LAST), MenuSeparationMode.ABOVE));
-                menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, GuiAboutModuleApi.MODULE_ID, frameModule.getExitAction(), new MenuPosition(appClosingActionsGroup));
+                frameModule.registerExitAction();
+                frameModule.registerBarsVisibilityActions();;
 
                 // Register clipboard editing actions
                 String fileHandlingActionsGroup = "FileHandlingActionsGroup";
@@ -135,19 +134,12 @@ public class XBTEditor {
                 undoModule.registerMainMenu();
 
                 // Register clipboard editing actions
-                String clipboardActionsGroup = "ClipboardActionsGroup";
-                ClipboardActionsApi clipboardActions = menuModule.getClipboardActions();
-                menuModule.registerMenuGroup(GuiFrameModuleApi.EDIT_MENU_ID, new MenuGroup(clipboardActionsGroup, new MenuPosition(MenuPositionMode.TOP)));
-                menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiAboutModuleApi.MODULE_ID, clipboardActions.getCutAction(), new MenuPosition(clipboardActionsGroup));
-                menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiAboutModuleApi.MODULE_ID, clipboardActions.getCopyAction(), new MenuPosition(clipboardActionsGroup));
-                menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiAboutModuleApi.MODULE_ID, clipboardActions.getPasteAction(), new MenuPosition(clipboardActionsGroup));
-                menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiAboutModuleApi.MODULE_ID, clipboardActions.getDeleteAction(), new MenuPosition(clipboardActionsGroup));
-                menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiAboutModuleApi.MODULE_ID, clipboardActions.getSelectAllAction(), new MenuPosition(clipboardActionsGroup));
+                menuModule.registerClipboardActions();
 
                 Action optionsAction = optionsModule.getOptionsAction();
                 menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, GuiAboutModuleApi.MODULE_ID, optionsAction, new MenuPosition(MenuPositionMode.BOTTOM_LAST));
 
-                XBApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
+                ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
 
                 EditorTextModule xbupEditorModule = new EditorTextModule();
                 editorModule.registerEditor("xbup", xbupEditorModule.getEditorProvider());

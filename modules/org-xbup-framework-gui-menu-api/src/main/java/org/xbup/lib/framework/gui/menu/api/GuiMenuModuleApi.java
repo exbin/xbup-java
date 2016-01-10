@@ -107,11 +107,16 @@ public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
      * @param position menu position
      */
     void registerMenuItem(String menuId, String pluginId, String subMenuId, String subMenuName, MenuPosition position);
-    
+
     /**
      * Returns clipboard/editing actions.
-     * 
+     *
      * @return clipboard editing actions
      */
-    public ClipboardActionsApi getClipboardActions();
+    ClipboardActionsApi getClipboardActions();
+
+    /**
+     * Registers clipboard actions.
+     */
+    void registerClipboardActions();
 }

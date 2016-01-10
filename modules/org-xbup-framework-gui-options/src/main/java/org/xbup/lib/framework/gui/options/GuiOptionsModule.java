@@ -18,7 +18,6 @@ package org.xbup.lib.framework.gui.options;
 
 import java.awt.event.ActionEvent;
 import java.util.prefs.Preferences;
-import java.util.prefs.PreferencesFactory;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import net.xeoh.plugins.base.annotations.PluginImplementation;

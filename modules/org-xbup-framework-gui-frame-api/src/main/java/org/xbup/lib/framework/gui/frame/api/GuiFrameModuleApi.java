@@ -24,7 +24,7 @@ import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 /**
  * Interface for XBUP framework frame module.
  *
- * @version 0.2.0 2016/01/01
+ * @version 0.2.0 2016/01/10
  * @author XBUP Project (http://xbup.org)
  */
 public interface GuiFrameModuleApi extends XBApplicationModulePlugin {
@@ -39,6 +39,13 @@ public interface GuiFrameModuleApi extends XBApplicationModulePlugin {
     public static String HELP_MENU_ID = MAIN_MENU_ID + "/Help";
 
     /**
+     * Returns frame handler.
+     *
+     * @return frame handler
+     */
+    ApplicationFrameHandler getFrameHandler();
+
+    /**
      * Returns frame instance.
      *
      * @return frame
@@ -46,11 +53,36 @@ public interface GuiFrameModuleApi extends XBApplicationModulePlugin {
     Frame getFrame();
 
     /**
-     * Returns frame handler.
+     * Returns exit action.
      *
-     * @return frame handler
+     * @return exit action
      */
-    XBApplicationFrameHandler getFrameHandler();
-    
     Action getExitAction();
+
+    /**
+     * Registers exit action in default menu location.
+     */
+    void registerExitAction();
+
+    /**
+     * Adds exit listener.
+     *
+     * @param listener listener
+     */
+    void addExitListener(ApplicationExitListener listener);
+
+    /**
+     * Removes exit listener.
+     *
+     * @param listener listener
+     */
+    void removeExitListener(ApplicationExitListener listener);
+
+    Action getViewToolBarAction();
+
+    Action getViewToolBarCaptionsAction();
+
+    Action getViewStatusBarAction();
+
+    void registerBarsVisibilityActions();
 }

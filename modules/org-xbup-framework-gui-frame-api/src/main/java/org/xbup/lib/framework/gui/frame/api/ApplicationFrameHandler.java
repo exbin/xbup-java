@@ -22,12 +22,12 @@ import org.xbup.lib.framework.gui.XBBaseApplication;
 import org.xbup.lib.framework.gui.api.XBApplication;
 
 /**
- * Interface for editor frame.
+ * Interface for application frame.
  *
- * @version 0.2.0 2016/01/01
+ * @version 0.2.0 2016/01/10
  * @author XBUP Project (http://xbup.org)
  */
-public interface XBApplicationFrameHandler {
+public interface ApplicationFrameHandler {
 
     /**
      * Gets current frame.
@@ -37,13 +37,25 @@ public interface XBApplicationFrameHandler {
     Frame getFrame();
 
     /**
-     * Sets toolbar visibility.
+     * Sets tool bar visibility.
      *
      * @param toolBarVisible
-     * @param captionsVisible
+     */
+    void setToolBarVisible(boolean toolBarVisible);
+
+    /**
+     * Sets status bar visibility.
+     *
      * @param statusBarVisible
      */
-    void setToolBarsVisibility(boolean toolBarVisible, boolean captionsVisible, boolean statusBarVisible);
+    void setStatusBarVisible(boolean statusBarVisible);
+
+    /**
+     * Sets tool bar captions visibility.
+     *
+     * @param captionsVisible
+     */
+    void setToolBarCaptionsVisible(boolean captionsVisible);
 
     /**
      * Sets base appplication handler to be used as source of configuration.

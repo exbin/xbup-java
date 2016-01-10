@@ -246,6 +246,11 @@ public class WindowUtils {
         }
     }
 
+    /**
+     * Performs visually visible click on the button component.
+     *
+     * @param button button component
+     */
     public static void doButtonClick(JButton button) {
         button.doClick(BUTTON_CLICK_TIME);
     }

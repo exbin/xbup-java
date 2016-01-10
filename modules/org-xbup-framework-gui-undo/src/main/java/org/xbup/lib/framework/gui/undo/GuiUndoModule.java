@@ -32,41 +32,46 @@ import org.xbup.lib.framework.gui.menu.api.MenuSeparationMode;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 import org.xbup.lib.framework.gui.undo.dialog.UndoManagerDialog;
 import org.xbup.lib.framework.gui.undo.dialog.UndoManagerModel;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
 import org.xbup.lib.operation.undo.XBUndoHandler;
 
 /**
  * Implementation of XBUP framework undo/redo module.
  *
- * @version 0.2.0 2016/01/09
+ * @version 0.2.0 2016/01/10
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
 public class GuiUndoModule implements GuiUndoModuleApi {
 
-    private static final String UNDO_MENU_GROUP = "UndoMenuGroup";
+    private static final String UNDO_MENU_GROUP = MODULE_ID + ".undoGroup";
     private XBApplication application;
     private final UndoManagerModel undoModel = new UndoManagerModel();
     private XBTLinearUndo undoHandler;
 
-    private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/undo/resources/GuiUndoModule");
-    private int metaMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+    private final java.util.ResourceBundle bundle = ActionUtils.getResourceBundleByClass(GuiUndoModule.class);
+    private int metaMask;
     private Action undoAction;
     private Action redoAction;
     private Action undoManagerAction;
 
     public GuiUndoModule() {
+    }
+
+    @Override
+    public void init(XBApplication application) {
+        this.application = application;
+        metaMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+
         undoAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 actionEditUndo();
             }
         };
-        undoAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource(bundle.getString("actionEditUndo.Action.smallIcon"))));
-        // TODO keystroke from string with meta mask translation
+        ActionUtils.setupAction(undoAction, bundle, "editUndoAction");
         undoAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, metaMask));
-        undoAction.putValue(Action.NAME, bundle.getString("actionEditUndo.Action.text"));
-        undoAction.putValue(Action.SHORT_DESCRIPTION, bundle.getString("actionEditUndo.Action.shortDescription"));
         undoAction.setEnabled(false);
 
         redoAction = new AbstractAction() {
@@ -75,27 +80,19 @@ public class GuiUndoModule implements GuiUndoModuleApi {
                 actionEditRedo();
             }
         };
-        redoAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource(bundle.getString("actionEditRedo.Action.smallIcon"))));
+        ActionUtils.setupAction(redoAction, bundle, "editRedoAction");
         redoAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.SHIFT_MASK | metaMask));
-        redoAction.putValue(Action.NAME, bundle.getString("actionEditRedo.Action.text"));
-        redoAction.putValue(Action.SHORT_DESCRIPTION, bundle.getString("actionEditRedo.Action.shortDescription"));
         redoAction.setEnabled(false);
 
         undoManagerAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
+                GuiFrameModuleApi frameModule = GuiUndoModule.this.application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
                 UndoManagerDialog dialog = new UndoManagerDialog(frameModule.getFrame(), true, undoModel);
                 dialog.setVisible(true);
             }
         };
-        undoManagerAction.putValue(Action.NAME, bundle.getString("actionEditUndoManager.Action.text"));
-        undoManagerAction.putValue(Action.SHORT_DESCRIPTION, bundle.getString("actionEditUndoManager.Action.shortDescription"));
-    }
-
-    @Override
-    public void init(XBApplication application) {
-        this.application = application;
+        ActionUtils.setupAction(undoManagerAction, bundle, "editUndoManagerAction");
     }
 
     @Override

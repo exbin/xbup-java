@@ -54,6 +54,7 @@ import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.TextAction;
 import org.xbup.lib.framework.gui.menu.api.ClipboardActionsApi;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 
 /**
  * Clipboard operations.
@@ -63,8 +64,8 @@ import org.xbup.lib.framework.gui.menu.api.ClipboardActionsApi;
  */
 public class ClipboardActions implements ClipboardActionsApi {
 
-    private final ResourceBundle resourceBundle;
-    private static final int META_MASK = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+    private ResourceBundle resourceBundle;
+    private int metaMask;
     private ActionMap actionMap;
     private Component actionFocusOwner = null;
 
@@ -90,33 +91,29 @@ public class ClipboardActions implements ClipboardActionsApi {
     private DefaultPopupClipboardAction[] defaultTextActions;
 
     public ClipboardActions() {
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/menu/resources/GuiMenuModule");
     }
 
     public void init() {
+        resourceBundle = ActionUtils.getResourceBundleByClass(GuiMenuModule.class);
+        metaMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+
         // Note: There is probably better way for clipboard action's handling
         actionMap = new ActionMap();
         cutAction = new PassingTextAction(new DefaultEditorKit.CutAction());
-        cutAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/gui/menu/resources/icons/tango-icon-theme/16x16/actions/edit-cut.png")));
-        cutAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, META_MASK));
-        cutAction.putValue(Action.NAME, resourceBundle.getString("actionEditCut.Action.text"));
-        cutAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditCut.Action.shortDescription"));
+        ActionUtils.setupAction(cutAction, resourceBundle, "editCutAction");
+        cutAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, metaMask));
         cutAction.setEnabled(false);
         actionMap.put(TransferHandler.getCutAction().getValue(Action.NAME), cutAction);
 
         copyAction = new PassingTextAction(new DefaultEditorKit.CopyAction());
-        copyAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/gui/menu/resources/icons/tango-icon-theme/16x16/actions/edit-copy.png")));
-        copyAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, META_MASK));
-        copyAction.putValue(Action.NAME, resourceBundle.getString("actionEditCopy.Action.text"));
-        copyAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditCopy.Action.shortDescription"));
+        ActionUtils.setupAction(copyAction, resourceBundle, "editCopyAction");
+        copyAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, metaMask));
         copyAction.setEnabled(false);
         actionMap.put(TransferHandler.getCopyAction().getValue(Action.NAME), copyAction);
 
         pasteAction = new PassingTextAction(new DefaultEditorKit.PasteAction());
-        pasteAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/gui/menu/resources/icons/tango-icon-theme/16x16/actions/edit-paste.png")));
-        pasteAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, META_MASK));
-        pasteAction.putValue(Action.NAME, resourceBundle.getString("actionEditPaste.Action.text"));
-        pasteAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditPaste.Action.shortDescription"));
+        ActionUtils.setupAction(pasteAction, resourceBundle, "editPasteAction");
+        pasteAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, metaMask));
         pasteAction.setEnabled(false);
         actionMap.put(TransferHandler.getPasteAction().getValue(Action.NAME), pasteAction);
 
@@ -130,10 +127,8 @@ public class ClipboardActions implements ClipboardActionsApi {
                 }
             }
         });
-        deleteAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/gui/menu/resources/icons/tango-icon-theme/16x16/actions/edit-delete.png")));
+        ActionUtils.setupAction(deleteAction, resourceBundle, "editDeleteAction");
         deleteAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
-        deleteAction.putValue(Action.NAME, resourceBundle.getString("actionEditDelete.Action.text"));
-        deleteAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditDelete.Action.shortDescription"));
         deleteAction.setEnabled(false);
         actionMap.put("delete", deleteAction);
 
@@ -147,10 +142,8 @@ public class ClipboardActions implements ClipboardActionsApi {
                 }
             }
         });
-        selectAllAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/gui/menu/resources/icons/tango-icon-theme/16x16/actions/edit-select-all.png")));
-        selectAllAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, META_MASK));
-        selectAllAction.putValue(Action.NAME, resourceBundle.getString("actionEditSelectAll.Action.text"));
-        selectAllAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditSelectAll.Action.shortDescription"));
+        ActionUtils.setupAction(selectAllAction, resourceBundle, "editSelectAllAction");
+        selectAllAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, metaMask));
 
         initDefaultPopupMenu();
     }
@@ -205,10 +198,8 @@ public class ClipboardActions implements ClipboardActionsApi {
                 setEnabled(clipboardHandler.isEditable() && clipboardHandler.isSelection());
             }
         };
-        defaultCutAction.putValue(Action.NAME, resourceBundle.getString("actionEditCut.Action.text"));
-        defaultCutAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/gui/menu/resources/icons/tango-icon-theme/16x16/actions/edit-cut.png")));
-        defaultCutAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, META_MASK));
-        defaultCutAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditCut.Action.shortDescription"));
+        ActionUtils.setupAction(defaultCutAction, resourceBundle, "editCutAction");
+        defaultCutAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, metaMask));
         defaultCutAction.setEnabled(false);
         defaultTextActionMap.put(TransferHandler.getCutAction().getValue(Action.NAME), defaultCutAction);
 
@@ -223,10 +214,8 @@ public class ClipboardActions implements ClipboardActionsApi {
                 setEnabled(clipboardHandler.isSelection());
             }
         };
-        defaultCopyAction.putValue(Action.NAME, resourceBundle.getString("actionEditCopy.Action.text"));
-        defaultCopyAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/gui/menu/resources/icons/tango-icon-theme/16x16/actions/edit-copy.png")));
-        defaultCopyAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, META_MASK));
-        defaultCopyAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditCopy.Action.shortDescription"));
+        ActionUtils.setupAction(defaultCopyAction, resourceBundle, "editCopyAction");
+        defaultCopyAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, metaMask));
         defaultCopyAction.setEnabled(false);
         defaultTextActionMap.put(TransferHandler.getCopyAction().getValue(Action.NAME), defaultCopyAction);
 
@@ -241,10 +230,8 @@ public class ClipboardActions implements ClipboardActionsApi {
                 setEnabled(clipboardHandler.isEditable());
             }
         };
-        defaultPasteAction.putValue(Action.NAME, resourceBundle.getString("actionEditPaste.Action.text"));
-        defaultPasteAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/gui/menu/resources/icons/tango-icon-theme/16x16/actions/edit-paste.png")));
-        defaultPasteAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, META_MASK));
-        defaultPasteAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditPaste.Action.shortDescription"));
+        ActionUtils.setupAction(defaultPasteAction, resourceBundle, "editPasteAction");
+        defaultPasteAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, metaMask));
         defaultPasteAction.setEnabled(false);
         defaultTextActionMap.put(TransferHandler.getPasteAction().getValue(Action.NAME), defaultPasteAction);
 
@@ -259,10 +246,8 @@ public class ClipboardActions implements ClipboardActionsApi {
                 setEnabled(clipboardHandler.isEditable() && clipboardHandler.isSelection());
             }
         };
-        defaultDeleteAction.putValue(Action.NAME, resourceBundle.getString("actionEditDelete.Action.text"));
-        defaultDeleteAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/gui/menu/resources/icons/tango-icon-theme/16x16/actions/edit-delete.png")));
+        ActionUtils.setupAction(defaultDeleteAction, resourceBundle, "editDeleteAction");
         defaultDeleteAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
-        defaultDeleteAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditDelete.Action.shortDescription"));
         defaultDeleteAction.setEnabled(false);
         defaultTextActionMap.put("delete", defaultDeleteAction);
 
@@ -277,10 +262,8 @@ public class ClipboardActions implements ClipboardActionsApi {
                 setEnabled(clipboardHandler.canSelectAll());
             }
         };
-        defaultSelectAllAction.putValue(Action.NAME, resourceBundle.getString("actionEditSelectAll.Action.text"));
-        defaultSelectAllAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/gui/menu/resources/icons/tango-icon-theme/16x16/actions/edit-delete.png")));
-        defaultSelectAllAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, META_MASK));
-        defaultSelectAllAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionEditSelectAll.Action.shortDescription"));
+        ActionUtils.setupAction(defaultSelectAllAction, resourceBundle, "editSelectAllAction");
+        defaultSelectAllAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, metaMask));
         defaultTextActionMap.put("selectAll", defaultSelectAllAction);
 
         DefaultPopupClipboardAction[] actions = {defaultCutAction, defaultCopyAction, defaultPasteAction, defaultDeleteAction, defaultSelectAllAction};

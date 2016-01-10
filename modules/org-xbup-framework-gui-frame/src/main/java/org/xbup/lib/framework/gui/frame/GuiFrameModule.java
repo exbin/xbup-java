@@ -18,27 +18,38 @@ package org.xbup.lib.framework.gui.frame;
 
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
+import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JMenuItem;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.gui.frame.api.ApplicationExitListener;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
-import org.xbup.lib.framework.gui.frame.api.XBApplicationFrameHandler;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.menu.api.MenuPosition;
 import org.xbup.lib.framework.gui.menu.api.MenuPositionMode;
+import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
+import org.xbup.lib.framework.gui.menu.api.MenuGroup;
+import org.xbup.lib.framework.gui.menu.api.MenuSeparationMode;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 
 /**
  * Implementation of XBUP framework undo/redo module.
  *
- * @version 0.2.0 2016/01/08
+ * @version 0.2.0 2016/01/10
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
 public class GuiFrameModule implements GuiFrameModuleApi {
 
+    public static final String FILE_EXIT_GROUP_ID = MODULE_ID + ".exit";
+    public static final String VIEW_BARS_GROUP_ID = MODULE_ID + ".view";
+
     private XBApplication application;
+    private ResourceBundle resourceBundle;
     private XBApplicationFrame frame;
+    private ApplicationExitHandler exitHandler = null;
 
     public GuiFrameModule() {
     }
@@ -47,6 +58,11 @@ public class GuiFrameModule implements GuiFrameModuleApi {
     public void init(XBApplication application) {
         this.application = application;
 
+        resourceBundle = ActionUtils.getResourceBundleByClass(this.getClass());
+        initMainMenu();
+    }
+
+    private void initMainMenu() {
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
         menuModule.registerMenu(MAIN_MENU_ID, MODULE_ID);
         menuModule.registerMenu(FILE_MENU_ID, MODULE_ID);
@@ -56,12 +72,12 @@ public class GuiFrameModule implements GuiFrameModuleApi {
         menuModule.registerMenu(OPTIONS_MENU_ID, MODULE_ID);
         menuModule.registerMenu(HELP_MENU_ID, MODULE_ID);
 
-        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, FILE_MENU_ID, "File", new MenuPosition(MenuPositionMode.TOP));
-        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, EDIT_MENU_ID, "Edit", new MenuPosition(MenuPositionMode.TOP));
-        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, VIEW_MENU_ID, "View", new MenuPosition(MenuPositionMode.TOP));
-        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, TOOLS_MENU_ID, "Tools", new MenuPosition(MenuPositionMode.TOP));
-        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, OPTIONS_MENU_ID, "Options", new MenuPosition(MenuPositionMode.TOP));
-        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, HELP_MENU_ID, "Help", new MenuPosition(MenuPositionMode.TOP));
+        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, FILE_MENU_ID, resourceBundle.getString("fileMenu.text"), new MenuPosition(MenuPositionMode.TOP));
+        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, EDIT_MENU_ID, resourceBundle.getString("editMenu.text"), new MenuPosition(MenuPositionMode.TOP));
+        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, VIEW_MENU_ID, resourceBundle.getString("viewMenu.text"), new MenuPosition(MenuPositionMode.TOP));
+        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, TOOLS_MENU_ID, resourceBundle.getString("toolsMenu.text"), new MenuPosition(MenuPositionMode.TOP));
+        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, OPTIONS_MENU_ID, resourceBundle.getString("optionsMenu.text"), new MenuPosition(MenuPositionMode.TOP));
+        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, HELP_MENU_ID, resourceBundle.getString("helpMenu.text"), new MenuPosition(MenuPositionMode.TOP));
     }
 
     @Override
@@ -70,8 +86,7 @@ public class GuiFrameModule implements GuiFrameModuleApi {
 
     @Override
     public Frame getFrame() {
-        XBApplicationFrameHandler frameHandler = getFrameHandler();
-        return frameHandler.getFrame();
+        return getFrameHandler().getFrame();
     }
 
     @Override
@@ -79,23 +94,112 @@ public class GuiFrameModule implements GuiFrameModuleApi {
         Action exitAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                if (exitHandler != null) {
+                    exitHandler.executeExit(getFrameHandler());
+                } else {
+                    System.exit(0);
+                }
             }
         };
-        exitAction.putValue(MODULE_ID, this);
-        exitAction.putValue(Action.NAME, "Exit");
+        ActionUtils.setupAction(exitAction, resourceBundle, "exitAction");
         exitAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.KeyEvent.ALT_DOWN_MASK));
 
         return exitAction;
     }
 
     @Override
-    public XBApplicationFrameHandler getFrameHandler() {
+    public void registerExitAction() {
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        String appClosingActionsGroup = "ApplicationClosingActionsGroup";
+        menuModule.registerMenuGroup(GuiFrameModuleApi.FILE_MENU_ID, new MenuGroup(appClosingActionsGroup, new MenuPosition(MenuPositionMode.BOTTOM_LAST), MenuSeparationMode.ABOVE));
+        menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, MODULE_ID, getExitAction(), new MenuPosition(appClosingActionsGroup));
+    }
+
+    @Override
+    public ApplicationFrameHandler getFrameHandler() {
         if (frame == null) {
             frame = new XBApplicationFrame();
             frame.loadMainMenu(application);
         }
 
         return frame;
+    }
+
+    @Override
+    public void addExitListener(ApplicationExitListener listener) {
+        getExitHandler().addListener(listener);
+    }
+
+    @Override
+    public void removeExitListener(ApplicationExitListener listener) {
+        getExitHandler().removeListener(listener);
+    }
+
+    private ApplicationExitHandler getExitHandler() {
+        if (exitHandler == null) {
+            exitHandler = new ApplicationExitHandler();
+        }
+
+        return exitHandler;
+    }
+
+    @Override
+    public Action getViewToolBarAction() {
+        final Action viewToolBarAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object source = e.getSource();
+                if (source instanceof JMenuItem) {
+                    frame.setToolBarVisible(((JMenuItem) source).isSelected());
+                }
+            }
+        };
+        ActionUtils.setupAction(viewToolBarAction, resourceBundle, "viewToolBarAction");
+        viewToolBarAction.putValue(Action.SELECTED_KEY, true);
+        viewToolBarAction.putValue(ActionUtils.ACTION_TYPE, ActionUtils.ActionType.CHECK);
+        return viewToolBarAction;
+    }
+
+    @Override
+    public Action getViewToolBarCaptionsAction() {
+        final Action viewToolBarCaptionsAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object source = e.getSource();
+                if (source instanceof JMenuItem) {
+                    frame.setToolBarCaptionsVisible(((JMenuItem) source).isSelected());
+                }
+            }
+        };
+        ActionUtils.setupAction(viewToolBarCaptionsAction, resourceBundle, "viewToolBarCaptionsAction");
+        viewToolBarCaptionsAction.putValue(Action.SELECTED_KEY, true);
+        viewToolBarCaptionsAction.putValue(ActionUtils.ACTION_TYPE, ActionUtils.ActionType.CHECK);
+        return viewToolBarCaptionsAction;
+    }
+
+    @Override
+    public Action getViewStatusBarAction() {
+        final Action viewStatusBarAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object source = e.getSource();
+                if (source instanceof JMenuItem) {
+                    frame.setStatusBarVisible(((JMenuItem) source).isSelected());
+                }
+            }
+        };
+        ActionUtils.setupAction(viewStatusBarAction, resourceBundle, "viewStatusBarAction");
+        viewStatusBarAction.putValue(Action.SELECTED_KEY, true);
+        viewStatusBarAction.putValue(ActionUtils.ACTION_TYPE, ActionUtils.ActionType.CHECK);
+        return viewStatusBarAction;
+    }
+
+    @Override
+    public void registerBarsVisibilityActions() {
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenuGroup(GuiFrameModuleApi.VIEW_MENU_ID, new MenuGroup(VIEW_BARS_GROUP_ID, new MenuPosition(MenuPositionMode.TOP), MenuSeparationMode.BELOW));
+        menuModule.registerMenuItem(GuiFrameModuleApi.VIEW_MENU_ID, MODULE_ID, getViewToolBarAction(), new MenuPosition(VIEW_BARS_GROUP_ID));
+        menuModule.registerMenuItem(GuiFrameModuleApi.VIEW_MENU_ID, MODULE_ID, getViewToolBarCaptionsAction(), new MenuPosition(VIEW_BARS_GROUP_ID));
+        menuModule.registerMenuItem(GuiFrameModuleApi.VIEW_MENU_ID, MODULE_ID, getViewStatusBarAction(), new MenuPosition(VIEW_BARS_GROUP_ID));
     }
 }

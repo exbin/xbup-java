@@ -14,34 +14,38 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.gui.menu.api;
+package org.xbup.lib.framework.gui.menu;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.xbup.lib.framework.gui.menu.api.ToolBarContribution;
 
 /**
- * Menu position.
+ * Implementation of XBUP framework menu module.
  *
- * @version 0.2.0 2016/01/09
+ * @version 0.2.0 2016/01/11
  * @author XBUP Project (http://xbup.org)
  */
-public class MenuPosition {
+public class ToolBarDefinition {
 
-    private final PositionMode basicMode;
-    private final String groupId;
+    private final String pluginId;
+    private List<ToolBarContribution> contributions = new ArrayList<>();
 
-    public MenuPosition(PositionMode basicMode) {
-        this.basicMode = basicMode;
-        groupId = null;
+    public ToolBarDefinition(String pluginId) {
+        this.pluginId = pluginId;
     }
 
-    public MenuPosition(String groupId) {
-        basicMode = null;
-        this.groupId = groupId;
+    /**
+     * @return the contributions
+     */
+    public List<ToolBarContribution> getContributions() {
+        return contributions;
     }
 
-    public PositionMode getBasicMode() {
-        return basicMode;
-    }
-
-    public String getGroupId() {
-        return groupId;
+    /**
+     * @param contributions the contributions to set
+     */
+    public void setContributions(List<ToolBarContribution> contributions) {
+        this.contributions = contributions;
     }
 }

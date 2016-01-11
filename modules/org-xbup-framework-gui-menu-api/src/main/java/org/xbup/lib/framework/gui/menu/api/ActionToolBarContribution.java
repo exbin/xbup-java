@@ -16,19 +16,29 @@
  */
 package org.xbup.lib.framework.gui.menu.api;
 
+import javax.swing.Action;
+
 /**
- * Enumeration of menu separator placement modes.
+ * Record for action as menu item contribution.
  *
- * @version 0.2.0 2016/01/09
+ * @version 0.2.0 2016/01/11
  * @author XBUP Project (http://xbup.org)
  */
-public enum MenuSeparationMode {
+public class ActionToolBarContribution implements ToolBarContribution {
 
-    NONE,
-    ABOVE,
-    /**
-     * Includes separator both above and below
-     */
-    AROUND,
-    BELOW
+    private final Action action;
+    private final ToolBarPosition position;
+
+    public ActionToolBarContribution(Action action, ToolBarPosition position) {
+        this.action = action;
+        this.position = position;
+    }
+
+    public Action getAction() {
+        return action;
+    }
+
+    public ToolBarPosition getToolBarPosition() {
+        return position;
+    }
 }

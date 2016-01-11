@@ -29,7 +29,7 @@ import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
 /**
  * Basic appplication frame.
  *
- * @version 0.2.0 2016/01/08
+ * @version 0.2.0 2016/01/11
  * @author XBUP Project (http://xbup.org)
  */
 public class XBApplicationFrame extends javax.swing.JFrame implements ApplicationFrameHandler {
@@ -204,5 +204,11 @@ public class XBApplicationFrame extends javax.swing.JFrame implements Applicatio
     public void loadMainMenu(XBApplication application) {
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
         menuModule.buildMenu(menuBar, GuiFrameModule.MAIN_MENU_ID);
+    }
+
+    @Override
+    public void loadMainToolBar(XBApplication application) {
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.buildToolBar(toolBar, GuiFrameModule.MAIN_TOOL_BAR_ID);
     }
 }

@@ -28,10 +28,10 @@ import org.xbup.lib.framework.gui.frame.api.ApplicationExitListener;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.menu.api.MenuPosition;
-import org.xbup.lib.framework.gui.menu.api.MenuPositionMode;
+import org.xbup.lib.framework.gui.menu.api.PositionMode;
 import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
 import org.xbup.lib.framework.gui.menu.api.MenuGroup;
-import org.xbup.lib.framework.gui.menu.api.MenuSeparationMode;
+import org.xbup.lib.framework.gui.menu.api.SeparationMode;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
 
 /**
@@ -60,6 +60,7 @@ public class GuiFrameModule implements GuiFrameModuleApi {
 
         resourceBundle = ActionUtils.getResourceBundleByClass(this.getClass());
         initMainMenu();
+        initMainToolBar();
     }
 
     private void initMainMenu() {
@@ -72,12 +73,17 @@ public class GuiFrameModule implements GuiFrameModuleApi {
         menuModule.registerMenu(OPTIONS_MENU_ID, MODULE_ID);
         menuModule.registerMenu(HELP_MENU_ID, MODULE_ID);
 
-        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, FILE_MENU_ID, resourceBundle.getString("fileMenu.text"), new MenuPosition(MenuPositionMode.TOP));
-        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, EDIT_MENU_ID, resourceBundle.getString("editMenu.text"), new MenuPosition(MenuPositionMode.TOP));
-        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, VIEW_MENU_ID, resourceBundle.getString("viewMenu.text"), new MenuPosition(MenuPositionMode.TOP));
-        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, TOOLS_MENU_ID, resourceBundle.getString("toolsMenu.text"), new MenuPosition(MenuPositionMode.TOP));
-        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, OPTIONS_MENU_ID, resourceBundle.getString("optionsMenu.text"), new MenuPosition(MenuPositionMode.TOP));
-        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, HELP_MENU_ID, resourceBundle.getString("helpMenu.text"), new MenuPosition(MenuPositionMode.TOP));
+        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, FILE_MENU_ID, resourceBundle.getString("fileMenu.text"), new MenuPosition(PositionMode.TOP));
+        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, EDIT_MENU_ID, resourceBundle.getString("editMenu.text"), new MenuPosition(PositionMode.TOP));
+        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, VIEW_MENU_ID, resourceBundle.getString("viewMenu.text"), new MenuPosition(PositionMode.TOP));
+        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, TOOLS_MENU_ID, resourceBundle.getString("toolsMenu.text"), new MenuPosition(PositionMode.TOP));
+        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, OPTIONS_MENU_ID, resourceBundle.getString("optionsMenu.text"), new MenuPosition(PositionMode.TOP));
+        menuModule.registerMenuItem(MAIN_MENU_ID, MODULE_ID, HELP_MENU_ID, resourceBundle.getString("helpMenu.text"), new MenuPosition(PositionMode.TOP));
+    }
+
+    private void initMainToolBar() {
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerToolBar(MAIN_TOOL_BAR_ID, MODULE_ID);
     }
 
     @Override
@@ -111,7 +117,7 @@ public class GuiFrameModule implements GuiFrameModuleApi {
     public void registerExitAction() {
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
         String appClosingActionsGroup = "ApplicationClosingActionsGroup";
-        menuModule.registerMenuGroup(GuiFrameModuleApi.FILE_MENU_ID, new MenuGroup(appClosingActionsGroup, new MenuPosition(MenuPositionMode.BOTTOM_LAST), MenuSeparationMode.ABOVE));
+        menuModule.registerMenuGroup(GuiFrameModuleApi.FILE_MENU_ID, new MenuGroup(appClosingActionsGroup, new MenuPosition(PositionMode.BOTTOM_LAST), SeparationMode.ABOVE));
         menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, MODULE_ID, getExitAction(), new MenuPosition(appClosingActionsGroup));
     }
 
@@ -120,6 +126,7 @@ public class GuiFrameModule implements GuiFrameModuleApi {
         if (frame == null) {
             frame = new XBApplicationFrame();
             frame.loadMainMenu(application);
+            frame.loadMainToolBar(application);
         }
 
         return frame;
@@ -197,7 +204,7 @@ public class GuiFrameModule implements GuiFrameModuleApi {
     @Override
     public void registerBarsVisibilityActions() {
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
-        menuModule.registerMenuGroup(GuiFrameModuleApi.VIEW_MENU_ID, new MenuGroup(VIEW_BARS_GROUP_ID, new MenuPosition(MenuPositionMode.TOP), MenuSeparationMode.BELOW));
+        menuModule.registerMenuGroup(GuiFrameModuleApi.VIEW_MENU_ID, new MenuGroup(VIEW_BARS_GROUP_ID, new MenuPosition(PositionMode.TOP), SeparationMode.BELOW));
         menuModule.registerMenuItem(GuiFrameModuleApi.VIEW_MENU_ID, MODULE_ID, getViewToolBarAction(), new MenuPosition(VIEW_BARS_GROUP_ID));
         menuModule.registerMenuItem(GuiFrameModuleApi.VIEW_MENU_ID, MODULE_ID, getViewToolBarCaptionsAction(), new MenuPosition(VIEW_BARS_GROUP_ID));
         menuModule.registerMenuItem(GuiFrameModuleApi.VIEW_MENU_ID, MODULE_ID, getViewStatusBarAction(), new MenuPosition(VIEW_BARS_GROUP_ID));

@@ -79,6 +79,13 @@ public interface ApplicationFrameHandler {
     void loadMainMenu(XBApplication application);
 
     /**
+     * Loads main tool bar for the frame.
+     *
+     * @param application
+     */
+    void loadMainToolBar(XBApplication application);
+
+    /**
      * Shows this frame.
      */
     void show();

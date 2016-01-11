@@ -17,31 +17,35 @@
 package org.xbup.lib.framework.gui.menu.api;
 
 /**
- * Menu position.
+ * Enumeration of menu position modes using build-in groups.
  *
- * @version 0.2.0 2016/01/09
+ * @version 0.2.0 2015/12/16
  * @author XBUP Project (http://xbup.org)
  */
-public class MenuPosition {
+public enum PositionMode {
 
-    private final PositionMode basicMode;
-    private final String groupId;
-
-    public MenuPosition(PositionMode basicMode) {
-        this.basicMode = basicMode;
-        groupId = null;
-    }
-
-    public MenuPosition(String groupId) {
-        basicMode = null;
-        this.groupId = groupId;
-    }
-
-    public PositionMode getBasicMode() {
-        return basicMode;
-    }
-
-    public String getGroupId() {
-        return groupId;
-    }
+    /**
+     * Top position.
+     */
+    TOP,
+    /**
+     * End of the top position.
+     */
+    TOP_LAST,
+    /**
+     * Default: Normal position in the middle section.
+     */
+    MIDDLE,
+    /**
+     * Normal position at the end of the middle section.
+     */
+    MIDDLE_LAST,
+    /**
+     * Bottom position.
+     */
+    BOTTOM,
+    /**
+     * End of the bottom position.
+     */
+    BOTTOM_LAST
 }

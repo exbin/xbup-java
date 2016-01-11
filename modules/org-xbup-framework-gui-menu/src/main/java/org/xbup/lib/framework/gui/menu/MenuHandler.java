@@ -33,8 +33,8 @@ import org.xbup.lib.framework.gui.menu.api.ActionMenuContribution;
 import org.xbup.lib.framework.gui.menu.api.MenuContribution;
 import org.xbup.lib.framework.gui.menu.api.MenuGroup;
 import org.xbup.lib.framework.gui.menu.api.MenuPosition;
-import org.xbup.lib.framework.gui.menu.api.MenuPositionMode;
-import org.xbup.lib.framework.gui.menu.api.MenuSeparationMode;
+import org.xbup.lib.framework.gui.menu.api.PositionMode;
+import org.xbup.lib.framework.gui.menu.api.SeparationMode;
 import org.xbup.lib.framework.gui.menu.api.SubMenuContribution;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
 
@@ -84,7 +84,7 @@ public class MenuHandler {
 
         // Create list of build-in groups
         Map<String, MenuGroupRecord> groupsMap = new HashMap<>();
-        for (MenuPositionMode mode : MenuPositionMode.values()) {
+        for (PositionMode mode : PositionMode.values()) {
             MenuGroupRecord menuGroupRecord = new MenuGroupRecord(mode.name());
             groupsMap.put(mode.name(), menuGroupRecord);
             groupRecords.add(menuGroupRecord);
@@ -95,7 +95,7 @@ public class MenuHandler {
         if (groups != null) {
             for (MenuGroup group : groups) {
                 String groupId = group.getGroupId();
-                MenuSeparationMode separationMode = group.getSeparationMode();
+                SeparationMode separationMode = group.getSeparationMode();
                 MenuPosition position = group.getPosition();
                 if (position.getBasicMode() != null) {
                     MenuGroupRecord groupRecord = groupsMap.get(position.getBasicMode().name());
@@ -145,7 +145,7 @@ public class MenuHandler {
             MenuGroupRecord groupRecord = pathNode.records.get(pathNode.childIndex);
             pathNode.childIndex++;
 
-            if ((groupRecord.separationMode == MenuSeparationMode.ABOVE || groupRecord.separationMode == MenuSeparationMode.AROUND) && menuContinues) {
+            if ((groupRecord.separationMode == SeparationMode.ABOVE || groupRecord.separationMode == SeparationMode.AROUND) && menuContinues) {
                 targetMenu.addSeparator();
                 separatorQueued = false;
             }
@@ -192,7 +192,7 @@ public class MenuHandler {
                 menuContinues = true;
             }
 
-            if (groupRecord.separationMode == MenuSeparationMode.AROUND || groupRecord.separationMode == MenuSeparationMode.BELOW) {
+            if (groupRecord.separationMode == SeparationMode.AROUND || groupRecord.separationMode == SeparationMode.BELOW) {
                 separatorQueued = true;
             }
 
@@ -255,7 +255,7 @@ public class MenuHandler {
     private class MenuGroupRecord {
 
         String groupId;
-        MenuSeparationMode separationMode;
+        SeparationMode separationMode;
         List<MenuGroupRecord> subGroups = new LinkedList<>();
         List<MenuContribution> contributions = new LinkedList<>();
 
@@ -263,7 +263,7 @@ public class MenuHandler {
             this.groupId = groupId;
         }
 
-        public MenuGroupRecord(String groupId, MenuSeparationMode separationMode) {
+        public MenuGroupRecord(String groupId, SeparationMode separationMode) {
             this(groupId);
             this.separationMode = separationMode;
         }

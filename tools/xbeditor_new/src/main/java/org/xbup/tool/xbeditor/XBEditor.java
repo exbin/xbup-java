@@ -37,12 +37,12 @@ import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.menu.api.MenuGroup;
 import org.xbup.lib.framework.gui.menu.api.MenuPosition;
-import org.xbup.lib.framework.gui.menu.api.MenuPositionMode;
+import org.xbup.lib.framework.gui.menu.api.PositionMode;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 import org.xbup.lib.framework.gui.menu.api.ClipboardActionsApi;
 import org.xbup.lib.framework.gui.file.api.FileHandlingActionsApi;
 import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
-import org.xbup.lib.framework.gui.menu.api.MenuSeparationMode;
+import org.xbup.lib.framework.gui.menu.api.SeparationMode;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
 import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
 
@@ -117,16 +117,16 @@ public class XBEditor {
 
                 // Test menu registration
                 Action aboutAction = aboutModule.getAboutAction();
-                menuModule.registerMenuItem(GuiFrameModuleApi.HELP_MENU_ID, GuiAboutModuleApi.MODULE_ID, aboutAction, new MenuPosition(MenuPositionMode.BOTTOM_LAST));
+                menuModule.registerMenuItem(GuiFrameModuleApi.HELP_MENU_ID, GuiAboutModuleApi.MODULE_ID, aboutAction, new MenuPosition(PositionMode.BOTTOM_LAST));
 
                 String appClosingActionsGroup = "ApplicationClosingActionsGroup";
-                menuModule.registerMenuGroup(GuiFrameModuleApi.FILE_MENU_ID, new MenuGroup(appClosingActionsGroup, new MenuPosition(MenuPositionMode.BOTTOM_LAST), MenuSeparationMode.ABOVE));
+                menuModule.registerMenuGroup(GuiFrameModuleApi.FILE_MENU_ID, new MenuGroup(appClosingActionsGroup, new MenuPosition(PositionMode.BOTTOM_LAST), SeparationMode.ABOVE));
                 menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, GuiAboutModuleApi.MODULE_ID, frameModule.getExitAction(), new MenuPosition(appClosingActionsGroup));
 
                 // Register clipboard editing actions
                 String fileHandlingActionsGroup = "FileHandlingActionsGroup";
                 FileHandlingActionsApi fileActions = fileModule.getFileHandlingActions();
-                menuModule.registerMenuGroup(GuiFrameModuleApi.FILE_MENU_ID, new MenuGroup(fileHandlingActionsGroup, new MenuPosition(MenuPositionMode.TOP)));
+                menuModule.registerMenuGroup(GuiFrameModuleApi.FILE_MENU_ID, new MenuGroup(fileHandlingActionsGroup, new MenuPosition(PositionMode.TOP)));
                 menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, GuiAboutModuleApi.MODULE_ID, fileActions.getNewFileAction(), new MenuPosition(fileHandlingActionsGroup));
                 menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, GuiAboutModuleApi.MODULE_ID, fileActions.getOpenFileAction(), new MenuPosition(fileHandlingActionsGroup));
                 menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, GuiAboutModuleApi.MODULE_ID, fileActions.getSaveFileAction(), new MenuPosition(fileHandlingActionsGroup));
@@ -137,7 +137,7 @@ public class XBEditor {
                 // Register clipboard editing actions
                 String clipboardActionsGroup = "ClipboardActionsGroup";
                 ClipboardActionsApi clipboardActions = menuModule.getClipboardActions();
-                menuModule.registerMenuGroup(GuiFrameModuleApi.EDIT_MENU_ID, new MenuGroup(clipboardActionsGroup, new MenuPosition(MenuPositionMode.TOP)));
+                menuModule.registerMenuGroup(GuiFrameModuleApi.EDIT_MENU_ID, new MenuGroup(clipboardActionsGroup, new MenuPosition(PositionMode.TOP)));
                 menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiAboutModuleApi.MODULE_ID, clipboardActions.getCutAction(), new MenuPosition(clipboardActionsGroup));
                 menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiAboutModuleApi.MODULE_ID, clipboardActions.getCopyAction(), new MenuPosition(clipboardActionsGroup));
                 menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiAboutModuleApi.MODULE_ID, clipboardActions.getPasteAction(), new MenuPosition(clipboardActionsGroup));
@@ -145,7 +145,7 @@ public class XBEditor {
                 menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiAboutModuleApi.MODULE_ID, clipboardActions.getSelectAllAction(), new MenuPosition(clipboardActionsGroup));
 
                 Action optionsAction = optionsModule.getOptionsAction();
-                menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, GuiAboutModuleApi.MODULE_ID, optionsAction, new MenuPosition(MenuPositionMode.BOTTOM_LAST));
+                menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, GuiAboutModuleApi.MODULE_ID, optionsAction, new MenuPosition(PositionMode.BOTTOM_LAST));
 
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
 

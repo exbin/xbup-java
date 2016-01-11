@@ -24,13 +24,14 @@ import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 /**
  * Interface for XBUP framework frame module.
  *
- * @version 0.2.0 2016/01/10
+ * @version 0.2.0 2016/01/11
  * @author XBUP Project (http://xbup.org)
  */
 public interface GuiFrameModuleApi extends XBApplicationModulePlugin {
 
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiFrameModuleApi.class);
-    public static String MAIN_MENU_ID = MODULE_ID + ".main";
+    public static String MAIN_MENU_ID = MODULE_ID + ".mainMenu";
+    public static String MAIN_TOOL_BAR_ID = MODULE_ID + ".mainToolBar";
     public static String FILE_MENU_ID = MAIN_MENU_ID + "/File";
     public static String EDIT_MENU_ID = MAIN_MENU_ID + "/Edit";
     public static String VIEW_MENU_ID = MAIN_MENU_ID + "/View";

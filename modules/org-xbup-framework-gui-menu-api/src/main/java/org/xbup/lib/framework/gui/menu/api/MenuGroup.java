@@ -26,15 +26,15 @@ public class MenuGroup {
 
     private final String groupId;
     private final MenuPosition position;
-    private final MenuSeparationMode separationMode;
+    private final SeparationMode separationMode;
 
     public MenuGroup(String groupId, MenuPosition position) {
         this.groupId = groupId;
         this.position = position;
-        separationMode = MenuSeparationMode.NONE;
+        separationMode = SeparationMode.NONE;
     }
 
-    public MenuGroup(String groupId, MenuPosition position, MenuSeparationMode separationMode) {
+    public MenuGroup(String groupId, MenuPosition position, SeparationMode separationMode) {
         this.groupId = groupId;
         this.position = position;
         this.separationMode = separationMode;
@@ -48,7 +48,7 @@ public class MenuGroup {
         return position;
     }
 
-    public MenuSeparationMode getSeparationMode() {
+    public SeparationMode getSeparationMode() {
         return separationMode;
     }
 }

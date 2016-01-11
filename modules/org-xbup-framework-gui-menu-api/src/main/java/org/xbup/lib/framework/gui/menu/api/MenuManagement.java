@@ -37,7 +37,7 @@ public interface MenuManagement {
      * @param menuId
      * @param positionMode
      */
-    public void extendMenu(JMenu menu, Integer pluginId, String menuId, MenuPositionMode positionMode);
+    public void extendMenu(JMenu menu, Integer pluginId, String menuId, PositionMode positionMode);
 
     /**
      * Adds given menu component into menu manager.
@@ -47,7 +47,7 @@ public interface MenuManagement {
      * @param mode
      * @param menuId
      */
-    public void addMenuItem(Component menuItem, Integer pluginId, String menuId, MenuPositionMode mode);
+    public void addMenuItem(Component menuItem, Integer pluginId, String menuId, PositionMode mode);
 
     /**
      * Insert menu into menubar into main menu manager.
@@ -56,7 +56,7 @@ public interface MenuManagement {
      * @param pluginId
      * @param positionMode
      */
-    public void insertMenu(JMenu menu, Integer pluginId, MenuPositionMode positionMode);
+    public void insertMenu(JMenu menu, Integer pluginId, PositionMode positionMode);
 
     /**
      * Adds all items from given toolbar instance into menu manager.

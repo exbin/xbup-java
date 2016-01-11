@@ -17,31 +17,38 @@
 package org.xbup.lib.framework.gui.menu.api;
 
 /**
- * Menu position.
+ * Tool bar group definition.
  *
- * @version 0.2.0 2016/01/09
+ * @version 0.2.0 2016/01/11
  * @author XBUP Project (http://xbup.org)
  */
-public class MenuPosition {
+public class ToolBarGroup {
 
-    private final PositionMode basicMode;
     private final String groupId;
+    private final ToolBarPosition position;
+    private final SeparationMode separationMode;
 
-    public MenuPosition(PositionMode basicMode) {
-        this.basicMode = basicMode;
-        groupId = null;
-    }
-
-    public MenuPosition(String groupId) {
-        basicMode = null;
+    public ToolBarGroup(String groupId, ToolBarPosition position) {
         this.groupId = groupId;
+        this.position = position;
+        separationMode = SeparationMode.NONE;
     }
 
-    public PositionMode getBasicMode() {
-        return basicMode;
+    public ToolBarGroup(String groupId, ToolBarPosition position, SeparationMode separationMode) {
+        this.groupId = groupId;
+        this.position = position;
+        this.separationMode = separationMode;
     }
 
     public String getGroupId() {
         return groupId;
+    }
+
+    public ToolBarPosition getPosition() {
+        return position;
+    }
+
+    public SeparationMode getSeparationMode() {
+        return separationMode;
     }
 }

@@ -16,57 +16,37 @@
  */
 package org.xbup.lib.framework.gui.menu;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.JToolBar;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.menu.api.MenuGroup;
 import org.xbup.lib.framework.gui.menu.api.MenuPosition;
-import org.xbup.lib.framework.gui.menu.api.MenuPositionMode;
+import org.xbup.lib.framework.gui.menu.api.PositionMode;
+import org.xbup.lib.framework.gui.menu.api.ToolBarGroup;
+import org.xbup.lib.framework.gui.menu.api.ToolBarPosition;
 
 /**
  * Implementation of XBUP framework menu module.
  *
- * @version 0.2.0 2016/01/10
+ * @version 0.2.0 2016/01/11
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
 public class GuiMenuModule implements GuiMenuModuleApi {
 
-    public static final String CLIPBOARD_ACTIONS_MENU_GROUP_ID = MODULE_ID + ".clipboardActionsGroup";
+    public static final String CLIPBOARD_ACTIONS_MENU_GROUP_ID = MODULE_ID + ".clipboardMenuActionsGroup";
+    public static final String CLIPBOARD_ACTIONS_TOOL_BAR_GROUP_ID = MODULE_ID + ".clipboardToolBarActionsGroup";
     private XBApplication application;
     private ClipboardActions clipboardActions = null;
     private MenuHandler menuHandler = null;
-
-    /**
-     * Menu records: menu id -> menu definition.
-     */
-    private Map<String, MenuDefinition> menus = new HashMap<>();
-
-    /**
-     * Menu group records: menu id -> menu group.
-     */
-    private Map<String, List<MenuGroup>> menuGroups = new HashMap<>();
-
-    /**
-     * Menu modified flags.
-     */
-    private Set<String> menuModified = new HashSet<>();
-
-    /**
-     * Map of plugins usage per menu id.
-     */
-    private Map<String, String> pluginsUsage = new HashMap<>();
+    private ToolBarHandler toolBarHandler = null;
 
     public GuiMenuModule() {
     }
@@ -96,6 +76,14 @@ public class GuiMenuModule implements GuiMenuModuleApi {
         }
 
         return menuHandler;
+    }
+
+    private ToolBarHandler getToolBarHandler() {
+        if (toolBarHandler == null) {
+            toolBarHandler = new ToolBarHandler();
+        }
+
+        return toolBarHandler;
     }
 
     @Override
@@ -139,13 +127,44 @@ public class GuiMenuModule implements GuiMenuModuleApi {
     }
 
     @Override
-    public void registerClipboardActions() {
+    public void buildToolBar(JToolBar targetToolBar, String toolBarId) {
+        getToolBarHandler().buildToolBar(targetToolBar, toolBarId);
+    }
+
+    @Override
+    public void registerToolBar(String toolBarId, String pluginId) {
+        getToolBarHandler().registerToolBar(toolBarId, pluginId);
+    }
+
+    @Override
+    public void registerToolBarGroup(String toolBarId, ToolBarGroup toolBarGroup) {
+        getToolBarHandler().registerToolBarGroup(toolBarId, toolBarGroup);
+    }
+
+    @Override
+    public void registerToolBarItem(String toolBarId, String pluginId, Action action, ToolBarPosition position) {
+        getToolBarHandler().registerToolBarItem(toolBarId, pluginId, action, position);
+    }
+
+    @Override
+    public void registerMenuClipboardActions() {
         getClipboardActions();
-        registerMenuGroup(GuiFrameModuleApi.EDIT_MENU_ID, new MenuGroup(CLIPBOARD_ACTIONS_MENU_GROUP_ID, new MenuPosition(MenuPositionMode.TOP)));
+        registerMenuGroup(GuiFrameModuleApi.EDIT_MENU_ID, new MenuGroup(CLIPBOARD_ACTIONS_MENU_GROUP_ID, new MenuPosition(PositionMode.TOP)));
         registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, MODULE_ID, clipboardActions.getCutAction(), new MenuPosition(CLIPBOARD_ACTIONS_MENU_GROUP_ID));
         registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, MODULE_ID, clipboardActions.getCopyAction(), new MenuPosition(CLIPBOARD_ACTIONS_MENU_GROUP_ID));
         registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, MODULE_ID, clipboardActions.getPasteAction(), new MenuPosition(CLIPBOARD_ACTIONS_MENU_GROUP_ID));
         registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, MODULE_ID, clipboardActions.getDeleteAction(), new MenuPosition(CLIPBOARD_ACTIONS_MENU_GROUP_ID));
         registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, MODULE_ID, clipboardActions.getSelectAllAction(), new MenuPosition(CLIPBOARD_ACTIONS_MENU_GROUP_ID));
+    }
+
+    @Override
+    public void registerToolBarClipboardActions() {
+        getClipboardActions();
+        registerToolBarGroup(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, new ToolBarGroup(CLIPBOARD_ACTIONS_TOOL_BAR_GROUP_ID, new ToolBarPosition(PositionMode.TOP)));
+        registerToolBarItem(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, MODULE_ID, clipboardActions.getCutAction(), new ToolBarPosition(CLIPBOARD_ACTIONS_TOOL_BAR_GROUP_ID));
+        registerToolBarItem(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, MODULE_ID, clipboardActions.getCopyAction(), new ToolBarPosition(CLIPBOARD_ACTIONS_TOOL_BAR_GROUP_ID));
+        registerToolBarItem(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, MODULE_ID, clipboardActions.getPasteAction(), new ToolBarPosition(CLIPBOARD_ACTIONS_TOOL_BAR_GROUP_ID));
+        registerToolBarItem(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, MODULE_ID, clipboardActions.getDeleteAction(), new ToolBarPosition(CLIPBOARD_ACTIONS_TOOL_BAR_GROUP_ID));
+        registerToolBarItem(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, MODULE_ID, clipboardActions.getSelectAllAction(), new ToolBarPosition(CLIPBOARD_ACTIONS_TOOL_BAR_GROUP_ID));
     }
 }

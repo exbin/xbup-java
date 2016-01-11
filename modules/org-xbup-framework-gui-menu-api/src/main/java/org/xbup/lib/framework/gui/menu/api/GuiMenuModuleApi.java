@@ -21,13 +21,14 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.JToolBar;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 
 /**
  * Interface for XBUP framework menu module.
  *
- * @version 0.2.0 2016/01/08
+ * @version 0.2.0 2016/01/11
  * @author XBUP Project (http://xbup.org)
  */
 public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
@@ -116,7 +117,46 @@ public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
     ClipboardActionsApi getClipboardActions();
 
     /**
-     * Registers clipboard actions.
+     * Registers menu clipboard actions.
      */
-    void registerClipboardActions();
+    void registerMenuClipboardActions();
+
+    /**
+     * Returns tool bar using given identificator.
+     *
+     * @param targetToolBar
+     * @param toolBarId
+     */
+    void buildToolBar(JToolBar targetToolBar, String toolBarId);
+
+    /**
+     * Registers tool bar associating it with given identificator.
+     *
+     * @param toolBarId
+     * @param pluginId
+     */
+    void registerToolBar(String toolBarId, String pluginId);
+
+    /**
+     * Registers tool bar group for particular tool bar.
+     *
+     * @param toolBarId
+     * @param toolBarGroup
+     */
+    void registerToolBarGroup(String toolBarId, ToolBarGroup toolBarGroup);
+
+    /**
+     * Registers item as a child item for given tool bar.
+     *
+     * @param toolBarId
+     * @param pluginId
+     * @param action
+     * @param position
+     */
+    void registerToolBarItem(String toolBarId, String pluginId, Action action, ToolBarPosition position);
+
+    /**
+     * Registers tool bar clipboard actions.
+     */
+    void registerToolBarClipboardActions();
 }

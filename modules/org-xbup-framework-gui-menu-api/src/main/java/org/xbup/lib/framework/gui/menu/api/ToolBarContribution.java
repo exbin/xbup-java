@@ -17,31 +17,12 @@
 package org.xbup.lib.framework.gui.menu.api;
 
 /**
- * Menu position.
+ * Interface for tool bar contributions.
  *
- * @version 0.2.0 2016/01/09
+ * @version 0.2.0 2016/01/11
  * @author XBUP Project (http://xbup.org)
  */
-public class MenuPosition {
+public interface ToolBarContribution {
 
-    private final PositionMode basicMode;
-    private final String groupId;
-
-    public MenuPosition(PositionMode basicMode) {
-        this.basicMode = basicMode;
-        groupId = null;
-    }
-
-    public MenuPosition(String groupId) {
-        basicMode = null;
-        this.groupId = groupId;
-    }
-
-    public PositionMode getBasicMode() {
-        return basicMode;
-    }
-
-    public String getGroupId() {
-        return groupId;
-    }
+    ToolBarPosition getToolBarPosition();
 }

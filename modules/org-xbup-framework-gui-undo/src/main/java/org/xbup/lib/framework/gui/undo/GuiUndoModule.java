@@ -27,8 +27,8 @@ import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.menu.api.MenuGroup;
 import org.xbup.lib.framework.gui.menu.api.MenuPosition;
-import org.xbup.lib.framework.gui.menu.api.MenuPositionMode;
-import org.xbup.lib.framework.gui.menu.api.MenuSeparationMode;
+import org.xbup.lib.framework.gui.menu.api.PositionMode;
+import org.xbup.lib.framework.gui.menu.api.SeparationMode;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 import org.xbup.lib.framework.gui.undo.dialog.UndoManagerDialog;
 import org.xbup.lib.framework.gui.undo.dialog.UndoManagerModel;
@@ -128,7 +128,7 @@ public class GuiUndoModule implements GuiUndoModuleApi {
     @Override
     public void registerMainMenu() {
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
-        menuModule.registerMenuGroup(GuiFrameModuleApi.EDIT_MENU_ID, new MenuGroup(UNDO_MENU_GROUP, new MenuPosition(MenuPositionMode.TOP), MenuSeparationMode.BELOW));
+        menuModule.registerMenuGroup(GuiFrameModuleApi.EDIT_MENU_ID, new MenuGroup(UNDO_MENU_GROUP, new MenuPosition(PositionMode.TOP), SeparationMode.BELOW));
         menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiUndoModuleApi.MODULE_ID, undoAction, new MenuPosition(UNDO_MENU_GROUP));
         menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiUndoModuleApi.MODULE_ID, redoAction, new MenuPosition(UNDO_MENU_GROUP));
         menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiUndoModuleApi.MODULE_ID, undoManagerAction, new MenuPosition(UNDO_MENU_GROUP));

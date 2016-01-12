@@ -29,6 +29,8 @@ import org.xbup.lib.framework.gui.menu.api.MenuGroup;
 import org.xbup.lib.framework.gui.menu.api.MenuPosition;
 import org.xbup.lib.framework.gui.menu.api.PositionMode;
 import org.xbup.lib.framework.gui.menu.api.SeparationMode;
+import org.xbup.lib.framework.gui.menu.api.ToolBarGroup;
+import org.xbup.lib.framework.gui.menu.api.ToolBarPosition;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 import org.xbup.lib.framework.gui.undo.dialog.UndoManagerDialog;
 import org.xbup.lib.framework.gui.undo.dialog.UndoManagerModel;
@@ -45,7 +47,9 @@ import org.xbup.lib.operation.undo.XBUndoHandler;
 @PluginImplementation
 public class GuiUndoModule implements GuiUndoModuleApi {
 
-    private static final String UNDO_MENU_GROUP = MODULE_ID + ".undoGroup";
+    private static final String UNDO_MENU_GROUP_ID = MODULE_ID + ".undoMenuGroup";
+    private static final String UNDO_TOOL_BAR_GROUP_ID = MODULE_ID + ".undoToolBarGroup";
+
     private XBApplication application;
     private final UndoManagerModel undoModel = new UndoManagerModel();
     private XBTLinearUndo undoHandler;
@@ -92,6 +96,7 @@ public class GuiUndoModule implements GuiUndoModuleApi {
                 dialog.setVisible(true);
             }
         };
+        undoManagerAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
         ActionUtils.setupAction(undoManagerAction, bundle, "editUndoManagerAction");
     }
 
@@ -122,16 +127,21 @@ public class GuiUndoModule implements GuiUndoModuleApi {
         // TODO undoHandler.register undo change listener
     }
 
-    /**
-     * Registers undo/redo operations to main frame menu.
-     */
     @Override
     public void registerMainMenu() {
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
-        menuModule.registerMenuGroup(GuiFrameModuleApi.EDIT_MENU_ID, new MenuGroup(UNDO_MENU_GROUP, new MenuPosition(PositionMode.TOP), SeparationMode.BELOW));
-        menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiUndoModuleApi.MODULE_ID, undoAction, new MenuPosition(UNDO_MENU_GROUP));
-        menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiUndoModuleApi.MODULE_ID, redoAction, new MenuPosition(UNDO_MENU_GROUP));
-        menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiUndoModuleApi.MODULE_ID, undoManagerAction, new MenuPosition(UNDO_MENU_GROUP));
+        menuModule.registerMenuGroup(GuiFrameModuleApi.EDIT_MENU_ID, new MenuGroup(UNDO_MENU_GROUP_ID, new MenuPosition(PositionMode.TOP), SeparationMode.BELOW));
+        menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiUndoModuleApi.MODULE_ID, undoAction, new MenuPosition(UNDO_MENU_GROUP_ID));
+        menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiUndoModuleApi.MODULE_ID, redoAction, new MenuPosition(UNDO_MENU_GROUP_ID));
+        menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiUndoModuleApi.MODULE_ID, undoManagerAction, new MenuPosition(UNDO_MENU_GROUP_ID));
+    }
+
+    @Override
+    public void registerMainToolBar() {
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerToolBarGroup(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, new ToolBarGroup(UNDO_TOOL_BAR_GROUP_ID, new ToolBarPosition(PositionMode.TOP), SeparationMode.AROUND));
+        menuModule.registerToolBarItem(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, MODULE_ID, undoAction, new ToolBarPosition(UNDO_TOOL_BAR_GROUP_ID));
+        menuModule.registerToolBarItem(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, MODULE_ID, redoAction, new ToolBarPosition(UNDO_TOOL_BAR_GROUP_ID));
     }
 
     @Override

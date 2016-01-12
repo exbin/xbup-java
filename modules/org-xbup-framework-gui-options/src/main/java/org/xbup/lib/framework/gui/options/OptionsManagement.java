@@ -17,7 +17,7 @@
 package org.xbup.lib.framework.gui.options;
 
 import java.util.prefs.Preferences;
-import org.xbup.lib.framework.gui.options.panel.OptionsPanel;
+import org.xbup.lib.framework.gui.options.api.OptionsPanel;
 
 /**
  * Interface for application options panels management.

@@ -123,15 +123,11 @@ public class XBTEditor {
                 frameModule.registerBarsVisibilityActions();;
 
                 // Register clipboard editing actions
-                String fileHandlingActionsGroup = "FileHandlingActionsGroup";
-                FileHandlingActionsApi fileActions = fileModule.getFileHandlingActions();
-                menuModule.registerMenuGroup(GuiFrameModuleApi.FILE_MENU_ID, new MenuGroup(fileHandlingActionsGroup, new MenuPosition(PositionMode.TOP)));
-                menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, GuiAboutModuleApi.MODULE_ID, fileActions.getNewFileAction(), new MenuPosition(fileHandlingActionsGroup));
-                menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, GuiAboutModuleApi.MODULE_ID, fileActions.getOpenFileAction(), new MenuPosition(fileHandlingActionsGroup));
-                menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, GuiAboutModuleApi.MODULE_ID, fileActions.getSaveFileAction(), new MenuPosition(fileHandlingActionsGroup));
-                menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, GuiAboutModuleApi.MODULE_ID, fileActions.getSaveAsFileAction(), new MenuPosition(fileHandlingActionsGroup));
+                fileModule.registerMenuFileHandlingActions();
+                fileModule.registerToolBarFileHandlingActions();
 
                 undoModule.registerMainMenu();
+                undoModule.registerMainToolBar();
 
                 // Register clipboard editing actions
                 menuModule.registerMenuClipboardActions();
@@ -143,7 +139,10 @@ public class XBTEditor {
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
 
                 EditorTextModule xbupEditorModule = new EditorTextModule();
+                xbupEditorModule.init(app);
                 editorModule.registerEditor("xbup", xbupEditorModule.getEditorProvider());
+                xbupEditorModule.registerStatusBar();
+                xbupEditorModule.registerOptionsPanels();
 
                 frameHandler.setMainPanel(editorModule.getEditorPanel());
                 frameHandler.show();

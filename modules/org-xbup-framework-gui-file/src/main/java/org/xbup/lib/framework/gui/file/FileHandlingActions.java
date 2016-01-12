@@ -28,12 +28,12 @@ import javax.swing.filechooser.FileFilter;
 import org.xbup.lib.framework.gui.file.api.FileHandlingActionsApi;
 import org.xbup.lib.framework.gui.file.api.FileHandlerApi;
 import org.xbup.lib.framework.gui.file.api.FileType;
-import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 
 /**
  * File handling operations.
  *
- * @version 0.2.0 2016/01/10
+ * @version 0.2.0 2016/01/12
  * @author XBUP Project (http://xbup.org)
  */
 public class FileHandlingActions implements FileHandlingActionsApi {
@@ -65,16 +65,13 @@ public class FileHandlingActions implements FileHandlingActionsApi {
         saveFC.setAcceptAllFileFilterUsed(false);
 
         newFileAction = new AbstractAction() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 actionFileNew();
             }
         };
-        newFileAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/gui/file/resources/icons/tango-icon-theme/16x16/actions/document-new.png")));
+        ActionUtils.setupAction(newFileAction, resourceBundle, "fileNewAction");
         newFileAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, metaMask));
-        newFileAction.putValue(Action.NAME, resourceBundle.getString("actionFileNew.Action.text"));
-        newFileAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionFileNew.Action.shortDescription"));
 
         openFileAction = new AbstractAction() {
             @Override
@@ -82,10 +79,9 @@ public class FileHandlingActions implements FileHandlingActionsApi {
                 actionFileOpen();
             }
         };
-        openFileAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/gui/file/resources/icons/tango-icon-theme/16x16/actions/document-open.png")));
+        ActionUtils.setupAction(openFileAction, resourceBundle, "fileOpenAction");
         openFileAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, metaMask));
-        openFileAction.putValue(Action.NAME, resourceBundle.getString("actionFileOpen.Action.text") + GuiMenuModuleApi.DIALOG_MENUITEM_EXT);
-        openFileAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionFileOpen.Action.shortDescription"));
+        openFileAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
 
         saveFileAction = new AbstractAction() {
             @Override
@@ -93,10 +89,8 @@ public class FileHandlingActions implements FileHandlingActionsApi {
                 actionFileSave();
             }
         };
-        saveFileAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/gui/file/resources/icons/tango-icon-theme/16x16/actions/document-save.png")));
+        ActionUtils.setupAction(saveFileAction, resourceBundle, "fileSaveAction");
         saveFileAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, metaMask));
-        saveFileAction.putValue(Action.NAME, resourceBundle.getString("actionFileSave.Action.text"));
-        saveFileAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionFileSave.Action.shortDescription"));
 
         saveAsFileAction = new AbstractAction() {
 
@@ -105,11 +99,10 @@ public class FileHandlingActions implements FileHandlingActionsApi {
                 actionFileSaveAs();
             }
         };
-        saveAsFileAction.putValue(Action.SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/gui/file/resources/icons/tango-icon-theme/16x16/actions/document-save-as.png")));
+        ActionUtils.setupAction(saveAsFileAction, resourceBundle, "fileSaveAsAction");
         saveAsFileAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, metaMask));
-        saveAsFileAction.putValue(Action.NAME, resourceBundle.getString("actionFileSaveAs.Action.text") + GuiMenuModuleApi.DIALOG_MENUITEM_EXT);
-        saveAsFileAction.putValue(Action.SHORT_DESCRIPTION, resourceBundle.getString("actionFileSaveAs.Action.shortDescription"));
-        
+        saveAsFileAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
+
         addFileType(new AllFilesFilter());
     }
 

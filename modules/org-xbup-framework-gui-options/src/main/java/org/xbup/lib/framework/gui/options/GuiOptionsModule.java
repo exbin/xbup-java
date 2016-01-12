@@ -24,11 +24,13 @@ import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
+import org.xbup.lib.framework.gui.options.api.OptionsPanel;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 
 /**
  * Implementation of XBUP framework file module.
  *
- * @version 0.2.0 2016/01/09
+ * @version 0.2.0 2016/01/12
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -36,6 +38,7 @@ public class GuiOptionsModule implements GuiOptionsModuleApi {
 
     private XBApplication application;
     private Action optionsAction;
+    private OptionsDialog optionsDialog;
 
     public GuiOptionsModule() {
     }
@@ -49,6 +52,14 @@ public class GuiOptionsModule implements GuiOptionsModuleApi {
     public void unregisterPlugin(String pluginId) {
     }
 
+    private OptionsDialog getOptionsDialog() {
+        if (optionsDialog == null) {
+            GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
+            optionsDialog = new OptionsDialog(frameModule.getFrame(), true, frameModule.getFrameHandler());
+        }
+        
+        return optionsDialog;
+    }
     @Override
     public Action getOptionsAction() {
         if (optionsAction == null) {
@@ -63,16 +74,37 @@ public class GuiOptionsModule implements GuiOptionsModuleApi {
                         preferences = null;
                     }
 
-                    GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
-                    OptionsDialog optionsDialog = new OptionsDialog(frameModule.getFrame(), true, frameModule.getFrameHandler());
+                    getOptionsDialog();
                     optionsDialog.setAppEditor(application);
                     optionsDialog.setPreferences(preferences);
                     optionsDialog.setVisible(true);
                 }
             };
-            optionsAction.putValue("Name", "Options...");
+            optionsAction.putValue("Name", "Options");
+            optionsAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
+
         }
         
         return optionsAction;
+    }
+
+    @Override
+    public void addOptionsPanel(OptionsPanel optionsPanel) {
+        getOptionsDialog().addOptionsPanel(optionsPanel);
+    }
+
+    @Override
+    public Preferences getPreferences() {
+        return null; // TODO getOptionsDialog().getPreferences();
+    }
+
+    @Override
+    public void extendMainOptionsPanel(OptionsPanel panel) {
+        getOptionsDialog().extendMainOptionsPanel(panel);
+    }
+
+    @Override
+    public void extendAppearanceOptionsPanel(OptionsPanel panel) {
+        getOptionsDialog().extendAppearanceOptionsPanel(panel);
     }
 }

@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.framework.gui.options.api;
 
+import java.util.prefs.Preferences;
 import javax.swing.Action;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
@@ -23,7 +24,7 @@ import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 /**
  * Interface for XBUP framework file module.
  *
- * @version 0.2.0 2016/01/09
+ * @version 0.2.0 2016/01/12
  * @author XBUP Project (http://xbup.org)
  */
 public interface GuiOptionsModuleApi extends XBApplicationModulePlugin {
@@ -31,4 +32,32 @@ public interface GuiOptionsModuleApi extends XBApplicationModulePlugin {
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiOptionsModuleApi.class);
 
     Action getOptionsAction();
+
+    /**
+     * Adds options panel.
+     *
+     * @param optionsPanel
+     */
+    void addOptionsPanel(OptionsPanel optionsPanel);
+
+    /**
+     * Extends main options panel.
+     *
+     * @param optionsPanel
+     */
+    void extendMainOptionsPanel(OptionsPanel optionsPanel);
+
+    /**
+     * Extends appearance options panel.
+     *
+     * @param optionsPanel
+     */
+    void extendAppearanceOptionsPanel(OptionsPanel optionsPanel);
+
+    /**
+     * Gets preferences.
+     *
+     * @return prefereces.
+     */
+    Preferences getPreferences();
 }

@@ -23,6 +23,7 @@ import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.about.api.GuiAboutModuleApi;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 
 /**
  * Implementation of XBUP framework about module.
@@ -60,7 +61,8 @@ public class GuiAboutModule implements GuiAboutModuleApi {
                     aboutDialog.setVisible(true);
                 }
             };
-            aboutAction.putValue("Name", "About...");
+            aboutAction.putValue("Name", "About");
+            aboutAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
         }
         
         return aboutAction;

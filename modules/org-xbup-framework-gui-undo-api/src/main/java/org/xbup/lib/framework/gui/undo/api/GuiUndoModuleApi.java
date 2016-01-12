@@ -31,14 +31,19 @@ public interface GuiUndoModuleApi extends XBApplicationModulePlugin {
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiUndoModuleApi.class);
 
     /**
-     * Registers undo/redo operations to main frame menu.
-     */
-    public void registerMainMenu();
-
-    /**
      * Returns undo handler.
      *
      * @return undo handler
      */
-    public XBUndoHandler getUndoHandler();
+    XBUndoHandler getUndoHandler();
+
+    /**
+     * Registers undo/redo operations to main frame menu.
+     */
+    void registerMainMenu();
+
+    /**
+     * Registers undo/redo operations to main frame tool bar.
+     */
+    void registerMainToolBar();
 }

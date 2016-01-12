@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.frame.api.ApplicationExitListener;
@@ -50,6 +51,7 @@ public class GuiFrameModule implements GuiFrameModuleApi {
     private ResourceBundle resourceBundle;
     private XBApplicationFrame frame;
     private ApplicationExitHandler exitHandler = null;
+    private StatusBarHandler statusBarHandler = null;
 
     public GuiFrameModule() {
     }
@@ -148,6 +150,24 @@ public class GuiFrameModule implements GuiFrameModuleApi {
         }
 
         return exitHandler;
+    }
+
+    private StatusBarHandler getStatusBarHandler() {
+        if (statusBarHandler == null) {
+            statusBarHandler = new StatusBarHandler(frame);
+        }
+        
+        return statusBarHandler;
+    }
+
+    @Override
+    public void registerStatusBar(String moduleId, String statusBarId, JPanel panel) {
+        getStatusBarHandler().registerStatusBar(moduleId, statusBarId, panel);
+    }
+    
+    @Override
+    public void switchStatusBar(String statusBarId) {
+        getStatusBarHandler().switchStatusBar(statusBarId);
     }
 
     @Override

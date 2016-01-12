@@ -157,19 +157,27 @@ public class ToolBarHandler {
                     if (actionType != null) {
                         switch (actionType) {
                             case CHECK: {
-                                toolBarItem = new JCheckBox(action);
+                                JCheckBox newItem = new JCheckBox(action);
+                                newItem.setFocusable(false);
+                                newItem.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+                                newItem.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+                                toolBarItem = newItem;
                                 break;
                             }
                             case RADIO: {
-                                toolBarItem = new JRadioButton(action);
+                                JRadioButton newItem = new JRadioButton(action);
+                                newItem.setFocusable(false);
+                                newItem.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+                                newItem.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+                                toolBarItem = newItem;
                                 break;
                             }
                             default: {
-                                toolBarItem = new JButton(action);
+                                toolBarItem = createDefaultToolBarItem(action);
                             }
                         }
                     } else {
-                        toolBarItem = new JButton(action);
+                        toolBarItem = createDefaultToolBarItem(action);
                     }
 
                     targetToolBar.add(toolBarItem);
@@ -186,6 +194,14 @@ public class ToolBarHandler {
                 processingPath.add(new ToolBarGroupRecordPathNode(groupRecord.subGroups));
             }
         }
+    }
+
+    private JComponent createDefaultToolBarItem(Action action) {
+        JButton newItem = new JButton(action);
+        newItem.setFocusable(false);
+        newItem.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        newItem.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        return newItem;
     }
 
     public void registerToolBar(String toolBarId, String pluginId) {

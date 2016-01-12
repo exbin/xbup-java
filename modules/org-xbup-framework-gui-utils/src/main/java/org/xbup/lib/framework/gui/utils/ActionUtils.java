@@ -27,8 +27,12 @@ import javax.swing.Action;
  */
 public class ActionUtils {
 
+    // Value is ActionType
     public static final String ACTION_TYPE = "type";
+    // Value is String
     public static final String ACTION_RADIO_GROUP = "radioGroup";
+    // Value is Boolean
+    public static final String ACTION_DIALOG_MODE = "dialogMode";
 
     /**
      * Sets action values according to values specified by resource bundle.

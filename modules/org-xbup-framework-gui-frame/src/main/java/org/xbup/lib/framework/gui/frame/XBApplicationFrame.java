@@ -16,11 +16,13 @@
  */
 package org.xbup.lib.framework.gui.frame;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Frame;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 import org.xbup.lib.framework.gui.XBBaseApplication;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
@@ -63,7 +65,7 @@ public class XBApplicationFrame extends javax.swing.JFrame implements Applicatio
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        toolBar.setRollover(true);
+        toolBar.setFocusable(false);
         getContentPane().add(toolBar, java.awt.BorderLayout.NORTH);
 
         statusBar.setLayout(new java.awt.BorderLayout());
@@ -116,7 +118,7 @@ public class XBApplicationFrame extends javax.swing.JFrame implements Applicatio
             .addComponent(statusProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        statusPanel.add(progressStatusPanel, "initCat");
+        statusPanel.add(progressStatusPanel, "progress");
 
         busyStatusPanel.setLayout(new java.awt.BorderLayout());
 
@@ -174,10 +176,12 @@ public class XBApplicationFrame extends javax.swing.JFrame implements Applicatio
         toolBar.setVisible(toolBarVisible);
     }
 
+    @Override
     public void setStatusBarVisible(boolean statusBarVisible) {
         statusBar.setVisible(statusBarVisible);
     }
 
+    @Override
     public void setToolBarCaptionsVisible(boolean captionsVisible) {
         Component[] comps = toolBar.getComponents();
 
@@ -210,5 +214,14 @@ public class XBApplicationFrame extends javax.swing.JFrame implements Applicatio
     public void loadMainToolBar(XBApplication application) {
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
         menuModule.buildToolBar(toolBar, GuiFrameModule.MAIN_TOOL_BAR_ID);
+    }
+
+    public void addStatusBar(JPanel panel, String statusBarId) {
+        statusPanel.add(panel, statusBarId);
+    }
+    
+    public void switchStatusBar(String statusBarId) {
+        CardLayout layout = (CardLayout) statusPanel.getLayout();
+        layout.show(statusPanel, statusBarId);
     }
 }

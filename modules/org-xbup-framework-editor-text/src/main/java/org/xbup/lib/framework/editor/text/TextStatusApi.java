@@ -14,32 +14,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.gui.file.api;
-
-import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
-import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
+package org.xbup.lib.framework.editor.text;
 
 /**
- * Interface for XBUP framework file module.
+ * XBUP text editor module.
  *
- * @version 0.2.0 2016/01/10
+ * @version 0.2.0 2016/01/12
  * @author XBUP Project (http://xbup.org)
  */
-public interface GuiFileModuleApi extends XBApplicationModulePlugin {
-
-    public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiFileModuleApi.class);
-
-    FileHandlingActionsApi getFileHandlingActions();
-    
-    void addFileType(FileType fileType);
+public interface TextStatusApi {
 
     /**
-     * Registers file handling operations to main frame menu.
+     * Reports text position.
+     *
+     * @param textPosition
      */
-    public void registerMenuFileHandlingActions();
+    void setTextPosition(String textPosition);
 
     /**
-     * Registers file handling operations to main frame tool bar.
+     * Reports currently active encoding.
+     *
+     * @param encodingName
      */
-    public void registerToolBarFileHandlingActions();
+    void setEncoding(String encodingName);
 }

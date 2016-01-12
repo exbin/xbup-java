@@ -35,11 +35,11 @@ import javax.swing.tree.DefaultTreeModel;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.options.panel.AppearanceOptionsPanel;
 import org.xbup.lib.framework.gui.options.panel.MainOptionsPanel;
-import org.xbup.lib.framework.gui.options.panel.OptionsPanel;
-import org.xbup.lib.framework.gui.options.panel.OptionsPanel.ModifiedOptionListener;
-import org.xbup.lib.framework.gui.options.panel.OptionsPanel.PathItem;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
+import org.xbup.lib.framework.gui.options.api.OptionsPanel;
+import org.xbup.lib.framework.gui.options.api.OptionsPanel.ModifiedOptionListener;
+import org.xbup.lib.framework.gui.options.api.OptionsPanel.PathItem;
 
 /**
  * Dialog for application options and preferences setting.

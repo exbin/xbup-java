@@ -38,6 +38,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -64,6 +65,7 @@ import org.xbup.lib.core.serial.XBPSerialReader;
 import org.xbup.lib.core.serial.XBPSerialWriter;
 import org.xbup.lib.core.type.XBEncodingText;
 import org.xbup.lib.framework.editor.text.EditorTextModule;
+import org.xbup.lib.framework.editor.text.TextStatusApi;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.file.api.FileType;
 import org.xbup.lib.framework.gui.undo.api.ActivePanelUndoable;
@@ -89,6 +91,7 @@ public class TextPanel extends javax.swing.JPanel implements XBEditorProvider, A
     private Color[] defaultColors;
     private PropertyChangeListener propertyChangeListener;
     private CharsetChangeListener charsetChangeListener = null;
+    private TextStatusApi textStatus = null;
 
     public TextPanel() {
         initComponents();
@@ -588,6 +591,25 @@ public class TextPanel extends javax.swing.JPanel implements XBEditorProvider, A
     @Override
     public JPanel getPanel() {
         return this;
+    }
+
+    public void registerTextStatus(TextStatusApi textStatusApi) {
+        this.textStatus = textStatusApi;
+        attachCaretListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                Point pos = getCaretPosition();
+                String textPosition = Long.toString((long) pos.getX()) + ":" + Long.toString((long) pos.getY());
+                textStatus.setTextPosition(textPosition);
+            }
+        });
+        setCharsetChangeListener(new TextPanel.CharsetChangeListener() {
+
+            @Override
+            public void charsetChanged() {
+                textStatus.setEncoding(getCharset().name());
+            }
+        });
     }
 
     public interface CharsetChangeListener {

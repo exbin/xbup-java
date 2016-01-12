@@ -30,6 +30,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import org.xbup.lib.framework.gui.menu.api.ActionMenuContribution;
+import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.menu.api.MenuContribution;
 import org.xbup.lib.framework.gui.menu.api.MenuGroup;
 import org.xbup.lib.framework.gui.menu.api.MenuPosition;
@@ -176,6 +177,11 @@ public class MenuHandler {
                         }
                     } else {
                         menuItem = new JMenuItem(action);
+                    }
+                    
+                    Object dialogMode = action.getValue(ActionUtils.ACTION_DIALOG_MODE);
+                    if (dialogMode instanceof Boolean && ((Boolean) dialogMode)) {
+                        menuItem.setText(menuItem.getText() + GuiMenuModuleApi.DIALOG_MENUITEM_EXT);
                     }
 
                     targetMenu.add(menuItem);

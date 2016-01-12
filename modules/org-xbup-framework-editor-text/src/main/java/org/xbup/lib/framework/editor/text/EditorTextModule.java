@@ -16,27 +16,38 @@
  */
 package org.xbup.lib.framework.editor.text;
 
+import java.awt.Color;
 import java.io.File;
 import javax.swing.filechooser.FileFilter;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
+import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.file.api.FileType;
 import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
+import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
+import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
+import org.xbup.tool.editor.module.text_editor.panel.TextColorOptionsPanel;
+import org.xbup.tool.editor.module.text_editor.panel.TextColorPanelFrame;
 import org.xbup.tool.editor.module.text_editor.panel.TextPanel;
+import org.xbup.tool.editor.module.text_editor.panel.TextStatusPanel;
 
 /**
- * XBUP editor module.
+ * XBUP text editor module.
  *
- * @version 0.2.0 2016/01/09
+ * @version 0.2.0 2016/01/12
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
 public class EditorTextModule implements XBApplicationModulePlugin {
 
+    public static final String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(EditorTextModule.class);
+    
     public static final String XBT_FILE_TYPE = "XBTextEditor.XBTFileType";
     public static final String TXT_FILE_TYPE = "XBTextEditor.TXTFileType";
+    
+    public static final String TEXT_STATUS_BAR_ID = "textStatusBar";
 
     private XBApplication application;
     private XBEditorProvider editorProvider;
@@ -65,15 +76,45 @@ public class EditorTextModule implements XBApplicationModulePlugin {
 
         return editorProvider;
     }
+    
+    public void registerStatusBar() {
+        TextStatusPanel textStatusPanel = new TextStatusPanel();
+        GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
+        frameModule.registerStatusBar(MODULE_ID, TEXT_STATUS_BAR_ID, textStatusPanel);
+        frameModule.switchStatusBar(TEXT_STATUS_BAR_ID);
+        ((TextPanel) getEditorProvider()).registerTextStatus(textStatusPanel);
+    }
+    
+    public void registerOptionsPanels() {
+        GuiOptionsModuleApi optionsModule = application.getModuleRepository().getModuleByInterface(GuiOptionsModuleApi.class);
+        TextColorPanelFrame textColorFrame = new TextColorPanelFrame() {
+            @Override
+            public Color[] getCurrentTextColors() {
+                return ((TextPanel) getEditorProvider()).getCurrentColors();
+            }
+
+            @Override
+            public Color[] getDefaultTextColors() {
+                return ((TextPanel) getEditorProvider()).getDefaultColors();
+            }
+
+            @Override
+            public void setCurrentTextColors(Color[] colors) {
+                ((TextPanel) getEditorProvider()).setCurrentColors(colors);
+            }
+        };
+        
+        optionsModule.addOptionsPanel(new TextColorOptionsPanel(textColorFrame));
+//        optionsModule.addOptionsPanel(new TextFontOptionsPanel(textColorFrame));
+//        optionsModule.addOptionsPanel(new TextEncodingOptionsPanel(textColorFrame));
+//        optionsModule.extendAppearanceOptionsPanel(new TextAppearanceOptionsPanel(textColorFrame));
+        
+    }
 
 //        editorFrame = new XBTextEditorFrame();
 //        editorFrame.setMainFrameManagement(management.getMainFrameManagement());
 //        management.registerPanel(editorFrame.getActivePanel());
 //        editorFrame.setMenuManagement(management.getMenuManagement());
-//
-//        // Register status panel
-//        StatusManagement statusManagement = management.getStatusManagement();
-//        statusManagement.addStatusPanel(editorFrame.getStatusPanel());
 //
 //        // Register options panel
 //        OptionsManagement optionsManagement = management.getOptionsManagement();

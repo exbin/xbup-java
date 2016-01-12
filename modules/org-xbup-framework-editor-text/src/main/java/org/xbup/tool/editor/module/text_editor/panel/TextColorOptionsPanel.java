@@ -41,7 +41,6 @@ public class TextColorOptionsPanel extends javax.swing.JPanel implements Options
     private TextColorPanelFrame frame;
     private TextColorPanel colorPanel;
 
-    /** Creates new form TextColorPanel */
     public TextColorOptionsPanel(TextColorPanelFrame frame) {
         this.frame = frame;
         initComponents();

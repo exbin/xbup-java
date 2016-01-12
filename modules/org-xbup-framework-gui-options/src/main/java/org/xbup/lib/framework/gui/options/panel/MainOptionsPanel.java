@@ -27,9 +27,10 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.UIManager;
 import org.xbup.lib.framework.gui.options.OptionsManagement;
-import org.xbup.lib.framework.gui.options.panel.OptionsPanel.ModifiedOptionListener;
-import org.xbup.lib.framework.gui.options.panel.OptionsPanel.PathItem;
 import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
+import org.xbup.lib.framework.gui.options.api.OptionsPanel;
+import org.xbup.lib.framework.gui.options.api.OptionsPanel.ModifiedOptionListener;
+import org.xbup.lib.framework.gui.options.api.OptionsPanel.PathItem;
 
 /**
  * Tool Bar Apperance Options panel.

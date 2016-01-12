@@ -18,6 +18,7 @@ package org.xbup.lib.framework.gui.frame.api;
 
 import java.awt.Frame;
 import javax.swing.Action;
+import javax.swing.JPanel;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 
@@ -38,6 +39,11 @@ public interface GuiFrameModuleApi extends XBApplicationModulePlugin {
     public static String TOOLS_MENU_ID = MAIN_MENU_ID + "/Tools";
     public static String OPTIONS_MENU_ID = MAIN_MENU_ID + "/Options";
     public static String HELP_MENU_ID = MAIN_MENU_ID + "/Help";
+
+    public static String DEFAULT_STATUS_BAR_ID = "default";
+    public static String MAIN_STATUS_BAR_ID = "main";
+    public static String PROGRESS_STATUS_BAR_ID = "progress";
+    public static String BUSY_STATUS_BAR_ID = "busy";
 
     /**
      * Returns frame handler.
@@ -86,4 +92,20 @@ public interface GuiFrameModuleApi extends XBApplicationModulePlugin {
     Action getViewStatusBarAction();
 
     void registerBarsVisibilityActions();
+
+    /**
+     * Registers new status bar with unique ID.
+     *
+     * @param moduleId
+     * @param statusBarId
+     * @param panel
+     */
+    void registerStatusBar(String moduleId, String statusBarId, JPanel panel);
+
+    /**
+     * Switches to status bar with specific ID.
+     *
+     * @param statusBarId
+     */
+    void switchStatusBar(String statusBarId);
 }

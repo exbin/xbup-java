@@ -35,12 +35,9 @@ import org.xbup.lib.framework.gui.api.XBModuleRepository;
 import org.xbup.lib.framework.gui.editor.api.GuiEditorModuleApi;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
-import org.xbup.lib.framework.gui.menu.api.MenuGroup;
 import org.xbup.lib.framework.gui.menu.api.MenuPosition;
 import org.xbup.lib.framework.gui.menu.api.PositionMode;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
-import org.xbup.lib.framework.gui.menu.api.ClipboardActionsApi;
-import org.xbup.lib.framework.gui.file.api.FileHandlingActionsApi;
 import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
 import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
@@ -136,10 +133,11 @@ public class XBTEditor {
                 Action optionsAction = optionsModule.getOptionsAction();
                 menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, GuiAboutModuleApi.MODULE_ID, optionsAction, new MenuPosition(PositionMode.BOTTOM_LAST));
 
-                ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
-
                 EditorTextModule xbupEditorModule = new EditorTextModule();
                 xbupEditorModule.init(app);
+                xbupEditorModule.registerEditFindHandlingActions();
+
+                ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
                 editorModule.registerEditor("xbup", xbupEditorModule.getEditorProvider());
                 xbupEditorModule.registerStatusBar();
                 xbupEditorModule.registerOptionsPanels();

@@ -27,6 +27,11 @@ import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.file.api.FileType;
 import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
+import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
+import org.xbup.lib.framework.gui.menu.api.MenuGroup;
+import org.xbup.lib.framework.gui.menu.api.MenuPosition;
+import org.xbup.lib.framework.gui.menu.api.PositionMode;
+import org.xbup.lib.framework.gui.menu.api.SeparationMode;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
 import org.xbup.tool.editor.module.text_editor.panel.TextColorOptionsPanel;
 import org.xbup.tool.editor.module.text_editor.panel.TextColorPanelFrame;
@@ -36,13 +41,14 @@ import org.xbup.tool.editor.module.text_editor.panel.TextStatusPanel;
 /**
  * XBUP text editor module.
  *
- * @version 0.2.0 2016/01/12
+ * @version 0.2.0 2016/01/13
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
 public class EditorTextModule implements XBApplicationModulePlugin {
 
     public static final String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(EditorTextModule.class);
+    private static final String EDIT_FIND_MENU_GROUP_ID = MODULE_ID + ".editFindMenuGroup";
     
     public static final String XBT_FILE_TYPE = "XBTextEditor.XBTFileType";
     public static final String TXT_FILE_TYPE = "XBTextEditor.TXTFileType";
@@ -51,6 +57,7 @@ public class EditorTextModule implements XBApplicationModulePlugin {
 
     private XBApplication application;
     private XBEditorProvider editorProvider;
+    private FindReplaceHandler findReplaceHandler;
 
     public EditorTextModule() {
     }
@@ -122,6 +129,29 @@ public class EditorTextModule implements XBApplicationModulePlugin {
 //        optionsManagement.addOptionsPanel(new TextFontOptionsPanel(editorFrame));
 //        optionsManagement.addOptionsPanel(new TextEncodingOptionsPanel(editorFrame));
 //        optionsManagement.extendAppearanceOptionsPanel(new TextAppearanceOptionsPanel(editorFrame));
+
+    private FindReplaceHandler getFindReplaceHandler() {
+        if (findReplaceHandler == null) {
+            findReplaceHandler = new FindReplaceHandler();
+            findReplaceHandler.init();
+        }
+        
+        return findReplaceHandler;
+    }
+
+    public void registerEditFindHandlingActions() {
+        getFindReplaceHandler();
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenuGroup(GuiFrameModuleApi.EDIT_MENU_ID, new MenuGroup(EDIT_FIND_MENU_GROUP_ID, new MenuPosition(PositionMode.MIDDLE), SeparationMode.AROUND));
+        menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, MODULE_ID, findReplaceHandler.getEditFindAction(), new MenuPosition(EDIT_FIND_MENU_GROUP_ID));
+        menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, MODULE_ID, findReplaceHandler.getEditFindAgainAction(), new MenuPosition(EDIT_FIND_MENU_GROUP_ID));
+        menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, MODULE_ID, findReplaceHandler.getEditReplaceAction(), new MenuPosition(EDIT_FIND_MENU_GROUP_ID));
+    }
+    
+    public FileType newXBTFileType() {
+        return new XBTFileType();
+    }
+
     public class XBTFileType extends FileFilter implements FileType {
 
         @Override
@@ -148,10 +178,6 @@ public class EditorTextModule implements XBApplicationModulePlugin {
         public String getFileTypeId() {
             return XBT_FILE_TYPE;
         }
-    }
-
-    public FileType newXBTFileType() {
-        return new XBTFileType();
     }
 
     public class TXTFileType extends FileFilter implements FileType {

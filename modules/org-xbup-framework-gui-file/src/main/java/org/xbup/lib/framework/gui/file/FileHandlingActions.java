@@ -54,7 +54,7 @@ public class FileHandlingActions implements FileHandlingActionsApi {
     private final Map<String, FileType> fileTypes = new HashMap<>();
 
     public FileHandlingActions() {
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/file/resources/GuiFileModule");
+        resourceBundle = ActionUtils.getResourceBundleByClass(GuiFileModule.class);
     }
 
     public void init() {

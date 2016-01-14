@@ -32,6 +32,8 @@ import org.xbup.lib.framework.gui.menu.api.MenuGroup;
 import org.xbup.lib.framework.gui.menu.api.MenuPosition;
 import org.xbup.lib.framework.gui.menu.api.PositionMode;
 import org.xbup.lib.framework.gui.menu.api.SeparationMode;
+import org.xbup.lib.framework.gui.menu.api.ToolBarGroup;
+import org.xbup.lib.framework.gui.menu.api.ToolBarPosition;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
 import org.xbup.tool.editor.module.text_editor.panel.TextColorOptionsPanel;
 import org.xbup.tool.editor.module.text_editor.panel.TextColorPanelFrame;
@@ -41,7 +43,7 @@ import org.xbup.tool.editor.module.text_editor.panel.TextStatusPanel;
 /**
  * XBUP text editor module.
  *
- * @version 0.2.0 2016/01/13
+ * @version 0.2.0 2016/01/14
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -49,6 +51,7 @@ public class EditorTextModule implements XBApplicationModulePlugin {
 
     public static final String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(EditorTextModule.class);
     private static final String EDIT_FIND_MENU_GROUP_ID = MODULE_ID + ".editFindMenuGroup";
+    private static final String EDIT_FIND_TOOL_BAR_GROUP_ID = MODULE_ID + ".editFindToolBarGroup";
     
     public static final String XBT_FILE_TYPE = "XBTextEditor.XBTFileType";
     public static final String TXT_FILE_TYPE = "XBTextEditor.TXTFileType";
@@ -139,13 +142,20 @@ public class EditorTextModule implements XBApplicationModulePlugin {
         return findReplaceHandler;
     }
 
-    public void registerEditFindHandlingActions() {
+    public void registerEditFindMenuActions() {
         getFindReplaceHandler();
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
         menuModule.registerMenuGroup(GuiFrameModuleApi.EDIT_MENU_ID, new MenuGroup(EDIT_FIND_MENU_GROUP_ID, new MenuPosition(PositionMode.MIDDLE), SeparationMode.AROUND));
         menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, MODULE_ID, findReplaceHandler.getEditFindAction(), new MenuPosition(EDIT_FIND_MENU_GROUP_ID));
         menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, MODULE_ID, findReplaceHandler.getEditFindAgainAction(), new MenuPosition(EDIT_FIND_MENU_GROUP_ID));
         menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, MODULE_ID, findReplaceHandler.getEditReplaceAction(), new MenuPosition(EDIT_FIND_MENU_GROUP_ID));
+    }
+    
+    public void registerEditFindMenuToolBarActions() {
+        getFindReplaceHandler();
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerToolBarGroup(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, new ToolBarGroup(EDIT_FIND_TOOL_BAR_GROUP_ID, new ToolBarPosition(PositionMode.MIDDLE), SeparationMode.AROUND));
+        menuModule.registerToolBarItem(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, MODULE_ID, findReplaceHandler.getEditFindAction(), new ToolBarPosition(EDIT_FIND_TOOL_BAR_GROUP_ID));
     }
     
     public FileType newXBTFileType() {

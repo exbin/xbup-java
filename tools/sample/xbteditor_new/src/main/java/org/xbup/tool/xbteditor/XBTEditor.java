@@ -135,7 +135,8 @@ public class XBTEditor {
 
                 EditorTextModule xbupEditorModule = new EditorTextModule();
                 xbupEditorModule.init(app);
-                xbupEditorModule.registerEditFindHandlingActions();
+                xbupEditorModule.registerEditFindMenuActions();
+                xbupEditorModule.registerEditFindMenuToolBarActions();
 
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
                 editorModule.registerEditor("xbup", xbupEditorModule.getEditorProvider());

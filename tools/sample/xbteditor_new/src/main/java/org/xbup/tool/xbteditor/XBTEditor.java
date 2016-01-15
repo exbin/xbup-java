@@ -141,6 +141,7 @@ public class XBTEditor {
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
                 editorModule.registerEditor("xbup", xbupEditorModule.getEditorProvider());
                 xbupEditorModule.registerStatusBar();
+                xbupEditorModule.registerOptionsMenuPanels();
                 xbupEditorModule.registerOptionsPanels();
 
                 frameHandler.setMainPanel(editorModule.getEditorPanel());

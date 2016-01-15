@@ -95,6 +95,10 @@ public class EditorTextModule implements XBApplicationModulePlugin {
         ((TextPanel) getEditorProvider()).registerTextStatus(textStatusPanel);
     }
     
+    public void registerOptionsMenuPanels() {
+        
+    }
+
     public void registerOptionsPanels() {
         GuiOptionsModuleApi optionsModule = application.getModuleRepository().getModuleByInterface(GuiOptionsModuleApi.class);
         TextColorPanelFrame textColorFrame = new TextColorPanelFrame() {

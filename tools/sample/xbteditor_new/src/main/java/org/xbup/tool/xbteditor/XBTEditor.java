@@ -117,7 +117,7 @@ public class XBTEditor {
                 menuModule.registerMenuItem(GuiFrameModuleApi.HELP_MENU_ID, GuiAboutModuleApi.MODULE_ID, aboutAction, new MenuPosition(PositionMode.BOTTOM_LAST));
 
                 frameModule.registerExitAction();
-                frameModule.registerBarsVisibilityActions();;
+                frameModule.registerBarsVisibilityActions();
 
                 // Register clipboard editing actions
                 fileModule.registerMenuFileHandlingActions();
@@ -130,13 +130,13 @@ public class XBTEditor {
                 menuModule.registerMenuClipboardActions();
                 menuModule.registerToolBarClipboardActions();
 
-                Action optionsAction = optionsModule.getOptionsAction();
-                menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, GuiAboutModuleApi.MODULE_ID, optionsAction, new MenuPosition(PositionMode.BOTTOM_LAST));
+                optionsModule.registerMenuAction();
 
                 EditorTextModule xbupEditorModule = new EditorTextModule();
                 xbupEditorModule.init(app);
                 xbupEditorModule.registerEditFindMenuActions();
-                xbupEditorModule.registerEditFindMenuToolBarActions();
+                xbupEditorModule.registerEditFindToolBarActions();
+                xbupEditorModule.registerToolsOptionsMenuActions();
 
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
                 editorModule.registerEditor("xbup", xbupEditorModule.getEditorProvider());

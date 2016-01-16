@@ -23,6 +23,9 @@ import javax.swing.Action;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
+import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
+import org.xbup.lib.framework.gui.menu.api.MenuPosition;
+import org.xbup.lib.framework.gui.menu.api.PositionMode;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
 import org.xbup.lib.framework.gui.options.api.OptionsPanel;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
@@ -57,9 +60,10 @@ public class GuiOptionsModule implements GuiOptionsModuleApi {
             GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
             optionsDialog = new OptionsDialog(frameModule.getFrame(), true, frameModule.getFrameHandler());
         }
-        
+
         return optionsDialog;
     }
+
     @Override
     public Action getOptionsAction() {
         if (optionsAction == null) {
@@ -84,7 +88,7 @@ public class GuiOptionsModule implements GuiOptionsModuleApi {
             optionsAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
 
         }
-        
+
         return optionsAction;
     }
 
@@ -106,5 +110,12 @@ public class GuiOptionsModule implements GuiOptionsModuleApi {
     @Override
     public void extendAppearanceOptionsPanel(OptionsPanel panel) {
         getOptionsDialog().extendAppearanceOptionsPanel(panel);
+    }
+
+    @Override
+    public void registerMenuAction() {
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        getOptionsAction();
+        menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, MODULE_ID, optionsAction, new MenuPosition(PositionMode.BOTTOM_LAST));
     }
 }

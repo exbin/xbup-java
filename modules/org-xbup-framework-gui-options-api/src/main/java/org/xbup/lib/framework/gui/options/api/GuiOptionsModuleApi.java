@@ -60,4 +60,9 @@ public interface GuiOptionsModuleApi extends XBApplicationModulePlugin {
      * @return prefereces.
      */
     Preferences getPreferences();
+
+    /**
+     * Registers options menu action in default position.
+     */
+    public void registerMenuAction();
 }

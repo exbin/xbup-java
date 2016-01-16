@@ -52,15 +52,16 @@ public class EditorTextModule implements XBApplicationModulePlugin {
     public static final String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(EditorTextModule.class);
     private static final String EDIT_FIND_MENU_GROUP_ID = MODULE_ID + ".editFindMenuGroup";
     private static final String EDIT_FIND_TOOL_BAR_GROUP_ID = MODULE_ID + ".editFindToolBarGroup";
-    
+
     public static final String XBT_FILE_TYPE = "XBTextEditor.XBTFileType";
     public static final String TXT_FILE_TYPE = "XBTextEditor.TXTFileType";
-    
+
     public static final String TEXT_STATUS_BAR_ID = "textStatusBar";
 
     private XBApplication application;
     private XBEditorProvider editorProvider;
     private FindReplaceHandler findReplaceHandler;
+    private ToolsOptionsHandler toolsOptionsHandler;
 
     public EditorTextModule() {
     }
@@ -86,7 +87,7 @@ public class EditorTextModule implements XBApplicationModulePlugin {
 
         return editorProvider;
     }
-    
+
     public void registerStatusBar() {
         TextStatusPanel textStatusPanel = new TextStatusPanel();
         GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
@@ -94,9 +95,9 @@ public class EditorTextModule implements XBApplicationModulePlugin {
         frameModule.switchStatusBar(TEXT_STATUS_BAR_ID);
         ((TextPanel) getEditorProvider()).registerTextStatus(textStatusPanel);
     }
-    
+
     public void registerOptionsMenuPanels() {
-        
+
     }
 
     public void registerOptionsPanels() {
@@ -117,12 +118,12 @@ public class EditorTextModule implements XBApplicationModulePlugin {
                 ((TextPanel) getEditorProvider()).setCurrentColors(colors);
             }
         };
-        
+
         optionsModule.addOptionsPanel(new TextColorOptionsPanel(textColorFrame));
 //        optionsModule.addOptionsPanel(new TextFontOptionsPanel(textColorFrame));
 //        optionsModule.addOptionsPanel(new TextEncodingOptionsPanel(textColorFrame));
 //        optionsModule.extendAppearanceOptionsPanel(new TextAppearanceOptionsPanel(textColorFrame));
-        
+
     }
 
 //        editorFrame = new XBTextEditorFrame();
@@ -136,14 +137,22 @@ public class EditorTextModule implements XBApplicationModulePlugin {
 //        optionsManagement.addOptionsPanel(new TextFontOptionsPanel(editorFrame));
 //        optionsManagement.addOptionsPanel(new TextEncodingOptionsPanel(editorFrame));
 //        optionsManagement.extendAppearanceOptionsPanel(new TextAppearanceOptionsPanel(editorFrame));
-
     private FindReplaceHandler getFindReplaceHandler() {
         if (findReplaceHandler == null) {
             findReplaceHandler = new FindReplaceHandler();
             findReplaceHandler.init();
         }
-        
+
         return findReplaceHandler;
+    }
+
+    private ToolsOptionsHandler getToolsOptionsHandler() {
+        if (toolsOptionsHandler == null) {
+            toolsOptionsHandler = new ToolsOptionsHandler();
+            toolsOptionsHandler.init();
+        }
+
+        return toolsOptionsHandler;
     }
 
     public void registerEditFindMenuActions() {
@@ -154,14 +163,21 @@ public class EditorTextModule implements XBApplicationModulePlugin {
         menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, MODULE_ID, findReplaceHandler.getEditFindAgainAction(), new MenuPosition(EDIT_FIND_MENU_GROUP_ID));
         menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, MODULE_ID, findReplaceHandler.getEditReplaceAction(), new MenuPosition(EDIT_FIND_MENU_GROUP_ID));
     }
-    
-    public void registerEditFindMenuToolBarActions() {
+
+    public void registerEditFindToolBarActions() {
         getFindReplaceHandler();
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
         menuModule.registerToolBarGroup(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, new ToolBarGroup(EDIT_FIND_TOOL_BAR_GROUP_ID, new ToolBarPosition(PositionMode.MIDDLE), SeparationMode.AROUND));
         menuModule.registerToolBarItem(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, MODULE_ID, findReplaceHandler.getEditFindAction(), new ToolBarPosition(EDIT_FIND_TOOL_BAR_GROUP_ID));
     }
-    
+
+    public void registerToolsOptionsMenuActions() {
+        getToolsOptionsHandler();
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, MODULE_ID, toolsOptionsHandler.getToolsSetFontAction(), new MenuPosition(PositionMode.TOP));
+        menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, MODULE_ID, toolsOptionsHandler.getToolsSetFontAction(), new MenuPosition(PositionMode.TOP));
+    }
+
     public FileType newXBTFileType() {
         return new XBTFileType();
     }

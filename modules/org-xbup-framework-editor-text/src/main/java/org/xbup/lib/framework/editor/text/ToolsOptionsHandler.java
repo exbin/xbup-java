@@ -21,6 +21,7 @@ import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.xbup.tool.editor.module.text_editor.dialog.FontDialog;
 
 /**
  * Tools options action handler.
@@ -54,7 +55,10 @@ public class ToolsOptionsHandler {
         toolsSetColorAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet.");
+//                FontDialog dlg = new FontDialog(getFrame(), true);
+//                dlg.setIconImage(mainFrameManagement.getFrameIcon());
+//                dlg.setLocationRelativeTo(dlg.getParent());
+//                getActivePanel().showFontDialog(dlg);
             }
         };
         ActionUtils.setupAction(toolsSetColorAction, resourceBundle, "toolsSetColorAction");

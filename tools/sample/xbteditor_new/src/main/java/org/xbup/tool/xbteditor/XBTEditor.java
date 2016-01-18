@@ -46,7 +46,7 @@ import org.xbup.lib.framework.gui.utils.ActionUtils;
 /**
  * The main class of the XBEditor application.
  *
- * @version 0.2.0 2016/01/10
+ * @version 0.2.0 2016/01/18
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTEditor {

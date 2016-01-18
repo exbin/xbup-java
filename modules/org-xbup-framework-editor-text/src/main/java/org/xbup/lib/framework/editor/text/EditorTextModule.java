@@ -17,7 +17,9 @@
 package org.xbup.lib.framework.editor.text;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.io.File;
+import java.util.List;
 import javax.swing.filechooser.FileFilter;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
@@ -37,6 +39,10 @@ import org.xbup.lib.framework.gui.menu.api.ToolBarPosition;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
 import org.xbup.tool.editor.module.text_editor.panel.TextColorOptionsPanel;
 import org.xbup.tool.editor.module.text_editor.panel.TextColorPanelFrame;
+import org.xbup.tool.editor.module.text_editor.panel.TextEncodingOptionsPanel;
+import org.xbup.tool.editor.module.text_editor.panel.TextEncodingPanelFrame;
+import org.xbup.tool.editor.module.text_editor.panel.TextFontOptionsPanel;
+import org.xbup.tool.editor.module.text_editor.panel.TextFontPanelFrame;
 import org.xbup.tool.editor.module.text_editor.panel.TextPanel;
 import org.xbup.tool.editor.module.text_editor.panel.TextStatusPanel;
 
@@ -102,7 +108,7 @@ public class EditorTextModule implements XBApplicationModulePlugin {
 
     public void registerOptionsPanels() {
         GuiOptionsModuleApi optionsModule = application.getModuleRepository().getModuleByInterface(GuiOptionsModuleApi.class);
-        TextColorPanelFrame textColorFrame = new TextColorPanelFrame() {
+        TextColorPanelFrame textColorPanelFrame = new TextColorPanelFrame() {
             @Override
             public Color[] getCurrentTextColors() {
                 return ((TextPanel) getEditorProvider()).getCurrentColors();
@@ -119,9 +125,49 @@ public class EditorTextModule implements XBApplicationModulePlugin {
             }
         };
 
-        optionsModule.addOptionsPanel(new TextColorOptionsPanel(textColorFrame));
-//        optionsModule.addOptionsPanel(new TextFontOptionsPanel(textColorFrame));
-//        optionsModule.addOptionsPanel(new TextEncodingOptionsPanel(textColorFrame));
+        optionsModule.addOptionsPanel(new TextColorOptionsPanel(textColorPanelFrame));
+        
+        TextFontPanelFrame textFontPanelFrame = new TextFontPanelFrame() {
+            @Override
+            public Font getCurrentFont() {
+                return ((TextPanel) getEditorProvider()).getCurrentFont();
+            }
+
+            @Override
+            public Font getDefaultFont() {
+                return ((TextPanel) getEditorProvider()).getDefaultFont();
+            }
+
+            @Override
+            public void setCurrentFont(Font font) {
+                ((TextPanel) getEditorProvider()).setCurrentFont(font);
+            }
+        };
+
+        optionsModule.addOptionsPanel(new TextFontOptionsPanel(textFontPanelFrame));
+        
+        TextEncodingPanelFrame textEncodingPanelFrame = new TextEncodingPanelFrame() {
+            @Override
+            public List<String> getCurrentEncodingList() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public String getSelectedEncoding() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void setEncodingList(List<String> encodings) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void setSelectedEncoding(String encoding) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        };
+        optionsModule.addOptionsPanel(new TextEncodingOptionsPanel(textEncodingPanelFrame));
 //        optionsModule.extendAppearanceOptionsPanel(new TextAppearanceOptionsPanel(textColorFrame));
 
     }

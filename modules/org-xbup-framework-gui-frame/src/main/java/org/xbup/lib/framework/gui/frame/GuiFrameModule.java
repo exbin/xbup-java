@@ -127,6 +127,7 @@ public class GuiFrameModule implements GuiFrameModuleApi {
     public ApplicationFrameHandler getFrameHandler() {
         if (frame == null) {
             frame = new XBApplicationFrame();
+            frame.setApplication(application);
             frame.loadMainMenu(application);
             frame.loadMainToolBar(application);
         }

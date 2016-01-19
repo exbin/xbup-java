@@ -193,7 +193,7 @@ public class XBApplicationFrame extends javax.swing.JFrame implements Applicatio
     }
 
     @Override
-    public void setApplication(XBBaseApplication app) {
+    public void setApplication(XBApplication app) {
         setTitle(app.getAppBundle().getString("Application.name"));
         setIconImage(new ImageIcon(getClass().getResource(app.getAppBundle().getString("Application.icon"))).getImage());
     }

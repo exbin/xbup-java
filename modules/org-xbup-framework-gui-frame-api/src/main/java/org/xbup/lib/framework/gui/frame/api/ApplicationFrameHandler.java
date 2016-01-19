@@ -62,7 +62,7 @@ public interface ApplicationFrameHandler {
      *
      * @param app base application handler
      */
-    void setApplication(XBBaseApplication app);
+    void setApplication(XBApplication app);
 
     /**
      * Sets content of central area of the frame.

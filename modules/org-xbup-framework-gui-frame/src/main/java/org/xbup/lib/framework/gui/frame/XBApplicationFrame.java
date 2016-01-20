@@ -23,7 +23,6 @@ import java.awt.Frame;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import org.xbup.lib.framework.gui.XBBaseApplication;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;

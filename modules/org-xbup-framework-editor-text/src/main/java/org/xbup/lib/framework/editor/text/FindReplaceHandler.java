@@ -20,12 +20,18 @@ import java.awt.event.ActionEvent;
 import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JOptionPane;
+import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
+import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.xbup.tool.editor.module.text_editor.dialog.FindTextDialog;
+import org.xbup.tool.editor.module.text_editor.panel.TextPanel;
 
 /**
  * Find/replace handler.
  *
- * @version 0.2.0 2016/01/13
+ * @version 0.2.0 2016/01/20
  * @author XBUP Project (http://xbup.org)
  */
 public class FindReplaceHandler {
@@ -33,11 +39,18 @@ public class FindReplaceHandler {
     private int metaMask;
     private ResourceBundle resourceBundle;
 
+    private FindTextDialog findDialog = null;
+
     private Action editFindAction;
     private Action editFindAgainAction;
     private Action editReplaceAction;
 
-    public FindReplaceHandler() {
+    private final XBEditorProvider editorProvider;
+    private final XBApplication application;
+
+    public FindReplaceHandler(XBApplication application, XBEditorProvider editorProvider) {
+        this.application = application;
+        this.editorProvider = editorProvider;
         resourceBundle = ActionUtils.getResourceBundleByClass(EditorTextModule.class);
     }
 
@@ -45,7 +58,16 @@ public class FindReplaceHandler {
         editFindAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                initFindDialog();
+                findDialog.setShallReplace(false);
+                findDialog.setSelected();
+                findDialog.setLocationRelativeTo(findDialog.getParent());
+                findDialog.setVisible(true);
+                if (findDialog.getDialogOption() == JOptionPane.OK_OPTION) {
+                    if (editorProvider instanceof TextPanel) {
+                        ((TextPanel) editorProvider).findText(findDialog);
+                    }
+                }
             }
         };
         ActionUtils.setupAction(editFindAction, resourceBundle, "editFindAction");
@@ -54,7 +76,11 @@ public class FindReplaceHandler {
         editFindAgainAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                initFindDialog();
+                findDialog.setShallReplace(false);
+                if (editorProvider instanceof TextPanel) {
+                    ((TextPanel) editorProvider).findText(findDialog);
+                }
             }
         };
         ActionUtils.setupAction(editFindAgainAction, resourceBundle, "editFindAgainAction");
@@ -62,7 +88,16 @@ public class FindReplaceHandler {
         editReplaceAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                initFindDialog();
+                findDialog.setShallReplace(true);
+                findDialog.setSelected();
+                findDialog.setLocationRelativeTo(findDialog.getParent());
+                findDialog.setVisible(true);
+                if (findDialog.getDialogOption() == JOptionPane.OK_OPTION) {
+                    if (editorProvider instanceof TextPanel) {
+                        ((TextPanel) editorProvider).findText(findDialog);
+                    }
+                }
             }
         };
         ActionUtils.setupAction(editReplaceAction, resourceBundle, "editReplaceAction");
@@ -79,5 +114,13 @@ public class FindReplaceHandler {
 
     public Action getEditReplaceAction() {
         return editReplaceAction;
+    }
+
+    public void initFindDialog() {
+        if (findDialog == null) {
+            GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
+            findDialog = new FindTextDialog(frameModule.getFrame(), true);
+            findDialog.setIconImage(application.getApplicationIcon());
+        }
     }
 }

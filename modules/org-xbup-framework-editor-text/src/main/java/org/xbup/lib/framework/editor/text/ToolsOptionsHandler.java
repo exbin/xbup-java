@@ -16,17 +16,24 @@
  */
 package org.xbup.lib.framework.editor.text;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
+import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.tool.editor.module.text_editor.dialog.FontDialog;
+import org.xbup.tool.editor.module.text_editor.dialog.TextColorDialog;
+import org.xbup.tool.editor.module.text_editor.panel.TextColorPanelFrame;
+import org.xbup.tool.editor.module.text_editor.panel.TextPanel;
 
 /**
  * Tools options action handler.
  *
- * @version 0.2.0 2016/01/16
+ * @version 0.2.0 2016/01/20
  * @author XBUP Project (http://xbup.org)
  */
 public class ToolsOptionsHandler {
@@ -36,9 +43,13 @@ public class ToolsOptionsHandler {
 
     private Action toolsSetFontAction;
     private Action toolsSetColorAction;
-    // private Action editReplaceAction;
 
-    public ToolsOptionsHandler() {
+    private final XBEditorProvider editorProvider;
+    private final XBApplication application;
+
+    public ToolsOptionsHandler(XBApplication application, XBEditorProvider editorProvider) {
+        this.application = application;
+        this.editorProvider = editorProvider;
         resourceBundle = ActionUtils.getResourceBundleByClass(EditorTextModule.class);
     }
 
@@ -46,7 +57,13 @@ public class ToolsOptionsHandler {
         toolsSetFontAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
+                FontDialog dialog = new FontDialog(frameModule.getFrame(), true);
+                dialog.setIconImage(application.getApplicationIcon());
+                dialog.setLocationRelativeTo(dialog.getParent());
+                if (editorProvider instanceof TextPanel) {
+                    ((TextPanel) editorProvider).showFontDialog(dialog);
+                }
             }
         };
         ActionUtils.setupAction(toolsSetFontAction, resourceBundle, "toolsSetFontAction");
@@ -55,10 +72,27 @@ public class ToolsOptionsHandler {
         toolsSetColorAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                FontDialog dlg = new FontDialog(getFrame(), true);
-//                dlg.setIconImage(mainFrameManagement.getFrameIcon());
-//                dlg.setLocationRelativeTo(dlg.getParent());
-//                getActivePanel().showFontDialog(dlg);
+                GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
+                TextColorPanelFrame textColorPanelFrame = new TextColorPanelFrame() {
+                    @Override
+                    public Color[] getCurrentTextColors() {
+                        return ((TextPanel) editorProvider).getCurrentColors();
+                    }
+
+                    @Override
+                    public Color[] getDefaultTextColors() {
+                        return ((TextPanel) editorProvider).getDefaultColors();
+                    }
+
+                    @Override
+                    public void setCurrentTextColors(Color[] colors) {
+                        ((TextPanel) editorProvider).setCurrentColors(colors);
+                    }
+                };
+                TextColorDialog dialog = new TextColorDialog(frameModule.getFrame(), textColorPanelFrame, true);
+                dialog.setIconImage(application.getApplicationIcon());
+                dialog.setLocationRelativeTo(dialog.getParent());
+                dialog.showDialog();
             }
         };
         ActionUtils.setupAction(toolsSetColorAction, resourceBundle, "toolsSetColorAction");

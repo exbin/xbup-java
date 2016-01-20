@@ -49,13 +49,14 @@ import org.xbup.tool.editor.module.text_editor.panel.TextStatusPanel;
 /**
  * XBUP text editor module.
  *
- * @version 0.2.0 2016/01/14
+ * @version 0.2.0 2016/01/20
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
 public class EditorTextModule implements XBApplicationModulePlugin {
 
     public static final String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(EditorTextModule.class);
+
     private static final String EDIT_FIND_MENU_GROUP_ID = MODULE_ID + ".editFindMenuGroup";
     private static final String EDIT_FIND_TOOL_BAR_GROUP_ID = MODULE_ID + ".editFindToolBarGroup";
 
@@ -126,7 +127,7 @@ public class EditorTextModule implements XBApplicationModulePlugin {
         };
 
         optionsModule.addOptionsPanel(new TextColorOptionsPanel(textColorPanelFrame));
-        
+
         TextFontPanelFrame textFontPanelFrame = new TextFontPanelFrame() {
             @Override
             public Font getCurrentFont() {
@@ -145,7 +146,7 @@ public class EditorTextModule implements XBApplicationModulePlugin {
         };
 
         optionsModule.addOptionsPanel(new TextFontOptionsPanel(textFontPanelFrame));
-        
+
         TextEncodingPanelFrame textEncodingPanelFrame = new TextEncodingPanelFrame() {
             @Override
             public List<String> getCurrentEncodingList() {
@@ -167,6 +168,7 @@ public class EditorTextModule implements XBApplicationModulePlugin {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
         };
+
         optionsModule.addOptionsPanel(new TextEncodingOptionsPanel(textEncodingPanelFrame));
 //        optionsModule.extendAppearanceOptionsPanel(new TextAppearanceOptionsPanel(textColorFrame));
 
@@ -183,9 +185,10 @@ public class EditorTextModule implements XBApplicationModulePlugin {
 //        optionsManagement.addOptionsPanel(new TextFontOptionsPanel(editorFrame));
 //        optionsManagement.addOptionsPanel(new TextEncodingOptionsPanel(editorFrame));
 //        optionsManagement.extendAppearanceOptionsPanel(new TextAppearanceOptionsPanel(editorFrame));
+    
     private FindReplaceHandler getFindReplaceHandler() {
         if (findReplaceHandler == null) {
-            findReplaceHandler = new FindReplaceHandler();
+            findReplaceHandler = new FindReplaceHandler(application, (TextPanel) getEditorProvider());
             findReplaceHandler.init();
         }
 
@@ -194,7 +197,7 @@ public class EditorTextModule implements XBApplicationModulePlugin {
 
     private ToolsOptionsHandler getToolsOptionsHandler() {
         if (toolsOptionsHandler == null) {
-            toolsOptionsHandler = new ToolsOptionsHandler();
+            toolsOptionsHandler = new ToolsOptionsHandler(application, (TextPanel) getEditorProvider());
             toolsOptionsHandler.init();
         }
 

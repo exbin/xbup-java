@@ -30,6 +30,8 @@
   <SubComponents>
     <Container class="javax.swing.JToolBar" name="toolBar">
       <Properties>
+        <Property name="floatable" type="boolean" value="false"/>
+        <Property name="rollover" type="boolean" value="true"/>
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
       <Constraints>

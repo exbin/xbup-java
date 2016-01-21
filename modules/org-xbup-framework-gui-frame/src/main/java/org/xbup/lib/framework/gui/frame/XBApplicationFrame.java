@@ -30,7 +30,7 @@ import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
 /**
  * Basic appplication frame.
  *
- * @version 0.2.0 2016/01/11
+ * @version 0.2.0 2016/01/21
  * @author XBUP Project (http://xbup.org)
  */
 public class XBApplicationFrame extends javax.swing.JFrame implements ApplicationFrameHandler {
@@ -64,6 +64,8 @@ public class XBApplicationFrame extends javax.swing.JFrame implements Applicatio
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        toolBar.setFloatable(false);
+        toolBar.setRollover(true);
         toolBar.setFocusable(false);
         getContentPane().add(toolBar, java.awt.BorderLayout.NORTH);
 
@@ -152,10 +154,14 @@ public class XBApplicationFrame extends javax.swing.JFrame implements Applicatio
     // End of variables declaration//GEN-END:variables
 
     /**
+     * Main method to test frame.
+     *
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Create and display the form */
+        /**
+         * Create and display the form.
+         */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -218,7 +224,7 @@ public class XBApplicationFrame extends javax.swing.JFrame implements Applicatio
     public void addStatusBar(JPanel panel, String statusBarId) {
         statusPanel.add(panel, statusBarId);
     }
-    
+
     public void switchStatusBar(String statusBarId) {
         CardLayout layout = (CardLayout) statusPanel.getLayout();
         layout.show(statusPanel, statusBarId);

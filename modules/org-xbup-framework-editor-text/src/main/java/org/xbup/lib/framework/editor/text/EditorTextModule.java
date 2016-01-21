@@ -19,7 +19,10 @@ package org.xbup.lib.framework.editor.text;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
+import java.nio.charset.Charset;
 import java.util.List;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JSeparator;
 import javax.swing.filechooser.FileFilter;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
@@ -40,6 +43,7 @@ import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
 import org.xbup.tool.editor.module.text_editor.panel.TextColorOptionsPanel;
 import org.xbup.tool.editor.module.text_editor.panel.TextColorPanelFrame;
 import org.xbup.tool.editor.module.text_editor.panel.TextEncodingOptionsPanel;
+import org.xbup.tool.editor.module.text_editor.panel.TextEncodingPanel;
 import org.xbup.tool.editor.module.text_editor.panel.TextEncodingPanelFrame;
 import org.xbup.tool.editor.module.text_editor.panel.TextFontOptionsPanel;
 import org.xbup.tool.editor.module.text_editor.panel.TextFontPanelFrame;
@@ -49,7 +53,7 @@ import org.xbup.tool.editor.module.text_editor.panel.TextStatusPanel;
 /**
  * XBUP text editor module.
  *
- * @version 0.2.0 2016/01/20
+ * @version 0.2.0 2016/01/21
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -70,6 +74,10 @@ public class EditorTextModule implements XBApplicationModulePlugin {
     private FindReplaceHandler findReplaceHandler;
     private ToolsOptionsHandler toolsOptionsHandler;
 
+    private List<String> encodings = null;
+    private javax.swing.JMenu toolsEncodingMenu;
+    private javax.swing.JRadioButtonMenuItem utfEncodingRadioButtonMenuItem;
+    
     public EditorTextModule() {
     }
 
@@ -150,22 +158,27 @@ public class EditorTextModule implements XBApplicationModulePlugin {
         TextEncodingPanelFrame textEncodingPanelFrame = new TextEncodingPanelFrame() {
             @Override
             public List<String> getCurrentEncodingList() {
-                throw new UnsupportedOperationException("Not supported yet.");
+                return encodings;
             }
 
             @Override
             public String getSelectedEncoding() {
-                throw new UnsupportedOperationException("Not supported yet.");
+                return ((TextPanel) getEditorProvider()).getCharset().name();
             }
 
             @Override
             public void setEncodingList(List<String> encodings) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                EditorTextModule.this.encodings = encodings;
+                encodingsRebuild();
             }
 
             @Override
             public void setSelectedEncoding(String encoding) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                if (encoding != null) {
+                    ((TextPanel) getEditorProvider()).setCharset(Charset.forName(encoding));
+//                    documentEncodingTextField.setText(charset.name());
+//                    documentEncodingTextField.repaint();
+                }
             }
         };
 
@@ -174,6 +187,33 @@ public class EditorTextModule implements XBApplicationModulePlugin {
 
     }
 
+    private void encodingsRebuild() {
+        // TODO String encodingToolTip = resourceBundle.getString("set_encoding") + " ";
+        for (int i = toolsEncodingMenu.getItemCount() - 2; i > 1; i--) {
+            toolsEncodingMenu.remove(i);
+        }
+        if (encodings.size() > 0) {
+//            int selectedEncoding = encodings.indexOf(getSelectedEncoding());
+//            if (selectedEncoding < 0) {
+//                setSelectedEncoding(TextEncodingPanel.ENCODING_UTF8);
+//                utfEncodingRadioButtonMenuItem.setSelected(true);
+//            }
+            toolsEncodingMenu.add(new JSeparator(), 1);
+            for (int index = 0; index < encodings.size(); index++) {
+                String encoding = encodings.get(index);
+                JRadioButtonMenuItem item = new JRadioButtonMenuItem(encoding, false);
+                // TODO item.addActionListener(encodingActionListener);
+                // TODO item.setToolTipText(encodingToolTip + encoding);
+                // TODO mainFrameManagement.initMenuItem(item);
+                toolsEncodingMenu.add(item, index + 2);
+                // TODO encodingButtonGroup.add(item);
+//                if (index == selectedEncoding) {
+//                    item.setSelected(true);
+//                }
+            }
+        }
+    }
+    
 //        editorFrame = new XBTextEditorFrame();
 //        editorFrame.setMainFrameManagement(management.getMainFrameManagement());
 //        management.registerPanel(editorFrame.getActivePanel());

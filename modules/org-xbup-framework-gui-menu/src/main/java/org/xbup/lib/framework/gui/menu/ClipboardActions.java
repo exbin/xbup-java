@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import static javax.swing.Action.NAME;
 import javax.swing.ActionMap;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JComponent;
@@ -59,7 +58,7 @@ import org.xbup.lib.framework.gui.utils.ActionUtils;
 /**
  * Clipboard operations.
  *
- * @version 0.2.0 2016/01/09
+ * @version 0.2.0 2016/01/21
  * @author XBUP Project (http://xbup.org)
  */
 public class ClipboardActions implements ClipboardActionsApi {
@@ -160,6 +159,7 @@ public class ClipboardActions implements ClipboardActionsApi {
             JMenuItem basicPopupDeleteMenuItem = new javax.swing.JMenuItem();
             JMenuItem basicPopupSelectAllMenuItem = new javax.swing.JMenuItem();
 
+            basicPopupCutMenuItem.setAction(defaultCutAction);
             basicPopupCutMenuItem.setName("basicPopupCutMenuItem"); // NOI18N
             defaultPopupMenu.add(basicPopupCutMenuItem);
 
@@ -269,6 +269,7 @@ public class ClipboardActions implements ClipboardActionsApi {
         DefaultPopupClipboardAction[] actions = {defaultCutAction, defaultCopyAction, defaultPasteAction, defaultDeleteAction, defaultSelectAllAction};
         defaultTextActions = actions;
 
+        getDefaultPopupMenu();
         Toolkit.getDefaultToolkit().getSystemEventQueue().push(new PopupEventQueue());
     }
 
@@ -345,7 +346,7 @@ public class ClipboardActions implements ClipboardActionsApi {
         private final TextAction parentAction;
 
         public PassingTextAction(TextAction parentAction) {
-            super((String) parentAction.getValue(NAME));
+            super((String) parentAction.getValue(Action.NAME));
             this.parentAction = parentAction;
         }
 
@@ -353,7 +354,7 @@ public class ClipboardActions implements ClipboardActionsApi {
         public void actionPerformed(ActionEvent actionEvent) {
 //            if (activePanel instanceof ActivePanelActionHandling) {
 //                ActivePanelActionHandling childHandling = (ActivePanelActionHandling) activePanel;
-//                if (childHandling.performAction((String) parentAction.getValue(NAME), actionEvent)) {
+//                if (childHandling.performAction((String) parentAction.getValue(Action.NAME), actionEvent)) {
 //                    return;
 //                }
 //            }

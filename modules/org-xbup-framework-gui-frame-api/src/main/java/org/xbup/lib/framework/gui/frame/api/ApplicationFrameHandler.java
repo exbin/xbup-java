@@ -17,14 +17,14 @@
 package org.xbup.lib.framework.gui.frame.api;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Frame;
-import org.xbup.lib.framework.gui.XBBaseApplication;
 import org.xbup.lib.framework.gui.api.XBApplication;
 
 /**
  * Interface for application frame.
  *
- * @version 0.2.0 2016/01/10
+ * @version 0.2.0 2016/01/22
  * @author XBUP Project (http://xbup.org)
  */
 public interface ApplicationFrameHandler {
@@ -89,4 +89,11 @@ public interface ApplicationFrameHandler {
      * Shows this frame.
      */
     void show();
+
+    /**
+     * Sets default frame size.
+     *
+     * @param windowSize window size
+     */
+    public void setDefaultSize(Dimension windowSize);
 }

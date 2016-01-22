@@ -41,8 +41,6 @@ import org.xbup.lib.framework.gui.menu.api.ToolBarPosition;
 @PluginImplementation
 public class GuiMenuModule implements GuiMenuModuleApi {
 
-    public static final String CLIPBOARD_ACTIONS_MENU_GROUP_ID = MODULE_ID + ".clipboardActionsMenuGroup";
-    public static final String CLIPBOARD_ACTIONS_TOOL_BAR_GROUP_ID = MODULE_ID + ".clipboardActionsToolBarGroup";
     private XBApplication application;
     private ClipboardActions clipboardActions = null;
     private MenuHandler menuHandler = null;

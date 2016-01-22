@@ -16,6 +16,7 @@
  */
 package org.xbup.tool.xbteditor;
 
+import java.awt.Dimension;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -145,6 +146,7 @@ public class XBTEditor {
                 xbupEditorModule.registerOptionsPanels();
 
                 frameHandler.setMainPanel(editorModule.getEditorPanel());
+                frameHandler.setDefaultSize(new Dimension(600, 400));
                 frameHandler.show();
 
                 List fileArgs = cl.getArgList();

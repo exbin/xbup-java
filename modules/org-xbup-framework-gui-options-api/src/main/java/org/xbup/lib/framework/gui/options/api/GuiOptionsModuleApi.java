@@ -30,6 +30,7 @@ import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 public interface GuiOptionsModuleApi extends XBApplicationModulePlugin {
 
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiOptionsModuleApi.class);
+    public static String TOOLS_OPTIONS_MENU_GROUP_ID = MODULE_ID + ".toolsOptionsMenuGroup";
 
     Action getOptionsAction();
 

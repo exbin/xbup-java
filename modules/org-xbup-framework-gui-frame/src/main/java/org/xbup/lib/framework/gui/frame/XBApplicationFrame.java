@@ -19,21 +19,26 @@ package org.xbup.lib.framework.gui.frame;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
+import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 
 /**
  * Basic appplication frame.
  *
- * @version 0.2.0 2016/01/21
+ * @version 0.2.0 2016/01/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBApplicationFrame extends javax.swing.JFrame implements ApplicationFrameHandler {
+
+    private XBApplication application;
 
     public XBApplicationFrame() {
         initComponents();
@@ -198,9 +203,10 @@ public class XBApplicationFrame extends javax.swing.JFrame implements Applicatio
     }
 
     @Override
-    public void setApplication(XBApplication app) {
-        setTitle(app.getAppBundle().getString("Application.name"));
-        setIconImage(new ImageIcon(getClass().getResource(app.getAppBundle().getString("Application.icon"))).getImage());
+    public void setApplication(XBApplication application) {
+        this.application = application;
+        setTitle(application.getAppBundle().getString("Application.name"));
+        setIconImage(new ImageIcon(getClass().getResource(application.getAppBundle().getString("Application.icon"))).getImage());
     }
 
     @Override
@@ -228,5 +234,20 @@ public class XBApplicationFrame extends javax.swing.JFrame implements Applicatio
     public void switchStatusBar(String statusBarId) {
         CardLayout layout = (CardLayout) statusPanel.getLayout();
         layout.show(statusPanel, statusBarId);
+    }
+
+    @Override
+    public void setDefaultSize(Dimension windowSize) {
+        if (application != null) {
+            String rectangleString = application.getAppPreferences().get(GuiFrameModuleApi.PREFERENCES_FRAME_RECTANGLE, "");
+            if (!rectangleString.isEmpty()) {
+                String[] split = rectangleString.split("[,]");
+                Rectangle rect = new Rectangle(Integer.valueOf(split[0]), Integer.valueOf(split[1]), Integer.valueOf(split[2]), Integer.valueOf(split[3]));
+                setBounds(rect);
+                return;
+            }
+        }
+        setSize(windowSize);
+        setLocationRelativeTo(null);
     }
 }

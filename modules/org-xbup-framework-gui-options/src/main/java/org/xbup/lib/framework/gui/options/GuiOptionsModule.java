@@ -24,8 +24,10 @@ import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
+import org.xbup.lib.framework.gui.menu.api.MenuGroup;
 import org.xbup.lib.framework.gui.menu.api.MenuPosition;
 import org.xbup.lib.framework.gui.menu.api.PositionMode;
+import org.xbup.lib.framework.gui.menu.api.SeparationMode;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
 import org.xbup.lib.framework.gui.options.api.OptionsPanel;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
@@ -33,7 +35,7 @@ import org.xbup.lib.framework.gui.utils.ActionUtils;
 /**
  * Implementation of XBUP framework file module.
  *
- * @version 0.2.0 2016/01/12
+ * @version 0.2.0 2016/01/22
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -115,7 +117,8 @@ public class GuiOptionsModule implements GuiOptionsModuleApi {
     @Override
     public void registerMenuAction() {
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenuGroup(GuiFrameModuleApi.TOOLS_MENU_ID, new MenuGroup(TOOLS_OPTIONS_MENU_GROUP_ID, new MenuPosition(PositionMode.BOTTOM_LAST), SeparationMode.AROUND));
         getOptionsAction();
-        menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, MODULE_ID, optionsAction, new MenuPosition(PositionMode.BOTTOM_LAST));
+        menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, MODULE_ID, optionsAction, new MenuPosition(TOOLS_OPTIONS_MENU_GROUP_ID));
     }
 }

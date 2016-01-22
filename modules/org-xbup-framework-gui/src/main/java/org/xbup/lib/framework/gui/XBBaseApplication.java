@@ -40,6 +40,11 @@ import org.xbup.lib.framework.gui.api.XBModuleRepository;
  */
 public class XBBaseApplication implements XBApplication {
 
+    public static final String PREFERENCES_LOOK_AND_FEEL = "lookAndFeel";
+    public static final String PREFERENCES_LOCALE_LANGUAGE = "locale.language";
+    public static final String PREFERENCES_LOCALE_COUNTRY = "locale.country";
+    public static final String PREFERENCES_LOCALE_VARIANT = "locale.variant";
+
     private ResourceBundle appBundle;
     private Preferences appPreferences;
 
@@ -97,17 +102,17 @@ public class XBBaseApplication implements XBApplication {
         this.appPreferences = appPreferences;
 
         // Switching language
-//        String localeLanguage = preferencesGet(OptionsManagement.PREFERENCES_LOCALE_LANGUAGE, Locale.US.getLanguage());
-//        String localeCountry = preferencesGet(OptionsManagement.PREFERENCES_LOCALE_COUNTRY, Locale.US.getCountry());
-//        String localeVariant = preferencesGet(OptionsManagement.PREFERENCES_LOCALE_VARIANT, Locale.US.getVariant());
-//        try {
-//            Locale locale = new Locale(localeLanguage, localeCountry, localeVariant);
-//            if (!locale.equals(Locale.ROOT)) {
-//                Locale.setDefault(locale);
-//            }
-//        } catch (SecurityException ex) {
-//            // Ignore it in java webstart
-//        }
+        String localeLanguage = preferencesGet(PREFERENCES_LOCALE_LANGUAGE, Locale.US.getLanguage());
+        String localeCountry = preferencesGet(PREFERENCES_LOCALE_COUNTRY, Locale.US.getCountry());
+        String localeVariant = preferencesGet(PREFERENCES_LOCALE_VARIANT, Locale.US.getVariant());
+        try {
+            Locale locale = new Locale(localeLanguage, localeCountry, localeVariant);
+            if (!locale.equals(Locale.ROOT)) {
+                Locale.setDefault(locale);
+            }
+        } catch (SecurityException ex) {
+            // Ignore it in java webstart
+        }
     }
 
     /**

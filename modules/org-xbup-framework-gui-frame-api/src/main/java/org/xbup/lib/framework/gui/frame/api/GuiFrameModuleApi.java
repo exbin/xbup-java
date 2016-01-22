@@ -45,6 +45,8 @@ public interface GuiFrameModuleApi extends XBApplicationModulePlugin {
     public static String PROGRESS_STATUS_BAR_ID = "progress";
     public static String BUSY_STATUS_BAR_ID = "busy";
 
+    public static String PREFERENCES_FRAME_RECTANGLE = "frameRectangle";
+    
     /**
      * Returns frame handler.
      *

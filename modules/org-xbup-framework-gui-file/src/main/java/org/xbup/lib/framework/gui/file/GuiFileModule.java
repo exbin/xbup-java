@@ -20,6 +20,8 @@ import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.file.api.FileType;
 import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
+import org.xbup.lib.framework.gui.frame.api.ApplicationExitListener;
+import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.menu.api.MenuGroup;
@@ -59,7 +61,7 @@ public class GuiFileModule implements GuiFileModuleApi {
     public FileHandlingActions getFileHandlingActions() {
         if (fileHandlingActions == null) {
             fileHandlingActions = new FileHandlingActions();
-            fileHandlingActions.init();
+            fileHandlingActions.init(application);
         }
 
         return fileHandlingActions;
@@ -90,5 +92,17 @@ public class GuiFileModule implements GuiFileModuleApi {
         menuModule.registerToolBarItem(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, MODULE_ID, fileHandlingActions.getNewFileAction(), new ToolBarPosition(FILE_TOOL_BAR_GROUP_ID));
         menuModule.registerToolBarItem(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, MODULE_ID, fileHandlingActions.getOpenFileAction(), new ToolBarPosition(FILE_TOOL_BAR_GROUP_ID));
         menuModule.registerToolBarItem(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, MODULE_ID, fileHandlingActions.getSaveFileAction(), new ToolBarPosition(FILE_TOOL_BAR_GROUP_ID));
+    }
+    
+    @Override
+    public void registerCloseListener() {
+        getFileHandlingActions();
+        GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
+        frameModule.addExitListener(new ApplicationExitListener() {
+            @Override
+            public boolean processExit(ApplicationFrameHandler frameHandler) {
+                return fileHandlingActions.releaseFile();
+            }
+        });
     }
 }

@@ -122,7 +122,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
                 boolean dependecySatisfied = true;
                 for (String dependecyModuleId : dependencyModuleIds) {
                     XBApplicationModule dependecyModule = getModuleRecordById(dependecyModuleId);
-                    if (dependecyModule == null) {
+                    if (dependecyModule == null || findModule(unprocessedModules, dependecyModuleId)) {
                         dependecySatisfied = false;
                         break;
                     }
@@ -153,6 +153,16 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
     @Override
     public XBApplicationModule getModuleRecordById(String moduleId) {
         return modules.get(moduleId);
+    }
+
+    private boolean findModule(List<XBApplicationModule> modules, String moduleId) {
+        for (XBApplicationModule module : modules) {
+            if (moduleId.equals(module.getModuleId())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

@@ -130,6 +130,7 @@ public class GuiFrameModule implements GuiFrameModuleApi {
             frame.setApplication(application);
             frame.loadMainMenu(application);
             frame.loadMainToolBar(application);
+            frame.setApplicationExitHandler(exitHandler);
         }
 
         return frame;
@@ -148,6 +149,9 @@ public class GuiFrameModule implements GuiFrameModuleApi {
     private ApplicationExitHandler getExitHandler() {
         if (exitHandler == null) {
             exitHandler = new ApplicationExitHandler();
+            if (frame != null) {
+                frame.setApplicationExitHandler(exitHandler);
+            }
         }
 
         return exitHandler;

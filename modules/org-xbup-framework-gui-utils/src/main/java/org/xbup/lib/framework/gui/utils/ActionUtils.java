@@ -27,11 +27,23 @@ import javax.swing.Action;
  */
 public class ActionUtils {
 
-    // Value is ActionType
+    /**
+     * Action type like or check, radio.
+     *
+     * Value is ActionType.
+     */
     public static final String ACTION_TYPE = "type";
-    // Value is String
+    /**
+     * Radio group name value.
+     *
+     * Value is String.
+     */
     public static final String ACTION_RADIO_GROUP = "radioGroup";
-    // Value is Boolean
+    /**
+     * Action mode for actions opening dialogs.
+     *
+     * Value is Boolean.
+     */
     public static final String ACTION_DIALOG_MODE = "dialogMode";
 
     /**

@@ -30,7 +30,7 @@ public interface GuiFileModuleApi extends XBApplicationModulePlugin {
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiFileModuleApi.class);
 
     FileHandlingActionsApi getFileHandlingActions();
-    
+
     void addFileType(FileType fileType);
 
     /**
@@ -42,4 +42,9 @@ public interface GuiFileModuleApi extends XBApplicationModulePlugin {
      * Registers file handling operations to main frame tool bar.
      */
     public void registerToolBarFileHandlingActions();
+
+    /**
+     * Register close listener.
+     */
+    public void registerCloseListener();
 }

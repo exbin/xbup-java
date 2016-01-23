@@ -25,8 +25,8 @@ import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
-import org.xbup.tool.editor.module.text_editor.dialog.FindTextDialog;
-import org.xbup.tool.editor.module.text_editor.panel.TextPanel;
+import org.xbup.lib.framework.editor.text.dialog.FindTextDialog;
+import org.xbup.lib.framework.editor.text.panel.TextPanel;
 
 /**
  * Find/replace handler.
@@ -36,17 +36,17 @@ import org.xbup.tool.editor.module.text_editor.panel.TextPanel;
  */
 public class FindReplaceHandler {
 
-    private int metaMask;
+    private final XBEditorProvider editorProvider;
+    private final XBApplication application;
     private ResourceBundle resourceBundle;
+
+    private int metaMask;
 
     private FindTextDialog findDialog = null;
 
     private Action editFindAction;
     private Action editFindAgainAction;
     private Action editReplaceAction;
-
-    private final XBEditorProvider editorProvider;
-    private final XBApplication application;
 
     public FindReplaceHandler(XBApplication application, XBEditorProvider editorProvider) {
         this.application = application;
@@ -55,6 +55,8 @@ public class FindReplaceHandler {
     }
 
     public void init() {
+        metaMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+
         editFindAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,6 +73,7 @@ public class FindReplaceHandler {
             }
         };
         ActionUtils.setupAction(editFindAction, resourceBundle, "editFindAction");
+        editFindAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, metaMask));
         editFindAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
 
         editFindAgainAction = new AbstractAction() {
@@ -84,6 +87,7 @@ public class FindReplaceHandler {
             }
         };
         ActionUtils.setupAction(editFindAgainAction, resourceBundle, "editFindAgainAction");
+        editFindAgainAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
 
         editReplaceAction = new AbstractAction() {
             @Override
@@ -101,6 +105,7 @@ public class FindReplaceHandler {
             }
         };
         ActionUtils.setupAction(editReplaceAction, resourceBundle, "editReplaceAction");
+        editReplaceAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, metaMask));
         editReplaceAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
     }
 

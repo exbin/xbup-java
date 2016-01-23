@@ -16,7 +16,9 @@
  */
 package org.xbup.lib.framework.gui.options;
 
+import org.xbup.lib.framework.gui.options.dialog.OptionsDialog;
 import java.awt.event.ActionEvent;
+import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -42,6 +44,8 @@ import org.xbup.lib.framework.gui.utils.ActionUtils;
 public class GuiOptionsModule implements GuiOptionsModuleApi {
 
     private XBApplication application;
+    private ResourceBundle resourceBundle;
+
     private Action optionsAction;
     private OptionsDialog optionsDialog;
 
@@ -51,6 +55,7 @@ public class GuiOptionsModule implements GuiOptionsModuleApi {
     @Override
     public void init(XBApplication application) {
         this.application = application;
+        resourceBundle = ActionUtils.getResourceBundleByClass(GuiOptionsModule.class);
     }
 
     @Override
@@ -86,9 +91,9 @@ public class GuiOptionsModule implements GuiOptionsModuleApi {
                     optionsDialog.setVisible(true);
                 }
             };
-            optionsAction.putValue("Name", "Options");
-            optionsAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
 
+            ActionUtils.setupAction(optionsAction, resourceBundle, "optionsAction");
+            optionsAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
         }
 
         return optionsAction;

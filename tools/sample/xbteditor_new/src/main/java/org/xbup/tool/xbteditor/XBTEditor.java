@@ -112,6 +112,7 @@ public class XBTEditor {
                 GuiUndoModuleApi undoModule = moduleRepository.getModuleByInterface(GuiUndoModuleApi.class);
                 GuiFileModuleApi fileModule = moduleRepository.getModuleByInterface(GuiFileModuleApi.class);
                 GuiOptionsModuleApi optionsModule = moduleRepository.getModuleByInterface(GuiOptionsModuleApi.class);
+                EditorTextModule xbupEditorModule = moduleRepository.getModuleByInterface(EditorTextModule.class);
 
                 // Test menu registration
                 Action aboutAction = aboutModule.getAboutAction();
@@ -123,6 +124,7 @@ public class XBTEditor {
                 // Register clipboard editing actions
                 fileModule.registerMenuFileHandlingActions();
                 fileModule.registerToolBarFileHandlingActions();
+                fileModule.registerCloseListener();
 
                 undoModule.registerMainMenu();
                 undoModule.registerMainToolBar();
@@ -133,16 +135,16 @@ public class XBTEditor {
 
                 optionsModule.registerMenuAction();
 
-                EditorTextModule xbupEditorModule = new EditorTextModule();
-                xbupEditorModule.init(app);
                 xbupEditorModule.registerEditFindMenuActions();
                 xbupEditorModule.registerEditFindToolBarActions();
                 xbupEditorModule.registerToolsOptionsMenuActions();
+                xbupEditorModule.registerOptionsMenuPanels();
+                xbupEditorModule.registerWordWrapping();
+                xbupEditorModule.registerGoToLine();
 
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
                 editorModule.registerEditor("xbup", xbupEditorModule.getEditorProvider());
                 xbupEditorModule.registerStatusBar();
-                xbupEditorModule.registerOptionsMenuPanels();
                 xbupEditorModule.registerOptionsPanels();
 
                 frameHandler.setMainPanel(editorModule.getEditorPanel());

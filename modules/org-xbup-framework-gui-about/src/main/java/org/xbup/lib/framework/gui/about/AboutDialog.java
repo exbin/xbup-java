@@ -211,6 +211,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
         linkPopupMenu.add(copyLinkMenuItem);
 
         setTitle(bundle.getString("aboutBox.title")); // NOI18N
+        setLocationByPlatform(true);
 
         closeButton.setText(bundle.getString("closeButton.text")); // NOI18N
         closeButton.setName("closeButton"); // NOI18N

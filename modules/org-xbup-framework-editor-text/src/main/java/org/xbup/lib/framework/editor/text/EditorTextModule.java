@@ -21,8 +21,7 @@ import java.awt.Font;
 import java.io.File;
 import java.nio.charset.Charset;
 import java.util.List;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JSeparator;
+import javax.swing.JMenu;
 import javax.swing.filechooser.FileFilter;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
@@ -40,20 +39,19 @@ import org.xbup.lib.framework.gui.menu.api.SeparationMode;
 import org.xbup.lib.framework.gui.menu.api.ToolBarGroup;
 import org.xbup.lib.framework.gui.menu.api.ToolBarPosition;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
-import org.xbup.tool.editor.module.text_editor.panel.TextColorOptionsPanel;
-import org.xbup.tool.editor.module.text_editor.panel.TextColorPanelFrame;
-import org.xbup.tool.editor.module.text_editor.panel.TextEncodingOptionsPanel;
-import org.xbup.tool.editor.module.text_editor.panel.TextEncodingPanel;
-import org.xbup.tool.editor.module.text_editor.panel.TextEncodingPanelFrame;
-import org.xbup.tool.editor.module.text_editor.panel.TextFontOptionsPanel;
-import org.xbup.tool.editor.module.text_editor.panel.TextFontPanelFrame;
-import org.xbup.tool.editor.module.text_editor.panel.TextPanel;
-import org.xbup.tool.editor.module.text_editor.panel.TextStatusPanel;
+import org.xbup.lib.framework.editor.text.panel.TextColorOptionsPanel;
+import org.xbup.lib.framework.editor.text.panel.TextEncodingOptionsPanel;
+import org.xbup.lib.framework.editor.text.panel.TextFontOptionsPanel;
+import org.xbup.lib.framework.editor.text.panel.TextPanel;
+import org.xbup.lib.framework.editor.text.panel.TextStatusPanel;
+import org.xbup.lib.framework.editor.text.panel.TextColorPanelApi;
+import org.xbup.lib.framework.editor.text.panel.TextEncodingPanelApi;
+import org.xbup.lib.framework.editor.text.panel.TextFontPanelApi;
 
 /**
  * XBUP text editor module.
  *
- * @version 0.2.0 2016/01/21
+ * @version 0.2.0 2016/01/23
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -71,13 +69,14 @@ public class EditorTextModule implements XBApplicationModulePlugin {
 
     private XBApplication application;
     private XBEditorProvider editorProvider;
+    private TextStatusPanel textStatusPanel;
+
     private FindReplaceHandler findReplaceHandler;
     private ToolsOptionsHandler toolsOptionsHandler;
+    private EncodingsHandler encodingsHandler;
+    private WordWrappingHandler wordWrappingHandler;
+    private GoToLineHandler goToLineHandler;
 
-    private List<String> encodings = null;
-    private javax.swing.JMenu toolsEncodingMenu;
-    private javax.swing.JRadioButtonMenuItem utfEncodingRadioButtonMenuItem;
-    
     public EditorTextModule() {
     }
 
@@ -104,7 +103,7 @@ public class EditorTextModule implements XBApplicationModulePlugin {
     }
 
     public void registerStatusBar() {
-        TextStatusPanel textStatusPanel = new TextStatusPanel();
+        textStatusPanel = new TextStatusPanel();
         GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
         frameModule.registerStatusBar(MODULE_ID, TEXT_STATUS_BAR_ID, textStatusPanel);
         frameModule.switchStatusBar(TEXT_STATUS_BAR_ID);
@@ -112,12 +111,17 @@ public class EditorTextModule implements XBApplicationModulePlugin {
     }
 
     public void registerOptionsMenuPanels() {
+        getEncodingsHandler();
+        JMenu toolsEncodingMenu = encodingsHandler.getToolsEncodingMenu();
+        encodingsHandler.encodingsRebuild();
 
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, MODULE_ID, encodingsHandler.getToolsEncodingMenu(), new MenuPosition(PositionMode.TOP_LAST));
     }
 
     public void registerOptionsPanels() {
         GuiOptionsModuleApi optionsModule = application.getModuleRepository().getModuleByInterface(GuiOptionsModuleApi.class);
-        TextColorPanelFrame textColorPanelFrame = new TextColorPanelFrame() {
+        TextColorPanelApi textColorPanelFrame = new TextColorPanelApi() {
             @Override
             public Color[] getCurrentTextColors() {
                 return ((TextPanel) getEditorProvider()).getCurrentColors();
@@ -136,7 +140,7 @@ public class EditorTextModule implements XBApplicationModulePlugin {
 
         optionsModule.addOptionsPanel(new TextColorOptionsPanel(textColorPanelFrame));
 
-        TextFontPanelFrame textFontPanelFrame = new TextFontPanelFrame() {
+        TextFontPanelApi textFontPanelFrame = new TextFontPanelApi() {
             @Override
             public Font getCurrentFont() {
                 return ((TextPanel) getEditorProvider()).getCurrentFont();
@@ -155,10 +159,10 @@ public class EditorTextModule implements XBApplicationModulePlugin {
 
         optionsModule.addOptionsPanel(new TextFontOptionsPanel(textFontPanelFrame));
 
-        TextEncodingPanelFrame textEncodingPanelFrame = new TextEncodingPanelFrame() {
+        TextEncodingPanelApi textEncodingPanelFrame = new TextEncodingPanelApi() {
             @Override
-            public List<String> getCurrentEncodingList() {
-                return encodings;
+            public List<String> getEncodings() {
+                return getEncodingsHandler().getEncodings();
             }
 
             @Override
@@ -167,17 +171,15 @@ public class EditorTextModule implements XBApplicationModulePlugin {
             }
 
             @Override
-            public void setEncodingList(List<String> encodings) {
-                EditorTextModule.this.encodings = encodings;
-                encodingsRebuild();
+            public void setEncodings(List<String> encodings) {
+                getEncodingsHandler().setEncodings(encodings);
+                getEncodingsHandler().encodingsRebuild();
             }
 
             @Override
             public void setSelectedEncoding(String encoding) {
                 if (encoding != null) {
                     ((TextPanel) getEditorProvider()).setCharset(Charset.forName(encoding));
-//                    documentEncodingTextField.setText(charset.name());
-//                    documentEncodingTextField.repaint();
                 }
             }
         };
@@ -187,45 +189,22 @@ public class EditorTextModule implements XBApplicationModulePlugin {
 
     }
 
-    private void encodingsRebuild() {
-        // TODO String encodingToolTip = resourceBundle.getString("set_encoding") + " ";
-        for (int i = toolsEncodingMenu.getItemCount() - 2; i > 1; i--) {
-            toolsEncodingMenu.remove(i);
-        }
-        if (encodings.size() > 0) {
-//            int selectedEncoding = encodings.indexOf(getSelectedEncoding());
-//            if (selectedEncoding < 0) {
-//                setSelectedEncoding(TextEncodingPanel.ENCODING_UTF8);
-//                utfEncodingRadioButtonMenuItem.setSelected(true);
-//            }
-            toolsEncodingMenu.add(new JSeparator(), 1);
-            for (int index = 0; index < encodings.size(); index++) {
-                String encoding = encodings.get(index);
-                JRadioButtonMenuItem item = new JRadioButtonMenuItem(encoding, false);
-                // TODO item.addActionListener(encodingActionListener);
-                // TODO item.setToolTipText(encodingToolTip + encoding);
-                // TODO mainFrameManagement.initMenuItem(item);
-                toolsEncodingMenu.add(item, index + 2);
-                // TODO encodingButtonGroup.add(item);
-//                if (index == selectedEncoding) {
-//                    item.setSelected(true);
-//                }
-            }
-        }
+    public void registerWordWrapping() {
+        getWordWrappingHandler();
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenuItem(GuiFrameModuleApi.VIEW_MENU_ID, MODULE_ID, wordWrappingHandler.getViewWordWrapAction(), new MenuPosition(PositionMode.BOTTOM));
     }
-    
-//        editorFrame = new XBTextEditorFrame();
-//        editorFrame.setMainFrameManagement(management.getMainFrameManagement());
-//        management.registerPanel(editorFrame.getActivePanel());
-//        editorFrame.setMenuManagement(management.getMenuManagement());
-//
-//        // Register options panel
-//        OptionsManagement optionsManagement = management.getOptionsManagement();
-//        optionsManagement.addOptionsPanel(new TextColorOptionsPanel(editorFrame));
-//        optionsManagement.addOptionsPanel(new TextFontOptionsPanel(editorFrame));
-//        optionsManagement.addOptionsPanel(new TextEncodingOptionsPanel(editorFrame));
-//        optionsManagement.extendAppearanceOptionsPanel(new TextAppearanceOptionsPanel(editorFrame));
-    
+
+    public void registerGoToLine() {
+        getGoToLineHandler();
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, MODULE_ID, goToLineHandler.getGoToLineAction(), new MenuPosition(PositionMode.BOTTOM));
+    }
+
+    public TextStatusPanel getTextStatusPanel() {
+        return textStatusPanel;
+    }
+
     private FindReplaceHandler getFindReplaceHandler() {
         if (findReplaceHandler == null) {
             findReplaceHandler = new FindReplaceHandler(application, (TextPanel) getEditorProvider());
@@ -242,6 +221,33 @@ public class EditorTextModule implements XBApplicationModulePlugin {
         }
 
         return toolsOptionsHandler;
+    }
+
+    private EncodingsHandler getEncodingsHandler() {
+        if (encodingsHandler == null) {
+            encodingsHandler = new EncodingsHandler(application, (TextPanel) getEditorProvider(), this);
+            encodingsHandler.init();
+        }
+
+        return encodingsHandler;
+    }
+
+    private WordWrappingHandler getWordWrappingHandler() {
+        if (wordWrappingHandler == null) {
+            wordWrappingHandler = new WordWrappingHandler(application, (TextPanel) getEditorProvider());
+            wordWrappingHandler.init();
+        }
+
+        return wordWrappingHandler;
+    }
+
+    private GoToLineHandler getGoToLineHandler() {
+        if (goToLineHandler == null) {
+            goToLineHandler = new GoToLineHandler(application, (TextPanel) getEditorProvider());
+            goToLineHandler.init();
+        }
+
+        return goToLineHandler;
     }
 
     public void registerEditFindMenuActions() {
@@ -265,10 +271,6 @@ public class EditorTextModule implements XBApplicationModulePlugin {
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
         menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, MODULE_ID, toolsOptionsHandler.getToolsSetFontAction(), new MenuPosition(PositionMode.TOP));
         menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, MODULE_ID, toolsOptionsHandler.getToolsSetColorAction(), new MenuPosition(PositionMode.TOP));
-    }
-
-    public FileType newXBTFileType() {
-        return new XBTFileType();
     }
 
     public class XBTFileType extends FileFilter implements FileType {

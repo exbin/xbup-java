@@ -49,7 +49,7 @@ public interface XBModuleRepository {
     XBApplicationModulePlugin getModuleById(String moduleId);
 
     /**
-     * Gets info about module.
+     * Gets module instance by module interface.
      *
      * @param <T> interface class
      * @param interfaceClass interface class

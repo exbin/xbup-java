@@ -90,6 +90,7 @@ public class XBStringListConsistSerializable implements XBListConsistSerializabl
         @Override
         public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
             serial.begin();
+            serial.matchType();
             if (serial.getSerializationMode() == XBSerializationMode.PULL) {
                 XBString value = new XBString();
                 serial.consist(value);

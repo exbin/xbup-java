@@ -21,26 +21,31 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
+import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.file.api.FileHandlingActionsApi;
 import org.xbup.lib.framework.gui.file.api.FileHandlerApi;
 import org.xbup.lib.framework.gui.file.api.FileType;
+import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
 
 /**
  * File handling operations.
  *
- * @version 0.2.0 2016/01/12
+ * @version 0.2.0 2016/01/23
  * @author XBUP Project (http://xbup.org)
  */
 public class FileHandlingActions implements FileHandlingActionsApi {
 
     public static final String ALL_FILES_FILTER = "AllFilesFilter";
 
-    private ResourceBundle resourceBundle;
+    private final ResourceBundle resourceBundle;
     private int metaMask;
 
     private Action newFileAction;
@@ -52,12 +57,15 @@ public class FileHandlingActions implements FileHandlingActionsApi {
 
     private FileHandlerApi fileHandler = null;
     private final Map<String, FileType> fileTypes = new HashMap<>();
+    private XBApplication application;
 
     public FileHandlingActions() {
         resourceBundle = ActionUtils.getResourceBundleByClass(GuiFileModule.class);
     }
 
-    public void init() {
+    public void init(XBApplication application) {
+        this.application = application;
+
         metaMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
         openFC = new JFileChooser();
         openFC.setAcceptAllFileFilterUsed(false);
@@ -111,31 +119,34 @@ public class FileHandlingActions implements FileHandlingActionsApi {
      *
      * @return true if successfull
      */
-    private boolean releaseFile() {
-//        if (!(activePanel instanceof ApplicationFilePanel)) {
-//            return true;
-//        }
-//        while (((ApplicationFilePanel) activePanel).isModified()) {
-//            Object[] options = {
-//                resourceBundle.getString("Question.modified_save"),
-//                resourceBundle.getString("Question.modified_discard"),
-//                resourceBundle.getString("Question.modified_cancel")
-//            };
-//            int result = JOptionPane.showOptionDialog(this,
-//                    resourceBundle.getString("Question.modified"),
-//                    resourceBundle.getString("Question.modified_title"),
-//                    JOptionPane.YES_NO_CANCEL_OPTION,
-//                    JOptionPane.QUESTION_MESSAGE,
-//                    null, options, options[0]);
-//            if (result == JOptionPane.NO_OPTION) {
-//                return true;
-//            }
-//            if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
-//                return false;
-//            }
-//
-//            actionFileSave();
-//        }
+    public boolean releaseFile() {
+
+        if (fileHandler == null) {
+            return true;
+        }
+
+        while (fileHandler.isModified()) {
+            Object[] options = {
+                resourceBundle.getString("Question.modified_save"),
+                resourceBundle.getString("Question.modified_discard"),
+                resourceBundle.getString("Question.modified_cancel")
+            };
+            GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
+            int result = JOptionPane.showOptionDialog(frameModule.getFrame(),
+                    resourceBundle.getString("Question.modified"),
+                    resourceBundle.getString("Question.modified_title"),
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null, options, options[0]);
+            if (result == JOptionPane.NO_OPTION) {
+                return true;
+            }
+            if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
+                return false;
+            }
+
+            actionFileSave();
+        }
 
         return true;
     }
@@ -150,19 +161,21 @@ public class FileHandlingActions implements FileHandlingActionsApi {
             resourceBundle.getString("Question.overwrite_save"),
             resourceBundle.getString("Question.modified_cancel")
         };
-//        int result = JOptionPane.showOptionDialog(
-//                this,
-//                resourceBundle.getString("Question.overwrite"),
-//                resourceBundle.getString("Question.overwrite_title"),
-//                JOptionPane.YES_NO_OPTION,
-//                JOptionPane.QUESTION_MESSAGE,
-//                null, options, options[0]);
-//        if (result == JOptionPane.YES_OPTION) {
-//            return true;
-//        }
-//        if (result == JOptionPane.NO_OPTION || result == JOptionPane.CLOSED_OPTION) {
-//            return false;
-//        }
+
+        GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
+        int result = JOptionPane.showOptionDialog(
+                frameModule.getFrame(),
+                resourceBundle.getString("Question.overwrite"),
+                resourceBundle.getString("Question.overwrite_title"),
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null, options, options[0]);
+        if (result == JOptionPane.YES_OPTION) {
+            return true;
+        }
+        if (result == JOptionPane.NO_OPTION || result == JOptionPane.CLOSED_OPTION) {
+            return false;
+        }
 
         return false;
     }
@@ -199,7 +212,8 @@ public class FileHandlingActions implements FileHandlingActionsApi {
                 return;
             }
 
-            if (openFC.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
+            if (openFC.showOpenDialog(frameModule.getFrame()) == JFileChooser.APPROVE_OPTION) {
 //                ((CardLayout) statusPanel.getLayout()).show(statusPanel, "busy");
 //                statusPanel.repaint();
                 String fileName = openFC.getSelectedFile().getAbsolutePath();
@@ -243,40 +257,26 @@ public class FileHandlingActions implements FileHandlingActionsApi {
     }
 
     public void actionFileSaveAs() {
-//        if (fileHandler != null) {
-//            if (saveFC.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-//                if (new File(saveFC.getSelectedFile().getAbsolutePath()).exists()) {
-//                    if (!overwriteFile()) {
-//                        return;
-//                    }
-//                }
-//
-//                try {
-//                    fileHandler.saveFile(saveFC);
-//                } catch (Exception ex) {
-//                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-//                    String errorMessage = ex.getLocalizedMessage();
-//                    JOptionPane.showMessageDialog(this, "Unable to save file: " + ex.getClass().getCanonicalName() + (errorMessage == null || errorMessage.isEmpty() ? "" : errorMessage), "Unable to save file", JOptionPane.ERROR_MESSAGE);
-//                }
-//            }
-//        }
-//
-//            setFileName(saveFC.getSelectedFile().getAbsolutePath());
-//            ApplicationFilePanel panel = (ApplicationFilePanel) moduleRepository.getMainFrame().getActivePanel();
-//            panel.setFileName(getFileName());
-//            panel.setFileType((FileType) saveFC.getFileFilter());
-//            return saveFile();
-//        }
-//
-//        @Override
-//        public boolean saveFile() {
-//            if (("".equals(getFileName())) || (getFileName() == null)) {
-//                return false;
-//            }
-//            ApplicationFilePanel panel = (ApplicationFilePanel) moduleRepository.getMainFrame().getActivePanel();
-//            panel.saveToFile();
-//            return true;
-//        }
+        if (fileHandler != null) {
+            GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
+            if (saveFC.showSaveDialog(frameModule.getFrame()) == JFileChooser.APPROVE_OPTION) {
+                if (new File(saveFC.getSelectedFile().getAbsolutePath()).exists()) {
+                    if (!overwriteFile()) {
+                        return;
+                    }
+                }
+
+                try {
+                    fileHandler.setFileName(saveFC.getSelectedFile().getAbsolutePath());
+                    fileHandler.setFileType((FileType) saveFC.getFileFilter());
+                    actionFileSave();
+                } catch (Exception ex) {
+                    Logger.getLogger(FileHandlingActions.class.getName()).log(Level.SEVERE, null, ex);
+                    String errorMessage = ex.getLocalizedMessage();
+                    JOptionPane.showMessageDialog(frameModule.getFrame(), "Unable to save file: " + ex.getClass().getCanonicalName() + (errorMessage == null || errorMessage.isEmpty() ? "" : errorMessage), "Unable to save file", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
     }
 
     void addFileType(FileType fileType) {

@@ -28,6 +28,11 @@ import org.xbup.lib.framework.gui.file.api.FileHandlerApi;
  */
 public interface XBEditorProvider extends FileHandlerApi {
 
+    /**
+     * Returns currently active panel.
+     *
+     * @return panel
+     */
     public JPanel getPanel();
 
     /**

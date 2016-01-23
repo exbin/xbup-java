@@ -105,8 +105,8 @@ public class GuiMenuModule implements GuiMenuModuleApi {
     }
 
     @Override
-    public void registerMenuItem(String menuId, String pluginId, JMenu item, MenuPosition position) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void registerMenuItem(String menuId, String pluginId, JMenu menu, MenuPosition position) {
+        getMenuHandler().registerMenuItem(menuId, pluginId, menu, position);
     }
 
     @Override

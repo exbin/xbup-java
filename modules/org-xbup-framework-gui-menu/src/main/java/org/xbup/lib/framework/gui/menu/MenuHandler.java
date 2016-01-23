@@ -30,6 +30,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import org.xbup.lib.framework.gui.menu.api.ActionMenuContribution;
+import org.xbup.lib.framework.gui.menu.api.DirectMenuContribution;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.menu.api.MenuContribution;
 import org.xbup.lib.framework.gui.menu.api.MenuGroup;
@@ -178,7 +179,7 @@ public class MenuHandler {
                     } else {
                         menuItem = new JMenuItem(action);
                     }
-                    
+
                     Object dialogMode = action.getValue(ActionUtils.ACTION_DIALOG_MODE);
                     if (dialogMode instanceof Boolean && ((Boolean) dialogMode)) {
                         menuItem.setText(menuItem.getText() + GuiMenuModuleApi.DIALOG_MENUITEM_EXT);
@@ -193,6 +194,11 @@ public class MenuHandler {
                     if (subMenu.getMenuComponentCount() > 0) {
                         targetMenu.add(subMenu);
                     }
+                } else if (contribution instanceof DirectMenuContribution) {
+                    DirectMenuContribution directMenuContribution = (DirectMenuContribution) contribution;
+                    targetMenu.add(directMenuContribution.getMenu());
+                } else {
+                    throw new UnsupportedOperationException("Not supported yet.");
                 }
 
                 menuContinues = true;
@@ -255,6 +261,16 @@ public class MenuHandler {
         }
 
         SubMenuContribution menuContribution = new SubMenuContribution(subMenuId, subMenuName, position);
+        menuDef.getContributions().add(menuContribution);
+    }
+
+    public void registerMenuItem(String menuId, String pluginId, JMenu menu, MenuPosition position) {
+        MenuDefinition menuDef = menus.get(menuId);
+        if (menuDef == null) {
+            throw new IllegalStateException("Menu with Id " + menuId + " doesn't exist");
+        }
+
+        DirectMenuContribution menuContribution = new DirectMenuContribution(menu, position);
         menuDef.getContributions().add(menuContribution);
     }
 

@@ -38,10 +38,7 @@ public class ActionMenuContribution implements MenuContribution {
         return action;
     }
 
-    /**
-     *
-     * @return
-     */
+    @Override
     public MenuPosition getMenuPosition() {
         return position;
     }

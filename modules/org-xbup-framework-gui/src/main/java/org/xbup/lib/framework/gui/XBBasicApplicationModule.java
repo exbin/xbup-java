@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import org.xbup.lib.framework.gui.api.XBApplicationModule;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -70,8 +71,11 @@ public class XBBasicApplicationModule implements XBPSequenceSerializable, XBAppl
     // Temporary method to create module file.
     public static void main(String[] params) {
         XBBasicApplicationModule module = new XBBasicApplicationModule("org.xbup.lib.framework.gui.about.GuiAboutModule", null);
-        module.setName("XBUP Document Editor Module");
-        module.setDescription("Module supporting editation of XBUP-encoded documents");
+        module.setName("XBUP Text Editor Module");
+        module.setDescription("Module supporting editation of plain text documents");
+        String[] depedency = new String[] { "org.xbup.lib.framework.gui.file.GuiFileModule" };
+        
+        module.addDependencyModuleIds(Arrays.asList(depedency));
         try {
             XBEventWriter eventWriter = new XBEventWriter(new FileOutputStream("module.xb"));
             XBPListenerSerialHandler serial = new XBPListenerSerialHandler(new XBTToXBEventTypeRemover(eventWriter));
@@ -116,7 +120,7 @@ public class XBBasicApplicationModule implements XBPSequenceSerializable, XBAppl
     }
 
     public void addOptionalModuleIds(List<String> optionalModuleIds) {
-        optionalModuleIds.addAll(this.optionalModuleIds);
+        this.optionalModuleIds.addAll(optionalModuleIds);
     }
 
     @Override
@@ -125,7 +129,7 @@ public class XBBasicApplicationModule implements XBPSequenceSerializable, XBAppl
     }
 
     public void addDependencyModuleIds(List<String> dependencyModuleIds) {
-        dependencyModuleIds.addAll(this.dependencyModuleIds);
+        this.dependencyModuleIds.addAll(dependencyModuleIds);
     }
 
     @Override

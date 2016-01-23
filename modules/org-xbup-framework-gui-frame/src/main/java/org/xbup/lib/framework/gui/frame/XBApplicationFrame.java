@@ -22,6 +22,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Rectangle;
+import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -39,6 +40,7 @@ import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 public class XBApplicationFrame extends javax.swing.JFrame implements ApplicationFrameHandler {
 
     private XBApplication application;
+    private ApplicationExitHandler exitHandler;
 
     public XBApplicationFrame() {
         initComponents();
@@ -67,7 +69,15 @@ public class XBApplicationFrame extends javax.swing.JFrame implements Applicatio
         busyProgressBar = new javax.swing.JProgressBar();
         menuBar = new javax.swing.JMenuBar();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
@@ -142,6 +152,20 @@ public class XBApplicationFrame extends javax.swing.JFrame implements Applicatio
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        if (exitHandler == null) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        if (exitHandler != null) {
+            exitHandler.executeExit(this);
+        } else {
+            dispose();
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JProgressBar busyProgressBar;
@@ -249,5 +273,9 @@ public class XBApplicationFrame extends javax.swing.JFrame implements Applicatio
         }
         setSize(windowSize);
         setLocationRelativeTo(null);
+    }
+
+    void setApplicationExitHandler(ApplicationExitHandler exitHandler) {
+        this.exitHandler = exitHandler;
     }
 }

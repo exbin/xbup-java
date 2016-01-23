@@ -115,9 +115,7 @@ public class XBEditor {
                 GuiFileModuleApi fileModule = moduleRepository.getModuleByInterface(GuiFileModuleApi.class);
                 GuiOptionsModuleApi optionsModule = moduleRepository.getModuleByInterface(GuiOptionsModuleApi.class);
 
-                // Test menu registration
-                Action aboutAction = aboutModule.getAboutAction();
-                menuModule.registerMenuItem(GuiFrameModuleApi.HELP_MENU_ID, GuiAboutModuleApi.MODULE_ID, aboutAction, new MenuPosition(PositionMode.BOTTOM_LAST));
+                aboutModule.registerDefaultMenuItem();
 
                 String appClosingActionsGroup = "ApplicationClosingActionsGroup";
                 menuModule.registerMenuGroup(GuiFrameModuleApi.FILE_MENU_ID, new MenuGroup(appClosingActionsGroup, new MenuPosition(PositionMode.BOTTOM_LAST), SeparationMode.ABOVE));

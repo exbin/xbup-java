@@ -23,7 +23,7 @@ import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 /**
  * XBUP framework editor module api interface.
  *
- * @version 0.2.0 2015/12/19
+ * @version 0.2.0 2016/01/23
  * @author XBUP Project (http://xbup.org)
  */
 public interface GuiEditorModuleApi extends XBApplicationModulePlugin {
@@ -44,4 +44,9 @@ public interface GuiEditorModuleApi extends XBApplicationModulePlugin {
      * @return panel component
      */
     public Component getEditorPanel();
+    
+    /**
+     * Registers undo handler for undo management to editor.
+     */
+    public void registerUndoHandler();
 }

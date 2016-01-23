@@ -47,4 +47,11 @@ public interface ActivePanelUndoable {
      * Performs redo.
      */
     public void performRedo();
+
+    /**
+     * Set listener for undo updates.
+     *
+     * @param undoUpdateListener
+     */
+    void setUndoUpdateListener(UndoUpdateListener undoUpdateListener);
 }

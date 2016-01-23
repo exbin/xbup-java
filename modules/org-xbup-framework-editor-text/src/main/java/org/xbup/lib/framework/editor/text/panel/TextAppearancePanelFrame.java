@@ -19,19 +19,22 @@ package org.xbup.lib.framework.editor.text.panel;
 /**
  * XB Word Wrapping Interface.
  *
- * @version 0.1.22 2013/03/24
+ * @version 0.2.0 2016/01/23
  * @author XBUP Project (http://xbup.org)
  */
 public interface TextAppearancePanelFrame {
 
     /**
      * Returns text word wrapping mode.
+     *
      * @return font
      */
     public boolean getWordWrapMode();
 
     /**
      * Sets text word wrapping mode..
+     *
+     * @param mode
      */
     public void setWordWrapMode(boolean mode);
 }

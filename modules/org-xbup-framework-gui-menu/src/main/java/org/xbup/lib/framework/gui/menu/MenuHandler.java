@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.swing.Action;
+import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -127,10 +128,11 @@ public class MenuHandler {
             }
         }
 
-        processMenuGroup(groupRecords, targetMenu);
+        Map<String, ButtonGroup> buttonGroups = new HashMap<>();
+        processMenuGroup(groupRecords, targetMenu, buttonGroups);
     }
 
-    private void processMenuGroup(List<MenuGroupRecord> groups, MenuTarget targetMenu) {
+    private void processMenuGroup(List<MenuGroupRecord> groups, MenuTarget targetMenu, Map<String, ButtonGroup> buttonGroups) {
         List<MenuGroupRecordPathNode> processingPath = new LinkedList<>();
         processingPath.add(new MenuGroupRecordPathNode(groups));
 
@@ -170,6 +172,13 @@ public class MenuHandler {
                             }
                             case RADIO: {
                                 menuItem = new JRadioButtonMenuItem(action);
+                                String radioGroup = (String) action.getValue(ActionUtils.ACTION_RADIO_GROUP);
+                                ButtonGroup buttonGroup = buttonGroups.get(radioGroup);
+                                if (buttonGroup == null) {
+                                    buttonGroup = new ButtonGroup();
+                                    buttonGroups.put(radioGroup, buttonGroup);
+                                }
+                                buttonGroup.add(menuItem);
                                 break;
                             }
                             default: {

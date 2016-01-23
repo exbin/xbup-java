@@ -105,4 +105,9 @@ public class GuiFileModule implements GuiFileModuleApi {
             }
         });
     }
+
+    @Override
+    public void loadFromFile(String filename) {
+        getFileHandlingActions().loadFromFile(filename);
+    }
 }

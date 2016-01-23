@@ -30,6 +30,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.framework.editor.text.EditorTextModule;
+import org.xbup.lib.framework.editor.text.panel.TextPanel;
 import org.xbup.lib.framework.gui.XBBaseApplication;
 import org.xbup.lib.framework.gui.about.api.GuiAboutModuleApi;
 import org.xbup.lib.framework.gui.api.XBModuleRepository;
@@ -45,9 +46,9 @@ import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
 
 /**
- * The main class of the XBEditor application.
+ * The main class of the XBTEditor application.
  *
- * @version 0.2.0 2016/01/18
+ * @version 0.2.0 2016/01/23
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTEditor {
@@ -95,12 +96,7 @@ public class XBTEditor {
                 app.setAppPreferences(preferences);
                 app.setAppBundle(bundle, ActionUtils.getResourceBaseNameBundleByClass(XBTEditor.class));
                 app.init();
-//                app.setFirstCommand(new XBEditorFirstCommand(app));
 
-//                app.loadPlugin(new ClassURI(GuiFrameModule.class).toURI());
-//                app.loadPlugin(new ClassURI(GuiFrameModule.class).toURI());
-//                app.loadPlugin(new ClassURI(JavaHelpModule.class).toURI());
-//                app.loadPlugin(new ClassURI(OnlineHelpModule.class).toURI());
                 XBModuleRepository moduleRepository = app.getModuleRepository();
                 moduleRepository.addClassPathPlugins();
                 moduleRepository.initModules();
@@ -112,11 +108,9 @@ public class XBTEditor {
                 GuiUndoModuleApi undoModule = moduleRepository.getModuleByInterface(GuiUndoModuleApi.class);
                 GuiFileModuleApi fileModule = moduleRepository.getModuleByInterface(GuiFileModuleApi.class);
                 GuiOptionsModuleApi optionsModule = moduleRepository.getModuleByInterface(GuiOptionsModuleApi.class);
-                EditorTextModule xbupEditorModule = moduleRepository.getModuleByInterface(EditorTextModule.class);
+                EditorTextModule textEditorModule = moduleRepository.getModuleByInterface(EditorTextModule.class);
 
-                // Test menu registration
-                Action aboutAction = aboutModule.getAboutAction();
-                menuModule.registerMenuItem(GuiFrameModuleApi.HELP_MENU_ID, GuiAboutModuleApi.MODULE_ID, aboutAction, new MenuPosition(PositionMode.BOTTOM_LAST));
+                aboutModule.registerDefaultMenuItem();
 
                 frameModule.registerExitAction();
                 frameModule.registerBarsVisibilityActions();
@@ -135,17 +129,21 @@ public class XBTEditor {
 
                 optionsModule.registerMenuAction();
 
-                xbupEditorModule.registerEditFindMenuActions();
-                xbupEditorModule.registerEditFindToolBarActions();
-                xbupEditorModule.registerToolsOptionsMenuActions();
-                xbupEditorModule.registerOptionsMenuPanels();
-                xbupEditorModule.registerWordWrapping();
-                xbupEditorModule.registerGoToLine();
+                textEditorModule.registerEditFindMenuActions();
+                textEditorModule.registerEditFindToolBarActions();
+                textEditorModule.registerToolsOptionsMenuActions();
+                textEditorModule.registerOptionsMenuPanels();
+                textEditorModule.registerWordWrapping();
+                textEditorModule.registerGoToLine();
+                textEditorModule.registerPropertiesMenu();
+                textEditorModule.registerPrintMenu();
 
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
-                editorModule.registerEditor("xbup", xbupEditorModule.getEditorProvider());
-                xbupEditorModule.registerStatusBar();
-                xbupEditorModule.registerOptionsPanels();
+                TextPanel textPanel = (TextPanel) textEditorModule.getEditorProvider();
+                editorModule.registerEditor("text", textPanel);
+                editorModule.registerUndoHandler();
+                textEditorModule.registerStatusBar();
+                textEditorModule.registerOptionsPanels();
 
                 frameHandler.setMainPanel(editorModule.getEditorPanel());
                 frameHandler.setDefaultSize(new Dimension(600, 400));
@@ -153,40 +151,11 @@ public class XBTEditor {
 
                 List fileArgs = cl.getArgList();
                 if (fileArgs.size() > 0) {
-                    // TODO app.loadFromFile((String) fileArgs.get(0));
+                    fileModule.loadFromFile((String) fileArgs.get(0));
                 }
-
-                // editorModule.run();
-//                ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
-//                ((XBDocEditorModule) module).setEditorApp(app);
-//                ((XBDocEditorModule) module).setDevMode(devMode);
             }
-        } catch (ParseException ex) {
+        } catch (ParseException | RuntimeException ex) {
             Logger.getLogger(XBTEditor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-//    private static class XBEditorFirstCommand implements XBAppCommand {
-//
-//        private final XBEditorApplication app;
-//
-//        public XBEditorFirstCommand(XBEditorApplication app) {
-//            this.app = app;
-//        }
-//
-//        @Override
-//        public void execute() {
-//            ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
-//            ((XBDocEditorModule) module).postWindowOpened();
-//
-//            module = app.getModuleRepository().getPluginHandler(OnlineHelpModule.class);
-//            try {
-//                if (module instanceof OnlineHelpModule) {
-//                    ((OnlineHelpModule) module).setHelpUrl(new URL(bundle.getString("online_help_url")));
-//                }
-//            } catch (MalformedURLException ex) {
-//                Logger.getLogger(XBEditor.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-//    }
 }

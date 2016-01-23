@@ -21,6 +21,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
@@ -35,7 +37,6 @@ import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 import org.xbup.lib.framework.gui.undo.dialog.UndoManagerDialog;
 import org.xbup.lib.framework.gui.undo.dialog.UndoManagerModel;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
-import org.xbup.lib.operation.undo.XBTLinearUndo;
 import org.xbup.lib.operation.undo.XBUndoHandler;
 
 /**
@@ -52,7 +53,7 @@ public class GuiUndoModule implements GuiUndoModuleApi {
 
     private XBApplication application;
     private final UndoManagerModel undoModel = new UndoManagerModel();
-    private XBTLinearUndo undoHandler;
+    private XBUndoHandler undoHandler;
 
     private final java.util.ResourceBundle bundle = ActionUtils.getResourceBundleByClass(GuiUndoModule.class);
     private int metaMask;
@@ -98,11 +99,25 @@ public class GuiUndoModule implements GuiUndoModuleApi {
         };
         undoManagerAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
         ActionUtils.setupAction(undoManagerAction, bundle, "editUndoManagerAction");
+        
+        undoModel.addListDataListener(new ListDataListener() {
+            @Override
+            public void intervalAdded(ListDataEvent e) {
+                updateUndoStatus();
+            }
+
+            @Override
+            public void intervalRemoved(ListDataEvent e) {
+            }
+
+            @Override
+            public void contentsChanged(ListDataEvent e) {
+            }
+        });
     }
 
     @Override
     public void unregisterPlugin(String pluginId) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void actionEditUndo() {
@@ -121,10 +136,18 @@ public class GuiUndoModule implements GuiUndoModuleApi {
         }
     }
 
-    public void setUndoHandle(XBTLinearUndo undoHandler) {
+    @Override
+    public void setUndoHandler(XBUndoHandler undoHandler) {
         this.undoHandler = undoHandler;
         undoModel.setUndoHandler(undoHandler);
-        // TODO undoHandler.register undo change listener
+    }
+
+    @Override
+    public void updateUndoStatus() {
+        boolean canUndo = undoHandler != null && undoHandler.canUndo();
+        boolean canRedo = undoHandler != null && undoHandler.canRedo();
+        undoAction.setEnabled(canUndo);
+        redoAction.setEnabled(canRedo);
     }
 
     @Override
@@ -133,6 +156,11 @@ public class GuiUndoModule implements GuiUndoModuleApi {
         menuModule.registerMenuGroup(GuiFrameModuleApi.EDIT_MENU_ID, new MenuGroup(UNDO_MENU_GROUP_ID, new MenuPosition(PositionMode.TOP), SeparationMode.BELOW));
         menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiUndoModuleApi.MODULE_ID, undoAction, new MenuPosition(UNDO_MENU_GROUP_ID));
         menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiUndoModuleApi.MODULE_ID, redoAction, new MenuPosition(UNDO_MENU_GROUP_ID));
+    }
+
+    @Override
+    public void registerUndoManagerInMainMenu() {
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
         menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiUndoModuleApi.MODULE_ID, undoManagerAction, new MenuPosition(UNDO_MENU_GROUP_ID));
     }
 

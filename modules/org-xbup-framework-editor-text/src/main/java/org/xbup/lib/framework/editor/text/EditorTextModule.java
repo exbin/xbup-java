@@ -39,6 +39,8 @@ import org.xbup.lib.framework.gui.menu.api.SeparationMode;
 import org.xbup.lib.framework.gui.menu.api.ToolBarGroup;
 import org.xbup.lib.framework.gui.menu.api.ToolBarPosition;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
+import org.xbup.lib.framework.editor.text.panel.TextAppearancePanelFrame;
+import org.xbup.lib.framework.editor.text.panel.TextAppearanceOptionsPanel;
 import org.xbup.lib.framework.editor.text.panel.TextColorOptionsPanel;
 import org.xbup.lib.framework.editor.text.panel.TextEncodingOptionsPanel;
 import org.xbup.lib.framework.editor.text.panel.TextFontOptionsPanel;
@@ -76,6 +78,8 @@ public class EditorTextModule implements XBApplicationModulePlugin {
     private EncodingsHandler encodingsHandler;
     private WordWrappingHandler wordWrappingHandler;
     private GoToLineHandler goToLineHandler;
+    private PropertiesHandler propertiesHandler;
+    private PrintHandler printHandler;
 
     public EditorTextModule() {
     }
@@ -184,8 +188,18 @@ public class EditorTextModule implements XBApplicationModulePlugin {
             }
         };
 
+        TextAppearancePanelFrame textAppearancePanelFrame = new TextAppearancePanelFrame() {
+            public boolean getWordWrapMode() {
+                return ((TextPanel) getEditorProvider()).getWordWrapMode();
+            }
+
+            public void setWordWrapMode(boolean mode) {
+                ((TextPanel) getEditorProvider()).setWordWrapMode(mode);
+            }
+        };
+
         optionsModule.addOptionsPanel(new TextEncodingOptionsPanel(textEncodingPanelFrame));
-//        optionsModule.extendAppearanceOptionsPanel(new TextAppearanceOptionsPanel(textColorFrame));
+        optionsModule.extendAppearanceOptionsPanel(new TextAppearanceOptionsPanel(textAppearancePanelFrame));
 
     }
 
@@ -250,6 +264,24 @@ public class EditorTextModule implements XBApplicationModulePlugin {
         return goToLineHandler;
     }
 
+    private PropertiesHandler getPropertiesHandler() {
+        if (propertiesHandler == null) {
+            propertiesHandler = new PropertiesHandler(application, (TextPanel) getEditorProvider());
+            propertiesHandler.init();
+        }
+
+        return propertiesHandler;
+    }
+
+    private PrintHandler getPrintHandler() {
+        if (printHandler == null) {
+            printHandler = new PrintHandler(application, (TextPanel) getEditorProvider());
+            printHandler.init();
+        }
+
+        return printHandler;
+    }
+
     public void registerEditFindMenuActions() {
         getFindReplaceHandler();
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
@@ -271,6 +303,18 @@ public class EditorTextModule implements XBApplicationModulePlugin {
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
         menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, MODULE_ID, toolsOptionsHandler.getToolsSetFontAction(), new MenuPosition(PositionMode.TOP));
         menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, MODULE_ID, toolsOptionsHandler.getToolsSetColorAction(), new MenuPosition(PositionMode.TOP));
+    }
+
+    public void registerPropertiesMenu() {
+        getPropertiesHandler();
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, MODULE_ID, propertiesHandler.getPropertiesAction(), new MenuPosition(PositionMode.BOTTOM));
+    }
+
+    public void registerPrintMenu() {
+        getPrintHandler();
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, MODULE_ID, printHandler.getPrintAction(), new MenuPosition(PositionMode.BOTTOM));
     }
 
     public class XBTFileType extends FileFilter implements FileType {

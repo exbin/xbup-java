@@ -36,4 +36,6 @@ public interface GuiAboutModuleApi extends XBApplicationModulePlugin {
      * @return action
      */
     public Action getAboutAction();
+
+    public void registerDefaultMenuItem();
 }

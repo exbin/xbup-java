@@ -23,12 +23,15 @@ import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.about.api.GuiAboutModuleApi;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
+import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
+import org.xbup.lib.framework.gui.menu.api.MenuPosition;
+import org.xbup.lib.framework.gui.menu.api.PositionMode;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
 
 /**
  * Implementation of XBUP framework about module.
  *
- * @version 0.2.0 2015/12/08
+ * @version 0.2.0 2016/01/23
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -66,5 +69,11 @@ public class GuiAboutModule implements GuiAboutModuleApi {
         }
         
         return aboutAction;
+    }
+
+    @Override
+    public void registerDefaultMenuItem() {
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenuItem(GuiFrameModuleApi.HELP_MENU_ID, GuiAboutModuleApi.MODULE_ID, getAboutAction(), new MenuPosition(PositionMode.BOTTOM_LAST));
     }
 }

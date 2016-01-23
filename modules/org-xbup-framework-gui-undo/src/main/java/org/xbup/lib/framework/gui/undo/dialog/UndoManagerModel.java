@@ -18,26 +18,26 @@ package org.xbup.lib.framework.gui.undo.dialog;
 
 import javax.swing.AbstractListModel;
 import org.xbup.lib.operation.XBTDocCommand;
-import org.xbup.lib.operation.undo.XBTLinearUndo;
+import org.xbup.lib.operation.undo.XBUndoHandler;
 
 /**
  * List model for undo manager.
  *
- * @version 0.1.24 2015/04/24
+ * @version 0.2.0 2016/01/23
  * @author XBUP Project (http://xbup.org)
  */
 public class UndoManagerModel extends AbstractListModel<String> {
 
-    private XBTLinearUndo undoHandler = null;
+    private XBUndoHandler undoHandler = null;
 
     public UndoManagerModel() {
     }
 
-    public XBTLinearUndo getUndoHandler() {
+    public XBUndoHandler getUndoHandler() {
         return undoHandler;
     }
 
-    public void setUndoHandler(XBTLinearUndo undoHandler) {
+    public void setUndoHandler(XBUndoHandler undoHandler) {
         if (this.undoHandler != null) {
             fireIntervalRemoved(this, 0, this.undoHandler.getCommandList().size());
         }

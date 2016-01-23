@@ -202,7 +202,9 @@ public class FileHandlingActions implements FileHandlingActionsApi {
 
     public void actionFileNew() {
         if (fileHandler != null) {
-            fileHandler.newFile();
+            if (releaseFile()) {
+                fileHandler.newFile();
+            }
         }
     }
 
@@ -218,7 +220,12 @@ public class FileHandlingActions implements FileHandlingActionsApi {
 //                statusPanel.repaint();
                 String fileName = openFC.getSelectedFile().getAbsolutePath();
                 fileHandler.setFileName(fileName);
-                FileType fileType = fileTypes.get(null);
+                
+                FileType fileType = null;
+                FileFilter fileFilter = openFC.getFileFilter();
+                if (fileFilter instanceof FileType) {
+                    fileType = fileTypes.get(((FileType) fileFilter).getFileTypeId());
+                }
                 if (fileType == null) {
                     fileType = fileTypes.get("XBTextEditor.TXTFileType"); // ALL_FILES_FILTER
                 }
@@ -283,6 +290,11 @@ public class FileHandlingActions implements FileHandlingActionsApi {
         openFC.addChoosableFileFilter((FileFilter) fileType);
         saveFC.addChoosableFileFilter((FileFilter) fileType);
         fileTypes.put(fileType.getFileTypeId(), fileType);
+    }
+
+    void loadFromFile(String filename) {
+        fileHandler.setFileName(filename);
+        fileHandler.loadFromFile();
     }
 
     public class AllFilesFilter extends FileFilter implements FileType {

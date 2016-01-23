@@ -29,13 +29,13 @@ import javax.swing.undo.UndoableEdit;
 /**
  * Undo Manager with compound operations.
  *
- * @version 0.1.22 2013/03/14
+ * @version 0.2.0 2016/01/23
  * @author XBUP Project (http://xbup.org)
  */
 public class TextPanelCompoundUndoManager extends AbstractUndoableEdit implements UndoableEditListener {
 
     private DocumentEvent.EventType lastEditType = null;
-    private ArrayList<MyCompoundEdit> edits = new ArrayList<MyCompoundEdit>();
+    private final ArrayList<MyCompoundEdit> edits = new ArrayList<>();
     private MyCompoundEdit current;
     private int pointer = -1;
     private int lastOffset = -1;

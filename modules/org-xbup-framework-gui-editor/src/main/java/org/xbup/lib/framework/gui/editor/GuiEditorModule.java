@@ -28,11 +28,16 @@ import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.editor.panel.SingleEditorPanel;
 import org.xbup.lib.framework.gui.file.api.FileHandlingActionsApi;
 import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
+import org.xbup.lib.framework.gui.undo.api.ActivePanelUndoable;
+import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
+import org.xbup.lib.framework.gui.undo.api.UndoUpdateListener;
+import org.xbup.lib.operation.XBTDocCommand;
+import org.xbup.lib.operation.undo.XBUndoHandler;
 
 /**
  * XBUP framework editor api module.
  *
- * @version 0.2.0 2015/12/20
+ * @version 0.2.0 2016/01/23
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -65,6 +70,15 @@ public class GuiEditorModule implements GuiEditorModuleApi {
 
     @Override
     public void registerEditor(String pluginId, XBEditorProvider editorProvider) {
+        if (editorProvider instanceof ActivePanelUndoable) {
+            ((ActivePanelUndoable) editorProvider).setUndoUpdateListener(new UndoUpdateListener() {
+                @Override
+                public void undoChanged() {
+                    GuiUndoModuleApi undoModule = application.getModuleRepository().getModuleByInterface(GuiUndoModuleApi.class);
+                    undoModule.updateUndoStatus();
+                }
+            });
+        }
         editors.add(editorProvider);
         List<XBEditorProvider> pluginEditors = pluginEditorsMap.get(pluginId);
         if (pluginEditors == null) {
@@ -86,7 +100,120 @@ public class GuiEditorModule implements GuiEditorModuleApi {
         GuiFileModuleApi fileModule = application.getModuleRepository().getModuleByInterface(GuiFileModuleApi.class);
         FileHandlingActionsApi fileHandlingActions = fileModule.getFileHandlingActions();
         fileHandlingActions.setFileHandler(activeEditor);
-        
+
         return editorPanel;
+    }
+
+    @Override
+    public void registerUndoHandler() {
+        GuiUndoModuleApi undoModule = application.getModuleRepository().getModuleByInterface(GuiUndoModuleApi.class);
+        undoModule.setUndoHandler(new XBUndoHandler() {
+            @Override
+            public boolean canRedo() {
+                if (activeEditor != null && activeEditor.getPanel() instanceof ActivePanelUndoable) {
+                    return ((ActivePanelUndoable) activeEditor.getPanel()).canRedo();
+                }
+
+                return false;
+            }
+
+            @Override
+            public boolean canUndo() {
+                if (activeEditor != null && activeEditor.getPanel() instanceof ActivePanelUndoable) {
+                    return ((ActivePanelUndoable) activeEditor.getPanel()).canUndo();
+                }
+
+                return false;
+            }
+
+            @Override
+            public void clear() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void doSync() throws Exception {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void execute(XBTDocCommand command) throws Exception {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public List<XBTDocCommand> getCommandList() {
+                return new ArrayList<>();
+            }
+
+            @Override
+            public long getCommandPosition() {
+                return 0;
+            }
+
+            @Override
+            public long getMaximumUndo() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public long getSyncPoint() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public long getUndoMaximumSize() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public long getUsedSize() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void performRedo() throws Exception {
+                if (activeEditor != null && activeEditor.getPanel() instanceof ActivePanelUndoable) {
+                    ((ActivePanelUndoable) activeEditor.getPanel()).performRedo();
+                    GuiUndoModuleApi undoModule = application.getModuleRepository().getModuleByInterface(GuiUndoModuleApi.class);
+                    undoModule.updateUndoStatus();
+                }
+            }
+
+            @Override
+            public void performRedo(int count) throws Exception {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void performUndo() throws Exception {
+                if (activeEditor != null && activeEditor.getPanel() instanceof ActivePanelUndoable) {
+                    ((ActivePanelUndoable) activeEditor.getPanel()).performUndo();
+                    GuiUndoModuleApi undoModule = application.getModuleRepository().getModuleByInterface(GuiUndoModuleApi.class);
+                    undoModule.updateUndoStatus();
+                }
+            }
+
+            @Override
+            public void performUndo(int count) throws Exception {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void setCommandPosition(long targetPosition) throws Exception {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void setSyncPoint(long syncPoint) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void setSyncPoint() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
+
     }
 }

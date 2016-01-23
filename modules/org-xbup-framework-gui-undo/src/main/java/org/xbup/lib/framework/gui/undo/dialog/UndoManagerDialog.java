@@ -88,6 +88,7 @@ public class UndoManagerDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/undo/dialog/resources/UndoManagerDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
+        setLocationByPlatform(true);
         setModal(true);
 
         splitPane.setBorder(null);

@@ -3,6 +3,7 @@ rootProject.name = 'org-xbup-framework-gui-about'
 include ":modules:xbup-core"
 include ":modules:org-xbup-framework-gui-api"
 include ":modules:org-xbup-framework-gui-about-api"
+include ":modules:org-xbup-framework-gui-menu-api"
 include ":modules:org-xbup-framework-gui-frame-api"
 include ":modules:org-xbup-framework-gui-utils"
 

@@ -38,7 +38,7 @@ public class TextAppearanceOptionsPanel extends javax.swing.JPanel implements Op
     /** Creates new form TextColorPanel */
     public TextAppearanceOptionsPanel(TextAppearancePanelFrame frame) {
         this.frame = frame;
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/text_editor/panel/resources/TextAppearanceOptionsPanel");
+        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/text/panel/resources/TextAppearanceOptionsPanel");
 
         initComponents();
     }

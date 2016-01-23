@@ -161,4 +161,6 @@ public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
      * Registers tool bar clipboard actions.
      */
     void registerToolBarClipboardActions();
+
+    void registerClipboardMenuItems(String menuId, String moduleId, SeparationMode separationMode);
 }

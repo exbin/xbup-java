@@ -66,10 +66,12 @@ import org.xbup.lib.core.serial.XBPSerialWriter;
 import org.xbup.lib.core.type.XBEncodingText;
 import org.xbup.lib.framework.editor.text.EditorTextModule;
 import org.xbup.lib.framework.editor.text.TextStatusApi;
+import org.xbup.lib.framework.gui.undo.api.UndoUpdateListener;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.file.api.FileType;
 import org.xbup.lib.framework.editor.text.dialog.FindTextDialog;
 import org.xbup.lib.framework.editor.text.dialog.FontDialog;
+import org.xbup.lib.framework.gui.undo.api.ActivePanelUndoable;
 
 /**
  * Text editor panel.
@@ -77,9 +79,10 @@ import org.xbup.lib.framework.editor.text.dialog.FontDialog;
  * @version 0.2.0 2016/01/23
  * @author XBUP Project (http://xbup.org)
  */
-public class TextPanel extends javax.swing.JPanel implements XBEditorProvider {
+public class TextPanel extends javax.swing.JPanel implements XBEditorProvider, ActivePanelUndoable {
 
     private final TextPanelCompoundUndoManager undoManagement = new TextPanelCompoundUndoManager();
+    private UndoUpdateListener undoUpdateListener = null;
     private String fileName;
     private FileType fileType;
     private boolean modified = false;
@@ -134,9 +137,9 @@ public class TextPanel extends javax.swing.JPanel implements XBEditorProvider {
             public void undoableEditHappened(UndoableEditEvent evt) {
                 undoManagement.undoableEditHappened(evt);
 
-//                if (mainFrameManagement != null) {
-//                    mainFrameManagement.refreshUndo();
-//                }
+                if (undoUpdateListener != null) {
+                    undoUpdateListener.undoChanged();
+                }
             }
         });
 
@@ -154,6 +157,16 @@ public class TextPanel extends javax.swing.JPanel implements XBEditorProvider {
     public boolean changeLineWrap() {
         textArea.setLineWrap(!textArea.getLineWrap());
         return textArea.getLineWrap();
+    }
+
+    public boolean getWordWrapMode() {
+        return textArea.getLineWrap();
+    }
+
+    public void setWordWrapMode(boolean mode) {
+        if (textArea.getLineWrap() != mode) {
+            changeLineWrap();
+        }
     }
 
     public void findText(FindTextDialog dialog) {
@@ -501,6 +514,11 @@ public class TextPanel extends javax.swing.JPanel implements XBEditorProvider {
         textArea.setComponentPopupMenu(menu);
     }
 
+    @Override
+    public void setUndoUpdateListener(UndoUpdateListener undoUpdateListener) {
+        this.undoUpdateListener = undoUpdateListener;
+    }
+
     public Point getCaretPosition() {
         int line;
         int caretPosition = textArea.getCaretPosition();
@@ -539,10 +557,12 @@ public class TextPanel extends javax.swing.JPanel implements XBEditorProvider {
         this.fileType = fileType;
     }
 
+    @Override
     public Boolean canUndo() {
         return getUndo().canUndo();
     }
 
+    @Override
     public Boolean canRedo() {
         return getUndo().canRedo();
     }
@@ -552,10 +572,12 @@ public class TextPanel extends javax.swing.JPanel implements XBEditorProvider {
         this.propertyChangeListener = propertyChangeListener;
     }
 
+    @Override
     public void performUndo() {
         getUndo().undo();
     }
 
+    @Override
     public void performRedo() {
         getUndo().redo();
     }

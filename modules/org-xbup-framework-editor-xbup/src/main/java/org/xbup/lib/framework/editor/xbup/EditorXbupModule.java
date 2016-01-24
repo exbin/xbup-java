@@ -19,17 +19,21 @@ package org.xbup.lib.framework.editor.xbup;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
+import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
+import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
 
 /**
  * XBUP editor module.
  *
- * @version 0.2.0 2015/12/17
+ * @version 0.2.0 2016/01/24
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
 public class EditorXbupModule implements XBApplicationModulePlugin {
 
+    public static final String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(EditorXbupModule.class);
+    
     private XBApplication application;
     private XBEditorProvider editorProvider;
 
@@ -39,6 +43,11 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
     @Override
     public void init(XBApplication application) {
         this.application = application;
+
+        // Register file types
+        GuiFileModuleApi fileModule = application.getModuleRepository().getModuleByInterface(GuiFileModuleApi.class);
+//        fileModule.addFileType(new XBTFileType());
+//        fileModule.addFileType(new TXTFileType());
     }
 
     @Override

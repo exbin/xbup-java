@@ -37,6 +37,7 @@ import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
 import org.xbup.lib.framework.editor.wave.panel.AudioPanel;
 import org.xbup.lib.framework.editor.wave.panel.AudioStatusPanel;
 import org.xbup.lib.framework.editor.wave.panel.WaveColorPanelApi;
+import org.xbup.lib.framework.gui.menu.api.NextToMode;
 import org.xbup.lib.framework.gui.menu.api.SeparationMode;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 
@@ -277,7 +278,7 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
         getAudioControlHandler();
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
         menuModule.registerMenu(AUDIO_MENU_ID, MODULE_ID);
-        menuModule.registerMenuItem(GuiFrameModuleApi.MAIN_MENU_ID, MODULE_ID, AUDIO_MENU_ID, "Audio", new MenuPosition(PositionMode.BOTTOM));
+        menuModule.registerMenuItem(GuiFrameModuleApi.MAIN_MENU_ID, MODULE_ID, AUDIO_MENU_ID, "Audio", new MenuPosition(NextToMode.AFTER, "View"));
         menuModule.registerMenuItem(AUDIO_MENU_ID, MODULE_ID, audioControlHandler.getPlayAction(), new MenuPosition(PositionMode.TOP));
         menuModule.registerMenuItem(AUDIO_MENU_ID, MODULE_ID, audioControlHandler.getStopAction(), new MenuPosition(PositionMode.TOP));
     }

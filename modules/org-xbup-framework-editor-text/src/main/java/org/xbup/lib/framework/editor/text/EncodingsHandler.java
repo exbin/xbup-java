@@ -50,8 +50,8 @@ public class EncodingsHandler implements TextEncodingPanelApi {
 
     private final XBEditorProvider editorProvider;
     private final XBApplication application;
-    private EditorTextModule textModule;
-    private ResourceBundle resourceBundle;
+    private final EditorTextModule textModule;
+    private final ResourceBundle resourceBundle;
 
     private List<String> encodings = null;
     private ActionListener encodingActionListener;

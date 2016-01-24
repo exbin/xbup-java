@@ -188,7 +188,9 @@ public class EditorTextModule implements XBApplicationModulePlugin {
             }
         };
 
-        TextAppearancePanelFrame textAppearancePanelFrame = new TextAppearancePanelFrame() {
+        TextAppearancePanelFrame textAppearancePanelFrame;
+        textAppearancePanelFrame = new TextAppearancePanelFrame() {
+            @Override
             public boolean getWordWrapMode() {
                 return ((TextPanel) getEditorProvider()).getWordWrapMode();
             }

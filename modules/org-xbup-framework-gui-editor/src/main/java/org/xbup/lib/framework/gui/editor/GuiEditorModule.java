@@ -38,7 +38,7 @@ import org.xbup.lib.operation.XBTDocCommand;
 import org.xbup.lib.operation.undo.XBUndoHandler;
 
 /**
- * XBUP framework editor api module.
+ * XBUP framework editor module.
  *
  * @version 0.2.0 2016/01/23
  * @author XBUP Project (http://xbup.org)
@@ -309,7 +309,6 @@ public class GuiEditorModule implements GuiEditorModuleApi {
 
             @Override
             public void addUndoUpdateListener(UndoUpdateListener listener) {
-                throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override

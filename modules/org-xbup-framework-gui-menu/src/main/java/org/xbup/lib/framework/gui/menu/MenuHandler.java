@@ -83,6 +83,9 @@ public class MenuHandler {
             return;
         }
 
+        Map<String, List<MenuContribution>> beforeItem = new HashMap<>();
+        Map<String, List<MenuContribution>> afterItem = new HashMap<>();
+
         List<MenuGroupRecord> groupRecords = new LinkedList<>();
 
         // Create list of build-in groups
@@ -122,6 +125,29 @@ public class MenuHandler {
             if (menuPosition.getBasicMode() != null) {
                 MenuGroupRecord menuGroupRecord = groupsMap.get(menuPosition.getBasicMode().name());
                 menuGroupRecord.contributions.add(contribution);
+            } else if (menuPosition.getNextToMode() != null) {
+                switch (menuPosition.getNextToMode()) {
+                    case BEFORE: {
+                        List<MenuContribution> contributions = beforeItem.get(menuPosition.getGroupId());
+                        if (contributions == null) {
+                            contributions = new LinkedList<>();
+                            beforeItem.put(menuPosition.getGroupId(), contributions);
+                        }
+                        contributions.add(contribution);
+                        break;
+                    }
+                    case AFTER: {
+                        List<MenuContribution> contributions = afterItem.get(menuPosition.getGroupId());
+                        if (contributions == null) {
+                            contributions = new LinkedList<>();
+                            afterItem.put(menuPosition.getGroupId(), contributions);
+                        }
+                        contributions.add(contribution);
+                        break;
+                    }
+                    default:
+                        throw new IllegalStateException();
+                }
             } else {
                 MenuGroupRecord menuGroupRecord = groupsMap.get(menuPosition.getGroupId());
                 menuGroupRecord.contributions.add(contribution);
@@ -129,10 +155,10 @@ public class MenuHandler {
         }
 
         Map<String, ButtonGroup> buttonGroups = new HashMap<>();
-        processMenuGroup(groupRecords, targetMenu, buttonGroups);
+        processMenuGroup(groupRecords, beforeItem, afterItem, targetMenu, buttonGroups);
     }
 
-    private void processMenuGroup(List<MenuGroupRecord> groups, MenuTarget targetMenu, Map<String, ButtonGroup> buttonGroups) {
+    private void processMenuGroup(List<MenuGroupRecord> groups, Map<String, List<MenuContribution>> beforeItem, Map<String, List<MenuContribution>> afterItem, final MenuTarget targetMenu, final Map<String, ButtonGroup> buttonGroups) {
         List<MenuGroupRecordPathNode> processingPath = new LinkedList<>();
         processingPath.add(new MenuGroupRecordPathNode(groups));
 
@@ -160,54 +186,174 @@ public class MenuHandler {
                     separatorQueued = false;
                 }
 
-                if (contribution instanceof ActionMenuContribution) {
-                    Action action = ((ActionMenuContribution) contribution).getAction();
-                    ActionUtils.ActionType actionType = (ActionUtils.ActionType) action.getValue(ActionUtils.ACTION_TYPE);
-                    JMenuItem menuItem;
-                    if (actionType != null) {
-                        switch (actionType) {
-                            case CHECK: {
-                                menuItem = new JCheckBoxMenuItem(action);
-                                break;
-                            }
-                            case RADIO: {
-                                menuItem = new JRadioButtonMenuItem(action);
-                                String radioGroup = (String) action.getValue(ActionUtils.ACTION_RADIO_GROUP);
-                                ButtonGroup buttonGroup = buttonGroups.get(radioGroup);
-                                if (buttonGroup == null) {
-                                    buttonGroup = new ButtonGroup();
-                                    buttonGroups.put(radioGroup, buttonGroup);
+                // Process all contributions, but don't insert them yet
+                List<QueuedContribution> queue = new LinkedList<>();
+                queue.add(new QueuedContribution(null, contribution));
+                ProcessedContribution rootProcessed = null;
+                while (!queue.isEmpty()) {
+                    final QueuedContribution next = queue.remove(0);
+                    ProcessedContribution processed;
+                    if (next.contribution instanceof ActionMenuContribution) {
+                        processed = new ProcessedContribution() {
+                            JMenuItem menuItem;
+
+                            @Override
+                            public void process() {
+                                Action action = ((ActionMenuContribution) next.contribution).getAction();
+                                ActionUtils.ActionType actionType = (ActionUtils.ActionType) action.getValue(ActionUtils.ACTION_TYPE);
+                                if (actionType != null) {
+                                    switch (actionType) {
+                                        case CHECK: {
+                                            menuItem = new JCheckBoxMenuItem(action);
+                                            break;
+                                        }
+                                        case RADIO: {
+                                            menuItem = new JRadioButtonMenuItem(action);
+                                            String radioGroup = (String) action.getValue(ActionUtils.ACTION_RADIO_GROUP);
+                                            ButtonGroup buttonGroup = buttonGroups.get(radioGroup);
+                                            if (buttonGroup == null) {
+                                                buttonGroup = new ButtonGroup();
+                                                buttonGroups.put(radioGroup, buttonGroup);
+                                            }
+                                            buttonGroup.add(menuItem);
+                                            break;
+                                        }
+                                        default: {
+                                            menuItem = new JMenuItem(action);
+                                        }
+                                    }
+                                } else {
+                                    menuItem = new JMenuItem(action);
                                 }
-                                buttonGroup.add(menuItem);
+
+                                Object dialogMode = action.getValue(ActionUtils.ACTION_DIALOG_MODE);
+                                if (dialogMode instanceof Boolean && ((Boolean) dialogMode)) {
+                                    menuItem.setText(menuItem.getText() + GuiMenuModuleApi.DIALOG_MENUITEM_EXT);
+                                }
+                            }
+
+                            @Override
+                            public String getName() {
+                                return menuItem.getText();
+                            }
+
+                            @Override
+                            public void finish() {
+                                targetMenu.add(menuItem);
+                            }
+                        };
+                    } else if (next.contribution instanceof SubMenuContribution) {
+                        processed = new ProcessedContribution() {
+                            JMenu subMenu;
+
+                            @Override
+                            public void process() {
+                                SubMenuContribution subMenuContribution = (SubMenuContribution) next.contribution;
+                                subMenu = new JMenu();
+                                MenuHandler.this.buildMenu(subMenu.getPopupMenu(), subMenuContribution.getMenuId());
+                                subMenu.setText(subMenuContribution.getName());
+                            }
+
+                            @Override
+                            public String getName() {
+                                return subMenu.getText();
+                            }
+
+                            @Override
+                            public void finish() {
+                                if (subMenu.getMenuComponentCount() > 0) {
+                                    targetMenu.add(subMenu);
+                                }
+                            }
+                        };
+                    } else if (next.contribution instanceof DirectMenuContribution) {
+                        processed = new ProcessedContribution() {
+                            DirectMenuContribution directMenuContribution;
+
+                            @Override
+                            public void process() {
+                                directMenuContribution = (DirectMenuContribution) next.contribution;
+                            }
+
+                            @Override
+                            public String getName() {
+                                return directMenuContribution.getMenu().getName();
+                            }
+
+                            @Override
+                            public void finish() {
+                                targetMenu.add(directMenuContribution.getMenu());
+                            }
+                        };
+                    } else {
+                        throw new UnsupportedOperationException("Not supported yet.");
+                    }
+
+                    processed.process();
+                    if (next.parent == null) {
+                        rootProcessed = processed;
+                    }
+                    String name = processed.getName();
+                    if (next.contribution.getMenuPosition().getNextToMode() != null) {
+                        switch (next.contribution.getMenuPosition().getNextToMode()) {
+                            case BEFORE: {
+                                next.parent.before.add(processed);
                                 break;
                             }
-                            default: {
-                                menuItem = new JMenuItem(action);
+                            case AFTER: {
+                                next.parent.after.add(processed);
+                                break;
                             }
+                            default:
+                                throw new IllegalStateException();
                         }
-                    } else {
-                        menuItem = new JMenuItem(action);
+                    }
+                    List<MenuContribution> nextToBefore = beforeItem.get(name);
+                    if (nextToBefore != null) {
+                        for (MenuContribution menuContribution : nextToBefore) {
+                            queue.add(new QueuedContribution(processed, menuContribution));
+                        }
                     }
 
-                    Object dialogMode = action.getValue(ActionUtils.ACTION_DIALOG_MODE);
-                    if (dialogMode instanceof Boolean && ((Boolean) dialogMode)) {
-                        menuItem.setText(menuItem.getText() + GuiMenuModuleApi.DIALOG_MENUITEM_EXT);
+                    List<MenuContribution> nextToAfter = afterItem.get(name);
+                    if (nextToAfter != null) {
+                        for (MenuContribution menuContribution : nextToAfter) {
+                            queue.add(new QueuedContribution(processed, menuContribution));
+                        }
                     }
+                }
 
-                    targetMenu.add(menuItem);
-                } else if (contribution instanceof SubMenuContribution) {
-                    SubMenuContribution subMenuContribution = (SubMenuContribution) contribution;
-                    JMenu subMenu = new JMenu();
-                    MenuHandler.this.buildMenu(subMenu.getPopupMenu(), subMenuContribution.getMenuId());
-                    subMenu.setText(subMenuContribution.getName());
-                    if (subMenu.getMenuComponentCount() > 0) {
-                        targetMenu.add(subMenu);
+                // Perform insertion of all processed menu contributions
+                List<OrderingContribution> orderingPath = new LinkedList<>();
+
+                orderingPath.add(new OrderingContribution(OrderingMode.BEFORE, rootProcessed));
+                while (!orderingPath.isEmpty()) {
+                    OrderingContribution orderingContribution = orderingPath.get(orderingPath.size() - 1);
+                    switch (orderingContribution.mode) {
+                        case BEFORE: {
+                            if (orderingContribution.processed.before.isEmpty()) {
+                                orderingContribution.mode = OrderingMode.ITEM;
+                            } else {
+                                orderingPath.add(new OrderingContribution(OrderingMode.BEFORE, orderingContribution.processed.before.remove(0)));
+                            }
+                            break;
+                        }
+                        case ITEM: {
+                            orderingContribution.processed.finish();
+                            orderingContribution.mode = OrderingMode.AFTER;
+                            break;
+                        }
+                        case AFTER: {
+                            if (orderingContribution.processed.after.isEmpty()) {
+                                orderingPath.remove(orderingPath.size() - 1);
+                            } else {
+                                orderingPath.add(new OrderingContribution(OrderingMode.BEFORE, orderingContribution.processed.after.remove(0)));
+                            }
+                            break;
+                        }
+                        default:
+                            throw new IllegalStateException();
                     }
-                } else if (contribution instanceof DirectMenuContribution) {
-                    DirectMenuContribution directMenuContribution = (DirectMenuContribution) contribution;
-                    targetMenu.add(directMenuContribution.getMenu());
-                } else {
-                    throw new UnsupportedOperationException("Not supported yet.");
                 }
 
                 menuContinues = true;
@@ -222,6 +368,44 @@ public class MenuHandler {
             }
         }
     }
+
+    private static abstract class ProcessedContribution {
+
+        List<ProcessedContribution> before = new LinkedList<>();
+        List<ProcessedContribution> after = new LinkedList<>();
+
+        abstract void process();
+
+        abstract String getName();
+
+        abstract void finish();
+    }
+
+    private static class QueuedContribution {
+
+        ProcessedContribution parent;
+        MenuContribution contribution;
+
+        public QueuedContribution(ProcessedContribution parent, MenuContribution contribution) {
+            this.parent = parent;
+            this.contribution = contribution;
+        }
+    }
+
+    private static class OrderingContribution {
+
+        OrderingMode mode;
+        ProcessedContribution processed;
+
+        public OrderingContribution(OrderingMode mode, ProcessedContribution processed) {
+            this.mode = mode;
+            this.processed = processed;
+        }
+    }
+
+    private enum OrderingMode {
+        BEFORE, ITEM, AFTER
+    };
 
     public void buildMenu(JMenuBar targetMenuBar, String menuId) {
         buildMenu(new MenuBarWrapper(targetMenuBar), menuId);

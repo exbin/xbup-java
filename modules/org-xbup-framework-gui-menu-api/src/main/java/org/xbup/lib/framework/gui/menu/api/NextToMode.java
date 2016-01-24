@@ -17,44 +17,13 @@
 package org.xbup.lib.framework.gui.menu.api;
 
 /**
- * Menu position.
+ * Enumeration of menu next to modes.
  *
  * @version 0.2.0 2016/01/24
  * @author XBUP Project (http://xbup.org)
  */
-public class MenuPosition {
+public enum NextToMode {
 
-    private final PositionMode basicMode;
-    private final NextToMode nextToMode;
-    private final String groupId;
-
-    public MenuPosition(PositionMode basicMode) {
-        this.basicMode = basicMode;
-        this.groupId = null;
-        this.nextToMode = null;
-    }
-
-    public MenuPosition(String groupId) {
-        this.basicMode = null;
-        this.groupId = groupId;
-        this.nextToMode = null;
-    }
-
-    public MenuPosition(NextToMode nextToMode, String groupId) {
-        this.basicMode = null;
-        this.groupId = groupId;
-        this.nextToMode = nextToMode;
-    }
-
-    public PositionMode getBasicMode() {
-        return basicMode;
-    }
-
-    public String getGroupId() {
-        return groupId;
-    }
-
-    public NextToMode getNextToMode() {
-        return nextToMode;
-    }
+    BEFORE,
+    AFTER
 }

@@ -16,18 +16,19 @@
  */
 package org.xbup.tool.xbeditor;
 
+import java.awt.Dimension;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-import javax.swing.Action;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.xbup.lib.core.parser.basic.XBHead;
+import org.xbup.lib.framework.editor.text.EditorTextModule;
 import org.xbup.lib.framework.editor.xbup.EditorXbupModule;
 import org.xbup.lib.framework.gui.XBBaseApplication;
 import org.xbup.lib.framework.gui.about.api.GuiAboutModuleApi;
@@ -35,21 +36,16 @@ import org.xbup.lib.framework.gui.api.XBModuleRepository;
 import org.xbup.lib.framework.gui.editor.api.GuiEditorModuleApi;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
-import org.xbup.lib.framework.gui.menu.api.MenuGroup;
-import org.xbup.lib.framework.gui.menu.api.MenuPosition;
-import org.xbup.lib.framework.gui.menu.api.PositionMode;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
-import org.xbup.lib.framework.gui.menu.api.ClipboardActionsApi;
-import org.xbup.lib.framework.gui.file.api.FileHandlingActionsApi;
 import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
-import org.xbup.lib.framework.gui.menu.api.SeparationMode;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
 import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
+import org.xbup.lib.operation.undo.XBTLinearUndo;
 
 /**
  * The main class of the XBEditor application.
  *
- * @version 0.2.0 2015/11/15
+ * @version 0.2.0 2016/01/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEditor {
@@ -114,44 +110,53 @@ public class XBEditor {
                 GuiUndoModuleApi undoModule = moduleRepository.getModuleByInterface(GuiUndoModuleApi.class);
                 GuiFileModuleApi fileModule = moduleRepository.getModuleByInterface(GuiFileModuleApi.class);
                 GuiOptionsModuleApi optionsModule = moduleRepository.getModuleByInterface(GuiOptionsModuleApi.class);
+                EditorXbupModule xbupEditorModule = moduleRepository.getModuleByInterface(EditorXbupModule.class);
+                final EditorTextModule textEditorModule = moduleRepository.getModuleByInterface(EditorTextModule.class);
 
                 aboutModule.registerDefaultMenuItem();
 
-                String appClosingActionsGroup = "ApplicationClosingActionsGroup";
-                menuModule.registerMenuGroup(GuiFrameModuleApi.FILE_MENU_ID, new MenuGroup(appClosingActionsGroup, new MenuPosition(PositionMode.BOTTOM_LAST), SeparationMode.ABOVE));
-                menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, GuiAboutModuleApi.MODULE_ID, frameModule.getExitAction(), new MenuPosition(appClosingActionsGroup));
+                frameModule.registerExitAction();
+                frameModule.registerBarsVisibilityActions();
 
                 // Register clipboard editing actions
-                String fileHandlingActionsGroup = "FileHandlingActionsGroup";
-                FileHandlingActionsApi fileActions = fileModule.getFileHandlingActions();
-                menuModule.registerMenuGroup(GuiFrameModuleApi.FILE_MENU_ID, new MenuGroup(fileHandlingActionsGroup, new MenuPosition(PositionMode.TOP)));
-                menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, GuiAboutModuleApi.MODULE_ID, fileActions.getNewFileAction(), new MenuPosition(fileHandlingActionsGroup));
-                menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, GuiAboutModuleApi.MODULE_ID, fileActions.getOpenFileAction(), new MenuPosition(fileHandlingActionsGroup));
-                menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, GuiAboutModuleApi.MODULE_ID, fileActions.getSaveFileAction(), new MenuPosition(fileHandlingActionsGroup));
-                menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, GuiAboutModuleApi.MODULE_ID, fileActions.getSaveAsFileAction(), new MenuPosition(fileHandlingActionsGroup));
+                fileModule.registerMenuFileHandlingActions();
+                fileModule.registerToolBarFileHandlingActions();
+                fileModule.registerCloseListener();
 
                 undoModule.registerMainMenu();
+                undoModule.registerMainToolBar();
+                undoModule.registerUndoManagerInMainMenu();
+                XBTLinearUndo linearUndo = new XBTLinearUndo(null);
+//                linearUndo.addUndoUpdateListener(new UndoUpdateListener() {
+//                    @Override
+//                    public void undoChanged() {
+//                        ((AudioPanel) waveEditorModule.getEditorProvider()).repaint();
+//                    }
+//                });
+                undoModule.setUndoHandler(linearUndo);
 
                 // Register clipboard editing actions
-                String clipboardActionsGroup = "ClipboardActionsGroup";
-                ClipboardActionsApi clipboardActions = menuModule.getClipboardActions();
-                menuModule.registerMenuGroup(GuiFrameModuleApi.EDIT_MENU_ID, new MenuGroup(clipboardActionsGroup, new MenuPosition(PositionMode.TOP)));
-                menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiAboutModuleApi.MODULE_ID, clipboardActions.getCutAction(), new MenuPosition(clipboardActionsGroup));
-                menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiAboutModuleApi.MODULE_ID, clipboardActions.getCopyAction(), new MenuPosition(clipboardActionsGroup));
-                menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiAboutModuleApi.MODULE_ID, clipboardActions.getPasteAction(), new MenuPosition(clipboardActionsGroup));
-                menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiAboutModuleApi.MODULE_ID, clipboardActions.getDeleteAction(), new MenuPosition(clipboardActionsGroup));
-                menuModule.registerMenuItem(GuiFrameModuleApi.EDIT_MENU_ID, GuiAboutModuleApi.MODULE_ID, clipboardActions.getSelectAllAction(), new MenuPosition(clipboardActionsGroup));
+                menuModule.registerMenuClipboardActions();
+                menuModule.registerToolBarClipboardActions();
 
-                Action optionsAction = optionsModule.getOptionsAction();
-                menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, GuiAboutModuleApi.MODULE_ID, optionsAction, new MenuPosition(PositionMode.BOTTOM_LAST));
+                optionsModule.registerMenuAction();
+
+                textEditorModule.registerEditFindMenuActions();
+                textEditorModule.registerEditFindToolBarActions();
+                textEditorModule.registerToolsOptionsMenuActions();
+                textEditorModule.registerOptionsMenuPanels();
+                textEditorModule.registerWordWrapping();
+                textEditorModule.registerGoToLine();
+                textEditorModule.registerPropertiesMenu();
+                textEditorModule.registerPrintMenu();
 
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
-
-                EditorXbupModule xbupEditorModule = new EditorXbupModule();
-                xbupEditorModule.init(app);
                 editorModule.registerEditor("xbup", xbupEditorModule.getEditorProvider());
+                // xbupEditorModule.registerStatusBar();
+                // xbupEditorModule.registerOptionsPanels();
 
                 frameHandler.setMainPanel(editorModule.getEditorPanel());
+                frameHandler.setDefaultSize(new Dimension(600, 400));
                 frameHandler.show();
 
                 List fileArgs = cl.getArgList();

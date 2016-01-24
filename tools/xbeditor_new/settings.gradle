@@ -26,6 +26,7 @@ include ":modules:org-xbup-framework-gui-undo"
 include ":modules:org-xbup-framework-gui-options-api"
 include ":modules:org-xbup-framework-gui-options"
 include ":modules:org-xbup-framework-editor-xbup"
+include ":modules:org-xbup-framework-editor-text"
 include ":modules:hexedit"
 include ":modules:simplyhtml"
 

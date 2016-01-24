@@ -14,18 +14,18 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.gui.undo.api;
+package org.xbup.lib.framework.gui.menu.api;
 
 /**
- * Undo update listener.
+ * Clipboard actions update listener.
  *
- * @version 0.2.0 2016/01/23
+ * @version 0.2.0 2016/01/24
  * @author XBUP Project (http://xbup.org)
  */
-public interface UndoUpdateListener {
+public interface ClipboardActionsUpdateListener {
 
     /**
      * Notify about change in undo state.
      */
-    void undoChanged();
+    void stateChanged();
 }

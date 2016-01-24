@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a performCopy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.xbup.lib.framework.editor.wave.panel;
@@ -19,10 +19,12 @@ package org.xbup.lib.framework.editor.wave.panel;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.InputMethodListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
@@ -51,39 +53,45 @@ import javax.sound.sampled.SourceDataLine;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.undo.UndoManager;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
-import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
-import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.audio.swing.XBWavePanel;
 import org.xbup.lib.audio.wave.XBWave;
 import org.xbup.lib.core.block.declaration.XBDeclaration;
 import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.catalog.XBPCatalog;
+import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.convert.XBTTypeUndeclaringFilter;
 import org.xbup.lib.core.parser.token.event.XBEventWriter;
+import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
+import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
+import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBTPullTypeDeclaringFilter;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.serial.XBPSerialReader;
 import org.xbup.lib.core.serial.XBPSerialWriter;
 import org.xbup.lib.framework.editor.wave.EditorWaveModule;
+import org.xbup.lib.framework.editor.wave.dialog.WaveResizeDialog;
+import org.xbup.lib.framework.editor.wave.panel.command.WaveClipboardData;
+import org.xbup.lib.framework.editor.wave.panel.command.WaveCopyCommand;
+import org.xbup.lib.framework.editor.wave.panel.command.WaveCutCommand;
+import org.xbup.lib.framework.editor.wave.panel.command.WaveDeleteCommand;
+import org.xbup.lib.framework.editor.wave.panel.command.WavePasteCommand;
+import org.xbup.lib.framework.editor.wave.panel.command.WaveReverseCommand;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.file.api.FileType;
-import org.xbup.lib.framework.gui.undo.api.ActivePanelUndoable;
-import org.xbup.lib.framework.gui.undo.api.UndoUpdateListener;
-import org.xbup.lib.framework.editor.wave.dialog.WaveResizeDialog;
+import org.xbup.lib.framework.gui.menu.api.ClipboardActionsUpdateListener;
+import org.xbup.lib.framework.gui.menu.api.ComponentClipboardHandler;
+import org.xbup.lib.operation.undo.XBUndoHandler;
 
 /**
  * Audio panel for XBSEditor.
  *
- * @version 0.2.0 2016/01/23
+ * @version 0.2.0 2016/01/24
  * @author XBUP Project (http://xbup.org)
  */
-public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, ActivePanelUndoable {
+public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, ComponentClipboardHandler {
 
-    private final UndoManager undo = new UndoManager();
+    private XBUndoHandler undoHandler;
     private String fileName;
     private String ext;
     private javax.sound.sampled.AudioFileFormat.Type audioFormatType;
@@ -107,7 +115,7 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
     private InputMethodListener caretListener;
     private final List<StatusChangeListener> statusChangeListeners = new ArrayList<>();
     private final List<WaveRepaintListener> waveRepaintListeners = new ArrayList<>();
-    private UndoUpdateListener undoUpdateListener;
+    private ClipboardActionsUpdateListener clipboardActionsUpdateListener;
 
     public AudioPanel() {
         initComponents();
@@ -120,6 +128,14 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
         audioFormatType = null;
 
         wavePanel = new XBWavePanel();
+        wavePanel.setSelectionChangedListener(new XBWavePanel.SelectionChangedListener() {
+            @Override
+            public void selectionChanged() {
+                if (clipboardActionsUpdateListener != null) {
+                    clipboardActionsUpdateListener.stateChanged();
+                }
+            }
+        });
         sourceDataLine = null;
         defaultColors = getAudioPanelColors();
 
@@ -134,87 +150,62 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
                     if ((int) (wavePosition * scaleRatio) != valuePosition) {
                         seekPlaying((int) (valuePosition / scaleRatio));
                     }
-                } else {
-                    if (wavePosition != valuePosition) {
-                        wavePanel.setWindowPosition(valuePosition < 0 ? 0 : (int) (valuePosition / scaleRatio));
-                        repaint();
-                    }
+                } else if (wavePosition != valuePosition) {
+                    wavePanel.setWindowPosition(valuePosition < 0 ? 0 : (int) (valuePosition / scaleRatio));
+                    repaint();
                 }
             }
         });
 
-        // if the document is ever edited, assume that it needs to be saved
-/*        imageArea.getDocument().addDocumentListener(new DocumentListener() {
-         public void changedUpdate(DocumentEvent e) { setModified(true); }
-         public void insertUpdate(DocumentEvent e) { setModified(true); }
-         public void removeUpdate(DocumentEvent e) { setModified(true); }
-         }); */
-        // Listener for undo and redo events
-/*        imageArea.getDocument().addUndoableEditListener(new UndoableEditListener() {
-
-         public void undoableEditHappened(UndoableEditEvent evt) {
-         undo.addEdit(evt.getEdit());
-         firePropertyChange("undoAvailable", false, true);
-         firePropertyChange("redoAvailable", false, true);
-         }
-         }); */
-        // Create an undo action and add it to the text component
-/*        imageArea.getActionMap().put("Undo", new AbstractAction("Undo") {
-
-         public void actionPerformed(ActionEvent evt) {
-         try {
-         if (undo.canUndo()) {
-         undo.undo();
-         }
-         } catch (CannotUndoException ex) {
-         Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);
-         }
-         }
-         });
-
-         // Bind the undo action to ctl-Z
-         imageArea.getInputMap().put(KeyStroke.getKeyStroke("control Z"), "Undo");
-
-         // Create a redo action and add it to the text component
-         imageArea.getActionMap().put("Redo", new AbstractAction("Redo") {
-
-         public void actionPerformed(ActionEvent evt) {
-         try {
-         if (undo.canRedo()) {
-         undo.redo();
-         }
-         } catch (CannotRedoException ex) {
-         Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);
-         }
-         }
-         });
-         // Bind the redo action to ctl-Y
-         imageArea.getInputMap().put(KeyStroke.getKeyStroke("control Y"), "Redo");
-         */
         playThread.start();
         wavePaintThread.start();
         targetDataLineInfo = null;
         audioInputStream = null;
-
-//        if ( !AudioSystem.isLineSupported( info ) )
     }
 
+    @Override
     public void performCopy() {
-        wavePanel.copy();
+        XBWavePanel.SelectionRange selectionRange = wavePanel.getSelection();
+        WaveCopyCommand copyCommand = new WaveCopyCommand(wavePanel.getWave(), selectionRange.getBegin(), selectionRange.getEnd());
+        copyCommand.execute();
     }
 
+    @Override
     public void performCut() {
-        wavePanel.cut();
+        XBWavePanel.SelectionRange selectionRange = wavePanel.getSelection();
+        WaveCutCommand cutCommand = new WaveCutCommand(wavePanel.getWave(), selectionRange.getBegin(), selectionRange.getEnd());
+        try {
+            undoHandler.execute(cutCommand);
+        } catch (Exception ex) {
+            Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        wavePanel.clearSelection();
     }
 
+    @Override
     public void performDelete() {
-        wavePanel.getInputContext().dispatchEvent(new KeyEvent(this, KeyEvent.KEY_PRESSED, 0, 0, KeyEvent.VK_DELETE, KeyEvent.CHAR_UNDEFINED));
+        XBWavePanel.SelectionRange selectionRange = wavePanel.getSelection();
+        WaveDeleteCommand deleteCommand = new WaveDeleteCommand(wavePanel.getWave(), selectionRange.getBegin(), selectionRange.getEnd());
+        try {
+            undoHandler.execute(deleteCommand);
+        } catch (Exception ex) {
+            Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        wavePanel.clearSelection();
     }
 
+    @Override
     public void performPaste() {
-        wavePanel.paste();
+        WavePasteCommand pasteCommand = new WavePasteCommand(wavePanel.getWave(), wavePanel.getCursorPosition());
+        try {
+            undoHandler.execute(pasteCommand);
+        } catch (Exception ex) {
+            Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        wavePanel.clearSelection();
     }
 
+    @Override
     public void performSelectAll() {
         wavePanel.selectAll();
     }
@@ -515,12 +506,10 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
             } catch (XBProcessingException | IOException ex) {
                 Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else if (getFileType() == null) {
+            wavePanel.getWave().saveToFile(file);
         } else {
-            if (getFileType() == null) {
-                wavePanel.getWave().saveToFile(file);
-            } else {
-                wavePanel.getWave().saveToFile(file, getFileType());
-            }
+            wavePanel.getWave().saveToFile(file, getFileType());
         }
     }
 
@@ -571,8 +560,8 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
         this.fileName = fileName;
     }
 
-    public UndoManager getUndo() {
-        return undo;
+    public void setUndoHandler(XBUndoHandler undoHandler) {
+        this.undoHandler = undoHandler;
     }
 
     public void setPopupMenu(JPopupMenu menu) {
@@ -698,9 +687,18 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
     }
 
     public void performTransformReverse() {
-        XBWave wave = wavePanel.getWave();
-        wave.performTransformReverse();
-        repaint();
+        WaveReverseCommand waveReverseCommand;
+        if (isSelection()) {
+            XBWavePanel.SelectionRange selectionRange = wavePanel.getSelection();
+            waveReverseCommand = new WaveReverseCommand(wavePanel.getWave(), selectionRange.getBegin(), selectionRange.getEnd());
+        } else {
+            waveReverseCommand = new WaveReverseCommand(wavePanel.getWave());
+        }
+        try {
+            undoHandler.execute(waveReverseCommand);
+        } catch (Exception ex) {
+            Logger.getLogger(AudioPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -709,28 +707,29 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
     }
 
     @Override
-    public Boolean canUndo() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolean isSelection() {
+        return wavePanel.hasSelection();
     }
 
     @Override
-    public Boolean canRedo() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolean isEditable() {
+        return true;
     }
 
     @Override
-    public void performUndo() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolean canSelectAll() {
+        return true;
     }
 
     @Override
-    public void performRedo() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setUpdateListener(ClipboardActionsUpdateListener updateListener) {
+        this.clipboardActionsUpdateListener = updateListener;
     }
 
     @Override
-    public void setUndoUpdateListener(UndoUpdateListener undoUpdateListener) {
-        this.undoUpdateListener = undoUpdateListener;
+    public boolean canPaste() {
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        return clipboard.isDataFlavorAvailable(WaveClipboardData.WAVE_FLAVOR);
     }
 
     class PlayThread extends Thread {

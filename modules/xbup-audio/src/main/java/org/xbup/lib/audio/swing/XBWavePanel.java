@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a performCopy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.xbup.lib.audio.swing;
@@ -29,7 +29,7 @@ import org.xbup.lib.audio.wave.XBWave;
 /**
  * Simple panel audio wave.
  *
- * @version 0.1.23 2013/12/05
+ * @version 0.2.0 2016/01/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWavePanel extends JPanel implements MouseListener, MouseMotionListener {
@@ -41,6 +41,7 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
     private DrawMode drawMode;
     private ToolMode toolMode;
     private double scaleRatio;
+    private SelectionChangedListener selectionChangedListener = null;
 
     private Color dataColor;
     private Color selectionColor;
@@ -147,16 +148,14 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
 //        g.drawString(getBackground().toString() , 20, 20);
     }
 
-    /**
-     * @return the wave
-     */
     public XBWave getWave() {
         return wave;
     }
 
-    /**
-     * @param wave the wave to set
-     */
+    public SelectionRange getSelection() {
+        return selection;
+    }
+
     public void setWave(XBWave wave) {
         this.wave = wave;
         repaint();
@@ -213,18 +212,6 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
 
     public int getWaveLength() {
         return wave == null ? 0 : wave.getLengthInTicks();
-    }
-
-    public void copy() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    public void cut() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    public void paste() {
-        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     /**
@@ -335,13 +322,28 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
     public void selectAll() {
         if (wave != null) {
             selection = new SelectionRange(0, wave.getLengthInTicks());
+            if (selectionChangedListener != null) {
+                selectionChangedListener.selectionChanged();
+            }
             repaint();
         }
     }
 
-    public void selectNone() {
+    public void clearSelection() {
         selection = null;
+        if (selectionChangedListener != null) {
+            selectionChangedListener.selectionChanged();
+        }
+
         repaint();
+    }
+
+    public boolean hasSelection() {
+        return selection != null;
+    }
+
+    public void setSelectionChangedListener(SelectionChangedListener selectionChangedListener) {
+        this.selectionChangedListener = selectionChangedListener;
     }
 
     boolean mouseDown = false;
@@ -352,7 +354,7 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
     public void mousePressed(MouseEvent me) {
         if (me.getButton() == MouseEvent.BUTTON1) {
             if (toolMode == ToolMode.SELECTION) {
-                selectNone();
+                clearSelection();
                 int oldPosition = getCursorPosition();
                 setCursorPosition((int) (me.getX() / scaleRatio) + windowPosition);
 
@@ -393,6 +395,9 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
                     } else {
                         selection = new SelectionRange(getCursorPosition(), mousePressPosition);
                     }
+                    if (selectionChangedListener != null) {
+                        selectionChangedListener.selectionChanged();
+                    }
 
                     repaint();
                 }
@@ -420,7 +425,7 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
         }
     }
 
-    private static class SelectionRange {
+    public static class SelectionRange {
 
         private int begin;
         private int end;
@@ -435,32 +440,25 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
             this.end = end;
         }
 
-        /**
-         * @return the begin
-         */
         public int getBegin() {
             return begin;
         }
 
-        /**
-         * @param begin the begin to set
-         */
         public void setBegin(int begin) {
             this.begin = begin;
         }
 
-        /**
-         * @return the end
-         */
         public int getEnd() {
             return end;
         }
 
-        /**
-         * @param end the end to set
-         */
         public void setEnd(int end) {
             this.end = end;
         }
+    }
+
+    public interface SelectionChangedListener {
+
+        void selectionChanged();
     }
 }

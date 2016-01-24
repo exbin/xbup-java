@@ -38,11 +38,12 @@ import org.xbup.lib.framework.editor.wave.panel.AudioPanel;
 import org.xbup.lib.framework.editor.wave.panel.AudioStatusPanel;
 import org.xbup.lib.framework.editor.wave.panel.WaveColorPanelApi;
 import org.xbup.lib.framework.gui.menu.api.SeparationMode;
+import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 
 /**
  * XBUP audio editor module.
  *
- * @version 0.2.0 2016/01/23
+ * @version 0.2.0 2016/01/24
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -50,6 +51,7 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
 
     public static final String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(EditorWaveModule.class);
     public static final String AUDIO_MENU_ID = MODULE_ID + ".audioMenu";
+    public static final String AUDIO_OPERATION_MENU_ID = MODULE_ID + ".audioOperationMenu";
     public static final String AUDIO_POPUP_MENU_ID = MODULE_ID + ".audioPopupMenu";
     public static final String DRAW_MODE_SUBMENU_ID = MODULE_ID + ".drawSubMenu";
 
@@ -69,6 +71,7 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
     private PropertiesHandler propertiesHandler;
     private AudioControlHandler audioControlHandler;
     private DrawingControlHandler drawingControlHandler;
+    private AudioOperationHandler audioOperationHandler;
 
     public EditorWaveModule() {
     }
@@ -98,6 +101,9 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
     public XBEditorProvider getEditorProvider() {
         if (editorProvider == null) {
             AudioPanel audioPanel = new AudioPanel();
+
+            GuiUndoModuleApi undoModule = application.getModuleRepository().getModuleByInterface(GuiUndoModuleApi.class);
+            audioPanel.setUndoHandler(undoModule.getUndoHandler());
 
             editorProvider = audioPanel;
 
@@ -234,6 +240,15 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
         return audioControlHandler;
     }
 
+    private AudioOperationHandler getAudioOperationHandler() {
+        if (audioOperationHandler == null) {
+            audioOperationHandler = new AudioOperationHandler(application, (AudioPanel) getEditorProvider());
+            audioOperationHandler.init();
+        }
+
+        return audioOperationHandler;
+    }
+
     private DrawingControlHandler getDrawingControlHandler() {
         if (drawingControlHandler == null) {
             drawingControlHandler = new DrawingControlHandler(application, (AudioPanel) getEditorProvider());
@@ -265,6 +280,14 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
         menuModule.registerMenuItem(GuiFrameModuleApi.MAIN_MENU_ID, MODULE_ID, AUDIO_MENU_ID, "Audio", new MenuPosition(PositionMode.BOTTOM));
         menuModule.registerMenuItem(AUDIO_MENU_ID, MODULE_ID, audioControlHandler.getPlayAction(), new MenuPosition(PositionMode.TOP));
         menuModule.registerMenuItem(AUDIO_MENU_ID, MODULE_ID, audioControlHandler.getStopAction(), new MenuPosition(PositionMode.TOP));
+    }
+
+    public void registerAudioOperationMenu() {
+        getAudioOperationHandler();
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenu(AUDIO_OPERATION_MENU_ID, MODULE_ID);
+        menuModule.registerMenuItem(AUDIO_MENU_ID, MODULE_ID, AUDIO_OPERATION_MENU_ID, "Operation", new MenuPosition(PositionMode.BOTTOM));
+        menuModule.registerMenuItem(AUDIO_OPERATION_MENU_ID, MODULE_ID, audioOperationHandler.getRevertAction(), new MenuPosition(PositionMode.TOP));
     }
 
     public void registerDrawingModeMenu() {

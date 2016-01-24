@@ -41,6 +41,8 @@ import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.framework.editor.wave.panel.AudioPanel;
+import org.xbup.lib.operation.undo.UndoUpdateListener;
+import org.xbup.lib.operation.undo.XBTLinearUndo;
 
 /**
  * The main class of the XBSEditor application.
@@ -105,7 +107,7 @@ public class XBSEditor {
                 GuiUndoModuleApi undoModule = moduleRepository.getModuleByInterface(GuiUndoModuleApi.class);
                 GuiFileModuleApi fileModule = moduleRepository.getModuleByInterface(GuiFileModuleApi.class);
                 GuiOptionsModuleApi optionsModule = moduleRepository.getModuleByInterface(GuiOptionsModuleApi.class);
-                EditorWaveModule waveEditorModule = moduleRepository.getModuleByInterface(EditorWaveModule.class);
+                final EditorWaveModule waveEditorModule = moduleRepository.getModuleByInterface(EditorWaveModule.class);
 
                 aboutModule.registerDefaultMenuItem();
 
@@ -119,6 +121,15 @@ public class XBSEditor {
 
                 undoModule.registerMainMenu();
                 undoModule.registerMainToolBar();
+                undoModule.registerUndoManagerInMainMenu();
+                XBTLinearUndo linearUndo = new XBTLinearUndo(null);
+                linearUndo.addUndoUpdateListener(new UndoUpdateListener() {
+                    @Override
+                    public void undoChanged() {
+                        ((AudioPanel) waveEditorModule.getEditorProvider()).repaint();
+                    }
+                });
+                undoModule.setUndoHandler(linearUndo);
 
                 // Register clipboard editing actions
                 menuModule.registerMenuClipboardActions();
@@ -130,11 +141,12 @@ public class XBSEditor {
                 waveEditorModule.registerOptionsMenuPanels();
                 waveEditorModule.registerPropertiesMenu();
                 waveEditorModule.registerAudioMenu();
+                waveEditorModule.registerAudioOperationMenu();
                 waveEditorModule.registerDrawingModeMenu();
 
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
-                AudioPanel textPanel = (AudioPanel) waveEditorModule.getEditorProvider();
-                editorModule.registerEditor("audio", textPanel);
+                AudioPanel audioPanel = (AudioPanel) waveEditorModule.getEditorProvider();
+                editorModule.registerEditor("audio", audioPanel);
 //                editorModule.registerUndoHandler();
                 waveEditorModule.registerStatusBar();
                 waveEditorModule.registerOptionsPanels();

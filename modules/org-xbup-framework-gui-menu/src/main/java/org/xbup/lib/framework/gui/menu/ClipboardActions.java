@@ -11,11 +11,12 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a performCopy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.xbup.lib.framework.gui.menu;
 
+import org.xbup.lib.framework.gui.menu.api.ComponentClipboardHandler;
 import java.awt.AWTEvent;
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -53,6 +54,7 @@ import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.TextAction;
 import org.xbup.lib.framework.gui.menu.api.ClipboardActionsApi;
+import org.xbup.lib.framework.gui.menu.api.ClipboardActionsUpdateListener;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
 
 /**
@@ -80,6 +82,13 @@ public class ClipboardActions implements ClipboardActionsApi {
     private Action deleteAction;
     private Action selectAllAction;
 
+    private ComponentClipboardHandler clipboardHandler = null;
+    private Action cutTextAction;
+    private Action copyTextAction;
+    private Action pasteTextAction;
+    private Action deleteTextAction;
+    private Action selectAllTextAction;
+
     private ActionMap defaultTextActionMap;
     private JPopupMenu defaultPopupMenu;
     private DefaultPopupClipboardAction defaultCutAction;
@@ -96,27 +105,109 @@ public class ClipboardActions implements ClipboardActionsApi {
         resourceBundle = ActionUtils.getResourceBundleByClass(GuiMenuModule.class);
         metaMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
 
-        // Note: There is probably better way for clipboard action's handling
-        actionMap = new ActionMap();
-        cutAction = new PassingTextAction(new DefaultEditorKit.CutAction());
+        initializeClipboardActions();
+        initializeTextActions();
+        initDefaultPopupMenu();
+    }
+
+    private void initializeClipboardActions() {
+        cutAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (clipboardHandler != null) {
+                    clipboardHandler.performCut();
+                }
+            }
+        };
         ActionUtils.setupAction(cutAction, resourceBundle, "editCutAction");
         cutAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, metaMask));
         cutAction.setEnabled(false);
-        actionMap.put(TransferHandler.getCutAction().getValue(Action.NAME), cutAction);
 
-        copyAction = new PassingTextAction(new DefaultEditorKit.CopyAction());
+        copyAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (clipboardHandler != null) {
+                    clipboardHandler.performCopy();
+                }
+            }
+        };
         ActionUtils.setupAction(copyAction, resourceBundle, "editCopyAction");
         copyAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, metaMask));
         copyAction.setEnabled(false);
-        actionMap.put(TransferHandler.getCopyAction().getValue(Action.NAME), copyAction);
 
-        pasteAction = new PassingTextAction(new DefaultEditorKit.PasteAction());
+        pasteAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (clipboardHandler != null) {
+                    clipboardHandler.performPaste();
+                }
+            }
+        };
         ActionUtils.setupAction(pasteAction, resourceBundle, "editPasteAction");
         pasteAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, metaMask));
         pasteAction.setEnabled(false);
-        actionMap.put(TransferHandler.getPasteAction().getValue(Action.NAME), pasteAction);
 
-        deleteAction = new PassingTextAction(new TextAction("delete") {
+        deleteAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (clipboardHandler != null) {
+                    clipboardHandler.performDelete();
+                }
+            }
+        };
+        ActionUtils.setupAction(deleteAction, resourceBundle, "editDeleteAction");
+        deleteAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
+        deleteAction.setEnabled(false);
+
+        selectAllAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (clipboardHandler != null) {
+                    clipboardHandler.performSelectAll();
+                }
+            }
+        };
+        ActionUtils.setupAction(selectAllAction, resourceBundle, "editSelectAllAction");
+        selectAllAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, metaMask));
+
+        getClipboard();
+        clipboard.addFlavorListener(new FlavorListener() {
+            @Override
+            public void flavorsChanged(FlavorEvent e) {
+                updateClipboardActions();
+            }
+        });
+    }
+
+    public void updateClipboardActions() {
+        cutAction.setEnabled(clipboardHandler != null && clipboardHandler.isEditable() && clipboardHandler.isSelection());
+        copyAction.setEnabled(clipboardHandler != null && clipboardHandler.isSelection());
+        pasteAction.setEnabled(clipboardHandler != null && clipboardHandler.isEditable() && clipboardHandler.canPaste());
+        deleteAction.setEnabled(clipboardHandler != null && clipboardHandler.isEditable() && clipboardHandler.isSelection());
+        selectAllAction.setEnabled(clipboardHandler != null && clipboardHandler.canSelectAll());
+    }
+
+    private void initializeTextActions() {
+        actionMap = new ActionMap();
+        cutTextAction = new PassingTextAction(new DefaultEditorKit.CutAction());
+        ActionUtils.setupAction(cutTextAction, resourceBundle, "editCutAction");
+        cutTextAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, metaMask));
+        cutTextAction.setEnabled(false);
+        actionMap.put(TransferHandler.getCutAction().getValue(Action.NAME), cutTextAction);
+
+        copyTextAction = new PassingTextAction(new DefaultEditorKit.CopyAction());
+        ActionUtils.setupAction(copyTextAction, resourceBundle, "editCopyAction");
+        copyTextAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, metaMask));
+        copyTextAction.setEnabled(false);
+        actionMap.put(TransferHandler.getCopyAction().getValue(Action.NAME), copyTextAction);
+
+        pasteTextAction = new PassingTextAction(new DefaultEditorKit.PasteAction());
+        ActionUtils.setupAction(pasteTextAction, resourceBundle, "editPasteAction");
+        pasteTextAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, metaMask));
+        pasteTextAction.setEnabled(false);
+        actionMap.put(TransferHandler.getPasteAction().getValue(Action.NAME), pasteTextAction);
+
+        deleteTextAction = new PassingTextAction(new TextAction("delete") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Object src = actionFocusOwner;
@@ -126,12 +217,12 @@ public class ClipboardActions implements ClipboardActionsApi {
                 }
             }
         });
-        ActionUtils.setupAction(deleteAction, resourceBundle, "editDeleteAction");
-        deleteAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
-        deleteAction.setEnabled(false);
-        actionMap.put("delete", deleteAction);
+        ActionUtils.setupAction(deleteTextAction, resourceBundle, "editDeleteAction");
+        deleteTextAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
+        deleteTextAction.setEnabled(false);
+        actionMap.put("delete", deleteTextAction);
 
-        selectAllAction = new PassingTextAction(new TextAction("selectAll") {
+        selectAllTextAction = new PassingTextAction(new TextAction("selectAll") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Object src = actionFocusOwner;
@@ -141,10 +232,8 @@ public class ClipboardActions implements ClipboardActionsApi {
                 }
             }
         });
-        ActionUtils.setupAction(selectAllAction, resourceBundle, "editSelectAllAction");
-        selectAllAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, metaMask));
-
-        initDefaultPopupMenu();
+        ActionUtils.setupAction(selectAllTextAction, resourceBundle, "editSelectAllAction");
+        selectAllTextAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, metaMask));
     }
 
     public JPopupMenu getDefaultPopupMenu() {
@@ -190,7 +279,7 @@ public class ClipboardActions implements ClipboardActionsApi {
         defaultCutAction = new DefaultPopupClipboardAction(DefaultEditorKit.cutAction) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                clipboardHandler.cut();
+                clipboardHandler.performCut();
             }
 
             @Override
@@ -206,7 +295,7 @@ public class ClipboardActions implements ClipboardActionsApi {
         defaultCopyAction = new DefaultPopupClipboardAction(DefaultEditorKit.copyAction) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                clipboardHandler.copy();
+                clipboardHandler.performCopy();
             }
 
             @Override
@@ -222,7 +311,7 @@ public class ClipboardActions implements ClipboardActionsApi {
         defaultPasteAction = new DefaultPopupClipboardAction(DefaultEditorKit.pasteAction) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                clipboardHandler.paste();
+                clipboardHandler.performPaste();
             }
 
             @Override
@@ -238,7 +327,7 @@ public class ClipboardActions implements ClipboardActionsApi {
         defaultDeleteAction = new DefaultPopupClipboardAction(DefaultEditorKit.deleteNextCharAction) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                clipboardHandler.delete();
+                clipboardHandler.performDelete();
             }
 
             @Override
@@ -254,7 +343,7 @@ public class ClipboardActions implements ClipboardActionsApi {
         defaultSelectAllAction = new DefaultPopupClipboardAction("Select all") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                clipboardHandler.selectAll();
+                clipboardHandler.performSelectAll();
             }
 
             @Override
@@ -319,6 +408,18 @@ public class ClipboardActions implements ClipboardActionsApi {
         return selectAllAction;
     }
 
+    public void setClipboardHandler(ComponentClipboardHandler clipboardHandler) {
+        this.clipboardHandler = clipboardHandler;
+        if (clipboardHandler != null) {
+            clipboardHandler.setUpdateListener(new ClipboardActionsUpdateListener() {
+                @Override
+                public void stateChanged() {
+                    updateClipboardActions();
+                }
+            });
+        }
+    }
+
     private void invokeTextAction(JTextComponent text, String actionName) {
         ActionMap textActionMap = text.getActionMap().getParent();
         long eventTime = EventQueue.getMostRecentEventTime();
@@ -380,10 +481,10 @@ public class ClipboardActions implements ClipboardActionsApi {
             text.addCaretListener(textComponentCaretListener);
             text.addPropertyChangeListener(textComponentPCL);
         } else if (newOwner == null) {
-            copyAction.setEnabled(false);
-            cutAction.setEnabled(false);
-            pasteAction.setEnabled(false);
-            deleteAction.setEnabled(false);
+            copyTextAction.setEnabled(false);
+            cutTextAction.setEnabled(false);
+            pasteTextAction.setEnabled(false);
+            deleteTextAction.setEnabled(false);
         }
 
         lastFocusOwner = newOwner;
@@ -459,10 +560,10 @@ public class ClipboardActions implements ClipboardActionsApi {
         // text.getSelectionEnd() > text.getSelectionStart();
         boolean editable = text.isEditable();
         boolean data = isValidClipboardFlavor;
-        copyAction.setEnabled(selection);
-        cutAction.setEnabled(editable && selection);
-        deleteAction.setEnabled(editable && selection);
-        pasteAction.setEnabled(editable && data);
+        copyTextAction.setEnabled(selection);
+        cutTextAction.setEnabled(editable && selection);
+        deleteTextAction.setEnabled(editable && selection);
+        pasteTextAction.setEnabled(editable && data);
     }
 
     private final class ClipboardListener implements FlavorListener {
@@ -536,7 +637,6 @@ public class ClipboardActions implements ClipboardActionsApi {
                         defaultPopupMenu.show(e.getComponent(), e.getX(), e.getY());
                     }
                 }
-
             }
 
             super.dispatchEvent(event);
@@ -555,27 +655,27 @@ public class ClipboardActions implements ClipboardActionsApi {
             }
 
             @Override
-            public void cut() {
+            public void performCut() {
                 txtComp.cut();
             }
 
             @Override
-            public void copy() {
+            public void performCopy() {
                 txtComp.copy();
             }
 
             @Override
-            public void paste() {
+            public void performPaste() {
                 txtComp.paste();
             }
 
             @Override
-            public void delete() {
+            public void performDelete() {
                 invokeTextAction(txtComp, DefaultEditorKit.deleteNextCharAction);
             }
 
             @Override
-            public void selectAll() {
+            public void performSelectAll() {
                 txtComp.requestFocus();
                 txtComp.selectAll();
             }
@@ -594,6 +694,16 @@ public class ClipboardActions implements ClipboardActionsApi {
             public boolean canSelectAll() {
                 return txtComp.isEnabled() && !txtComp.getText().isEmpty();
             }
+
+            @Override
+            public void setUpdateListener(ClipboardActionsUpdateListener updateListener) {
+                // Ignore
+            }
+
+            @Override
+            public boolean canPaste() {
+                return true;
+            }
         }
 
         private class ListClipboardHandler implements ComponentClipboardHandler {
@@ -605,12 +715,12 @@ public class ClipboardActions implements ClipboardActionsApi {
             }
 
             @Override
-            public void cut() {
+            public void performCut() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
-            public void copy() {
+            public void performCopy() {
                 StringBuilder builder = new StringBuilder();
                 List rows = listComp.getSelectedValuesList();
                 boolean empty = true;
@@ -626,17 +736,17 @@ public class ClipboardActions implements ClipboardActionsApi {
             }
 
             @Override
-            public void paste() {
+            public void performPaste() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
-            public void delete() {
+            public void performDelete() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
-            public void selectAll() {
+            public void performSelectAll() {
                 if (listComp.getModel().getSize() > 0) {
                     listComp.setSelectionInterval(0, listComp.getModel().getSize() - 1);
                 }
@@ -656,6 +766,16 @@ public class ClipboardActions implements ClipboardActionsApi {
             public boolean canSelectAll() {
                 return listComp.isEnabled() && listComp.getSelectionMode() != DefaultListSelectionModel.SINGLE_SELECTION;
             }
+
+            @Override
+            public void setUpdateListener(ClipboardActionsUpdateListener updateListener) {
+                // Ignore
+            }
+
+            @Override
+            public boolean canPaste() {
+                return true;
+            }
         }
 
         private class TableClipboardHandler implements ComponentClipboardHandler {
@@ -667,12 +787,12 @@ public class ClipboardActions implements ClipboardActionsApi {
             }
 
             @Override
-            public void cut() {
+            public void performCut() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
-            public void copy() {
+            public void performCopy() {
                 StringBuilder builder = new StringBuilder();
                 int[] rows = tableComp.getSelectedRows();
                 int[] columns;
@@ -712,17 +832,17 @@ public class ClipboardActions implements ClipboardActionsApi {
             }
 
             @Override
-            public void paste() {
+            public void performPaste() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
-            public void delete() {
+            public void performDelete() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
-            public void selectAll() {
+            public void performSelectAll() {
                 tableComp.selectAll();
             }
 
@@ -739,6 +859,16 @@ public class ClipboardActions implements ClipboardActionsApi {
             @Override
             public boolean canSelectAll() {
                 return tableComp.isEnabled() && tableComp.getSelectionModel().getSelectionMode() != ListSelectionModel.SINGLE_SELECTION;
+            }
+
+            @Override
+            public void setUpdateListener(ClipboardActionsUpdateListener updateListener) {
+                // Ignore
+            }
+
+            @Override
+            public boolean canPaste() {
+                return true;
             }
         }
     }

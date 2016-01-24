@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a performCopy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.xbup.tool.editor.module.wave_editor.panel;
@@ -196,11 +196,9 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
     }
 
     public void performCopy() {
-        wavePanel.copy();
     }
 
     public void performCut() {
-        wavePanel.cut();
     }
 
     public void performDelete() {
@@ -208,7 +206,6 @@ public class AudioPanel extends javax.swing.JPanel implements ApplicationFilePan
     }
 
     public void performPaste() {
-        wavePanel.paste();
     }
 
     public void performSelectAll() {

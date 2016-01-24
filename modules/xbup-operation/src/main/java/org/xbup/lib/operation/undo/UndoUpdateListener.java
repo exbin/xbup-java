@@ -14,46 +14,18 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.gui.undo.api;
-
-import org.xbup.lib.operation.undo.UndoUpdateListener;
+package org.xbup.lib.operation.undo;
 
 /**
- * Interface for application's panel.
+ * Undo update listener.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.2.0 2016/01/23
  * @author XBUP Project (http://xbup.org)
  */
-public interface ActivePanelUndoable {
+public interface UndoUpdateListener {
 
     /**
-     * Returns if undo operation is available.
-     *
-     * @return true if undo possible
+     * Notify about change in undo state.
      */
-    public Boolean canUndo();
-
-    /**
-     * Returns if redo operation is available.
-     *
-     * @return true if redo possible
-     */
-    public Boolean canRedo();
-
-    /**
-     * Performs undo.
-     */
-    public void performUndo();
-
-    /**
-     * Performs redo.
-     */
-    public void performRedo();
-
-    /**
-     * Set listener for undo updates.
-     *
-     * @param undoUpdateListener
-     */
-    void setUndoUpdateListener(UndoUpdateListener undoUpdateListener);
+    void undoChanged();
 }

@@ -24,7 +24,7 @@ import org.xbup.lib.parser_tree.XBTTreeDocument;
 /**
  * Linear undo command sequence storage.
  *
- * @version 0.1.25 2015/06/28
+ * @version 0.2.0 2016/01/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTLinearUndo implements XBUndoHandler {
@@ -36,6 +36,7 @@ public class XBTLinearUndo implements XBUndoHandler {
     private long syncPointPosition = -1;
     private final List<XBTDocCommand> commandList;
     private final XBTTreeDocument document;
+    private final List<UndoUpdateListener> listeners = new ArrayList<>();
 
     /**
      * Creates a new instance.
@@ -58,16 +59,25 @@ public class XBTLinearUndo implements XBUndoHandler {
      */
     @Override
     public void execute(XBTDocCommand command) throws Exception {
-        command.setDocument(document);
+        if (document != null) {
+            command.setDocument(document);
+        }
+
         command.execute();
-        // TODO Optimize for changed data only?
-        document.processSpec();
+
+        if (document != null) {
+            // TODO Optimize for changed data only?
+            document.processSpec();
+        }
+
         // TODO: Check for undoOperationsMaximumCount & size
         while (commandList.size() > commandPosition) {
             commandList.remove((int) commandPosition);
         }
         commandList.add(command);
         commandPosition++;
+        
+        undoUpdated();
     }
 
     /**
@@ -77,11 +87,20 @@ public class XBTLinearUndo implements XBUndoHandler {
      */
     @Override
     public void performUndo() throws Exception {
+        performUndoInt();
+        undoUpdated();
+    }
+
+    private void performUndoInt() throws Exception {
         commandPosition--;
         XBTDocCommand command = commandList.get((int) commandPosition);
-        command.setDocument(document);
+        if (document != null) {
+            command.setDocument(document);
+        }
         command.undo();
-        document.processSpec();
+        if (document != null) {
+            document.processSpec();
+        }
     }
 
     /**
@@ -91,11 +110,20 @@ public class XBTLinearUndo implements XBUndoHandler {
      */
     @Override
     public void performRedo() throws Exception {
+        performRedoInt();
+        undoUpdated();
+    }
+
+    private void performRedoInt() throws Exception {
         XBTDocCommand command = commandList.get((int) commandPosition);
-        command.setDocument(document);
+        if (document != null) {
+            command.setDocument(document);
+        }
         command.redo();
         commandPosition++;
-        document.processSpec();
+        if (document != null) {
+            document.processSpec();
+        }
     }
 
     /**
@@ -110,10 +138,11 @@ public class XBTLinearUndo implements XBUndoHandler {
             throw new IllegalArgumentException("Unable to perform " + count + " undo steps");
         }
         while (count > 0) {
-            performUndo();
+            performUndoInt();
             count--;
         }
         document.processSpec();
+        undoUpdated();
     }
 
     /**
@@ -128,10 +157,11 @@ public class XBTLinearUndo implements XBUndoHandler {
             throw new IllegalArgumentException("Unable to perform " + count + " redo steps");
         }
         while (count > 0) {
-            XBTLinearUndo.this.performRedo();
+            performRedoInt();
             count--;
         }
         document.processSpec();
+        undoUpdated();
     }
 
     @Override
@@ -227,5 +257,21 @@ public class XBTLinearUndo implements XBUndoHandler {
         } else if (targetPosition > commandPosition) {
             performRedo((int) (targetPosition - commandPosition));
         }
+    }
+
+    private void undoUpdated() {
+        for (UndoUpdateListener listener : listeners) {
+            listener.undoChanged();
+        }
+    }
+
+    @Override
+    public void addUndoUpdateListener(UndoUpdateListener listener) {
+        listeners.add(listener);
+    }
+
+    @Override
+    public void removeUndoUpdateListener(UndoUpdateListener listener) {
+        listeners.remove(listener);
     }
 }

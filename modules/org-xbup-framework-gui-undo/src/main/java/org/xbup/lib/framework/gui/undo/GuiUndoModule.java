@@ -37,12 +37,13 @@ import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 import org.xbup.lib.framework.gui.undo.dialog.UndoManagerDialog;
 import org.xbup.lib.framework.gui.undo.dialog.UndoManagerModel;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.xbup.lib.operation.undo.UndoUpdateListener;
 import org.xbup.lib.operation.undo.XBUndoHandler;
 
 /**
  * Implementation of XBUP framework undo/redo module.
  *
- * @version 0.2.0 2016/01/10
+ * @version 0.2.0 2016/01/24
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -99,7 +100,7 @@ public class GuiUndoModule implements GuiUndoModuleApi {
         };
         undoManagerAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
         ActionUtils.setupAction(undoManagerAction, bundle, "editUndoManagerAction");
-        
+
         undoModel.addListDataListener(new ListDataListener() {
             @Override
             public void intervalAdded(ListDataEvent e) {
@@ -140,6 +141,12 @@ public class GuiUndoModule implements GuiUndoModuleApi {
     public void setUndoHandler(XBUndoHandler undoHandler) {
         this.undoHandler = undoHandler;
         undoModel.setUndoHandler(undoHandler);
+        undoHandler.addUndoUpdateListener(new UndoUpdateListener() {
+            @Override
+            public void undoChanged() {
+                updateUndoStatus();
+            }
+        });
     }
 
     @Override

@@ -5,6 +5,7 @@ include ":modules:org-xbup-framework-gui"
 include ":modules:org-xbup-framework-gui-api"
 include ":modules:org-xbup-framework-gui-editor-api"
 include ":modules:org-xbup-framework-gui-undo-api"
+include ":modules:org-xbup-framework-gui-menu-api"
 include ":modules:org-xbup-framework-gui-utils"
 
 def modifyPath(project) {

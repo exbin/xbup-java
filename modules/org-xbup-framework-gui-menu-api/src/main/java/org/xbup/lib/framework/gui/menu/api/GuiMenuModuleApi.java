@@ -28,7 +28,7 @@ import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 /**
  * Interface for XBUP framework menu module.
  *
- * @version 0.2.0 2016/01/11
+ * @version 0.2.0 2016/01/24
  * @author XBUP Project (http://xbup.org)
  */
 public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
@@ -163,4 +163,16 @@ public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
     void registerToolBarClipboardActions();
 
     void registerClipboardMenuItems(String menuId, String moduleId, SeparationMode separationMode);
+
+    /**
+     * Registers clipboard handler for main clipboard actions.
+     *
+     * @param clipboardHandler
+     */
+    void registerClipboardHandler(ComponentClipboardHandler clipboardHandler);
+
+    /**
+     * Updates state of the clipboard actions.
+     */
+    public void updateClipboardActions();
 }

@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.framework.gui.menu;
 
+import org.xbup.lib.framework.gui.menu.api.ComponentClipboardHandler;
 import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -169,5 +170,15 @@ public class GuiMenuModule implements GuiMenuModuleApi {
         registerToolBarItem(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, MODULE_ID, clipboardActions.getCopyAction(), new ToolBarPosition(CLIPBOARD_ACTIONS_TOOL_BAR_GROUP_ID));
         registerToolBarItem(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, MODULE_ID, clipboardActions.getPasteAction(), new ToolBarPosition(CLIPBOARD_ACTIONS_TOOL_BAR_GROUP_ID));
         registerToolBarItem(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, MODULE_ID, clipboardActions.getDeleteAction(), new ToolBarPosition(CLIPBOARD_ACTIONS_TOOL_BAR_GROUP_ID));
+    }
+
+    @Override
+    public void registerClipboardHandler(ComponentClipboardHandler clipboardHandler) {
+        getClipboardActions().setClipboardHandler(clipboardHandler);
+    }
+    
+    @Override
+    public void updateClipboardActions() {
+        getClipboardActions().updateClipboardActions();
     }
 }

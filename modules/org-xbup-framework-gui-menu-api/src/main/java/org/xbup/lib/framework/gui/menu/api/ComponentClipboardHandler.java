@@ -11,46 +11,46 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a performCopy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.gui.menu;
+package org.xbup.lib.framework.gui.menu.api;
 
 /**
  * Interface for clipboard handler for visual component / context menu.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.2.0 2016/01/24
  * @author XBUP Project (http://xbup.org)
  */
 public interface ComponentClipboardHandler {
 
     /**
-     * Performs cut to clipboard operation.
+     * Performs performCut to clipboard operation.
      */
-    public void cut();
+    public void performCut();
 
     /**
-     * Performs copy to clipboard operation.
+     * Performs performCopy to clipboard operation.
      */
-    public void copy();
+    public void performCopy();
 
     /**
-     * Performs paste from clipboard operation.
+     * Performs performPaste from clipboard operation.
      */
-    public void paste();
+    public void performPaste();
 
     /**
-     * Performs delete selection operation.
+     * Performs performDelete selection operation.
      */
-    public void delete();
+    public void performDelete();
 
     /**
      * Performs select all operation. (should include focus request)
      */
-    public void selectAll();
+    public void performSelectAll();
 
     /**
-     * Returns if selection is for clipboard operation is available.
+     * Returns if selection for clipboard operation is available.
      *
      * @return true if selection is available
      */
@@ -70,4 +70,18 @@ public interface ComponentClipboardHandler {
      * @return true if can perform select all
      */
     public boolean canSelectAll();
+
+    /**
+     * Returns true if it is possible to paste current content of the clipboard.
+     *
+     * @return true if can perform paste
+     */
+    public boolean canPaste();
+
+    /**
+     * Set listener for clipboard actions related updates.
+     *
+     * @param updateListener
+     */
+    void setUpdateListener(ClipboardActionsUpdateListener updateListener);
 }

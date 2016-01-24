@@ -11,7 +11,7 @@ import org.xbup.lib.operation.XBTDocCommand;
 /**
  * Undo support handler.
  *
- * @version 0.2.0 2015/12/11
+ * @version 0.2.0 2016/01/24
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBUndoHandler {
@@ -90,4 +90,8 @@ public interface XBUndoHandler {
     void setSyncPoint(long syncPoint);
 
     void setSyncPoint();
+    
+    void addUndoUpdateListener(UndoUpdateListener listener);
+    
+    void removeUndoUpdateListener(UndoUpdateListener listener);
 }

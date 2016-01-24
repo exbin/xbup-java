@@ -66,7 +66,7 @@ import org.xbup.lib.core.serial.XBPSerialWriter;
 import org.xbup.lib.core.type.XBEncodingText;
 import org.xbup.lib.framework.editor.text.EditorTextModule;
 import org.xbup.lib.framework.editor.text.TextStatusApi;
-import org.xbup.lib.framework.gui.undo.api.UndoUpdateListener;
+import org.xbup.lib.operation.undo.UndoUpdateListener;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.file.api.FileType;
 import org.xbup.lib.framework.editor.text.dialog.FindTextDialog;

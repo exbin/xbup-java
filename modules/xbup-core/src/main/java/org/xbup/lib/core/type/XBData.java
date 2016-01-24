@@ -83,9 +83,11 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
             throw new IllegalArgumentException("Inserted block must be inside or directly after existing data");
         }
 
-        if (length > 0) {
+        if (startFrom >= dataSize) {
+            setDataSize(startFrom + length);
+        } else if (length > 0) {
             long copyLength = dataSize - startFrom;
-            dataSize = startFrom >= dataSize ? startFrom + length : dataSize + length;
+            dataSize = dataSize + length;
             setDataSize(dataSize);
 
             long sourceEnd = dataSize - length - 1;
@@ -94,17 +96,25 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
             while (copyLength > 0) {
                 byte[] sourcePage = getPage((int) (sourceEnd / pageSize));
                 int sourceOffset = (int) (sourceEnd % pageSize);
+                if (sourceOffset == 0) {
+                    sourcePage = getPage((int) ((sourceEnd - 1) / pageSize));
+                    sourceOffset = pageSize;
+                }
 
                 byte[] targetPage = getPage((int) (targetEnd / pageSize));
                 int targetOffset = (int) (targetEnd % pageSize);
+                if (targetOffset == 0) {
+                    targetPage = getPage((int) ((targetEnd - 1) / pageSize));
+                    targetOffset = pageSize;
+                }
 
                 int copySize = sourceOffset > targetOffset ? targetOffset : sourceOffset;
-                if (copySize > length) {
-                    copySize = (int) length;
+                if (copySize > copyLength) {
+                    copySize = (int) copyLength;
                 }
 
                 System.arraycopy(sourcePage, sourceOffset - copySize, targetPage, targetOffset - copySize, copySize);
-                length -= copySize;
+                copyLength -= copySize;
                 sourceEnd -= copySize;
                 targetEnd -= copySize;
             }
@@ -168,12 +178,12 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
 
                 byte[] targetPage;
                 int targetOffset;
-                targetPage = ((XBData) targetData).getPage((int) (targetPos / pageSize));
-                targetOffset = (int) (targetPos % pageSize);
+                targetPage = ((XBData) targetData).getPage((int) (targetPos / ((XBData) targetData).getPageSize()));
+                targetOffset = (int) (targetPos % ((XBData) targetData).getPageSize());
 
                 int copySize = pageSize - sourceOffset;
-                if (copySize > pageSize - targetOffset) {
-                    copySize = pageSize - targetOffset;
+                if (copySize > ((XBData) targetData).getPageSize() - targetOffset) {
+                    copySize = (int) (((XBData) targetData).getPageSize() - targetOffset);
                 }
                 if (copySize > length) {
                     copySize = (int) length;

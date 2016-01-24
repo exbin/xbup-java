@@ -38,7 +38,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
 /**
  * Simple panel audio wave.
  *
- * @version 0.1.25 2015/02/08
+ * @version 0.2.0 2016/01/24
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWave implements XBPSequenceSerializable {
@@ -123,17 +123,24 @@ public class XBWave implements XBPSequenceSerializable {
     }
 
     public void performTransformReverse() {
+        performTransformReverse(0, getLengthInTicks() - 1);
+    }
+
+    public void performTransformReverse(long startPosition, long endPosition) {
         if (!data.isEmpty()) {
+            long startDataPos = startPosition * audioFormat.getChannels() * 2;
+            long endDataPos = endPosition * audioFormat.getChannels() * 2;
+            
             // TODO support for non-whole-byte alignment later
             int sampleSize = audioFormat.getSampleSizeInBits() / 8;
             byte[] buffer = new byte[sampleSize];
-            long remaining = getDataSize() / (sampleSize * 2);
-            int headBlockIndex = 0;
-            int headPosition = 0;
-            int tailBlockIndex = data.getPagesCount() - 1;
+            long remaining = endPosition - startPosition;
+            int headBlockIndex = (int) (startDataPos / data.getPageSize());
+            int headPosition = (int) (startDataPos % data.getPageSize());
             byte[] headBlock = data.getPage(headBlockIndex);
+            int tailBlockIndex = (int) (endDataPos / data.getPageSize());
+            int tailPosition = (int) (endDataPos % data.getPageSize());
             byte[] tailBlock = data.getPage(tailBlockIndex);
-            int tailPosition = data.getPage(tailBlockIndex).length;
 
             while (remaining > 0) {
                 if (headPosition + sampleSize <= data.getPageSize()) {
@@ -253,7 +260,37 @@ public class XBWave implements XBPSequenceSerializable {
         return null;
     }
 
-    public XBWave cut(int start, int length) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    /**
+     * Cuts section of wave as plain data.
+     *
+     * @param startPosition position in ticks
+     * @param length length in ticks
+     * @return data blob
+     */
+    public XBData cutData(int startPosition, int length) {
+        long startDataPos = startPosition * audioFormat.getChannels() * 2;
+        long dataLength = length * audioFormat.getChannels() * 2;
+        XBData cutData = data.copy(startDataPos, dataLength);
+        data.remove(startDataPos, dataLength);
+        return cutData;
+    }
+
+    public void insertData(XBData deletedData, int startPosition) {
+        long startDataPos = startPosition * audioFormat.getChannels() * 2;
+        data.insert(startDataPos, deletedData);
+    }
+
+    public XBWave copy(int startPosition, int length) {
+        long startDataPos = startPosition * audioFormat.getChannels() * 2;
+        long dataLength = length * audioFormat.getChannels() * 2;
+        XBWave waveCopy = new XBWave();
+        waveCopy.audioFormat = audioFormat;
+        data.copyTo(waveCopy.data, startDataPos, dataLength, 0);
+        return waveCopy;
+    }
+
+    public void insertWave(XBWave pastedWave, int startPosition) {
+        // TODO match audio format
+        insertData(pastedWave.data, startPosition);
     }
 }

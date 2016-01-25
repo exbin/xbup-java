@@ -16,17 +16,23 @@
  */
 package org.xbup.lib.framework.gui;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.xbup.lib.framework.gui.api.XBModuleRepository;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.xeoh.plugins.base.PluginManager;
@@ -43,7 +49,7 @@ import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 /**
  * XBUP framework modules repository.
  *
- * @version 0.2.0 2016/01/03
+ * @version 0.2.0 2016/01/25
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDefaultModuleRepository implements XBModuleRepository {
@@ -58,11 +64,6 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
         pluginManager = PluginManagerFactory.createPluginManager();
     }
 
-    /**
-     * Scans for all valid modules in give directory or specified jar file.
-     *
-     * @param uri
-     */
     @Override
     public void addPluginsFrom(URI uri) {
         pluginManager.addPluginsFrom(uri);
@@ -73,20 +74,45 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
         pluginManager.addPluginsFrom(ClassURI.CLASSPATH);
     }
 
+    @Override
+    public void addPluginsFromManifest(Class manifestClass) {
+        try {
+            URL moduleClassLocation = manifestClass.getProtectionDomain().getCodeSource().getLocation();
+            URL manifestUrl = new URL("jar:" + moduleClassLocation.toExternalForm() + "!/META-INF/MANIFEST.MF");
+
+            Manifest manifest = new Manifest(manifestUrl.openStream());
+            String classPaths = manifest.getMainAttributes().getValue(new Attributes.Name("Class-Path"));
+            String[] paths = classPaths.split(" ");
+            String rootDirectory = new File(moduleClassLocation.toExternalForm()).getParent();
+            for (String path : paths) {
+                try {
+                    // TODO load only root class for plugins
+                    addPluginsFrom(new URI(rootDirectory + File.separator + path));
+                } catch (URISyntaxException ex) {
+                    // Ignore
+                }
+            }
+        } catch (FileNotFoundException | MalformedURLException ex) {
+            // Ignore
+        } catch (IOException ex) {
+            // Ignore
+        }
+    }
+
     /**
      * Initializes all modules in order of their dependencies.
      */
     @Override
     public void initModules() {
         PluginManagerUtil pmu = new PluginManagerUtil(pluginManager);
-        final Collection<XBApplicationModulePlugin> plugins = pmu.getPlugins(XBApplicationModulePlugin.class);
+        final Collection<XBApplicationModulePlugin> plugins = pmu.getPlugins(XBApplicationModulePlugin.class
+        );
 
         // Process modules info
         for (XBApplicationModulePlugin plugin : plugins) {
             String canonicalName = plugin.getClass().getCanonicalName();
             XBBasicApplicationModule module = new XBBasicApplicationModule(canonicalName, plugin);
             URL moduleClassLocation = plugin.getClass().getProtectionDomain().getCodeSource().getLocation();
-            URL resource = plugin.getClass().getClassLoader().getResource("META-INF/MANIFEST.MF");
             URL moduleRecordUrl;
             InputStream moduleRecordStream = null;
             try {
@@ -205,10 +231,12 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
                 Object moduleId = declaredField.get(null);
                 if (moduleId instanceof String) {
                     return (T) getModuleById((String) moduleId);
+
                 }
             }
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
-            Logger.getLogger(XBDefaultModuleRepository.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBDefaultModuleRepository.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
         return null;

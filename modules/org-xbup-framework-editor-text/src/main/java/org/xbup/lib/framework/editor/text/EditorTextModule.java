@@ -195,6 +195,7 @@ public class EditorTextModule implements XBApplicationModulePlugin {
                 return ((TextPanel) getEditorProvider()).getWordWrapMode();
             }
 
+            @Override
             public void setWordWrapMode(boolean mode) {
                 ((TextPanel) getEditorProvider()).setWordWrapMode(mode);
             }

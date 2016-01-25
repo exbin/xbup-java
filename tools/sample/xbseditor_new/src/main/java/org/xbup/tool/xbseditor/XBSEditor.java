@@ -98,6 +98,7 @@ public class XBSEditor {
 
                 XBModuleRepository moduleRepository = app.getModuleRepository();
                 moduleRepository.addClassPathPlugins();
+                moduleRepository.addPluginsFromManifest(XBSEditor.class);
                 moduleRepository.initModules();
 
                 GuiFrameModuleApi frameModule = moduleRepository.getModuleByInterface(GuiFrameModuleApi.class);

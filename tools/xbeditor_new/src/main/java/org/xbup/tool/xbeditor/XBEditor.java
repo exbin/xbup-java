@@ -101,6 +101,7 @@ public class XBEditor {
 //                app.loadPlugin(new ClassURI(OnlineHelpModule.class).toURI());
                 XBModuleRepository moduleRepository = app.getModuleRepository();
                 moduleRepository.addClassPathPlugins();
+                moduleRepository.addPluginsFromManifest(XBEditor.class);
                 moduleRepository.initModules();
 
                 GuiFrameModuleApi frameModule = moduleRepository.getModuleByInterface(GuiFrameModuleApi.class);

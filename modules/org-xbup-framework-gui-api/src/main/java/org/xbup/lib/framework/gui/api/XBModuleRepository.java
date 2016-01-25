@@ -12,7 +12,7 @@ import net.xeoh.plugins.base.PluginManager;
 /**
  * XBUP framework modules repository interface.
  *
- * @version 0.2.0 2016/01/01
+ * @version 0.2.0 2016/01/25
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBModuleRepository {
@@ -31,6 +31,13 @@ public interface XBModuleRepository {
      * Should include both command line parameters and manifest file.
      */
     void addClassPathPlugins();
+
+    /**
+     * Process given manifest file for plugins.
+     *
+     * @param sourceClass
+     */
+    public void addPluginsFromManifest(Class sourceClass);
 
     /**
      * Gets info about module.

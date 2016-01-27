@@ -22,7 +22,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Rectangle;
-import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -221,7 +220,7 @@ public class XBApplicationFrame extends javax.swing.JFrame implements Applicatio
 
         for (Component comp : comps) {
             if (comp instanceof JButton) {
-                ((JButton) comp).setHideActionText(captionsVisible);
+                ((JButton) comp).setHideActionText(!captionsVisible);
             }
         }
     }

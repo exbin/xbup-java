@@ -16,29 +16,35 @@
  */
 package org.xbup.lib.framework.editor.picture;
 
+import java.io.File;
+import javax.imageio.ImageIO;
+import javax.swing.filechooser.FileFilter;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
+import org.xbup.lib.framework.editor.picture.panel.ImagePanel;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
+import org.xbup.lib.framework.gui.file.api.FileType;
 import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
+import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 
 /**
  * XBUP picture editor module.
  *
- * @version 0.2.0 2016/01/26
+ * @version 0.2.0 2016/01/27
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
 public class EditorPictureModule implements XBApplicationModulePlugin {
 
     public static final String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(EditorPictureModule.class);
+    public static final String XBPFILETYPE = "XBPictureEditor.XBPFileType";
 
     public static final String TEXT_STATUS_BAR_ID = "textStatusBar";
 
     private XBApplication application;
     private XBEditorProvider editorProvider;
-    private boolean playing = false;
 
     public EditorPictureModule() {
     }
@@ -51,14 +57,14 @@ public class EditorPictureModule implements XBApplicationModulePlugin {
         GuiFileModuleApi fileModule = application.getModuleRepository().getModuleByInterface(GuiFileModuleApi.class);
 
         // Register file types
-//        String[] formats = new String[]{"wav", "aiff", "au"};
-//        for (String ext : formats) {
-//            if (ext.toLowerCase().equals(ext)) {
-//                fileModule.addFileType(new AudioFileType(ext));
-//            }
-//        }
-//
-//        fileModule.addFileType(new XBSFileType());
+        String[] formats = ImageIO.getReaderFormatNames();
+        for (String ext : formats) {
+            if (ext.toLowerCase().equals(ext)) {
+                fileModule.addFileType(new PictureFileType(ext));
+            }
+        }
+
+        fileModule.addFileType(new XBPFileType());
     }
 
     @Override
@@ -67,27 +73,27 @@ public class EditorPictureModule implements XBApplicationModulePlugin {
 
     public XBEditorProvider getEditorProvider() {
         if (editorProvider == null) {
-//            AudioPanel audioPanel = new AudioPanel();
-//
-//            GuiUndoModuleApi undoModule = application.getModuleRepository().getModuleByInterface(GuiUndoModuleApi.class);
-//            audioPanel.setUndoHandler(undoModule.getUndoHandler());
-//
-//            editorProvider = audioPanel;
-//
-//            audioPanel.addStatusChangeListener(new AudioPanel.StatusChangeListener() {
+            ImagePanel imagePanel = new ImagePanel();
+
+            GuiUndoModuleApi undoModule = application.getModuleRepository().getModuleByInterface(GuiUndoModuleApi.class);
+            // imagePanel.setUndoHandler(undoModule.getUndoHandler());
+
+            editorProvider = imagePanel;
+
+//            imagePanel.addStatusChangeListener(new AudioPanel.StatusChangeListener() {
 //                @Override
 //                public void statusChanged() {
 //                    updateStatus();
 //                }
 //            });
-//            audioPanel.addWaveRepaintListener(new AudioPanel.WaveRepaintListener() {
+//            imagePanel.addWaveRepaintListener(new AudioPanel.WaveRepaintListener() {
 //                @Override
 //                public void waveRepaint() {
 //                    updatePositionTime();
 //                }
 //            });
 //
-//            audioPanel.attachCaretListener(new MouseMotionListener() {
+//            imagePanel.attachCaretListener(new MouseMotionListener() {
 //
 //                @Override
 //                public void mouseDragged(MouseEvent e) {
@@ -102,8 +108,8 @@ public class EditorPictureModule implements XBApplicationModulePlugin {
 //                    updatePositionTime();
 //                }
 //            });
-//
-//            audioPanel.setPopupMenu(createPopupMenu());
+
+//            imagePanel.setPopupMenu(createPopupMenu());
         }
 
         return editorProvider;
@@ -179,5 +185,50 @@ public class EditorPictureModule implements XBApplicationModulePlugin {
 //        getToolsOptionsHandler();
 //        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
 //        menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, MODULE_ID, toolsOptionsHandler.getToolsSetColorAction(), new MenuPosition(PositionMode.TOP));
+    }
+
+    /**
+     * Gets the extension part of file name.
+     *
+     * @param file Source file
+     * @return extension part of file name
+     */
+    public static String getExtension(File file) {
+        String ext = null;
+        String str = file.getName();
+        int i = str.lastIndexOf('.');
+
+        if (i > 0 && i < str.length() - 1) {
+            ext = str.substring(i + 1).toLowerCase();
+        }
+        return ext;
+    }
+
+    public class XBPFileType extends FileFilter implements FileType {
+
+        @Override
+        public boolean accept(File f) {
+            if (f.isDirectory()) {
+                return true;
+            }
+            String extension = getExtension(f);
+            if (extension != null) {
+                if (extension.length() < 3) {
+                    return false;
+                }
+                return "xbp".contains(extension.substring(0, 3));
+            }
+            return false;
+        }
+
+        @Override
+        public String getDescription() {
+            return "XBUP Picture Files (*.xbp*)";
+        }
+
+        @Override
+        public String getFileTypeId() {
+            return XBPFILETYPE;
+        }
     }
 }

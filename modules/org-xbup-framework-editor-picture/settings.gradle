@@ -1,7 +1,7 @@
 rootProject.name = 'org-xbup-framework-editor-picture'
 
 include ":modules:xbup-core"
-include ":modules:xbup-audio"
+include ":modules:xbup-visual"
 include ":modules:xbup-operation"
 include ":modules:xbup-parser-tree"
 include ":modules:org-xbup-framework-gui"

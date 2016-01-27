@@ -29,6 +29,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.xbup.lib.framework.editor.picture.EditorPictureModule;
+import org.xbup.lib.framework.editor.picture.panel.ImagePanel;
 import org.xbup.lib.framework.gui.XBBaseApplication;
 import org.xbup.lib.framework.gui.about.api.GuiAboutModuleApi;
 import org.xbup.lib.framework.gui.api.XBModuleRepository;
@@ -142,8 +143,8 @@ public class XBPEditor {
 //                pictureEditorModule.registerPropertiesMenu();
 
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
-//                AudioPanel audioPanel = (AudioPanel) pictureEditorModule.getEditorProvider();
-//                editorModule.registerEditor("picture", audioPanel);
+                ImagePanel imagePanel = (ImagePanel) pictureEditorModule.getEditorProvider();
+                editorModule.registerEditor("picture", imagePanel);
 //                editorModule.registerUndoHandler();
                 pictureEditorModule.registerStatusBar();
                 pictureEditorModule.registerOptionsPanels();

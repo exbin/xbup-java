@@ -22,6 +22,8 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import org.xbup.lib.audio.wave.XBWave;
@@ -29,10 +31,10 @@ import org.xbup.lib.audio.wave.XBWave;
 /**
  * Simple panel audio wave.
  *
- * @version 0.2.0 2016/01/24
+ * @version 0.2.0 2016/01/28
  * @author XBUP Project (http://xbup.org)
  */
-public class XBWavePanel extends JPanel implements MouseListener, MouseMotionListener {
+public class XBWavePanel extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener {
 
     private XBWave wave;
     private int windowPosition;
@@ -64,10 +66,12 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
         }
         addMouseListener(this);
         addMouseMotionListener(this);
+        addMouseWheelListener(this);
     }
 
     @Override
     public void paintComponent(Graphics g) {
+        LineRecord lineRecord = new LineRecord();
 //        super.paintComponent(g);
 
         Rectangle clipBounds = g.getClipBounds();
@@ -111,7 +115,8 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
         if (wave != null) {
             g.setColor(dataColor);
             int channelsCount = wave.getAudioFormat().getChannels();
-            int[] prev = {-1, -1};
+            int[] prevMin = {-1, -1};
+            int[] prevMax = {-1, -1};
             if (stopPos >= (getWaveLength() - windowPosition) * scaleRatio) {
                 stopPos = (int) ((getWaveLength() - windowPosition) * scaleRatio) - 1;
             }
@@ -122,22 +127,58 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
                     if (pomPos < 0) {
                         pomPos = 0;
                     }
-                    int value = wave.getRatioValue(windowPosition + (int) (pomPos / scaleRatio), channel, getHeight() / channelsCount) + (channel * getHeight()) / channelsCount;
-                    int middle = (getHeight() + (2 * channel * getHeight())) / (2 * channelsCount);
+
+                    int linePosition = windowPosition + (int) (pomPos / scaleRatio);
+                    int value = wave.getRatioValue(linePosition, channel, getHeight() / channelsCount) + (channel * getHeight()) / channelsCount;
+                    lineRecord.min = value;
+                    lineRecord.max = value;
+                    if (scaleRatio < 1) {
+                        int lineEndPosition = windowPosition + (int) ((pomPos + 1) / scaleRatio);
+                        for(int inLinePosition = linePosition + 1; inLinePosition < lineEndPosition; inLinePosition++) {
+                            int inValue = wave.getRatioValue(inLinePosition, channel, getHeight() / channelsCount) + (channel * getHeight()) / channelsCount;
+                            if (inValue < lineRecord.min) {
+                                lineRecord.min = inValue;
+                            }
+                            if (inValue > lineRecord.max) {
+                                lineRecord.max = inValue;
+                            }
+                        }
+                    }
                     switch (drawMode) {
                         case DOTS_MODE: {
-                            g.drawLine(pos, value, pos, value);
+                            g.drawLine(pos, lineRecord.min, pos, lineRecord.max);
                             break;
                         }
                         case LINE_MODE: {
-                            if (prev[channel] >= 0) {
-                                g.drawLine(pos - 1, prev[channel], pos, value);
+                            if (scaleRatio < 1) {
+                                if (prevMax[channel] >= 0) {
+                                    g.drawLine(pos - 1, prevMax[channel], pos, lineRecord.max);
+                                    g.drawLine(pos - 1, prevMin[channel], pos, lineRecord.min);
+                                }
+
+                                prevMax[channel] = lineRecord.max;
+                                prevMin[channel] = lineRecord.min;
+                            } else {
+                                if (prevMax[channel] >= 0) {
+                                    g.drawLine(pos - 1, prevMax[channel], pos, value);
+                                }
+                                prevMax[channel] = value;
                             }
-                            prev[channel] = value;
                             break;
                         }
                         case INTEGRAL_MODE: {
-                            g.drawLine(pos, value, pos, middle);
+                            int middle = (getHeight() + (2 * channel * getHeight())) / (2 * channelsCount);
+                            if (scaleRatio < 1) {
+                                if (lineRecord.min > middle) {
+                                    lineRecord.min = middle;
+                                }
+                                if (lineRecord.max < middle) {
+                                    lineRecord.max = middle;
+                                }
+                                g.drawLine(pos, lineRecord.min, pos, lineRecord.max);
+                            } else {
+                                g.drawLine(pos, value, pos, middle);
+                            }
                             break;
                         }
                     }
@@ -285,18 +326,30 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
         repaint();
     }
 
-    /**
-     * @return the windowPosition
-     */
     public int getWindowPosition() {
         return windowPosition;
     }
 
-    /**
-     * @param windowPosition the windowPosition to set
-     */
     public void setWindowPosition(int windowPosition) {
         this.windowPosition = windowPosition;
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        int position = windowPosition + (int) (e.getPoint().x / scaleRatio);
+        if (e.getWheelRotation() == 1) {
+            setScaleRatio(scaleRatio * 2);
+            position -= (int) (e.getPoint().x / scaleRatio);
+            
+        } else if (e.getWheelRotation() == -1) {
+            setScaleRatio(scaleRatio / 2);
+            position -= (int) (e.getPoint().x / scaleRatio);
+        }
+        if (position < 0) {
+            position = 0;
+        }
+        setWindowPosition(position);
+        repaint();
     }
 
     public enum DrawMode {
@@ -354,9 +407,19 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
     public void mousePressed(MouseEvent me) {
         if (me.getButton() == MouseEvent.BUTTON1) {
             if (toolMode == ToolMode.SELECTION) {
-                clearSelection();
-                int oldPosition = getCursorPosition();
-                setCursorPosition((int) (me.getX() / scaleRatio) + windowPosition);
+                if ((me.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK) > 0) {
+                    setCursorPosition((int) (me.getX() / scaleRatio) + windowPosition);
+                    if (getCursorPosition() > mousePressPosition) {
+                        selection = new SelectionRange(mousePressPosition, getCursorPosition());
+                    } else {
+                        selection = new SelectionRange(getCursorPosition(), mousePressPosition);
+                    }
+                } else {
+                    clearSelection();
+                    int oldPosition = getCursorPosition();
+                    setCursorPosition((int) (me.getX() / scaleRatio) + windowPosition);
+                    mousePressPosition = getCursorPosition();
+                }
 
                 repaint();
             } else if (toolMode == ToolMode.PENCIL) {
@@ -368,9 +431,8 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
 
                 wave.setRatioValue(wavePosition + windowPosition, me.getY() - ((getHeight() / 2) * channel), channel, getHeight() / 2);
                 repaint();
+                mousePressPosition = getCursorPosition();
             }
-
-            mousePressPosition = getCursorPosition();
         }
         mouseDown = true;
     }
@@ -460,5 +522,10 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
     public interface SelectionChangedListener {
 
         void selectionChanged();
+    }
+
+    private class LineRecord {
+        int min;
+        int max;
     }
 }

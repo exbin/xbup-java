@@ -196,11 +196,11 @@ public class XBWave implements XBPSequenceSerializable {
         return data.getDataSize();
     }
 
-    public int getRatioValue(int pos, int channel, int height) {
+    public int getRatioValue(int position, int channel, int height) {
         int bytesPerSample = audioFormat.getSampleSizeInBits() >> 3;
 
-        int chunk = ((pos * audioFormat.getChannels() + channel) * bytesPerSample) / data.getPageSize();
-        int offset = ((pos * audioFormat.getChannels() + channel) * bytesPerSample) % data.getPageSize();
+        int chunk = ((position * audioFormat.getChannels() + channel) * bytesPerSample) / data.getPageSize();
+        int offset = ((position * audioFormat.getChannels() + channel) * bytesPerSample) % data.getPageSize();
 
         long value;
         if (audioFormat.getEncoding() == AudioFormat.Encoding.PCM_UNSIGNED) {

@@ -144,6 +144,8 @@ public class XBSEditor {
                 waveEditorModule.registerAudioMenu();
                 waveEditorModule.registerAudioOperationMenu();
                 waveEditorModule.registerDrawingModeMenu();
+                waveEditorModule.registerZoomModeMenu();
+                waveEditorModule.bindZoomScrollWheel();
 
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
                 AudioPanel audioPanel = (AudioPanel) waveEditorModule.getEditorProvider();

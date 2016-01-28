@@ -50,6 +50,7 @@ include ":modules:simplyhtml"
 
 include ":tools:xbcatalogweb"
 include ":tools:xbeditor"
+include ":tools:xbeditor_new"
 include ":tools:xbmanager"
 include ":tools:xbservice"
 include ":tools:xbshell"

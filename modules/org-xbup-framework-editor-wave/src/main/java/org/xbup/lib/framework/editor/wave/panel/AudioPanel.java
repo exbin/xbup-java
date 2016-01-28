@@ -571,11 +571,26 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
         this.fileType = fileMode;
     }
 
-    public void scale(double ratio) {
+    public void setScale(double ratio) {
         scaleRatio = ratio;
         wavePanel.setScaleRatio(scaleRatio);
         scrollBar.setMaximum(wavePanel.getWaveWidth());
         wavePanel.repaint();
+    }
+    
+    public void scaleAndSeek(double ratio) {
+        int windowPosition = wavePanel.getWindowPosition();
+        windowPosition = (int) (windowPosition / (scaleRatio / ratio)) - wavePanel.getWidth() / 2;
+        if (windowPosition < 0) {
+            windowPosition = 0;
+        }
+        setScale(ratio);
+        wavePanel.setWindowPosition(windowPosition);
+        wavePanel.repaint();
+    }
+
+    public double getScale() {
+        return scaleRatio;
     }
 
     public String getExt() {

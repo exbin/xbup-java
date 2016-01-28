@@ -55,6 +55,7 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
     public static final String AUDIO_OPERATION_MENU_ID = MODULE_ID + ".audioOperationMenu";
     public static final String AUDIO_POPUP_MENU_ID = MODULE_ID + ".audioPopupMenu";
     public static final String DRAW_MODE_SUBMENU_ID = MODULE_ID + ".drawSubMenu";
+    public static final String ZOOM_MODE_SUBMENU_ID = MODULE_ID + ".zoomSubMenu";
 
     private static final String EDIT_FIND_MENU_GROUP_ID = MODULE_ID + ".editFindMenuGroup";
     private static final String EDIT_FIND_TOOL_BAR_GROUP_ID = MODULE_ID + ".editFindToolBarGroup";
@@ -72,6 +73,7 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
     private PropertiesHandler propertiesHandler;
     private AudioControlHandler audioControlHandler;
     private DrawingControlHandler drawingControlHandler;
+    private ZoomControlHandler zoomControlHandler;
     private AudioOperationHandler audioOperationHandler;
 
     public EditorWaveModule() {
@@ -259,6 +261,15 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
         return drawingControlHandler;
     }
 
+    private ZoomControlHandler getZoomControlHandler() {
+        if (zoomControlHandler == null) {
+            zoomControlHandler = new ZoomControlHandler(application, (AudioPanel) getEditorProvider());
+            zoomControlHandler.init();
+        }
+
+        return zoomControlHandler;
+    }
+
     private ToolsOptionsHandler getToolsOptionsHandler() {
         if (toolsOptionsHandler == null) {
             toolsOptionsHandler = new ToolsOptionsHandler(application, (AudioPanel) getEditorProvider());
@@ -295,6 +306,20 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
         getDrawingControlHandler();
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
         menuModule.registerMenuItem(GuiFrameModuleApi.VIEW_MENU_ID, MODULE_ID, DRAW_MODE_SUBMENU_ID, "Draw Mode", new MenuPosition(PositionMode.BOTTOM));
+    }
+
+    public void registerZoomModeMenu() {
+        getZoomControlHandler();
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenuItem(GuiFrameModuleApi.VIEW_MENU_ID, MODULE_ID, ZOOM_MODE_SUBMENU_ID, "Zoom", new MenuPosition(PositionMode.BOTTOM));
+        menuModule.registerMenu(ZOOM_MODE_SUBMENU_ID, MODULE_ID);
+        menuModule.registerMenuItem(ZOOM_MODE_SUBMENU_ID, MODULE_ID, zoomControlHandler.getZoomUpAction(), new MenuPosition(PositionMode.TOP));
+        menuModule.registerMenuItem(ZOOM_MODE_SUBMENU_ID, MODULE_ID, zoomControlHandler.getNormalZoomAction(), new MenuPosition(PositionMode.TOP));
+        menuModule.registerMenuItem(ZOOM_MODE_SUBMENU_ID, MODULE_ID, zoomControlHandler.getZoomDownAction(), new MenuPosition(PositionMode.TOP));
+    }
+
+    public void bindZoomScrollWheel() {
+        // ((AudioPanel) getEditorProvider()).
     }
 
     private JPopupMenu createPopupMenu() {

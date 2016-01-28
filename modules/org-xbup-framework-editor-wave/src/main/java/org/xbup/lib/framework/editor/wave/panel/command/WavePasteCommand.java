@@ -27,7 +27,7 @@ import org.xbup.lib.operation.basic.XBBasicCommandType;
 /**
  * Wave delete command.
  *
- * @version 0.2.0 2016/01/24
+ * @version 0.2.0 2016/01/28
  * @author XBUP Project (http://xbup.org)
  */
 public class WavePasteCommand extends XBTDocCommand {
@@ -35,6 +35,7 @@ public class WavePasteCommand extends XBTDocCommand {
     private XBWave pastedWave;
     private XBWave wave;
     private int startPosition;
+    private int endPosition;
 
     XBData deletedData;
 
@@ -55,18 +56,19 @@ public class WavePasteCommand extends XBTDocCommand {
             pastedWave = (XBWave) clipboard.getData(WaveClipboardData.WAVE_FLAVOR);
         }
 
+        endPosition = startPosition + wave.getLengthInTicks();
         wave.insertWave(pastedWave, startPosition);
     }
 
     @Override
     public void redo() throws Exception {
-        execute();
+        wave.insertData(deletedData, startPosition);
+        deletedData.clear();
     }
 
     @Override
     public void undo() throws Exception {
-        wave.insertData(deletedData, startPosition);
-        deletedData.clear();
+        deletedData = wave.cutData(startPosition, endPosition - startPosition);
     }
 
     @Override

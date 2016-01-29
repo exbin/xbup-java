@@ -46,8 +46,8 @@ public class WaveColorPanel extends javax.swing.JPanel implements OptionsPanel {
     public static final String PREFERENCES_WAVE_COLOR_CURSOR_WAVE = "waveColor.cursorWave";
 
     private ModifiedOptionListener modifiedOptionListener;
-    private WaveColorPanelApi panelColorApi;
-    private ResourceBundle resourceBundle;
+    private final WaveColorPanelApi panelColorApi;
+    private final ResourceBundle resourceBundle;
 
     public WaveColorPanel(WaveColorPanelApi panelColorApi) {
         this.panelColorApi = panelColorApi;
@@ -111,9 +111,11 @@ public class WaveColorPanel extends javax.swing.JPanel implements OptionsPanel {
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
         waveColorButton.setEnabled(enabled);
+        waveFillColorButton.setEnabled(enabled);
         waveBackgroundColorButton.setEnabled(enabled);
         waveSelectionColorButton.setEnabled(enabled);
         waveCursorColorButton.setEnabled(enabled);
+        waveCursorWaveColorButton.setEnabled(enabled);
         fillCurrentButton.setEnabled(enabled);
         fillDefaultButton.setEnabled(enabled);
     }
@@ -533,7 +535,7 @@ public class WaveColorPanel extends javax.swing.JPanel implements OptionsPanel {
 
     @Override
     public List<OptionsPanel.PathItem> getPath() {
-        ArrayList<OptionsPanel.PathItem> path = new ArrayList<OptionsPanel.PathItem>();
+        ArrayList<OptionsPanel.PathItem> path = new ArrayList<>();
         path.add(new PathItem("apperance", ""));
         path.add(new PathItem("colors", resourceBundle.getString("options.Path.0")));
         return path;

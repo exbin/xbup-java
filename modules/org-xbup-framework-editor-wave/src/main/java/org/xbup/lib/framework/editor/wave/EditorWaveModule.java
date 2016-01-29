@@ -20,9 +20,11 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
+import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
 import javax.swing.filechooser.FileFilter;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
+import org.xbup.lib.framework.editor.wave.panel.AudioDevicesPanel;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
@@ -36,6 +38,7 @@ import org.xbup.lib.framework.gui.menu.api.PositionMode;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
 import org.xbup.lib.framework.editor.wave.panel.AudioPanel;
 import org.xbup.lib.framework.editor.wave.panel.AudioStatusPanel;
+import org.xbup.lib.framework.editor.wave.panel.WaveColorOptionsPanel;
 import org.xbup.lib.framework.editor.wave.panel.WaveColorPanelApi;
 import org.xbup.lib.framework.gui.menu.api.NextToMode;
 import org.xbup.lib.framework.gui.menu.api.SeparationMode;
@@ -44,7 +47,7 @@ import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 /**
  * XBUP audio editor module.
  *
- * @version 0.2.0 2016/01/24
+ * @version 0.2.0 2016/01/29
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -56,9 +59,6 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
     public static final String AUDIO_POPUP_MENU_ID = MODULE_ID + ".audioPopupMenu";
     public static final String DRAW_MODE_SUBMENU_ID = MODULE_ID + ".drawSubMenu";
     public static final String ZOOM_MODE_SUBMENU_ID = MODULE_ID + ".zoomSubMenu";
-
-    private static final String EDIT_FIND_MENU_GROUP_ID = MODULE_ID + ".editFindMenuGroup";
-    private static final String EDIT_FIND_TOOL_BAR_GROUP_ID = MODULE_ID + ".editFindToolBarGroup";
 
     public static final String XBS_FILE_TYPE = "XBWaveEditor.XBSFileFilter";
 
@@ -186,18 +186,9 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
         // ((AudioPanel) getEditorProvider()).registerAudioStatus(audioStatusPanel);
     }
 
-    public void registerOptionsMenuPanels() {
-//        getEncodingsHandler();
-//        JMenu toolsEncodingMenu = encodingsHandler.getToolsEncodingMenu();
-//        encodingsHandler.encodingsRebuild();
-
-//        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
-//        menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, MODULE_ID, encodingsHandler.getToolsEncodingMenu(), new MenuPosition(PositionMode.TOP_LAST));
-    }
-
     public void registerOptionsPanels() {
         GuiOptionsModuleApi optionsModule = application.getModuleRepository().getModuleByInterface(GuiOptionsModuleApi.class);
-        WaveColorPanelApi textColorPanelFrame = new WaveColorPanelApi() {
+        WaveColorPanelApi waveColorPanelFrame = new WaveColorPanelApi() {
             @Override
             public Color[] getCurrentWaveColors() {
                 return ((AudioPanel) getEditorProvider()).getAudioPanelColors();
@@ -213,6 +204,9 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
                 ((AudioPanel) getEditorProvider()).setAudioPanelColors(colors);
             }
         };
+
+        optionsModule.addOptionsPanel(new WaveColorOptionsPanel(waveColorPanelFrame));
+        optionsModule.addOptionsPanel(new AudioDevicesPanel());
     }
 
     public void registerToolsOptionsMenuActions() {

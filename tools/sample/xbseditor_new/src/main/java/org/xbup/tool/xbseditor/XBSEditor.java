@@ -139,7 +139,6 @@ public class XBSEditor {
                 optionsModule.registerMenuAction();
 
                 waveEditorModule.registerToolsOptionsMenuActions();
-                waveEditorModule.registerOptionsMenuPanels();
                 waveEditorModule.registerPropertiesMenu();
                 waveEditorModule.registerAudioMenu();
                 waveEditorModule.registerAudioOperationMenu();

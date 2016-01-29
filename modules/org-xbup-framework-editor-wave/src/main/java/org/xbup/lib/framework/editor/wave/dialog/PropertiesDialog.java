@@ -16,13 +16,14 @@
  */
 package org.xbup.lib.framework.editor.wave.dialog;
 
+import javax.sound.sampled.AudioFormat;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 import org.xbup.lib.framework.editor.wave.panel.AudioPanel;
 
 /**
  * File Properties Dialog.
  *
- * @version 0.2.0 2016/01/23
+ * @version 0.2.0 2016/01/29
  * @author XBUP Project (http://xbup.org)
  */
 public class PropertiesDialog extends javax.swing.JDialog {
@@ -51,14 +52,14 @@ public class PropertiesDialog extends javax.swing.JDialog {
         fileNameLabel = new javax.swing.JLabel();
         fileNameTextField = new javax.swing.JTextField();
         documentSizePanel = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        waveLengthLabel = new javax.swing.JLabel();
+        waveLengthTextField = new javax.swing.JTextField();
+        sampleRateLabel = new javax.swing.JLabel();
+        sampleRateTextField = new javax.swing.JTextField();
+        channelsLabel = new javax.swing.JLabel();
+        channelsTextField = new javax.swing.JTextField();
+        encodingLabel = new javax.swing.JLabel();
+        encodingTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/wave/dialog/resources/PropertiesDialog"); // NOI18N
@@ -84,30 +85,29 @@ public class PropertiesDialog extends javax.swing.JDialog {
         documentSizePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("jPanel1.border.title"))); // NOI18N
         documentSizePanel.setName("documentSizePanel"); // NOI18N
 
-        jLabel2.setText(bundle.getString("jLabel2.text")); // NOI18N
-        jLabel2.setName("jLabel2"); // NOI18N
+        waveLengthLabel.setText(bundle.getString("waveLengthLabel.text")); // NOI18N
+        waveLengthLabel.setName("waveLengthLabel"); // NOI18N
 
-        jTextField2.setEditable(false);
-        jTextField2.setName("jTextField2"); // NOI18N
+        waveLengthTextField.setEditable(false);
+        waveLengthTextField.setName("waveLengthTextField"); // NOI18N
 
-        jLabel4.setText(bundle.getString("jLabel4.text")); // NOI18N
-        jLabel4.setName("jLabel4"); // NOI18N
+        sampleRateLabel.setText(bundle.getString("sampleRateLabel.text")); // NOI18N
+        sampleRateLabel.setName("sampleRateLabel"); // NOI18N
 
-        jLabel3.setText(bundle.getString("jLabel3.text")); // NOI18N
-        jLabel3.setToolTipText(bundle.getString("jLabel3.toolTipText")); // NOI18N
-        jLabel3.setName("jLabel3"); // NOI18N
+        sampleRateTextField.setEditable(false);
+        sampleRateTextField.setName("sampleRateTextField"); // NOI18N
 
-        jTextField4.setEditable(false);
-        jTextField4.setName("jTextField4"); // NOI18N
+        channelsLabel.setText(bundle.getString("channelsLabel.text")); // NOI18N
+        channelsLabel.setName("channelsLabel"); // NOI18N
 
-        jLabel5.setText(bundle.getString("jLabel5.text")); // NOI18N
-        jLabel5.setName("jLabel5"); // NOI18N
+        channelsTextField.setEditable(false);
+        channelsTextField.setName("channelsTextField"); // NOI18N
 
-        jTextField5.setEditable(false);
-        jTextField5.setName("jTextField5"); // NOI18N
+        encodingLabel.setText(bundle.getString("encodingLabel.text")); // NOI18N
+        encodingLabel.setName("encodingLabel"); // NOI18N
 
-        jTextField3.setEditable(false);
-        jTextField3.setName("jTextField3"); // NOI18N
+        encodingTextField.setEditable(false);
+        encodingTextField.setName("encodingTextField"); // NOI18N
 
         javax.swing.GroupLayout documentSizePanelLayout = new javax.swing.GroupLayout(documentSizePanel);
         documentSizePanel.setLayout(documentSizePanelLayout);
@@ -116,34 +116,34 @@ public class PropertiesDialog extends javax.swing.JDialog {
             .addGroup(documentSizePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(documentSizePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE))
+                    .addComponent(waveLengthLabel)
+                    .addComponent(sampleRateLabel)
+                    .addComponent(channelsLabel)
+                    .addComponent(encodingLabel)
+                    .addComponent(sampleRateTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+                    .addComponent(channelsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+                    .addComponent(encodingTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+                    .addComponent(waveLengthTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE))
                 .addContainerGap())
         );
         documentSizePanelLayout.setVerticalGroup(
             documentSizePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(documentSizePanelLayout.createSequentialGroup()
-                .addComponent(jLabel4)
+                .addComponent(waveLengthLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(waveLengthTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
+                .addComponent(sampleRateLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sampleRateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
+                .addComponent(channelsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(channelsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
+                .addComponent(encodingLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(encodingTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -189,39 +189,27 @@ public class PropertiesDialog extends javax.swing.JDialog {
     }
 
     public void setDocument(AudioPanel panel) {
-/*        jTextField1.setText(panel.getFileName());
-        Document document = panel.getIcon();
-        jTextField2.setText(Integer.toString(panel.getLineCount()));
-        jTextField3.setText(Integer.toString(document.getLength()));
-        CharBuffer buffer = CharBuffer.wrap(new StringBuffer(panel.getText()));
-
-        CharsetEncoder encoder = Charset.defaultCharset().newEncoder();
-        try {
-            ByteBuffer result = encoder.encode(buffer);
-            int length = 0;
-            while (result.hasRemaining()) {
-                result.get();
-                length++;
-            }
-            jTextField4.setText(Integer.toString(length));
-        } catch (CharacterCodingException ex) {
-            Logger.getLogger(PropertiesDialog.class.getName()).log(Level.SEVERE, null, ex);
-        } */
+        fileNameTextField.setText(panel.getFileName());
+        waveLengthTextField.setText(panel.getWaveLength());
+        AudioFormat waveFormat = panel.getWaveFormat();
+        sampleRateTextField.setText(String.valueOf((long) waveFormat.getSampleRate()));
+        channelsTextField.setText(String.valueOf(waveFormat.getChannels()));
+        encodingTextField.setText(String.valueOf(waveFormat.getEncoding().toString()));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel channelsLabel;
+    private javax.swing.JTextField channelsTextField;
     private javax.swing.JButton closeButton;
     private javax.swing.JPanel documentSizePanel;
+    private javax.swing.JLabel encodingLabel;
+    private javax.swing.JTextField encodingTextField;
     private javax.swing.JLabel fileNameLabel;
     private javax.swing.JTextField fileNameTextField;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JLabel sampleRateLabel;
+    private javax.swing.JTextField sampleRateTextField;
+    private javax.swing.JLabel waveLengthLabel;
+    private javax.swing.JTextField waveLengthTextField;
     // End of variables declaration//GEN-END:variables
 
 }

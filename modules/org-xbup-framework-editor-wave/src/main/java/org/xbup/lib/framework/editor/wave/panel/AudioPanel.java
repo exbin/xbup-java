@@ -360,19 +360,23 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
     }
 
     public Color[] getAudioPanelColors() {
-        Color[] colors = new Color[4];
+        Color[] colors = new Color[6];
         colors[0] = wavePanel.getWaveColor();
-        colors[1] = wavePanel.getCursorColor();
-        colors[2] = wavePanel.getBackground();
-        colors[3] = wavePanel.getSelectionColor();
+        colors[1] = wavePanel.getWaveFillColor();
+        colors[2] = wavePanel.getCursorColor();
+        colors[3] = wavePanel.getCursorWaveColor();
+        colors[4] = wavePanel.getBackground();
+        colors[5] = wavePanel.getSelectionColor();
         return colors;
     }
 
     public void setAudioPanelColors(Color[] colors) {
         wavePanel.setWaveColor(colors[0]);
-        wavePanel.setCursorColor(colors[1]);
-        wavePanel.setBackground(colors[2]);
-        wavePanel.setSelectionColor(colors[3]);
+        wavePanel.setWaveFillColor(colors[1]);
+        wavePanel.setCursorColor(colors[2]);
+        wavePanel.setCursorWaveColor(colors[3]);
+        wavePanel.setBackground(colors[4]);
+        wavePanel.setSelectionColor(colors[5]);
         wavePanel.repaint();
     }
 
@@ -616,32 +620,15 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
     }
 
     public String getPositionTime() {
-        XBWave wave = wavePanel.getWave();
-        if (wave == null) {
-            return "0:00.00";
-        }
-
-        float sampleRate = wave.getAudioFormat().getSampleRate();
-
-        float position;
+        int position;
         Point point = getMousePosition();
         if (point == null) {
-            position = wavePanel.getCursorPosition() / sampleRate;
+            position = wavePanel.getCursorPosition();
         } else {
-            position = (point.x + wavePanel.getWindowPosition()) / sampleRate;
+            position = (point.x + wavePanel.getWindowPosition());
         }
 
-        String sub = String.valueOf((long) ((position - Math.floor(position)) * 100));
-        if (sub.length() < 2) {
-            sub = "0" + sub;
-        }
-
-        String sec = String.valueOf(((long) position) % 60);
-        if (sec.length() < 2) {
-            sec = "0" + sec;
-        }
-
-        return String.valueOf((long) position / 60) + ":" + sec + "." + sub;
+        return getTimeForTicks(position, wavePanel.getWave());
     }
 
     public javax.sound.sampled.AudioFileFormat.Type getFileType() {
@@ -919,6 +906,14 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
         }
     }
 
+    public AudioFormat getWaveFormat() {
+        return wavePanel.getWave().getAudioFormat();
+    }
+
+    public String getWaveLength() {
+        return getTimeForTicks(wavePanel.getWave().getLengthInTicks(), wavePanel.getWave());
+    }
+
     public interface StatusChangeListener extends EventListener {
 
         public void statusChanged();
@@ -959,5 +954,26 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
         for (WaveRepaintListener listener : waveRepaintListeners) {
             listener.waveRepaint();
         }
+    }
+    
+    public static String getTimeForTicks(int position, XBWave wave) {
+        if (wave == null) {
+            return "0:00.00";
+        }
+
+        float sampleRate = wave.getAudioFormat().getSampleRate();
+        float adjustedPosition = position / sampleRate;
+
+        String sub = String.valueOf((long) ((adjustedPosition - Math.floor(adjustedPosition)) * 100));
+        if (sub.length() < 2) {
+            sub = "0" + sub;
+        }
+
+        String sec = String.valueOf(((long) adjustedPosition) % 60);
+        if (sec.length() < 2) {
+            sec = "0" + sec;
+        }
+
+        return String.valueOf((long) adjustedPosition / 60) + ":" + sec + "." + sub;
     }
 }

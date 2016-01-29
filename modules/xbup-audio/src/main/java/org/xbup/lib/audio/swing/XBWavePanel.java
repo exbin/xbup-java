@@ -31,7 +31,7 @@ import org.xbup.lib.audio.wave.XBWave;
 /**
  * Simple panel audio wave.
  *
- * @version 0.2.0 2016/01/28
+ * @version 0.2.0 2016/01/29
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWavePanel extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener {
@@ -45,8 +45,10 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
     private double scaleRatio;
     private SelectionChangedListener selectionChangedListener = null;
 
-    private Color dataColor;
+    private Color waveColor;
+    private Color waveFillColor;
     private Color selectionColor;
+    private Color cursorWaveColor;
     private Color cursorColor;
 
     public XBWavePanel() {
@@ -55,12 +57,14 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
         setBackground(Color.WHITE);
         repaint();
         setOpaque(true);
-        drawMode = DrawMode.LINE_MODE;
+        drawMode = DrawMode.DOTS_MODE;
         toolMode = ToolMode.SELECTION;
         cursorPosition = 0;
         selectionColor = UIManager.getColor("TextArea.selectionBackground");
+        waveColor = UIManager.getColor("TextArea.foreground");
+        waveFillColor = UIManager.getColor("TextArea.foreground").brighter().brighter();
         cursorColor = UIManager.getColor("TextArea.caretForeground");
-        dataColor = UIManager.getColor("TextArea.foreground");
+        cursorWaveColor = new Color(255 - waveColor.getRed(), 255 - waveColor.getGreen(), 255 - waveColor.getBlue());
         if (selectionColor == null) {
             selectionColor = Color.LIGHT_GRAY;
         }
@@ -113,7 +117,7 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
         // g.setColor(color);
         int stopPos = clipBounds.width + clipBounds.x;
         if (wave != null) {
-            g.setColor(dataColor);
+            g.setColor(waveColor);
             int channelsCount = wave.getAudioFormat().getChannels();
             int[] prevMin = {-1, -1};
             int[] prevMax = {-1, -1};
@@ -129,6 +133,7 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
                     }
 
                     int linePosition = windowPosition + (int) (pomPos / scaleRatio);
+                    boolean cursorMode = linePosition >= getCursorPosition() - scaleRatio && linePosition <= getCursorPosition() + scaleRatio;
                     int value = wave.getRatioValue(linePosition, channel, getHeight() / channelsCount) + (channel * getHeight()) / channelsCount;
                     lineRecord.min = value;
                     lineRecord.max = value;
@@ -146,7 +151,16 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
                     }
                     switch (drawMode) {
                         case DOTS_MODE: {
-                            g.drawLine(pos, lineRecord.min, pos, lineRecord.max);
+                            if (cursorMode) {
+                                g.setColor(cursorWaveColor);
+                                g.drawLine(pos, lineRecord.min, pos, lineRecord.max);
+                            } else {
+                                g.setColor(waveFillColor);
+                                g.drawLine(pos, lineRecord.min, pos, lineRecord.max);
+                                g.setColor(waveColor);
+                                g.drawLine(pos, lineRecord.min, pos, lineRecord.min);
+                                g.drawLine(pos, lineRecord.max, pos, lineRecord.max);
+                            }
                             break;
                         }
                         case LINE_MODE: {
@@ -167,6 +181,11 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
                             break;
                         }
                         case INTEGRAL_MODE: {
+                            if (cursorMode) {
+                                g.setColor(cursorWaveColor);
+                            } else {
+                                g.setColor(waveColor);
+                            }
                             int middle = (getHeight() + (2 * channel * getHeight())) / (2 * channelsCount);
                             if (scaleRatio < 1) {
                                 if (lineRecord.min > middle) {
@@ -233,16 +252,10 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
     public void mouseMoved(MouseEvent e) {
     }
 
-    /**
-     * @return the position
-     */
     public int getCursorPosition() {
         return cursorPosition;
     }
 
-    /**
-     * @param position the position to set
-     */
     public void setCursorPosition(int position) {
         this.cursorPosition = position;
     }
@@ -255,72 +268,58 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
         return wave == null ? 0 : wave.getLengthInTicks();
     }
 
-    /**
-     * @return the toolMode
-     */
     public ToolMode getToolMode() {
         return toolMode;
     }
 
-    /**
-     * @param toolMode the toolMode to set
-     */
     public void setToolMode(ToolMode toolMode) {
         this.toolMode = toolMode;
     }
 
-    /**
-     * @return the selectionColor
-     */
-    public Color getSelectionColor() {
-        return selectionColor;
+    public Color getWaveColor() {
+        return waveColor;
     }
 
-    /**
-     * @param selectionColor the selectionColor to set
-     */
-    public void setSelectionColor(Color selectionColor) {
-        this.selectionColor = selectionColor;
+    public void setWaveColor(Color waveColor) {
+        this.waveColor = waveColor;
     }
 
-    /**
-     * @return the cursorColor
-     */
+    public Color getWaveFillColor() {
+        return waveFillColor;
+    }
+
+    public void setWaveFillColor(Color waveFillColor) {
+        this.waveFillColor = waveFillColor;
+    }
+
     public Color getCursorColor() {
         return cursorColor;
     }
 
-    /**
-     * @param cursorColor the cursorColor to set
-     */
     public void setCursorColor(Color cursorColor) {
         this.cursorColor = cursorColor;
     }
 
-    /**
-     * @return the dataColor
-     */
-    public Color getWaveColor() {
-        return dataColor;
+    public Color getCursorWaveColor() {
+        return cursorWaveColor;
     }
 
-    /**
-     * @param dataColor the dataColor to set
-     */
-    public void setWaveColor(Color dataColor) {
-        this.dataColor = dataColor;
+    public void setCursorWaveColor(Color cursorWaveColor) {
+        this.cursorWaveColor = cursorWaveColor;
     }
 
-    /**
-     * @return the scaleRatio
-     */
+    public Color getSelectionColor() {
+        return selectionColor;
+    }
+
+    public void setSelectionColor(Color selectionColor) {
+        this.selectionColor = selectionColor;
+    }
+
     public double getScaleRatio() {
         return scaleRatio;
     }
 
-    /**
-     * @param scaleRatio the scaleRatio to set
-     */
     public void setScaleRatio(double scaleRatio) {
         this.scaleRatio = scaleRatio;
         repaint();

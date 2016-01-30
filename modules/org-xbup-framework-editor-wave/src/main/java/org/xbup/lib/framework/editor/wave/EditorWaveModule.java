@@ -20,7 +20,6 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
-import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
 import javax.swing.filechooser.FileFilter;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
@@ -40,6 +39,7 @@ import org.xbup.lib.framework.editor.wave.panel.AudioPanel;
 import org.xbup.lib.framework.editor.wave.panel.AudioStatusPanel;
 import org.xbup.lib.framework.editor.wave.panel.WaveColorOptionsPanel;
 import org.xbup.lib.framework.editor.wave.panel.WaveColorPanelApi;
+import org.xbup.lib.framework.gui.menu.api.MenuGroup;
 import org.xbup.lib.framework.gui.menu.api.NextToMode;
 import org.xbup.lib.framework.gui.menu.api.SeparationMode;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
@@ -47,7 +47,7 @@ import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 /**
  * XBUP audio editor module.
  *
- * @version 0.2.0 2016/01/29
+ * @version 0.2.0 2016/01/30
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -59,6 +59,7 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
     public static final String AUDIO_POPUP_MENU_ID = MODULE_ID + ".audioPopupMenu";
     public static final String DRAW_MODE_SUBMENU_ID = MODULE_ID + ".drawSubMenu";
     public static final String ZOOM_MODE_SUBMENU_ID = MODULE_ID + ".zoomSubMenu";
+    public static final String TOOLS_SELECTION_MENU_GROUP_ID = MODULE_ID + ".toolsSelectionMenuGroup";
 
     public static final String XBS_FILE_TYPE = "XBWaveEditor.XBSFileFilter";
 
@@ -73,6 +74,7 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
     private PropertiesHandler propertiesHandler;
     private AudioControlHandler audioControlHandler;
     private DrawingControlHandler drawingControlHandler;
+    private ToolsSelectionHandler toolsSelectionHandler;
     private ZoomControlHandler zoomControlHandler;
     private AudioOperationHandler audioOperationHandler;
 
@@ -212,7 +214,15 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
     public void registerToolsOptionsMenuActions() {
         getToolsOptionsHandler();
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
-        menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, MODULE_ID, toolsOptionsHandler.getToolsSetColorAction(), new MenuPosition(PositionMode.TOP));
+        menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, MODULE_ID, toolsOptionsHandler.getToolsSetColorAction(), new MenuPosition(PositionMode.MIDDLE));
+    }
+
+    public void registerToolsMenuActions() {
+        getToolsSelectionHandler();
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenuGroup(GuiFrameModuleApi.TOOLS_MENU_ID, new MenuGroup(TOOLS_SELECTION_MENU_GROUP_ID, new MenuPosition(PositionMode.TOP), SeparationMode.AROUND));
+        menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, MODULE_ID, toolsSelectionHandler.getSelectionToolAction(), new MenuPosition(TOOLS_SELECTION_MENU_GROUP_ID));
+        menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, MODULE_ID, toolsSelectionHandler.getPencilToolAction(), new MenuPosition(TOOLS_SELECTION_MENU_GROUP_ID));
     }
 
     public AudioStatusPanel getAudioStatusPanel() {
@@ -253,6 +263,15 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
         }
 
         return drawingControlHandler;
+    }
+
+    private ToolsSelectionHandler getToolsSelectionHandler() {
+        if (toolsSelectionHandler == null) {
+            toolsSelectionHandler = new ToolsSelectionHandler(application, (AudioPanel) getEditorProvider());
+            toolsSelectionHandler.init();
+        }
+
+        return toolsSelectionHandler;
     }
 
     private ZoomControlHandler getZoomControlHandler() {

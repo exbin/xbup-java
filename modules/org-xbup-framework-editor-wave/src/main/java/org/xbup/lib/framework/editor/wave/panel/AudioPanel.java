@@ -95,7 +95,6 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
     private String ext;
     private javax.sound.sampled.AudioFileFormat.Type audioFormatType;
     private FileType fileType;
-    private final boolean modified = false;
     private boolean wavePlayed = false;
     private int drawPosition = -1;
     private int wavePosition = -1;
@@ -103,7 +102,6 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
     private final PlayThread playThread = new PlayThread();
     private final WavePaintThread wavePaintThread = new WavePaintThread();
 
-    private double scaleRatio;
     private Color[] defaultColors;
     private XBWavePanel wavePanel;
     private SourceDataLine sourceDataLine;
@@ -122,7 +120,6 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
     }
 
     private void init() {
-        scaleRatio = 1;
         fileName = "";
         audioFormatType = null;
 
@@ -146,11 +143,11 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
             public void adjustmentValueChanged(AdjustmentEvent evt) {
                 int valuePosition = evt.getValue();
                 if (wavePlayed) {
-                    if ((int) (wavePosition * scaleRatio) != valuePosition) {
-                        seekPlaying((int) (valuePosition / scaleRatio));
+                    if ((int) (wavePosition * wavePanel.getScaleRatio()) != valuePosition) {
+                        seekPlaying((int) (valuePosition / wavePanel.getScaleRatio()));
                     }
                 } else if (wavePosition != valuePosition) {
-                    wavePanel.setWindowPosition(valuePosition < 0 ? 0 : (int) (valuePosition / scaleRatio));
+                    wavePanel.setWindowPosition(valuePosition < 0 ? 0 : (int) (valuePosition / wavePanel.getScaleRatio()));
                     repaint();
                 }
             }
@@ -253,7 +250,7 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
         drawPosition = position;
         int waveWidth = wavePanel.getWaveLength();
         int windowPosition;
-        int screenWidth = (int) (getWidth() / scaleRatio);
+        int screenWidth = (int) (getWidth() / wavePanel.getScaleRatio());
         if (position > waveWidth - screenWidth) {
             windowPosition = waveWidth - screenWidth;
         } else {
@@ -410,27 +407,7 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
 
     @Override
     public boolean isModified() {
-        return modified;
-    }
-
-    public void setModified(boolean modified) {
-        /*        if (highlight != null) {
-         imageArea.getHighlighter().removeHighlight(highlight);
-         highlight = null;
-         }
-         boolean oldValue = this.modified;
-         this.modified = modified;
-         firePropertyChange("modified", oldValue, this.modified); */
-    }
-
-    public boolean isEditEnabled() {
-        return false;
-//        return imageArea.isEditable();
-    }
-
-    public boolean isPasteEnabled() {
-        return false;
-//        return imageArea.isEditable();
+        return undoHandler.getCommandPosition() != undoHandler.getSyncPoint();
     }
 
     @Override
@@ -514,6 +491,7 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
         } else {
             wavePanel.getWave().saveToFile(file, getFileType());
         }
+        undoHandler.setSyncPoint();
     }
 
     /**
@@ -550,7 +528,7 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
     public void newFile() {
         wavePanel.setWave(null);
         scrollBar.setMaximum(wavePanel.getWaveWidth());
-        setModified(false);
+        undoHandler.clear();
     }
 
     @Override
@@ -576,15 +554,14 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
     }
 
     public void setScale(double ratio) {
-        scaleRatio = ratio;
-        wavePanel.setScaleRatio(scaleRatio);
+        wavePanel.setScaleRatio(ratio);
         scrollBar.setMaximum(wavePanel.getWaveWidth());
         wavePanel.repaint();
     }
-    
+
     public void scaleAndSeek(double ratio) {
         int windowPosition = wavePanel.getWindowPosition();
-        windowPosition = (int) (windowPosition / (scaleRatio / ratio)) - wavePanel.getWidth() / 2;
+        windowPosition = (int) (windowPosition / (wavePanel.getScaleRatio() / ratio)) - wavePanel.getWidth() / 2;
         if (windowPosition < 0) {
             windowPosition = 0;
         }
@@ -594,7 +571,7 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
     }
 
     public double getScale() {
-        return scaleRatio;
+        return wavePanel.getScaleRatio();
     }
 
     public String getExt() {
@@ -843,7 +820,7 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
                         if (!terminated) {
                             wavePosition = repaintWave();
                             if (wavePosition >= 0) {
-                                scrollBar.setValue((int) (wavePosition * scaleRatio));
+                                scrollBar.setValue((int) (wavePosition * wavePanel.getScaleRatio()));
                             }
                         }
                     }
@@ -955,7 +932,7 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
             listener.waveRepaint();
         }
     }
-    
+
     public static String getTimeForTicks(int position, XBWave wave) {
         if (wave == null) {
             return "0:00.00";

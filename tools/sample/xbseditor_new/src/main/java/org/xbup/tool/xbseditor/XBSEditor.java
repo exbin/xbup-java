@@ -47,7 +47,7 @@ import org.xbup.lib.operation.undo.XBTLinearUndo;
 /**
  * The main class of the XBSEditor application.
  *
- * @version 0.2.0 2016/01/23
+ * @version 0.2.0 2016/01/30
  * @author XBUP Project (http://xbup.org)
  */
 public class XBSEditor {
@@ -138,6 +138,7 @@ public class XBSEditor {
 
                 optionsModule.registerMenuAction();
 
+                waveEditorModule.registerToolsMenuActions();
                 waveEditorModule.registerToolsOptionsMenuActions();
                 waveEditorModule.registerPropertiesMenu();
                 waveEditorModule.registerAudioMenu();

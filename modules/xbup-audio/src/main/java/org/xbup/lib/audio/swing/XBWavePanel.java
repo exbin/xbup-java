@@ -42,7 +42,7 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
     private SelectionRange selection;
     private DrawMode drawMode;
     private ToolMode toolMode;
-    private double scaleRatio;
+    private double scaleRatio = 1;
     private SelectionChangedListener selectionChangedListener = null;
 
     private Color waveColor;
@@ -53,7 +53,6 @@ public class XBWavePanel extends JPanel implements MouseListener, MouseMotionLis
 
     public XBWavePanel() {
         super();
-        scaleRatio = 1;
         setBackground(Color.WHITE);
         repaint();
         setOpaque(true);

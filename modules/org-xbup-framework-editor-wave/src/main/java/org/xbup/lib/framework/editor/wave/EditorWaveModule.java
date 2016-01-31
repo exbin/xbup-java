@@ -63,7 +63,7 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
 
     public static final String XBS_FILE_TYPE = "XBWaveEditor.XBSFileFilter";
 
-    public static final String TEXT_STATUS_BAR_ID = "textStatusBar";
+    public static final String WAVE_STATUS_BAR_ID = "waveStatusBar";
 
     private XBApplication application;
     private XBEditorProvider editorProvider;
@@ -183,9 +183,8 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
         });
 
         GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
-        frameModule.registerStatusBar(MODULE_ID, TEXT_STATUS_BAR_ID, audioStatusPanel);
-        frameModule.switchStatusBar(TEXT_STATUS_BAR_ID);
-        // ((AudioPanel) getEditorProvider()).registerAudioStatus(audioStatusPanel);
+        frameModule.registerStatusBar(MODULE_ID, WAVE_STATUS_BAR_ID, audioStatusPanel);
+        frameModule.switchStatusBar(WAVE_STATUS_BAR_ID);
     }
 
     public void registerOptionsPanels() {

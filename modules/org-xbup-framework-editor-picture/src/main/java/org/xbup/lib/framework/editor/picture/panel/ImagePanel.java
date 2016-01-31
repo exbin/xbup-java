@@ -84,7 +84,7 @@ import org.xbup.lib.framework.gui.menu.api.ComponentClipboardHandler;
 /**
  * Image panel for XBPEditor.
  *
- * @version 0.2.0 2016/01/27
+ * @version 0.2.0 2016/01/31
  * @author XBUP Project (http://xbup.org)
  */
 public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, ComponentClipboardHandler {
@@ -108,6 +108,7 @@ public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, 
     private InputMethodListener caretListener;
     private final ToolMode toolMode;
     private PropertyChangeListener propertyChangeListener;
+    private ImageStatusPanel imageStatusPanel;
 
     public ImagePanel() {
         initComponents();
@@ -716,6 +717,10 @@ public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, 
 
     @Override
     public void setUpdateListener(ClipboardActionsUpdateListener updateListener) {
+    }
+
+    public void registerImageStatus(ImageStatusPanel imageStatusPanel) {
+        this.imageStatusPanel = imageStatusPanel;
     }
 
     public enum ToolMode {

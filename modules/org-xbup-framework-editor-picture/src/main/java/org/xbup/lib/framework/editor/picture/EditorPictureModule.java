@@ -21,18 +21,20 @@ import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileFilter;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.editor.picture.panel.ImagePanel;
+import org.xbup.lib.framework.editor.picture.panel.ImageStatusPanel;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.file.api.FileType;
 import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
+import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 
 /**
  * XBUP picture editor module.
  *
- * @version 0.2.0 2016/01/27
+ * @version 0.2.0 2016/01/31
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -41,10 +43,11 @@ public class EditorPictureModule implements XBApplicationModulePlugin {
     public static final String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(EditorPictureModule.class);
     public static final String XBPFILETYPE = "XBPictureEditor.XBPFileType";
 
-    public static final String TEXT_STATUS_BAR_ID = "textStatusBar";
+    public static final String IMAGE_STATUS_BAR_ID = "imageStatusBar";
 
     private XBApplication application;
     private XBEditorProvider editorProvider;
+    private ImageStatusPanel imageStatusPanel;
 
     public EditorPictureModule() {
     }
@@ -108,7 +111,6 @@ public class EditorPictureModule implements XBApplicationModulePlugin {
 //                    updatePositionTime();
 //                }
 //            });
-
 //            imagePanel.setPopupMenu(createPopupMenu());
         }
 
@@ -129,27 +131,17 @@ public class EditorPictureModule implements XBApplicationModulePlugin {
     }
 
     public void registerStatusBar() {
-//        audioStatusPanel = new AudioStatusPanel(new AudioControlApi() {
-//            @Override
-//            public void performPlay() {
-//                ((AudioPanel) editorProvider).performPlay();
-//            }
-//
-//            @Override
-//            public void performStop() {
-//                ((AudioPanel) editorProvider).performStop();
-//            }
-//
-//            @Override
-//            public void setVolume(int volumeLevel) {
-//                ((AudioPanel) editorProvider).setVolume(volumeLevel);
-//            }
-//        });
-//
-//        GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
-//        frameModule.registerStatusBar(MODULE_ID, TEXT_STATUS_BAR_ID, audioStatusPanel);
-//        frameModule.switchStatusBar(TEXT_STATUS_BAR_ID);
-//        // ((AudioPanel) getEditorProvider()).registerAudioStatus(audioStatusPanel);
+        imageStatusPanel = new ImageStatusPanel(new ImageControlApi() {
+            @Override
+            public void editSelection() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
+
+        GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
+        frameModule.registerStatusBar(MODULE_ID, IMAGE_STATUS_BAR_ID, imageStatusPanel);
+        frameModule.switchStatusBar(IMAGE_STATUS_BAR_ID);
+        ((ImagePanel) getEditorProvider()).registerImageStatus(imageStatusPanel);
     }
 
     public void registerOptionsMenuPanels() {

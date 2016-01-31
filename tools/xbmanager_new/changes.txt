@@ -1,0 +1,8 @@
+Changes in version 0.1 wr 19:
+- Added connectionManager dialog
+
+Changes in version 0.1 wr 16:
+- Fake login dialog added
+
+Changes in version 0.1 wr 15:
+- First release

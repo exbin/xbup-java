@@ -17,6 +17,7 @@
 package org.xbup.lib.framework.editor.xbup;
 
 import net.xeoh.plugins.base.annotations.PluginImplementation;
+import org.xbup.lib.framework.editor.xbup.panel.XBDocumentPanel;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
@@ -26,7 +27,7 @@ import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
 /**
  * XBUP editor module.
  *
- * @version 0.2.0 2016/01/24
+ * @version 0.2.0 2016/01/31
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -57,7 +58,7 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
 
     public XBEditorProvider getEditorProvider() {
         if (editorProvider == null) {
-            // editorProvider
+            editorProvider = new XBDocumentPanel(null);
         }
 
         return editorProvider;

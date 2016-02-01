@@ -40,12 +40,13 @@ import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
 import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
 
 /**
  * The main class of the XBEditor application.
  *
- * @version 0.2.0 2016/01/24
+ * @version 0.2.0 2016/02/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEditor {
@@ -53,8 +54,7 @@ public class XBEditor {
     private static Preferences preferences;
     private static boolean verboseMode = false;
     private static boolean devMode = false;
-    private static final String APP_BUNDLE_NAME = "org/xbup/tool/xbeditor/resources/XBEditor";
-    private static final ResourceBundle bundle = ResourceBundle.getBundle(APP_BUNDLE_NAME);
+    private static final ResourceBundle bundle = ActionUtils.getResourceBundleByClass(XBEditor.class);
 
     /**
      * Main method launching the application.
@@ -91,7 +91,7 @@ public class XBEditor {
 
                 XBBaseApplication app = new XBBaseApplication();
                 app.setAppPreferences(preferences);
-                app.setAppBundle(bundle, APP_BUNDLE_NAME);
+                app.setAppBundle(bundle, ActionUtils.getResourceBaseNameBundleByClass(XBEditor.class));
                 app.init();
 //                app.setFirstCommand(new XBEditorFirstCommand(app));
 

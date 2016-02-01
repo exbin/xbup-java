@@ -40,12 +40,14 @@ import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
 import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.xbup.lib.framework.service_manager.ServiceManagerModule;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
 
 /**
- * The main class of the XBEditor application.
+ * The main class of the XBManager application.
  *
- * @version 0.2.0 2016/01/31
+ * @version 0.2.0 2016/02/01
  * @author XBUP Project (http://xbup.org)
  */
 public class XBManager {
@@ -53,8 +55,7 @@ public class XBManager {
     private static Preferences preferences;
     private static boolean verboseMode = false;
     private static boolean devMode = false;
-    private static final String APP_BUNDLE_NAME = "org/xbup/tool/xbeditor/resources/XBEditor";
-    private static final ResourceBundle bundle = ResourceBundle.getBundle(APP_BUNDLE_NAME);
+    private static final ResourceBundle bundle = ActionUtils.getResourceBundleByClass(XBManager.class);
 
     /**
      * Main method launching the application.
@@ -91,7 +92,7 @@ public class XBManager {
 
                 XBBaseApplication app = new XBBaseApplication();
                 app.setAppPreferences(preferences);
-                app.setAppBundle(bundle, APP_BUNDLE_NAME);
+                app.setAppBundle(bundle, ActionUtils.getResourceBaseNameBundleByClass(XBManager.class));
                 app.init();
 //                app.setFirstCommand(new XBEditorFirstCommand(app));
 
@@ -111,6 +112,7 @@ public class XBManager {
                 GuiUndoModuleApi undoModule = moduleRepository.getModuleByInterface(GuiUndoModuleApi.class);
                 GuiFileModuleApi fileModule = moduleRepository.getModuleByInterface(GuiFileModuleApi.class);
                 GuiOptionsModuleApi optionsModule = moduleRepository.getModuleByInterface(GuiOptionsModuleApi.class);
+                ServiceManagerModule serviceManagerModule = moduleRepository.getModuleByInterface(ServiceManagerModule.class);
                 EditorXbupModule xbupEditorModule = moduleRepository.getModuleByInterface(EditorXbupModule.class);
                 final EditorTextModule textEditorModule = moduleRepository.getModuleByInterface(EditorTextModule.class);
 
@@ -124,17 +126,17 @@ public class XBManager {
                 fileModule.registerToolBarFileHandlingActions();
                 fileModule.registerCloseListener();
 
-                undoModule.registerMainMenu();
-                undoModule.registerMainToolBar();
-                undoModule.registerUndoManagerInMainMenu();
-                XBTLinearUndo linearUndo = new XBTLinearUndo(null);
-//                linearUndo.addUndoUpdateListener(new UndoUpdateListener() {
-//                    @Override
-//                    public void undoChanged() {
-//                        ((AudioPanel) waveEditorModule.getEditorProvider()).repaint();
-//                    }
-//                });
-                undoModule.setUndoHandler(linearUndo);
+//                undoModule.registerMainMenu();
+//                undoModule.registerMainToolBar();
+//                undoModule.registerUndoManagerInMainMenu();
+//                XBTLinearUndo linearUndo = new XBTLinearUndo(null);
+////                linearUndo.addUndoUpdateListener(new UndoUpdateListener() {
+////                    @Override
+////                    public void undoChanged() {
+////                        ((AudioPanel) waveEditorModule.getEditorProvider()).repaint();
+////                    }
+////                });
+//                undoModule.setUndoHandler(linearUndo);
 
                 // Register clipboard editing actions
                 menuModule.registerMenuClipboardActions();
@@ -142,17 +144,8 @@ public class XBManager {
 
                 optionsModule.registerMenuAction();
 
-                textEditorModule.registerEditFindMenuActions();
-                textEditorModule.registerEditFindToolBarActions();
-                textEditorModule.registerToolsOptionsMenuActions();
-                textEditorModule.registerOptionsMenuPanels();
-                textEditorModule.registerWordWrapping();
-                textEditorModule.registerGoToLine();
-                textEditorModule.registerPropertiesMenu();
-                textEditorModule.registerPrintMenu();
-
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
-                editorModule.registerEditor("xbup", xbupEditorModule.getEditorProvider());
+                editorModule.registerEditor("manager", serviceManagerModule.getEditorProvider());
                 // xbupEditorModule.registerStatusBar();
                 // xbupEditorModule.registerOptionsPanels();
 

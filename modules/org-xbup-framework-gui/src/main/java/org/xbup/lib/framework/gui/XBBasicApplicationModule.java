@@ -70,9 +70,9 @@ public class XBBasicApplicationModule implements XBPSequenceSerializable, XBAppl
 
     // Temporary method to create module file.
     public static void main(String[] params) {
-        XBBasicApplicationModule module = new XBBasicApplicationModule("org.xbup.lib.framework.gui.editor.picture.EditorPictureModule", null);
-        module.setName("XBUP Picture Editor Module");
-        module.setDescription("Module supporting editation of image bitmap files");
+        XBBasicApplicationModule module = new XBBasicApplicationModule("org.xbup.lib.framework.service_manager.ServiceManagerModule", null);
+        module.setName("XBUP Service Management Module");
+        module.setDescription("Module supporting management of the XBUP service");
         String[] depedency = new String[] { "org.xbup.lib.framework.gui.file.GuiFileModule", "org.xbup.lib.framework.gui.menu.GuiMenuModule" };
         
         module.addDependencyModuleIds(Arrays.asList(depedency));

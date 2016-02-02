@@ -16,7 +16,6 @@
  */
 package org.xbup.lib.framework.service_manager.catalog.panel;
 
-import java.awt.Component;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,9 +25,6 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JPopupMenu;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
@@ -228,7 +224,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         iconPanel.setName("iconPanel"); // NOI18N
         iconPanel.setLayout(new java.awt.BorderLayout());
 
-        itemIconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/service_manager/resources/images/empty.png"))); // NOI18N
+        itemIconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/service_manager/resources/images/empty.png"))); // NOI18N
         itemIconLabel.setName("itemIconLabel"); // NOI18N
         iconPanel.add(itemIconLabel, java.awt.BorderLayout.CENTER);
 
@@ -548,7 +544,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
                 ImageIcon icon = iconService.getDefaultImageIcon(item);
                 itemIconLabel.setIcon(icon);
             } else {
-                itemIconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/service_manager/resources/images/empty.png")));
+                itemIconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/service_manager/resources/images/empty.png")));
             }
 //            itemHD
         } else {

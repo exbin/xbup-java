@@ -129,7 +129,7 @@ public class ConnectionDialog extends javax.swing.JDialog {
         jLayeredPane1.add(serviceLabel);
         serviceLabel.setBounds(100, 0, 480, 43);
 
-        logoImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/tool/editor/module/service_manager/resources/images/xbup_maskot4_small.png"))); // NOI18N
+        logoImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/service_manager/resources/images/xbup_maskot4_small.png"))); // NOI18N
         jLayeredPane2.add(logoImageLabel);
         logoImageLabel.setBounds(20, 0, 50, 80);
 
@@ -325,20 +325,20 @@ public class ConnectionDialog extends javax.swing.JDialog {
             .add(connectionLoginPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(connectionLoginPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(anonymousRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 607, Short.MAX_VALUE)
+                    .add(anonymousRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(connectionPointLabel)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, connectionLoginPanelLayout.createSequentialGroup()
-                        .add(connectionComboBox, 0, 489, Short.MAX_VALUE)
+                        .add(connectionComboBox, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(connectionManageButton))
-                    .add(loginRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 607, Short.MAX_VALUE)
+                    .add(loginRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, connectionLoginPanelLayout.createSequentialGroup()
                         .add(devDbLocalButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(devDbCatalogButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(devDbCatalogDevButton)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 25, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(cancelButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(okButton)))

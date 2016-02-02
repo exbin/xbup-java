@@ -16,27 +16,30 @@
  */
 package org.xbup.lib.framework.service_manager;
 
+import java.util.prefs.Preferences;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
-import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
-import org.xbup.lib.framework.service_manager.catalog.panel.CatalogBrowserPanel;
+import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.xbup.lib.framework.service_manager.dialog.ConnectionDialog;
+import org.xbup.lib.framework.service_manager.panel.ServiceManagerPanel;
 
 /**
- * XBUP editor module.
+ * XBUP service manager module.
  *
- * @version 0.2.0 2016/01/31
+ * @version 0.2.0 2016/02/02
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
 public class ServiceManagerModule implements XBApplicationModulePlugin {
 
     public static final String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(ServiceManagerModule.class);
-    
+
     private XBApplication application;
-    private XBEditorProvider editorProvider;
+    private ServiceManagerPanel servicePanel;
+    private Preferences preferences;
 
     public ServiceManagerModule() {
     }
@@ -53,14 +56,26 @@ public class ServiceManagerModule implements XBApplicationModulePlugin {
 
     @Override
     public void unregisterPlugin(String pluginId) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public XBEditorProvider getEditorProvider() {
-        if (editorProvider == null) {
-            editorProvider = new CatalogBrowserPanel();
+    public void openConnectionDialog() {
+        ConnectionDialog loginDialog = new ConnectionDialog(WindowUtils.getFrame(servicePanel), true);
+        loginDialog.setLocationRelativeTo(loginDialog.getParent());
+        loginDialog.loadConnectionList(preferences);
+        loginDialog.setVisible(true);
+        loginDialog.saveConnectionList(preferences);
+        getServicePanel().setService(loginDialog.getService());
+    }
+
+    public ServiceManagerPanel getServicePanel() {
+        if (servicePanel == null) {
+            servicePanel = new ServiceManagerPanel();
         }
 
-        return editorProvider;
+        return servicePanel;
+    }
+
+    public void setPreferences(Preferences preferences) {
+        this.preferences = preferences;
     }
 }

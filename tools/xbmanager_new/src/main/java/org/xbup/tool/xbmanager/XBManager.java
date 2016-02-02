@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
+import javax.swing.JPanel;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
@@ -37,17 +38,15 @@ import org.xbup.lib.framework.gui.editor.api.GuiEditorModuleApi;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
-import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
 import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.framework.service_manager.ServiceManagerModule;
-import org.xbup.lib.operation.undo.XBTLinearUndo;
 
 /**
  * The main class of the XBManager application.
  *
- * @version 0.2.0 2016/02/01
+ * @version 0.2.0 2016/02/02
  * @author XBUP Project (http://xbup.org)
  */
 public class XBManager {
@@ -110,7 +109,6 @@ public class XBManager {
                 GuiMenuModuleApi menuModule = moduleRepository.getModuleByInterface(GuiMenuModuleApi.class);
                 GuiAboutModuleApi aboutModule = moduleRepository.getModuleByInterface(GuiAboutModuleApi.class);
                 GuiUndoModuleApi undoModule = moduleRepository.getModuleByInterface(GuiUndoModuleApi.class);
-                GuiFileModuleApi fileModule = moduleRepository.getModuleByInterface(GuiFileModuleApi.class);
                 GuiOptionsModuleApi optionsModule = moduleRepository.getModuleByInterface(GuiOptionsModuleApi.class);
                 ServiceManagerModule serviceManagerModule = moduleRepository.getModuleByInterface(ServiceManagerModule.class);
                 EditorXbupModule xbupEditorModule = moduleRepository.getModuleByInterface(EditorXbupModule.class);
@@ -120,11 +118,6 @@ public class XBManager {
 
                 frameModule.registerExitAction();
                 frameModule.registerBarsVisibilityActions();
-
-                // Register clipboard editing actions
-                fileModule.registerMenuFileHandlingActions();
-                fileModule.registerToolBarFileHandlingActions();
-                fileModule.registerCloseListener();
 
 //                undoModule.registerMainMenu();
 //                undoModule.registerMainToolBar();
@@ -137,21 +130,22 @@ public class XBManager {
 ////                    }
 ////                });
 //                undoModule.setUndoHandler(linearUndo);
-
                 // Register clipboard editing actions
                 menuModule.registerMenuClipboardActions();
-                menuModule.registerToolBarClipboardActions();
 
                 optionsModule.registerMenuAction();
 
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
-                editorModule.registerEditor("manager", serviceManagerModule.getEditorProvider());
                 // xbupEditorModule.registerStatusBar();
                 // xbupEditorModule.registerOptionsPanels();
 
-                frameHandler.setMainPanel(editorModule.getEditorPanel());
+                serviceManagerModule.setPreferences(preferences);
+                JPanel servicePanel = serviceManagerModule.getServicePanel();
+                frameHandler.setMainPanel(servicePanel);
                 frameHandler.setDefaultSize(new Dimension(600, 400));
                 frameHandler.show();
+                
+                serviceManagerModule.openConnectionDialog();
 
                 List fileArgs = cl.getArgList();
                 if (fileArgs.size() > 0) {

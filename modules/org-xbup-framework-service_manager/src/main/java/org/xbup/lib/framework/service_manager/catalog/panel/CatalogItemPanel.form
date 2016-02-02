@@ -305,8 +305,8 @@
                       <SubComponents>
                         <Component class="javax.swing.JLabel" name="itemIconLabel">
                           <Properties>
-                            <Property name="icon" type="javax.swing.Icon" noResource="true" editor="org.netbeans.modules.form.editors2.IconEditor">
-                              <Image iconType="3" name="/org/xbup/tool/editor/module/service_manager/resources/images/empty.png"/>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/org/xbup/lib/framework/service_manager/resources/images/empty.png"/>
                             </Property>
                             <Property name="name" type="java.lang.String" value="itemIconLabel" noResource="true"/>
                           </Properties>

@@ -17,17 +17,25 @@
 package org.xbup.lib.framework.gui.file;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFileChooser;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileSystemView;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.file.api.FileHandlingActionsApi;
 import org.xbup.lib.framework.gui.file.api.FileHandlerApi;
@@ -38,20 +46,28 @@ import org.xbup.lib.framework.gui.utils.ActionUtils;
 /**
  * File handling operations.
  *
- * @version 0.2.0 2016/01/23
+ * @version 0.2.0 2016/02/03
  * @author XBUP Project (http://xbup.org)
  */
 public class FileHandlingActions implements FileHandlingActionsApi {
 
+    public static final String PREFERENCES_RECENTFILE_PATH_PREFIX = "recentFile.path.";
+    public static final String PREFEFRENCES_RECENTFILE_MODULE_PREFIX = "recentFile.module.";
+    public static final String PREFERENCES_RECENFILE_MODE_PREFIX = "recentFile.mode.";
+
     public static final String ALL_FILES_FILTER = "AllFilesFilter";
 
     private final ResourceBundle resourceBundle;
+    private Preferences preferences;
     private int metaMask;
 
     private Action newFileAction;
     private Action openFileAction;
     private Action saveFileAction;
     private Action saveAsFileAction;
+
+    private JMenu fileOpenRecentMenu = null;
+    private List<RecentItem> recentFiles = null;
 
     private JFileChooser openFC, saveFC;
 
@@ -220,7 +236,7 @@ public class FileHandlingActions implements FileHandlingActionsApi {
 //                statusPanel.repaint();
                 String fileName = openFC.getSelectedFile().getAbsolutePath();
                 fileHandler.setFileName(fileName);
-                
+
                 FileType fileType = null;
                 FileFilter fileFilter = openFC.getFileFilter();
                 if (fileFilter instanceof FileType) {
@@ -232,23 +248,23 @@ public class FileHandlingActions implements FileHandlingActionsApi {
                 fileHandler.setFileType(fileType);
                 fileHandler.loadFromFile();
 
-//                // Update recent files list
-//                int i = 0;
-//                while (i < recentFiles.size()) {
-//                    RecentItem recentItem = recentFiles.get(i);
-//                    if (recentItem.getPath().equals(fileName)) {
-//                        recentFiles.remove(i);
-//                    }
-//                    i++;
-//                }
-//
-//                recentFiles.add(new RecentItem(fileName, "", ((FileType) openFC.getFileFilter()).getFileTypeId()));
-//                if (recentFiles.size() > 15) {
-//                    recentFiles.remove(14);
-//                }
-//                rebuildRecentFilesMenu();
-//                ((CardLayout) statusPanel.getLayout()).show(statusPanel, activeStatusPanel);
-//                statusPanel.repaint();
+                if (recentFiles != null) {
+                    // Update recent files list
+                    int i = 0;
+                    while (i < recentFiles.size()) {
+                        RecentItem recentItem = recentFiles.get(i);
+                        if (recentItem.getFileName().equals(fileName)) {
+                            recentFiles.remove(i);
+                        }
+                        i++;
+                    }
+
+                    recentFiles.add(new RecentItem(fileName, "", ((FileType) openFC.getFileFilter()).getFileTypeId()));
+                    if (recentFiles.size() > 15) {
+                        recentFiles.remove(14);
+                    }
+                    rebuildRecentFilesMenu();
+                }
             }
         }
     }
@@ -297,6 +313,104 @@ public class FileHandlingActions implements FileHandlingActionsApi {
         fileHandler.loadFromFile();
     }
 
+    public JMenu getOpenRecentMenu() {
+        if (fileOpenRecentMenu == null) {
+            fileOpenRecentMenu = new JMenu("Open Recent File");
+            recentFiles = new ArrayList<>();
+            if (preferences != null) {
+                loadState();
+            }
+        }
+        return fileOpenRecentMenu;
+    }
+
+    private void loadState() {
+        recentFiles.clear();
+        int recent = 1;
+        while (recent < 14) {
+            String filePath = preferences.get(PREFERENCES_RECENTFILE_PATH_PREFIX + String.valueOf(recent), null);
+            String moduleName = preferences.get(PREFEFRENCES_RECENTFILE_MODULE_PREFIX + String.valueOf(recent), null);
+            String fileMode = preferences.get(PREFERENCES_RECENFILE_MODE_PREFIX + String.valueOf(recent), null);
+            if (filePath == null) {
+                break;
+            }
+            recentFiles.add(new RecentItem(filePath, moduleName, fileMode));
+            recent++;
+        }
+        rebuildRecentFilesMenu();
+    }
+
+    private void saveState() {
+        for (int i = 0; i < recentFiles.size(); i++) {
+            preferences.put(PREFERENCES_RECENTFILE_PATH_PREFIX + String.valueOf(i + 1), recentFiles.get(i).getFileName());
+            preferences.put(PREFEFRENCES_RECENTFILE_MODULE_PREFIX + String.valueOf(i + 1), recentFiles.get(i).getModuleName());
+            preferences.put(PREFERENCES_RECENFILE_MODE_PREFIX + String.valueOf(i + 1), recentFiles.get(i).getFileMode());
+        }
+        preferences.remove(PREFERENCES_RECENTFILE_PATH_PREFIX + String.valueOf(recentFiles.size() + 1));
+        try {
+            preferences.flush();
+        } catch (BackingStoreException ex) {
+            Logger.getLogger(FileHandlingActions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void rebuildRecentFilesMenu() {
+        fileOpenRecentMenu.removeAll();
+        for (int recentFileIndex = 0; recentFileIndex < recentFiles.size(); recentFileIndex++) {
+            File file = new File(recentFiles.get(recentFileIndex).getFileName());
+            JMenuItem menuItem = new JMenuItem(file.getName());
+            menuItem.setToolTipText(recentFiles.get(recentFileIndex).getFileName());
+            menuItem.setIcon(FileSystemView.getFileSystemView().getSystemIcon(file));
+            menuItem.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (e.getSource() instanceof JMenuItem) {
+                        if (!releaseFile()) {
+                            return;
+                        }
+
+                        JMenuItem menuItem = (JMenuItem) e.getSource();
+                        for (int itemIndex = 0; itemIndex < fileOpenRecentMenu.getItemCount(); itemIndex++) {
+                            if (menuItem.equals(fileOpenRecentMenu.getItem(itemIndex))) {
+                                RecentItem recentItem = recentFiles.get(itemIndex);
+                                FileType fileType = null;
+                                for (FileFilter fileFilter : openFC.getChoosableFileFilters()) {
+                                    if (fileFilter instanceof FileType) {
+                                        if (((FileType) fileFilter).getFileTypeId().equals(recentItem.getFileMode())) {
+                                            fileType = (FileType) fileFilter;
+                                        }
+                                    }
+                                }
+
+                                fileHandler.setFileType(fileType);
+                                fileHandler.setFileName(recentItem.getFileName());
+                                fileHandler.loadFromFile();
+                            }
+                        }
+                    }
+                }
+            });
+
+            fileOpenRecentMenu.add(menuItem);
+        }
+        fileOpenRecentMenu.setEnabled(recentFiles.size() > 0);
+    }
+
+    /**
+     * @return the preferences
+     */
+    public Preferences getPreferences() {
+        return preferences;
+    }
+
+    /**
+     * @param preferences the preferences to set
+     */
+    public void setPreferences(Preferences preferences) {
+        this.preferences = preferences;
+    }
+
     public class AllFilesFilter extends FileFilter implements FileType {
 
         @Override
@@ -323,5 +437,45 @@ public class FileHandlingActions implements FileHandlingActionsApi {
     @Override
     public void setFileHandler(FileHandlerApi fileHandler) {
         this.fileHandler = fileHandler;
+    }
+
+    /**
+     * Class for representation of recently opened or saved files.
+     */
+    public class RecentItem {
+
+        private String fileName;
+        private String moduleName;
+        private String fileMode;
+
+        public RecentItem(String fileName, String moduleName, String fileMode) {
+            this.fileName = fileName;
+            this.moduleName = moduleName;
+            this.fileMode = fileMode;
+        }
+
+        public String getFileName() {
+            return fileName;
+        }
+
+        public void setFileName(String path) {
+            this.fileName = path;
+        }
+
+        public String getFileMode() {
+            return fileMode;
+        }
+
+        public void setFileMode(String fileMode) {
+            this.fileMode = fileMode;
+        }
+
+        public String getModuleName() {
+            return moduleName;
+        }
+
+        public void setModuleName(String moduleName) {
+            this.moduleName = moduleName;
+        }
     }
 }

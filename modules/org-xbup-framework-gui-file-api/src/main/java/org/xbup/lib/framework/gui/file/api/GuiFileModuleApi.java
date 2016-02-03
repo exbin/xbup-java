@@ -22,7 +22,7 @@ import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 /**
  * Interface for XBUP framework file module.
  *
- * @version 0.2.0 2016/01/23
+ * @version 0.2.0 2016/02/03
  * @author XBUP Project (http://xbup.org)
  */
 public interface GuiFileModuleApi extends XBApplicationModulePlugin {
@@ -36,22 +36,27 @@ public interface GuiFileModuleApi extends XBApplicationModulePlugin {
     /**
      * Registers file handling operations to main frame menu.
      */
-    public void registerMenuFileHandlingActions();
+    void registerMenuFileHandlingActions();
 
     /**
      * Registers file handling operations to main frame tool bar.
      */
-    public void registerToolBarFileHandlingActions();
+    void registerToolBarFileHandlingActions();
 
     /**
      * Register close listener.
      */
-    public void registerCloseListener();
+    void registerCloseListener();
 
     /**
      * Attempts to load given filename to active panel.
      *
      * @param filename
      */
-    public void loadFromFile(String filename);
+    void loadFromFile(String filename);
+    
+    /**
+     * Registers list of last opened files into file menu.
+     */
+    void registerLastOpenedMenuActions();
 }

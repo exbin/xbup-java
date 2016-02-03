@@ -116,6 +116,7 @@ public class XBTEditor {
                 // Register clipboard editing actions
                 fileModule.registerMenuFileHandlingActions();
                 fileModule.registerToolBarFileHandlingActions();
+                fileModule.registerLastOpenedMenuActions();
                 fileModule.registerCloseListener();
 
                 undoModule.registerMainMenu();

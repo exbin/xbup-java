@@ -1,3 +1,0 @@
-Changes in version 0.1 wr 20:
-- created
-

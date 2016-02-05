@@ -710,6 +710,10 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
         return clipboard.isDataFlavorAvailable(WaveClipboardData.WAVE_FLAVOR);
     }
 
+    public boolean isEmpty() {
+        return wavePanel.getWave() == null;
+    }
+
     class PlayThread extends Thread {
 
         boolean playing;

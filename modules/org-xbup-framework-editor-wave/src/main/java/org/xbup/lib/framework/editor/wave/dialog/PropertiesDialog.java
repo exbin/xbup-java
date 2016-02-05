@@ -181,20 +181,19 @@ public class PropertiesDialog extends javax.swing.JDialog {
         WindowUtils.closeWindow(this);
     }//GEN-LAST:event_closeButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         WindowUtils.invokeWindow(new PropertiesDialog(new javax.swing.JFrame(), true));
     }
 
     public void setDocument(AudioPanel panel) {
-        fileNameTextField.setText(panel.getFileName());
-        waveLengthTextField.setText(panel.getWaveLength());
-        AudioFormat waveFormat = panel.getWaveFormat();
-        sampleRateTextField.setText(String.valueOf((long) waveFormat.getSampleRate()));
-        channelsTextField.setText(String.valueOf(waveFormat.getChannels()));
-        encodingTextField.setText(String.valueOf(waveFormat.getEncoding().toString()));
+        if (!panel.isEmpty()) {
+            fileNameTextField.setText(panel.getFileName());
+            waveLengthTextField.setText(panel.getWaveLength());
+            AudioFormat waveFormat = panel.getWaveFormat();
+            sampleRateTextField.setText(String.valueOf((long) waveFormat.getSampleRate()));
+            channelsTextField.setText(String.valueOf(waveFormat.getChannels()));
+            encodingTextField.setText(String.valueOf(waveFormat.getEncoding().toString()));
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

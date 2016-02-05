@@ -52,6 +52,10 @@ public class XBWave implements XBPSequenceSerializable {
         audioFormat = null;
     }
 
+    public XBWave(AudioFormat audioFormat) {
+        this.audioFormat = audioFormat;
+    }
+
     public void loadFromFile(File soundFile) {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
@@ -130,7 +134,7 @@ public class XBWave implements XBPSequenceSerializable {
         if (!data.isEmpty()) {
             long startDataPos = startPosition * audioFormat.getChannels() * 2;
             long endDataPos = endPosition * audioFormat.getChannels() * 2;
-            
+
             // TODO support for non-whole-byte alignment later
             int sampleSize = audioFormat.getSampleSizeInBits() / 8;
             byte[] buffer = new byte[sampleSize];
@@ -196,7 +200,7 @@ public class XBWave implements XBPSequenceSerializable {
         return data.getDataSize();
     }
 
-    public int getRatioValue(int position, int channel, int height) {
+    public long getValue(int position, int channel) {
         int bytesPerSample = audioFormat.getSampleSizeInBits() >> 3;
 
         int chunk = ((position * audioFormat.getChannels() + channel) * bytesPerSample) / data.getPageSize();
@@ -217,8 +221,44 @@ public class XBWave implements XBPSequenceSerializable {
                 }
             }
         }
+        
+        return value;
+    }
+
+    public int getRatioValue(int position, int channel, int height) {
+        int bytesPerSample = audioFormat.getSampleSizeInBits() >> 3;
+
+        int chunk = ((position * audioFormat.getChannels() + channel) * bytesPerSample) / data.getPageSize();
+        int offset = ((position * audioFormat.getChannels() + channel) * bytesPerSample) % data.getPageSize();
+
+        long value;
+        if (audioFormat.getEncoding() == AudioFormat.Encoding.PCM_UNSIGNED) {
+            value = data.getPage(chunk)[offset] & 0xFF;
+        } else {
+            value = data.getPage(chunk)[offset];
+        }
+        if (bytesPerSample > 1) {
+            value += ((long) ((data.getPage(chunk)[offset + 1] + 127)) << 8);
+            if (bytesPerSample > 2) {
+                value += ((long) ((data.getPage(chunk)[offset + 2] + 127)) << 16);
+                if (bytesPerSample > 3) {
+                    value += ((long) ((data.getPage(chunk)[offset + 3] + 127)) << 24);
+                }
+            }
+        }
 
         return (int) (((long) value * height) >> audioFormat.getSampleSizeInBits());
+    }
+
+    public void setValue(int pos, long value, int channel) {
+        // TODO: support for different bitsize
+        int chunk = ((pos * audioFormat.getChannels() + channel) * 2) / data.getPageSize();
+        int offset = ((pos * audioFormat.getChannels() + channel) * 2) % data.getPageSize();
+        byte[] block = data.getPage(chunk);
+
+        block[offset] = (byte) (value & 255);
+        block[offset + 1] = (byte) ((value >> 8) & 255);
+        data.setPage(chunk, block);
     }
 
     public void setRatioValue(int pos, int value, int channel, int height) {
@@ -240,7 +280,13 @@ public class XBWave implements XBPSequenceSerializable {
     }
 
     public int getLengthInTicks() {
-        return (int) data.getDataSize() / (audioFormat.getChannels() * 2);
+        int bytesPerSample = audioFormat.getSampleSizeInBits() >> 3;
+        return (int) data.getDataSize() / (audioFormat.getChannels() * bytesPerSample);
+    }
+
+    public void setLengthInTicks(int ticks) {
+        int bytesPerSample = audioFormat.getSampleSizeInBits() >> 3;
+        data.setDataSize(ticks * audioFormat.getChannels() * bytesPerSample);
     }
 
     public void append(byte[] data) {

@@ -26,6 +26,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.Transparency;
 import java.awt.event.ActionEvent;
@@ -118,11 +119,13 @@ public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, 
         imageArea = new ImageAreaPanel();
         
         imageArea.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 imageAreaMouseClicked(evt);
             }
         });
         imageArea.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            @Override
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 imageAreaMouseDragged(evt);
             }
@@ -190,18 +193,19 @@ public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, 
         imageArea.addMouseWheelListener(new MouseWheelListener() {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
-                 // 317, 520
-                int positionX = (int) ((e.getPoint().x - scrollPane.getHorizontalScrollBar().getValue()) * scaleRatio);
-                int positionY = (int) ((e.getPoint().y - scrollPane.getVerticalScrollBar().getValue()) * scaleRatio);
+                int relativeMouseX = e.getPoint().x - scrollPane.getHorizontalScrollBar().getValue();
+                int relativeMouseY = e.getPoint().y - scrollPane.getVerticalScrollBar().getValue();
+                int positionX = (int) (e.getPoint().x * scaleRatio);
+                int positionY = (int) (e.getPoint().y * scaleRatio);
                 if (e.getWheelRotation() == 1) {
                     setScale(scaleRatio * 2);
-                    positionX -= (int) (e.getPoint().x * scaleRatio);
-                    positionY -= (int) (e.getPoint().y * scaleRatio);
+                    positionX -= (int) (relativeMouseX * scaleRatio);
+                    positionY -= (int) (relativeMouseY * scaleRatio);
 
                 } else if (e.getWheelRotation() == -1) {
                     setScale(scaleRatio / 2);
-                    positionX -= (int) (e.getPoint().x * scaleRatio);
-                    positionY -= (int) (e.getPoint().y * scaleRatio);
+                    positionX -= (int) (relativeMouseX * scaleRatio);
+                    positionY -= (int) (relativeMouseY * scaleRatio);
                 }
                 if (positionX < 0) {
                     positionX = 0;
@@ -500,7 +504,7 @@ public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, 
         image = toBufferedImage(createImage(100, 100));
         graphics = image.getGraphics();
         graphics.setColor(Color.WHITE);
-        graphics.fillRect(0, 0, 100, 100); //imageArea.getIcon().getIconWidth(), imageArea.getIcon().getIconHeight());
+        graphics.fillRect(0, 0, 100, 100);
         graphics.setColor(toolColor);
         setModified(false);
     }
@@ -747,13 +751,14 @@ public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, 
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            if (scaleRatio == 1) {
-                g.drawImage(image, 0, 0, imageObserver);
-            } else {
-                int scaledWidth = (int) (width / scaleRatio);
-                int scaledHeight = (int) (height / scaleRatio);
-                g.drawImage(image, 0, 0, scaledWidth, scaledHeight, 0, 0, width, height, imageObserver);
-            }
+            Rectangle clipBounds = g.getClipBounds();
+            g.setColor(Color.WHITE);
+            g.fillRect(clipBounds.x, clipBounds.y, clipBounds.x + clipBounds.width, clipBounds.y + clipBounds.height);
+            int srcX = (int) (clipBounds.x * scaleRatio);
+            int srcY = (int) (clipBounds.y * scaleRatio);
+            int srcWidth = (int) (clipBounds.width * scaleRatio);
+            int srcHeigth = (int) (clipBounds.height * scaleRatio);
+            g.drawImage(image, clipBounds.x, clipBounds.y, clipBounds.x + clipBounds.width, clipBounds.y + clipBounds.height, srcX, srcY, srcX + srcWidth, srcY + srcHeigth, imageObserver);
         }
         
         public void updateSize() {

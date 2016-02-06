@@ -17,6 +17,7 @@
 package org.xbup.lib.framework.editor.picture.panel;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
@@ -30,8 +31,11 @@ import java.awt.Transparency;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputMethodListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
+import java.awt.image.ImageObserver;
 import java.awt.image.PixelGrabber;
 import java.awt.image.RenderedImage;
 import java.awt.print.PageFormat;
@@ -47,7 +51,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -74,17 +77,17 @@ import org.xbup.lib.framework.editor.picture.EditorPictureModule;
 import org.xbup.lib.framework.editor.picture.PictureFileType;
 import org.xbup.lib.framework.gui.file.api.FileType;
 import org.xbup.lib.visual.picture.XBBufferedImage;
-import org.xbup.lib.framework.editor.picture.dialog.FontDialog;
 import org.xbup.lib.framework.editor.picture.dialog.ImageResizeDialog;
 import org.xbup.lib.framework.editor.picture.dialog.ToolColorDialog;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.menu.api.ClipboardActionsUpdateListener;
 import org.xbup.lib.framework.gui.menu.api.ComponentClipboardHandler;
+import org.xbup.lib.framework.gui.utils.WindowUtils;
 
 /**
  * Image panel for XBPEditor.
  *
- * @version 0.2.0 2016/01/31
+ * @version 0.2.0 2016/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, ComponentClipboardHandler {
@@ -97,8 +100,7 @@ public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, 
     private FileType fileType;
     private final boolean modified = false;
     private Image image;
-    private Image scaledImage;
-    private Graphics grph;
+    private Graphics graphics;
     private double scaleRatio;
     private final Object highlight;
     private Color selectionColor;
@@ -109,9 +111,24 @@ public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, 
     private final ToolMode toolMode;
     private PropertyChangeListener propertyChangeListener;
     private ImageStatusPanel imageStatusPanel;
+    private final ImageAreaPanel imageArea;
 
     public ImagePanel() {
         initComponents();
+        imageArea = new ImageAreaPanel();
+        
+        imageArea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imageAreaMouseClicked(evt);
+            }
+        });
+        imageArea.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                imageAreaMouseDragged(evt);
+            }
+        });
+        
+        scrollPane.setViewportView(imageArea);
         scaleRatio = 1;
         toolMode = ToolMode.DOTTER;
         undo = new UndoManager();
@@ -169,11 +186,85 @@ public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, 
         });
         // Bind the redo action to ctl-Y
         imageArea.getInputMap().put(KeyStroke.getKeyStroke("control Y"), "Redo");
+
+        imageArea.addMouseWheelListener(new MouseWheelListener() {
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                 // 317, 520
+                int positionX = (int) ((e.getPoint().x - scrollPane.getHorizontalScrollBar().getValue()) * scaleRatio);
+                int positionY = (int) ((e.getPoint().y - scrollPane.getVerticalScrollBar().getValue()) * scaleRatio);
+                if (e.getWheelRotation() == 1) {
+                    setScale(scaleRatio * 2);
+                    positionX -= (int) (e.getPoint().x * scaleRatio);
+                    positionY -= (int) (e.getPoint().y * scaleRatio);
+
+                } else if (e.getWheelRotation() == -1) {
+                    setScale(scaleRatio / 2);
+                    positionX -= (int) (e.getPoint().x * scaleRatio);
+                    positionY -= (int) (e.getPoint().y * scaleRatio);
+                }
+                if (positionX < 0) {
+                    positionX = 0;
+                }
+                if (positionY < 0) {
+                    positionY = 0;
+                }
+                scrollPane.getHorizontalScrollBar().setValue((int) (positionX / scaleRatio));
+                scrollPane.getVerticalScrollBar().setValue((int) (positionY / scaleRatio));
+                repaint();
+            }
+        });
     }
 
-    public Icon getIcon() {
-        return imageArea.getIcon();
-    }
+    private void imageAreaMouseDragged(java.awt.event.MouseEvent evt) {                                       
+        if (null != toolMode) {
+            switch (toolMode) {
+                case DOTTER:
+                    int x = (int) (evt.getX() * scaleRatio);
+                    int y = (int) (evt.getY() * scaleRatio);
+                    if (graphics != null) {
+                        graphics.fillOval(x - 5, y - 5, 10, 10);
+                        imageArea.repaint();
+                    } else {
+                        System.out.println("Graphics is null!");
+                    }   //            evt.getComponent().repaint();
+                    evt.consume();
+                    break;
+                case PENCIL:
+                    break;
+                case LINE:
+                    break;
+                default:
+                    break;
+            }
+        }
+    }                                      
+
+    private void imageAreaMouseClicked(java.awt.event.MouseEvent evt) {                                       
+        if (evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
+            if (null != toolMode) {
+                switch (toolMode) {
+                    case DOTTER:
+                        int x = (int) (evt.getX() * scaleRatio);
+                        int y = (int) (evt.getY() * scaleRatio);
+                        if (graphics != null) {
+                            graphics.fillOval(x - 5, y - 5, 10, 10);
+                            repaint();
+                        } else {
+                            System.out.println("Graphics is null!");
+                        }   //                evt.getComponent().repaint();
+                        evt.consume();
+                        break;
+                    case PENCIL:
+                        break;
+                    case LINE:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }                                      
 
     @Override
     public void performCopy() {
@@ -230,29 +321,12 @@ public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, 
         }
     }
 
-    public void setCurrentFont(Font font) {
-        imageArea.setFont(font);
-    }
-
-    public void showColorDialog(ToolColorDialog dlg) {
+    public void showDialog(ToolColorDialog dlg) {
         ToolColorPanel colorPanel = dlg.getColorPanel();
         // colorPanel.setTextFindColor(getSelectionColor());
         dlg.setVisible(true);
         if (dlg.getDialogOption() == JOptionPane.OK_OPTION) {
             // setSelectionColor(colorPanel.getTextFindColor());
-        }
-    }
-
-    public void showFontDialog(FontDialog dlg) {
-//        SimpleAttributeSet a = new SimpleAttributeSet();
-//        StyleConstants.setFontFamily(a, "Monospaced");
-//        StyleConstants.setFontSize(a, 12);
-//        dlg.setAttributes(a);
-        dlg.setStoredFont(imageArea.getFont());
-        dlg.setVisible(true);
-        if (dlg.getDialogOption() == JOptionPane.OK_OPTION) {
-            imageArea.setFont(dlg.getStoredFont());
-//            textArea.setForeground(dlg.getMyColor());
         }
     }
 
@@ -277,96 +351,20 @@ public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        imageArea = new javax.swing.JLabel();
+        scrollPane = new javax.swing.JScrollPane();
 
         setAutoscrolls(true);
         setInheritsPopupMenu(true);
         setName("Form"); // NOI18N
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
-        jScrollPane1.setName("jScrollPane1"); // NOI18N
-
-        imageArea.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        imageArea.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        imageArea.setAlignmentY(0.0F);
-        imageArea.setAutoscrolls(true);
-        imageArea.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
-        imageArea.setIconTextGap(0);
-        imageArea.setName("imageArea"); // NOI18N
-        imageArea.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                imageAreaMouseClicked(evt);
-            }
-        });
-        imageArea.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                imageAreaMouseDragged(evt);
-            }
-        });
-        jScrollPane1.setViewportView(imageArea);
-
-        add(jScrollPane1);
+        scrollPane.setName("scrollPane"); // NOI18N
+        add(scrollPane);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void imageAreaMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageAreaMouseDragged
-        if (null != toolMode) {
-            switch (toolMode) {
-                case DOTTER:
-                    int x = (int) (evt.getX() / scaleRatio);
-                    int y = (int) (evt.getY() / scaleRatio);
-                    if (grph != null) {
-                        grph.fillOval(x - 5, y - 5, 10, 10);
-//                image.flush();
-                        scaledImage.flush();
-                        imageArea.repaint();
-                    } else {
-                        System.out.println("Graphics is null!");
-                    }   //            evt.getComponent().repaint();
-                    evt.consume();
-                    break;
-                case PENCIL:
-                    break;
-                case LINE:
-                    break;
-                default:
-                    break;
-            }
-        }
-    }//GEN-LAST:event_imageAreaMouseDragged
-
-    private void imageAreaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageAreaMouseClicked
-        if (evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
-            if (null != toolMode) {
-                switch (toolMode) {
-                    case DOTTER:
-                        int x = (int) (evt.getX() / scaleRatio);
-                        int y = (int) (evt.getY() / scaleRatio);
-                        if (grph != null) {
-                            grph.fillOval(x - 5, y - 5, 10, 10);
-//                    image.flush();
-                            scaledImage.flush();
-                            repaint();
-                        } else {
-                            System.out.println("Graphics is null!");
-                        }   //                evt.getComponent().repaint();
-                        evt.consume();
-                        break;
-                    case PENCIL:
-                        break;
-                    case LINE:
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-    }//GEN-LAST:event_imageAreaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel imageArea;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane scrollPane;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -418,11 +416,9 @@ public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, 
         } else {
             image = toBufferedImage(Toolkit.getDefaultToolkit().getImage(getFileName()));
         }
-        scaledImage = image;
-        grph = image.getGraphics();
-        grph.setColor(toolColor);
-        imageArea.setIcon(new ImageIcon(image));
-        scale(scaleRatio);
+        graphics = image.getGraphics();
+        graphics.setColor(toolColor);
+        setScale(scaleRatio);
     }
 
     @Override
@@ -502,12 +498,10 @@ public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, 
     @Override
     public void newFile() {
         image = toBufferedImage(createImage(100, 100));
-        scaledImage = image;
-        imageArea.setIcon(new ImageIcon(image));
-        grph = image.getGraphics();
-        grph.setColor(Color.WHITE);
-        grph.fillRect(0, 0, imageArea.getIcon().getIconWidth(), imageArea.getIcon().getIconHeight());
-        grph.setColor(toolColor);
+        graphics = image.getGraphics();
+        graphics.setColor(Color.WHITE);
+        graphics.fillRect(0, 0, 100, 100); //imageArea.getIcon().getIconWidth(), imageArea.getIcon().getIconHeight());
+        graphics.setColor(toolColor);
         setModified(false);
     }
 
@@ -533,14 +527,14 @@ public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, 
         return defaultFont;
     }
 
-    public void scale(double ratio) {
+    public void setScale(double ratio) {
         scaleRatio = ratio;
-        int width = (int) (image.getWidth(null) * ratio);
-        int height = (int) (image.getHeight(null) * ratio);
-        scaledImage = image.getScaledInstance(width, height, Image.SCALE_DEFAULT);
-        ((ImageIcon) imageArea.getIcon()).setImage(scaledImage);
-        imageArea.setSize(width, height);
-        imageArea.repaint();
+        imageArea.updateSize();
+        scrollPane.repaint();
+    }
+
+    public double getScale() {
+        return scaleRatio;
     }
 
     public String getExt() {
@@ -644,24 +638,29 @@ public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, 
         imageArea.addMouseMotionListener(listener);
     }
 
+    public Color getToolColor() {
+        return toolColor;
+    }
+
     public void setToolColor(Color toolColor) {
         this.toolColor = toolColor;
-        if (grph != null) {
-            grph.setColor(toolColor);
+        if (graphics != null) {
+            graphics.setColor(toolColor);
         }
     }
 
-    public void showResizeDialog(ImageResizeDialog dlg) {
-        dlg.setResolution(new Point(image.getWidth(null), image.getHeight(null)));
-        dlg.setVisible(true);
-        if (dlg.getDialogOption() == JOptionPane.OK_OPTION) {
-            Point point = dlg.getResolution();
+    public void performImageResize() {
+        ImageResizeDialog dialog = new ImageResizeDialog(WindowUtils.getFrame(this), true);
+        dialog.setResolution(new Point(image.getWidth(null), image.getHeight(null)));
+        dialog.setVisible(true);
+        if (dialog.getDialogOption() == JOptionPane.OK_OPTION) {
+            Point point = dialog.getResolution();
             int width = (int) (point.getX());
             int height = (int) (point.getY());
             image = toBufferedImage(image.getScaledInstance(width, height, Image.SCALE_DEFAULT));
-            grph = image.getGraphics();
-            grph.setColor(toolColor);
-            scale(scaleRatio);
+            graphics = image.getGraphics();
+            graphics.setColor(toolColor);
+            setScale(scaleRatio);
         }
     }
 
@@ -697,7 +696,7 @@ public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, 
 
     @Override
     public boolean isSelection() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return false;
     }
 
     @Override
@@ -728,5 +727,40 @@ public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, 
         DOTTER,
         PENCIL,
         LINE
+    }
+    
+    private class ImageAreaPanel extends JPanel {
+        
+        private int width;
+        private int height;
+
+        public ImageAreaPanel() {
+        }
+        
+        private final ImageObserver imageObserver = new ImageObserver() {
+            @Override
+            public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+                return true;
+            }
+        };
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (scaleRatio == 1) {
+                g.drawImage(image, 0, 0, imageObserver);
+            } else {
+                int scaledWidth = (int) (width / scaleRatio);
+                int scaledHeight = (int) (height / scaleRatio);
+                g.drawImage(image, 0, 0, scaledWidth, scaledHeight, 0, 0, width, height, imageObserver);
+            }
+        }
+        
+        public void updateSize() {
+            width = image.getWidth(imageObserver);
+            height = image.getHeight(imageObserver);
+            setPreferredSize(new Dimension((int) (width / scaleRatio), (int) (height / scaleRatio)));
+            revalidate();
+        }
     }
 }

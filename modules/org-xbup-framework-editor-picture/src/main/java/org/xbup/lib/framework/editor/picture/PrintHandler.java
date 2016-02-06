@@ -14,24 +14,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.editor.wave;
+package org.xbup.lib.framework.editor.picture;
 
 import java.awt.event.ActionEvent;
 import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import org.xbup.lib.framework.editor.picture.panel.ImagePanel;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
-import org.xbup.lib.framework.editor.wave.panel.AudioPanel;
 
 /**
- * Audio operation handler.
+ * Print handler.
  *
- * @version 0.2.0 2016/01/24
+ * @version 0.2.0 2016/02/06
  * @author XBUP Project (http://xbup.org)
  */
-public class AudioOperationHandler {
+public class PrintHandler {
 
     private final XBEditorProvider editorProvider;
     private final XBApplication application;
@@ -39,30 +39,32 @@ public class AudioOperationHandler {
 
     private int metaMask;
 
-    private Action audioReverseAction;
+    private Action printAction;
 
-    public AudioOperationHandler(XBApplication application, XBEditorProvider editorProvider) {
+    public PrintHandler(XBApplication application, XBEditorProvider editorProvider) {
         this.application = application;
         this.editorProvider = editorProvider;
-        resourceBundle = ActionUtils.getResourceBundleByClass(EditorWaveModule.class);
+        resourceBundle = ActionUtils.getResourceBundleByClass(EditorPictureModule.class);
     }
 
     public void init() {
         metaMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
 
-        audioReverseAction = new AbstractAction() {
+        printAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (editorProvider instanceof AudioPanel) {
-                    AudioPanel activePanel = (AudioPanel) editorProvider;
-                    activePanel.performTransformReverse();
+                if (editorProvider instanceof ImagePanel) {
+                    ImagePanel activePanel = (ImagePanel) editorProvider;
+                    activePanel.printFile();
                 }
             }
         };
-        ActionUtils.setupAction(audioReverseAction, resourceBundle, "audioReverseAction");
+        ActionUtils.setupAction(printAction, resourceBundle, "printAction");
+        printAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, metaMask));
+        printAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
     }
 
-    public Action getRevertAction() {
-        return audioReverseAction;
+    public Action getPrintAction() {
+        return printAction;
     }
 }

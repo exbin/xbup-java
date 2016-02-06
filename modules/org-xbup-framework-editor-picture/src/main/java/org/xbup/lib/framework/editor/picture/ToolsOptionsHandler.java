@@ -14,16 +14,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.editor.wave;
+package org.xbup.lib.framework.editor.picture;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import org.xbup.lib.framework.editor.wave.dialog.WaveColorDialog;
-import org.xbup.lib.framework.editor.wave.panel.AudioPanel;
-import org.xbup.lib.framework.editor.wave.panel.WaveColorPanelApi;
+import org.xbup.lib.framework.editor.picture.dialog.ToolColorDialog;
+import org.xbup.lib.framework.editor.picture.panel.ImagePanel;
+import org.xbup.lib.framework.editor.picture.panel.ToolColorPanelApi;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
@@ -32,7 +32,7 @@ import org.xbup.lib.framework.gui.utils.ActionUtils;
 /**
  * Tools options action handler.
  *
- * @version 0.2.0 2016/01/23
+ * @version 0.2.0 2016/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class ToolsOptionsHandler {
@@ -48,7 +48,7 @@ public class ToolsOptionsHandler {
     public ToolsOptionsHandler(XBApplication application, XBEditorProvider editorProvider) {
         this.application = application;
         this.editorProvider = editorProvider;
-        resourceBundle = ActionUtils.getResourceBundleByClass(EditorWaveModule.class);
+        resourceBundle = ActionUtils.getResourceBundleByClass(EditorPictureModule.class);
     }
 
     public void init() {
@@ -56,23 +56,28 @@ public class ToolsOptionsHandler {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
-                WaveColorPanelApi textColorPanelApi = new WaveColorPanelApi() {
+                ToolColorPanelApi toolColorPanelApi = new ToolColorPanelApi() {
                     @Override
-                    public Color[] getCurrentWaveColors() {
-                        return ((AudioPanel) editorProvider).getAudioPanelColors();
+                    public Color getToolColor() {
+                        return ((ImagePanel) editorProvider).getToolColor();
                     }
 
                     @Override
-                    public Color[] getDefaultWaveColors() {
-                        return ((AudioPanel) editorProvider).getDefaultColors();
+                    public Color getSelectionColor() {
+                        return ((ImagePanel) editorProvider).getSelectionColor();
                     }
 
                     @Override
-                    public void setCurrentWaveColors(Color[] colors) {
-                        ((AudioPanel) editorProvider).setAudioPanelColors(colors);
+                    public void setToolColor(Color color) {
+                        ((ImagePanel) editorProvider).setToolColor(color);
+                    }
+
+                    @Override
+                    public void setSelectionColor(Color color) {
+                        ((ImagePanel) editorProvider).setSelectionColor(color);
                     }
                 };
-                WaveColorDialog dialog = new WaveColorDialog(frameModule.getFrame(), true, textColorPanelApi);
+                ToolColorDialog dialog = new ToolColorDialog(frameModule.getFrame(), true, toolColorPanelApi);
                 dialog.setIconImage(application.getApplicationIcon());
                 dialog.setLocationRelativeTo(dialog.getParent());
                 dialog.showDialog();

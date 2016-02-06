@@ -47,7 +47,7 @@ import org.xbup.lib.operation.undo.XBTLinearUndo;
 /**
  * The main class of the XBPEditor application.
  *
- * @version 0.2.0 2016/01/26
+ * @version 0.2.0 2016/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBPEditor {
@@ -118,6 +118,7 @@ public class XBPEditor {
                 // Register clipboard editing actions
                 fileModule.registerMenuFileHandlingActions();
                 fileModule.registerToolBarFileHandlingActions();
+                fileModule.registerLastOpenedMenuActions();
                 fileModule.registerCloseListener();
 
                 undoModule.registerMainMenu();
@@ -127,7 +128,7 @@ public class XBPEditor {
                 linearUndo.addUndoUpdateListener(new UndoUpdateListener() {
                     @Override
                     public void undoChanged() {
-                        // ((AudioPanel) pictureEditorModule.getEditorProvider()).repaint();
+                        ((ImagePanel) pictureEditorModule.getEditorProvider()).repaint();
                     }
                 });
                 undoModule.setUndoHandler(linearUndo);
@@ -140,7 +141,11 @@ public class XBPEditor {
 
                 pictureEditorModule.registerToolsOptionsMenuActions();
                 pictureEditorModule.registerOptionsMenuPanels();
-//                pictureEditorModule.registerPropertiesMenu();
+                pictureEditorModule.registerPropertiesMenu();
+                pictureEditorModule.registerPrintMenu();
+                pictureEditorModule.registerZoomModeMenu();
+                pictureEditorModule.registerPictureMenu();
+                pictureEditorModule.registerPictureOperationMenu();
 
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
                 ImagePanel imagePanel = (ImagePanel) pictureEditorModule.getEditorProvider();

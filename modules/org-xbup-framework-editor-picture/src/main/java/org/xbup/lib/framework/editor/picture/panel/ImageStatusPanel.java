@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.framework.editor.picture.panel;
 
+import java.awt.Point;
 import org.xbup.lib.framework.editor.picture.ImageControlApi;
 
 /**
@@ -69,7 +70,10 @@ public class ImageStatusPanel extends javax.swing.JPanel {
     private javax.swing.JTextField cursorPositionTextField;
     // End of variables declaration//GEN-END:variables
 
-    public void setCurrentPosition(String positionTime) {
-        cursorPositionTextField.setText(positionTime);
+    public void setCurrentPosition(Point position) {
+        if (position != null) {
+            String positionText = position.x + " : " + position.y;
+            cursorPositionTextField.setText(positionText);
+        }
     }
 }

@@ -25,7 +25,7 @@ import javax.swing.JDialog;
 /**
  * XBPEditor Color Selection panel.
  *
- * @version 0.2.0 2016/01/27
+ * @version 0.2.0 2016/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class ToolColorPanel extends javax.swing.JPanel {
@@ -34,20 +34,20 @@ public class ToolColorPanel extends javax.swing.JPanel {
         initComponents();
     }
 
-    public Color getTextColor() {
-        return penColorPanel.getBackground();
+    public Color getToolColor() {
+        return toolColorPanel.getBackground();
     }
 
-    public Color getTextBackgroundColor() {
-        return fillColorPanel.getBackground();
+    public Color getSelectionColor() {
+        return selectionColorPanel.getBackground();
     }
 
-    public void setTextColor(Color color) {
-        penColorPanel.setBackground(color);
+    public void setToolColor(Color color) {
+        toolColorPanel.setBackground(color);
     }
 
-    public void setTextBackgroundColor(Color color) {
-        fillColorPanel.setBackground(color);
+    public void setSelectionColor(Color color) {
+        selectionColorPanel.setBackground(color);
     }
 
     @Override
@@ -68,10 +68,10 @@ public class ToolColorPanel extends javax.swing.JPanel {
 
         jColorChooser1 = new javax.swing.JColorChooser();
         penColorLabel = new javax.swing.JLabel();
-        penColorPanel = new javax.swing.JPanel();
+        toolColorPanel = new javax.swing.JPanel();
         penColorSelectButton = new javax.swing.JButton();
         fillcolorLabel = new javax.swing.JLabel();
-        fillColorPanel = new javax.swing.JPanel();
+        selectionColorPanel = new javax.swing.JPanel();
         fillColorSelectButton = new javax.swing.JButton();
 
         jColorChooser1.setName("jColorChooser1"); // NOI18N
@@ -82,17 +82,17 @@ public class ToolColorPanel extends javax.swing.JPanel {
         penColorLabel.setText(bundle.getString("ToolColorPanel.penColorLabel.text")); // NOI18N
         penColorLabel.setName("penColorLabel"); // NOI18N
 
-        penColorPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        penColorPanel.setName("penColorPanel"); // NOI18N
+        toolColorPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        toolColorPanel.setName("toolColorPanel"); // NOI18N
 
-        javax.swing.GroupLayout penColorPanelLayout = new javax.swing.GroupLayout(penColorPanel);
-        penColorPanel.setLayout(penColorPanelLayout);
-        penColorPanelLayout.setHorizontalGroup(
-            penColorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout toolColorPanelLayout = new javax.swing.GroupLayout(toolColorPanel);
+        toolColorPanel.setLayout(toolColorPanelLayout);
+        toolColorPanelLayout.setHorizontalGroup(
+            toolColorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        penColorPanelLayout.setVerticalGroup(
-            penColorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        toolColorPanelLayout.setVerticalGroup(
+            toolColorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 21, Short.MAX_VALUE)
         );
 
@@ -107,17 +107,17 @@ public class ToolColorPanel extends javax.swing.JPanel {
         fillcolorLabel.setText(bundle.getString("ToolColorPanel.fillColorLabel")); // NOI18N
         fillcolorLabel.setName("fillcolorLabel"); // NOI18N
 
-        fillColorPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        fillColorPanel.setName("fillColorPanel"); // NOI18N
+        selectionColorPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        selectionColorPanel.setName("selectionColorPanel"); // NOI18N
 
-        javax.swing.GroupLayout fillColorPanelLayout = new javax.swing.GroupLayout(fillColorPanel);
-        fillColorPanel.setLayout(fillColorPanelLayout);
-        fillColorPanelLayout.setHorizontalGroup(
-            fillColorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout selectionColorPanelLayout = new javax.swing.GroupLayout(selectionColorPanel);
+        selectionColorPanel.setLayout(selectionColorPanelLayout);
+        selectionColorPanelLayout.setHorizontalGroup(
+            selectionColorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        fillColorPanelLayout.setVerticalGroup(
-            fillColorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        selectionColorPanelLayout.setVerticalGroup(
+            selectionColorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 21, Short.MAX_VALUE)
         );
 
@@ -138,8 +138,8 @@ public class ToolColorPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(penColorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(fillColorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(toolColorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(selectionColorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(penColorSelectButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -158,37 +158,37 @@ public class ToolColorPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(penColorLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(penColorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(toolColorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(penColorSelectButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(fillcolorLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fillColorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selectionColorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fillColorSelectButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void penColorSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_penColorSelectButtonActionPerformed
-        jColorChooser1.setColor(penColorPanel.getBackground());
+        jColorChooser1.setColor(toolColorPanel.getBackground());
         JDialog dialog = JColorChooser.createDialog(this, "Select color", true, jColorChooser1, new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                setTextColor(jColorChooser1.getColor());
+                setToolColor(jColorChooser1.getColor());
             }
         }, null);
         dialog.setVisible(true);
     }//GEN-LAST:event_penColorSelectButtonActionPerformed
 
     private void fillColorSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fillColorSelectButtonActionPerformed
-        jColorChooser1.setColor(fillColorPanel.getBackground());
+        jColorChooser1.setColor(selectionColorPanel.getBackground());
         JDialog dialog = JColorChooser.createDialog(this, "Select color", true, jColorChooser1, new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                setTextBackgroundColor(jColorChooser1.getColor());
+                setSelectionColor(jColorChooser1.getColor());
             }
         }, null);
         dialog.setVisible(true);
@@ -196,13 +196,13 @@ public class ToolColorPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel fillColorPanel;
     private javax.swing.JButton fillColorSelectButton;
     private javax.swing.JLabel fillcolorLabel;
     private javax.swing.JColorChooser jColorChooser1;
     private javax.swing.JLabel penColorLabel;
-    private javax.swing.JPanel penColorPanel;
     private javax.swing.JButton penColorSelectButton;
+    private javax.swing.JPanel selectionColorPanel;
+    private javax.swing.JPanel toolColorPanel;
     // End of variables declaration//GEN-END:variables
 
 }

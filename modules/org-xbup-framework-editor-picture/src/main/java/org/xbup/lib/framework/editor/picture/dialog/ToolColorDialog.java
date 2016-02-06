@@ -19,21 +19,25 @@ package org.xbup.lib.framework.editor.picture.dialog;
 import javax.swing.JOptionPane;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 import org.xbup.lib.framework.editor.picture.panel.ToolColorPanel;
+import org.xbup.lib.framework.editor.picture.panel.ToolColorPanelApi;
 
 /**
  * XBPEditor tool color dialog.
  *
- * @version 0.2.0 2016/01/27
+ * @version 0.2.0 2016/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class ToolColorDialog extends javax.swing.JDialog {
 
     protected int dialogOption = JOptionPane.CLOSED_OPTION;
+    private final ToolColorPanel toolColorPanel = new ToolColorPanel();
+    private final ToolColorPanelApi colorPanelApi;
 
-    public ToolColorDialog(java.awt.Frame parent, boolean modal) {
+    public ToolColorDialog(java.awt.Frame parent, boolean modal, ToolColorPanelApi colorPanelApi) {
         super(parent, modal);
+        this.colorPanelApi = colorPanelApi;
         initComponents();
-        mainPanel.add(new ToolColorPanel());
+        mainPanel.add(toolColorPanel);
 
         init();
     }
@@ -130,7 +134,7 @@ public class ToolColorDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        WindowUtils.invokeWindow(new ToolColorDialog(new javax.swing.JFrame(), true));
+        WindowUtils.invokeWindow(new ToolColorDialog(new javax.swing.JFrame(), true, null));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -139,4 +143,13 @@ public class ToolColorDialog extends javax.swing.JDialog {
     private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables
 
+    public void showDialog() {
+        toolColorPanel.setToolColor(colorPanelApi.getToolColor());
+        toolColorPanel.setSelectionColor(colorPanelApi.getSelectionColor());
+        setVisible(true);
+        if (getDialogOption() == JOptionPane.OK_OPTION) {
+            colorPanelApi.setToolColor(toolColorPanel.getToolColor());
+            colorPanelApi.setSelectionColor(toolColorPanel.getSelectionColor());
+        }
+    }
 }

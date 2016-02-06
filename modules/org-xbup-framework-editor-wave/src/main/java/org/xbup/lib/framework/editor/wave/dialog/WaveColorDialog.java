@@ -21,7 +21,6 @@ import javax.swing.JOptionPane;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 import org.xbup.lib.framework.editor.wave.panel.WaveColorPanel;
 import org.xbup.lib.framework.editor.wave.panel.WaveColorPanelApi;
-import org.xbup.lib.framework.editor.wave.panel.WaveColorPanelFrame;
 
 /**
  * XBSEditor Wave Color Selection Dialog.

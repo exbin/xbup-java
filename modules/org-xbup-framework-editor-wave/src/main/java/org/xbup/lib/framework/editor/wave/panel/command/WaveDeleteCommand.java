@@ -17,6 +17,7 @@
 package org.xbup.lib.framework.editor.wave.panel.command;
 
 import java.util.Date;
+import org.xbup.lib.audio.swing.XBWavePanel;
 import org.xbup.lib.audio.wave.XBWave;
 import org.xbup.lib.core.type.XBData;
 import org.xbup.lib.operation.XBTDocCommand;
@@ -30,13 +31,13 @@ import org.xbup.lib.operation.basic.XBBasicCommandType;
  */
 public class WaveDeleteCommand extends XBTDocCommand {
 
-    private XBWave wave;
-    private int startPosition;
-    private int endPosition;
+    private final XBWavePanel  wave;
+    private final int startPosition;
+    private final int endPosition;
 
     XBData deletedData;
 
-    public WaveDeleteCommand(XBWave wave, int startPosition, int endPosition) {
+    public WaveDeleteCommand(XBWavePanel  wave, int startPosition, int endPosition) {
         this.wave = wave;
         this.startPosition = startPosition;
         this.endPosition = endPosition;
@@ -49,7 +50,8 @@ public class WaveDeleteCommand extends XBTDocCommand {
 
     @Override
     public void execute() throws Exception {
-        deletedData = wave.cutData(startPosition, endPosition - startPosition);
+        deletedData = wave.getWave().cutData(startPosition, endPosition - startPosition);
+        wave.rebuildZoomCache();
     }
 
     @Override
@@ -59,7 +61,8 @@ public class WaveDeleteCommand extends XBTDocCommand {
 
     @Override
     public void undo() throws Exception {
-        wave.insertData(deletedData, startPosition);
+        wave.getWave().insertData(deletedData, startPosition);
+        wave.rebuildZoomCache();
         deletedData.clear();
     }
 

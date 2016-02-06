@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
  *
- * You should have received a performCopy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.xbup.lib.framework.editor.wave.panel;
@@ -132,6 +132,12 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
                 }
             }
         });
+        wavePanel.setZoomChangedListener(new XBWavePanel.ZoomChangedListener() {
+            @Override
+            public void zoomChanged() {
+                scrollBar.setMaximum(wavePanel.getWaveWidth());
+            }
+        });
         sourceDataLine = null;
         defaultColors = getAudioPanelColors();
 
@@ -162,14 +168,14 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
     @Override
     public void performCopy() {
         XBWavePanel.SelectionRange selectionRange = wavePanel.getSelection();
-        WaveCopyCommand copyCommand = new WaveCopyCommand(wavePanel.getWave(), selectionRange.getBegin(), selectionRange.getEnd());
+        WaveCopyCommand copyCommand = new WaveCopyCommand(wavePanel, selectionRange.getBegin(), selectionRange.getEnd());
         copyCommand.execute();
     }
 
     @Override
     public void performCut() {
         XBWavePanel.SelectionRange selectionRange = wavePanel.getSelection();
-        WaveCutCommand cutCommand = new WaveCutCommand(wavePanel.getWave(), selectionRange.getBegin(), selectionRange.getEnd());
+        WaveCutCommand cutCommand = new WaveCutCommand(wavePanel, selectionRange.getBegin(), selectionRange.getEnd());
         try {
             undoHandler.execute(cutCommand);
         } catch (Exception ex) {
@@ -181,7 +187,7 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
     @Override
     public void performDelete() {
         XBWavePanel.SelectionRange selectionRange = wavePanel.getSelection();
-        WaveDeleteCommand deleteCommand = new WaveDeleteCommand(wavePanel.getWave(), selectionRange.getBegin(), selectionRange.getEnd());
+        WaveDeleteCommand deleteCommand = new WaveDeleteCommand(wavePanel, selectionRange.getBegin(), selectionRange.getEnd());
         try {
             undoHandler.execute(deleteCommand);
         } catch (Exception ex) {
@@ -192,7 +198,7 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
 
     @Override
     public void performPaste() {
-        WavePasteCommand pasteCommand = new WavePasteCommand(wavePanel.getWave(), wavePanel.getCursorPosition());
+        WavePasteCommand pasteCommand = new WavePasteCommand(wavePanel, wavePanel.getCursorPosition());
         try {
             undoHandler.execute(pasteCommand);
         } catch (Exception ex) {
@@ -668,9 +674,9 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
         WaveReverseCommand waveReverseCommand;
         if (isSelection()) {
             XBWavePanel.SelectionRange selectionRange = wavePanel.getSelection();
-            waveReverseCommand = new WaveReverseCommand(wavePanel.getWave(), selectionRange.getBegin(), selectionRange.getEnd());
+            waveReverseCommand = new WaveReverseCommand(wavePanel, selectionRange.getBegin(), selectionRange.getEnd());
         } else {
-            waveReverseCommand = new WaveReverseCommand(wavePanel.getWave());
+            waveReverseCommand = new WaveReverseCommand(wavePanel);
         }
         try {
             undoHandler.execute(waveReverseCommand);
@@ -849,7 +855,7 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
     }
 
     /**
-     * Print supported formats to system console.
+     * Prints supported formats to system console.
      *
      * @param li the line information.
      */

@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
  *
- * You should have received a performCopy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.xbup.lib.audio.swing;
@@ -33,11 +33,13 @@ import org.xbup.lib.audio.swing.renderer.DotsRenderer;
 import org.xbup.lib.audio.swing.renderer.IntegralRenderer;
 import org.xbup.lib.audio.swing.renderer.LineRenderer;
 import org.xbup.lib.audio.wave.XBWave;
+import org.xbup.lib.core.block.XBBlockData;
+import org.xbup.lib.core.type.XBData;
 
 /**
  * Simple panel audio wave.
  *
- * @version 0.2.0 2016/02/05
+ * @version 0.2.0 2016/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class XBWavePanel extends JPanel {
@@ -52,6 +54,7 @@ public class XBWavePanel extends JPanel {
     private ToolMode toolMode;
     private double scaleRatio = 1;
     private SelectionChangedListener selectionChangedListener = null;
+    private ZoomChangedListener zoomChangedListener = null;
     private XBWavePanelRenderer renderer = new DotsRenderer();
 
     private Color waveColor;
@@ -179,6 +182,9 @@ public class XBWavePanel extends JPanel {
                 if (position < 0) {
                     position = 0;
                 }
+                if (zoomChangedListener != null) {
+                    zoomChangedListener.zoomChanged();
+                }
                 setWindowPosition(position);
                 repaint();
             }
@@ -224,13 +230,17 @@ public class XBWavePanel extends JPanel {
         return wave;
     }
 
+    public List<XBWave> getZoomCache() {
+        return zoomCache;
+    }
+
     public SelectionRange getSelection() {
         return selection;
     }
 
     public void setWave(XBWave wave) {
         this.wave = wave;
-//        rebuildZoomCache();
+        rebuildZoomCache();
         repaint();
     }
 
@@ -329,7 +339,6 @@ public class XBWavePanel extends JPanel {
 
     public void setScaleRatio(double scaleRatio) {
         this.scaleRatio = scaleRatio;
-        repaint();
     }
 
     public int getWindowPosition() {
@@ -340,46 +349,86 @@ public class XBWavePanel extends JPanel {
         this.windowPosition = windowPosition;
     }
 
-    private void rebuildZoomCache() {
+    public void rebuildZoomCache() {
         // Rebuild cache
         zoomCache.clear();
-        XBWave zoomWave = new XBWave(wave.getAudioFormat());
-        int lengthInTicks = wave.getLengthInTicks();
-        zoomWave.setLengthInTicks((int) Math.ceil(lengthInTicks / 8) + 1);
+        int numberOflevels = 2;
 
-        long maxValue = 0;
-        long minValue = 0;
+        if (wave == null) {
+            return;
+        }
+
+        int lengthInTicks = wave.getLengthInTicks();
+        ZoomLevelRecord[] levelRecords = new ZoomLevelRecord[numberOflevels];
+        for (int level = 0; level < numberOflevels; level++) {
+            levelRecords[level] = new ZoomLevelRecord(wave, lengthInTicks, level + 1);
+        }
+
         for (int channel = 0; channel < wave.getAudioFormat().getChannels(); channel++) {
             int position = 0;
             while (position < lengthInTicks) {
-                if (position % 16 == 0) {
-                    if (position > 0) {
-                        int zoomWavePosition = (position >> 4) * 2 - 1;
-                        zoomWave.setValue(zoomWavePosition, minValue, channel);
-                        zoomWave.setValue(zoomWavePosition + 1, maxValue, channel);
-                    }
+                for (int level = 0; level < numberOflevels; level++) {
+                    ZoomLevelRecord levelRecord = levelRecords[level];
+                    if (position % levelRecord.levelRatio == 0) {
+                        if (position > 0) {
+                            int zoomWavePosition = (position >> (4 * level + 4)) * 2 - 1;
+                            levelRecord.zoomWave.setValue(levelRecord.minValue, zoomWavePosition, channel);
+                            levelRecord.zoomWave.setValue(levelRecord.maxValue, zoomWavePosition + 1, channel);
+                        }
 
-                    maxValue = wave.getValue(position, channel);
-                    minValue = wave.getValue(position, channel);
-                } else {
-                    long value = wave.getValue(position, channel);
-                    if (value > maxValue) {
-                        maxValue = value;
-                    }
-                    if (value < minValue) {
-                        minValue = value;
+                        wave.getValue(levelRecord.maxValue, position, channel);
+                        wave.getValue(levelRecord.minValue, position, channel);
+                    } else {
+                        wave.getValue(levelRecord.value, position, channel);
+                        if (!dataIsGreaterOrEqual(levelRecord.minValue, levelRecord.value, levelRecord.bytesPerSample)) {
+                            levelRecord.value.copyTo(levelRecord.minValue, 0, levelRecord.bytesPerSample, 0);
+                        }
+                        if (dataIsGreater(levelRecord.value, levelRecord.maxValue, levelRecord.bytesPerSample)) {
+                            levelRecord.value.copyTo(levelRecord.maxValue, 0, levelRecord.bytesPerSample, 0);
+                        }
                     }
                 }
                 position++;
             }
-            
+
             if (position > 0) {
-                int zoomWavePosition = (position >> 4) * 2 - 1;
-                zoomWave.setValue(zoomWavePosition, minValue, channel);
-                zoomWave.setValue(zoomWavePosition + 1, maxValue, channel);
+                for (int level = 0; level < numberOflevels; level++) {
+                    ZoomLevelRecord levelRecord = levelRecords[level];
+                    int zoomWavePosition = (position >> (4 * level + 4)) * 2 - 1;
+                    levelRecord.zoomWave.setValue(levelRecord.minValue, zoomWavePosition, channel);
+                    levelRecord.zoomWave.setValue(levelRecord.maxValue, zoomWavePosition + 1, channel);
+                }
             }
         }
-        wave = zoomWave;
+
+        for (int level = 0; level < numberOflevels; level++) {
+            zoomCache.add(levelRecords[level].zoomWave);
+        }
+    }
+
+    private class ZoomLevelRecord {
+
+        final XBWave zoomWave;
+        final int bytesPerSample;
+        final int levelRatio;
+        final XBData value;
+        final XBData maxValue;
+        final XBData minValue;
+
+        public ZoomLevelRecord(XBWave wave, int lengthInTicks, int level) {
+            levelRatio = (1 << (level * 4));
+            zoomWave = new XBWave(wave.getAudioFormat());
+            zoomWave.setLengthInTicks((int) Math.ceil((lengthInTicks * 2) / (16 * level)) + 1);
+
+            bytesPerSample = wave.getAudioFormat().getSampleSizeInBits() >> 3;
+            value = new XBData();
+            value.setDataSize(bytesPerSample);
+            maxValue = new XBData();
+            maxValue.setDataSize(bytesPerSample);
+            minValue = new XBData();
+            minValue.setDataSize(bytesPerSample);
+        }
+
     }
 
     public enum DrawMode {
@@ -429,6 +478,32 @@ public class XBWavePanel extends JPanel {
         this.selectionChangedListener = selectionChangedListener;
     }
 
+    public void setZoomChangedListener(ZoomChangedListener zoomChangedListener) {
+        this.zoomChangedListener = zoomChangedListener;
+    }
+
+    private static boolean dataIsGreater(XBBlockData data, XBBlockData comparedData, int bytesCount) {
+        for (int i = 0; i < bytesCount; i++) {
+            if (data.getByte(i) > comparedData.getByte(i)) {
+                return true;
+            } else if (data.getByte(i) < comparedData.getByte(i)) {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private static boolean dataIsGreaterOrEqual(XBBlockData data, XBBlockData comparedData, int bytesCount) {
+        for (int i = 0; i < bytesCount; i++) {
+            if (data.getByte(i) > comparedData.getByte(i)) {
+                return true;
+            } else if (data.getByte(i) < comparedData.getByte(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     boolean mouseDown = false;
     int mousePressPosition;
     int wavePosition;
@@ -468,5 +543,10 @@ public class XBWavePanel extends JPanel {
     public interface SelectionChangedListener {
 
         void selectionChanged();
+    }
+
+    public interface ZoomChangedListener {
+
+        void zoomChanged();
     }
 }

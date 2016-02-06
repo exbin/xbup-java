@@ -17,6 +17,7 @@
 package org.xbup.lib.framework.editor.wave.panel.command;
 
 import java.util.Date;
+import org.xbup.lib.audio.swing.XBWavePanel;
 import org.xbup.lib.audio.wave.XBWave;
 import org.xbup.lib.operation.XBTDocCommand;
 import org.xbup.lib.operation.basic.XBBasicCommandType;
@@ -32,7 +33,7 @@ public class WaveCutCommand extends XBTDocCommand {
     WaveCopyCommand copyCommand;
     WaveDeleteCommand deleteCommand;
 
-    public WaveCutCommand(XBWave wave, int startPosition, int endPosition) {
+    public WaveCutCommand(XBWavePanel wave, int startPosition, int endPosition) {
         copyCommand = new WaveCopyCommand(wave, startPosition, endPosition);
         deleteCommand = new WaveDeleteCommand(wave, startPosition, endPosition);
     }

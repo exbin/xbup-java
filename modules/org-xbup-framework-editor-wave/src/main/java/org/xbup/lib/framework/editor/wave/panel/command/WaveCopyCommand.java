@@ -18,6 +18,7 @@ package org.xbup.lib.framework.editor.wave.panel.command;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
+import org.xbup.lib.audio.swing.XBWavePanel;
 import org.xbup.lib.audio.wave.XBWave;
 
 /**
@@ -28,12 +29,12 @@ import org.xbup.lib.audio.wave.XBWave;
  */
 public class WaveCopyCommand {
 
-    private Clipboard clipboard;
-    private XBWave wave;
+    private final Clipboard clipboard;
+    private final XBWavePanel  wave;
     private final int startPosition;
     private final int endPosition;
 
-    public WaveCopyCommand(XBWave wave, int startPosition, int endPosition) {
+    public WaveCopyCommand(XBWavePanel  wave, int startPosition, int endPosition) {
         this.wave = wave;
         clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         this.startPosition = startPosition;
@@ -41,7 +42,7 @@ public class WaveCopyCommand {
     }
 
     public void execute() {
-        XBWave copiedWave = wave.copy(startPosition, endPosition - startPosition);
+        XBWave copiedWave = wave.getWave().copy(startPosition, endPosition - startPosition);
         WaveClipboardData clipboardData = new WaveClipboardData(copiedWave);
         clipboard.setContents(clipboardData, clipboardData);
     }

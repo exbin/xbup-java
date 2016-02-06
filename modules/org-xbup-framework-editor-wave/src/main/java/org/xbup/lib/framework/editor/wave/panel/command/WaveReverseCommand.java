@@ -17,7 +17,7 @@
 package org.xbup.lib.framework.editor.wave.panel.command;
 
 import java.util.Date;
-import org.xbup.lib.audio.wave.XBWave;
+import org.xbup.lib.audio.swing.XBWavePanel;
 import org.xbup.lib.core.type.XBData;
 import org.xbup.lib.operation.XBTDocCommand;
 import org.xbup.lib.operation.basic.XBBasicCommandType;
@@ -30,17 +30,17 @@ import org.xbup.lib.operation.basic.XBBasicCommandType;
  */
 public class WaveReverseCommand extends XBTDocCommand {
 
-    private XBWave wave;
+    private XBWavePanel wave;
     private int startPosition;
     private int endPosition;
 
     XBData deletedData;
 
-    public WaveReverseCommand(XBWave wave) {
+    public WaveReverseCommand(XBWavePanel wave) {
         this(wave, -1, -1);
     }
 
-    public WaveReverseCommand(XBWave wave, int startPosition, int endPosition) {
+    public WaveReverseCommand(XBWavePanel wave, int startPosition, int endPosition) {
         this.wave = wave;
         this.startPosition = startPosition;
         this.endPosition = endPosition;
@@ -54,10 +54,11 @@ public class WaveReverseCommand extends XBTDocCommand {
     @Override
     public void execute() throws Exception {
         if (startPosition >= 0) {
-            wave.performTransformReverse(startPosition, endPosition);
+            wave.getWave().performTransformReverse(startPosition, endPosition);
         } else {
-            wave.performTransformReverse();
+            wave.getWave().performTransformReverse();
         }
+        wave.rebuildZoomCache();
     }
 
     @Override

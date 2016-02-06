@@ -19,6 +19,7 @@ package org.xbup.lib.framework.editor.wave.panel.command;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.util.Date;
+import org.xbup.lib.audio.swing.XBWavePanel;
 import org.xbup.lib.audio.wave.XBWave;
 import org.xbup.lib.core.type.XBData;
 import org.xbup.lib.operation.XBTDocCommand;
@@ -33,13 +34,13 @@ import org.xbup.lib.operation.basic.XBBasicCommandType;
 public class WavePasteCommand extends XBTDocCommand {
 
     private XBWave pastedWave;
-    private XBWave wave;
+    private XBWavePanel wave;
     private int startPosition;
     private int endPosition;
 
     XBData deletedData;
 
-    public WavePasteCommand(XBWave wave, int startPosition) {
+    public WavePasteCommand(XBWavePanel wave, int startPosition) {
         this.wave = wave;
         this.startPosition = startPosition;
     }
@@ -56,19 +57,22 @@ public class WavePasteCommand extends XBTDocCommand {
             pastedWave = (XBWave) clipboard.getData(WaveClipboardData.WAVE_FLAVOR);
         }
 
-        endPosition = startPosition + wave.getLengthInTicks();
-        wave.insertWave(pastedWave, startPosition);
+        endPosition = startPosition + wave.getWave().getLengthInTicks();
+        wave.getWave().insertWave(pastedWave, startPosition);
+        wave.rebuildZoomCache();
     }
 
     @Override
     public void redo() throws Exception {
-        wave.insertData(deletedData, startPosition);
+        wave.getWave().insertData(deletedData, startPosition);
+        wave.rebuildZoomCache();
         deletedData.clear();
     }
 
     @Override
     public void undo() throws Exception {
-        deletedData = wave.cutData(startPosition, endPosition - startPosition);
+        deletedData = wave.getWave().cutData(startPosition, endPosition - startPosition);
+        wave.rebuildZoomCache();
     }
 
     @Override

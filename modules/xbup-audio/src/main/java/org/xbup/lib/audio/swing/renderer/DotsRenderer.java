@@ -11,19 +11,20 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
  *
- * You should have received a performCopy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.xbup.lib.audio.swing.renderer;
 
 import java.awt.Graphics;
+import java.util.List;
 import org.xbup.lib.audio.swing.XBWavePanel;
 import org.xbup.lib.audio.wave.XBWave;
 
 /**
  * Dots wave renderer.
  *
- * @version 0.2.0 2016/02/05
+ * @version 0.2.0 2016/02/06
  * @author XBUP Project (http://xbup.org)
  */
 public class DotsRenderer extends DefaultRenderer {
@@ -35,38 +36,43 @@ public class DotsRenderer extends DefaultRenderer {
     public void paint(Graphics g, XBWavePanel panel, int begin, int end, RenderType renderType) {
         super.paint(g, panel, begin, end, renderType);
 
+        double scaleRatio = panel.getScaleRatio();
         LineRecord lineRecord = new LineRecord();
         XBWave wave = panel.getWave();
+        List<XBWave> zoomCache = panel.getZoomCache();
         int stopPos = end;
         if (wave != null) {
             g.setColor(panel.getWaveColor());
             int channelsCount = wave.getAudioFormat().getChannels();
-            int[] prevMin = {-1, -1};
-            int[] prevMax = {-1, -1};
-            if (stopPos >= (panel.getWaveLength() - panel.getWindowPosition()) * panel.getScaleRatio()) {
-                stopPos = (int) ((panel.getWaveLength() - panel.getWindowPosition()) * panel.getScaleRatio()) - 1;
+            if (stopPos >= (panel.getWaveLength() - panel.getWindowPosition()) * scaleRatio) {
+                stopPos = (int) ((panel.getWaveLength() - panel.getWindowPosition()) * scaleRatio) - 1;
             }
 
+            LineRecord value = new LineRecord();
             for (int pos = begin; pos < stopPos; pos++) {
                 for (int channel = 0; channel < channelsCount; channel++) {
                     int pomPos = pos;
                     if (pomPos < 0) {
                         pomPos = 0;
                     }
+                    
+                    int height = panel.getHeight() / channelsCount;
+                    int heightShift = (channel * panel.getHeight()) / channelsCount;
 
-                    int linePosition = panel.getWindowPosition() + (int) (pomPos / panel.getScaleRatio());
-                    int value = wave.getRatioValue(linePosition, channel, panel.getHeight() / channelsCount) + (channel * panel.getHeight()) / channelsCount;
-                    lineRecord.min = value;
-                    lineRecord.max = value;
-                    if (panel.getScaleRatio() < 1) {
-                        int lineEndPosition = panel.getWindowPosition() + (int) ((pomPos + 1) / panel.getScaleRatio());
+                    int zoomScale = getZoomScale(scaleRatio);
+                    int linePosition = panel.getWindowPosition() / zoomScale + (int) (pomPos / (scaleRatio * zoomScale));
+                    getRatioValue(value, linePosition, channel, height, heightShift, panel, zoomScale);
+                    lineRecord.min = value.min;
+                    lineRecord.max = value.max;
+                    if (scaleRatio < 1) {
+                        int lineEndPosition = panel.getWindowPosition() / zoomScale + (int) ((pomPos + 1) / (scaleRatio * zoomScale));
                         for (int inLinePosition = linePosition + 1; inLinePosition < lineEndPosition; inLinePosition++) {
-                            int inValue = wave.getRatioValue(inLinePosition, channel, panel.getHeight() / channelsCount) + (channel * panel.getHeight()) / channelsCount;
-                            if (inValue < lineRecord.min) {
-                                lineRecord.min = inValue;
+                            getRatioValue(value, inLinePosition, channel, height, heightShift, panel, zoomScale);
+                            if (value.min < lineRecord.min) {
+                                lineRecord.min = value.min;
                             }
-                            if (inValue > lineRecord.max) {
-                                lineRecord.max = inValue;
+                            if (value.max > lineRecord.max) {
+                                lineRecord.max = value.max;
                             }
                         }
                     }
@@ -83,6 +89,24 @@ public class DotsRenderer extends DefaultRenderer {
                     }
                 }
             }
+        }
+    }
+
+    private void getRatioValue(LineRecord record, int position, int channel, int height, int heightShift, XBWavePanel panel, int zoomScale) {
+        if (zoomScale == 1) {
+            int value = panel.getWave().getRatioValue(position, channel, height) + heightShift;
+            record.min = value;
+            record.max = value;
+        } else {
+            XBWave wave;
+            if (zoomScale == 16) {
+                wave = panel.getZoomCache().get(0);
+            } else {
+                wave = panel.getZoomCache().get(1);
+            }
+
+            record.min = wave.getRatioValue(position * 2, channel, height) + heightShift;
+            record.max = wave.getRatioValue(position * 2 + 1, channel, height) + heightShift;
         }
     }
 

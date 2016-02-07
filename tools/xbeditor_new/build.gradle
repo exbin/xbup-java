@@ -53,6 +53,7 @@ dependencies {
     compile(project(":modules:org-xbup-framework-gui-editor"))
     compile(project(":modules:org-xbup-framework-gui-about"))
     compile(project(":modules:org-xbup-framework-gui-undo"))
+    compile(project(":modules:org-xbup-framework-gui-help"))
     compile(project(":modules:org-xbup-framework-gui-options"))
     compile(project(":modules:org-xbup-framework-editor-xbup"))
     compile(project(":modules:org-xbup-framework-editor-text"))

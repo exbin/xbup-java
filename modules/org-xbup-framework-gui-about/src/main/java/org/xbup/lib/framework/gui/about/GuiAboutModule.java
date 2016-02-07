@@ -31,13 +31,14 @@ import org.xbup.lib.framework.gui.utils.ActionUtils;
 /**
  * Implementation of XBUP framework about module.
  *
- * @version 0.2.0 2016/01/23
+ * @version 0.2.0 2016/02/07
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
 public class GuiAboutModule implements GuiAboutModuleApi {
 
     private XBApplication application;
+    private final java.util.ResourceBundle bundle = ActionUtils.getResourceBundleByClass(GuiAboutModule.class);
     private Action aboutAction;
 
     public GuiAboutModule() {
@@ -64,16 +65,16 @@ public class GuiAboutModule implements GuiAboutModuleApi {
                     aboutDialog.setVisible(true);
                 }
             };
-            aboutAction.putValue("Name", "About");
+            ActionUtils.setupAction(aboutAction, bundle, "aboutAction");
             aboutAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
         }
-        
+
         return aboutAction;
     }
 
     @Override
     public void registerDefaultMenuItem() {
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
-        menuModule.registerMenuItem(GuiFrameModuleApi.HELP_MENU_ID, GuiAboutModuleApi.MODULE_ID, getAboutAction(), new MenuPosition(PositionMode.BOTTOM_LAST));
+        menuModule.registerMenuItem(GuiFrameModuleApi.HELP_MENU_ID, MODULE_ID, getAboutAction(), new MenuPosition(PositionMode.BOTTOM_LAST));
     }
 }

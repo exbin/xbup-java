@@ -17,6 +17,8 @@
 package org.xbup.tool.xbmanager;
 
 import java.awt.Dimension;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -40,13 +42,14 @@ import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
 import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
+import org.xbup.lib.framework.gui.help.api.GuiHelpModuleApi;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.framework.service_manager.ServiceManagerModule;
 
 /**
  * The main class of the XBManager application.
  *
- * @version 0.2.0 2016/02/02
+ * @version 0.2.0 2016/02/07
  * @author XBUP Project (http://xbup.org)
  */
 public class XBManager {
@@ -108,6 +111,7 @@ public class XBManager {
                 GuiEditorModuleApi editorModule = moduleRepository.getModuleByInterface(GuiEditorModuleApi.class);
                 GuiMenuModuleApi menuModule = moduleRepository.getModuleByInterface(GuiMenuModuleApi.class);
                 GuiAboutModuleApi aboutModule = moduleRepository.getModuleByInterface(GuiAboutModuleApi.class);
+                GuiHelpModuleApi helpModule = moduleRepository.getModuleByInterface(GuiHelpModuleApi.class);
                 GuiUndoModuleApi undoModule = moduleRepository.getModuleByInterface(GuiUndoModuleApi.class);
                 GuiOptionsModuleApi optionsModule = moduleRepository.getModuleByInterface(GuiOptionsModuleApi.class);
                 ServiceManagerModule serviceManagerModule = moduleRepository.getModuleByInterface(ServiceManagerModule.class);
@@ -115,6 +119,12 @@ public class XBManager {
                 final EditorTextModule textEditorModule = moduleRepository.getModuleByInterface(EditorTextModule.class);
 
                 aboutModule.registerDefaultMenuItem();
+                try {
+                    helpModule.setHelpUrl(new URL(bundle.getString("online_help_url")));
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(XBManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                helpModule.registerOnlineHelpMenu();
 
                 frameModule.registerExitAction();
                 frameModule.registerBarsVisibilityActions();
@@ -144,7 +154,7 @@ public class XBManager {
                 frameHandler.setMainPanel(servicePanel);
                 frameHandler.setDefaultSize(new Dimension(600, 400));
                 frameHandler.show();
-                
+
                 serviceManagerModule.openConnectionDialog();
 
                 List fileArgs = cl.getArgList();

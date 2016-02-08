@@ -40,6 +40,7 @@ import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.framework.gui.utils.BareBonesBrowserLaunch;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 import org.xbup.lib.framework.service_manager.catalog.panel.CatalogItemInfoPanel;
@@ -48,7 +49,7 @@ import org.xbup.lib.parser_tree.XBTTreeNode;
 /**
  * Dialog for showing information about document block.
  *
- * @version 0.2.0 2016/02/01
+ * @version 0.2.0 2016/02/08
  * @author XBUP Project (http://xbup.org)
  */
 public class BlockPropertiesDialog extends javax.swing.JDialog {
@@ -57,7 +58,7 @@ public class BlockPropertiesDialog extends javax.swing.JDialog {
     private XBACatalog catalog;
     private final CatalogItemInfoPanel catalogItemPanel;
     private boolean devMode = false;
-    private final ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/BlockPropertiesDialog");
+    private final ResourceBundle bundle = ActionUtils.getResourceBundleByClass(BlockPropertiesDialog.class);
 
     public BlockPropertiesDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);

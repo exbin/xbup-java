@@ -36,6 +36,7 @@ import org.xbup.lib.framework.gui.XBBaseApplication;
 import org.xbup.lib.framework.gui.about.api.GuiAboutModuleApi;
 import org.xbup.lib.framework.gui.api.XBModuleRepository;
 import org.xbup.lib.framework.gui.editor.api.GuiEditorModuleApi;
+import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
@@ -49,7 +50,7 @@ import org.xbup.lib.operation.undo.XBTLinearUndo;
 /**
  * The main class of the XBEditor application.
  *
- * @version 0.2.0 2016/02/07
+ * @version 0.2.0 2016/02/08
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEditor {
@@ -134,6 +135,7 @@ public class XBEditor {
                 fileModule.registerMenuFileHandlingActions();
                 fileModule.registerToolBarFileHandlingActions();
                 fileModule.registerCloseListener();
+                fileModule.registerLastOpenedMenuActions();
 
                 undoModule.registerMainMenu();
                 undoModule.registerMainToolBar();
@@ -160,10 +162,15 @@ public class XBEditor {
                 textEditorModule.registerGoToLine();
                 textEditorModule.registerPrintMenu();
 
-                ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
-                editorModule.registerEditor("xbup", xbupEditorModule.getEditorProvider());
-                // xbupEditorModule.registerStatusBar();
+                XBEditorProvider editorProvider = xbupEditorModule.getEditorProvider();
+                xbupEditorModule.registerDocEditingMenuActions();
+                xbupEditorModule.registerDocEditingToolBarActions();
                 // xbupEditorModule.registerOptionsPanels();
+
+                ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
+                editorModule.registerEditor("xbup", editorProvider);
+
+                xbupEditorModule.registerStatusBar();
 
                 frameHandler.setMainPanel(editorModule.getEditorPanel());
                 frameHandler.setDefaultSize(new Dimension(600, 400));

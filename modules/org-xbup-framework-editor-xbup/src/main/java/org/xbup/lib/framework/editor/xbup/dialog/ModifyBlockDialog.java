@@ -72,6 +72,7 @@ import org.xbup.lib.core.serial.XBPSerialWriter;
 import org.xbup.lib.core.serial.XBSerializable;
 import org.xbup.lib.core.ubnumber.UBNatural;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 import org.xbup.lib.parser_tree.XBATreeParamExtractor;
 import org.xbup.lib.parser_tree.XBTTreeDocument;
@@ -104,7 +105,7 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
     private XBBlockDataMode dataMode = XBBlockDataMode.NODE_BLOCK;
     private List<XBAttribute> attributes = null;
     private HexEditPanel extAreaHexPanel = null;
-    private java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ModifyBlockDialog");
+    private java.util.ResourceBundle bundle = ActionUtils.getResourceBundleByClass(ModifyBlockDialog.class);
 
     private final String attributesPanelTitle;
     private final String dataPanelTitle;

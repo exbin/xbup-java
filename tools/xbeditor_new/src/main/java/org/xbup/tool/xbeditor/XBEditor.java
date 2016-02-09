@@ -50,7 +50,7 @@ import org.xbup.lib.operation.undo.XBTLinearUndo;
 /**
  * The main class of the XBEditor application.
  *
- * @version 0.2.0 2016/02/08
+ * @version 0.2.0 2016/02/09
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEditor {
@@ -97,12 +97,7 @@ public class XBEditor {
                 app.setAppPreferences(preferences);
                 app.setAppBundle(bundle, ActionUtils.getResourceBaseNameBundleByClass(XBEditor.class));
                 app.init();
-//                app.setFirstCommand(new XBEditorFirstCommand(app));
 
-//                app.loadPlugin(new ClassURI(GuiFrameModule.class).toURI());
-//                app.loadPlugin(new ClassURI(GuiFrameModule.class).toURI());
-//                app.loadPlugin(new ClassURI(JavaHelpModule.class).toURI());
-//                app.loadPlugin(new ClassURI(OnlineHelpModule.class).toURI());
                 XBModuleRepository moduleRepository = app.getModuleRepository();
                 moduleRepository.addClassPathPlugins();
                 moduleRepository.addPluginsFromManifest(XBEditor.class);
@@ -162,9 +157,13 @@ public class XBEditor {
                 textEditorModule.registerGoToLine();
                 textEditorModule.registerPrintMenu();
 
+                xbupEditorModule.setDevMode(devMode);
+                xbupEditorModule.registerFileTypes();
                 XBEditorProvider editorProvider = xbupEditorModule.getEditorProvider();
                 xbupEditorModule.registerDocEditingMenuActions();
                 xbupEditorModule.registerDocEditingToolBarActions();
+                xbupEditorModule.registerViewModeMenu();
+                xbupEditorModule.registerSampleFilesSubMenuActions();
                 // xbupEditorModule.registerOptionsPanels();
 
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
@@ -178,7 +177,7 @@ public class XBEditor {
 
                 List fileArgs = cl.getArgList();
                 if (fileArgs.size() > 0) {
-                    // TODO app.loadFromFile((String) fileArgs.get(0));
+                    fileModule.loadFromFile((String) fileArgs.get(0));
                 }
 
                 // editorModule.run();
@@ -190,28 +189,4 @@ public class XBEditor {
             Logger.getLogger(XBEditor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-//    private static class XBEditorFirstCommand implements XBAppCommand {
-//
-//        private final XBEditorApplication app;
-//
-//        public XBEditorFirstCommand(XBEditorApplication app) {
-//            this.app = app;
-//        }
-//
-//        @Override
-//        public void execute() {
-//            ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
-//            ((XBDocEditorModule) module).postWindowOpened();
-//
-//            module = app.getModuleRepository().getPluginHandler(OnlineHelpModule.class);
-//            try {
-//                if (module instanceof OnlineHelpModule) {
-//                    ((OnlineHelpModule) module).setHelpUrl(new URL(bundle.getString("online_help_url")));
-//                }
-//            } catch (MalformedURLException ex) {
-//                Logger.getLogger(XBEditor.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-//    }
 }

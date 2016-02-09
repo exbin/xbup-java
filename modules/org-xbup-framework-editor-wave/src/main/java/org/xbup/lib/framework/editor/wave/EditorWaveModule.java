@@ -84,19 +84,6 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
     @Override
     public void init(XBApplication application) {
         this.application = application;
-
-        // Register file types
-        GuiFileModuleApi fileModule = application.getModuleRepository().getModuleByInterface(GuiFileModuleApi.class);
-
-        // Register file types
-        String[] formats = new String[]{"wav", "aiff", "au"};
-        for (String ext : formats) {
-            if (ext.toLowerCase().equals(ext)) {
-                fileModule.addFileType(new AudioFileType(ext));
-            }
-        }
-
-        fileModule.addFileType(new XBSFileType());
     }
 
     @Override
@@ -145,6 +132,19 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
         }
 
         return editorProvider;
+    }
+
+    public void registerFileTypes() {
+        GuiFileModuleApi fileModule = application.getModuleRepository().getModuleByInterface(GuiFileModuleApi.class);
+
+        String[] formats = new String[]{"wav", "aiff", "au"};
+        for (String ext : formats) {
+            if (ext.toLowerCase().equals(ext)) {
+                fileModule.addFileType(new AudioFileType(ext));
+            }
+        }
+
+        fileModule.addFileType(new XBSFileType());
     }
 
     private void updatePositionTime() {

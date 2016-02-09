@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javax.swing.table.AbstractTableModel;
 import org.xbup.lib.core.parser.token.XBAttribute;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 
 /**
  * Attributes list table model for item editing.
@@ -41,7 +42,7 @@ public class AttributesTableModel extends AbstractTableModel {
     private final boolean[] columnsEditable = new boolean[]{false, true};
 
     public AttributesTableModel() {
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ModifyBlockDialog");
+        resourceBundle = ActionUtils.getResourceBundleByClass(ModifyBlockDialog.class);
         columnNames = new String[]{resourceBundle.getString("attributesTableModel.itemOrder"), resourceBundle.getString("attributesTableModel.itemValue")};
         attributes = new ArrayList<>();
     }

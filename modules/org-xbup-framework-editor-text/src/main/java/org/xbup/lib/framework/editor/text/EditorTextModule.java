@@ -87,11 +87,6 @@ public class EditorTextModule implements XBApplicationModulePlugin {
     @Override
     public void init(XBApplication application) {
         this.application = application;
-
-        // Register file types
-        GuiFileModuleApi fileModule = application.getModuleRepository().getModuleByInterface(GuiFileModuleApi.class);
-        fileModule.addFileType(new XBTFileType());
-        fileModule.addFileType(new TXTFileType());
     }
 
     @Override
@@ -104,6 +99,12 @@ public class EditorTextModule implements XBApplicationModulePlugin {
         }
 
         return editorProvider;
+    }
+
+    public void registerFileTypes() {
+        GuiFileModuleApi fileModule = application.getModuleRepository().getModuleByInterface(GuiFileModuleApi.class);
+        fileModule.addFileType(new XBTFileType());
+        fileModule.addFileType(new TXTFileType());
     }
 
     public void registerStatusBar() {

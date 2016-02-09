@@ -139,6 +139,7 @@ public class XBPEditor {
 
                 optionsModule.registerMenuAction();
 
+                pictureEditorModule.registerFileTypes();
                 pictureEditorModule.registerToolsOptionsMenuActions();
                 pictureEditorModule.registerOptionsMenuPanels();
                 pictureEditorModule.registerPropertiesMenu();

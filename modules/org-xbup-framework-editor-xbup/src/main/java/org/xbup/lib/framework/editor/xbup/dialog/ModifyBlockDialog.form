@@ -38,7 +38,7 @@
         <Container class="javax.swing.JPanel" name="basicPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="&lt;basicPanel.title&gt;">
+              <JTabbedPaneConstraints tabName="Basic">
                 <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/xbup/lib/framework/editor/xbup/dialog/resources/ModifyBlockDialog.properties" key="basicPanel.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
@@ -77,7 +77,7 @@
         <Container class="javax.swing.JPanel" name="parametersPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="&lt;parametersPanel.title&gt;" toolTip="&lt;parametersPanel.toolTip&gt;">
+              <JTabbedPaneConstraints tabName="Parameters" toolTip="List of parameters on level 1">
                 <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/xbup/lib/framework/editor/xbup/dialog/resources/ModifyBlockDialog.properties" key="parametersPanel.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
@@ -127,7 +127,7 @@
         <Container class="javax.swing.JPanel" name="attributesPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="&lt;attributesPanel.title&gt;" toolTip="List of attributes on level 0">
+              <JTabbedPaneConstraints tabName="Attributes (Level 0)" toolTip="List of attributes on level 0">
                 <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/xbup/lib/framework/editor/xbup/dialog/resources/ModifyBlockDialog.properties" key="attributesPanel.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
@@ -217,7 +217,7 @@
         <Container class="javax.swing.JPanel" name="dataPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="&lt;dataPanel.title&gt;">
+              <JTabbedPaneConstraints tabName="Data (Level 0)">
                 <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/xbup/lib/framework/editor/xbup/dialog/resources/ModifyBlockDialog.properties" key="dataPanel.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
@@ -295,7 +295,7 @@
         <Container class="javax.swing.JPanel" name="extendedAreaPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="&lt;extendedAreaPanel.tabTitle&gt;">
+              <JTabbedPaneConstraints tabName="Extended Area">
                 <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/xbup/lib/framework/editor/xbup/dialog/resources/ModifyBlockDialog.properties" key="extendedAreaPanel.tabTitle" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>

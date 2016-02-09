@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.swing.table.AbstractTableModel;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 
 /**
  * Parameters list table model for item editing.
@@ -39,7 +40,7 @@ public class ParametersTableModel extends AbstractTableModel {
     private final boolean[] columnsEditable = new boolean[]{false, false, false, true};
 
     public ParametersTableModel() {
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/ModifyBlockDialog");
+        resourceBundle = ActionUtils.getResourceBundleByClass(ModifyBlockDialog.class);
         columnNames = new String[]{resourceBundle.getString("parametersTableModel.itemOrder"), resourceBundle.getString("parametersTableModel.itemName"), resourceBundle.getString("parametersTableModel.itemType"), resourceBundle.getString("parametersTableModel.itemValue")};
         parameters = new ArrayList<>();
     }

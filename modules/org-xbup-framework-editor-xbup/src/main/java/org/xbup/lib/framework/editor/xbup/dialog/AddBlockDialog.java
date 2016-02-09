@@ -39,6 +39,7 @@ import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.serial.XBPSerialWriter;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 import org.xbup.lib.framework.service_manager.catalog.dialog.CatalogSelectSpecDialog;
 import org.xbup.lib.framework.service_manager.catalog.panel.CatalogSpecItemType;
@@ -59,7 +60,7 @@ public class AddBlockDialog extends javax.swing.JDialog {
     private XBBlockType contextBlockType = null;
     private XBBlockType catalogBlockType = null;
     private int dialogOption = JOptionPane.CLOSED_OPTION;
-    private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/AddBlockDialog");
+    private final java.util.ResourceBundle bundle = ActionUtils.getResourceBundleByClass(AddBlockDialog.class);
 
     public AddBlockDialog(java.awt.Frame parent, boolean modal, XBACatalog catalog) {
         super(parent, modal);

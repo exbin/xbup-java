@@ -16,16 +16,17 @@
  */
 package org.xbup.lib.framework.editor.xbup;
 
+import java.io.File;
+import javax.swing.filechooser.FileFilter;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.core.catalog.XBACatalog;
-import static org.xbup.lib.framework.editor.text.EditorTextModule.TEXT_STATUS_BAR_ID;
-import org.xbup.lib.framework.editor.text.panel.TextPanel;
 import org.xbup.lib.framework.editor.xbup.panel.XBDocStatusPanel;
 import org.xbup.lib.framework.editor.xbup.panel.XBDocumentPanel;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
+import org.xbup.lib.framework.gui.file.api.FileType;
 import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
@@ -35,22 +36,25 @@ import org.xbup.lib.framework.gui.menu.api.PositionMode;
 import org.xbup.lib.framework.gui.menu.api.SeparationMode;
 import org.xbup.lib.framework.gui.menu.api.ToolBarGroup;
 import org.xbup.lib.framework.gui.menu.api.ToolBarPosition;
+import org.xbup.lib.framework.service_manager.XBFileType;
 
 /**
  * XBUP editor module.
  *
- * @version 0.2.0 2016/02/08
+ * @version 0.2.0 2016/02/09
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
 public class EditorXbupModule implements XBApplicationModulePlugin {
 
     public static final String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(EditorXbupModule.class);
-    
+    public static final String XB_FILE_TYPE = "XBEditor.XBFileType";
+
     private static final String EDIT_ITEM_MENU_GROUP_ID = MODULE_ID + ".editItemMenuGroup";
     private static final String EDIT_ITEM_TOOL_BAR_GROUP_ID = MODULE_ID + ".editItemToolBarGroup";
+    private static final String VIEW_MODE_MENU_GROUP_ID = MODULE_ID + ".viewModeMenuGroup";
     public static final String DOC_STATUS_BAR_ID = "docStatusBar";
-
+    public static final String SAMPLE_FILE_SUBMENU_ID = MODULE_ID + ".sampleFileSubMenu";
 
     private XBApplication application;
     private XBEditorProvider editorProvider;
@@ -58,6 +62,9 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
     private XBDocStatusPanel docStatusPanel;
 
     private DocEditingHandler docEditingHandler;
+    private ViewModeHandler viewModeHandler;
+    private SampleFilesHandler sampleFilesHandler;
+    private boolean devMode;
 
     public EditorXbupModule() {
     }
@@ -65,16 +72,10 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
     @Override
     public void init(XBApplication application) {
         this.application = application;
-
-        // Register file types
-        GuiFileModuleApi fileModule = application.getModuleRepository().getModuleByInterface(GuiFileModuleApi.class);
-//        fileModule.addFileType(new XBTFileType());
-//        fileModule.addFileType(new TXTFileType());
     }
 
     @Override
     public void unregisterPlugin(String pluginId) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public XBEditorProvider getEditorProvider() {
@@ -83,6 +84,11 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
         }
 
         return editorProvider;
+    }
+
+    public void registerFileTypes() {
+        GuiFileModuleApi fileModule = application.getModuleRepository().getModuleByInterface(GuiFileModuleApi.class);
+        fileModule.addFileType(new XBFileType());
     }
 
     private DocEditingHandler getDocEditingHandler() {
@@ -94,6 +100,24 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
         return docEditingHandler;
     }
 
+    private ViewModeHandler getViewModeHandler() {
+        if (viewModeHandler == null) {
+            viewModeHandler = new ViewModeHandler(application, editorProvider);
+            viewModeHandler.init();
+        }
+
+        return viewModeHandler;
+    }
+
+    private SampleFilesHandler getSampleFilesHandler() {
+        if (sampleFilesHandler == null) {
+            sampleFilesHandler = new SampleFilesHandler(application, editorProvider);
+            sampleFilesHandler.init();
+        }
+
+        return sampleFilesHandler;
+    }
+    
     public void registerDocEditingMenuActions() {
         getDocEditingHandler();
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
@@ -109,12 +133,82 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
         menuModule.registerToolBarItem(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, MODULE_ID, docEditingHandler.getAddItemAction(), new ToolBarPosition(EDIT_ITEM_TOOL_BAR_GROUP_ID));
         menuModule.registerToolBarItem(GuiFrameModuleApi.MAIN_TOOL_BAR_ID, MODULE_ID, docEditingHandler.getModifyItemAction(), new ToolBarPosition(EDIT_ITEM_TOOL_BAR_GROUP_ID));
     }
-    
+
+    public void registerViewModeMenu() {
+        getViewModeHandler();
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenuGroup(GuiFrameModuleApi.VIEW_MENU_ID, new MenuGroup(VIEW_MODE_MENU_GROUP_ID, new MenuPosition(PositionMode.MIDDLE), SeparationMode.AROUND));
+        menuModule.registerMenuItem(GuiFrameModuleApi.VIEW_MENU_ID, MODULE_ID, viewModeHandler.getTreeModeAction(), new MenuPosition(VIEW_MODE_MENU_GROUP_ID));
+        menuModule.registerMenuItem(GuiFrameModuleApi.VIEW_MENU_ID, MODULE_ID, viewModeHandler.getTextModeAction(), new MenuPosition(VIEW_MODE_MENU_GROUP_ID));
+        menuModule.registerMenuItem(GuiFrameModuleApi.VIEW_MENU_ID, MODULE_ID, viewModeHandler.getHexModeAction(), new MenuPosition(VIEW_MODE_MENU_GROUP_ID));
+    }
+
     public void registerStatusBar() {
         docStatusPanel = new XBDocStatusPanel();
         GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
         frameModule.registerStatusBar(MODULE_ID, DOC_STATUS_BAR_ID, docStatusPanel);
         frameModule.switchStatusBar(DOC_STATUS_BAR_ID);
         // ((XBDocumentPanel) getEditorProvider()).registerTextStatus(docStatusPanel);
+    }
+
+    public void registerSampleFilesSubMenuActions() {
+        getSampleFilesHandler();
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenu(SAMPLE_FILE_SUBMENU_ID, MODULE_ID);
+        menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, MODULE_ID, SAMPLE_FILE_SUBMENU_ID, "Open Sample File", new MenuPosition(PositionMode.BOTTOM));
+        menuModule.registerMenuItem(SAMPLE_FILE_SUBMENU_ID, MODULE_ID, sampleFilesHandler.getSampleHtmlFileAction(), new MenuPosition(PositionMode.TOP));
+        menuModule.registerMenuItem(SAMPLE_FILE_SUBMENU_ID, MODULE_ID, sampleFilesHandler.getSamplePictureFileAction(), new MenuPosition(PositionMode.TOP));
+    }
+
+    public void setDevMode(boolean devMode) {
+        this.devMode = devMode;
+    }
+
+    /**
+     * FileFilter for *.xb* files.
+     */
+    public class XBFileFilter extends FileFilter implements FileType {
+
+        @Override
+        public boolean accept(File file) {
+            if (file.isDirectory()) {
+                return true;
+            }
+            String extension = getExtension(file);
+            if (extension != null) {
+                if (extension.length() >= 2) {
+                    return extension.substring(0, 2).equals("xb");
+                }
+            }
+
+            return false;
+        }
+
+        @Override
+        public String getDescription() {
+            return "All XB Files (*.xb*)";
+        }
+
+        @Override
+        public String getFileTypeId() {
+            return XB_FILE_TYPE;
+        }
+    }
+
+    /**
+     * Gets the extension part of file name.
+     *
+     * @param file Source file
+     * @return extension part of file name
+     */
+    public static String getExtension(File file) {
+        String ext = null;
+        String str = file.getName();
+        int i = str.lastIndexOf('.');
+
+        if (i > 0 && i < str.length() - 1) {
+            ext = str.substring(i + 1).toLowerCase();
+        }
+        return ext;
     }
 }

@@ -139,6 +139,7 @@ public class XBSEditor {
 
                 optionsModule.registerMenuAction();
 
+                waveEditorModule.registerFileTypes();
                 waveEditorModule.registerToolsMenuActions();
                 waveEditorModule.registerToolsOptionsMenuActions();
                 waveEditorModule.registerPropertiesMenu();

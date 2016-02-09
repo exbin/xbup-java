@@ -43,7 +43,7 @@ import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
 /**
  * XBUP picture editor module.
  *
- * @version 0.2.0 2016/02/06
+ * @version 0.2.0 2016/02/09
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -74,19 +74,6 @@ public class EditorPictureModule implements XBApplicationModulePlugin {
     @Override
     public void init(XBApplication application) {
         this.application = application;
-
-        // Register file types
-        GuiFileModuleApi fileModule = application.getModuleRepository().getModuleByInterface(GuiFileModuleApi.class);
-
-        // Register file types
-        String[] formats = ImageIO.getReaderFormatNames();
-        for (String ext : formats) {
-            if (ext.toLowerCase().equals(ext)) {
-                fileModule.addFileType(new PictureFileType(ext));
-            }
-        }
-
-        fileModule.addFileType(new XBPFileType());
     }
 
     @Override
@@ -121,6 +108,18 @@ public class EditorPictureModule implements XBApplicationModulePlugin {
         }
 
         return editorProvider;
+    }
+
+    public void registerFileTypes() {
+        GuiFileModuleApi fileModule = application.getModuleRepository().getModuleByInterface(GuiFileModuleApi.class);
+        String[] formats = ImageIO.getReaderFormatNames();
+        for (String ext : formats) {
+            if (ext.toLowerCase().equals(ext)) {
+                fileModule.addFileType(new PictureFileType(ext));
+            }
+        }
+
+        fileModule.addFileType(new XBPFileType());
     }
 
     private void updateCurrentPosition() {
@@ -235,7 +234,7 @@ public class EditorPictureModule implements XBApplicationModulePlugin {
 
         return toolsOptionsHandler;
     }
-   
+
     private PrintHandler getPrintHandler() {
         if (printHandler == null) {
             printHandler = new PrintHandler(application, (ImagePanel) getEditorProvider());

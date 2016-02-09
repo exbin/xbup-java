@@ -128,6 +128,7 @@ public class XBTEditor {
 
                 optionsModule.registerMenuAction();
 
+                textEditorModule.registerFileTypes();
                 textEditorModule.registerEditFindMenuActions();
                 textEditorModule.registerEditFindToolBarActions();
                 textEditorModule.registerToolsOptionsMenuActions();

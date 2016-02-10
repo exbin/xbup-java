@@ -36,6 +36,7 @@ import org.xbup.lib.framework.gui.menu.api.PositionMode;
 import org.xbup.lib.framework.gui.menu.api.SeparationMode;
 import org.xbup.lib.framework.gui.menu.api.ToolBarGroup;
 import org.xbup.lib.framework.gui.menu.api.ToolBarPosition;
+import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
 import org.xbup.lib.framework.service_manager.XBFileType;
 
 /**
@@ -64,6 +65,8 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
     private DocEditingHandler docEditingHandler;
     private ViewModeHandler viewModeHandler;
     private SampleFilesHandler sampleFilesHandler;
+    private CatalogBrowserHandler catalogBrowserHandler;
+
     private boolean devMode;
 
     public EditorXbupModule() {
@@ -118,6 +121,15 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
         return sampleFilesHandler;
     }
     
+    private CatalogBrowserHandler getCatalogBrowserHandler() {
+        if (catalogBrowserHandler == null) {
+            catalogBrowserHandler = new CatalogBrowserHandler(application, editorProvider);
+            catalogBrowserHandler.init();
+        }
+
+        return catalogBrowserHandler;
+    }
+    
     public void registerDocEditingMenuActions() {
         getDocEditingHandler();
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
@@ -160,8 +172,19 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
         menuModule.registerMenuItem(SAMPLE_FILE_SUBMENU_ID, MODULE_ID, sampleFilesHandler.getSamplePictureFileAction(), new MenuPosition(PositionMode.TOP));
     }
 
+    public void registerCatalogBrowserMenu() {
+        getCatalogBrowserHandler();
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenuItem(GuiFrameModuleApi.TOOLS_MENU_ID, MODULE_ID, catalogBrowserHandler.getCatalogBrowserAction(), new MenuPosition(PositionMode.TOP));
+    }
+
     public void setDevMode(boolean devMode) {
         this.devMode = devMode;
+    }
+
+    public void registerOptionsPanels() {
+        GuiOptionsModuleApi optionsModule = application.getModuleRepository().getModuleByInterface(GuiOptionsModuleApi.class);
+        // TODO
     }
 
     /**

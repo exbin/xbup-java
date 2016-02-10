@@ -159,13 +159,16 @@ public class XBEditor {
 
                 xbupEditorModule.setDevMode(devMode);
                 xbupEditorModule.registerFileTypes();
-                XBEditorProvider editorProvider = xbupEditorModule.getEditorProvider();
+                xbupEditorModule.registerCatalogBrowserMenu();
                 xbupEditorModule.registerDocEditingMenuActions();
                 xbupEditorModule.registerDocEditingToolBarActions();
                 xbupEditorModule.registerViewModeMenu();
                 xbupEditorModule.registerSampleFilesSubMenuActions();
-                // xbupEditorModule.registerOptionsPanels();
 
+                textEditorModule.registerOptionsPanels();
+                xbupEditorModule.registerOptionsPanels();
+                
+                XBEditorProvider editorProvider = xbupEditorModule.getEditorProvider();
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
                 editorModule.registerEditor("xbup", editorProvider);
 

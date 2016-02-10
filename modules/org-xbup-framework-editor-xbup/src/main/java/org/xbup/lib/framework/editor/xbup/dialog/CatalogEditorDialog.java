@@ -51,11 +51,9 @@ public class CatalogEditorDialog extends javax.swing.JDialog implements CatalogM
     }
 
     private void init() {
-        setTitle("Catalog Browser");
         getContentPane().add(catalogAvailabilityPanel, BorderLayout.CENTER);
-
+        setSize(900, 600);
         WindowUtils.initWindow(this);
-        WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
     }
 
     /**
@@ -67,7 +65,7 @@ public class CatalogEditorDialog extends javax.swing.JDialog implements CatalogM
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/xbup/dialog/resources/BlockPropertiesDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/xbup/dialog/resources/CatalogEditorDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
         setLocationByPlatform(true);
 

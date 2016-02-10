@@ -58,7 +58,8 @@ public class CatalogBrowserHandler {
         catalogBrowserAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                catalogEditorDialog = new CatalogEditorDialog(WindowUtils.getFrame((XBDocumentPanel) editorProvider), true);
+                GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
+                catalogEditorDialog = new CatalogEditorDialog(frameModule.getFrame(), true);
 //                catalogEditorDialog.setMenuManagement(menuManagement);
 //                catalogEditorDialog.setMainFrameManagement(mainFrameManagement);
 //                catalogEditorDialog.setCatalog(catalog);

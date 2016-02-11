@@ -17,6 +17,7 @@
 package org.xbup.lib.framework.service_manager.catalog.dialog;
 
 import javax.swing.JOptionPane;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 import org.xbup.lib.framework.service_manager.catalog.panel.CatalogSpecItemType;
 
@@ -29,7 +30,7 @@ import org.xbup.lib.framework.service_manager.catalog.panel.CatalogSpecItemType;
 public class CatalogAddItemDialog extends javax.swing.JDialog {
 
     private int dialogOption = JOptionPane.CLOSED_OPTION;
-    private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/dialog/resources/CatalogAddItemDialog");
+    private final java.util.ResourceBundle bundle = ActionUtils.getResourceBundleByClass(CatalogAddItemDialog.class);
 
     public CatalogAddItemDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);

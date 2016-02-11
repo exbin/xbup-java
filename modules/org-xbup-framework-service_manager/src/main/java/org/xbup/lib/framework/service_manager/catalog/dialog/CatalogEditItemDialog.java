@@ -23,6 +23,7 @@ import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.framework.gui.menu.api.MenuManagement;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 import org.xbup.lib.framework.service_manager.catalog.panel.CatalogItemEditDefinitionPanel;
 import org.xbup.lib.framework.service_manager.catalog.panel.CatalogItemEditPanel;
@@ -46,7 +47,7 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
     private CatalogItemEditDefinitionPanel definitionPanel;
     private CatalogItemEditFilesPanel filesPanel;
     private MenuManagement menuManagement;
-    private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/service_manager/catalog/dialog/resources/CatalogEditItemDialog");
+    private final java.util.ResourceBundle bundle = ActionUtils.getResourceBundleByClass(CatalogEditItemDialog.class);
 
     public CatalogEditItemDialog(java.awt.Frame frame, boolean modal) {
         super(frame, modal);

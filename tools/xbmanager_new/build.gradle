@@ -64,7 +64,6 @@ dependencies {
     runtime 'org.eclipse.persistence:javax.persistence:2.1.0'
     runtime 'org.eclipse.persistence:eclipselink:2.5.1'
     runtime 'org.apache.derby:derbyclient:10.10.2.0'
-    runtime 'org.apache.derby:derby:10.10.2.0'
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }
 

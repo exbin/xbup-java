@@ -42,7 +42,7 @@ import org.xbup.lib.framework.service_manager.XBFileType;
 /**
  * XBUP editor module.
  *
- * @version 0.2.0 2016/02/09
+ * @version 0.2.0 2016/02/11
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -66,6 +66,8 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
     private ViewModeHandler viewModeHandler;
     private SampleFilesHandler sampleFilesHandler;
     private CatalogBrowserHandler catalogBrowserHandler;
+    private PropertiesHandler propertiesHandler;
+    private PropertyPanelHandler propertyPanelHandler;
 
     private boolean devMode;
 
@@ -130,6 +132,24 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
         return catalogBrowserHandler;
     }
     
+    private PropertiesHandler getPropertiesHandler() {
+        if (propertiesHandler == null) {
+            propertiesHandler = new PropertiesHandler(application, editorProvider);
+            propertiesHandler.init();
+        }
+
+        return propertiesHandler;
+    }
+    
+    private PropertyPanelHandler getPropertyPanelHandler() {
+        if (propertyPanelHandler == null) {
+            propertyPanelHandler = new PropertyPanelHandler(application, editorProvider);
+            propertyPanelHandler.init();
+        }
+
+        return propertyPanelHandler;
+    }
+    
     public void registerDocEditingMenuActions() {
         getDocEditingHandler();
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
@@ -187,6 +207,18 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
         // TODO
     }
 
+    public void registerPropertiesMenuAction() {
+        getPropertiesHandler();
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenuItem(GuiFrameModuleApi.FILE_MENU_ID, MODULE_ID, propertiesHandler.getPropertiesAction(), new MenuPosition(PositionMode.BOTTOM));
+    }
+    
+    public void registerPropertyPanelMenuAction() {
+        getPropertyPanelHandler();
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenuItem(GuiFrameModuleApi.VIEW_MENU_ID, MODULE_ID, propertyPanelHandler.getViewPropertyPanelAction(), new MenuPosition(PositionMode.MIDDLE));
+    }
+    
     /**
      * FileFilter for *.xb* files.
      */

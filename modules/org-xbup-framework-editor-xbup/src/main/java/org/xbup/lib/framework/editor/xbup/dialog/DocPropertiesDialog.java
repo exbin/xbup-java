@@ -17,19 +17,20 @@
 package org.xbup.lib.framework.editor.xbup.dialog;
 
 import org.xbup.lib.core.block.XBTEditableDocument;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 import org.xbup.lib.parser_tree.XBTTreeDocument;
 
 /**
  * Dialog for document properties showing various information about file.
  *
- * @version 0.2.0 2015/09/19
+ * @version 0.2.0 2016/02/11
  * @author XBUP Project (http://xbup.org)
  */
 public class DocPropertiesDialog extends javax.swing.JDialog {
 
     private XBTEditableDocument doc;
-    private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/tool/editor/module/xbdoc_editor/dialog/resources/DocPropertiesDialog");
+    private final java.util.ResourceBundle bundle = ActionUtils.getResourceBundleByClass(DocPropertiesDialog.class);
 
     public DocPropertiesDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);

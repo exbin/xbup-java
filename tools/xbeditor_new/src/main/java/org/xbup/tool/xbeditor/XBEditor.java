@@ -50,7 +50,7 @@ import org.xbup.lib.operation.undo.XBTLinearUndo;
 /**
  * The main class of the XBEditor application.
  *
- * @version 0.2.0 2016/02/09
+ * @version 0.2.0 2016/02/11
  * @author XBUP Project (http://xbup.org)
  */
 public class XBEditor {
@@ -151,11 +151,12 @@ public class XBEditor {
                 optionsModule.registerMenuAction();
 
                 textEditorModule.registerEditFindMenuActions();
-                textEditorModule.registerEditFindToolBarActions();
                 textEditorModule.registerToolsOptionsMenuActions();
                 textEditorModule.registerWordWrapping();
                 textEditorModule.registerGoToLine();
                 textEditorModule.registerPrintMenu();
+
+                XBEditorProvider editorProvider = xbupEditorModule.getEditorProvider();
 
                 xbupEditorModule.setDevMode(devMode);
                 xbupEditorModule.registerFileTypes();
@@ -164,11 +165,12 @@ public class XBEditor {
                 xbupEditorModule.registerDocEditingToolBarActions();
                 xbupEditorModule.registerViewModeMenu();
                 xbupEditorModule.registerSampleFilesSubMenuActions();
+                xbupEditorModule.registerPropertiesMenuAction();
+                xbupEditorModule.registerPropertyPanelMenuAction();
 
                 textEditorModule.registerOptionsPanels();
                 xbupEditorModule.registerOptionsPanels();
                 
-                XBEditorProvider editorProvider = xbupEditorModule.getEditorProvider();
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
                 editorModule.registerEditor("xbup", editorProvider);
 

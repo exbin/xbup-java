@@ -97,8 +97,9 @@ public class GuiHelpModule implements GuiHelpModuleApi {
             };
             ActionUtils.setupAction(helpAction, bundle, "helpAction");
             helpAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
+            helpAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
         }
-        
+
         return helpAction;
     }
 
@@ -114,7 +115,7 @@ public class GuiHelpModule implements GuiHelpModuleApi {
             ActionUtils.setupAction(onlineHelpAction, bundle, "onlineHelpAction");
             onlineHelpAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
         }
-        
+
         return onlineHelpAction;
     }
 

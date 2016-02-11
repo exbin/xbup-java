@@ -28,7 +28,7 @@ import org.xbup.lib.framework.gui.utils.ActionUtils;
 /**
  * View mode handler.
  *
- * @version 0.2.0 2016/02/09
+ * @version 0.2.0 2016/02/11
  * @author XBUP Project (http://xbup.org)
  */
 public class ViewModeHandler {
@@ -60,7 +60,7 @@ public class ViewModeHandler {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (editorProvider instanceof XBDocumentPanel) {
-                    setDrawMode(XBDocumentPanel.PanelMode.TREE);
+                    setViewMode(XBDocumentPanel.PanelMode.TREE);
                 }
             }
         };
@@ -73,7 +73,7 @@ public class ViewModeHandler {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (editorProvider instanceof XBDocumentPanel) {
-                    setDrawMode(XBDocumentPanel.PanelMode.TEXT);
+                    setViewMode(XBDocumentPanel.PanelMode.TEXT);
                 }
             }
         };
@@ -86,7 +86,7 @@ public class ViewModeHandler {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (editorProvider instanceof XBDocumentPanel) {
-                    setDrawMode(XBDocumentPanel.PanelMode.HEX);
+                    setViewMode(XBDocumentPanel.PanelMode.HEX);
                 }
             }
         };
@@ -96,9 +96,14 @@ public class ViewModeHandler {
         viewHexModeAction.putValue(Action.SELECTED_KEY, viewMode == XBDocumentPanel.PanelMode.HEX);
     }
 
-    public void setDrawMode(XBDocumentPanel.PanelMode mode) {
+    public void setViewMode(XBDocumentPanel.PanelMode viewMode) {
+        this.viewMode = viewMode;
         XBDocumentPanel activePanel = (XBDocumentPanel) editorProvider;
-        activePanel.setMode(mode);
+        activePanel.setMode(viewMode);
+    }
+
+    public XBDocumentPanel.PanelMode getViewMode() {
+        return viewMode;
     }
 
     public Action getTreeModeAction() {

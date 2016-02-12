@@ -151,7 +151,6 @@ public class XBEditor {
                 optionsModule.registerMenuAction();
 
                 textEditorModule.registerEditFindMenuActions();
-                textEditorModule.registerToolsOptionsMenuActions();
                 textEditorModule.registerWordWrapping();
                 textEditorModule.registerGoToLine();
                 textEditorModule.registerPrintMenu();
@@ -168,6 +167,7 @@ public class XBEditor {
                 xbupEditorModule.registerPropertiesMenuAction();
                 xbupEditorModule.registerPropertyPanelMenuAction();
 
+                textEditorModule.registerToolsOptionsMenuActions();
                 textEditorModule.registerOptionsPanels();
                 xbupEditorModule.registerOptionsPanels();
                 
@@ -184,11 +184,6 @@ public class XBEditor {
                 if (fileArgs.size() > 0) {
                     fileModule.loadFromFile((String) fileArgs.get(0));
                 }
-
-                // editorModule.run();
-//                ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
-//                ((XBDocEditorModule) module).setEditorApp(app);
-//                ((XBDocEditorModule) module).setDevMode(devMode);
             }
         } catch (ParseException ex) {
             Logger.getLogger(XBEditor.class.getName()).log(Level.SEVERE, null, ex);

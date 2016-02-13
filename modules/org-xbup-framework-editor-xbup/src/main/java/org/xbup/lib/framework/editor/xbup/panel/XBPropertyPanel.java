@@ -38,13 +38,16 @@ import org.xbup.lib.plugin.XBPluginRepository;
 public class XBPropertyPanel extends javax.swing.JPanel {
 
     private XBACatalog catalog;
-    private final XBPropertyTablePanel propertiesPanel;
+    private XBPropertyTablePanel propertiesPanel;
 
     public XBPropertyPanel(XBACatalog catalog) {
         this.catalog = catalog;
 
         initComponents();
-
+        init();
+    }
+    
+    private void init() {
         propertiesPanel = new XBPropertyTablePanel(catalog);
         add(propertiesPanel, java.awt.BorderLayout.CENTER);
     }

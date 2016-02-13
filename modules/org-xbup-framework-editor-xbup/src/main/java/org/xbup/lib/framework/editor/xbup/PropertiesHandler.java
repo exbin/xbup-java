@@ -20,6 +20,7 @@ import java.awt.event.ActionEvent;
 import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import org.xbup.lib.framework.editor.xbup.dialog.BlockPropertiesDialog;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
@@ -42,6 +43,7 @@ public class PropertiesHandler {
     private int metaMask;
 
     private Action propertiesAction;
+    private Action itemPropertiesAction;
 
     public PropertiesHandler(XBApplication application, XBEditorProvider editorProvider) {
         this.application = application;
@@ -67,9 +69,29 @@ public class PropertiesHandler {
         };
         ActionUtils.setupAction(propertiesAction, resourceBundle, "propertiesAction");
         propertiesAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
+
+        itemPropertiesAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (editorProvider instanceof XBDocumentPanel) {
+                    XBDocumentPanel activePanel = (XBDocumentPanel) editorProvider;
+                    GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
+                    BlockPropertiesDialog propertiesDialog = new BlockPropertiesDialog(frameModule.getFrame(), true);
+                    // propertiesDialog.setCatalog(catalog);
+                    // propertiesDialog.setDevMode(devMode);
+                    propertiesDialog.runDialog(activePanel.getSelectedItem());
+                }
+            }
+        };
+        ActionUtils.setupAction(itemPropertiesAction, resourceBundle, "itemPropertiesAction");
+        itemPropertiesAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
     }
 
     public Action getPropertiesAction() {
         return propertiesAction;
+    }
+
+    public Action getItemPropertiesAction() {
+        return itemPropertiesAction;
     }
 }

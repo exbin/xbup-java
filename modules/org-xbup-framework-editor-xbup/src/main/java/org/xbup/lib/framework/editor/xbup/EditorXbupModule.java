@@ -17,6 +17,7 @@
 package org.xbup.lib.framework.editor.xbup;
 
 import java.io.File;
+import javax.swing.JPopupMenu;
 import javax.swing.filechooser.FileFilter;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.core.catalog.XBACatalog;
@@ -42,7 +43,7 @@ import org.xbup.lib.framework.service_manager.XBFileType;
 /**
  * XBUP editor module.
  *
- * @version 0.2.0 2016/02/11
+ * @version 0.2.0 2016/02/13
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -51,6 +52,7 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
     public static final String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(EditorXbupModule.class);
     public static final String XB_FILE_TYPE = "XBEditor.XBFileType";
 
+    public static final String XBUP_POPUP_MENU_ID = MODULE_ID + ".xbupPopupMenu";
     private static final String EDIT_ITEM_MENU_GROUP_ID = MODULE_ID + ".editItemMenuGroup";
     private static final String EDIT_ITEM_TOOL_BAR_GROUP_ID = MODULE_ID + ".editItemToolBarGroup";
     private static final String VIEW_MODE_MENU_GROUP_ID = MODULE_ID + ".viewModeMenuGroup";
@@ -68,6 +70,7 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
     private CatalogBrowserHandler catalogBrowserHandler;
     private PropertiesHandler propertiesHandler;
     private PropertyPanelHandler propertyPanelHandler;
+    private ImportExportHandler importExportHandler;
 
     private boolean devMode;
 
@@ -86,6 +89,8 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
     public XBEditorProvider getEditorProvider() {
         if (editorProvider == null) {
             editorProvider = new XBDocumentPanel(catalog);
+
+            ((XBDocumentPanel) editorProvider).setPopupMenu(createPopupMenu());
         }
 
         return editorProvider;
@@ -148,6 +153,15 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
         }
 
         return propertyPanelHandler;
+    }
+    
+    private ImportExportHandler getImportExportHandler() {
+        if (importExportHandler == null) {
+            importExportHandler = new ImportExportHandler(application, editorProvider);
+            importExportHandler.init();
+        }
+
+        return importExportHandler;
     }
     
     public void registerDocEditingMenuActions() {
@@ -219,6 +233,26 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
         menuModule.registerMenuItem(GuiFrameModuleApi.VIEW_MENU_ID, MODULE_ID, propertyPanelHandler.getViewPropertyPanelAction(), new MenuPosition(PositionMode.MIDDLE));
     }
     
+    private JPopupMenu createPopupMenu() {
+        getPropertiesHandler();
+        getDocEditingHandler();
+        getImportExportHandler();
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        menuModule.registerMenu(XBUP_POPUP_MENU_ID, MODULE_ID);
+        menuModule.registerMenuItem(XBUP_POPUP_MENU_ID, MODULE_ID, docEditingHandler.getAddItemAction(), new MenuPosition(PositionMode.TOP));
+        menuModule.registerMenuItem(XBUP_POPUP_MENU_ID, MODULE_ID, docEditingHandler.getModifyItemAction(), new MenuPosition(PositionMode.TOP));
+        
+        menuModule.registerClipboardMenuItems(XBUP_POPUP_MENU_ID, MODULE_ID, SeparationMode.AROUND);
+//
+        menuModule.registerMenuItem(XBUP_POPUP_MENU_ID, MODULE_ID, importExportHandler.getImportItemAction(), new MenuPosition(PositionMode.BOTTOM));
+        menuModule.registerMenuItem(XBUP_POPUP_MENU_ID, MODULE_ID, importExportHandler.getExportItemAction(), new MenuPosition(PositionMode.BOTTOM));
+
+        menuModule.registerMenuItem(XBUP_POPUP_MENU_ID, MODULE_ID, propertiesHandler.getItemPropertiesAction(), new MenuPosition(PositionMode.BOTTOM));
+        JPopupMenu popupMenu = new JPopupMenu();
+        menuModule.buildMenu(popupMenu, XBUP_POPUP_MENU_ID);
+        return popupMenu;
+    }
+
     /**
      * FileFilter for *.xb* files.
      */

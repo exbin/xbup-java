@@ -16,13 +16,19 @@
  */
 package org.xbup.lib.framework.editor.xbup.panel;
 
+import java.util.ResourceBundle;
+import javax.swing.ImageIcon;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
+
 /**
  * Status panel for XB document editor.
  *
- * @version 0.2.0 2016/02/08
+ * @version 0.2.0 2016/02/13
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocStatusPanel extends javax.swing.JPanel {
+
+    private ResourceBundle resourceBundle = ActionUtils.getResourceBundleByClass(XBDocStatusPanel.class);
 
     public XBDocStatusPanel() {
         initComponents();
@@ -63,4 +69,17 @@ public class XBDocStatusPanel extends javax.swing.JPanel {
     private javax.swing.JPanel connectionStatusPanel;
     // End of variables declaration//GEN-END:variables
 
+    public enum ConnectionStatus {
+
+        DISCONNECTED,
+        LOCAL,
+        CONNECTING,
+        NETWORK,
+        INTERNET;
+    };
+
+    public void setConnectionStatus(ConnectionStatus status) {
+        connectionStatusLabel.setIcon(new ImageIcon(getClass().getResource(resourceBundle.getString("connectionStatus" + status.name() + ".icon"))));
+        connectionStatusLabel.setToolTipText(resourceBundle.getString(resourceBundle.getString("connectionStatus" + status.name() + ".toolTipText")));
+    }
 }

@@ -18,25 +18,15 @@ tasks.withType(JavaCompile) {
 
 repositories {
     mavenCentral()
-    flatDir {
-        dirs "../../lib"
-    }
 }
 
 // Disable tests on build
 check.dependsOn.remove(test)
 
 dependencies {
-    compile(project(":modules:xbup-core"))
-    compile(project(":modules:xbup-catalog"))
-    compile(project(":modules:xbup-visual"))
-    compile(project(":modules:xbup-editor-base-api"))
-    compile(project(":modules:xbup-editor-module-utils"))
-    compile(project(":modules:simplyhtml"))
+    compile(project(':modules:xbup-core'))
+    compile(project(':modules:xbup-catalog'))
     compile(project(':modules:xbup-client'))
     compile 'javax.persistence:persistence-api:1.0.2'
-    compile 'org.swinglabs:swing-layout:1.0.3'
-    runtime 'org.eclipse.persistence:javax.persistence:2.1.0'
-    runtime 'org.eclipse.persistence:eclipselink:2.5.1'
-    testCompile group: 'junit', name: 'junit', version: '4.10'
+    testCompile group: 'junit', name: 'junit', version: '4.10'    
 }

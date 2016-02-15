@@ -29,7 +29,9 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.parser.basic.XBHead;
+import org.xbup.lib.framework.client.api.ClientModuleApi;
 import org.xbup.lib.framework.editor.text.EditorTextModule;
 import org.xbup.lib.framework.editor.xbup.EditorXbupModule;
 import org.xbup.lib.framework.gui.XBBaseApplication;
@@ -46,6 +48,7 @@ import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
 import org.xbup.lib.framework.gui.help.api.GuiHelpModuleApi;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.operation.undo.XBTLinearUndo;
+import org.xbup.lib.plugin.XBPluginRepository;
 
 /**
  * The main class of the XBEditor application.
@@ -110,8 +113,9 @@ public class XBEditor {
                 GuiHelpModuleApi helpModule = moduleRepository.getModuleByInterface(GuiHelpModuleApi.class);
                 GuiUndoModuleApi undoModule = moduleRepository.getModuleByInterface(GuiUndoModuleApi.class);
                 GuiFileModuleApi fileModule = moduleRepository.getModuleByInterface(GuiFileModuleApi.class);
+                final ClientModuleApi clientModule = moduleRepository.getModuleByInterface(ClientModuleApi.class);
                 GuiOptionsModuleApi optionsModule = moduleRepository.getModuleByInterface(GuiOptionsModuleApi.class);
-                EditorXbupModule xbupEditorModule = moduleRepository.getModuleByInterface(EditorXbupModule.class);
+                final EditorXbupModule xbupEditorModule = moduleRepository.getModuleByInterface(EditorXbupModule.class);
                 final EditorTextModule textEditorModule = moduleRepository.getModuleByInterface(EditorTextModule.class);
 
                 aboutModule.registerDefaultMenuItem();
@@ -170,7 +174,7 @@ public class XBEditor {
                 textEditorModule.registerToolsOptionsMenuActions();
                 textEditorModule.registerOptionsPanels();
                 xbupEditorModule.registerOptionsPanels();
-                
+
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
                 editorModule.registerEditor("xbup", editorProvider);
 
@@ -179,6 +183,27 @@ public class XBEditor {
                 frameHandler.setMainPanel(editorModule.getEditorPanel());
                 frameHandler.setDefaultSize(new Dimension(600, 400));
                 frameHandler.show();
+
+                clientModule.addClientConnectionListener(xbupEditorModule.getClientConnectionListener());
+                Thread connectionThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!clientModule.connectToService()) {
+                            if (!clientModule.connectToFallbackService()) {
+                                clientModule.useBuildInService();
+                            }
+                        }
+                        
+                        XBACatalog catalog = clientModule.getCatalog();
+                        XBPluginRepository pluginRepository = clientModule.getPluginRepository();
+                        if (catalog != null) {
+                            xbupEditorModule.setCatalog(catalog);
+                            xbupEditorModule.setPluginRepository(pluginRepository);
+                        }
+                    }
+                });
+
+                connectionThread.start();
 
                 List fileArgs = cl.getArgList();
                 if (fileArgs.size() > 0) {

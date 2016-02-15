@@ -18,6 +18,7 @@ package org.xbup.lib.framework.editor.xbup.panel;
 
 import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
+import org.xbup.lib.framework.client.api.ConnectionStatus;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
 
 /**
@@ -69,17 +70,8 @@ public class XBDocStatusPanel extends javax.swing.JPanel {
     private javax.swing.JPanel connectionStatusPanel;
     // End of variables declaration//GEN-END:variables
 
-    public enum ConnectionStatus {
-
-        DISCONNECTED,
-        LOCAL,
-        CONNECTING,
-        NETWORK,
-        INTERNET;
-    };
-
     public void setConnectionStatus(ConnectionStatus status) {
         connectionStatusLabel.setIcon(new ImageIcon(getClass().getResource(resourceBundle.getString("connectionStatus" + status.name() + ".icon"))));
-        connectionStatusLabel.setToolTipText(resourceBundle.getString(resourceBundle.getString("connectionStatus" + status.name() + ".toolTipText")));
+        connectionStatusLabel.setToolTipText(resourceBundle.getString("connectionStatus" + status.name() + ".toolTipText"));
     }
 }

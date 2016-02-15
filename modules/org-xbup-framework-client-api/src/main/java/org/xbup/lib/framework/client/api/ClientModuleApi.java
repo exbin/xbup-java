@@ -16,8 +16,10 @@
  */
 package org.xbup.lib.framework.client.api;
 
+import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
+import org.xbup.lib.plugin.XBPluginRepository;
 
 /**
  * Interface for XBUP framework client module.
@@ -28,4 +30,35 @@ import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
 public interface ClientModuleApi extends XBApplicationModulePlugin {
 
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(ClientModuleApi.class);
+
+    /**
+     * Attempts to connect to running service.
+     *
+     * @return true if connection was estabilished
+     */
+    public boolean connectToService();
+
+    /**
+     * Attempts to connect to fallback service using database connection.
+     *
+     * @return true if connection was estabilished
+     */
+    boolean connectToFallbackService();
+
+    /**
+     * Run internal service.
+     */
+    void useBuildInService();
+
+    XBACatalog getCatalog();
+
+    XBPluginRepository getPluginRepository();
+
+    boolean isDevMode();
+
+    void setDevMode(boolean devMode);
+
+    void addClientConnectionListener(ClientConnectionListener listener);
+
+    void removeClientConnectionListener(ClientConnectionListener listener);
 }

@@ -21,6 +21,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.filechooser.FileFilter;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.core.catalog.XBACatalog;
+import org.xbup.lib.framework.client.api.ClientConnectionListener;
 import org.xbup.lib.framework.editor.xbup.panel.XBDocStatusPanel;
 import org.xbup.lib.framework.editor.xbup.panel.XBDocumentPanel;
 import org.xbup.lib.framework.gui.api.XBApplication;
@@ -39,6 +40,7 @@ import org.xbup.lib.framework.gui.menu.api.ToolBarGroup;
 import org.xbup.lib.framework.gui.menu.api.ToolBarPosition;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
 import org.xbup.lib.framework.service_manager.XBFileType;
+import org.xbup.lib.plugin.XBPluginRepository;
 
 /**
  * XBUP editor module.
@@ -62,10 +64,10 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
     private XBApplication application;
     private XBEditorProvider editorProvider;
     private XBACatalog catalog;
-    private XBDocStatusPanel docStatusPanel;
 
     private DocEditingHandler docEditingHandler;
     private ViewModeHandler viewModeHandler;
+    private StatusPanelHandler statusPanelHandler;
     private SampleFilesHandler sampleFilesHandler;
     private CatalogBrowserHandler catalogBrowserHandler;
     private PropertiesHandler propertiesHandler;
@@ -119,6 +121,15 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
         return viewModeHandler;
     }
 
+    private StatusPanelHandler getStatusPanelHandler() {
+        if (statusPanelHandler == null) {
+            statusPanelHandler = new StatusPanelHandler(application, editorProvider);
+            statusPanelHandler.init();
+        }
+
+        return statusPanelHandler;
+    }
+
     private SampleFilesHandler getSampleFilesHandler() {
         if (sampleFilesHandler == null) {
             sampleFilesHandler = new SampleFilesHandler(application, editorProvider);
@@ -132,6 +143,7 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
         if (catalogBrowserHandler == null) {
             catalogBrowserHandler = new CatalogBrowserHandler(application, editorProvider);
             catalogBrowserHandler.init();
+            catalogBrowserHandler.setCatalog(catalog);
         }
 
         return catalogBrowserHandler;
@@ -190,9 +202,9 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
     }
 
     public void registerStatusBar() {
-        docStatusPanel = new XBDocStatusPanel();
+        getStatusPanelHandler();
         GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
-        frameModule.registerStatusBar(MODULE_ID, DOC_STATUS_BAR_ID, docStatusPanel);
+        frameModule.registerStatusBar(MODULE_ID, DOC_STATUS_BAR_ID, statusPanelHandler.getDocStatusPanel());
         frameModule.switchStatusBar(DOC_STATUS_BAR_ID);
         // ((XBDocumentPanel) getEditorProvider()).registerTextStatus(docStatusPanel);
     }
@@ -251,6 +263,22 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
         JPopupMenu popupMenu = new JPopupMenu();
         menuModule.buildMenu(popupMenu, XBUP_POPUP_MENU_ID);
         return popupMenu;
+    }
+
+    public ClientConnectionListener getClientConnectionListener() {
+        return getStatusPanelHandler().getClientConnectionListener();
+    }
+
+    public void setCatalog(XBACatalog catalog) {
+        this.catalog = catalog;
+        ((XBDocumentPanel) editorProvider).setCatalog(catalog);
+        if (catalogBrowserHandler != null) {
+            catalogBrowserHandler.setCatalog(catalog);
+        }
+    }
+
+    public void setPluginRepository(XBPluginRepository pluginRepository) {
+        ((XBDocumentPanel) editorProvider).setPluginRepository(pluginRepository);
     }
 
     /**

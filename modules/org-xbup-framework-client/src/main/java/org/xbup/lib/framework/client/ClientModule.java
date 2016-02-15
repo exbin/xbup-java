@@ -16,11 +16,13 @@
  */
 package org.xbup.lib.framework.client;
 
-import java.awt.CardLayout;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.Preferences;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.FlushModeType;
@@ -52,7 +54,6 @@ import org.xbup.lib.client.catalog.remote.service.XBRXNameService;
 import org.xbup.lib.client.catalog.remote.service.XBRXPaneService;
 import org.xbup.lib.client.catalog.remote.service.XBRXPlugService;
 import org.xbup.lib.client.catalog.remote.service.XBRXStriService;
-import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCRoot;
 import org.xbup.lib.core.catalog.base.service.XBCNodeService;
@@ -66,13 +67,17 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXPaneService;
 import org.xbup.lib.core.catalog.base.service.XBCXPlugService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
+import org.xbup.lib.framework.client.api.ClientConnectionEvent;
+import org.xbup.lib.framework.client.api.ClientConnectionListener;
 import org.xbup.lib.framework.client.api.ClientModuleApi;
+import org.xbup.lib.framework.client.api.ConnectionStatus;
 import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.plugin.XBPluginRepository;
 
 /**
  * Implementation of XBUP framework client module.
  *
- * @version 0.2.0 2016/02/14
+ * @version 0.2.0 2016/02/15
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -83,7 +88,9 @@ public class ClientModule implements ClientModuleApi {
     private boolean devMode = false;
     private XBCUpdatePHPHandler wsHandler;
     private XBACatalog catalog;
+    private XBPluginRepository pluginRepository;
     private Thread catInitThread = null;
+    private List<ClientConnectionListener> connectionListeners = new ArrayList<>();
 
     public ClientModule() {
     }
@@ -97,169 +104,184 @@ public class ClientModule implements ClientModuleApi {
     public void unregisterPlugin(String pluginId) {
     }
 
-    private void initService() {
-        // Catalog initialization Thread
-        catInitThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-////                boolean panelStatus = jPanel1.isVisible();
-//                boolean panelStatus = false;
-////                getStatusBar().setVisible(true);
-//
-//                // is 0x5842 (XB)
-//                int defaultPort = ("DEV".equals(editorApp.getAppBundle().getString("Application.mode"))) ? 22595 : 22594;
-////                ((CardLayout) statusPanel.getLayout()).show(statusPanel, "initCat");
-////                operationProgressBar.setString(resourceBundle.getString("main_initlocal") + "...");
-//
-//                Boolean serviceConnectionAllowed = Boolean.valueOf(preferences.get("serviceConnectionAllowed", Boolean.toString(true)));
-//                if (serviceConnectionAllowed) {
-////                    catalogConnection = preferences.get("serviceConnectionURL", null);
-////                    if (catalogConnection == null || "".equals(catalogConnection)) {
-////                        catalogConnection = "localhost:" + defaultPort;
-////                    }
-//                    String catalogHost;
-//                    int catalogPort = defaultPort;
-//                    int pos = catalogConnection.indexOf(":");
-//                    if (pos >= 0) {
-//                        catalogHost = catalogConnection.substring(0, pos);
-//                        catalogPort = Integer.valueOf(catalogConnection.substring(pos + 1));
-//                    } else {
-//                        catalogHost = catalogConnection;
-//                    }
-//
-//                    setCatalog(null);
-//
-//                    // Attempt to connect to catalog service
-//                    if ((catalogConnection != null) && (!"".equals(catalogConnection))) {
-//                        XBCatalogNetServiceClient serviceClient = new XBCatalogNetServiceClient(catalogHost, catalogPort);
-//                        setConnectionStatus(ConnectionStatus.CONNECTING);
-//                        if (serviceClient.validate()) {
-//                            setCatalog(new XBARCatalog(serviceClient));
-//
-//                            ((XBARCatalog) getCatalog()).addCatalogService(XBCXLangService.class, new XBRXLangService((XBARCatalog) getCatalog()));
-//                            ((XBARCatalog) getCatalog()).addCatalogService(XBCXStriService.class, new XBRXStriService((XBARCatalog) getCatalog()));
-//                            ((XBARCatalog) getCatalog()).addCatalogService(XBCXNameService.class, new XBRXNameService((XBARCatalog) getCatalog()));
-//                            ((XBARCatalog) getCatalog()).addCatalogService(XBCXDescService.class, new XBRXDescService((XBARCatalog) getCatalog()));
-//                            ((XBARCatalog) getCatalog()).addCatalogService(XBCXFileService.class, new XBRXFileService((XBARCatalog) getCatalog()));
-//                            ((XBARCatalog) getCatalog()).addCatalogService(XBCXIconService.class, new XBRXIconService((XBARCatalog) getCatalog()));
-//                            ((XBARCatalog) getCatalog()).addCatalogService(XBCXPlugService.class, new XBRXPlugService((XBARCatalog) getCatalog()));
-//                            ((XBARCatalog) getCatalog()).addCatalogService(XBCXLineService.class, new XBRXLineService((XBARCatalog) getCatalog()));
-//                            ((XBARCatalog) getCatalog()).addCatalogService(XBCXPaneService.class, new XBRXPaneService((XBARCatalog) getCatalog()));
-//                            ((XBARCatalog) getCatalog()).addCatalogService(XBCXHDocService.class, new XBRXHDocService((XBARCatalog) getCatalog()));
-//
-//                            if ("localhost".equals(serviceClient.getHost()) || "127.0.0.1".equals(serviceClient.getHost())) {
-//                                setConnectionStatus(ConnectionStatus.LOCAL);
-//                            } else {
-//                                setConnectionStatus(ConnectionStatus.NETWORK);
-//                            }
-//                            setCatalog(getCatalog());
-//                        }
-//                    }
-//                }
-//
-//                // Create internal catalog instead
-//                if (getCatalog() == null) {
-//                    setConnectionStatus(ConnectionStatus.DISCONNECTED);
-//                    operationProgressBar.setString(resourceBundle.getString("main_initcat") + "...");
-//                    try {
-//                        // Database Initialization
-//                        String derbyHome = System.getProperty("user.home") + "/.java/.userPrefs/" + preferences.absolutePath();
-//                        if (devMode) {
-//                            derbyHome += "-dev";
-//                        }
-//                        System.setProperty("derby.system.home", derbyHome);
-//                        EntityManagerFactory emf = Persistence.createEntityManagerFactory("XBEditorPU");
-//                        EntityManager em = emf.createEntityManager();
-//                        em.setFlushMode(FlushModeType.AUTO);
-//
-//                        setCatalog(createCatalog(em));
-//
-//                        if (((XBAECatalog) getCatalog()).isShallInit()) {
-//                            operationProgressBar.setString(resourceBundle.getString("main_defaultcat") + "...");
-//                            ((XBAECatalog) getCatalog()).initCatalog();
-//                        }
-//
-//                        Boolean catalogUpdateAllowed = Boolean.valueOf(preferences.get("catalogUpdateAllowed", Boolean.toString(true)));
-//                        // Update internal catalog
-//                        if (catalogUpdateAllowed && getCatalog() instanceof XBAECatalog) {
-//                            // String catalogUpdate = preferences.get("catalogUpdateURL", null); // TODO
-//
-//                            try {
-//                                operationProgressBar.setString(resourceBundle.getString("main_initws") + "...");
-//                                wsHandler = new XBCUpdatePHPHandler((XBAECatalog) getCatalog());
-//                                wsHandler.init();
-//                                wsHandler.getPort().getLanguageId("en");
-//                                ((XBAECatalog) getCatalog()).setUpdateHandler(wsHandler);
-//                                XBCNodeService nodeService = (XBCNodeService) getCatalog().getCatalogService(XBCNodeService.class);
-//                                XBCRoot catalogRoot = nodeService.getRoot();
-//                                if (catalogRoot != null) {
-//                                    Date localLastUpdate = catalogRoot.getLastUpdate();
-//                                    Date lastUpdate = wsHandler.getPort().getRootLastUpdate();
-//                                    if (localLastUpdate == null || localLastUpdate.before(lastUpdate)) {
-//                                        // TODO: As there is currently no diff update available - wipe out entire database instead
-//                                        em.close();
-//                                        EntityManagerFactory emfDrop = Persistence.createEntityManagerFactory("XBEditorPU-drop");
-//                                        EntityManager emDrop = emfDrop.createEntityManager();
-//                                        emDrop.setFlushMode(FlushModeType.AUTO);
-//                                        setCatalog(createCatalog(emDrop));
-//                                        ((XBAECatalog) getCatalog()).initCatalog();
-//                                        nodeService = (XBCNodeService) getCatalog().getCatalogService(XBCNodeService.class);
-//                                        performUpdate((XBERoot) nodeService.getRoot(), lastUpdate);
-//
-//                                    }
-//                                    setConnectionStatus(ConnectionStatus.INTERNET);
-//                                }
-//                            } catch (Exception ex) {
-//                                Logger.getLogger(XBDocEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
-//                                wsHandler = null;
-//                            }
-//                        }
-//
-//                        setCatalog(getCatalog());
-//                    } catch (Exception ex) {
-//                        Logger.getLogger(XBDocEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                }
-//
-//                // Initialize plugins
-//                if (getCatalog() != null) {
-//                    pluginRepository = new XBPluginRepository();
-//                    pluginRepository.addPluginsFrom(new File("plugins/").toURI());
-//                    pluginRepository.processPlugins();
-//                    pluginRepository.setCatalog(getCatalog());
-//                    activePanel.setPluginRepository(pluginRepository);
-//                }
-//
-//                ((CardLayout) statusPanel.getLayout()).first(statusPanel);
+    @Override
+    public boolean connectToService() {
+        connectionStatusChanged(ConnectionStatus.DISCONNECTED);
+        setCatalog(null);
+
+        // is 0x5842 (XB)
+        int defaultPort = devMode ? 22595 : 22594;
+
+        String catalogConnection = "localhost:" + defaultPort;
+        String catalogHost;
+        int catalogPort = defaultPort;
+        int pos = catalogConnection.indexOf(":");
+        if (pos >= 0) {
+            catalogHost = catalogConnection.substring(0, pos);
+            catalogPort = Integer.valueOf(catalogConnection.substring(pos + 1));
+        } else {
+            catalogHost = catalogConnection;
+        }
+
+        XBCatalogNetServiceClient serviceClient = new XBCatalogNetServiceClient(catalogHost, catalogPort);
+        connectionStatusChanged(ConnectionStatus.CONNECTING);
+        if (serviceClient.validate()) {
+            XBARCatalog catalogHandler = new XBARCatalog(serviceClient);
+            catalog = catalogHandler;
+
+            catalogHandler.addCatalogService(XBCXLangService.class, new XBRXLangService(catalogHandler));
+            catalogHandler.addCatalogService(XBCXStriService.class, new XBRXStriService(catalogHandler));
+            catalogHandler.addCatalogService(XBCXNameService.class, new XBRXNameService(catalogHandler));
+            catalogHandler.addCatalogService(XBCXDescService.class, new XBRXDescService(catalogHandler));
+            catalogHandler.addCatalogService(XBCXFileService.class, new XBRXFileService(catalogHandler));
+            catalogHandler.addCatalogService(XBCXIconService.class, new XBRXIconService(catalogHandler));
+            catalogHandler.addCatalogService(XBCXPlugService.class, new XBRXPlugService(catalogHandler));
+            catalogHandler.addCatalogService(XBCXLineService.class, new XBRXLineService(catalogHandler));
+            catalogHandler.addCatalogService(XBCXPaneService.class, new XBRXPaneService(catalogHandler));
+            catalogHandler.addCatalogService(XBCXHDocService.class, new XBRXHDocService(catalogHandler));
+
+            if ("localhost".equals(serviceClient.getHost()) || "127.0.0.1".equals(serviceClient.getHost())) {
+                connectionStatusChanged(ConnectionStatus.LOCAL);
+            } else {
+                connectionStatusChanged(ConnectionStatus.NETWORK);
             }
 
-            private XBACatalog createCatalog(EntityManager em) {
-                XBACatalog createdCatalog = new XBAECatalog(em);
+            return true;
+        } else {
+            connectionStatusChanged(ConnectionStatus.FAILED);
+            return false;
+        }
+    }
 
-                ((XBAECatalog) createdCatalog).addCatalogService(XBCXLangService.class, new XBEXLangService((XBAECatalog) createdCatalog));
-                ((XBAECatalog) createdCatalog).addCatalogService(XBCXStriService.class, new XBEXStriService((XBAECatalog) createdCatalog));
-                ((XBAECatalog) createdCatalog).addCatalogService(XBCXNameService.class, new XBEXNameService((XBAECatalog) createdCatalog));
-                ((XBAECatalog) createdCatalog).addCatalogService(XBCXDescService.class, new XBEXDescService((XBAECatalog) createdCatalog));
-                ((XBAECatalog) createdCatalog).addCatalogService(XBCXFileService.class, new XBEXFileService((XBAECatalog) createdCatalog));
-                ((XBAECatalog) createdCatalog).addCatalogService(XBCXIconService.class, new XBEXIconService((XBAECatalog) createdCatalog));
-                ((XBAECatalog) createdCatalog).addCatalogService(XBCXPlugService.class, new XBEXPlugService((XBAECatalog) createdCatalog));
-                ((XBAECatalog) createdCatalog).addCatalogService(XBCXLineService.class, new XBEXLineService((XBAECatalog) createdCatalog));
-                ((XBAECatalog) createdCatalog).addCatalogService(XBCXPaneService.class, new XBEXPaneService((XBAECatalog) createdCatalog));
-                ((XBAECatalog) createdCatalog).addCatalogService(XBCXHDocService.class, new XBEXHDocService((XBAECatalog) createdCatalog));
-                return createdCatalog;
+    private void connectionStatusChanged(ConnectionStatus connectionStatus) {
+        ClientConnectionEvent connectionEvent = new ClientConnectionEvent(connectionStatus);
+        for (int i = 0; i < connectionListeners.size(); i++) {
+            ClientConnectionListener listener = connectionListeners.get(i);
+            listener.connectionChanged(connectionEvent);
+        }
+    }
+
+    @Override
+    public boolean connectToFallbackService() {
+        connectionStatusChanged(ConnectionStatus.DISCONNECTED);
+        Preferences preferences = application.getAppPreferences();
+        try {
+            // Database Initialization
+            String derbyHome = System.getProperty("user.home") + "/.java/.userPrefs/" + preferences.absolutePath();
+            if (devMode) {
+                derbyHome += "-dev";
+            }
+            System.setProperty("derby.system.home", derbyHome);
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("XBEditorPU");
+            EntityManager em = emf.createEntityManager();
+            em.setFlushMode(FlushModeType.AUTO);
+
+            XBAECatalog catalogHandler = createInternalCatalog(em);
+
+            if (catalogHandler.isShallInit()) {
+                connectionStatusChanged(ConnectionStatus.CONNECTING);
+                catalogHandler.initCatalog();
             }
 
-            private void performUpdate(XBERoot catalogRoot, Date lastUpdate) {
-                XBCUpdatePHPHandler wsHandler = new XBCUpdatePHPHandler((XBAECatalog) getCatalog());
+            try {
+                XBCUpdatePHPHandler wsHandler = new XBCUpdatePHPHandler(catalogHandler);
                 wsHandler.init();
                 wsHandler.getPort().getLanguageId("en");
+                catalogHandler.setUpdateHandler(wsHandler);
+                XBCNodeService nodeService = (XBCNodeService) catalogHandler.getCatalogService(XBCNodeService.class);
+                XBCRoot catalogRoot = nodeService.getRoot();
+                if (catalogRoot != null) {
+                    Date localLastUpdate = catalogRoot.getLastUpdate();
+                    Date lastUpdate = wsHandler.getPort().getRootLastUpdate();
+                    if (localLastUpdate == null || localLastUpdate.before(lastUpdate)) {
+                        // TODO: As there is currently no diff update available - wipe out entire database instead
+                        em.close();
+                        EntityManagerFactory emfDrop = Persistence.createEntityManagerFactory("XBEditorPU-drop");
+                        EntityManager emDrop = emfDrop.createEntityManager();
+                        emDrop.setFlushMode(FlushModeType.AUTO);
+                        catalogHandler = createInternalCatalog(emDrop);
+                        catalogHandler.initCatalog();
+                        nodeService = (XBCNodeService) catalogHandler.getCatalogService(XBCNodeService.class);
+                        performUpdate(catalogHandler, (XBERoot) nodeService.getRoot(), lastUpdate);
+                    }
+                    initializePlugins(catalogHandler);
+                    connectionStatusChanged(ConnectionStatus.INTERNET);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(ClientModule.class.getName()).log(Level.SEVERE, null, ex);
+                wsHandler = null;
+                return false;
+            }
 
-                wsHandler.fireUsageEvent(false);
-                wsHandler.addWSListener(new XBCUpdateListener() {
-                    private boolean toolBarVisibleTemp;
+            catalog = catalogHandler;
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(ClientModule.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-                    @Override
-                    public void webServiceUsage(boolean status) {
+        return false;
+    }
+
+    @Override
+    public void useBuildInService() {
+        Preferences preferences = application.getAppPreferences();
+        // Database Initialization
+        String derbyHome = System.getProperty("user.home") + "/.java/.userPrefs/" + preferences.absolutePath();
+        if (devMode) {
+            derbyHome += "-dev";
+        }
+        System.setProperty("derby.system.home", derbyHome);
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("XBEditorPU");
+        EntityManager em = emf.createEntityManager();
+        em.setFlushMode(FlushModeType.AUTO);
+
+        XBAECatalog catalogHandler = createInternalCatalog(em);
+
+        if (catalogHandler.isShallInit()) {
+//            operationProgressBar.setString(resourceBundle.getString("main_defaultcat") + "...");
+            catalogHandler.initCatalog();
+        }
+
+        this.catalog = catalogHandler;
+    }
+
+    private void initializePlugins(XBACatalog catalogHandler) {
+        if (catalogHandler != null) {
+            pluginRepository = new XBPluginRepository();
+            pluginRepository.addPluginsFrom(new File("plugins/").toURI());
+            pluginRepository.processPlugins();
+            pluginRepository.setCatalog(catalogHandler);
+//            activePanel.setPluginRepository(pluginRepository);
+        }
+    }
+
+    private XBAECatalog createInternalCatalog(EntityManager em) {
+        XBAECatalog createdCatalog = new XBAECatalog(em);
+
+        createdCatalog.addCatalogService(XBCXLangService.class, new XBEXLangService(createdCatalog));
+        createdCatalog.addCatalogService(XBCXStriService.class, new XBEXStriService(createdCatalog));
+        createdCatalog.addCatalogService(XBCXNameService.class, new XBEXNameService(createdCatalog));
+        createdCatalog.addCatalogService(XBCXDescService.class, new XBEXDescService(createdCatalog));
+        createdCatalog.addCatalogService(XBCXFileService.class, new XBEXFileService(createdCatalog));
+        createdCatalog.addCatalogService(XBCXIconService.class, new XBEXIconService(createdCatalog));
+        createdCatalog.addCatalogService(XBCXPlugService.class, new XBEXPlugService(createdCatalog));
+        createdCatalog.addCatalogService(XBCXLineService.class, new XBEXLineService(createdCatalog));
+        createdCatalog.addCatalogService(XBCXPaneService.class, new XBEXPaneService(createdCatalog));
+        createdCatalog.addCatalogService(XBCXHDocService.class, new XBEXHDocService(createdCatalog));
+        return createdCatalog;
+    }
+
+    private void performUpdate(XBAECatalog catalogHandler, XBERoot catalogRoot, Date lastUpdate) {
+        XBCUpdatePHPHandler wsHandler = new XBCUpdatePHPHandler(catalogHandler);
+        wsHandler.init();
+        wsHandler.getPort().getLanguageId("en");
+
+        wsHandler.fireUsageEvent(false);
+        wsHandler.addWSListener(new XBCUpdateListener() {
+            private boolean toolBarVisibleTemp;
+
+            @Override
+            public void webServiceUsage(boolean status) {
 //                        if (status == true) {
 //                            toolBarVisibleTemp = getStatusBar().isVisible();
 //                            ((CardLayout) statusPanel.getLayout()).show(statusPanel, "updateCat");
@@ -269,12 +291,9 @@ public class ClientModule implements ClientModuleApi {
 //                            ((CardLayout) statusPanel.getLayout()).first(statusPanel);
 //                            //                                statusBar.setVisible(toolBarVisibleTemp);
 //                        }
-                    }
-                });
-                wsHandler.updateCatalog(catalogRoot, lastUpdate);
             }
         });
-        catInitThread.start();
+        wsHandler.updateCatalog(catalogRoot, lastUpdate);
     }
 
     public void setCatalog(XBACatalog catalog) {
@@ -292,7 +311,33 @@ public class ClientModule implements ClientModuleApi {
 //        }
     }
 
+    @Override
     public XBACatalog getCatalog() {
         return catalog;
+    }
+
+    @Override
+    public XBPluginRepository getPluginRepository() {
+        return pluginRepository;
+    }
+
+    @Override
+    public boolean isDevMode() {
+        return devMode;
+    }
+
+    @Override
+    public void setDevMode(boolean devMode) {
+        this.devMode = devMode;
+    }
+
+    @Override
+    public void addClientConnectionListener(ClientConnectionListener listener) {
+        connectionListeners.add(listener);
+    }
+
+    @Override
+    public void removeClientConnectionListener(ClientConnectionListener listener) {
+        connectionListeners.remove(listener);
     }
 }

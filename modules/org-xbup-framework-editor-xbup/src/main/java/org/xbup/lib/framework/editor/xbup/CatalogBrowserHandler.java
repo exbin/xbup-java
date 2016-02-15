@@ -20,18 +20,17 @@ import java.awt.event.ActionEvent;
 import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.framework.editor.xbup.dialog.CatalogEditorDialog;
-import org.xbup.lib.framework.editor.xbup.panel.XBDocumentPanel;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
 
 /**
  * Catalog browser handler.
  *
- * @version 0.2.0 2016/02/10
+ * @version 0.2.0 2016/02/15
  * @author XBUP Project (http://xbup.org)
  */
 public class CatalogBrowserHandler {
@@ -39,6 +38,7 @@ public class CatalogBrowserHandler {
     private final XBEditorProvider editorProvider;
     private final XBApplication application;
     private ResourceBundle resourceBundle;
+    private XBACatalog catalog;
 
     private int metaMask;
 
@@ -62,7 +62,7 @@ public class CatalogBrowserHandler {
                 catalogEditorDialog = new CatalogEditorDialog(frameModule.getFrame(), true);
 //                catalogEditorDialog.setMenuManagement(menuManagement);
 //                catalogEditorDialog.setMainFrameManagement(mainFrameManagement);
-//                catalogEditorDialog.setCatalog(catalog);
+                catalogEditorDialog.setCatalog(catalog);
                 catalogEditorDialog.setVisible(true);
 
                 catalogEditorDialog = null;
@@ -76,6 +76,10 @@ public class CatalogBrowserHandler {
         return catalogBrowserAction;
     }
 
+    public void setCatalog(XBACatalog catalog) {
+        this.catalog = catalog;
+    }
+    
     public void initCatalogBrowserDialog() {
         if (catalogEditorDialog == null) {
             GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);

@@ -1,6 +1,7 @@
 rootProject.name = 'org-xbup-framework-client-api'
 
 include ":modules:xbup-core"
+include ":modules:xbup-plugin"
 include ":modules:org-xbup-framework-gui"
 include ":modules:org-xbup-framework-gui-api"
 

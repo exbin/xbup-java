@@ -1,13 +1,15 @@
-rootProject.name = 'xbmanager_new'
+rootProject.name = 'xbmanager'
 
 include ":modules:xbup-core"
 include ":modules:xbup-catalog"
-include ":modules:org-xbup-framework-client"
+include ":modules:xbup-client"
 include ":modules:xbup-visual"
 include ":modules:xbup-plugin"
 include ":modules:xbup-operation"
 include ":modules:xbup-parser-tree"
 include ":modules:xbup-parser-command"
+include ":modules:org-xbup-framework-client"
+include ":modules:org-xbup-framework-client-api"
 include ":modules:org-xbup-framework-gui"
 include ":modules:org-xbup-framework-gui-api"
 include ":modules:org-xbup-framework-gui-utils"
@@ -29,6 +31,7 @@ include ":modules:org-xbup-framework-gui-options-api"
 include ":modules:org-xbup-framework-gui-options"
 include ":modules:org-xbup-framework-editor-xbup"
 include ":modules:org-xbup-framework-editor-text"
+include ":modules:org-xbup-framework-service_manager"
 include ":modules:hexedit"
 include ":modules:simplyhtml"
 

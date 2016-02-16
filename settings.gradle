@@ -35,6 +35,8 @@ include ":modules:org-xbup-framework-editor-wave"
 include ":modules:org-xbup-framework-editor-picture"
 include ":modules:org-xbup-framework-editor-xbup"
 include ":modules:org-xbup-framework-service_manager"
+include ":modules:org-xbup-framework-exbin"
+include ":modules:org-xbup-framework-preferences"
 
 include ":plugins:xbup-plugin-basic"
 include ":plugins:xbup-plugin-picture"
@@ -47,6 +49,8 @@ include ":tools:xbeditor"
 include ":tools:xbmanager"
 include ":tools:xbservice"
 include ":tools:xbshell"
+
+include ":tools:exbin_is"
 
 include ":tools:sample:lrub1demo"
 include ":tools:sample:xbpeditor"

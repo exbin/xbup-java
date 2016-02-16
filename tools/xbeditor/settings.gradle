@@ -1,4 +1,4 @@
-rootProject.name = 'xbeditor_new'
+rootProject.name = 'xbeditor'
 
 include ":modules:xbup-core"
 include ":modules:xbup-catalog"

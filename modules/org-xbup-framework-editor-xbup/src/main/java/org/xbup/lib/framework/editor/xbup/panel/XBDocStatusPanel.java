@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.framework.editor.xbup.panel;
 
+import java.awt.CardLayout;
 import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 import org.xbup.lib.framework.client.api.ConnectionStatus;
@@ -24,12 +25,12 @@ import org.xbup.lib.framework.gui.utils.ActionUtils;
 /**
  * Status panel for XB document editor.
  *
- * @version 0.2.0 2016/02/13
+ * @version 0.2.0 2016/02/16
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocStatusPanel extends javax.swing.JPanel {
 
-    private ResourceBundle resourceBundle = ActionUtils.getResourceBundleByClass(XBDocStatusPanel.class);
+    private final ResourceBundle resourceBundle = ActionUtils.getResourceBundleByClass(XBDocStatusPanel.class);
 
     public XBDocStatusPanel() {
         initComponents();
@@ -45,6 +46,13 @@ public class XBDocStatusPanel extends javax.swing.JPanel {
 
         connectionStatusPanel = new javax.swing.JPanel();
         connectionStatusLabel = new javax.swing.JLabel();
+        mainPanel = new javax.swing.JPanel();
+        defaultPanel = new javax.swing.JPanel();
+        operationPanel = new javax.swing.JPanel();
+        operationProgressBar = new javax.swing.JProgressBar();
+        operationStopButton = new javax.swing.JButton();
+        activityPanel = new javax.swing.JPanel();
+        activityProgressBar = new javax.swing.JProgressBar();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -58,20 +66,112 @@ public class XBDocStatusPanel extends javax.swing.JPanel {
         );
         connectionStatusPanelLayout.setVerticalGroup(
             connectionStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(connectionStatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+            .addComponent(connectionStatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
         );
 
         add(connectionStatusPanel, java.awt.BorderLayout.EAST);
+
+        mainPanel.setLayout(new java.awt.CardLayout());
+
+        javax.swing.GroupLayout defaultPanelLayout = new javax.swing.GroupLayout(defaultPanel);
+        defaultPanel.setLayout(defaultPanelLayout);
+        defaultPanelLayout.setHorizontalGroup(
+            defaultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 401, Short.MAX_VALUE)
+        );
+        defaultPanelLayout.setVerticalGroup(
+            defaultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 26, Short.MAX_VALUE)
+        );
+
+        mainPanel.add(defaultPanel, "default");
+
+        operationProgressBar.setIndeterminate(true);
+        operationProgressBar.setMinimumSize(new java.awt.Dimension(10, 10));
+        operationProgressBar.setRequestFocusEnabled(false);
+        operationProgressBar.setStringPainted(true);
+
+        operationStopButton.setText("Stop"); // NOI18N
+        operationStopButton.setEnabled(false);
+        operationStopButton.setMinimumSize(new java.awt.Dimension(67, 15));
+        operationStopButton.setPreferredSize(new java.awt.Dimension(75, 20));
+
+        javax.swing.GroupLayout operationPanelLayout = new javax.swing.GroupLayout(operationPanel);
+        operationPanel.setLayout(operationPanelLayout);
+        operationPanelLayout.setHorizontalGroup(
+            operationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, operationPanelLayout.createSequentialGroup()
+                .addComponent(operationProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(operationStopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        operationPanelLayout.setVerticalGroup(
+            operationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(operationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(operationStopButton, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                .addComponent(operationProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE))
+        );
+
+        mainPanel.add(operationPanel, "operation");
+
+        activityProgressBar.setIndeterminate(true);
+        activityProgressBar.setName(""); // NOI18N
+        activityProgressBar.setRequestFocusEnabled(false);
+        activityProgressBar.setStringPainted(true);
+
+        javax.swing.GroupLayout activityPanelLayout = new javax.swing.GroupLayout(activityPanel);
+        activityPanel.setLayout(activityPanelLayout);
+        activityPanelLayout.setHorizontalGroup(
+            activityPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(activityProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+        );
+        activityPanelLayout.setVerticalGroup(
+            activityPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(activityProgressBar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+        );
+
+        mainPanel.add(activityPanel, "activity");
+
+        add(mainPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel activityPanel;
+    private javax.swing.JProgressBar activityProgressBar;
     private javax.swing.JLabel connectionStatusLabel;
     private javax.swing.JPanel connectionStatusPanel;
+    private javax.swing.JPanel defaultPanel;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JPanel operationPanel;
+    private javax.swing.JProgressBar operationProgressBar;
+    private javax.swing.JButton operationStopButton;
     // End of variables declaration//GEN-END:variables
 
     public void setConnectionStatus(ConnectionStatus status) {
         connectionStatusLabel.setIcon(new ImageIcon(getClass().getResource(resourceBundle.getString("connectionStatus" + status.name() + ".icon"))));
         connectionStatusLabel.setToolTipText(resourceBundle.getString("connectionStatus" + status.name() + ".toolTipText"));
+                
+        switch (status) {
+            case CONNECTING: {
+                activityProgressBar.setString("Connection in progress...");
+                ((CardLayout) mainPanel.getLayout()).show(mainPanel, "activity");
+                break;
+            }
+            case INITIALIZING: {
+                activityProgressBar.setString("Initializing catalog...");
+                ((CardLayout) mainPanel.getLayout()).show(mainPanel, "activity");
+                break;
+            }
+            case UPDATING: {
+                activityProgressBar.setString("Updating catalog...");
+                ((CardLayout) mainPanel.getLayout()).show(mainPanel, "activity");
+                break;
+            }
+            default: {
+                ((CardLayout) mainPanel.getLayout()).show(mainPanel, "default");
+                break;
+            }
+        }
     }
 }

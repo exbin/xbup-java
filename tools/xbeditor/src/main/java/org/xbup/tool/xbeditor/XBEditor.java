@@ -16,6 +16,7 @@
  */
 package org.xbup.tool.xbeditor;
 
+import java.awt.Dimension;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -23,37 +24,49 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-import net.xeoh.plugins.base.util.uri.ClassURI;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.parser.basic.XBHead;
-import org.xbup.tool.editor.module.java_help.JavaHelpModule;
-import org.xbup.tool.editor.module.online_help.OnlineHelpModule;
-import org.xbup.tool.editor.module.xbdoc_editor.XBDocEditorModule;
-import org.xbup.tool.editor.base.XBEditorApplication;
-import org.xbup.tool.editor.base.XBEditorApplication.XBAppCommand;
-import org.xbup.tool.editor.base.XBEditorBase;
-import org.xbup.tool.editor.base.api.ApplicationModule;
+import org.xbup.lib.framework.client.api.ClientModuleApi;
+import org.xbup.lib.framework.editor.text.EditorTextModule;
+import org.xbup.lib.framework.editor.xbup.EditorXbupModule;
+import org.xbup.lib.framework.gui.XBBaseApplication;
+import org.xbup.lib.framework.gui.about.api.GuiAboutModuleApi;
+import org.xbup.lib.framework.gui.api.XBModuleRepository;
+import org.xbup.lib.framework.gui.editor.api.GuiEditorModuleApi;
+import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
+import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
+import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
+import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
+import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
+import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
+import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
+import org.xbup.lib.framework.gui.help.api.GuiHelpModuleApi;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.xbup.lib.operation.undo.XBTLinearUndo;
+import org.xbup.lib.plugin.XBPluginRepository;
 
 /**
  * The main class of the XBEditor application.
  *
- * @version 0.1.24 2015/01/31
+ * @version 0.2.0 2016/02/11
  * @author XBUP Project (http://xbup.org)
  */
-public class XBEditor extends XBEditorBase {
+public class XBEditor {
 
     private static Preferences preferences;
     private static boolean verboseMode = false;
     private static boolean devMode = false;
-    private static final String APP_BUNDLE_NAME = "org/xbup/tool/xbeditor/resources/XBEditor";
-    private static final ResourceBundle bundle = ResourceBundle.getBundle(APP_BUNDLE_NAME);
+    private static final ResourceBundle bundle = ActionUtils.getResourceBundleByClass(XBEditor.class);
 
     /**
      * Main method launching the application.
+     *
+     * @param args arguments
      */
     public static void main(String[] args) {
         try {
@@ -83,55 +96,122 @@ public class XBEditor extends XBEditorBase {
                     // Ignore it in java webstart
                 }
 
-                XBEditorApplication app = new XBEditorApplication();
-                app.setAppMode(true);
+                XBBaseApplication app = new XBBaseApplication();
                 app.setAppPreferences(preferences);
-                app.setAppBundle(bundle, APP_BUNDLE_NAME);
-                app.setFirstCommand(new XBEditorFirstCommand(app));
+                app.setAppBundle(bundle, ActionUtils.getResourceBaseNameBundleByClass(XBEditor.class));
+                app.init();
 
-                app.addPlugin(new ClassURI(XBDocEditorModule.class).toURI());
-                app.addPlugin(new ClassURI(JavaHelpModule.class).toURI());
-                app.addPlugin(new ClassURI(OnlineHelpModule.class).toURI());
+                XBModuleRepository moduleRepository = app.getModuleRepository();
+                moduleRepository.addClassPathPlugins();
+                moduleRepository.addPluginsFromManifest(XBEditor.class);
+                moduleRepository.initModules();
+
+                GuiFrameModuleApi frameModule = moduleRepository.getModuleByInterface(GuiFrameModuleApi.class);
+                GuiEditorModuleApi editorModule = moduleRepository.getModuleByInterface(GuiEditorModuleApi.class);
+                GuiMenuModuleApi menuModule = moduleRepository.getModuleByInterface(GuiMenuModuleApi.class);
+                GuiAboutModuleApi aboutModule = moduleRepository.getModuleByInterface(GuiAboutModuleApi.class);
+                GuiHelpModuleApi helpModule = moduleRepository.getModuleByInterface(GuiHelpModuleApi.class);
+                GuiUndoModuleApi undoModule = moduleRepository.getModuleByInterface(GuiUndoModuleApi.class);
+                GuiFileModuleApi fileModule = moduleRepository.getModuleByInterface(GuiFileModuleApi.class);
+                final ClientModuleApi clientModule = moduleRepository.getModuleByInterface(ClientModuleApi.class);
+                GuiOptionsModuleApi optionsModule = moduleRepository.getModuleByInterface(GuiOptionsModuleApi.class);
+                final EditorXbupModule xbupEditorModule = moduleRepository.getModuleByInterface(EditorXbupModule.class);
+                final EditorTextModule textEditorModule = moduleRepository.getModuleByInterface(EditorTextModule.class);
+
+                aboutModule.registerDefaultMenuItem();
+                try {
+                    helpModule.setHelpUrl(new URL(bundle.getString("online_help_url")));
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(XBEditor.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                helpModule.registerMainMenu();
+                helpModule.registerOnlineHelpMenu();
+
+                frameModule.registerExitAction();
+                frameModule.registerBarsVisibilityActions();
+
+                // Register clipboard editing actions
+                fileModule.registerMenuFileHandlingActions();
+                fileModule.registerToolBarFileHandlingActions();
+                fileModule.registerCloseListener();
+                fileModule.registerLastOpenedMenuActions();
+
+                undoModule.registerMainMenu();
+                undoModule.registerMainToolBar();
+                undoModule.registerUndoManagerInMainMenu();
+                XBTLinearUndo linearUndo = new XBTLinearUndo(null);
+//                linearUndo.addUndoUpdateListener(new UndoUpdateListener() {
+//                    @Override
+//                    public void undoChanged() {
+//                        ((AudioPanel) waveEditorModule.getEditorProvider()).repaint();
+//                    }
+//                });
+                undoModule.setUndoHandler(linearUndo);
+
+                // Register clipboard editing actions
+                menuModule.registerMenuClipboardActions();
+                menuModule.registerToolBarClipboardActions();
+
+                optionsModule.registerMenuAction();
+
+                textEditorModule.registerEditFindMenuActions();
+                textEditorModule.registerWordWrapping();
+                textEditorModule.registerGoToLine();
+                textEditorModule.registerPrintMenu();
+
+                XBEditorProvider editorProvider = xbupEditorModule.getEditorProvider();
+
+                xbupEditorModule.setDevMode(devMode);
+                xbupEditorModule.registerFileTypes();
+                xbupEditorModule.registerCatalogBrowserMenu();
+                xbupEditorModule.registerDocEditingMenuActions();
+                xbupEditorModule.registerDocEditingToolBarActions();
+                xbupEditorModule.registerViewModeMenu();
+                xbupEditorModule.registerSampleFilesSubMenuActions();
+                xbupEditorModule.registerPropertiesMenuAction();
+                xbupEditorModule.registerPropertyPanelMenuAction();
+
+                textEditorModule.registerToolsOptionsMenuActions();
+                textEditorModule.registerOptionsPanels();
+                xbupEditorModule.registerOptionsPanels();
+
+                ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
+                editorModule.registerEditor("xbup", editorProvider);
+
+                xbupEditorModule.registerStatusBar();
+
+                frameHandler.setMainPanel(editorModule.getEditorPanel());
+                frameHandler.setDefaultSize(new Dimension(600, 400));
+                frameHandler.show();
+
+                clientModule.addClientConnectionListener(xbupEditorModule.getClientConnectionListener());
+                Thread connectionThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!clientModule.connectToService()) {
+                            if (!clientModule.connectToFallbackService()) {
+                                clientModule.useBuildInService();
+                            }
+                        }
+                        
+                        XBACatalog catalog = clientModule.getCatalog();
+                        XBPluginRepository pluginRepository = clientModule.getPluginRepository();
+                        if (catalog != null) {
+                            xbupEditorModule.setCatalog(catalog);
+                            xbupEditorModule.setPluginRepository(pluginRepository);
+                        }
+                    }
+                });
+
+                connectionThread.start();
 
                 List fileArgs = cl.getArgList();
                 if (fileArgs.size() > 0) {
-                    app.loadFromFile((String) fileArgs.get(0));
+                    fileModule.loadFromFile((String) fileArgs.get(0));
                 }
-
-                app.init();
-
-                ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
-                ((XBDocEditorModule) module).setEditorApp(app);
-                ((XBDocEditorModule) module).setDevMode(devMode);
-
-                app.run();
             }
         } catch (ParseException ex) {
             Logger.getLogger(XBEditor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private static class XBEditorFirstCommand implements XBAppCommand {
-
-        private final XBEditorApplication app;
-
-        public XBEditorFirstCommand(XBEditorApplication app) {
-            this.app = app;
-        }
-
-        @Override
-        public void execute() {
-            ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
-            ((XBDocEditorModule) module).postWindowOpened();
-
-            module = app.getModuleRepository().getPluginHandler(OnlineHelpModule.class);
-            try {
-                if (module instanceof OnlineHelpModule) {
-                    ((OnlineHelpModule) module).setHelpUrl(new URL(bundle.getString("online_help_url")));
-                }
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(XBEditor.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }
 }

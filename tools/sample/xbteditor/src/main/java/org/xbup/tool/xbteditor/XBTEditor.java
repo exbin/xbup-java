@@ -16,40 +16,49 @@
  */
 package org.xbup.tool.xbteditor;
 
+import java.awt.Dimension;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-import net.xeoh.plugins.base.util.uri.ClassURI;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.xbup.lib.core.parser.basic.XBHead;
-import org.xbup.tool.editor.module.text_editor.XBTextEditorModule;
-import org.xbup.tool.editor.base.XBEditorApplication;
-import org.xbup.tool.editor.base.XBEditorBase;
+import org.xbup.lib.framework.editor.text.EditorTextModule;
+import org.xbup.lib.framework.editor.text.panel.TextPanel;
+import org.xbup.lib.framework.gui.XBBaseApplication;
+import org.xbup.lib.framework.gui.about.api.GuiAboutModuleApi;
+import org.xbup.lib.framework.gui.api.XBModuleRepository;
+import org.xbup.lib.framework.gui.editor.api.GuiEditorModuleApi;
+import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
+import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
+import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
+import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
+import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
+import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 
 /**
  * The main class of the XBTEditor application.
  *
- * @version 0.1.24 2015/01/31
+ * @version 0.2.0 2016/01/23
  * @author XBUP Project (http://xbup.org)
  */
-public class XBTEditor extends XBEditorBase {
+public class XBTEditor {
 
     private static Preferences preferences;
     private static boolean verboseMode = false;
-    private static final String APP_BUNDLE_NAME = "org/xbup/tool/xbteditor/resources/XBTEditor";
-    private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(APP_BUNDLE_NAME);
-
-    public XBTEditor() {
-    }
+    private static boolean devMode = false;
+    private static ResourceBundle bundle;
 
     /**
      * Main method launching the application.
+     *
+     * @param args arguments
      */
     public static void main(String[] args) {
         try {
@@ -58,19 +67,20 @@ public class XBTEditor extends XBEditorBase {
             preferences = null;
         }
         try {
+            bundle = ActionUtils.getResourceBundleByClass(XBTEditor.class);
             // Parameters processing
             Options opt = new Options();
-            opt.addOption("h", "help", false, RESOURCE_BUNDLE.getString("cl_option_help"));
-            opt.addOption("port", true, RESOURCE_BUNDLE.getString("cl_option_port"));
-            opt.addOption("ip", true, RESOURCE_BUNDLE.getString("cl_option_ip"));
-            opt.addOption("v", false, RESOURCE_BUNDLE.getString("cl_option_verbose"));
+            opt.addOption("h", "help", false, bundle.getString("cl_option_help"));
+            opt.addOption("v", false, bundle.getString("cl_option_verbose"));
+            opt.addOption("dev", false, bundle.getString("cl_option_dev"));
             BasicParser parser = new BasicParser();
             CommandLine cl = parser.parse(opt, args);
             if (cl.hasOption('h')) {
                 HelpFormatter f = new HelpFormatter();
-                f.printHelp(RESOURCE_BUNDLE.getString("cl_syntax"), opt);
+                f.printHelp(bundle.getString("cl_syntax"), opt);
             } else {
                 verboseMode = cl.hasOption("v");
+                devMode = cl.hasOption("dev");
                 Logger logger = Logger.getLogger("");
                 try {
                     logger.setLevel(Level.ALL);
@@ -79,21 +89,72 @@ public class XBTEditor extends XBEditorBase {
                     // Ignore it in java webstart
                 }
 
-                XBEditorApplication app = new XBEditorApplication();
-                app.setAppMode(true);
+                XBBaseApplication app = new XBBaseApplication();
                 app.setAppPreferences(preferences);
-                app.setAppBundle(RESOURCE_BUNDLE, APP_BUNDLE_NAME);
+                app.setAppBundle(bundle, ActionUtils.getResourceBaseNameBundleByClass(XBTEditor.class));
+                app.init();
 
-                app.addPlugin(new ClassURI(XBTextEditorModule.class).toURI());
+                XBModuleRepository moduleRepository = app.getModuleRepository();
+                moduleRepository.addClassPathPlugins();
+                moduleRepository.addPluginsFromManifest(XBTEditor.class);
+                moduleRepository.initModules();
+
+                GuiFrameModuleApi frameModule = moduleRepository.getModuleByInterface(GuiFrameModuleApi.class);
+                GuiEditorModuleApi editorModule = moduleRepository.getModuleByInterface(GuiEditorModuleApi.class);
+                GuiMenuModuleApi menuModule = moduleRepository.getModuleByInterface(GuiMenuModuleApi.class);
+                GuiAboutModuleApi aboutModule = moduleRepository.getModuleByInterface(GuiAboutModuleApi.class);
+                GuiUndoModuleApi undoModule = moduleRepository.getModuleByInterface(GuiUndoModuleApi.class);
+                GuiFileModuleApi fileModule = moduleRepository.getModuleByInterface(GuiFileModuleApi.class);
+                GuiOptionsModuleApi optionsModule = moduleRepository.getModuleByInterface(GuiOptionsModuleApi.class);
+                EditorTextModule textEditorModule = moduleRepository.getModuleByInterface(EditorTextModule.class);
+
+                aboutModule.registerDefaultMenuItem();
+
+                frameModule.registerExitAction();
+                frameModule.registerBarsVisibilityActions();
+
+                // Register clipboard editing actions
+                fileModule.registerMenuFileHandlingActions();
+                fileModule.registerToolBarFileHandlingActions();
+                fileModule.registerLastOpenedMenuActions();
+                fileModule.registerCloseListener();
+
+                undoModule.registerMainMenu();
+                undoModule.registerMainToolBar();
+
+                // Register clipboard editing actions
+                menuModule.registerMenuClipboardActions();
+                menuModule.registerToolBarClipboardActions();
+
+                optionsModule.registerMenuAction();
+
+                textEditorModule.registerFileTypes();
+                textEditorModule.registerEditFindMenuActions();
+                textEditorModule.registerEditFindToolBarActions();
+                textEditorModule.registerToolsOptionsMenuActions();
+                textEditorModule.registerOptionsMenuPanels();
+                textEditorModule.registerWordWrapping();
+                textEditorModule.registerGoToLine();
+                textEditorModule.registerPropertiesMenu();
+                textEditorModule.registerPrintMenu();
+
+                ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
+                TextPanel textPanel = (TextPanel) textEditorModule.getEditorProvider();
+                editorModule.registerEditor("text", textPanel);
+                editorModule.registerUndoHandler();
+                textEditorModule.registerStatusBar();
+                textEditorModule.registerOptionsPanels();
+
+                frameHandler.setMainPanel(editorModule.getEditorPanel());
+                frameHandler.setDefaultSize(new Dimension(600, 400));
+                frameHandler.show();
 
                 List fileArgs = cl.getArgList();
                 if (fileArgs.size() > 0) {
-                    app.loadFromFile((String) fileArgs.get(0));
+                    fileModule.loadFromFile((String) fileArgs.get(0));
                 }
-
-                app.startup();
             }
-        } catch (ParseException ex) {
+        } catch (ParseException | RuntimeException ex) {
             Logger.getLogger(XBTEditor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

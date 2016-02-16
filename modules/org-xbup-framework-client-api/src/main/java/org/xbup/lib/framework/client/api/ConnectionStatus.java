@@ -29,5 +29,7 @@ public enum ConnectionStatus {
     CONNECTING,
     NETWORK,
     INTERNET,
-    FAILED;
+    FAILED,
+    INITIALIZING,
+    UPDATING;
 };

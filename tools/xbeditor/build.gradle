@@ -45,17 +45,25 @@ check.dependsOn.remove(test)
 
 dependencies {
     compile(project(":modules:xbup-core"))
-    compile(project(":modules:xbup-editor-base"))
-    compile(project(":modules:xbup-editor-module-java_help"))
-    compile(project(":modules:xbup-editor-module-online_help"))
-    compile(project(":modules:xbup-editor-module-xbdoc_editor"))
+    compile(project(":modules:org-xbup-framework-gui"))
+    compile(project(":modules:org-xbup-framework-gui-frame-api"))
+    compile(project(":modules:org-xbup-framework-gui-frame"))
+    compile(project(":modules:org-xbup-framework-gui-menu"))
+    compile(project(":modules:org-xbup-framework-gui-file"))
+    compile(project(":modules:org-xbup-framework-gui-editor"))
+    compile(project(":modules:org-xbup-framework-gui-about"))
+    compile(project(":modules:org-xbup-framework-gui-undo"))
+    compile(project(":modules:org-xbup-framework-gui-help"))
+    compile(project(":modules:org-xbup-framework-gui-options"))
+    compile(project(":modules:org-xbup-framework-editor-xbup"))
+    compile(project(":modules:org-xbup-framework-editor-text"))
+    compile(project(":modules:org-xbup-framework-client"))
+    compile(project(":modules:hexedit"))
     compile ':jspf.core:1.0.2'
     compile 'commons-cli:commons-cli:1.2'
     runtime 'mysql:mysql-connector-java:5.1.30'
     runtime 'org.eclipse.persistence:javax.persistence:2.1.0'
     runtime 'org.eclipse.persistence:eclipselink:2.5.1'
-    runtime 'org.apache.derby:derbyclient:10.12.1.1'
-    runtime 'org.apache.derby:derby:10.12.1.1'
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }
 

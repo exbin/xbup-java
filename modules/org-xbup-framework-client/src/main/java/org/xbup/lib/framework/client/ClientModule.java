@@ -86,11 +86,9 @@ public class ClientModule implements ClientModuleApi {
     private XBApplication application;
 
     private boolean devMode = false;
-    private XBCUpdatePHPHandler wsHandler;
     private XBACatalog catalog;
     private XBPluginRepository pluginRepository;
-    private Thread catInitThread = null;
-    private List<ClientConnectionListener> connectionListeners = new ArrayList<>();
+    private final List<ClientConnectionListener> connectionListeners = new ArrayList<>();
 
     public ClientModule() {
     }
@@ -163,7 +161,7 @@ public class ClientModule implements ClientModuleApi {
 
     @Override
     public boolean connectToFallbackService() {
-        connectionStatusChanged(ConnectionStatus.DISCONNECTED);
+        connectionStatusChanged(ConnectionStatus.CONNECTING);
         Preferences preferences = application.getAppPreferences();
         try {
             // Database Initialization
@@ -179,7 +177,7 @@ public class ClientModule implements ClientModuleApi {
             XBAECatalog catalogHandler = createInternalCatalog(em);
 
             if (catalogHandler.isShallInit()) {
-                connectionStatusChanged(ConnectionStatus.CONNECTING);
+                connectionStatusChanged(ConnectionStatus.INITIALIZING);
                 catalogHandler.initCatalog();
             }
 
@@ -194,6 +192,7 @@ public class ClientModule implements ClientModuleApi {
                     Date localLastUpdate = catalogRoot.getLastUpdate();
                     Date lastUpdate = wsHandler.getPort().getRootLastUpdate();
                     if (localLastUpdate == null || localLastUpdate.before(lastUpdate)) {
+                        connectionStatusChanged(ConnectionStatus.UPDATING);
                         // TODO: As there is currently no diff update available - wipe out entire database instead
                         em.close();
                         EntityManagerFactory emfDrop = Persistence.createEntityManagerFactory("XBEditorPU-drop");
@@ -209,7 +208,6 @@ public class ClientModule implements ClientModuleApi {
                 }
             } catch (Exception ex) {
                 Logger.getLogger(ClientModule.class.getName()).log(Level.SEVERE, null, ex);
-                wsHandler = null;
                 return false;
             }
 

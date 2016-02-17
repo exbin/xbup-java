@@ -22,9 +22,9 @@ import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.framework.gui.menu.api.MenuManagement;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
-import org.xbup.lib.framework.service_manager.catalog.panel.CatalogEditorPanel;
-import org.xbup.lib.framework.service_manager.panel.CatalogAvailabilityPanel;
-import org.xbup.lib.framework.service_manager.panel.CatalogManagerPanelable;
+import org.xbup.lib.framework.gui.service.catalog.panel.CatalogEditorPanel;
+import org.xbup.lib.framework.gui.service.panel.CatalogAvailabilityPanel;
+import org.xbup.lib.framework.gui.service.panel.CatalogManagerPanelable;
 
 /**
  * Dialog for showing information about document block.

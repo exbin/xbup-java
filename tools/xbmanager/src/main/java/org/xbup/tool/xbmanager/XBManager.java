@@ -44,7 +44,7 @@ import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
 import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
 import org.xbup.lib.framework.gui.help.api.GuiHelpModuleApi;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
-import org.xbup.lib.framework.service_manager.ServiceManagerModule;
+import org.xbup.lib.framework.gui.service.ServiceManagerModule;
 
 /**
  * The main class of the XBManager application.

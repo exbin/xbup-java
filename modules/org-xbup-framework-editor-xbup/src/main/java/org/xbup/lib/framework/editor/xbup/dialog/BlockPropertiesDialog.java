@@ -43,7 +43,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.framework.gui.utils.BareBonesBrowserLaunch;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
-import org.xbup.lib.framework.service_manager.catalog.panel.CatalogItemInfoPanel;
+import org.xbup.lib.framework.gui.service.catalog.panel.CatalogItemInfoPanel;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 
 /**

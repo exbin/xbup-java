@@ -39,7 +39,7 @@ import org.xbup.lib.framework.gui.menu.api.SeparationMode;
 import org.xbup.lib.framework.gui.menu.api.ToolBarGroup;
 import org.xbup.lib.framework.gui.menu.api.ToolBarPosition;
 import org.xbup.lib.framework.gui.options.api.GuiOptionsModuleApi;
-import org.xbup.lib.framework.service_manager.XBFileType;
+import org.xbup.lib.framework.gui.service.XBFileType;
 import org.xbup.lib.plugin.XBPluginRepository;
 
 /**

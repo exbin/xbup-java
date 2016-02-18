@@ -34,6 +34,7 @@ public class LoginDialog extends javax.swing.JDialog {
     private int dialogOption = JOptionPane.CLOSED_OPTION;
     private XBCatalogServiceClient service;
     private final List<String> connectionList = new ArrayList<>();
+    private ConnectionListener connectionListener;
 
     private static final String PREFERENCES_PREFIX = "catalogConnection";
 
@@ -305,53 +306,13 @@ public class LoginDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-//        String connectionString = (String) connectionComboBox.getSelectedItem();
-//        String connectionHost;
-//        int connectionPort = 22594; // is 0x5842 (XB)
-//        int pos = connectionString.indexOf(":");
-//        if (pos >= 0) {
-//            connectionHost = connectionString.substring(0, pos);
-//            connectionPort = Integer.valueOf(connectionString.substring(pos + 1));
-//        } else {
-//            connectionHost = connectionString;
-//        }
-//
-//        okButton.setEnabled(false);
-//        service = new XBCatalogNetServiceClient(connectionHost, connectionPort); // 22594 is 0x5842 (XB)
-//        statusModeLabel.setText("Connecting to server " + connectionHost + ":" + connectionPort);
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                setStatus(Color.ORANGE, "Connecting...");
-//                if (service != null) {
-//                    setStatus(Color.ORANGE, "Logging in...");
-//                    try {
-//                        int loginResult = service.login(usernameTextField.getText(), passwordField.getPassword());
-//                        if (loginResult == 0) {
-//                            setStatus(Color.GREEN, "Connected");
-//                            dispose();
-//                        } else {
-//                            statusModeLabel.setText("Unable to login: error " + loginResult);
-//                            setStatus(Color.RED, "Failed");
-//                        }
-//                    } catch (ConnectException ex) {
-//                        statusModeLabel.setText("Unable to connect: " + ex.getMessage());
-//                        setStatus(Color.RED, "Failed");
-//                    } catch (UnsupportedOperationException ex) {
-//                        Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
-//                        setStatus(Color.RED, "Failed");
-//                    } catch (Exception ex) {
-//                        Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
-//                        setStatus(Color.RED, "Failed");
-//                    }
-//                } else {
-//                    setStatus(Color.RED, "Disconnected");
-//                }
-//
-//                okButton.setEnabled(true);
-//            }
-//        }).start();
+        if (connectionListener != null) {
+            if (!connectionListener.connect()) {
+                return;
+            }
+        }
         dialogOption = JOptionPane.OK_OPTION;
+        WindowUtils.closeWindow(this);
     }//GEN-LAST:event_okButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -436,5 +397,23 @@ public class LoginDialog extends javax.swing.JDialog {
             preferences.put(PREFERENCES_PREFIX + String.valueOf(pos + 1), connectionList.get(pos));
             pos++;
         }
+    }
+
+    public void setConnectionListener(ConnectionListener connectionListener) {
+        this.connectionListener = connectionListener;
+    }
+
+    public String getSelectedConnection() {
+        return "localhost";
+    }
+
+    public interface ConnectionListener {
+
+        /**
+         * Connects to service.
+         *
+         * @return true if connected successfully
+         */
+        boolean connect();
     }
 }

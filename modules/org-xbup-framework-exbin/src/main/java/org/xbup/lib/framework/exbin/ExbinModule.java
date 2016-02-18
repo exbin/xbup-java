@@ -59,9 +59,61 @@ public class ExbinModule implements XBApplicationModulePlugin {
     }
 
     public void openConnectionDialog() {
-        LoginDialog loginDialog = new LoginDialog(WindowUtils.getFrame(mainPanel), true);
+        final LoginDialog loginDialog = new LoginDialog(WindowUtils.getFrame(mainPanel), true);
         loginDialog.setLocationRelativeTo(loginDialog.getParent());
         loginDialog.loadConnectionList(preferences);
+        loginDialog.setConnectionListener(new LoginDialog.ConnectionListener() {
+            @Override
+            public boolean connect() {
+                String connectionString = loginDialog.getSelectedConnection();
+                String connectionHost;
+                int connectionPort = 22594; // is 0x5842 (XB)
+                int pos = connectionString.indexOf(":");
+                if (pos >= 0) {
+                    connectionHost = connectionString.substring(0, pos);
+                    connectionPort = Integer.valueOf(connectionString.substring(pos + 1));
+                } else {
+                    connectionHost = connectionString;
+                }
+
+//        okButton.setEnabled(false);
+//        service = new XBCatalogNetServiceClient(connectionHost, connectionPort); // 22594 is 0x5842 (XB)
+//        statusModeLabel.setText("Connecting to server " + connectionHost + ":" + connectionPort);
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                setStatus(Color.ORANGE, "Connecting...");
+//                if (service != null) {
+//                    setStatus(Color.ORANGE, "Logging in...");
+//                    try {
+//                        int loginResult = service.login(usernameTextField.getText(), passwordField.getPassword());
+//                        if (loginResult == 0) {
+//                            setStatus(Color.GREEN, "Connected");
+//                            dispose();
+//                        } else {
+//                            statusModeLabel.setText("Unable to login: error " + loginResult);
+//                            setStatus(Color.RED, "Failed");
+//                        }
+//                    } catch (ConnectException ex) {
+//                        statusModeLabel.setText("Unable to connect: " + ex.getMessage());
+//                        setStatus(Color.RED, "Failed");
+//                    } catch (UnsupportedOperationException ex) {
+//                        Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
+//                        setStatus(Color.RED, "Failed");
+//                    } catch (Exception ex) {
+//                        Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
+//                        setStatus(Color.RED, "Failed");
+//                    }
+//                } else {
+//                    setStatus(Color.RED, "Disconnected");
+//                }
+//
+//                okButton.setEnabled(true);
+//            }
+//        }).start();
+                return false;
+            }
+        });
         loginDialog.setVisible(true);
         loginDialog.saveConnectionList(preferences);
         exbinMainPanel().setService(loginDialog.getService());

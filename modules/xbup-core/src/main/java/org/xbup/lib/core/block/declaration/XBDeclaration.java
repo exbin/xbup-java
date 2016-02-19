@@ -374,7 +374,7 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
                 return;
             }
 
-            if (processingState != RecvProcessingState.START) {
+            if (processingState == RecvProcessingState.BEGIN) {
                 throw new XBProcessingException("Unexpected token: begin", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
 
@@ -402,14 +402,17 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
                 return;
             }
 
-            if (processingState == RecvProcessingState.TYPE) {
-                groupsReserved.setValue(value.getNaturalLong());
-                processingState = RecvProcessingState.GROUPS_RESERVED;
-            } else if (processingState == RecvProcessingState.GROUPS_RESERVED) {
-                preserveCount.setValue(value.getNaturalLong());
-                processingState = RecvProcessingState.PRESERVE_COUNT;
-            } else {
-                throw new XBProcessingException("Unexpected token: attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            if (null != processingState) switch (processingState) {
+                case TYPE:
+                    groupsReserved.setValue(value.getNaturalLong());
+                    processingState = RecvProcessingState.GROUPS_RESERVED;
+                    break;
+                case GROUPS_RESERVED:
+                    preserveCount.setValue(value.getNaturalLong());
+                    processingState = RecvProcessingState.PRESERVE_COUNT;
+                    break;
+                default:
+                    throw new XBProcessingException("Unexpected token: attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
         }
 

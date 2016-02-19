@@ -16,8 +16,12 @@
  */
 package org.xbup.lib.framework.exbin;
 
+import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
+import org.xbup.lib.client.XBCatalogNetServiceClient;
 import org.xbup.lib.framework.gui.api.XBApplication;
 import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
 import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
@@ -76,41 +80,18 @@ public class ExbinModule implements XBApplicationModulePlugin {
                     connectionHost = connectionString;
                 }
 
-//        okButton.setEnabled(false);
-//        service = new XBCatalogNetServiceClient(connectionHost, connectionPort); // 22594 is 0x5842 (XB)
-//        statusModeLabel.setText("Connecting to server " + connectionHost + ":" + connectionPort);
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                setStatus(Color.ORANGE, "Connecting...");
-//                if (service != null) {
-//                    setStatus(Color.ORANGE, "Logging in...");
-//                    try {
-//                        int loginResult = service.login(usernameTextField.getText(), passwordField.getPassword());
-//                        if (loginResult == 0) {
-//                            setStatus(Color.GREEN, "Connected");
-//                            dispose();
-//                        } else {
-//                            statusModeLabel.setText("Unable to login: error " + loginResult);
-//                            setStatus(Color.RED, "Failed");
-//                        }
-//                    } catch (ConnectException ex) {
-//                        statusModeLabel.setText("Unable to connect: " + ex.getMessage());
-//                        setStatus(Color.RED, "Failed");
-//                    } catch (UnsupportedOperationException ex) {
-//                        Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
-//                        setStatus(Color.RED, "Failed");
-//                    } catch (Exception ex) {
-//                        Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
-//                        setStatus(Color.RED, "Failed");
-//                    }
-//                } else {
-//                    setStatus(Color.RED, "Disconnected");
-//                }
-//
-//                okButton.setEnabled(true);
-//            }
-//        }).start();
+                loginDialog.setConnectionStatus(Color.ORANGE, "Connecting", "Connecting to server " + connectionHost + ":" + connectionPort);
+
+                XBCatalogNetServiceClient service = new XBCatalogNetServiceClient(connectionHost, connectionPort);
+                try {
+                    // service.ping();
+                    loginDialog.setConnectionStatus(Color.GREEN, "Connected", null);
+                    return true;
+                } catch (Exception ex) {
+                    Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    loginDialog.setConnectionStatus(Color.RED, "Failed", null);
+                }
+                
                 return false;
             }
         });

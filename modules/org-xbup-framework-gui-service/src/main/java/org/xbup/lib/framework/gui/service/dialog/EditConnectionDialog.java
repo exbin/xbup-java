@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.framework.gui.service.dialog;
 
+import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
@@ -23,12 +24,13 @@ import org.xbup.lib.framework.gui.utils.WindowUtils;
 /**
  * Connection editor dialog.
  *
- * @version 0.2.0 2016/02/01
+ * @version 0.2.0 2016/02/19
  * @author XBUP Project (http://xbup.org)
  */
 public class EditConnectionDialog extends javax.swing.JDialog {
 
-    java.util.ResourceBundle bundle = ActionUtils.getResourceBundleByClass(EditConnectionDialog.class);
+    private static final int DEFAULT_PORT = 22594;
+    private final ResourceBundle bundle = ActionUtils.getResourceBundleByClass(EditConnectionDialog.class);
     protected int dialogOption = JOptionPane.CLOSED_OPTION;
 
     public EditConnectionDialog(java.awt.Frame parent, boolean modal) {
@@ -38,6 +40,7 @@ public class EditConnectionDialog extends javax.swing.JDialog {
     }
 
     private void init() {
+        connectionPortSpinner.setValue(DEFAULT_PORT);
         WindowUtils.initWindow(this);
         WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
     }

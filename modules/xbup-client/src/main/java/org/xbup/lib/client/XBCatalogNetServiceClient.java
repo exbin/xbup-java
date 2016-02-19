@@ -39,6 +39,7 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
         XBPCatalog catalog = new XBPCatalog();
         catalog.addFormatDecl(getContextFormatDecl());
         catalog.generateContext();
+        setCatalog(catalog);
     }
 
     /**

@@ -19,7 +19,6 @@ package org.xbup.tool.xbmanager;
 import java.awt.Dimension;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,15 +48,10 @@ import org.xbup.lib.framework.gui.service.ServiceManagerModule;
 /**
  * The main class of the XBManager application.
  *
- * @version 0.2.0 2016/02/07
+ * @version 0.2.0 2016/02/19
  * @author XBUP Project (http://xbup.org)
  */
 public class XBManager {
-
-    private static Preferences preferences;
-    private static boolean verboseMode = false;
-    private static boolean devMode = false;
-    private static final ResourceBundle bundle = ActionUtils.getResourceBundleByClass(XBManager.class);
 
     /**
      * Main method launching the application.
@@ -65,6 +59,8 @@ public class XBManager {
      * @param args arguments
      */
     public static void main(String[] args) {
+        final ResourceBundle bundle = ActionUtils.getResourceBundleByClass(XBManager.class);
+        Preferences preferences;
         try {
             preferences = Preferences.userNodeForPackage(XBManager.class);
         } catch (SecurityException ex) {
@@ -82,8 +78,8 @@ public class XBManager {
                 HelpFormatter f = new HelpFormatter();
                 f.printHelp(bundle.getString("cl_syntax"), opt);
             } else {
-                verboseMode = cl.hasOption("v");
-                devMode = cl.hasOption("dev");
+                boolean verboseMode = cl.hasOption("v");
+                boolean devMode = cl.hasOption("dev");
                 Logger logger = Logger.getLogger("");
                 try {
                     logger.setLevel(Level.ALL);
@@ -96,12 +92,7 @@ public class XBManager {
                 app.setAppPreferences(preferences);
                 app.setAppBundle(bundle, ActionUtils.getResourceBaseNameBundleByClass(XBManager.class));
                 app.init();
-//                app.setFirstCommand(new XBEditorFirstCommand(app));
 
-//                app.loadPlugin(new ClassURI(GuiFrameModule.class).toURI());
-//                app.loadPlugin(new ClassURI(GuiFrameModule.class).toURI());
-//                app.loadPlugin(new ClassURI(JavaHelpModule.class).toURI());
-//                app.loadPlugin(new ClassURI(OnlineHelpModule.class).toURI());
                 XBModuleRepository moduleRepository = app.getModuleRepository();
                 moduleRepository.addClassPathPlugins();
                 moduleRepository.addPluginsFromManifest(XBManager.class);
@@ -129,25 +120,11 @@ public class XBManager {
                 frameModule.registerExitAction();
                 frameModule.registerBarsVisibilityActions();
 
-//                undoModule.registerMainMenu();
-//                undoModule.registerMainToolBar();
-//                undoModule.registerUndoManagerInMainMenu();
-//                XBTLinearUndo linearUndo = new XBTLinearUndo(null);
-////                linearUndo.addUndoUpdateListener(new UndoUpdateListener() {
-////                    @Override
-////                    public void undoChanged() {
-////                        ((AudioPanel) waveEditorModule.getEditorProvider()).repaint();
-////                    }
-////                });
-//                undoModule.setUndoHandler(linearUndo);
-                // Register clipboard editing actions
                 menuModule.registerMenuClipboardActions();
 
                 optionsModule.registerMenuAction();
 
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
-                // xbupEditorModule.registerStatusBar();
-                // xbupEditorModule.registerOptionsPanels();
 
                 serviceManagerModule.setPreferences(preferences);
                 JPanel servicePanel = serviceManagerModule.getServicePanel();
@@ -156,43 +133,9 @@ public class XBManager {
                 frameHandler.show();
 
                 serviceManagerModule.openConnectionDialog();
-
-                List fileArgs = cl.getArgList();
-                if (fileArgs.size() > 0) {
-                    // TODO app.loadFromFile((String) fileArgs.get(0));
-                }
-
-                // editorModule.run();
-//                ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
-//                ((XBDocEditorModule) module).setEditorApp(app);
-//                ((XBDocEditorModule) module).setDevMode(devMode);
             }
         } catch (ParseException ex) {
             Logger.getLogger(XBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-//    private static class XBEditorFirstCommand implements XBAppCommand {
-//
-//        private final XBEditorApplication app;
-//
-//        public XBEditorFirstCommand(XBEditorApplication app) {
-//            this.app = app;
-//        }
-//
-//        @Override
-//        public void execute() {
-//            ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
-//            ((XBDocEditorModule) module).postWindowOpened();
-//
-//            module = app.getModuleRepository().getPluginHandler(OnlineHelpModule.class);
-//            try {
-//                if (module instanceof OnlineHelpModule) {
-//                    ((OnlineHelpModule) module).setHelpUrl(new URL(bundle.getString("online_help_url")));
-//                }
-//            } catch (MalformedURLException ex) {
-//                Logger.getLogger(XBEditor.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-//    }
 }

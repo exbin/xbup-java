@@ -16,6 +16,8 @@
  */
 package org.xbup.lib.framework.exbin.dialog;
 
+import java.awt.CardLayout;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
@@ -86,27 +88,28 @@ public class LoginDialog extends javax.swing.JDialog {
         cancelButton = new javax.swing.JButton();
         anonymousRadioButton = new javax.swing.JRadioButton();
         loginRadioButton = new javax.swing.JRadioButton();
-        connectionStatusPanel = new javax.swing.JPanel();
         statusPanel = new javax.swing.JPanel();
-        statusTextLabel = new javax.swing.JLabel();
+        connectionStatusPanel = new javax.swing.JPanel();
+        defaultPanel = new javax.swing.JPanel();
         statusModeLabel = new javax.swing.JLabel();
         busyStatusPanel = new javax.swing.JPanel();
         busyProgressBar = new javax.swing.JProgressBar();
+        statusIndicatorPanel = new javax.swing.JPanel();
+        statusTextLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/service_manager/dialog/resources/ConnectionDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/exbin/dialog/resources/ConnectionDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
 
         connectionHeaderPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/exbin/dialog/resources/ConnectionDialog"); // NOI18N
-        prereleaseWarningLabel.setText(bundle1.getString("prereleaseWarningLabel.text")); // NOI18N
+        prereleaseWarningLabel.setText(bundle.getString("prereleaseWarningLabel.text")); // NOI18N
 
         jLayeredPane1.setBackground(new java.awt.Color(204, 255, 204));
         jLayeredPane1.setOpaque(true);
 
         serviceLabel.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        serviceLabel.setText(bundle1.getString("serviceLabel.text")); // NOI18N
+        serviceLabel.setText(bundle.getString("serviceLabel.text")); // NOI18N
         jLayeredPane1.add(serviceLabel);
         serviceLabel.setBounds(100, 0, 330, 43);
 
@@ -119,17 +122,17 @@ public class LoginDialog extends javax.swing.JDialog {
         connectionHeaderPanelLayout.setHorizontalGroup(
             connectionHeaderPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, connectionHeaderPanelLayout.createSequentialGroup()
-                .addContainerGap(317, Short.MAX_VALUE)
+                .addContainerGap(495, Short.MAX_VALUE)
                 .add(prereleaseWarningLabel)
                 .addContainerGap())
             .add(connectionHeaderPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                 .add(connectionHeaderPanelLayout.createSequentialGroup()
                     .add(jLayeredPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 393, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(0, 118, Short.MAX_VALUE)))
+                    .add(0, 296, Short.MAX_VALUE)))
             .add(connectionHeaderPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jLayeredPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE))
+                .add(jLayeredPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE))
             .add(connectionHeaderPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jSeparator1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE))
+                .add(jSeparator1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE))
         );
         connectionHeaderPanelLayout.setVerticalGroup(
             connectionHeaderPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -151,16 +154,16 @@ public class LoginDialog extends javax.swing.JDialog {
 
         getContentPane().add(connectionHeaderPanel, java.awt.BorderLayout.NORTH);
 
-        loginPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle1.getString("loginPanel.border.title"))); // NOI18N
+        loginPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("loginPanel.border.title"))); // NOI18N
         loginPanel.setEnabled(false);
 
-        usernameLabel.setText(bundle1.getString("usernameLabel.text")); // NOI18N
+        usernameLabel.setText(bundle.getString("usernameLabel.text")); // NOI18N
         usernameLabel.setEnabled(false);
 
         usernameTextField.setText("admin");
         usernameTextField.setEnabled(false);
 
-        passwordLabel.setText(bundle1.getString("passwordLabel.text")); // NOI18N
+        passwordLabel.setText(bundle.getString("passwordLabel.text")); // NOI18N
         passwordLabel.setEnabled(false);
 
         passwordField.setEnabled(false);
@@ -191,14 +194,14 @@ public class LoginDialog extends javax.swing.JDialog {
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
-        okButton.setText(bundle1.getString("okButton.text")); // NOI18N
+        okButton.setText(bundle.getString("okButton.text")); // NOI18N
         okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 okButtonActionPerformed(evt);
             }
         });
 
-        cancelButton.setText(bundle1.getString("cancelButton.text")); // NOI18N
+        cancelButton.setText(bundle.getString("cancelButton.text")); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
@@ -207,7 +210,7 @@ public class LoginDialog extends javax.swing.JDialog {
 
         accessTypeButtonGroup.add(anonymousRadioButton);
         anonymousRadioButton.setSelected(true);
-        anonymousRadioButton.setText(bundle1.getString("anonymousRadioButton.text")); // NOI18N
+        anonymousRadioButton.setText(bundle.getString("anonymousRadioButton.text")); // NOI18N
         anonymousRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 anonymousRadioButtonActionPerformed(evt);
@@ -215,7 +218,7 @@ public class LoginDialog extends javax.swing.JDialog {
         });
 
         accessTypeButtonGroup.add(loginRadioButton);
-        loginRadioButton.setText(bundle1.getString("loginRadioButton.text")); // NOI18N
+        loginRadioButton.setText(bundle.getString("loginRadioButton.text")); // NOI18N
         loginRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginRadioButtonActionPerformed(evt);
@@ -230,7 +233,6 @@ public class LoginDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .add(connectionLoginPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(connectionLoginPanelLayout.createSequentialGroup()
-                        .add(209, 352, Short.MAX_VALUE)
                         .add(cancelButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(okButton))
@@ -248,7 +250,7 @@ public class LoginDialog extends javax.swing.JDialog {
                 .add(loginRadioButton)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(loginPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 36, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(connectionLoginPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(cancelButton)
                     .add(okButton))
@@ -257,50 +259,56 @@ public class LoginDialog extends javax.swing.JDialog {
 
         getContentPane().add(connectionLoginPanel, java.awt.BorderLayout.CENTER);
 
+        statusPanel.setBackground(javax.swing.UIManager.getDefaults().getColor("PropSheet.setBackground"));
+        statusPanel.setLayout(new java.awt.BorderLayout());
+
         connectionStatusPanel.setLayout(new java.awt.CardLayout());
 
-        statusPanel.setBackground(javax.swing.UIManager.getDefaults().getColor("PropSheet.setBackground"));
+        defaultPanel.setLayout(new java.awt.BorderLayout());
+        defaultPanel.add(statusModeLabel, java.awt.BorderLayout.CENTER);
 
-        statusTextLabel.setBackground(new java.awt.Color(255, 0, 0));
-        statusTextLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        statusTextLabel.setForeground(javax.swing.UIManager.getDefaults().getColor("TabRenderer.selectedActivatedForeground"));
-        statusTextLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        statusTextLabel.setText("Disconnected");
-        statusTextLabel.setOpaque(true);
-
-        org.jdesktop.layout.GroupLayout statusPanelLayout = new org.jdesktop.layout.GroupLayout(statusPanel);
-        statusPanel.setLayout(statusPanelLayout);
-        statusPanelLayout.setHorizontalGroup(
-            statusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, statusPanelLayout.createSequentialGroup()
-                .add(statusModeLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
-                .add(16, 16, 16)
-                .add(statusTextLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 111, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-        );
-        statusPanelLayout.setVerticalGroup(
-            statusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(statusTextLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-            .add(statusModeLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-        );
-
-        connectionStatusPanel.add(statusPanel, "card1");
+        connectionStatusPanel.add(defaultPanel, "default");
 
         busyProgressBar.setIndeterminate(true);
+        busyProgressBar.setString("");
+        busyProgressBar.setStringPainted(true);
 
         org.jdesktop.layout.GroupLayout busyStatusPanelLayout = new org.jdesktop.layout.GroupLayout(busyStatusPanel);
         busyStatusPanel.setLayout(busyStatusPanelLayout);
         busyStatusPanelLayout.setHorizontalGroup(
             busyStatusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(busyProgressBar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
+            .add(busyProgressBar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
         );
         busyStatusPanelLayout.setVerticalGroup(
             busyStatusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(busyProgressBar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+            .add(busyProgressBar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
-        connectionStatusPanel.add(busyStatusPanel, "card3");
+        connectionStatusPanel.add(busyStatusPanel, "busy");
 
-        getContentPane().add(connectionStatusPanel, java.awt.BorderLayout.SOUTH);
+        statusPanel.add(connectionStatusPanel, java.awt.BorderLayout.CENTER);
+
+        statusIndicatorPanel.setBackground(new java.awt.Color(153, 153, 153));
+
+        statusTextLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        statusTextLabel.setForeground(javax.swing.UIManager.getDefaults().getColor("TabRenderer.selectedActivatedForeground"));
+        statusTextLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        statusTextLabel.setText("Disconnected");
+
+        org.jdesktop.layout.GroupLayout statusIndicatorPanelLayout = new org.jdesktop.layout.GroupLayout(statusIndicatorPanel);
+        statusIndicatorPanel.setLayout(statusIndicatorPanelLayout);
+        statusIndicatorPanelLayout.setHorizontalGroup(
+            statusIndicatorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, statusTextLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+        );
+        statusIndicatorPanelLayout.setVerticalGroup(
+            statusIndicatorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(statusTextLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 24, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+        );
+
+        statusPanel.add(statusIndicatorPanel, java.awt.BorderLayout.EAST);
+
+        getContentPane().add(statusPanel, java.awt.BorderLayout.SOUTH);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -352,6 +360,7 @@ public class LoginDialog extends javax.swing.JDialog {
     private javax.swing.JPanel connectionHeaderPanel;
     private javax.swing.JPanel connectionLoginPanel;
     private javax.swing.JPanel connectionStatusPanel;
+    private javax.swing.JPanel defaultPanel;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JLayeredPane jLayeredPane2;
     private javax.swing.JSeparator jSeparator1;
@@ -363,6 +372,7 @@ public class LoginDialog extends javax.swing.JDialog {
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JLabel prereleaseWarningLabel;
     private javax.swing.JLabel serviceLabel;
+    private javax.swing.JPanel statusIndicatorPanel;
     private javax.swing.JLabel statusModeLabel;
     private javax.swing.JPanel statusPanel;
     private javax.swing.JLabel statusTextLabel;
@@ -405,6 +415,17 @@ public class LoginDialog extends javax.swing.JDialog {
 
     public String getSelectedConnection() {
         return "localhost";
+    }
+
+    public void setConnectionStatus(Color color, String status, String statusLabel) {
+        statusTextLabel.setText(status);
+        statusIndicatorPanel.setBackground(color);
+        if (statusLabel == null) {
+            ((CardLayout) connectionStatusPanel.getLayout()).show(connectionStatusPanel, "default");
+        } else {
+            busyProgressBar.setString(statusLabel);
+            ((CardLayout) connectionStatusPanel.getLayout()).show(connectionStatusPanel, "busy");
+        }
     }
 
     public interface ConnectionListener {

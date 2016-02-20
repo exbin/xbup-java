@@ -40,7 +40,7 @@ import org.xbup.lib.catalog.entity.XBEXIconMode;
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
-public class XBEXIconManager extends XBEDefaultManager<XBEXIcon> implements XBCXIconManager<XBEXIcon>, Serializable {
+public class XBEXIconManager extends XBEDefaultCatalogManager<XBEXIcon> implements XBCXIconManager<XBEXIcon>, Serializable {
 
     public XBEXIconManager() {
         super();

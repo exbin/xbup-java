@@ -55,7 +55,7 @@ import org.xbup.lib.catalog.entity.XBESpecDef;
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
-public class XBESpecManager extends XBEDefaultManager<XBESpec> implements XBCSpecManager<XBESpec>, Serializable {
+public class XBESpecManager extends XBEDefaultCatalogManager<XBESpec> implements XBCSpecManager<XBESpec>, Serializable {
 
     public XBESpecManager() {
         super();

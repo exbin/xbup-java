@@ -37,7 +37,7 @@ import org.xbup.lib.catalog.entity.XBERoot;
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
-public class XBENodeManager extends XBEDefaultManager<XBENode> implements XBCNodeManager<XBENode>, Serializable {
+public class XBENodeManager extends XBEDefaultCatalogManager<XBENode> implements XBCNodeManager<XBENode>, Serializable {
 
     public XBENodeManager() {
         super();

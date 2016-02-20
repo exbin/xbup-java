@@ -40,7 +40,7 @@ import org.xbup.lib.core.serial.child.XBTChildSerializable;
  * Data are stored using paging. Last page might be shorter than page size, but
  * not empty.
  *
- * @version 0.1.25 2015/06/28
+ * @version 0.2.0 2016/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSerializable {
@@ -68,6 +68,34 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
         long dataSize = insertedData.getDataSize();
         insertUninitialized(startFrom, dataSize);
         insertedData.copyTo(this, 0, dataSize, startFrom);
+    }
+
+    @Override
+    public void insert(long startFrom, byte[] insertedData) {
+        insert(startFrom, insertedData, 0, insertedData.length);
+    }
+        
+    @Override
+    public void insert(long startFrom, byte[] insertedData, int insertedDataOffset, int insertedDataLength) {
+        if (insertedDataLength <= 0) {
+            return;
+        }
+
+        insertUninitialized(startFrom, insertedDataLength);
+        
+        while (insertedDataLength > 0) {
+            byte [] targetPage = getPage((int) (startFrom / pageSize));
+            int targetOffset = (int) (startFrom % pageSize);
+            int blockLength = pageSize - targetOffset;
+            if (blockLength > insertedDataLength) {
+                blockLength = insertedDataLength;
+            }
+            
+            System.arraycopy(insertedData, insertedDataOffset, targetPage, targetOffset, blockLength);
+            insertedDataOffset += blockLength;
+            insertedDataLength -= blockLength;
+            startFrom += blockLength;
+        }
     }
 
     @Override

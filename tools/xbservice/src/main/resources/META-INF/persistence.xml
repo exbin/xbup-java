@@ -43,6 +43,7 @@
     <class>org.xbup.lib.catalog.entity.XBEXStri</class>
     <class>org.xbup.lib.catalog.entity.XBEXUser</class>
     <class>org.xbup.lib.catalog.entity.XBEXUserInfo</class>
+    <class>org.xbup.lib.service.entity.ServiceELogItem</class>
     <properties>
       <property name="javax.persistence.jdbc.password" value="app"/>
       <property name="javax.persistence.jdbc.user" value="app"/>
@@ -94,6 +95,7 @@
     <class>org.xbup.lib.catalog.entity.XBEXStri</class>
     <class>org.xbup.lib.catalog.entity.XBEXUser</class>
     <class>org.xbup.lib.catalog.entity.XBEXUserInfo</class>
+    <class>org.xbup.lib.service.entity.ServiceELogItem</class>
     <properties>
       <property name="javax.persistence.jdbc.password" value="app"/>
       <property name="javax.persistence.jdbc.user" value="app"/>
@@ -145,6 +147,7 @@
     <class>org.xbup.lib.catalog.entity.XBEXStri</class>
     <class>org.xbup.lib.catalog.entity.XBEXUser</class>
     <class>org.xbup.lib.catalog.entity.XBEXUserInfo</class>
+    <class>org.xbup.lib.service.entity.ServiceELogItem</class>
     <properties>
       <property name="javax.persistence.jdbc.password" value="app"/>
       <property name="javax.persistence.jdbc.user" value="app"/>
@@ -197,6 +200,7 @@
     <class>org.xbup.lib.catalog.entity.XBEXPlugPane</class>
     <class>org.xbup.lib.catalog.entity.XBEXPlugin</class>
     <class>org.xbup.lib.catalog.entity.XBEXStri</class>
+    <class>org.xbup.lib.service.entity.ServiceELogItem</class>
     <properties>
       <property name="javax.persistence.jdbc.password" value="app"/>
       <property name="javax.persistence.jdbc.user" value="app"/>
@@ -248,6 +252,7 @@
     <class>org.xbup.lib.catalog.entity.XBEXStri</class>
     <class>org.xbup.lib.catalog.entity.XBEXUser</class>
     <class>org.xbup.lib.catalog.entity.XBEXUserInfo</class>
+    <class>org.xbup.lib.service.entity.ServiceELogItem</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://xbup.org/xbcatalog"/>
       <property name="javax.persistence.jdbc.password" value="catalog"/>
@@ -301,6 +306,7 @@
     <class>org.xbup.lib.catalog.entity.XBEXStri</class>
     <class>org.xbup.lib.catalog.entity.XBEXUser</class>
     <class>org.xbup.lib.catalog.entity.XBEXUserInfo</class>
+    <class>org.xbup.lib.service.entity.ServiceELogItem</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://xbup.org/xbcatalog-dev"/>
       <property name="javax.persistence.jdbc.password" value="catalog"/>

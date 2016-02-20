@@ -29,7 +29,7 @@ import org.xbup.lib.catalog.entity.XBEItemLimi;
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
-public class XBELimiManager extends XBEDefaultManager<XBEItemLimi> implements XBCLimiManager<XBEItemLimi>, Serializable {
+public class XBELimiManager extends XBEDefaultCatalogManager<XBEItemLimi> implements XBCLimiManager<XBEItemLimi>, Serializable {
 
     public XBELimiManager() {
         super();

@@ -44,7 +44,7 @@ import org.xbup.lib.catalog.entity.XBEXName;
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
-public class XBEXNameManager extends XBEDefaultManager<XBEXName> implements XBCXNameManager<XBEXName>, Serializable {
+public class XBEXNameManager extends XBEDefaultCatalogManager<XBEXName> implements XBCXNameManager<XBEXName>, Serializable {
 
     public XBEXNameManager() {
         super();

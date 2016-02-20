@@ -36,7 +36,7 @@ import org.xbup.lib.core.catalog.base.manager.XBCXLangManager;
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
-public class XBEItemManager extends XBEDefaultManager<XBEItem> implements XBCItemManager<XBEItem>, Serializable {
+public class XBEItemManager extends XBEDefaultCatalogManager<XBEItem> implements XBCItemManager<XBEItem>, Serializable {
 
     public XBEItemManager() {
         super();

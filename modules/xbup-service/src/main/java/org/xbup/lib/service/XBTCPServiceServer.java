@@ -16,17 +16,22 @@
  */
 package org.xbup.lib.service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static org.xbup.lib.client.XBTCPServiceClient.SERVICE_INVOCATION_SUCCESSFUL;
+import javax.persistence.EntityManager;
+import org.xbup.lib.client.XBLoggingInputStream;
+import org.xbup.lib.client.XBLoggingOutputStream;
+import org.xbup.lib.client.XBTCPServiceClient;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
@@ -56,26 +61,34 @@ import org.xbup.lib.core.remote.XBExecutable;
 import org.xbup.lib.core.remote.XBMultiProcedure;
 import org.xbup.lib.core.remote.XBProcedure;
 import org.xbup.lib.core.remote.XBServiceServer;
+import org.xbup.lib.service.entity.ServiceELogItem;
+import org.xbup.lib.service.entity.service.ServiceELogItemService;
 
 /**
  * XBUP level 1 RPC server using TCP/IP networking.
  *
- * @version 0.1.25 2015/03/30
+ * @version 0.2.0 2016/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPServiceServer implements XBServiceServer {
+
+    private final static int BACK_LOG_LIMIT = 50;
 
     protected XBACatalog catalog;
     private ServerSocket serverSocket;
     private boolean stop;
     private final Map<XBBlockType, XBExecutable> procMap = new HashMap<>();
+    private boolean debugMode = false;
+    private final EntityManager entityManager;
 
     /**
      * Creates a new instance of XBTCPRemoteServer.
      *
+     * @param entityManager entity manager
      * @param catalog catalog
      */
-    public XBTCPServiceServer(XBACatalog catalog) {
+    public XBTCPServiceServer(EntityManager entityManager, XBACatalog catalog) {
+        this.entityManager = entityManager;
         this.catalog = catalog;
         stop = false;
     }
@@ -98,7 +111,7 @@ public class XBTCPServiceServer implements XBServiceServer {
      * @throws IOException if an I/O error occurs when opening the socket.
      */
     public void open(int port, InetAddress bindAddr) throws IOException {
-        serverSocket = new ServerSocket(port, 50, bindAddr);
+        serverSocket = new ServerSocket(port, BACK_LOG_LIMIT, bindAddr);
     }
 
     /**
@@ -111,13 +124,28 @@ public class XBTCPServiceServer implements XBServiceServer {
             Logger.getLogger(XBTCPServiceServer.class.getName()).log(XBHead.XB_DEBUG_LEVEL, ("Request from: " + socket.getInetAddress().getHostAddress()));
             OutputStream outputStream = null;
             try {
-                InputStream inputStream = socket.getInputStream();
-                outputStream = socket.getOutputStream();
+                ServiceELogItemService logItemService = new ServiceELogItemService();
+                InputStream inputStream = debugMode
+                        ? new XBLoggingInputStream(socket.getInputStream()) : socket.getInputStream();
+                outputStream = debugMode
+                        ? new XBLoggingOutputStream(socket.getOutputStream()) : socket.getOutputStream();
                 XBHead.checkXBUPHead(inputStream);
                 while (!isStop()) {
                     XBTPullTypeDeclaringFilter input = new XBTPullTypeDeclaringFilter(catalog, new XBTPrintPullFilter("I", new XBToXBTPullConvertor(new XBPullReader(inputStream, XBParserMode.SINGLE_BLOCK))));
                     XBTEventTypeUndeclaringFilter output = new XBTEventTypeUndeclaringFilter(catalog, new XBTPrintEventFilter("O", new XBTToXBEventConvertor(new XBEventWriter(outputStream, XBParserMode.SINGLE_BLOCK))));
                     respondMessage(input, output);
+                    
+                    if (debugMode) {
+                        ServiceELogItem logItem = logItemService.createItem();
+                        logItem.setCreated(new Date());
+                        ByteArrayOutputStream requestOutputStream = new ByteArrayOutputStream();
+                        ((XBLoggingInputStream) inputStream).getData().saveToStream(requestOutputStream);
+                        logItem.setRequestData(requestOutputStream.toByteArray());
+                        ByteArrayOutputStream responseOutputStream = new ByteArrayOutputStream();
+                        ((XBLoggingOutputStream) outputStream).getData().saveToStream(responseOutputStream);
+                        logItem.setResponseData(responseOutputStream.toByteArray());
+                        logItemService.persistItem(logItem);
+                    }
                 }
             } catch (IOException | XBProcessingException ex) {
                 Logger.getLogger(XBTCPServiceServer.class.getName()).log(Level.SEVERE, null, ex);
@@ -195,6 +223,14 @@ public class XBTCPServiceServer implements XBServiceServer {
         this.stop = stop;
     }
 
+    public boolean isDebugMode() {
+        return debugMode;
+    }
+
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
+    }
+
     private class XBTTypePreloadingPullProvider implements XBTPullProvider {
 
         private final XBTPullProvider pullProvider;
@@ -211,16 +247,14 @@ public class XBTCPServiceServer implements XBServiceServer {
         public XBTToken pullXBTToken() throws XBProcessingException, IOException {
             if (typeToken == null) {
                 return pullProvider.pullXBTToken();
+            } else if (beginToken != null) {
+                XBTToken token = beginToken;
+                beginToken = null;
+                return token;
             } else {
-                if (beginToken != null) {
-                    XBTToken token = beginToken;
-                    beginToken = null;
-                    return token;
-                } else {
-                    XBTToken token = typeToken;
-                    typeToken = null;
-                    return token;
-                }
+                XBTToken token = typeToken;
+                typeToken = null;
+                return token;
             }
         }
 
@@ -242,7 +276,7 @@ public class XBTCPServiceServer implements XBServiceServer {
         public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
             if (!started) {
                 output.putXBTToken(new XBTBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED)); // TODO terminated
-                output.putXBTToken(new XBTTypeToken(new XBDeclBlockType(SERVICE_INVOCATION_SUCCESSFUL)));
+                output.putXBTToken(new XBTTypeToken(new XBDeclBlockType(XBTCPServiceClient.SERVICE_INVOCATION_SUCCESSFUL)));
                 started = true;
             }
 

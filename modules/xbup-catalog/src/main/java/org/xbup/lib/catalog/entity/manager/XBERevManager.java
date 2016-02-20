@@ -37,7 +37,7 @@ import org.xbup.lib.catalog.entity.XBESpec;
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
-public class XBERevManager extends XBEDefaultManager<XBERev> implements XBCRevManager<XBERev>, Serializable {
+public class XBERevManager extends XBEDefaultCatalogManager<XBERev> implements XBCRevManager<XBERev>, Serializable {
 
     public XBERevManager() {
         super();

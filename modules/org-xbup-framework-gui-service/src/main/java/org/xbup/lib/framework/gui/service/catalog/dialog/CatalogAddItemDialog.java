@@ -67,7 +67,7 @@ public class CatalogAddItemDialog extends javax.swing.JDialog {
         itemNameTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/service/dialog/resources/CatalogAddItemDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/service/catalog/dialog/resources/CatalogAddItemDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
 
         cancelButton.setText(bundle.getString("cancelButton.text")); // NOI18N
@@ -89,7 +89,7 @@ public class CatalogAddItemDialog extends javax.swing.JDialog {
         controlPanelLayout.setHorizontalGroup(
             controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
-                .addContainerGap(201, Short.MAX_VALUE)
+                .addContainerGap(218, Short.MAX_VALUE)
                 .addComponent(addButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cancelButton)
@@ -125,7 +125,7 @@ public class CatalogAddItemDialog extends javax.swing.JDialog {
                         .addGroup(definitionTypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(itemTypeLabel)
                             .addComponent(itemNameLabel))
-                        .addGap(0, 268, Short.MAX_VALUE))
+                        .addGap(0, 281, Short.MAX_VALUE))
                     .addComponent(itemNameTextField))
                 .addContainerGap())
         );

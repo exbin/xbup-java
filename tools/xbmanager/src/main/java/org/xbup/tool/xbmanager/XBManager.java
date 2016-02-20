@@ -118,7 +118,7 @@ public class XBManager {
                 helpModule.registerOnlineHelpMenu();
 
                 frameModule.registerExitAction();
-                frameModule.registerBarsVisibilityActions();
+                frameModule.registerStatusBarVisibilityActions();
 
                 menuModule.registerMenuClipboardActions();
 

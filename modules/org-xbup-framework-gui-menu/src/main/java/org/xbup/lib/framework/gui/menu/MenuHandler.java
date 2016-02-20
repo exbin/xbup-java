@@ -44,7 +44,7 @@ import org.xbup.lib.framework.gui.utils.ActionUtils;
 /**
  * Menu handler.
  *
- * @version 0.2.0 2016/01/10
+ * @version 0.2.0 2016/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class MenuHandler {
@@ -367,6 +367,21 @@ public class MenuHandler {
                 processingPath.add(new MenuGroupRecordPathNode(groupRecord.subGroups));
             }
         }
+    }
+
+    boolean menuGroupExists(String menuId, String groupId) {
+        List<MenuGroup> menuGroupDefs = menuGroups.get(menuId);
+        if (menuGroupDefs == null) {
+            return false;
+        }
+
+        for (MenuGroup menuGroup : menuGroupDefs) {
+            if (groupId.equals(menuGroup.getGroupId())) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     private static abstract class ProcessedContribution {

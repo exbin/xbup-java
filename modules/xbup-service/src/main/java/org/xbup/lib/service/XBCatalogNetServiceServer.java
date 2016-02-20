@@ -22,6 +22,7 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import org.xbup.lib.catalog.XBAECatalog;
 import org.xbup.lib.catalog.update.XBCUpdatePHPHandler;
 import org.xbup.lib.core.catalog.base.service.XBCNodeService;
@@ -46,17 +47,19 @@ import org.xbup.lib.service.skeleton.XBPXStriSkeleton;
 /**
  * XBUP catalog service server.
  *
- * @version 0.1.25 2015/04/04
+ * @version 0.2.0 2016/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBCatalogNetServiceServer extends XBTCPServiceServer {
 
-    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle("org/xbup/lib/service/messages");
+    private static final String LOG_BUNDLE = "sun.util.logging.resources.logging";
+    public static final Level XB_SERVICE_STATUS = new XBServiceStatus("XB_SERVICE_STATUS", 758, LOG_BUNDLE);
 
+    private final ResourceBundle resourceBundle = ResourceBundle.getBundle("org/xbup/lib/service/messages");
     private final XBCUpdatePHPHandler wsHandler;
 
-    public XBCatalogNetServiceServer(final XBAECatalog catalog) {
-        super(catalog);
+    public XBCatalogNetServiceServer(EntityManager entityManager, final XBAECatalog catalog) {
+        super(entityManager, catalog);
 
         wsHandler = new XBCUpdatePHPHandler((XBAECatalog) catalog);
         wsHandler.init();
@@ -85,9 +88,6 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
         new XBPXPaneSkeleton(catalog).registerProcedures(server);
         new XBPXHDocSkeleton(catalog).registerProcedures(server);
     }
-
-    private static final String logBundle = "sun.util.logging.resources.logging";
-    public static final Level XB_SERVICE_STATUS = new XBServiceStatus("XB_SERVICE_STATUS", 758, logBundle);
 
     public void performStop() {
         Logger.getLogger(org.xbup.lib.service.XBCatalogNetServiceServer.class.getName()).log(org.xbup.lib.service.XBCatalogNetServiceServer.XB_SERVICE_STATUS, resourceBundle.getString("stop_service"));
@@ -170,9 +170,6 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
         // TODO: Support for sending full image latter...
     }
 
-    /**
-     * @return the wsHandler
-     */
     public XBCUpdatePHPHandler getWsHandler() {
         return wsHandler;
     }

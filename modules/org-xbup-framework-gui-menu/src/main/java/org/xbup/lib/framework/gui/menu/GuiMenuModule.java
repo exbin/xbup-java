@@ -37,7 +37,7 @@ import org.xbup.lib.framework.gui.menu.api.ToolBarPosition;
 /**
  * Implementation of XBUP framework menu module.
  *
- * @version 0.2.0 2016/01/23
+ * @version 0.2.0 2016/02/20
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -180,5 +180,10 @@ public class GuiMenuModule implements GuiMenuModuleApi {
     @Override
     public void updateClipboardActions() {
         getClipboardActions().updateClipboardActions();
+    }
+
+    @Override
+    public boolean menuGroupExists(String menuId, String groupId) {
+        return menuHandler.menuGroupExists(menuId, groupId);
     }
 }

@@ -228,10 +228,30 @@ public class GuiFrameModule implements GuiFrameModuleApi {
 
     @Override
     public void registerBarsVisibilityActions() {
+        registerToolBarVisibilityActions();
+        registerStatusBarVisibilityActions();
+    }
+
+    @Override
+    public void registerToolBarVisibilityActions() {
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
-        menuModule.registerMenuGroup(GuiFrameModuleApi.VIEW_MENU_ID, new MenuGroup(VIEW_BARS_GROUP_ID, new MenuPosition(PositionMode.TOP), SeparationMode.BELOW));
+        createViewBarsMenuGroup();
         menuModule.registerMenuItem(GuiFrameModuleApi.VIEW_MENU_ID, MODULE_ID, getViewToolBarAction(), new MenuPosition(VIEW_BARS_GROUP_ID));
         menuModule.registerMenuItem(GuiFrameModuleApi.VIEW_MENU_ID, MODULE_ID, getViewToolBarCaptionsAction(), new MenuPosition(VIEW_BARS_GROUP_ID));
+        // frame.setToolBarVisible(true);
+    }
+
+    @Override
+    public void registerStatusBarVisibilityActions() {
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        createViewBarsMenuGroup();
         menuModule.registerMenuItem(GuiFrameModuleApi.VIEW_MENU_ID, MODULE_ID, getViewStatusBarAction(), new MenuPosition(VIEW_BARS_GROUP_ID));
+    }
+    
+    private void createViewBarsMenuGroup() {
+        GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        if (!menuModule.menuGroupExists(GuiFrameModuleApi.VIEW_MENU_ID, VIEW_BARS_GROUP_ID)) {
+            menuModule.registerMenuGroup(GuiFrameModuleApi.VIEW_MENU_ID, new MenuGroup(VIEW_BARS_GROUP_ID, new MenuPosition(PositionMode.TOP), SeparationMode.BELOW));
+        }
     }
 }

@@ -42,7 +42,7 @@ import org.xbup.lib.catalog.entity.XBEXFile;
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
-public class XBEXFileManager extends XBEDefaultManager<XBEXFile> implements XBCXFileManager<XBEXFile>, Serializable {
+public class XBEXFileManager extends XBEDefaultCatalogManager<XBEXFile> implements XBCXFileManager<XBEXFile>, Serializable {
 
     public XBEXFileManager() {
         super();

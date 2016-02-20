@@ -38,7 +38,7 @@ import org.xbup.lib.catalog.entity.XBEXPlugin;
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
-public class XBEXPlugManager extends XBEDefaultManager<XBEXPlugin> implements XBCXPlugManager<XBEXPlugin>, Serializable {
+public class XBEXPlugManager extends XBEDefaultCatalogManager<XBEXPlugin> implements XBCXPlugManager<XBEXPlugin>, Serializable {
 
     public XBEXPlugManager() {
         super();

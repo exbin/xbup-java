@@ -19,9 +19,9 @@ package org.xbup.lib.core.catalog.base.manager;
 import org.xbup.lib.core.catalog.base.XBCBase;
 
 /**
- * Generic interface for catalog persistence item management classes.
+ * Generic interface for server log item management classes.
  *
- * @version 0.1.23 2014/03/17
+ * @version 0.2.0 2016/02/20
  * @author XBUP Project (http://xbup.org)
  * @param <T> base entity
  */

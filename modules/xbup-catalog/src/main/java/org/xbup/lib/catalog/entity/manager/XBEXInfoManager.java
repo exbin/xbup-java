@@ -33,7 +33,7 @@ import org.xbup.lib.catalog.entity.XBEXItemInfo;
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
-public class XBEXInfoManager extends XBEDefaultManager<XBEXItemInfo> implements XBCXInfoManager<XBEXItemInfo>, Serializable {
+public class XBEXInfoManager extends XBEDefaultCatalogManager<XBEXItemInfo> implements XBCXInfoManager<XBEXItemInfo>, Serializable {
 
     public XBEXInfoManager() {
         super();

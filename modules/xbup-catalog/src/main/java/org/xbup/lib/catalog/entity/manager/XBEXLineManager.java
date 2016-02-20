@@ -40,7 +40,7 @@ import org.xbup.lib.catalog.entity.XBEXPlugin;
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
-public class XBEXLineManager extends XBEDefaultManager<XBEXBlockLine> implements XBCXLineManager<XBEXBlockLine>, Serializable {
+public class XBEXLineManager extends XBEDefaultCatalogManager<XBEXBlockLine> implements XBCXLineManager<XBEXBlockLine>, Serializable {
 
     public XBEXLineManager() {
         super();

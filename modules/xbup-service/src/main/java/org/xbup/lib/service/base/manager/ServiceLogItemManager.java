@@ -14,28 +14,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.catalog.entity.manager;
+package org.xbup.lib.service.base.manager;
 
-import java.io.Serializable;
-import org.springframework.stereotype.Repository;
-import org.xbup.lib.core.catalog.base.manager.XBCTranManager;
-import org.xbup.lib.catalog.XBECatalog;
-import org.xbup.lib.catalog.entity.XBETran;
+import org.xbup.lib.core.catalog.base.manager.XBCManager;
+import org.xbup.lib.service.base.ServiceLogItem;
 
 /**
- * XBUP catalog transformation manager.
+ * Interface for service log item manager.
  *
- * @version 0.1.21 2011/12/29
+ * @version 0.2.0 2016/02/20
  * @author XBUP Project (http://xbup.org)
+ * @param <T> item entity
  */
-@Repository
-public class XBETranManager extends XBEDefaultCatalogManager<XBETran> implements XBCTranManager<XBETran>, Serializable {
-
-    public XBETranManager() {
-        super();
-    }
-
-    public XBETranManager(XBECatalog catalog) {
-        super(catalog);
-    }
+public interface ServiceLogItemManager<T extends ServiceLogItem> extends XBCManager<T> {
 }

@@ -38,7 +38,7 @@ import org.xbup.lib.catalog.entity.XBEXStri;
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
-public class XBEXStriManager extends XBEDefaultManager<XBEXStri> implements XBCXStriManager<XBEXStri>, Serializable {
+public class XBEXStriManager extends XBEDefaultCatalogManager<XBEXStri> implements XBCXStriManager<XBEXStri>, Serializable {
 
     public XBEXStriManager() {
         super();

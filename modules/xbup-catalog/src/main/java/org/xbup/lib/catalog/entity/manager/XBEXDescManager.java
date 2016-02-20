@@ -44,7 +44,7 @@ import org.xbup.lib.catalog.entity.XBEXLanguage;
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
-public class XBEXDescManager extends XBEDefaultManager<XBEXDesc> implements XBCXDescManager<XBEXDesc>, Serializable {
+public class XBEXDescManager extends XBEDefaultCatalogManager<XBEXDesc> implements XBCXDescManager<XBEXDesc>, Serializable {
 
     public XBEXDescManager() {
         super();

@@ -17,6 +17,8 @@
 package org.xbup.lib.client;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,24 +47,27 @@ import org.xbup.lib.core.stream.XBOutput;
 /**
  * XBService client connection handler using TCP/IP protocol.
  *
- * @version 0.1.25 2015/04/02
+ * @version 0.2.0 2016/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCPServiceClient implements XBServiceClient {
+
+    public static long[] XBSERVICE_FORMAT = {0, 2, 0, 0};
+    public static long[] SERVICE_INVOCATION_SUCCESSFUL = {0, 2, 0, 0};
+    public static long[] SERVICE_INVOCATION_FAILED = {0, 2, 1, 0};
 
     private XBCatalog catalog;
 
     private Socket socket = null;
     private XBInput currentInput = null;
     private XBOutput currentOutput = null;
+    private boolean debugMode = false;
 
     private final String host;
     private final int port;
     private final XBPServiceStub serviceStub;
 
-    public static long[] XBSERVICE_FORMAT = {0, 2, 0, 0};
-    public static long[] SERVICE_INVOCATION_SUCCESSFUL = {0, 2, 0, 0};
-    public static long[] SERVICE_INVOCATION_FAILED = {0, 2, 1, 0};
+    private XBCallLogListener callLogListener = null;
 
     public XBTCPServiceClient(String host, int port) {
         this.host = host;
@@ -78,6 +83,11 @@ public class XBTCPServiceClient implements XBServiceClient {
                 XBHead.writeXBUPHead(socket.getOutputStream());
             }
 
+            final OutputStream loggingOutputStream = debugMode
+                    ? new XBLoggingOutputStream(socket.getOutputStream()) : socket.getOutputStream();
+            final InputStream loggingInputStream = debugMode
+                    ? new XBLoggingInputStream(socket.getInputStream()) : socket.getInputStream();
+
             if (currentInput != null) {
                 // TODO: SKIP all remaining data
                 currentInput = null;
@@ -90,7 +100,7 @@ public class XBTCPServiceClient implements XBServiceClient {
 
                 @Override
                 public XBInput getParametersInput() throws XBProcessingException, IOException {
-                    currentInput = new XBTEventTypeUndeclaringFilter(catalog, new XBTPrintEventFilter("O", new XBTToXBEventConvertor(new XBEventWriter(socket.getOutputStream(), XBParserMode.SINGLE_BLOCK))));
+                    currentInput = new XBTEventTypeUndeclaringFilter(catalog, new XBTPrintEventFilter("O", new XBTToXBEventConvertor(new XBEventWriter(loggingOutputStream, XBParserMode.SINGLE_BLOCK))));
                     return currentInput;
                 }
 
@@ -101,7 +111,7 @@ public class XBTCPServiceClient implements XBServiceClient {
                         currentInput = null;
                     }
 
-                    currentOutput = new XBTPullPreLoader(new XBTPullTypeDeclaringFilter(catalog, new XBTPrintPullFilter("I", new XBToXBTPullConvertor(new XBPullReader(socket.getInputStream(), XBParserMode.SINGLE_BLOCK)))));
+                    currentOutput = new XBTPullPreLoader(new XBTPullTypeDeclaringFilter(catalog, new XBTPrintPullFilter("I", new XBToXBTPullConvertor(new XBPullReader(loggingInputStream, XBParserMode.SINGLE_BLOCK)))));
                     XBTPullPreLoader output = (XBTPullPreLoader) currentOutput;
                     XBTToken beginToken = output.pullXBTToken();
                     if (beginToken.getTokenType() != XBTTokenType.BEGIN) {
@@ -119,6 +129,10 @@ public class XBTCPServiceClient implements XBServiceClient {
                     XBTToken endToken = ((XBTPullPreLoader) currentOutput).pullXBTToken(); // TODO match that it's end token
                     if (endToken.getTokenType() != XBTTokenType.END) {
                         throw new XBProcessingException("End token was expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    }
+
+                    if (debugMode && callLogListener != null) {
+                        callLogListener.callPerformed(((XBLoggingInputStream) loggingInputStream).getData(), ((XBLoggingOutputStream) loggingOutputStream).getData());
                     }
                 }
             };
@@ -176,12 +190,28 @@ public class XBTCPServiceClient implements XBServiceClient {
         this.catalog = catalog;
     }
 
+    public boolean isDebugMode() {
+        return debugMode;
+    }
+
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
+    }
+
     public String getLocalAddress() {
         return getSocket().getLocalAddress().getHostAddress();
     }
 
     public String getHostAddress() {
         return getSocket().getInetAddress().getHostAddress();
+    }
+
+    public XBCallLogListener getCallLogListener() {
+        return callLogListener;
+    }
+
+    public void setCallLogListener(XBCallLogListener callLogListener) {
+        this.callLogListener = callLogListener;
     }
 
     public boolean validate() {

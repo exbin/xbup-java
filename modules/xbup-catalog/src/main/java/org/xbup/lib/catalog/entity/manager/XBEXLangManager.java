@@ -37,7 +37,7 @@ import org.xbup.lib.catalog.entity.XBEXLanguage;
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
-public class XBEXLangManager extends XBEDefaultManager<XBEXLanguage> implements XBCXLangManager<XBEXLanguage>, Serializable {
+public class XBEXLangManager extends XBEDefaultCatalogManager<XBEXLanguage> implements XBCXLangManager<XBEXLanguage>, Serializable {
 
     private XBEXLanguage defaultLanguageCache = null;
 

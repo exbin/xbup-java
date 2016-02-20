@@ -43,6 +43,7 @@ public class XBApplicationFrame extends javax.swing.JFrame implements Applicatio
 
     public XBApplicationFrame() {
         initComponents();
+        toolBar.setVisible(false);
     }
 
     /**

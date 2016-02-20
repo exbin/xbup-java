@@ -40,7 +40,7 @@ import org.xbup.lib.catalog.entity.XBEXPlugin;
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
-public class XBEXPaneManager extends XBEDefaultManager<XBEXBlockPane> implements XBCXPaneManager<XBEXBlockPane>, Serializable {
+public class XBEXPaneManager extends XBEDefaultCatalogManager<XBEXBlockPane> implements XBCXPaneManager<XBEXBlockPane>, Serializable {
 
     public XBEXPaneManager() {
         super();

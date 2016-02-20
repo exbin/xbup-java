@@ -95,6 +95,10 @@ public interface GuiFrameModuleApi extends XBApplicationModulePlugin {
 
     void registerBarsVisibilityActions();
 
+    void registerToolBarVisibilityActions();
+
+    void registerStatusBarVisibilityActions();
+    
     /**
      * Registers new status bar with unique ID.
      *

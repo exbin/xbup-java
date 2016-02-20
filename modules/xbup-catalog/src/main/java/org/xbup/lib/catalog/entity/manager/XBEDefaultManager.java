@@ -27,31 +27,26 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.FlushModeType;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.xbup.lib.core.catalog.base.XBCBase;
 import org.xbup.lib.core.catalog.base.manager.XBCManager;
-import org.xbup.lib.catalog.XBECatalog;
 
 /**
- * Default manager for catalog items.
+ * Default manager for entity items.
  *
- * @version 0.1.25 2015/09/06
+ * @version 0.2.0 2016/02/20
  * @author XBUP Project (http://xbup.org)
  * @param <T> entity class
  */
 public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
 
-    @Autowired
-    protected XBECatalog catalog;
     @PersistenceContext
     protected EntityManager em;
 
     public XBEDefaultManager() {
     }
 
-    public XBEDefaultManager(XBECatalog catalog) {
-        this.catalog = catalog;
-        this.em = catalog.getEntityManager();
+    public XBEDefaultManager(EntityManager entityManager) {
+        this.em = entityManager;
     }
 
     @SuppressWarnings("unchecked")
@@ -107,7 +102,7 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
          } catch (NoResultException ex) {
          return null;
          } catch (Exception ex) {
-         Logger.getLogger(XBEDefaultManager.class.getName()).log(Level.SEVERE, null, ex);
+         Logger.getLogger(XBEDefaultCatalogManager.class.getName()).log(Level.SEVERE, null, ex);
          return null;
          } */
     }

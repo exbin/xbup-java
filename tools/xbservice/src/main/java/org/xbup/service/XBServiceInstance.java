@@ -60,7 +60,7 @@ import org.xbup.lib.service.XBCatalogNetServiceServer;
 /**
  * Instance class for XBUP framework service.
  *
- * @version 0.1.25 2015/09/06
+ * @version 0.2.0 2016/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public class XBServiceInstance {
@@ -72,10 +72,13 @@ public class XBServiceInstance {
     private boolean devMode;
     private boolean forceUpdate;
     private boolean derbyMode = false;
+    private boolean debugMode = false;
+
     private String tcpipPort;
     private String tcpipInterface;
     private String derbyPath;
     private XBCatalogNetServiceServer serviceServer = null;
+    private EntityManager entityManager = null;
     private XBAECatalog catalog = null;
 
     public XBServiceInstance() {
@@ -97,7 +100,11 @@ public class XBServiceInstance {
 
         Logger.getLogger(XBServiceInstance.class.getName()).log(XBCatalogNetServiceServer.XB_SERVICE_STATUS, (resourceBundle.getString("init_service") + " " + tcpipInterface + ":" + Integer.toString(tcpipPortInt) + "..."));
 
-        serviceServer = new XBCatalogNetServiceServer(catalog);
+        serviceServer = new XBCatalogNetServiceServer(entityManager, catalog);
+
+        // TODO Testing debug mode
+        debugMode = true;
+        serviceServer.setDebugMode(debugMode);
         try {
             serviceServer.open(tcpipPortInt);
             performUpdate();
@@ -132,24 +139,30 @@ public class XBServiceInstance {
             }
             System.setProperty("derby.system.home", derbyHome);
             EntityManagerFactory emf;
+            String persistenceUnitName;
             try {
                 if (rootCatalogMode) {
                     if (devMode) {
-                        emf = Persistence.createEntityManagerFactory("XBServiceMySQLDevPU");
-                        catalog = createCatalog(emf.createEntityManager());
+                        persistenceUnitName = "XBServiceMySQLDevPU";
                     } else {
-                        emf = Persistence.createEntityManagerFactory("XBServiceMySQLPU");
-                        catalog = createCatalog(emf.createEntityManager());
+                        persistenceUnitName = "XBServiceMySQLPU";
                     }
                 } else {
-                    emf = Persistence.createEntityManagerFactory("XBServicePU");
-                    catalog = createCatalog(emf.createEntityManager());
+                    persistenceUnitName = "XBServicePU";
                 }
+
+                emf = Persistence.createEntityManagerFactory(persistenceUnitName);
+                entityManager = emf.createEntityManager();
+                catalog = createCatalog(entityManager);
             } catch (DatabaseException | javax.persistence.PersistenceException e) {
-                emf = Persistence.createEntityManagerFactory("XBServiceDerbyPU");
-                catalog = createCatalog(emf.createEntityManager());
+                persistenceUnitName = "XBServiceDerbyPU";
+
+                emf = Persistence.createEntityManagerFactory(persistenceUnitName);
+                entityManager = emf.createEntityManager();
+                catalog = createCatalog(entityManager);
                 derbyMode = true;
             }
+            
 
             if (catalog.isShallInit()) {
                 catalog.initCatalog();
@@ -301,5 +314,13 @@ public class XBServiceInstance {
 
     public void setDerbyPath(String derbyPath) {
         this.derbyPath = derbyPath;
+    }
+
+    public boolean isDebugMode() {
+        return debugMode;
+    }
+
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
     }
 }

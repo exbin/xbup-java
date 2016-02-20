@@ -32,7 +32,7 @@ import org.xbup.lib.catalog.entity.XBEXUser;
  * @author XBUP Project (http://xbup.org)
  */
 @Repository
-public class XBEXUserManager extends XBEDefaultManager<XBEXUser> implements XBCXUserManager<XBEXUser>, Serializable {
+public class XBEXUserManager extends XBEDefaultCatalogManager<XBEXUser> implements XBCXUserManager<XBEXUser>, Serializable {
 
     public XBEXUserManager() {
         super();

@@ -23,7 +23,7 @@ import java.io.OutputStream;
 /**
  * Interface for editable binary data.
  *
- * @version 0.2.0 2015/09/19
+ * @version 0.2.0 2016/02/20
  * @author XBUP Project (http://xbup.org)
  */
 public interface XBEditableBlockData extends XBBlockData {
@@ -61,6 +61,24 @@ public interface XBEditableBlockData extends XBBlockData {
      * @param insertedData data to insert
      */
     public void insert(long startFrom, XBBlockData insertedData);
+
+    /**
+     * Inserts given data to given position.
+     *
+     * @param startFrom position to insert to
+     * @param insertedData data to insert
+     */
+    public void insert(long startFrom, byte[] insertedData);
+
+    /**
+     * Inserts given data to given position.
+     *
+     * @param startFrom position to insert to
+     * @param insertedData data to insert
+     * @param insertedDataOffset inserted data offset
+     * @param insertedDataLength inserted data length
+     */
+    public void insert(long startFrom, byte[] insertedData, int insertedDataOffset, int insertedDataLength);
 
     /**
      * Replaces all data with given data.

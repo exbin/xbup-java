@@ -36,9 +36,6 @@ import org.xbup.lib.service.XBCatalogNetServiceServer;
  */
 public class XBService {
 
-    private static final ResourceBundle recourceBundle = ResourceBundle.getBundle("org/xbup/service/XBService");
-    private static final Preferences preferences = Preferences.userNodeForPackage(XBService.class);
-
     public XBService() {
     }
 
@@ -47,6 +44,9 @@ public class XBService {
      */
     public static void main(String[] args) {
         try {
+            final ResourceBundle recourceBundle = ResourceBundle.getBundle("org/xbup/service/XBService");
+            final Preferences preferences = Preferences.userNodeForPackage(XBService.class);
+
             // Parameters processing
             Options opt = new Options();
             Logger logger = Logger.getLogger("");

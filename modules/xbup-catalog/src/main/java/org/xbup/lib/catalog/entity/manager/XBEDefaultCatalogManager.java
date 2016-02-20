@@ -16,26 +16,27 @@
  */
 package org.xbup.lib.catalog.entity.manager;
 
-import java.io.Serializable;
-import org.springframework.stereotype.Repository;
-import org.xbup.lib.core.catalog.base.manager.XBCTranManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.xbup.lib.core.catalog.base.XBCBase;
 import org.xbup.lib.catalog.XBECatalog;
-import org.xbup.lib.catalog.entity.XBETran;
 
 /**
- * XBUP catalog transformation manager.
+ * Default manager for catalog items.
  *
- * @version 0.1.21 2011/12/29
+ * @version 0.2.0 2016/02/20
  * @author XBUP Project (http://xbup.org)
+ * @param <T> entity class
  */
-@Repository
-public class XBETranManager extends XBEDefaultCatalogManager<XBETran> implements XBCTranManager<XBETran>, Serializable {
+public class XBEDefaultCatalogManager<T extends XBCBase> extends XBEDefaultManager<T> {
 
-    public XBETranManager() {
-        super();
+    @Autowired
+    protected XBECatalog catalog;
+
+    public XBEDefaultCatalogManager() {
     }
 
-    public XBETranManager(XBECatalog catalog) {
-        super(catalog);
+    public XBEDefaultCatalogManager(XBECatalog catalog) {
+        super(catalog.getEntityManager());
+        this.catalog = catalog;
     }
 }

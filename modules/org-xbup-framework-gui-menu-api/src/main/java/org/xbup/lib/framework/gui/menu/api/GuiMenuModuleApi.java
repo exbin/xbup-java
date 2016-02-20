@@ -175,4 +175,13 @@ public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
      * Updates state of the clipboard actions.
      */
     public void updateClipboardActions();
+
+    /**
+     * Returns true if given menu group exists.
+     *
+     * @param menuId
+     * @param groupId
+     * @return true if group exists
+     */
+    public boolean menuGroupExists(String menuId, String groupId);
 }

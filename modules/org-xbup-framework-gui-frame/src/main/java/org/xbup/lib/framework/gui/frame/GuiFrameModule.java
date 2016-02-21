@@ -52,6 +52,7 @@ public class GuiFrameModule implements GuiFrameModuleApi {
     private XBApplicationFrame frame;
     private ApplicationExitHandler exitHandler = null;
     private StatusBarHandler statusBarHandler = null;
+    private boolean showFrame = false;
 
     public GuiFrameModule() {
     }
@@ -131,6 +132,7 @@ public class GuiFrameModule implements GuiFrameModuleApi {
             frame.loadMainMenu(application);
             frame.loadMainToolBar(application);
             frame.setApplicationExitHandler(exitHandler);
+            frame.setToolBarVisible(showFrame);
         }
 
         return frame;
@@ -238,7 +240,7 @@ public class GuiFrameModule implements GuiFrameModuleApi {
         createViewBarsMenuGroup();
         menuModule.registerMenuItem(GuiFrameModuleApi.VIEW_MENU_ID, MODULE_ID, getViewToolBarAction(), new MenuPosition(VIEW_BARS_GROUP_ID));
         menuModule.registerMenuItem(GuiFrameModuleApi.VIEW_MENU_ID, MODULE_ID, getViewToolBarCaptionsAction(), new MenuPosition(VIEW_BARS_GROUP_ID));
-        // frame.setToolBarVisible(true);
+        showFrame = true;
     }
 
     @Override

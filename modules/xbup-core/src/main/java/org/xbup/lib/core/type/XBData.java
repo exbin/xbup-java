@@ -40,7 +40,7 @@ import org.xbup.lib.core.serial.child.XBTChildSerializable;
  * Data are stored using paging. Last page might be shorter than page size, but
  * not empty.
  *
- * @version 0.2.0 2016/02/20
+ * @version 0.2.0 2016/02/22
  * @author XBUP Project (http://xbup.org)
  */
 public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSerializable {
@@ -173,7 +173,7 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
             if (fillSize > length) {
                 fillSize = (int) length;
             }
-            Arrays.fill(page, pageOffset, fillSize, (byte) fill);
+            Arrays.fill(page, pageOffset, pageOffset + fillSize - 1, (byte) fill);
             length -= fillSize;
             startFrom += fillSize;
         }

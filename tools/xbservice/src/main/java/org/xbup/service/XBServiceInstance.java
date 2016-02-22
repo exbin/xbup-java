@@ -102,8 +102,6 @@ public class XBServiceInstance {
 
         serviceServer = new XBCatalogNetServiceServer(entityManager, catalog);
 
-        // TODO Testing debug mode
-        debugMode = true;
         serviceServer.setDebugMode(debugMode);
         try {
             serviceServer.open(tcpipPortInt);

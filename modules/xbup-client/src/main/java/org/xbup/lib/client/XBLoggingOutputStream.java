@@ -38,7 +38,9 @@ public class XBLoggingOutputStream extends OutputStream {
     @Override
     public void write(int b) throws IOException {
         targetOutputStream.write(b);
-        data.setByte(data.getDataSize(), (byte) b);
+        long dataSize = data.getDataSize();
+        data.insert(dataSize, 1);
+        data.setByte(dataSize, (byte) b);
     }
 
     @Override

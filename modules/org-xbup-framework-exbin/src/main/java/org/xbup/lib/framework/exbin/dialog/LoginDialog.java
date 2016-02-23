@@ -122,17 +122,17 @@ public class LoginDialog extends javax.swing.JDialog {
         connectionHeaderPanelLayout.setHorizontalGroup(
             connectionHeaderPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, connectionHeaderPanelLayout.createSequentialGroup()
-                .addContainerGap(495, Short.MAX_VALUE)
+                .addContainerGap(274, Short.MAX_VALUE)
                 .add(prereleaseWarningLabel)
                 .addContainerGap())
             .add(connectionHeaderPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                 .add(connectionHeaderPanelLayout.createSequentialGroup()
                     .add(jLayeredPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 393, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(0, 296, Short.MAX_VALUE)))
+                    .add(0, 75, Short.MAX_VALUE)))
             .add(connectionHeaderPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jLayeredPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE))
+                .add(jLayeredPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE))
             .add(connectionHeaderPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jSeparator1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE))
+                .add(jSeparator1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE))
         );
         connectionHeaderPanelLayout.setVerticalGroup(
             connectionHeaderPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -232,13 +232,14 @@ public class LoginDialog extends javax.swing.JDialog {
             .add(connectionLoginPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(connectionLoginPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(connectionLoginPanelLayout.createSequentialGroup()
+                    .add(anonymousRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(loginRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+                    .add(loginPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, connectionLoginPanelLayout.createSequentialGroup()
+                        .add(0, 0, Short.MAX_VALUE)
                         .add(cancelButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(okButton))
-                    .add(anonymousRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(loginRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(loginPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .add(okButton)))
                 .addContainerGap())
         );
         connectionLoginPanelLayout.setVerticalGroup(
@@ -250,7 +251,7 @@ public class LoginDialog extends javax.swing.JDialog {
                 .add(loginRadioButton)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(loginPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 7, Short.MAX_VALUE)
                 .add(connectionLoginPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(cancelButton)
                     .add(okButton))
@@ -277,7 +278,7 @@ public class LoginDialog extends javax.swing.JDialog {
         busyStatusPanel.setLayout(busyStatusPanelLayout);
         busyStatusPanelLayout.setHorizontalGroup(
             busyStatusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(busyProgressBar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
+            .add(busyProgressBar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
         );
         busyStatusPanelLayout.setVerticalGroup(
             busyStatusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)

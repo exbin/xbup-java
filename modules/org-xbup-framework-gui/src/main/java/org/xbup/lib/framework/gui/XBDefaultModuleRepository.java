@@ -38,7 +38,6 @@ import java.util.logging.Logger;
 import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
 import net.xeoh.plugins.base.util.PluginManagerUtil;
-import net.xeoh.plugins.base.util.uri.ClassURI;
 import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
@@ -71,7 +70,14 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
 
     @Override
     public void addClassPathPlugins() {
-        pluginManager.addPluginsFrom(ClassURI.CLASSPATH);
+        String classpath = System.getProperty("java.class.path");
+        String[] classpathEntries = classpath.split(File.pathSeparator);
+        for (String classpathEntry : classpathEntries) {
+            addModulePlugin(new File(classpathEntry).toURI());
+        }
+
+        // WAS: pluginManager.addPluginsFrom(ClassURI.CLASSPATH);
+        // It was too slow
     }
 
     @Override
@@ -86,8 +92,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
             String rootDirectory = new File(moduleClassLocation.toExternalForm()).getParent();
             for (String path : paths) {
                 try {
-                    // TODO load only root class for plugins
-                    addPluginsFrom(new URI(rootDirectory + File.separator + path));
+                    addModulePlugin(new URI(rootDirectory + File.separator + path));
                 } catch (URISyntaxException ex) {
                     // Ignore
                 }
@@ -96,6 +101,28 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
             // Ignore
         } catch (IOException ex) {
             // Ignore
+        }
+    }
+
+    /**
+     * Attempts to load main library class if library URL contains valid module
+     * declaration.
+     *
+     * @param libraryUrl library URL
+     */
+    private void addModulePlugin(URI libraryUrl) {
+        URL moduleRecordUrl;
+        InputStream moduleRecordStream = null;
+        try {
+            moduleRecordUrl = new URL("jar:" + libraryUrl.toURL().toExternalForm() + "!/META-INF/" + MODULE_FILE);
+            moduleRecordStream = moduleRecordUrl.openStream();
+        } catch (IOException ex) {
+            // ignore
+        }
+
+        if (moduleRecordStream != null) {
+            // TODO identify main class from module to load it, so that jar doesn't have to be scanned
+            addPluginsFrom(libraryUrl);
         }
     }
 

@@ -84,7 +84,7 @@ public class ExbinModule implements XBApplicationModulePlugin {
 
                 XBCatalogNetServiceClient service = new XBCatalogNetServiceClient(connectionHost, connectionPort);
                 try {
-                    // service.ping();
+                    service.ping();
                     loginDialog.setConnectionStatus(Color.GREEN, "Connected", null);
                     return true;
                 } catch (Exception ex) {

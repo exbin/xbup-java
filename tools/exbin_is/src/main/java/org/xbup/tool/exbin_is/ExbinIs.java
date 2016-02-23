@@ -47,15 +47,10 @@ import org.xbup.lib.framework.exbin.ExbinModule;
 /**
  * The main class of the ExbinIs application.
  *
- * @version 0.2.0 2016/02/16
+ * @version 0.2.0 2016/02/23
  * @author XBUP Project (http://xbup.org)
  */
 public class ExbinIs {
-
-    private static Preferences preferences;
-    private static boolean verboseMode = false;
-    private static boolean devMode = false;
-    private static final ResourceBundle bundle = ActionUtils.getResourceBundleByClass(ExbinIs.class);
 
     /**
      * Main method launching the application.
@@ -63,6 +58,11 @@ public class ExbinIs {
      * @param args arguments
      */
     public static void main(String[] args) {
+        Preferences preferences;
+        boolean verboseMode = false;
+        boolean devMode = false;
+        final ResourceBundle bundle = ActionUtils.getResourceBundleByClass(ExbinIs.class);
+
         try {
             preferences = Preferences.userNodeForPackage(ExbinIs.class);
         } catch (SecurityException ex) {
@@ -94,12 +94,7 @@ public class ExbinIs {
                 app.setAppPreferences(preferences);
                 app.setAppBundle(bundle, ActionUtils.getResourceBaseNameBundleByClass(ExbinIs.class));
                 app.init();
-//                app.setFirstCommand(new XBEditorFirstCommand(app));
 
-//                app.loadPlugin(new ClassURI(GuiFrameModule.class).toURI());
-//                app.loadPlugin(new ClassURI(GuiFrameModule.class).toURI());
-//                app.loadPlugin(new ClassURI(JavaHelpModule.class).toURI());
-//                app.loadPlugin(new ClassURI(OnlineHelpModule.class).toURI());
                 XBModuleRepository moduleRepository = app.getModuleRepository();
                 moduleRepository.addClassPathPlugins();
                 moduleRepository.addPluginsFromManifest(ExbinIs.class);
@@ -159,38 +154,9 @@ public class ExbinIs {
                 if (fileArgs.size() > 0) {
                     // TODO app.loadFromFile((String) fileArgs.get(0));
                 }
-
-                // editorModule.run();
-//                ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
-//                ((XBDocEditorModule) module).setEditorApp(app);
-//                ((XBDocEditorModule) module).setDevMode(devMode);
             }
         } catch (ParseException ex) {
             Logger.getLogger(ExbinIs.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-//    private static class XBEditorFirstCommand implements XBAppCommand {
-//
-//        private final XBEditorApplication app;
-//
-//        public XBEditorFirstCommand(XBEditorApplication app) {
-//            this.app = app;
-//        }
-//
-//        @Override
-//        public void execute() {
-//            ApplicationModule module = app.getModuleRepository().getPluginHandler(XBDocEditorModule.class);
-//            ((XBDocEditorModule) module).postWindowOpened();
-//
-//            module = app.getModuleRepository().getPluginHandler(OnlineHelpModule.class);
-//            try {
-//                if (module instanceof OnlineHelpModule) {
-//                    ((OnlineHelpModule) module).setHelpUrl(new URL(bundle.getString("online_help_url")));
-//                }
-//            } catch (MalformedURLException ex) {
-//                Logger.getLogger(XBEditor.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-//    }
 }

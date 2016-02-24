@@ -123,8 +123,8 @@ public class XBPServiceStub {
             serialInput.end();
 
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            XBNatural version = new XBNatural();
-            serialOutput.process(version);
+            XBNatural value = new XBNatural();
+            serialOutput.process(value);
             procedureCall.execute();
             return true;
         } catch (XBProcessingException | IOException ex) {

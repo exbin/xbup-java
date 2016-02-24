@@ -63,6 +63,7 @@ public class XBNatural implements XBTChildSerializable {
     @Override
     public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
         serial.pullBegin();
+        serial.pullType();
         value = serial.pullAttribute().convertToNatural();
         serial.pullEnd();
     }

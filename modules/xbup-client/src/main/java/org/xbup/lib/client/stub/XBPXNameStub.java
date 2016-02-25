@@ -77,6 +77,9 @@ public class XBPXNameStub extends XBPBaseStub<XBRXName> {
     }
 
     public XBRXName getDefaultItemName(XBCItem item) {
+        if (item == null) {
+            return null;
+        }
         Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(ITEMNAME_NAME_PROCEDURE), item.getId());
         return index == null ? null : new XBRXName(client, index);
     }

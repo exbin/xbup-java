@@ -71,7 +71,7 @@ import org.xbup.lib.framework.client.api.ClientConnectionEvent;
 import org.xbup.lib.framework.client.api.ClientConnectionListener;
 import org.xbup.lib.framework.client.api.ClientModuleApi;
 import org.xbup.lib.framework.client.api.ConnectionStatus;
-import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.api.XBApplication;
 import org.xbup.lib.plugin.XBPluginRepository;
 
 /**

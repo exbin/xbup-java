@@ -17,8 +17,8 @@
 package org.xbup.lib.framework.gui.editor.api;
 
 import java.awt.Component;
-import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
-import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
+import org.xbup.lib.framework.api.XBApplicationModulePlugin;
+import org.xbup.lib.framework.api.XBModuleRepositoryUtils;
 
 /**
  * XBUP framework editor module api interface.

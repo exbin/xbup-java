@@ -19,8 +19,8 @@ package org.xbup.lib.framework.gui.frame.api;
 import java.awt.Frame;
 import javax.swing.Action;
 import javax.swing.JPanel;
-import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
-import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
+import org.xbup.lib.framework.api.XBApplicationModulePlugin;
+import org.xbup.lib.framework.api.XBModuleRepositoryUtils;
 
 /**
  * Interface for XBUP framework frame module.

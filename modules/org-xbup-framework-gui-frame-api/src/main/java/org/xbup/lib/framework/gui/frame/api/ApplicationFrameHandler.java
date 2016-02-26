@@ -19,7 +19,7 @@ package org.xbup.lib.framework.gui.frame.api;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
-import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.api.XBApplication;
 
 /**
  * Interface for application frame.

@@ -22,7 +22,7 @@ import org.xbup.lib.framework.client.api.ClientConnectionListener;
 import static org.xbup.lib.framework.editor.xbup.EditorXbupModule.DOC_STATUS_BAR_ID;
 import static org.xbup.lib.framework.editor.xbup.EditorXbupModule.MODULE_ID;
 import org.xbup.lib.framework.editor.xbup.panel.XBDocStatusPanel;
-import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.api.XBApplication;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.utils.ActionUtils;

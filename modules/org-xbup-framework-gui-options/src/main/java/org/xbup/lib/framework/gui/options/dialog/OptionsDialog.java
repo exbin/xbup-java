@@ -32,7 +32,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.api.XBApplication;
 import org.xbup.lib.framework.gui.options.panel.AppearanceOptionsPanel;
 import org.xbup.lib.framework.gui.options.panel.MainOptionsPanel;
 import org.xbup.lib.framework.gui.utils.WindowUtils;

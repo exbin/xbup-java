@@ -17,8 +17,8 @@
 package org.xbup.lib.framework.gui.utils;
 
 import net.xeoh.plugins.base.annotations.PluginImplementation;
-import org.xbup.lib.framework.gui.api.XBApplication;
-import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
+import org.xbup.lib.framework.api.XBApplication;
+import org.xbup.lib.framework.api.XBApplicationModulePlugin;
 
 /**
  * Implementation of XBUP framework menu module.

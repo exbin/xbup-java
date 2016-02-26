@@ -1,8 +1,8 @@
 rootProject.name = 'org-xbup-framework-gui-file-api'
 
 include ":modules:xbup-core"
-include ":modules:org-xbup-framework-gui"
-include ":modules:org-xbup-framework-gui-api"
+include ":modules:org-xbup-framework"
+include ":modules:org-xbup-framework-api"
 include ":modules:org-xbup-framework-gui-menu-api"
 
 def modifyPath(project) {

@@ -22,8 +22,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
-import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
-import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
+import org.xbup.lib.framework.api.XBApplicationModulePlugin;
+import org.xbup.lib.framework.api.XBModuleRepositoryUtils;
 
 /**
  * Interface for XBUP framework menu module.

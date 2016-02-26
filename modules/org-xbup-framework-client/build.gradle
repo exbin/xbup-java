@@ -32,8 +32,8 @@ dependencies {
     compile(project(':modules:xbup-client'))
     compile(project(':modules:xbup-plugin'))
     compile(project(':modules:org-xbup-framework-client-api'))
-    compile(project(':modules:org-xbup-framework-gui'))
-    compile(project(':modules:org-xbup-framework-gui-api'))
+    compile(project(':modules:org-xbup-framework'))
+    compile(project(':modules:org-xbup-framework-api'))
     compile(project(':modules:org-xbup-framework-gui-utils'))
     runtime 'org.apache.derby:derby:10.12.1.1'
 

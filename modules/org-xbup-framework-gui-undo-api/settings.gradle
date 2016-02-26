@@ -2,7 +2,7 @@ rootProject.name = 'org-xbup-framework-gui-undo-api'
 
 include ":modules:xbup-core"
 include ":modules:xbup-operation"
-include ":modules:org-xbup-framework-gui"
+include ":modules:org-xbup-framework"
 include ":modules:org-xbup-framework-gui-menu-api"
 
 def modifyPath(project) {

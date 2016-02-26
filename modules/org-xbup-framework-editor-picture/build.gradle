@@ -29,7 +29,7 @@ check.dependsOn.remove(test)
 dependencies {
     compile(project(':modules:xbup-core'))
     compile(project(':modules:xbup-visual'))
-    compile(project(':modules:org-xbup-framework-gui-api'))
+    compile(project(':modules:org-xbup-framework-api'))
     compile(project(':modules:org-xbup-framework-gui-frame-api'))
     compile(project(':modules:org-xbup-framework-gui-editor-api'))
     compile(project(':modules:org-xbup-framework-gui-file-api'))

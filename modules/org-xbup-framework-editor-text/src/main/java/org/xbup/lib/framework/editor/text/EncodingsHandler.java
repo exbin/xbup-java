@@ -34,7 +34,7 @@ import org.xbup.lib.framework.editor.text.panel.TextEncodingPanel;
 import org.xbup.lib.framework.editor.text.panel.TextEncodingPanelApi;
 import org.xbup.lib.framework.editor.text.panel.TextPanel;
 import org.xbup.lib.framework.editor.text.panel.TextStatusPanel;
-import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.api.XBApplication;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;

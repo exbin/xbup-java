@@ -24,7 +24,7 @@ import javax.swing.Action;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
-import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.api.XBApplication;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.menu.api.MenuGroup;

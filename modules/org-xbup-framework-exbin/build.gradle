@@ -35,7 +35,7 @@ dependencies {
     compile(project(":modules:xbup-parser-tree"))
     compile(project(":modules:xbup-parser-command"))
     compile(project(":modules:xbup-client"))
-    compile(project(":modules:org-xbup-framework-gui-api"))
+    compile(project(":modules:org-xbup-framework-api"))
     compile(project(":modules:org-xbup-framework-gui-frame-api"))
     compile(project(":modules:org-xbup-framework-gui-editor-api"))
     compile(project(":modules:org-xbup-framework-gui-utils"))

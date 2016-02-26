@@ -33,7 +33,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * @version 0.1.25 2015/03/18
  * @author XBUP Project (http://xbup.org)
  */
-class XBPStubUtils {
+public class XBPStubUtils {
 
     /**
      * Performs single RPC method passing single long attribute and receiving

@@ -17,8 +17,8 @@
 package org.xbup.lib.framework.gui.about.api;
 
 import javax.swing.Action;
-import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
-import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
+import org.xbup.lib.framework.api.XBApplicationModulePlugin;
+import org.xbup.lib.framework.api.XBModuleRepositoryUtils;
 
 /**
  * Interface of the XBUP framework about module.

@@ -35,8 +35,8 @@ import javax.swing.JEditorPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
-import org.xbup.lib.framework.gui.api.XBModuleRepository;
-import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.api.XBModuleRepository;
+import org.xbup.lib.framework.api.XBApplication;
 import org.xbup.lib.framework.gui.utils.panel.WindowHeaderPanel;
 
 /**

@@ -27,7 +27,7 @@ repositories {
 check.dependsOn.remove(test)
 
 dependencies {
-    compile(project(':modules:org-xbup-framework-gui'))
+    compile(project(':modules:org-xbup-framework'))
     compile(project(':modules:org-xbup-framework-gui-editor-api'))
     compile(project(':modules:org-xbup-framework-gui-undo-api'))
     compile(project(':modules:org-xbup-framework-gui-menu-api'))

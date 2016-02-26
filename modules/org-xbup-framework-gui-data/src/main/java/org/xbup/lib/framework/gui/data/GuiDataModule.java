@@ -17,7 +17,7 @@
 package org.xbup.lib.framework.gui.data;
 
 import net.xeoh.plugins.base.annotations.PluginImplementation;
-import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.api.XBApplication;
 import org.xbup.lib.framework.gui.data.api.GuiDataModuleApi;
 
 /**

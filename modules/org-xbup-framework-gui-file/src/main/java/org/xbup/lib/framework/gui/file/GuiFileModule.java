@@ -18,7 +18,7 @@ package org.xbup.lib.framework.gui.file;
 
 import javax.swing.JMenu;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
-import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.api.XBApplication;
 import org.xbup.lib.framework.gui.file.api.FileType;
 import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
 import org.xbup.lib.framework.gui.frame.api.ApplicationExitListener;

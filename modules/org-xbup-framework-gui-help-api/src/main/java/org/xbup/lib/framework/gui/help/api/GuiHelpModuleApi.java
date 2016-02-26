@@ -18,8 +18,8 @@ package org.xbup.lib.framework.gui.help.api;
 
 import java.net.URL;
 import javax.swing.Action;
-import org.xbup.lib.framework.gui.api.XBApplicationModulePlugin;
-import org.xbup.lib.framework.gui.api.XBModuleRepositoryUtils;
+import org.xbup.lib.framework.api.XBApplicationModulePlugin;
+import org.xbup.lib.framework.api.XBModuleRepositoryUtils;
 
 /**
  * Interface for XBUP framework help module.

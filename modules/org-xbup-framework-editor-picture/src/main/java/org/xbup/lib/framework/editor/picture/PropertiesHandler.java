@@ -22,7 +22,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import org.xbup.lib.framework.editor.picture.dialog.PropertiesDialog;
 import org.xbup.lib.framework.editor.picture.panel.ImagePanel;
-import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.api.XBApplication;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;

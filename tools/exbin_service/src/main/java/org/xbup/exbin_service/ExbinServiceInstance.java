@@ -65,7 +65,7 @@ import org.xbup.lib.service.XBCatalogNetServiceServer;
  */
 public class ExbinServiceInstance {
 
-    private ResourceBundle resourceBundle = ResourceBundle.getBundle("org/xbup/service/XBService");
+    private ResourceBundle resourceBundle = ResourceBundle.getBundle("org/xbup/exbin_service/ExbinService");
     private boolean shallUpdate;
     private boolean verboseMode;
     private boolean rootCatalogMode;

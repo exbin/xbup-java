@@ -5,8 +5,8 @@ include ":modules:xbup-catalog"
 include ":modules:xbup-client"
 include ":modules:xbup-plugin"
 include ":modules:org-xbup-framework-client-api"
-include ":modules:org-xbup-framework-gui"
-include ":modules:org-xbup-framework-gui-api"
+include ":modules:org-xbup-framework"
+include ":modules:org-xbup-framework-api"
 include ":modules:org-xbup-framework-gui-utils"
 
 def modifyPath(project) {

@@ -33,8 +33,8 @@ import javax.swing.JLabel;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.table.DefaultTableModel;
-import org.xbup.lib.framework.gui.api.XBApplicationModule;
-import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.api.XBApplicationModule;
+import org.xbup.lib.framework.api.XBApplication;
 import org.xbup.lib.framework.gui.utils.BareBonesBrowserLaunch;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 

@@ -27,7 +27,7 @@ repositories {
 check.dependsOn.remove(test)
 
 dependencies {
-    compile(project(':modules:org-xbup-framework-gui'))
+    compile(project(':modules:org-xbup-framework'))
     compile(project(':modules:org-xbup-framework-gui-file-api'))
     compile(project(':modules:org-xbup-framework-gui-utils'))
     testCompile group : 'junit', name: 'junit', version: '4.10'

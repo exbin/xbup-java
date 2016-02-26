@@ -4,7 +4,7 @@ sourceCompatibility = '1.7'
 version = '0.2.0-SNAPSHOT'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 if (!hasProperty('mainClass')) {
-    ext.mainClass = 'org.xbup.service.XBService'
+    ext.mainClass = 'org.xbup.exbin_service.ExbinService'
     ext.appArgs = '-dev'
 }
 
@@ -48,6 +48,8 @@ dependencies {
     compile(project(":modules:xbup-core"))
     compile(project(":modules:xbup-client"))
     compile(project(":modules:xbup-service"))
+    compile(project(":modules:org-xbup-framework-api"))
+    compile(project(":modules:org-xbup-framework-service-data"))
     compile ':jspf.core:1.0.2'
     compile 'commons-cli:commons-cli:1.2'
     compile 'org.eclipse.persistence:eclipselink:2.5.1'

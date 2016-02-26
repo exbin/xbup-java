@@ -24,7 +24,7 @@ import javax.swing.Action;
 import org.xbup.lib.framework.editor.picture.dialog.ToolColorDialog;
 import org.xbup.lib.framework.editor.picture.panel.ImagePanel;
 import org.xbup.lib.framework.editor.picture.panel.ToolColorPanelApi;
-import org.xbup.lib.framework.gui.api.XBApplication;
+import org.xbup.lib.framework.api.XBApplication;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.utils.ActionUtils;

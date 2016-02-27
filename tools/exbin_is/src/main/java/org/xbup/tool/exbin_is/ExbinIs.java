@@ -22,7 +22,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-import javax.swing.JPanel;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
@@ -43,6 +42,8 @@ import org.xbup.lib.framework.gui.frame.api.ApplicationFrameHandler;
 import org.xbup.lib.framework.gui.help.api.GuiHelpModuleApi;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.framework.exbin.ExbinModule;
+import org.xbup.lib.framework.exbin.panel.ExbinMainPanel;
+import org.xbup.lib.framework.gui.data.api.GuiDataModuleApi;
 
 /**
  * The main class of the ExbinIs application.
@@ -106,6 +107,7 @@ public class ExbinIs {
                 GuiAboutModuleApi aboutModule = moduleRepository.getModuleByInterface(GuiAboutModuleApi.class);
                 GuiHelpModuleApi helpModule = moduleRepository.getModuleByInterface(GuiHelpModuleApi.class);
                 GuiUndoModuleApi undoModule = moduleRepository.getModuleByInterface(GuiUndoModuleApi.class);
+                GuiDataModuleApi dataModule = moduleRepository.getModuleByInterface(GuiDataModuleApi.class);
                 GuiOptionsModuleApi optionsModule = moduleRepository.getModuleByInterface(GuiOptionsModuleApi.class);
                 ExbinModule exbinModule = moduleRepository.getModuleByInterface(ExbinModule.class);
                 EditorXbupModule xbupEditorModule = moduleRepository.getModuleByInterface(EditorXbupModule.class);
@@ -143,7 +145,8 @@ public class ExbinIs {
                 // xbupEditorModule.registerOptionsPanels();
 
                 exbinModule.setPreferences(preferences);
-                JPanel mainPanel = exbinModule.exbinMainPanel();
+                ExbinMainPanel mainPanel = exbinModule.getExbinMainPanel();
+                mainPanel.setPanel(dataModule.getTableEditPanel());
                 frameHandler.setMainPanel(mainPanel);
                 frameHandler.setDefaultSize(new Dimension(600, 400));
                 frameHandler.show();

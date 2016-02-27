@@ -16,14 +16,16 @@
  */
 package org.xbup.lib.framework.gui.data;
 
+import javax.swing.JPanel;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.api.XBApplication;
 import org.xbup.lib.framework.gui.data.api.GuiDataModuleApi;
+import org.xbup.lib.framework.gui.data.panel.TableEditPanel;
 
 /**
  * Implementation of XBUP framework datamodule.
  *
- * @version 0.2.0 2016/02/17
+ * @version 0.2.0 2016/02/27
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
@@ -41,5 +43,10 @@ public class GuiDataModule implements GuiDataModuleApi {
 
     @Override
     public void unregisterPlugin(String pluginId) {
+    }
+    
+    @Override
+    public JPanel getTableEditPanel() {
+        return new TableEditPanel();
     }
 }

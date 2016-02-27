@@ -20,58 +20,65 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.core.remote.XBServiceClient;
+import org.xbup.lib.framework.gui.data.TableDataSource;
+import org.xbup.lib.framework.gui.data.stub.DataStub;
 
 /**
  * Table model.
  *
- * @version 0.2.0 2016/02/19
+ * @version 0.2.0 2016/02/27
  * @author XBUP Project (http://xbup.org)
  */
 public class TableModelSource implements TableModel {
 
     private final List<TableModelListener> listeners = new ArrayList<>();
+    private final TableDataSource dataSource;
     private final String tableSourceId;
     private final XBServiceClient service;
 
     public TableModelSource(String tableSourceId, XBServiceClient service) {
         this.service = service;
         this.tableSourceId = tableSourceId;
+
+        DataStub dataStub = new DataStub((XBCatalogServiceClient) service);
+        dataSource = dataStub.getTableDataSource(tableSourceId);
     }
 
     @Override
     public int getRowCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return dataSource.getRowCount();
     }
 
     @Override
     public int getColumnCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return dataSource.getColumns().size();
     }
 
     @Override
     public String getColumnName(int columnIndex) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return dataSource.getColumns().get(columnIndex).getName();
     }
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return dataSource.getColumns().get(columnIndex).getValueClass();
     }
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return false;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return dataSource.getValueAt(rowIndex, columnIndex);
     }
 
     @Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setValueAt(Object value, int rowIndex, int columnIndex) {
+        dataSource.setValueAt(value, rowIndex, columnIndex);
     }
 
     @Override

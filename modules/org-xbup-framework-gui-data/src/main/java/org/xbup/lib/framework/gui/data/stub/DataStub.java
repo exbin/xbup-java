@@ -16,32 +16,85 @@
  */
 package org.xbup.lib.framework.gui.data.stub;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.client.catalog.remote.XBRXItemInfo;
-import org.xbup.lib.core.catalog.base.XBCNode;
+import org.xbup.lib.framework.gui.data.TableDataRow;
+import org.xbup.lib.framework.gui.data.TableDataSource;
+import org.xbup.lib.framework.gui.data.TableDataSource.ColumnDefinition;
 
 /**
  * RPC Stub for data operations.
  *
- * @version 0.2.0 2016/02/26
+ * @version 0.2.0 2016/02/27
  * @author XBUP Project (http://xbup.org)
  */
 public class DataStub {
 
     // public static long[] NODE_INFO_PROCEDURE = {0, 2, 11, 0, 0};
-
     private final XBCatalogServiceClient client;
 
     public DataStub(XBCatalogServiceClient client) {
         this.client = client;
     }
 
-    public XBRXItemInfo getNodeInfo(XBCNode node) {
-//        Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(NODE_INFO_PROCEDURE), node.getId());
-//        return index == null ? null : new XBRXItemInfo(client, index);
-        return null;
+    public TableDataSource getTableDataSource(String tableSourceId) {
+        return new RemoteTableDataSource(this, tableSourceId);
     }
-    
-    // getSchema()
-    // getItems()
+
+    public List<ColumnDefinition> getColumDefinition(String tableSourceId) {
+        List<TableDataSource.ColumnDefinition> columns = new ArrayList<>();
+        TableDataSource.ColumnDefinition testColumn = new TableDataSource.ColumnDefinition() {
+            @Override
+            public String getName() {
+                return "Test";
+            }
+
+            @Override
+            public Class<?> getValueClass() {
+                return String.class;
+            }
+        };
+        columns.add(testColumn);
+        TableDataSource.ColumnDefinition testColumn2 = new TableDataSource.ColumnDefinition() {
+            @Override
+            public String getName() {
+                return "Test2";
+            }
+
+            @Override
+            public Class<?> getValueClass() {
+                return String.class;
+            }
+        };
+        columns.add(testColumn2);
+
+        return columns;
+    }
+
+    public int getTableRowCount(String tableSourceId) {
+        return 20;
+    }
+
+    public List<TableDataRow> getTableRows(String tableSourceId, int startRow, int rowCount) {
+        int rowsToLoad = rowCount;
+        if (startRow > 20) {
+            rowsToLoad = 0;
+        } else if (startRow + rowCount > 20) {
+            rowsToLoad = 20 - startRow;
+        }
+        List<TableDataRow> rows = new ArrayList<>();
+        for (int i = 0; i < rowsToLoad; i++) {
+            final int rowIndex = startRow + i;
+            TableDataRow data = new TableDataRow() {
+                @Override
+                public Object[] getRowData() {
+                    return new String[]{"Cell " + rowIndex + ", 0", "Cell " + rowIndex + ", 1"};
+                }
+            };
+            rows.add(data);
+        }
+
+        return rows;
+    }
 }

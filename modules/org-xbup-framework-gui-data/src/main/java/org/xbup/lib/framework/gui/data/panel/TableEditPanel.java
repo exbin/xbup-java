@@ -26,14 +26,17 @@ import javax.swing.text.JTextComponent;
 /**
  * Table editor panel.
  *
- * @version 0.2.0 2016/02/19
+ * @version 0.2.0 2016/02/27
  * @author XBUP Project (http://xbup.org)
  */
 public class TableEditPanel extends javax.swing.JPanel {
+    
+    private final TableModelSource tableModel;
 
     public TableEditPanel() {
-        initComponents();
-        
+        tableModel = new TableModelSource("TEST", null);
+
+        initComponents();        
     }
 
     /**
@@ -72,31 +75,10 @@ public class TableEditPanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
+        scrollPane.setBorder(null);
         scrollPane.setName("scrollPane"); // NOI18N
 
-        table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Property", "Value"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        table.setModel(tableModel);
         table.setName("table"); // NOI18N
         scrollPane.setViewportView(table);
 

@@ -18,16 +18,16 @@ package org.xbup.lib.framework.service.data;
 
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.api.XBApplication;
-import org.xbup.lib.framework.gui.data.api.GuiDataModuleApi;
+import org.xbup.lib.framework.api.XBApplicationModulePlugin;
 
 /**
  * Implementation of XBUP framework service data module.
  *
- * @version 0.2.0 2016/02/25
+ * @version 0.2.0 2016/02/27
  * @author XBUP Project (http://xbup.org)
  */
 @PluginImplementation
-public class ServiceDataModule implements GuiDataModuleApi {
+public class ServiceDataModule implements XBApplicationModulePlugin {
 
     private XBApplication application;
 

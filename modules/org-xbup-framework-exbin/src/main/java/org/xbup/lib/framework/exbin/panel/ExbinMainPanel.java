@@ -20,6 +20,7 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JPanel;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -122,6 +123,11 @@ public class ExbinMainPanel extends javax.swing.JPanel {
 //
 //        // return false;
 //    }
+
+    public void setPanel(JPanel panel) {
+        activePageScrollPane.setViewportView(panel);
+    }
+
     public void setMenuManagement(MenuManagement menuManagement) {
         this.menuManagement = menuManagement;
 //        catalogBrowserPanel.setMenuManagement(menuManagement);
@@ -134,6 +140,7 @@ public class ExbinMainPanel extends javax.swing.JPanel {
 //        catalogEditorPanel.setMainFrameManagement(mainFramenManagement);
 //        catalogSearchPanel.setMainFrameManagement(mainFramenManagement);
 //    }
+
     public void setCatalog(XBACatalog catalog) {
 //        catalogAvailabilityPanel.setCatalog(catalog);
 //        catalogStatusPanel.setCatalog(catalog);

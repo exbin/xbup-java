@@ -97,10 +97,10 @@ public class ExbinModule implements XBApplicationModulePlugin {
         });
         loginDialog.setVisible(true);
         loginDialog.saveConnectionList(preferences);
-        exbinMainPanel().setService(loginDialog.getService());
+        getExbinMainPanel().setService(loginDialog.getService());
     }
 
-    public ExbinMainPanel exbinMainPanel() {
+    public ExbinMainPanel getExbinMainPanel() {
         if (mainPanel == null) {
             mainPanel = new ExbinMainPanel();
         }

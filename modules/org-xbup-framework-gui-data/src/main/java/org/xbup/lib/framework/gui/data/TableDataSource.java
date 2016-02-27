@@ -14,21 +14,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.xbup.lib.framework.gui.data.api;
+package org.xbup.lib.framework.gui.data;
 
-import javax.swing.JPanel;
-import org.xbup.lib.framework.api.XBApplicationModulePlugin;
-import org.xbup.lib.framework.api.XBModuleRepositoryUtils;
+import java.util.List;
 
 /**
- * Interface for XBUP framework data module.
+ * Table model data source.
  *
  * @version 0.2.0 2016/02/27
  * @author XBUP Project (http://xbup.org)
  */
-public interface GuiDataModuleApi extends XBApplicationModulePlugin {
+public interface TableDataSource {
 
-    public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiDataModuleApi.class);
+    public List<ColumnDefinition> getColumns();
+    
+    public int getRowCount();
+    
+    Object getValueAt(int rowIndex, int columnIndex);
 
-    JPanel getTableEditPanel();
+    void setValueAt(Object value, int rowIndex, int columnIndex);
+
+    public interface ColumnDefinition {
+
+        String getName();
+
+        Class<?> getValueClass();
+    }
 }

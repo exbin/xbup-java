@@ -551,46 +551,14 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
             if (processingState.processingParameter < processingState.parametersCount) {
                 XBBlockDef blockDef = processingState.blockDecl.getBlockDef();
                 XBBlockParam blockParam = blockDef.getBlockParam(processingState.processingParameter);
-                switch (blockParam.getParamType()) {
-                    case CONSIST: {
-                        parameterInfo.childCount++;
-                        break;
-                    }
-
-                    case JOIN: {
-                        ProcessingState joinState = new ProcessingState((XBCBlockDecl) blockParam.getBlockDecl());
-                        if (joinState.blockDecl.getBlockSpecRev() == null) {
-                            parameterInfo.attributeCount++;
-                        } else {
-                            long revision = joinState.blockDecl.getRevision();
-                            joinState.parametersCount = joinState.blockDecl.getBlockDef().getRevisionDef().getRevisionLimit(revision);
-                            processingStates.add(joinState);
+                if (blockParam != null) {
+                    switch (blockParam.getParamType()) {
+                        case CONSIST: {
+                            parameterInfo.childCount++;
+                            break;
                         }
 
-                        break;
-                    }
-
-                    case LIST_CONSIST: {
-                        XBAttribute attribute = source.getAttributeAt(position.attributeCount + parameterInfo.attributeCount);
-                        UBENatural listSizeNat;
-                        if (attribute instanceof UBENatural) {
-                            listSizeNat = (UBENatural) attribute;
-                        } else {
-                            listSizeNat = new UBENat32();
-                            listSizeNat.convertFromNatural(attribute.convertToNatural());
-                        }
-                        parameterInfo.attributeCount++;
-                        if (!listSizeNat.isInfinity()) {
-                            parameterInfo.childCount += listSizeNat.getInt();
-                        } else {
-                            throw new UnsupportedOperationException("Not supported yet.");
-                        }
-                    }
-
-                    case LIST_JOIN: {
-                        int listSize = source.getAttributeAt(position.attributeCount + parameterInfo.attributeCount).getNaturalInt();
-                        parameterInfo.attributeCount++;
-                        while (listSize > 0) {
+                        case JOIN: {
                             ProcessingState joinState = new ProcessingState((XBCBlockDecl) blockParam.getBlockDecl());
                             if (joinState.blockDecl.getBlockSpecRev() == null) {
                                 parameterInfo.attributeCount++;
@@ -600,7 +568,41 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
                                 processingStates.add(joinState);
                             }
 
-                            listSize--;
+                            break;
+                        }
+
+                        case LIST_CONSIST: {
+                            XBAttribute attribute = source.getAttributeAt(position.attributeCount + parameterInfo.attributeCount);
+                            UBENatural listSizeNat;
+                            if (attribute instanceof UBENatural) {
+                                listSizeNat = (UBENatural) attribute;
+                            } else {
+                                listSizeNat = new UBENat32();
+                                listSizeNat.convertFromNatural(attribute.convertToNatural());
+                            }
+                            parameterInfo.attributeCount++;
+                            if (!listSizeNat.isInfinity()) {
+                                parameterInfo.childCount += listSizeNat.getInt();
+                            } else {
+                                throw new UnsupportedOperationException("Not supported yet.");
+                            }
+                        }
+
+                        case LIST_JOIN: {
+                            int listSize = source.getAttributeAt(position.attributeCount + parameterInfo.attributeCount).getNaturalInt();
+                            parameterInfo.attributeCount++;
+                            while (listSize > 0) {
+                                ProcessingState joinState = new ProcessingState((XBCBlockDecl) blockParam.getBlockDecl());
+                                if (joinState.blockDecl.getBlockSpecRev() == null) {
+                                    parameterInfo.attributeCount++;
+                                } else {
+                                    long revision = joinState.blockDecl.getRevision();
+                                    joinState.parametersCount = joinState.blockDecl.getBlockDef().getRevisionDef().getRevisionLimit(revision);
+                                    processingStates.add(joinState);
+                                }
+
+                                listSize--;
+                            }
                         }
                     }
                 }

@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.operation.basic.command;
 
+import org.xbup.lib.core.block.XBTEditableDocument;
 import org.xbup.lib.operation.XBTOpDocCommand;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.operation.basic.XBBasicCommandType;
@@ -29,8 +30,9 @@ import org.xbup.lib.operation.basic.XBTDeleteBlockOperation;
  */
 public class XBTDeleteBlockCommand extends XBTOpDocCommand {
 
-    public XBTDeleteBlockCommand(XBTTreeNode node) {
-        setOperation(new XBTDeleteBlockOperation(node));
+    public XBTDeleteBlockCommand(XBTEditableDocument document, XBTTreeNode node) {
+        super(document);
+        setOperation(new XBTDeleteBlockOperation(document, node));
     }
 
     @Override

@@ -19,8 +19,7 @@ package org.xbup.lib.framework.editor.wave.panel.command;
 import java.util.Date;
 import org.xbup.lib.audio.swing.XBWavePanel;
 import org.xbup.lib.core.type.XBData;
-import org.xbup.lib.operation.XBTDocCommand;
-import org.xbup.lib.operation.basic.XBBasicCommandType;
+import org.xbup.lib.operation.AbstractCommand;
 
 /**
  * Wave reverse command.
@@ -28,7 +27,7 @@ import org.xbup.lib.operation.basic.XBBasicCommandType;
  * @version 0.2.0 2016/01/24
  * @author XBUP Project (http://xbup.org)
  */
-public class WaveReverseCommand extends XBTDocCommand {
+public class WaveReverseCommand extends AbstractCommand {
 
     private XBWavePanel wave;
     private int startPosition;
@@ -83,10 +82,5 @@ public class WaveReverseCommand extends XBTDocCommand {
     @Override
     public Date getExecutionTime() {
         return null;
-    }
-
-    @Override
-    public XBBasicCommandType getBasicType() {
-        return XBBasicCommandType.NODE_SWAPED;
     }
 }

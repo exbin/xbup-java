@@ -23,10 +23,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import org.xbup.lib.operation.XBTDocCommand;
 import org.xbup.lib.operation.XBTDocOperation;
 import org.xbup.lib.operation.XBTOpDocCommand;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.xbup.lib.operation.Command;
+import org.xbup.lib.operation.XBDocCommand;
 
 /**
  * Dialog for undo management.
@@ -301,7 +302,7 @@ public class UndoManagerDialog extends javax.swing.JDialog {
 
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
         int selectedIndex = undoList.getSelectedIndex();
-        XBTDocCommand command = null;
+        Command command = null;
         if (selectedIndex >= 0) {
             command = undoModel.getItem(selectedIndex);
         }
@@ -372,7 +373,7 @@ public class UndoManagerDialog extends javax.swing.JDialog {
     }
 
     private void updateDetail(int selectedIndex) {
-        XBTDocCommand command = null;
+        Command command = null;
         if (selectedIndex >= 0) {
             command = undoModel.getItem(selectedIndex);
         }
@@ -381,7 +382,7 @@ public class UndoManagerDialog extends javax.swing.JDialog {
         exportButton.setEnabled(command != null);
 
         commandCaptionTextField.setText(command != null ? command.getCaption() : "");
-        commandTypeTextField.setText(command != null ? command.getBasicType().name() : "");
+        commandTypeTextField.setText(command instanceof XBDocCommand ? ((XBDocCommand) command).getBasicType().name() : "");
         executionTimeTextField.setText(command != null && command.getExecutionTime() != null ? command.getExecutionTime().toString() : "");
 
         XBTDocOperation operation = null;

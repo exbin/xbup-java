@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import org.xbup.lib.core.block.XBTEditableDocument;
 import org.xbup.lib.core.type.XBData;
 import org.xbup.lib.operation.CompoundOperation;
 import org.xbup.lib.operation.Operation;
@@ -28,17 +29,19 @@ import org.xbup.lib.operation.XBTDocOperation;
 /**
  * Compound operation for block change.
  *
- * @version 0.1.25 2015/06/30
+ * @version 0.2.0 2016/02/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTCompoundBlockOperation extends XBTDocOperation implements CompoundOperation {
 
     private final List<Operation> operations = new ArrayList<>();
 
-    public XBTCompoundBlockOperation() {
+    public XBTCompoundBlockOperation(XBTEditableDocument document) {
+        super(document);
     }
 
-    public XBTCompoundBlockOperation(Collection<Operation> initialOperations) {
+    public XBTCompoundBlockOperation(XBTEditableDocument document, Collection<Operation> initialOperations) {
+        super(document);
         operations.addAll(initialOperations);
     }
 
@@ -61,7 +64,7 @@ public class XBTCompoundBlockOperation extends XBTDocOperation implements Compou
             undoOperations.add(0, operation.executeWithUndo());
         }
 
-        return new XBTCompoundBlockOperation(undoOperations);
+        return new XBTCompoundBlockOperation(document, undoOperations);
     }
 
     @Override
@@ -98,7 +101,7 @@ public class XBTCompoundBlockOperation extends XBTDocOperation implements Compou
             data.insert(position, operationData);
             position += operationData.getDataSize();
         }
-        
+
         return data;
     }
 }

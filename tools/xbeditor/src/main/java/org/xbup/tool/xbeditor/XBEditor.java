@@ -147,6 +147,7 @@ public class XBEditor {
 //                    }
 //                });
                 undoModule.setUndoHandler(linearUndo);
+                xbupEditorModule.setUndoHandler(linearUndo);
 
                 // Register clipboard editing actions
                 menuModule.registerMenuClipboardActions();

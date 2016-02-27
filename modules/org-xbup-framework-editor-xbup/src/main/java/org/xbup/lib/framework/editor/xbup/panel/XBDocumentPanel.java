@@ -54,48 +54,46 @@ import org.xbup.lib.framework.editor.text.dialog.FontDialog;
 import org.xbup.lib.framework.editor.text.panel.TextPanel;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.file.api.FileType;
-import org.xbup.lib.framework.gui.undo.api.ActivePanelUndoable;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 import org.xbup.lib.operation.XBTDocCommand;
 import org.xbup.lib.operation.basic.XBTExtAreaOperation;
 import org.xbup.lib.operation.basic.XBTModifyBlockOperation;
 import org.xbup.lib.operation.basic.command.XBTChangeBlockCommand;
 import org.xbup.lib.operation.basic.command.XBTModifyBlockCommand;
-import org.xbup.lib.operation.undo.UndoUpdateListener;
-import org.xbup.lib.operation.undo.XBTLinearUndo;
 import org.xbup.lib.parser_tree.XBTTreeDocument;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.plugin.XBPluginRepository;
 import org.xbup.lib.framework.editor.xbup.dialog.BlockPropertiesDialog;
 import org.xbup.lib.framework.editor.xbup.dialog.ModifyBlockDialog;
+import org.xbup.lib.framework.gui.menu.api.ClipboardActionsUpdateListener;
+import org.xbup.lib.framework.gui.menu.api.ComponentClipboardHandler;
+import org.xbup.lib.operation.undo.XBUndoHandler;
 
 /**
  * Panel with XBUP document visualization.
  *
- * @version 0.2.0 2016/02/01
+ * @version 0.2.0 2016/02/27
  * @author XBUP Project (http://xbup.org)
  */
-public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvider, ActivePanelUndoable {
+public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvider, ComponentClipboardHandler {
 
     private final XBTTreeDocument mainDoc;
     private FileType fileType;
     private XBACatalog catalog;
     private boolean splitMode = false;
 
-    private PanelMode mode;
+    private PanelMode mode = PanelMode.TREE;
 
-    private XBDocTreePanel treePanel;
+    private final XBDocTreePanel treePanel;
     private final XBDocHexPanel hexPanel;
     private final TextPanel textPanel;
 
     private XBPropertyPanel propertyPanel;
     private XBPluginRepository pluginRepository;
     private PropertyChangeListener propertyChangeListener;
-//    private final XBDocEditorFrame mainFrame;
+    private ClipboardActionsUpdateListener clipboardActionsUpdateListener;
 
-    public XBDocumentPanel(XBACatalog catalog) {
-//        this.mainFrame = mainFrame;
-        mode = PanelMode.TREE;
+    public XBDocumentPanel(XBACatalog catalog, XBUndoHandler undoHandler) {
         this.catalog = catalog;
         mainDoc = new XBTTreeDocument(catalog);
 
@@ -104,7 +102,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
         propertyPanel = new XBPropertyPanel(catalog);
         mainSplitPane.setRightComponent(propertyPanel);
 
-        treePanel = new XBDocTreePanel(mainDoc, catalog, popupMenu);
+        treePanel = new XBDocTreePanel(mainDoc, catalog, undoHandler, popupMenu);
         hexPanel = new XBDocHexPanel(mainDoc);
         textPanel = new TextPanel();
         textPanel.setNoBorder();
@@ -133,7 +131,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
             }
         });
 
-        addPropertyChangeListener(new PropertyChangeListener() {
+        super.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (propertyChangeListener != null) {
@@ -321,62 +319,69 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
         propertyPanel.setCatalog(catalog);
     }
 
+    @Override
     public void performCut() {
-        performCopy();
-        performDelete();
+        switch (mode) {
+            case TREE:
+                treePanel.performCut();
+                break;
+            case TEXT:
+                textPanel.performCut();
+                break;
+            case HEX:
+                hexPanel.performCut();
+            default:
+                break;
+        }
     }
 
+    @Override
     public void performCopy() {
-        if (mode == PanelMode.TREE) {
-            treePanel.performCopy();
-        } else if (mode == PanelMode.TEXT) {
-            textPanel.performCopy();
+        switch (mode) {
+            case TREE:
+                treePanel.performCopy();
+                break;
+            case TEXT:
+                textPanel.performCopy();
+                break;
+            case HEX:
+                hexPanel.performCopy();
+            default:
+                break;
         }
     }
 
+    @Override
     public void performPaste() {
-        if (mode == PanelMode.TREE) {
-            treePanel.performPaste();
-        } else if (mode == PanelMode.TEXT) {
-            textPanel.performPaste();
+        switch (mode) {
+            case TREE:
+                treePanel.performPaste();
+                break;
+            case TEXT:
+                textPanel.performPaste();
+                break;
+            case HEX:
+                hexPanel.performPaste();
+                break;
+            default:
+                break;
         }
     }
 
+    @Override
     public void performSelectAll() {
-        if (mode == PanelMode.TREE) {
-            treePanel.performSelectAll();
-        } else if (mode == PanelMode.TEXT) {
-            textPanel.performSelectAll();
-        } else if (mode == PanelMode.HEX) {
-            hexPanel.performSelectAll();
-        }
-    }
-
-    @Override
-    public void performUndo() {
-        try {
-            if (mode == PanelMode.TREE) {
-                treePanel.performUndo();
-                updateItem();
-            } else if (mode == PanelMode.TEXT) {
-                getTreeUndo().performUndo();
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @Override
-    public void performRedo() {
-        try {
-            if (mode == PanelMode.TREE) {
-                treePanel.performRedo();
-                updateItem();
-            } else if (mode == PanelMode.TEXT) {
-                getTreeUndo().performRedo();
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
+        switch (mode) {
+            case TREE:
+                treePanel.performSelectAll();
+                break;
+            case TEXT:
+                textPanel.performSelectAll();
+                break;
+            case HEX:
+                hexPanel.performSelectAll();
+                break;
+            default:
+                break;
         }
     }
 
@@ -384,8 +389,21 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
         treePanel.performAdd();
     }
 
+    @Override
     public void performDelete() {
-        treePanel.performDelete();
+        switch (mode) {
+            case TREE:
+                treePanel.performDelete();
+                break;
+            case TEXT:
+                textPanel.performDelete();
+                break;
+            case HEX:
+                hexPanel.performDelete();
+                break;
+            default:
+                break;
+        }
     }
 
     public void setMode(PanelMode mode) {
@@ -448,6 +466,9 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
 //            mainFrame.getItemModifyAction().setEnabled(false);
             showPanel();
             updateActionStatus(null);
+            if (clipboardActionsUpdateListener != null) {
+                clipboardActionsUpdateListener.stateChanged();
+            }
         }
     }
 
@@ -529,8 +550,8 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
         firePropertyChange("redoAvailable", false, true);
     }
 
-    public XBTLinearUndo getTreeUndo() {
-        return treePanel.getTreeUndo();
+    public XBUndoHandler getUndoHandler() {
+        return treePanel.getUndoHandler();
     }
 
     @Override
@@ -540,7 +561,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
             getDoc().processSpec();
             reportStructureChange((XBTTreeNode) getDoc().getRootBlock());
             performSelectAll();
-            getTreeUndo().clear();
+            getUndoHandler().clear();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -601,7 +622,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
     public void saveToFile() {
         try {
             getDoc().toFileUB();
-            getTreeUndo().setSyncPoint();
+            getUndoHandler().setSyncPoint();
             getDoc().setModified(false);
         } catch (IOException ex) {
             Logger.getLogger(XBDocumentPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -610,7 +631,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
 
     @Override
     public void newFile() {
-        getTreeUndo().clear();
+        getUndoHandler().clear();
         getDoc().clear();
         reportStructureChange(null);
         updateItem();
@@ -659,18 +680,16 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
             XBTTreeNode newNode = dialog.runDialog(node, mainDoc);
             if (dialog.getDialogOption() == JOptionPane.OK_OPTION) {
                 if (node.getParent() == null) {
-                    undoStep = new XBTChangeBlockCommand();
+                    undoStep = new XBTChangeBlockCommand(mainDoc);
                     long position = node.getBlockIndex();
-                    XBTModifyBlockOperation modifyOperation = new XBTModifyBlockOperation(position, newNode);
-                    modifyOperation.setDocument(mainDoc);
+                    XBTModifyBlockOperation modifyOperation = new XBTModifyBlockOperation(mainDoc, position, newNode);
                     ((XBTChangeBlockCommand) undoStep).appendOperation(modifyOperation);
                     XBData extendedArea = new XBData();
                     dialog.saveExtendedArea(extendedArea.getDataOutputStream());
-                    XBTExtAreaOperation extOperation = new XBTExtAreaOperation(extendedArea);
-                    extOperation.setDocument(mainDoc);
+                    XBTExtAreaOperation extOperation = new XBTExtAreaOperation(mainDoc, extendedArea);
                     ((XBTChangeBlockCommand) undoStep).appendOperation(extOperation);
                 } else {
-                    undoStep = new XBTModifyBlockCommand(node, newNode);
+                    undoStep = new XBTModifyBlockCommand(mainDoc, node, newNode);
                 }
                 // TODO: Optimized diff command later
 //                if (node.getDataMode() == XBBlockDataMode.DATA_BLOCK) {
@@ -679,7 +698,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
 //                } else {
 //                    undoStep = new XBTModAttrBlockCommand(node, newNode);
 //                }
-                getTreeUndo().execute(undoStep);
+                getUndoHandler().execute(undoStep);
 
                 mainDoc.processSpec();
                 reportStructureChange(node);
@@ -779,22 +798,6 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
         this.propertyChangeListener = propertyChangeListener;
     }
 
-    @Override
-    public Boolean canUndo() {
-        if (getTreeUndo() == null) {
-            return false;
-        }
-        return getTreeUndo().canUndo();
-    }
-
-    @Override
-    public Boolean canRedo() {
-        if (getTreeUndo() == null) {
-            return false;
-        }
-        return getTreeUndo().canRedo();
-    }
-
     public boolean updateActionStatus(Component component) {
         switch (mode) {
             case TREE:
@@ -853,16 +856,72 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
     }
 
     @Override
-    public void setUndoUpdateListener(UndoUpdateListener undoUpdateListener) {
+    public boolean isSelection() {
+        switch (mode) {
+            case TREE:
+                return treePanel.isSelection();
+            case TEXT:
+                return textPanel.isSelection();
+            case HEX:
+                // TODO
+                return true;
+            default:
+                return false;
+        }
     }
 
-//    @Override
-//    public Object getUndoHandle() {
-//        ActivePanelActionHandling activePanel = getActivePanel();
-//        return (XBTLinearUndo) (activePanel != null ? activePanel.getUndoHandle() : null);
-//    }
-    public enum PanelMode {
+    @Override
+    public boolean isEditable() {
+        switch (mode) {
+            case TREE:
+                return treePanel.isEditEnabled();
+            case TEXT:
+                return true;
+            case HEX:
+                return hexPanel.isEditEnabled();
+            default:
+                return false;
+        }
+    }
 
+    @Override
+    public boolean canSelectAll() {
+        switch (mode) {
+            case TREE:
+                // TODO Multiple selection in tree
+                return true;
+            case TEXT:
+                return true;
+            case HEX:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    @Override
+    public boolean canPaste() {
+        switch (mode) {
+            case TREE:
+                return treePanel.isPasteEnabled();
+            case TEXT:
+                // TODO Allow to paste text only
+                return true;
+            case HEX:
+                return hexPanel.isPasteEnabled();
+            default:
+                return false;
+        }
+    }
+
+    @Override
+    public void setUpdateListener(ClipboardActionsUpdateListener updateListener) {
+        clipboardActionsUpdateListener = updateListener;
+        treePanel.setUpdateListener(updateListener);
+        textPanel.setUpdateListener(updateListener);
+    }
+
+    public enum PanelMode {
         TREE,
         TEXT,
         HEX

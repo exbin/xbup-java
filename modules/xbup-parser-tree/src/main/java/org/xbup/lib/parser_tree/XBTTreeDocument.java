@@ -48,7 +48,7 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
 
     public XBTTreeDocument(XBTTreeNode rootNode) {
         this();
-        setRootBlock(rootNode);
+        super.setRootBlock(rootNode);
     }
 
     public XBTTreeDocument(XBCatalog catalog) {
@@ -185,6 +185,7 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
         return newNodeInstance((XBTTreeNode) parent);
     }
 
+    @Override
     public long getDocumentSize() {
         long documentSize = getExtendedAreaSize();
         if (getRootBlock() != null) {

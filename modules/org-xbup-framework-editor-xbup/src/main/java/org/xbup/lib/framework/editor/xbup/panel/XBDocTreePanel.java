@@ -54,15 +54,16 @@ import org.xbup.lib.framework.gui.utils.WindowUtils;
 import org.xbup.lib.operation.XBTDocCommand;
 import org.xbup.lib.operation.basic.command.XBTAddBlockCommand;
 import org.xbup.lib.operation.basic.command.XBTDeleteBlockCommand;
-import org.xbup.lib.operation.undo.XBTLinearUndo;
 import org.xbup.lib.parser_tree.XBTTreeDocument;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.framework.editor.xbup.dialog.AddBlockDialog;
+import org.xbup.lib.framework.gui.menu.api.ClipboardActionsUpdateListener;
+import org.xbup.lib.operation.undo.XBUndoHandler;
 
 /**
  * Panel with document tree visualization.
  *
- * @version 0.2.0 2015/09/19
+ * @version 0.2.0 2016/02/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocTreePanel extends javax.swing.JPanel {
@@ -72,27 +73,27 @@ public class XBDocTreePanel extends javax.swing.JPanel {
     private XBDocTreeCellRenderer cellRenderer;
 
     private XBACatalog catalog;
-    private final XBTLinearUndo treeUndo;
+    private final XBUndoHandler undoHandler;
     private final List<ActionListener> updateEventList;
     private boolean editEnabled;
     private boolean addEnabled;
     private Clipboard clipboard;
     private static final DataFlavor xbFlavor = new DataFlavor(XBHead.MIME_XBUP, "XBUP Document");
+    private ClipboardActionsUpdateListener clipboardActionsUpdateListener;
 
     private Component lastFocusedComponent = null;
     private final Map<String, ActionListener> actionListenerMap = new HashMap<>();
-//    private final XBDocEditorFrame mainFrame;
 
     private AddBlockDialog addItemDialog = null;
 
-    public XBDocTreePanel(XBTTreeDocument mainDoc, XBACatalog catalog, JPopupMenu popupMenu) {
-//        this.mainFrame = mainFrame;
+    public XBDocTreePanel(XBTTreeDocument mainDoc, XBACatalog catalog, XBUndoHandler undoHandler, JPopupMenu popupMenu) {
+        super();
         this.mainDoc = mainDoc;
-        clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         this.catalog = catalog;
+        this.undoHandler = undoHandler;
+        clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         mainDocModel = new XBDocTreeModel(mainDoc);
         updateEventList = new ArrayList<>();
-        treeUndo = new XBTLinearUndo(mainDoc);
 
         initComponents();
 
@@ -163,6 +164,10 @@ public class XBDocTreePanel extends javax.swing.JPanel {
         }
         for (Iterator it = updateEventList.iterator(); it.hasNext();) {
             ((ActionListener) it.next()).actionPerformed(null);
+        }
+        
+        if (clipboardActionsUpdateListener != null) {
+            clipboardActionsUpdateListener.stateChanged();
         }
 
 //        updateActionStatus(lastFocusedComponent);
@@ -300,8 +305,8 @@ public class XBDocTreePanel extends javax.swing.JPanel {
                     try {
                         long parentPosition = node == null ? -1 : node.getBlockIndex();
                         int childIndex = node == null ? 0 : node.getChildCount();
-                        XBTDocCommand step = new XBTAddBlockCommand(parentPosition, childIndex, newNode);
-                        getTreeUndo().execute(step);
+                        XBTDocCommand step = new XBTAddBlockCommand(mainDoc, parentPosition, childIndex, newNode);
+                        getUndoHandler().execute(step);
                         reportStructureChange(node);
                         updateItemStatus();
                     } catch (Exception ex) {
@@ -322,7 +327,7 @@ public class XBDocTreePanel extends javax.swing.JPanel {
 
     public void performUndo() {
         try {
-            getTreeUndo().performUndo();
+            getUndoHandler().performUndo();
             reportStructureChange(null);
             updateItemStatus();
         } catch (Exception ex) {
@@ -332,7 +337,7 @@ public class XBDocTreePanel extends javax.swing.JPanel {
 
     public void performRedo() {
         try {
-            getTreeUndo().performRedo();
+            getUndoHandler().performRedo();
             reportStructureChange(null);
             updateItemStatus();
         } catch (Exception ex) {
@@ -350,8 +355,8 @@ public class XBDocTreePanel extends javax.swing.JPanel {
             try {
                 long parentPosition = node == null ? -1 : node.getBlockIndex();
                 int childIndex = node == null ? 0 : node.getChildCount();
-                XBTDocCommand step = new XBTAddBlockCommand(parentPosition, childIndex, newNode);
-                getTreeUndo().execute(step);
+                XBTDocCommand step = new XBTAddBlockCommand(mainDoc, parentPosition, childIndex, newNode);
+                getUndoHandler().execute(step);
             } catch (Exception ex) {
                 Logger.getLogger(XBDocTreePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -370,8 +375,8 @@ public class XBDocTreePanel extends javax.swing.JPanel {
     public void deleteNode(XBTTreeNode node) {
         XBTTreeNode parent = (XBTTreeNode) node.getParent();
         try {
-            XBTDocCommand step = new XBTDeleteBlockCommand(node);
-            getTreeUndo().execute(step);
+            XBTDocCommand command = new XBTDeleteBlockCommand(mainDoc, node);
+            undoHandler.execute(command);
         } catch (Exception ex) {
             Logger.getLogger(XBDocTreePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -413,15 +418,20 @@ public class XBDocTreePanel extends javax.swing.JPanel {
         firePropertyChange("redoAvailable", false, true);
     }
 
-    public XBTLinearUndo getTreeUndo() {
-        return treeUndo;
+    public XBUndoHandler getUndoHandler() {
+        return undoHandler;
     }
 
-    /**
-     * @param popupMenu the popupMenu to set
-     */
     public void setPopupMenu(JPopupMenu popupMenu) {
         mainTree.setComponentPopupMenu(popupMenu);
+    }
+
+    boolean isSelection() {
+        return getSelectedItem() != null;
+    }
+
+    public void setUpdateListener(ClipboardActionsUpdateListener updateListener) {
+        clipboardActionsUpdateListener = updateListener;
     }
 
 //    public boolean updateActionStatus(Component component) {
@@ -634,8 +644,8 @@ public class XBDocTreePanel extends javax.swing.JPanel {
                 try {
                     newNode.fromStreamUB(new ByteArrayInputStream(stream.toByteArray()));
                     try {
-                        XBTDocCommand step = new XBTAddBlockCommand(node.getBlockIndex(), node.getChildCount(), newNode);
-                        docTreePanel.getTreeUndo().execute(step);
+                        XBTDocCommand step = new XBTAddBlockCommand(docTreePanel.mainDoc, node.getBlockIndex(), node.getChildCount(), newNode);
+                        docTreePanel.getUndoHandler().execute(step);
                         docTreePanel.reportStructureChange(node);
                         docTreePanel.mainDoc.processSpec();
                         docTreePanel.updateItemStatus();

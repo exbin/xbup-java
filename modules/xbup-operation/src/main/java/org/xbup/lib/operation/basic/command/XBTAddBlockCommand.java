@@ -17,6 +17,7 @@
 package org.xbup.lib.operation.basic.command;
 
 import org.xbup.lib.core.block.XBTEditableBlock;
+import org.xbup.lib.core.block.XBTEditableDocument;
 import org.xbup.lib.operation.XBTOpDocCommand;
 import org.xbup.lib.operation.basic.XBBasicCommandType;
 import org.xbup.lib.operation.basic.XBTAddBlockOperation;
@@ -29,7 +30,8 @@ import org.xbup.lib.operation.basic.XBTAddBlockOperation;
  */
 public class XBTAddBlockCommand extends XBTOpDocCommand {
 
-    public XBTAddBlockCommand(long parentPosition, int childIndex, XBTEditableBlock newNode) {
+    public XBTAddBlockCommand(XBTEditableDocument document, long parentPosition, int childIndex, XBTEditableBlock newNode) {
+        super(document);
 //        long position;
 //        int childIndex = 0;
 //        if ( == null) {
@@ -38,7 +40,7 @@ public class XBTAddBlockCommand extends XBTOpDocCommand {
 //            position = parentNode.getBlockIndex();
 //            childIndex = parentNode.getChildrenCount();
 //        }
-        setOperation(new XBTAddBlockOperation(parentPosition, childIndex, newNode));
+        setOperation(new XBTAddBlockOperation(document, parentPosition, childIndex, newNode));
     }
 
     @Override

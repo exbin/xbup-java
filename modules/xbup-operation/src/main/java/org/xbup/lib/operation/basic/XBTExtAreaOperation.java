@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.xbup.lib.core.block.XBTEditableDocument;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBPSerialReader;
 import org.xbup.lib.core.serial.XBPSerialWriter;
@@ -34,13 +35,14 @@ import org.xbup.lib.operation.XBTDocOperation;
 /**
  * Operation for adding child block.
  *
- * @version 0.1.25 2015/07/01
+ * @version 0.2.0 2016/02/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTExtAreaOperation extends XBTDocOperation {
 
-    public XBTExtAreaOperation(XBData data) {
-        OutputStream dataOutputStream = getData().getDataOutputStream();
+    public XBTExtAreaOperation(XBTEditableDocument document, XBData data) {
+        super(document);
+        OutputStream dataOutputStream = data.getDataOutputStream();
         XBPSerialWriter writer = new XBPSerialWriter(dataOutputStream);
         Serializator serializator = new Serializator(data);
         writer.write(serializator);
@@ -66,8 +68,7 @@ public class XBTExtAreaOperation extends XBTDocOperation {
         if (withUndo) {
             XBData oldData = new XBData();
             oldData.loadFromStream(document.getExtendedArea());
-            undoOperation = new XBTExtAreaOperation(oldData);
-            undoOperation.setDocument(document);
+            undoOperation = new XBTExtAreaOperation(document, oldData);
         }
 
         XBData data = new XBData();

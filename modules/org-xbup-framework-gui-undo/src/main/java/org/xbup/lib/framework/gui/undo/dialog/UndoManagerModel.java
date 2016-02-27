@@ -17,7 +17,7 @@
 package org.xbup.lib.framework.gui.undo.dialog;
 
 import javax.swing.AbstractListModel;
-import org.xbup.lib.operation.XBTDocCommand;
+import org.xbup.lib.operation.Command;
 import org.xbup.lib.operation.undo.XBUndoHandler;
 
 /**
@@ -58,7 +58,7 @@ public class UndoManagerModel extends AbstractListModel<String> {
                 + (undoHandler.getSyncPoint() == index ? " (saved)" : "");
     }
 
-    public XBTDocCommand getItem(int index) {
+    public Command getItem(int index) {
         return undoHandler == null || index == 0 ? null : undoHandler.getCommandList().get(index - 1);
     }
 

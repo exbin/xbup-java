@@ -28,12 +28,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.parser_tree.XBTTreeDocument;
-import org.xbup.lib.parser_tree.XBTTreeNode;
 
 /**
  * Panel with document tree visualization.
  *
- * @version 0.1.21 2011/07/28
+ * @version 0.2.0 2016/02/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBDocHexPanel extends javax.swing.JPanel {
@@ -54,7 +53,7 @@ public class XBDocHexPanel extends javax.swing.JPanel {
 //        updateItem();
 
         hexPanel = new HexEditPanel(null);
-        add(hexPanel);
+        super.add(hexPanel);
     }
 
     /** Updating selected item available operations status, like add, edit, delete */
@@ -80,10 +79,6 @@ public class XBDocHexPanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
     }// </editor-fold>//GEN-END:initComponents
-
-    public XBTTreeNode getSelectedItem() {
-        return null; // TODO (XBEditTreeNode) mainTree.getLastSelectedPathComponent();
-    }
 
     public XBTTreeDocument getDoc() {
         return mainDoc;

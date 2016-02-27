@@ -18,9 +18,7 @@ package org.xbup.lib.framework.editor.wave.panel.command;
 
 import java.util.Date;
 import org.xbup.lib.audio.swing.XBWavePanel;
-import org.xbup.lib.audio.wave.XBWave;
-import org.xbup.lib.operation.XBTDocCommand;
-import org.xbup.lib.operation.basic.XBBasicCommandType;
+import org.xbup.lib.operation.AbstractCommand;
 
 /**
  * Wave delete command.
@@ -28,7 +26,7 @@ import org.xbup.lib.operation.basic.XBBasicCommandType;
  * @version 0.2.0 2016/01/24
  * @author XBUP Project (http://xbup.org)
  */
-public class WaveCutCommand extends XBTDocCommand {
+public class WaveCutCommand extends AbstractCommand {
 
     WaveCopyCommand copyCommand;
     WaveDeleteCommand deleteCommand;
@@ -71,10 +69,5 @@ public class WaveCutCommand extends XBTDocCommand {
     @Override
     public Date getExecutionTime() {
         return null;
-    }
-
-    @Override
-    public XBBasicCommandType getBasicType() {
-        return XBBasicCommandType.NODE_DELETED;
     }
 }

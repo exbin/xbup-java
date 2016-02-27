@@ -22,12 +22,16 @@ import org.xbup.lib.operation.basic.XBBasicCommandType;
 /**
  * Abstract class for operation using XBUP level 1 document.
  *
- * @version 0.1.25 2015/04/25
+ * @version 0.2.0 2016/02/27
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class XBTDocCommand extends AbstractCommand {
 
-    protected XBTEditableDocument document;
+    protected final XBTEditableDocument document;
+
+    public XBTDocCommand(XBTEditableDocument document) {
+        this.document = document;
+    }
 
     /**
      * Returns type of the command.
@@ -38,10 +42,6 @@ public abstract class XBTDocCommand extends AbstractCommand {
 
     public XBTEditableDocument getDocument() {
         return document;
-    }
-
-    public void setDocument(XBTEditableDocument document) {
-        this.document = document;
     }
 
     /**

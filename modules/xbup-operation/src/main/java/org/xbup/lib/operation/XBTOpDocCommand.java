@@ -21,7 +21,7 @@ import org.xbup.lib.core.block.XBTEditableDocument;
 /**
  * Abstract class for operation using XBUP level 1 document.
  *
- * @version 0.1.25 2015/04/26
+ * @version 0.2.0 2016/02/27
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class XBTOpDocCommand extends XBTDocCommand {
@@ -29,20 +29,16 @@ public abstract class XBTOpDocCommand extends XBTDocCommand {
     private XBTDocOperation operation;
     private boolean isUndoMode = false;
 
+    public XBTOpDocCommand(XBTEditableDocument document) {
+        super(document);
+    }
+
     public XBTDocOperation getOperation() {
         return operation;
     }
 
     public void setOperation(XBTDocOperation operation) {
         this.operation = operation;
-    }
-
-    @Override
-    public void setDocument(XBTEditableDocument document) {
-        super.setDocument(document);
-        if (operation != null) {
-            operation.setDocument(document);
-        }
     }
 
     /**

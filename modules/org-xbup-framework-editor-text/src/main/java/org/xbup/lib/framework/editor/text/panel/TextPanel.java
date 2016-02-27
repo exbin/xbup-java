@@ -71,6 +71,7 @@ import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.file.api.FileType;
 import org.xbup.lib.framework.editor.text.dialog.FindTextDialog;
 import org.xbup.lib.framework.editor.text.dialog.FontDialog;
+import org.xbup.lib.framework.gui.menu.api.ClipboardActionsUpdateListener;
 import org.xbup.lib.framework.gui.undo.api.ActivePanelUndoable;
 
 /**
@@ -94,6 +95,7 @@ public class TextPanel extends javax.swing.JPanel implements XBEditorProvider, A
     private PropertyChangeListener propertyChangeListener;
     private CharsetChangeListener charsetChangeListener = null;
     private TextStatusApi textStatus = null;
+    private ClipboardActionsUpdateListener clipboardActionsUpdateListener;
 
     public TextPanel() {
         initComponents();
@@ -281,6 +283,10 @@ public class TextPanel extends javax.swing.JPanel implements XBEditorProvider, A
 
     public void performSelectAll() {
         textArea.selectAll();
+    }
+
+    public boolean isSelection() {
+        return textArea.getSelectionStart() > textArea.getSelectionEnd();
     }
 
     public void printFile() {
@@ -630,6 +636,10 @@ public class TextPanel extends javax.swing.JPanel implements XBEditorProvider, A
                 textStatus.setEncoding(getCharset().name());
             }
         });
+    }
+
+    public void setUpdateListener(ClipboardActionsUpdateListener updateListener) {
+        clipboardActionsUpdateListener = updateListener;
     }
 
     public interface CharsetChangeListener {

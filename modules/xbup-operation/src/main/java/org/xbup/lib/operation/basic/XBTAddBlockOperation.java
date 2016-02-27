@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTDefaultBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
+import org.xbup.lib.core.block.XBTEditableDocument;
 import org.xbup.lib.core.parser.XBParserMode;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.event.XBEventReader;
@@ -51,8 +52,9 @@ import org.xbup.lib.parser_tree.XBTreeWriter;
  */
 public class XBTAddBlockOperation extends XBTDocOperation {
 
-    public XBTAddBlockOperation(Long parentPosition, int childIndex, XBTEditableBlock newNode) {
-        OutputStream dataOutputStream = getData().getDataOutputStream();
+    public XBTAddBlockOperation(XBTEditableDocument document, Long parentPosition, int childIndex, XBTEditableBlock newNode) {
+        super(document);
+        OutputStream dataOutputStream = data.getDataOutputStream();
         XBPSerialWriter writer = new XBPSerialWriter(dataOutputStream);
         Serializator serializator = new Serializator(parentPosition == null ? 0 : parentPosition + 1, childIndex, newNode);
         writer.write(serializator);
@@ -106,11 +108,10 @@ public class XBTAddBlockOperation extends XBTDocOperation {
             if (serial.parentPosition > 0) {
                 XBTEditableBlock parentNode = (XBTEditableBlock) document.findBlockByIndex(serial.parentPosition - 1);
                 XBTBlock node = parentNode.getChildAt(serial.childIndex);
-                undoOperation = new XBTDeleteBlockOperation(node);
+                undoOperation = new XBTDeleteBlockOperation(document, node);
             } else {
-                undoOperation = new XBTDeleteBlockOperation(document.getRootBlock());
+                undoOperation = new XBTDeleteBlockOperation(document, document.getRootBlock());
             }
-            undoOperation.setDocument(document);
             return undoOperation;
         }
 

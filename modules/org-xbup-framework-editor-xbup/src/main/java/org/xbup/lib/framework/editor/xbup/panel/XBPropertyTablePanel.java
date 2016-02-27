@@ -424,18 +424,6 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
         return pluginHandler.getLineEditor(plugLine.getLineIndex());
     }
 
-    public void actionEditUndo() {
-        activePanel.performUndo();
-        firePropertyChange("undoAvailable", false, true);
-        firePropertyChange("redoAvailable", false, true);
-    }
-
-    public void actionEditRedo() {
-        activePanel.performRedo();
-        firePropertyChange("undoAvailable", false, true);
-        firePropertyChange("redoAvailable", false, true);
-    }
-
     public void actionEditSelectAll() {
         activePanel.performSelectAll();
     }

@@ -6,7 +6,7 @@
 package org.xbup.lib.operation.undo;
 
 import java.util.List;
-import org.xbup.lib.operation.XBTDocCommand;
+import org.xbup.lib.operation.Command;
 
 /**
  * Undo support handler.
@@ -35,9 +35,9 @@ public interface XBUndoHandler {
      * @param command
      * @throws java.lang.Exception
      */
-    void execute(XBTDocCommand command) throws Exception;
+    void execute(Command command) throws Exception;
 
-    List<XBTDocCommand> getCommandList();
+    List<Command> getCommandList();
 
     long getCommandPosition();
 
@@ -90,8 +90,8 @@ public interface XBUndoHandler {
     void setSyncPoint(long syncPoint);
 
     void setSyncPoint();
-    
+
     void addUndoUpdateListener(UndoUpdateListener listener);
-    
+
     void removeUndoUpdateListener(UndoUpdateListener listener);
 }

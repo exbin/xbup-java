@@ -22,8 +22,7 @@ import java.util.Date;
 import org.xbup.lib.audio.swing.XBWavePanel;
 import org.xbup.lib.audio.wave.XBWave;
 import org.xbup.lib.core.type.XBData;
-import org.xbup.lib.operation.XBTDocCommand;
-import org.xbup.lib.operation.basic.XBBasicCommandType;
+import org.xbup.lib.operation.AbstractCommand;
 
 /**
  * Wave delete command.
@@ -31,11 +30,11 @@ import org.xbup.lib.operation.basic.XBBasicCommandType;
  * @version 0.2.0 2016/01/28
  * @author XBUP Project (http://xbup.org)
  */
-public class WavePasteCommand extends XBTDocCommand {
+public class WavePasteCommand extends AbstractCommand {
 
     private XBWave pastedWave;
-    private XBWavePanel wave;
-    private int startPosition;
+    private final XBWavePanel wave;
+    private final int startPosition;
     private int endPosition;
 
     XBData deletedData;
@@ -87,10 +86,5 @@ public class WavePasteCommand extends XBTDocCommand {
     @Override
     public Date getExecutionTime() {
         return null;
-    }
-
-    @Override
-    public XBBasicCommandType getBasicType() {
-        return XBBasicCommandType.NODE_DELETED;
     }
 }

@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.operation.basic.command;
 
+import org.xbup.lib.core.block.XBTEditableDocument;
 import org.xbup.lib.operation.Operation;
 import org.xbup.lib.operation.XBTOpDocCommand;
 import org.xbup.lib.operation.basic.XBBasicCommandType;
@@ -29,8 +30,9 @@ import org.xbup.lib.operation.basic.XBTCompoundBlockOperation;
  */
 public class XBTChangeBlockCommand extends XBTOpDocCommand {
 
-    public XBTChangeBlockCommand() {
-        setOperation(new XBTCompoundBlockOperation());
+    public XBTChangeBlockCommand(XBTEditableDocument document) {
+        super(document);
+        setOperation(new XBTCompoundBlockOperation(document));
     }
 
     @Override

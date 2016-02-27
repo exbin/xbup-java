@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
+import org.xbup.lib.core.block.XBTEditableDocument;
 import org.xbup.lib.core.parser.XBParserMode;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.event.XBEventReader;
@@ -45,13 +46,14 @@ import org.xbup.lib.parser_tree.XBTreeWriter;
 /**
  * Operation for adding child block.
  *
- * @version 0.1.25 2015/06/28
+ * @version 0.2.0 2016/02/27
  * @author XBUP Project (http://xbup.org)
  */
 public class XBTModifyBlockOperation extends XBTDocOperation {
 
-    public XBTModifyBlockOperation(long position, XBTEditableBlock newNode) {
-        OutputStream dataOutputStream = getData().getDataOutputStream();
+    public XBTModifyBlockOperation(XBTEditableDocument document, long position, XBTEditableBlock newNode) {
+        super(document);
+        OutputStream dataOutputStream = data.getDataOutputStream();
         XBPSerialWriter writer = new XBPSerialWriter(dataOutputStream);
         Serializator serializator = new Serializator(position, newNode);
         writer.write(serializator);
@@ -109,8 +111,7 @@ public class XBTModifyBlockOperation extends XBTDocOperation {
 
         if (withUndo) {
             XBTModifyBlockOperation undoOperation;
-            undoOperation = new XBTModifyBlockOperation(serial.position, node);
-            undoOperation.setDocument(document);
+            undoOperation = new XBTModifyBlockOperation(document, serial.position, node);
             return undoOperation;
         }
 

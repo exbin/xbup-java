@@ -18,7 +18,7 @@ package org.xbup.lib.operation.undo;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.xbup.lib.operation.XBTDocCommand;
+import org.xbup.lib.operation.Command;
 import org.xbup.lib.parser_tree.XBTTreeDocument;
 
 /**
@@ -34,7 +34,7 @@ public class XBTLinearUndo implements XBUndoHandler {
     private long usedSize;
     private long commandPosition;
     private long syncPointPosition = -1;
-    private final List<XBTDocCommand> commandList;
+    private final List<Command> commandList;
     private final XBTTreeDocument document;
     private final List<UndoUpdateListener> listeners = new ArrayList<>();
 
@@ -58,11 +58,7 @@ public class XBTLinearUndo implements XBUndoHandler {
      * @throws java.lang.Exception
      */
     @Override
-    public void execute(XBTDocCommand command) throws Exception {
-        if (document != null) {
-            command.setDocument(document);
-        }
-
+    public void execute(Command command) throws Exception {
         command.execute();
 
         if (document != null) {
@@ -76,7 +72,7 @@ public class XBTLinearUndo implements XBUndoHandler {
         }
         commandList.add(command);
         commandPosition++;
-        
+
         undoUpdated();
     }
 
@@ -93,10 +89,7 @@ public class XBTLinearUndo implements XBUndoHandler {
 
     private void performUndoInt() throws Exception {
         commandPosition--;
-        XBTDocCommand command = commandList.get((int) commandPosition);
-        if (document != null) {
-            command.setDocument(document);
-        }
+        Command command = commandList.get((int) commandPosition);
         command.undo();
         if (document != null) {
             document.processSpec();
@@ -115,10 +108,7 @@ public class XBTLinearUndo implements XBUndoHandler {
     }
 
     private void performRedoInt() throws Exception {
-        XBTDocCommand command = commandList.get((int) commandPosition);
-        if (document != null) {
-            command.setDocument(document);
-        }
+        Command command = commandList.get((int) commandPosition);
         command.redo();
         commandPosition++;
         if (document != null) {
@@ -233,7 +223,7 @@ public class XBTLinearUndo implements XBUndoHandler {
     }
 
     @Override
-    public List<XBTDocCommand> getCommandList() {
+    public List<Command> getCommandList() {
         return commandList;
     }
 

@@ -692,12 +692,12 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
 
     @Override
     public boolean isSelection() {
-        return wavePanel.hasSelection();
+        return wavePanel.hasSelection() && wavePanel.getWave() != null;
     }
 
     @Override
     public boolean isEditable() {
-        return true;
+        return wavePanel.getWave() != null;
     }
 
     @Override

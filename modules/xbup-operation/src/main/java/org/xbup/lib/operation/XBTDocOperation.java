@@ -23,15 +23,16 @@ import org.xbup.lib.operation.basic.XBBasicOperationType;
 /**
  * Abstract class for operation using XBUP level 1 document.
  *
- * @version 0.2.0 2015/09/19
+ * @version 0.2.0 2016/02/27
  * @author XBUP Project (http://xbup.org)
  */
 public abstract class XBTDocOperation implements Operation {
 
-    protected XBTEditableDocument document;
-    private XBData data;
+    protected final XBTEditableDocument document;
+    protected XBData data;
 
-    public XBTDocOperation() {
+    public XBTDocOperation(XBTEditableDocument document) {
+        this.document = document;
         data = new XBData();
     }
 
@@ -44,10 +45,6 @@ public abstract class XBTDocOperation implements Operation {
 
     public XBTEditableDocument getDocument() {
         return document;
-    }
-
-    public void setDocument(XBTEditableDocument document) {
-        this.document = document;
     }
 
     public XBData getData() {

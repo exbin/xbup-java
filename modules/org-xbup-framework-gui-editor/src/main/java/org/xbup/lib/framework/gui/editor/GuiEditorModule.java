@@ -33,8 +33,8 @@ import org.xbup.lib.framework.gui.menu.api.ComponentClipboardHandler;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.undo.api.ActivePanelUndoable;
 import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
+import org.xbup.lib.operation.Command;
 import org.xbup.lib.operation.undo.UndoUpdateListener;
-import org.xbup.lib.operation.XBTDocCommand;
 import org.xbup.lib.operation.undo.XBUndoHandler;
 
 /**
@@ -230,12 +230,12 @@ public class GuiEditorModule implements GuiEditorModuleApi {
             }
 
             @Override
-            public void execute(XBTDocCommand command) throws Exception {
+            public void execute(Command command) throws Exception {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
-            public List<XBTDocCommand> getCommandList() {
+            public List<Command> getCommandList() {
                 return new ArrayList<>();
             }
 

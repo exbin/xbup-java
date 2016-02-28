@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -22,7 +22,7 @@ import org.xbup.lib.core.ubnumber.UBNatural;
  * Interface for block type represented by group id and block id.
  *
  * @version 0.1.24 2014/08/26
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public interface XBFBlockType extends XBBlockType {
 

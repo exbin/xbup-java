@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -23,7 +23,7 @@ import org.xbup.lib.core.parser.token.XBAttribute;
  * Interface for editable XBUP level 0 block.
  *
  * @version 0.2.0 2015/09/19
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public interface XBEditableBlock extends XBBlock {
 

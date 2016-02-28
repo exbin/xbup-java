@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -79,7 +79,7 @@ import org.xbup.lib.core.serial.XBPSerialReader;
  * Basic level 1 catalog class using Java persistence.
  *
  * @version 0.1.25 2015/02/28
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public class XBECatalog implements XBCatalog {
 

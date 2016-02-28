@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -48,7 +48,7 @@ import org.xbup.lib.core.serial.param.XBSerializationMode;
  * XBUP level 1 local format declaration.
  *
  * @version 0.2.0 2015/09/21
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public class XBLFormatDecl implements XBFormatDecl, XBPSequenceSerializable, XBTBasicReceivingSerializable {
 

@@ -8,5 +8,5 @@ This is experimental library for XBUP support written in Java. It covers followi
  * Access to catalog / framework
  * Basic data types
 
-Homepage: http://xbup.org
+Homepage: http://xbup.exbin.org
 License: GNU/LGPL (see lgpl-3.0.txt)

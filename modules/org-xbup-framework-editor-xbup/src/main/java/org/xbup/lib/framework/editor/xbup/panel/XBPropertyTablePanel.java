@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -56,7 +56,7 @@ import org.xbup.lib.framework.editor.xbup.dialog.BlockPropertiesDialog;
  * Panel for properties of the actual panel.
  *
  * @version 0.1.24 2015/01/26
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public class XBPropertyTablePanel extends javax.swing.JPanel {
 

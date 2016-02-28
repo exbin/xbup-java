@@ -245,7 +245,7 @@
  This would completely change the way internal data is accessed in this
  program, and is only suitable for a complete rewrite.  KF, 2008-11-04.
 
- XBUP project related changes:
+ ExBin Project related changes:
  - Library was modified, so that more instances can be used at the same time.
  */
 package hexedit;

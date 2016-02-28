@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -23,7 +23,7 @@ import java.util.EventListener;
  * with WS service.
  *
  * @version 0.1.15 2007/05/30
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public interface XBCUpdateListener extends EventListener {
 

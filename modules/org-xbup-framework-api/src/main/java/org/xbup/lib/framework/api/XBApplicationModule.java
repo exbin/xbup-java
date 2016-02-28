@@ -11,7 +11,7 @@ import java.util.List;
  * Interface for record about single module.
  *
  * @version 0.2.0 2015/12/06
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public interface XBApplicationModule {
 

@@ -17,4 +17,4 @@ Also copy xbup-core and xbup-catalog jar files in local maven repository.
 It can be copied manually to .m2/repository/xbcatalogweb/modules/xbup-$project_name/$version in your user home directory or Local Settings folder.
 To open project using pom.xml, you might need to temporary disable gradle plugin or even clear NetBeans cache.
 
-Homepage: http://xbup.org
+Homepage: http://xbup.exbin.org

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -34,7 +34,7 @@ import org.xbup.lib.core.catalog.base.manager.XBCManager;
  * Default manager for entity items.
  *
  * @version 0.2.0 2016/02/20
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  * @param <T> entity class
  */
 public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {

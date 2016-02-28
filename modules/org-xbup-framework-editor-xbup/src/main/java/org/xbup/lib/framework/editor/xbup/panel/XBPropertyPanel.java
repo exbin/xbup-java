@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -33,7 +33,7 @@ import org.xbup.lib.plugin.XBPluginRepository;
  * Panel for properties of the actual panel.
  *
  * @version 0.1.24 2014/12/20
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public class XBPropertyPanel extends javax.swing.JPanel {
 

@@ -27,7 +27,7 @@ Default manager and service provides following methods for specific entity manag
 
 There is currently only stub update using PHP catalog available. It requires PHP catalog web running on address:
 
-[[http://catalog-php.xbup.org]] or [[http://catalog-dev-php.xbup.org]]
+[[http://catalog-php.exbin.org]] or [[http://catalog-dev-php.exbin.org]]
 
 Interface is using HTTP GET methods to pass parameters and result is typically text output with alternating rows with value names and values.
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -32,7 +32,7 @@ import org.xbup.lib.core.ubnumber.exception.UBOverFlowException;
  * UBPath with 32bit long items.
  *
  * @version 0.1.24 2014/08/23
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public class UBPath32 implements UBStreamable, XBTChildSerializable {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -23,7 +23,7 @@ import javax.swing.JComponent;
  * Property column panel with label and extending button.
  *
  * @version 0.1.24 2014/11/25
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public class PropertyTableCellPanel extends javax.swing.JPanel {
 

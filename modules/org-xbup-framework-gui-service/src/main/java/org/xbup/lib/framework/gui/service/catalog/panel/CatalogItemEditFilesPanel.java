@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -39,7 +39,7 @@ import org.xbup.lib.framework.gui.utils.WindowUtils;
  * Catalog Specification Panel.
  *
  * @version 0.2.0 2016/02/01
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public class CatalogItemEditFilesPanel extends javax.swing.JPanel {
 

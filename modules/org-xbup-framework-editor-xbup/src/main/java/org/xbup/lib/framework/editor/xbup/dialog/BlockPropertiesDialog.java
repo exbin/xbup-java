@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -50,7 +50,7 @@ import org.xbup.lib.parser_tree.XBTTreeNode;
  * Dialog for showing information about document block.
  *
  * @version 0.2.0 2016/02/08
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public class BlockPropertiesDialog extends javax.swing.JDialog {
 
@@ -294,7 +294,7 @@ public class BlockPropertiesDialog extends javax.swing.JDialog {
         attributesCountTextField.setText(String.valueOf(block.getAttributesCount()));
         childrenCountTextField.setText(String.valueOf(block.getChildrenCount()));
 
-        String catalogLink = devMode ? "http://catalog-dev.xbup.org/" : "http://catalog.xbup.org/";
+        String catalogLink = devMode ? "http://catalog-dev.exbin.org/" : "http://catalog.exbin.org/";
         XBBlockDecl decl = block instanceof XBTTreeNode ? ((XBTTreeNode) block).getBlockDecl() : null;
         if (decl instanceof XBCBlockDecl) {
             XBCBlockSpec spec = ((XBCBlockDecl) decl).getBlockSpecRev().getParent();

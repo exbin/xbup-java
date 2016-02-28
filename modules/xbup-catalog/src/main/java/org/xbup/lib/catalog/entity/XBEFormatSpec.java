@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -26,7 +26,7 @@ import org.xbup.lib.core.catalog.base.XBCNode;
  * Format specification database entity.
  *
  * @version 0.1.22 2012/12/31
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 @Entity(name = "XBFormatSpec")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -30,7 +30,7 @@ import org.xbup.lib.framework.gui.options.api.OptionsPanel.PathItem;
  * Tool Bar Apperance Options panel.
  *
  * @version 0.2.0 2015/11/05
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public class AppearanceOptionsPanel extends javax.swing.JPanel implements OptionsPanel {
 

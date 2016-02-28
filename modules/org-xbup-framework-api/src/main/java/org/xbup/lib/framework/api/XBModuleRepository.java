@@ -13,7 +13,7 @@ import net.xeoh.plugins.base.PluginManager;
  * XBUP framework modules repository interface.
  *
  * @version 0.2.0 2016/01/25
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public interface XBModuleRepository {
 

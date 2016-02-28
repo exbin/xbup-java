@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -22,7 +22,7 @@ package org.xbup.lib.core.parser.token;
  * Token provides data object and has single type as a member of enumeration.
  *
  * @version 0.1.22 2013/04/05
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public abstract class TypedToken {
 

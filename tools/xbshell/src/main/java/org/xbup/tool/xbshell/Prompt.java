@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  * XBUP Protocol Shell Browser Tool
  *
  * @version 0.1.16 2008/04/14
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public class Prompt {
 
@@ -46,7 +46,7 @@ public class Prompt {
                 System.in.read(input);
                 command = (new String(input)).trim();
                 if (command.equals("help")) {
-                    System.out.println("XBShell 0.1 WR 19 SVN (C) XBUP Project http://xbup.org");
+                    System.out.println("XBShell 0.1 WR 19 SVN (C) ExBin Project http://exbin.org");
                     System.out.println("Usage: xbshell [options] [path]filename");
                     System.out.println("Commands: help exit ls cp mv");
                 } else if (command.equals("help")) {

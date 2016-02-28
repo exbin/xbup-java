@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -68,7 +68,7 @@ import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
  * Catalog is accesed using XBService RPC network interface.
  *
  * @version 0.1.24 2014/09/03
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public class XBRCatalog implements XBCatalog {
 

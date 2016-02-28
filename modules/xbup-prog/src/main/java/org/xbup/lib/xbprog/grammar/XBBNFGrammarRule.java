@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -35,7 +35,7 @@ import org.xbup.lib.core.serial.XBSerializable;
  * charAN | charB1 .. char BN | .. | charZ1 .. char ZN (Char ranges)
  *
  * @version 0.1.19 2010/06/04
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public class XBBNFGrammarRule implements XBSerializable {
 

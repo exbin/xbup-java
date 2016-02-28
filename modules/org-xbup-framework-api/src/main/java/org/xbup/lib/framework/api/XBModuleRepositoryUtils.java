@@ -9,7 +9,7 @@ package org.xbup.lib.framework.api;
  * XBUP framework modules repository utilities class.
  *
  * @version 0.2.0 2015/12/25
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public class XBModuleRepositoryUtils {
 

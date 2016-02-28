@@ -22,7 +22,7 @@
         <property name="username" value="app"/>
         <property name="password" value="app"/>-->
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://xbup.org/xbcatalog-dev"/>
+        <property name="url" value="jdbc:mysql://exbin.org/xbcatalog-dev"/>
         <property name="username" value="xbup"/>
         <property name="password" value="catalog"/>
         <property name="connectionProperties">

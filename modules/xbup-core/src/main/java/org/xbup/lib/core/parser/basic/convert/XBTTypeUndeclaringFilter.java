@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -38,7 +38,7 @@ import org.xbup.lib.core.parser.token.XBAttribute;
  * Filter to convert declared stand-alone block types to fixed types.
  *
  * @version 0.1.25 2015/02/06
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public class XBTTypeUndeclaringFilter implements XBTFilter {
 

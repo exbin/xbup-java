@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -46,11 +46,11 @@ import org.xbup.lib.core.util.StreamUtils;
  * TODO: This is really horrible temporary stub for dummy PHP XBCatalog.
  *
  * @version 0.1.24 2015/01/13
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public class XBCUpdatePHPPort {
 
-    private final String catalogServer = "catalog-php-dev.xbup.org";
+    private final String catalogServer = "catalog-php-dev.exbin.org";
     private final String catalogPrefix = "http://" + catalogServer;
     private final String catalogInterfacePath = "/interface/wr24-0.php";
     private final String catalogURL = catalogPrefix + catalogInterfacePath;

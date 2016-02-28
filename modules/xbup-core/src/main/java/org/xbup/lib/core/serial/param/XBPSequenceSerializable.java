@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -25,7 +25,7 @@ import org.xbup.lib.core.serial.XBSerializable;
  * XBUP level 2 protocol using serialization sequence.
  *
  * @version 0.1.24 2015/01/22
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public interface XBPSequenceSerializable extends XBSerializable {
 

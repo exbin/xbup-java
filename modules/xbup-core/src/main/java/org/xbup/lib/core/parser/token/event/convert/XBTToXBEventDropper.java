@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -36,7 +36,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * XBUP level 1 to level 0 event convertor which drops node types.
  *
  * @version 0.1.23 2013/11/22
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public class XBTToXBEventDropper implements XBTEventListener, XBEventProducer {
 

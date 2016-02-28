@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -24,7 +24,7 @@ import java.util.List;
  * Library for simple conversion of UBNumber encoding schemes.
  *
  * @version 0.1.20 2011/01/16
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public class LRUB1 implements Serializable {
 

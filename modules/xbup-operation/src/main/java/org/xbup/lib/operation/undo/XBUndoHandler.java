@@ -12,7 +12,7 @@ import org.xbup.lib.operation.Command;
  * Undo support handler.
  *
  * @version 0.2.0 2016/01/24
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public interface XBUndoHandler {
 

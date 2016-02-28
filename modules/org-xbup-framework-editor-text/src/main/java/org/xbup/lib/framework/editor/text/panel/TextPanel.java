@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -72,15 +72,16 @@ import org.xbup.lib.framework.gui.file.api.FileType;
 import org.xbup.lib.framework.editor.text.dialog.FindTextDialog;
 import org.xbup.lib.framework.editor.text.dialog.FontDialog;
 import org.xbup.lib.framework.gui.menu.api.ClipboardActionsUpdateListener;
+import org.xbup.lib.framework.gui.menu.api.ComponentClipboardHandler;
 import org.xbup.lib.framework.gui.undo.api.ActivePanelUndoable;
 
 /**
  * Text editor panel.
  *
- * @version 0.2.0 2016/01/23
- * @author XBUP Project (http://xbup.org)
+ * @version 0.2.0 2016/02/27
+ * @author ExBin Project (http://exbin.org)
  */
-public class TextPanel extends javax.swing.JPanel implements XBEditorProvider, ActivePanelUndoable {
+public class TextPanel extends javax.swing.JPanel implements XBEditorProvider, ComponentClipboardHandler, ActivePanelUndoable {
 
     private final TextPanelCompoundUndoManager undoManagement = new TextPanelCompoundUndoManager();
     private UndoUpdateListener undoUpdateListener = null;
@@ -265,26 +266,32 @@ public class TextPanel extends javax.swing.JPanel implements XBEditorProvider, A
         textArea.setCaretPosition(textArea.getCaretPosition() + charPos - 1);
     }
 
+    @Override
     public void performCopy() {
         textArea.copy();
     }
 
+    @Override
     public void performCut() {
         textArea.cut();
     }
 
+    @Override
     public void performDelete() {
         textArea.getInputContext().dispatchEvent(new KeyEvent(this, KeyEvent.KEY_PRESSED, 0, 0, KeyEvent.VK_DELETE, KeyEvent.CHAR_UNDEFINED));
     }
 
+    @Override
     public void performPaste() {
         textArea.paste();
     }
 
+    @Override
     public void performSelectAll() {
         textArea.selectAll();
     }
 
+    @Override
     public boolean isSelection() {
         return textArea.getSelectionStart() > textArea.getSelectionEnd();
     }
@@ -638,8 +645,24 @@ public class TextPanel extends javax.swing.JPanel implements XBEditorProvider, A
         });
     }
 
+    @Override
     public void setUpdateListener(ClipboardActionsUpdateListener updateListener) {
         clipboardActionsUpdateListener = updateListener;
+    }
+
+    @Override
+    public boolean isEditable() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean canSelectAll() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean canPaste() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public interface CharsetChangeListener {

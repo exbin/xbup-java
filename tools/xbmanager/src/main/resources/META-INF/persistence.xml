@@ -151,7 +151,7 @@
     <class>org.xbup.lib.catalog.entity.XBEXUser</class>
     <class>org.xbup.lib.catalog.entity.XBEXUserInfo</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://xbup.org/xbcatalog"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://exbin.org/xbcatalog"/>
       <property name="javax.persistence.jdbc.password" value="catalog"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.user" value="xbup"/>
@@ -205,7 +205,7 @@
     <class>org.xbup.lib.catalog.entity.XBEXUser</class>
     <class>org.xbup.lib.catalog.entity.XBEXUserInfo</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://xbup.org/xbcatalog-dev"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://exbin.org/xbcatalog-dev"/>
       <property name="javax.persistence.jdbc.password" value="catalog"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.user" value="xbup"/>

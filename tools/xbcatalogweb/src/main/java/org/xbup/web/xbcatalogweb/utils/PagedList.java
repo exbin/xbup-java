@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -25,7 +25,7 @@ import java.util.ListIterator;
  * Abstract class for paging.
  *
  * @version 0.1.23 2014/04/04
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  * @param <T> entity class
  */
 public abstract class PagedList<T> implements List<T> {

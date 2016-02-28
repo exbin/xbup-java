@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * GNU General Public License (GPL)
  * --------------------------------
@@ -72,7 +72,7 @@ import javax.swing.event.ChangeListener;
  * Copyrighted as: GNU General Public License (GPL) version 3 or latter
  *
  * @version 0.1.24 2015/01/16
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public class HexEditPanel extends javax.swing.JPanel {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) XBUP Project
+ * Copyright (C) ExBin Project
  *
  * This application or library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License as
@@ -42,7 +42,7 @@ import org.xbup.lib.core.ubnumber.type.UBNat32;
  * RPC skeleton class for XBRItemInfo catalog items.
  *
  * @version 0.1.25 2015/03/15
- * @author XBUP Project (http://xbup.org)
+ * @author ExBin Project (http://exbin.org)
  */
 public class XBPInfoSkeleton {
 

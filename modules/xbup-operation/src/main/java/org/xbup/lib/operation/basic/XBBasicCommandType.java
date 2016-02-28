@@ -19,7 +19,7 @@ package org.xbup.lib.operation.basic;
 /**
  * Document command type enumeration.
  *
- * @version 0.1.25 2015/06/28
+ * @version 0.2.0 2016/02/28
  * @author ExBin Project (http://exbin.org)
  */
 public enum XBBasicCommandType {
@@ -27,19 +27,19 @@ public enum XBBasicCommandType {
     /**
      * Block added.
      */
-    NODE_ADDED("Block added"),
+    BLOCK_ADDED("Block added"),
     /**
      * Block deleted.
      */
-    NODE_DELETED("Block deleted"),
+    BLOCK_DELETED("Block deleted"),
     /**
      * Block modified.
      */
-    NODE_MODIFIED("Block modified"),
+    BLOCK_MODIFIED("Block modified"),
     /**
-     * Block swaped.
+     * Block moved.
      */
-    NODE_SWAPED("Block swapped");
+    BLOCK_MOVED("Block moved");
 
     private final String caption;
 

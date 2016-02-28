@@ -33,11 +33,11 @@ public class XBTModifyBlockCommand extends XBTOpDocCommand {
     public XBTModifyBlockCommand(XBTEditableDocument document, XBTTreeNode node, XBTTreeNode newNode) {
         super(document);
         long position = node.getBlockIndex();
-        setOperation(new XBTModifyBlockOperation(document, position, newNode));
+        super.setOperation(new XBTModifyBlockOperation(document, position, newNode));
     }
 
     @Override
     public XBBasicCommandType getBasicType() {
-        return XBBasicCommandType.NODE_MODIFIED;
+        return XBBasicCommandType.BLOCK_MODIFIED;
     }
 }

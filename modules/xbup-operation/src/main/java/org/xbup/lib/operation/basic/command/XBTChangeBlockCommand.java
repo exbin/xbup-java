@@ -32,12 +32,12 @@ public class XBTChangeBlockCommand extends XBTOpDocCommand {
 
     public XBTChangeBlockCommand(XBTEditableDocument document) {
         super(document);
-        setOperation(new XBTCompoundBlockOperation(document));
+        super.setOperation(new XBTCompoundBlockOperation(document));
     }
 
     @Override
     public XBBasicCommandType getBasicType() {
-        return XBBasicCommandType.NODE_MODIFIED;
+        return XBBasicCommandType.BLOCK_MODIFIED;
     }
 
     public void appendOperation(Operation operation) {

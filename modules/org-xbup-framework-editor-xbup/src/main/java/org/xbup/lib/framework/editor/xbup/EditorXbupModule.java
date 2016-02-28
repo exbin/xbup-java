@@ -16,6 +16,8 @@
  */
 package org.xbup.lib.framework.editor.xbup;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.JPopupMenu;
 import javax.swing.filechooser.FileFilter;
@@ -45,7 +47,7 @@ import org.xbup.lib.plugin.XBPluginRepository;
 /**
  * XBUP editor module.
  *
- * @version 0.2.0 2016/02/13
+ * @version 0.2.0 2016/02/28
  * @author ExBin Project (http://exbin.org)
  */
 @PluginImplementation
@@ -93,7 +95,18 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
         if (editorProvider == null) {
             editorProvider = new XBDocumentPanel(catalog, undoHandler);
 
-            ((XBDocumentPanel) editorProvider).setPopupMenu(createPopupMenu());
+            final XBDocumentPanel docPanel = (XBDocumentPanel) editorProvider;
+
+            docPanel.setPopupMenu(createPopupMenu());
+            docPanel.addUpdateListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (docEditingHandler != null) {
+                        docEditingHandler.setAddEnabled(docPanel.isAddEnabled());
+                        docEditingHandler.setEditEnabled(docPanel.isEditEnabled());
+                    }
+                }
+            });
         }
 
         return editorProvider;

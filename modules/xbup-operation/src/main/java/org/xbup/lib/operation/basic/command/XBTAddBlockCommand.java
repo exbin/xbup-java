@@ -40,11 +40,11 @@ public class XBTAddBlockCommand extends XBTOpDocCommand {
 //            position = parentNode.getBlockIndex();
 //            childIndex = parentNode.getChildrenCount();
 //        }
-        setOperation(new XBTAddBlockOperation(document, parentPosition, childIndex, newNode));
+        super.setOperation(new XBTAddBlockOperation(document, parentPosition, childIndex, newNode));
     }
 
     @Override
     public XBBasicCommandType getBasicType() {
-        return XBBasicCommandType.NODE_ADDED;
+        return XBBasicCommandType.BLOCK_ADDED;
     }
 }

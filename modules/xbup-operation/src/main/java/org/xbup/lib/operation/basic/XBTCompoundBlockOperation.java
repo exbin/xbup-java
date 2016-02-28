@@ -47,7 +47,7 @@ public class XBTCompoundBlockOperation extends XBTDocOperation implements Compou
 
     @Override
     public XBBasicOperationType getBasicType() {
-        return XBBasicOperationType.MODIFY_NODE;
+        return XBBasicOperationType.MODIFY_BLOCK;
     }
 
     @Override
@@ -94,14 +94,14 @@ public class XBTCompoundBlockOperation extends XBTDocOperation implements Compou
 
     @Override
     public XBData getData() {
-        XBData data = new XBData();
+        XBData newData = new XBData();
         int position = 0;
         for (Operation operation : operations) {
             XBData operationData = ((XBTDocOperation) operation).getData();
-            data.insert(position, operationData);
+            newData.insert(position, operationData);
             position += operationData.getDataSize();
         }
 
-        return data;
+        return newData;
     }
 }

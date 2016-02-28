@@ -54,7 +54,7 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
 
     @Override
     public XBBasicOperationType getBasicType() {
-        return XBBasicOperationType.ADD_NODE;
+        return XBBasicOperationType.DELETE_BLOCK;
     }
 
     @Override

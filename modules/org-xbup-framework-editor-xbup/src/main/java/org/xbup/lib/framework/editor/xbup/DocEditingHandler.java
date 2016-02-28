@@ -30,14 +30,14 @@ import org.xbup.lib.framework.editor.xbup.panel.XBDocumentPanel;
 /**
  * Document editing handler.
  *
- * @version 0.2.0 2016/02/08
+ * @version 0.2.0 2016/02/28
  * @author ExBin Project (http://exbin.org)
  */
 public class DocEditingHandler {
 
     private final XBEditorProvider editorProvider;
     private final XBApplication application;
-    private ResourceBundle resourceBundle;
+    private final ResourceBundle resourceBundle;
 
     private int metaMask;
 
@@ -74,6 +74,7 @@ public class DocEditingHandler {
         ActionUtils.setupAction(modifyItemAction, resourceBundle, "modifyItemAction");
         modifyItemAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
         modifyItemAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
+        modifyItemAction.setEnabled(false);
     }
 
     public Action getAddItemAction() {
@@ -90,5 +91,13 @@ public class DocEditingHandler {
             findDialog = new FindTextDialog(frameModule.getFrame(), true);
             findDialog.setIconImage(application.getApplicationIcon());
         }
+    }
+
+    void setAddEnabled(boolean addEnabled) {
+        addItemAction.setEnabled(addEnabled);
+    }
+
+    void setEditEnabled(boolean editEnabled) {
+        modifyItemAction.setEnabled(editEnabled);
     }
 }

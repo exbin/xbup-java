@@ -32,11 +32,11 @@ public class XBTDeleteBlockCommand extends XBTOpDocCommand {
 
     public XBTDeleteBlockCommand(XBTEditableDocument document, XBTTreeNode node) {
         super(document);
-        setOperation(new XBTDeleteBlockOperation(document, node));
+        super.setOperation(new XBTDeleteBlockOperation(document, node));
     }
 
     @Override
     public XBBasicCommandType getBasicType() {
-        return XBBasicCommandType.NODE_DELETED;
+        return XBBasicCommandType.BLOCK_DELETED;
     }
 }

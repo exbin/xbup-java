@@ -61,7 +61,7 @@ public class XBTModifyBlockOperation extends XBTDocOperation {
 
     @Override
     public XBBasicOperationType getBasicType() {
-        return XBBasicOperationType.MODIFY_NODE;
+        return XBBasicOperationType.MODIFY_BLOCK;
     }
 
     @Override

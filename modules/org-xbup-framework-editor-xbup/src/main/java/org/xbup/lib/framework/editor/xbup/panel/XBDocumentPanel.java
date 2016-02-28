@@ -72,7 +72,7 @@ import org.xbup.lib.operation.undo.XBUndoHandler;
 /**
  * Panel with XBUP document visualization.
  *
- * @version 0.2.0 2016/02/27
+ * @version 0.2.0 2016/02/28
  * @author ExBin Project (http://exbin.org)
  */
 public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvider, ComponentClipboardHandler {
@@ -146,7 +146,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
     }
 
     public void postWindowOpened() {
-        mainSplitPane.setDividerLocation(getWidth() - 300 > 0 ? getWidth() - 300 : getWidth() * 2 / 3);
+        mainSplitPane.setDividerLocation(getWidth() - 300 > 0 ? getWidth() - 300 : getWidth() / 3);
     }
 
     /**
@@ -288,11 +288,29 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
     }
 
     public boolean isEditEnabled() {
-        return treePanel.isEditEnabled();
+        switch (mode) {
+            case TREE:
+                return treePanel.isEditEnabled();
+            case TEXT:
+                return false;
+            case HEX:
+                return false;
+            default:
+                return false;
+        }
     }
 
     public boolean isAddEnabled() {
-        return treePanel.isAddEnabled();
+        switch (mode) {
+            case TREE:
+                return treePanel.isAddEnabled();
+            case TEXT:
+                return false;
+            case HEX:
+                return false;
+            default:
+                return false;
+        }
     }
 
     public boolean isPasteEnabled() {
@@ -465,6 +483,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
 //            mainFrame.getItemAddAction().setEnabled(false);
 //            mainFrame.getItemModifyAction().setEnabled(false);
             showPanel();
+            updateItem();
             updateActionStatus(null);
             if (clipboardActionsUpdateListener != null) {
                 clipboardActionsUpdateListener.stateChanged();
@@ -749,6 +768,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
 //        int selectedIndex = mainTabbedPane.getSelectedIndex();
 //        return (ActivePanelActionHandling) getPanel(selectedIndex);
 //    }
+
     public boolean isSplitMode() {
         return splitMode;
     }

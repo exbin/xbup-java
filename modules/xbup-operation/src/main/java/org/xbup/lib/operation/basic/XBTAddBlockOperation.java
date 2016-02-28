@@ -22,7 +22,6 @@ import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBTBlock;
-import org.xbup.lib.core.block.XBTDefaultBlock;
 import org.xbup.lib.core.block.XBTEditableBlock;
 import org.xbup.lib.core.block.XBTEditableDocument;
 import org.xbup.lib.core.parser.XBParserMode;
@@ -62,7 +61,7 @@ public class XBTAddBlockOperation extends XBTDocOperation {
 
     @Override
     public XBBasicOperationType getBasicType() {
-        return XBBasicOperationType.ADD_NODE;
+        return XBBasicOperationType.ADD_BLOCK;
     }
 
     @Override

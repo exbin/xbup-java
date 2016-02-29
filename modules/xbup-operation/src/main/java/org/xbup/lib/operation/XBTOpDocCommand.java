@@ -58,7 +58,12 @@ public abstract class XBTOpDocCommand extends XBTDocCommand {
     @Override
     public void undo() throws Exception {
         if (isUndoMode) {
-            operation = (XBTDocOperation) operation.executeWithUndo();
+            XBTDocOperation redoOperation = (XBTDocOperation) operation.executeWithUndo();
+            if (document instanceof OperationListener) {
+                ((OperationListener) document).notifyChange(new OperationEvent(operation));
+            }
+            
+            operation = redoOperation;
             isUndoMode = false;
         } else {
             throw new UnsupportedOperationException("Not supported yet.");
@@ -68,7 +73,12 @@ public abstract class XBTOpDocCommand extends XBTDocCommand {
     @Override
     public void redo() throws Exception {
         if (!isUndoMode) {
-            operation = (XBTDocOperation) operation.executeWithUndo();
+            XBTDocOperation undoOperation = (XBTDocOperation) operation.executeWithUndo();
+            if (document instanceof OperationListener) {
+                ((OperationListener) document).notifyChange(new OperationEvent(operation));
+            }
+
+            operation = undoOperation;
             isUndoMode = true;
         } else {
             throw new UnsupportedOperationException("Not supported yet.");

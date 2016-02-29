@@ -21,7 +21,7 @@ import java.io.InputStream;
 /**
  * Basic interface for editable XBUP level 1 document.
  *
- * @version 0.1.25 2015/04/13
+ * @version 0.2.0 2016/02/29
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBTEditableDocument extends XBTDocument {
@@ -31,19 +31,19 @@ public interface XBTEditableDocument extends XBTDocument {
      *
      * @param block the block to use as root block for this document
      */
-    public void setRootBlock(XBTBlock block);
+    void setRootBlock(XBTBlock block);
 
     /**
      * Sets extended data area.
      *
      * @param source data stream
      */
-    public void setExtendedArea(InputStream source);
+    void setExtendedArea(InputStream source);
 
     /**
      * Clears all data in this document.
      */
-    public void clear();
+    void clear();
 
     /**
      * Finds node using depth-first traversal index.
@@ -51,7 +51,7 @@ public interface XBTEditableDocument extends XBTDocument {
      * @param index order of the block in document
      * @return block if found else null
      */
-    public XBTBlock findBlockByIndex(long index);
+    XBTBlock findBlockByIndex(long index);
 
     /**
      * Creates new instance of block as next child for given block.
@@ -60,5 +60,5 @@ public interface XBTEditableDocument extends XBTDocument {
      * node
      * @return newly created instance of this document
      */
-    public XBTBlock createNewBlock(XBTBlock parent);
+    XBTBlock createNewBlock(XBTBlock parent);
 }

@@ -44,6 +44,7 @@ import org.xbup.lib.core.block.XBFBlockType;
 import org.xbup.lib.core.block.XBTBlock;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
+import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.parser.XBProcessingException;
@@ -67,17 +68,21 @@ import org.xbup.lib.framework.editor.xbup.dialog.BlockPropertiesDialog;
 import org.xbup.lib.framework.editor.xbup.dialog.ModifyBlockDialog;
 import org.xbup.lib.framework.gui.menu.api.ClipboardActionsUpdateListener;
 import org.xbup.lib.framework.gui.menu.api.ComponentClipboardHandler;
+import org.xbup.lib.operation.Operation;
+import org.xbup.lib.operation.OperationEvent;
+import org.xbup.lib.operation.OperationListener;
+import org.xbup.lib.operation.XBTDocOperation;
 import org.xbup.lib.operation.undo.XBUndoHandler;
 
 /**
  * Panel with XBUP document visualization.
  *
- * @version 0.2.0 2016/02/28
+ * @version 0.2.0 2016/02/29
  * @author ExBin Project (http://exbin.org)
  */
 public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvider, ComponentClipboardHandler {
 
-    private final XBTTreeDocument mainDoc;
+    private final TreeDocument mainDoc;
     private FileType fileType;
     private XBACatalog catalog;
     private boolean splitMode = false;
@@ -95,7 +100,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
 
     public XBDocumentPanel(XBACatalog catalog, XBUndoHandler undoHandler) {
         this.catalog = catalog;
-        mainDoc = new XBTTreeDocument(catalog);
+        mainDoc = new TreeDocument(catalog);
 
         initComponents();
 
@@ -768,7 +773,6 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
 //        int selectedIndex = mainTabbedPane.getSelectedIndex();
 //        return (ActivePanelActionHandling) getPanel(selectedIndex);
 //    }
-
     public boolean isSplitMode() {
         return splitMode;
     }
@@ -957,5 +961,32 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
         BlockPropertiesDialog dialog = new BlockPropertiesDialog(WindowUtils.getFrame(this), true);
         dialog.setCatalog(catalog);
         dialog.runDialog(getSelectedItem());
+    }
+
+    private class TreeDocument extends XBTTreeDocument implements OperationListener {
+
+        public TreeDocument(XBCatalog catalog) {
+            super(catalog);
+        }
+
+        @Override
+        public void notifyChange(OperationEvent event) {
+            Operation operation = event.getOperation();
+            // TODO Consolidate
+            mainDoc.processSpec();
+            reportStructureChange(null);
+            // getDoc().setModified(true);
+            updateItem();
+            updateActionStatus(null);
+            if (clipboardActionsUpdateListener != null) {
+                clipboardActionsUpdateListener.stateChanged();
+            }
+
+            if (operation instanceof XBTDocOperation) {
+                setMode(PanelMode.TREE);
+            } else {
+                // TODO
+            }
+        }
     }
 }

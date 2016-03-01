@@ -31,7 +31,7 @@ import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 /**
  * Properties handler.
  *
- * @version 0.2.0 2016/02/11
+ * @version 0.2.0 2016/03/01
  * @author ExBin Project (http://exbin.org)
  */
 public class PropertiesHandler {
@@ -44,6 +44,7 @@ public class PropertiesHandler {
 
     private Action propertiesAction;
     private Action itemPropertiesAction;
+    private boolean devMode;
 
     public PropertiesHandler(XBApplication application, XBEditorProvider editorProvider) {
         this.application = application;
@@ -77,8 +78,8 @@ public class PropertiesHandler {
                     XBDocumentPanel activePanel = (XBDocumentPanel) editorProvider;
                     GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
                     BlockPropertiesDialog propertiesDialog = new BlockPropertiesDialog(frameModule.getFrame(), true);
-                    // propertiesDialog.setCatalog(catalog);
-                    // propertiesDialog.setDevMode(devMode);
+                    propertiesDialog.setCatalog(activePanel.getCatalog());
+                    propertiesDialog.setDevMode(devMode);
                     propertiesDialog.runDialog(activePanel.getSelectedItem());
                 }
             }
@@ -93,5 +94,9 @@ public class PropertiesHandler {
 
     public Action getItemPropertiesAction() {
         return itemPropertiesAction;
+    }
+
+    void setDevMode(boolean devMode) {
+        this.devMode = devMode;
     }
 }

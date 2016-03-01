@@ -53,15 +53,10 @@ import org.xbup.lib.plugin.XBPluginRepository;
 /**
  * The main class of the XBEditor application.
  *
- * @version 0.2.0 2016/02/11
+ * @version 0.2.0 2016/03/01
  * @author ExBin Project (http://exbin.org)
  */
 public class XBEditor {
-
-    private static Preferences preferences;
-    private static boolean verboseMode = false;
-    private static boolean devMode = false;
-    private static final ResourceBundle bundle = ActionUtils.getResourceBundleByClass(XBEditor.class);
 
     /**
      * Main method launching the application.
@@ -69,6 +64,11 @@ public class XBEditor {
      * @param args arguments
      */
     public static void main(String[] args) {
+        Preferences preferences;
+        boolean verboseMode;
+        boolean devMode;
+        ResourceBundle bundle = ActionUtils.getResourceBundleByClass(XBEditor.class);
+
         try {
             preferences = Preferences.userNodeForPackage(XBEditor.class);
         } catch (SecurityException ex) {
@@ -118,6 +118,7 @@ public class XBEditor {
                 final EditorXbupModule xbupEditorModule = moduleRepository.getModuleByInterface(EditorXbupModule.class);
                 final EditorTextModule textEditorModule = moduleRepository.getModuleByInterface(EditorTextModule.class);
 
+                xbupEditorModule.setDevMode(devMode);
                 aboutModule.registerDefaultMenuItem();
                 try {
                     helpModule.setHelpUrl(new URL(bundle.getString("online_help_url")));
@@ -194,7 +195,7 @@ public class XBEditor {
                                 clientModule.useBuildInService();
                             }
                         }
-                        
+
                         XBACatalog catalog = clientModule.getCatalog();
                         XBPluginRepository pluginRepository = clientModule.getPluginRepository();
                         if (catalog != null) {

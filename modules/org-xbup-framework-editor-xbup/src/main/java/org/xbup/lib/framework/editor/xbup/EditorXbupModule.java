@@ -167,6 +167,7 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
         if (propertiesHandler == null) {
             propertiesHandler = new PropertiesHandler(application, editorProvider);
             propertiesHandler.init();
+            propertiesHandler.setDevMode(devMode);
         }
 
         return propertiesHandler;

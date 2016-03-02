@@ -48,7 +48,7 @@ import org.xbup.lib.framework.gui.data.api.GuiDataModuleApi;
 /**
  * The main class of the ExbinIs application.
  *
- * @version 0.2.0 2016/02/23
+ * @version 0.2.0 2016/03/02
  * @author ExBin Project (http://exbin.org)
  */
 public class ExbinIs {
@@ -60,8 +60,8 @@ public class ExbinIs {
      */
     public static void main(String[] args) {
         Preferences preferences;
-        boolean verboseMode = false;
-        boolean devMode = false;
+        boolean verboseMode;
+        boolean devMode;
         final ResourceBundle bundle = ActionUtils.getResourceBundleByClass(ExbinIs.class);
 
         try {
@@ -122,7 +122,7 @@ public class ExbinIs {
 //                helpModule.registerOnlineHelpMenu();
 
                 frameModule.registerExitAction();
-                frameModule.registerBarsVisibilityActions();
+                frameModule.registerStatusBarVisibilityActions();
 
 //                undoModule.registerMainMenu();
 //                undoModule.registerMainToolBar();

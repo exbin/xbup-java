@@ -16,8 +16,16 @@
  */
 package org.xbup.lib.framework.gui.data.stub;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.framework.gui.data.TableDataRow;
 import org.xbup.lib.framework.gui.data.TableDataSource;
@@ -36,6 +44,21 @@ public class DataStub {
 
     public DataStub(XBCatalogServiceClient client) {
         this.client = client;
+
+        // TODO Remove later
+        Connection connection = getConnection();
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.execute("CREATE TABLE data_test (ID INT NOT NULL GENERATED ALWAYS AS IDENTITY, TEST1 VARCHAR(20), TEST2 VARCHAR(20))");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM data_test");
+            int rows = 0;
+            while (rs.next()) {
+                rows++;
+            }
+            System.out.println("Rows : " + rows);
+        } catch (SQLException ex) {
+            Logger.getLogger(DataStub.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public TableDataSource getTableDataSource(String tableSourceId) {
@@ -96,5 +119,21 @@ public class DataStub {
         }
 
         return rows;
+    }
+
+    public Connection getConnection() {
+
+        Connection conn = null;
+        try {
+            Properties connectionProps = new Properties();
+            connectionProps.put("user", "app");
+            connectionProps.put("password", "app");
+            conn = DriverManager.getConnection("jdbc:derby:testdb;create=true", connectionProps);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DataStub.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return conn;
     }
 }

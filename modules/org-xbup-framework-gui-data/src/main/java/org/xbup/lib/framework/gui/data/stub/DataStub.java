@@ -50,6 +50,7 @@ public class DataStub {
         try {
             Statement stmt = connection.createStatement();
             stmt.execute("CREATE TABLE data_test (ID INT NOT NULL GENERATED ALWAYS AS IDENTITY, TEST1 VARCHAR(20), TEST2 VARCHAR(20))");
+            stmt.execute("INSERT INTO data_test (TEST1, TEST2) VALUES ('Test 1', 'Test 2̈́')");
             ResultSet rs = stmt.executeQuery("SELECT * FROM data_test");
             int rows = 0;
             while (rs.next()) {

@@ -17,7 +17,6 @@
 package org.xbup.tool.exbin_is;
 
 import java.awt.Dimension;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -114,35 +113,16 @@ public class ExbinIs {
                 final EditorTextModule textEditorModule = moduleRepository.getModuleByInterface(EditorTextModule.class);
 
                 aboutModule.registerDefaultMenuItem();
-//                try {
-//                    helpModule.setHelpUrl(new URL(bundle.getString("online_help_url")));
-//                } catch (MalformedURLException ex) {
-//                    Logger.getLogger(ExbinIs.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//                helpModule.registerOnlineHelpMenu();
 
                 frameModule.registerExitAction();
                 frameModule.registerStatusBarVisibilityActions();
 
-//                undoModule.registerMainMenu();
-//                undoModule.registerMainToolBar();
-//                undoModule.registerUndoManagerInMainMenu();
-//                XBTLinearUndo linearUndo = new XBTLinearUndo(null);
-////                linearUndo.addUndoUpdateListener(new UndoUpdateListener() {
-////                    @Override
-////                    public void undoChanged() {
-////                        ((AudioPanel) waveEditorModule.getEditorProvider()).repaint();
-////                    }
-////                });
-//                undoModule.setUndoHandler(linearUndo);
                 // Register clipboard editing actions
                 menuModule.registerMenuClipboardActions();
 
                 optionsModule.registerMenuAction();
 
                 ApplicationFrameHandler frameHandler = frameModule.getFrameHandler();
-                // xbupEditorModule.registerStatusBar();
-                // xbupEditorModule.registerOptionsPanels();
 
                 exbinModule.setPreferences(preferences);
                 ExbinMainPanel mainPanel = exbinModule.getExbinMainPanel();
@@ -152,11 +132,6 @@ public class ExbinIs {
                 frameHandler.show();
 
                 exbinModule.openConnectionDialog();
-
-                List fileArgs = cl.getArgList();
-                if (fileArgs.size() > 0) {
-                    // TODO app.loadFromFile((String) fileArgs.get(0));
-                }
             }
         } catch (ParseException ex) {
             Logger.getLogger(ExbinIs.class.getName()).log(Level.SEVERE, null, ex);

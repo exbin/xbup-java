@@ -46,6 +46,12 @@ public class DataStub {
         this.client = client;
 
         // TODO Remove later
+        // Database Initialization
+        String derbyPath = getClass().getPackage().getName().replace(".", "/");
+        String derbyHome = System.getProperty("user.home") + "/.java/.userPrefs/" + derbyPath + "-dev";
+        System.out.println("Derby home: " + derbyHome);
+        System.setProperty("derby.system.home", derbyHome);
+
         Connection connection = getConnection();
         try {
             Statement stmt = connection.createStatement();

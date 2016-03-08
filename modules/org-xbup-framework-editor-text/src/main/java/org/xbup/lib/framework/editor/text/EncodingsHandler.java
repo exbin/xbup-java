@@ -116,7 +116,7 @@ public class EncodingsHandler implements TextEncodingPanelApi {
         toolsEncodingMenu.addSeparator();
         toolsEncodingMenu.add(manageEncodingsAction);
         toolsEncodingMenu.setText(resourceBundle.getString("toolsEncodingMenu.text"));
-        toolsEncodingMenu.setToolTipText(resourceBundle.getString("toolsEncodingMenu.toolTipText"));
+        toolsEncodingMenu.setToolTipText(resourceBundle.getString("toolsEncodingMenu.shortDescription"));
     }
 
     @Override

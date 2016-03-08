@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.operation.XBTDocOperation;
 import org.xbup.lib.operation.XBTOpDocCommand;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
@@ -32,7 +33,7 @@ import org.xbup.lib.operation.XBDocCommand;
 /**
  * Dialog for undo management.
  *
- * @version 0.2.0 2015/11/10
+ * @version 0.2.0 2016/03/08
  * @author ExBin Project (http://exbin.org)
  */
 public class UndoManagerDialog extends javax.swing.JDialog {
@@ -40,7 +41,7 @@ public class UndoManagerDialog extends javax.swing.JDialog {
     private int dialogOption = JOptionPane.CLOSED_OPTION;
 
     private final UndoManagerModel undoModel;
-    private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/undo/dialog/resources/UndoManagerDialog");
+    private final java.util.ResourceBundle bundle = ActionUtils.getResourceBundleByClass(UndoManagerDialog.class);
 
     public UndoManagerDialog(java.awt.Frame parent, boolean modal, UndoManagerModel undoModel) {
         super(parent, modal);

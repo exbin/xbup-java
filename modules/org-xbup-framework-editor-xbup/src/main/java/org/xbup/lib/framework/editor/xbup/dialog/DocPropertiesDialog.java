@@ -24,7 +24,7 @@ import org.xbup.lib.parser_tree.XBTTreeDocument;
 /**
  * Dialog for document properties showing various information about file.
  *
- * @version 0.2.0 2016/02/11
+ * @version 0.2.0 2016/03/09
  * @author ExBin Project (http://exbin.org)
  */
 public class DocPropertiesDialog extends javax.swing.JDialog {
@@ -44,6 +44,7 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
         propertiesTabbedPane.setEnabledAt(1, false);
         WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
         WindowUtils.assignGlobalKeyListener(this, closeButton);
+        pack();
     }
 
     /**
@@ -95,7 +96,7 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
                     .addComponent(fileSizeLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fileNameTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(fileNameTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
                     .addComponent(fileTypeTextField)
                     .addComponent(fileSizeTextField, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
@@ -115,7 +116,7 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
                 .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fileTypeLabel)
                     .addComponent(fileTypeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(164, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         propertiesTabbedPane.addTab(bundle.getString("generalPanel.tabTitle"), generalPanel); // NOI18N
@@ -124,11 +125,11 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
         documentTypePanel.setLayout(documentTypePanelLayout);
         documentTypePanelLayout.setHorizontalGroup(
             documentTypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 533, Short.MAX_VALUE)
+            .addGap(0, 292, Short.MAX_VALUE)
         );
         documentTypePanelLayout.setVerticalGroup(
             documentTypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 245, Short.MAX_VALUE)
+            .addGap(0, 90, Short.MAX_VALUE)
         );
 
         propertiesTabbedPane.addTab(bundle.getString("documentTypePanel.tabTitle"), documentTypePanel); // NOI18N
@@ -147,7 +148,7 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
         controlPanelLayout.setHorizontalGroup(
             controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(220, Short.MAX_VALUE)
                 .addComponent(closeButton)
                 .addContainerGap())
         );
@@ -160,8 +161,6 @@ public class DocPropertiesDialog extends javax.swing.JDialog {
         );
 
         getContentPane().add(controlPanel, java.awt.BorderLayout.SOUTH);
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed

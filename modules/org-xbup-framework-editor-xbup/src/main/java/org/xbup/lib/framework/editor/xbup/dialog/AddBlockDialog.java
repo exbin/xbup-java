@@ -78,6 +78,7 @@ public class AddBlockDialog extends javax.swing.JDialog {
         WindowUtils.initWindow(this);
         WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
         WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
+        pack();
     }
 
     /**
@@ -218,7 +219,7 @@ public class AddBlockDialog extends javax.swing.JDialog {
                 .add(typePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(catalogTypeSelectButton)
                     .add(catalogTypeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         mainPanel.add(typePanel, "type");
@@ -249,7 +250,7 @@ public class AddBlockDialog extends javax.swing.JDialog {
                 .add(generateDeclarationCheckBox)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(prefillCheckBox)
-                .addContainerGap(235, Short.MAX_VALUE))
+                .addContainerGap(147, Short.MAX_VALUE))
         );
 
         mainPanel.add(conditionsPanel, "cond");
@@ -314,8 +315,6 @@ public class AddBlockDialog extends javax.swing.JDialog {
         );
 
         getContentPane().add(controlPanel, java.awt.BorderLayout.PAGE_END);
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed

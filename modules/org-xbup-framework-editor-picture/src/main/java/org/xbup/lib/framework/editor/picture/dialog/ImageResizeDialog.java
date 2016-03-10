@@ -18,15 +18,18 @@ package org.xbup.lib.framework.editor.picture.dialog;
 
 import java.awt.Point;
 import javax.swing.JOptionPane;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 
 /**
  * XBPEditor image resize dialog.
  *
- * @version 0.2.0 2016/01/27
+ * @version 0.2.0 2016/03/10
  * @author ExBin Project (http://exbin.org)
  */
 public class ImageResizeDialog extends javax.swing.JDialog {
+
+    private final java.util.ResourceBundle bundle = ActionUtils.getResourceBundleByClass(ImageResizeDialog.class);
 
     protected int dialogOption = JOptionPane.CLOSED_OPTION;
 
@@ -38,7 +41,9 @@ public class ImageResizeDialog extends javax.swing.JDialog {
 
     private void init() {
         WindowUtils.initWindow(this);
+        WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
         WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
+        pack();
     }
 
     public int getDialogOption() {
@@ -54,14 +59,15 @@ public class ImageResizeDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cancelButton = new javax.swing.JButton();
-        okButton = new javax.swing.JButton();
         resizeImagePanel = new javax.swing.JPanel();
         imageSizePanel = new javax.swing.JPanel();
         widthLabel = new javax.swing.JLabel();
         widthTextField = new javax.swing.JTextField();
         heightLabel = new javax.swing.JLabel();
         heightTextField = new javax.swing.JTextField();
+        controlPanel = new javax.swing.JPanel();
+        cancelButton = new javax.swing.JButton();
+        okButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/picture/dialog/resources/ImageResizeDialog"); // NOI18N
@@ -69,22 +75,6 @@ public class ImageResizeDialog extends javax.swing.JDialog {
         setLocationByPlatform(true);
         setModal(true);
         setName("Form"); // NOI18N
-
-        cancelButton.setText(bundle.getString("cancelButton.text")); // NOI18N
-        cancelButton.setName("cancelButton"); // NOI18N
-        cancelButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelButtonActionPerformed(evt);
-            }
-        });
-
-        okButton.setText(bundle.getString("okButton.text")); // NOI18N
-        okButton.setName("okButton"); // NOI18N
-        okButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                okButtonActionPerformed(evt);
-            }
-        });
 
         resizeImagePanel.setName("resizeImagePanel"); // NOI18N
         resizeImagePanel.setLayout(new java.awt.GridLayout(1, 0));
@@ -131,30 +121,48 @@ public class ImageResizeDialog extends javax.swing.JDialog {
 
         resizeImagePanel.add(imageSizePanel);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        getContentPane().add(resizeImagePanel, java.awt.BorderLayout.CENTER);
+
+        controlPanel.setName("controlPanel"); // NOI18N
+
+        cancelButton.setText(bundle.getString("cancelButton.text")); // NOI18N
+        cancelButton.setName("cancelButton"); // NOI18N
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
+        okButton.setText(bundle.getString("okButton.text")); // NOI18N
+        okButton.setName("okButton"); // NOI18N
+        okButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                okButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout controlPanelLayout = new javax.swing.GroupLayout(controlPanel);
+        controlPanel.setLayout(controlPanelLayout);
+        controlPanelLayout.setHorizontalGroup(
+            controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(okButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cancelButton)
                 .addContainerGap())
-            .addComponent(resizeImagePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(resizeImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        controlPanelLayout.setVerticalGroup(
+            controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
                     .addComponent(okButton))
                 .addContainerGap())
         );
 
-        pack();
+        getContentPane().add(controlPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -176,6 +184,7 @@ public class ImageResizeDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
+    private javax.swing.JPanel controlPanel;
     private javax.swing.JLabel heightLabel;
     private javax.swing.JTextField heightTextField;
     private javax.swing.JPanel imageSizePanel;

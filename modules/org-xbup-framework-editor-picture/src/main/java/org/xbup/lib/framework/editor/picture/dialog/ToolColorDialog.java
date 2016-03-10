@@ -20,14 +20,17 @@ import javax.swing.JOptionPane;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 import org.xbup.lib.framework.editor.picture.panel.ToolColorPanel;
 import org.xbup.lib.framework.editor.picture.panel.ToolColorPanelApi;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 
 /**
  * XBPEditor tool color dialog.
  *
- * @version 0.2.0 2016/02/06
+ * @version 0.2.0 2016/02/10
  * @author ExBin Project (http://exbin.org)
  */
 public class ToolColorDialog extends javax.swing.JDialog {
+
+    private final java.util.ResourceBundle bundle = ActionUtils.getResourceBundleByClass(ToolColorDialog.class);
 
     protected int dialogOption = JOptionPane.CLOSED_OPTION;
     private final ToolColorPanel toolColorPanel = new ToolColorPanel();
@@ -44,7 +47,9 @@ public class ToolColorDialog extends javax.swing.JDialog {
 
     private void init() {
         WindowUtils.initWindow(this);
+        WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
         WindowUtils.assignGlobalKeyListener(this, okButton, cancelButton);
+        pack();
     }
 
     public int getDialogOption() {
@@ -64,9 +69,10 @@ public class ToolColorDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        mainPanel = new javax.swing.JPanel();
+        controlPanel = new javax.swing.JPanel();
         cancelButton = new javax.swing.JButton();
         okButton = new javax.swing.JButton();
-        mainPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/picture/dialog/resources/ToolColorDialog"); // NOI18N
@@ -74,6 +80,12 @@ public class ToolColorDialog extends javax.swing.JDialog {
         setLocationByPlatform(true);
         setModal(true);
         setName("Form"); // NOI18N
+
+        mainPanel.setName("mainPanel"); // NOI18N
+        mainPanel.setLayout(new java.awt.GridLayout(1, 0));
+        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
+
+        controlPanel.setName("controlPanel"); // NOI18N
 
         cancelButton.setText(bundle.getString("cancelButton.text")); // NOI18N
         cancelButton.setName("cancelButton"); // NOI18N
@@ -91,33 +103,28 @@ public class ToolColorDialog extends javax.swing.JDialog {
             }
         });
 
-        mainPanel.setName("mainPanel"); // NOI18N
-        mainPanel.setLayout(new java.awt.GridLayout(1, 0));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(306, Short.MAX_VALUE)
-                .addComponent(okButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+        javax.swing.GroupLayout controlPanelLayout = new javax.swing.GroupLayout(controlPanel);
+        controlPanel.setLayout(controlPanelLayout);
+        controlPanelLayout.setHorizontalGroup(
+            controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(cancelButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addComponent(mainPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancelButton)
-                    .addComponent(okButton))
+        controlPanelLayout.setVerticalGroup(
+            controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(okButton)
+                    .addComponent(cancelButton))
                 .addContainerGap())
         );
 
-        pack();
+        getContentPane().add(controlPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -139,6 +146,7 @@ public class ToolColorDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
+    private javax.swing.JPanel controlPanel;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables

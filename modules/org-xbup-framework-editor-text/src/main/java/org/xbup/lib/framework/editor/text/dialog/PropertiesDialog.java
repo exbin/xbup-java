@@ -31,7 +31,7 @@ import org.xbup.lib.framework.gui.utils.ActionUtils;
 /**
  * File properties dialog.
  *
- * @version 0.2.24 2016/02/09
+ * @version 0.2.0 2016/02/09
  * @author ExBin Project (http://exbin.org)
  */
 public class PropertiesDialog extends javax.swing.JDialog {

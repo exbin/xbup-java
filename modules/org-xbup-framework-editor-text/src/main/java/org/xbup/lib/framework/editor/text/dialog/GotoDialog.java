@@ -23,17 +23,19 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 
 /**
  * Goto line dialog.
  *
- * @version 0.1.24 2014/11/08
+ * @version 0.2.0 2016/03/11
  * @author ExBin Project (http://exbin.org)
  */
 public class GotoDialog extends javax.swing.JDialog {
 
     private int dialogOption = JOptionPane.CLOSED_OPTION;
+    private final java.util.ResourceBundle bundle = ActionUtils.getResourceBundleByClass(GotoDialog.class);
 
     public GotoDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -61,7 +63,9 @@ public class GotoDialog extends javax.swing.JDialog {
 
     private void init() {
         WindowUtils.initWindow(this);
+        WindowUtils.addHeaderPanel(this, bundle.getString("header.title"), bundle.getString("header.description"), bundle.getString("header.icon"));
         WindowUtils.assignGlobalKeyListener(this, jumpButton, cancelButton);
+        pack();
     }
 
     public void setCharPos(int i) {
@@ -97,12 +101,14 @@ public class GotoDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        mainPanel = new javax.swing.JPanel();
         jumpLineLabel = new javax.swing.JLabel();
-        jumpButton = new javax.swing.JButton();
-        cancelButton = new javax.swing.JButton();
         jumpLineSpinner = new javax.swing.JSpinner();
         posLineLabel = new javax.swing.JLabel();
         posLineSpinner = new javax.swing.JSpinner();
+        controlPanel = new javax.swing.JPanel();
+        jumpButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/text/dialog/resources/GotoDialog"); // NOI18N
         setTitle(bundle.getString("Form.title")); // NOI18N
@@ -110,9 +116,59 @@ public class GotoDialog extends javax.swing.JDialog {
         setModal(true);
         setName("Form"); // NOI18N
 
+        mainPanel.setName("mainPanel"); // NOI18N
+
         jumpLineLabel.setLabelFor(jumpLineSpinner);
         jumpLineLabel.setText(bundle.getString("jumpLineLabel.text")); // NOI18N
         jumpLineLabel.setName("jumpLineLabel"); // NOI18N
+
+        jumpLineSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1, 1));
+        jumpLineSpinner.setName("jumpLineSpinner"); // NOI18N
+
+        posLineLabel.setLabelFor(posLineSpinner);
+        posLineLabel.setText(bundle.getString("posLineLabel.text")); // NOI18N
+        posLineLabel.setName("posLineLabel"); // NOI18N
+
+        posLineSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        posLineSpinner.setName("posLineSpinner"); // NOI18N
+
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 281, Short.MAX_VALUE)
+            .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(mainPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jumpLineSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                        .addComponent(posLineSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                        .addGroup(mainPanelLayout.createSequentialGroup()
+                            .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jumpLineLabel)
+                                .addComponent(posLineLabel))
+                            .addGap(0, 0, Short.MAX_VALUE)))
+                    .addContainerGap()))
+        );
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 106, Short.MAX_VALUE)
+            .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(mainPanelLayout.createSequentialGroup()
+                    .addGap(6, 6, 6)
+                    .addComponent(jumpLineLabel)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jumpLineSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(posLineLabel)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(posLineSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
+
+        controlPanel.setName("controlPanel"); // NOI18N
 
         jumpButton.setText(bundle.getString("jumpButton.text")); // NOI18N
         jumpButton.setName("jumpButton"); // NOI18N
@@ -130,52 +186,28 @@ public class GotoDialog extends javax.swing.JDialog {
             }
         });
 
-        jumpLineSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1, 1));
-        jumpLineSpinner.setName("jumpLineSpinner"); // NOI18N
-
-        posLineLabel.setLabelFor(posLineSpinner);
-        posLineLabel.setText(bundle.getString("posLineLabel.text")); // NOI18N
-        posLineLabel.setName("posLineLabel"); // NOI18N
-
-        posLineSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
-        posLineSpinner.setName("posLineSpinner"); // NOI18N
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jumpLineLabel)
-                    .addComponent(jumpLineSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jumpButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cancelButton))
-                    .addComponent(posLineLabel)
-                    .addComponent(posLineSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE))
+        javax.swing.GroupLayout controlPanelLayout = new javax.swing.GroupLayout(controlPanel);
+        controlPanel.setLayout(controlPanelLayout);
+        controlPanelLayout.setHorizontalGroup(
+            controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jumpButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cancelButton)
                 .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jumpLineLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jumpLineSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(posLineLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(posLineSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        controlPanelLayout.setVerticalGroup(
+            controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
                     .addComponent(jumpButton))
                 .addContainerGap())
         );
 
-        pack();
+        getContentPane().add(controlPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jumpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jumpButtonActionPerformed
@@ -197,9 +229,11 @@ public class GotoDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
+    private javax.swing.JPanel controlPanel;
     private javax.swing.JButton jumpButton;
     private javax.swing.JLabel jumpLineLabel;
     private javax.swing.JSpinner jumpLineSpinner;
+    private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel posLineLabel;
     private javax.swing.JSpinner posLineSpinner;
     // End of variables declaration//GEN-END:variables

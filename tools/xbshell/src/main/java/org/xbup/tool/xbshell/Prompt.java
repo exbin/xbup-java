@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 /**
  * XBUP Protocol Shell Browser Tool
  *
- * @version 0.1.16 2008/04/14
+ * @version 0.2.0 2016/03/12
  * @author ExBin Project (http://exbin.org)
  */
 public class Prompt {
@@ -32,21 +32,25 @@ public class Prompt {
     private File file;
     private String path;
 
-    /** Run prompt on given file */
+    /**
+     * Run prompt on given file.
+     *
+     * @param file
+     */
     public void run(File file) {
         this.file = file;
         path = "";
 
-        System.out.println("XBShell interface v. 0.1 WR 19");
+        System.out.println("XBShell interface (version 0.2.0 DEV)");
         String command = "";
-        byte [] input=new byte [30];
+        byte[] input = new byte[30];
         do {
             try {
                 System.out.print("xbup:" + path + "$ ");
                 System.in.read(input);
                 command = (new String(input)).trim();
                 if (command.equals("help")) {
-                    System.out.println("XBShell 0.1 WR 19 SVN (C) ExBin Project http://exbin.org");
+                    System.out.println("XBShell 0.2.0 DEV (C) ExBin Project http://exbin.org");
                     System.out.println("Usage: xbshell [options] [path]filename");
                     System.out.println("Commands: help exit ls cp mv");
                 } else if (command.equals("help")) {

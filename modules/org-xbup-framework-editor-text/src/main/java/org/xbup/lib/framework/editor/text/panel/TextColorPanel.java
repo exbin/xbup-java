@@ -28,11 +28,12 @@ import javax.swing.JDialog;
 import org.xbup.lib.framework.gui.options.api.OptionsPanel;
 import org.xbup.lib.framework.gui.options.api.OptionsPanel.ModifiedOptionListener;
 import org.xbup.lib.framework.gui.options.api.OptionsPanel.PathItem;
+import org.xbup.lib.framework.gui.utils.ActionUtils;
 
 /**
  * XBTEditor Color Selection panel.
  *
- * @version 0.1.22 2013/03/14
+ * @version 0.2.0 2016/03/12
  * @author ExBin Project (http://exbin.org)
  */
 public class TextColorPanel extends javax.swing.JPanel implements OptionsPanel {
@@ -43,13 +44,12 @@ public class TextColorPanel extends javax.swing.JPanel implements OptionsPanel {
     public static final String PREFERENCES_TEXT_COLOR_FOUND = "textColor.found";
 
     private ModifiedOptionListener modifiedOptionListener;
-    private ResourceBundle resourceBundle;
+    private final ResourceBundle resourceBundle = ActionUtils.getResourceBundleByClass(TextColorPanel.class);
     private TextColorPanelApi frame;
 
     public TextColorPanel(TextColorPanelApi frame) {
         this.frame = frame;
         initComponents();
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/text/panel/resources/TextColorPanel");
     }
 
     public Color getTextColor() {

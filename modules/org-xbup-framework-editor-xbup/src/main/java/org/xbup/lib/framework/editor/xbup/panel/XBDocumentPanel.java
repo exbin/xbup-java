@@ -51,7 +51,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.type.XBData;
 import org.xbup.lib.framework.editor.text.dialog.FindTextDialog;
-import org.xbup.lib.framework.editor.text.dialog.FontDialog;
+import org.xbup.lib.framework.editor.text.dialog.TextFontDialog;
 import org.xbup.lib.framework.editor.text.panel.TextPanel;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.file.api.FileType;
@@ -638,7 +638,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
         return textPanel.changeLineWrap();
     }
 
-    public void showFontDialog(FontDialog dlg) {
+    public void showFontDialog(TextFontDialog dlg) {
         textPanel.showFontDialog(dlg);
     }
 

@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
-  <NonVisualComponents>
-    <Component class="javax.swing.JColorChooser" name="jColorChooser1">
-      <Properties>
-        <Property name="name" type="java.lang.String" value="jColorChooser1" noResource="true"/>
-      </Properties>
-    </Component>
-  </NonVisualComponents>
   <Properties>
     <Property name="name" type="java.lang.String" value="Form" noResource="true"/>
   </Properties>
@@ -75,9 +68,8 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="fontFamilyTextField" max="32767" attributes="0"/>
-                          <Component id="fontFamilyScrollPane" alignment="0" pref="279" max="32767" attributes="0"/>
-                          <Component id="fontFamilyLabel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="fontFamilyInputList" max="32767" attributes="0"/>
+                          <Component id="fontFamilyLabel" pref="279" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -88,9 +80,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="fontFamilyLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="fontFamilyTextField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="fontFamilyScrollPane" pref="119" max="32767" attributes="0"/>
+                      <Component id="fontFamilyInputList" pref="177" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -99,7 +89,7 @@
             <Component class="javax.swing.JLabel" name="fontFamilyLabel">
               <Properties>
                 <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                  <ComponentRef name="fontFamilyTextField"/>
+                  <ComponentRef name="default"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextFontPanel.properties" key="TextFontPanel.fontFamilyLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
@@ -107,33 +97,11 @@
                 <Property name="name" type="java.lang.String" value="fontFamilyLabel" noResource="true"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="fontFamilyTextField">
+            <Component class="org.xbup.lib.framework.editor.text.panel.InputListPanel" name="fontFamilyInputList">
               <Properties>
-                <Property name="name" type="java.lang.String" value="fontFamilyTextField" noResource="true"/>
+                <Property name="name" type="java.lang.String" value="fontFamilyInputList" noResource="true"/>
               </Properties>
             </Component>
-            <Container class="javax.swing.JScrollPane" name="fontFamilyScrollPane">
-              <Properties>
-                <Property name="name" type="java.lang.String" value="fontFamilyScrollPane" noResource="true"/>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JList" name="fontFamilyList">
-                  <Properties>
-                    <Property name="selectionMode" type="int" value="0"/>
-                    <Property name="name" type="java.lang.String" value="fontFamilyList" noResource="true"/>
-                    <Property name="visibleRowCount" type="int" value="4"/>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                  </AuxValues>
-                </Component>
-              </SubComponents>
-            </Container>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="fontSizePanel">
@@ -152,9 +120,8 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="fontSizeScrollPane" pref="0" max="32767" attributes="0"/>
-                          <Component id="fontSizeTextField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="fontSizeLabel" alignment="0" pref="68" max="32767" attributes="0"/>
+                          <Component id="fontSizeInputList" pref="0" max="32767" attributes="0"/>
+                          <Component id="fontSizeLabel" pref="124" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -166,9 +133,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="fontSizeLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="fontSizeTextField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="fontSizeScrollPane" pref="119" max="32767" attributes="0"/>
+                      <Component id="fontSizeInputList" pref="177" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -177,7 +142,7 @@
             <Component class="javax.swing.JLabel" name="fontSizeLabel">
               <Properties>
                 <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                  <ComponentRef name="fontSizeTextField"/>
+                  <ComponentRef name="default"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextFontPanel.properties" key="TextFontPanel.fontSizeLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
@@ -185,33 +150,11 @@
                 <Property name="name" type="java.lang.String" value="fontSizeLabel" noResource="true"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="fontSizeTextField">
+            <Component class="org.xbup.lib.framework.editor.text.panel.InputListPanel" name="fontSizeInputList">
               <Properties>
-                <Property name="name" type="java.lang.String" value="fontSizeTextField" noResource="true"/>
+                <Property name="name" type="java.lang.String" value="fontSizeInputList" noResource="true"/>
               </Properties>
             </Component>
-            <Container class="javax.swing.JScrollPane" name="fontSizeScrollPane">
-              <Properties>
-                <Property name="name" type="java.lang.String" value="fontSizeScrollPane" noResource="true"/>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JList" name="fontSizeList">
-                  <Properties>
-                    <Property name="selectionMode" type="int" value="0"/>
-                    <Property name="name" type="java.lang.String" value="fontSizeList" noResource="true"/>
-                    <Property name="visibleRowCount" type="int" value="4"/>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                  </AuxValues>
-                </Component>
-              </SubComponents>
-            </Container>
           </SubComponents>
         </Container>
       </SubComponents>

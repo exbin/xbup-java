@@ -16,6 +16,7 @@
  */
 package org.xbup.lib.framework.editor.text.dialog;
 
+import java.awt.Font;
 import javax.swing.JOptionPane;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 import org.xbup.lib.framework.editor.text.panel.TextFontPanel;
@@ -50,6 +51,14 @@ public class TextFontDialog extends javax.swing.JDialog {
 
     public int getDialogOption() {
         return dialogOption;
+    }
+
+    public Font getStoredFont() {
+        return textFontPanel.getStoredFont();
+    }
+
+    public void setStoredFont(Font font) {
+        textFontPanel.setStoredFont(font);
     }
 
     /**
@@ -133,7 +142,9 @@ public class TextFontDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        WindowUtils.invokeWindow(new TextFontDialog(new javax.swing.JFrame(), true));
+        TextFontDialog textFontDialog = new TextFontDialog(new javax.swing.JFrame(), true);
+        textFontDialog.textFontPanel.initFont();
+        WindowUtils.invokeWindow(textFontDialog);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

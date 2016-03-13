@@ -70,7 +70,7 @@ import org.xbup.lib.operation.undo.UndoUpdateListener;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.file.api.FileType;
 import org.xbup.lib.framework.editor.text.dialog.FindTextDialog;
-import org.xbup.lib.framework.editor.text.dialog.FontDialog;
+import org.xbup.lib.framework.editor.text.dialog.TextFontDialog;
 import org.xbup.lib.framework.gui.menu.api.ClipboardActionsUpdateListener;
 import org.xbup.lib.framework.gui.menu.api.ComponentClipboardHandler;
 import org.xbup.lib.framework.gui.undo.api.ActivePanelUndoable;
@@ -312,7 +312,7 @@ public class TextPanel extends javax.swing.JPanel implements XBEditorProvider, C
         return textArea.getFont();
     }
 
-    public void showFontDialog(FontDialog dlg) {
+    public void showFontDialog(TextFontDialog dlg) {
         dlg.setStoredFont(textArea.getFont());
         dlg.setVisible(true);
         if (dlg.getDialogOption() == JOptionPane.OK_OPTION) {

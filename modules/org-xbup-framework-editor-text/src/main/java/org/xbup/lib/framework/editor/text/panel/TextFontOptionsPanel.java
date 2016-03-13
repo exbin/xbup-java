@@ -29,7 +29,7 @@ import javax.swing.JOptionPane;
 import org.xbup.lib.framework.gui.options.api.OptionsPanel;
 import org.xbup.lib.framework.gui.options.api.OptionsPanel.ModifiedOptionListener;
 import org.xbup.lib.framework.gui.options.api.OptionsPanel.PathItem;
-import org.xbup.lib.framework.editor.text.dialog.FontDialog;
+import org.xbup.lib.framework.editor.text.dialog.TextFontDialog;
 
 /**
  * XBTEditor Color Selection panel.
@@ -184,7 +184,7 @@ public class TextFontOptionsPanel extends javax.swing.JPanel implements OptionsP
     }//GEN-LAST:event_fillDefaultFontButtonActionPerformed
 
     private void changeFontButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeFontButtonActionPerformed
-        FontDialog fontDialog = new FontDialog(new javax.swing.JFrame(), true);
+        TextFontDialog fontDialog = new TextFontDialog(new javax.swing.JFrame(), true);
         fontDialog.setStoredFont(fontPreviewLabel.getFont());
         fontDialog.setLocationRelativeTo(fontDialog.getParent());
         fontDialog.setVisible(true);

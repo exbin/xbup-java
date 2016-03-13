@@ -25,8 +25,8 @@ import org.xbup.lib.framework.api.XBApplication;
 import org.xbup.lib.framework.gui.editor.api.XBEditorProvider;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
-import org.xbup.lib.framework.editor.text.dialog.FontDialog;
 import org.xbup.lib.framework.editor.text.dialog.TextColorDialog;
+import org.xbup.lib.framework.editor.text.dialog.TextFontDialog;
 import org.xbup.lib.framework.editor.text.panel.TextPanel;
 import org.xbup.lib.framework.editor.text.panel.TextColorPanelApi;
 
@@ -58,7 +58,7 @@ public class ToolsOptionsHandler {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
-                FontDialog dialog = new FontDialog(frameModule.getFrame(), true);
+                TextFontDialog dialog = new TextFontDialog(frameModule.getFrame(), true);
                 dialog.setIconImage(application.getApplicationIcon());
                 dialog.setLocationRelativeTo(dialog.getParent());
                 if (editorProvider instanceof TextPanel) {

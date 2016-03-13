@@ -84,7 +84,6 @@ public class WindowHeaderPanel extends javax.swing.JPanel {
         add(textPanel, java.awt.BorderLayout.CENTER);
 
         iconLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        iconLabel.setToolTipText("");
         iconLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         iconLabel.setIconTextGap(0);
         iconLabel.setMinimumSize(new java.awt.Dimension(64, 64));

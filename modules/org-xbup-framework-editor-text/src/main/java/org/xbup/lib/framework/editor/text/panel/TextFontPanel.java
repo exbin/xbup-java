@@ -24,9 +24,6 @@ import java.awt.font.TextAttribute;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-import javax.swing.AbstractListModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import org.xbup.lib.framework.gui.utils.ActionUtils;
 
 /**
@@ -41,15 +38,19 @@ public class TextFontPanel extends javax.swing.JPanel {
 
     private static String[] fontNames;
     private static String[] fontSizes;
-    private ActionListener actionListener;
 
     public TextFontPanel() {
         initComponents();
 
-        actionListener = new ActionListener() {
-
+        ActionListener actionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                updatePreview();
+            }
+        };
+        InputListPanel.ChangeListener changeListener = new InputListPanel.ChangeListener() {
+            @Override
+            public void valueChanged() {
                 updatePreview();
             }
         };
@@ -62,69 +63,13 @@ public class TextFontPanel extends javax.swing.JPanel {
 
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         fontNames = ge.getAvailableFontFamilyNames();
-        fontFamilyList.setModel(new AbstractListModel<String>() {
-            @Override
-            public int getSize() {
-                return fontNames.length;
-            }
-
-            @Override
-            public String getElementAt(int index) {
-                return fontNames[index];
-            }
-        });
-        fontFamilyList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                String selectedValue = fontFamilyList.getSelectedValue();
-                fontFamilyTextField.setText(selectedValue);
-            }
-        });
-        fontFamilyTextField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String key = fontFamilyTextField.getText().toLowerCase();
-                for (String fontName : fontNames) {
-                    if (fontName.toLowerCase().startsWith(key)) {
-                        fontFamilyList.setSelectedValue(fontName, true);
-                        break;
-                    }
-                }
-            }
-        });
+        fontFamilyInputList.setItems(fontNames);
+        fontFamilyInputList.setChangeListener(changeListener);
 
         fontSizes = new String[]{"8", "9", "10", "11", "12", "14", "16",
             "18", "20", "22", "24", "26", "28", "36", "48", "72"};
-        fontSizeList.setModel(new AbstractListModel<String>() {
-            @Override
-            public int getSize() {
-                return fontSizes.length;
-            }
-
-            @Override
-            public String getElementAt(int index) {
-                return fontSizes[index];
-            }
-        });
-        fontSizeList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                String selectedValue = fontSizeList.getSelectedValue();
-                fontSizeTextField.setText(selectedValue);
-            }
-        });
-        fontSizeTextField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String key = fontSizeTextField.getText().toLowerCase();
-                for (String fontSize : fontSizes) {
-                    if (fontSize.toLowerCase().startsWith(key)) {
-                        fontSizeList.setSelectedValue(fontSize, true);
-                        break;
-                    }
-                }
-            }
-        });
+        fontSizeInputList.setItems(fontSizes);
+        fontSizeInputList.setChangeListener(changeListener);
     }
 
     private void updatePreview() {
@@ -133,11 +78,11 @@ public class TextFontPanel extends javax.swing.JPanel {
     }
 
     public Font getStoredFont() {
-        String fontName = fontFamilyList.getSelectedValue();
-        String fontSize = fontSizeList.getSelectedValue();
+        String fontName = fontFamilyInputList.getSelectedValue();
+        String fontSize = fontSizeInputList.getSelectedValue();
         int size = -1;
         try {
-             size = Integer.parseInt(fontSize);
+            size = Integer.parseInt(fontSize);
         } catch (NumberFormatException ex) {
             // Ignore
         }
@@ -145,18 +90,11 @@ public class TextFontPanel extends javax.swing.JPanel {
         if (size <= 0) {
             return null;
         }
-        
+
         Map<TextAttribute, Object> attribs = new HashMap<>();
 
         attribs.put(TextAttribute.FAMILY, fontName);
         attribs.put(TextAttribute.SIZE, (float) size);
-
-        if (underlineCheckBox.isSelected()) {
-            attribs.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
-        }
-        if (strikethroughCheckBox.isSelected()) {
-            attribs.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
-        }
 
         if (boldCheckBox.isSelected()) {
             attribs.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
@@ -164,7 +102,12 @@ public class TextFontPanel extends javax.swing.JPanel {
         if (italicCheckBox.isSelected()) {
             attribs.put(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
         }
-
+        if (underlineCheckBox.isSelected()) {
+            attribs.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
+        }
+        if (strikethroughCheckBox.isSelected()) {
+            attribs.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
+        }
         if (subscriptCheckBox.isSelected()) {
             attribs.put(TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUB);
         }
@@ -178,29 +121,29 @@ public class TextFontPanel extends javax.swing.JPanel {
     public void setStoredFont(Font font) {
         Map<TextAttribute, ?> attribs = font.getAttributes();
 
-//        fontFamilyList.setSelected((String) attribs.get(FAMILY));
-//
-//        Float fontSize = (Float) attribs.get(SIZE);
-//        if (fontSize != null) {
-//            fontSizeInputList.setSelectedInt((int) (float) fontSize);
-//        } else {
-//            fontSizeInputList.setSelectedInt(12);
-//        }
+        fontFamilyInputList.setSelectedValue((String) attribs.get(TextAttribute.FAMILY));
+
+        Float fontSize = (Float) attribs.get(TextAttribute.SIZE);
+        if (fontSize != null) {
+            fontSizeInputList.setSelectedValue(String.valueOf((int) (float) fontSize));
+        } else {
+            fontSizeInputList.setSelectedValue(String.valueOf(12));
+        }
+
         underlineCheckBox.setSelected(TextAttribute.UNDERLINE_LOW_ONE_PIXEL.equals(attribs.get(TextAttribute.UNDERLINE)));
-
         strikethroughCheckBox.setSelected(TextAttribute.STRIKETHROUGH_ON.equals(attribs.get(TextAttribute.STRIKETHROUGH)));
-
         boldCheckBox.setSelected(TextAttribute.WEIGHT_BOLD.equals(attribs.get(TextAttribute.WEIGHT)));
-
         italicCheckBox.setSelected(TextAttribute.POSTURE_OBLIQUE.equals(attribs.get(TextAttribute.POSTURE)));
-
         subscriptCheckBox.setSelected(TextAttribute.SUPERSCRIPT_SUB.equals(attribs.get(TextAttribute.SUPERSCRIPT)));
-
         superscriptCheckBox.setSelected(TextAttribute.SUPERSCRIPT_SUPER.equals(attribs.get(TextAttribute.SUPERSCRIPT)));
 
         updatePreview();
     }
 
+    public void initFont() {
+        setStoredFont(previewTextField.getFont());
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -210,18 +153,13 @@ public class TextFontPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jColorChooser1 = new javax.swing.JColorChooser();
         fontPanel = new javax.swing.JPanel();
         fontFamilyPanel = new javax.swing.JPanel();
         fontFamilyLabel = new javax.swing.JLabel();
-        fontFamilyTextField = new javax.swing.JTextField();
-        fontFamilyScrollPane = new javax.swing.JScrollPane();
-        fontFamilyList = new javax.swing.JList<>();
+        fontFamilyInputList = new org.xbup.lib.framework.editor.text.panel.InputListPanel();
         fontSizePanel = new javax.swing.JPanel();
         fontSizeLabel = new javax.swing.JLabel();
-        fontSizeTextField = new javax.swing.JTextField();
-        fontSizeScrollPane = new javax.swing.JScrollPane();
-        fontSizeList = new javax.swing.JList<>();
+        fontSizeInputList = new org.xbup.lib.framework.editor.text.panel.InputListPanel();
         fontStylePanel = new javax.swing.JPanel();
         boldCheckBox = new javax.swing.JCheckBox();
         italicCheckBox = new javax.swing.JCheckBox();
@@ -232,8 +170,6 @@ public class TextFontPanel extends javax.swing.JPanel {
         previewPanel = new javax.swing.JPanel();
         previewTextField = new javax.swing.JTextField();
 
-        jColorChooser1.setName("jColorChooser1"); // NOI18N
-
         setName("Form"); // NOI18N
 
         fontPanel.setName("fontPanel"); // NOI18N
@@ -241,19 +177,11 @@ public class TextFontPanel extends javax.swing.JPanel {
 
         fontFamilyPanel.setName("fontFamilyPanel"); // NOI18N
 
-        fontFamilyLabel.setLabelFor(fontFamilyTextField);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/text/panel/resources/TextFontPanel"); // NOI18N
         fontFamilyLabel.setText(bundle.getString("TextFontPanel.fontFamilyLabel.text")); // NOI18N
         fontFamilyLabel.setName("fontFamilyLabel"); // NOI18N
 
-        fontFamilyTextField.setName("fontFamilyTextField"); // NOI18N
-
-        fontFamilyScrollPane.setName("fontFamilyScrollPane"); // NOI18N
-
-        fontFamilyList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        fontFamilyList.setName("fontFamilyList"); // NOI18N
-        fontFamilyList.setVisibleRowCount(4);
-        fontFamilyScrollPane.setViewportView(fontFamilyList);
+        fontFamilyInputList.setName("fontFamilyInputList"); // NOI18N
 
         javax.swing.GroupLayout fontFamilyPanelLayout = new javax.swing.GroupLayout(fontFamilyPanel);
         fontFamilyPanel.setLayout(fontFamilyPanelLayout);
@@ -262,9 +190,8 @@ public class TextFontPanel extends javax.swing.JPanel {
             .addGroup(fontFamilyPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(fontFamilyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fontFamilyTextField)
-                    .addComponent(fontFamilyScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
-                    .addComponent(fontFamilyLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(fontFamilyInputList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fontFamilyLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)))
         );
         fontFamilyPanelLayout.setVerticalGroup(
             fontFamilyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -272,27 +199,17 @@ public class TextFontPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(fontFamilyLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fontFamilyTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fontFamilyScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
+                .addComponent(fontFamilyInputList, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))
         );
 
         fontPanel.add(fontFamilyPanel, java.awt.BorderLayout.CENTER);
 
         fontSizePanel.setName("fontSizePanel"); // NOI18N
 
-        fontSizeLabel.setLabelFor(fontSizeTextField);
         fontSizeLabel.setText(bundle.getString("TextFontPanel.fontSizeLabel.text")); // NOI18N
         fontSizeLabel.setName("fontSizeLabel"); // NOI18N
 
-        fontSizeTextField.setName("fontSizeTextField"); // NOI18N
-
-        fontSizeScrollPane.setName("fontSizeScrollPane"); // NOI18N
-
-        fontSizeList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        fontSizeList.setName("fontSizeList"); // NOI18N
-        fontSizeList.setVisibleRowCount(4);
-        fontSizeScrollPane.setViewportView(fontSizeList);
+        fontSizeInputList.setName("fontSizeInputList"); // NOI18N
 
         javax.swing.GroupLayout fontSizePanelLayout = new javax.swing.GroupLayout(fontSizePanel);
         fontSizePanel.setLayout(fontSizePanelLayout);
@@ -301,9 +218,8 @@ public class TextFontPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fontSizePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(fontSizePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(fontSizeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(fontSizeTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fontSizeLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE))
+                    .addComponent(fontSizeInputList, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(fontSizeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
                 .addContainerGap())
         );
         fontSizePanelLayout.setVerticalGroup(
@@ -312,9 +228,7 @@ public class TextFontPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(fontSizeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fontSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fontSizeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
+                .addComponent(fontSizeInputList, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))
         );
 
         fontPanel.add(fontSizePanel, java.awt.BorderLayout.EAST);
@@ -397,20 +311,15 @@ public class TextFontPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox boldCheckBox;
+    private org.xbup.lib.framework.editor.text.panel.InputListPanel fontFamilyInputList;
     private javax.swing.JLabel fontFamilyLabel;
-    private javax.swing.JList<String> fontFamilyList;
     private javax.swing.JPanel fontFamilyPanel;
-    private javax.swing.JScrollPane fontFamilyScrollPane;
-    private javax.swing.JTextField fontFamilyTextField;
     private javax.swing.JPanel fontPanel;
+    private org.xbup.lib.framework.editor.text.panel.InputListPanel fontSizeInputList;
     private javax.swing.JLabel fontSizeLabel;
-    private javax.swing.JList<String> fontSizeList;
     private javax.swing.JPanel fontSizePanel;
-    private javax.swing.JScrollPane fontSizeScrollPane;
-    private javax.swing.JTextField fontSizeTextField;
     private javax.swing.JPanel fontStylePanel;
     private javax.swing.JCheckBox italicCheckBox;
-    private javax.swing.JColorChooser jColorChooser1;
     private javax.swing.JPanel previewPanel;
     private javax.swing.JTextField previewTextField;
     private javax.swing.JCheckBox strikethroughCheckBox;

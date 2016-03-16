@@ -119,6 +119,14 @@ public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
     ClipboardActionsApi getClipboardActions();
 
     /**
+     * Creates new instance of the clipboard actions set.
+     *
+     * @param clipboardHandler clipboard handler
+     * @return clipboard actions set
+     */
+    ClipboardActionSet createClipboardActionsSet(ComponentClipboardHandler clipboardHandler);
+
+    /**
      * Registers menu clipboard actions.
      */
     void registerMenuClipboardActions();
@@ -170,11 +178,6 @@ public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
      * @param clipboardHandler
      */
     void registerClipboardHandler(ComponentClipboardHandler clipboardHandler);
-
-    /**
-     * Updates state of the clipboard actions.
-     */
-    public void updateClipboardActions();
 
     /**
      * Returns true if given menu group exists.

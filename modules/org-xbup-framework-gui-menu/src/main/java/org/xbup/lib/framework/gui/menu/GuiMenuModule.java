@@ -26,6 +26,7 @@ import javax.swing.JToolBar;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.xbup.lib.framework.api.XBApplication;
 import org.xbup.lib.framework.gui.frame.api.GuiFrameModuleApi;
+import org.xbup.lib.framework.gui.menu.api.ClipboardActionSet;
 import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
 import org.xbup.lib.framework.gui.menu.api.MenuGroup;
 import org.xbup.lib.framework.gui.menu.api.MenuPosition;
@@ -37,7 +38,7 @@ import org.xbup.lib.framework.gui.menu.api.ToolBarPosition;
 /**
  * Implementation of XBUP framework menu module.
  *
- * @version 0.2.0 2016/02/20
+ * @version 0.2.0 2016/03/16
  * @author ExBin Project (http://exbin.org)
  */
 @PluginImplementation
@@ -178,12 +179,12 @@ public class GuiMenuModule implements GuiMenuModuleApi {
     }
     
     @Override
-    public void updateClipboardActions() {
-        getClipboardActions().updateClipboardActions();
+    public boolean menuGroupExists(String menuId, String groupId) {
+        return menuHandler.menuGroupExists(menuId, groupId);
     }
 
     @Override
-    public boolean menuGroupExists(String menuId, String groupId) {
-        return menuHandler.menuGroupExists(menuId, groupId);
+    public ClipboardActionSet createClipboardActionsSet(ComponentClipboardHandler clipboardHandler) {
+        return new BasicClipboardActionsSet(clipboardHandler);
     }
 }

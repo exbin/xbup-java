@@ -164,37 +164,46 @@ public class ClipboardActions implements ClipboardActionsApi {
             defaultPopupMenu = new JPopupMenu();
 
             defaultPopupMenu.setName("defaultPopupMenu"); // NOI18N
-
-            JMenuItem basicPopupCutMenuItem = new javax.swing.JMenuItem();
-            JMenuItem basicPopupCopyMenuItem = new javax.swing.JMenuItem();
-            JMenuItem basicPopupPasteMenuItem = new javax.swing.JMenuItem();
-            JMenuItem basicPopupDeleteMenuItem = new javax.swing.JMenuItem();
-            JMenuItem basicPopupSelectAllMenuItem = new javax.swing.JMenuItem();
-
-            basicPopupCutMenuItem.setAction(defaultCutAction);
-            basicPopupCutMenuItem.setName("basicPopupCutMenuItem"); // NOI18N
-            defaultPopupMenu.add(basicPopupCutMenuItem);
-
-            basicPopupCopyMenuItem.setAction(defaultCopyAction);
-            basicPopupCopyMenuItem.setName("basicPopupCopyMenuItem"); // NOI18N
-            defaultPopupMenu.add(basicPopupCopyMenuItem);
-
-            basicPopupPasteMenuItem.setAction(defaultPasteAction);
-            basicPopupPasteMenuItem.setName("basicPopupPasteMenuItem"); // NOI18N
-            defaultPopupMenu.add(basicPopupPasteMenuItem);
-
-            basicPopupDeleteMenuItem.setAction(defaultDeleteAction);
-            basicPopupDeleteMenuItem.setName("basicPopupDeleteMenuItem"); // NOI18N
-            defaultPopupMenu.add(basicPopupDeleteMenuItem);
-
-            defaultPopupMenu.addSeparator();
-
-            basicPopupSelectAllMenuItem.setAction(defaultSelectAllAction);
-            basicPopupSelectAllMenuItem.setName("basicPopupSelectAllMenuItem"); // NOI18N
-            defaultPopupMenu.add(basicPopupSelectAllMenuItem);
+            fillPopupMenu(defaultPopupMenu, -1);
         }
 
         return defaultPopupMenu;
+    }
+    
+    public void fillPopupMenu(JPopupMenu popupMenu, int position) {
+        
+        JMenuItem basicPopupCutMenuItem = new javax.swing.JMenuItem();
+        JMenuItem basicPopupCopyMenuItem = new javax.swing.JMenuItem();
+        JMenuItem basicPopupPasteMenuItem = new javax.swing.JMenuItem();
+        JMenuItem basicPopupDeleteMenuItem = new javax.swing.JMenuItem();
+        JMenuItem basicPopupSelectAllMenuItem = new javax.swing.JMenuItem();
+
+        basicPopupCutMenuItem.setAction(defaultCutAction);
+        basicPopupCutMenuItem.setName("basicPopupCutMenuItem"); // NOI18N
+        basicPopupCopyMenuItem.setAction(defaultCopyAction);
+        basicPopupCopyMenuItem.setName("basicPopupCopyMenuItem"); // NOI18N
+        basicPopupPasteMenuItem.setAction(defaultPasteAction);
+        basicPopupPasteMenuItem.setName("basicPopupPasteMenuItem"); // NOI18N
+        basicPopupDeleteMenuItem.setAction(defaultDeleteAction);
+        basicPopupDeleteMenuItem.setName("basicPopupDeleteMenuItem"); // NOI18N
+        basicPopupSelectAllMenuItem.setAction(defaultSelectAllAction);
+        basicPopupSelectAllMenuItem.setName("basicPopupSelectAllMenuItem"); // NOI18N
+
+        if (position >= 0) {
+            popupMenu.insert(basicPopupCutMenuItem, position);
+            popupMenu.insert(basicPopupCopyMenuItem, position + 1);
+            popupMenu.insert(basicPopupPasteMenuItem, position + 2);
+            popupMenu.insert(basicPopupDeleteMenuItem, position + 3);
+            popupMenu.insert(new JPopupMenu.Separator(), position + 4);
+            popupMenu.insert(basicPopupSelectAllMenuItem, position + 5);
+        } else {
+            popupMenu.add(basicPopupCutMenuItem);
+            popupMenu.add(basicPopupCopyMenuItem);
+            popupMenu.add(basicPopupPasteMenuItem);
+            popupMenu.add(basicPopupDeleteMenuItem);
+            popupMenu.addSeparator();
+            popupMenu.add(basicPopupSelectAllMenuItem);
+        }
     }
 
     private void initDefaultPopupMenu() {

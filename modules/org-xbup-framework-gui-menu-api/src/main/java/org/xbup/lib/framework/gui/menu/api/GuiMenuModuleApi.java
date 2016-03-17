@@ -140,6 +140,14 @@ public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
     void buildToolBar(JToolBar targetToolBar, String toolBarId);
 
     /**
+     * Fills given popup menu with default clipboard actions.
+     *
+     * @param popupMenu popup menu
+     * @param position target index position or -1 for adding at the end
+     */
+    void fillPopupMenu(JPopupMenu popupMenu, int position);
+
+    /**
      * Registers tool bar associating it with given identificator.
      *
      * @param toolBarId

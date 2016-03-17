@@ -71,9 +71,9 @@ import org.xbup.lib.framework.gui.service.catalog.panel.CatalogSearchPanel;
 import org.xbup.lib.framework.gui.service.catalog.panel.CatalogStatusPanel;
 
 /**
- * XBManager Service Management Panel.
+ * XBManager service management panel.
  *
- * @version 0.2.0 2016/02/01
+ * @version 0.2.0 2016/03/17
  * @author ExBin Project (http://exbin.org)
  */
 public class ServiceManagerPanel extends javax.swing.JPanel {
@@ -84,12 +84,11 @@ public class ServiceManagerPanel extends javax.swing.JPanel {
     private final CatalogBrowserPanel catalogBrowserPanel;
     private final CatalogEditorPanel catalogEditorPanel;
     private final CatalogSearchPanel catalogSearchPanel;
-    private MenuManagement menuManagement;
     private String currentPanelCode;
     
-    private ServiceInfoPanel serviceInfoPanel;
-    private ServiceStartupPanel serviceStartupPanel;
-    private ServiceControlPanel serviceControlPanel;
+    private final ServiceInfoPanel serviceInfoPanel;
+    private final ServiceStartupPanel serviceStartupPanel;
+    private final ServiceControlPanel serviceControlPanel;
 
     private final Map<String, Component> panelMap = new HashMap<>();
     private XBACatalog catalog = null;
@@ -224,7 +223,6 @@ public class ServiceManagerPanel extends javax.swing.JPanel {
 //    }
 
     public void setMenuManagement(MenuManagement menuManagement) {
-        this.menuManagement = menuManagement;
         catalogBrowserPanel.setMenuManagement(menuManagement);
         catalogEditorPanel.setMenuManagement(menuManagement);
         catalogSearchPanel.setMenuManagement(menuManagement);

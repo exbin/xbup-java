@@ -16,12 +16,23 @@
  */
 package org.xbup.lib.framework.gui.service;
 
+import java.awt.Component;
 import java.util.prefs.Preferences;
+import javax.swing.JMenu;
+import javax.swing.JPopupMenu;
+import javax.swing.JToolBar;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
+import org.springframework.aop.target.CommonsPoolTargetSource;
 import org.xbup.lib.framework.api.XBApplication;
 import org.xbup.lib.framework.api.XBApplicationModulePlugin;
 import org.xbup.lib.framework.api.XBModuleRepositoryUtils;
 import org.xbup.lib.framework.gui.file.api.GuiFileModuleApi;
+import org.xbup.lib.framework.gui.menu.api.ClipboardActionSet;
+import org.xbup.lib.framework.gui.menu.api.ClipboardActionsUpdateListener;
+import org.xbup.lib.framework.gui.menu.api.ComponentClipboardHandler;
+import org.xbup.lib.framework.gui.menu.api.GuiMenuModuleApi;
+import org.xbup.lib.framework.gui.menu.api.MenuManagement;
+import org.xbup.lib.framework.gui.menu.api.PositionMode;
 import org.xbup.lib.framework.gui.utils.WindowUtils;
 import org.xbup.lib.framework.gui.service.dialog.ConnectionDialog;
 import org.xbup.lib.framework.gui.service.panel.ServiceManagerPanel;
@@ -70,6 +81,34 @@ public class ServiceManagerModule implements XBApplicationModulePlugin {
     public ServiceManagerPanel getServicePanel() {
         if (servicePanel == null) {
             servicePanel = new ServiceManagerPanel();
+            servicePanel.setMenuManagement(new MenuManagement() {
+                @Override
+                public void extendMenu(JMenu menu, Integer pluginId, String menuId, PositionMode positionMode) {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+
+                @Override
+                public void addMenuItem(Component menuItem, Integer pluginId, String menuId, PositionMode mode) {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+
+                @Override
+                public void insertMenu(JMenu menu, Integer pluginId, PositionMode positionMode) {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+
+                @Override
+                public void extendToolBar(JToolBar toolBar) {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+
+                @Override
+                public void insertMainPopupMenu(JPopupMenu popupMenu, int position) {
+                    // Temporary
+                    GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+                    menuModule.fillPopupMenu(popupMenu, position);
+                }
+            });
         }
 
         return servicePanel;

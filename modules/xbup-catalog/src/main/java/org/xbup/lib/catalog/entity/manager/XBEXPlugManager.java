@@ -23,13 +23,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 import org.springframework.stereotype.Repository;
+import org.xbup.lib.catalog.XBECatalog;
+import org.xbup.lib.catalog.entity.XBEXFile;
+import org.xbup.lib.catalog.entity.XBEXPlugin;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.core.catalog.base.manager.XBCXPlugManager;
-import org.xbup.lib.catalog.XBECatalog;
-import org.xbup.lib.catalog.entity.XBEXFile;
-import org.xbup.lib.catalog.entity.XBEXPlugin;
 
 /**
  * XBUP catalog plugin manager.

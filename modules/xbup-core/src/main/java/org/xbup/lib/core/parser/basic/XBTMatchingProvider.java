@@ -18,9 +18,9 @@ package org.xbup.lib.core.parser.basic;
 
 import java.io.IOException;
 import java.io.InputStream;
-import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.stream.XBOutput;
 

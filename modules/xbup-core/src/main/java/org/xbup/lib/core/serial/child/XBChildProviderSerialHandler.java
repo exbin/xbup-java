@@ -18,20 +18,20 @@ package org.xbup.lib.core.serial.child;
 
 import java.io.IOException;
 import java.io.InputStream;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBAttributeToken;
 import org.xbup.lib.core.parser.token.XBBeginToken;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBToken;
 import org.xbup.lib.core.parser.token.XBTokenType;
 import org.xbup.lib.core.parser.token.pull.XBPullProvider;
 import org.xbup.lib.core.serial.XBReadSerialHandler;
 import org.xbup.lib.core.serial.XBSerialException;
-import org.xbup.lib.core.serial.token.XBTokenInputSerialHandler;
 import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.serial.token.XBTokenInputSerialHandler;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**

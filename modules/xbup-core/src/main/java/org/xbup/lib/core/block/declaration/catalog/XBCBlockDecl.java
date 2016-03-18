@@ -16,11 +16,11 @@
  */
 package org.xbup.lib.core.block.declaration.catalog;
 
-import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import java.io.IOException;
 import org.xbup.lib.core.block.XBBasicBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBBlockDecl;
+import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.block.definition.XBBlockDef;
 import org.xbup.lib.core.block.definition.catalog.XBCBlockDef;
 import org.xbup.lib.core.catalog.XBCatalog;

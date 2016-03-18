@@ -16,7 +16,6 @@
  */
 package org.xbup.web.xbcatalogweb.manager;
 
-import org.xbup.web.xbcatalogweb.base.manager.XBCPackageRecordManager;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,6 +30,7 @@ import org.xbup.lib.catalog.entity.XBEXStri;
 import org.xbup.lib.catalog.entity.manager.XBENodeManager;
 import org.xbup.lib.catalog.entity.manager.XBEXLangManager;
 import org.xbup.web.xbcatalogweb.base.XBCPackageRecord;
+import org.xbup.web.xbcatalogweb.base.manager.XBCPackageRecordManager;
 import org.xbup.web.xbcatalogweb.entity.XBEPackageRecord;
 
 /**

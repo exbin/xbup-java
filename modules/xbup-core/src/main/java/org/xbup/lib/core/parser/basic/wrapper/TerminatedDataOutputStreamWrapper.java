@@ -16,9 +16,9 @@
  */
 package org.xbup.lib.core.parser.basic.wrapper;
 
-import org.xbup.lib.core.stream.FinishableStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import org.xbup.lib.core.stream.FinishableStream;
 
 /**
  * Output stream wrapper for terminated data block.

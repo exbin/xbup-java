@@ -16,7 +16,6 @@
  */
 package org.xbup.web.xbcatalogweb.entity;
 
-import org.xbup.web.xbcatalogweb.base.XBCItemRecord;
 import java.io.Serializable;
 import org.xbup.lib.catalog.entity.XBEBlockCons;
 import org.xbup.lib.catalog.entity.XBEBlockJoin;
@@ -36,6 +35,7 @@ import org.xbup.lib.catalog.entity.XBESpecDef;
 import org.xbup.lib.catalog.entity.XBEXDesc;
 import org.xbup.lib.catalog.entity.XBEXName;
 import org.xbup.lib.catalog.entity.XBEXStri;
+import org.xbup.web.xbcatalogweb.base.XBCItemRecord;
 
 /**
  * Item record entity.

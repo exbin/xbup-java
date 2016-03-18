@@ -16,8 +16,6 @@
  */
 package org.xbup.lib.core.serial.param;
 
-import org.xbup.lib.core.serial.sequence.XBSerialSequenceItem;
-import org.xbup.lib.core.serial.sequence.XBSerialSequenceOp;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -34,6 +32,8 @@ import org.xbup.lib.core.parser.token.XBTEndToken;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTypeToken;
 import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.serial.sequence.XBSerialSequenceItem;
+import org.xbup.lib.core.serial.sequence.XBSerialSequenceOp;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 
 /**

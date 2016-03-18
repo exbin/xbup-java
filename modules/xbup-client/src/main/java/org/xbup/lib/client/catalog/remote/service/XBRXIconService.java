@@ -19,15 +19,15 @@ package org.xbup.lib.client.catalog.remote.service;
 import java.util.List;
 import javax.swing.ImageIcon;
 import org.xbup.lib.client.catalog.XBRCatalog;
+import org.xbup.lib.client.catalog.remote.XBRXIcon;
+import org.xbup.lib.client.catalog.remote.XBRXIconMode;
+import org.xbup.lib.client.catalog.remote.manager.XBRXIconManager;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXIcon;
 import org.xbup.lib.core.catalog.base.manager.XBCXIconManager;
 import org.xbup.lib.core.catalog.base.service.XBCXIconService;
-import org.xbup.lib.core.catalog.base.XBCExtension;
-import org.xbup.lib.client.catalog.remote.XBRXIcon;
-import org.xbup.lib.client.catalog.remote.XBRXIconMode;
-import org.xbup.lib.client.catalog.remote.manager.XBRXIconManager;
 
 /**
  * Remote service for XBRXIcon items.

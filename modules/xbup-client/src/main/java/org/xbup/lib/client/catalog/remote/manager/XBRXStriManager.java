@@ -17,12 +17,12 @@
 package org.xbup.lib.client.catalog.remote.manager;
 
 import org.xbup.lib.client.catalog.XBRCatalog;
+import org.xbup.lib.client.catalog.remote.XBRXStri;
+import org.xbup.lib.client.stub.XBPXStriStub;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXStri;
 import org.xbup.lib.core.catalog.base.manager.XBCNodeManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXStriManager;
-import org.xbup.lib.client.catalog.remote.XBRXStri;
-import org.xbup.lib.client.stub.XBPXStriStub;
 
 /**
  * Remote manager class for XBRXStri catalog items.

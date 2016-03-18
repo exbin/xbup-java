@@ -16,9 +16,9 @@
  */
 package org.xbup.web.xbcatalogweb.base;
 
-import org.xbup.lib.core.catalog.base.XBCBase;
 import org.xbup.lib.catalog.entity.XBEXUser;
 import org.xbup.lib.catalog.entity.XBEXUserInfo;
+import org.xbup.lib.core.catalog.base.XBCBase;
 
 /**
  * User record entity interface.

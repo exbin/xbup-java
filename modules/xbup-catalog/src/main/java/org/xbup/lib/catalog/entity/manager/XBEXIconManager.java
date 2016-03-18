@@ -23,15 +23,15 @@ import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 import javax.swing.ImageIcon;
 import org.springframework.stereotype.Repository;
+import org.xbup.lib.catalog.XBECatalog;
+import org.xbup.lib.catalog.entity.XBEXIcon;
+import org.xbup.lib.catalog.entity.XBEXIconMode;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.XBCXIcon;
 import org.xbup.lib.core.catalog.base.manager.XBCXFileManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXIconManager;
-import org.xbup.lib.catalog.XBECatalog;
-import org.xbup.lib.catalog.entity.XBEXIcon;
-import org.xbup.lib.catalog.entity.XBEXIconMode;
 
 /**
  * XBUP catalog icon manager.

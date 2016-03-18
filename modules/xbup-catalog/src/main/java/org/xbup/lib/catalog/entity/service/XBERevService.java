@@ -21,10 +21,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xbup.lib.core.catalog.base.XBCRev;
-import org.xbup.lib.core.catalog.base.XBCSpec;
-import org.xbup.lib.core.catalog.base.manager.XBCRevManager;
-import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBEBlockRev;
 import org.xbup.lib.catalog.entity.XBEFormatRev;
@@ -34,14 +30,18 @@ import org.xbup.lib.catalog.entity.manager.XBERevManager;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
 import org.xbup.lib.core.catalog.base.XBCGroupSpec;
+import org.xbup.lib.core.catalog.base.XBCRev;
+import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCXDesc;
 import org.xbup.lib.core.catalog.base.XBCXHDoc;
 import org.xbup.lib.core.catalog.base.XBCXName;
 import org.xbup.lib.core.catalog.base.XBCXStri;
+import org.xbup.lib.core.catalog.base.manager.XBCRevManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXDescManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXHDocManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXNameManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXStriManager;
+import org.xbup.lib.core.catalog.base.service.XBCRevService;
 
 /**
  * Interface for XBERev items service.

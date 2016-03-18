@@ -16,10 +16,10 @@
  */
 package org.xbup.web.xbcatalogweb.entity;
 
-import org.xbup.web.xbcatalogweb.base.XBCUserRecord;
 import java.io.Serializable;
 import org.xbup.lib.catalog.entity.XBEXUser;
 import org.xbup.lib.catalog.entity.XBEXUserInfo;
+import org.xbup.web.xbcatalogweb.base.XBCUserRecord;
 
 /**
  * User record entity.

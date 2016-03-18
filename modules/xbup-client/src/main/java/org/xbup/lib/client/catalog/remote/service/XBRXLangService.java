@@ -17,11 +17,11 @@
 package org.xbup.lib.client.catalog.remote.service;
 
 import org.xbup.lib.client.catalog.XBRCatalog;
-import org.xbup.lib.core.catalog.base.manager.XBCXLangManager;
-import org.xbup.lib.core.catalog.base.service.XBCXLangService;
-import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.client.catalog.remote.XBRXLanguage;
 import org.xbup.lib.client.catalog.remote.manager.XBRXLangManager;
+import org.xbup.lib.core.catalog.base.XBCExtension;
+import org.xbup.lib.core.catalog.base.manager.XBCXLangManager;
+import org.xbup.lib.core.catalog.base.service.XBCXLangService;
 
 /**
  * Remote service for XBRXLanguage items.

@@ -17,8 +17,8 @@
 package org.xbup.lib.client.catalog.remote.manager;
 
 import org.xbup.lib.client.catalog.XBRCatalog;
-import org.xbup.lib.core.catalog.base.manager.XBCLimiManager;
 import org.xbup.lib.client.catalog.remote.XBRItemLimi;
+import org.xbup.lib.core.catalog.base.manager.XBCLimiManager;
 
 /**
  * Remote manager class for XBRLimit catalog items.

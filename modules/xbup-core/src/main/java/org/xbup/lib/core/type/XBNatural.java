@@ -18,10 +18,10 @@ package org.xbup.lib.core.type;
 
 import java.io.IOException;
 import java.util.List;
-import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
+import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;

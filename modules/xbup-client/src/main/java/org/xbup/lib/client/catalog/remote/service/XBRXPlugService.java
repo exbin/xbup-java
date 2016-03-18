@@ -18,13 +18,13 @@ package org.xbup.lib.client.catalog.remote.service;
 
 import java.io.InputStream;
 import org.xbup.lib.client.catalog.XBRCatalog;
+import org.xbup.lib.client.catalog.remote.XBRXPlugin;
+import org.xbup.lib.client.catalog.remote.manager.XBRXPlugManager;
+import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.core.catalog.base.manager.XBCXPlugManager;
 import org.xbup.lib.core.catalog.base.service.XBCXPlugService;
-import org.xbup.lib.core.catalog.base.XBCExtension;
-import org.xbup.lib.client.catalog.remote.XBRXPlugin;
-import org.xbup.lib.client.catalog.remote.manager.XBRXPlugManager;
 
 /**
  * Remote service for XBRXPlugin items.

@@ -20,9 +20,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.stub.XBPXFileStub;
+import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.util.StreamUtils;
 
 /**

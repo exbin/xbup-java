@@ -20,12 +20,12 @@ import java.io.InputStream;
 import java.util.List;
 import javax.swing.ImageIcon;
 import org.xbup.lib.client.catalog.XBRCatalog;
+import org.xbup.lib.client.catalog.remote.XBRXFile;
+import org.xbup.lib.client.catalog.remote.manager.XBRXFileManager;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.manager.XBCXFileManager;
 import org.xbup.lib.core.catalog.base.service.XBCXFileService;
-import org.xbup.lib.client.catalog.remote.XBRXFile;
-import org.xbup.lib.client.catalog.remote.manager.XBRXFileManager;
 
 /**
  * Remote service for XBRXFile items.

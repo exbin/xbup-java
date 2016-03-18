@@ -25,10 +25,10 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
-import org.xbup.lib.core.catalog.base.XBCXLanguage;
-import org.xbup.lib.core.catalog.base.manager.XBCXLangManager;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBEXLanguage;
+import org.xbup.lib.core.catalog.base.XBCXLanguage;
+import org.xbup.lib.core.catalog.base.manager.XBCXLangManager;
 
 /**
  * XBUP catalog language manager.

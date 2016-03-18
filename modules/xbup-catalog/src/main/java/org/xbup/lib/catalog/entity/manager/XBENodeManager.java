@@ -24,11 +24,11 @@ import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
-import org.xbup.lib.core.catalog.base.XBCNode;
-import org.xbup.lib.core.catalog.base.manager.XBCNodeManager;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBENode;
 import org.xbup.lib.catalog.entity.XBERoot;
+import org.xbup.lib.core.catalog.base.XBCNode;
+import org.xbup.lib.core.catalog.base.manager.XBCNodeManager;
 
 /**
  * XBUP catalog node manager.

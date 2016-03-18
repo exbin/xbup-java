@@ -16,11 +16,11 @@
  */
 package org.xbup.lib.core.parser.basic.wrapper;
 
-import org.xbup.lib.core.stream.FinishableStream;
 import java.io.IOException;
 import java.io.InputStream;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
+import org.xbup.lib.core.stream.FinishableStream;
 
 /**
  * Input stream wrapper for fixed length data block.

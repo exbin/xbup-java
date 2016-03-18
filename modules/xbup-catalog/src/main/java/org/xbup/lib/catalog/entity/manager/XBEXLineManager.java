@@ -22,16 +22,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 import org.springframework.stereotype.Repository;
-import org.xbup.lib.core.catalog.base.XBCBlockRev;
-import org.xbup.lib.core.catalog.base.XBCXBlockLine;
-import org.xbup.lib.core.catalog.base.XBCXPlugLine;
-import org.xbup.lib.core.catalog.base.XBCXPlugin;
-import org.xbup.lib.core.catalog.base.manager.XBCXLineManager;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBEBlockRev;
 import org.xbup.lib.catalog.entity.XBEXBlockLine;
 import org.xbup.lib.catalog.entity.XBEXPlugLine;
 import org.xbup.lib.catalog.entity.XBEXPlugin;
+import org.xbup.lib.core.catalog.base.XBCBlockRev;
+import org.xbup.lib.core.catalog.base.XBCXBlockLine;
+import org.xbup.lib.core.catalog.base.XBCXPlugLine;
+import org.xbup.lib.core.catalog.base.XBCXPlugin;
+import org.xbup.lib.core.catalog.base.manager.XBCXLineManager;
 
 /**
  * XBUP catalog line editors manager.

@@ -18,23 +18,6 @@ package org.xbup.lib.client.catalog.remote.service;
 
 import java.util.List;
 import org.xbup.lib.client.catalog.XBRCatalog;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
-import org.xbup.lib.core.catalog.base.XBCFormatSpec;
-import org.xbup.lib.core.catalog.base.XBCGroupSpec;
-import org.xbup.lib.core.catalog.base.XBCNode;
-import org.xbup.lib.core.catalog.base.XBCSpec;
-import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.block.definition.XBParamType;
-import org.xbup.lib.core.catalog.base.XBCXDesc;
-import org.xbup.lib.core.catalog.base.XBCXHDoc;
-import org.xbup.lib.core.catalog.base.XBCXName;
-import org.xbup.lib.core.catalog.base.XBCXStri;
-import org.xbup.lib.core.catalog.base.manager.XBCSpecManager;
-import org.xbup.lib.core.catalog.base.manager.XBCXDescManager;
-import org.xbup.lib.core.catalog.base.manager.XBCXHDocManager;
-import org.xbup.lib.core.catalog.base.manager.XBCXNameManager;
-import org.xbup.lib.core.catalog.base.manager.XBCXStriManager;
-import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 import org.xbup.lib.client.catalog.remote.XBRBlockSpec;
 import org.xbup.lib.client.catalog.remote.XBRFormatSpec;
 import org.xbup.lib.client.catalog.remote.XBRGroupSpec;
@@ -47,6 +30,23 @@ import org.xbup.lib.core.block.declaration.catalog.XBCGroupDecl;
 import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
 import org.xbup.lib.core.block.declaration.local.XBLGroupDecl;
+import org.xbup.lib.core.block.definition.XBParamType;
+import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.core.catalog.base.XBCFormatSpec;
+import org.xbup.lib.core.catalog.base.XBCGroupSpec;
+import org.xbup.lib.core.catalog.base.XBCNode;
+import org.xbup.lib.core.catalog.base.XBCSpec;
+import org.xbup.lib.core.catalog.base.XBCSpecDef;
+import org.xbup.lib.core.catalog.base.XBCXDesc;
+import org.xbup.lib.core.catalog.base.XBCXHDoc;
+import org.xbup.lib.core.catalog.base.XBCXName;
+import org.xbup.lib.core.catalog.base.XBCXStri;
+import org.xbup.lib.core.catalog.base.manager.XBCSpecManager;
+import org.xbup.lib.core.catalog.base.manager.XBCXDescManager;
+import org.xbup.lib.core.catalog.base.manager.XBCXHDocManager;
+import org.xbup.lib.core.catalog.base.manager.XBCXNameManager;
+import org.xbup.lib.core.catalog.base.manager.XBCXStriManager;
+import org.xbup.lib.core.catalog.base.service.XBCSpecService;
 
 /**
  * Remote service for XBRSpec items.

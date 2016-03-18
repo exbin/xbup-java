@@ -30,9 +30,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.xbup.lib.core.catalog.base.XBCXUser;
 import org.xbup.lib.catalog.entity.XBEXUser;
 import org.xbup.lib.catalog.entity.service.XBEXUserService;
+import org.xbup.lib.core.catalog.base.XBCXUser;
 import org.xbup.web.xbcatalogweb.service.XBEUserRecordService;
 
 /**

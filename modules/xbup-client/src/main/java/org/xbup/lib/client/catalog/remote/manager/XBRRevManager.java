@@ -18,11 +18,11 @@ package org.xbup.lib.client.catalog.remote.manager;
 
 import java.util.List;
 import org.xbup.lib.client.catalog.XBRCatalog;
+import org.xbup.lib.client.catalog.remote.XBRRev;
+import org.xbup.lib.client.stub.XBPRevStub;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.manager.XBCRevManager;
-import org.xbup.lib.client.catalog.remote.XBRRev;
-import org.xbup.lib.client.stub.XBPRevStub;
 
 /**
  * Remote manager class for XBRRev catalog items.

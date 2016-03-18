@@ -16,8 +16,8 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
-import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.client.XBCatalogServiceClient;
+import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 
 /**
  * Catalog remote group specification entity.

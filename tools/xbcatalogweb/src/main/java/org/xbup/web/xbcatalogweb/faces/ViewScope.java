@@ -1,9 +1,7 @@
 package org.xbup.web.xbcatalogweb.faces;
 
 import java.util.Map;
-
 import javax.faces.context.FacesContext;
-
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
 

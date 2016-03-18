@@ -18,11 +18,11 @@ package org.xbup.lib.client.catalog.remote.manager;
 
 import java.util.List;
 import org.xbup.lib.client.catalog.XBRCatalog;
+import org.xbup.lib.client.catalog.remote.XBRNode;
+import org.xbup.lib.client.stub.XBPNodeStub;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCRoot;
 import org.xbup.lib.core.catalog.base.manager.XBCNodeManager;
-import org.xbup.lib.client.catalog.remote.XBRNode;
-import org.xbup.lib.client.stub.XBPNodeStub;
 
 /**
  * Remote manager class for XBRNode catalog items.

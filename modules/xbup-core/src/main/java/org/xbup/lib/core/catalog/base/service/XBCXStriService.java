@@ -16,10 +16,10 @@
  */
 package org.xbup.lib.core.catalog.base.service;
 
+import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCXStri;
-import org.xbup.lib.core.catalog.base.XBCExtension;
 
 /**
  * Interface for XBCXStri items service.

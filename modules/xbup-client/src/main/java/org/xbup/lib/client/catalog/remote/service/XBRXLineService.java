@@ -18,16 +18,16 @@ package org.xbup.lib.client.catalog.remote.service;
 
 import java.util.List;
 import org.xbup.lib.client.catalog.XBRCatalog;
+import org.xbup.lib.client.catalog.remote.XBRXBlockLine;
+import org.xbup.lib.client.catalog.remote.XBRXPlugLine;
+import org.xbup.lib.client.catalog.remote.manager.XBRXLineManager;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
+import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.core.catalog.base.XBCXBlockLine;
 import org.xbup.lib.core.catalog.base.XBCXPlugLine;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.core.catalog.base.manager.XBCXLineManager;
 import org.xbup.lib.core.catalog.base.service.XBCXLineService;
-import org.xbup.lib.core.catalog.base.XBCExtension;
-import org.xbup.lib.client.catalog.remote.XBRXBlockLine;
-import org.xbup.lib.client.catalog.remote.XBRXPlugLine;
-import org.xbup.lib.client.catalog.remote.manager.XBRXLineManager;
 
 /**
  * Remote service for XBRXBlockLine items.

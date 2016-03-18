@@ -21,11 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
 import org.xbup.lib.client.catalog.XBRCatalog;
+import org.xbup.lib.client.catalog.remote.XBRXFile;
+import org.xbup.lib.client.stub.XBPXFileStub;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.manager.XBCXFileManager;
-import org.xbup.lib.client.catalog.remote.XBRXFile;
-import org.xbup.lib.client.stub.XBPXFileStub;
 
 /**
  * Remote manager class for XBRXFile catalog items.

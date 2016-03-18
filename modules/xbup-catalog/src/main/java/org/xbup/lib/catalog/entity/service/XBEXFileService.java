@@ -24,14 +24,14 @@ import javax.annotation.PostConstruct;
 import javax.swing.ImageIcon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xbup.lib.catalog.XBECatalog;
+import org.xbup.lib.catalog.entity.XBEXFile;
+import org.xbup.lib.catalog.entity.manager.XBEXFileManager;
+import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.manager.XBCXFileManager;
 import org.xbup.lib.core.catalog.base.service.XBCXFileService;
-import org.xbup.lib.core.catalog.base.XBCExtension;
-import org.xbup.lib.catalog.XBECatalog;
-import org.xbup.lib.catalog.entity.XBEXFile;
-import org.xbup.lib.catalog.entity.manager.XBEXFileManager;
 
 /**
  * Interface for XBEXFile items service.

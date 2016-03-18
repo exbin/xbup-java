@@ -17,9 +17,9 @@
 package org.xbup.lib.core.parser.basic.convert;
 
 import java.io.InputStream;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.token.XBAttribute;
 
 /**

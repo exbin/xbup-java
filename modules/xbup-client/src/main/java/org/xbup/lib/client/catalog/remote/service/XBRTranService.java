@@ -17,10 +17,10 @@
 package org.xbup.lib.client.catalog.remote.service;
 
 import org.xbup.lib.client.catalog.XBRCatalog;
-import org.xbup.lib.core.catalog.base.manager.XBCTranManager;
-import org.xbup.lib.core.catalog.base.service.XBCTranService;
 import org.xbup.lib.client.catalog.remote.XBRTran;
 import org.xbup.lib.client.catalog.remote.manager.XBRTranManager;
+import org.xbup.lib.core.catalog.base.manager.XBCTranManager;
+import org.xbup.lib.core.catalog.base.service.XBCTranService;
 
 /**
  * Remote service for XBRTran items.

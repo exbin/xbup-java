@@ -20,15 +20,15 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xbup.lib.catalog.XBECatalog;
+import org.xbup.lib.catalog.entity.XBEXStri;
+import org.xbup.lib.catalog.entity.manager.XBEXStriManager;
+import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCXStri;
 import org.xbup.lib.core.catalog.base.manager.XBCXStriManager;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
-import org.xbup.lib.core.catalog.base.XBCExtension;
-import org.xbup.lib.catalog.XBECatalog;
-import org.xbup.lib.catalog.entity.XBEXStri;
-import org.xbup.lib.catalog.entity.manager.XBEXStriManager;
 
 /**
  * Interface for XBEXStri items service.

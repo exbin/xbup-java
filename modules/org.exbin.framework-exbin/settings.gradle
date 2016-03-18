@@ -1,0 +1,31 @@
+rootProject.name = 'org.exbin.framework-exbin'
+
+include ":modules:xbup-core"
+include ":modules:xbup-catalog"
+include ":modules:xbup-operation"
+include ":modules:xbup-visual"
+include ":modules:xbup-plugin"
+include ":modules:xbup-parser-tree"
+include ":modules:xbup-parser-command"
+include ":modules:xbup-client"
+include ":modules:org.exbin.framework"
+include ":modules:org.exbin.framework-api"
+include ":modules:org.exbin.framework-gui-menu"
+include ":modules:org.exbin.framework-gui-menu-api"
+include ":modules:org.exbin.framework-gui-editor-api"
+include ":modules:org.exbin.framework-gui-utils"
+include ":modules:org.exbin.framework-gui-frame-api"
+include ":modules:ca.psc-consulting.hexedit"
+include ":modules:net.sf.simplyhtml"
+
+def modifyPath(project) {
+    def rootProjectDir = rootProject.projectDir.parentFile.parent
+    project.children.each { p ->
+        p.projectDir = new File(rootProjectDir + p.projectDir.path.substring(rootProject.projectDir.path.length(), p.projectDir.path.length()))
+        modifyPath(p)
+    }
+}
+
+if (rootProject.path == ':') {
+    modifyPath(rootProject)
+}

@@ -24,6 +24,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import org.xbup.lib.client.catalog.XBRCatalog;
+import org.xbup.lib.client.catalog.remote.XBRXIcon;
+import org.xbup.lib.client.catalog.remote.XBRXIconMode;
+import org.xbup.lib.client.stub.XBPXIconStub;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCNode;
@@ -31,9 +34,6 @@ import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.XBCXIcon;
 import org.xbup.lib.core.catalog.base.manager.XBCXFileManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXIconManager;
-import org.xbup.lib.client.catalog.remote.XBRXIcon;
-import org.xbup.lib.client.catalog.remote.XBRXIconMode;
-import org.xbup.lib.client.stub.XBPXIconStub;
 import org.xbup.lib.core.util.StreamUtils;
 
 /**

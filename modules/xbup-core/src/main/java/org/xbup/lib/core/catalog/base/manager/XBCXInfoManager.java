@@ -16,8 +16,8 @@
  */
 package org.xbup.lib.core.catalog.base.manager;
 
-import org.xbup.lib.core.catalog.base.XBCXItemInfo;
 import org.xbup.lib.core.catalog.base.XBCNode;
+import org.xbup.lib.core.catalog.base.XBCXItemInfo;
 
 /**
  * Interface for XBCXItemInfo catalog manager.

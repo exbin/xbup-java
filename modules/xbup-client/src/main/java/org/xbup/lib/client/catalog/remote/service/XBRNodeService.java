@@ -19,12 +19,12 @@ package org.xbup.lib.client.catalog.remote.service;
 import java.util.Date;
 import java.util.List;
 import org.xbup.lib.client.catalog.XBRCatalog;
+import org.xbup.lib.client.catalog.remote.XBRNode;
+import org.xbup.lib.client.catalog.remote.manager.XBRNodeManager;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCRoot;
 import org.xbup.lib.core.catalog.base.manager.XBCNodeManager;
 import org.xbup.lib.core.catalog.base.service.XBCNodeService;
-import org.xbup.lib.client.catalog.remote.XBRNode;
-import org.xbup.lib.client.catalog.remote.manager.XBRNodeManager;
 
 /**
  * Remote service for XBRNode items.

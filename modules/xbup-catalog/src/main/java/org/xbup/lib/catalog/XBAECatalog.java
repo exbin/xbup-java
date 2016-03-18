@@ -20,12 +20,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import org.xbup.lib.catalog.entity.service.XBELimiService;
+import org.xbup.lib.catalog.entity.service.XBETranService;
 import org.xbup.lib.core.block.declaration.XBContext;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.service.XBCLimiService;
 import org.xbup.lib.core.catalog.base.service.XBCTranService;
-import org.xbup.lib.catalog.entity.service.XBELimiService;
-import org.xbup.lib.catalog.entity.service.XBETranService;
 
 /**
  * Basic level 2 catalog class using Java persistence.

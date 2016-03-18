@@ -18,8 +18,6 @@ package org.xbup.lib.core.block.declaration;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.catalog.XBCatalog;
@@ -31,7 +29,6 @@ import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.parser.token.convert.XBTListenerToToken;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.serial.basic.XBReceivingFinished;
-import org.xbup.lib.core.serial.basic.XBTBasicInputReceivingSerialHandler;
 
 /**
  * Representation of the current declaration typeConvertor for block types.

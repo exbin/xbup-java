@@ -18,13 +18,13 @@ package org.xbup.lib.core.parser.token.convert;
 
 import java.io.IOException;
 import java.io.InputStream;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBListener;
-import org.xbup.lib.core.parser.token.XBAttributeToken;
-import org.xbup.lib.core.parser.token.XBBeginToken;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.basic.XBSListener;
 import org.xbup.lib.core.parser.token.XBAttribute;
+import org.xbup.lib.core.parser.token.XBAttributeToken;
+import org.xbup.lib.core.parser.token.XBBeginToken;
 import org.xbup.lib.core.parser.token.XBDataToken;
 import org.xbup.lib.core.parser.token.XBEndToken;
 import org.xbup.lib.core.parser.token.XBSBeginToken;

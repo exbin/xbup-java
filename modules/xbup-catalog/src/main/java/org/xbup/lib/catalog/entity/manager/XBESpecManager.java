@@ -24,14 +24,6 @@ import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
-import org.xbup.lib.core.catalog.base.XBCFormatSpec;
-import org.xbup.lib.core.catalog.base.XBCGroupSpec;
-import org.xbup.lib.core.catalog.base.XBCNode;
-import org.xbup.lib.core.catalog.base.XBCSpec;
-import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.block.definition.XBParamType;
-import org.xbup.lib.core.catalog.base.manager.XBCSpecManager;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBEBlockCons;
 import org.xbup.lib.catalog.entity.XBEBlockJoin;
@@ -47,6 +39,14 @@ import org.xbup.lib.catalog.entity.XBEGroupSpec;
 import org.xbup.lib.catalog.entity.XBENode;
 import org.xbup.lib.catalog.entity.XBESpec;
 import org.xbup.lib.catalog.entity.XBESpecDef;
+import org.xbup.lib.core.block.definition.XBParamType;
+import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.core.catalog.base.XBCFormatSpec;
+import org.xbup.lib.core.catalog.base.XBCGroupSpec;
+import org.xbup.lib.core.catalog.base.XBCNode;
+import org.xbup.lib.core.catalog.base.XBCSpec;
+import org.xbup.lib.core.catalog.base.XBCSpecDef;
+import org.xbup.lib.core.catalog.base.manager.XBCSpecManager;
 
 /**
  * XBUP catalog specification manager.

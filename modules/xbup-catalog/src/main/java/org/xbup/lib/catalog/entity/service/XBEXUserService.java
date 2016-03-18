@@ -20,11 +20,11 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xbup.lib.core.catalog.base.manager.XBCXUserManager;
-import org.xbup.lib.core.catalog.base.service.XBCXUserService;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBEXUser;
 import org.xbup.lib.catalog.entity.manager.XBEXUserManager;
+import org.xbup.lib.core.catalog.base.manager.XBCXUserManager;
+import org.xbup.lib.core.catalog.base.service.XBCXUserService;
 
 /**
  * Interface for XBEXUser items service.

@@ -16,11 +16,11 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
+import org.xbup.lib.client.XBCatalogServiceClient;
+import org.xbup.lib.client.stub.XBPXPaneStub;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCXBlockPane;
 import org.xbup.lib.core.catalog.base.XBCXPlugPane;
-import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.client.stub.XBPXPaneStub;
 
 /**
  * Catalog remote block panel editor entity.

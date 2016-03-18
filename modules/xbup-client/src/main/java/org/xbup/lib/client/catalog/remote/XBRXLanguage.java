@@ -16,9 +16,9 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
-import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.stub.XBPXLangStub;
+import org.xbup.lib.core.catalog.base.XBCXLanguage;
 
 /**
  * Catalog remote language entity.

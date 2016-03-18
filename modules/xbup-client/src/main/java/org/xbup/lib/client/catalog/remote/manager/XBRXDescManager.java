@@ -18,12 +18,12 @@ package org.xbup.lib.client.catalog.remote.manager;
 
 import java.util.List;
 import org.xbup.lib.client.catalog.XBRCatalog;
+import org.xbup.lib.client.catalog.remote.XBRXDesc;
+import org.xbup.lib.client.stub.XBPXDescStub;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXDesc;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.core.catalog.base.manager.XBCXDescManager;
-import org.xbup.lib.client.catalog.remote.XBRXDesc;
-import org.xbup.lib.client.stub.XBPXDescStub;
 
 /**
  * Remote manager class for XBRXDesc catalog items.

@@ -23,12 +23,12 @@ import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
-import org.xbup.lib.core.catalog.base.XBCRev;
-import org.xbup.lib.core.catalog.base.XBCSpec;
-import org.xbup.lib.core.catalog.base.manager.XBCRevManager;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBERev;
 import org.xbup.lib.catalog.entity.XBESpec;
+import org.xbup.lib.core.catalog.base.XBCRev;
+import org.xbup.lib.core.catalog.base.XBCSpec;
+import org.xbup.lib.core.catalog.base.manager.XBCRevManager;
 
 /**
  * XBUP catalog specification revision manager.

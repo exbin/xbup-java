@@ -23,6 +23,12 @@ import java.util.logging.Logger;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import org.springframework.stereotype.Repository;
+import org.xbup.lib.catalog.XBECatalog;
+import org.xbup.lib.catalog.entity.XBEItem;
+import org.xbup.lib.catalog.entity.XBENode;
+import org.xbup.lib.catalog.entity.XBESpec;
+import org.xbup.lib.catalog.entity.XBEXLanguage;
+import org.xbup.lib.catalog.entity.XBEXName;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.core.catalog.base.XBCXName;
@@ -30,12 +36,6 @@ import org.xbup.lib.core.catalog.base.manager.XBCNodeManager;
 import org.xbup.lib.core.catalog.base.manager.XBCSpecManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXLangManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXNameManager;
-import org.xbup.lib.catalog.XBECatalog;
-import org.xbup.lib.catalog.entity.XBEItem;
-import org.xbup.lib.catalog.entity.XBENode;
-import org.xbup.lib.catalog.entity.XBESpec;
-import org.xbup.lib.catalog.entity.XBEXLanguage;
-import org.xbup.lib.catalog.entity.XBEXName;
 
 /**
  * XBUP catalog item name manager.

@@ -17,9 +17,9 @@
 package org.xbup.lib.core.catalog.base.service;
 
 import java.io.InputStream;
+import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
-import org.xbup.lib.core.catalog.base.XBCExtension;
 
 /**
  * Interface for XBCXPlugin items service.

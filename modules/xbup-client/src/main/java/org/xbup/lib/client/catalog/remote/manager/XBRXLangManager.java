@@ -18,10 +18,10 @@ package org.xbup.lib.client.catalog.remote.manager;
 
 import java.util.List;
 import org.xbup.lib.client.catalog.XBRCatalog;
-import org.xbup.lib.core.catalog.base.XBCXLanguage;
-import org.xbup.lib.core.catalog.base.manager.XBCXLangManager;
 import org.xbup.lib.client.catalog.remote.XBRXLanguage;
 import org.xbup.lib.client.stub.XBPXLangStub;
+import org.xbup.lib.core.catalog.base.XBCXLanguage;
+import org.xbup.lib.core.catalog.base.manager.XBCXLangManager;
 
 /**
  * Remote manager class for XBRXLanguage catalog items.

@@ -17,8 +17,8 @@
 package org.xbup.lib.client.catalog.remote.manager;
 
 import org.xbup.lib.client.catalog.XBRCatalog;
-import org.xbup.lib.core.catalog.base.manager.XBCTranManager;
 import org.xbup.lib.client.catalog.remote.XBRTran;
+import org.xbup.lib.core.catalog.base.manager.XBCTranManager;
 
 /**
  * Remote manager class for XBRRev catalog items.

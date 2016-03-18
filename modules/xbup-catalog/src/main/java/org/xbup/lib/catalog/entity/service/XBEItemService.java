@@ -21,12 +21,12 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xbup.lib.core.catalog.base.manager.XBCItemManager;
-import org.xbup.lib.core.catalog.base.service.XBCItemService;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBEItem;
 import org.xbup.lib.catalog.entity.manager.XBEItemManager;
 import org.xbup.lib.catalog.entity.manager.XBItemWithDetail;
+import org.xbup.lib.core.catalog.base.manager.XBCItemManager;
+import org.xbup.lib.core.catalog.base.service.XBCItemService;
 
 /**
  * Interface for XBEItem items service.

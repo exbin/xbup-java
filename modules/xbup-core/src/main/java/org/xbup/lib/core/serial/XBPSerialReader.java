@@ -25,8 +25,8 @@ import org.xbup.lib.core.parser.token.pull.XBPullReader;
 import org.xbup.lib.core.parser.token.pull.XBTPullProvider;
 import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
-import org.xbup.lib.core.serial.param.XBPSerializable;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBPSerializable;
 
 /**
  * XBUP level 2 serialization object from stream writer.

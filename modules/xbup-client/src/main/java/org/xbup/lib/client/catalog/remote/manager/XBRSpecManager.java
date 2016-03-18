@@ -18,20 +18,20 @@ package org.xbup.lib.client.catalog.remote.manager;
 
 import java.util.List;
 import org.xbup.lib.client.catalog.XBRCatalog;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
-import org.xbup.lib.core.catalog.base.XBCFormatSpec;
-import org.xbup.lib.core.catalog.base.XBCGroupSpec;
-import org.xbup.lib.core.catalog.base.XBCNode;
-import org.xbup.lib.core.catalog.base.XBCSpec;
-import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.block.definition.XBParamType;
-import org.xbup.lib.core.catalog.base.manager.XBCSpecManager;
 import org.xbup.lib.client.catalog.remote.XBRBlockSpec;
 import org.xbup.lib.client.catalog.remote.XBRFormatSpec;
 import org.xbup.lib.client.catalog.remote.XBRGroupSpec;
 import org.xbup.lib.client.catalog.remote.XBRSpec;
 import org.xbup.lib.client.catalog.remote.XBRSpecDef;
 import org.xbup.lib.client.stub.XBPSpecStub;
+import org.xbup.lib.core.block.definition.XBParamType;
+import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.core.catalog.base.XBCFormatSpec;
+import org.xbup.lib.core.catalog.base.XBCGroupSpec;
+import org.xbup.lib.core.catalog.base.XBCNode;
+import org.xbup.lib.core.catalog.base.XBCSpec;
+import org.xbup.lib.core.catalog.base.XBCSpecDef;
+import org.xbup.lib.core.catalog.base.manager.XBCSpecManager;
 
 /**
  * Remote manager class for XBRSpec catalog items.

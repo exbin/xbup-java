@@ -25,8 +25,8 @@ import org.xbup.lib.core.parser.token.event.XBEventWriter;
 import org.xbup.lib.core.parser.token.event.XBTEventListener;
 import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
-import org.xbup.lib.core.serial.param.XBPSerializable;
 import org.xbup.lib.core.serial.param.XBPSequenceSerializable;
+import org.xbup.lib.core.serial.param.XBPSerializable;
 
 /**
  * XBUP level 2 serialization object to stream writer.

@@ -65,7 +65,7 @@ public class XBCFormatDef implements XBFormatDef, XBPSequenceSerializable {
     public List<XBFormatParam> getFormatParams() {
         XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
         List<XBFormatParam> resultList = new ArrayList<>();
-        List<XBCSpecDef> specDefs = specService.getSpecDefs(formatSpec);
+        List<XBCSpecDef> specDefs = (List<XBCSpecDef>) specService.getSpecDefs(formatSpec);
         for (XBCSpecDef specDef : specDefs) {
             resultList.add(convertParam(specDef));
         }

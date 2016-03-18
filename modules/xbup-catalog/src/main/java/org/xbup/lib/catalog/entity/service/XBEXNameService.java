@@ -21,17 +21,17 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xbup.lib.catalog.XBECatalog;
+import org.xbup.lib.catalog.entity.XBEXName;
+import org.xbup.lib.catalog.entity.manager.XBEXLangManager;
+import org.xbup.lib.catalog.entity.manager.XBEXNameManager;
+import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.core.catalog.base.XBCXName;
 import org.xbup.lib.core.catalog.base.manager.XBCXLangManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXNameManager;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.core.catalog.base.XBCExtension;
-import org.xbup.lib.catalog.XBECatalog;
-import org.xbup.lib.catalog.entity.XBEXName;
-import org.xbup.lib.catalog.entity.manager.XBEXLangManager;
-import org.xbup.lib.catalog.entity.manager.XBEXNameManager;
 
 /**
  * Interface for XBEXName items service.

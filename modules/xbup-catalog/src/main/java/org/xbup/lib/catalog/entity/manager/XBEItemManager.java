@@ -21,12 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
-import org.xbup.lib.core.catalog.base.manager.XBCItemManager;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBEItem;
 import org.xbup.lib.catalog.entity.XBEXDesc;
 import org.xbup.lib.catalog.entity.XBEXName;
 import org.xbup.lib.catalog.entity.XBEXStri;
+import org.xbup.lib.core.catalog.base.manager.XBCItemManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXLangManager;
 
 /**

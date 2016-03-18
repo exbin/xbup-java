@@ -16,8 +16,8 @@
  */
 package org.xbup.lib.core.catalog.base.manager;
 
-import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.core.catalog.base.XBCExtension;
+import org.xbup.lib.core.catalog.base.XBCXLanguage;
 
 /**
  * Interface for XBXLanguage catalog manager.

@@ -16,9 +16,9 @@
  */
 package org.xbup.lib.core.catalog.base.service;
 
+import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXHDoc;
-import org.xbup.lib.core.catalog.base.XBCExtension;
 
 /**
  * Interface for XBCXHDoc items service.

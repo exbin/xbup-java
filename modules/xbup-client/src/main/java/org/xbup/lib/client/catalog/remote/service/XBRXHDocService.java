@@ -17,14 +17,14 @@
 package org.xbup.lib.client.catalog.remote.service;
 
 import org.xbup.lib.client.catalog.XBRCatalog;
+import org.xbup.lib.client.catalog.remote.XBRXHDoc;
+import org.xbup.lib.client.catalog.remote.manager.XBRXHDocManager;
+import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.manager.XBCXHDocManager;
 import org.xbup.lib.core.catalog.base.service.XBCXFileService;
 import org.xbup.lib.core.catalog.base.service.XBCXHDocService;
-import org.xbup.lib.core.catalog.base.XBCExtension;
-import org.xbup.lib.client.catalog.remote.XBRXHDoc;
-import org.xbup.lib.client.catalog.remote.manager.XBRXHDocManager;
 
 /**
  * Remote service for XBRXHDoc items.

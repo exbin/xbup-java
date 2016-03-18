@@ -18,9 +18,9 @@ package org.xbup.lib.catalog.entity.manager;
 
 import java.io.Serializable;
 import org.springframework.stereotype.Repository;
-import org.xbup.lib.core.catalog.base.manager.XBCTranManager;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBETran;
+import org.xbup.lib.core.catalog.base.manager.XBCTranManager;
 
 /**
  * XBUP catalog transformation manager.

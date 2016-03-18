@@ -17,9 +17,9 @@
 package org.xbup.lib.client.catalog.remote.manager;
 
 import org.xbup.lib.client.catalog.XBRCatalog;
-import org.xbup.lib.core.catalog.base.manager.XBCItemManager;
 import org.xbup.lib.client.catalog.remote.XBRItem;
 import org.xbup.lib.client.stub.XBPItemStub;
+import org.xbup.lib.core.catalog.base.manager.XBCItemManager;
 
 /**
  * Remote manager class for XBRItem catalog items.

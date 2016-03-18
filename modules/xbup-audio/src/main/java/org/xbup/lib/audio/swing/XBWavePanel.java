@@ -16,7 +16,6 @@
  */
 package org.xbup.lib.audio.swing;
 
-import org.xbup.lib.audio.swing.renderer.XBWavePanelRenderer;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -32,6 +31,7 @@ import javax.swing.UIManager;
 import org.xbup.lib.audio.swing.renderer.DotsRenderer;
 import org.xbup.lib.audio.swing.renderer.IntegralRenderer;
 import org.xbup.lib.audio.swing.renderer.LineRenderer;
+import org.xbup.lib.audio.swing.renderer.XBWavePanelRenderer;
 import org.xbup.lib.audio.wave.XBWave;
 import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.type.XBData;

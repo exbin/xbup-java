@@ -17,7 +17,6 @@
 package org.xbup.web.xbcatalogweb.service;
 
 import java.util.ArrayList;
-import org.xbup.web.xbcatalogweb.base.service.XBCItemRecordService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +24,7 @@ import org.xbup.lib.catalog.entity.XBEXHDoc;
 import org.xbup.web.xbcatalogweb.base.XBCFullItemRecord;
 import org.xbup.web.xbcatalogweb.base.XBCItemRecord;
 import org.xbup.web.xbcatalogweb.base.manager.XBCItemRecordManager;
+import org.xbup.web.xbcatalogweb.base.service.XBCItemRecordService;
 import org.xbup.web.xbcatalogweb.entity.XBEItemRecord;
 
 /**

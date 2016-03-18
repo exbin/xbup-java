@@ -16,11 +16,11 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
+import org.xbup.lib.client.XBCatalogServiceClient;
+import org.xbup.lib.client.stub.XBPXNameStub;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.core.catalog.base.XBCXName;
-import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.client.stub.XBPXNameStub;
 
 /**
  * Catalog remote item name entity.

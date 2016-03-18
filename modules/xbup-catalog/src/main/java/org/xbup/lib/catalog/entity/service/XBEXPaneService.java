@@ -21,17 +21,17 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xbup.lib.catalog.XBECatalog;
+import org.xbup.lib.catalog.entity.XBEXBlockPane;
+import org.xbup.lib.catalog.entity.XBEXPlugPane;
+import org.xbup.lib.catalog.entity.manager.XBEXPaneManager;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
+import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.core.catalog.base.XBCXBlockPane;
 import org.xbup.lib.core.catalog.base.XBCXPlugPane;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.core.catalog.base.manager.XBCXPaneManager;
 import org.xbup.lib.core.catalog.base.service.XBCXPaneService;
-import org.xbup.lib.core.catalog.base.XBCExtension;
-import org.xbup.lib.catalog.XBECatalog;
-import org.xbup.lib.catalog.entity.XBEXBlockPane;
-import org.xbup.lib.catalog.entity.XBEXPlugPane;
-import org.xbup.lib.catalog.entity.manager.XBEXPaneManager;
 
 /**
  * Interface for XBEXBlockPane items service.

@@ -16,12 +16,12 @@
  */
 package org.xbup.web.xbcatalogweb.service;
 
-import org.xbup.web.xbcatalogweb.base.service.XBCPackageRecordService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xbup.web.xbcatalogweb.base.XBCPackageRecord;
 import org.xbup.web.xbcatalogweb.base.manager.XBCPackageRecordManager;
+import org.xbup.web.xbcatalogweb.base.service.XBCPackageRecordService;
 
 /**
  * XBEPackageRecord service.

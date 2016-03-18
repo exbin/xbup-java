@@ -16,8 +16,8 @@
  */
 package org.xbup.lib.core.catalog.base.service;
 
-import org.xbup.lib.core.catalog.base.XBCXItemInfo;
 import org.xbup.lib.core.catalog.base.XBCNode;
+import org.xbup.lib.core.catalog.base.XBCXItemInfo;
 
 /**
  * Interface for XBCXItemInfo items service.

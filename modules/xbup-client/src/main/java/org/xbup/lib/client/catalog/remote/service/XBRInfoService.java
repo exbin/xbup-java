@@ -17,11 +17,11 @@
 package org.xbup.lib.client.catalog.remote.service;
 
 import org.xbup.lib.client.catalog.XBRCatalog;
+import org.xbup.lib.client.catalog.remote.XBRXItemInfo;
+import org.xbup.lib.client.catalog.remote.manager.XBRInfoManager;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.manager.XBCXInfoManager;
 import org.xbup.lib.core.catalog.base.service.XBCXInfoService;
-import org.xbup.lib.client.catalog.remote.XBRXItemInfo;
-import org.xbup.lib.client.catalog.remote.manager.XBRInfoManager;
 
 /**
  * Remote service for XBRXItemInfo items.

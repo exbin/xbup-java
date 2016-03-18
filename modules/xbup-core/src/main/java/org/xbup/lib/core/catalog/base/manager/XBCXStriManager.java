@@ -16,9 +16,9 @@
  */
 package org.xbup.lib.core.catalog.base.manager;
 
+import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXStri;
-import org.xbup.lib.core.catalog.base.XBCExtension;
 
 /**
  * Interface for XBCXStri catalog manager.

@@ -21,15 +21,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 import org.springframework.stereotype.Repository;
+import org.xbup.lib.catalog.XBECatalog;
+import org.xbup.lib.catalog.entity.XBEItem;
+import org.xbup.lib.catalog.entity.XBESpec;
+import org.xbup.lib.catalog.entity.XBEXStri;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCXStri;
 import org.xbup.lib.core.catalog.base.manager.XBCNodeManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXStriManager;
-import org.xbup.lib.catalog.XBECatalog;
-import org.xbup.lib.catalog.entity.XBEItem;
-import org.xbup.lib.catalog.entity.XBESpec;
-import org.xbup.lib.catalog.entity.XBEXStri;
 
 /**
  * XBUP catalog string ID manager.

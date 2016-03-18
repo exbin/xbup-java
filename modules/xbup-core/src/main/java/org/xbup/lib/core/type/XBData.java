@@ -28,11 +28,11 @@ import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBEditableBlockData;
 import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.stream.FinishableStream;
-import org.xbup.lib.core.stream.SeekableStream;
 import org.xbup.lib.core.serial.child.XBTChildInputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
+import org.xbup.lib.core.stream.FinishableStream;
+import org.xbup.lib.core.stream.SeekableStream;
 
 /**
  * Encapsulation class for binary blob.

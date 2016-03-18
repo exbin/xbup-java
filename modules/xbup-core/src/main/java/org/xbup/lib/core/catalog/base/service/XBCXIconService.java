@@ -19,10 +19,10 @@ package org.xbup.lib.core.catalog.base.service;
 import java.util.List;
 import javax.swing.ImageIcon;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXIcon;
 import org.xbup.lib.core.catalog.base.XBCXIconMode;
-import org.xbup.lib.core.catalog.base.XBCExtension;
 
 /**
  * Interface for XBCXIcon items service.

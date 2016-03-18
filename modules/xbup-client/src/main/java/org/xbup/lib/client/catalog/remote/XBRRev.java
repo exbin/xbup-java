@@ -16,9 +16,9 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
-import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.stub.XBPRevStub;
+import org.xbup.lib.core.catalog.base.XBCRev;
 
 /**
  * Catalog remote revision entity.

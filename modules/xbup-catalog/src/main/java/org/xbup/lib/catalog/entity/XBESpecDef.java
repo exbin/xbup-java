@@ -21,10 +21,10 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.core.catalog.base.XBCRev;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.block.definition.XBParamType;
 
 /**
  * Specification definition database entity.

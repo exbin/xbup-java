@@ -17,9 +17,9 @@
 package org.xbup.lib.core.parser.basic.convert;
 
 import java.io.IOException;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.ubnumber.UBNatural;
 
 /**

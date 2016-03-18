@@ -21,17 +21,17 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xbup.lib.catalog.XBECatalog;
+import org.xbup.lib.catalog.entity.XBEXDesc;
+import org.xbup.lib.catalog.entity.manager.XBEXDescManager;
+import org.xbup.lib.catalog.entity.manager.XBEXLangManager;
+import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXDesc;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.core.catalog.base.manager.XBCXDescManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXLangManager;
 import org.xbup.lib.core.catalog.base.service.XBCXDescService;
-import org.xbup.lib.core.catalog.base.XBCExtension;
-import org.xbup.lib.catalog.XBECatalog;
-import org.xbup.lib.catalog.entity.XBEXDesc;
-import org.xbup.lib.catalog.entity.manager.XBEXDescManager;
-import org.xbup.lib.catalog.entity.manager.XBEXLangManager;
 
 /**
  * Interface for XBEXDesc items service.

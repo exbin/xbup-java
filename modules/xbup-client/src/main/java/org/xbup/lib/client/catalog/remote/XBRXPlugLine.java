@@ -16,10 +16,10 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
-import org.xbup.lib.core.catalog.base.XBCXPlugLine;
-import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.stub.XBPXLineStub;
+import org.xbup.lib.core.catalog.base.XBCXPlugLine;
+import org.xbup.lib.core.catalog.base.XBCXPlugin;
 
 /**
  * Catalog remote plugin line editor entity.

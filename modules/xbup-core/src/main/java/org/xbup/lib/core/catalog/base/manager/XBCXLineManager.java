@@ -18,10 +18,10 @@ package org.xbup.lib.core.catalog.base.manager;
 
 import java.util.List;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
+import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.core.catalog.base.XBCXBlockLine;
 import org.xbup.lib.core.catalog.base.XBCXPlugLine;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
-import org.xbup.lib.core.catalog.base.XBCExtension;
 
 /**
  * Interface for XBCBlockLine catalog manager.

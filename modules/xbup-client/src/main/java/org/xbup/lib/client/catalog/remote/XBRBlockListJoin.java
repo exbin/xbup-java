@@ -16,9 +16,9 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
-import org.xbup.lib.core.catalog.base.XBCBlockListJoin;
-import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.client.XBCatalogServiceClient;
+import org.xbup.lib.core.block.definition.XBParamType;
+import org.xbup.lib.core.catalog.base.XBCBlockListJoin;
 
 /**
  * Catalog remote block list join specification definition entity.

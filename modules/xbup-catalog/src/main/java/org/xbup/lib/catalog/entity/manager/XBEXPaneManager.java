@@ -22,16 +22,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 import org.springframework.stereotype.Repository;
-import org.xbup.lib.core.catalog.base.XBCBlockRev;
-import org.xbup.lib.core.catalog.base.XBCXBlockPane;
-import org.xbup.lib.core.catalog.base.XBCXPlugPane;
-import org.xbup.lib.core.catalog.base.XBCXPlugin;
-import org.xbup.lib.core.catalog.base.manager.XBCXPaneManager;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBEBlockRev;
 import org.xbup.lib.catalog.entity.XBEXBlockPane;
 import org.xbup.lib.catalog.entity.XBEXPlugPane;
 import org.xbup.lib.catalog.entity.XBEXPlugin;
+import org.xbup.lib.core.catalog.base.XBCBlockRev;
+import org.xbup.lib.core.catalog.base.XBCXBlockPane;
+import org.xbup.lib.core.catalog.base.XBCXPlugPane;
+import org.xbup.lib.core.catalog.base.XBCXPlugin;
+import org.xbup.lib.core.catalog.base.manager.XBCXPaneManager;
 
 /**
  * XBUP catalog item panel editors manager.

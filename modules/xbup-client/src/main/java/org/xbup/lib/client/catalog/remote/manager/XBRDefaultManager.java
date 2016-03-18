@@ -17,11 +17,11 @@
 package org.xbup.lib.client.catalog.remote.manager;
 
 import java.util.List;
+import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.catalog.XBRCatalog;
+import org.xbup.lib.client.stub.XBPManagerStub;
 import org.xbup.lib.core.catalog.base.XBCBase;
 import org.xbup.lib.core.catalog.base.manager.XBCManager;
-import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.client.stub.XBPManagerStub;
 
 /**
  * Default remote manager for catalog items.

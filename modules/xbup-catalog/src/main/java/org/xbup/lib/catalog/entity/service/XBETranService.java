@@ -20,11 +20,11 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xbup.lib.core.catalog.base.manager.XBCTranManager;
-import org.xbup.lib.core.catalog.base.service.XBCTranService;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBETran;
 import org.xbup.lib.catalog.entity.manager.XBETranManager;
+import org.xbup.lib.core.catalog.base.manager.XBCTranManager;
+import org.xbup.lib.core.catalog.base.service.XBCTranService;
 
 /**
  * Interface for XBETran items service.

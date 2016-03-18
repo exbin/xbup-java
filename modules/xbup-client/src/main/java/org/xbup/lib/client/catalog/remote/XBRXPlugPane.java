@@ -16,10 +16,10 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
-import org.xbup.lib.core.catalog.base.XBCXPlugPane;
-import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.stub.XBPXPaneStub;
+import org.xbup.lib.core.catalog.base.XBCXPlugPane;
+import org.xbup.lib.core.catalog.base.XBCXPlugin;
 
 /**
  * Catalog remote plugin panel editor entity.

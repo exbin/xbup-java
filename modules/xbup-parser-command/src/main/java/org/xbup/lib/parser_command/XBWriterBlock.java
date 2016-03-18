@@ -27,9 +27,9 @@ import java.util.logging.Logger;
 import org.xbup.lib.core.block.XBBlock;
 import org.xbup.lib.core.block.XBBlockData;
 import org.xbup.lib.core.block.XBBlockDataMode;
-import org.xbup.lib.core.block.XBEditableBlock;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBDefaultEditableBlock;
+import org.xbup.lib.core.block.XBEditableBlock;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.token.XBAttribute;
 

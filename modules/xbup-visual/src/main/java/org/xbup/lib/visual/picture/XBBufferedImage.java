@@ -22,7 +22,6 @@ import java.awt.image.WritableRaster;
 import java.io.IOException;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.param.XBPInputSerialHandler;
 import org.xbup.lib.core.serial.param.XBPOutputSerialHandler;

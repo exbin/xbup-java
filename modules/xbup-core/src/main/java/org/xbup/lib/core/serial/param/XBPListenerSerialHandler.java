@@ -16,18 +16,17 @@
  */
 package org.xbup.lib.core.serial.param;
 
-import org.xbup.lib.core.serial.sequence.XBSerialSequenceItem;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
+import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.XBTEmptyBlock;
 import org.xbup.lib.core.block.definition.XBParamType;
+import org.xbup.lib.core.parser.XBProcessingException;
+import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBTListener;
 import org.xbup.lib.core.parser.basic.XBTProducer;
 import org.xbup.lib.core.parser.param.XBParamProcessingState;
@@ -49,6 +48,7 @@ import org.xbup.lib.core.serial.child.XBTChildOutputSerialHandler;
 import org.xbup.lib.core.serial.child.XBTChildSerializable;
 import org.xbup.lib.core.serial.sequence.XBListConsistSerializable;
 import org.xbup.lib.core.serial.sequence.XBListJoinSerializable;
+import org.xbup.lib.core.serial.sequence.XBSerialSequenceItem;
 import org.xbup.lib.core.serial.token.XBTTokenOutputSerialHandler;
 import org.xbup.lib.core.stream.XBInput;
 import org.xbup.lib.core.ubnumber.UBENatural;

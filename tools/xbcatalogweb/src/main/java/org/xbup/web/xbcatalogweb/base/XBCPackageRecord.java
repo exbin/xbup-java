@@ -16,11 +16,11 @@
  */
 package org.xbup.web.xbcatalogweb.base;
 
-import org.xbup.lib.core.catalog.base.XBCBase;
 import org.xbup.lib.catalog.entity.XBENode;
 import org.xbup.lib.catalog.entity.XBEXDesc;
 import org.xbup.lib.catalog.entity.XBEXName;
 import org.xbup.lib.catalog.entity.XBEXStri;
+import org.xbup.lib.core.catalog.base.XBCBase;
 
 /**
  * Package record entity interface.

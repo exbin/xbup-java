@@ -19,11 +19,11 @@ package org.xbup.lib.client.catalog.remote.manager;
 import java.io.InputStream;
 import java.util.ArrayList;
 import org.xbup.lib.client.catalog.XBRCatalog;
+import org.xbup.lib.client.catalog.remote.XBRXPlugin;
+import org.xbup.lib.client.stub.XBPXPlugStub;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXPlugin;
 import org.xbup.lib.core.catalog.base.manager.XBCXPlugManager;
-import org.xbup.lib.client.catalog.remote.XBRXPlugin;
-import org.xbup.lib.client.stub.XBPXPlugStub;
 
 /**
  * Remote manager class for XBRXPlugin catalog items.

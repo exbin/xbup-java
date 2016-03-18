@@ -21,17 +21,17 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import org.xbup.lib.core.block.XBBasicBlockType;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.block.XBBlockType;
+import org.xbup.lib.core.block.XBDBlockType;
+import org.xbup.lib.core.block.XBFixedBlockType;
 import org.xbup.lib.core.block.declaration.XBContext;
+import org.xbup.lib.core.block.declaration.XBLevelContext;
+import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.XBTFilter;
 import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.block.XBDBlockType;
-import org.xbup.lib.core.block.XBFixedBlockType;
-import org.xbup.lib.core.block.declaration.XBLevelContext;
-import org.xbup.lib.core.catalog.XBCatalog;
 import org.xbup.lib.core.parser.token.XBAttribute;
 
 /**

@@ -16,7 +16,6 @@
  */
 package org.xbup.web.xbcatalogweb.entity;
 
-import org.xbup.web.xbcatalogweb.base.XBCFullItemRecord;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -27,6 +26,7 @@ import org.xbup.lib.catalog.entity.XBEXHDoc;
 import org.xbup.lib.catalog.entity.XBEXLanguage;
 import org.xbup.lib.catalog.entity.XBEXName;
 import org.xbup.web.xbcatalogweb.base.XBCDefinitionRecord;
+import org.xbup.web.xbcatalogweb.base.XBCFullItemRecord;
 
 /**
  * Full item record entity.

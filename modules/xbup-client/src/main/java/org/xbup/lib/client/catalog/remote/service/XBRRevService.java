@@ -18,6 +18,11 @@ package org.xbup.lib.client.catalog.remote.service;
 
 import java.util.List;
 import org.xbup.lib.client.catalog.XBRCatalog;
+import org.xbup.lib.client.catalog.remote.XBRBlockRev;
+import org.xbup.lib.client.catalog.remote.XBRFormatRev;
+import org.xbup.lib.client.catalog.remote.XBRGroupRev;
+import org.xbup.lib.client.catalog.remote.XBRRev;
+import org.xbup.lib.client.catalog.remote.manager.XBRRevManager;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
 import org.xbup.lib.core.catalog.base.XBCGroupSpec;
@@ -34,11 +39,6 @@ import org.xbup.lib.core.catalog.base.manager.XBCXNameManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXStriManager;
 import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.core.catalog.base.service.XBCSpecService;
-import org.xbup.lib.client.catalog.remote.XBRBlockRev;
-import org.xbup.lib.client.catalog.remote.XBRFormatRev;
-import org.xbup.lib.client.catalog.remote.XBRGroupRev;
-import org.xbup.lib.client.catalog.remote.XBRRev;
-import org.xbup.lib.client.catalog.remote.manager.XBRRevManager;
 
 /**
  * Remote service for XBRRev items.

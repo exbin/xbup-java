@@ -17,10 +17,10 @@
 package org.xbup.lib.catalog.entity.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.core.catalog.base.XBCBase;
 import org.xbup.lib.core.catalog.base.service.XBCDefaultItemService;
 import org.xbup.lib.core.catalog.base.service.XBCService;
-import org.xbup.lib.catalog.XBECatalog;
 
 /**
  * Default service for catalog items.

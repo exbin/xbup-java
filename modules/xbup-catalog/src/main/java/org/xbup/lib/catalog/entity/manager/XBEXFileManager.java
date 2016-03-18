@@ -29,11 +29,11 @@ import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 import javax.swing.ImageIcon;
 import org.springframework.stereotype.Repository;
+import org.xbup.lib.catalog.XBECatalog;
+import org.xbup.lib.catalog.entity.XBEXFile;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.manager.XBCXFileManager;
-import org.xbup.lib.catalog.XBECatalog;
-import org.xbup.lib.catalog.entity.XBEXFile;
 
 /**
  * XBUP catalog accessory files manager.

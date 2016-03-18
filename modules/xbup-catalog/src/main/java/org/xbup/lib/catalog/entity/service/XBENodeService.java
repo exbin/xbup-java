@@ -22,15 +22,15 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xbup.lib.core.catalog.base.XBCNode;
-import org.xbup.lib.core.catalog.base.manager.XBCNodeManager;
-import org.xbup.lib.core.catalog.base.service.XBCNodeService;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBENode;
 import org.xbup.lib.catalog.entity.XBERoot;
 import org.xbup.lib.catalog.entity.manager.XBENodeManager;
+import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCRoot;
 import org.xbup.lib.core.catalog.base.manager.XBCManager;
+import org.xbup.lib.core.catalog.base.manager.XBCNodeManager;
+import org.xbup.lib.core.catalog.base.service.XBCNodeService;
 
 /**
  * Interface for XBENode items service.

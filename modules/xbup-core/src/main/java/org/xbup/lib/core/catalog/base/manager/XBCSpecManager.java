@@ -17,13 +17,13 @@
 package org.xbup.lib.core.catalog.base.manager;
 
 import java.util.List;
+import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
 import org.xbup.lib.core.catalog.base.XBCFormatSpec;
 import org.xbup.lib.core.catalog.base.XBCGroupSpec;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCSpec;
 import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.block.definition.XBParamType;
 
 /**
  * Interface for XBCSpec catalog manager.

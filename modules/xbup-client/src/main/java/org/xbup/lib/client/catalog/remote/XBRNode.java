@@ -16,8 +16,8 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
-import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.client.XBCatalogServiceClient;
+import org.xbup.lib.core.catalog.base.XBCNode;
 
 /**
  * Catalog remote node entity.

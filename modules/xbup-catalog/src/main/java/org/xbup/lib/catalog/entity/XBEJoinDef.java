@@ -20,9 +20,9 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.core.catalog.base.XBCJoinDef;
 import org.xbup.lib.core.catalog.base.XBCSpec;
-import org.xbup.lib.core.block.definition.XBParamType;
 
 /**
  * Join database database entity.

@@ -18,16 +18,16 @@ package org.xbup.lib.client.catalog.remote.service;
 
 import java.util.List;
 import org.xbup.lib.client.catalog.XBRCatalog;
+import org.xbup.lib.client.catalog.remote.XBRXName;
+import org.xbup.lib.client.catalog.remote.manager.XBRXLangManager;
+import org.xbup.lib.client.catalog.remote.manager.XBRXNameManager;
+import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCXLanguage;
 import org.xbup.lib.core.catalog.base.XBCXName;
 import org.xbup.lib.core.catalog.base.manager.XBCXLangManager;
 import org.xbup.lib.core.catalog.base.manager.XBCXNameManager;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.core.catalog.base.XBCExtension;
-import org.xbup.lib.client.catalog.remote.XBRXName;
-import org.xbup.lib.client.catalog.remote.manager.XBRXLangManager;
-import org.xbup.lib.client.catalog.remote.manager.XBRXNameManager;
 
 /**
  * Remote service for XBRXName items.

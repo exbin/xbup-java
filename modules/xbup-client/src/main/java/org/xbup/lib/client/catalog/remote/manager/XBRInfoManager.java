@@ -17,10 +17,10 @@
 package org.xbup.lib.client.catalog.remote.manager;
 
 import org.xbup.lib.client.catalog.XBRCatalog;
-import org.xbup.lib.core.catalog.base.XBCNode;
-import org.xbup.lib.core.catalog.base.manager.XBCXInfoManager;
 import org.xbup.lib.client.catalog.remote.XBRXItemInfo;
 import org.xbup.lib.client.stub.XBPInfoStub;
+import org.xbup.lib.core.catalog.base.XBCNode;
+import org.xbup.lib.core.catalog.base.manager.XBCXInfoManager;
 
 /**
  * Remote manager class for XBRXItemInfo catalog items.

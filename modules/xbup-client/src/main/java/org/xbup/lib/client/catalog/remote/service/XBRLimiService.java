@@ -17,10 +17,10 @@
 package org.xbup.lib.client.catalog.remote.service;
 
 import org.xbup.lib.client.catalog.XBRCatalog;
-import org.xbup.lib.core.catalog.base.manager.XBCLimiManager;
-import org.xbup.lib.core.catalog.base.service.XBCLimiService;
 import org.xbup.lib.client.catalog.remote.XBRItemLimi;
 import org.xbup.lib.client.catalog.remote.manager.XBRLimiManager;
+import org.xbup.lib.core.catalog.base.manager.XBCLimiManager;
+import org.xbup.lib.core.catalog.base.service.XBCLimiService;
 
 /**
  * Remote service for XBRItemLimi items.

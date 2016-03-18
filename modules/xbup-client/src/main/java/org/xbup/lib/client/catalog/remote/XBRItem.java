@@ -16,9 +16,9 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
-import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.client.XBCatalogServiceClient;
 import org.xbup.lib.client.stub.XBPItemStub;
+import org.xbup.lib.core.catalog.base.XBCItem;
 
 /**
  * Catalog remote item entity.

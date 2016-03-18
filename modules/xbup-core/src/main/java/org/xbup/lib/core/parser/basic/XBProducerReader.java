@@ -16,19 +16,19 @@
  */
 package org.xbup.lib.core.parser.basic;
 
-import org.xbup.lib.core.parser.basic.wrapper.TerminatedDataInputStreamWrapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.parser.XBParseException;
 import org.xbup.lib.core.parser.XBParserMode;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.XBProcessingExceptionType;
 import org.xbup.lib.core.parser.basic.wrapper.ExtendedAreaInputStreamWrapper;
 import org.xbup.lib.core.parser.basic.wrapper.FixedDataInputStreamWrapper;
+import org.xbup.lib.core.parser.basic.wrapper.TerminatedDataInputStreamWrapper;
 import org.xbup.lib.core.stream.FinishableStream;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
 import org.xbup.lib.core.ubnumber.type.UBENat32;
 import org.xbup.lib.core.ubnumber.type.UBNat32;
 

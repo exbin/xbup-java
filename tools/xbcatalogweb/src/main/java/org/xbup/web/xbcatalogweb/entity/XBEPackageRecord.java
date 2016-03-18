@@ -16,12 +16,12 @@
  */
 package org.xbup.web.xbcatalogweb.entity;
 
-import org.xbup.web.xbcatalogweb.base.XBCPackageRecord;
 import java.io.Serializable;
 import org.xbup.lib.catalog.entity.XBENode;
 import org.xbup.lib.catalog.entity.XBEXDesc;
 import org.xbup.lib.catalog.entity.XBEXName;
 import org.xbup.lib.catalog.entity.XBEXStri;
+import org.xbup.web.xbcatalogweb.base.XBCPackageRecord;
 
 /**
  * Package record entity.

@@ -16,7 +16,6 @@
  */
 package org.xbup.lib.core.serial.param;
 
-import org.xbup.lib.core.serial.sequence.XBSerialSequenceItem;
 import java.io.IOException;
 import java.io.InputStream;
 import org.xbup.lib.core.block.XBBlockTerminationMode;
@@ -26,6 +25,7 @@ import org.xbup.lib.core.parser.token.XBAttribute;
 import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.XBTTokenType;
 import org.xbup.lib.core.serial.XBSerializable;
+import org.xbup.lib.core.serial.sequence.XBSerialSequenceItem;
 
 /**
  * XBUP level 2 child serialization provider interface.

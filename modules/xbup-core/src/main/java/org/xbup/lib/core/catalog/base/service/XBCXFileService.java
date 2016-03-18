@@ -19,9 +19,9 @@ package org.xbup.lib.core.catalog.base.service;
 import java.io.InputStream;
 import java.util.List;
 import javax.swing.ImageIcon;
+import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXFile;
-import org.xbup.lib.core.catalog.base.XBCExtension;
 
 /**
  * Interface for XBCXFile items service.

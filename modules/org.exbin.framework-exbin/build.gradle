@@ -1,0 +1,49 @@
+apply plugin: 'java'
+
+sourceCompatibility = '1.7'
+version = '0.2.0-SNAPSHOT'
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+if (!hasProperty('mainClass')) {
+    ext.mainClass = ''
+}
+
+tasks.withType(JavaCompile) {
+    doFirst {
+        options.fork = true
+        options.bootClasspath = "${System.properties['java.home']}/lib/rt.jar"
+        options.bootClasspath += "$File.pathSeparator${System.properties['java.home']}/jre/lib/jsse.jar"
+    }
+}
+
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs "../../lib"
+    }
+}
+
+// Disable tests on build
+check.dependsOn.remove(test)
+
+dependencies {
+    compile(project(":modules:xbup-core"))
+    compile(project(":modules:xbup-catalog"))
+    compile(project(":modules:xbup-operation"))
+    compile(project(":modules:xbup-visual"))
+    compile(project(":modules:xbup-plugin"))
+    compile(project(":modules:xbup-parser-tree"))
+    compile(project(":modules:xbup-parser-command"))
+    compile(project(":modules:xbup-client"))
+    compile(project(":modules:org.exbin.framework-api"))
+    compile(project(":modules:org.exbin.framework-gui-frame-api"))
+    compile(project(":modules:org.exbin.framework-gui-editor-api"))
+    compile(project(":modules:org.exbin.framework-gui-utils"))
+    compile(project(":modules:ca.psc-consulting.hexedit"))
+    compile(project(":modules:net.sf.simplyhtml"))
+    compile 'javax.persistence:persistence-api:1.0.2'
+    compile 'org.swinglabs:swing-layout:1.0.3'
+    runtime 'org.eclipse.persistence:javax.persistence:2.1.0'
+    runtime 'org.eclipse.persistence:eclipselink:2.5.1'
+    testCompile group : 'junit', name: 'junit', version: '4.10'
+}

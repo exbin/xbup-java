@@ -19,10 +19,10 @@ package org.xbup.lib.catalog.entity;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import org.xbup.lib.core.block.definition.XBParamType;
 import org.xbup.lib.core.catalog.base.XBCBlockListJoin;
 import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.core.catalog.base.XBCBlockSpec;
-import org.xbup.lib.core.block.definition.XBParamType;
 
 /**
  * Block list join database entity.

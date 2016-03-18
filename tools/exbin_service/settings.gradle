@@ -5,8 +5,8 @@ include ":modules:xbup-catalog"
 include ":modules:xbup-client"
 include ":modules:xbup-service"
 include ":modules:xbup-plugin"
-include ":modules:modules:org-xbup-framework-api"
-include ":modules:org-xbup-framework-service-data"
+include ":modules:modules:org.exbin.framework-api"
+include ":modules:org.exbin.framework-service-data"
 
 def modifyPath(project) {
     def rootProjectDir = rootProject.projectDir.parentFile.parent

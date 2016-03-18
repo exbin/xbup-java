@@ -17,10 +17,10 @@
 package org.xbup.lib.client.catalog.remote.service;
 
 import org.xbup.lib.client.catalog.XBRCatalog;
-import org.xbup.lib.core.catalog.base.manager.XBCItemManager;
-import org.xbup.lib.core.catalog.base.service.XBCItemService;
 import org.xbup.lib.client.catalog.remote.XBRItem;
 import org.xbup.lib.client.catalog.remote.manager.XBRItemManager;
+import org.xbup.lib.core.catalog.base.manager.XBCItemManager;
+import org.xbup.lib.core.catalog.base.service.XBCItemService;
 
 /**
  * Remote service for XBRItem items.

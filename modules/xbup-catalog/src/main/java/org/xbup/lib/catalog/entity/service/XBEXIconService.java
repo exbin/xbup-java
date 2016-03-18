@@ -22,16 +22,16 @@ import javax.annotation.PostConstruct;
 import javax.swing.ImageIcon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
-import org.xbup.lib.core.catalog.base.XBCItem;
-import org.xbup.lib.core.catalog.base.XBCXIcon;
-import org.xbup.lib.core.catalog.base.manager.XBCXIconManager;
-import org.xbup.lib.core.catalog.base.service.XBCXIconService;
-import org.xbup.lib.core.catalog.base.XBCExtension;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBEXIcon;
 import org.xbup.lib.catalog.entity.XBEXIconMode;
 import org.xbup.lib.catalog.entity.manager.XBEXIconManager;
+import org.xbup.lib.core.catalog.base.XBCBlockSpec;
+import org.xbup.lib.core.catalog.base.XBCExtension;
+import org.xbup.lib.core.catalog.base.XBCItem;
+import org.xbup.lib.core.catalog.base.XBCXIcon;
+import org.xbup.lib.core.catalog.base.manager.XBCXIconManager;
+import org.xbup.lib.core.catalog.base.service.XBCXIconService;
 
 /**
  * Interface for XBEXIcon items service.

@@ -16,8 +16,8 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
-import org.xbup.lib.core.catalog.base.XBCBlockRev;
 import org.xbup.lib.client.XBCatalogServiceClient;
+import org.xbup.lib.core.catalog.base.XBCBlockRev;
 
 /**
  * Catalog remote block specification revision entity.

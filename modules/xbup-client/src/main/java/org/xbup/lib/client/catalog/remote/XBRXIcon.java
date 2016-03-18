@@ -16,11 +16,11 @@
  */
 package org.xbup.lib.client.catalog.remote;
 
+import org.xbup.lib.client.XBCatalogServiceClient;
+import org.xbup.lib.client.stub.XBPXIconStub;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.XBCXIcon;
 import org.xbup.lib.core.catalog.base.XBCXIconMode;
-import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.client.stub.XBPXIconStub;
 
 /**
  * Catalog remote item icon entity.

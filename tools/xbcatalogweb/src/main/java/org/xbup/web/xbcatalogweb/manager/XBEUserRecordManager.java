@@ -16,7 +16,6 @@
  */
 package org.xbup.web.xbcatalogweb.manager;
 
-import org.xbup.web.xbcatalogweb.base.manager.XBCUserRecordManager;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -30,6 +29,7 @@ import org.xbup.lib.catalog.entity.XBEXUserInfo;
 import org.xbup.lib.catalog.entity.manager.XBEXLangManager;
 import org.xbup.lib.catalog.entity.manager.XBEXUserManager;
 import org.xbup.web.xbcatalogweb.base.XBCUserRecord;
+import org.xbup.web.xbcatalogweb.base.manager.XBCUserRecordManager;
 import org.xbup.web.xbcatalogweb.entity.XBEUserRecord;
 
 /**

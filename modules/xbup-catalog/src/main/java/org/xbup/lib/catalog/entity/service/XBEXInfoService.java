@@ -20,12 +20,12 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xbup.lib.core.catalog.base.XBCNode;
-import org.xbup.lib.core.catalog.base.manager.XBCXInfoManager;
-import org.xbup.lib.core.catalog.base.service.XBCXInfoService;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBEXItemInfo;
 import org.xbup.lib.catalog.entity.manager.XBEXInfoManager;
+import org.xbup.lib.core.catalog.base.XBCNode;
+import org.xbup.lib.core.catalog.base.manager.XBCXInfoManager;
+import org.xbup.lib.core.catalog.base.service.XBCXInfoService;
 
 /**
  * Interface forXBEXItemInfoo items service.

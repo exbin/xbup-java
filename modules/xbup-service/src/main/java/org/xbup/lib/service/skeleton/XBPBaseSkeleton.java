@@ -16,9 +16,9 @@
  */
 package org.xbup.lib.service.skeleton;
 
-import org.xbup.lib.client.stub.XBPBaseProcedureType;
 import java.io.IOException;
 import java.util.List;
+import org.xbup.lib.client.stub.XBPBaseProcedureType;
 import org.xbup.lib.core.block.XBBlockType;
 import org.xbup.lib.core.block.XBTEmptyBlock;
 import org.xbup.lib.core.catalog.base.XBCBase;

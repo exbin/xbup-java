@@ -18,8 +18,8 @@ package org.xbup.lib.operation.undo;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.xbup.lib.parser_tree.XBTree;
 import org.xbup.lib.operation.XBDocOperation;
+import org.xbup.lib.parser_tree.XBTree;
 
 /**
  * Class for keeping undo command sequence.

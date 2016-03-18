@@ -20,11 +20,11 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xbup.lib.core.catalog.base.manager.XBCLimiManager;
-import org.xbup.lib.core.catalog.base.service.XBCLimiService;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBEItemLimi;
 import org.xbup.lib.catalog.entity.manager.XBELimiManager;
+import org.xbup.lib.core.catalog.base.manager.XBCLimiManager;
+import org.xbup.lib.core.catalog.base.service.XBCLimiService;
 
 /**
  * Interface for XBEItemLimi items service.

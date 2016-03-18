@@ -18,9 +18,9 @@ package org.xbup.lib.catalog.entity.manager;
 
 import java.io.Serializable;
 import org.springframework.stereotype.Repository;
-import org.xbup.lib.core.catalog.base.manager.XBCLimiManager;
 import org.xbup.lib.catalog.XBECatalog;
 import org.xbup.lib.catalog.entity.XBEItemLimi;
+import org.xbup.lib.core.catalog.base.manager.XBCLimiManager;
 
 /**
  * XBUP catalog limitation manager.

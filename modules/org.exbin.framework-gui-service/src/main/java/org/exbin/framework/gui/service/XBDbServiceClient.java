@@ -19,10 +19,10 @@ package org.exbin.framework.gui.service;
 import java.io.IOException;
 import java.net.Socket;
 import javax.persistence.EntityManagerFactory;
-import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.core.parser.basic.XBTListener;
-import org.xbup.lib.core.parser.basic.convert.XBTDefaultMatchingProvider;
-import org.xbup.lib.core.remote.XBCallHandler;
+import org.exbin.xbup.client.XBCatalogServiceClient;
+import org.exbin.xbup.core.parser.basic.XBTListener;
+import org.exbin.xbup.core.parser.basic.convert.XBTDefaultMatchingProvider;
+import org.exbin.xbup.core.remote.XBCallHandler;
 
 /**
  * Fake XBService client using localhost database.

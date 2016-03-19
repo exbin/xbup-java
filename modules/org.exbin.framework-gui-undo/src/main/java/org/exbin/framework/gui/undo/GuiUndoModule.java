@@ -37,8 +37,8 @@ import org.exbin.framework.gui.undo.api.GuiUndoModuleApi;
 import org.exbin.framework.gui.undo.dialog.UndoManagerDialog;
 import org.exbin.framework.gui.undo.dialog.UndoManagerModel;
 import org.exbin.framework.gui.utils.ActionUtils;
-import org.xbup.lib.operation.undo.UndoUpdateListener;
-import org.xbup.lib.operation.undo.XBUndoHandler;
+import org.exbin.xbup.operation.undo.UndoUpdateListener;
+import org.exbin.xbup.operation.undo.XBUndoHandler;
 
 /**
  * Implementation of XBUP framework undo/redo module.

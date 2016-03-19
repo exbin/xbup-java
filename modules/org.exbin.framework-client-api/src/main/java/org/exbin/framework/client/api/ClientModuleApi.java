@@ -18,8 +18,8 @@ package org.exbin.framework.client.api;
 
 import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.api.XBModuleRepositoryUtils;
-import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.plugin.XBPluginRepository;
+import org.exbin.xbup.core.catalog.XBACatalog;
+import org.exbin.xbup.plugin.XBPluginRepository;
 
 /**
  * Interface for XBUP framework client module.

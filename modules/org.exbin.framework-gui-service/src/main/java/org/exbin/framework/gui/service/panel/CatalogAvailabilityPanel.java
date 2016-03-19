@@ -17,7 +17,7 @@
 package org.exbin.framework.gui.service.panel;
 
 import java.awt.CardLayout;
-import org.xbup.lib.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.XBACatalog;
 
 /**
  * Simple panel with catalog availability message.

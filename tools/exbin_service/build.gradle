@@ -4,7 +4,7 @@ sourceCompatibility = '1.7'
 version = '0.2.0-SNAPSHOT'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 if (!hasProperty('mainClass')) {
-    ext.mainClass = 'org.xbup.exbin_service.ExbinService'
+    ext.mainClass = 'org.exbin.is.service.ExbinService'
     ext.appArgs = '-dev'
 }
 

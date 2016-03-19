@@ -16,10 +16,10 @@
  */
 package org.exbin.framework.editor.xbup.dialog;
 
-import org.xbup.lib.core.block.XBTEditableDocument;
+import org.exbin.xbup.core.block.XBTEditableDocument;
 import org.exbin.framework.gui.utils.ActionUtils;
 import org.exbin.framework.gui.utils.WindowUtils;
-import org.xbup.lib.parser_tree.XBTTreeDocument;
+import org.exbin.xbup.parser_tree.XBTTreeDocument;
 
 /**
  * Dialog for document properties showing various information about file.

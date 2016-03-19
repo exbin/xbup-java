@@ -23,16 +23,16 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import org.xbup.lib.core.block.XBBlockDataMode;
-import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
-import org.xbup.lib.core.block.declaration.local.XBLBlockDecl;
-import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
-import org.xbup.lib.core.catalog.base.service.XBCXIconService;
-import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.parser_tree.XBTTreeNode;
+import org.exbin.xbup.core.block.XBBlockDataMode;
+import org.exbin.xbup.core.block.declaration.XBBlockDecl;
+import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
+import org.exbin.xbup.core.block.declaration.catalog.XBCBlockDecl;
+import org.exbin.xbup.core.block.declaration.local.XBLBlockDecl;
+import org.exbin.xbup.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
+import org.exbin.xbup.core.catalog.base.service.XBCXIconService;
+import org.exbin.xbup.core.catalog.base.service.XBCXNameService;
+import org.exbin.xbup.parser_tree.XBTTreeNode;
 
 /**
  * Tree Cell Renderer for XBUP Document Tree.

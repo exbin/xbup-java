@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.swing.table.AbstractTableModel;
-import org.xbup.lib.core.parser.token.XBAttribute;
+import org.exbin.xbup.core.parser.token.XBAttribute;
 import org.exbin.framework.gui.utils.ActionUtils;
 
 /**

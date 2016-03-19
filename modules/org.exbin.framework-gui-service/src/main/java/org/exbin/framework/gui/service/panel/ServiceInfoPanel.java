@@ -16,7 +16,7 @@
  */
 package org.exbin.framework.gui.service.panel;
 
-import org.xbup.lib.client.XBCatalogServiceClient;
+import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.framework.gui.service.XBDbServiceClient;
 
 /**

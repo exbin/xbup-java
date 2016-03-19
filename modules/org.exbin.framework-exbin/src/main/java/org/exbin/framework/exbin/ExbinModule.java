@@ -24,7 +24,7 @@ import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.api.XBModuleRepositoryUtils;
-import org.xbup.lib.client.XBCatalogNetServiceClient;
+import org.exbin.xbup.client.XBCatalogNetServiceClient;
 import org.exbin.framework.exbin.dialog.LoginDialog;
 import org.exbin.framework.exbin.panel.ExbinMainPanel;
 import org.exbin.framework.gui.file.api.GuiFileModuleApi;

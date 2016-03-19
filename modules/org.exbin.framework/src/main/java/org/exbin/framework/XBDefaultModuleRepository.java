@@ -41,9 +41,9 @@ import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.api.XBApplicationModule;
 import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.api.XBModuleRepository;
-import org.xbup.lib.core.parser.token.pull.XBPullReader;
-import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
-import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
+import org.exbin.xbup.core.parser.token.pull.XBPullReader;
+import org.exbin.xbup.core.parser.token.pull.convert.XBToXBTPullConvertor;
+import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
 
 /**
  * XBUP framework modules repository.

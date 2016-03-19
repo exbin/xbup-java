@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
-import org.xbup.lib.core.catalog.base.XBCRev;
+import org.exbin.xbup.core.catalog.base.XBCRev;
 
 /**
  * Catalog Revisions Combo Box Model.

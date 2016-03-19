@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
-import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.core.remote.XBServiceClient;
+import org.exbin.xbup.client.XBCatalogServiceClient;
+import org.exbin.xbup.core.remote.XBServiceClient;
 import org.exbin.framework.gui.data.TableDataSource;
 import org.exbin.framework.gui.data.stub.DataStub;
 

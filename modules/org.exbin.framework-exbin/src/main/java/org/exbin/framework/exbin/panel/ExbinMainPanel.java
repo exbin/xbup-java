@@ -27,8 +27,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
-import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.core.catalog.XBACatalog;
+import org.exbin.xbup.client.XBCatalogServiceClient;
+import org.exbin.xbup.core.catalog.XBACatalog;
 import org.exbin.framework.gui.menu.api.MenuManagement;
 
 /**

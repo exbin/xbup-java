@@ -19,11 +19,11 @@ package org.exbin.framework.gui.service.catalog.panel;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractListModel;
-import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.XBCatalog;
-import org.xbup.lib.core.catalog.base.XBCBase;
-import org.xbup.lib.core.catalog.base.XBCExtension;
-import org.xbup.lib.core.catalog.base.service.XBCService;
+import org.exbin.xbup.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.XBCatalog;
+import org.exbin.xbup.core.catalog.base.XBCBase;
+import org.exbin.xbup.core.catalog.base.XBCExtension;
+import org.exbin.xbup.core.catalog.base.service.XBCService;
 
 /**
  * List model for catalog extensions.

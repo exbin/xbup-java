@@ -29,8 +29,8 @@ import java.util.prefs.Preferences;
 import javax.persistence.Persistence;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import org.xbup.lib.client.XBCatalogNetServiceClient;
-import org.xbup.lib.client.XBCatalogServiceClient;
+import org.exbin.xbup.client.XBCatalogNetServiceClient;
+import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.framework.gui.service.XBDbServiceClient;
 import org.exbin.framework.gui.utils.WindowUtils;
 

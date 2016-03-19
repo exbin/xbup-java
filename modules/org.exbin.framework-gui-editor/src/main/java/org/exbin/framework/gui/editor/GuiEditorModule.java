@@ -33,9 +33,9 @@ import org.exbin.framework.gui.menu.api.ComponentClipboardHandler;
 import org.exbin.framework.gui.menu.api.GuiMenuModuleApi;
 import org.exbin.framework.gui.undo.api.ActivePanelUndoable;
 import org.exbin.framework.gui.undo.api.GuiUndoModuleApi;
-import org.xbup.lib.operation.Command;
-import org.xbup.lib.operation.undo.UndoUpdateListener;
-import org.xbup.lib.operation.undo.XBUndoHandler;
+import org.exbin.xbup.operation.Command;
+import org.exbin.xbup.operation.undo.UndoUpdateListener;
+import org.exbin.xbup.operation.undo.XBUndoHandler;
 
 /**
  * XBUP framework editor module.

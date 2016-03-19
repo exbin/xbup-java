@@ -25,10 +25,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.exbin.framework.gui.utils.ActionUtils;
 import org.exbin.framework.gui.utils.WindowUtils;
-import org.xbup.lib.operation.Command;
-import org.xbup.lib.operation.XBDocCommand;
-import org.xbup.lib.operation.XBTDocOperation;
-import org.xbup.lib.operation.XBTOpDocCommand;
+import org.exbin.xbup.operation.Command;
+import org.exbin.xbup.operation.XBDocCommand;
+import org.exbin.xbup.operation.XBTDocOperation;
+import org.exbin.xbup.operation.XBTOpDocCommand;
 
 /**
  * Dialog for undo management.

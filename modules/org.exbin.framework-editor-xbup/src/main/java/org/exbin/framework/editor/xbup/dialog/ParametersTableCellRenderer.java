@@ -20,11 +20,11 @@ import java.awt.Component;
 import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
-import org.xbup.lib.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.XBACatalog;
 import org.exbin.framework.editor.xbup.panel.XBPropertyTableCellPanel;
-import org.xbup.lib.parser_tree.XBTTreeDocument;
-import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.lib.plugin.XBPluginRepository;
+import org.exbin.xbup.parser_tree.XBTTreeDocument;
+import org.exbin.xbup.parser_tree.XBTTreeNode;
+import org.exbin.xbup.plugin.XBPluginRepository;
 
 /**
  * Property Table Cell Renderer.

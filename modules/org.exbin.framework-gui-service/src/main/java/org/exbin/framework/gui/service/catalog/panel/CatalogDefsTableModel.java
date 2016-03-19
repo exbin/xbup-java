@@ -19,21 +19,21 @@ package org.exbin.framework.gui.service.catalog.panel;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.base.XBCBlockCons;
-import org.xbup.lib.core.catalog.base.XBCBlockJoin;
-import org.xbup.lib.core.catalog.base.XBCBlockListCons;
-import org.xbup.lib.core.catalog.base.XBCBlockListJoin;
-import org.xbup.lib.core.catalog.base.XBCConsDef;
-import org.xbup.lib.core.catalog.base.XBCItem;
-import org.xbup.lib.core.catalog.base.XBCJoinDef;
-import org.xbup.lib.core.catalog.base.XBCSpec;
-import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.core.catalog.base.XBCXName;
-import org.xbup.lib.core.catalog.base.service.XBCSpecService;
-import org.xbup.lib.core.catalog.base.service.XBCXDescService;
-import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.core.catalog.base.service.XBCXStriService;
+import org.exbin.xbup.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.base.XBCBlockCons;
+import org.exbin.xbup.core.catalog.base.XBCBlockJoin;
+import org.exbin.xbup.core.catalog.base.XBCBlockListCons;
+import org.exbin.xbup.core.catalog.base.XBCBlockListJoin;
+import org.exbin.xbup.core.catalog.base.XBCConsDef;
+import org.exbin.xbup.core.catalog.base.XBCItem;
+import org.exbin.xbup.core.catalog.base.XBCJoinDef;
+import org.exbin.xbup.core.catalog.base.XBCSpec;
+import org.exbin.xbup.core.catalog.base.XBCSpecDef;
+import org.exbin.xbup.core.catalog.base.XBCXName;
+import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
+import org.exbin.xbup.core.catalog.base.service.XBCXDescService;
+import org.exbin.xbup.core.catalog.base.service.XBCXNameService;
+import org.exbin.xbup.core.catalog.base.service.XBCXStriService;
 
 /**
  * Table model for catalog definition bindings.

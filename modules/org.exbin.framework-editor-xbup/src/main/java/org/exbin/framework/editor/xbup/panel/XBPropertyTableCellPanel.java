@@ -22,18 +22,18 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
-import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.token.XBTToken;
-import org.xbup.lib.core.parser.token.convert.XBTListenerToToken;
+import org.exbin.xbup.core.catalog.XBACatalog;
+import org.exbin.xbup.core.parser.XBProcessingException;
+import org.exbin.xbup.core.parser.token.XBTToken;
+import org.exbin.xbup.core.parser.token.convert.XBTListenerToToken;
 import org.exbin.framework.editor.xbup.dialog.ModifyBlockDialog;
 import org.exbin.framework.editor.xbup.panel.cell.PropertyTableCellPanel;
 import org.exbin.framework.gui.utils.WindowUtils;
-import org.xbup.lib.parser_tree.XBATreeParamExtractor;
-import org.xbup.lib.parser_tree.XBTTreeDocument;
-import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.lib.parser_tree.XBTTreeReader;
-import org.xbup.lib.plugin.XBPluginRepository;
+import org.exbin.xbup.parser_tree.XBATreeParamExtractor;
+import org.exbin.xbup.parser_tree.XBTTreeDocument;
+import org.exbin.xbup.parser_tree.XBTTreeNode;
+import org.exbin.xbup.parser_tree.XBTTreeReader;
+import org.exbin.xbup.plugin.XBPluginRepository;
 
 /**
  * Properties table cell panel.

@@ -17,8 +17,8 @@
 package org.exbin.framework.gui.undo.dialog;
 
 import javax.swing.AbstractListModel;
-import org.xbup.lib.operation.Command;
-import org.xbup.lib.operation.undo.XBUndoHandler;
+import org.exbin.xbup.operation.Command;
+import org.exbin.xbup.operation.undo.XBUndoHandler;
 
 /**
  * List model for undo manager.

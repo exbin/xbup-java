@@ -16,12 +16,12 @@
  */
 package org.exbin.framework.gui.service.catalog.panel;
 
-import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.base.XBCItem;
-import org.xbup.lib.core.catalog.base.service.XBCXDescService;
-import org.xbup.lib.core.catalog.base.service.XBCXHDocService;
-import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.core.catalog.base.service.XBCXStriService;
+import org.exbin.xbup.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.base.XBCItem;
+import org.exbin.xbup.core.catalog.base.service.XBCXDescService;
+import org.exbin.xbup.core.catalog.base.service.XBCXHDocService;
+import org.exbin.xbup.core.catalog.base.service.XBCXNameService;
+import org.exbin.xbup.core.catalog.base.service.XBCXStriService;
 
 /**
  * Compact information about catalog item Panel.

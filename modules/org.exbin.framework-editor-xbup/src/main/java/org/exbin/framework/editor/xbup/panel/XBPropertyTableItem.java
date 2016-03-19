@@ -16,9 +16,9 @@
  */
 package org.exbin.framework.editor.xbup.panel;
 
-import org.xbup.lib.core.block.definition.XBParamType;
-import org.xbup.lib.core.catalog.base.XBCSpecDef;
-import org.xbup.lib.plugin.XBLineEditor;
+import org.exbin.xbup.core.block.definition.XBParamType;
+import org.exbin.xbup.core.catalog.base.XBCSpecDef;
+import org.exbin.xbup.plugin.XBLineEditor;
 
 /**
  * Parameters list table item record.

@@ -19,12 +19,12 @@ package org.exbin.framework.gui.service.catalog.panel;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import org.xbup.lib.core.catalog.XBCatalog;
-import org.xbup.lib.core.catalog.base.XBCRev;
-import org.xbup.lib.core.catalog.base.XBCSpec;
-import org.xbup.lib.core.catalog.base.service.XBCRevService;
-import org.xbup.lib.core.catalog.base.service.XBCXDescService;
-import org.xbup.lib.core.catalog.base.service.XBCXNameService;
+import org.exbin.xbup.core.catalog.XBCatalog;
+import org.exbin.xbup.core.catalog.base.XBCRev;
+import org.exbin.xbup.core.catalog.base.XBCSpec;
+import org.exbin.xbup.core.catalog.base.service.XBCRevService;
+import org.exbin.xbup.core.catalog.base.service.XBCXDescService;
+import org.exbin.xbup.core.catalog.base.service.XBCXNameService;
 
 /**
  * Table model for catalog revisions.

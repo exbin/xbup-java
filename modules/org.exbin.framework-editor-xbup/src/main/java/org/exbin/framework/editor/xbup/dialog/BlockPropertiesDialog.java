@@ -29,22 +29,22 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
-import org.xbup.lib.core.block.XBBlockDataMode;
-import org.xbup.lib.core.block.XBBlockTerminationMode;
-import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBFBlockType;
-import org.xbup.lib.core.block.XBTBlock;
-import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
-import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
-import org.xbup.lib.core.catalog.base.service.XBCSpecService;
-import org.xbup.lib.core.catalog.base.service.XBCXNameService;
+import org.exbin.xbup.core.block.XBBlockDataMode;
+import org.exbin.xbup.core.block.XBBlockTerminationMode;
+import org.exbin.xbup.core.block.XBBlockType;
+import org.exbin.xbup.core.block.XBFBlockType;
+import org.exbin.xbup.core.block.XBTBlock;
+import org.exbin.xbup.core.block.declaration.XBBlockDecl;
+import org.exbin.xbup.core.block.declaration.catalog.XBCBlockDecl;
+import org.exbin.xbup.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
+import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
+import org.exbin.xbup.core.catalog.base.service.XBCXNameService;
 import org.exbin.framework.gui.service.catalog.panel.CatalogItemInfoPanel;
 import org.exbin.framework.gui.utils.ActionUtils;
 import org.exbin.framework.gui.utils.BareBonesBrowserLaunch;
 import org.exbin.framework.gui.utils.WindowUtils;
-import org.xbup.lib.parser_tree.XBTTreeNode;
+import org.exbin.xbup.parser_tree.XBTTreeNode;
 
 /**
  * Dialog for showing information about document block.

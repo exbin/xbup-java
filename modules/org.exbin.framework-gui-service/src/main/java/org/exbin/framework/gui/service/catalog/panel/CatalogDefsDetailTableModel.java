@@ -17,13 +17,13 @@
 package org.exbin.framework.gui.service.catalog.panel;
 
 import javax.swing.table.AbstractTableModel;
-import org.xbup.lib.core.catalog.base.XBCBlockCons;
-import org.xbup.lib.core.catalog.base.XBCBlockJoin;
-import org.xbup.lib.core.catalog.base.XBCBlockListCons;
-import org.xbup.lib.core.catalog.base.XBCBlockListJoin;
-import org.xbup.lib.core.catalog.base.XBCConsDef;
-import org.xbup.lib.core.catalog.base.XBCJoinDef;
-import org.xbup.lib.core.catalog.base.XBCSpecDef;
+import org.exbin.xbup.core.catalog.base.XBCBlockCons;
+import org.exbin.xbup.core.catalog.base.XBCBlockJoin;
+import org.exbin.xbup.core.catalog.base.XBCBlockListCons;
+import org.exbin.xbup.core.catalog.base.XBCBlockListJoin;
+import org.exbin.xbup.core.catalog.base.XBCConsDef;
+import org.exbin.xbup.core.catalog.base.XBCJoinDef;
+import org.exbin.xbup.core.catalog.base.XBCSpecDef;
 
 /**
  * Table model for catalog definition bindings.

@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
 import javax.swing.JOptionPane;
-import org.xbup.lib.client.XBCatalogServiceClient;
+import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.framework.gui.utils.WindowUtils;
 
 /**

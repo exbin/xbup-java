@@ -18,8 +18,8 @@ package org.exbin.framework.editor.wave.panel.command;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
-import org.xbup.lib.audio.swing.XBWavePanel;
-import org.xbup.lib.audio.wave.XBWave;
+import org.exbin.xbup.audio.swing.XBWavePanel;
+import org.exbin.xbup.audio.wave.XBWave;
 
 /**
  * Wave copy command.

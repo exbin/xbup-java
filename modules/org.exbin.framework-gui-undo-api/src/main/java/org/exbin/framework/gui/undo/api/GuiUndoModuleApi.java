@@ -18,7 +18,7 @@ package org.exbin.framework.gui.undo.api;
 
 import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.api.XBModuleRepositoryUtils;
-import org.xbup.lib.operation.undo.XBUndoHandler;
+import org.exbin.xbup.operation.undo.XBUndoHandler;
 
 /**
  * Interface for XBUP framework undo/redo module.

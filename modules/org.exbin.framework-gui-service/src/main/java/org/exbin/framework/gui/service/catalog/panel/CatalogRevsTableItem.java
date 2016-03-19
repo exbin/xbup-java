@@ -16,7 +16,7 @@
  */
 package org.exbin.framework.gui.service.catalog.panel;
 
-import org.xbup.lib.core.catalog.base.XBCRev;
+import org.exbin.xbup.core.catalog.base.XBCRev;
 
 /**
  * Table model for catalog specification revisions.

@@ -20,13 +20,13 @@ import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.swing.JList;
-import org.xbup.lib.catalog.XBECatalog;
-import org.xbup.lib.catalog.entity.service.XBENodeService;
-import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.base.service.XBCItemService;
-import org.xbup.lib.core.catalog.base.service.XBCNodeService;
-import org.xbup.lib.core.catalog.base.service.XBCRevService;
-import org.xbup.lib.core.catalog.base.service.XBCSpecService;
+import org.exbin.xbup.catalog.XBECatalog;
+import org.exbin.xbup.catalog.entity.service.XBENodeService;
+import org.exbin.xbup.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.base.service.XBCItemService;
+import org.exbin.xbup.core.catalog.base.service.XBCNodeService;
+import org.exbin.xbup.core.catalog.base.service.XBCRevService;
+import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
 
 /**
  * Panel for catalog status.

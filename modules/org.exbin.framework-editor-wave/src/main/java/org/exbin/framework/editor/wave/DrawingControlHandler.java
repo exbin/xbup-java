@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import org.exbin.framework.api.XBApplication;
-import org.xbup.lib.audio.swing.XBWavePanel;
+import org.exbin.xbup.audio.swing.XBWavePanel;
 import org.exbin.framework.editor.wave.panel.AudioPanel;
 import org.exbin.framework.gui.editor.api.XBEditorProvider;
 import org.exbin.framework.gui.utils.ActionUtils;

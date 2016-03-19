@@ -19,10 +19,10 @@ package org.exbin.framework.gui.service.catalog.panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
-import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.base.XBCItem;
-import org.xbup.lib.core.catalog.base.XBCNode;
-import org.xbup.lib.core.catalog.base.service.XBCXNameService;
+import org.exbin.xbup.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.base.XBCItem;
+import org.exbin.xbup.core.catalog.base.XBCNode;
+import org.exbin.xbup.core.catalog.base.service.XBCXNameService;
 import org.exbin.framework.gui.service.catalog.dialog.CatalogSelectNodeDialog;
 import org.exbin.framework.gui.utils.WindowUtils;
 

@@ -13,7 +13,7 @@
     <!-- Import persistence context -->
     <import resource="persistenceContext.xml" />
     
-    <bean class="org.xbup.lib.catalog.XBAECatalog" />
+    <bean class="org.exbin.lib.catalog.XBAECatalog" />
         
     <context:component-scan base-package="org.xbup.lib.catalog.entity.manager" />
     <context:component-scan base-package="org.xbup.lib.catalog.entity.service" />

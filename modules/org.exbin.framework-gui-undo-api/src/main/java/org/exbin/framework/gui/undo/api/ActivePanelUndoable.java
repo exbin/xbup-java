@@ -16,7 +16,7 @@
  */
 package org.exbin.framework.gui.undo.api;
 
-import org.xbup.lib.operation.undo.UndoUpdateListener;
+import org.exbin.xbup.operation.undo.UndoUpdateListener;
 
 /**
  * Interface for application's panel.

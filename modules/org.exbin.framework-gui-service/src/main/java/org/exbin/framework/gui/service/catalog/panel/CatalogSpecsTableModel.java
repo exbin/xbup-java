@@ -20,16 +20,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.swing.table.AbstractTableModel;
-import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.XBCatalog;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
-import org.xbup.lib.core.catalog.base.XBCFormatSpec;
-import org.xbup.lib.core.catalog.base.XBCGroupSpec;
-import org.xbup.lib.core.catalog.base.XBCItem;
-import org.xbup.lib.core.catalog.base.XBCNode;
-import org.xbup.lib.core.catalog.base.XBCXName;
-import org.xbup.lib.core.catalog.base.service.XBCSpecService;
-import org.xbup.lib.core.catalog.base.service.XBCXNameService;
+import org.exbin.xbup.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.XBCatalog;
+import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
+import org.exbin.xbup.core.catalog.base.XBCFormatSpec;
+import org.exbin.xbup.core.catalog.base.XBCGroupSpec;
+import org.exbin.xbup.core.catalog.base.XBCItem;
+import org.exbin.xbup.core.catalog.base.XBCNode;
+import org.exbin.xbup.core.catalog.base.XBCXName;
+import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
+import org.exbin.xbup.core.catalog.base.service.XBCXNameService;
 
 /**
  * Table model for catalog specifications.

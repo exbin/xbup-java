@@ -60,7 +60,7 @@ war {
 task createPom << {
     pom {
         project {
-            groupId 'org.xbup.web'
+            groupId 'org.exbin.xbup.web'
             artifactId 'xbcatalogweb'
             version '0.2.0-SNAPSHOT'
 

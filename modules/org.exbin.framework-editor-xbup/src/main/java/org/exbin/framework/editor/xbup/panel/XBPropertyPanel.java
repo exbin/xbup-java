@@ -16,18 +16,18 @@
  */
 package org.exbin.framework.editor.xbup.panel;
 
-import org.xbup.lib.core.block.XBBlockDataMode;
-import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBFBlockType;
-import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
-import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.base.XBCBlockSpec;
-import org.xbup.lib.core.catalog.base.XBCXDesc;
-import org.xbup.lib.core.catalog.base.service.XBCXDescService;
-import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.parser_tree.XBTTreeNode;
-import org.xbup.lib.plugin.XBPluginRepository;
+import org.exbin.xbup.core.block.XBBlockDataMode;
+import org.exbin.xbup.core.block.XBBlockType;
+import org.exbin.xbup.core.block.XBFBlockType;
+import org.exbin.xbup.core.block.declaration.XBBlockDecl;
+import org.exbin.xbup.core.block.declaration.catalog.XBCBlockDecl;
+import org.exbin.xbup.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
+import org.exbin.xbup.core.catalog.base.XBCXDesc;
+import org.exbin.xbup.core.catalog.base.service.XBCXDescService;
+import org.exbin.xbup.core.catalog.base.service.XBCXNameService;
+import org.exbin.xbup.parser_tree.XBTTreeNode;
+import org.exbin.xbup.plugin.XBPluginRepository;
 
 /**
  * Panel for properties of the actual panel.

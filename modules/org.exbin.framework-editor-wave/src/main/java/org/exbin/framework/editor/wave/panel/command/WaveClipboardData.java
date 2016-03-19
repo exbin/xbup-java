@@ -22,7 +22,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
-import org.xbup.lib.audio.wave.XBWave;
+import org.exbin.xbup.audio.wave.XBWave;
 
 /**
  * Wave clipboard data.

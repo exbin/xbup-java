@@ -49,21 +49,21 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Document;
 import javax.swing.text.Highlighter.Highlight;
 import javax.swing.undo.UndoableEdit;
-import org.xbup.lib.core.block.declaration.XBDeclaration;
-import org.xbup.lib.core.block.declaration.local.XBLFormatDecl;
-import org.xbup.lib.core.catalog.XBPCatalog;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.convert.XBTTypeUndeclaringFilter;
-import org.xbup.lib.core.parser.token.event.XBEventWriter;
-import org.xbup.lib.core.parser.token.event.convert.XBTEventListenerToListener;
-import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
-import org.xbup.lib.core.parser.token.event.convert.XBTToXBEventConvertor;
-import org.xbup.lib.core.parser.token.pull.XBPullReader;
-import org.xbup.lib.core.parser.token.pull.convert.XBTPullTypeDeclaringFilter;
-import org.xbup.lib.core.parser.token.pull.convert.XBToXBTPullConvertor;
-import org.xbup.lib.core.serial.XBPSerialReader;
-import org.xbup.lib.core.serial.XBPSerialWriter;
-import org.xbup.lib.core.type.XBEncodingText;
+import org.exbin.xbup.core.block.declaration.XBDeclaration;
+import org.exbin.xbup.core.block.declaration.local.XBLFormatDecl;
+import org.exbin.xbup.core.catalog.XBPCatalog;
+import org.exbin.xbup.core.parser.XBProcessingException;
+import org.exbin.xbup.core.parser.basic.convert.XBTTypeUndeclaringFilter;
+import org.exbin.xbup.core.parser.token.event.XBEventWriter;
+import org.exbin.xbup.core.parser.token.event.convert.XBTEventListenerToListener;
+import org.exbin.xbup.core.parser.token.event.convert.XBTListenerToEventListener;
+import org.exbin.xbup.core.parser.token.event.convert.XBTToXBEventConvertor;
+import org.exbin.xbup.core.parser.token.pull.XBPullReader;
+import org.exbin.xbup.core.parser.token.pull.convert.XBTPullTypeDeclaringFilter;
+import org.exbin.xbup.core.parser.token.pull.convert.XBToXBTPullConvertor;
+import org.exbin.xbup.core.serial.XBPSerialReader;
+import org.exbin.xbup.core.serial.XBPSerialWriter;
+import org.exbin.xbup.core.type.XBEncodingText;
 import org.exbin.framework.editor.text.EditorTextModule;
 import org.exbin.framework.editor.text.TextStatusApi;
 import org.exbin.framework.editor.text.dialog.FindTextDialog;
@@ -73,7 +73,7 @@ import org.exbin.framework.gui.file.api.FileType;
 import org.exbin.framework.gui.menu.api.ClipboardActionsUpdateListener;
 import org.exbin.framework.gui.menu.api.ComponentClipboardHandler;
 import org.exbin.framework.gui.undo.api.ActivePanelUndoable;
-import org.xbup.lib.operation.undo.UndoUpdateListener;
+import org.exbin.xbup.operation.undo.UndoUpdateListener;
 
 /**
  * Text editor panel.
@@ -652,17 +652,18 @@ public class TextPanel extends javax.swing.JPanel implements XBEditorProvider, C
 
     @Override
     public boolean isEditable() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return textArea.isEditable();
     }
 
     @Override
     public boolean canSelectAll() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return textArea.getSelectionEnd() > textArea.getSelectionStart();
     }
 
     @Override
     public boolean canPaste() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // TODO
+        return true;
     }
 
     public interface CharsetChangeListener {

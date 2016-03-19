@@ -25,7 +25,7 @@ import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.api.XBModuleRepositoryUtils;
-import org.xbup.lib.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.XBACatalog;
 import org.exbin.framework.client.api.ClientConnectionListener;
 import org.exbin.framework.editor.xbup.panel.XBDocumentPanel;
 import org.exbin.framework.gui.editor.api.XBEditorProvider;
@@ -41,8 +41,8 @@ import org.exbin.framework.gui.menu.api.ToolBarGroup;
 import org.exbin.framework.gui.menu.api.ToolBarPosition;
 import org.exbin.framework.gui.options.api.GuiOptionsModuleApi;
 import org.exbin.framework.gui.service.XBFileType;
-import org.xbup.lib.operation.undo.XBUndoHandler;
-import org.xbup.lib.plugin.XBPluginRepository;
+import org.exbin.xbup.operation.undo.XBUndoHandler;
+import org.exbin.xbup.plugin.XBPluginRepository;
 
 /**
  * XBUP editor module.

@@ -25,10 +25,10 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import org.xbup.lib.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.XBACatalog;
 import org.exbin.framework.gui.utils.WindowUtils;
-import org.xbup.lib.visual.xbplugins.XBPicturePanel;
-import static org.xbup.lib.visual.xbplugins.XBPicturePanel.toBufferedImage;
+import org.exbin.xbup.visual.xbplugins.XBPicturePanel;
+import static org.exbin.xbup.visual.xbplugins.XBPicturePanel.toBufferedImage;
 
 /**
  * XBManager icon editing dialog.

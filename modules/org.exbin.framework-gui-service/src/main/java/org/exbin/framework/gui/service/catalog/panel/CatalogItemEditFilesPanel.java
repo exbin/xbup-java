@@ -28,10 +28,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JPopupMenu;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.base.XBCNode;
-import org.xbup.lib.core.catalog.base.XBCXFile;
-import org.xbup.lib.core.catalog.base.service.XBCXFileService;
+import org.exbin.xbup.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.base.XBCNode;
+import org.exbin.xbup.core.catalog.base.XBCXFile;
+import org.exbin.xbup.core.catalog.base.service.XBCXFileService;
 import org.exbin.framework.gui.menu.api.MenuManagement;
 import org.exbin.framework.gui.utils.WindowUtils;
 

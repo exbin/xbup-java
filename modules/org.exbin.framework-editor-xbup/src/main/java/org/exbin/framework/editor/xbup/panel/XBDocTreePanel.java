@@ -45,20 +45,20 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.tree.TreePath;
-import org.xbup.lib.core.block.XBBlockDataMode;
-import org.xbup.lib.core.block.XBTBlock;
-import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.basic.XBHead;
+import org.exbin.xbup.core.block.XBBlockDataMode;
+import org.exbin.xbup.core.block.XBTBlock;
+import org.exbin.xbup.core.catalog.XBACatalog;
+import org.exbin.xbup.core.parser.XBProcessingException;
+import org.exbin.xbup.core.parser.basic.XBHead;
 import org.exbin.framework.editor.xbup.dialog.AddBlockDialog;
 import org.exbin.framework.gui.menu.api.ClipboardActionsUpdateListener;
 import org.exbin.framework.gui.utils.WindowUtils;
-import org.xbup.lib.operation.XBTDocCommand;
-import org.xbup.lib.operation.basic.command.XBTAddBlockCommand;
-import org.xbup.lib.operation.basic.command.XBTDeleteBlockCommand;
-import org.xbup.lib.operation.undo.XBUndoHandler;
-import org.xbup.lib.parser_tree.XBTTreeDocument;
-import org.xbup.lib.parser_tree.XBTTreeNode;
+import org.exbin.xbup.operation.XBTDocCommand;
+import org.exbin.xbup.operation.basic.command.XBTAddBlockCommand;
+import org.exbin.xbup.operation.basic.command.XBTDeleteBlockCommand;
+import org.exbin.xbup.operation.undo.XBUndoHandler;
+import org.exbin.xbup.parser_tree.XBTTreeDocument;
+import org.exbin.xbup.parser_tree.XBTTreeNode;
 
 /**
  * Panel with document tree visualization.

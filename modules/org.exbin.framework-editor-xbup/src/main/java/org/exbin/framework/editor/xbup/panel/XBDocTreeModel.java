@@ -22,9 +22,9 @@ import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-import org.xbup.lib.core.block.XBTBlock;
-import org.xbup.lib.core.block.XBTDefaultBlock;
-import org.xbup.lib.parser_tree.XBTTreeDocument;
+import org.exbin.xbup.core.block.XBTBlock;
+import org.exbin.xbup.core.block.XBTDefaultBlock;
+import org.exbin.xbup.parser_tree.XBTTreeDocument;
 
 /**
  * Document Tree Model for XBUP Document Tree.

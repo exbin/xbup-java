@@ -18,7 +18,7 @@ package org.exbin.framework.editor.xbup.dialog;
 
 import java.awt.BorderLayout;
 import java.util.ResourceBundle;
-import org.xbup.lib.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.XBACatalog;
 import org.exbin.framework.gui.menu.api.MenuManagement;
 import org.exbin.framework.gui.service.catalog.panel.CatalogEditorPanel;
 import org.exbin.framework.gui.service.panel.CatalogAvailabilityPanel;

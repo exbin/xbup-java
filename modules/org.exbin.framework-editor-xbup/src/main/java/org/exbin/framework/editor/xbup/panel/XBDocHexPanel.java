@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.xbup.lib.parser_tree.XBTTreeDocument;
+import org.exbin.xbup.parser_tree.XBTTreeDocument;
 
 /**
  * Panel with document tree visualization.

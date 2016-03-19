@@ -16,7 +16,7 @@
  */
 package org.exbin.framework.gui.service.panel;
 
-import org.xbup.lib.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.XBACatalog;
 import org.exbin.framework.gui.menu.api.MenuManagement;
 
 /**

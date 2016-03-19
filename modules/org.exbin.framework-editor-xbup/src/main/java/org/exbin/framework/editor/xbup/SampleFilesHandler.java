@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import org.exbin.framework.api.XBApplication;
-import org.xbup.lib.core.parser.XBProcessingException;
+import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.framework.editor.xbup.panel.XBDocumentPanel;
 import org.exbin.framework.gui.editor.api.XBEditorProvider;
 import org.exbin.framework.gui.utils.ActionUtils;

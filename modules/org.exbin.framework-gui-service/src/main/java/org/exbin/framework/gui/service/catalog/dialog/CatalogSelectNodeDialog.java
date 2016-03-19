@@ -18,9 +18,9 @@ package org.exbin.framework.gui.service.catalog.dialog;
 
 import java.awt.BorderLayout;
 import javax.swing.JOptionPane;
-import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.base.XBCItem;
-import org.xbup.lib.core.catalog.base.XBCNode;
+import org.exbin.xbup.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.base.XBCItem;
+import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.framework.gui.service.catalog.panel.CatalogSelectSpecPanel;
 import org.exbin.framework.gui.service.catalog.panel.CatalogSpecItemType;
 import org.exbin.framework.gui.utils.WindowUtils;

@@ -19,11 +19,11 @@ package org.exbin.framework.gui.service.catalog.panel;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import org.xbup.lib.catalog.entity.manager.XBItemWithDetail;
-import org.xbup.lib.catalog.entity.service.XBEItemService;
-import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.base.XBCItem;
-import org.xbup.lib.core.catalog.base.service.XBCItemService;
+import org.exbin.xbup.catalog.entity.manager.XBItemWithDetail;
+import org.exbin.xbup.catalog.entity.service.XBEItemService;
+import org.exbin.xbup.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.base.XBCItem;
+import org.exbin.xbup.core.catalog.base.service.XBCItemService;
 import org.exbin.framework.gui.service.catalog.panel.CatalogSearchTableModel.CatalogSearchTableItem;
 
 /**

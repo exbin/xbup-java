@@ -18,16 +18,16 @@ package org.exbin.framework.editor.xbup.dialog;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.declaration.XBBlockDecl;
-import org.xbup.lib.core.block.declaration.XBContext;
-import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.block.declaration.XBGroup;
-import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
-import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.core.catalog.base.service.XBCXNameService;
+import org.exbin.xbup.core.block.XBBlockType;
+import org.exbin.xbup.core.block.declaration.XBBlockDecl;
+import org.exbin.xbup.core.block.declaration.XBContext;
+import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
+import org.exbin.xbup.core.block.declaration.XBGroup;
+import org.exbin.xbup.core.block.declaration.catalog.XBCBlockDecl;
+import org.exbin.xbup.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.base.service.XBCXNameService;
 import org.exbin.framework.gui.utils.WindowUtils;
-import org.xbup.lib.parser_tree.XBTTreeNode;
+import org.exbin.xbup.parser_tree.XBTTreeNode;
 
 /**
  * Dialog for adding new item into given document.

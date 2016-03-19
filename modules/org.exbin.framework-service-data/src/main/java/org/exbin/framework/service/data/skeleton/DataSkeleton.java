@@ -17,26 +17,26 @@
 package org.exbin.framework.service.data.skeleton;
 
 import java.io.IOException;
-import org.xbup.lib.catalog.XBAECatalog;
-import org.xbup.lib.catalog.entity.XBENode;
-import org.xbup.lib.catalog.entity.service.XBEItemService;
-import org.xbup.lib.catalog.entity.service.XBEXInfoService;
-import org.xbup.lib.client.stub.XBPInfoStub;
-import org.xbup.lib.core.block.XBBlockType;
-import org.xbup.lib.core.block.XBTEmptyBlock;
-import org.xbup.lib.core.block.declaration.XBDeclBlockType;
-import org.xbup.lib.core.catalog.base.XBCXItemInfo;
-import org.xbup.lib.core.catalog.base.service.XBCItemService;
-import org.xbup.lib.core.catalog.base.service.XBCXInfoService;
-import org.xbup.lib.core.parser.XBProcessingException;
-import org.xbup.lib.core.parser.token.XBAttribute;
-import org.xbup.lib.core.remote.XBMultiProcedure;
-import org.xbup.lib.core.remote.XBServiceServer;
-import org.xbup.lib.core.serial.param.XBPListenerSerialHandler;
-import org.xbup.lib.core.serial.param.XBPProviderSerialHandler;
-import org.xbup.lib.core.stream.XBInput;
-import org.xbup.lib.core.stream.XBOutput;
-import org.xbup.lib.core.ubnumber.type.UBNat32;
+import org.exbin.xbup.catalog.XBAECatalog;
+import org.exbin.xbup.catalog.entity.XBENode;
+import org.exbin.xbup.catalog.entity.service.XBEItemService;
+import org.exbin.xbup.catalog.entity.service.XBEXInfoService;
+import org.exbin.xbup.client.stub.XBPInfoStub;
+import org.exbin.xbup.core.block.XBBlockType;
+import org.exbin.xbup.core.block.XBTEmptyBlock;
+import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
+import org.exbin.xbup.core.catalog.base.XBCXItemInfo;
+import org.exbin.xbup.core.catalog.base.service.XBCItemService;
+import org.exbin.xbup.core.catalog.base.service.XBCXInfoService;
+import org.exbin.xbup.core.parser.XBProcessingException;
+import org.exbin.xbup.core.parser.token.XBAttribute;
+import org.exbin.xbup.core.remote.XBMultiProcedure;
+import org.exbin.xbup.core.remote.XBServiceServer;
+import org.exbin.xbup.core.serial.param.XBPListenerSerialHandler;
+import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
+import org.exbin.xbup.core.stream.XBInput;
+import org.exbin.xbup.core.stream.XBOutput;
+import org.exbin.xbup.core.ubnumber.type.UBNat32;
 
 /**
  * RPC skeleton class for data access.

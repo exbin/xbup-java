@@ -16,10 +16,10 @@
  */
 package org.exbin.framework.gui.service.catalog.panel;
 
-import org.xbup.lib.catalog.entity.XBERev;
-import org.xbup.lib.core.block.definition.XBParamType;
-import org.xbup.lib.core.catalog.base.XBCRev;
-import org.xbup.lib.core.catalog.base.XBCSpecDef;
+import org.exbin.xbup.catalog.entity.XBERev;
+import org.exbin.xbup.core.block.definition.XBParamType;
+import org.exbin.xbup.core.catalog.base.XBCRev;
+import org.exbin.xbup.core.catalog.base.XBCSpecDef;
 
 /**
  * Table model for catalog specification definition.

@@ -37,8 +37,8 @@ import org.exbin.framework.gui.help.api.GuiHelpModuleApi;
 import org.exbin.framework.gui.menu.api.GuiMenuModuleApi;
 import org.exbin.framework.gui.menu.api.MenuPosition;
 import org.exbin.framework.gui.menu.api.PositionMode;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
-import org.xbup.lib.framework.gui.utils.BareBonesBrowserLaunch;
+import org.exbin.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.BareBonesBrowserLaunch;
 
 /**
  * Implementation of XBUP framework help module.

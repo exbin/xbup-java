@@ -59,7 +59,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder title="Connection Information">
-              <ResourceString PropertyName="titleX" bundle="org/xbup/lib/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="connectionInfoBorderPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString PropertyName="titleX" bundle="org/exbin/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="connectionInfoBorderPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </TitledBorder>
           </Border>
         </Property>
@@ -97,7 +97,7 @@
             <Component class="javax.swing.JLabel" name="connectionHostLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="hostNameLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="hostNameLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
@@ -113,7 +113,7 @@
             <Component class="javax.swing.JLabel" name="connectionPortLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="connectionPortLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="connectionPortLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
@@ -129,7 +129,7 @@
             <Component class="javax.swing.JLabel" name="connectionProtocolLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="connectionProtocolLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="connectionProtocolLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
@@ -151,7 +151,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder title="Service information">
-              <ResourceString PropertyName="titleX" bundle="org/xbup/lib/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="serviceInfoBorderPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString PropertyName="titleX" bundle="org/exbin/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="serviceInfoBorderPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </TitledBorder>
           </Border>
         </Property>
@@ -189,7 +189,7 @@
             <Component class="javax.swing.JLabel" name="serviceNameLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="serviceNameLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="serviceNameLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
@@ -205,7 +205,7 @@
             <Component class="javax.swing.JLabel" name="serviceVersionLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="serviceVersionLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="serviceVersionLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
@@ -255,7 +255,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder title="Manager Information">
-              <ResourceString PropertyName="titleX" bundle="org/xbup/lib/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="managerInfoBorderPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString PropertyName="titleX" bundle="org/exbin/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="managerInfoBorderPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </TitledBorder>
           </Border>
         </Property>
@@ -290,7 +290,7 @@
             <Component class="javax.swing.JLabel" name="managerNameLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="managerNameLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="managerNameLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
@@ -306,7 +306,7 @@
             <Component class="javax.swing.JLabel" name="managerVersionLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="managerVersionLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="managerVersionLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
@@ -322,7 +322,7 @@
             <Component class="javax.swing.JLabel" name="managerNetworkNameLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="managerNetworkNameLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="managerNetworkNameLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
@@ -338,7 +338,7 @@
             <Component class="javax.swing.JLabel" name="managerNetworkIPLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="managerNetworkIPLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="managerNetworkIPLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
@@ -354,7 +354,7 @@
             <Component class="javax.swing.JLabel" name="managerSystemLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="managerSystemLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="managerSystemLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
@@ -370,7 +370,7 @@
             <Component class="javax.swing.JLabel" name="managerHardwareLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="managerHardwareLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/gui/service/panel/resources/ServiceManagerPanel.properties" key="managerHardwareLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>

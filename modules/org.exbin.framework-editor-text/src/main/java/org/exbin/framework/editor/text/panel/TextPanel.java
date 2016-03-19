@@ -72,7 +72,7 @@ import org.exbin.framework.gui.editor.api.XBEditorProvider;
 import org.exbin.framework.gui.file.api.FileType;
 import org.exbin.framework.gui.menu.api.ClipboardActionsUpdateListener;
 import org.exbin.framework.gui.menu.api.ComponentClipboardHandler;
-import org.xbup.lib.framework.gui.undo.api.ActivePanelUndoable;
+import org.exbin.framework.gui.undo.api.ActivePanelUndoable;
 import org.xbup.lib.operation.undo.UndoUpdateListener;
 
 /**

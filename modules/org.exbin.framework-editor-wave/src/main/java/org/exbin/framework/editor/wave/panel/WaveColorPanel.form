@@ -151,7 +151,7 @@
     <Component class="javax.swing.JButton" name="waveSelectionColorButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.selectButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.selectButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="waveSelectionColorButton" noResource="true"/>
       </Properties>
@@ -162,7 +162,7 @@
     <Component class="javax.swing.JLabel" name="waveColorLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.waveColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.waveColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="waveColorLabel" noResource="true"/>
       </Properties>
@@ -193,7 +193,7 @@
     <Component class="javax.swing.JButton" name="waveColorButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.selectButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.selectButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="waveColorButton" noResource="true"/>
       </Properties>
@@ -204,7 +204,7 @@
     <Component class="javax.swing.JLabel" name="waveSelectionColorLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.waveSelectionColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.waveSelectionColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="waveSelectionColorLabel" noResource="true"/>
       </Properties>
@@ -212,7 +212,7 @@
     <Component class="javax.swing.JLabel" name="waveBackgroundColorLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.waveBackgroundColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.waveBackgroundColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="waveBackgroundColorLabel" noResource="true"/>
       </Properties>
@@ -220,7 +220,7 @@
     <Component class="javax.swing.JLabel" name="waveCursorColorLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.waveCursorColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.waveCursorColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="waveCursorColorLabel" noResource="true"/>
       </Properties>
@@ -228,7 +228,7 @@
     <Component class="javax.swing.JButton" name="fillDefaultButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.fillDefaultButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.fillDefaultButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="fillDefaultButton" noResource="true"/>
       </Properties>
@@ -239,7 +239,7 @@
     <Component class="javax.swing.JButton" name="fillCurrentButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.fillCurrentButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.fillCurrentButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="fillCurrentButton" noResource="true"/>
       </Properties>
@@ -273,7 +273,7 @@
     <Component class="javax.swing.JButton" name="waveCursorColorButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.selectButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.selectButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="waveCursorColorButton" noResource="true"/>
       </Properties>
@@ -330,7 +330,7 @@
     <Component class="javax.swing.JButton" name="waveBackgroundColorButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.selectButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/wave/panel/resources/WaveColorPanel.properties" key="WaveColorPanel.selectButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="waveBackgroundColorButton" noResource="true"/>
       </Properties>
@@ -341,7 +341,7 @@
     <Component class="javax.swing.JLabel" name="waveFillColorLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/wave/panel/Bundle.properties" key="WaveColorPanel.waveFillColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/wave/panel/Bundle.properties" key="WaveColorPanel.waveFillColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="waveFillColorLabel" noResource="true"/>
       </Properties>
@@ -372,7 +372,7 @@
     <Component class="javax.swing.JButton" name="waveFillColorButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/wave/panel/Bundle.properties" key="WaveColorPanel.waveFillColorButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/wave/panel/Bundle.properties" key="WaveColorPanel.waveFillColorButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="waveFillColorButton" noResource="true"/>
       </Properties>
@@ -383,7 +383,7 @@
     <Component class="javax.swing.JLabel" name="waveCursorWaveColorLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/wave/panel/Bundle.properties" key="WaveColorPanel.waveCursorWaveColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/wave/panel/Bundle.properties" key="WaveColorPanel.waveCursorWaveColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="waveCursorWaveColorLabel" noResource="true"/>
       </Properties>
@@ -414,7 +414,7 @@
     <Component class="javax.swing.JButton" name="waveCursorWaveColorButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/wave/panel/Bundle.properties" key="WaveColorPanel.waveCursorWaveColorButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/wave/panel/Bundle.properties" key="WaveColorPanel.waveCursorWaveColorButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="waveCursorWaveColorButton" noResource="true"/>
       </Properties>

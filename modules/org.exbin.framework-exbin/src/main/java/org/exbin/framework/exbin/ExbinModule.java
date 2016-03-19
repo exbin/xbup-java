@@ -28,7 +28,7 @@ import org.xbup.lib.client.XBCatalogNetServiceClient;
 import org.exbin.framework.exbin.dialog.LoginDialog;
 import org.exbin.framework.exbin.panel.ExbinMainPanel;
 import org.exbin.framework.gui.file.api.GuiFileModuleApi;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * XBUP service manager module.

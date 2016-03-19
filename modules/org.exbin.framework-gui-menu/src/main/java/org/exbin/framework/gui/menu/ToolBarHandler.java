@@ -34,7 +34,7 @@ import org.exbin.framework.gui.menu.api.SeparationMode;
 import org.exbin.framework.gui.menu.api.ToolBarContribution;
 import org.exbin.framework.gui.menu.api.ToolBarGroup;
 import org.exbin.framework.gui.menu.api.ToolBarPosition;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * Tool bar handler.

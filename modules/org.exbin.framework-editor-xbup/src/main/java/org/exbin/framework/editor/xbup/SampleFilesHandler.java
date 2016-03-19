@@ -27,7 +27,7 @@ import org.exbin.framework.api.XBApplication;
 import org.xbup.lib.core.parser.XBProcessingException;
 import org.exbin.framework.editor.xbup.panel.XBDocumentPanel;
 import org.exbin.framework.gui.editor.api.XBEditorProvider;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * Sample files handler.
@@ -62,7 +62,7 @@ public class SampleFilesHandler {
                     XBDocumentPanel documentPanel = (XBDocumentPanel) editorProvider;
                     documentPanel.newFile();
                     try {
-                        documentPanel.getDoc().fromStreamUB(getClass().getResourceAsStream("/org/xbup/lib/framework/editor/xbup/resources/samples/xhtml_example.xb"));
+                        documentPanel.getDoc().fromStreamUB(getClass().getResourceAsStream("/org/exbin/framework/editor/xbup/resources/samples/xhtml_example.xb"));
                         documentPanel.getDoc().processSpec();
                     } catch (XBProcessingException | IOException ex) {
                         Logger.getLogger(SampleFilesHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -81,7 +81,7 @@ public class SampleFilesHandler {
                     XBDocumentPanel documentPanel = (XBDocumentPanel) editorProvider;
                     documentPanel.newFile();
                     try {
-                        documentPanel.getDoc().fromStreamUB(getClass().getResourceAsStream("/org/xbup/lib/framework/editor/xbup/resources/samples/xblogo.xbp"));
+                        documentPanel.getDoc().fromStreamUB(getClass().getResourceAsStream("/org/exbin/framework/editor/xbup/resources/samples/xblogo.xbp"));
                         documentPanel.getDoc().processSpec();
                     } catch (XBProcessingException | IOException ex) {
                         Logger.getLogger(SampleFilesHandler.class.getName()).log(Level.SEVERE, null, ex);

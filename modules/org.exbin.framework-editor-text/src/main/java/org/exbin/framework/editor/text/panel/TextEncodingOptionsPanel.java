@@ -45,7 +45,7 @@ public class TextEncodingOptionsPanel extends javax.swing.JPanel implements Opti
 
     public TextEncodingOptionsPanel(TextEncodingPanelApi frame) {
         this.frame = frame;
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/text/panel/resources/TextEncodingOptionsPanel");
+        resourceBundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/text/panel/resources/TextEncodingOptionsPanel");
 
         initComponents();
 
@@ -93,7 +93,7 @@ public class TextEncodingOptionsPanel extends javax.swing.JPanel implements Opti
             }
         });
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/text/panel/resources/TextEncodingOptionsPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/text/panel/resources/TextEncodingOptionsPanel"); // NOI18N
         defaultEncodingLabel.setText(bundle.getString("TextEncodingOptionsPanel.defaultEncodingLabel.text")); // NOI18N
         defaultEncodingLabel.setName("defaultEncodingLabel"); // NOI18N
 

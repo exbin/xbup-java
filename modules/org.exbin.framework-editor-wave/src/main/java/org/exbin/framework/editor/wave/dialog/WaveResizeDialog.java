@@ -17,7 +17,7 @@
 package org.exbin.framework.editor.wave.dialog;
 
 import javax.swing.JOptionPane;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * XBSEditor Wave Resizing Dialog.
@@ -63,7 +63,7 @@ public class WaveResizeDialog extends javax.swing.JDialog {
         setModal(true);
         setName("Form"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/wave/dialog/resources/WaveResizeDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/wave/dialog/resources/WaveResizeDialog"); // NOI18N
         cancelButton.setText(bundle.getString("cancelButton.text")); // NOI18N
         cancelButton.setName("cancelButton"); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {

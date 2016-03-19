@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.prefs.Preferences;
 import javax.swing.JOptionPane;
 import org.xbup.lib.client.XBCatalogServiceClient;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * ExBin login dialog.
@@ -98,7 +98,7 @@ public class LoginDialog extends javax.swing.JDialog {
         statusTextLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/exbin/dialog/resources/ConnectionDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/exbin/dialog/resources/ConnectionDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
 
         connectionHeaderPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -113,7 +113,7 @@ public class LoginDialog extends javax.swing.JDialog {
         jLayeredPane1.add(serviceLabel);
         serviceLabel.setBounds(100, 0, 330, 43);
 
-        logoImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/exbin/resources/images/xbup_maskot4_small.png"))); // NOI18N
+        logoImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/exbin/framework/exbin/resources/images/xbup_maskot4_small.png"))); // NOI18N
         jLayeredPane2.add(logoImageLabel);
         logoImageLabel.setBounds(20, 0, 50, 80);
 

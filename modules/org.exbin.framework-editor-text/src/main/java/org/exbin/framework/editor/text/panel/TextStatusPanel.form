@@ -45,7 +45,7 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="1:1" noResource="true"/>
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextStatusPanel.properties" key="TextStatusPanel.documentCursorPositionTextField.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/text/panel/resources/TextStatusPanel.properties" key="TextStatusPanel.documentCursorPositionTextField.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="documentCursorPositionTextField" noResource="true"/>
       </Properties>
@@ -53,7 +53,7 @@
     <Component class="javax.swing.JLabel" name="encodingLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextStatusPanel.properties" key="TextStatusPanel.encodingLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/text/panel/resources/TextStatusPanel.properties" key="TextStatusPanel.encodingLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="encodingLabel" noResource="true"/>
       </Properties>
@@ -64,7 +64,7 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="UTF-8" noResource="true"/>
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextStatusPanel.properties" key="TextStatusPanel.documentEncodingTextField.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/text/panel/resources/TextStatusPanel.properties" key="TextStatusPanel.documentEncodingTextField.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="documentEncodingTextField" noResource="true"/>
       </Properties>

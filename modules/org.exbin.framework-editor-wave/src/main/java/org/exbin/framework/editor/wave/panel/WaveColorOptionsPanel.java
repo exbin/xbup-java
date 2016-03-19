@@ -25,7 +25,7 @@ import java.util.prefs.Preferences;
 import org.exbin.framework.gui.options.api.OptionsPanel;
 import org.exbin.framework.gui.options.api.OptionsPanel.ModifiedOptionListener;
 import org.exbin.framework.gui.options.api.OptionsPanel.PathItem;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * Wave editor color selection panel.
@@ -69,7 +69,7 @@ public class WaveColorOptionsPanel extends javax.swing.JPanel implements Options
 
         setName("Form"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/wave/panel/resources/WaveColorOptionsPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/wave/panel/resources/WaveColorOptionsPanel"); // NOI18N
         customColorsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("WaveColorOptionsPanel.customColorsPanel.title"))); // NOI18N
         customColorsPanel.setName("customColorsPanel"); // NOI18N
         customColorsPanel.setLayout(new java.awt.BorderLayout());

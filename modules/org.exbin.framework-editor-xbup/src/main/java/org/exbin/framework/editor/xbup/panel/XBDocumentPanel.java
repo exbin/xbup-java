@@ -59,7 +59,7 @@ import org.exbin.framework.gui.editor.api.XBEditorProvider;
 import org.exbin.framework.gui.file.api.FileType;
 import org.exbin.framework.gui.menu.api.ClipboardActionsUpdateListener;
 import org.exbin.framework.gui.menu.api.ComponentClipboardHandler;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 import org.xbup.lib.operation.Operation;
 import org.xbup.lib.operation.OperationEvent;
 import org.xbup.lib.operation.OperationListener;
@@ -185,7 +185,7 @@ public class XBDocumentPanel extends javax.swing.JPanel implements XBEditorProvi
         sourceTabPanel1 = new javax.swing.JPanel();
         hexTabPanel1 = new javax.swing.JPanel();
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/xbup/panel/resources/XBDocumentPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/xbup/panel/resources/XBDocumentPanel"); // NOI18N
         popupItemViewMenuItem.setText(bundle.getString("popupItemViewMenuItem.text")); // NOI18N
         popupItemViewMenuItem.setToolTipText(bundle.getString("popupItemViewMenuItem.toolTipText")); // NOI18N
         popupItemViewMenuItem.addActionListener(new java.awt.event.ActionListener() {

@@ -23,7 +23,7 @@ import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.exbin.framework.gui.service.catalog.panel.CatalogSelectSpecPanel;
 import org.exbin.framework.gui.service.catalog.panel.CatalogSpecItemType;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * XBManager Catalog node selection dialog.

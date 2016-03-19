@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javax.swing.table.AbstractTableModel;
 import org.xbup.lib.core.parser.token.XBAttribute;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * Attributes list table model for item editing.

@@ -46,7 +46,7 @@ import org.exbin.framework.gui.file.api.FileType;
 import org.exbin.framework.gui.menu.api.MenuManagement;
 import org.exbin.framework.gui.service.ServiceManagerHandler;
 import org.exbin.framework.gui.service.catalog.dialog.CatalogEditItemDialog;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * Catalog Specification Panel.
@@ -126,7 +126,7 @@ public class CatalogBrowserPanel extends javax.swing.JPanel implements XBEditorP
 
         catalogTreePopupMenu.setName("catalogTreePopupMenu"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/service/catalog/panel/resources/CatalogItemsTreePanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/service/catalog/panel/resources/CatalogItemsTreePanel"); // NOI18N
         popupEditMenuItem.setText(bundle.getString("editMenuItem.text")); // NOI18N
         popupEditMenuItem.setToolTipText(bundle.getString("editMenuItem,toolTipText")); // NOI18N
         popupEditMenuItem.setName("popupEditMenuItem"); // NOI18N

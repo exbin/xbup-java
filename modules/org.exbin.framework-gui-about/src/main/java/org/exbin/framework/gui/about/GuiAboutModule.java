@@ -26,7 +26,7 @@ import org.exbin.framework.gui.frame.api.GuiFrameModuleApi;
 import org.exbin.framework.gui.menu.api.GuiMenuModuleApi;
 import org.exbin.framework.gui.menu.api.MenuPosition;
 import org.exbin.framework.gui.menu.api.PositionMode;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * Implementation of XBUP framework about module.

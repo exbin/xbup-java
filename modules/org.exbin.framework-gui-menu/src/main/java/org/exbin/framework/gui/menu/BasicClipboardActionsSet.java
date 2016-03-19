@@ -27,7 +27,7 @@ import javax.swing.Action;
 import org.exbin.framework.gui.menu.api.ClipboardActionSet;
 import org.exbin.framework.gui.menu.api.ClipboardActionsUpdateListener;
 import org.exbin.framework.gui.menu.api.ComponentClipboardHandler;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * Basic clipboard action set.

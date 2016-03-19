@@ -36,7 +36,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXDescService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
 import org.exbin.framework.gui.service.catalog.dialog.CatalogSpecDefEditorDialog;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * XBManager catalog item edit documentation panel.
@@ -94,7 +94,7 @@ public class CatalogItemEditDefinitionPanel extends javax.swing.JPanel {
         itemDefinitionPropertyScrollPanel = new javax.swing.JScrollPane();
         itemDefinitionPropertyTable = new javax.swing.JTable();
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/service/catalog/panel/resources/CatalogItemEditDefinitionPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/service/catalog/panel/resources/CatalogItemEditDefinitionPanel"); // NOI18N
         setToolTipText(bundle.getString("toolTipText")); // NOI18N
         setLayout(new java.awt.BorderLayout());
 

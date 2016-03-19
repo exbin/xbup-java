@@ -24,7 +24,7 @@ import java.awt.font.TextAttribute;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * XBTEditor font selection panel.
@@ -177,7 +177,7 @@ public class TextFontPanel extends javax.swing.JPanel {
 
         fontFamilyPanel.setName("fontFamilyPanel"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/text/panel/resources/TextFontPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/text/panel/resources/TextFontPanel"); // NOI18N
         fontFamilyLabel.setText(bundle.getString("TextFontPanel.fontFamilyLabel.text")); // NOI18N
         fontFamilyLabel.setName("fontFamilyLabel"); // NOI18N
 

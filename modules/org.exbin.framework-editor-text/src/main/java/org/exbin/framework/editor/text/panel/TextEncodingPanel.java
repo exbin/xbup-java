@@ -31,7 +31,7 @@ import org.exbin.framework.editor.text.dialog.AddEncodingDialog;
 import org.exbin.framework.gui.options.api.OptionsPanel;
 import org.exbin.framework.gui.options.api.OptionsPanel.ModifiedOptionListener;
 import org.exbin.framework.gui.options.api.OptionsPanel.PathItem;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * XBTEditor Encoding Selection Panel.
@@ -51,7 +51,7 @@ public class TextEncodingPanel extends javax.swing.JPanel implements OptionsPane
 
     public TextEncodingPanel(TextEncodingPanelApi frame) {
         this.frame = frame;
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/text/panel/resources/TextEncodingOptionsPanel");
+        resourceBundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/text/panel/resources/TextEncodingOptionsPanel");
         initComponents();
         encodingsList.getModel().addListDataListener(new ListDataListener() {
 
@@ -120,7 +120,7 @@ public class TextEncodingPanel extends javax.swing.JPanel implements OptionsPane
 
         jPanel1.setName("jPanel1"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/text/panel/resources/TextEncodingPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/text/panel/resources/TextEncodingPanel"); // NOI18N
         upButton.setText(bundle.getString("upButton.text")); // NOI18N
         upButton.setEnabled(false);
         upButton.setName("upButton"); // NOI18N

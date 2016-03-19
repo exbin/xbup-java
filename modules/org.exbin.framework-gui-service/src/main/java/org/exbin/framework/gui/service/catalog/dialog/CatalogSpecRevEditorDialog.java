@@ -18,7 +18,7 @@ package org.exbin.framework.gui.service.catalog.dialog;
 
 import javax.swing.JOptionPane;
 import org.exbin.framework.gui.service.catalog.panel.CatalogRevsTableItem;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * XBManager Catalog Specification Revision Editor Dialog.

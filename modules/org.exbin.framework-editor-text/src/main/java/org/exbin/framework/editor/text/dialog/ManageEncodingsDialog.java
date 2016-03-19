@@ -19,7 +19,7 @@ package org.exbin.framework.editor.text.dialog;
 import javax.swing.JOptionPane;
 import org.exbin.framework.editor.text.panel.TextEncodingPanel;
 import org.exbin.framework.editor.text.panel.TextEncodingPanelApi;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * Text Editor Encoding Selection Dialog.
@@ -65,7 +65,7 @@ public class ManageEncodingsDialog extends javax.swing.JDialog {
         mainPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/text/dialog/resources/EncodingDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/text/dialog/resources/EncodingDialog"); // NOI18N
         setTitle(bundle.getString("Form.title")); // NOI18N
         setLocationByPlatform(true);
         setModal(true);

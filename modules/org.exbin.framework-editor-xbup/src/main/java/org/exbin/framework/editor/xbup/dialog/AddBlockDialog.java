@@ -41,8 +41,8 @@ import org.xbup.lib.core.parser.token.event.convert.XBTListenerToEventListener;
 import org.xbup.lib.core.serial.XBPSerialWriter;
 import org.exbin.framework.gui.service.catalog.dialog.CatalogSelectSpecDialog;
 import org.exbin.framework.gui.service.catalog.panel.CatalogSpecItemType;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.parser_tree.XBTTreeReader;
 
@@ -111,7 +111,7 @@ public class AddBlockDialog extends javax.swing.JDialog {
         prevButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/xbup/dialog/resources/AddBlockDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/xbup/dialog/resources/AddBlockDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
         setModal(true);
 

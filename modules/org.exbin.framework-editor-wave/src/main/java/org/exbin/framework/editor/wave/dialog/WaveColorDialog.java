@@ -20,8 +20,8 @@ import java.awt.Frame;
 import javax.swing.JOptionPane;
 import org.exbin.framework.editor.wave.panel.WaveColorPanel;
 import org.exbin.framework.editor.wave.panel.WaveColorPanelApi;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * XBSEditor Wave Color Selection Dialog.
@@ -71,7 +71,7 @@ public class WaveColorDialog extends javax.swing.JDialog {
         okButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/wave/dialog/resources/WaveColorDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/wave/dialog/resources/WaveColorDialog"); // NOI18N
         setTitle(bundle.getString("Form.title")); // NOI18N
         setLocationByPlatform(true);
         setModal(true);

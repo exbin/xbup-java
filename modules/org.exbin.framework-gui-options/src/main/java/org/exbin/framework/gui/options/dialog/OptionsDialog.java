@@ -39,7 +39,7 @@ import org.exbin.framework.gui.options.api.OptionsPanel.ModifiedOptionListener;
 import org.exbin.framework.gui.options.api.OptionsPanel.PathItem;
 import org.exbin.framework.gui.options.panel.AppearanceOptionsPanel;
 import org.exbin.framework.gui.options.panel.MainOptionsPanel;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * Dialog for application options and preferences setting.
@@ -69,7 +69,7 @@ public class OptionsDialog extends javax.swing.JDialog {
     }
 
     private void init() {
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/options/dialog/resources/OptionsDialog");
+        resourceBundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/options/dialog/resources/OptionsDialog");
         initComponents();
 
         optionPanels = new HashMap<>();
@@ -191,7 +191,7 @@ public class OptionsDialog extends javax.swing.JDialog {
         saveButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/options/dialog/resources/OptionsDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/options/dialog/resources/OptionsDialog"); // NOI18N
         setTitle(bundle.getString("OptionsDialog.title")); // NOI18N
         setLocationByPlatform(true);
 

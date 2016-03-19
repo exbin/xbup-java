@@ -19,8 +19,8 @@ package org.exbin.framework.editor.text.dialog;
 import java.awt.Font;
 import javax.swing.JOptionPane;
 import org.exbin.framework.editor.text.panel.TextFontPanel;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * Text editor font selection dialog.
@@ -76,7 +76,7 @@ public class TextFontDialog extends javax.swing.JDialog {
         okButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/text/dialog/resources/TextColorDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/text/dialog/resources/TextColorDialog"); // NOI18N
         setTitle(bundle.getString("Form.title")); // NOI18N
         setLocationByPlatform(true);
         setModal(true);

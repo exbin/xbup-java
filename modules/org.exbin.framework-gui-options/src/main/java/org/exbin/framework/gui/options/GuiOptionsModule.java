@@ -32,7 +32,7 @@ import org.exbin.framework.gui.menu.api.SeparationMode;
 import org.exbin.framework.gui.options.api.GuiOptionsModuleApi;
 import org.exbin.framework.gui.options.api.OptionsPanel;
 import org.exbin.framework.gui.options.dialog.OptionsDialog;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * Implementation of XBUP framework file module.

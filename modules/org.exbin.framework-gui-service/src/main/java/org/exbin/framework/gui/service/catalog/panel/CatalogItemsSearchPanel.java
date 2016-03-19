@@ -57,7 +57,7 @@ import org.exbin.framework.gui.menu.api.MenuManagement;
 import org.exbin.framework.gui.service.YamlFileType;
 import org.exbin.framework.gui.service.catalog.dialog.CatalogEditItemDialog;
 import org.exbin.framework.gui.service.panel.CatalogManagerPanelable;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * Catalog items search panel.
@@ -189,7 +189,7 @@ public class CatalogItemsSearchPanel extends javax.swing.JPanel implements Catal
 
         catalogTreePopupMenu.setName("catalogTreePopupMenu"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/service/catalog/panel/resources/CatalogItemsTreePanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/service/catalog/panel/resources/CatalogItemsTreePanel"); // NOI18N
         popupRefreshMenuItem.setText(bundle.getString("refreshMenuItem,text")); // NOI18N
         popupRefreshMenuItem.setToolTipText(bundle.getString("refreshMenuItem,toolTipText")); // NOI18N
         popupRefreshMenuItem.setName("popupRefreshMenuItem"); // NOI18N

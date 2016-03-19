@@ -42,7 +42,7 @@ import org.exbin.framework.gui.menu.api.NextToMode;
 import org.exbin.framework.gui.menu.api.PositionMode;
 import org.exbin.framework.gui.menu.api.SeparationMode;
 import org.exbin.framework.gui.options.api.GuiOptionsModuleApi;
-import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
+import org.exbin.framework.gui.undo.api.GuiUndoModuleApi;
 
 /**
  * XBUP audio editor module.
@@ -158,8 +158,8 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
         if (audioPanel.getIsPlaying() != playing) {
             playing = !playing;
             audioStatusPanel.setPlayButtonIcon(playing
-                    ? new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/editor/wave/resources/images/actions/pause16.png"))
-                    : new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/editor/wave/resources/images/actions/play16.png"))
+                    ? new javax.swing.ImageIcon(getClass().getResource("/org/exbin/framework/editor/wave/resources/images/actions/pause16.png"))
+                    : new javax.swing.ImageIcon(getClass().getResource("/org/exbin/framework/editor/wave/resources/images/actions/play16.png"))
             );
         }
     }

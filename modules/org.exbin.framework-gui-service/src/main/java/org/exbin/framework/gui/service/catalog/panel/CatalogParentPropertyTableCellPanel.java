@@ -24,7 +24,7 @@ import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.exbin.framework.gui.service.catalog.dialog.CatalogSelectNodeDialog;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * Catalog Parent Cell Panel.

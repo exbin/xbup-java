@@ -39,7 +39,7 @@ import org.exbin.framework.gui.menu.api.MenuPosition;
 import org.exbin.framework.gui.menu.api.PositionMode;
 import org.exbin.framework.gui.menu.api.SeparationMode;
 import org.exbin.framework.gui.menu.api.SubMenuContribution;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * Menu handler.

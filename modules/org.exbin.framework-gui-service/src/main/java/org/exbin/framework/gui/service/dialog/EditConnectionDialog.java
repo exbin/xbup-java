@@ -18,8 +18,8 @@ package org.exbin.framework.gui.service.dialog;
 
 import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * Connection editor dialog.
@@ -66,7 +66,7 @@ public class EditConnectionDialog extends javax.swing.JDialog {
         cancelButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/service/dialog/resources/EditConnectionDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/service/dialog/resources/EditConnectionDialog"); // NOI18N
         setTitle(bundle.getString("Form.title")); // NOI18N
 
         connectionHostLabel.setText(bundle.getString("connectionHostLabel.text")); // NOI18N

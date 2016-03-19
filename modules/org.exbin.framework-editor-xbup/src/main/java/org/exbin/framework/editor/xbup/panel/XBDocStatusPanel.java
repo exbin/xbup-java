@@ -20,7 +20,7 @@ import java.awt.CardLayout;
 import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 import org.exbin.framework.client.api.ConnectionStatus;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * Status panel for XB document editor.
@@ -56,7 +56,7 @@ public class XBDocStatusPanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
-        connectionStatusLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/editor/xbup/resources/images/status/network-offline.png"))); // NOI18N
+        connectionStatusLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/exbin/framework/editor/xbup/resources/images/status/network-offline.png"))); // NOI18N
 
         javax.swing.GroupLayout connectionStatusPanelLayout = new javax.swing.GroupLayout(connectionStatusPanel);
         connectionStatusPanel.setLayout(connectionStatusPanelLayout);

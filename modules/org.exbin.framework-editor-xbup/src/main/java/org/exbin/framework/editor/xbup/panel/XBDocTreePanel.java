@@ -52,7 +52,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.parser.basic.XBHead;
 import org.exbin.framework.editor.xbup.dialog.AddBlockDialog;
 import org.exbin.framework.gui.menu.api.ClipboardActionsUpdateListener;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 import org.xbup.lib.operation.XBTDocCommand;
 import org.xbup.lib.operation.basic.command.XBTAddBlockCommand;
 import org.xbup.lib.operation.basic.command.XBTDeleteBlockCommand;

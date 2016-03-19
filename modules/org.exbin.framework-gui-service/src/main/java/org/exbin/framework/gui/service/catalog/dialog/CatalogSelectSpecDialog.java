@@ -28,7 +28,7 @@ import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.exbin.framework.gui.service.catalog.panel.CatalogItemsSearchPanel;
 import org.exbin.framework.gui.service.catalog.panel.CatalogRevsComboBoxModel;
 import org.exbin.framework.gui.service.catalog.panel.CatalogSpecItemType;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * XBManager Catalog Specification Selection Dialog.

@@ -28,7 +28,7 @@ import javax.swing.JDialog;
 import org.exbin.framework.gui.options.api.OptionsPanel;
 import org.exbin.framework.gui.options.api.OptionsPanel.ModifiedOptionListener;
 import org.exbin.framework.gui.options.api.OptionsPanel.PathItem;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * XBTEditor Color Selection panel.
@@ -164,7 +164,7 @@ public class TextColorPanel extends javax.swing.JPanel implements OptionsPanel {
             .addGap(0, 21, Short.MAX_VALUE)
         );
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/text/panel/resources/TextColorPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/text/panel/resources/TextColorPanel"); // NOI18N
         selectTextColorButton.setText(bundle.getString("TextColorPanel.selectButton.text")); // NOI18N
         selectTextColorButton.setName("selectTextColorButton"); // NOI18N
         selectTextColorButton.addActionListener(new java.awt.event.ActionListener() {

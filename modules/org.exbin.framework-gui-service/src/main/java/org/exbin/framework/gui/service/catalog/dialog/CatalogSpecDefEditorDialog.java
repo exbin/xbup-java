@@ -30,7 +30,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.exbin.framework.gui.service.catalog.panel.CatalogDefOperationType;
 import org.exbin.framework.gui.service.catalog.panel.CatalogDefsTableItem;
 import org.exbin.framework.gui.service.catalog.panel.CatalogSpecItemType;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * XBManager Catalog Specification Definition Editor Dialog.

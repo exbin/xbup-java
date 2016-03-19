@@ -23,8 +23,8 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * Goto line dialog.
@@ -110,7 +110,7 @@ public class GotoDialog extends javax.swing.JDialog {
         jumpButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/text/dialog/resources/GotoDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/text/dialog/resources/GotoDialog"); // NOI18N
         setTitle(bundle.getString("Form.title")); // NOI18N
         setLocationByPlatform(true);
         setModal(true);

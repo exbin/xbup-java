@@ -45,7 +45,7 @@ import org.xbup.lib.core.parser.XBProcessingException;
 import org.xbup.lib.core.serial.XBPSerialReader;
 import org.xbup.lib.core.serial.XBPSerialWriter;
 import org.exbin.framework.editor.xbup.dialog.BlockPropertiesDialog;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 import org.xbup.lib.parser_tree.XBATreeParamExtractor;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 import org.xbup.lib.plugin.XBLineEditor;
@@ -147,7 +147,7 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
 
         propertyPopupMenu.setName("propertyPopupMenu"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/xbup/panel/resources/XBPropertyTablePanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/xbup/panel/resources/XBPropertyTablePanel"); // NOI18N
         popupItemOpenMenuItem.setText(bundle.getString("popupItemOpenMenuItem.text")); // NOI18N
         popupItemOpenMenuItem.setToolTipText(bundle.getString("popupItemOpenMenuItem.toolTipText")); // NOI18N
         popupItemOpenMenuItem.setEnabled(false);

@@ -23,7 +23,7 @@ import javax.swing.Action;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.editor.text.panel.TextPanel;
 import org.exbin.framework.gui.editor.api.XBEditorProvider;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * Print handler.

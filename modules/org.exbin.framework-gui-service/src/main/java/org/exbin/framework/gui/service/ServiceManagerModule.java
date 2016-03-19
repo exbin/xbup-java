@@ -31,7 +31,7 @@ import org.exbin.framework.gui.menu.api.MenuManagement;
 import org.exbin.framework.gui.menu.api.PositionMode;
 import org.exbin.framework.gui.service.dialog.ConnectionDialog;
 import org.exbin.framework.gui.service.panel.ServiceManagerPanel;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * XBUP service manager module.

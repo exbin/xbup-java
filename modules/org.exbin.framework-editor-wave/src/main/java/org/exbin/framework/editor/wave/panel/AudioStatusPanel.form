@@ -48,7 +48,7 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="0:00.00" noResource="true"/>
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/wave/panel/Bundle.properties" key="AudioStatusPanel.currentTimeTextField.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/wave/panel/Bundle.properties" key="AudioStatusPanel.currentTimeTextField.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="currentTimeTextField" noResource="true"/>
       </Properties>
@@ -56,10 +56,10 @@
     <Component class="javax.swing.JButton" name="playButton">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/org/xbup/lib/framework/editor/wave/resources/images/actions/play16.png"/>
+          <Image iconType="3" name="/org/exbin/framework/editor/wave/resources/images/actions/play16.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/wave/panel/Bundle.properties" key="AudioStatusPanel.playButton.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/wave/panel/Bundle.properties" key="AudioStatusPanel.playButton.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="focusable" type="boolean" value="false"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -73,7 +73,7 @@
     <Component class="javax.swing.JSlider" name="volumeSlider">
       <Properties>
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/wave/panel/Bundle.properties" key="AudioStatusPanel.volumeSlider.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/wave/panel/Bundle.properties" key="AudioStatusPanel.volumeSlider.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="value" type="int" value="100"/>
         <Property name="focusable" type="boolean" value="false"/>
@@ -86,10 +86,10 @@
     <Component class="javax.swing.JButton" name="stopButton">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/org/xbup/lib/framework/editor/wave/resources/images/actions/stop16.png"/>
+          <Image iconType="3" name="/org/exbin/framework/editor/wave/resources/images/actions/stop16.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/wave/panel/Bundle.properties" key="AudioStatusPanel.stopButton.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/wave/panel/Bundle.properties" key="AudioStatusPanel.stopButton.toolTipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="focusable" type="boolean" value="false"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>

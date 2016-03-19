@@ -25,8 +25,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.Document;
 import org.exbin.framework.editor.text.panel.TextPanel;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * File properties dialog.
@@ -76,7 +76,7 @@ public class PropertiesDialog extends javax.swing.JDialog {
         closeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/text/dialog/resources/PropertiesDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/text/dialog/resources/PropertiesDialog"); // NOI18N
         setTitle(bundle.getString("PropertiesDialog.title")); // NOI18N
         setLocationByPlatform(true);
         setModal(true);

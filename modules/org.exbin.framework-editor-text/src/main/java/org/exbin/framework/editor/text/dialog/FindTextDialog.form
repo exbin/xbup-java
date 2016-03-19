@@ -3,7 +3,7 @@
 <Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <Properties>
     <Property name="title" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-      <ResourceString bundle="org/xbup/lib/framework/editor/text/dialog/resources/FindTextDialog.properties" key="Form.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+      <ResourceString bundle="org/exbin/framework/editor/text/dialog/resources/FindTextDialog.properties" key="Form.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
     </Property>
     <Property name="modal" type="boolean" value="true"/>
     <Property name="name" type="java.lang.String" value="Form" noResource="true"/>
@@ -73,7 +73,7 @@
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                 <TitledBorder title="Find">
-                  <ResourceString PropertyName="titleX" bundle="org/xbup/lib/framework/editor/text/dialog/resources/FindTextDialog.properties" key="findPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString PropertyName="titleX" bundle="org/exbin/framework/editor/text/dialog/resources/FindTextDialog.properties" key="findPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </TitledBorder>
               </Border>
             </Property>
@@ -114,7 +114,7 @@
             <Component class="javax.swing.JLabel" name="textToFindLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/editor/text/dialog/resources/FindTextDialog.properties" key="textToFindLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/editor/text/dialog/resources/FindTextDialog.properties" key="textToFindLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="textToFindLabel" noResource="true"/>
               </Properties>
@@ -128,7 +128,7 @@
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/editor/text/dialog/resources/FindTextDialog.properties" key="searchFromCursorCheckBox.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/editor/text/dialog/resources/FindTextDialog.properties" key="searchFromCursorCheckBox.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="searchFromCursorCheckBox" noResource="true"/>
               </Properties>
@@ -136,7 +136,7 @@
             <Component class="javax.swing.JCheckBox" name="matchCaseCheckBox">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/editor/text/dialog/resources/FindTextDialog.properties" key="matchCaseCheckBox.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/editor/text/dialog/resources/FindTextDialog.properties" key="matchCaseCheckBox.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="name" type="java.lang.String" value="matchCaseCheckBox" noResource="true"/>
@@ -149,7 +149,7 @@
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                 <TitledBorder title="Replace">
-                  <ResourceString PropertyName="titleX" bundle="org/xbup/lib/framework/editor/text/dialog/resources/FindTextDialog.properties" key="replacePanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString PropertyName="titleX" bundle="org/exbin/framework/editor/text/dialog/resources/FindTextDialog.properties" key="replacePanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </TitledBorder>
               </Border>
             </Property>
@@ -190,7 +190,7 @@
             <Component class="javax.swing.JCheckBox" name="performReplaceCheckBox">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/editor/text/dialog/resources/FindTextDialog.properties" key="performReplaceCheckBox.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/editor/text/dialog/resources/FindTextDialog.properties" key="performReplaceCheckBox.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="performReplaceCheckBox" noResource="true"/>
               </Properties>
@@ -201,7 +201,7 @@
             <Component class="javax.swing.JLabel" name="textToReplaceLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/editor/text/dialog/resources/FindTextDialog.properties" key="textToReplaceLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/editor/text/dialog/resources/FindTextDialog.properties" key="textToReplaceLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="textToReplaceLabel" noResource="true"/>
               </Properties>
@@ -215,7 +215,7 @@
             <Component class="javax.swing.JCheckBox" name="replaceAllMatchesCheckBox">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/editor/text/dialog/resources/FindTextDialog.properties" key="replaceAllMatchesCheckBox.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/editor/text/dialog/resources/FindTextDialog.properties" key="replaceAllMatchesCheckBox.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="name" type="java.lang.String" value="replaceAllMatchesCheckBox" noResource="true"/>
@@ -264,7 +264,7 @@
         <Component class="javax.swing.JButton" name="findButton">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/lib/framework/editor/text/dialog/resources/FindTextDialog.properties" key="findButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/exbin/framework/editor/text/dialog/resources/FindTextDialog.properties" key="findButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="findButton" noResource="true"/>
           </Properties>
@@ -275,7 +275,7 @@
         <Component class="javax.swing.JButton" name="cancelButton">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/lib/framework/editor/text/dialog/resources/FindTextDialog.properties" key="cancelButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/exbin/framework/editor/text/dialog/resources/FindTextDialog.properties" key="cancelButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="cancelButton" noResource="true"/>
           </Properties>

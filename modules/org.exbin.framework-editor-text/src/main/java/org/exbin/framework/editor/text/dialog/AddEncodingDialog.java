@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * Encoding Selection Panel.
@@ -70,7 +70,7 @@ public class AddEncodingDialog extends javax.swing.JDialog {
         setTitle("Add Supported Encoding"); // NOI18N
         setName("Form"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/text/dialog/resources/AddEncodingDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/text/dialog/resources/AddEncodingDialog"); // NOI18N
         supportedEncodingsLabel.setText(bundle.getString("supportedEncodingsLabel.text")); // NOI18N
         supportedEncodingsLabel.setName("supportedEncodingsLabel"); // NOI18N
 

@@ -28,7 +28,7 @@ import javax.swing.JDialog;
 import org.exbin.framework.gui.options.api.OptionsPanel;
 import org.exbin.framework.gui.options.api.OptionsPanel.ModifiedOptionListener;
 import org.exbin.framework.gui.options.api.OptionsPanel.PathItem;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * Wave editor color selection panel.
@@ -155,7 +155,7 @@ public class WaveColorPanel extends javax.swing.JPanel implements OptionsPanel {
 
         setName("Form"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/wave/panel/resources/WaveColorPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/wave/panel/resources/WaveColorPanel"); // NOI18N
         waveSelectionColorButton.setText(bundle.getString("WaveColorPanel.selectButton.text")); // NOI18N
         waveSelectionColorButton.setName("waveSelectionColorButton"); // NOI18N
         waveSelectionColorButton.addActionListener(new java.awt.event.ActionListener() {
@@ -272,7 +272,7 @@ public class WaveColorPanel extends javax.swing.JPanel implements OptionsPanel {
             }
         });
 
-        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/wave/panel/Bundle"); // NOI18N
+        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/wave/panel/Bundle"); // NOI18N
         waveFillColorLabel.setText(bundle1.getString("WaveColorPanel.waveFillColorLabel.text")); // NOI18N
         waveFillColorLabel.setName("waveFillColorLabel"); // NOI18N
 

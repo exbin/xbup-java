@@ -27,7 +27,7 @@ import org.exbin.framework.editor.wave.panel.AudioPanel;
 import org.exbin.framework.editor.wave.panel.WaveColorPanelApi;
 import org.exbin.framework.gui.editor.api.XBEditorProvider;
 import org.exbin.framework.gui.frame.api.GuiFrameModuleApi;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * Tools options action handler.

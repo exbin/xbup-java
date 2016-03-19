@@ -49,7 +49,7 @@ public class TextStatusPanel extends javax.swing.JPanel implements TextStatusApi
         documentCursorPositionTextField.setEditable(false);
         documentCursorPositionTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         documentCursorPositionTextField.setText("1:1"); // NOI18N
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/text/panel/resources/TextStatusPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/text/panel/resources/TextStatusPanel"); // NOI18N
         documentCursorPositionTextField.setToolTipText(bundle.getString("TextStatusPanel.documentCursorPositionTextField.toolTipText")); // NOI18N
         documentCursorPositionTextField.setName("documentCursorPositionTextField"); // NOI18N
 

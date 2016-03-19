@@ -33,7 +33,7 @@ import org.exbin.framework.gui.menu.api.MenuGroup;
 import org.exbin.framework.gui.menu.api.MenuPosition;
 import org.exbin.framework.gui.menu.api.PositionMode;
 import org.exbin.framework.gui.menu.api.SeparationMode;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * Implementation of XBUP framework undo/redo module.

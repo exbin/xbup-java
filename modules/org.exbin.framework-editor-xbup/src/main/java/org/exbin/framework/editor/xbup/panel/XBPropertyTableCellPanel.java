@@ -28,7 +28,7 @@ import org.xbup.lib.core.parser.token.XBTToken;
 import org.xbup.lib.core.parser.token.convert.XBTListenerToToken;
 import org.exbin.framework.editor.xbup.dialog.ModifyBlockDialog;
 import org.exbin.framework.editor.xbup.panel.cell.PropertyTableCellPanel;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 import org.xbup.lib.parser_tree.XBATreeParamExtractor;
 import org.xbup.lib.parser_tree.XBTTreeDocument;
 import org.xbup.lib.parser_tree.XBTTreeNode;

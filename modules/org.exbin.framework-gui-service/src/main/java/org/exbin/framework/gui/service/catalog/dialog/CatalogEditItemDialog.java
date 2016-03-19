@@ -27,8 +27,8 @@ import org.exbin.framework.gui.service.catalog.panel.CatalogItemEditDefinitionPa
 import org.exbin.framework.gui.service.catalog.panel.CatalogItemEditFilesPanel;
 import org.exbin.framework.gui.service.catalog.panel.CatalogItemEditPanel;
 import org.exbin.framework.gui.service.catalog.panel.CatalogItemEditRevsPanel;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * XBManager catalog item editation dialog.
@@ -85,7 +85,7 @@ public class CatalogEditItemDialog extends javax.swing.JDialog {
         setButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/service/catalog/dialog/resources/CatalogEditItemDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/service/catalog/dialog/resources/CatalogEditItemDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
         setModal(true);
         setName("Form"); // NOI18N

@@ -83,7 +83,7 @@ import org.exbin.framework.gui.service.catalog.dialog.CatalogAddItemDialog;
 import org.exbin.framework.gui.service.catalog.dialog.CatalogEditItemDialog;
 import org.exbin.framework.gui.service.catalog.panel.CatalogNodesTreeModel.CatalogNodesTreeItem;
 import org.exbin.framework.gui.service.panel.CatalogManagerPanelable;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * Catalog editor panel.
@@ -225,7 +225,7 @@ public class CatalogEditorPanel extends javax.swing.JPanel implements CatalogMan
 
         catalogTreePopupMenu.setName("catalogTreePopupMenu"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/service/catalog/panel/resources/CatalogItemsTreePanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/service/catalog/panel/resources/CatalogItemsTreePanel"); // NOI18N
         popupAddMenuItem.setText(bundle.getString("addMenuItem.text")); // NOI18N
         popupAddMenuItem.setToolTipText(bundle.getString("addMenuItem.toolTipText")); // NOI18N
         popupAddMenuItem.setName("popupAddMenuItem"); // NOI18N

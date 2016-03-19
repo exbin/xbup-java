@@ -25,7 +25,7 @@ import org.exbin.framework.editor.text.dialog.FindTextDialog;
 import org.exbin.framework.editor.xbup.panel.XBDocumentPanel;
 import org.exbin.framework.gui.editor.api.XBEditorProvider;
 import org.exbin.framework.gui.frame.api.GuiFrameModuleApi;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * Document editing handler.

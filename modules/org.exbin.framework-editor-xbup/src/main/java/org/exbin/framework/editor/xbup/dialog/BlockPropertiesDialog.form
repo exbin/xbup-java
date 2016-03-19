@@ -11,7 +11,7 @@
         <MenuItem class="javax.swing.JMenuItem" name="copyLinkMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/lib/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="copyLinkMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/exbin/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="copyLinkMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Events>
@@ -24,7 +24,7 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-      <ResourceString bundle="org/xbup/lib/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+      <ResourceString bundle="org/exbin/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
     </Property>
     <Property name="locationByPlatform" type="boolean" value="true"/>
   </Properties>
@@ -60,7 +60,7 @@
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="&lt;generalPanel.tabTitle&gt;">
                 <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="generalPanel.tabTitle" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="generalPanel.tabTitle" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </JTabbedPaneConstraints>
             </Constraint>
@@ -141,7 +141,7 @@
             <Component class="javax.swing.JLabel" name="nodeTypeLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="nodeTypeLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="nodeTypeLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
@@ -153,7 +153,7 @@
             <Component class="javax.swing.JLabel" name="dataModeLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="dataModeLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="dataModeLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
@@ -165,7 +165,7 @@
             <Component class="javax.swing.JLabel" name="terminationModeLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="terminationModeLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="terminationModeLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
@@ -177,7 +177,7 @@
             <Component class="javax.swing.JLabel" name="nodeSizeLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="nodeSizeLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="nodeSizeLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
@@ -189,7 +189,7 @@
             <Component class="javax.swing.JLabel" name="attributesCountLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="attributesCountLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="attributesCountLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
@@ -201,7 +201,7 @@
             <Component class="javax.swing.JLabel" name="childrenCountLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="childrenCountLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="childrenCountLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
@@ -213,7 +213,7 @@
             <Component class="javax.swing.JLabel" name="webCatalogLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="webCatalogLabell.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="webCatalogLabell.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
@@ -231,7 +231,7 @@
                       <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
                     </Property>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/xbup/lib/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="webCatalogLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/exbin/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="webCatalogLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </Property>
                     <Property name="componentPopupMenu" type="javax.swing.JPopupMenu" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="linkPopupMenu"/>
@@ -254,7 +254,7 @@
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="&lt;typePanel.tabTitle&gt;">
                 <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/xbup/lib/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="typePanel.tabTitle" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/exbin/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="typePanel.tabTitle" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </JTabbedPaneConstraints>
             </Constraint>
@@ -295,7 +295,7 @@
         <Component class="javax.swing.JButton" name="closeButton">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/lib/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="okButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/exbin/framework/editor/xbup/dialog/resources/BlockPropertiesDialog.properties" key="okButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Events>

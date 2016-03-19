@@ -211,7 +211,7 @@
                     <Component class="javax.swing.JLabel" name="itemNameLabel">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/xbup/lib/framework/gui/service/catalog/panel/resources/CatalogItemPanel.properties" key="itemNameLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/exbin/framework/gui/service/catalog/panel/resources/CatalogItemPanel.properties" key="itemNameLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                         </Property>
                         <Property name="name" type="java.lang.String" value="itemNameLabel" noResource="true"/>
                       </Properties>
@@ -249,7 +249,7 @@
                     <Component class="javax.swing.JLabel" name="itemDescriptionLabel">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/xbup/lib/framework/gui/service/catalog/panel/resources/CatalogItemPanel.properties" key="itemDescriptionLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/exbin/framework/gui/service/catalog/panel/resources/CatalogItemPanel.properties" key="itemDescriptionLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                         </Property>
                         <Property name="name" type="java.lang.String" value="itemDescriptionLabel" noResource="true"/>
                       </Properties>
@@ -263,7 +263,7 @@
                     <Component class="javax.swing.JLabel" name="fullPathLabel">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/xbup/lib/framework/gui/service/catalog/panel/resources/CatalogItemPanel.properties" key="fullPathLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/exbin/framework/gui/service/catalog/panel/resources/CatalogItemPanel.properties" key="fullPathLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                         </Property>
                         <Property name="name" type="java.lang.String" value="fullPathLabel" noResource="true"/>
                       </Properties>
@@ -280,7 +280,7 @@
                     <Component class="javax.swing.JLabel" name="itemCreatedLabel">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/xbup/lib/framework/gui/service/catalog/panel/resources/CatalogItemPanel.properties" key="itemCreatedLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/exbin/framework/gui/service/catalog/panel/resources/CatalogItemPanel.properties" key="itemCreatedLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                         </Property>
                         <Property name="name" type="java.lang.String" value="itemCreatedLabel" noResource="true"/>
                       </Properties>
@@ -306,7 +306,7 @@
                         <Component class="javax.swing.JLabel" name="itemIconLabel">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                              <Image iconType="3" name="/org/xbup/lib/framework/gui/service/resources/images/empty.png"/>
+                              <Image iconType="3" name="/org/exbin/framework/gui/service/resources/images/empty.png"/>
                             </Property>
                             <Property name="name" type="java.lang.String" value="itemIconLabel" noResource="true"/>
                           </Properties>

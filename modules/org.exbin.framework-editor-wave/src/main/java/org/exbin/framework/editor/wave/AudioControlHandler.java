@@ -25,7 +25,7 @@ import javax.swing.KeyStroke;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.editor.wave.panel.AudioPanel;
 import org.exbin.framework.gui.editor.api.XBEditorProvider;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * Audio control handler.

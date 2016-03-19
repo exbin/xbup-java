@@ -39,8 +39,8 @@ import org.exbin.framework.gui.frame.api.ApplicationFrameHandler;
 import org.exbin.framework.gui.frame.api.GuiFrameModuleApi;
 import org.exbin.framework.gui.menu.api.GuiMenuModuleApi;
 import org.exbin.framework.gui.options.api.GuiOptionsModuleApi;
-import org.xbup.lib.framework.gui.undo.api.GuiUndoModuleApi;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.undo.api.GuiUndoModuleApi;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * The main class of the XBTEditor application.

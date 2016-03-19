@@ -46,7 +46,7 @@ import org.xbup.lib.core.catalog.base.service.XBCXHDocService;
 import org.xbup.lib.core.catalog.base.service.XBCXIconService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.xbup.lib.core.catalog.base.service.XBCXStriService;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * Panel for basic XBItem viewing/editation.
@@ -178,7 +178,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
 
         jSeparator1.setName("jSeparator1"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/service/catalog/panel/resources/CatalogItemPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/service/catalog/panel/resources/CatalogItemPanel"); // NOI18N
         itemNameLabel.setText(bundle.getString("itemNameLabel.text")); // NOI18N
         itemNameLabel.setName("itemNameLabel"); // NOI18N
 
@@ -224,7 +224,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
         iconPanel.setName("iconPanel"); // NOI18N
         iconPanel.setLayout(new java.awt.BorderLayout());
 
-        itemIconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/gui/service/resources/images/empty.png"))); // NOI18N
+        itemIconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/exbin/framework/gui/service/resources/images/empty.png"))); // NOI18N
         itemIconLabel.setName("itemIconLabel"); // NOI18N
         iconPanel.add(itemIconLabel, java.awt.BorderLayout.CENTER);
 
@@ -544,7 +544,7 @@ public class CatalogItemPanel extends javax.swing.JPanel {
                 ImageIcon icon = iconService.getDefaultImageIcon(item);
                 itemIconLabel.setIcon(icon);
             } else {
-                itemIconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/gui/service/resources/images/empty.png")));
+                itemIconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/exbin/framework/gui/service/resources/images/empty.png")));
             }
 //            itemHD
         } else {

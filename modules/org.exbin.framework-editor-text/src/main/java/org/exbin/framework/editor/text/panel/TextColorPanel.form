@@ -141,7 +141,7 @@
     <Component class="javax.swing.JButton" name="selectTextColorButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.selectButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.selectButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="selectTextColorButton" noResource="true"/>
       </Properties>
@@ -175,7 +175,7 @@
     <Component class="javax.swing.JButton" name="selectTextBackgroundColorButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.selectButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.selectButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="selectTextBackgroundColorButton" noResource="true"/>
       </Properties>
@@ -209,7 +209,7 @@
     <Component class="javax.swing.JButton" name="selectSelectionTextColorButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.selectButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.selectButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="selectSelectionTextColorButton" noResource="true"/>
       </Properties>
@@ -243,7 +243,7 @@
     <Component class="javax.swing.JButton" name="selectSelectionBackgroundColorButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.selectButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.selectButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="selectSelectionBackgroundColorButton" noResource="true"/>
       </Properties>
@@ -277,7 +277,7 @@
     <Component class="javax.swing.JButton" name="selectFoundBackgroundColorButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.selectButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.selectButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="selectFoundBackgroundColorButton" noResource="true"/>
       </Properties>
@@ -288,7 +288,7 @@
     <Component class="javax.swing.JLabel" name="textColorLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.textColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.textColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="textColorLabel" noResource="true"/>
       </Properties>
@@ -296,7 +296,7 @@
     <Component class="javax.swing.JLabel" name="textBackgroundColorLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.textBackgroundColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.textBackgroundColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="textBackgroundColorLabel" noResource="true"/>
       </Properties>
@@ -304,7 +304,7 @@
     <Component class="javax.swing.JLabel" name="selectionTextColorLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.selectionTextColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.selectionTextColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="selectionTextColorLabel" noResource="true"/>
       </Properties>
@@ -312,7 +312,7 @@
     <Component class="javax.swing.JLabel" name="selectionBackgroundColorLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.selectionBackgroundColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.selectionBackgroundColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="selectionBackgroundColorLabel" noResource="true"/>
       </Properties>
@@ -320,7 +320,7 @@
     <Component class="javax.swing.JLabel" name="foundBackgroundColorLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.foundBackgroundColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/exbin/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.foundBackgroundColorLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="name" type="java.lang.String" value="foundBackgroundColorLabel" noResource="true"/>
       </Properties>
@@ -342,7 +342,7 @@
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.normalTextLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/exbin/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.normalTextLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -360,7 +360,7 @@
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.selectedTextLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/exbin/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.selectedTextLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -378,7 +378,7 @@
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.foundTextLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/exbin/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.foundTextLabel.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -425,7 +425,7 @@
         <Component class="javax.swing.JButton" name="fillCurrentButton">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.fillCurrentButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/exbin/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.fillCurrentButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="fillCurrentButton" noResource="true"/>
           </Properties>
@@ -436,7 +436,7 @@
         <Component class="javax.swing.JButton" name="fillDefaultButton">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/lib/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.fillDefaultButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/exbin/framework/editor/text/panel/resources/TextColorPanel.properties" key="TextColorPanel.fillDefaultButton.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="fillDefaultButton" noResource="true"/>
           </Properties>

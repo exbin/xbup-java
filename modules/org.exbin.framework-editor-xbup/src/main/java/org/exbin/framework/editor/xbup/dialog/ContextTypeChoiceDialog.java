@@ -26,7 +26,7 @@ import org.xbup.lib.core.block.declaration.XBGroup;
 import org.xbup.lib.core.block.declaration.catalog.XBCBlockDecl;
 import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 import org.xbup.lib.parser_tree.XBTTreeNode;
 
 /**
@@ -85,7 +85,7 @@ public class ContextTypeChoiceDialog extends javax.swing.JDialog {
         blockTypeList = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/xbup/dialog/resources/ContextTypeChoiceDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/xbup/dialog/resources/ContextTypeChoiceDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
         setModal(true);
 

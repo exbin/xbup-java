@@ -18,8 +18,8 @@ package org.exbin.framework.gui.service.catalog.dialog;
 
 import javax.swing.JOptionPane;
 import org.exbin.framework.gui.service.catalog.panel.CatalogSpecItemType;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * XBManager Catalog Specification Selection Dialog.
@@ -67,7 +67,7 @@ public class CatalogAddItemDialog extends javax.swing.JDialog {
         itemNameTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/service/catalog/dialog/resources/CatalogAddItemDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/service/catalog/dialog/resources/CatalogAddItemDialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
 
         cancelButton.setText(bundle.getString("cancelButton.text")); // NOI18N

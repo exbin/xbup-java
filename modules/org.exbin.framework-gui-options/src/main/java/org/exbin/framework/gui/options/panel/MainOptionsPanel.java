@@ -54,7 +54,7 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
     private List<Locale> languages;
 
     public MainOptionsPanel(ApplicationFrameHandler frame) {
-        resourceBundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/options/panel/resources/MainOptionsPanel");
+        resourceBundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/options/panel/resources/MainOptionsPanel");
         this.frame = frame;
 
         themesComboBoxModel = new DefaultComboBoxModel<>();
@@ -97,7 +97,7 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
 
         setLayout(new java.awt.BorderLayout());
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/options/panel/resources/MainOptionsPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/options/panel/resources/MainOptionsPanel"); // NOI18N
         visualThemeLabel.setText(bundle.getString("MainOptionsPanel.visualThemeLabel.text")); // NOI18N
 
         themeComboBox.setModel(themesComboBoxModel);

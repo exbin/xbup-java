@@ -25,7 +25,7 @@ import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.exbin.framework.gui.service.dialog.EditConnectionDialog;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * Connection Management Panel.
@@ -107,7 +107,7 @@ public class ConnectionsManagerPanel extends javax.swing.JPanel {
 
         connectionsControlPanel.setName("connectionsControlPanel"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/service/panel/resources/ConnectionPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/service/panel/resources/ConnectionPanel"); // NOI18N
         upButton.setText(bundle.getString("upButton.text")); // NOI18N
         upButton.setEnabled(false);
         upButton.setName("upButton"); // NOI18N

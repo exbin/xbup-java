@@ -17,8 +17,8 @@
 package org.exbin.framework.editor.text.dialog;
 
 import javax.swing.JOptionPane;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * Find text dialog.
@@ -77,7 +77,7 @@ public class FindTextDialog extends javax.swing.JDialog {
         findButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/text/dialog/resources/FindTextDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/text/dialog/resources/FindTextDialog"); // NOI18N
         setTitle(bundle.getString("Form.title")); // NOI18N
         setModal(true);
         setName("Form"); // NOI18N

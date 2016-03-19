@@ -35,8 +35,8 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.table.DefaultTableModel;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.api.XBApplicationModule;
-import org.xbup.lib.framework.gui.utils.BareBonesBrowserLaunch;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.BareBonesBrowserLaunch;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * Basic about dialog.
@@ -46,7 +46,7 @@ import org.xbup.lib.framework.gui.utils.WindowUtils;
  */
 public class AboutDialog extends javax.swing.JDialog implements HyperlinkListener {
 
-    private static final String BUNDLE_PACKAGE = "org/xbup/lib/framework/gui/about/resources/";
+    private static final String BUNDLE_PACKAGE = "org/exbin/framework/gui/about/resources/";
     private final XBApplication appEditor;
     private ResourceBundle appBundle;
     private final ResourceBundle bundle = ResourceBundle.getBundle(BUNDLE_PACKAGE + "AboutDialog");
@@ -200,7 +200,7 @@ public class AboutDialog extends javax.swing.JDialog implements HyperlinkListene
 
         linkPopupMenu.setName("linkPopupMenu"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/about/resources/AboutDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/about/resources/AboutDialog"); // NOI18N
         copyLinkMenuItem.setText(bundle.getString("copyLinkMenuItem.text")); // NOI18N
         copyLinkMenuItem.setName("copyLinkMenuItem"); // NOI18N
         copyLinkMenuItem.addActionListener(new java.awt.event.ActionListener() {

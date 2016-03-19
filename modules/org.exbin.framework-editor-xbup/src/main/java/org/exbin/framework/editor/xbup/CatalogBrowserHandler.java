@@ -25,7 +25,7 @@ import org.xbup.lib.core.catalog.XBACatalog;
 import org.exbin.framework.editor.xbup.dialog.CatalogEditorDialog;
 import org.exbin.framework.gui.editor.api.XBEditorProvider;
 import org.exbin.framework.gui.frame.api.GuiFrameModuleApi;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * Catalog browser handler.

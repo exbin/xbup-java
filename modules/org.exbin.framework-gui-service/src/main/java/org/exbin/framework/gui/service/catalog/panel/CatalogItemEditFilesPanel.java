@@ -33,7 +33,7 @@ import org.xbup.lib.core.catalog.base.XBCNode;
 import org.xbup.lib.core.catalog.base.XBCXFile;
 import org.xbup.lib.core.catalog.base.service.XBCXFileService;
 import org.exbin.framework.gui.menu.api.MenuManagement;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * Catalog Specification Panel.
@@ -91,7 +91,7 @@ public class CatalogItemEditFilesPanel extends javax.swing.JPanel {
 
         filePopupMenu.setName("filePopupMenu"); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/service/catalog/panel/resources/CatalogItemsTreePanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/service/catalog/panel/resources/CatalogItemsTreePanel"); // NOI18N
         popupAddFileMenuItem.setText(bundle.getString("addFileMenuItem.text")); // NOI18N
         popupAddFileMenuItem.setName("popupAddFileMenuItem"); // NOI18N
         popupAddFileMenuItem.addActionListener(new java.awt.event.ActionListener() {

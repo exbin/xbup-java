@@ -74,7 +74,7 @@ public class ServiceInfoPanel extends javax.swing.JPanel {
         managerHardwareLabel = new javax.swing.JLabel();
         managerHardwareTextField = new javax.swing.JTextField();
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/service/panel/resources/ServiceManagerPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/service/panel/resources/ServiceManagerPanel"); // NOI18N
         connectionInfoBorderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("connectionInfoBorderPanel.border.title"))); // NOI18N
 
         connectionInfoPanel.setLayout(new java.awt.GridLayout(3, 2, 5, 5));

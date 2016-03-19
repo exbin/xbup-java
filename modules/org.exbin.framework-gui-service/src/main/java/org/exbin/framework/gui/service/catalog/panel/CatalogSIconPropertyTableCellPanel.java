@@ -23,7 +23,7 @@ import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.service.XBCXIconService;
 import org.exbin.framework.gui.service.catalog.dialog.CatalogEditIconDialog;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * Catalog Big Icon Property Cell Panel.

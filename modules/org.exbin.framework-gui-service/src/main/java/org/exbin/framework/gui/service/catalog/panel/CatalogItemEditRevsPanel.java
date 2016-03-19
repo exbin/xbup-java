@@ -33,7 +33,7 @@ import org.xbup.lib.core.catalog.base.service.XBCRevService;
 import org.xbup.lib.core.catalog.base.service.XBCXDescService;
 import org.xbup.lib.core.catalog.base.service.XBCXNameService;
 import org.exbin.framework.gui.service.catalog.dialog.CatalogSpecRevEditorDialog;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * XBManager Catalog Item Edit Revisions Panel.
@@ -84,7 +84,7 @@ public class CatalogItemEditRevsPanel extends javax.swing.JPanel {
         modifyButton = new javax.swing.JButton();
         removeDefButton = new javax.swing.JButton();
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/service/catalog/panel/resources/CatalogItemEditDefinitionPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/service/catalog/panel/resources/CatalogItemEditDefinitionPanel"); // NOI18N
         setToolTipText(bundle.getString("toolTipText")); // NOI18N
         setLayout(new java.awt.BorderLayout());
 

@@ -53,11 +53,11 @@ public class AudioStatusPanel extends javax.swing.JPanel {
         currentTimeTextField.setEditable(false);
         currentTimeTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         currentTimeTextField.setText("0:00.00"); // NOI18N
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/wave/panel/Bundle"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/wave/panel/Bundle"); // NOI18N
         currentTimeTextField.setToolTipText(bundle.getString("AudioStatusPanel.currentTimeTextField.toolTipText")); // NOI18N
         currentTimeTextField.setName("currentTimeTextField"); // NOI18N
 
-        playButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/editor/wave/resources/images/actions/play16.png"))); // NOI18N
+        playButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/exbin/framework/editor/wave/resources/images/actions/play16.png"))); // NOI18N
         playButton.setToolTipText(bundle.getString("AudioStatusPanel.playButton.toolTipText")); // NOI18N
         playButton.setFocusable(false);
         playButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -79,7 +79,7 @@ public class AudioStatusPanel extends javax.swing.JPanel {
             }
         });
 
-        stopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/xbup/lib/framework/editor/wave/resources/images/actions/stop16.png"))); // NOI18N
+        stopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/exbin/framework/editor/wave/resources/images/actions/stop16.png"))); // NOI18N
         stopButton.setToolTipText(bundle.getString("AudioStatusPanel.stopButton.toolTipText")); // NOI18N
         stopButton.setFocusable(false);
         stopButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);

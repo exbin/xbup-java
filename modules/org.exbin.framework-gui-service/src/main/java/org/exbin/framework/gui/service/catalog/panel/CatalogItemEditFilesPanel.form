@@ -14,7 +14,7 @@
         <MenuItem class="javax.swing.JMenuItem" name="popupAddFileMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/lib/framework/gui/service/catalog/panel/resources/CatalogItemsTreePanel.properties" key="addFileMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/exbin/framework/gui/service/catalog/panel/resources/CatalogItemsTreePanel.properties" key="addFileMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="name" type="java.lang.String" value="popupAddFileMenuItem" noResource="true"/>
           </Properties>
@@ -55,7 +55,7 @@
         <MenuItem class="javax.swing.JMenuItem" name="popupPropertiesMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/xbup/lib/framework/gui/service/catalog/panel/resources/CatalogItemsTreePanel.properties" key="propertiesMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/exbin/framework/gui/service/catalog/panel/resources/CatalogItemsTreePanel.properties" key="propertiesMenuItem.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="popupPropertiesMenuItem" noResource="true"/>

@@ -38,7 +38,7 @@ import org.exbin.framework.editor.text.panel.TextStatusPanel;
 import org.exbin.framework.gui.editor.api.XBEditorProvider;
 import org.exbin.framework.gui.frame.api.GuiFrameModuleApi;
 import org.exbin.framework.gui.menu.api.GuiMenuModuleApi;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * Encodings handler.

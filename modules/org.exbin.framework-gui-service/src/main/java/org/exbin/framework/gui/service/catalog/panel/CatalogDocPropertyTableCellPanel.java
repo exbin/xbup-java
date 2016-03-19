@@ -23,7 +23,7 @@ import org.xbup.lib.core.catalog.XBACatalog;
 import org.xbup.lib.core.catalog.base.XBCItem;
 import org.xbup.lib.core.catalog.base.service.XBCXHDocService;
 import org.exbin.framework.gui.service.catalog.dialog.CatalogEditDocumentationDialog;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * Catalog HDoc Property Cell Panel.

@@ -33,7 +33,7 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import org.xbup.lib.core.catalog.XBACatalog;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * XBManager catalog specification selection dialog.

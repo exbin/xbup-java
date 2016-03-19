@@ -64,7 +64,7 @@ public class AppearanceOptionsPanel extends javax.swing.JPanel implements Option
         setLayout(new java.awt.BorderLayout());
 
         showToolbarCheckBox.setSelected(true);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/options/panel/resources/AppearanceOptionsPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/options/panel/resources/AppearanceOptionsPanel"); // NOI18N
         showToolbarCheckBox.setText(bundle.getString("AppearanceOptionsPanel.showToolbarCheckBox.text")); // NOI18N
         showToolbarCheckBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {

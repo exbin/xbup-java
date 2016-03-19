@@ -41,7 +41,7 @@ import org.exbin.framework.gui.file.api.FileHandlerApi;
 import org.exbin.framework.gui.file.api.FileHandlingActionsApi;
 import org.exbin.framework.gui.file.api.FileType;
 import org.exbin.framework.gui.frame.api.GuiFrameModuleApi;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * File handling operations.

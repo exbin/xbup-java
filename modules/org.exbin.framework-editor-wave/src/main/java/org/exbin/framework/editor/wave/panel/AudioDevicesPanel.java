@@ -27,7 +27,7 @@ import javax.sound.sampled.Mixer;
 import org.exbin.framework.gui.options.api.OptionsPanel;
 import org.exbin.framework.gui.options.api.OptionsPanel.ModifiedOptionListener;
 import org.exbin.framework.gui.options.api.OptionsPanel.PathItem;
-import org.xbup.lib.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * Panel for choosing input and output audio devices.
@@ -94,7 +94,7 @@ public class AudioDevicesPanel extends javax.swing.JPanel implements OptionsPane
 
         setAutoscrolls(true);
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/editor/wave/panel/resources/AudioDevicesPanel"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/editor/wave/panel/resources/AudioDevicesPanel"); // NOI18N
         audioOutputPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("audioOutputPanel.border.title"))); // NOI18N
         audioOutputPanel.setName("audioOutputPanel"); // NOI18N
 

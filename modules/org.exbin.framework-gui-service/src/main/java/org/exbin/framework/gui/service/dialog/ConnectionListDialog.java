@@ -19,7 +19,7 @@ package org.exbin.framework.gui.service.dialog;
 import java.util.List;
 import javax.swing.JOptionPane;
 import org.exbin.framework.gui.service.panel.ConnectionsManagerPanel;
-import org.xbup.lib.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * XBManager connection list dialog.
@@ -68,7 +68,7 @@ public class ConnectionListDialog extends javax.swing.JDialog {
         mainPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/xbup/lib/framework/gui/service/dialog/resources/ConnectionListDialog"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/service/dialog/resources/ConnectionListDialog"); // NOI18N
         setTitle(bundle.getString("Form.title")); // NOI18N
 
         setButton.setText(bundle.getString("setButton.text")); // NOI18N

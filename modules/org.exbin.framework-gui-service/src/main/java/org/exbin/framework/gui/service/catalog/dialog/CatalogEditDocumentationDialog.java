@@ -84,7 +84,7 @@ public class CatalogEditDocumentationDialog extends javax.swing.JDialog {
 
     private static TextResources createResources() {
         try {
-            final String propsLoc = "org/xbup/tool/editor/module/gui/service/catalog/dialog/resources/SimplyHTML.properties";
+            final String propsLoc = "org/exbin/framework/gui/service/catalog/dialog/resources/SimplyHTML.properties";
             final URL defaultPropsURL = ClassLoader.getSystemResource(propsLoc);
             final Properties props = new Properties();
             try (InputStream in = defaultPropsURL.openStream()) {

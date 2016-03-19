@@ -8,24 +8,24 @@ Library contains interfaces for document, block and type declarations.
 
 ==== Declarations ====
 
-Declarations are included in "org.xbup.lib.core.block" package and subpackages. It's categorized by:
+Declarations are included in "org.exbin.xbup.core.block" package and subpackages. It's categorized by:
 
   * Declaration or definition - Suffix **Decl** or **Def**
   * Catalog or local related - Prefix **XBC** or **XBD**
 
 ==== Basic Types ====
 
-There are types related to unary-binary encoding stored in "org.xbup.lib.core.ubnumber" package, which provides values storage and are implementing UBStreamable interface:
+There are types related to unary-binary encoding stored in "org.exbin.xbup.core.ubnumber" package, which provides values storage and are implementing UBStreamable interface:
 
   public int toStreamUB(OutputStream stream)
   public int fromStreamUB(InputStream stream)
   public int getSizeUB()
 
-In package "org.xbup.lib.core.type" there are some additional classes for various other types.
+In package "org.exbin.xbup.core.type" there are some additional classes for various other types.
 
 ===== Parsers =====
 
-Implementation of pull and event parsers is included in core library in "org.xbup.lib.core.parser" package.
+Implementation of pull and event parsers is included in core library in "org.exbin.xbup.core.parser" package.
 
 [[en:doc:protocol:parsers|See more about protocol parser.]]
 
@@ -91,7 +91,7 @@ For level 1, there is similar interface **XBTListener**, which also includes add
 
 ===== Token Parsers =====
 
-Variant of parsing using tokens is defined in "org.xbup.lib.core.parser.token" package and provides interfaces with single method handing token value.
+Variant of parsing using tokens is defined in "org.exbin.xbup.core.parser.token" package and provides interfaces with single method handing token value.
 
   * For level 0 (XBToken):
 
@@ -147,7 +147,7 @@ And for conversion of binary data to token stream there are corresponding parser
 
 ===== Serialization =====
 
-Several ways how to perform conversion of object data to protocol and in oposite direction are included in "org.xbup.lib.core.serial" package.
+Several ways how to perform conversion of object data to protocol and in oposite direction are included in "org.exbin.xbup.core.serial" package.
 
 There are few subpackages covering various serialization methods:
 

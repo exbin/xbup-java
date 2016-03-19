@@ -12,7 +12,7 @@
             <default-locale>en</default-locale>
         </locale-config>
         <resource-bundle>
-            <base-name>org.xbup.web.xbcatalogweb.resources.xbcatalogweb</base-name>
+            <base-name>org.exbin.xbup.web.xbcatalogweb.resources.xbcatalogweb</base-name>
             <var>msg</var>
         </resource-bundle>
     </application>

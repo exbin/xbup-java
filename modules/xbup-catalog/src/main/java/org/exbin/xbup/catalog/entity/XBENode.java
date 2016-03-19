@@ -81,7 +81,7 @@ public class XBENode extends XBEItem implements XBCNode, Serializable {
      */
     @Override
     public String toString() {
-        return "org.xbup.catalog.entity.Node[id=" + id + "]";
+        return "org.exbin.xbup.catalog.entity.Node[id=" + id + "]";
     }
 
     @Override

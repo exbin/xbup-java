@@ -100,7 +100,7 @@ public class XBEItem implements XBCItem, Serializable {
      */
     @Override
     public String toString() {
-        return "org.xbup.catalog.entity.Item[id=" + id + "]";
+        return "org.exbin.xbup.catalog.entity.Item[id=" + id + "]";
     }
 
     @Override

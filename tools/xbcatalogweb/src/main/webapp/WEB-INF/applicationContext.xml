@@ -13,17 +13,17 @@
     <!-- Import persistence context -->
     <import resource="persistenceContext.xml" />
     
-    <bean class="org.exbin.lib.catalog.XBAECatalog" />
+    <bean class="org.exbin.xbup.catalog.XBAECatalog" />
         
-    <context:component-scan base-package="org.xbup.lib.catalog.entity.manager" />
-    <context:component-scan base-package="org.xbup.lib.catalog.entity.service" />
-    <context:component-scan base-package="org.xbup.web.xbcatalogweb" />
+    <context:component-scan base-package="org.exbin.xbup.catalog.entity.manager" />
+    <context:component-scan base-package="org.exbin.xbup.catalog.entity.service" />
+    <context:component-scan base-package="org.exbin.xbup.web.xbcatalogweb" />
         
     <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
         <property name="scopes">
             <map>
                 <entry key="view">
-                    <bean class="org.xbup.web.xbcatalogweb.faces.ViewScope"/>
+                    <bean class="org.exbin.xbup.web.xbcatalogweb.faces.ViewScope"/>
                 </entry>
             </map>
         </property>

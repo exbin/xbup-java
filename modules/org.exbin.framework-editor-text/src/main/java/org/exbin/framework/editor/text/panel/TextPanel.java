@@ -493,7 +493,7 @@ public class TextPanel extends javax.swing.JPanel implements XBEditorProvider, C
          formatDecl.setCatalogPath(XBEncodingText.XBUP_FORMATREV_CATALOGPATH);
          return formatDecl;*/
 
-        XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/xbup/tool/editor/module/text_editor/resources/xbt_format_decl.xb"));
+        XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/exbin/framework/editor/text/resources/xbt_format_decl.xb"));
         XBLFormatDecl formatDecl = new XBLFormatDecl();
         try {
             reader.read(formatDecl);

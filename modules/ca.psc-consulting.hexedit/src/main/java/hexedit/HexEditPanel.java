@@ -64,10 +64,9 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeListener;
 
 /**
- * Hexadecimal Panel editor based on
+ * Hexadecimal Panel editor based on HexEdit2.
  *
- * This panel is based on HexEdit2, see
- * org.xbup.tools.xbeditor.panels.hexedit.hexEdit.java Written by: Keith Fenske,
+ * Original HexEdit2 written by: Keith Fenske,
  * http://www.psc-consulting.ca/fenske/ Released: Monday, 27 October 2008
  * Copyrighted as: GNU General Public License (GPL) version 3 or latter
  *

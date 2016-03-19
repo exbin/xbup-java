@@ -489,7 +489,7 @@ public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, 
          XBLFormatDecl formatDecl = new XBLFormatDecl(formatDef);
          formatDecl.setCatalogPath(XBBufferedImage.XBUP_FORMATREV_CATALOGPATH);*/
 
-        XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/xbup/tool/editor/module/picture_editor/resources/xbp_format_decl.xb"));
+        XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/exbin/framework/editor/picture/resources/xbp_format_decl.xb"));
         XBLFormatDecl formatDecl = new XBLFormatDecl();
         try {
             reader.read(formatDecl);

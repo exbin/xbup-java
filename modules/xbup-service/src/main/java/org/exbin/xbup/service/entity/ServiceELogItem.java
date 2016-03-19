@@ -104,7 +104,7 @@ public class ServiceELogItem implements ServiceLogItem, Serializable {
      */
     @Override
     public String toString() {
-        return "org.xbup.lib.service.entity.ServiceLogItem[id=" + id + "]";
+        return "org.exbin.xbup.service.entity.ServiceLogItem[id=" + id + "]";
     }
 
     @Override
@@ -125,6 +125,7 @@ public class ServiceELogItem implements ServiceLogItem, Serializable {
         this.requestData = requestData;
     }
 
+    @Override
     public byte[] getResponseData() {
         return responseData;
     }

@@ -520,7 +520,7 @@ public class AudioPanel extends javax.swing.JPanel implements XBEditorProvider, 
          formatDecl.setCatalogPath(XBWave.XBUP_FORMATREV_CATALOGPATH);
          return formatDecl;*/
 
-        XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/xbup/tool/editor/module/wave_editor/resources/xbs_format_decl.xb"));
+        XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/exbin/framework/editor/wave/resources/xbs_format_decl.xb"));
         XBLFormatDecl formatDecl = new XBLFormatDecl();
         try {
             reader.read(formatDecl);

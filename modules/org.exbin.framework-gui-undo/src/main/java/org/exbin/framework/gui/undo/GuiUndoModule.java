@@ -31,12 +31,13 @@ import org.exbin.framework.gui.menu.api.SeparationMode;
 import org.exbin.framework.gui.menu.api.ToolBarGroup;
 import org.exbin.framework.gui.menu.api.ToolBarPosition;
 import org.exbin.framework.gui.undo.api.GuiUndoModuleApi;
-import org.exbin.framework.gui.undo.api.UndoHandler;
+import org.exbin.framework.gui.undo.api.UndoActions;
 import org.exbin.framework.gui.undo.api.UndoUpdateListener;
 import org.exbin.framework.gui.undo.dialog.UndoManagerDialog;
 import org.exbin.framework.gui.undo.dialog.UndoManagerModel;
 import org.exbin.xbup.operation.undo.XBUndoHandler;
 import org.exbin.xbup.operation.undo.XBUndoUpdateListener;
+import org.exbin.framework.gui.undo.api.UndoActionsHandler;
 
 /**
  * Implementation of XBUP framework undo/redo module.
@@ -103,7 +104,7 @@ public class GuiUndoModule implements GuiUndoModuleApi {
     @Override
     public void setUndoHandler(final XBUndoHandler undoHandler) {
         this.undoHandler = undoHandler;
-        defaultUndoActions.setUndoHandler(new UndoHandler() {
+        defaultUndoActions.setUndoActionsHandler(new UndoActionsHandler() {
             @Override
             public Boolean canUndo() {
                 return undoHandler.canUndo();
@@ -180,5 +181,12 @@ public class GuiUndoModule implements GuiUndoModuleApi {
         GuiFrameModuleApi frameModule = GuiUndoModule.this.application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
         UndoManagerDialog dialog = new UndoManagerDialog(frameModule.getFrame(), true, undoModel);
         dialog.setVisible(true);
+    }
+
+    @Override
+    public UndoActions createUndoActions(UndoActionsHandler undoActionsHandler) {
+        BasicUndoActions undoActions = new BasicUndoActions();
+        undoActions.setUndoActionsHandler(undoActionsHandler);
+        return undoActions;
     }
 }

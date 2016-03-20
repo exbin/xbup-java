@@ -25,9 +25,9 @@ import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import org.exbin.framework.gui.menu.api.ClipboardActionsUpdateListener;
-import org.exbin.framework.gui.menu.api.ComponentClipboardHandler;
 import org.exbin.framework.gui.utils.ActionUtils;
 import org.exbin.framework.gui.menu.api.ClipboardActions;
+import org.exbin.framework.gui.menu.api.ClipboardActionsHandler;
 
 /**
  * Basic clipboard action set.
@@ -40,7 +40,7 @@ public class BasicClipboardActions implements ClipboardActions {
     private final ResourceBundle resourceBundle = ActionUtils.getResourceBundleByClass(GuiMenuModule.class);
     private final int metaMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
 
-    private ComponentClipboardHandler clipboardHandler = null;
+    private ClipboardActionsHandler clipboardActionsHandler = null;
 
     private Action cutAction;
     private Action copyAction;
@@ -52,14 +52,14 @@ public class BasicClipboardActions implements ClipboardActions {
         this(null);
     }
 
-    public BasicClipboardActions(ComponentClipboardHandler handler) {
-        this.clipboardHandler = handler;
+    public BasicClipboardActions(ClipboardActionsHandler handler) {
+        this.clipboardActionsHandler = handler;
 
         cutAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (clipboardHandler != null) {
-                    clipboardHandler.performCut();
+                if (clipboardActionsHandler != null) {
+                    clipboardActionsHandler.performCut();
                 }
             }
         };
@@ -70,8 +70,8 @@ public class BasicClipboardActions implements ClipboardActions {
         copyAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (clipboardHandler != null) {
-                    clipboardHandler.performCopy();
+                if (clipboardActionsHandler != null) {
+                    clipboardActionsHandler.performCopy();
                 }
             }
         };
@@ -82,8 +82,8 @@ public class BasicClipboardActions implements ClipboardActions {
         pasteAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (clipboardHandler != null) {
-                    clipboardHandler.performPaste();
+                if (clipboardActionsHandler != null) {
+                    clipboardActionsHandler.performPaste();
                 }
             }
         };
@@ -94,8 +94,8 @@ public class BasicClipboardActions implements ClipboardActions {
         deleteAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (clipboardHandler != null) {
-                    clipboardHandler.performDelete();
+                if (clipboardActionsHandler != null) {
+                    clipboardActionsHandler.performDelete();
                 }
             }
         };
@@ -106,15 +106,15 @@ public class BasicClipboardActions implements ClipboardActions {
         selectAllAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (clipboardHandler != null) {
-                    clipboardHandler.performSelectAll();
+                if (clipboardActionsHandler != null) {
+                    clipboardActionsHandler.performSelectAll();
                 }
             }
         };
         ActionUtils.setupAction(selectAllAction, resourceBundle, "editSelectAllAction");
         selectAllAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, metaMask));
 
-        changeClipboardHandler();
+        changeClipboardActionsHandler();
 
         Clipboard clipboard;
         try {
@@ -132,22 +132,22 @@ public class BasicClipboardActions implements ClipboardActions {
 
     @Override
     public void updateClipboardActions() {
-        cutAction.setEnabled(clipboardHandler != null && clipboardHandler.isEditable() && clipboardHandler.isSelection());
-        copyAction.setEnabled(clipboardHandler != null && clipboardHandler.isSelection());
-        pasteAction.setEnabled(clipboardHandler != null && clipboardHandler.isEditable() && clipboardHandler.canPaste());
-        deleteAction.setEnabled(clipboardHandler != null && clipboardHandler.isEditable() && clipboardHandler.isSelection());
-        selectAllAction.setEnabled(clipboardHandler != null && clipboardHandler.canSelectAll());
+        cutAction.setEnabled(clipboardActionsHandler != null && clipboardActionsHandler.isEditable() && clipboardActionsHandler.isSelection());
+        copyAction.setEnabled(clipboardActionsHandler != null && clipboardActionsHandler.isSelection());
+        pasteAction.setEnabled(clipboardActionsHandler != null && clipboardActionsHandler.isEditable() && clipboardActionsHandler.canPaste());
+        deleteAction.setEnabled(clipboardActionsHandler != null && clipboardActionsHandler.isEditable() && clipboardActionsHandler.isSelection());
+        selectAllAction.setEnabled(clipboardActionsHandler != null && clipboardActionsHandler.canSelectAll());
     }
 
     @Override
-    public void setClipboardHandler(ComponentClipboardHandler clipboardHandler) {
-        this.clipboardHandler = clipboardHandler;
-        changeClipboardHandler();
+    public void setClipboardActionsHandler(ClipboardActionsHandler clipboardHandler) {
+        this.clipboardActionsHandler = clipboardHandler;
+        changeClipboardActionsHandler();
     }
 
-    private void changeClipboardHandler() {
-        if (clipboardHandler != null) {
-            clipboardHandler.setUpdateListener(new ClipboardActionsUpdateListener() {
+    private void changeClipboardActionsHandler() {
+        if (clipboardActionsHandler != null) {
+            clipboardActionsHandler.setUpdateListener(new ClipboardActionsUpdateListener() {
                 @Override
                 public void stateChanged() {
                     updateClipboardActions();

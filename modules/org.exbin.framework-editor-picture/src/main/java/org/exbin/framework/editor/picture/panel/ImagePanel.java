@@ -81,9 +81,9 @@ import org.exbin.framework.editor.picture.dialog.ToolColorDialog;
 import org.exbin.framework.gui.editor.api.XBEditorProvider;
 import org.exbin.framework.gui.file.api.FileType;
 import org.exbin.framework.gui.menu.api.ClipboardActionsUpdateListener;
-import org.exbin.framework.gui.menu.api.ComponentClipboardHandler;
 import org.exbin.framework.gui.utils.WindowUtils;
 import org.exbin.xbup.visual.picture.XBBufferedImage;
+import org.exbin.framework.gui.menu.api.ClipboardActionsHandler;
 
 /**
  * Image panel for XBPEditor.
@@ -91,7 +91,7 @@ import org.exbin.xbup.visual.picture.XBBufferedImage;
  * @version 0.2.0 2016/02/06
  * @author ExBin Project (http://exbin.org)
  */
-public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, ComponentClipboardHandler {
+public class ImagePanel extends javax.swing.JPanel implements XBEditorProvider, ClipboardActionsHandler {
 
     private static final String DEFAULT_PICTURE_FILE_EXT = "PNG";
 

@@ -36,7 +36,7 @@ public interface ClipboardActions {
      *
      * @param clipboardHandler
      */
-    void setClipboardHandler(ComponentClipboardHandler clipboardHandler);
+    void setClipboardActionsHandler(ClipboardActionsHandler clipboardHandler);
 
     /**
      * Returns cut to clipboard action.

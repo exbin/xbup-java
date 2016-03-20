@@ -54,8 +54,8 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.TextAction;
 import org.exbin.framework.gui.menu.api.ClipboardActionsApi;
 import org.exbin.framework.gui.menu.api.ClipboardActionsUpdateListener;
-import org.exbin.framework.gui.menu.api.ComponentClipboardHandler;
 import org.exbin.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.menu.api.ClipboardActionsHandler;
 
 /**
  * Clipboard operations.
@@ -76,7 +76,7 @@ public class ClipboardActionsImpl implements ClipboardActionsApi {
     private CaretListener textComponentCaretListener;
     private PropertyChangeListener textComponentPCL;
 
-    private ComponentClipboardHandler clipboardHandler;
+    private ClipboardActionsHandler clipboardHandler;
     private BasicClipboardActions clipboardActionsSet;
 
     private Action cutTextAction;
@@ -340,9 +340,9 @@ public class ClipboardActionsImpl implements ClipboardActionsApi {
         return clipboardActionsSet.getSelectAllAction();
     }
 
-    public void setClipboardHandler(ComponentClipboardHandler clipboardHandler) {
+    public void setClipboardHandler(ClipboardActionsHandler clipboardHandler) {
         this.clipboardHandler = clipboardHandler;
-        clipboardActionsSet.setClipboardHandler(clipboardHandler);
+        clipboardActionsSet.setClipboardActionsHandler(clipboardHandler);
     }
 
     private void invokeTextAction(JTextComponent text, String actionName) {
@@ -571,7 +571,7 @@ public class ClipboardActionsImpl implements ClipboardActionsApi {
             return SwingUtilities.getDeepestComponentAt(e.getComponent(), e.getX(), e.getY());
         }
 
-        private class TextComponentClipboardHandler implements ComponentClipboardHandler {
+        private class TextComponentClipboardHandler implements ClipboardActionsHandler {
 
             private final JTextComponent txtComp;
 
@@ -631,7 +631,7 @@ public class ClipboardActionsImpl implements ClipboardActionsApi {
             }
         }
 
-        private class ListClipboardHandler implements ComponentClipboardHandler {
+        private class ListClipboardHandler implements ClipboardActionsHandler {
 
             private final JList listComp;
 
@@ -703,7 +703,7 @@ public class ClipboardActionsImpl implements ClipboardActionsApi {
             }
         }
 
-        private class TableClipboardHandler implements ComponentClipboardHandler {
+        private class TableClipboardHandler implements ClipboardActionsHandler {
 
             private final JTable tableComp;
 
@@ -803,13 +803,13 @@ public class ClipboardActionsImpl implements ClipboardActionsApi {
      */
     private static abstract class DefaultPopupClipboardAction extends AbstractAction {
 
-        protected ComponentClipboardHandler clipboardHandler;
+        protected ClipboardActionsHandler clipboardHandler;
 
         public DefaultPopupClipboardAction(String name) {
             super(name);
         }
 
-        public void setClipboardHandler(ComponentClipboardHandler clipboardHandler) {
+        public void setClipboardHandler(ClipboardActionsHandler clipboardHandler) {
             this.clipboardHandler = clipboardHandler;
             postTextComponentInitialize();
         }

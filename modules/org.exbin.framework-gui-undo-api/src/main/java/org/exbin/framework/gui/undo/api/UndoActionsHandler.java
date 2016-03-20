@@ -22,7 +22,7 @@ package org.exbin.framework.gui.undo.api;
  * @version 0.2.0 2016/03/20
  * @author ExBin Project (http://exbin.org)
  */
-public interface UndoHandler {
+public interface UndoActionsHandler {
 
     /**
      * Returns if undo operation is available.

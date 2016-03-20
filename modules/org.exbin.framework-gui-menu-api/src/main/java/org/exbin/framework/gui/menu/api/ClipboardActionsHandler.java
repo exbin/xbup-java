@@ -22,7 +22,7 @@ package org.exbin.framework.gui.menu.api;
  * @version 0.2.0 2016/01/24
  * @author ExBin Project (http://exbin.org)
  */
-public interface ComponentClipboardHandler {
+public interface ClipboardActionsHandler {
 
     /**
      * Performs performCut to clipboard operation.

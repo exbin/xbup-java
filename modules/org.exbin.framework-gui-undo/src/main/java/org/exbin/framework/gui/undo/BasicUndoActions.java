@@ -22,7 +22,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import org.exbin.framework.gui.utils.ActionUtils;
 import org.exbin.framework.gui.undo.api.UndoActions;
-import org.exbin.framework.gui.undo.api.UndoHandler;
+import org.exbin.framework.gui.undo.api.UndoActionsHandler;
 
 /**
  * Basic clipboard action set.
@@ -35,7 +35,7 @@ public class BasicUndoActions implements UndoActions {
     private final ResourceBundle resourceBundle = ActionUtils.getResourceBundleByClass(GuiUndoModule.class);
     private final int metaMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
 
-    private UndoHandler undoHandler = null;
+    private UndoActionsHandler undoHandler = null;
     private Action undoAction = null;
     private Action redoAction = null;
     private Action undoManagerAction = null;
@@ -56,7 +56,7 @@ public class BasicUndoActions implements UndoActions {
     }
 
     @Override
-    public void setUndoHandler(UndoHandler undoHandler) {
+    public void setUndoActionsHandler(UndoActionsHandler undoHandler) {
         this.undoHandler = undoHandler;
     }
 

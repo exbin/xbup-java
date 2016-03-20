@@ -68,4 +68,12 @@ public interface GuiUndoModuleApi extends XBApplicationModulePlugin {
      * Opens undo manager dialog.
      */
     void openUndoManager();
+
+    /**
+     * Creates new instance of the undo actions set.
+     *
+     * @param undoActionsHandler clipboard handler
+     * @return undo actions set
+     */
+    UndoActions createUndoActions(UndoActionsHandler undoActionsHandler);
 }

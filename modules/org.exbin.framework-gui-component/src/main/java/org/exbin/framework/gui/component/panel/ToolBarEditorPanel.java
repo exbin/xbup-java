@@ -17,12 +17,16 @@
 package org.exbin.framework.gui.component.panel;
 
 import java.awt.BorderLayout;
+import javax.swing.JDialog;
 import javax.swing.JToolBar;
 import org.exbin.framework.api.XBApplication;
-import org.exbin.framework.gui.menu.api.ComponentClipboardHandler;
+import org.exbin.framework.gui.menu.api.ClipboardActions;
 import org.exbin.framework.gui.menu.api.GuiMenuModuleApi;
 import org.exbin.framework.gui.undo.api.GuiUndoModuleApi;
-import org.exbin.framework.gui.undo.api.UndoHandler;
+import org.exbin.framework.gui.utils.WindowUtils;
+import org.exbin.framework.gui.menu.api.ClipboardActionsHandler;
+import org.exbin.framework.gui.undo.api.UndoActions;
+import org.exbin.framework.gui.undo.api.UndoActionsHandler;
 
 /**
  * Panel with editation toolbar.
@@ -30,14 +34,14 @@ import org.exbin.framework.gui.undo.api.UndoHandler;
  * @version 0.2.0 2016/03/20
  * @author ExBin Project (http://exbin.org)
  */
-public class ToolBarPanel extends javax.swing.JPanel {
+public class ToolBarEditorPanel extends javax.swing.JPanel {
 
-    private XBApplication application;
-    private UndoHandler undoHandler = null;
-    private ComponentClipboardHandler clipboardHandler = null;
+    private final XBApplication application;
+    private UndoActionsHandler undoHandler = null;
+    private ClipboardActionsHandler clipboardHandler = null;
     private JToolBar toolBar = null;
 
-    public ToolBarPanel(XBApplication application) {
+    public ToolBarEditorPanel(XBApplication application) {
         this.application = application;
         initComponents();
     }
@@ -56,17 +60,33 @@ public class ToolBarPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 
-    public void setUndoHandler(UndoHandler undoHandler) {
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        JDialog dialog = new JDialog(new javax.swing.JFrame(), true);
+        ToolBarEditorPanel toolBarPanel = new ToolBarEditorPanel(WindowUtils.getDefaultAppEditor());
+        dialog.add(toolBarPanel);
+        WindowUtils.invokeWindow(dialog);
+    }
+
+    public void setUndoHandler(UndoActionsHandler undoHandler) {
         this.undoHandler = undoHandler;
         initToolBar();
         GuiUndoModuleApi undoModule = application.getModuleRepository().getModuleByInterface(GuiUndoModuleApi.class);
-        // TODO undoModule.
+        UndoActions undoActions = undoModule.createUndoActions(undoHandler);
+        toolBar.add(undoActions.getUndoAction());
+        toolBar.add(undoActions.getRedoAction());
     }
 
-    public void setClipboardHandler(ComponentClipboardHandler clipboardHandler) {
+    public void setClipboardHandler(ClipboardActionsHandler clipboardHandler) {
         this.clipboardHandler = clipboardHandler;
         initToolBar();
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+        ClipboardActions clipboardActions = menuModule.createClipboardActions(clipboardHandler);
+        toolBar.add(clipboardActions.getCutAction());
+        toolBar.add(clipboardActions.getCopyAction());
+        toolBar.add(clipboardActions.getPasteAction());
     }
 
     private void initToolBar() {

@@ -14,18 +14,18 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.exbin.xbup.operation.undo;
+package org.exbin.framework.gui.component.api;
 
 /**
- * Undo update listener.
+ * Move actions update listener.
  *
- * @version 0.2.0 2016/01/23
+ * @version 0.2.0 2016/02/20
  * @author ExBin Project (http://exbin.org)
  */
-public interface UndoUpdateListener {
+public interface ComponentMoveUpdateListener {
 
     /**
-     * Notify about change in undo state.
+     * Notify about change in movement state.
      */
-    void undoChanged();
+    void stateChanged();
 }

@@ -91,7 +91,7 @@ public interface XBUndoHandler {
 
     void setSyncPoint();
 
-    void addUndoUpdateListener(UndoUpdateListener listener);
+    void addUndoUpdateListener(XBUndoUpdateListener listener);
 
-    void removeUndoUpdateListener(UndoUpdateListener listener);
+    void removeUndoUpdateListener(XBUndoUpdateListener listener);
 }

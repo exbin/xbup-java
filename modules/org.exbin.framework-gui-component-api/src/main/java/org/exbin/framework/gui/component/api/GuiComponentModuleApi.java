@@ -14,46 +14,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.exbin.framework.gui.undo.api;
+package org.exbin.framework.gui.component.api;
 
-import org.exbin.xbup.operation.undo.UndoUpdateListener;
+import javax.swing.JPanel;
+import org.exbin.framework.api.XBApplicationModulePlugin;
+import org.exbin.framework.api.XBModuleRepositoryUtils;
 
 /**
- * Interface for application's panel.
+ * Interface for XBUP framework component module.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.2.0 2016/03/20
  * @author ExBin Project (http://exbin.org)
  */
-public interface ActivePanelUndoable {
+public interface GuiComponentModuleApi extends XBApplicationModulePlugin {
 
-    /**
-     * Returns if undo operation is available.
-     *
-     * @return true if undo possible
-     */
-    public Boolean canUndo();
+    public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiComponentModuleApi.class);
 
-    /**
-     * Returns if redo operation is available.
-     *
-     * @return true if redo possible
-     */
-    public Boolean canRedo();
-
-    /**
-     * Performs undo.
-     */
-    public void performUndo();
-
-    /**
-     * Performs redo.
-     */
-    public void performRedo();
-
-    /**
-     * Set listener for undo updates.
-     *
-     * @param undoUpdateListener
-     */
-    void setUndoUpdateListener(UndoUpdateListener undoUpdateListener);
+    JPanel getTableEditPanel();
 }

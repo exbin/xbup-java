@@ -29,6 +29,7 @@ check.dependsOn.remove(test)
 dependencies {
     compile(project(':modules:xbup-core'))
     compile(project(':modules:xbup-client'))
+    compile(project(':modules:xbup-catalog'))
     compile(project(':modules:org.exbin.framework'))
     compile(project(':modules:org.exbin.framework-api'))
     compile(project(':modules:org.exbin.framework-gui-data-api'))

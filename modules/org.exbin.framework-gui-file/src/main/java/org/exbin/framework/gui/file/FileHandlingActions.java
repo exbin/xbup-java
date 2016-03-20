@@ -46,7 +46,7 @@ import org.exbin.framework.gui.utils.ActionUtils;
 /**
  * File handling operations.
  *
- * @version 0.2.0 2016/02/03
+ * @version 0.2.0 2016/03/20
  * @author ExBin Project (http://exbin.org)
  */
 public class FileHandlingActions implements FileHandlingActionsApi {
@@ -69,7 +69,8 @@ public class FileHandlingActions implements FileHandlingActionsApi {
     private JMenu fileOpenRecentMenu = null;
     private List<RecentItem> recentFiles = null;
 
-    private JFileChooser openFC, saveFC;
+    private JFileChooser openFileChooser, saveFileChooser;
+    private AllFilesFilter allFilesFilter;
 
     private FileHandlerApi fileHandler = null;
     private final Map<String, FileType> fileTypes = new HashMap<>();
@@ -83,10 +84,10 @@ public class FileHandlingActions implements FileHandlingActionsApi {
         this.application = application;
 
         metaMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
-        openFC = new JFileChooser();
-        openFC.setAcceptAllFileFilterUsed(false);
-        saveFC = new JFileChooser();
-        saveFC.setAcceptAllFileFilterUsed(false);
+        openFileChooser = new JFileChooser();
+        openFileChooser.setAcceptAllFileFilterUsed(false);
+        saveFileChooser = new JFileChooser();
+        saveFileChooser.setAcceptAllFileFilterUsed(false);
 
         newFileAction = new AbstractAction() {
             @Override
@@ -127,7 +128,9 @@ public class FileHandlingActions implements FileHandlingActionsApi {
         saveAsFileAction.putValue(Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, metaMask));
         saveAsFileAction.putValue(ActionUtils.ACTION_DIALOG_MODE, true);
 
-        addFileType(new AllFilesFilter());
+        AllFilesFilter filesFilter = new AllFilesFilter();
+        addFileType(filesFilter);
+        allFilesFilter = filesFilter;
     }
 
     /**
@@ -231,14 +234,14 @@ public class FileHandlingActions implements FileHandlingActionsApi {
             }
 
             GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
-            if (openFC.showOpenDialog(frameModule.getFrame()) == JFileChooser.APPROVE_OPTION) {
+            if (openFileChooser.showOpenDialog(frameModule.getFrame()) == JFileChooser.APPROVE_OPTION) {
 //                ((CardLayout) statusPanel.getLayout()).show(statusPanel, "busy");
 //                statusPanel.repaint();
-                String fileName = openFC.getSelectedFile().getAbsolutePath();
+                String fileName = openFileChooser.getSelectedFile().getAbsolutePath();
                 fileHandler.setFileName(fileName);
 
                 FileType fileType = null;
-                FileFilter fileFilter = openFC.getFileFilter();
+                FileFilter fileFilter = openFileChooser.getFileFilter();
                 if (fileFilter instanceof FileType) {
                     fileType = fileTypes.get(((FileType) fileFilter).getFileTypeId());
                 }
@@ -259,7 +262,7 @@ public class FileHandlingActions implements FileHandlingActionsApi {
                         i++;
                     }
 
-                    recentFiles.add(new RecentItem(fileName, "", ((FileType) openFC.getFileFilter()).getFileTypeId()));
+                    recentFiles.add(new RecentItem(fileName, "", ((FileType) openFileChooser.getFileFilter()).getFileTypeId()));
                     if (recentFiles.size() > 15) {
                         recentFiles.remove(14);
                     }
@@ -282,16 +285,16 @@ public class FileHandlingActions implements FileHandlingActionsApi {
     public void actionFileSaveAs() {
         if (fileHandler != null) {
             GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
-            if (saveFC.showSaveDialog(frameModule.getFrame()) == JFileChooser.APPROVE_OPTION) {
-                if (new File(saveFC.getSelectedFile().getAbsolutePath()).exists()) {
+            if (saveFileChooser.showSaveDialog(frameModule.getFrame()) == JFileChooser.APPROVE_OPTION) {
+                if (new File(saveFileChooser.getSelectedFile().getAbsolutePath()).exists()) {
                     if (!overwriteFile()) {
                         return;
                     }
                 }
 
                 try {
-                    fileHandler.setFileName(saveFC.getSelectedFile().getAbsolutePath());
-                    fileHandler.setFileType((FileType) saveFC.getFileFilter());
+                    fileHandler.setFileName(saveFileChooser.getSelectedFile().getAbsolutePath());
+                    fileHandler.setFileType((FileType) saveFileChooser.getFileFilter());
                     actionFileSave();
                 } catch (Exception ex) {
                     Logger.getLogger(FileHandlingActions.class.getName()).log(Level.SEVERE, null, ex);
@@ -303,9 +306,18 @@ public class FileHandlingActions implements FileHandlingActionsApi {
     }
 
     void addFileType(FileType fileType) {
-        openFC.addChoosableFileFilter((FileFilter) fileType);
-        saveFC.addChoosableFileFilter((FileFilter) fileType);
+        if (allFilesFilter != null) {
+            openFileChooser.removeChoosableFileFilter(allFilesFilter);
+            saveFileChooser.removeChoosableFileFilter(allFilesFilter);
+        }
+        openFileChooser.addChoosableFileFilter((FileFilter) fileType);
+        saveFileChooser.addChoosableFileFilter((FileFilter) fileType);
         fileTypes.put(fileType.getFileTypeId(), fileType);
+
+        if (allFilesFilter != null) {
+            openFileChooser.addChoosableFileFilter(allFilesFilter);
+            saveFileChooser.addChoosableFileFilter(allFilesFilter);
+        }
     }
 
     void loadFromFile(String filename) {
@@ -375,7 +387,7 @@ public class FileHandlingActions implements FileHandlingActionsApi {
                             if (menuItem.equals(fileOpenRecentMenu.getItem(itemIndex))) {
                                 RecentItem recentItem = recentFiles.get(itemIndex);
                                 FileType fileType = null;
-                                for (FileFilter fileFilter : openFC.getChoosableFileFilters()) {
+                                for (FileFilter fileFilter : openFileChooser.getChoosableFileFilters()) {
                                     if (fileFilter instanceof FileType) {
                                         if (((FileType) fileFilter).getFileTypeId().equals(recentItem.getFileMode())) {
                                             fileType = (FileType) fileFilter;

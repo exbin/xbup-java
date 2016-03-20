@@ -25,7 +25,6 @@ import javax.swing.JToolBar;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.gui.frame.api.GuiFrameModuleApi;
-import org.exbin.framework.gui.menu.api.ClipboardActionSet;
 import org.exbin.framework.gui.menu.api.ComponentClipboardHandler;
 import org.exbin.framework.gui.menu.api.GuiMenuModuleApi;
 import org.exbin.framework.gui.menu.api.MenuGroup;
@@ -34,6 +33,7 @@ import org.exbin.framework.gui.menu.api.PositionMode;
 import org.exbin.framework.gui.menu.api.SeparationMode;
 import org.exbin.framework.gui.menu.api.ToolBarGroup;
 import org.exbin.framework.gui.menu.api.ToolBarPosition;
+import org.exbin.framework.gui.menu.api.ClipboardActions;
 
 /**
  * Implementation of XBUP framework menu module.
@@ -45,7 +45,7 @@ import org.exbin.framework.gui.menu.api.ToolBarPosition;
 public class GuiMenuModule implements GuiMenuModuleApi {
 
     private XBApplication application;
-    private ClipboardActions clipboardActions = null;
+    private ClipboardActionsImpl clipboardActions = null;
     private MenuHandler menuHandler = null;
     private ToolBarHandler toolBarHandler = null;
 
@@ -62,9 +62,9 @@ public class GuiMenuModule implements GuiMenuModuleApi {
     }
 
     @Override
-    public ClipboardActions getClipboardActions() {
+    public ClipboardActionsImpl getClipboardActions() {
         if (clipboardActions == null) {
-            clipboardActions = new ClipboardActions();
+            clipboardActions = new ClipboardActionsImpl();
             clipboardActions.init();
         }
 
@@ -189,7 +189,7 @@ public class GuiMenuModule implements GuiMenuModuleApi {
     }
 
     @Override
-    public ClipboardActionSet createClipboardActionsSet(ComponentClipboardHandler clipboardHandler) {
-        return new BasicClipboardActionsSet(clipboardHandler);
+    public ClipboardActions createClipboardActionsSet(ComponentClipboardHandler clipboardHandler) {
+        return new BasicClipboardActions(clipboardHandler);
     }
 }

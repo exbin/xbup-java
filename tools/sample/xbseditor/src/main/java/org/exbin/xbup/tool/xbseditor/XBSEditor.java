@@ -41,8 +41,8 @@ import org.exbin.framework.gui.menu.api.GuiMenuModuleApi;
 import org.exbin.framework.gui.options.api.GuiOptionsModuleApi;
 import org.exbin.framework.gui.undo.api.GuiUndoModuleApi;
 import org.exbin.framework.gui.utils.ActionUtils;
-import org.exbin.xbup.operation.undo.UndoUpdateListener;
 import org.exbin.xbup.operation.undo.XBTLinearUndo;
+import org.exbin.xbup.operation.undo.XBUndoUpdateListener;
 
 /**
  * The main class of the XBSEditor application.
@@ -125,7 +125,7 @@ public class XBSEditor {
                 undoModule.registerMainToolBar();
                 undoModule.registerUndoManagerInMainMenu();
                 XBTLinearUndo linearUndo = new XBTLinearUndo(null);
-                linearUndo.addUndoUpdateListener(new UndoUpdateListener() {
+                linearUndo.addUndoUpdateListener(new XBUndoUpdateListener() {
                     @Override
                     public void undoChanged() {
                         ((AudioPanel) waveEditorModule.getEditorProvider()).repaint();

@@ -23,7 +23,7 @@ import org.exbin.framework.gui.data.api.GuiDataModuleApi;
 import org.exbin.framework.gui.data.panel.TableEditPanel;
 
 /**
- * Implementation of XBUP framework datamodule.
+ * Implementation of XBUP framework data module.
  *
  * @version 0.2.0 2016/02/27
  * @author ExBin Project (http://exbin.org)

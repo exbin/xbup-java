@@ -63,7 +63,7 @@ import org.exbin.framework.gui.utils.ActionUtils;
  * @version 0.2.0 2016/03/16
  * @author ExBin Project (http://exbin.org)
  */
-public class ClipboardActions implements ClipboardActionsApi {
+public class ClipboardActionsImpl implements ClipboardActionsApi {
 
     private ResourceBundle resourceBundle;
     private int metaMask;
@@ -77,7 +77,7 @@ public class ClipboardActions implements ClipboardActionsApi {
     private PropertyChangeListener textComponentPCL;
 
     private ComponentClipboardHandler clipboardHandler;
-    private BasicClipboardActionsSet clipboardActionsSet;
+    private BasicClipboardActions clipboardActionsSet;
 
     private Action cutTextAction;
     private Action copyTextAction;
@@ -94,7 +94,7 @@ public class ClipboardActions implements ClipboardActionsApi {
     private DefaultPopupClipboardAction defaultSelectAllAction;
     private DefaultPopupClipboardAction[] defaultTextActions;
 
-    public ClipboardActions() {
+    public ClipboardActionsImpl() {
     }
 
     public void init() {
@@ -107,7 +107,7 @@ public class ClipboardActions implements ClipboardActionsApi {
     }
 
     private void initializeClipboardActions() {
-        clipboardActionsSet = new BasicClipboardActionsSet();
+        clipboardActionsSet = new BasicClipboardActions();
     }
 
     private void initializeTextActions() {

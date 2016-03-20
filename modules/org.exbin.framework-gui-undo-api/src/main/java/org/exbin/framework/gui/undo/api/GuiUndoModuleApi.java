@@ -23,7 +23,7 @@ import org.exbin.xbup.operation.undo.XBUndoHandler;
 /**
  * Interface for XBUP framework undo/redo module.
  *
- * @version 0.2.0 2015/11/09
+ * @version 0.2.0 2016/03/20
  * @author ExBin Project (http://exbin.org)
  */
 public interface GuiUndoModuleApi extends XBApplicationModulePlugin {
@@ -58,6 +58,14 @@ public interface GuiUndoModuleApi extends XBApplicationModulePlugin {
      * Registers undo/redo operations to main frame tool bar.
      */
     void registerMainToolBar();
-    
+
+    /**
+     * Updates enablement of undo and redo operations.
+     */
     void updateUndoStatus();
+
+    /**
+     * Opens undo manager dialog.
+     */
+    void openUndoManager();
 }

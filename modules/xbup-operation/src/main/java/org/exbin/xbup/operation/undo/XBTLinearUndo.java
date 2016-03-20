@@ -36,7 +36,7 @@ public class XBTLinearUndo implements XBUndoHandler {
     private long syncPointPosition = -1;
     private final List<Command> commandList;
     private final XBTTreeDocument document;
-    private final List<UndoUpdateListener> listeners = new ArrayList<>();
+    private final List<XBUndoUpdateListener> listeners = new ArrayList<>();
 
     /**
      * Creates a new instance.
@@ -250,18 +250,18 @@ public class XBTLinearUndo implements XBUndoHandler {
     }
 
     private void undoUpdated() {
-        for (UndoUpdateListener listener : listeners) {
+        for (XBUndoUpdateListener listener : listeners) {
             listener.undoChanged();
         }
     }
 
     @Override
-    public void addUndoUpdateListener(UndoUpdateListener listener) {
+    public void addUndoUpdateListener(XBUndoUpdateListener listener) {
         listeners.add(listener);
     }
 
     @Override
-    public void removeUndoUpdateListener(UndoUpdateListener listener) {
+    public void removeUndoUpdateListener(XBUndoUpdateListener listener) {
         listeners.remove(listener);
     }
 }

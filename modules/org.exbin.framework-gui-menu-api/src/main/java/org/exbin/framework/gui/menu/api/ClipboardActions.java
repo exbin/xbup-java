@@ -24,7 +24,7 @@ import javax.swing.Action;
  * @version 0.2.0 2016/03/16
  * @author ExBin Project (http://exbin.org)
  */
-public interface ClipboardActionSet {
+public interface ClipboardActions {
 
     /**
      * Updates state of these actions according to clipboard handler.

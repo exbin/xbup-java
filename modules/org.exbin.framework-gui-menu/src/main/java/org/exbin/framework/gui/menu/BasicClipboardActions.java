@@ -24,10 +24,10 @@ import java.awt.event.ActionEvent;
 import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import org.exbin.framework.gui.menu.api.ClipboardActionSet;
 import org.exbin.framework.gui.menu.api.ClipboardActionsUpdateListener;
 import org.exbin.framework.gui.menu.api.ComponentClipboardHandler;
 import org.exbin.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.menu.api.ClipboardActions;
 
 /**
  * Basic clipboard action set.
@@ -35,7 +35,7 @@ import org.exbin.framework.gui.utils.ActionUtils;
  * @version 0.2.0 2016/03/16
  * @author ExBin Project (http://exbin.org)
  */
-public class BasicClipboardActionsSet implements ClipboardActionSet {
+public class BasicClipboardActions implements ClipboardActions {
 
     private final ResourceBundle resourceBundle = ActionUtils.getResourceBundleByClass(GuiMenuModule.class);
     private final int metaMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
@@ -48,11 +48,11 @@ public class BasicClipboardActionsSet implements ClipboardActionSet {
     private Action deleteAction;
     private Action selectAllAction;
 
-    public BasicClipboardActionsSet() {
+    public BasicClipboardActions() {
         this(null);
     }
 
-    public BasicClipboardActionsSet(ComponentClipboardHandler handler) {
+    public BasicClipboardActions(ComponentClipboardHandler handler) {
         this.clipboardHandler = handler;
 
         cutAction = new AbstractAction() {

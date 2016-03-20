@@ -103,8 +103,8 @@ public class EditorTextModule implements XBApplicationModulePlugin {
 
     public void registerFileTypes() {
         GuiFileModuleApi fileModule = application.getModuleRepository().getModuleByInterface(GuiFileModuleApi.class);
-        fileModule.addFileType(new XBTFileType());
         fileModule.addFileType(new TXTFileType());
+        fileModule.addFileType(new XBTFileType());
     }
 
     public void registerStatusBar() {

@@ -54,11 +54,6 @@ public class ServiceManagerModule implements XBApplicationModulePlugin {
     @Override
     public void init(XBApplication application) {
         this.application = application;
-
-        // Register file types
-        GuiFileModuleApi fileModule = application.getModuleRepository().getModuleByInterface(GuiFileModuleApi.class);
-//        fileModule.addFileType(new XBTFileType());
-//        fileModule.addFileType(new TXTFileType());
     }
 
     @Override
@@ -77,37 +72,41 @@ public class ServiceManagerModule implements XBApplicationModulePlugin {
     public ServiceManagerPanel getServicePanel() {
         if (servicePanel == null) {
             servicePanel = new ServiceManagerPanel();
-            servicePanel.setMenuManagement(new MenuManagement() {
-                @Override
-                public void extendMenu(JMenu menu, Integer pluginId, String menuId, PositionMode positionMode) {
-                    throw new UnsupportedOperationException("Not supported yet.");
-                }
-
-                @Override
-                public void addMenuItem(Component menuItem, Integer pluginId, String menuId, PositionMode mode) {
-                    throw new UnsupportedOperationException("Not supported yet.");
-                }
-
-                @Override
-                public void insertMenu(JMenu menu, Integer pluginId, PositionMode positionMode) {
-                    throw new UnsupportedOperationException("Not supported yet.");
-                }
-
-                @Override
-                public void extendToolBar(JToolBar toolBar) {
-                    throw new UnsupportedOperationException("Not supported yet.");
-                }
-
-                @Override
-                public void insertMainPopupMenu(JPopupMenu popupMenu, int position) {
-                    // Temporary
-                    GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
-                    menuModule.fillPopupMenu(popupMenu, position);
-                }
-            });
+            servicePanel.setMenuManagement(getDefaultMenuManagement());
         }
 
         return servicePanel;
+    }
+
+    public MenuManagement getDefaultMenuManagement() {
+        return new MenuManagement() {
+            @Override
+            public void extendMenu(JMenu menu, Integer pluginId, String menuId, PositionMode positionMode) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void addMenuItem(Component menuItem, Integer pluginId, String menuId, PositionMode mode) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void insertMenu(JMenu menu, Integer pluginId, PositionMode positionMode) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void extendToolBar(JToolBar toolBar) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void insertMainPopupMenu(JPopupMenu popupMenu, int position) {
+                // Temporary
+                GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
+                menuModule.fillPopupMenu(popupMenu, position);
+            }
+        };
     }
 
     public void setPreferences(Preferences preferences) {

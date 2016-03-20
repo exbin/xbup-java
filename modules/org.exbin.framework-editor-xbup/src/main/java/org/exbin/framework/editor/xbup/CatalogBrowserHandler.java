@@ -25,6 +25,7 @@ import org.exbin.xbup.core.catalog.XBACatalog;
 import org.exbin.framework.editor.xbup.dialog.CatalogEditorDialog;
 import org.exbin.framework.gui.editor.api.XBEditorProvider;
 import org.exbin.framework.gui.frame.api.GuiFrameModuleApi;
+import org.exbin.framework.gui.service.ServiceManagerModule;
 import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
@@ -59,8 +60,9 @@ public class CatalogBrowserHandler {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GuiFrameModuleApi frameModule = application.getModuleRepository().getModuleByInterface(GuiFrameModuleApi.class);
+                ServiceManagerModule managerModule = application.getModuleRepository().getModuleByInterface(ServiceManagerModule.class);
                 catalogEditorDialog = new CatalogEditorDialog(frameModule.getFrame(), true);
-//                catalogEditorDialog.setMenuManagement(menuManagement);
+                catalogEditorDialog.setMenuManagement(managerModule.getDefaultMenuManagement());
 //                catalogEditorDialog.setMainFrameManagement(mainFrameManagement);
                 catalogEditorDialog.setCatalog(catalog);
                 catalogEditorDialog.setVisible(true);

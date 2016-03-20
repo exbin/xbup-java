@@ -31,11 +31,12 @@ import org.exbin.framework.gui.file.api.GuiFileModuleApi;
 import org.exbin.framework.gui.menu.api.ClipboardActionsUpdateListener;
 import org.exbin.framework.gui.menu.api.ComponentClipboardHandler;
 import org.exbin.framework.gui.menu.api.GuiMenuModuleApi;
-import org.exbin.framework.gui.undo.api.ActivePanelUndoable;
 import org.exbin.framework.gui.undo.api.GuiUndoModuleApi;
 import org.exbin.xbup.operation.Command;
-import org.exbin.xbup.operation.undo.UndoUpdateListener;
 import org.exbin.xbup.operation.undo.XBUndoHandler;
+import org.exbin.framework.gui.undo.api.UndoHandler;
+import org.exbin.framework.gui.undo.api.UndoUpdateListener;
+import org.exbin.xbup.operation.undo.XBUndoUpdateListener;
 
 /**
  * XBUP framework editor module.
@@ -153,8 +154,8 @@ public class GuiEditorModule implements GuiEditorModuleApi {
 
     @Override
     public void registerEditor(String pluginId, final XBEditorProvider editorProvider) {
-        if (editorProvider instanceof ActivePanelUndoable) {
-            ((ActivePanelUndoable) editorProvider).setUndoUpdateListener(new UndoUpdateListener() {
+        if (editorProvider instanceof UndoHandler) {
+            ((UndoHandler) editorProvider).setUndoUpdateListener(new UndoUpdateListener() {
                 @Override
                 public void undoChanged() {
                     GuiUndoModuleApi undoModule = application.getModuleRepository().getModuleByInterface(GuiUndoModuleApi.class);
@@ -203,8 +204,8 @@ public class GuiEditorModule implements GuiEditorModuleApi {
         undoModule.setUndoHandler(new XBUndoHandler() {
             @Override
             public boolean canRedo() {
-                if (activeEditor != null && activeEditor.getPanel() instanceof ActivePanelUndoable) {
-                    return ((ActivePanelUndoable) activeEditor.getPanel()).canRedo();
+                if (activeEditor != null && activeEditor.getPanel() instanceof UndoHandler) {
+                    return ((UndoHandler) activeEditor.getPanel()).canRedo();
                 }
 
                 return false;
@@ -212,8 +213,8 @@ public class GuiEditorModule implements GuiEditorModuleApi {
 
             @Override
             public boolean canUndo() {
-                if (activeEditor != null && activeEditor.getPanel() instanceof ActivePanelUndoable) {
-                    return ((ActivePanelUndoable) activeEditor.getPanel()).canUndo();
+                if (activeEditor != null && activeEditor.getPanel() instanceof UndoHandler) {
+                    return ((UndoHandler) activeEditor.getPanel()).canUndo();
                 }
 
                 return false;
@@ -266,8 +267,8 @@ public class GuiEditorModule implements GuiEditorModuleApi {
 
             @Override
             public void performRedo() throws Exception {
-                if (activeEditor != null && activeEditor.getPanel() instanceof ActivePanelUndoable) {
-                    ((ActivePanelUndoable) activeEditor.getPanel()).performRedo();
+                if (activeEditor != null && activeEditor.getPanel() instanceof UndoHandler) {
+                    ((UndoHandler) activeEditor.getPanel()).performRedo();
                     GuiUndoModuleApi undoModule = application.getModuleRepository().getModuleByInterface(GuiUndoModuleApi.class);
                     undoModule.updateUndoStatus();
                 }
@@ -280,8 +281,8 @@ public class GuiEditorModule implements GuiEditorModuleApi {
 
             @Override
             public void performUndo() throws Exception {
-                if (activeEditor != null && activeEditor.getPanel() instanceof ActivePanelUndoable) {
-                    ((ActivePanelUndoable) activeEditor.getPanel()).performUndo();
+                if (activeEditor != null && activeEditor.getPanel() instanceof UndoHandler) {
+                    ((UndoHandler) activeEditor.getPanel()).performUndo();
                     GuiUndoModuleApi undoModule = application.getModuleRepository().getModuleByInterface(GuiUndoModuleApi.class);
                     undoModule.updateUndoStatus();
                 }
@@ -308,11 +309,11 @@ public class GuiEditorModule implements GuiEditorModuleApi {
             }
 
             @Override
-            public void addUndoUpdateListener(UndoUpdateListener listener) {
+            public void addUndoUpdateListener(XBUndoUpdateListener listener) {
             }
 
             @Override
-            public void removeUndoUpdateListener(UndoUpdateListener listener) {
+            public void removeUndoUpdateListener(XBUndoUpdateListener listener) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
         });

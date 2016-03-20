@@ -72,8 +72,8 @@ import org.exbin.framework.gui.editor.api.XBEditorProvider;
 import org.exbin.framework.gui.file.api.FileType;
 import org.exbin.framework.gui.menu.api.ClipboardActionsUpdateListener;
 import org.exbin.framework.gui.menu.api.ComponentClipboardHandler;
-import org.exbin.framework.gui.undo.api.ActivePanelUndoable;
-import org.exbin.xbup.operation.undo.UndoUpdateListener;
+import org.exbin.framework.gui.undo.api.UndoHandler;
+import org.exbin.framework.gui.undo.api.UndoUpdateListener;
 
 /**
  * Text editor panel.
@@ -81,7 +81,7 @@ import org.exbin.xbup.operation.undo.UndoUpdateListener;
  * @version 0.2.0 2016/02/27
  * @author ExBin Project (http://exbin.org)
  */
-public class TextPanel extends javax.swing.JPanel implements XBEditorProvider, ComponentClipboardHandler, ActivePanelUndoable {
+public class TextPanel extends javax.swing.JPanel implements XBEditorProvider, ComponentClipboardHandler, UndoHandler {
 
     private final TextPanelCompoundUndoManager undoManagement = new TextPanelCompoundUndoManager();
     private UndoUpdateListener undoUpdateListener = null;
@@ -289,6 +289,11 @@ public class TextPanel extends javax.swing.JPanel implements XBEditorProvider, C
     @Override
     public void performSelectAll() {
         textArea.selectAll();
+    }
+
+    @Override
+    public void performUndoManager() {
+        // TODO
     }
 
     @Override

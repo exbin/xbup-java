@@ -16,27 +16,53 @@
  */
 package org.exbin.framework.gui.component.api;
 
-import javax.swing.JPanel;
-import org.exbin.framework.api.XBApplicationModulePlugin;
-import org.exbin.framework.api.XBModuleRepositoryUtils;
+import javax.swing.Action;
 
 /**
- * Interface for XBUP framework component module.
+ * Interface for item movement action set.
  *
  * @version 0.2.0 2016/03/21
  * @author ExBin Project (http://exbin.org)
  */
-public interface GuiComponentModuleApi extends XBApplicationModulePlugin {
-
-    public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiComponentModuleApi.class);
-
-    JPanel getTableEditPanel();
+public interface MoveItemActions {
 
     /**
-     * Creates new instance of the move item actions set.
+     * Sets move action handler.
      *
-     * @param moveItemActionsHandler move item actions handler
-     * @return move item actions set
+     * @param undoHandler
      */
-    MoveItemActions createMoveItemActions(MoveItemActionsHandler moveItemActionsHandler);
+    void setMoveActionsHandler(MoveItemActionsHandler undoHandler);
+
+    /**
+     * Returns move up action.
+     *
+     * @return move up action
+     */
+    Action getMoveUpAction();
+
+    /**
+     * Returns move down action.
+     *
+     * @return move down action
+     */
+    Action getMoveDownAction();
+
+    /**
+     * Returns move top action.
+     *
+     * @return move top action
+     */
+    Action getMoveTopAction();
+
+    /**
+     * Returns move bottom action.
+     *
+     * @return move bottom action
+     */
+    Action getMoveBottomAction();
+
+    /**
+     * Updates state of these actions according to handler.
+     */
+    void updateMoveItemActions();
 }

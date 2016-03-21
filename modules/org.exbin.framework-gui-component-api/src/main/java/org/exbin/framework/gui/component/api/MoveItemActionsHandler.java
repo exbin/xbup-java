@@ -22,7 +22,7 @@ package org.exbin.framework.gui.component.api;
  * @version 0.2.0 2016/01/24
  * @author ExBin Project (http://exbin.org)
  */
-public interface ComponentMoveHandler {
+public interface MoveItemActionsHandler {
 
     /**
      * Moves selected items one level up.
@@ -64,5 +64,5 @@ public interface ComponentMoveHandler {
      *
      * @param updateListener
      */
-    void setUpdateListener(ComponentMoveUpdateListener updateListener);
+    void setUpdateListener(MoveItemActionsUpdateListener updateListener);
 }

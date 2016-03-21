@@ -22,7 +22,7 @@ package org.exbin.framework.gui.component.api;
  * @version 0.2.0 2016/02/20
  * @author ExBin Project (http://exbin.org)
  */
-public interface ComponentMoveUpdateListener {
+public interface MoveItemActionsUpdateListener {
 
     /**
      * Notify about change in movement state.

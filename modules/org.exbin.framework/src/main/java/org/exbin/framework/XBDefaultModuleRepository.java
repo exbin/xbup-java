@@ -258,7 +258,6 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
                 Object moduleId = declaredField.get(null);
                 if (moduleId instanceof String) {
                     return (T) getModuleById((String) moduleId);
-
                 }
             }
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {

@@ -33,5 +33,6 @@ dependencies {
     compile(project(':modules:org.exbin.framework-gui-about-api'))
     compile(project(':modules:org.exbin.framework-gui-frame-api'))
     compile(project(':modules:org.exbin.framework-gui-utils'))
+
     testCompile group : 'junit', name: 'junit', version: '4.10'
 }

@@ -19,15 +19,10 @@ package org.exbin.framework.gui.utils;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Frame;
-import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.ResourceBundle;
-import java.util.prefs.Preferences;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -36,7 +31,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 import org.exbin.framework.api.XBApplication;
-import org.exbin.framework.api.XBModuleRepository;
 import org.exbin.framework.gui.utils.panel.WindowHeaderPanel;
 
 /**
@@ -114,47 +108,15 @@ public class WindowUtils {
         window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
     }
 
-    public static XBApplication getDefaultAppEditor() {
-        return new XBApplication() {
+    public static JDialog createBasicDialog() {
+        JDialog dialog = new JDialog(new javax.swing.JFrame(), true);
+        dialog.setSize(640, 480);
+        dialog.setLocationByPlatform(true);
+        return dialog;
+    }
 
-            ResourceBundle emptyBundle = new ResourceBundle() {
-
-                @Override
-                protected Object handleGetObject(String key) {
-                    return "";
-                }
-
-                @Override
-                public Enumeration<String> getKeys() {
-                    return Collections.emptyEnumeration();
-                }
-            };
-
-            @Override
-            public ResourceBundle getAppBundle() {
-                return emptyBundle;
-            }
-
-            @Override
-            public Preferences getAppPreferences() {
-                return Preferences.systemRoot();
-            }
-
-            @Override
-            public XBModuleRepository getModuleRepository() {
-                return null;
-            }
-
-            @Override
-            public String preferencesGet(String key, String def) {
-                return null;
-            }
-
-            @Override
-            public Image getApplicationIcon() {
-                return null;
-            }
-        };
+    public static TestApplication getDefaultAppEditor() {
+        return new TestApplication();
     }
 
     /**

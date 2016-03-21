@@ -3,6 +3,8 @@ rootProject.name = 'org.exbin.framework-gui-component'
 include ":modules:xbup-core"
 include ":modules:xbup-client"
 include ":modules:xbup-catalog"
+include ":modules:xbup-operation"
+include ":modules:xbup-parser-tree"
 include ":modules:org.exbin.framework"
 include ":modules:org.exbin.framework-api"
 include ":modules:org.exbin.framework-gui-component-api"
@@ -10,6 +12,8 @@ include ":modules:org.exbin.framework-gui-menu-api"
 include ":modules:org.exbin.framework-gui-undo-api"
 include ":modules:org.exbin.framework-gui-frame-api"
 include ":modules:org.exbin.framework-gui-utils"
+include ":modules:org.exbin.framework-gui-menu"
+include ":modules:org.exbin.framework-gui-undo"
 
 def modifyPath(project) {
     def rootProjectDir = rootProject.projectDir.parentFile.parent

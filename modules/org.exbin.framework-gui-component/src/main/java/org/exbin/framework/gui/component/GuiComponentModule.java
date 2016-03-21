@@ -20,11 +20,13 @@ import javax.swing.JPanel;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.gui.component.api.GuiComponentModuleApi;
+import org.exbin.framework.gui.component.api.MoveItemActions;
+import org.exbin.framework.gui.component.api.MoveItemActionsHandler;
 
 /**
  * Implementation of XBUP framework component module.
  *
- * @version 0.2.0 2016/03/20
+ * @version 0.2.0 2016/03/21
  * @author ExBin Project (http://exbin.org)
  */
 @PluginImplementation
@@ -48,5 +50,12 @@ public class GuiComponentModule implements GuiComponentModuleApi {
     public JPanel getTableEditPanel() {
         // return new TableEditPanel();
         return null;
+    }
+
+    @Override
+    public MoveItemActions createMoveItemActions(MoveItemActionsHandler moveItemActionsHandler) {
+        DefaultMoveItemActions moveActions = new DefaultMoveItemActions();
+        moveActions.setMoveActionsHandler(moveItemActionsHandler);
+        return moveActions;
     }
 }

@@ -29,9 +29,9 @@ public interface MoveItemActions {
     /**
      * Sets move action handler.
      *
-     * @param undoHandler
+     * @param actionsHandler
      */
-    void setMoveActionsHandler(MoveItemActionsHandler undoHandler);
+    void setMoveItemActionsHandler(MoveItemActionsHandler actionsHandler);
 
     /**
      * Returns move up action.

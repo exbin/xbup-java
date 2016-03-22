@@ -21,6 +21,9 @@ import javax.swing.JDialog;
 import javax.swing.JToolBar;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.gui.component.GuiComponentModule;
+import org.exbin.framework.gui.component.api.EditItemActions;
+import org.exbin.framework.gui.component.api.EditItemActionsHandler;
+import org.exbin.framework.gui.component.api.EditItemActionsUpdateListener;
 import org.exbin.framework.gui.component.api.GuiComponentModuleApi;
 import org.exbin.framework.gui.component.api.MoveItemActions;
 import org.exbin.framework.gui.component.api.MoveItemActionsHandler;
@@ -31,14 +34,16 @@ import org.exbin.framework.gui.utils.WindowUtils;
 /**
  * Panel with side toolbar.
  *
- * @version 0.2.0 2016/03/21
+ * @version 0.2.0 2016/03/22
  * @author ExBin Project (http://exbin.org)
  */
 public class ToolBarSidePanel extends javax.swing.JPanel {
 
     private final XBApplication application;
     private MoveItemActionsHandler moveItemActionsHandler = null;
+    private EditItemActionsHandler editItemActionsHandler = null;
     private JToolBar toolBar = null;
+    private ToolBarPosition toolBarPosisition = ToolBarPosition.LEFT;
 
     public ToolBarSidePanel(XBApplication application) {
         this.application = application;
@@ -67,6 +72,38 @@ public class ToolBarSidePanel extends javax.swing.JPanel {
         TestApplication testApplication = WindowUtils.getDefaultAppEditor();
         testApplication.addModule(GuiComponentModule.MODULE_ID, new GuiComponentModule());
         ToolBarSidePanel toolBarSidePanel = new ToolBarSidePanel(testApplication);
+        toolBarSidePanel.setEditItemsHandler(new EditItemActionsHandler() {
+            @Override
+            public void performAddItem() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void performEditItem() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void performDeleteItem() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public boolean isSelection() {
+                return true;
+            }
+
+            @Override
+            public boolean isEditable() {
+                return true;
+            }
+
+            @Override
+            public void setUpdateListener(EditItemActionsUpdateListener updateListener) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
+
         toolBarSidePanel.setMoveItemsHandler(new MoveItemActionsHandler() {
             @Override
             public void performMoveUp() {
@@ -107,11 +144,25 @@ public class ToolBarSidePanel extends javax.swing.JPanel {
         WindowUtils.invokeWindow(dialog);
     }
 
+    public void setEditItemsHandler(EditItemActionsHandler editItemActionsHandler) {
+        this.editItemActionsHandler = editItemActionsHandler;
+        initToolBar();
+        GuiComponentModuleApi componentModule = application.getModuleRepository().getModuleByInterface(GuiComponentModuleApi.class);
+        EditItemActions editItemActions = componentModule.createEditItemActions(editItemActionsHandler);
+        toolBar.add(editItemActions.getAddItemAction());
+        toolBar.add(editItemActions.getEditItemAction());
+        toolBar.add(editItemActions.getDeleteItemAction());
+        editItemActions.updateEditItemActions();
+    }
+
     public void setMoveItemsHandler(MoveItemActionsHandler moveItemActionsHandler) {
         this.moveItemActionsHandler = moveItemActionsHandler;
         initToolBar();
         GuiComponentModuleApi componentModule = application.getModuleRepository().getModuleByInterface(GuiComponentModuleApi.class);
         MoveItemActions moveItemActions = componentModule.createMoveItemActions(moveItemActionsHandler);
+        if (editItemActionsHandler != null) {
+            toolBar.addSeparator();
+        }
         toolBar.add(moveItemActions.getMoveTopAction());
         toolBar.add(moveItemActions.getMoveUpAction());
         toolBar.add(moveItemActions.getMoveDownAction());
@@ -124,7 +175,19 @@ public class ToolBarSidePanel extends javax.swing.JPanel {
             toolBar = new JToolBar();
             toolBar.setOrientation(JToolBar.VERTICAL);
             toolBar.setFloatable(false);
-            add(toolBar, BorderLayout.WEST);
+            add(toolBar, toolBarPosisition == ToolBarPosition.LEFT ? BorderLayout.WEST : BorderLayout.EAST);
         }
+    }
+
+    public ToolBarPosition getToolBarPosisition() {
+        return toolBarPosisition;
+    }
+
+    public void setToolBarPosisition(ToolBarPosition toolBarPosisition) {
+        this.toolBarPosisition = toolBarPosisition;
+    }
+
+    public enum ToolBarPosition {
+        LEFT, RIGHT
     }
 }

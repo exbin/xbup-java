@@ -45,7 +45,7 @@ public class DefaultMoveItemActions implements MoveItemActions {
     }
 
     @Override
-    public void setMoveActionsHandler(MoveItemActionsHandler actionsHandler) {
+    public void setMoveItemActionsHandler(MoveItemActionsHandler actionsHandler) {
         this.actionsHandler = actionsHandler;
     }
 

@@ -22,27 +22,22 @@ package org.exbin.framework.gui.component.api;
  * @version 0.2.0 2016/01/24
  * @author ExBin Project (http://exbin.org)
  */
-public interface MoveItemActionsHandler {
+public interface EditItemActionsHandler {
 
     /**
-     * Moves selected items one level up.
+     * Adds new item.
      */
-    public void performMoveUp();
+    public void performAddItem();
 
     /**
-     * Moves selected items one level down.
+     * Edits currently selected item.
      */
-    public void performMoveDown();
+    public void performEditItem();
 
     /**
-     * Moves selected items top.
+     * Deletes currently selected item(s).
      */
-    public void performMoveTop();
-
-    /**
-     * Moves selected items bottom.
-     */
-    public void performMoveBottom();
+    public void performDeleteItem();
 
     /**
      * Returns if selection for clipboard operation is available.
@@ -52,9 +47,9 @@ public interface MoveItemActionsHandler {
     public boolean isSelection();
 
     /**
-     * Returns true if it is possible to move currently selected item.
+     * Returns true if it is possible to edit currently selected item.
      *
-     * @return true if component is editable
+     * @return true if item is editable
      */
     public boolean isEditable();
 
@@ -63,5 +58,5 @@ public interface MoveItemActionsHandler {
      *
      * @param updateListener
      */
-    void setUpdateListener(MoveItemActionsUpdateListener updateListener);
+    void setUpdateListener(EditItemActionsUpdateListener updateListener);
 }

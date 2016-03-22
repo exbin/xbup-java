@@ -19,6 +19,8 @@ package org.exbin.framework.gui.component;
 import javax.swing.JPanel;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
+import org.exbin.framework.gui.component.api.EditItemActions;
+import org.exbin.framework.gui.component.api.EditItemActionsHandler;
 import org.exbin.framework.gui.component.api.GuiComponentModuleApi;
 import org.exbin.framework.gui.component.api.MoveItemActions;
 import org.exbin.framework.gui.component.api.MoveItemActionsHandler;
@@ -53,9 +55,16 @@ public class GuiComponentModule implements GuiComponentModuleApi {
     }
 
     @Override
+    public EditItemActions createEditItemActions(EditItemActionsHandler editItemActionsHandler) {
+        DefaultEditItemActions editActions = new DefaultEditItemActions();
+        editActions.setEditItemActionsHandler(editItemActionsHandler);
+        return editActions;
+    }
+
+    @Override
     public MoveItemActions createMoveItemActions(MoveItemActionsHandler moveItemActionsHandler) {
         DefaultMoveItemActions moveActions = new DefaultMoveItemActions();
-        moveActions.setMoveActionsHandler(moveItemActionsHandler);
+        moveActions.setMoveItemActionsHandler(moveItemActionsHandler);
         return moveActions;
     }
 }

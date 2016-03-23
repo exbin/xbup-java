@@ -19,16 +19,22 @@ package org.exbin.framework.gui.data.dialog;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import javax.swing.JOptionPane;
+import org.exbin.framework.XBBaseApplication;
+import org.exbin.framework.api.XBApplication;
+import org.exbin.framework.gui.component.GuiComponentModule;
 import org.exbin.framework.gui.data.panel.DefinitionEditorPanel;
+import org.exbin.framework.gui.menu.GuiMenuModule;
 import org.exbin.xbup.core.catalog.XBACatalog;
 import org.exbin.framework.gui.menu.api.MenuManagement;
+import org.exbin.framework.gui.undo.GuiUndoModule;
 import org.exbin.framework.gui.utils.ActionUtils;
+import org.exbin.framework.gui.utils.TestApplication;
 import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
  * XBManager catalog item editation dialog.
  *
- * @version 0.2.0 2016/03/20
+ * @version 0.2.0 2016/03/23
  * @author ExBin Project (http://exbin.org)
  */
 public class EditDefinitionDialog extends javax.swing.JDialog {
@@ -40,16 +46,18 @@ public class EditDefinitionDialog extends javax.swing.JDialog {
     private DefinitionEditorPanel definitionEditorPanel;
     private MenuManagement menuManagement;
     private final java.util.ResourceBundle bundle = ActionUtils.getResourceBundleByClass(EditDefinitionDialog.class);
+    private final XBApplication application;
 
-    public EditDefinitionDialog(java.awt.Frame frame, boolean modal) {
+    public EditDefinitionDialog(java.awt.Frame frame, boolean modal, XBApplication application) {
         super(frame, modal);
+        this.application = application;
         initComponents();
 
         init();
     }
 
     private void init() {
-        definitionEditorPanel = new DefinitionEditorPanel();
+        definitionEditorPanel = new DefinitionEditorPanel(application);
         add(definitionEditorPanel, BorderLayout.CENTER);
 
         WindowUtils.initWindow(this);
@@ -143,7 +151,11 @@ public class EditDefinitionDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        WindowUtils.invokeWindow(new EditDefinitionDialog(new javax.swing.JFrame(), true));
+        TestApplication testApplication = WindowUtils.getDefaultAppEditor();
+        testApplication.addModule(GuiUndoModule.MODULE_ID, new GuiUndoModule());
+        testApplication.addModule(GuiMenuModule.MODULE_ID, new GuiMenuModule());
+        testApplication.addModule(GuiComponentModule.MODULE_ID, new GuiComponentModule());
+        WindowUtils.invokeWindow(new EditDefinitionDialog(new javax.swing.JFrame(), true, testApplication));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -35,6 +35,8 @@ dependencies {
     compile(project(':modules:org.exbin.framework-gui-data-api'))
     compile(project(':modules:org.exbin.framework-gui-menu-api'))
     compile(project(':modules:org.exbin.framework-gui-frame-api'))
+    compile(project(':modules:org.exbin.framework-gui-component-api'))
+    compile(project(':modules:org.exbin.framework-gui-component'))
     compile(project(':modules:org.exbin.framework-gui-utils'))
 
     runtime 'org.apache.derby:derbyclient:10.12.1.1'

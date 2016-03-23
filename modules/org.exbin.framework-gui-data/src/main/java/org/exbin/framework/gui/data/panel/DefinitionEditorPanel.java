@@ -16,10 +16,22 @@
  */
 package org.exbin.framework.gui.data.panel;
 
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import org.exbin.framework.api.XBApplication;
+import org.exbin.framework.gui.component.api.EditItemActionsHandler;
+import org.exbin.framework.gui.component.api.EditItemActionsUpdateListener;
+import org.exbin.framework.gui.component.api.MoveItemActionsHandler;
+import org.exbin.framework.gui.component.api.MoveItemActionsUpdateListener;
+import org.exbin.framework.gui.component.panel.ToolBarEditorPanel;
+import org.exbin.framework.gui.component.panel.ToolBarSidePanel;
+import org.exbin.framework.gui.menu.api.ClipboardActionsHandler;
+import org.exbin.framework.gui.menu.api.ClipboardActionsUpdateListener;
+import org.exbin.framework.gui.undo.api.UndoActionsHandler;
+import org.exbin.framework.gui.undo.api.UndoUpdateListener;
 import org.exbin.xbup.catalog.entity.XBERev;
 import org.exbin.xbup.catalog.entity.XBESpec;
 import org.exbin.xbup.catalog.entity.XBESpecDef;
@@ -28,7 +40,6 @@ import org.exbin.xbup.catalog.entity.service.XBEXNameService;
 import org.exbin.xbup.catalog.entity.service.XBEXStriService;
 import org.exbin.xbup.core.catalog.XBACatalog;
 import org.exbin.xbup.core.catalog.base.XBCItem;
-import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.XBCSpec;
 import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
 import org.exbin.xbup.core.catalog.base.service.XBCXDescService;
@@ -38,7 +49,7 @@ import org.exbin.xbup.core.catalog.base.service.XBCXStriService;
 /**
  * Data type definition editor panel.
  *
- * @version 0.2.0 2016/03/20
+ * @version 0.2.0 2016/03/23
  * @author ExBin Project (http://exbin.org)
  */
 public class DefinitionEditorPanel extends javax.swing.JPanel {
@@ -51,16 +62,182 @@ public class DefinitionEditorPanel extends javax.swing.JPanel {
     private List<CatalogDefsTableItem> removeList;
     private List<CatalogDefsTableItem> updateList;
 
-    public DefinitionEditorPanel() {
-        initComponents();
+    private ToolBarEditorPanel toolBarEditorPanel;
+    private ToolBarSidePanel definitionSidePanel;
+    private final XBApplication application;
 
-        itemDefinitionsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+    public DefinitionEditorPanel(XBApplication application) {
+        super();
+        this.application = application;
+        initComponents();
+        init();
+    }
+
+    private void init() {
+        toolBarEditorPanel = new ToolBarEditorPanel(application);
+        add(toolBarEditorPanel, BorderLayout.CENTER);
+        toolBarEditorPanel.add(definitionControlSplitPane, BorderLayout.CENTER);
+        toolBarEditorPanel.setUndoHandler(new UndoActionsHandler() {
+            @Override
+            public Boolean canUndo() {
+                return true;
+            }
+
+            @Override
+            public Boolean canRedo() {
+                return true;
+            }
+
+            @Override
+            public void performUndo() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void performRedo() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void performUndoManager() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void setUndoUpdateListener(UndoUpdateListener undoUpdateListener) {
+            }
+        });
+        toolBarEditorPanel.setClipboardHandler(new ClipboardActionsHandler() {
+            @Override
+            public void performCut() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void performCopy() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void performPaste() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void performDelete() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void performSelectAll() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public boolean isSelection() {
+                return true;
+            }
+
+            @Override
+            public boolean isEditable() {
+                return true;
+            }
+
+            @Override
+            public boolean canSelectAll() {
+                return true;
+            }
+
+            @Override
+            public boolean canPaste() {
+                return true;
+            }
+
+            @Override
+            public void setUpdateListener(ClipboardActionsUpdateListener updateListener) {
+            }
+        });
+
+        definitionSidePanel = new ToolBarSidePanel(application);
+        definitionSidePanel.setEditItemsHandler(new EditItemActionsHandler() {
+            @Override
+            public void performAddItem() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void performEditItem() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void performDeleteItem() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public boolean isSelection() {
+                return true;
+            }
+
+            @Override
+            public boolean isEditable() {
+                return true;
+            }
+
+            @Override
+            public void setUpdateListener(EditItemActionsUpdateListener updateListener) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
+
+        definitionSidePanel.setMoveItemsHandler(new MoveItemActionsHandler() {
+            @Override
+            public void performMoveUp() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void performMoveDown() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void performMoveTop() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void performMoveBottom() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public boolean isSelection() {
+                return true;
+            }
+
+            @Override
+            public boolean isEditable() {
+                return true;
+            }
+
+            @Override
+            public void setUpdateListener(MoveItemActionsUpdateListener updateListener) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
+        definitionSidePanel.add(definitionScrollPane, BorderLayout.CENTER);
+        definitionControlSplitPane.setLeftComponent(definitionSidePanel);
+        definitionControlSplitPane.setRightComponent(propertiesScrollPanel);
+
+        definitionsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-                    int selectedRow = itemDefinitionsTable.getSelectedRow();
+                    int selectedRow = definitionsTable.getSelectedRow();
                     detailModel.setItem(selectedRow >= 0 ? defsModel.getRowItem(selectedRow) : null);
-                    itemDefinitionPropertyTable.repaint();
+                    propertiesTable.repaint();
                     updateItemStatus();
                 }
             }
@@ -78,228 +255,30 @@ public class DefinitionEditorPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        definitionControlPanel = new javax.swing.JPanel();
-        addButton = new javax.swing.JButton();
-        definitionControlSidePanel = new javax.swing.JPanel();
-        modifyButton = new javax.swing.JButton();
-        removeDefButton = new javax.swing.JButton();
-        moveUpDefButton = new javax.swing.JButton();
-        moveDownDefButton = new javax.swing.JButton();
+        definitionScrollPane = new javax.swing.JScrollPane();
+        definitionsTable = new javax.swing.JTable();
+        propertiesScrollPanel = new javax.swing.JScrollPane();
+        propertiesTable = new javax.swing.JTable();
         definitionControlSplitPane = new javax.swing.JSplitPane();
-        itemDefinitionsScrollPane = new javax.swing.JScrollPane();
-        itemDefinitionsTable = new javax.swing.JTable();
-        itemDefinitionPropertyScrollPanel = new javax.swing.JScrollPane();
-        itemDefinitionPropertyTable = new javax.swing.JTable();
 
-        setLayout(new java.awt.BorderLayout());
+        definitionsTable.setModel(defsModel);
+        definitionsTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        definitionScrollPane.setViewportView(definitionsTable);
 
-        addButton.setText("Add...");
-        addButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout definitionControlPanelLayout = new javax.swing.GroupLayout(definitionControlPanel);
-        definitionControlPanel.setLayout(definitionControlPanelLayout);
-        definitionControlPanelLayout.setHorizontalGroup(
-            definitionControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(definitionControlPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(addButton)
-                .addContainerGap(682, Short.MAX_VALUE))
-        );
-        definitionControlPanelLayout.setVerticalGroup(
-            definitionControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, definitionControlPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(addButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        add(definitionControlPanel, java.awt.BorderLayout.SOUTH);
-
-        modifyButton.setText("Modify...");
-        modifyButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modifyButtonActionPerformed(evt);
-            }
-        });
-
-        removeDefButton.setText("Remove");
-        removeDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeDefButtonActionPerformed(evt);
-            }
-        });
-
-        moveUpDefButton.setText("Up");
-        moveUpDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                moveUpDefButtonActionPerformed(evt);
-            }
-        });
-
-        moveDownDefButton.setText("Down");
-        moveDownDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                moveDownDefButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout definitionControlSidePanelLayout = new javax.swing.GroupLayout(definitionControlSidePanel);
-        definitionControlSidePanel.setLayout(definitionControlSidePanelLayout);
-        definitionControlSidePanelLayout.setHorizontalGroup(
-            definitionControlSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(definitionControlSidePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(definitionControlSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(moveUpDefButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(moveDownDefButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(modifyButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(removeDefButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        definitionControlSidePanelLayout.setVerticalGroup(
-            definitionControlSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(definitionControlSidePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(moveUpDefButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(moveDownDefButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(modifyButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(removeDefButton)
-                .addContainerGap(343, Short.MAX_VALUE))
-        );
-
-        add(definitionControlSidePanel, java.awt.BorderLayout.WEST);
+        propertiesTable.setModel(detailModel);
+        propertiesScrollPanel.setViewportView(propertiesTable);
 
         definitionControlSplitPane.setDividerLocation(400);
 
-        itemDefinitionsTable.setModel(defsModel);
-        itemDefinitionsTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        itemDefinitionsScrollPane.setViewportView(itemDefinitionsTable);
-
-        definitionControlSplitPane.setLeftComponent(itemDefinitionsScrollPane);
-
-        itemDefinitionPropertyTable.setModel(detailModel);
-        itemDefinitionPropertyScrollPanel.setViewportView(itemDefinitionPropertyTable);
-
-        definitionControlSplitPane.setRightComponent(itemDefinitionPropertyScrollPanel);
-
-        add(definitionControlSplitPane, java.awt.BorderLayout.CENTER);
+        setLayout(new java.awt.BorderLayout());
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-//        CatalogSpecDefEditorDialog editorDialog = new CatalogSpecDefEditorDialog(WindowUtils.getFrame(this), true, catalog);
-//        editorDialog.setSpec((XBCSpec) catalogItem);
-//        editorDialog.setDefItem(new CatalogDefsTableItem());
-//        editorDialog.setVisible(true);
-//
-//        if (editorDialog.getDialogOption() == JOptionPane.OK_OPTION) {
-//            long maxXbIndex = 0;
-//            if (defsModel.getRowCount() > 0) {
-//                CatalogDefsTableItem defItem = defsModel.getRowItem(defsModel.getRowCount() - 1);
-//                if (defItem.getXbIndex() >= maxXbIndex) {
-//                    maxXbIndex = defItem.getXbIndex() + 1;
-//                }
-//            }
-//
-//            CatalogDefsTableItem defItem = editorDialog.getDefItem();
-//            defItem.setXbIndex(maxXbIndex);
-//            if (!updateList.contains(defItem)) {
-//                updateList.add(defItem);
-//            }
-//
-//            defsModel.addDefs(defItem);
-//            defsModel.fireTableDataChanged();
-//            updateItemStatus();
-//        }
-    }//GEN-LAST:event_addButtonActionPerformed
-
-    private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
-        int selectedRow = itemDefinitionsTable.getSelectedRow();
-        CatalogDefsTableItem row = defsModel.getRowItem(selectedRow);
-
-//        CatalogSpecDefEditorDialog editorDialog = new CatalogSpecDefEditorDialog(WindowUtils.getFrame(this), true, catalog);
-//        editorDialog.setSpec((XBCSpec) catalogItem);
-//        editorDialog.setDefItem(row);
-//        editorDialog.setVisible(true);
-//
-//        if (editorDialog.getDialogOption() == JOptionPane.OK_OPTION) {
-//            CatalogDefsTableItem defItem = editorDialog.getDefItem();
-//            if (!updateList.contains(defItem)) {
-//                updateList.add(defItem);
-//            }
-//
-//            updateItemStatus();
-//        }
-    }//GEN-LAST:event_modifyButtonActionPerformed
-
-    private void removeDefButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefButtonActionPerformed
-        int selectedRow = itemDefinitionsTable.getSelectedRow();
-        CatalogDefsTableItem defItem = defsModel.getRowItem(selectedRow);
-
-        if (updateList.contains(defItem)) {
-            updateList.remove(defItem);
-        }
-
-        removeList.add(defItem);
-        defsModel.getDefs().remove(defItem);
-        defsModel.fireTableDataChanged();
-        updateItemStatus();
-    }//GEN-LAST:event_removeDefButtonActionPerformed
-
-    private void moveUpDefButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveUpDefButtonActionPerformed
-        int selectedRow = itemDefinitionsTable.getSelectedRow();
-
-        CatalogDefsTableItem specDef = defsModel.getRowItem(selectedRow);
-        if (!updateList.contains(specDef)) {
-            updateList.add(specDef);
-        }
-        CatalogDefsTableItem targetSpecDef = defsModel.getRowItem(selectedRow - 1);
-        if (!updateList.contains(targetSpecDef)) {
-            updateList.add(targetSpecDef);
-        }
-
-        defsModel.moveItemDown(selectedRow - 1);
-        updateItemStatus();
-
-        itemDefinitionsTable.setRowSelectionInterval(selectedRow - 1, selectedRow - 1);
-    }//GEN-LAST:event_moveUpDefButtonActionPerformed
-
-    private void moveDownDefButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveDownDefButtonActionPerformed
-        int selectedRow = itemDefinitionsTable.getSelectedRow();
-
-        CatalogDefsTableItem specDef = defsModel.getRowItem(selectedRow);
-        if (!updateList.contains(specDef)) {
-            updateList.add(specDef);
-        }
-        CatalogDefsTableItem targetSpecDef = defsModel.getRowItem(selectedRow + 1);
-        if (!updateList.contains(targetSpecDef)) {
-            updateList.add(targetSpecDef);
-        }
-
-        defsModel.moveItemDown(selectedRow);
-        updateItemStatus();
-        itemDefinitionsTable.setRowSelectionInterval(selectedRow + 1, selectedRow + 1);
-    }//GEN-LAST:event_moveDownDefButtonActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addButton;
-    private javax.swing.JPanel definitionControlPanel;
-    private javax.swing.JPanel definitionControlSidePanel;
     private javax.swing.JSplitPane definitionControlSplitPane;
-    private javax.swing.JScrollPane itemDefinitionPropertyScrollPanel;
-    private javax.swing.JTable itemDefinitionPropertyTable;
-    private javax.swing.JScrollPane itemDefinitionsScrollPane;
-    private javax.swing.JTable itemDefinitionsTable;
-    private javax.swing.JButton modifyButton;
-    private javax.swing.JButton moveDownDefButton;
-    private javax.swing.JButton moveUpDefButton;
-    private javax.swing.JButton removeDefButton;
+    private javax.swing.JScrollPane definitionScrollPane;
+    private javax.swing.JTable definitionsTable;
+    private javax.swing.JScrollPane propertiesScrollPanel;
+    private javax.swing.JTable propertiesTable;
     // End of variables declaration//GEN-END:variables
 
     public void persist() {
@@ -337,25 +316,25 @@ public class DefinitionEditorPanel extends javax.swing.JPanel {
     }
 
     private void updateItemStatus() {
-        int selectedRow = itemDefinitionsTable.getSelectedRow();
-        int rowsCount = defsModel.getRowCount();
-        if ((selectedRow >= 0) && (selectedRow < rowsCount)) {
-            moveUpDefButton.setEnabled(selectedRow > 0);
-            moveDownDefButton.setEnabled(selectedRow < rowsCount - 1);
-            modifyButton.setEnabled(true);
-            removeDefButton.setEnabled(true);
-        } else {
-            moveUpDefButton.setEnabled(false);
-            moveDownDefButton.setEnabled(false);
-            modifyButton.setEnabled(false);
-            removeDefButton.setEnabled(false);
-        }
-        itemDefinitionsTable.repaint();
+//        int selectedRow = itemDefinitionsTable.getSelectedRow();
+//        int rowsCount = defsModel.getRowCount();
+//        if ((selectedRow >= 0) && (selectedRow < rowsCount)) {
+//            moveUpDefButton.setEnabled(selectedRow > 0);
+//            moveDownDefButton.setEnabled(selectedRow < rowsCount - 1);
+//            modifyButton.setEnabled(true);
+//            removeDefButton.setEnabled(true);
+//        } else {
+//            moveUpDefButton.setEnabled(false);
+//            moveDownDefButton.setEnabled(false);
+//            modifyButton.setEnabled(false);
+//            removeDefButton.setEnabled(false);
+//        }
+        definitionsTable.repaint();
     }
 
     public void setCatalogItem(XBCItem catalogItem) {
         this.catalogItem = catalogItem;
-        addButton.setEnabled(!(catalogItem instanceof XBCNode));
+//        addButton.setEnabled(!(catalogItem instanceof XBCNode));
         defsModel.setCatalogItem(catalogItem);
         updateList = new ArrayList<>();
         removeList = new ArrayList<>();

@@ -8,6 +8,8 @@ include ":modules:org.exbin.framework-api"
 include ":modules:org.exbin.framework-gui-data-api"
 include ":modules:org.exbin.framework-gui-menu-api"
 include ":modules:org.exbin.framework-gui-frame-api"
+include ":modules:org.exbin.framework-gui-component-api"
+include ":modules:org.exbin.framework-gui-component"
 include ":modules:org.exbin.framework-gui-utils"
 
 def modifyPath(project) {

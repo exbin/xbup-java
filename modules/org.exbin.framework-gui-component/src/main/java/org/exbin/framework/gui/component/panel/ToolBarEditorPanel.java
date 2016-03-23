@@ -20,7 +20,6 @@ import java.awt.BorderLayout;
 import javax.swing.JDialog;
 import javax.swing.JToolBar;
 import org.exbin.framework.api.XBApplication;
-import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.gui.menu.GuiMenuModule;
 import org.exbin.framework.gui.menu.api.ClipboardActions;
 import org.exbin.framework.gui.menu.api.GuiMenuModuleApi;

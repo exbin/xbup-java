@@ -24,7 +24,7 @@ import org.exbin.framework.api.XBApplication;
 /**
  * Interface for application frame.
  *
- * @version 0.2.0 2016/01/22
+ * @version 0.2.0 2016/03/25
  * @author ExBin Project (http://exbin.org)
  */
 public interface ApplicationFrameHandler {
@@ -95,5 +95,5 @@ public interface ApplicationFrameHandler {
      *
      * @param windowSize window size
      */
-    public void setDefaultSize(Dimension windowSize);
+    void setDefaultSize(Dimension windowSize);
 }

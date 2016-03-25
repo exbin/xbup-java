@@ -22,9 +22,13 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Rectangle;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.gui.frame.api.ApplicationFrameHandler;
 import org.exbin.framework.gui.frame.api.GuiFrameModuleApi;
@@ -33,7 +37,7 @@ import org.exbin.framework.gui.menu.api.GuiMenuModuleApi;
 /**
  * Basic appplication frame.
  *
- * @version 0.2.0 2016/01/22
+ * @version 0.2.0 2016/03/25
  * @author ExBin Project (http://exbin.org)
  */
 public class XBApplicationFrame extends javax.swing.JFrame implements ApplicationFrameHandler {
@@ -44,6 +48,14 @@ public class XBApplicationFrame extends javax.swing.JFrame implements Applicatio
     public XBApplicationFrame() {
         initComponents();
         toolBar.setVisible(false);
+
+        // Actions on change of look&feel
+        UIManager.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                SwingUtilities.updateComponentTreeUI(XBApplicationFrame.this);
+            }
+        });
     }
 
     /**

@@ -77,17 +77,9 @@ public class GuiOptionsModule implements GuiOptionsModuleApi {
             optionsAction = new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // Temporary fixed preferences
-                    Preferences preferences;
-                    try {
-                        preferences = Preferences.userNodeForPackage(GuiOptionsModule.class);
-                    } catch (SecurityException ex) {
-                        preferences = null;
-                    }
-
                     getOptionsDialog();
                     optionsDialog.setAppEditor(application);
-                    optionsDialog.setPreferences(preferences);
+                    optionsDialog.setPreferences(application.getAppPreferences());
                     optionsDialog.setVisible(true);
                 }
             };

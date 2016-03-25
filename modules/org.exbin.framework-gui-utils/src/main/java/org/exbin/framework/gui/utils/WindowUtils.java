@@ -23,25 +23,29 @@ import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
-import org.exbin.framework.api.XBApplication;
+import javax.swing.UnsupportedLookAndFeelException;
 import org.exbin.framework.gui.utils.panel.WindowHeaderPanel;
 
 /**
  * Some simple static methods usable for windows and dialogs.
  *
- * @version 0.2.0 2015/10/30
+ * @version 0.2.0 2016/03/25
  * @author ExBin Project (http://exbin.org)
  */
 public class WindowUtils {
 
     private static final int BUTTON_CLICK_TIME = 150;
+    private static LookAndFeel lookAndFeel = null;
 
     public static void addHeaderPanel(JDialog dialog, String headerTitle, String headerDescription, String headerIcon) {
         WindowHeaderPanel headerPanel = new WindowHeaderPanel();
@@ -57,29 +61,15 @@ public class WindowUtils {
     }
 
     public static void invokeWindow(final Window window) {
-        // Set the Nimbus look and feel
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(WindowUtils.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-        //</editor-fold>
-        //</editor-fold>
+        if (lookAndFeel != null) {
+            try {
+                javax.swing.UIManager.setLookAndFeel(lookAndFeel);
+            } catch (UnsupportedLookAndFeelException ex) {
+                Logger.getLogger(WindowUtils.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
-        /**
-         * Create and display the dialog.
-         */
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 if (window instanceof JDialog) {
@@ -87,7 +77,6 @@ public class WindowUtils {
                 }
 
                 window.addWindowListener(new java.awt.event.WindowAdapter() {
-
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
@@ -102,6 +91,14 @@ public class WindowUtils {
 //        if (window.getParent() instanceof XBEditorFrame) {
 //            window.setIconImage(((XBEditorFrame) window.getParent()).getMainFrameManagement().getFrameIcon());
 //        }
+    }
+
+    public static LookAndFeel getLookAndFeel() {
+        return lookAndFeel;
+    }
+
+    public static void setLookAndFeel(LookAndFeel lookAndFeel) {
+        WindowUtils.lookAndFeel = lookAndFeel;
     }
 
     public static void closeWindow(Window window) {

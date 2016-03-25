@@ -28,6 +28,8 @@ import java.util.prefs.AbstractPreferences;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -39,6 +41,7 @@ import org.exbin.framework.gui.options.api.OptionsPanel.ModifiedOptionListener;
 import org.exbin.framework.gui.options.api.OptionsPanel.PathItem;
 import org.exbin.framework.gui.options.panel.AppearanceOptionsPanel;
 import org.exbin.framework.gui.options.panel.MainOptionsPanel;
+import org.exbin.framework.gui.utils.ActionUtils;
 import org.exbin.framework.gui.utils.WindowUtils;
 
 /**
@@ -50,7 +53,7 @@ import org.exbin.framework.gui.utils.WindowUtils;
 public class OptionsDialog extends javax.swing.JDialog {
 
     private Preferences preferences = null;
-    private java.util.ResourceBundle resourceBundle;
+    private java.util.ResourceBundle resourceBundle = ActionUtils.getResourceBundleByClass(OptionsDialog.class);
     private Map<String, JPanel> optionPanels;
     private JPanel currentOptionsPanel = null;
     private ModifiedOptionListener modifiedOptionListener;
@@ -69,7 +72,6 @@ public class OptionsDialog extends javax.swing.JDialog {
     }
 
     private void init() {
-        resourceBundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/options/dialog/resources/OptionsDialog");
         initComponents();
 
         optionPanels = new HashMap<>();
@@ -88,6 +90,14 @@ public class OptionsDialog extends javax.swing.JDialog {
                 if ("modified".equals(evt.getPropertyName())) {
                     modified = true;
                 }
+            }
+        });
+
+        // Actions on change of look&feel
+        UIManager.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                SwingUtilities.updateComponentTreeUI(OptionsDialog.this);
             }
         });
 

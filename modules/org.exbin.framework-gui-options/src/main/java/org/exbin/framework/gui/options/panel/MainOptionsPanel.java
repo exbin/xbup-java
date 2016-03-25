@@ -21,26 +21,30 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import org.exbin.framework.gui.frame.api.ApplicationFrameHandler;
 import org.exbin.framework.gui.options.OptionsManagement;
 import org.exbin.framework.gui.options.api.OptionsPanel;
 import org.exbin.framework.gui.options.api.OptionsPanel.ModifiedOptionListener;
 import org.exbin.framework.gui.options.api.OptionsPanel.PathItem;
+import org.exbin.framework.gui.utils.ActionUtils;
 
 /**
  * Tool Bar Apperance Options panel.
  *
- * @version 0.2.0 2015/11/05
+ * @version 0.2.0 2016/03/25
  * @author ExBin Project (http://exbin.org)
  */
 public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel {
 
-    private java.util.ResourceBundle resourceBundle;
+    private java.util.ResourceBundle resourceBundle = ActionUtils.getResourceBundleByClass(MainOptionsPanel.class);
     private ModifiedOptionListener modifiedOptionListener;
     private final ApplicationFrameHandler frame;
     private OptionsPanel extendedPanel = null;
@@ -54,7 +58,6 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
     private List<Locale> languages;
 
     public MainOptionsPanel(ApplicationFrameHandler frame) {
-        resourceBundle = java.util.ResourceBundle.getBundle("org/exbin/framework/gui/options/panel/resources/MainOptionsPanel");
         this.frame = frame;
 
         themesComboBoxModel = new DefaultComboBoxModel<>();
@@ -207,7 +210,7 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
         if (null != selectedTheme) {
             switch (selectedTheme) {
                 case "":
-                    selectedTheme = ""; // TODO Get default lookAndFeel
+                    selectedTheme = null; //UIManager.getLookAndFeelDefaults().LookAndFeel().""; // TODO Get default lookAndFeel
                     break;
                 case "SYSTEM":
                     selectedTheme = UIManager.getSystemLookAndFeelClassName();
@@ -215,7 +218,13 @@ public class MainOptionsPanel extends javax.swing.JPanel implements OptionsPanel
             }
         }
 
-        // TODO frame.applySetting(selectedTheme);
+        if (selectedTheme != null) {
+            try {
+                UIManager.setLookAndFeel(selectedTheme);
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+                Logger.getLogger(MainOptionsPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @Override

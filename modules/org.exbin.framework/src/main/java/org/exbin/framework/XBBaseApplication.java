@@ -27,8 +27,12 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javax.swing.ImageIcon;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.api.XBModuleRepository;
 
@@ -112,6 +116,15 @@ public class XBBaseApplication implements XBApplication {
             }
         } catch (SecurityException ex) {
             // Ignore it in java webstart
+        }
+
+        String laf = preferencesGet(PREFERENCES_LOOK_AND_FEEL, "");
+        if (laf != null && !laf.isEmpty()) {
+            try {
+                UIManager.setLookAndFeel(laf);
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+                Logger.getLogger(XBBaseApplication.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

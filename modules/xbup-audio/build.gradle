@@ -1,7 +1,14 @@
 apply plugin: 'java'
+apply plugin: 'maven-publish'
 
 sourceCompatibility = '1.7'
 version = '0.2.0-SNAPSHOT'
+group = 'org.exbin.xbup.audio'
+def libraryName = 'XBUP Audio Library'
+def libraryDescription = 'Library for audio data types with XBUP support'
+def libraryUrl = 'http://xbup.exbin.org'
+def repositoryName = "xbup-java"
+
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 if (!hasProperty('mainClass')) {
@@ -9,10 +16,67 @@ if (!hasProperty('mainClass')) {
 }
 
 tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
     doFirst {
         options.fork = true
         options.bootClasspath = "${System.properties['java.home']}/lib/rt.jar"
         options.bootClasspath += "$File.pathSeparator${System.properties['java.home']}/jre/lib/jsse.jar"
+    }
+}
+
+task sourceJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.java
+}
+
+task javadocJar (type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+publishing {
+    publications {  
+        maven(MavenPublication) {
+            from components.java
+            artifact sourceJar {
+                classifier "sources"
+            }
+            artifact (javadocJar) {
+                classifier = 'javadoc'
+            }
+            
+            pom.withXml {
+                asNode().children().last() + {
+                    resolveStrategy = Closure.DELEGATE_FIRST
+                    name libraryName
+                    description libraryDescription
+                    url libraryUrl
+                    scm {
+                        url "https://github.com/exbin/${project.name}"
+                        connection "cm:git:git://github.com/exbin/${project.name}.git"
+                        developerConnection "scm:git:git@github.com:exbin/${project.name}.git"
+                    }
+                    licenses {
+                        license {
+                            name 'LGPL license, Version 3.0'
+                            url 'https://www.gnu.org/licenses/lgpl.txt'
+                            distribution 'repo'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id 'HajdaM'
+                            name 'Miroslav Hajda'
+                            email 'hajdam@users.sf.net'
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    repositories {
+        mavenLocal()
     }
 }
 

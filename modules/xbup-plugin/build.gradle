@@ -1,7 +1,14 @@
 apply plugin: 'java'
+apply plugin: 'maven-publish'
 
 sourceCompatibility = '1.7'
 version = '0.2.0-SNAPSHOT'
+group = 'org.exbin.xbup.plugin'
+def libraryName = 'XBUP Plugin Library'
+def libraryDescription = 'Library for XBUP catalog data plugins'
+def libraryUrl = 'http://xbup.exbin.org'
+def repositoryName = "xbup-java"
+
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 if (!hasProperty('mainClass')) {
@@ -14,6 +21,16 @@ tasks.withType(JavaCompile) {
         options.bootClasspath = "${System.properties['java.home']}/lib/rt.jar"
         options.bootClasspath += "$File.pathSeparator${System.properties['java.home']}/jre/lib/jsse.jar"
     }
+}
+
+task sourceJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.java
+}
+
+task javadocJar (type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
 }
 
 repositories {

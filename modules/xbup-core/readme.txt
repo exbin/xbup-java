@@ -1,7 +1,7 @@
-XBUP Java Core Library
-======================
+XBUP Core Library
+=================
 
-This is experimental library for XBUP support written in Java. It covers following areas:
+This is library for core XBUP support. It covers following areas:
 
  * Parsers - event parser, pull parser, object model parser, command parser
  * Serialization

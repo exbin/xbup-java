@@ -47,7 +47,7 @@ public interface XBApplication {
      *
      * @return the moduleRepository
      */
-    public XBModuleRepository getModuleRepository();
+    public XBApplicationModuleRepository getModuleRepository();
 
     /**
      * Gets preferences key value.

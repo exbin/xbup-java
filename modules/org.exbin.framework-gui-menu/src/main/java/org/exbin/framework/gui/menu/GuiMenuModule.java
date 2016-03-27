@@ -22,7 +22,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.gui.frame.api.GuiFrameModuleApi;
 import org.exbin.framework.gui.menu.api.GuiMenuModuleApi;
@@ -34,6 +33,7 @@ import org.exbin.framework.gui.menu.api.ToolBarGroup;
 import org.exbin.framework.gui.menu.api.ToolBarPosition;
 import org.exbin.framework.gui.menu.api.ClipboardActions;
 import org.exbin.framework.gui.menu.api.ClipboardActionsHandler;
+import org.exbin.xbup.plugin.XBModuleHandler;
 
 /**
  * Implementation of XBUP framework menu module.
@@ -41,7 +41,6 @@ import org.exbin.framework.gui.menu.api.ClipboardActionsHandler;
  * @version 0.2.0 2016/03/16
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
 public class GuiMenuModule implements GuiMenuModuleApi {
 
     private XBApplication application;
@@ -53,12 +52,12 @@ public class GuiMenuModule implements GuiMenuModuleApi {
     }
 
     @Override
-    public void init(XBApplication application) {
-        this.application = application;
+    public void init(XBModuleHandler moduleHandler) {
+        this.application = (XBApplication) moduleHandler;
     }
 
     @Override
-    public void unregisterPlugin(String pluginId) {
+    public void unregisterModule(String moduleId) {
     }
 
     @Override

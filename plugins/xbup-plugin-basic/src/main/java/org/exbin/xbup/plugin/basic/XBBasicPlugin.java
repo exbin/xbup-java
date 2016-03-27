@@ -17,24 +17,22 @@
 package org.exbin.xbup.plugin.basic;
 
 import javax.swing.JPanel;
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.xbup.plugin.XBLineEditor;
 import org.exbin.xbup.plugin.XBPanelEditor;
-import org.exbin.xbup.plugin.XBPlugin;
 import org.exbin.xbup.plugin.XBTransformation;
 import org.exbin.xbup.plugin.basic.line.BooleanLineEditor;
 import org.exbin.xbup.plugin.basic.line.IntegerLineEditor;
 import org.exbin.xbup.plugin.basic.line.NaturalLineEditor;
 import org.exbin.xbup.plugin.basic.line.StringLineEditor;
+import org.exbin.xbup.plugin.XBCatalogPlugin;
 
 /**
  * XBUP Editor plugin - provides panels for basic XBUP data types.
  *
- * @version 0.1.24 2014/12/15
+ * @version 0.2.0 2016/03/27
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
-public class XBBasicPlugin implements XBPlugin {
+public class XBBasicPlugin implements XBCatalogPlugin {
 
     @Override
     public String getPluginPath() {

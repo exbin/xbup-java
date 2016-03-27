@@ -16,8 +16,8 @@
  */
 package org.exbin.framework.gui.file.api;
 
-import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.api.XBModuleRepositoryUtils;
+import org.exbin.framework.api.XBApplicationModule;
 
 /**
  * Interface for XBUP framework file module.
@@ -25,7 +25,7 @@ import org.exbin.framework.api.XBModuleRepositoryUtils;
  * @version 0.2.0 2016/02/03
  * @author ExBin Project (http://exbin.org)
  */
-public interface GuiFileModuleApi extends XBApplicationModulePlugin {
+public interface GuiFileModuleApi extends XBApplicationModule {
 
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiFileModuleApi.class);
 

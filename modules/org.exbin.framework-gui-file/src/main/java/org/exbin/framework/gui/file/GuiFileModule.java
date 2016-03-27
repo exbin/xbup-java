@@ -17,7 +17,6 @@
 package org.exbin.framework.gui.file;
 
 import javax.swing.JMenu;
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.gui.file.api.FileType;
 import org.exbin.framework.gui.file.api.GuiFileModuleApi;
@@ -31,6 +30,7 @@ import org.exbin.framework.gui.menu.api.NextToMode;
 import org.exbin.framework.gui.menu.api.PositionMode;
 import org.exbin.framework.gui.menu.api.ToolBarGroup;
 import org.exbin.framework.gui.menu.api.ToolBarPosition;
+import org.exbin.xbup.plugin.XBModuleHandler;
 
 /**
  * Implementation of XBUP framework file module.
@@ -38,7 +38,6 @@ import org.exbin.framework.gui.menu.api.ToolBarPosition;
  * @version 0.2.0 2016/02/03
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
 public class GuiFileModule implements GuiFileModuleApi {
 
     private static final String FILE_MENU_GROUP_ID = MODULE_ID + ".fileMenuGroup";
@@ -51,12 +50,12 @@ public class GuiFileModule implements GuiFileModuleApi {
     }
 
     @Override
-    public void init(XBApplication application) {
-        this.application = application;
+    public void init(XBModuleHandler moduleHandler) {
+        this.application = (XBApplication) moduleHandler;
     }
 
     @Override
-    public void unregisterPlugin(String pluginId) {
+    public void unregisterModule(String moduleId) {
     }
 
     @Override

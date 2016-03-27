@@ -30,7 +30,6 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.exbin.framework.XBBaseApplication;
-import org.exbin.framework.api.XBModuleRepository;
 import org.exbin.xbup.core.catalog.XBACatalog;
 import org.exbin.xbup.core.parser.basic.XBHead;
 import org.exbin.framework.client.api.ClientModuleApi;
@@ -49,6 +48,7 @@ import org.exbin.framework.gui.undo.api.GuiUndoModuleApi;
 import org.exbin.framework.gui.utils.ActionUtils;
 import org.exbin.xbup.operation.undo.XBTLinearUndo;
 import org.exbin.xbup.plugin.XBPluginRepository;
+import org.exbin.framework.api.XBApplicationModuleRepository;
 
 /**
  * The main class of the XBEditor application.
@@ -101,9 +101,9 @@ public class XBEditor {
                 app.setAppBundle(bundle, ActionUtils.getResourceBaseNameBundleByClass(XBEditor.class));
                 app.init();
 
-                XBModuleRepository moduleRepository = app.getModuleRepository();
-                moduleRepository.addClassPathPlugins();
-                moduleRepository.addPluginsFromManifest(XBEditor.class);
+                XBApplicationModuleRepository moduleRepository = app.getModuleRepository();
+                moduleRepository.addClassPathModules();
+                moduleRepository.addModulesFromManifest(XBEditor.class);
                 moduleRepository.initModules();
 
                 GuiFrameModuleApi frameModule = moduleRepository.getModuleByInterface(GuiFrameModuleApi.class);

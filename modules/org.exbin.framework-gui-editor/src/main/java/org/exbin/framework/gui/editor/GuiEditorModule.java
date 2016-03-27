@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.gui.editor.api.GuiEditorModuleApi;
 import org.exbin.framework.gui.editor.api.XBEditorProvider;
@@ -37,6 +36,7 @@ import org.exbin.framework.gui.undo.api.UndoUpdateListener;
 import org.exbin.xbup.operation.undo.XBUndoUpdateListener;
 import org.exbin.framework.gui.menu.api.ClipboardActionsHandler;
 import org.exbin.framework.gui.undo.api.UndoActionsHandler;
+import org.exbin.xbup.plugin.XBModuleHandler;
 
 /**
  * XBUP framework editor module.
@@ -44,7 +44,6 @@ import org.exbin.framework.gui.undo.api.UndoActionsHandler;
  * @version 0.2.0 2016/01/23
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
 public class GuiEditorModule implements GuiEditorModuleApi {
 
     private XBApplication application;
@@ -58,8 +57,8 @@ public class GuiEditorModule implements GuiEditorModuleApi {
     }
 
     @Override
-    public void init(XBApplication application) {
-        this.application = application;
+    public void init(XBModuleHandler moduleHandler) {
+        this.application = (XBApplication) moduleHandler;
 
         GuiMenuModuleApi menuModule = application.getModuleRepository().getModuleByInterface(GuiMenuModuleApi.class);
         menuModule.registerClipboardHandler(new ClipboardActionsHandler() {
@@ -142,13 +141,13 @@ public class GuiEditorModule implements GuiEditorModuleApi {
     }
 
     @Override
-    public void unregisterPlugin(String pluginId) {
-        List<XBEditorProvider> pluginEditors = pluginEditorsMap.get(pluginId);
+    public void unregisterModule(String moduleId) {
+        List<XBEditorProvider> pluginEditors = pluginEditorsMap.get(moduleId);
         if (pluginEditors != null) {
             for (XBEditorProvider editor : pluginEditors) {
                 editors.remove(editor);
             }
-            pluginEditorsMap.remove(pluginId);
+            pluginEditorsMap.remove(moduleId);
         }
     }
 

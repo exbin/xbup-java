@@ -27,7 +27,6 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.exbin.framework.XBBaseApplication;
-import org.exbin.framework.api.XBModuleRepository;
 import org.exbin.xbup.core.parser.basic.XBHead;
 import org.exbin.framework.editor.text.EditorTextModule;
 import org.exbin.framework.editor.xbup.EditorXbupModule;
@@ -43,6 +42,7 @@ import org.exbin.framework.gui.menu.api.GuiMenuModuleApi;
 import org.exbin.framework.gui.options.api.GuiOptionsModuleApi;
 import org.exbin.framework.gui.undo.api.GuiUndoModuleApi;
 import org.exbin.framework.gui.utils.ActionUtils;
+import org.exbin.framework.api.XBApplicationModuleRepository;
 
 /**
  * The main class of the ExbinIs application.
@@ -95,9 +95,9 @@ public class ExbinIs {
                 app.setAppBundle(bundle, ActionUtils.getResourceBaseNameBundleByClass(ExbinIs.class));
                 app.init();
 
-                XBModuleRepository moduleRepository = app.getModuleRepository();
-                moduleRepository.addClassPathPlugins();
-                moduleRepository.addPluginsFromManifest(ExbinIs.class);
+                XBApplicationModuleRepository moduleRepository = app.getModuleRepository();
+                moduleRepository.addClassPathModules();
+                moduleRepository.addModulesFromManifest(ExbinIs.class);
                 moduleRepository.initModules();
 
                 GuiFrameModuleApi frameModule = moduleRepository.getModuleByInterface(GuiFrameModuleApi.class);

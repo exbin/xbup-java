@@ -18,8 +18,8 @@ package org.exbin.framework.gui.options.api;
 
 import java.util.prefs.Preferences;
 import javax.swing.Action;
-import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.api.XBModuleRepositoryUtils;
+import org.exbin.framework.api.XBApplicationModule;
 
 /**
  * Interface for XBUP framework file module.
@@ -27,7 +27,7 @@ import org.exbin.framework.api.XBModuleRepositoryUtils;
  * @version 0.2.0 2016/01/12
  * @author ExBin Project (http://exbin.org)
  */
-public interface GuiOptionsModuleApi extends XBApplicationModulePlugin {
+public interface GuiOptionsModuleApi extends XBApplicationModule {
 
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiOptionsModuleApi.class);
     public static String TOOLS_OPTIONS_MENU_GROUP_ID = MODULE_ID + ".toolsOptionsMenuGroup";

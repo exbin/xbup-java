@@ -16,9 +16,9 @@
  */
 package org.exbin.framework.gui.utils;
 
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
-import org.exbin.framework.api.XBApplicationModulePlugin;
+import org.exbin.framework.api.XBApplicationModule;
+import org.exbin.xbup.plugin.XBModuleHandler;
 
 /**
  * Implementation of XBUP framework menu module.
@@ -26,8 +26,7 @@ import org.exbin.framework.api.XBApplicationModulePlugin;
  * @version 0.2.0 2015/12/10
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
-public class GuiUtilsModule implements XBApplicationModulePlugin {
+public class GuiUtilsModule implements XBApplicationModule {
 
     private XBApplication application;
 
@@ -35,11 +34,11 @@ public class GuiUtilsModule implements XBApplicationModulePlugin {
     }
 
     @Override
-    public void init(XBApplication application) {
-        this.application = application;
+    public void init(XBModuleHandler moduleHandler) {
+        this.application = (XBApplication) moduleHandler;
     }
 
     @Override
-    public void unregisterPlugin(String pluginId) {
+    public void unregisterModule(String moduleId) {
     }
 }

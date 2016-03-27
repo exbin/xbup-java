@@ -27,7 +27,6 @@ check.dependsOn.remove(test)
 
 dependencies {
     compile(project(":modules:xbup-core"))
-    compile ':jspf.core:1.0.2'
     compile 'commons-cli:commons-cli:1.2'
     runtime 'mysql:mysql-connector-java:5.1.30'
     runtime 'org.eclipse.persistence:javax.persistence:2.1.0'

@@ -23,9 +23,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.JPopupMenu;
 import javax.swing.filechooser.FileFilter;
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
-import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.api.XBModuleRepositoryUtils;
 import org.exbin.framework.editor.picture.panel.ImagePanel;
 import org.exbin.framework.editor.picture.panel.ImageStatusPanel;
@@ -39,6 +37,8 @@ import org.exbin.framework.gui.menu.api.NextToMode;
 import org.exbin.framework.gui.menu.api.PositionMode;
 import org.exbin.framework.gui.menu.api.SeparationMode;
 import org.exbin.framework.gui.undo.api.GuiUndoModuleApi;
+import org.exbin.framework.api.XBApplicationModule;
+import org.exbin.xbup.plugin.XBModuleHandler;
 
 /**
  * XBUP picture editor module.
@@ -46,8 +46,7 @@ import org.exbin.framework.gui.undo.api.GuiUndoModuleApi;
  * @version 0.2.0 2016/02/09
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
-public class EditorPictureModule implements XBApplicationModulePlugin {
+public class EditorPictureModule implements XBApplicationModule {
 
     public static final String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(EditorPictureModule.class);
     public static final String XBPFILETYPE = "XBPictureEditor.XBPFileType";
@@ -72,12 +71,12 @@ public class EditorPictureModule implements XBApplicationModulePlugin {
     }
 
     @Override
-    public void init(XBApplication application) {
-        this.application = application;
+    public void init(XBModuleHandler application) {
+        this.application = (XBApplication) application;
     }
 
     @Override
-    public void unregisterPlugin(String pluginId) {
+    public void unregisterModule(String moduleId) {
     }
 
     public XBEditorProvider getEditorProvider() {

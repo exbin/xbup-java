@@ -19,7 +19,6 @@ package org.exbin.framework.gui.about;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.gui.about.api.GuiAboutModuleApi;
 import org.exbin.framework.gui.frame.api.GuiFrameModuleApi;
@@ -27,6 +26,7 @@ import org.exbin.framework.gui.menu.api.GuiMenuModuleApi;
 import org.exbin.framework.gui.menu.api.MenuPosition;
 import org.exbin.framework.gui.menu.api.PositionMode;
 import org.exbin.framework.gui.utils.ActionUtils;
+import org.exbin.xbup.plugin.XBModuleHandler;
 
 /**
  * Implementation of XBUP framework about module.
@@ -34,7 +34,6 @@ import org.exbin.framework.gui.utils.ActionUtils;
  * @version 0.2.0 2016/02/07
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
 public class GuiAboutModule implements GuiAboutModuleApi {
 
     private XBApplication application;
@@ -45,12 +44,12 @@ public class GuiAboutModule implements GuiAboutModuleApi {
     }
 
     @Override
-    public void init(XBApplication application) {
-        this.application = application;
+    public void init(XBModuleHandler application) {
+        this.application = (XBApplication) application;
     }
 
     @Override
-    public void unregisterPlugin(String pluginId) {
+    public void unregisterModule(String moduleId) {
     }
 
     @Override

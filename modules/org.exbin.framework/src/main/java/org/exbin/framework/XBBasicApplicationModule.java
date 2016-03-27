@@ -23,8 +23,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.exbin.framework.api.XBApplicationModule;
-import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttributeToken;
 import org.exbin.xbup.core.parser.token.XBBeginToken;
@@ -45,6 +43,9 @@ import org.exbin.xbup.core.serial.param.XBSerializationMode;
 import org.exbin.xbup.core.serial.sequence.XBStringListConsistSerializable;
 import org.exbin.xbup.core.type.XBString;
 import org.exbin.xbup.core.ubnumber.type.UBNat32;
+import org.exbin.framework.api.XBApplicationModuleInfo;
+import org.exbin.framework.api.XBApplicationModule;
+import org.exbin.xbup.plugin.XBModule;
 
 /**
  * Record about single module.
@@ -52,18 +53,18 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * @version 0.2.0 2015/12/31
  * @author ExBin Project (http://exbin.org)
  */
-public class XBBasicApplicationModule implements XBPSequenceSerializable, XBApplicationModule {
+public class XBBasicApplicationModule implements XBPSequenceSerializable, XBApplicationModuleInfo {
 
     static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 3, 1, 2, 0, 0};
 
     private final String moduleId;
-    private final XBApplicationModulePlugin plugin;
+    private final XBApplicationModule plugin;
     private String name;
     private String description;
     private final List<String> optionalModuleIds = new ArrayList<>();
     private final List<String> dependencyModuleIds = new ArrayList<>();
 
-    public XBBasicApplicationModule(String moduleId, XBApplicationModulePlugin plugin) {
+    public XBBasicApplicationModule(String moduleId, XBApplicationModule plugin) {
         this.moduleId = moduleId;
         this.plugin = plugin;
     }
@@ -92,7 +93,7 @@ public class XBBasicApplicationModule implements XBPSequenceSerializable, XBAppl
     }
 
     @Override
-    public XBApplicationModulePlugin getPlugin() {
+    public XBApplicationModule getPlugin() {
         return plugin;
     }
 
@@ -162,6 +163,11 @@ public class XBBasicApplicationModule implements XBPSequenceSerializable, XBAppl
         serial.listConsist(dependencies);
         serial.listConsist(optionals);
         serial.end();
+    }
+
+    @Override
+    public XBModule getModule() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private static class XBTToXBEventTypeRemover implements XBTEventListener, XBEventProducer {

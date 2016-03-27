@@ -16,7 +16,6 @@
  */
 package org.exbin.framework.client;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +26,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.FlushModeType;
 import javax.persistence.Persistence;
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.xbup.catalog.XBAECatalog;
 import org.exbin.xbup.catalog.entity.XBERoot;
@@ -72,6 +70,7 @@ import org.exbin.framework.client.api.ClientConnectionEvent;
 import org.exbin.framework.client.api.ClientConnectionListener;
 import org.exbin.framework.client.api.ClientModuleApi;
 import org.exbin.framework.client.api.ConnectionStatus;
+import org.exbin.xbup.plugin.XBModuleHandler;
 import org.exbin.xbup.plugin.XBPluginRepository;
 
 /**
@@ -80,7 +79,6 @@ import org.exbin.xbup.plugin.XBPluginRepository;
  * @version 0.2.0 2016/02/15
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
 public class ClientModule implements ClientModuleApi {
 
     private XBApplication application;
@@ -94,12 +92,12 @@ public class ClientModule implements ClientModuleApi {
     }
 
     @Override
-    public void init(XBApplication application) {
-        this.application = application;
+    public void init(XBModuleHandler application) {
+        this.application = (XBApplication) application;
     }
 
     @Override
-    public void unregisterPlugin(String pluginId) {
+    public void unregisterModule(String moduleId) {
     }
 
     @Override
@@ -246,10 +244,9 @@ public class ClientModule implements ClientModuleApi {
     private void initializePlugins(XBACatalog catalogHandler) {
         if (catalogHandler != null) {
             pluginRepository = new XBPluginRepository();
-            pluginRepository.addPluginsFrom(new File("plugins/").toURI());
-            pluginRepository.processPlugins();
+//            pluginRepository.addPluginsFrom(new File("plugins/").toURI());
+//            pluginRepository.processPlugins();
             pluginRepository.setCatalog(catalogHandler);
-//            activePanel.setPluginRepository(pluginRepository);
         }
     }
 

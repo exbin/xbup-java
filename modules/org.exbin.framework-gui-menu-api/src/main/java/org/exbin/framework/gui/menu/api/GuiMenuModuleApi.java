@@ -22,8 +22,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
-import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.api.XBModuleRepositoryUtils;
+import org.exbin.framework.api.XBApplicationModule;
 
 /**
  * Interface for XBUP framework menu module.
@@ -31,7 +31,7 @@ import org.exbin.framework.api.XBModuleRepositoryUtils;
  * @version 0.2.0 2016/01/24
  * @author ExBin Project (http://exbin.org)
  */
-public interface GuiMenuModuleApi extends XBApplicationModulePlugin {
+public interface GuiMenuModuleApi extends XBApplicationModule {
 
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiMenuModuleApi.class);
     public static final String CLIPBOARD_ACTIONS_MENU_GROUP_ID = MODULE_ID + ".clipboardActionsMenuGroup";

@@ -17,10 +17,10 @@
 package org.exbin.framework.gui.data;
 
 import javax.swing.JPanel;
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.gui.data.api.GuiDataModuleApi;
 import org.exbin.framework.gui.data.panel.TableEditPanel;
+import org.exbin.xbup.plugin.XBModuleHandler;
 
 /**
  * Implementation of XBUP framework data module.
@@ -28,7 +28,6 @@ import org.exbin.framework.gui.data.panel.TableEditPanel;
  * @version 0.2.0 2016/02/27
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
 public class GuiDataModule implements GuiDataModuleApi {
 
     private XBApplication application;
@@ -37,12 +36,12 @@ public class GuiDataModule implements GuiDataModuleApi {
     }
 
     @Override
-    public void init(XBApplication application) {
-        this.application = application;
+    public void init(XBModuleHandler application) {
+        this.application = (XBApplication) application;
     }
 
     @Override
-    public void unregisterPlugin(String pluginId) {
+    public void unregisterModule(String moduleId) {
     }
     
     @Override

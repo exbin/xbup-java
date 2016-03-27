@@ -16,9 +16,9 @@
  */
 package org.exbin.framework.service.data;
 
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
-import org.exbin.framework.api.XBApplicationModulePlugin;
+import org.exbin.framework.api.XBApplicationModule;
+import org.exbin.xbup.plugin.XBModuleHandler;
 
 /**
  * Implementation of XBUP framework service data module.
@@ -26,8 +26,7 @@ import org.exbin.framework.api.XBApplicationModulePlugin;
  * @version 0.2.0 2016/02/27
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
-public class ServiceDataModule implements XBApplicationModulePlugin {
+public class ServiceDataModule implements XBApplicationModule {
 
     private XBApplication application;
 
@@ -35,11 +34,11 @@ public class ServiceDataModule implements XBApplicationModulePlugin {
     }
 
     @Override
-    public void init(XBApplication application) {
-        this.application = application;
+    public void init(XBModuleHandler application) {
+        this.application = (XBApplication) application;
     }
 
     @Override
-    public void unregisterPlugin(String pluginId) {
+    public void unregisterModule(String pluginId) {
     }
 }

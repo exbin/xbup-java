@@ -14,29 +14,18 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.exbin.framework.api;
-
-import net.xeoh.plugins.base.Plugin;
+package org.exbin.framework.gui.component.api;
 
 /**
- * Interface for application's module.
+ * Move actions update listener.
  *
- * @version 0.2.0 2015/12/09
+ * @version 0.2.0 2016/02/20
  * @author ExBin Project (http://exbin.org)
  */
-public interface XBApplicationModulePlugin extends Plugin {
+public interface MoveItemActionsUpdateListener {
 
     /**
-     * Initializes plugin.
-     *
-     * @param application framework application
+     * Notify about change in movement state.
      */
-    public void init(XBApplication application);
-
-    /**
-     * Unregisters all functionality registered by given plugin.
-     *
-     * @param pluginId plugin identification code
-     */
-    public void unregisterPlugin(String pluginId);
+    void stateChanged();
 }

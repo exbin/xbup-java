@@ -19,6 +19,7 @@ package org.exbin.framework.gui.utils;
 import java.awt.Image;
 import java.lang.reflect.Field;
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -29,11 +30,12 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-import net.xeoh.plugins.base.PluginManager;
 import org.exbin.framework.api.XBApplication;
+import org.exbin.framework.api.XBApplicationModuleRepository;
+import org.exbin.framework.api.XBApplicationModuleInfo;
 import org.exbin.framework.api.XBApplicationModule;
-import org.exbin.framework.api.XBApplicationModulePlugin;
-import org.exbin.framework.api.XBModuleRepository;
+import org.exbin.xbup.plugin.XBModule;
+import org.exbin.xbup.plugin.XBModuleRecord;
 
 /**
  * Some simple static methods usable for windows and dialogs.
@@ -43,12 +45,12 @@ import org.exbin.framework.api.XBModuleRepository;
  */
 public class TestApplication implements XBApplication {
 
-    private final Map<String, XBApplicationModulePlugin> modules = new HashMap<>();
+    private final Map<String, XBApplicationModule> modules = new HashMap<>();
 
     public TestApplication() {
     }
 
-    public void addModule(String moduleId, XBApplicationModulePlugin module) {
+    public void addModule(String moduleId, XBApplicationModule module) {
         modules.put(moduleId, module);
     }
 
@@ -63,37 +65,37 @@ public class TestApplication implements XBApplication {
     }
 
     @Override
-    public XBModuleRepository getModuleRepository() {
-        return new XBModuleRepository() {
+    public XBApplicationModuleRepository getModuleRepository() {
+        return new XBApplicationModuleRepository() {
             private static final String MODULE_ID = "MODULE_ID";
 
             @Override
-            public void addPluginsFrom(URI uri) {
+            public void addModulesFrom(URL moduleJarFileUrl) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
-            public void addClassPathPlugins() {
+            public void addClassPathModules() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
-            public void addPluginsFromManifest(Class sourceClass) {
+            public void addModulesFromManifest(Class manifestClass) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
-            public XBApplicationModule getModuleRecordById(String moduleId) {
+            public XBApplicationModuleInfo getModuleRecordById(String moduleId) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
-            public XBApplicationModulePlugin getModuleById(String moduleId) {
+            public XBApplicationModule getModuleById(String moduleId) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
-            public <T extends XBApplicationModulePlugin> T getModuleByInterface(Class<T> interfaceClass) {
+            public <T extends XBModule> T getModuleByInterface(Class<T> interfaceClass) {
                 try {
                     Field declaredField = interfaceClass.getDeclaredField(MODULE_ID);
                     if (declaredField != null) {
@@ -112,17 +114,17 @@ public class TestApplication implements XBApplication {
             }
 
             @Override
-            public List<XBApplicationModule> getModulesList() {
+            public List<XBModuleRecord> getModulesList() {
                 return new ArrayList<>();
             }
 
             @Override
-            public PluginManager getPluginManager() {
+            public void initModules() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
-            public void initModules() {
+            public void addModulesFrom(URI moduleJarFileUri) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
         };

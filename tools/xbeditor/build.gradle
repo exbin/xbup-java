@@ -59,7 +59,6 @@ dependencies {
     compile(project(":modules:org.exbin.framework-editor-text"))
     compile(project(":modules:org.exbin.framework-client"))
     compile(project(":modules:ca.psc-consulting.hexedit"))
-    compile ':jspf.core:1.0.2'
     compile 'commons-cli:commons-cli:1.2'
     runtime 'mysql:mysql-connector-java:5.1.30'
     runtime 'org.eclipse.persistence:javax.persistence:2.1.0'

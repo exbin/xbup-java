@@ -21,7 +21,6 @@ import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.gui.frame.api.GuiFrameModuleApi;
 import org.exbin.framework.gui.menu.api.GuiMenuModuleApi;
@@ -33,6 +32,7 @@ import org.exbin.framework.gui.options.api.GuiOptionsModuleApi;
 import org.exbin.framework.gui.options.api.OptionsPanel;
 import org.exbin.framework.gui.options.dialog.OptionsDialog;
 import org.exbin.framework.gui.utils.ActionUtils;
+import org.exbin.xbup.plugin.XBModuleHandler;
 
 /**
  * Implementation of XBUP framework file module.
@@ -40,7 +40,6 @@ import org.exbin.framework.gui.utils.ActionUtils;
  * @version 0.2.0 2016/01/22
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
 public class GuiOptionsModule implements GuiOptionsModuleApi {
 
     private XBApplication application;
@@ -53,13 +52,13 @@ public class GuiOptionsModule implements GuiOptionsModuleApi {
     }
 
     @Override
-    public void init(XBApplication application) {
-        this.application = application;
+    public void init(XBModuleHandler moduleHandler) {
+        this.application = (XBApplication) moduleHandler;
         resourceBundle = ActionUtils.getResourceBundleByClass(GuiOptionsModule.class);
     }
 
     @Override
-    public void unregisterPlugin(String pluginId) {
+    public void unregisterModule(String moduleId) {
     }
 
     private OptionsDialog getOptionsDialog() {

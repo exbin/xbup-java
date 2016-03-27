@@ -1,44 +1,28 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) ExBin Project
+ *
+ * This application or library is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ *
+ * This application or library is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.exbin.framework.api;
 
-import java.util.List;
+import org.exbin.xbup.plugin.XBModule;
 
 /**
- * Interface for record about single module.
+ * Interface for application's module.
  *
- * @version 0.2.0 2015/12/06
+ * @version 0.2.0 2016/03/27
  * @author ExBin Project (http://exbin.org)
  */
-public interface XBApplicationModule {
-
-    /**
-     * Returns list of required dependency modules.
-     *
-     * @return list of dependecy module identifiers
-     */
-    List<String> getDependencyModuleIds();
-
-    /**
-     * Returns module description.
-     *
-     * @return description text
-     */
-    String getDescription();
-
-    String getModuleId();
-
-    String getName();
-
-    /**
-     * Returns list of optional modules.
-     *
-     * @return list of module identifiers
-     */
-    List<String> getOptionalModuleIds();
-
-    XBApplicationModulePlugin getPlugin();
+public interface XBApplicationModule extends XBModule {
 }

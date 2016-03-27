@@ -80,8 +80,8 @@ import org.exbin.xbup.parser_tree.XBTTreeNode;
 import org.exbin.xbup.parser_tree.XBTTreeWriter;
 import org.exbin.xbup.plugin.XBLineEditor;
 import org.exbin.xbup.plugin.XBPanelEditor;
-import org.exbin.xbup.plugin.XBPlugin;
 import org.exbin.xbup.plugin.XBPluginRepository;
+import org.exbin.xbup.plugin.XBCatalogPlugin;
 
 /**
  * Dialog for modifying item attributes or data.
@@ -751,7 +751,7 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
             return null;
         }
         XBCXPlugin plugin = plugPane.getPlugin();
-        XBPlugin pluginHandler;
+        XBCatalogPlugin pluginHandler;
 
         // This part is stub for Java Webstart, uncomment it if needed
         /*if ("XBPicturePlugin.jar".equals(plugin.getPluginFile().getFilename())) {
@@ -872,7 +872,7 @@ public class ModifyBlockDialog extends javax.swing.JDialog {
             return null;
         }
         XBCXPlugin plugin = plugLine.getPlugin();
-        XBPlugin pluginHandler;
+        XBCatalogPlugin pluginHandler;
 
         pluginHandler = pluginRepository.getPluginHandler(plugin);
         if (pluginHandler == null) {

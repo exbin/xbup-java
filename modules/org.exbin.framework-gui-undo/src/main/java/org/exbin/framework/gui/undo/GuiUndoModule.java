@@ -20,7 +20,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.gui.frame.api.GuiFrameModuleApi;
 import org.exbin.framework.gui.menu.api.GuiMenuModuleApi;
@@ -38,6 +37,7 @@ import org.exbin.framework.gui.undo.dialog.UndoManagerModel;
 import org.exbin.xbup.operation.undo.XBUndoHandler;
 import org.exbin.xbup.operation.undo.XBUndoUpdateListener;
 import org.exbin.framework.gui.undo.api.UndoActionsHandler;
+import org.exbin.xbup.plugin.XBModuleHandler;
 
 /**
  * Implementation of XBUP framework undo/redo module.
@@ -45,7 +45,6 @@ import org.exbin.framework.gui.undo.api.UndoActionsHandler;
  * @version 0.2.0 2016/01/24
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
 public class GuiUndoModule implements GuiUndoModuleApi {
 
     private static final String UNDO_MENU_GROUP_ID = MODULE_ID + ".undoMenuGroup";
@@ -61,8 +60,8 @@ public class GuiUndoModule implements GuiUndoModuleApi {
     }
 
     @Override
-    public void init(XBApplication application) {
-        this.application = application;
+    public void init(XBModuleHandler moduleHandler) {
+        this.application = (XBApplication) moduleHandler;
 
         defaultUndoActions = new BasicUndoActions();
         undoModel.addListDataListener(new ListDataListener() {
@@ -82,7 +81,7 @@ public class GuiUndoModule implements GuiUndoModuleApi {
     }
 
     @Override
-    public void unregisterPlugin(String pluginId) {
+    public void unregisterModule(String moduleId) {
     }
 
     public void actionEditUndo() {

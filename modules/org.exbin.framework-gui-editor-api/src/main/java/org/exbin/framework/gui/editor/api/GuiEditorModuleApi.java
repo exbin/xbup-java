@@ -17,8 +17,8 @@
 package org.exbin.framework.gui.editor.api;
 
 import java.awt.Component;
-import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.api.XBModuleRepositoryUtils;
+import org.exbin.framework.api.XBApplicationModule;
 
 /**
  * XBUP framework editor module api interface.
@@ -26,7 +26,7 @@ import org.exbin.framework.api.XBModuleRepositoryUtils;
  * @version 0.2.0 2016/01/23
  * @author ExBin Project (http://exbin.org)
  */
-public interface GuiEditorModuleApi extends XBApplicationModulePlugin {
+public interface GuiEditorModuleApi extends XBApplicationModule {
 
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiEditorModuleApi.class);
 

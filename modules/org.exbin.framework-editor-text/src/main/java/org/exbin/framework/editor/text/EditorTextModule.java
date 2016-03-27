@@ -23,9 +23,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 import javax.swing.JMenu;
 import javax.swing.filechooser.FileFilter;
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
-import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.api.XBModuleRepositoryUtils;
 import org.exbin.framework.editor.text.panel.TextAppearanceOptionsPanel;
 import org.exbin.framework.editor.text.panel.TextAppearancePanelFrame;
@@ -49,6 +47,8 @@ import org.exbin.framework.gui.menu.api.SeparationMode;
 import org.exbin.framework.gui.menu.api.ToolBarGroup;
 import org.exbin.framework.gui.menu.api.ToolBarPosition;
 import org.exbin.framework.gui.options.api.GuiOptionsModuleApi;
+import org.exbin.framework.api.XBApplicationModule;
+import org.exbin.xbup.plugin.XBModuleHandler;
 
 /**
  * XBUP text editor module.
@@ -56,8 +56,7 @@ import org.exbin.framework.gui.options.api.GuiOptionsModuleApi;
  * @version 0.2.0 2016/01/23
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
-public class EditorTextModule implements XBApplicationModulePlugin {
+public class EditorTextModule implements XBApplicationModule {
 
     public static final String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(EditorTextModule.class);
 
@@ -85,12 +84,12 @@ public class EditorTextModule implements XBApplicationModulePlugin {
     }
 
     @Override
-    public void init(XBApplication application) {
-        this.application = application;
+    public void init(XBModuleHandler application) {
+        this.application = (XBApplication) application;
     }
 
     @Override
-    public void unregisterPlugin(String pluginId) {
+    public void unregisterModule(String moduleId) {
     }
 
     public XBEditorProvider getEditorProvider() {

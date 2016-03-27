@@ -16,15 +16,13 @@
  */
 package org.exbin.xbup.plugin;
 
-import net.xeoh.plugins.base.Plugin;
-
 /**
  * XBUP Editor plugin - provides editing panel for XBUP data.
  *
- * @version 0.1.24 2014/11/26
+ * @version 0.2.0 2016/03/27
  * @author ExBin Project (http://exbin.org)
  */
-public interface XBPlugin extends Plugin {
+public interface XBCatalogPlugin {
 
     /**
      * Gets catalog path of this plugin.

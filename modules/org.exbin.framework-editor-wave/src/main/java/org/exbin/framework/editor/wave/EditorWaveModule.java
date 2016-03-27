@@ -22,9 +22,7 @@ import java.awt.event.MouseMotionListener;
 import java.io.File;
 import javax.swing.JPopupMenu;
 import javax.swing.filechooser.FileFilter;
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
-import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.api.XBModuleRepositoryUtils;
 import org.exbin.framework.editor.wave.panel.AudioDevicesPanel;
 import org.exbin.framework.editor.wave.panel.AudioPanel;
@@ -43,6 +41,8 @@ import org.exbin.framework.gui.menu.api.PositionMode;
 import org.exbin.framework.gui.menu.api.SeparationMode;
 import org.exbin.framework.gui.options.api.GuiOptionsModuleApi;
 import org.exbin.framework.gui.undo.api.GuiUndoModuleApi;
+import org.exbin.framework.api.XBApplicationModule;
+import org.exbin.xbup.plugin.XBModuleHandler;
 
 /**
  * XBUP audio editor module.
@@ -50,8 +50,7 @@ import org.exbin.framework.gui.undo.api.GuiUndoModuleApi;
  * @version 0.2.0 2016/01/30
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
-public class EditorWaveModule implements XBApplicationModulePlugin {
+public class EditorWaveModule implements XBApplicationModule {
 
     public static final String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(EditorWaveModule.class);
     public static final String AUDIO_MENU_ID = MODULE_ID + ".audioMenu";
@@ -82,12 +81,12 @@ public class EditorWaveModule implements XBApplicationModulePlugin {
     }
 
     @Override
-    public void init(XBApplication application) {
-        this.application = application;
+    public void init(XBModuleHandler application) {
+        this.application = (XBApplication) application;
     }
 
     @Override
-    public void unregisterPlugin(String pluginId) {
+    public void unregisterModule(String moduleId) {
     }
 
     public XBEditorProvider getEditorProvider() {

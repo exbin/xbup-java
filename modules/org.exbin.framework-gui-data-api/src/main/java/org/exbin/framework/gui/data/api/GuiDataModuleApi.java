@@ -17,8 +17,8 @@
 package org.exbin.framework.gui.data.api;
 
 import javax.swing.JPanel;
-import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.api.XBModuleRepositoryUtils;
+import org.exbin.framework.api.XBApplicationModule;
 
 /**
  * Interface for XBUP framework data module.
@@ -26,7 +26,7 @@ import org.exbin.framework.api.XBModuleRepositoryUtils;
  * @version 0.2.0 2016/02/27
  * @author ExBin Project (http://exbin.org)
  */
-public interface GuiDataModuleApi extends XBApplicationModulePlugin {
+public interface GuiDataModuleApi extends XBApplicationModule {
 
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiDataModuleApi.class);
 

@@ -49,8 +49,8 @@ import org.exbin.framework.gui.utils.WindowUtils;
 import org.exbin.xbup.parser_tree.XBATreeParamExtractor;
 import org.exbin.xbup.parser_tree.XBTTreeNode;
 import org.exbin.xbup.plugin.XBLineEditor;
-import org.exbin.xbup.plugin.XBPlugin;
 import org.exbin.xbup.plugin.XBPluginRepository;
+import org.exbin.xbup.plugin.XBCatalogPlugin;
 
 /**
  * Panel for properties of the actual panel.
@@ -414,7 +414,7 @@ public class XBPropertyTablePanel extends javax.swing.JPanel {
             return null;
         }
         XBCXPlugin plugin = plugLine.getPlugin();
-        XBPlugin pluginHandler;
+        XBCatalogPlugin pluginHandler;
 
         pluginHandler = pluginRepository.getPluginHandler(plugin);
         if (pluginHandler == null) {

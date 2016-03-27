@@ -23,7 +23,6 @@ distributions {
 
             into('lib') {
                 from 'lib'
-                include 'jspf.core-1.0.2.jar'
             }
             project(':modules').subprojects.each { p ->
                 p.plugins.withType(JavaPlugin) {

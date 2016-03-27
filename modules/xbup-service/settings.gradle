@@ -4,14 +4,4 @@ include ":modules:xbup-core"
 include ":modules:xbup-catalog"
 include ":modules:xbup-client"
 
-def modifyPath(project) {
-    def rootProjectDir = rootProject.projectDir.parentFile.parent
-    project.children.each { p ->
-        p.projectDir = new File(rootProjectDir + p.projectDir.path.substring(rootProject.projectDir.path.length(), p.projectDir.path.length()))
-        modifyPath(p)
-    }
-}
-
-if (rootProject.path == ':') {
-    modifyPath(rootProject)
-}
+apply from: '../modules-settings.gradle'

@@ -19,18 +19,10 @@ package org.exbin.xbup.plugin;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.xeoh.plugins.base.PluginManager;
-import net.xeoh.plugins.base.impl.PluginManagerFactory;
-import net.xeoh.plugins.base.options.GetPluginOption;
-import net.xeoh.plugins.base.options.getplugin.OptionPluginSelector;
-import net.xeoh.plugins.base.options.getplugin.PluginSelector;
-import net.xeoh.plugins.base.util.PluginManagerUtil;
 import org.exbin.xbup.core.catalog.XBACatalog;
 import org.exbin.xbup.core.catalog.base.XBCXFile;
 import org.exbin.xbup.core.catalog.base.XBCXPlugin;
@@ -40,37 +32,18 @@ import org.exbin.xbup.core.catalog.base.service.XBCXStriService;
 import org.exbin.xbup.core.util.StreamUtils;
 
 /**
- * XBUP Transformation Plugin Base Class.
+ * XBUP plugin repository.
  *
- * @version 0.1.24 2015/01/09
+ * @version 0.2.0 2015/03/27
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPluginRepository {
 
-    private final PluginManager pluginManager;
-    private final Map<Long, XBPlugin> plugins;
+    private final Map<Long, XBCatalogPlugin> plugins;
     private XBACatalog catalog;
 
     public XBPluginRepository() {
         plugins = new HashMap<>();
-        pluginManager = PluginManagerFactory.createPluginManager();
-    }
-
-    public void addPluginsFrom(URI uri) {
-        pluginManager.addPluginsFrom(uri);
-
-    }
-
-    public void processPlugins() {
-        PluginManagerUtil pmu = new PluginManagerUtil(pluginManager);
-        final Collection<XBPlugin> pluginCol = pmu.getPlugins(XBPlugin.class);
-
-        if (catalog != null) {
-//            for (final XBPlugin plugin : pluginCol) {
-//                catalog.ge
-//                plugins.put(new Long(0), plugin);
-//            }
-        }
     }
 
     public XBACatalog getCatalog() {
@@ -81,7 +54,7 @@ public class XBPluginRepository {
         this.catalog = catalog;
     }
 
-    public XBPlugin getPluginHandler(XBCXPlugin plugin) {
+    public XBCatalogPlugin getPluginHandler(XBCXPlugin plugin) {
         // TODO: Use local files if available
         // TODO: Use repository cache if available
         XBCXFile plugFile = plugin.getPluginFile();
@@ -90,7 +63,7 @@ public class XBPluginRepository {
         }
         XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
         if (plugins.containsKey(plugFile.getId())) {
-            return (XBPlugin) plugins.get(plugFile.getId());
+            return (XBCatalogPlugin) plugins.get(plugFile.getId());
         }
         XBCXFileService fileService = (XBCXFileService) catalog.getCatalogService(XBCXFileService.class);
         XBCXStri stri = striService.getItemStringId(plugFile.getNode());
@@ -111,31 +84,12 @@ public class XBPluginRepository {
         if (tmpFile == null) {
             return null;
         }
-        pluginManager.addPluginsFrom(tmpFile.getAbsoluteFile().toURI());
-        GetPluginOption plugOpt = new OptionPluginSelector<>(new XBPluginSelector(filePath));
-        XBPlugin processedPlugin = (XBPlugin) pluginManager.getPlugin(XBPlugin.class, plugOpt);
-        if (processedPlugin != null) {
-            plugins.put(plugFile.getId(), processedPlugin);
-        }
-        return processedPlugin;
-    }
-
-    public class XBPluginSelector implements PluginSelector<XBPlugin> {
-
-        private final String filePath;
-
-        public XBPluginSelector(String filePath) {
-            this.filePath = filePath;
-        }
-
-        @Override
-        public boolean selectPlugin(XBPlugin plugin) {
-            // System.out.println("Plugin filename:" + filePath);
-            String plugPath = "/" + plugin.getPluginPath();
-            if (plugPath == null) {
-                return false;
-            }
-            return plugPath.equals(filePath);
-        }
+//        pluginManager.addPluginsFrom(tmpFile.getAbsoluteFile().toURI());
+//        GetPluginOption plugOpt = new OptionPluginSelector<>(new XBPluginSelector(filePath));
+//        XBCatalogPlugin processedPlugin = (XBCatalogPlugin) pluginManager.getPlugin(XBCatalogPlugin.class, plugOpt);
+//        if (processedPlugin != null) {
+//            plugins.put(plugFile.getId(), processedPlugin);
+//        }
+        return null; //processedPlugin;
     }
 }

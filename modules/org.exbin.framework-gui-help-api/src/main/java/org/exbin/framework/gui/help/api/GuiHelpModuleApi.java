@@ -18,8 +18,8 @@ package org.exbin.framework.gui.help.api;
 
 import java.net.URL;
 import javax.swing.Action;
-import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.api.XBModuleRepositoryUtils;
+import org.exbin.framework.api.XBApplicationModule;
 
 /**
  * Interface for XBUP framework help module.
@@ -27,7 +27,7 @@ import org.exbin.framework.api.XBModuleRepositoryUtils;
  * @version 0.2.0 2016/02/07
  * @author ExBin Project (http://exbin.org)
  */
-public interface GuiHelpModuleApi extends XBApplicationModulePlugin {
+public interface GuiHelpModuleApi extends XBApplicationModule {
 
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiHelpModuleApi.class);
 

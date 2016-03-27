@@ -30,7 +30,6 @@ import javax.help.HelpSet;
 import javax.help.HelpSetException;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.gui.frame.api.GuiFrameModuleApi;
 import org.exbin.framework.gui.help.api.GuiHelpModuleApi;
@@ -39,6 +38,7 @@ import org.exbin.framework.gui.menu.api.MenuPosition;
 import org.exbin.framework.gui.menu.api.PositionMode;
 import org.exbin.framework.gui.utils.ActionUtils;
 import org.exbin.framework.gui.utils.BareBonesBrowserLaunch;
+import org.exbin.xbup.plugin.XBModuleHandler;
 
 /**
  * Implementation of XBUP framework help module.
@@ -46,7 +46,6 @@ import org.exbin.framework.gui.utils.BareBonesBrowserLaunch;
  * @version 0.2.0 2016/02/07
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
 public class GuiHelpModule implements GuiHelpModuleApi {
 
     private XBApplication application;
@@ -63,8 +62,8 @@ public class GuiHelpModule implements GuiHelpModuleApi {
     }
 
     @Override
-    public void init(XBApplication application) {
-        this.application = application;
+    public void init(XBModuleHandler moduleHandler) {
+        this.application = (XBApplication) moduleHandler;
 
         String path = ".";
         try {
@@ -83,7 +82,7 @@ public class GuiHelpModule implements GuiHelpModuleApi {
     }
 
     @Override
-    public void unregisterPlugin(String pluginId) {
+    public void unregisterModule(String moduleId) {
     }
 
     @Override

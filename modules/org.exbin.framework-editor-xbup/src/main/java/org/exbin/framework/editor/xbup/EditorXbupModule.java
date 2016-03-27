@@ -21,9 +21,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.JPopupMenu;
 import javax.swing.filechooser.FileFilter;
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
-import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.api.XBModuleRepositoryUtils;
 import org.exbin.xbup.core.catalog.XBACatalog;
 import org.exbin.framework.client.api.ClientConnectionListener;
@@ -43,6 +41,8 @@ import org.exbin.framework.gui.options.api.GuiOptionsModuleApi;
 import org.exbin.framework.gui.service.XBFileType;
 import org.exbin.xbup.operation.undo.XBUndoHandler;
 import org.exbin.xbup.plugin.XBPluginRepository;
+import org.exbin.framework.api.XBApplicationModule;
+import org.exbin.xbup.plugin.XBModuleHandler;
 
 /**
  * XBUP editor module.
@@ -50,8 +50,7 @@ import org.exbin.xbup.plugin.XBPluginRepository;
  * @version 0.2.0 2016/02/28
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
-public class EditorXbupModule implements XBApplicationModulePlugin {
+public class EditorXbupModule implements XBApplicationModule {
 
     public static final String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(EditorXbupModule.class);
     public static final String XB_FILE_TYPE = "XBEditor.XBFileType";
@@ -83,12 +82,12 @@ public class EditorXbupModule implements XBApplicationModulePlugin {
     }
 
     @Override
-    public void init(XBApplication application) {
-        this.application = application;
+    public void init(XBModuleHandler application) {
+        this.application = (XBApplication) application;
     }
 
     @Override
-    public void unregisterPlugin(String pluginId) {
+    public void unregisterModule(String moduleId) {
     }
 
     public XBEditorProvider getEditorProvider() {

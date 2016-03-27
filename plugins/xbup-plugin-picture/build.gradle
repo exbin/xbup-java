@@ -27,7 +27,6 @@ repositories {
 check.dependsOn.remove(test)
 
 dependencies {
-    compile ':jspf.core:1.0.2'
     compile(project(":modules:xbup-core"))
     compile(project(':modules:xbup-plugin'))
     compile(project(":modules:xbup-visual"))

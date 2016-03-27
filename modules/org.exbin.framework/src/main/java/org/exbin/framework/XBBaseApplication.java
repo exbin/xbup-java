@@ -34,7 +34,7 @@ import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.exbin.framework.api.XBApplication;
-import org.exbin.framework.api.XBModuleRepository;
+import org.exbin.framework.api.XBApplicationModuleRepository;
 
 /**
  * Application interface class.
@@ -52,12 +52,12 @@ public class XBBaseApplication implements XBApplication {
     private ResourceBundle appBundle;
     private Preferences appPreferences;
 
-    private final XBDefaultModuleRepository moduleRepository;
+    private final XBDefaultApplicationModuleRepository moduleRepository;
     private final List<URI> plugins;
 
     public XBBaseApplication() {
         plugins = new ArrayList<>();
-        moduleRepository = new XBDefaultModuleRepository();
+        moduleRepository = new XBDefaultApplicationModuleRepository();
     }
 
     /**
@@ -138,7 +138,7 @@ public class XBBaseApplication implements XBApplication {
             throw new RuntimeException("Unable to load plugin: " + uri.toString());
         }
 
-        getModuleRepository().addPluginsFrom(uri);
+        getModuleRepository().addModulesFrom(uri);
     }
 
     public void loadPlugin(String jarFilePath) {
@@ -170,7 +170,7 @@ public class XBBaseApplication implements XBApplication {
     }
 
     @Override
-    public XBModuleRepository getModuleRepository() {
+    public XBApplicationModuleRepository getModuleRepository() {
         return moduleRepository;
     }
 }

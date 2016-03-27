@@ -23,7 +23,6 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.gui.frame.api.ApplicationExitListener;
 import org.exbin.framework.gui.frame.api.ApplicationFrameHandler;
@@ -34,6 +33,7 @@ import org.exbin.framework.gui.menu.api.MenuPosition;
 import org.exbin.framework.gui.menu.api.PositionMode;
 import org.exbin.framework.gui.menu.api.SeparationMode;
 import org.exbin.framework.gui.utils.ActionUtils;
+import org.exbin.xbup.plugin.XBModuleHandler;
 
 /**
  * Implementation of XBUP framework undo/redo module.
@@ -41,7 +41,6 @@ import org.exbin.framework.gui.utils.ActionUtils;
  * @version 0.2.0 2016/01/10
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
 public class GuiFrameModule implements GuiFrameModuleApi {
 
     public static final String FILE_EXIT_GROUP_ID = MODULE_ID + ".exit";
@@ -58,8 +57,8 @@ public class GuiFrameModule implements GuiFrameModuleApi {
     }
 
     @Override
-    public void init(XBApplication application) {
-        this.application = application;
+    public void init(XBModuleHandler moduleHandler) {
+        this.application = (XBApplication) moduleHandler;
 
         resourceBundle = ActionUtils.getResourceBundleByClass(this.getClass());
         initMainMenu();
@@ -90,7 +89,7 @@ public class GuiFrameModule implements GuiFrameModuleApi {
     }
 
     @Override
-    public void unregisterPlugin(String pluginId) {
+    public void unregisterModule(String moduleId) {
     }
 
     @Override

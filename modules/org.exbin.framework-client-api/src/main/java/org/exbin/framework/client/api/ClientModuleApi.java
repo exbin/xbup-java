@@ -16,10 +16,10 @@
  */
 package org.exbin.framework.client.api;
 
-import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.api.XBModuleRepositoryUtils;
 import org.exbin.xbup.core.catalog.XBACatalog;
 import org.exbin.xbup.plugin.XBPluginRepository;
+import org.exbin.framework.api.XBApplicationModule;
 
 /**
  * Interface for XBUP framework client module.
@@ -27,7 +27,7 @@ import org.exbin.xbup.plugin.XBPluginRepository;
  * @version 0.2.0 2016/02/14
  * @author ExBin Project (http://exbin.org)
  */
-public interface ClientModuleApi extends XBApplicationModulePlugin {
+public interface ClientModuleApi extends XBApplicationModule {
 
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(ClientModuleApi.class);
 

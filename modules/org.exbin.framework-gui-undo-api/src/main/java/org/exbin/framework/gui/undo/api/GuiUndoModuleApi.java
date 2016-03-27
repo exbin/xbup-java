@@ -16,9 +16,9 @@
  */
 package org.exbin.framework.gui.undo.api;
 
-import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.api.XBModuleRepositoryUtils;
 import org.exbin.xbup.operation.undo.XBUndoHandler;
+import org.exbin.framework.api.XBApplicationModule;
 
 /**
  * Interface for XBUP framework undo/redo module.
@@ -26,7 +26,7 @@ import org.exbin.xbup.operation.undo.XBUndoHandler;
  * @version 0.2.0 2016/03/20
  * @author ExBin Project (http://exbin.org)
  */
-public interface GuiUndoModuleApi extends XBApplicationModulePlugin {
+public interface GuiUndoModuleApi extends XBApplicationModule {
 
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiUndoModuleApi.class);
 

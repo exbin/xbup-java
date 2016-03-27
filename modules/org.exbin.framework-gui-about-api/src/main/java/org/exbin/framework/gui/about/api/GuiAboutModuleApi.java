@@ -17,8 +17,8 @@
 package org.exbin.framework.gui.about.api;
 
 import javax.swing.Action;
-import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.api.XBModuleRepositoryUtils;
+import org.exbin.framework.api.XBApplicationModule;
 
 /**
  * Interface of the XBUP framework about module.
@@ -26,7 +26,7 @@ import org.exbin.framework.api.XBModuleRepositoryUtils;
  * @version 0.2.0 2016/01/01
  * @author ExBin Project (http://exbin.org)
  */
-public interface GuiAboutModuleApi extends XBApplicationModulePlugin {
+public interface GuiAboutModuleApi extends XBApplicationModule {
 
     public static String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(GuiAboutModuleApi.class);
 

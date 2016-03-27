@@ -17,13 +17,13 @@
 package org.exbin.framework.gui.component;
 
 import javax.swing.JPanel;
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
 import org.exbin.framework.gui.component.api.EditItemActions;
 import org.exbin.framework.gui.component.api.EditItemActionsHandler;
 import org.exbin.framework.gui.component.api.GuiComponentModuleApi;
 import org.exbin.framework.gui.component.api.MoveItemActions;
 import org.exbin.framework.gui.component.api.MoveItemActionsHandler;
+import org.exbin.xbup.plugin.XBModuleHandler;
 
 /**
  * Implementation of XBUP framework component module.
@@ -31,7 +31,6 @@ import org.exbin.framework.gui.component.api.MoveItemActionsHandler;
  * @version 0.2.0 2016/03/21
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
 public class GuiComponentModule implements GuiComponentModuleApi {
 
     private XBApplication application;
@@ -40,12 +39,12 @@ public class GuiComponentModule implements GuiComponentModuleApi {
     }
 
     @Override
-    public void init(XBApplication application) {
-        this.application = application;
+    public void init(XBModuleHandler application) {
+        this.application = (XBApplication) application;
     }
 
     @Override
-    public void unregisterPlugin(String pluginId) {
+    public void unregisterModule(String moduleId) {
     }
     
     @Override

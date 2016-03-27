@@ -16,21 +16,19 @@
  */
 package org.exbin.xbup.plugin.picture;
 
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.xbup.plugin.XBLineEditor;
 import org.exbin.xbup.plugin.XBPanelEditor;
-import org.exbin.xbup.plugin.XBPlugin;
 import org.exbin.xbup.plugin.XBTransformation;
 import org.exbin.xbup.plugin.picture.pane.PicturePaneEditor;
+import org.exbin.xbup.plugin.XBCatalogPlugin;
 
 /**
  * XBUP Editor plugin - provides editing panel for XBUP data.
  *
- * @version 0.1.24 2014/11/27
+ * @version 0.2.0 2016/03/27
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
-public class XBPicturePlugin implements XBPlugin {
+public class XBPicturePlugin implements XBCatalogPlugin {
 
     @Override
     public String getPluginPath() {

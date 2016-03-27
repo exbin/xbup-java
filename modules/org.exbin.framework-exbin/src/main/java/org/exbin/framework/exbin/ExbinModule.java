@@ -20,15 +20,15 @@ import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.exbin.framework.api.XBApplication;
-import org.exbin.framework.api.XBApplicationModulePlugin;
 import org.exbin.framework.api.XBModuleRepositoryUtils;
 import org.exbin.xbup.client.XBCatalogNetServiceClient;
 import org.exbin.framework.exbin.dialog.LoginDialog;
 import org.exbin.framework.exbin.panel.ExbinMainPanel;
 import org.exbin.framework.gui.file.api.GuiFileModuleApi;
 import org.exbin.framework.gui.utils.WindowUtils;
+import org.exbin.framework.api.XBApplicationModule;
+import org.exbin.xbup.plugin.XBModuleHandler;
 
 /**
  * XBUP service manager module.
@@ -36,8 +36,7 @@ import org.exbin.framework.gui.utils.WindowUtils;
  * @version 0.2.0 2016/02/16
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
-public class ExbinModule implements XBApplicationModulePlugin {
+public class ExbinModule implements XBApplicationModule {
 
     public static final String MODULE_ID = XBModuleRepositoryUtils.getModuleIdByApi(ExbinModule.class);
 
@@ -49,8 +48,8 @@ public class ExbinModule implements XBApplicationModulePlugin {
     }
 
     @Override
-    public void init(XBApplication application) {
-        this.application = application;
+    public void init(XBModuleHandler moduleHandler) {
+        this.application = (XBApplication) moduleHandler;
 
         // Register file types
         GuiFileModuleApi fileModule = application.getModuleRepository().getModuleByInterface(GuiFileModuleApi.class);
@@ -59,7 +58,7 @@ public class ExbinModule implements XBApplicationModulePlugin {
     }
 
     @Override
-    public void unregisterPlugin(String pluginId) {
+    public void unregisterModule(String moduleId) {
     }
 
     public void openConnectionDialog() {
@@ -91,7 +90,7 @@ public class ExbinModule implements XBApplicationModulePlugin {
                     Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
                     loginDialog.setConnectionStatus(Color.RED, "Failed", null);
                 }
-                
+
                 return false;
             }
         });

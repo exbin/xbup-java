@@ -50,7 +50,6 @@ dependencies {
     compile(project(":modules:xbup-service"))
     compile(project(":modules:org.exbin.framework-api"))
     compile(project(":modules:org.exbin.framework-service-data"))
-    compile ':jspf.core:1.0.2'
     compile 'commons-cli:commons-cli:1.2'
     compile 'org.eclipse.persistence:eclipselink:2.5.1'
     runtime 'mysql:mysql-connector-java:5.1.30'

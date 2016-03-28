@@ -55,7 +55,7 @@ public interface XBModuleRepository {
      *
      * @param manifestClass
      */
-    public void addModulesFromManifest(Class manifestClass);
+    void addModulesFromManifest(Class manifestClass);
 
     /**
      * Gets info about module.

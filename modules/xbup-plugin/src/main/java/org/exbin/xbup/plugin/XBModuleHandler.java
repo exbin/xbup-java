@@ -19,7 +19,7 @@ package org.exbin.xbup.plugin;
 /**
  * Interface for application module management.
  *
- * @version 0.2.0 2016/03/27
+ * @version 0.2.0 2016/03/28
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBModuleHandler {
@@ -29,5 +29,5 @@ public interface XBModuleHandler {
      *
      * @return the moduleRepository
      */
-    public XBPluginRepository getPluginRepository();
+    public XBModuleRepository getModuleRepository();
 }

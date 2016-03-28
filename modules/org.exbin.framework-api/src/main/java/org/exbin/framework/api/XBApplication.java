@@ -19,14 +19,15 @@ package org.exbin.framework.api;
 import java.awt.Image;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
+import org.exbin.xbup.plugin.XBModuleHandler;
 
 /**
  * Interface for application module management.
  *
- * @version 0.2.0 2015/12/06
+ * @version 0.2.0 2016/03/28
  * @author ExBin Project (http://exbin.org)
  */
-public interface XBApplication {
+public interface XBApplication extends XBModuleHandler {
 
     /**
      * Gets application bundle.

@@ -39,7 +39,7 @@ import org.exbin.framework.api.XBApplicationModuleRepository;
 /**
  * Application interface class.
  *
- * @version 0.2.0 2015/12/30
+ * @version 0.2.0 2016/03/28
  * @author ExBin Project (http://exbin.org)
  */
 public class XBBaseApplication implements XBApplication {
@@ -57,14 +57,13 @@ public class XBBaseApplication implements XBApplication {
 
     public XBBaseApplication() {
         plugins = new ArrayList<>();
-        moduleRepository = new XBDefaultApplicationModuleRepository();
+        moduleRepository = new XBDefaultApplicationModuleRepository(this);
     }
 
     /**
      * At init creates and shows the main frame of the application.
      */
     public void init() {
-        moduleRepository.setApplication(this);
     }
 
     @Override

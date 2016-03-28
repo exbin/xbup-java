@@ -20,7 +20,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -38,9 +40,9 @@ import org.exbin.xbup.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
 
 /**
- * XBUP framework modules repository.
+ * XBUP default implementation of the modules repository.
  *
- * @version 0.2.0 2016/03/27
+ * @version 0.2.0 2016/03/28
  * @author ExBin Project (http://exbin.org)
  */
 public class XBDefaultModuleRepository implements XBModuleRepository {
@@ -56,12 +58,16 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
 
     @Override
     public void addModulesFrom(URI moduleClassUri) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        addModulePlugin(moduleClassUri);
     }
 
     @Override
     public void addModulesFrom(URL moduleClassUrl) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            addModulesFrom(moduleClassUrl.toURI());
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(XBDefaultModuleRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -113,10 +119,31 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
             // ignore
         }
 
+        XBModuleInfo moduleInfo = new XBModuleInfo();
         if (moduleRecordStream != null) {
-            // TODO identify main class from module to load it, so that jar doesn't have to be scanned
-            addModulesFrom(libraryUrl);
+            try {
+                XBPullReader pullReader = new XBPullReader(moduleRecordStream);
+                XBPProviderSerialHandler serial = new XBPProviderSerialHandler(new XBToXBTPullConvertor(pullReader));
+                serial.process(moduleInfo);
+            } catch (IOException ex) {
+                // ignore
+            }
         }
+
+        if (moduleInfo.getModuleId() != null) {
+            XBModule module = null;
+            try {
+                Class<?> clazz = Class.forName(moduleInfo.getModuleId());
+                Constructor<?> ctor = clazz.getConstructor();
+                module = (XBModule) ctor.newInstance();
+            } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                // ignore
+            }
+
+            moduleInfo.setModule(module);
+        }
+
+        modules.put(moduleInfo.getModuleId(), moduleInfo);
     }
 
     private void addModule(XBModule module) {
@@ -157,9 +184,9 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
 
             int moduleIndex = 0;
             while (moduleIndex < unprocessedModules.size()) {
-                XBModuleRecord module = unprocessedModules.get(moduleIndex);
+                XBModuleRecord moduleRecord = unprocessedModules.get(moduleIndex);
                 // Process single module
-                List<String> dependencyModuleIds = module.getDependencyModuleIds();
+                List<String> dependencyModuleIds = moduleRecord.getDependencyModuleIds();
                 boolean dependecySatisfied = true;
                 for (String dependecyModuleId : dependencyModuleIds) {
                     XBModuleRecord dependecyModule = getModuleRecordById(dependecyModuleId);
@@ -170,7 +197,10 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
                 }
 
                 if (dependecySatisfied) {
-                    module.getModule().init(moduleHandler);
+                    XBModule module = moduleRecord.getModule();
+                    if (module != null) {
+                        module.init(moduleHandler);
+                    }
                     unprocessedModules.remove(moduleIndex);
                 } else {
                     moduleIndex++;

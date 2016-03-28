@@ -47,19 +47,22 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * Record about single module.
  *
- * @version 0.2.0 2016/03/27
+ * @version 0.2.0 2016/03/28
  * @author ExBin Project (http://exbin.org)
  */
 public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
 
     static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 3, 1, 2, 0, 0};
 
-    private final String moduleId;
-    private final XBModule module;
+    private String moduleId;
+    private XBModule module;
     private String name;
     private String description;
     private final List<String> optionalModuleIds = new ArrayList<>();
     private final List<String> dependencyModuleIds = new ArrayList<>();
+
+    public XBModuleInfo() {
+    }
 
     public XBModuleInfo(String moduleId, XBModule module) {
         this.moduleId = moduleId;
@@ -92,6 +95,10 @@ public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
     @Override
     public XBModule getModule() {
         return module;
+    }
+
+    public void setModule(XBModule module) {
+        this.module = module;
     }
 
     @Override
@@ -138,6 +145,13 @@ public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
         XBStringListConsistSerializable optionals = new XBStringListConsistSerializable(optionalModuleIds);
         if (serial.getSerializationMode() == XBSerializationMode.PULL) {
             if (serial.pullIfEmptyBlock()) {
+                moduleId = null;
+            } else {
+                XBString moduleIdString = new XBString();
+                serial.consist(moduleIdString);
+                moduleId = moduleIdString.getValue();
+            }
+            if (serial.pullIfEmptyBlock()) {
                 name = null;
             } else {
                 XBString nameString = new XBString();
@@ -153,6 +167,7 @@ public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
                 description = descriptionString.getValue();
             }
         } else {
+            serial.consist(new XBString(moduleId));
             serial.consist(new XBString(name));
             serial.consist(new XBString(description));
         }

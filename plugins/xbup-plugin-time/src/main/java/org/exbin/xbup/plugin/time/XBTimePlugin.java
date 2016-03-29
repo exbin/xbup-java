@@ -17,20 +17,18 @@
 package org.exbin.xbup.plugin.time;
 
 import javax.swing.JPanel;
-import net.xeoh.plugins.base.annotations.PluginImplementation;
+import org.exbin.xbup.plugin.XBCatalogPlugin;
 import org.exbin.xbup.plugin.XBLineEditor;
 import org.exbin.xbup.plugin.XBPanelEditor;
-import org.exbin.xbup.plugin.XBPlugin;
 import org.exbin.xbup.plugin.XBTransformation;
 
 /**
  * XBUP Editor plugin - provides panels for basic XBUP data types.
  *
- * @version 0.1.24 2014/12/15
+ * @version 0.2.0 2016/03/29
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
-public class XBTimePlugin implements XBPlugin {
+public class XBTimePlugin implements XBCatalogPlugin {
 
     @Override
     public String getPluginPath() {

@@ -17,20 +17,18 @@
 package org.exbin.xbup.plugin.audio;
 
 import javax.swing.JPanel;
-import net.xeoh.plugins.base.annotations.PluginImplementation;
+import org.exbin.xbup.plugin.XBCatalogPlugin;
 import org.exbin.xbup.plugin.XBLineEditor;
 import org.exbin.xbup.plugin.XBPanelEditor;
-import org.exbin.xbup.plugin.XBPlugin;
 import org.exbin.xbup.plugin.XBTransformation;
 
 /**
  * XBUP Editor plugin - provides editing panel for XBUP data.
  *
- * @version 0.1.24 2014/12/15
+ * @version 0.2.0 2016/03/29
  * @author ExBin Project (http://exbin.org)
  */
-@PluginImplementation
-public class XBAudioPlugin implements XBPlugin {
+public class XBAudioPlugin implements XBCatalogPlugin {
 
     @Override
     public String getPluginPath() {

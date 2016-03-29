@@ -49,7 +49,6 @@ include ":plugins:xbup-plugin-picture"
 include ":modules:ca.psc-consulting.hexedit"
 include ":modules:net.sf.simplyhtml"
 
-include ":tools:xbcatalogweb"
 include ":tools:xbeditor"
 include ":tools:xbmanager"
 include ":tools:xbservice"

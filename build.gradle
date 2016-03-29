@@ -37,18 +37,14 @@ distributions {
             project(':tools').subprojects.each { p ->
                 p.plugins.withType(JavaPlugin) {
                     into('lib') {
-                        if (!project.name.equals("xbcatalogweb")) {
-                            from p.configurations.runtime
-                            include '*'
-                        }
+                        from p.configurations.runtime
+                        include '*'
                     }
 
                     into('bin') {
-                        if (!project.name.equals("xbcatalogweb")) {
-                            from p.jar.archivePath
-                            include '*'
-                            rename { filename -> p.name + ".jar" }
-                        }
+                        from p.jar.archivePath
+                        include '*'
+                        rename { filename -> p.name + ".jar" }
                     }
                 }
             }

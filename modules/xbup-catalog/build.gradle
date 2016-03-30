@@ -1,8 +1,8 @@
-apply from: '../modules.gradle'
+group = 'org.exbin.xbup'
+ext.libraryName = 'XBUP Audio Library'
+ext.libraryDescription = 'Library for audio data types with XBUP support'
 
-group = 'org.exbin.xbup.catalog'
-def libraryName = 'XBUP Audio Library'
-def libraryDescription = 'Library for audio data types with XBUP support'
+apply from: '../modules.gradle'
 
 if (!hasProperty('mainClass')) {
     ext.mainClass = ''

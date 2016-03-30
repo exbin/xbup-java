@@ -1,8 +1,8 @@
-apply from: '../modules.gradle'
+group = 'org.exbin.xbup'
+ext.libraryName = 'XBUP Operation Library'
+ext.libraryDescription = 'Library for XBUP document editation'
 
-group = 'org.exbin.xbup.operation'
-def libraryName = 'XBUP Operation Library'
-def libraryDescription = 'Library for XBUP document editation'
+apply from: '../modules.gradle'
 
 if (!hasProperty('mainClass')) {
     ext.mainClass = ''

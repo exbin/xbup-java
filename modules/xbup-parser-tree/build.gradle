@@ -1,8 +1,8 @@
-apply from: '../modules.gradle'
+group = 'org.exbin.xbup'
+ext.libraryName = 'XBUP Tree Parser Library'
+ext.libraryDescription = 'Library for XBUP tree parsing'
 
-group = 'org.exbin.xbup.parser_tree'
-def libraryName = 'XBUP Tree Parser Library'
-def libraryDescription = 'Library for XBUP tree parsing'
+apply from: '../modules.gradle'
 
 if (!hasProperty('mainClass')) {
     ext.mainClass = ''

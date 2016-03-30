@@ -1,8 +1,8 @@
-apply from: '../modules.gradle'
+group = 'org.exbin.xbup'
+ext.libraryName = 'XBUP Service Client Library'
+ext.libraryDescription = 'Library for client connection to XBUP service'
 
-group = 'org.exbin.xbup.client'
-def libraryName = 'XBUP Service Client Library'
-def libraryDescription = 'Library for client connection to XBUP service'
+apply from: '../modules.gradle'
 
 if (!hasProperty('mainClass')) {
     ext.mainClass = ''

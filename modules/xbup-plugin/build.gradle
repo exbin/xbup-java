@@ -1,8 +1,8 @@
-apply from: '../modules.gradle'
+group = 'org.exbin.xbup'
+ext.libraryName = 'XBUP Plugin Library'
+ext.libraryDescription = 'Library for XBUP catalog data plugins'
 
-group = 'org.exbin.xbup.plugin'
-def libraryName = 'XBUP Plugin Library'
-def libraryDescription = 'Library for XBUP catalog data plugins'
+apply from: '../modules.gradle'
 
 if (!hasProperty('mainClass')) {
     ext.mainClass = ''

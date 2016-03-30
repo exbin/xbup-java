@@ -47,7 +47,7 @@ task javadocJar (type: Jar, dependsOn: javadoc) {
 }
 
 publishing {
-    publications {  
+    publications {
         maven(MavenPublication) {
             from components.java
             artifact sourceJar {
@@ -56,7 +56,7 @@ publishing {
             artifact (javadocJar) {
                 classifier = 'javadoc'
             }
-            
+
             pom.withXml {
                 asNode().children().last() + {
                     resolveStrategy = Closure.DELEGATE_FIRST

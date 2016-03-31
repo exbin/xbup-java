@@ -1,6 +1,0 @@
-rootProject.name = 'xbup-plugin-basic'
-
-include ":modules:xbup-core"
-include ":modules:xbup-plugin"
-
-apply from: '../modules-settings.gradle'

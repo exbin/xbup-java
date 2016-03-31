@@ -1,8 +1,0 @@
-rootProject.name = 'xbup-plugin-picture'
-
-include ":modules:xbup-core"
-include ":modules:xbup-catalog"
-include ":modules:xbup-plugin"
-include ":modules:xbup-visual"
-
-apply from: '../modules-settings.gradle'

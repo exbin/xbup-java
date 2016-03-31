@@ -1,2 +1,0 @@
-Changes in version 0.1 wr 15:
-- First release

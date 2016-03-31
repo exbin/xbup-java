@@ -1,6 +1,0 @@
-Changes in version 0.1 wr 19:
-
-Changes in version 0.1 wr 18:
-
-Changes in version 0.1 wr 17:
-- created

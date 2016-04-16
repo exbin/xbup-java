@@ -40,7 +40,7 @@ import org.exbin.xbup.core.stream.SeekableStream;
  * Data are stored using paging. Last page might be shorter than page size, but
  * not empty.
  *
- * @version 0.2.0 2016/02/22
+ * @version 0.2.0 2016/04/17
  * @author ExBin Project (http://exbin.org)
  */
 public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSerializable {
@@ -74,7 +74,7 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
     public void insert(long startFrom, byte[] insertedData) {
         insert(startFrom, insertedData, 0, insertedData.length);
     }
-        
+
     @Override
     public void insert(long startFrom, byte[] insertedData, int insertedDataOffset, int insertedDataLength) {
         if (insertedDataLength <= 0) {
@@ -82,15 +82,15 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
         }
 
         insertUninitialized(startFrom, insertedDataLength);
-        
+
         while (insertedDataLength > 0) {
-            byte [] targetPage = getPage((int) (startFrom / pageSize));
+            byte[] targetPage = getPage((int) (startFrom / pageSize));
             int targetOffset = (int) (startFrom % pageSize);
             int blockLength = pageSize - targetOffset;
             if (blockLength > insertedDataLength) {
                 blockLength = insertedDataLength;
             }
-            
+
             System.arraycopy(insertedData, insertedDataOffset, targetPage, targetOffset, blockLength);
             insertedDataOffset += blockLength;
             insertedDataLength -= blockLength;
@@ -117,23 +117,22 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
             long copyLength = dataSize - startFrom;
             dataSize = dataSize + length;
             setDataSize(dataSize);
-
-            long sourceEnd = dataSize - length - 1;
-            long targetEnd = dataSize - 1;
+            long sourceEnd = dataSize - length;
+            long targetEnd = dataSize;
             // Backward copy
             while (copyLength > 0) {
                 byte[] sourcePage = getPage((int) (sourceEnd / pageSize));
                 int sourceOffset = (int) (sourceEnd % pageSize);
                 if (sourceOffset == 0) {
                     sourcePage = getPage((int) ((sourceEnd - 1) / pageSize));
-                    sourceOffset = pageSize;
+                    sourceOffset = sourcePage.length;
                 }
 
                 byte[] targetPage = getPage((int) (targetEnd / pageSize));
                 int targetOffset = (int) (targetEnd % pageSize);
                 if (targetOffset == 0) {
                     targetPage = getPage((int) ((targetEnd - 1) / pageSize));
-                    targetOffset = pageSize;
+                    targetOffset = targetPage.length;
                 }
 
                 int copySize = sourceOffset > targetOffset ? targetOffset : sourceOffset;

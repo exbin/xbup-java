@@ -172,7 +172,7 @@ public class XBData implements XBBlockData, XBEditableBlockData, XBTChildSeriali
             if (fillSize > length) {
                 fillSize = (int) length;
             }
-            Arrays.fill(page, pageOffset, pageOffset + fillSize - 1, (byte) fill);
+            Arrays.fill(page, pageOffset, pageOffset + fillSize, (byte) fill);
             length -= fillSize;
             startFrom += fillSize;
         }

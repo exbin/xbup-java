@@ -30,12 +30,19 @@ public interface XBUndoHandler {
     void doSync() throws Exception;
 
     /**
-     * Adds new step into revert list.
+     * Adds new step into command list.
      *
-     * @param command
+     * @param command command
      * @throws java.lang.Exception
      */
     void execute(Command command) throws Exception;
+
+    /**
+     * Adds new step into command list without executing it.
+     *
+     * @param command command
+     */
+    void addCommand(Command command);
 
     List<Command> getCommandList();
 

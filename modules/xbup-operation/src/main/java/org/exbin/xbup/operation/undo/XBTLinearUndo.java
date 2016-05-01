@@ -24,7 +24,7 @@ import org.exbin.xbup.parser_tree.XBTTreeDocument;
 /**
  * Linear undo command sequence storage.
  *
- * @version 0.2.0 2016/01/24
+ * @version 0.2.0 2016/04/30
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTLinearUndo implements XBUndoHandler {
@@ -66,6 +66,11 @@ public class XBTLinearUndo implements XBUndoHandler {
             document.processSpec();
         }
 
+        addCommand(command);
+    }
+
+    @Override
+    public void addCommand(Command command) {
         // TODO: Check for undoOperationsMaximumCount & size
         while (commandList.size() > commandPosition) {
             commandList.remove((int) commandPosition);

@@ -21,7 +21,7 @@ import java.util.Date;
 /**
  * Abstract command class.
  *
- * @version 0.1.25 2015/04/24
+ * @version 0.2.0 2016/05/17
  * @author ExBin Project (http://exbin.org)
  */
 public abstract class AbstractCommand implements Command {
@@ -35,8 +35,16 @@ public abstract class AbstractCommand implements Command {
      */
     @Override
     public void execute() throws Exception {
-        executionTime = new Date();
+        use();
         redo();
+    }
+
+    /**
+     * Performs update of command use information.
+     */
+    @Override
+    public void use() {
+        executionTime = new Date();
     }
 
     /**

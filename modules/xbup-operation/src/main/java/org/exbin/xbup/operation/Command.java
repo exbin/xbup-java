@@ -21,7 +21,7 @@ import java.util.Date;
 /**
  * Interface for XBUP editor command.
  *
- * @version 0.1.25 2015/04/24
+ * @version 0.2.0 2016/05/17
  * @author ExBin Project (http://exbin.org)
  */
 public interface Command {
@@ -39,6 +39,11 @@ public interface Command {
      * @throws java.lang.Exception
      */
     public void execute() throws Exception;
+
+    /**
+     * Performs update of command use information.
+     */
+    public void use();
 
     /**
      * Performs redo on given document.

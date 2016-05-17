@@ -1,5 +1,6 @@
 apply plugin: 'base'
 apply plugin: 'distribution'
+apply plugin: 'maven-publish'
 version = '0.2.0-SNAPSHOT'
 
 task wrapper(type: Wrapper, description: 'Creates and deploys the Gradle wrapper to the current directory.') {
@@ -7,6 +8,10 @@ task wrapper(type: Wrapper, description: 'Creates and deploys the Gradle wrapper
 }
 
 subprojects.each { subproject -> evaluationDependsOn(subproject.path) }
+
+publish.dependsOn {
+    project(':modules').subprojects.publish
+}
 
 distributions {
     main {

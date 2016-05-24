@@ -16,13 +16,15 @@
  */
 package org.exbin.xbup.core.block;
 
+import java.io.IOException;
 import java.io.InputStream;
+import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 
 /**
  * Interface for editable XBUP level 1 block.
  *
- * @version 0.2.0 2015/09/19
+ * @version 0.2.0 2016/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBTEditableBlock extends XBTBlock {
@@ -135,15 +137,16 @@ public interface XBTEditableBlock extends XBTBlock {
      * Sets block data.
      *
      * @param data data stream
+     * @throws java.io.IOException if input/output error
      */
-    public void setData(InputStream data);
+    public void setData(InputStream data) throws IOException;
 
     /**
      * Sets block data.
      *
      * @param data data stream
      */
-    public void setData(XBBlockData data);
+    public void setData(BinaryData data);
 
     /**
      * Clears all data, attributes and child blocks.

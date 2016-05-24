@@ -17,23 +17,24 @@
 package org.exbin.xbup.core.block;
 
 import java.io.InputStream;
+import org.exbin.utils.binary_data.BinaryData;
 
 /**
  * Basic plain implementation of XBTDocument interface.
  *
- * @version 0.2.0 2015/09/19
+ * @version 0.2.0 2016/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTDefaultDocument implements XBTDocument {
 
     private final XBTBlock rootBlock;
-    private final XBBlockData extendedArea;
+    private final BinaryData extendedArea;
 
     public XBTDefaultDocument(XBTBlock rootBlock) {
         this(rootBlock, null);
     }
 
-    public XBTDefaultDocument(XBTBlock rootBlock, XBBlockData extendedArea) {
+    public XBTDefaultDocument(XBTBlock rootBlock, BinaryData extendedArea) {
         this.rootBlock = rootBlock;
         this.extendedArea = extendedArea;
     }

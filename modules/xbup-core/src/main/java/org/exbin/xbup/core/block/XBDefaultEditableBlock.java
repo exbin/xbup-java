@@ -16,17 +16,19 @@
  */
 package org.exbin.xbup.core.block;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 import org.exbin.xbup.core.type.XBData;
 
 /**
  * Basic plain implementation of XBEditableBlock interface.
  *
- * @version 0.2.0 2015/10/15
+ * @version 0.2.0 2016/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public class XBDefaultEditableBlock implements XBEditableBlock {
@@ -36,7 +38,7 @@ public class XBDefaultEditableBlock implements XBEditableBlock {
     private XBBlockTerminationMode terminationMode;
     private List<XBAttribute> attributes = new ArrayList<>();
     private List<XBBlock> children = new ArrayList<>();
-    private XBBlockData data;
+    private BinaryData data;
 
     /**
      * Creates new instance of XBDefaultBlock as an empty data block.
@@ -52,7 +54,7 @@ public class XBDefaultEditableBlock implements XBEditableBlock {
      * @param terminationMode termination mode
      * @param data block data
      */
-    public XBDefaultEditableBlock(XBBlock parent, XBBlockTerminationMode terminationMode, XBBlockData data) {
+    public XBDefaultEditableBlock(XBBlock parent, XBBlockTerminationMode terminationMode, BinaryData data) {
         dataMode = XBBlockDataMode.DATA_BLOCK;
         this.parent = parent;
         this.terminationMode = terminationMode;
@@ -66,7 +68,7 @@ public class XBDefaultEditableBlock implements XBEditableBlock {
      * @param terminationMode termination mode
      * @param data block data
      */
-    public XBDefaultEditableBlock(XBBlockTerminationMode terminationMode, XBBlockData data) {
+    public XBDefaultEditableBlock(XBBlockTerminationMode terminationMode, BinaryData data) {
         this(null, terminationMode, data);
     }
 
@@ -180,7 +182,7 @@ public class XBDefaultEditableBlock implements XBEditableBlock {
     }
 
     @Override
-    public XBBlockData getBlockData() {
+    public BinaryData getBlockData() {
         return data;
     }
 
@@ -312,13 +314,13 @@ public class XBDefaultEditableBlock implements XBEditableBlock {
     }
 
     @Override
-    public void setData(InputStream data) {
+    public void setData(InputStream data) throws IOException {
         this.data = new XBData();
         ((XBData) this.data).loadFromStream(data);
     }
 
     @Override
-    public void setData(XBBlockData data) {
+    public void setData(BinaryData data) {
         this.data = data;
     }
 

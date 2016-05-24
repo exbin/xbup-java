@@ -9,11 +9,13 @@ if (!hasProperty('mainClass')) {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
 dependencies {
     compile(project(':modules:xbup-core'))
+    compile "org.exbin.utils:exbin-binary_data:${exbinUtilsVersion}"
     testCompile group: 'junit', name: 'junit', version: '4.10'    
     testCompile project(path: ':modules:xbup-core', configuration: 'tests')
 }

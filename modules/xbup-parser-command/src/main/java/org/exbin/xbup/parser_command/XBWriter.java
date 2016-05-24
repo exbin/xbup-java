@@ -23,8 +23,8 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.block.XBBlock;
-import org.exbin.xbup.core.block.XBBlockData;
 import org.exbin.xbup.core.block.XBBlockDataMode;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBDefaultDocument;
@@ -48,7 +48,7 @@ import org.exbin.xbup.parser_tree.XBTreeWriter;
  * This writer expects source data not to be changed, so exclusive lock is
  * recommended.
  *
- * @version 0.1.25 2015/10/19
+ * @version 0.2.0 2016/05/23
  * @author ExBin Project (http://exbin.org)
  */
 public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
@@ -56,7 +56,7 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
     private InputStream inputStream;
     private OutputStream outputStream;
     private XBReader reader;
-    private XBBlockData extendedArea = null;
+    private BinaryData extendedArea = null;
     private XBTreeWriter treeWriter = null;
     private long activeBlockId = 0;
 
@@ -64,7 +64,7 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
      * Writer keeps links to all blocks related to it.
      */
     private long blockStoreIndex = 1;
-    private Map<Long, XBWriterBlock> blockStore = new HashMap<>();
+    private final Map<Long, XBWriterBlock> blockStore = new HashMap<>();
     // TODO tree structure for search by block path
     private BlockTreeCache blockTreeCache = null;
 
@@ -344,7 +344,7 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
     }
 
     @Override
-    public void setExtendedArea(InputStream source) {
+    public void setExtendedArea(InputStream source) throws IOException {
         extendedArea = new XBData();
         ((XBData) extendedArea).loadFromStream(source);
     }

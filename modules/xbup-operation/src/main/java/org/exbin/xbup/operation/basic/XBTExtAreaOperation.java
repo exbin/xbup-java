@@ -35,7 +35,7 @@ import org.exbin.xbup.operation.XBTDocOperation;
 /**
  * Operation for adding child block.
  *
- * @version 0.2.0 2016/02/27
+ * @version 0.2.0 2016/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTExtAreaOperation extends XBTDocOperation {
@@ -65,23 +65,23 @@ public class XBTExtAreaOperation extends XBTDocOperation {
 
     private Operation execute(boolean withUndo) {
         XBTExtAreaOperation undoOperation = null;
-        if (withUndo) {
-            XBData oldData = new XBData();
-            oldData.loadFromStream(document.getExtendedArea());
-            undoOperation = new XBTExtAreaOperation(document, oldData);
-        }
-
-        XBData data = new XBData();
-        InputStream dataInputStream = getData().getDataInputStream();
-        XBPSerialReader reader = new XBPSerialReader(dataInputStream);
-        Serializator serial = new Serializator(data);
         try {
+            if (withUndo) {
+                XBData oldData = new XBData();
+                oldData.loadFromStream(document.getExtendedArea());
+                undoOperation = new XBTExtAreaOperation(document, oldData);
+            }
+
+            XBData extendedAreaData = new XBData();
+            InputStream dataInputStream = getData().getDataInputStream();
+            XBPSerialReader reader = new XBPSerialReader(dataInputStream);
+            Serializator serial = new Serializator(extendedAreaData);
             reader.read(serial);
+            document.setExtendedArea(extendedAreaData.getDataInputStream());
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBTDeleteBlockOperation.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalStateException("Unable to process data");
         }
-        document.setExtendedArea(data.getDataInputStream());
 
         return undoOperation;
     }

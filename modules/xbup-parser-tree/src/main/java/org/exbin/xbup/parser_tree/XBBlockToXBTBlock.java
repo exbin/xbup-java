@@ -16,9 +16,10 @@
  */
 package org.exbin.xbup.parser_tree;
 
+import java.io.IOException;
 import java.io.InputStream;
+import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.block.XBBlock;
-import org.exbin.xbup.core.block.XBBlockData;
 import org.exbin.xbup.core.block.XBBlockDataMode;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
@@ -32,7 +33,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * Conversion from level 0 block to level 1 block
  *
- * @version 0.2.0 2015/09/19
+ * @version 0.2.0 2016/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public class XBBlockToXBTBlock implements XBTEditableBlock {
@@ -138,7 +139,7 @@ public class XBBlockToXBTBlock implements XBTEditableBlock {
     }
 
     @Override
-    public XBBlockData getBlockData() {
+    public BinaryData getBlockData() {
         return block.getBlockData();
     }
 
@@ -273,7 +274,7 @@ public class XBBlockToXBTBlock implements XBTEditableBlock {
     }
 
     @Override
-    public void setData(InputStream data) {
+    public void setData(InputStream data) throws IOException {
         if (!(block instanceof XBEditableBlock)) {
             throw new IllegalStateException("Cannot set data of read only block");
         }
@@ -282,7 +283,7 @@ public class XBBlockToXBTBlock implements XBTEditableBlock {
     }
 
     @Override
-    public void setData(XBBlockData data) {
+    public void setData(BinaryData data) {
         if (!(block instanceof XBEditableBlock)) {
             throw new IllegalStateException("Cannot set data of read only block");
         }

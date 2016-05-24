@@ -16,6 +16,7 @@
  */
 package org.exbin.xbup.parser_tree;
 
+import java.io.IOException;
 import java.io.InputStream;
 import org.exbin.xbup.core.block.XBBlock;
 import org.exbin.xbup.core.block.XBEditableDocument;
@@ -70,7 +71,7 @@ public class XBTDocumentToXBDocument implements XBEditableDocument {
     }
 
     @Override
-    public void setExtendedArea(InputStream source) {
+    public void setExtendedArea(InputStream source) throws IOException {
         if (!(document instanceof XBTEditableDocument)) {
             throw new IllegalStateException("Cannot set extended area of read only document");
         }

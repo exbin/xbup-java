@@ -21,8 +21,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.block.XBBlock;
-import org.exbin.xbup.core.block.XBBlockData;
 import org.exbin.xbup.core.block.XBEditableDocument;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.basic.XBHead;
@@ -32,7 +32,7 @@ import org.exbin.xbup.core.ubnumber.UBStreamable;
 /**
  * Basic object model parser XBUP level 0 document representation.
  *
- * @version 0.1.25 2015/08/15
+ * @version 0.2.0 2016/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStreamable {
@@ -47,7 +47,7 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
 
     public XBTreeDocument(XBTreeNode rootNode) {
         this();
-        setRootBlock(rootNode);
+        super.setRootBlock(rootNode);
     }
 
     @Override
@@ -92,12 +92,12 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
         return extendedAreaData.getDataInputStream();
     }
 
-    public XBBlockData getExtendedArray() {
+    public BinaryData getExtendedArray() {
         return extendedAreaData;
     }
 
     @Override
-    public void setExtendedArea(InputStream source) {
+    public void setExtendedArea(InputStream source) throws IOException {
         if (source == null) {
             extendedAreaData = null;
         } else {

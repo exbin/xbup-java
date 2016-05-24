@@ -16,7 +16,9 @@
  */
 package org.exbin.xbup.core.block;
 
+import java.io.IOException;
 import java.io.InputStream;
+import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.type.XBData;
 
 /**
@@ -28,18 +30,18 @@ import org.exbin.xbup.core.type.XBData;
 public class XBDefaultDocument implements XBDocument {
 
     private final XBBlock rootBlock;
-    private final XBBlockData extendedArea;
+    private final BinaryData extendedArea;
 
     public XBDefaultDocument(XBBlock rootBlock) {
-        this(rootBlock, (XBBlockData) null);
+        this(rootBlock, (BinaryData) null);
     }
 
-    public XBDefaultDocument(XBBlock rootBlock, XBBlockData extendedArea) {
+    public XBDefaultDocument(XBBlock rootBlock, BinaryData extendedArea) {
         this.rootBlock = rootBlock;
         this.extendedArea = extendedArea;
     }
 
-    public XBDefaultDocument(XBBlock rootBlock, InputStream extendedArea) {
+    public XBDefaultDocument(XBBlock rootBlock, InputStream extendedArea) throws IOException {
         this.rootBlock = rootBlock;
         XBData data = new XBData();
         data.loadFromStream(extendedArea);

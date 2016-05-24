@@ -17,12 +17,13 @@
 package org.exbin.xbup.core.block;
 
 import java.io.InputStream;
+import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 
 /**
  * Interface for read access to XBUP level 1 block.
  *
- * @version 0.2.0 2015/09/19
+ * @version 0.2.0 2016/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBTBlock {
@@ -116,5 +117,5 @@ public interface XBTBlock {
      *
      * @return block data or null
      */
-    public XBBlockData getBlockData();
+    public BinaryData getBlockData();
 }

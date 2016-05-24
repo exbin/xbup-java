@@ -24,8 +24,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.block.XBBlock;
-import org.exbin.xbup.core.block.XBBlockData;
 import org.exbin.xbup.core.block.XBBlockDataMode;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBDefaultEditableBlock;
@@ -36,7 +36,7 @@ import org.exbin.xbup.core.parser.token.XBAttribute;
 /**
  * XBUP level 0 command writer block.
  *
- * @version 0.2.0 2015/10/19
+ * @version 0.2.0 2016/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable {
@@ -256,7 +256,7 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
     }
 
     @Override
-    public XBBlockData getBlockData() {
+    public BinaryData getBlockData() {
         if (fixedBlock != null) {
             return fixedBlock.getBlockData();
         }
@@ -369,7 +369,7 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
     }
 
     @Override
-    public void setData(InputStream data) {
+    public void setData(InputStream data) throws IOException {
         if (isFixedBlock()) {
             fixedBlock.setData(data);
         } else {
@@ -378,7 +378,7 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
     }
 
     @Override
-    public void setData(XBBlockData data) {
+    public void setData(BinaryData data) {
         if (isFixedBlock()) {
             fixedBlock.setData(data);
         } else {

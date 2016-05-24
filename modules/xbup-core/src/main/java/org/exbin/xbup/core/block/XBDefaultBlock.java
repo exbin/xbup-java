@@ -17,13 +17,14 @@
 package org.exbin.xbup.core.block;
 
 import java.io.InputStream;
+import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 import org.exbin.xbup.core.type.XBData;
 
 /**
  * Basic plain implementation of XBBlock interface.
  *
- * @version 0.2.0 2015/09/19
+ * @version 0.2.0 2016/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public class XBDefaultBlock implements XBBlock {
@@ -33,7 +34,7 @@ public class XBDefaultBlock implements XBBlock {
     private final XBBlockTerminationMode terminationMode;
     private final XBAttribute[] attributes;
     private final XBBlock[] children;
-    private final XBBlockData data;
+    private final BinaryData data;
 
     /**
      * Creates new instance of XBDefaultBlock as an empty data block.
@@ -49,7 +50,7 @@ public class XBDefaultBlock implements XBBlock {
      * @param terminationMode termination mode
      * @param data block data
      */
-    public XBDefaultBlock(XBBlock parent, XBBlockTerminationMode terminationMode, XBBlockData data) {
+    public XBDefaultBlock(XBBlock parent, XBBlockTerminationMode terminationMode, BinaryData data) {
         dataMode = XBBlockDataMode.DATA_BLOCK;
         this.parent = parent;
         this.terminationMode = terminationMode;
@@ -65,7 +66,7 @@ public class XBDefaultBlock implements XBBlock {
      * @param terminationMode termination mode
      * @param data block data
      */
-    public XBDefaultBlock(XBBlockTerminationMode terminationMode, XBBlockData data) {
+    public XBDefaultBlock(XBBlockTerminationMode terminationMode, BinaryData data) {
         this(null, terminationMode, data);
     }
 
@@ -172,7 +173,7 @@ public class XBDefaultBlock implements XBBlock {
     }
 
     @Override
-    public XBBlockData getBlockData() {
+    public BinaryData getBlockData() {
         return data;
     }
 

@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.block;
 
 import java.io.InputStream;
+import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 
 /**
@@ -105,5 +106,5 @@ public interface XBBlock {
      *
      * @return block data or null
      */
-    public XBBlockData getBlockData();
+    public BinaryData getBlockData();
 }

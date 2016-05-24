@@ -16,6 +16,7 @@
  */
 package org.exbin.xbup.core.block;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -37,8 +38,9 @@ public interface XBTEditableDocument extends XBTDocument {
      * Sets extended data area.
      *
      * @param source data stream
+     * @throws java.io.IOException if input/output error
      */
-    void setExtendedArea(InputStream source);
+    void setExtendedArea(InputStream source) throws IOException;
 
     /**
      * Clears all data in this document.

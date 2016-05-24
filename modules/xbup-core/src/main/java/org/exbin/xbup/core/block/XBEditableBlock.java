@@ -16,7 +16,9 @@
  */
 package org.exbin.xbup.core.block;
 
+import java.io.IOException;
 import java.io.InputStream;
+import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 
 /**
@@ -128,15 +130,16 @@ public interface XBEditableBlock extends XBBlock {
      * Sets block data.
      *
      * @param data data stream
+     * @throws java.io.IOException exception on input/output error
      */
-    public void setData(InputStream data);
+    public void setData(InputStream data) throws IOException;
 
     /**
      * Sets block data.
      *
      * @param data data stream
      */
-    public void setData(XBBlockData data);
+    public void setData(BinaryData data);
 
     /**
      * Clears all data, attributes and child blocks.

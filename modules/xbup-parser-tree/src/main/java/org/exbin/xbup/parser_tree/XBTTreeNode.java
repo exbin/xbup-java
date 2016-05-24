@@ -28,8 +28,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.tree.TreeNode;
+import org.exbin.utils.binary_data.BinaryData;
+import org.exbin.utils.binary_data.EditableBinaryData;
 import org.exbin.xbup.core.block.XBBasicBlockType;
-import org.exbin.xbup.core.block.XBBlockData;
 import org.exbin.xbup.core.block.XBBlockDataMode;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
@@ -74,7 +75,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     private XBFixedBlockType blockType;
     private final List<XBAttribute> attributes;
     private final List<XBTBlock> children;
-    private XBData data;
+    private EditableBinaryData data;
 
     private XBContext context;
     private XBBlockDecl blockDecl;
@@ -453,7 +454,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     @Override
-    public XBBlockData getBlockData() {
+    public BinaryData getBlockData() {
         return data;
     }
 
@@ -466,7 +467,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     @Override
-    public void setData(InputStream source) {
+    public void setData(InputStream source) throws IOException {
         if (source == null) {
             data = null;
         } else {
@@ -476,9 +477,9 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     @Override
-    public void setData(XBBlockData newData) {
+    public void setData(BinaryData newData) {
         data = new XBData();
-        data.setData(newData);
+        data.insert(0, newData);
     }
 
     /**
@@ -504,7 +505,9 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         node.setDataMode(dataMode);
 
         if (data != null) {
-            node.data = data.copy();
+            XBData newData = new XBData();
+            newData.setData(data);
+            node.data = newData;
         }
 
         for (XBAttribute attribute : attributes) {
@@ -957,7 +960,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         }
 
         @Override
-        public XBBlockData getBlockData() {
+        public BinaryData getBlockData() {
             return block.getBlockData();
         }
 
@@ -1010,7 +1013,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             }
         } else {
             XBData data = new XBData();
-            data.loadFromStream(block.getBlockData().getDataInputStream());
+            data.insert(0, block.getBlockData());
             node.setData(data);
         }
 

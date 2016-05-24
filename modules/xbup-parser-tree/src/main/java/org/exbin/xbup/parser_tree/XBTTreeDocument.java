@@ -21,7 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import org.exbin.xbup.core.block.XBBlockData;
+import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.block.XBTEditableDocument;
 import org.exbin.xbup.core.catalog.XBCatalog;
@@ -32,7 +32,7 @@ import org.exbin.xbup.core.type.XBData;
 /**
  * Basic object model parser XBUP level 1 document representation.
  *
- * @version 0.2.0 2015/09/19
+ * @version 0.2.0 2016/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
@@ -97,12 +97,12 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
         return extendedAreaData.getDataInputStream();
     }
 
-    public XBBlockData getExtendedArray() {
+    public BinaryData getExtendedArray() {
         return extendedAreaData;
     }
 
     @Override
-    public void setExtendedArea(InputStream source) {
+    public void setExtendedArea(InputStream source) throws IOException {
         if (source == null) {
             extendedAreaData = null;
         } else {

@@ -1,2 +1,3 @@
 rootProject.name = 'xbup-core'
+
 apply from: '../modules-settings.gradle'

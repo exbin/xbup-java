@@ -16,25 +16,27 @@
  */
 package org.exbin.xbup.core.block;
 
+import java.io.IOException;
 import java.io.InputStream;
+import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.type.XBData;
 
 /**
  * Basic plain implementation of XBEditableDocument interface.
  *
- * @version 0.2.0 2015/10/09
+ * @version 0.2.0 2016/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public class XBDefaultEditableDocument implements XBEditableDocument {
 
     private XBBlock rootBlock;
-    private XBBlockData extendedArea;
+    private BinaryData extendedArea;
 
     public XBDefaultEditableDocument(XBBlock rootBlock) {
         this(rootBlock, null);
     }
 
-    public XBDefaultEditableDocument(XBBlock rootBlock, XBBlockData extendedArea) {
+    public XBDefaultEditableDocument(XBBlock rootBlock, BinaryData extendedArea) {
         this.rootBlock = rootBlock;
         this.extendedArea = extendedArea;
     }
@@ -65,7 +67,7 @@ public class XBDefaultEditableDocument implements XBEditableDocument {
     }
 
     @Override
-    public void setExtendedArea(InputStream source) {
+    public void setExtendedArea(InputStream source) throws IOException {
         XBData data = new XBData();
         data.loadFromStream(source);
         extendedArea = data;

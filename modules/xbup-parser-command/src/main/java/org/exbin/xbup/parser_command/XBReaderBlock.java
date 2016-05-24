@@ -24,8 +24,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.block.XBBlock;
-import org.exbin.xbup.core.block.XBBlockData;
 import org.exbin.xbup.core.block.XBBlockDataMode;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -35,7 +35,7 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
 /**
  * XBUP level 0 command reader block.
  *
- * @version 0.2.0 2015/10/04
+ * @version 0.2.0 2016/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public class XBReaderBlock implements XBCommandBlock, XBBlock, Closeable {
@@ -203,7 +203,7 @@ public class XBReaderBlock implements XBCommandBlock, XBBlock, Closeable {
     }
 
     @Override
-    public XBBlockData getBlockData() {
+    public BinaryData getBlockData() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

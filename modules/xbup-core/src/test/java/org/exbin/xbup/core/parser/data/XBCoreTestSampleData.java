@@ -18,6 +18,9 @@ package org.exbin.xbup.core.parser.data;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import junit.framework.Assert;
 import org.exbin.xbup.core.block.XBBlock;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBDefaultBlock;
@@ -507,7 +510,11 @@ public class XBCoreTestSampleData {
      */
     public static XBDocument getSampleBlockExtendedTree() {
         XBData extendedArea = new XBData();
-        extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+        try {
+            extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+        } catch (IOException ex) {
+            Assert.fail();
+        }
         return new XBDefaultDocument(
                 new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{}),
                 extendedArea);
@@ -529,7 +536,11 @@ public class XBCoreTestSampleData {
      */
     public static XBDocument getSampleBlockTerminatedExtendedTree() {
         XBData extendedArea = new XBData();
-        extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+        try {
+            extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+        } catch (IOException ex) {
+            Assert.fail();
+        }
         return new XBDefaultDocument(
                 new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{}),
                 extendedArea);
@@ -542,7 +553,11 @@ public class XBCoreTestSampleData {
      */
     public static XBDocument getSampleDataTree() {
         XBData data = new XBData();
-        data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        try {
+            data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        } catch (IOException ex) {
+            Assert.fail();
+        }
         return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, data));
     }
 
@@ -553,9 +568,17 @@ public class XBCoreTestSampleData {
      */
     public static XBDocument getSampleDataExtendedTree() {
         XBData extendedArea = new XBData();
-        extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+        try {
+            extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+        } catch (IOException ex) {
+            Assert.fail();
+        }
         XBData data = new XBData();
-        data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        try {
+            data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        } catch (IOException ex) {
+            Assert.fail();
+        }
         return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, data), extendedArea);
     }
 
@@ -566,7 +589,11 @@ public class XBCoreTestSampleData {
      */
     public static XBDocument getSampleDataTerminatedTree() {
         XBData data = new XBData();
-        data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        try {
+            data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        } catch (IOException ex) {
+            Assert.fail();
+        }
         return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, data));
     }
 
@@ -577,9 +604,17 @@ public class XBCoreTestSampleData {
      */
     public static XBDocument getSampleDataTerminatedExtendedTree() {
         XBData extendedArea = new XBData();
-        extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+        try {
+            extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+        } catch (IOException ex) {
+            Assert.fail();
+        }
         XBData data = new XBData();
-        data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        try {
+            data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        } catch (IOException ex) {
+            Assert.fail();
+        }
         return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, data), extendedArea);
     }
 
@@ -590,7 +625,11 @@ public class XBCoreTestSampleData {
      */
     public static XBDocument getSampleBlockDataTree() {
         XBData data = new XBData();
-        data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        try {
+            data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        } catch (IOException ex) {
+            Assert.fail();
+        }
         return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
             new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, data)
         }));
@@ -603,13 +642,21 @@ public class XBCoreTestSampleData {
      */
     public static XBDocument getSampleBlockDataExtendedTree() {
         XBData data = new XBData();
-        data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        try {
+            data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        } catch (IOException ex) {
+            Assert.fail();
+        }
         XBData extendedArea = new XBData();
-        extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+        try {
+            extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+        } catch (IOException ex) {
+            Assert.fail();
+        }
         return new XBDefaultDocument(
                 new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
-                    new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, data)
-                }),
+            new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, data)
+        }),
                 extendedArea);
     }
 
@@ -620,7 +667,11 @@ public class XBCoreTestSampleData {
      */
     public static XBDocument getSampleBlockDataTerminatedTree() {
         XBData data = new XBData();
-        data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        try {
+            data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        } catch (IOException ex) {
+            Assert.fail();
+        }
         return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
             new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, data)
         }));
@@ -634,13 +685,21 @@ public class XBCoreTestSampleData {
      */
     public static XBDocument getSampleBlockDataTerminatedExtendedTree() {
         XBData data = new XBData();
-        data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        try {
+            data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        } catch (IOException ex) {
+            Assert.fail();
+        }
         XBData extendedArea = new XBData();
-        extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+        try {
+            extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+        } catch (IOException ex) {
+            Assert.fail();
+        }
         return new XBDefaultDocument(
                 new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
-                    new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, data)
-                }),
+            new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, data)
+        }),
                 extendedArea);
     }
 
@@ -651,7 +710,11 @@ public class XBCoreTestSampleData {
      */
     public static XBDocument getSampleBlockDataHybridTree() {
         XBData data = new XBData();
-        data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        try {
+            data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        } catch (IOException ex) {
+            Assert.fail();
+        }
         return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
             new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, data)
         }));
@@ -664,7 +727,11 @@ public class XBCoreTestSampleData {
      */
     public static XBDocument getSampleBlockDataHybrid2Tree() {
         XBData data = new XBData();
-        data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        try {
+            data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        } catch (IOException ex) {
+            Assert.fail();
+        }
         return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
             new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, data)
         }));
@@ -688,7 +755,11 @@ public class XBCoreTestSampleData {
      */
     public static XBDocument getSampleTwoBlocksExtendedTree() {
         XBData extendedArea = new XBData();
-        extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+        try {
+            extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+        } catch (IOException ex) {
+            Assert.fail();
+        }
         return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
             new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, new XBAttribute[]{new UBNat32(2)}, new XBBlock[]{})
         }), extendedArea);
@@ -713,7 +784,11 @@ public class XBCoreTestSampleData {
      */
     public static XBDocument getSampleTwoBlocksTerminatedExtendedTree() {
         XBData extendedArea = new XBData();
-        extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+        try {
+            extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+        } catch (IOException ex) {
+            Assert.fail();
+        }
         return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
             new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, new XBAttribute[]{new UBNat32(2)}, new XBBlock[]{})
         }), extendedArea);
@@ -748,7 +823,11 @@ public class XBCoreTestSampleData {
      */
     public static XBDocument getSampleSixBlocksTree() {
         XBData data = new XBData();
-        data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        try {
+            data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
+        } catch (IOException ex) {
+            Assert.fail();
+        }
         return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, new XBAttribute[]{new UBNat32(0)}, new XBBlock[]{
             new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, new XBAttribute[]{new UBNat32(0)}, new XBBlock[]{
                 new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, new XBAttribute[]{new UBNat32(0)}, new XBBlock[]{

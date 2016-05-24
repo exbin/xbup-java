@@ -21,22 +21,21 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.exbin.xbup.core.block.XBBlockData;
-import org.exbin.xbup.core.block.XBEditableBlockData;
+import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.util.StreamUtils;
 
 /**
  * Simple offset transformation block data class.
  *
- * @version 0.1.25 2015/06/20
+ * @version 0.2.0 2016/05/24
  * @author ExBin Project (http://exbin.org)
  */
-public class XBOffsetBlockData implements XBBlockData {
+public class XBOffsetBlockData implements BinaryData {
 
-    private final XBBlockData blockData;
+    private final BinaryData blockData;
     private final long offset;
 
-    public XBOffsetBlockData(XBBlockData blockData, long offset) {
+    public XBOffsetBlockData(BinaryData blockData, long offset) {
         this.blockData = blockData;
         this.offset = offset;
     }
@@ -57,18 +56,18 @@ public class XBOffsetBlockData implements XBBlockData {
     }
 
     @Override
-    public XBBlockData copy() {
+    public BinaryData copy() {
         return blockData.copy(offset, blockData.getDataSize() - offset);
     }
 
     @Override
-    public XBBlockData copy(long startFrom, long length) {
+    public BinaryData copy(long startFrom, long length) {
         return blockData.copy(offset + startFrom, blockData.getDataSize() - startFrom - offset);
     }
 
     @Override
-    public void copyTo(XBEditableBlockData targetData, long startFrom, long length, long targetPos) {
-        blockData.copyTo(targetData, startFrom + offset, length, targetPos);
+    public void copyToArray(long l, byte[] bytes, int i, int i1) {
+        blockData.copyToArray(l, bytes, i, i1);
     }
 
     @Override

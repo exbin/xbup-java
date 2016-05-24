@@ -28,8 +28,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.tree.TreeNode;
+import org.exbin.utils.binary_data.BinaryData;
+import org.exbin.utils.binary_data.EditableBinaryData;
 import org.exbin.xbup.core.block.XBBlock;
-import org.exbin.xbup.core.block.XBBlockData;
 import org.exbin.xbup.core.block.XBBlockDataMode;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBEditableBlock;
@@ -51,7 +52,7 @@ import org.exbin.xbup.core.util.StreamUtils;
 /**
  * Basic object model parser XBUP level 0 document block / tree node.
  *
- * @version 0.2.0 2015/09/19
+ * @version 0.2.0 2016/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
@@ -63,7 +64,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
 
     private final List<XBAttribute> attributes = new ArrayList<>();
     private final List<XBBlock> children = new ArrayList<>();
-    private XBData data = null;
+    private EditableBinaryData data = null;
 
     public XBTreeNode() {
         this(null);
@@ -429,7 +430,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
     }
 
     @Override
-    public XBBlockData getBlockData() {
+    public BinaryData getBlockData() {
         return data;
     }
 
@@ -442,7 +443,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
     }
 
     @Override
-    public void setData(InputStream source) {
+    public void setData(InputStream source) throws IOException {
         if (source == null) {
             data = null;
         } else {
@@ -452,9 +453,9 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
     }
 
     @Override
-    public void setData(XBBlockData newData) {
+    public void setData(BinaryData newData) {
         data = new XBData();
-        data.setData(newData);
+        data.insert(0, newData);
     }
 
     public void clearData() {
@@ -464,7 +465,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
     public XBTreeNode cloneNode(boolean recursive) {
         XBTreeNode node = new XBTreeNode(parent);
         node.setDataMode(dataMode);
-        node.data = data.copy();
+        node.data = (XBData) data.copy();
 
         for (XBAttribute attribute : attributes) {
             node.addAttribute(new UBNat32(attribute.getNaturalLong()));
@@ -697,7 +698,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
             }
         } else {
             XBData data = new XBData();
-            data.loadFromStream(block.getBlockData().getDataInputStream());
+            data.insert(0, block.getBlockData());
             node.setData(data);
         }
 

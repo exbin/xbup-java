@@ -16,8 +16,6 @@
  */
 package org.exbin.xbup.core.parser.basic;
 
-import org.exbin.xbup.core.parser.basic.XBListener;
-import org.exbin.xbup.core.parser.basic.XBProviderReader;
 import java.io.IOException;
 import java.io.InputStream;
 import static junit.framework.Assert.assertEquals;

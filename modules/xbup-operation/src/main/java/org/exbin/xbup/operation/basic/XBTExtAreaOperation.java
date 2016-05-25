@@ -68,7 +68,10 @@ public class XBTExtAreaOperation extends XBTDocOperation {
         try {
             if (withUndo) {
                 XBData oldData = new XBData();
-                oldData.loadFromStream(document.getExtendedArea());
+                InputStream extendedArea = document.getExtendedArea();
+                if (extendedArea != null) {
+                    oldData.loadFromStream(extendedArea);
+                }
                 undoOperation = new XBTExtAreaOperation(document, oldData);
             }
 

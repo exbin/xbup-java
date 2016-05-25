@@ -16,7 +16,6 @@
  */
 package org.exbin.xbup.core.parser.token.event;
 
-import org.exbin.xbup.core.parser.token.event.XBEventWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

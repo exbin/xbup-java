@@ -16,7 +16,6 @@
  */
 package org.exbin.xbup.core.parser.basic;
 
-import org.exbin.xbup.core.parser.basic.XBConsumerWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

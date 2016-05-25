@@ -16,7 +16,6 @@
  */
 package org.exbin.xbup.core.parser.token.event;
 
-import org.exbin.xbup.core.parser.token.event.XBEventReader;
 import java.io.IOException;
 import java.io.InputStream;
 import static junit.framework.Assert.assertEquals;

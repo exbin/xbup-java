@@ -16,7 +16,6 @@
  */
 package org.exbin.xbup.core.parser.basic;
 
-import org.exbin.xbup.core.parser.basic.XBProducerReader;
 import java.io.IOException;
 import java.io.InputStream;
 import junit.framework.TestCase;

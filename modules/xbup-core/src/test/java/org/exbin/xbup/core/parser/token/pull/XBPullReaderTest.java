@@ -16,7 +16,6 @@
  */
 package org.exbin.xbup.core.parser.token.pull;
 
-import org.exbin.xbup.core.parser.token.pull.XBPullReader;
 import java.io.IOException;
 import java.io.InputStream;
 import junit.framework.TestCase;

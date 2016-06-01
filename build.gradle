@@ -34,6 +34,14 @@ distributions {
                         from p.configurations.runtime
                         include '*'
                     }
+                    into('') {
+                        from p.jar
+                        include '*'
+                        from p.sourceJar
+                        include '*'
+                        from p.javadocJar
+                        include '*'
+                    }
                 }
             }
 

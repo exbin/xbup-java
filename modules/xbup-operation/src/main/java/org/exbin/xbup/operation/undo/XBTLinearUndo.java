@@ -24,7 +24,7 @@ import org.exbin.xbup.parser_tree.XBTTreeDocument;
 /**
  * Linear undo command sequence storage.
  *
- * @version 0.2.0 2016/04/30
+ * @version 0.2.0 2016/05/30
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTLinearUndo implements XBUndoHandler {
@@ -79,6 +79,9 @@ public class XBTLinearUndo implements XBUndoHandler {
         commandPosition++;
 
         undoUpdated();
+        for (XBUndoUpdateListener listener : listeners) {
+            listener.undoCommandAdded(command);
+        }
     }
 
     /**
@@ -256,7 +259,7 @@ public class XBTLinearUndo implements XBUndoHandler {
 
     private void undoUpdated() {
         for (XBUndoUpdateListener listener : listeners) {
-            listener.undoChanged();
+            listener.undoCommandPositionChanged();
         }
     }
 

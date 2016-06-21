@@ -42,7 +42,7 @@ import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
 /**
  * XBUP default implementation of the modules repository.
  *
- * @version 0.2.0 2016/03/28
+ * @version 0.2.0 2016/06/21
  * @author ExBin Project (http://exbin.org)
  */
 public class XBDefaultModuleRepository implements XBModuleRepository {
@@ -141,9 +141,8 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
             }
 
             moduleInfo.setModule(module);
+            modules.put(moduleInfo.getModuleId(), moduleInfo);
         }
-
-        modules.put(moduleInfo.getModuleId(), moduleInfo);
     }
 
     private void addModule(XBModule module) {
